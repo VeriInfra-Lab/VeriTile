@@ -1,45 +1,50 @@
-import VeriTile.Triton
+import VeriTile.Triton.DSL
+import VeriTile.Triton.Float.BitValue
 
-/-! Masked vector-plus-scalar from add_value.py. The candidate swaps the
-operands of the addition and retains the same load, mask and store. There is no
-performance claim. Both element count and tile size are symbolic. The source's
-unannotated arithmetic uses the fp32 profile in FPEquiv.lean; Correct.lean uses
-real arithmetic. The host launch is outside these per-program contracts. -/
-
-namespace VeriTile.Bench.TritonBenchG.AddValue
+/-! Readable explicit-FP32 sources shared by the mathematical, structural
+and rewrite proofs. The candidate binds a local constant and swaps operands.
+The addition uses the literal 10, matching the Python kernel. The fixed launch
+and input contract are unchanged. -/
+namespace VeriTile.Bench.Repairs.AddValue.Contiguous
 open VeriTile.Triton
 
-/-- Faithful 1:1 transcription of `add_value.py`'s `puzzle1_kernel`.
+def blockSize : Nat := 1024
+def gridCount (n : Nat) : Nat := (n + 1023) / 1024
+def scalarWord : FP.Value .fp32 := ⟨0x41200000#32⟩
+def mathematical (xs : Nat → ℝ) (i : Nat) : ℝ := xs i + 10
 
-Allowed mechanical Lean-syntax-only changes:
-- Python `BLOCK_SIZE: tl.constexpr` → Lean `Nat` parameter.
-- `value` (Lean `ℝ` parameter) injected via `$(...)`. -/
-def puzzle1_kernel
-    (x_ptr output_ptr : RegionName)
-    (N BLOCK_SIZE : Nat) (value : ℝ) :
-    ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
-  mask = offsets < $(N)
-  x = tl.load(x_ptr + offsets, mask=mask)
-  output = x + $(value)
-  tl.store(output_ptr + offsets, output, mask=mask)
-}
+/-- Checked `x + 10` source. Typed regions retain explicit FP32 load,
+computation and store precision; no handwritten AST is maintained beside it. -/
+def kernel (X O : RegionName) (n B : Nat) : ComputeKernel :=
+  let x_ptr : Region .fp32 := X.cast
+  let output_ptr : Region .fp32 := O.cast
+  triton {
+    pid = tl.program_id(axis=0)
+    block_start = pid * $(B)
+    offsets = block_start + tl.arange(0, $(B))
+    mask = offsets < $(n)
+    x = tl.load(x_ptr + offsets, mask=mask)
+    output = x + 10
+    tl.store(output_ptr + offsets, output, mask=mask)
+  }
 
-/-- Commuted scalar addition with the original memory operations.
-The Lean type annotation selects the scalar data channel; it inserts no cast. -/
-def puzzle1_commuted_kernel
-    (x_ptr output_ptr : RegionName)
-    (N BLOCK_SIZE : Nat) (value : ℝ) :
-    ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
-  mask = offsets < $(N)
-  x = tl.load(x_ptr + offsets, mask=mask)
-  output = $((value : Real)) + x
-  tl.store(output_ptr + offsets, output, mask=mask)
-}
+/-- The actual wrapper selection of the authoritative source. -/
+def originalKernel (n : Nat) : ComputeKernel := kernel "x" "out" n blockSize
 
-end VeriTile.Bench.TritonBenchG.AddValue
+/-- ADD-COMMUTE candidate. The scalar is a local constant, not a kernel input;
+load, mask, addition precision and store match the original source. -/
+def commutedKernel (n : Nat) : ComputeKernel :=
+  let x_ptr : Region .fp32 := ⟨"x"⟩
+  let output_ptr : Region .fp32 := ⟨"out"⟩
+  triton {
+    pid = tl.program_id(axis=0)
+    block_start = pid * $(blockSize)
+    offsets = block_start + tl.arange(0, $(blockSize))
+    mask = offsets < $(n)
+    x = tl.load(x_ptr + offsets, mask=mask)
+    y = 10
+    output = y + x
+    tl.store(output_ptr + offsets, output, mask=mask)
+  }
+
+end VeriTile.Bench.Repairs.AddValue.Contiguous

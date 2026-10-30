@@ -10,7 +10,7 @@ oracle=types.ModuleType('fp4_checked_oracle');oracle.__file__=str(HERE/'oracle.p
 exec(compile(_oracle_bytes,oracle.__file__,'exec'),oracle.__dict__)
 SOURCE='bench/tritonbench_g/fp4_to_bf16/fp4_to_bf16.py'
 SOURCE_SHA='8571cb56ce932af6a7dd68e4047ee0863984812ac303d0d2959fc544a65e9958'
-MODEL_SOURCE='bench/tritonbench_g/fp4_to_bf16/Proofs/FP4Bits.lean'
+MODEL_SOURCE='bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FP4Bits.lean'
 MODEL_SHA='6876d841a7f76a9ca8a636468147a6caaff5a4bb01d7d91e36f56af69b978545'
 ARCHIVE='bench/review-checkpoints/2026-10-14/next-value-repair/fp4-unscaled/inputs.zip'
 ARCHIVE_SHA='6e2e01d6ff053f57c93f847df75c16b1be9bd1586fa54b119317be59f1ee4ce3'

@@ -1,3 +1,15 @@
 # mean_reduction
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [mean_reduction](../../repairs/tritonbench_g/mean_reduction/README.md).
+Current repaired Python implementation: [mean_reduction.py](mean_reduction.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+fun xs row => (∑ col : Fin N, xs row col) / (N : ℝ)
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

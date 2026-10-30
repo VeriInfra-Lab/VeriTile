@@ -35,15 +35,19 @@ def _chunk_cumsum_fwd_kernel(
     BLOCK_SIZE_H: tl.constexpr, BLOCK_SIZE_CHUNK: tl.constexpr,
 ):
     # Triton kernel implementation for chunked cumulative sum forward pass
-    pid_b = tl.program_id(axis=0)
-    pid_c = tl.program_id(axis=1)
-    pid_h = tl.program_id(axis=2)
+    pid_b = tl.program_id(axis=0).to(tl.uint64)
+    pid_c = tl.program_id(axis=1).to(tl.uint64)
+    pid_h = tl.program_id(axis=2).to(tl.uint64)
+    # Keep index arithmetic unsigned and wide before products, including masked lanes.
+    seqlen = tl.cast(seqlen, tl.uint64)
+    nheads = tl.cast(nheads, tl.uint64)
+    chunk_size = tl.cast(chunk_size, tl.uint64)
     dt_ptr += pid_b * stride_dt_batch + pid_c * chunk_size * stride_dt_seqlen
     dt_out_ptr += pid_b * stride_dt_out_batch + pid_c * stride_dt_out_chunk
     dA_cumsum_ptr += pid_b * stride_dA_cs_batch + pid_c * stride_dA_cs_chunk
 
-    offs_h = pid_h * BLOCK_SIZE_H + tl.arange(0, BLOCK_SIZE_H)
-    offs_c = tl.arange(0, BLOCK_SIZE_CHUNK)
+    offs_h = pid_h * BLOCK_SIZE_H + tl.arange(0, BLOCK_SIZE_H).to(tl.uint64)
+    offs_c = tl.arange(0, BLOCK_SIZE_CHUNK).to(tl.uint64)
     dt_ptrs = dt_ptr + (offs_h[:, None] * stride_dt_head + offs_c[None, :] * stride_dt_seqlen)
     A_ptrs = A_ptr + offs_h * stride_A_head
     dt_out_ptrs = dt_out_ptr + (offs_h[:, None] * stride_dt_out_head + offs_c[None, :] * stride_dt_out_csize)
@@ -82,13 +86,47 @@ def _chunk_cumsum_fwd(dt, A, chunk_size, dt_bias=None, dt_softplus=False, dt_lim
     - dA_cumsum: Cumulative sum result.
     - dt_out: Modified dt after processing.
     """
+    if not isinstance(dt, torch.Tensor) or not isinstance(A, torch.Tensor):
+        raise TypeError("dt and A must be Tensors")
+    if dt_bias is not None and not isinstance(dt_bias, torch.Tensor):
+        raise TypeError("dt_bias must be None or a Tensor")
+    tensors = (dt, A) if dt_bias is None else (dt, A, dt_bias)
+    if any(x.layout != torch.strided for x in tensors):
+        raise ValueError("inputs must use strided layout")
+    if any(x.dtype != torch.float32 for x in tensors):
+        raise TypeError("inputs must be FP32")
+    if any(not x.is_cuda for x in tensors):
+        raise ValueError("inputs must be CUDA")
+    if any(x.device != dt.device for x in tensors):
+        raise ValueError("inputs must use the same CUDA device")
+    if any(x.is_neg() for x in tensors):
+        raise ValueError("inputs must have no unresolved negative view bit")
+    if any(x.numel() > 0 and x.data_ptr() % 4 != 0 for x in tensors):
+        raise ValueError("nonempty inputs must have four-byte-aligned data pointers")
+    if dt.ndim != 3 or A.shape != (dt.shape[2],):
+        raise ValueError("dt must have rank three and A must match its head dimension")
+    if dt_bias is not None and dt_bias.shape != (dt.shape[2],):
+        raise ValueError("dt_bias must match the head dimension")
+    if not isinstance(chunk_size, int) or chunk_size <= 0 or chunk_size >= 2**63:
+        raise ValueError("chunk_size must be a positive signed64 integer")
+    if chunk_size > 1048576:
+        raise ValueError("chunk_size must fit a supported power-of-two arange extent")
+    if not isinstance(dt_softplus, bool):
+        raise TypeError("dt_softplus must be bool")
+    if not isinstance(dt_limit, tuple) or len(dt_limit) != 2 or any(not isinstance(x, float) for x in dt_limit):
+        raise TypeError("dt_limit must be a pair of Python floats")
+    if any(d >= 2**63 for d in dt.shape):
+        raise ValueError("dimensions must fit signed64")
+    if dt.numel() > 0 and (dt.shape[0] >= 2**31 or (dt.shape[1] + chunk_size - 1) // chunk_size > 65535 or dt.shape[2] > 65535):
+        raise ValueError("the source grid dimensions exceed the CUDA launch limits")
     batch, seqlen, nheads = dt.shape
     assert A.shape == (nheads,)
     if dt_bias is not None:
         assert dt_bias.shape == (nheads,)
-    nchunks = math.ceil(seqlen / chunk_size)
+    nchunks = -(-seqlen // chunk_size)
     dt_out = torch.empty(batch, nheads, nchunks, chunk_size, device=dt.device, dtype=torch.float32)
     dA_cumsum = torch.empty(batch, nheads, nchunks, chunk_size, device=dt.device, dtype=torch.float32)
+    # The guards admit direct original pointers, including strided inputs.
     grid_chunk_cs = lambda META: (batch, nchunks, triton.cdiv(nheads, META['BLOCK_SIZE_H']))
     with torch.cuda.device(dt.device.index):
         _chunk_cumsum_fwd_kernel[grid_chunk_cs](
@@ -107,35 +145,3 @@ def _chunk_cumsum_fwd(dt, A, chunk_size, dt_bias=None, dt_softplus=False, dt_lim
     return dA_cumsum, dt_out
 
 
-
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_chunk_cumsum_fwd():
-    # Test case 1: Without dt_bias and without dt_softplus
-    dt = torch.rand(2, 10, 4, device='cuda')  # (batch, seqlen, nheads)
-    A = torch.rand(4, device='cuda')  # (nheads,)
-    chunk_size = 5
-    dA_cumsum_1, dt_out_1 = _chunk_cumsum_fwd(dt, A, chunk_size)
-
-    # Test case 2: With dt_bias and without dt_softplus
-    dt_bias = torch.rand(4, device='cuda')  # (nheads,)
-    dA_cumsum_2, dt_out_2 = _chunk_cumsum_fwd(dt, A, chunk_size, dt_bias=dt_bias)
-
-    # Test case 3: Without dt_bias and with dt_softplus
-    dA_cumsum_3, dt_out_3 = _chunk_cumsum_fwd(dt, A, chunk_size, dt_softplus=True)
-
-    # Test case 4: With dt_bias and with dt_softplus
-    dA_cumsum_4, dt_out_4 = _chunk_cumsum_fwd(dt, A, chunk_size, dt_bias=dt_bias, dt_softplus=True)
-
-    return {
-        "test_case_1": (dA_cumsum_1, dt_out_1),
-        "test_case_2": (dA_cumsum_2, dt_out_2),
-        "test_case_3": (dA_cumsum_3, dt_out_3),
-        "test_case_4": (dA_cumsum_4, dt_out_4),
-    }
-
-result_gold = test_chunk_cumsum_fwd()

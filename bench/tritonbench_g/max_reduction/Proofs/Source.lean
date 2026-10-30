@@ -1,460 +1,152 @@
-import bench.tritonbench_g.max_reduction.Kernels
-import VeriTile.Triton
-import VeriTile.Meta.StatementAudit
+import bench.tritonbench_g.max_reduction.Proofs.Execution
+import VeriTile.Triton.Float.Structural
 
-namespace VeriTile.Bench.TritonBenchG.MaxReduction
-open VeriTile.Triton
-set_option maxHeartbeats 2000000
-set_option maxRecDepth 16000
+namespace VeriTile.Bench.Repairs.MaxReduction.Source
+open VeriTile.Triton FP.Structural
+noncomputable section
+open Classical
+set_option maxHeartbeats 5000000
+set_option maxRecDepth 20000
+set_option linter.unusedSimpArgs false
 
-def mathStage1 (v : Bool) : ValueSource :=
-  if v then fun (inp mid : RegionName) (M BLOCK_SIZE : Nat) => ComputeKernel.mk [inp] [mid] (triton {
-  pid = tl.program_id(0)
-  offset = $(BLOCK_SIZE) * pid + tl.arange(0, $(BLOCK_SIZE))
-  inp_ptrs = inp + offset
-  mask = offset < $(M)
-  inp_val = tl.load(inp_ptrs, mask=mask, other=-float("inf"))
-  max_val = tl.max(inp_val)
-  mid_ptr = mid + pid
-  tl.store(mid_ptr, max_val)
-}).surfaceBody
-  else fun inp mid M B => ComputeKernel.mk [inp] [mid] (max_kernel_1 inp mid M B).surfaceBody
+/-- Reduction implementations are explicit here; the native instance below
+uses finite trees, including the paired value/index comparison schedule. -/
+structure Engine (A : Type) where
+  padding : A
+  maximum : (width : Nat) → (Fin width → A) → A
+  indexed : (width : Nat) → (Fin width → A) → A × Nat
 
-def mathStage2 (v : Bool) : ValueSource :=
-  if v then fun (mid out : RegionName) (mid_size BLOCK_MID : Nat) => ComputeKernel.mk [mid] [out] (triton {
-  offset = tl.arange(0, $(BLOCK_MID))
-  mid_ptrs = mid + offset
-  mask = not ($(mid_size) <= offset)
-  mid_val = tl.load(mid_ptrs, mask=mask, other=-float("inf"))
-  max_val = tl.max(mid_val)
-  tl.store(out, max_val)
-}).surfaceBody
-  else fun mid out M B => ComputeKernel.mk [mid] [out] (max_kernel_2 mid out M B).surfaceBody
+def reduceWith (operation : (width : Nat) → (Fin width → A) → A)
+    {shape : TileShape} (ax : Fin shape.length) (keep : Bool) (xs : Values A .real shape) :
+    Values A .real (TileShape.reduceShape shape ax keep) := by
+  cases keep
+  · exact fun out => operation (TileShape.axisDim shape ax)
+      (fun i => xs (TileShape.insertAxisIndex shape ax out i))
+  · exact fun out => operation (TileShape.axisDim shape ax)
+      (fun i => xs (TileShape.replaceAxisIndex shape ax out i))
 
-theorem stage1_projects (storage : Storage) (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage1 storage v inp out M B).toAlgorithm? =
-      .ok (stage1 storage v inp out M B).toAlgKernel := by
-  cases storage <;> cases v <;> rfl
+def indexedWith (operation : (width : Nat) → (Fin width → A) → A × Nat)
+    (dtype : FloatDType) {shape : TileShape} (ax : Fin shape.length)
+    (xs : Values A dtype.toTileDType shape) :
+    Option (Values A dtype.toTileDType (TileShape.eraseAxis shape ax) ×
+      Values A .nat (TileShape.eraseAxis shape ax)) :=
+  let result := fun out => operation (TileShape.axisDim shape ax)
+    (fun i => toFloat dtype (xs (TileShape.insertAxisIndex shape ax out i)))
+  some (fun out => ofFloat dtype (result out).1,fun out => (result out).2)
 
-theorem stage1_supported (storage : Storage) (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage1 storage v inp out M B).eraseDType.toAlgorithm? =
-      .ok (stage1 storage v inp out M B).eraseDType.toAlgKernel := by
-  simp only [ComputeKernel.eraseDType, stage1_projects,
-    ComputeKernel.toAlgorithm?_fromKernelBody, ComputeKernel.toAlgKernel_fromKernelBody]
+def Engine.algebra (e : Engine A) : Algebra A where
+  literal := fun _ _ _ => e.padding
+  negInf := e.padding
+  binary := fun _ _ _ _ _ => e.padding
+  unary := fun _ _ _ => e.padding
+  cast := fun _ _ _ => id
+  fromNat := fun _ _ => e.padding
+  fromInt := fun _ _ => e.padding
+  fp32Bits := fun _ => e.padding
+  fp32Load := id
+  reduceMax := fun _ => reduceWith e.maximum
+  reduceSum := fun _ => reduceWith e.maximum
+  indexedMax := fun _ => indexedWith e.indexed
 
-theorem stage1_projection (storage : Storage) (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage1 storage v inp out M B).eraseDType.toAlgKernel =
-      (mathStage1 v inp out M B).toAlgKernel := by
-  simp only [ComputeKernel.eraseDType, stage1_projects, ComputeKernel.toAlgKernel_fromKernelBody]
-  cases storage <;> cases v
-  all_goals simp only [stage1, mathStage1, Bool.false_eq_true, ↓reduceIte, max_kernel_1,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Except.bind, bind,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
-    VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
-    FloatDType.toTileDType, ComputeDType.eraseDType]
-  all_goals try simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
-    MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    FloatDType.toTileDType, ComputeDType.eraseDType]
-  all_goals rfl
+def scalarValue (e : Engine A) (input : Nat → A) (N B start : Nat) : A :=
+  e.maximum B (fun i => if start+i.val<N then input (start+i.val) else e.padding)
 
-theorem stage2_projects (storage : Storage) (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage2 storage v inp out M B).toAlgorithm? =
-      .ok (stage2 storage v inp out M B).toAlgKernel := by
-  cases storage <;> cases v <;> rfl
+theorem stage1_exec [Inhabited A] (e : Engine A) (inp mid : RegionName)
+    (N B : Nat) (s : State A) (hb : 0<B) :
+    ∃ final,FP.Structural.exec e.algebra (stage1 inp mid N B) s=some final ∧
+      final.mem=(s.write mid (s.pids 0) (.mk .real
+        (scalarValue e (fun i => (s.mem inp i).read .real) N B (s.pids 0*B)))).mem := by
+  simp [stage1,VeriTile.Bench.TritonBenchG.MaxReduction.stage1,FP.Structural.exec,
+    ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
+    ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,
+    reduceWith,scalarValue,TileShape.allIndices,TileShape.axisDim,hb,State.write,State.setReg]
+  rfl
 
-theorem stage2_supported (storage : Storage) (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage2 storage v inp out M B).eraseDType.toAlgorithm? =
-      .ok (stage2 storage v inp out M B).eraseDType.toAlgKernel := by
-  simp only [ComputeKernel.eraseDType, stage2_projects,
-    ComputeKernel.toAlgorithm?_fromKernelBody, ComputeKernel.toAlgKernel_fromKernelBody]
+theorem stage2_exec [Inhabited A] (e : Engine A) (mid out : RegionName)
+    (N B : Nat) (s : State A) (hb : 0<B) :
+    ∃ final,FP.Structural.exec e.algebra (stage2 mid out N B) s=some final ∧
+      final.mem=(s.write out 0 (.mk .real
+        (scalarValue e (fun i => (s.mem mid i).read .real) N B 0))).mem := by
+  simp [stage2,VeriTile.Bench.TritonBenchG.MaxReduction.stage2,FP.Structural.exec,
+    ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
+    ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,
+    reduceWith,scalarValue,TileShape.allIndices,TileShape.axisDim,hb,State.write,State.setReg]
+  rfl
 
-theorem stage2_projection (storage : Storage) (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage2 storage v inp out M B).eraseDType.toAlgKernel =
-      (mathStage2 v inp out M B).toAlgKernel := by
-  simp only [ComputeKernel.eraseDType, stage2_projects, ComputeKernel.toAlgKernel_fromKernelBody]
-  cases storage <;> cases v
-  all_goals simp only [stage2, mathStage2, Bool.false_eq_true, ↓reduceIte, max_kernel_2,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Except.bind, bind,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
-    VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
-    FloatDType.toTileDType, ComputeDType.eraseDType]
-  all_goals try simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
-    MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    FloatDType.toTileDType, ComputeDType.eraseDType]
-  all_goals rfl
+def rowValue (e : Engine A) (input : Nat → A) (M N K BM BN pid k lane : Nat) : A × Nat :=
+  e.indexed BN (fun n => if pid*BM+lane<M ∧ n.val<N then
+    input ((pid*BM+lane)*N*K+n.val*K+k) else e.padding)
 
-abbrev DimensionSource := RegionName → RegionName → RegionName → Nat → Nat → Nat → Nat → Nat → ComputeKernel
+def dimensionStores [Inhabited A] (e : Engine A) (inp ov oi : RegionName)
+    (M N K BM BN : Nat) (s : State A) : State A :=
+  let values := rowValue e (fun i => (s.mem inp i).read .real) M N K BM BN (s.pids 0) (s.pids 1)
+  let withValues := (TileShape.allIndices [BM]).foldl (fun state i =>
+    if s.pids 0*BM+i.1.val<M then state.write ov ((s.pids 0*BM+i.1.val)*K+s.pids 1)
+      (.mk .real (values i.1.val).1) else state) s
+  (TileShape.allIndices [BM]).foldl (fun state i =>
+    if s.pids 0*BM+i.1.val<M then state.write oi ((s.pids 0*BM+i.1.val)*K+s.pids 1)
+      (.mk .int ((values i.1.val).2 : Int)) else state) withValues
 
-def mathDimension (v : Bool) : DimensionSource :=
-  fun inp out_value out_index M N K BLOCK_M BLOCK_N =>
-  ComputeKernel.mk [inp] [out_value, out_index] (if v then (triton {
-  pid_m = tl.program_id(0)
-  pid_k = tl.program_id(1)
-  m_offset = $(BLOCK_M) * pid_m + tl.arange(0, $(BLOCK_M))
-  n_offset = tl.arange(0, $(BLOCK_N))
-  offset = m_offset[:, None] * $(N) * $(K) + n_offset[None, :] * $(K) + pid_k
-  offset_index = m_offset * $(K) + pid_k
-  mask1 = m_offset < $(M)
-  mask = m_offset[:, None] < $(M) and n_offset[None, :] < $(N)
-  inp_ptrs = inp + offset
-  inp_vals = tl.load(inp_ptrs, mask=mask, other=-float("inf"))
-  result_value, result_index := tl.max(inp_vals, axis=1, return_indices=True)
-  out_value_ptrs = out_value + offset_index
-  out_index_ptrs = out_index + offset_index
-  tl.store(out_value_ptrs, result_value, mask=mask1)
-  tl.store(out_index_ptrs, result_index.to(tl.int64), mask=mask1)
-}).surfaceBody
-  else (triton {
-  pid_m = tl.program_id(0)
-  pid_k = tl.program_id(1)
-  m_offset = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
-  n_offset = tl.arange(0, $(BLOCK_N))
-  offset = m_offset[:, None] * $(N) * $(K) + n_offset[None, :] * $(K) + pid_k
-  offset_index = m_offset * $(K) + pid_k
-  mask1 = m_offset < $(M)
-  mask = m_offset[:, None] < $(M) and n_offset[None, :] < $(N)
-  inp_ptrs = inp + offset
-  inp_vals = tl.load(inp_ptrs, mask=mask, other=-float("inf"))
-  result_value, result_index := tl.max(inp_vals, axis=1, return_indices=True)
-  out_value_ptrs = out_value + offset_index
-  out_index_ptrs = out_index + offset_index
-  tl.store(out_value_ptrs, result_value, mask=mask1)
-  tl.store(out_index_ptrs, result_index.to(tl.int64), mask=mask1)
-}).surfaceBody)
+@[simp] theorem masked_regs {ι : Type} (r : RegionName) (off : ι → Nat)
+    (val : ι → Cell A) (active : ι → Prop) [DecidablePred active]
+    (events : List ι) (s : State A) :
+    (events.foldl (fun t i => if active i then t.write r (off i) (val i) else t) s).regs=s.regs := by
+  rw [State.masked_scatter_eq_filter,State.scatter_regs]
 
-theorem dimension_projects (storage : Storage) (v : Bool) (inp ov oi : RegionName)
-    (M N K BM BN : Nat) :
-    (dimensionSource storage v inp ov oi M N K BM BN).toAlgorithm? =
-      .ok (dimensionSource storage v inp ov oi M N K BM BN).toAlgKernel := by
-  cases storage <;> cases v <;> rfl
+@[simp] theorem masked_mem {ι : Type} (r : RegionName) (off : ι → Nat)
+    (val : ι → Cell A) (active : ι → Prop) [DecidablePred active]
+    (events : List ι) (s : State A) :
+    (events.foldl (fun t i => if active i then t.write r (off i) (val i) else t) s).mem=
+      events.foldl (fun mem i => if active i then
+        fun r' o' => if r'=r ∧ o'=off i then val i else mem r' o' else mem) s.mem := by
+  induction events generalizing s with
+  | nil => rfl
+  | cons i rest ih =>
+    simp only [List.foldl_cons]
+    split_ifs <;> rw [ih] <;> rfl
 
-theorem dimension_supported (storage : Storage) (v : Bool) (inp ov oi : RegionName)
-    (M N K BM BN : Nat) :
-    (dimensionSource storage v inp ov oi M N K BM BN).eraseDType.toAlgorithm? =
-      .ok (dimensionSource storage v inp ov oi M N K BM BN).eraseDType.toAlgKernel := by
-  simp only [ComputeKernel.eraseDType, dimension_projects,
-    ComputeKernel.toAlgorithm?_fromKernelBody, ComputeKernel.toAlgKernel_fromKernelBody]
+theorem dimension_exec [Inhabited A] (e : Engine A) (inp ov oi : RegionName)
+    (M N K BM BN : Nat) (s : State A) (hn : 0<BN) :
+    ∃ final,FP.Structural.exec e.algebra (dimension inp ov oi M N K BM BN) s=some final ∧
+      final.mem=(dimensionStores e inp ov oi M N K BM BN s).mem := by
+  simp [dimension,VeriTile.Bench.TritonBenchG.MaxReduction.dimensionSource,FP.Structural.exec,
+    ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
+    ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,
+    indexedWith,rowValue,dimensionStores,TileShape.allIndices,TileShape.axisDim,TileShape.insertAxisIndex,toFloat,ofFloat,hn,Nat.ne_of_gt hn,
+    State.setReg]
 
-theorem dimension_projection (storage : Storage) (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource storage v inp ov oi M N K BM BN).eraseDType.toAlgKernel =
-      (mathDimension v inp ov oi M N K BM BN).toAlgKernel := by
-  simp only [ComputeKernel.eraseDType, dimension_projects, ComputeKernel.toAlgKernel_fromKernelBody]
-  cases storage <;> cases v
-  all_goals simp only [dimensionSource, mathDimension, Bool.false_eq_true, ↓reduceIte,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Except.bind, bind,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
-    VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
-    FloatDType.toTileDType, ComputeDType.eraseDType]
-  all_goals try simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
-    MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    FloatDType.toTileDType, ComputeDType.eraseDType]
-  all_goals rfl
+/-- Exact native/Real finite-tree construction; invalid fallback leaves never
+occur in a ReductionPlan. Thus whole-reduction equality is proved, not assumed. -/
+def treeEngine (algebra : Compute.Algebra A) (plans : Nat → Tree) : Engine A where
+  padding := algebra.padding
+  maximum := fun width values => (plans width).eval algebra.maximum
+    (fun i => if hi : i<width then values ⟨i,hi⟩ else algebra.padding)
+  indexed := fun width values => (plans width).eval algebra.indexedCombine
+    (fun i => (if hi : i<width then values ⟨i,hi⟩ else algebra.padding,i))
 
-/-- Exact fp16 value-reduction path: typed load and padding, fp32 maximum,
-then one explicit narrowing store. Candidate address changes cannot alter it. -/
-theorem half_stage1_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage1 .fp16 v inp out M B).surfaceBody[4]? = some
-      (.assign .fp16 [B] "inp_val" (.alg (.load .fp16
-        (.ptr (.ref .ptr [B] "inp_ptrs"))
-        (.maskOther (.ref .bool [B] "mask")
-          (.broadcast (.castFloat .real .fp16 .negInf) [B]))))) ∧
-    (stage1 .fp16 v inp out M B).surfaceBody[5]? = some
-      (.assign .real [] "max_val" (.compute (.alg .fp32
-        (.reduceMax ⟨0, by simp⟩ Bool.false
-          (.castFloat .fp16 .real (.ref .fp16 [B] "inp_val")))))) ∧
-    (stage1 .fp16 v inp out M B).surfaceBody[7]? = some
-      (.store .fp16 [] (.ptr (.ref .ptr [] "mid_ptr"))
-        (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
-  cases v <;> exact ⟨rfl, rfl, rfl⟩
+theorem scalar_tree (algebra : Compute.Algebra A) (plans : Nat → Tree)
+    (B : Nat) (complete : ∀ i,i∈(plans B).leaves → i<B)
+    (input : Nat → A) (N start : Nat) :
+    scalarValue (treeEngine algebra plans) input N B start=
+      Compute.scalar algebra (plans B) input N start := by
+  apply Compute.tree_congr
+  intro i hi
+  simp [complete i hi,treeEngine]
 
-/-- Bfloat values use the same fp32 max and exactly one output narrowing. -/
-theorem bfloat_stage2_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage2 .bf16 v inp out M B).surfaceBody[3]? = some
-      (.assign .bf16 [B] "mid_val" (.alg (.load .bf16
-        (.ptr (.ref .ptr [B] "mid_ptrs"))
-        (.maskOther (.ref .bool [B] "mask")
-          (.broadcast (.castFloat .real .bf16 .negInf) [B]))))) ∧
-    (stage2 .bf16 v inp out M B).surfaceBody[4]? = some
-      (.assign .real [] "max_val" (.compute (.alg .fp32
-        (.reduceMax ⟨0, by simp⟩ Bool.false
-          (.castFloat .bf16 .real (.ref .bf16 [B] "mid_val")))))) ∧
-    (stage2 .bf16 v inp out M B).surfaceBody[5]? = some
-      (.store .bf16 [] (.region (Region.cast out) (.constNat 0))
-        (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
-  cases v <;> exact ⟨rfl, rfl, rfl⟩
+theorem row_tree (algebra : Compute.Algebra A) (plans : Nat → Tree)
+    (BN : Nat) (complete : ∀ i,i∈(plans BN).leaves → i<BN)
+    (input : Nat → A) (M N K BM pid k lane : Nat) (active : pid*BM+lane<M) :
+    rowValue (treeEngine algebra plans) input M N K BM BN pid k lane=
+      (plans BN).eval algebra.indexedCombine
+        (fun n => (if n<N then input ((pid*BM+lane)*N*K+n*K+k) else algebra.padding,n)) := by
+  apply Compute.tree_congr
+  intro i hi
+  simp [complete i hi,active,treeEngine]
 
-/-- Exact bf16 value-reduction path: typed load and padding, fp32 maximum,
-then one explicit narrowing store. Candidate address changes cannot alter it. -/
-theorem bfloat_stage1_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage1 .bf16 v inp out M B).surfaceBody[4]? = some
-      (.assign .bf16 [B] "inp_val" (.alg (.load .bf16
-        (.ptr (.ref .ptr [B] "inp_ptrs"))
-        (.maskOther (.ref .bool [B] "mask")
-          (.broadcast (.castFloat .real .bf16 .negInf) [B]))))) ∧
-    (stage1 .bf16 v inp out M B).surfaceBody[5]? = some
-      (.assign .real [] "max_val" (.compute (.alg .fp32
-        (.reduceMax ⟨0, by simp⟩ Bool.false
-          (.castFloat .bf16 .real (.ref .bf16 [B] "inp_val")))))) ∧
-    (stage1 .bf16 v inp out M B).surfaceBody[7]? = some
-      (.store .bf16 [] (.ptr (.ref .ptr [] "mid_ptr"))
-        (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
-  cases v <;> exact ⟨rfl, rfl, rfl⟩
-
-/-- Half values use the same fp32 max and exactly one output narrowing. -/
-theorem half_stage2_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage2 .fp16 v inp out M B).surfaceBody[3]? = some
-      (.assign .fp16 [B] "mid_val" (.alg (.load .fp16
-        (.ptr (.ref .ptr [B] "mid_ptrs"))
-        (.maskOther (.ref .bool [B] "mask")
-          (.broadcast (.castFloat .real .fp16 .negInf) [B]))))) ∧
-    (stage2 .fp16 v inp out M B).surfaceBody[4]? = some
-      (.assign .real [] "max_val" (.compute (.alg .fp32
-        (.reduceMax ⟨0, by simp⟩ Bool.false
-          (.castFloat .fp16 .real (.ref .fp16 [B] "mid_val")))))) ∧
-    (stage2 .fp16 v inp out M B).surfaceBody[5]? = some
-      (.store .fp16 [] (.region (Region.cast out) (.constNat 0))
-        (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
-  cases v <;> exact ⟨rfl, rfl, rfl⟩
-
-/-- The dimension wrapper stores signed int64 indices; natural index arithmetic
-is explicitly converted before the masked store, never substituted as storage. -/
-theorem dimension_index_store (storage : Storage) (v : Bool)
-    (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource storage v inp ov oi M N K BM BN).surfaceBody[14]? = some
-      (.store .int [BM] (.ptr (.ref .ptr [BM] "out_index_ptrs"))
-        (.alg (.castNatToInt (.ref .nat [BM] "result_index")))
-        (.mask (.ref .bool [BM] "mask1"))) := by
-  cases storage <;> cases v <;> rfl
-
-/-- Indexed half maximum retains its channel and uses the paired backend. -/
-theorem dimension_half_pair (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .fp16 v inp ov oi M N K BM BN).surfaceBody[10]? = some
-      (.ifThen (.constBool Bool.true)
-        [.assign .fp16 [BM] "result_value" (.alg (.indexedMaxValue .fp16 ⟨1, by simp⟩
-          (.ref .fp16 [BM,BN] "inp_vals"))),
-         .assign .nat [BM] "result_index" (.alg (.argMaxTyped .fp16 ⟨1, by simp⟩
-          (.ref .fp16 [BM,BN] "inp_vals")))]) := by
-  cases v <;> rfl
-
-/-- Indexed bfloat maximum promotes both paired observations identically and
-narrows the value once at its actual bfloat output store. -/
-theorem dimension_bfloat_pair (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .bf16 v inp ov oi M N K BM BN).surfaceBody[10]? = some
-      (.ifThen (.constBool Bool.true)
-        [.assign .real [BM] "result_value" (.compute (.alg .fp32 (.indexedMaxValue .real ⟨1, by simp⟩
-          (.castFloat .bf16 .real (.ref .bf16 [BM,BN] "inp_vals"))))),
-         .assign .nat [BM] "result_index" (.alg (.argMaxTyped .real ⟨1, by simp⟩
-          (.castFloat .bf16 .real (.ref .bf16 [BM,BN] "inp_vals")) (some .fp32)))]) ∧
-    (dimensionSource .bf16 v inp ov oi M N K BM BN).surfaceBody[13]? = some
-      (.store .bf16 [BM] (.ptr (.ref .ptr [BM] "out_value_ptrs"))
-        (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [BM] "result_value"))))
-        (.mask (.ref .bool [BM] "mask1"))) := by
-  cases v <;> exact ⟨rfl,rfl⟩
-
-/-- fp32 indexed values retain their explicit fp32 load and paired profile. -/
-theorem dimension_fp32_pair (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .fp32 v inp ov oi M N K BM BN).surfaceBody[9]? = some
-      (.assign .real [BM,BN] "inp_vals" (.compute (.load .fp32
-        (.ptr (.ref .ptr [BM,BN] "inp_ptrs"))
-        (.maskOther (.ref .bool [BM,BN] "mask") (.broadcast .negInf [BM,BN]))))) ∧
-    (dimensionSource .fp32 v inp ov oi M N K BM BN).surfaceBody[10]? = some
-      (.ifThen (.constBool Bool.true)
-        [.assign .real [BM] "result_value" (.compute (.alg .fp32 (.indexedMaxValue .real ⟨1, by simp⟩
-          (.ref .real [BM,BN] "inp_vals")))),
-         .assign .nat [BM] "result_index" (.alg (.argMaxTyped .real ⟨1, by simp⟩
-          (.ref .real [BM,BN] "inp_vals") (some .fp32)))]) := by
-  cases v <;> exact ⟨rfl,rfl⟩
-
-/-- Half and fp32 dimension outputs need no narrowing or extra conversion. -/
-theorem dimension_value_stores (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .fp16 v inp ov oi M N K BM BN).surfaceBody[13]? = some
-      (.store .fp16 [BM] (.ptr (.ref .ptr [BM] "out_value_ptrs"))
-        (.alg (.ref .fp16 [BM] "result_value")) (.mask (.ref .bool [BM] "mask1"))) ∧
-    (dimensionSource .fp32 v inp ov oi M N K BM BN).surfaceBody[13]? = some
-      (.store .real [BM] (.ptr (.ref .ptr [BM] "out_value_ptrs"))
-        (.compute (.alg .fp32 (.ref .real [BM] "result_value")))
-        (.mask (.ref .bool [BM] "mask1"))) := by
-  cases v <;> exact ⟨rfl,rfl⟩
-
-theorem f8e4_stage1_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage1 .f8e4 v inp out M B).surfaceBody[4]? = some
-      (.assign .f8e4 [B] "inp_val" (.alg (.load .f8e4
-        (.ptr (.ref .ptr [B] "inp_ptrs"))
-        (.maskOther (.ref .bool [B] "mask")
-          (.broadcast (.castFloat .real .f8e4 .negInf) [B]))))) ∧
-    (stage1 .f8e4 v inp out M B).surfaceBody[5]? = some
-      (.assign .real [] "max_val" (.compute (.alg .fp32
-        (.reduceMax ⟨0, by simp⟩ Bool.false
-          (.castFloat .f8e4 .real (.ref .f8e4 [B] "inp_val")))))) ∧
-    (stage1 .f8e4 v inp out M B).surfaceBody[7]? = some
-      (.store .f8e4 [] (.ptr (.ref .ptr [] "mid_ptr"))
-        (.alg (.castFloat .real .f8e4 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
-  cases v <;> exact ⟨rfl, rfl, rfl⟩
-
-theorem f8e4_stage2_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage2 .f8e4 v inp out M B).surfaceBody[3]? = some
-      (.assign .f8e4 [B] "mid_val" (.alg (.load .f8e4
-        (.ptr (.ref .ptr [B] "mid_ptrs"))
-        (.maskOther (.ref .bool [B] "mask")
-          (.broadcast (.castFloat .real .f8e4 .negInf) [B]))))) ∧
-    (stage2 .f8e4 v inp out M B).surfaceBody[4]? = some
-      (.assign .real [] "max_val" (.compute (.alg .fp32
-        (.reduceMax ⟨0, by simp⟩ Bool.false
-          (.castFloat .f8e4 .real (.ref .f8e4 [B] "mid_val")))))) ∧
-    (stage2 .f8e4 v inp out M B).surfaceBody[5]? = some
-      (.store .f8e4 [] (.region (Region.cast out) (.constNat 0))
-        (.alg (.castFloat .real .f8e4 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
-  cases v <;> exact ⟨rfl, rfl, rfl⟩
-
-theorem dimension_f8e4_pair (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .f8e4 v inp ov oi M N K BM BN).surfaceBody[10]? = some
-      (.ifThen (.constBool Bool.true)
-        [.assign .f8e4 [BM] "result_value" (.alg (.indexedMaxValue .f8e4 ⟨1, by simp⟩
-          (.ref .f8e4 [BM,BN] "inp_vals"))),
-         .assign .nat [BM] "result_index" (.alg (.argMaxTyped .f8e4 ⟨1, by simp⟩
-          (.ref .f8e4 [BM,BN] "inp_vals")))]) := by
-  cases v <;> rfl
-
-theorem dimension_f8e4_store (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .f8e4 v inp ov oi M N K BM BN).surfaceBody[13]? = some
-      (.store .f8e4 [BM] (.ptr (.ref .ptr [BM] "out_value_ptrs"))
-        (.alg (.ref .f8e4 [BM] "result_value"))
-        (.mask (.ref .bool [BM] "mask1"))) := by
-  cases v <;> rfl
-
-theorem f8e5_stage1_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage1 .f8e5 v inp out M B).surfaceBody[4]? = some
-      (.assign .f8e5 [B] "inp_val" (.alg (.load .f8e5
-        (.ptr (.ref .ptr [B] "inp_ptrs"))
-        (.maskOther (.ref .bool [B] "mask")
-          (.broadcast (.castFloat .real .f8e5 .negInf) [B]))))) ∧
-    (stage1 .f8e5 v inp out M B).surfaceBody[5]? = some
-      (.assign .real [] "max_val" (.compute (.alg .fp32
-        (.reduceMax ⟨0, by simp⟩ Bool.false
-          (.castFloat .f8e5 .real (.ref .f8e5 [B] "inp_val")))))) ∧
-    (stage1 .f8e5 v inp out M B).surfaceBody[7]? = some
-      (.store .f8e5 [] (.ptr (.ref .ptr [] "mid_ptr"))
-        (.alg (.castFloat .real .f8e5 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
-  cases v <;> exact ⟨rfl, rfl, rfl⟩
-
-theorem f8e5_stage2_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage2 .f8e5 v inp out M B).surfaceBody[3]? = some
-      (.assign .f8e5 [B] "mid_val" (.alg (.load .f8e5
-        (.ptr (.ref .ptr [B] "mid_ptrs"))
-        (.maskOther (.ref .bool [B] "mask")
-          (.broadcast (.castFloat .real .f8e5 .negInf) [B]))))) ∧
-    (stage2 .f8e5 v inp out M B).surfaceBody[4]? = some
-      (.assign .real [] "max_val" (.compute (.alg .fp32
-        (.reduceMax ⟨0, by simp⟩ Bool.false
-          (.castFloat .f8e5 .real (.ref .f8e5 [B] "mid_val")))))) ∧
-    (stage2 .f8e5 v inp out M B).surfaceBody[5]? = some
-      (.store .f8e5 [] (.region (Region.cast out) (.constNat 0))
-        (.alg (.castFloat .real .f8e5 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
-  cases v <;> exact ⟨rfl, rfl, rfl⟩
-
-theorem dimension_f8e5_pair (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .f8e5 v inp ov oi M N K BM BN).surfaceBody[10]? = some
-      (.ifThen (.constBool Bool.true)
-        [.assign .f8e5 [BM] "result_value" (.alg (.indexedMaxValue .f8e5 ⟨1, by simp⟩
-          (.ref .f8e5 [BM,BN] "inp_vals"))),
-         .assign .nat [BM] "result_index" (.alg (.argMaxTyped .f8e5 ⟨1, by simp⟩
-          (.ref .f8e5 [BM,BN] "inp_vals")))]) := by
-  cases v <;> rfl
-
-theorem dimension_f8e5_store (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .f8e5 v inp ov oi M N K BM BN).surfaceBody[13]? = some
-      (.store .f8e5 [BM] (.ptr (.ref .ptr [BM] "out_value_ptrs"))
-        (.alg (.ref .f8e5 [BM] "result_value"))
-        (.mask (.ref .bool [BM] "mask1"))) := by
-  cases v <;> rfl
-
-theorem dimension_fp16_load (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .fp16 v inp ov oi M N K BM BN).surfaceBody[9]? = some
-      (.assign .fp16 [BM,BN] "inp_vals" (.alg (.load .fp16
-        (.ptr (.ref .ptr [BM,BN] "inp_ptrs"))
-        (.maskOther (.ref .bool [BM,BN] "mask")
-          (.broadcast (.castFloat .real .fp16 .negInf) [BM,BN]))))) := by
-  cases v <;> rfl
-
-theorem dimension_bf16_load (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .bf16 v inp ov oi M N K BM BN).surfaceBody[9]? = some
-      (.assign .bf16 [BM,BN] "inp_vals" (.alg (.load .bf16
-        (.ptr (.ref .ptr [BM,BN] "inp_ptrs"))
-        (.maskOther (.ref .bool [BM,BN] "mask")
-          (.broadcast (.castFloat .real .bf16 .negInf) [BM,BN]))))) := by
-  cases v <;> rfl
-
-theorem dimension_f8e4_load (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .f8e4 v inp ov oi M N K BM BN).surfaceBody[9]? = some
-      (.assign .f8e4 [BM,BN] "inp_vals" (.alg (.load .f8e4
-        (.ptr (.ref .ptr [BM,BN] "inp_ptrs"))
-        (.maskOther (.ref .bool [BM,BN] "mask")
-          (.broadcast (.castFloat .real .f8e4 .negInf) [BM,BN]))))) := by
-  cases v <;> rfl
-
-theorem dimension_f8e5_load (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .f8e5 v inp ov oi M N K BM BN).surfaceBody[9]? = some
-      (.assign .f8e5 [BM,BN] "inp_vals" (.alg (.load .f8e5
-        (.ptr (.ref .ptr [BM,BN] "inp_ptrs"))
-        (.maskOther (.ref .bool [BM,BN] "mask")
-          (.broadcast (.castFloat .real .f8e5 .negInf) [BM,BN]))))) := by
-  cases v <;> rfl
-
-/-- Explicit fp64 storage keeps raw load, reduction, and store at fp64 precision. -/
-theorem fp64_stage1_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage1 .fp64 v inp out M B).surfaceBody[4]? = some
-      (.assign .real [B] "inp_val" (.compute (.alg .fp64 (.load .real
-        (.ptr (.ref .ptr [B] "inp_ptrs"))
-        (.maskOther (.ref .bool [B] "mask") (.broadcast .negInf [B])))))) ∧
-    (stage1 .fp64 v inp out M B).surfaceBody[5]? = some
-      (.assign .real [] "max_val" (.compute (.alg .fp64
-        (.reduceMax ⟨0, by simp⟩ Bool.false (.ref .real [B] "inp_val"))))) ∧
-    (stage1 .fp64 v inp out M B).surfaceBody[7]? = some
-      (.store .real [] (.ptr (.ref .ptr [] "mid_ptr"))
-        (.compute (.alg .fp64 (.ref .real [] "max_val"))) .none) := by
-  cases v <;> exact ⟨rfl, rfl, rfl⟩
-
-/-- Explicit fp64 storage keeps raw load, reduction, and store at fp64 precision. -/
-theorem fp64_stage2_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
-    (stage2 .fp64 v inp out M B).surfaceBody[3]? = some
-      (.assign .real [B] "mid_val" (.compute (.alg .fp64 (.load .real
-        (.ptr (.ref .ptr [B] "mid_ptrs"))
-        (.maskOther (.ref .bool [B] "mask") (.broadcast .negInf [B])))))) ∧
-    (stage2 .fp64 v inp out M B).surfaceBody[4]? = some
-      (.assign .real [] "max_val" (.compute (.alg .fp64
-        (.reduceMax ⟨0, by simp⟩ Bool.false (.ref .real [B] "mid_val"))))) ∧
-    (stage2 .fp64 v inp out M B).surfaceBody[5]? = some
-      (.store .real [] (.region (Region.cast out) (.constNat 0))
-        (.compute (.alg .fp64 (.ref .real [] "max_val"))) .none) := by
-  cases v <;> exact ⟨rfl, rfl, rfl⟩
-
-/-- Both indexed observations use fp64 on the actual raw-loaded tile. -/
-theorem dimension_fp64_precision (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
-    (dimensionSource .fp64 v inp ov oi M N K BM BN).surfaceBody[9]? = some
-      (.assign .real [BM,BN] "inp_vals" (.compute (.alg .fp64 (.load .real
-        (.ptr (.ref .ptr [BM,BN] "inp_ptrs"))
-        (.maskOther (.ref .bool [BM,BN] "mask") (.broadcast .negInf [BM,BN])))))) ∧
-    (dimensionSource .fp64 v inp ov oi M N K BM BN).surfaceBody[10]? = some
-      (.ifThen (.constBool Bool.true)
-        [.assign .real [BM] "result_value" (.compute (.alg .fp64
-          (.indexedMaxValue .real ⟨1, by simp⟩ (.ref .real [BM,BN] "inp_vals")))),
-         .assign .nat [BM] "result_index" (.alg
-          (.argMaxTyped .real ⟨1, by simp⟩ (.ref .real [BM,BN] "inp_vals") (some .fp64)))]) ∧
-    (dimensionSource .fp64 v inp ov oi M N K BM BN).surfaceBody[13]? = some
-      (.store .real [BM] (.ptr (.ref .ptr [BM] "out_value_ptrs"))
-        (.compute (.alg .fp64 (.ref .real [BM] "result_value")))
-        (.mask (.ref .bool [BM] "mask1"))) := by
-  cases v <;> exact ⟨rfl, rfl, rfl⟩
-
-#guard_msgs (drop info) in
-#auditModuleAxioms
-end VeriTile.Bench.TritonBenchG.MaxReduction
+#axiomsClean stage1_exec
+#axiomsClean stage2_exec
+#axiomsClean dimension_exec
+#axiomsClean scalar_tree
+#axiomsClean row_tree
+end
+end VeriTile.Bench.Repairs.MaxReduction.Source

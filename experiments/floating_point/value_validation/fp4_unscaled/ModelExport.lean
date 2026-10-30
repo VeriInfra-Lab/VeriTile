@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fp4_to_bf16.Proofs.FP4Bits
+import bench.tritonbench_g.fp4_to_bf16.Proofs.Mathematical_FP4Bits
 import Lean
 open Lean VeriTile.Bench.TritonBenchG.Fp4ToBf16.Bits
 

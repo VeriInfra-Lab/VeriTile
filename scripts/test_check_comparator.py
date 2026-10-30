@@ -12,12 +12,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class ComparatorGateTests(unittest.TestCase):
     def project(self, root, source):
-        (root / 'scripts').mkdir()
+        (root / 'scripts' / 'bench').mkdir(parents=True)
         (root / 'bench/tritonbench_g/fixture').mkdir(parents=True)
         for name in ('check_comparator.py', 'comparator_common.py', 'check-artifact.sh', 'source_axioms.py'):
             shutil.copyfile(ROOT / 'scripts' / name, root / 'scripts' / name)
         for name in ('audit_trust_prep.py', 'audit_source.py', 'check_ports.sh', 'audit_trust.sh', 'check_worker_results.py', 'port_layout.py'):
-            shutil.copyfile(ROOT / 'bench' / name, root / 'bench' / name)
+            shutil.copyfile(ROOT / 'scripts' / 'bench' / name, root / 'scripts' / 'bench' / name)
         # The trust-path fixture has a real Lean command boundary without
         # importing this project's Mathlib-heavy library into tiny regressions.
         (root / 'VeriTile/Meta').mkdir(parents=True)
@@ -70,7 +70,7 @@ class ComparatorGateTests(unittest.TestCase):
         result, reports, inventories = self.run_check(
             'private theorem «a.b» : True := True.intro\n'
             'macro "fixtureTheorem" : command => `(theorem generated : True := True.intro)\n'
-            'fixtureTheorem\n', script='bench/check_ports.sh')
+            'fixtureTheorem\n', script='scripts/bench/check_ports.sh')
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(len(reports), 1)
         self.assertTrue(reports[0]['accepted'])
@@ -78,9 +78,9 @@ class ComparatorGateTests(unittest.TestCase):
         self.assertTrue(any('a.b' in name for name in inventories[0]['theorems']))
 
     def test_module_header_and_private_imports_are_replayed(self):
-        source = (ROOT / 'bench/repairs/tritonbench_g/fast_layernorm/Proofs/Settings.lean').read_text()
+        source = (ROOT / 'bench/tritonbench_g/fast_layernorm/Proofs/Settings.lean').read_text()
         result, reports, inventories = self.run_check(
-            source, script='bench/audit_trust.sh')
+            source, script='scripts/bench/audit_trust.sh')
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertTrue(reports[0]['accepted'])
         names = inventories[0]['theorems']
@@ -94,7 +94,7 @@ theorem strTag_live : strTag "live" = 1 := rfl
 theorem dtype_distinct : ("int32" = "int64") = False := by decide
 theorem region_distinct : ("Q" = "O") = False := by decide
 theorem append_literal : "abc" ++ "def" = "abcdef" := by decide
-''', script='bench/audit_trust.sh')
+''', script='scripts/bench/audit_trust.sh')
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertTrue(reports[0]['accepted'])
         self.assertGreaterEqual(reports[0]['theorem_count'], 4)
@@ -108,13 +108,13 @@ theorem append_literal : "abc" ++ "def" = "abcdef" := by decide
             with self.subTest(declaration=declaration):
                 result, reports, _ = self.run_check(
                     'module\npublic import Init\npublic section\n' + declaration,
-                    script='bench/audit_trust.sh')
+                    script='scripts/bench/audit_trust.sh')
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn(diagnostic, result.stderr)
                 self.assertFalse(any(report['accepted'] for report in reports))
 
     def test_compiling_unapproved_proofs_fail_in_every_gate(self):
-        for script in ('bench/check_ports.sh', 'bench/audit_trust.sh', None):
+        for script in ('scripts/bench/check_ports.sh', 'scripts/bench/audit_trust.sh', None):
             with self.subTest(script=script):
                 # This compiles without warnings. It is deliberately not named
                 # *_correct: comparator must cover more than the headline net.
@@ -175,7 +175,7 @@ theorem chosen : model.choose (some 7) = 7 := by simp [model]
         self.assertEqual(reports[0]['theorem_count'], 1)
 
     def test_definition_only_fixture_reports_zero_targets(self):
-        result, reports, inventories = self.run_check('def value : Nat := 42\n', script='bench/audit_trust.sh')
+        result, reports, inventories = self.run_check('def value : Nat := 42\n', script='scripts/bench/audit_trust.sh')
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(reports[0]['theorem_count'], 0)
         self.assertEqual(inventories[0]['aliases'], ['veritile_comparator_empty_module'])

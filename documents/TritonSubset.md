@@ -199,7 +199,7 @@ ComputeCorrect gap contract path (#1).
 - `tl.max(x, axis=N, return_indices=True)` returns a (value, index) tuple
   consumable only via the multi-assign binding form
   `vmax, imax = tl.max(x, axis=N, return_indices=True)`. Use
-  [`ComputeCorrect.OutputPairWhere`](./CorrectnessSurfaces.md) for the
+  [`ComputeCorrect.OutputPairWhere`](CorrectnessSurfaces.md) for the
   paired-channel correctness surface.
 
 Omitted `axis` follows Triton's `axis=None` behavior: reduce over all
@@ -369,9 +369,9 @@ still use the lower-level `InputAt` escape hatch for arbitrary offset maps and
 then package the result as a `TensorView`. Aliasing is represented by choosing
 equal or distinct `RegionName`s; arbitrary pointer alias analysis beyond those
 named regions is not modeled. See
-[`GpuMemoryModel.md`](./GpuMemoryModel.md) for the GPU memory hierarchy scope
+[`GpuMemoryModel.md`](GpuMemoryModel.md) for the GPU memory hierarchy scope
 and the sequential-consistency assumptions. See
-[`SemanticCaveats.md`](./SemanticCaveats.md) for the semantic assumptions that
+[`SemanticCaveats.md`](SemanticCaveats.md) for the semantic assumptions that
 affect theorem interpretation.
 
 ## Floating-Point Model
@@ -391,7 +391,7 @@ fast-math rewrites are not fully modeled. The separate `RoundingModel` layer
 applies abstract rounding at explicit float casts and stores, with real-channel
 identity (`round_real`) and idempotence (`round_idem`). These contracts do not
 establish hardware numerical error bounds. See
-[`SemanticCaveats.md`](./SemanticCaveats.md) for the review checklist around
+[`SemanticCaveats.md`](SemanticCaveats.md) for the review checklist around
 partial math functions, fixed-width integers, pointer offsets, and total
 memory reads.
 

@@ -6,7 +6,7 @@ two-gates admits the atomic assumptions and Lean checks their formal composition
 The rule model `R` holds the experiment configuration and admission records;
 those records are not separate public theorem parameters.
 Both use `specification`; `#print_spec` exposes the implementations and atom
-records. See [CorrectnessSurfaces.md](./CorrectnessSurfaces.md).
+records. See [CorrectnessSurfaces.md](CorrectnessSurfaces.md).
 
 Existing unwrapped/abstract-rounding headlines retain their historical meaning;
 they are not automatically admitted FP rules. Exact FP facts remain internal
@@ -15,13 +15,13 @@ abstract-rounding reasoning, which is distinct from the new equivalence calculus
 
 User-facing theorem surfaces in `VeriTile/Examples/` should start from the
 public compute-facing APIs. See
-[`CorrectnessSurfaces.md`](./CorrectnessSurfaces.md) for the full user guide.
+[`CorrectnessSurfaces.md`](CorrectnessSurfaces.md) for the full user guide.
 
 - **Bench-corpus headlines** (`bench/tritonbench_g/`, `bench/examples/`) are
   stated on a `KernelIO` `⊨` / `⊨[R]` face, not on the surfaces below; that
   triple bundles the addressing, the output values and the frame into one line.
-  See [`CorrectnessSurfaces.md`](./CorrectnessSurfaces.md) and
-  [`../bench/MAIN_THEOREM_CONVENTIONS.md`](../bench/MAIN_THEOREM_CONVENTIONS.md) §4.
+  See [`CorrectnessSurfaces.md`](CorrectnessSurfaces.md) and
+  [`../documents/bench/MAIN_THEOREM_CONVENTIONS.md`](../documents/bench/MAIN_THEOREM_CONVENTIONS.md) §4.
 - Single-kernel correctness against a mathematical or algorithmic spec uses
   `ComputeCorrect.Realizes_without_Rounding` (*a kernel realizes a spec*), `ComputeCorrect.Post`,
   or `ComputeCorrect.General`.

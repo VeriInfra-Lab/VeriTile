@@ -29,10 +29,10 @@ class FPControlTests(unittest.TestCase):
         self.assertNotIn('warning:', result.stdout)
 
     def test_loop_order_bounds_failures_and_nested_precision(self):
-        self.lean((ROOT / 'bench/tests/FPControl.lean').read_text())
+        self.lean((ROOT / 'tests/lean/FPControl.lean').read_text())
 
     def test_recurrences_domains_casts_frames_and_independent_sources(self):
-        self.lean((ROOT / 'bench/tests/FPRecurrenceExecution.lean').read_text())
+        self.lean((ROOT / 'tests/lean/FPRecurrenceExecution.lean').read_text())
 
     def test_exact_original_kernels_and_softmax_normalizer_helper(self):
         self.lean('''

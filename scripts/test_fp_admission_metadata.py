@@ -14,7 +14,7 @@ class AdmissionMetadataTests(unittest.TestCase):
         targets = sorted({
             line.removeprefix('import ')
             for name in FIXTURES
-            for line in (ROOT / f'bench/tests/{name}.lean').read_text().splitlines()
+            for line in (ROOT / f'tests/lean/{name}.lean').read_text().splitlines()
             if line.startswith('import ')
         })
         result = subprocess.run(['lake', 'build', *targets], cwd=ROOT,
@@ -25,7 +25,7 @@ class AdmissionMetadataTests(unittest.TestCase):
     def test_selected_reports_match_their_bindings(self):
         for name in FIXTURES:
             with self.subTest(fixture=name):
-                result = subprocess.run(['lake', 'env', 'lean', f'bench/tests/{name}.lean'],
+                result = subprocess.run(['lake', 'env', 'lean', f'tests/lean/{name}.lean'],
                                         cwd=ROOT, text=True, capture_output=True, timeout=180)
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
                 self.assertNotIn('warning:', result.stdout)

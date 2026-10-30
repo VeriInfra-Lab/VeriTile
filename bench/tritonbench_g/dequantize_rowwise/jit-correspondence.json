@@ -1,0 +1,39 @@
+[
+  {
+    "python": "bench/tritonbench_g/dequantize_rowwise/dequantize_rowwise.py",
+    "lean": "bench/tritonbench_g/dequantize_rowwise/Kernels.lean",
+    "python_function": "_dequantize_rowwise_repaired",
+    "lean_definition": "body",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "i8"
+        ],
+        [
+          "state_x",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "inv_127",
+          "fp32"
+        ],
+        [
+          "n_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "P2"
+      ]
+    }
+  }
+]

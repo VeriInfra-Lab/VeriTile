@@ -11,7 +11,7 @@ corrections to historical proof claims.
 
 | Feedback | Resolution and evidence |
 |---|---|
-| 1. KernelIO accepted projection failures through an empty program | Public IO constructors require successful projection. Exact, rounding, equivalence, denotation, dtype erasure, pipeline, and chain paths preserve rejection. `bench/tests/KernelIOProjection.lean` checks unsupported effects and composition. |
+| 1. KernelIO accepted projection failures through an empty program | Public IO constructors require successful projection. Exact, rounding, equivalence, denotation, dtype erasure, pipeline, and chain paths preserve rejection. `tests/lean/KernelIOProjection.lean` checks unsupported effects and composition. |
 | 2. Worker failures could report success | Both runners validate concurrency, propagate launcher/worker failures, and require exactly one result per selected target. `scripts/test_audit_gates.py` injects launch failure, killed workers, missing, duplicate, partial, and unexpected output. |
 | 3. Regex discovery missed kernels/specs | Lean environment audits discover elaborated declarations and their result types, including multiline/custom/macro declarations. They reject circular specs against actual kernel constants; IO-wrapper arguments do not count as kernels. Module audit fixtures and real runner tests cover these cases. |
 | 4. Proof scope was overclaimed | All 345 current headlines have explicit reviews bound to 173 Lean/Python source pairs. The inventory distinguishes 8 original-kernel candidates, 296 configured models/stages, 37 precomputed-input slices, 3 pre-rounding slices, and 1 blocked surface. Conflicting source annotations, missing reviews, and stale fingerprints fail checks. |
@@ -56,8 +56,8 @@ Run from the repository root with the pinned Lean toolchain and dependencies:
 ```bash
 lake build VeriTile VeriTileFull
 python3 -m unittest discover -s scripts -p 'test_coverage_review.py'
-python3 bench/coverage_review.py
-python3 bench/final_inventory.py --check
+python3 scripts/bench/coverage_review.py
+python3 scripts/bench/final_inventory.py --check
 python3 -m unittest discover -s scripts -p 'test_doc_api.py'
 python3 site/scripts/check-doc-api.py
 python3 site/scripts/sync-docs.py --check
@@ -70,7 +70,7 @@ on `PATH`, as described in `scripts/README.md`:
 ```bash
 python3 -m unittest discover -s scripts -p 'test_audit_gates.py'
 scripts/check-artifact.sh
-bench/audit_tritonbench_g.sh
+scripts/bench/audit_tritonbench_g.sh
 ```
 
 The full corpus audit is substantially slower than library and website

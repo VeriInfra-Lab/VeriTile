@@ -27,7 +27,7 @@ class FPEquationalTests(unittest.TestCase):
         return result.stdout
 
     def test_scalar_and_reduction_boundaries(self):
-        output = self.lean((ROOT / "bench/tests/FPEquational.lean").read_text())
+        output = self.lean((ROOT / "tests/lean/FPEquational.lean").read_text())
         self.assertIn("FP assumptions used by reduction_reorder:\n  add_assoc\n"
                       "  unresolved FP proof:", output)
         self.assertIn("FP assumptions used by opaque_term:\n  unresolved FP proof: h", output)
@@ -39,7 +39,7 @@ class FPEquationalTests(unittest.TestCase):
         self.assertEqual(output.count("unresolved FP proof"), 2)
 
     def test_current_admissions_do_not_silently_supply_missing_algebra(self):
-        self.assertEqual(self.lean((ROOT / "bench/tests/FPAdmissionCoverage.lean").read_text()), "")
+        self.assertEqual(self.lean((ROOT / "tests/lean/FPAdmissionCoverage.lean").read_text()), "")
 
     def test_kernel_proof_is_independent_and_reports_used_admitted_atoms(self):
         source = (ROOT / "bench/examples/RowWiseSum/FPEquiv.lean").read_text() + '''

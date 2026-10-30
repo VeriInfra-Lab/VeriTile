@@ -29,14 +29,14 @@ For each directory in `verification_round.md`, including all pending rows:
 2. Search existing semantic, execution, safety, frame and scalar lemmas before extending the library. Shared extensions belong to root to avoid concurrent edits.
 3. Complete source/candidate, both mathematical contracts and the actual intended FP transformation. Keep shapes symbolic and necessary operand/intermediate domains visible. Prove nonempty execution/domain witnesses where conditions might hide vacuity.
 4. Compile every changed helper and public entry. Inspect the actual assumption printer and axiom checks. Review source fidelity, statement scope, success, stores and full memory frame independently.
-5. Run `bench/audit_trust.sh <port>` on stable snapshots once comparator infrastructure is available. A missing infrastructure prerequisite is pending verification, never a pass.
+5. Run `scripts/bench/audit_trust.sh <port>` on stable snapshots once comparator infrastructure is available. A missing infrastructure prerequisite is pending verification, never a pass.
 6. Integrate accepted modules into `lakefile.toml`, refresh source fingerprints and `proof_gap_manifest.tsv` using reviewed statements, and update specification sheets and `verification_round.md` with exact evidence.
 7. Continue through elementwise, reductions, normalization, indexing/quantization, matrix and attention/recurrence families, then the source-import scaffolds and their required DSL support. Existing legacy slices remain pending until stronger requested contracts are proved.
 
 ## Final completion audit
 
 - [ ] `lake build VeriTile VeriTileFull TritonBenchGVerified TritonBenchSpecExamples` passes.
-- [ ] `bench/audit_tritonbench_g.sh --source-only`, coverage fingerprints, proof-gap manifest and source/layout regressions pass without exemptions hiding unfinished proofs.
+- [ ] `scripts/bench/audit_tritonbench_g.sh --source-only`, coverage fingerprints, proof-gap manifest and source/layout regressions pass without exemptions hiding unfinished proofs.
 - [ ] Full corpus trust audit and independent comparator replay pass for current snapshots.
 - [ ] Every directory's original/candidate source, independent real formula, successful execution, actual IO/frame, FP precision/domain/assumptions and verification evidence are reviewed against its full required scope.
 - [ ] All remaining blockers are genuinely discharged; no historical receipt, passing narrow theorem or manifest label is treated as evidence for unverified code.

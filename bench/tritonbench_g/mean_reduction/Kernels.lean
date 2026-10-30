@@ -1,30 +1,16 @@
-/-
-Source-audit target: mean_dim_kernel
-Source-audit Lean: meanSource%
-Source-audit args: output=tl.float32, version=original
-Selected lexical source view only; this metadata is not all-profile certification.
-Original complete accumulation loop; input dtype symbolic, fp32 output resolves its store branch.
-Other dtype profiles and the index-commuted candidate need separate source views.
--/
+import bench.tritonbench_g.mean_reduction.Sources.Mathematical_Kernels
 
-import VeriTile.Triton.DSL
+/-! Complete selected FP32 streaming source. Both ordinary quotations retain
+all casts, accumulation, reduction, division, masks and explicit source ports.
+The generic historical storage family remains available from the import. -/
+namespace VeriTile.Bench.Repairs.MeanReduction
+open VeriTile.Triton
 
-namespace VeriTile.Bench.TritonBenchG.MeanReduction
-open Lean VeriTile.Triton
-
-/-- Faithful transcription of `mean_reduction.py`'s `mean_dim_kernel`.
-
-Allowed mechanical Lean-syntax-only changes:
-- Python `[:, None]` / `[None, :]` dimension annotations preserved.
-- Python `BLOCK_M` / `BLOCK_N: tl.constexpr` → Lean `Nat` parameters.
-
-The proof below connects the full-row spec to a loop invariant for the
-`for off in range(...)` accumulation.
--/
-def mean_dim_kernel
-    (X Mean : RegionName)
-    (M N BLOCK_M BLOCK_N : Nat) :
-    ComputeKernel := triton {
+/-- Original source, before the existing integer-index transformation. -/
+def sourceKernel (X Mean : RegionName) (M N BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
+  triton {
+  tl.ports inputs=[X], outputs=[Mean]
+  tl.region X = tl.float32, Mean = tl.float32
   pid = tl.program_id(0) * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))[:, None]
   X = X + pid * $(N)
   Mean = Mean + pid
@@ -42,29 +28,12 @@ def mean_dim_kernel
   tl.store(Mean, mean, row_mask)
 }
 
-/-! Typed source family. The candidate commutes only the natural-number
-program-base product. Loaded values still explicitly convert to fp32 before
-the complete accumulation loop; the output conversion makes the store dtype
-explicit after pointer rebinding. -/
-syntax "meanSource%" "[" tritonDType "," tritonDType "," ident "]" : term
-set_option hygiene false in
-macro_rules
-  | `(meanSource%[$input:tritonDType, $output:tritonDType, $version:ident]) => do
-    unless version.getId == `original || version.getId == `indexCommuted do
-      Macro.throwError "expected original or indexCommuted"
-    let pid : TSyntax `tritonStmt ←
-      if version.getId == `original then
-        `(tritonStmt| pid = tl.program_id(0) * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))[:, None])
-      else
-        `(tritonStmt| pid = $(BLOCK_M) * tl.program_id(0) + tl.arange(0, $(BLOCK_M))[:, None])
-    let write : TSyntax `tritonStmt ←
-      match output with
-      | `(tritonDType| tl.float32) => `(tritonStmt| tl.store(Mean, mean, row_mask))
-      | _ => `(tritonStmt| tl.store(Mean, mean.to($output), row_mask))
-    `(fun (X Mean : RegionName) (M N BLOCK_M BLOCK_N : Nat) =>
-      ComputeKernel.mk [X] [Mean] (triton {
-  tl.region X = $input, Mean = $output
-  $pid
+/-- Existing candidate: commute only the natural program-base product. -/
+def indexCommutedSource (X Mean : RegionName) (M N BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
+  triton {
+  tl.ports inputs=[X], outputs=[Mean]
+  tl.region X = tl.float32, Mean = tl.float32
+  pid = $(BLOCK_M) * tl.program_id(0) + tl.arange(0, $(BLOCK_M))[:, None]
   X = X + pid * $(N)
   Mean = Mean + pid
   row_mask = pid < $(M)
@@ -78,33 +47,13 @@ macro_rules
   }
   mean = tl.sum(_mean, axis=1) / $(N)
   mean = mean[:, None]
-  $write
-}).surfaceBody)
+  tl.store(Mean, mean, row_mask)
+}
 
-inductive Storage where
-  | fp32 | fp16 | bf16 | fp64
-  deriving DecidableEq
+def gridSize (rows : Nat) : Nat := (rows+7)/8
 
-abbrev Source := RegionName → RegionName → Nat → Nat → Nat → Nat → ComputeKernel
+def kernel (M N : Nat) : ComputeKernel := sourceKernel "X" "Mean" M N 8 8
 
-syntax "meanOutputs%" "[" tritonDType "," ident "]" : term
-macro_rules
-  | `(meanOutputs%[$input:tritonDType, $version:ident]) =>
-    `(fun output : Storage => match output with
-      | .fp32 => meanSource%[$input, tl.float32, $version]
-      | .fp16 => meanSource%[$input, tl.float16, $version]
-      | .bf16 => meanSource%[$input, tl.bfloat16, $version]
-      | .fp64 => meanSource%[$input, tl.float64, $version])
+def indexCommutedKernel (M N : Nat) : ComputeKernel := indexCommutedSource "X" "Mean" M N 8 8
 
-def typedKernel (input output : Storage) (commuted : Bool) : Source :=
-  match input, commuted with
-  | .fp32, Bool.false => meanOutputs%[tl.float32, original] output
-  | .fp32, Bool.true => meanOutputs%[tl.float32, indexCommuted] output
-  | .fp16, Bool.false => meanOutputs%[tl.float16, original] output
-  | .fp16, Bool.true => meanOutputs%[tl.float16, indexCommuted] output
-  | .bf16, Bool.false => meanOutputs%[tl.bfloat16, original] output
-  | .bf16, Bool.true => meanOutputs%[tl.bfloat16, indexCommuted] output
-  | .fp64, Bool.false => meanOutputs%[tl.float64, original] output
-  | .fp64, Bool.true => meanOutputs%[tl.float64, indexCommuted] output
-
-end VeriTile.Bench.TritonBenchG.MeanReduction
+end VeriTile.Bench.Repairs.MeanReduction

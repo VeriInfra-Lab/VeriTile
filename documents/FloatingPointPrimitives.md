@@ -2,9 +2,9 @@
 
 更新日期：2026-10-03。状态：**主目录报告覆盖 42 个实例，接受项以当前局部 ULP bias／绝对误差比结果表为准；可从受信报告生成 Lean 规则数据，TritonBench fp32 加法例子已绑定并证明；其他原子的语法绑定及通用自动化继续复用现有 agent/comparator**。
 
-用户要求交付完整的“配置 → 检查原语 → 生成规则集 → 自动证明”流程，不以标量演示代替完整流程。已确认的实现路线减少了对自研执行器的要求：实际浮点运算交给 Triton/GPU，two-gates 在 Python 中运行，Lean 检查规则假设下的推导。[TwoGatesAcceptance.md](./TwoGatesAcceptance.md) 定义变换接受协议。
+用户要求交付完整的“配置 → 检查原语 → 生成规则集 → 自动证明”流程，不以标量演示代替完整流程。已确认的实现路线减少了对自研执行器的要求：实际浮点运算交给 Triton/GPU，two-gates 在 Python 中运行，Lean 检查规则假设下的推导。[TwoGatesAcceptance.md](TwoGatesAcceptance.md) 定义变换接受协议。
 
-[FloatingPointRewriteRules.md](./FloatingPointRewriteRules.md) 登记候选变换规则、严格不等见证以及按配置生成的两门结果。执行原语与规则登记表共同服务完整验证流程。
+[FloatingPointRewriteRules.md](FloatingPointRewriteRules.md) 登记候选变换规则、严格不等见证以及按配置生成的两门结果。执行原语与规则登记表共同服务完整验证流程。
 
 ## 1. 完整目标与架构
 

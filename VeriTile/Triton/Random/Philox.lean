@@ -7,7 +7,7 @@ the selected offset width and round count. Uniform conversion uses the existing
 nearest-even FP.round and FP.mul operations, including their two rounding steps.
 This core module has no Core.Ast, decoder-compatibility, or proof-module dependency.
 The corresponding finite/range proofs live in Random.Proofs; regression vectors
-live in bench/tests/PhiloxRandom.lean. Hardware conformance is a separate boundary.
+live in tests/lean/PhiloxRandom.lean. Hardware conformance is a separate boundary.
 -/
 namespace VeriTile.Triton.Random
 

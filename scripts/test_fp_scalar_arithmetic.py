@@ -25,7 +25,7 @@ class ScalarArithmeticTests(unittest.TestCase):
                                   text=True, capture_output=True, timeout=180)
 
     def test_domains_padding_precision_and_actual_atom_dependency(self):
-        result = self.lean((ROOT / 'bench/tests/FPScalarArithmetic.lean').read_text())
+        result = self.lean((ROOT / 'tests/lean/FPScalarArithmetic.lean').read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn('warning:', result.stdout)
         self.assertIn('FP assumptions used by used_distribution:\n  mul_distrib\n', result.stdout)
@@ -33,18 +33,18 @@ class ScalarArithmeticTests(unittest.TestCase):
         self.assertNotIn('\n  add_assoc\n', result.stdout)
 
     def test_welford_steps_centering_and_count_conversion_boundary(self):
-        result = self.lean((ROOT / 'bench/tests/FPWelfordArithmetic.lean').read_text())
+        result = self.lean((ROOT / 'tests/lean/FPWelfordArithmetic.lean').read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn('warning:', result.stdout)
 
     def test_schedule_rewrite_domains_padding_and_original_kernel_comparison(self):
-        result = self.lean((ROOT / 'bench/tests/FPReductionSchedule.lean').read_text())
+        result = self.lean((ROOT / 'tests/lean/FPReductionSchedule.lean').read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn('warning:', result.stdout)
 
     def test_wrong_relation_or_precision_cannot_replace_the_selected_row(self):
         source = (ROOT / 'VeriTile/Triton/Float/ScalarArithmetic.lean').read_text()
-        checks = (ROOT / 'bench/tests/FPScalarAdmission.lean').read_text()
+        checks = (ROOT / 'tests/lean/FPScalarAdmission.lean').read_text()
         # Check the replacement module directly, without importing the original.
         checks = checks.replace('import VeriTile.Triton.Float.ScalarArithmetic\n', '', 1)
         baseline = self.lean(source + '\n' + checks)

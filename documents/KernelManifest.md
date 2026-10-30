@@ -43,7 +43,7 @@ When adding a new public example or benchmark theorem:
 1. Declare bench/showcase headlines with `specification`, preferring a
    suitable `KernelIO` `⊨` / `⊨[R]` or equivalence contract. Library examples
    can use the public `ComputeCorrect.*` / `ComputeRefine.*` surfaces. See
-   [`CorrectnessSurfaces.md`](./CorrectnessSurfaces.md).
+   [`CorrectnessSurfaces.md`](CorrectnessSurfaces.md).
 2. Add one row to `scripts/kernel-manifest.tsv`.
 3. Record the source and static config precisely enough that the port is
    reproducible.

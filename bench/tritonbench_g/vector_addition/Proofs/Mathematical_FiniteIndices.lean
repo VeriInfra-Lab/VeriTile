@@ -1,0 +1,84 @@
+import bench.tritonbench_g.vector_addition.Proofs.Mathematical_FiniteViews
+
+namespace VeriTile.Bench.TritonBenchG.VectorAddition.Finite
+set_option maxHeartbeats 3000000
+set_option maxRecDepth 24000
+
+def start32 (pid : Nat) : BitVec 32 := BitVec.ofNat 32 pid * BitVec.ofNat 32 1024
+
+def offset32 (pid lane : Nat) : BitVec 32 := start32 pid + BitVec.ofNat 32 lane
+
+def mask32 (n pid lane : Nat) : Bool := (offset32 pid lane).slt (BitVec.ofNat 32 n)
+
+def pointer64 (v : View) (pid lane : Nat) : BitVec 64 :=
+  BitVec.ofNat 64 (v.address 0) + (offset32 pid lane).signExtend 64 * BitVec.ofNat 64 (bytes v.dtype)
+
+theorem nat32_signed (n : Nat) (bound : n<2^31) : (BitVec.ofNat 32 n).toInt=(n : Int) := by
+  exact BitVec.toInt_ofInt_eq_self (w:=32) (n:=(n : Int))
+    (by decide) (by omega) (by norm_num; omega)
+
+theorem offset32_word (pid lane : Nat) : offset32 pid lane=BitVec.ofNat 32 (pid*1024+lane) := by
+  simp only [offset32,start32,BitVec.ofNat_mul_ofNat,BitVec.ofNat_add_ofNat]
+
+theorem source_index_arithmetic (n pid lane : Nat) (hn : n<2^31)
+    (hp : pid<(n+1023)/1024) (hl : lane<1024) :
+    (start32 pid).toInt=(pid*1024 : Nat) ∧
+    (offset32 pid lane).toInt=(pid*1024+lane : Nat) ∧
+    mask32 n pid lane=decide (pid*1024+lane<n) := by
+  have bound := launched_index_i32 n pid lane hn hp hl
+  have hs : (start32 pid).toInt=(pid*1024 : Nat) := by
+    rw [start32,BitVec.ofNat_mul_ofNat]
+    exact nat32_signed _ (by omega)
+  have ho : (offset32 pid lane).toInt=(pid*1024+lane : Nat) := by
+    rw [offset32_word]
+    exact nat32_signed _ bound
+  refine ⟨hs,ho,?_⟩
+  unfold mask32
+  rw [BitVec.slt_eq_decide,ho,nat32_signed n hn]
+  simp only [Int.ofNat_lt]
+
+theorem source_index_sign_extend (n pid lane : Nat) (hn : n<2^31)
+    (hp : pid<(n+1023)/1024) (hl : lane<1024) :
+    (offset32 pid lane).signExtend 64=BitVec.ofNat 64 (pid*1024+lane) := by
+  apply BitVec.eq_of_toInt_eq
+  rw [BitVec.toInt_signExtend_of_le (by decide),(source_index_arithmetic n pid lane hn hp hl).2.1]
+  symm
+  have bound := launched_index_i32 n pid lane hn hp hl
+  exact BitVec.toInt_ofInt_eq_self (w:=64) (n:=(pid*1024+lane : Nat))
+    (by decide) (by omega) (by norm_num; omega)
+
+/-- Pointer arithmetic for every launched lane, including the inactive tail.
+The exclusive rounded endpoint is allowed to equal 2^64; no lane reaches it. -/
+theorem source_pointer_exact (v : View) (n pid lane : Nat)
+    (hn : n<2^31) (valid : v.Valid n (rounded n))
+    (hp : pid<(n+1023)/1024) (hl : lane<1024) :
+    (pointer64 v pid lane).toNat=v.address (pid*1024+lane) := by
+  have hi : pid*1024+lane<rounded n := by unfold rounded; omega
+  have ha : v.address (pid*1024+lane)<v.address (rounded n) := by
+    unfold View.address
+    exact Nat.add_lt_add_left (Nat.mul_lt_mul_of_pos_right (by omega) (bytes_positive v.dtype)) _
+  have hb : v.address (pid*1024+lane)<2^64 := ha.trans_le valid.2.2
+  unfold pointer64
+  rw [source_index_sign_extend n pid lane hn hp hl,BitVec.ofNat_mul_ofNat,BitVec.ofNat_add_ofNat,
+    BitVec.toNat_ofNat,←address_linear,Nat.mod_eq_of_lt hb]
+
+/-- Every active byte fits its actual allocation and the unsigned pointer
+range, with its dtype-specific storage width. -/
+theorem active_byte_access (v : View) (n i byte : Nat)
+    (valid : v.Valid n (rounded n)) (hi : i<n) (hbyte : byte<bytes v.dtype) :
+    v.storageBase≤v.address i+byte ∧
+    v.address i+byte<v.storageBase+v.storageBytes ∧
+    v.address i+byte<2^64 := by
+  have h := valid_access v n (rounded n) i valid hi
+  unfold View.finish at h
+  omega
+
+#axiomsClean nat32_signed
+#axiomsClean offset32_word
+#axiomsClean source_index_arithmetic
+#axiomsClean source_index_sign_extend
+#axiomsClean source_pointer_exact
+#axiomsClean active_byte_access
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end VeriTile.Bench.TritonBenchG.VectorAddition.Finite

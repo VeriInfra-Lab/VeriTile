@@ -16,11 +16,11 @@ export PATH="/tmp/veritile-proof-tools/bin:$PATH"
 python3 scripts/check_comparator.py --library
 
 # audit bench ports, showcases, and infrastructure tests
-bash bench/audit_trust.sh --final-inventory  # whole retained corpus
+bash scripts/bench/audit_trust.sh --final-inventory  # whole retained corpus
 python3 scripts/check_comparator.py --file bench/examples/VectorAdd/Correct.lean --trust
 
 # both, plus the port-completion checks, in one local command
-bash bench/audit_tritonbench_g.sh
+bash scripts/bench/audit_tritonbench_g.sh
 ```
 
 PR and main-push CI check the final inventory, source regressions and library
@@ -113,7 +113,7 @@ any gate is violated:
 - Commands: [`VeriTile/Meta/StatementAudit.lean`](../VeriTile/Meta/StatementAudit.lean).
 - Library driver (generated): [`VeriTile/Meta/TrustReport.lean`](../VeriTile/Meta/TrustReport.lean)
   — regenerate from the manifest with `python3 scripts/gen_trust_report.py`.
-- Bench driver: [`bench/audit_trust.sh`](../bench/audit_trust.sh).
+- Bench driver: [`scripts/bench/audit_trust.sh`](../scripts/bench/audit_trust.sh).
 - Shared comparator driver: [`scripts/check_comparator.py`](../scripts/check_comparator.py).
 
 `TrustReport` lives in the `VeriTileFull` lakefile lib (it audits `ApproxGeLU`,
@@ -173,5 +173,5 @@ of the polynomial need not be extrema of the residual, so checking those
 points cannot certify the whole interval. No checked interval certificate for
 this residual is included in the artifact. A theorem that depends on this
 assumption must disclose it and cannot pass the standard-base `#axiomsClean`
-gate. The [research note](./ApproxGeluPhiStrategy.md) describes possible ways
+gate. The [research note](ApproxGeluPhiStrategy.md) describes possible ways
 to remove the assumption.

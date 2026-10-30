@@ -10,9 +10,9 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'bench'))
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / 'scripts'))
-import coverage_review as coverage
+from scripts.bench import coverage_review as coverage
 from spec_sheet import split_statement, split_decls, body_of, hypotheses, make_sheet
 from record_coverage_ci import completed_record
 

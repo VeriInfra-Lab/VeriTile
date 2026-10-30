@@ -5,7 +5,7 @@ and trusted-boundary policies. Each active doc is a *contract*: what is
 modeled, what is not, where the boundary sits.
 
 Closed-phase design notes and resolved research-problem records live in
-[`archive/`](./archive/) — kept as historical artifacts; not load-bearing
+[`archive/`](archive) — kept as historical artifacts; not load-bearing
 for current work.
 
 ## Active Reference Docs
@@ -15,22 +15,22 @@ Documentation Map):
 
 | Question | Doc |
 |---|---|
-| Which Triton constructs are supported? | [TritonSubset.md](./TritonSubset.md) |
-| What semantic caveats affect theorem interpretation? | [SemanticCaveats.md](./SemanticCaveats.md) |
-| Where does my new lemma / definition belong? | [CodeOrganization.md](./CodeOrganization.md) |
-| Tactic conventions (incl. `erw` carrier-bridge) | [ProofConventions.md](./ProofConventions.md) |
-| Which theorem surface should I use? | [CorrectnessSurfaces.md](./CorrectnessSurfaces.md) |
-| How do I distinguish real/FP specifications and print their assumptions? | [Two public specification meanings](./CorrectnessSurfaces.md#two-public-specification-meanings), [TrustAudit.md](./TrustAudit.md) |
-| Naming conventions for theorem surfaces | [TheoremSurfaces.md](./TheoremSurfaces.md) |
-| How does the kernel manifest work? | [KernelManifest.md](./KernelManifest.md) |
-| How is the axiom-clean / sorry-free trust audit run? | [TrustAudit.md](./TrustAudit.md) |
-| How does dtype erasure work? | [EraseDType.md](./EraseDType.md) |
-| How does memory safety / framing work? | [MemorySafety.md](./MemorySafety.md) |
-| What's the GPU memory model? | [GpuMemoryModel.md](./GpuMemoryModel.md) |
-| What justifies physical load/store alignment, masks and Torch bindings? | [Physical byte-address contracts](./GpuMemoryModel.md#physical-byte-address-contracts) |
-| How are Tensor owning devices connected to CUDA launches? | [LaunchDeviceAudit.md](./LaunchDeviceAudit.md) |
-| How are atomics / async copies modeled? | [ConcurrencySemantics.md](./ConcurrencySemantics.md) |
-| ApproxGeLU midrange certified-error strategy | [ApproxGeluPhiStrategy.md](./ApproxGeluPhiStrategy.md) |
+| Which Triton constructs are supported? | [TritonSubset.md](TritonSubset.md) |
+| What semantic caveats affect theorem interpretation? | [SemanticCaveats.md](SemanticCaveats.md) |
+| Where does my new lemma / definition belong? | [CodeOrganization.md](CodeOrganization.md) |
+| Tactic conventions (incl. `erw` carrier-bridge) | [ProofConventions.md](ProofConventions.md) |
+| Which theorem surface should I use? | [CorrectnessSurfaces.md](CorrectnessSurfaces.md) |
+| How do I distinguish real/FP specifications and print their assumptions? | [Two public specification meanings](CorrectnessSurfaces.md#two-public-specification-meanings), [TrustAudit.md](TrustAudit.md) |
+| Naming conventions for theorem surfaces | [TheoremSurfaces.md](TheoremSurfaces.md) |
+| How does the kernel manifest work? | [KernelManifest.md](KernelManifest.md) |
+| How is the axiom-clean / sorry-free trust audit run? | [TrustAudit.md](TrustAudit.md) |
+| How does dtype erasure work? | [EraseDType.md](EraseDType.md) |
+| How does memory safety / framing work? | [MemorySafety.md](MemorySafety.md) |
+| What's the GPU memory model? | [GpuMemoryModel.md](GpuMemoryModel.md) |
+| What justifies physical load/store alignment, masks and Torch bindings? | [Physical byte-address contracts](GpuMemoryModel.md#physical-byte-address-contracts) |
+| How are Tensor owning devices connected to CUDA launches? | [LaunchDeviceAudit.md](LaunchDeviceAudit.md) |
+| How are atomics / async copies modeled? | [ConcurrencySemantics.md](ConcurrencySemantics.md) |
+| ApproxGeLU midrange certified-error strategy | [ApproxGeluPhiStrategy.md](ApproxGeluPhiStrategy.md) |
 
 ## Architecture / Roadmap
 
@@ -42,30 +42,30 @@ The end-to-end project plan and roadmap live in the repo root:
 
 ## Paper Preparation
 
-- [MLSys 2027 submission plan](./MLSys2027Plan.md) — paper positioning,
+- [MLSys 2027 submission plan](MLSys2027Plan.md) — paper positioning,
   evidence gaps, ordered tasks, evaluation design, and proposed schedule
   (in Chinese). This planning document is separate from the semantic contracts
   and the long-term project roadmap.
-- [Two-gates floating-point acceptance design](./TwoGatesAcceptance.md) —
+- [Two-gates floating-point acceptance design](TwoGatesAcceptance.md) —
   proposed bias/error-amplification gates, acceptance conditions, evidence
   boundaries, and integration tasks (in Chinese; Python checker implemented,
   GPU measurements pending).
-- [Floating-point primitives: complete design](./FloatingPointPrimitives.md) —
+- [Floating-point primitives: complete design](FloatingPointPrimitives.md) —
   Triton/GPU atomic relations, mixed precision, derived algorithm proofs, backend
   contracts, completion criteria, and dependency-ordered implementation plan
   (in Chinese; GPU runner and replay implemented, Lean admission binding pending).
-- [Floating-point rewrite rules and acceptance table](./FloatingPointRewriteRules.md) —
+- [Floating-point rewrite rules and acceptance table](FloatingPointRewriteRules.md) —
   candidate transformations, kernel-checked scalar witnesses, and per-configuration
   gate result fields (in Chinese; statistical results not yet measured).
 - [Run and return floating-point experiments](../experiments/floating_point/README.md) —
   Python configuration, GPU commands, resume, result packaging and CPU replay.
-- [Example specification migration](./ExampleSpecificationMigration.md) —
+- [Example specification migration](ExampleSpecificationMigration.md) —
   case-by-case real-correctness and FP-equivalence coverage, checked pairs,
   and missing atomic or structural proof requirements.
 
 ## Archive
 
-Closed-phase notes are preserved in [`archive/`](./archive/):
+Closed-phase notes are preserved in [`archive/`](archive):
 
 - `DslMacroOptions.md` — macro design exploration, decision: option C
   (`triton { ... }` block macro). Closed.

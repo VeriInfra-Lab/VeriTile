@@ -37,7 +37,7 @@ and statement-surface checks pass. Existing linter warnings may still appear.
 - **Full build**: `lake build VeriTile VeriTileFull`, including the GeLU analysis and library trust report.
 - **Standalone example**: `lake env lean bench/examples/VectorAdd/Correct.lean` after the library build.
 - **Manifest + sorry check**: `scripts/check-artifact.sh`.
-- **Bench port check**: `bench/check_ports.sh`.
+- **Bench port check**: `scripts/bench/check_ports.sh`.
 - **Trust checks**: see the [trust audit guide](/VeriTile/proofs/trust-audit/).
 
 ## Sub-project READMEs
@@ -47,7 +47,7 @@ areas:
 
 - [Top-level README](https://github.com/VeriInfra-Lab/VeriTile/blob/main/README.md)
   — quick-start + theorem-surface chooser.
-- [`bench/tritonbench_g/` README](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/tritonbench_g/README.md)
+- [`bench/tritonbench_g/` README](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/bench/tritonbench_g.md)
   — bench layout, port checklist, kernel inventory.
 - [`scripts/` README](https://github.com/VeriInfra-Lab/VeriTile/blob/main/scripts/README.md)
   — what each script does and how CI uses them.

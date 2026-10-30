@@ -169,8 +169,14 @@ def bmm_kernel(
             else:
                 mask_b = mask_k[:, None] & mask_n[None, :]
 
-        a = tl.load(a_ptrs, mask_a)
-        b = tl.load(b_ptrs, mask_b)
+        if DIVISIBLE_M and DIVISIBLE_K:
+            a = tl.load(a_ptrs)
+        else:
+            a = tl.load(a_ptrs, mask_a, other=0.0)
+        if DIVISIBLE_N and DIVISIBLE_K:
+            b = tl.load(b_ptrs)
+        else:
+            b = tl.load(b_ptrs, mask_b, other=0.0)
 
         offs_k += TILE_K
         a_ptrs += TILE_K
@@ -189,13 +195,40 @@ def bmm_kernel(
     tl.store(o_ptrs, o, mask_c)
 
 
+def _validate_inputs(A, B):
+    for value in (A, B):
+        if (not isinstance(value, torch.Tensor) or value.ndim != 3
+                or not value.is_cuda or value.dtype != torch.float32
+                or value.layout != torch.strided or any(s < 0 for s in value.stride())
+                or value.is_neg() or value.is_conj()):
+            raise ValueError("expected resolved nonnegative-stride FP32 CUDA tensors")
+    if any(x.numel() and x.data_ptr() % 4 for x in (A, B)):
+        raise ValueError("nonempty FP32 inputs must have four-byte aligned data pointers")
+    batch, M, K = A.shape
+    if B.device != A.device or B.shape[:2] != (batch, K):
+        raise ValueError("batch, contraction dimension and CUDA device must match")
+    N = B.shape[2]
+    grid_m, grid_n = triton.cdiv(M, 32), triton.cdiv(N, 32)
+    if (max(batch, M + 128, N + 128, K + 64) >= 2**31
+            or 2 * grid_m * grid_n + 2 >= 2**31
+            or (batch * M + 128) * K + 64 >= 2**31
+            or (batch * K + 64) * N + 128 >= 2**31
+            or (batch * M + 128) * N + 128 >= 2**31):
+        raise ValueError("formed padded source addresses exceed signed32 bounds")
+    if batch > 0 and M > 0 and N > 0 and (batch > 65535 or grid_n > 65535):
+        raise ValueError("live grid.y and grid.z must not exceed 65535")
+
 def bmm(A, B):
+    _validate_inputs(A, B)
     logging.debug("GEMS BMM")
     batch, M, K = A.shape
     _, _, N = B.shape
     A = A.contiguous()
     B = B.contiguous()
     out = torch.empty((batch, M, N), dtype=A.dtype, device=A.device)
+
+    if batch == 0 or M == 0 or N == 0:
+        return out
 
     grid_fn = lambda meta: (
         triton.cdiv(meta["M"], meta["TILE_M"]),
@@ -208,25 +241,3 @@ def bmm(A, B):
 
 
 
-
-##################################################################################################################################################
-
-
-def test_bmm():
-    test_cases = [
-        (1, 32, 32, 32),
-        (8, 64, 64, 32),
-        (16, 128, 128, 32),
-    ]
-
-    results = {}
-    for i, (batch_size, M, N, K) in enumerate(test_cases):
-        A = torch.randn(batch_size, M, K, dtype=torch.float32, device='cuda')
-        B = torch.randn(batch_size, K, N, dtype=torch.float32, device='cuda')
-
-        triton_output = bmm(A, B)
-        results[f'test_case_{i+1}'] = triton_output.cpu().numpy()
-
-    return results
-
-result_gold = test_bmm()

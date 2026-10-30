@@ -100,7 +100,7 @@ identical intermediate operations.
 The featured FlashAttention link covers the forward causal/non-causal
 reference contracts with their boundary/D-tail conditions.
 The benchmark shows paired-port inventory and unique theorem statements from
-`bench/validation/contracts.json`, with links to each current entry and its reviewed scope. Counts do not label every statement fully proved.
+`validation/contracts.json`, with links to each current entry and its reviewed scope. Counts do not label every statement fully proved.
 
 The agent section uses two panels: reusable lemmas on the left, proof generation
 on the right. Four lemma groups link directly to the loop-invariant, matrix
@@ -171,7 +171,7 @@ The base prefix is currently hard-coded so the same Markdown serves dev
 Bench / scripts links should point to GitHub:
 
 ```markdown
-[`bench/check_ports.sh`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/check_ports.sh)
+[`scripts/bench/check_ports.sh`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/scripts/bench/check_ports.sh)
 ```
 
 ## Re-syncing from `documents/`
@@ -220,8 +220,8 @@ The workflow can also be triggered manually from the Actions tab
 `/proofs/coverage/` displays every registered TritonBench-G headline with its
 exact statement, relevant IO definitions, source links, numeric model, and
 reviewed scope. Search and filters enhance an already readable HTML table.
-`bench/coverage_review.py` checks the selected public statements against
-`bench/validation/contracts.json`. `bench/final_inventory.py --check` checks the
+`scripts/bench/coverage_review.py` checks the selected public statements against
+`validation/contracts.json`. `scripts/bench/final_inventory.py --check` checks the
 complete retained source tree and dependencies. Python 3 is required during site
 builds; Lean is not. Review a changed contract's formula, scope and conditions
 before updating its source pins. Full builds and independent proof replay are

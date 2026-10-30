@@ -6,7 +6,7 @@ import Mathlib.Tactic.SplitIfs
 /-! Exact laws for the existing maxnum profile, at FP32 and BF16 precision.
 
 The model below is extracted without changing its branches from
-`bench/repairs/tritonbench_g/max_reduction/Proofs/Native.lean`:
+`bench/tritonbench_g/max_reduction/Proofs/Native.lean`:
 one NaN is ignored, two NaNs return the selected target word, and a tie between
 zero words uses bitwise AND, selecting +0 unless both inputs are -0. The same
 zero policy is explicit in `quantize_copy_kv/Proofs/FPMaxProfile.lean` and

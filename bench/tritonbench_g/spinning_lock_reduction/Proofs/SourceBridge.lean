@@ -1,136 +1,171 @@
-import bench.tritonbench_g.spinning_lock_reduction.Proofs.GeneratedSource
+import bench.tritonbench_g.spinning_lock_reduction.Kernels
+import Mathlib.Tactic.SplitIfs
 
-namespace VeriTile.Bench.TritonBenchG.SpinningLock.Frontend
+/-! Compilation and execution connection for the readable current source.
+The plan is computed from the quotation; it is not a second source AST.
+CAS executes with its actual old return value; barriers remain explicit in
+source traces while projecting to silent controller events.
+-/
+namespace VeriTile.Bench.Repairs.SpinningLock.SourceReader
+open VeriTile.Bench.TritonBenchG.SpinningLock
 
-/-- A readable compiler result. `compile_original` checks it against the ENTIRE
-AST-generated source tree; the decoder below then evaluates these expressions.
-It is not a hypothesis that this plan's execution equals the source result. -/
-def originalPlan : Plan where
-  start := 1
-  stop := 10
-  reducer := .eq (.srem .pid (.param .groupK)) (.literal 0)
-  nextInitial := .add .pid (.literal 1)
-  continues := .and (.lt .next (.add .pid (.param .groupK))) (.lt .next (.param .numSms))
-  poll := ⟨.locks, [.next]⟩
-  load := ⟨.partials, [.mul (.mul .next (.param .bm)) (.param .bn), .mul .row (.param .bn), .col]⟩
-  advance := .add .next (.literal 1)
-  publish := ⟨.partials, [.mul (.mul .pid (.param .bm)) (.param .bn), .mul .row (.param .bn), .col]⟩
-  release := ⟨.locks, [.pid]⟩
-  output := ⟨.output,
-    [.mul (.add (.mul (.sdiv .pid (.param .numSms)) (.param .bm)) .row) (.param .strideM),
-     .mul (.add (.mul (.srem .pid (.param .numSms)) (.param .bn)) .col) (.param .strideN)]⟩
-  mask := .and
-    (.lt (.add (.mul (.sdiv .pid (.param .numSms)) (.param .bm)) .row) (.param .m))
-    (.lt (.add (.mul (.srem .pid (.param .numSms)) (.param .bn)) .col) (.param .n))
+set_option maxRecDepth 16000
+set_option maxHeartbeats 1600000
 
-theorem compile_original : compile originalTypedSource = some originalPlan := by
-  decide +kernel
+def sourcePlan : Plan := (compile kernel).get (by decide)
 
-@[simp] theorem reducer_expression (c : Config) (p : Nat) :
-    evalB c p 0 0 originalPlan.reducer = c.reducer p := rfl
-@[simp] theorem next_expression (c : Config) (p : Nat) :
-    evalI c p 0 0 originalPlan.nextInitial = c.pid p + 1 := rfl
-@[simp] theorem guard_expression (c : Config) (p : Nat) (n : I32) :
-    evalB c p n 0 originalPlan.continues = c.continues p n := rfl
-@[simp] theorem advance_expression (c : Config) (p : Nat) (n : I32) :
-    evalI c p n 0 originalPlan.advance = n + 1 := rfl
-@[simp] theorem mask_expression (c : Config) (p lane : Nat) :
-    evalB c p 0 lane originalPlan.mask = c.outputMask p lane := rfl
-@[simp] theorem poll_address (c : Config) (p : Nat) (n : I32) :
-    address c p n 0 originalPlan.poll = n.toInt := by
-  simp only [address, originalPlan, evalI, ↓List.map_cons, ↓List.map_nil,
-    List.foldl_cons, List.foldl_nil, Int.zero_add]
-@[simp] theorem release_address (c : Config) (p : Nat) :
-    address c p 0 0 originalPlan.release = (c.pid p).toInt := by
-  simp only [address, originalPlan, evalI, ↓List.map_cons, ↓List.map_nil,
-    List.foldl_cons, List.foldl_nil, Int.zero_add]
-private theorem address_two (c : Config) (p : Nat) (n : I32) (lane : Nat)
-    (r : Region) (a b : IExpr) :
-    address c p n lane ⟨r, [a,b]⟩ =
-      (evalI c p n lane a).toInt + (evalI c p n lane b).toInt := by
-  change (0 + (evalI c p n lane a).toInt) + (evalI c p n lane b).toInt = _
-  rw [Int.zero_add]
+theorem source_compiles : compile kernel = some sourcePlan := by rfl
 
-private theorem address_three (c : Config) (p : Nat) (n : I32) (lane : Nat)
-    (r : Region) (a b d : IExpr) :
-    address c p n lane ⟨r, [a,b,d]⟩ =
-      (evalI c p n lane a).toInt + (evalI c p n lane b).toInt + (evalI c p n lane d).toInt := by
-  change ((0 + (evalI c p n lane a).toInt) + (evalI c p n lane b).toInt) +
-    (evalI c p n lane d).toInt = _
-  rw [Int.zero_add]
+@[simp] theorem source_start : sourcePlan.start = 1 := rfl
+@[simp] theorem source_stop : sourcePlan.stop = 10 := rfl
 
-@[simp] theorem load_address (c : Config) (p : Nat) (n : I32) (lane : Nat) :
-    address c p n lane originalPlan.load = c.pAddr n lane := by
-  change address c p n lane ⟨.partials,
-    [.mul (.mul .next (.param .bm)) (.param .bn), .mul .row (.param .bn), .col]⟩ = _
-  rw [address_three]
-  rfl
-@[simp] theorem publish_address (c : Config) (p lane : Nat) :
-    address c p 0 lane originalPlan.publish = c.pAddr (c.pid p) lane := by
-  change address c p 0 lane ⟨.partials,
-    [.mul (.mul .pid (.param .bm)) (.param .bn), .mul .row (.param .bn), .col]⟩ = _
-  rw [address_three]
-  rfl
-@[simp] theorem output_address (c : Config) (p lane : Nat) :
-    address c p 0 lane originalPlan.output = c.cAddr p lane := by
-  change address c p 0 lane ⟨.output,
-    [.mul (.add (.mul (.sdiv .pid (.param .numSms)) (.param .bm)) .row) (.param .strideM),
-     .mul (.add (.mul (.srem .pid (.param .numSms)) (.param .bn)) .col) (.param .strideN)]⟩ = _
-  rw [address_two]
+@[simp] theorem source_reducer (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    evalB h stage p q l sourcePlan.reducer = Wide.reducer64 h p := rfl
+
+@[simp] theorem source_next (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    evalI h stage p q l sourcePlan.nextInitial = BitVec.ofNat 64 p + 1 := rfl
+
+@[simp] theorem source_advance (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    evalI h stage p q l sourcePlan.advance = BitVec.ofNat 64 q + 1 := rfl
+
+@[simp] theorem source_continues (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    evalB h stage p q l sourcePlan.continues = Wide.continues64 h p q := rfl
+
+@[simp] theorem source_poll (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    address h stage p q l sourcePlan.poll = (BitVec.ofNat 64 q).toInt := by
+  change 0 + _ = _
+  exact Int.zero_add _
+
+@[simp] theorem source_compare (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    word (evalI h stage p q l sourcePlan.compare) = 1 := rfl
+@[simp] theorem source_replace (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    word (evalI h stage p q l sourcePlan.replace) = 1 := rfl
+@[simp] theorem source_expected (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    word (evalI h stage p q l sourcePlan.expected) = 1 := rfl
+
+@[simp] theorem source_load (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    address h stage p q l sourcePlan.load = Wide.partialOffset64 h q l := by
+  change 0 + _ + _ + _ = _ + _ + _
+  simp only [Int.zero_add]
   rfl
 
-/-- Explicit scalar guards, signed address operations, masks, CAS old-word use,
-and all phase transitions coincide for EVERY state and every configuration. -/
-theorem decode_original (c : Config) (p : Nat) (s : State V) :
-    decodePlan originalPlan c p s = decode c p s := by
-  unfold decodePlan decode
-  simp only [show originalPlan.stop = 10 from rfl, reducer_expression, next_expression,
-    guard_expression, advance_expression, mask_expression, poll_address,
-    release_address, load_address, publish_address, output_address]
-  all_goals rfl
+@[simp] theorem source_publish (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    address h stage p q l sourcePlan.publish = Wide.partialOffset64 h p l := by
+  change 0 + _ + _ + _ = _ + _ + _
+  simp only [Int.zero_add]
+  rfl
 
+@[simp] theorem source_release (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    address h stage p q l sourcePlan.release = (BitVec.ofNat 64 p).toInt := by
+  change 0 + _ = _
+  exact Int.zero_add _
 
-@[simp] theorem initial_original (b : Backend V) (mem : Memory V) :
-    initialPlan originalPlan b mem = initial b mem := rfl
+@[simp] theorem source_releaseWord (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    word (evalI h stage p q l sourcePlan.releaseWord) = 1 := rfl
 
-@[simp] theorem step_original (b : Backend V) (c : Config) (p : Nat) (s : State V) :
-    stepPlan originalPlan b c p s = step b c p s := by
-  simp only [stepPlan, step, decode_original]
+@[simp] theorem source_output (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    address h stage p q l sourcePlan.output = Wide.outputOffset64 h p l := by
+  change 0 + _ + _ = _ + _
+  simp only [Int.zero_add]
+  rfl
 
-/-- The bridge is lifted by induction over an arbitrary scheduler prefix;
-no bounded unrolling of either source while is used. -/
-theorem run_original (b : Backend V) (c : Config) (schedule : List Nat) (s : State V) :
-    runPlan originalPlan b c schedule s = run b c schedule s := by
-  induction schedule generalizing s with
+@[simp] theorem source_mask (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    evalB h stage p q l sourcePlan.mask = Wide.outputMask64 h p l := rfl
+
+@[simp] theorem source_assertion (h : HostArgs) (stage : Phased.Stage) :
+    evalB h stage 0 0 0 sourcePlan.assertion = Bool.true := by
+  cases stage <;> rfl
+
+@[simp] theorem source_skip (h : HostArgs) (stage : Phased.Stage) (p q l : Nat) :
+    evalB h stage p q l sourcePlan.skip = !Phased.selected64 h stage p := by
+  cases stage
+  · change (Bool.true && Wide.reducer64 h p || Bool.false && !Wide.reducer64 h p) = !(!Wide.reducer64 h p)
+    simp
+  · change (Bool.false && Wide.reducer64 h p || Bool.true && !Wide.reducer64 h p) = !Wide.reducer64 h p
+    simp
+
+theorem cas11_preserves (old : I32) : (cas old 1 1).2 = old := by
+  simp only [cas]
+  split <;> simp_all
+
+theorem execute_cas11 (b : Backend V) (a : Int) (s : State V) :
+    executeSource b (.cas a 1 1) s = execute b (.poll a) s := by
+  have hp : put s.mem.locks a (s.mem.locks a) = s.mem.locks := by
+    funext x
+    simp only [put]
+    split <;> simp_all
+  simp only [executeSource, cas11_preserves, hp, execute]
+
+theorem decode_projection (h : HostArgs) (stage : Phased.Stage) (p : Nat) (s : Wide.State V) :
+    (project (decodePlan sourcePlan h stage p s).1, (decodePlan sourcePlan h stage p s).2) =
+      Wide.nativeDecode h p s := by
+  by_cases hp : p ≥ h.numSms
+  · simp [decodePlan, Wide.nativeDecode, hp, project]
+  · cases hc : (s.pc p).phase <;>
+      simp only [decodePlan, Wide.nativeDecode, if_neg hp, hc, source_stop,
+        source_reducer, source_next, source_continues, source_poll, source_compare,
+        source_replace, source_expected, source_load, source_advance, source_publish,
+        source_release, source_releaseWord, source_output, source_mask, cas] <;>
+      (try split_ifs) <;> rfl
+
+theorem decoded_execute (b : Backend V) (h : HostArgs) (stage : Phased.Stage)
+    (p : Nat) (s : Wide.State V) :
+    executeSource b (decodePlan sourcePlan h stage p s).1 s.values =
+      execute b (project (decodePlan sourcePlan h stage p s).1) s.values := by
+  by_cases hp : p ≥ h.numSms
+  · simp [decodePlan, hp, executeSource, project]
+  · cases hc : (s.pc p).phase <;>
+      simp only [decodePlan, if_neg hp, hc, source_stop, source_reducer,
+        source_next, source_continues, source_poll, source_compare, source_replace,
+        source_expected, source_load, source_advance, source_publish, source_release,
+        source_releaseWord, source_output, source_mask, cas] <;>
+      (try split_ifs) <;> simp only [project, execute_cas11] <;> rfl
+
+theorem step_projection (b : Backend V) (h : HostArgs) (stage : Phased.Stage)
+    (p : Nat) (s : Wide.State V) :
+    (project (stepPlan b sourcePlan h stage p s).1, (stepPlan b sourcePlan h stage p s).2) =
+      Wide.nativeStep b h p s := by
+  simp only [stepPlan, Wide.nativeStep]
+  rw [← decode_projection h stage p s]
+  simp only [decoded_execute]
+
+theorem initial_projection (b : Backend V) (mem : Memory V) :
+    initialPlan b sourcePlan mem = Wide.initial b mem := rfl
+
+theorem run_projection (b : Backend V) (h : HostArgs) (stage : Phased.Stage)
+    (xs : List Nat) (s : Wide.State V) :
+    ((runPlan b sourcePlan h stage xs s).1.map project, (runPlan b sourcePlan h stage xs s).2) =
+      Phased.stageRun b h stage xs s := by
+  induction xs generalizing s with
   | nil => rfl
-  | cons p ps ih => simp only [runPlan, run, step_original, ih]
+  | cons p ps ih =>
+    have hp := step_projection b h stage p s
+    simp only [runPlan, source_skip, Phased.stageRun, Phased.nativeSchedule, List.filter_cons]
+    by_cases hg : p < h.numSms
+    · by_cases selected : Phased.selected64 h stage p = Bool.true
+      · simp only [hg, show ¬p ≥ h.numSms by omega, decide_false, Bool.false_or,
+          selected, Bool.not_true, Bool.false_eq_true, if_false, decide_true,
+          Bool.true_and, if_true, Wide.nativeRun, List.map_cons]
+        have ih' := ih (stepPlan b sourcePlan h stage p s).2
+        rw [Prod.mk.injEq] at hp
+        simp only [hp.1, hp.2] at ih' ⊢
+        exact congrArg (fun r => ((Wide.nativeStep b h p s).1 :: r.1, r.2)) ih'
+      · have hs : Phased.selected64 h stage p = Bool.false := Bool.eq_false_iff.mpr selected
+        simpa [hg, hs] using ih s
+    · simpa [hg, show p ≥ h.numSms by omega] using ih s
 
-/-- A rejected typed source produces none. Accepted source executes its compiled
-expressions, not a separately supplied theorem-side final answer. -/
-def compileAndRun (source : List Statement) (b : Backend V) (c : Config)
-    (schedule : List Nat) (mem : Memory V) : Option (List Event × State V) :=
-  (compile source).map fun plan => runPlan plan b c schedule (initialPlan plan b mem)
+theorem runKernel_projection (b : Backend V) (h : HostArgs) (stage : Phased.Stage)
+    (xs : List Nat) (mem : Memory V) :
+    Option.map (fun r => (r.1.map project, r.2)) (runKernel b h stage xs mem) =
+      some (Phased.stageRun b h stage xs (Wide.initial b mem)) := by
+  simp [runKernel, compileAndRun, source_compiles, source_assertion,
+    initial_projection, run_projection]
 
-theorem original_source_execution (b : Backend V) (c : Config)
-    (schedule : List Nat) (mem : Memory V) :
-    compileAndRun originalTypedSource b c schedule mem =
-      some (run b c schedule (initial b mem)) := by
-  simp only [compileAndRun, compile_original, Option.map_some, initial_original, run_original]
-
-/-- A source tree missing the entire loop fails admission. -/
-theorem incomplete_source_rejected : compile (originalTypedSource.take 4) = none := by
-  decide +kernel
-
-/-- The compiler checks all statements rather than accepting a matching prefix. -/
-theorem extra_source_instruction_rejected : compile (originalTypedSource ++ [.pass]) = none := by
-  decide +kernel
-
-#axiomsClean compile_original
-#axiomsClean decode_original
-#axiomsClean run_original
-#axiomsClean original_source_execution
-#axiomsClean incomplete_source_rejected
-#axiomsClean extra_source_instruction_rejected
+#axiomsClean source_compiles
+#axiomsClean decode_projection
+#axiomsClean step_projection
+#axiomsClean runKernel_projection
+#specNonCircular kernel avoiding [Wide.nativeDecode, Wide.nativeRun]
 #guard_msgs (drop info) in
 #auditModuleAxioms
-end VeriTile.Bench.TritonBenchG.SpinningLock.Frontend
+end VeriTile.Bench.Repairs.SpinningLock.SourceReader

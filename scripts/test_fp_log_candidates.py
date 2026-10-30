@@ -34,7 +34,7 @@ class LogCandidateTests(unittest.TestCase):
         return result.stdout
 
     def test_syntax_domains_precision_and_conditional_reuse(self):
-        output = self.check((ROOT / 'bench/tests/FPLogCandidates.lean').read_text())
+        output = self.check((ROOT / 'tests/lean/FPLogCandidates.lean').read_text())
         self.assertIn('FP assumptions used by selected_piecewise:\n  log_exp_cancel(libdevice.log, libdevice.exp)\n', output)
         self.assertIn('FP assumptions used by selected_product_split:\n  log_mul_split(libdevice.log)\n', output)
         self.assertNotIn('  log_mul_guarded\n', output)
@@ -62,10 +62,10 @@ open VeriTile.Triton.FP.LogExp
                                          'LOG-EXP-GUARDED-INTRINSIC', 'LOG-MUL-GUARDED-INTRINSIC'})
 
     def test_log_backend_fragments_and_selection_are_independent(self):
-        self.check((ROOT / 'bench/tests/FPLogBackends.lean').read_text())
+        self.check((ROOT / 'tests/lean/FPLogBackends.lean').read_text())
 
     def test_product_execution_branches_and_domains(self):
-        self.check((ROOT / 'bench/tests/FPLogProduct.lean').read_text())
+        self.check((ROOT / 'tests/lean/FPLogProduct.lean').read_text())
 
     def test_detailed_report_preserves_experimental_identity(self):
         output = self.check('''

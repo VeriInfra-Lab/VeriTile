@@ -1,24 +1,20 @@
 import VeriTile.Triton.DSL
 
-/-! Shared sources for the real and FP specifications. Each program updates
-one logit row in place using repetition, frequency and presence penalties.
-Token ids and counts are gathered from the cumsum window; the output is scattered
-to those token ids. The candidate replaces division by multiplication by the
-reciprocal only in the positive arm of tl.where. Both arms remain evaluated.
-Strides, symbolic block size, scalar loads, Nat-to-real count promotion, masks,
-comparison and store are unchanged. The host launch is outside this contract. -/
-
-namespace VeriTile.Bench.TritonBenchG.ApplyPenalty
+/-! Canonical readable kernel sources shared by Correct and FPEquiv. FP32
+load, computation, count conversion and stores retain their source precision.
+The reciprocal candidate changes only the positive repetition arm. -/
+namespace VeriTile.Bench.Repairs.ApplyPenalty
 open VeriTile.Triton
 
-/-- Faithful transcription of `apply_penalty.py`'s `_fwd_kernel_apply_penalty`.
-Ids, counts and cumsum metadata use Nat channels; the count is promoted to real
-by the original multiplication expression. -/
-def apply_penalty
+/-- Selected FP32 source. Integer memory is the admitted nonnegative projection
+of signed int32 words; `loaded_native_mask` proves the checked int64 index
+interpretation. FP32 conversion of counts remains a primitive of the source. -/
+def kernel
     (Logits presence_penalty freqency_penalty repetition_penalty : Region .real)
     (p_token_ids p_token_counts p_cumsum_seq_len : Region .nat)
     (stride_logit_b _stride_logit_s BLOCK_P : Nat) :
     ComputeKernel := triton {
+  tl.region Logits = tl.float32, presence_penalty = tl.float32, freqency_penalty = tl.float32, repetition_penalty = tl.float32
   cur_batch = tl.program_id(0)
   cur_freqency = tl.load(freqency_penalty + cur_batch)
   cur_presence = tl.load(presence_penalty + cur_batch)
@@ -44,11 +40,12 @@ def apply_penalty
 }
 
 /-- The reciprocal candidate keeps the sign comparison and the negative arm. -/
-def apply_penalty_reciprocal
+def reciprocalKernel
     (Logits presence_penalty freqency_penalty repetition_penalty : Region .real)
     (p_token_ids p_token_counts p_cumsum_seq_len : Region .nat)
     (stride_logit_b _stride_logit_s BLOCK_P : Nat) :
     ComputeKernel := triton {
+  tl.region Logits = tl.float32, presence_penalty = tl.float32, freqency_penalty = tl.float32, repetition_penalty = tl.float32
   cur_batch = tl.program_id(0)
   cur_freqency = tl.load(freqency_penalty + cur_batch)
   cur_presence = tl.load(presence_penalty + cur_batch)
@@ -73,4 +70,8 @@ def apply_penalty_reciprocal
     mask=cur_batch_id_offset < cur_batch_end_index)
 }
 
-end VeriTile.Bench.TritonBenchG.ApplyPenalty
+/-- Independent mathematical formula, not a source execution equation. -/
+noncomputable def penalty (x : ℝ) (count : Int) (presence frequency repetition : ℝ) : ℝ :=
+  (if 0 < x then x/repetition else x*repetition) - count*frequency - presence
+
+end VeriTile.Bench.Repairs.ApplyPenalty

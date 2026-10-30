@@ -1,3 +1,13 @@
 # reversed_cumsum
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [reversed_cumsum](../../repairs/tritonbench_g/reversed_cumsum/README.md).
+Current repaired Python implementation: [reversed_cumsum.py](reversed_cumsum.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+fun xs time feature => sum t : Fin h.T, if time <= t then xs t feature else 0
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

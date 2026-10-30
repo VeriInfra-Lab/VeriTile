@@ -1,0 +1,167 @@
+import bench.tritonbench_g.vector_addition.Proofs.Mathematical_TypedHostCorrect
+import VeriTile.Triton.Semantics.LaunchIndex
+
+namespace VeriTile.Bench.TritonBenchG.VectorAddition.Finite
+open VeriTile.Triton DTypeScope TypedHost
+open HostWrapper (Tensor)
+set_option maxHeartbeats 3000000
+
+def bytes : DType → Nat
+  | .b1 | .i8 | .u8 | .fp8e5 | .fp8e4nv | .fp8e5b16 | .fp8e4b8 => 1
+  | .i16 | .u16 | .fp16 | .bf16 => 2
+  | .i32 | .u32 | .fp32 => 4
+  | .i64 | .u64 | .fp64 => 8
+
+theorem bytes_positive (d : DType) : 0<bytes d := by cases d <;> decide
+
+theorem bytes_at_most_eight (d : DType) : bytes d≤8 := by cases d <;> decide
+
+/-- Actual storage base/extent and tensor storage_offset, in bytes/elements.
+The kernel ignores tensor strides: its pointer arithmetic is linear from data.
+Logical region names identify views and need not identify backing allocations. -/
+structure View where
+  device : Nat
+  storageBase : Nat
+  storageBytes : Nat
+  storageOffset : Nat
+  dtype : DType
+
+def View.address (v : View) (i : Nat) : Nat :=
+  v.storageBase+(v.storageOffset+i)*bytes v.dtype
+
+def View.finish (v : View) (i : Nat) : Nat := v.address i+bytes v.dtype
+
+def View.active (v : View) (n : Nat) (address : Nat) : Prop :=
+  v.address 0≤address ∧ address<v.address n
+
+def View.Valid (v : View) (n rounded : Nat) : Prop :=
+  (v.storageOffset+n)*bytes v.dtype≤v.storageBytes ∧
+  v.storageBase+v.storageBytes≤2^64 ∧
+  v.address rounded≤2^64
+
+def View.Matches (v : View) (t : Tensor) (d : DType) : Prop :=
+  v.dtype=d ∧ (v.storageOffset : Int)=t.storageOffset ∧ t.dtype=dtypeName d
+
+/-- Ordinary Torch metadata queries. These are not kernel result or launch
+callbacks. `emptyLikeStrides` is the actual preserve-format stride rule, which
+need not copy the input strides and is not assumed to produce contiguous data. -/
+structure TensorMetadata where
+  storageBase : Tensor → Nat
+  storageBytes : Tensor → Nat
+  dataPointer : Tensor → Nat
+  emptyLikeStrides : Tensor → List Int
+
+def View.Binds (v : View) (metadata : TensorMetadata) (t : Tensor) : Prop :=
+  v.storageBase=metadata.storageBase t ∧ v.storageBytes=metadata.storageBytes t ∧
+    v.address 0=metadata.dataPointer t
+
+/-- Natural dtype alignment required by the chosen ordinary typed memory ABI. -/
+def View.Aligned (v : View) : Prop := v.address 0 % bytes v.dtype=0
+
+/-- Real allocation separation; x and y may overlap each other arbitrarily. -/
+def StorageDisjoint (a b : View) : Prop :=
+  a.storageBase+a.storageBytes≤b.storageBase ∨ b.storageBase+b.storageBytes≤a.storageBase
+
+def rounded (n : Nat) : Nat := ((n+1023)/1024)*1024
+
+def SpanDisjoint (a aEnd b bEnd : Nat) : Prop := aEnd≤b ∨ bEnd≤a
+
+theorem address_linear (v : View) (i : Nat) :
+    v.address i=v.address 0+i*bytes v.dtype := by
+  simp [View.address]
+  ring
+
+theorem address_aligned (v : View) (aligned : v.Aligned) (i : Nat) :
+    v.address i % bytes v.dtype=0 := by
+  rw [address_linear]
+  simpa [Nat.add_mod,Nat.mul_mod,View.Aligned] using aligned
+
+theorem address_step (v : View) (i : Nat) : v.finish i=v.address (i+1) := by
+  simp [View.finish,View.address]
+  ring
+
+theorem valid_access (v : View) (n total i : Nat) (h : v.Valid n total) (hi : i<n) :
+    v.storageBase≤v.address i ∧ v.finish i≤v.storageBase+v.storageBytes ∧ v.finish i≤2^64 := by
+  have hmul : (v.storageOffset+i+1)*bytes v.dtype≤(v.storageOffset+n)*bytes v.dtype :=
+    Nat.mul_le_mul_right _ (by omega)
+  have hb : v.finish i≤v.storageBase+v.storageBytes := by
+    rw [address_step]
+    unfold View.address
+    simpa only [Nat.add_assoc] using Nat.add_le_add_left (hmul.trans h.1) v.storageBase
+  exact ⟨by simp [View.address],hb,hb.trans h.2.1⟩
+
+theorem distinct_cells (v : View) (i j : Nat) (hne : i≠j) :
+    SpanDisjoint (v.address i) (v.finish i) (v.address j) (v.finish j) := by
+  have hp := bytes_positive v.dtype
+  rcases Nat.lt_or_gt_of_ne hne with hij|hji
+  · left
+    rw [address_step]
+    unfold View.address
+    exact Nat.add_le_add_left (Nat.mul_le_mul_right _ (by omega)) _
+  · right
+    rw [address_step]
+    unfold View.address
+    exact Nat.add_le_add_left (Nat.mul_le_mul_right _ (by omega)) _
+
+theorem separated_accesses (a b : View) (nA nB totalA totalB i j : Nat)
+    (ha : a.Valid nA totalA) (hb : b.Valid nB totalB)
+    (hi : i<nA) (hj : j<nB) (hd : StorageDisjoint a b) :
+    SpanDisjoint (a.address i) (a.finish i) (b.address j) (b.finish j) := by
+  have aa := valid_access a nA totalA i ha hi
+  have bb := valid_access b nB totalB j hb hj
+  rcases hd with h|h
+  · exact Or.inl (aa.2.1.trans (h.trans bb.1))
+  · exact Or.inr (bb.2.1.trans (h.trans aa.1))
+
+/-- All launched lanes, including masked tails, have a nonnegative signed-i32
+index. Thus signed multiplication/addition/comparison agree with this Nat model. -/
+theorem launched_index_i32 (n pid lane : Nat) (hn : n<2^31)
+    (hp : pid<(n+1023)/1024) (hl : lane<1024) : pid*1024+lane<2^31 :=
+  VeriTile.Triton.LaunchIndex.launched_index_i32 n pid lane hn hp hl
+
+theorem active_owner (n i : Nat) (hi : i<n) :
+    i/1024<(n+1023)/1024 ∧ i%1024<1024 ∧ (i/1024)*1024+i%1024=i := by
+  have cover := ValueProofs.grid_covers
+    (⟨⟨"x"⟩,⟨"y"⟩,⟨"o"⟩,n,1024⟩ : ValueProofs.Parameters) (by change 0<1024; decide)
+  simp only [ValueProofs.gridCount] at cover
+  refine ⟨(Nat.div_lt_iff_lt_mul (by decide : 0<1024)).2 (hi.trans_le cover),by omega,?_⟩
+  omega
+
+/-- This is applicability, not an invented source check. The wrapper still
+allocates before its CUDA assertion and does not inspect these predicates. -/
+structure SafeAPI (x y output : Tensor) (xD yD : DType) (vx vy vo : View) (metadata : TensorMetadata) : Prop where
+  indexBound : x.numel<2^31
+  numelX : x.numel=x.shape.prod
+  numelY : y.numel=y.shape.prod
+  xView : vx.Matches x xD
+  yView : vy.Matches y yD
+  outputView : vo.Matches output xD
+  sameDevice : x.deviceIndex=y.deviceIndex
+  devices : x.deviceIndex=some vx.device ∧ y.deviceIndex=some vy.device ∧
+    output.deviceIndex=some vo.device ∧ vx.device=vy.device ∧ vx.device=vo.device
+  xBinding : vx.Binds metadata x
+  yBinding : vy.Binds metadata y
+  outputBinding : vo.Binds metadata output
+  outputStrides : output.strides=metadata.emptyLikeStrides x
+  xAligned : vx.Aligned
+  yAligned : vy.Aligned
+  outputAligned : vo.Aligned
+  xValid : vx.Valid output.numel (rounded output.numel)
+  yValid : vy.Valid output.numel (rounded output.numel)
+  outputValid : vo.Valid output.numel (rounded output.numel)
+  outputSeparateX : StorageDisjoint vo vx
+  outputSeparateY : StorageDisjoint vo vy
+
+#axiomsClean bytes_positive
+#axiomsClean bytes_at_most_eight
+#axiomsClean address_linear
+#axiomsClean address_aligned
+#axiomsClean address_step
+#axiomsClean valid_access
+#axiomsClean distinct_cells
+#axiomsClean separated_accesses
+#axiomsClean launched_index_i32
+#axiomsClean active_owner
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end VeriTile.Bench.TritonBenchG.VectorAddition.Finite

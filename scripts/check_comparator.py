@@ -18,8 +18,8 @@ import tempfile
 from comparator_common import comparator_command, require_tools, snapshot_project, write_config
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'bench'))
-from audit_trust_prep import add_import, prepare_source
+sys.path.insert(0, str(ROOT))
+from scripts.bench.audit_trust_prep import add_import, prepare_source
 
 # Alias actual Lean names instead of trying to parse private, quoted, or
 # hygienic names through comparator's dotted-string config format.

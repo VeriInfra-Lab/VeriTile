@@ -1,0 +1,32 @@
+[
+  {
+    "python": "bench/tritonbench_g/triton_argmax/triton_argmax.py",
+    "lean": "bench/tritonbench_g/triton_argmax/Kernels.lean",
+    "python_function": "argmax_kernel_1_repaired",
+    "lean_definition": "stage1"
+  },
+  {
+    "python": "bench/tritonbench_g/triton_argmax/triton_argmax.py",
+    "lean": "bench/tritonbench_g/triton_argmax/Kernels.lean",
+    "python_function": "argmax_kernel_2_repaired",
+    "lean_definition": "stage2"
+  },
+  {
+    "python": "bench/tritonbench_g/triton_argmax/triton_argmax.py",
+    "lean": "bench/tritonbench_g/triton_argmax/Kernels.lean",
+    "python_function": "argmax_kernel_repaired",
+    "lean_definition": "dimension"
+  },
+  {
+    "python": "bench/tritonbench_g/triton_argmax/triton_argmax_shifted.py",
+    "lean": "bench/tritonbench_g/triton_argmax/CandidateKernels.lean",
+    "python_function": "argmax_kernel_1_shifted",
+    "lean_definition": "stage1"
+  },
+  {
+    "python": "bench/tritonbench_g/triton_argmax/triton_argmax_shifted.py",
+    "lean": "bench/tritonbench_g/triton_argmax/CandidateKernels.lean",
+    "python_function": "argmax_kernel_shifted",
+    "lean_definition": "dimension"
+  }
+]

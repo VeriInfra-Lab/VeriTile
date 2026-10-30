@@ -1,75 +1,30 @@
-import VeriTile.Triton.DSL
+import bench.tritonbench_g.batched_vecmat_mult.Sources.Mathematical_Kernels
 
-/-! Full source of `batched_vecmat_mult.py`'s `batched_vecmat_kernel`.
-A/B/output and accumulation are fp32, as in the supplied wrapper. Each
-program computes one BM×BN tile by streaming unmasked BM×BK and BN×BM×BK
-input tiles. The candidate swaps only the operands of each vecmat addition;
-broadcast, axis-2 reduction, transpose, loop order and store are unchanged.
-The host requires whole blocks. The public real contracts describe all actual
-input/output windows; host launch composition and fixed-width address overflow
-are outside the per-program model. -/
-namespace VeriTile.Bench.TritonBenchG.BatchedVecmatMult.TypedSource
+/-! Separate int64-address repair of the pinned Python source. The Python changes
+the kernel only by integer casts: N, K and both program IDs widen before multiplication, so
+`k_blocks` and the dynamic induction variable are also i64. The existing DSL
+uses mathematical natural indices; its cast-erased source is reused verbatim.
+`Proofs/IndexModel.lean` gives the actual fixed-width coordinate expressions separately.
+The existing block-first candidate changes only the source carry addition.
+The wrapper retains CUDA fp32 A[M,K], B[M,N,K], output[M,N], original allocation
+and whole-block guard order, floor grid, tuning arguments and returned allocation. -/
+namespace VeriTile.Bench.Repairs.BatchedVecmatMult
 open VeriTile.Triton
+open VeriTile.Bench.TritonBenchG.BatchedVecmatMult
+abbrev Parameters := ValueProofs.Parameters
 
-def original
-    (A B output : RegionName)
-    (_dim_m dim_n dim_k BLOCK_M BLOCK_N BLOCK_K : Nat) :
-    ComputeKernel := triton {
-  tl.region A = tl.float32, B = tl.float32, output = tl.float32
-  m_index = tl.program_id(0)
-  n_index = tl.program_id(1)
-  output_tile = (m_index * $(BLOCK_M) + tl.arange(0, $(BLOCK_M)))[:, None] * $(dim_n) +
-    (n_index * $(BLOCK_N) + tl.arange(0, $(BLOCK_N)))[None, :]
-  vecmat = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=A.dtype.element_ty)
-  k_blocks = $(dim_k) // $(BLOCK_K)
-  for k_index in range(k_blocks) {
-    a_tile = (m_index * $(BLOCK_M) + tl.arange(0, $(BLOCK_M)))[:, None] * $(dim_k) +
-      (k_index * $(BLOCK_K) + tl.arange(0, $(BLOCK_K)))[None, :]
-    a = tl.load(A + a_tile)
-    b_tile = (m_index * $(BLOCK_M) + tl.arange(0, $(BLOCK_M)))[None, :, None] *
-      $(dim_n) * $(dim_k) +
-      (n_index * $(BLOCK_N) + tl.arange(0, $(BLOCK_N)))[:, None, None] * $(dim_k) +
-      (k_index * $(BLOCK_K) + tl.arange(0, $(BLOCK_K)))[None, None, :]
-    b = tl.load(B + b_tile)
-    expanded_a, _ = tl.broadcast(a, b)
-    vecmat += tl.trans(tl.sum(expanded_a * b, axis=2))
-  }
-  tl.store(output + output_tile, vecmat)
-}
+/-- Complete source after erasing only the proven exact integer widening casts.
+Inputs, products, reduction, carry, output: fp32. Native contraction and reduction
+choices are kept by the separately reused graph semantics, not an FP identity. -/
+abbrev kernel := TypedSource.original
 
-def blockFirst
-    (A B output : RegionName)
-    (_dim_m dim_n dim_k BLOCK_M BLOCK_N BLOCK_K : Nat) :
-    ComputeKernel := triton {
-  tl.region A = tl.float32, B = tl.float32, output = tl.float32
-  m_index = tl.program_id(0)
-  n_index = tl.program_id(1)
-  output_tile = (m_index * $(BLOCK_M) + tl.arange(0, $(BLOCK_M)))[:, None] * $(dim_n) +
-    (n_index * $(BLOCK_N) + tl.arange(0, $(BLOCK_N)))[None, :]
-  vecmat = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=A.dtype.element_ty)
-  k_blocks = $(dim_k) // $(BLOCK_K)
-  for k_index in range(k_blocks) {
-    a_tile = (m_index * $(BLOCK_M) + tl.arange(0, $(BLOCK_M)))[:, None] * $(dim_k) +
-      (k_index * $(BLOCK_K) + tl.arange(0, $(BLOCK_K)))[None, :]
-    a = tl.load(A + a_tile)
-    b_tile = (m_index * $(BLOCK_M) + tl.arange(0, $(BLOCK_M)))[None, :, None] *
-      $(dim_n) * $(dim_k) +
-      (n_index * $(BLOCK_N) + tl.arange(0, $(BLOCK_N)))[:, None, None] * $(dim_k) +
-      (k_index * $(BLOCK_K) + tl.arange(0, $(BLOCK_K)))[None, None, :]
-    b = tl.load(B + b_tile)
-    expanded_a, _ = tl.broadcast(a, b)
-    vecmat = tl.trans(tl.sum(expanded_a * b, axis=2)) + vecmat
-  }
-  tl.store(output + output_tile, vecmat)
-}
+def source (p : Parameters) : ComputeKernel :=
+  kernel p.A p.B p.output p.M p.N p.K p.BM p.BN p.BK
+
+/-- Existing complete candidate: the reduced block is the left operand of
+the carry addition; all indexing, reduction and launch behavior is retained. -/
+def blockFirst (p : Parameters) : ComputeKernel :=
+  TypedSource.blockFirst p.A p.B p.output p.M p.N p.K p.BM p.BN p.BK
 
 
-end VeriTile.Bench.TritonBenchG.BatchedVecmatMult.TypedSource
-
-namespace VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs
-open VeriTile.Triton
-structure Parameters where
-  (A B output : RegionName)
-  (M N K BM BN BK : Nat)
-
-end VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs
+end VeriTile.Bench.Repairs.BatchedVecmatMult

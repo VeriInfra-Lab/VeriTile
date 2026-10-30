@@ -48,7 +48,7 @@ class PrimitiveCandidateTests(unittest.TestCase):
         return source
 
     def test_syntax_domains_precision_and_actual_dependency(self):
-        output = self.check((ROOT / 'bench/tests/FPPrimitiveCandidates.lean').read_text())
+        output = self.check((ROOT / 'tests/lean/FPPrimitiveCandidates.lean').read_text())
         self.assertNotIn('unresolved FP proof', output)
         for theorem in ('selected_maximum', 'selected_exp_zero', 'selected_exp_zero_libdevice',
                         'selected_exp_neg_inf_sub', 'selected_exp_neg_inf_sub_libdevice'):

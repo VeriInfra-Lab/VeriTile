@@ -17,7 +17,7 @@ class FPDualOutputTests(unittest.TestCase):
 
     def test_two_outputs_frames_signatures_and_assumption_reporting(self):
         result = subprocess.run(
-            ["lake", "env", "lean", "bench/tests/FPDualOutput.lean"],
+            ["lake", "env", "lean", "tests/lean/FPDualOutput.lean"],
             cwd=ROOT, text=True, capture_output=True, timeout=180)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)

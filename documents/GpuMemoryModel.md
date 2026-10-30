@@ -92,7 +92,7 @@ whole-grid merge over explicit per-program `Kernel.ExecFrame`s. This is still
 not a concurrent/interleaved executor. Overlapping ordinary writes,
 scheduling, barriers, async, and shared memory remain outside the model.
 Atomics are covered only by the narrow algorithm-level slices described in
-[`ConcurrencySemantics.md`](./ConcurrencySemantics.md): atomic-add sum merge
+[`ConcurrencySemantics.md`](ConcurrencySemantics.md): atomic-add sum merge
 and selected single-cell RMW linearization with explicit witnesses.
 
 ## Not Modeled
@@ -211,12 +211,12 @@ alignment and imports no benchmark code. Kernel admission policy belongs to
 the per-task contract; native access requirements belong to the applicable
 backend bridge.
 
-The current [add_example revision](../bench/repairs/tritonbench_g/add_example/README.md)
+The current [add_example revision](../bench/tritonbench_g/add_example/README.md)
 reuses the existing finite-address helpers under
 `bench/tritonbench_g/add_example/Proofs/` and supplies its own checked host
 composition. These remain scoped helpers, not a generic implementation of all
 Triton memory instructions. Its
-[load/store audit](../bench/repairs/tritonbench_g/add_example/LOAD_STORE_AUDIT.md)
+[load/store audit](../validation/tasks/add_example/LOAD_STORE_AUDIT.md)
 records the source-to-model mapping, Triton version, targets, compiler evidence,
 reproduction command and GPU execution status. Those task-specific observations
 do not establish the same lowering for other kernels or backends.

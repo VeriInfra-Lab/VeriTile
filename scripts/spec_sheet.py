@@ -490,7 +490,7 @@ def sheet_name(file):
 
 def selected_files():
     """Use reviewed public readers; filename inference cannot select revisions."""
-    from bench.final_inventory import coverage
+    from scripts.bench.final_inventory import coverage
     rows = coverage(Path(ROOT))['rows']
     files = sorted({str(Path(ROOT) / row['file']) for row in rows})
     if not files:

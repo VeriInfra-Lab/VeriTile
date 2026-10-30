@@ -1,226 +1,126 @@
-import bench.tritonbench_g.reversed_cumsum.Proofs.RealProgram
-import VeriTile.Triton.Semantics.BlockPadding
+import bench.tritonbench_g.reversed_cumsum.Proofs.RealValues
 
-/-! Exact evaluation of one complete time chunk with arbitrary incoming carry.
-Loads, triangular dot, masked store and the post-store carry update all occur
-in source order. Checked-off lanes retain arbitrary unspecified values from
-the initial oracle. No output formula is a premise of the execution lemma. -/
-namespace VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep
-open VeriTile.Triton RealProgram
-open scoped BigOperators
+namespace VeriTile.Bench.Repairs.ReversedCumsum.RealStep
+open VeriTile.Triton RealProgram IndexProgram RealValues
+open VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep (outputTile scatter nextCarry chunkSuffix)
 noncomputable section
-set_option maxHeartbeats 3000000
-set_option maxRecDepth 18000
+set_option maxHeartbeats 3600000
+set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
-def address (p : Layout) (l : Launch) (t j : Nat) : Nat :=
-  l.head * p.headStride + t * p.timeStride + (l.feature * p.BS + j) * p.channelStride
+def indexed (h : Call) (c : Config) (q f : Nat) (u : BlockState) : BlockState :=
+  let u1 := u.setReg "start_t" .int [] (Tile.scalar (q*c.BT:Int))
+  let u2 := u1.setReg "start_s" .nat [] (Tile.scalar (f*BS))
+  let u3 := u2.setReg "lane_t" .nat [c.BT] (lanes c.BT)
+  let u4 := u3.setReg "lane_s" .nat [BS] (lanes BS)
+  let u5 := u4.setReg "active_t" .bool [c.BT] (maskT h c q)
+  let u6 := u5.setReg "active_s" .bool [BS] (maskS h f)
+  let u7 := u6.setReg "times" .int [c.BT] (times h c q)
+  let u8 := u7.setReg "features" .nat [BS] (features h f)
+  u8.setReg "active" .bool [c.BT,BS] (mask h c q f)
 
-def active (p : Layout) (l : Launch) (t j : Nat) : Prop :=
-  t < p.T ∧ l.feature * p.BS + j < p.S
-instance (p : Layout) (l : Launch) (t j : Nat) : Decidable (active p l t j) :=
-  inferInstanceAs (Decidable (_ ∧ _))
+def beforeStore (h : Call) (c : Config) (row q f : Nat) (a : Nat → ℝ)
+    (acc : Fin BS → ℝ) (u : BlockState) : BlockState :=
+  let u1 := (indexed h c q f u).setReg "p_s" .ptr [c.BT,BS] (pointer h c row q f h.input)
+  let u2 := u1.setReg "p_z" .ptr [c.BT,BS] (pointer h c row q f h.output)
+  let u3 := u2.setReg "b_s" .real [c.BT,BS] (inputTile h c row f a q)
+  u3.setReg "b_c" .real [c.BT,BS] (outputTile (layout h c) (launch row f) a (fun _ => 0) q acc)
 
-def column (p : Layout) (l : Launch) (a : Nat → ℝ) (j : Fin p.BS) (t : Nat) : ℝ :=
-  if l.feature * p.BS + j.val < p.S then a (address p l t j.val) else 0
+def result (h : Call) (c : Config) (row q f : Nat) (a : Nat → ℝ)
+    (acc : Fin BS → ℝ) (u : BlockState) : BlockState :=
+  (scatter (layout h c) (launch row f) h.output a (fun _ => 0) q acc
+    (beforeStore h c row q f a acc u)).setReg "b_z" .real [BS]
+    (Tile.vec fun j => some (nextCarry (layout h c) (launch row f) a (fun _ => 0) q acc j))
 
-def value (p : Layout) (l : Launch) (a padding : Nat → ℝ) (t : Nat) (j : Fin p.BS) : ℝ :=
-  if active p l t j.val then a (address p l t j.val) else padding (address p l t j.val)
+theorem output_eval (h : Call) (c : Config) (row q f : Nat) (a : Nat → ℝ) (acc : Fin BS → ℝ) (u : BlockState)
+    (ha : u.regs .real [BS] "b_z"=some (Tile.vec fun j => some (acc j)))
+    (hm : u.regs .real [c.BT,c.BT] "m_s"=some (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealMath.upperTriTile c.BT))
+    (hb : u.regs .real [c.BT,BS] "b_s"=some (inputTile h c row f a q)) :
+    evalOp (outputOp c) u=some (outputTile (layout h c) (launch row f) a (fun _ => 0) q acc) :=
+  VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.add_dot_eval (layout h c) (launch row f) a (fun _ => 0) q acc u ha hm hb
 
-def pointer (p : Layout) (l : Launch) (r : RegionName) (c : Nat) :
-    Tile .blockPtr [p.BT, p.BS] :=
-  ⟨fun _ =>
-    { region := r, baseOffset := l.head * p.headStride,
-      parentShape := [p.T, p.S], blockShape := [p.BT, p.BS],
-      strides := [p.timeStride, p.channelStride], offsets := [c * p.BT, l.feature * p.BS] }⟩
+theorem carry_eval (h : Call) (c : Config) (row q f : Nat) (a : Nat → ℝ) (acc : Fin BS → ℝ) (u : BlockState)
+    (ha : u.regs .real [BS] "b_z"=some (Tile.vec fun j => some (acc j)))
+    (hb : u.regs .real [c.BT,BS] "b_s"=some (inputTile h c row f a q)) :
+    evalOp (carryOp c) u=some (Tile.vec fun j => some (nextCarry (layout h c) (launch row f) a (fun _ => 0) q acc j)) :=
+  VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.carry_eval (layout h c) (launch row f) a (fun _ => 0) q acc u ha hb
 
-def inputTile (p : Layout) (l : Launch) (a padding : Nat → ℝ) (c : Nat) : Tile .real [p.BT, p.BS] :=
-  Tile.mat fun i j => some (value p l a padding (c * p.BT + i.val) j)
-
-def chunkSuffix (p : Layout) (l : Launch) (a padding : Nat → ℝ) (c : Nat)
-    (i : Fin p.BT) (j : Fin p.BS) : ℝ :=
-  ∑ k ∈ Finset.univ.filter (fun k : Fin p.BT => i.val ≤ k.val),
-    value p l a padding (c * p.BT + k.val) j
-
-def nextCarry (p : Layout) (l : Launch) (a padding : Nat → ℝ) (c : Nat)
-    (acc : Fin p.BS → ℝ) (j : Fin p.BS) : ℝ :=
-  acc j + ∑ k : Fin p.BT, value p l a padding (c * p.BT + k.val) j
-
-def outputTile (p : Layout) (l : Launch) (a padding : Nat → ℝ) (c : Nat)
-    (acc : Fin p.BS → ℝ) : Tile .real [p.BT, p.BS] :=
-  Tile.mat fun i j => some (acc j + chunkSuffix p l a padding c i j)
-
-def scatter (p : Layout) (l : Launch) (o : RegionName) (a padding : Nat → ℝ)
-    (c : Nat) (acc : Fin p.BS → ℝ) (s : BlockState) : BlockState :=
-  (TileShape.allIndices [p.BT, p.BS]).foldl (fun st idx =>
-    if active p l (c * p.BT + idx.1.val) idx.2.1.val then
-      st.writeMem o (address p l (c * p.BT + idx.1.val) idx.2.1.val)
-        (acc idx.2.1 + chunkSuffix p l a padding c idx.1 idx.2.1)
-    else st) s
-
-def beforeStore (p : Layout) (l : Launch) (s o : RegionName) (a padding : Nat → ℝ)
-    (c : Nat) (acc : Fin p.BS → ℝ) (u : BlockState) : BlockState :=
-  let u1 := u.setReg "p_s" .blockPtr [p.BT, p.BS] (pointer p l s c)
-  let u2 := u1.setReg "p_z" .blockPtr [p.BT, p.BS] (pointer p l o c)
-  let u3 := u2.setReg "b_s" .real [p.BT, p.BS] (inputTile p l a padding c)
-  u3.setReg "b_c" .real [p.BT, p.BS] (outputTile p l a padding c acc)
-
-def result (p : Layout) (l : Launch) (s o : RegionName) (a padding : Nat → ℝ)
-    (c : Nat) (acc : Fin p.BS → ℝ) (u : BlockState) : BlockState :=
-  (scatter p l o a padding c acc (beforeStore p l s o a padding c acc u)).setReg "b_z" .real [p.BS]
-    (Tile.vec fun j => some (nextCarry p l a padding c acc j))
-
-theorem mul_ref (t : BlockState) (nm : RegName) (val c : Nat)
-    (hr : t.regs .nat [] nm = some (Tile.scalar val)) :
-    evalOp (Op.mul .nat Broadcast.nil (Op.ref .nat [] nm) (Op.constNat c)) t
-      = some (Tile.scalar (val * c)) := by
-  rw [evalOp_mul]
-  simp only [evalOp_ref, evalOp_constNat, hr, Option.bind_eq_bind, Option.bind_some]
-  rfl
-
-theorem time_offset_eval (p : Layout) (c : Nat) (u : BlockState)
-    (ht : u.regs .int [] "i_t" = some (Tile.scalar (c : Int))) :
-    evalOp (.castIntToNat (.mul .int .nil (.ref .int [] "i_t") (.constInt (p.BT : Int)))) u =
-      some (Tile.scalar (c * p.BT)) := by
-  simp only [evalOp, ht, Option.bind_some, Option.bind_eq_bind, Option.pure_def]
+theorem store_eval (h : Call) (c : Config) (row q : Nat) (f : Geometry.FeatureBlock h)
+    (a : Nat → ℝ) (acc : Fin BS → ℝ) (u : BlockState) (start : q*c.BT<h.T)
+    (hp : u.regs .ptr [c.BT,BS] "p_z"=some (pointer h c row q f.val h.output))
+    (hm : u.regs .bool [c.BT,BS] "active"=some (mask h c q f.val))
+    (hv : u.regs .real [c.BT,BS] "b_c"=some (outputTile (layout h c) (launch row f.val) a (fun _ => 0) q acc)) :
+    stepStmt (.store .real [c.BT,BS] (.ptr (.ref .ptr [c.BT,BS] "p_z"))
+      (.ref .real [c.BT,BS] "b_c") (.mask (.ref .bool [c.BT,BS] "active"))) u=
+      some (scatter (layout h c) (launch row f.val) h.output a (fun _ => 0) q acc u) := by
+  simp only [stepStmt,evalOp_ref,hp,hm,hv,Option.bind_some,Option.bind_eq_bind,
+    Bool.true_and,pointer,mask,decide_eq_true_eq,Option.map_some]
   apply congrArg some
-  apply Tile.ext
-  intro i
-  change ((c : Int) * (p.BT : Int)).toNat = c * p.BT
-  rfl
+  unfold scatter
+  apply congrArg (fun fn => (TileShape.allIndices [c.BT,BS]).foldl fn u)
+  funext st idx
+  rcases idx with ⟨i,j,⟨⟩⟩
+  have equiv := Geometry.active_iff h c q f i j start
+  by_cases ha : Geometry.active h c q f.val i j
+  · have hv := equiv.mp ha
+    simp [ha,Geometry.time,Geometry.feature,ha.1,ha.2,outputTile,Tile.mat,layout,launch,
+      VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.active,
+      VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.address,Geometry.address,hv.1,hv.2]
+  · have hv := equiv.not.mp ha
+    simp [ha,VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.active,layout,launch,hv]
 
-theorem pointer_eval (p : Layout) (l : Launch) (r : RegionName) (c : Nat) (u : BlockState)
-    (hs : u.regs .nat [] "i_s" = some (Tile.scalar l.feature))
-    (hh : u.regs .nat [] "i_bh" = some (Tile.scalar l.head))
-    (ht : u.regs .int [] "i_t" = some (Tile.scalar (c : Int))) :
-    evalOp (pointerOp p r) u = some (pointer p l r c) := by
-  rw [pointerOp, makeBlockPtr2_eval]
-  simp only [mul_ref u _ _ _ hs, mul_ref u _ _ _ hh, time_offset_eval p c u ht,
-    List.mapM_cons, List.mapM_nil, Option.bind_some, Option.pure_def,
-    Option.bind_eq_bind, Tile.scalar_data]
-  rfl
+def chunkCode (h : Call) (c : Config) : List Stmt := (loopBody h c).tail
 
-theorem load_eval (p : Layout) (l : Launch) (r : RegionName) (a padding : Nat → ℝ)
-    (c : Nat) (u : BlockState) (hu : ∀ off, u.undef r off = padding off)
-    (hm : ∀ off, u.readMem r off = a off)
-    (hp : u.regs .blockPtr [p.BT, p.BS] "p_s" = some (pointer p l r c)) :
-    evalOp (.load .real (.blockPtr (.ref .blockPtr [p.BT, p.BS] "p_s") [0, 1]) .none .unspecified) u =
-      some (inputTile p l a padding c) := by
-  simp only [evalOp, evalOp_ref, hp]
-  refine congrArg some ?_
-  apply Tile.ext
-  rintro ⟨i,j,⟨⟩⟩
-  simp only [pointer, inputTile, Tile.mat, value, active, address,
-    TileShape.indexToList, BlockPtr.inBounds_2d_offsets, BlockPtr.address_2d_offsets,
-    BlockState.readMemValue_real, decide_eq_true_eq]
-  by_cases hi : c * p.BT + i.val < p.T <;>
-    by_cases hj : l.feature * p.BS + j.val < p.S <;>
-      simp only [hi, hj, hm, ite_true, ite_false, and_true, and_false, false_and,
-        BlockState.paddingValue, BlockState.unspecifiedValue, pointer, hu]
-
-theorem dot_value (p : Layout) (l : Launch) (a padding : Nat → ℝ) (c : Nat)
-    (i : Fin p.BT) (j : Fin p.BS) :
-    (Tile.dot [] (RealMath.upperTriTile p.BT) (inputTile p l a padding c)).data (i,j,PUnit.unit) =
-      some (chunkSuffix p l a padding c i j) := by
-  exact RealMath.upper_triangular_dot p.BT p.BS
-    (fun k e => value p l a padding (c * p.BT + k.val) e) i j
-
-theorem add_dot_eval (p : Layout) (l : Launch) (a padding : Nat → ℝ) (c : Nat)
-    (acc : Fin p.BS → ℝ) (u : BlockState)
-    (ha : u.regs .real [p.BS] "b_z" = some (Tile.vec fun j => some (acc j)))
-    (hm : u.regs .real [p.BT, p.BT] "m_s" = some (RealMath.upperTriTile p.BT))
-    (hb : u.regs .real [p.BT, p.BS] "b_s" = some (inputTile p l a padding c)) :
-    evalOp (.add .real (.consL (.consSame .nil))
-      (.expandDim ⟨0, by simp⟩ (.ref .real [p.BS] "b_z"))
-      (.dot (batch := []) (.ref .real [p.BT, p.BT] "m_s") (.ref .real [p.BT, p.BS] "b_s")
-        {allowTF32 := some Bool.false})) u = some (outputTile p l a padding c acc) := by
-  rw [evalOp_add]
-  erw [evalOp_expandDim, evalOp_ref, ha, evalOp_dot, evalOp_ref, hm, evalOp_ref, hb]
-  simp only [Option.bind_some, Option.bind_eq_bind]
-  refine congrArg some ?_
-  apply Tile.ext
-  rintro ⟨i,j,⟨⟩⟩
-  simp only [Tile.bop_data, Broadcast.leftIndex, Broadcast.rightIndex, Tile.expandDim,
-    TileShape.dropInsertedIndex, Tile.vec, NumericDType.add, dot_value, outputTile,
-    Tile.mat, WithBot.realAdd, Option.map₂_some_some]
-  erw [dot_value]
-  rfl
-
-theorem coe_sum {n : Nat} (f : Fin n → ℝ) :
-    (@Finset.sum (Fin n) (WithBot ℝ) _ Finset.univ fun e => (some (f e) : WithBot ℝ)) = some (∑ e : Fin n, f e) := by
-  show (Finset.univ.sum fun e => ((f e : ℝ) : WithBot ℝ)) = _
-  rw [← WithBot.coe_sum]
-  rfl
-
-theorem carry_eval (p : Layout) (l : Launch) (a padding : Nat → ℝ) (c : Nat)
-    (acc : Fin p.BS → ℝ) (u : BlockState)
-    (ha : u.regs .real [p.BS] "b_z" = some (Tile.vec fun j => some (acc j)))
-    (hb : u.regs .real [p.BT, p.BS] "b_s" = some (inputTile p l a padding c)) :
-    evalOp (carryOp p) u =
-      some (Tile.vec fun j => some (nextCarry p l a padding c acc j)) := by
-  rw [carryOp, evalOp_add]
-  erw [evalOp_ref, ha, evalOp_reduceSum, evalOp_ref, hb]
-  simp only [Option.bind_some, Option.bind_eq_bind]
-  refine congrArg some ?_
-  apply Tile.ext
-  rintro ⟨j,⟨⟩⟩
-  simp only [Tile.bop_data, Broadcast.leftIndex, Broadcast.rightIndex, Tile.vec,
-    Tile.reduceSum_false, Tile.reduceSumDrop_data, NumericDType.add, inputTile, Tile.mat,
-    TileShape.insertAxisIndex, nextCarry]
-  erw [coe_sum]
-  rfl
-
-theorem store_eval (p : Layout) (l : Launch) (o : RegionName) (a padding : Nat → ℝ)
-    (c : Nat) (acc : Fin p.BS → ℝ) (u : BlockState)
-    (hp : u.regs .blockPtr [p.BT, p.BS] "p_z" = some (pointer p l o c))
-    (hv : u.regs .real [p.BT, p.BS] "b_c" = some (outputTile p l a padding c acc)) :
-    stepStmt (.store .real [p.BT, p.BS] (.blockPtr (.ref .blockPtr [p.BT, p.BS] "p_z") [0, 1])
-      (.ref .real [p.BT, p.BS] "b_c") .none) u = some (scatter p l o a padding c acc u) := by
-  simp only [stepStmt, evalOp_ref, hp, hv, Option.bind_some, Option.bind_eq_bind,
-    Bool.true_and, pointer, TileShape.indexToList, BlockPtr.inBounds_2d_offsets,
-    BlockPtr.address_2d_offsets, decide_eq_true_eq]
-  rfl
-
-/-- Every statement of a chunk succeeds for arbitrary loaded input and incoming
-carry. The final store remains before the source's nonnegative-index branch. -/
-theorem executes (p : Layout) (l : Launch) (s o : RegionName) (a padding : Nat → ℝ)
-    (c : Nat) (acc : Fin p.BS → ℝ) (u : BlockState) (hu : ∀ off, u.undef s off = padding off)
-    (his : u.regs .nat [] "i_s" = some (Tile.scalar l.feature))
-    (hih : u.regs .nat [] "i_bh" = some (Tile.scalar l.head))
-    (hit : u.regs .int [] "i_t" = some (Tile.scalar (c : Int)))
-    (hm : ∀ off, u.readMem s off = a off)
-    (htri : u.regs .real [p.BT, p.BT] "m_s" = some (RealMath.upperTriTile p.BT))
-    (hacc : u.regs .real [p.BS] "b_z" = some (Tile.vec fun j => some (acc j))) :
-    stepStmts (loopBody p s o) u = some (result p l s o a padding c acc u) := by
-  unfold loopBody
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (pointer_eval p l s c u his hih hit))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (pointer_eval p l o c _
-    (by simp [his]) (by simp [hih]) (by simp [hit])))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_eval p l s a padding c _ (by simpa using hu)
-    (by intro off; simp [hm]) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (add_dot_eval p l a padding c acc _
-    (by simp [hacc]) (by simp [htri]) (by simp)))]
-  rw [stepStmts.cons_some (store_eval p l o a padding c acc _ (by simp) (by simp))]
-  change stepStmts [.ifThen _ _] (scatter p l o a padding c acc (beforeStore p l s o a padding c acc u)) = _
-  have hc : evalOp (.ge .int .nil (.ref .int [] "i_t") (.castNatToInt (.constNat 0)))
-      (scatter p l o a padding c acc (beforeStore p l s o a padding c acc u)) = some (Tile.scalar Bool.true) := by
-    have hr : (scatter p l o a padding c acc (beforeStore p l s o a padding c acc u)).regs .int [] "i_t" =
-        some (Tile.scalar (c : Int)) := by simp [scatter, beforeStore, hit]
-    rw [evalOp]
-    simp only [evalOp_ref, hr, evalOp, Option.bind_some, Option.bind_eq_bind]
+theorem executes (h : Call) (c : Config) (row q : Nat) (f : Geometry.FeatureBlock h)
+    (a : Nat → ℝ) (acc : Fin BS → ℝ) (u : BlockState) (start : q*c.BT<h.T)
+    (his : u.regs .nat [] "i_s"=some (Tile.scalar f.val))
+    (hih : u.regs .nat [] "i_bh"=some (Tile.scalar row))
+    (hit : u.regs .int [] "i_t"=some (Tile.scalar (q:Int)))
+    (read : ∀ off, u.readMem h.input off=a off)
+    (htri : u.regs .real [c.BT,c.BT] "m_s"=some (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealMath.upperTriTile c.BT))
+    (hacc : u.regs .real [BS] "b_z"=some (Tile.vec fun j => some (acc j))) :
+    stepStmts (chunkCode h c) u=some (result h c row q f.val a acc u) := by
+  simp only [chunkCode,loopBody,List.tail_cons]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (startT_eval c q u hit))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (startS_eval f.val _ (by simp [his])))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.arange c.BT) _=some (lanes c.BT) from by rw [evalOp]; rfl))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.arange BS) _=some (lanes BS) from by rw [evalOp]; rfl))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (activeT_eval h c q _ start (by simp) (by simp)))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (activeS_eval h f.val _ (by simp) (by simp)))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (time_eval h c q _ (by simp) (by simp) (by simp)))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (feature_eval h f.val _ (by simp) (by simp) (by simp)))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (mask_eval h c q f.val _ (by simp) (by simp)))]
+  change stepStmts _ (indexed h c q f.val u)=_
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (pointer_eval h c row q f.val h.input _
+    (by simp [indexed,hih]) (by simp [indexed]) (by simp [indexed])))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (pointer_eval h c row q f.val h.output _
+    (by simp [indexed,hih]) (by simp [indexed]) (by simp [indexed])))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_eval h c row q f a _ start (by simp)
+    (by simp [indexed]) (by intro off; simpa [indexed] using read off)))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (output_eval h c row q f.val a acc _
+    (by simp [indexed,hacc]) (by simp [indexed,htri]) (by simp)))]
+  rw [stepStmts.cons_some (store_eval h c row q f a acc _ start (by simp) (by simp [indexed]) (by simp; rfl))]
+  change stepStmts [.ifThen _ _] (scatter (layout h c) (launch row f.val) h.output a (fun _ => 0) q acc
+    (beforeStore h c row q f.val a acc u))=_
+  have hc : evalOp nonnegativeOp (scatter (layout h c) (launch row f.val) h.output a (fun _ => 0) q acc
+      (beforeStore h c row q f.val a acc u))=some (Tile.scalar Bool.true) := by
+    simp only [nonnegativeOp,evalOp]
+    have hr : (scatter (layout h c) (launch row f.val) h.output a (fun _ => 0) q acc
+      (beforeStore h c row q f.val a acc u)).regs .int [] "i_t"=some (Tile.scalar (q:Int)) := by
+        simp [scatter,beforeStore,indexed,hit]
+    rw [hr]
     apply congrArg some
     apply Tile.ext
     intro i
-    change decide ((0 : Int) ≤ (c : Int)) = Bool.true
+    change decide ((0:Int)≤(q:Int))=Bool.true
     simp
-  rw [stepStmts, stepStmt, hc]
-  simp only [Option.bind_some, Option.bind_eq_bind, Tile.scalar_data, ↓reduceIte]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (carry_eval p l a padding c acc _
-    (by simp [scatter, beforeStore, hacc]) (by simp [scatter, beforeStore])))]
+  rw [stepStmts,stepStmt,hc]
+  simp only [Option.bind_some,Option.bind_eq_bind,Tile.scalar_data,↓reduceIte]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (carry_eval h c row q f.val a acc _
+    (by simp [scatter,beforeStore,indexed,hacc]) (by simp [scatter,beforeStore])))]
   simp only [stepStmts.nil]
   rfl
 
-#guard_msgs (drop info) in
-#auditModuleAxioms
+#print axioms executes
 end
-end VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep
+end VeriTile.Bench.Repairs.ReversedCumsum.RealStep

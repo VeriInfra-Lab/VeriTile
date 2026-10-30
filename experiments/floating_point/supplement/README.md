@@ -15,10 +15,10 @@ CPU 回放。已发布表绑定其记录的源代码哈希和聚合协议。
 `libdevice.exp`，保留原有输入、减法、除法、中间 cast 和输出 cast。
 DLC 名称为 `traces_kernel_equivalence_testing`，任务 ID 为 `dlchk3ifersdpxho`。
 
-[完整 z / B / tau / U / accept 表](./report/summary.md) 同时提供
-[全精度 CSV](./report/summary.csv) 和 [JSON](./report/summary.json)。
-[运行配置](./report/experiment.json) 记录源代码、设备、任务和独立 CPU 回放信息，
-[未接受项明细](./report/warning_audit.json) 区分偏差超预算、区间尚不足以确认和 U gate 状态。
+[完整 z / B / tau / U / accept 表](report/summary.md) 同时提供
+[全精度 CSV](report/summary.csv) 和 [JSON](report/summary.json)。
+[运行配置](report/experiment.json) 记录源代码、设备、任务和独立 CPU 回放信息，
+[未接受项明细](report/warning_audit.json) 区分偏差超预算、区间尚不足以确认和 U gate 状态。
 表中每个配置都单独报告；未测或不适用的统计不填写为零。
 
 跨 replicate 均值的 `abs(mean) + 5*SE <= 0.05` 才满足 bias 预算；z 仅作诊断。
@@ -134,8 +134,8 @@ Independent-seed confirmation:
 | EXP-NEG-INF-SUB | — | tl.exp | 0 | 0 | 0 | Yes |
 | EXP-NEG-INF-SUB-LIBDEVICE | — | libdevice.exp | 0 | 0 | 0 | Yes |
 
-[Log comparison data](./log_report/comparison.json) and
-[exp comparison data](./exp_report/comparison.json) record paired observations
+[Log comparison data](log_report/comparison.json) and
+[exp comparison data](exp_report/comparison.json) record paired observations
 and PTX comparisons under Triton 3.7.1 / CUDA 13.0 on sm_90. Compiler equality
 is measured per pair and configuration, never assumed across APIs.
 Every row's complete z/B/U/accept data is also available in each report's CSV/JSON.
@@ -169,7 +169,7 @@ product boundary inputs cover both log implementations. Both sides preserve
 FP32 computation and contain no FP64 instructions. Nonfinite outputs on valid
 inputs remain failures of the statistical experiment. Boundary checks explicitly
 cover matching underflow/overflow behavior rather than admitting those outputs.
-[Boundary data](./log_report/boundaries.json) contains separate descriptive timings
+[Boundary data](log_report/boundaries.json) contains separate descriptive timings
 for all four guarded variants on all-fast, all-fallback and mixed inputs.
 Acceptance is not a speedup claim. U's `empirical_max` fallback, where reported,
 is an observed maximum ratio rather than a fitted tail confidence bound.
@@ -237,7 +237,7 @@ tar -czf fp-supplement-results.tar.gz -C Logs fp-supplement fp-supplement-report
 
 ## 测什么
 
-[rules.json](./rules.json) 列出每对实际表达式和定义域；[kernels.py](./kernels.py)
+[rules.json](rules.json) 列出每对实际表达式和定义域；[kernels.py](kernels.py)
 实现它们。下表省略每个节点的舍入 `Q` 和末尾的输出转换，源码及报告均保留。
 
 | 原子 | 参考 → 候选 | 用途 |
@@ -287,7 +287,7 @@ COUNT-SUCCESSOR use a separate int32 input profile; see the
 
 ## 配置与精度
 
-编辑 [config.py](./config.py)：默认 shape `[4096,4096]`，独立 `Normal(1,1²)`，
+编辑 [config.py](config.py)：默认 shape `[4096,4096]`，独立 `Normal(1,1²)`，
 `std` 是 σ。每次 replicate 生成全新的 a/b/c 整张量；常数原子不使用这些操作数。
 shape 表示局部表达式的采样批次，不是未来 Lean kernel 的固定尺寸。
 
@@ -358,7 +358,7 @@ NPZ 的 `valid_samples` 保存每次抽样的有效元组数，record 保存尝�
 须使用新的输出目录。已提交的 PR #11
 报告仍保留旧策略及其 `NUMERIC_EVENT` 结果，不能当作新策略已通过的证据。
 导出器保留对该报告准确源码标识的识别。当前过滤策略的结果见
-[log_report](./log_report/summary.md)；如需单独复现 LOG-MUL：
+[log_report](log_report/summary.md)；如需单独复现 LOG-MUL：
 
 ```bash
 python3 scripts/check_numerics_supplement.py run --rules LOG-MUL --formats fp32 --output Logs/fp-log-mul-domain

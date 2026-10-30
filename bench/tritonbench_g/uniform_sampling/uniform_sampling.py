@@ -1,29 +1,24 @@
-import logging
+"""Guarded contiguous FP32 uniform sampling with atomic Philox reservations.
+
+Source: uniform_sampling.py, SHA256
+d2046880647babeb532c22d3fe39e5f9662c52de36ac9a465b6405aab352a4c1.
+See README.md for state, numerical, runtime, and failure contracts.
+"""
+import functools
+import operator
+from pathlib import Path
 
 import torch
 import triton
 import triton.language as tl
-import functools
-import operator
-from typing import Tuple
-
-Shape = Tuple[int]
 
 
 try:
     uint_to_uniform_float = tl.uint_to_uniform_float
 except AttributeError:
-    # Copied from triton.language package for compatibility
     @triton.jit
     def uint_to_uniform_float(x):
-        """
-        Numerically stable function to convert a random uint into a random float uniformly sampled in [0, 1).
-        """
-        # TODO: fix frontend issues and cleanup
-        # conditions can be simplified
-        # scale is ((2**23 - 1) / 2**23) * 2**(N_BITS - 1)
         if tl.constexpr(x.dtype == tl.uint32) or tl.constexpr(x.dtype == tl.int32):
-            # maximum value such that `MAX_INT * scale < 1.0` (with float rounding)
             x = x.to(tl.int32, bitcast=True)
             scale = 4.6566127342e-10
         else:
@@ -36,190 +31,150 @@ except AttributeError:
         return x * scale
 
 
-def philox_cuda_seed_offset(increment, device=None):
-    device = device or torch.cuda.current_device()
-    gen = torch.cuda.default_generators[device]
-    state_copy = gen.get_state()
-    c0, c1 = state_copy.view(torch.int64)
-    seed, offset = int(c0), int(c1)
-    increment = (increment + 3) // 4 * 4
-    c1 += increment
-    # get_state returns a new tensor, so it needs set_state to update the actual generator state.
-    gen.set_state(state_copy)
-    return seed, offset
-
-
 def heur_block(args):
-    if args["N"] <= 512:
-        return 512
-    else:
-        return 1024
+    return 512 if args["N"] <= 512 else 1024
 
 
 def heur_num_warps(args):
-    if args["N"] <= 512:
-        return 4
-    elif args["N"] <= 1024:
-        return 8
-    else:
-        return 16
+    return 4 if args["N"] <= 512 else (8 if args["N"] <= 1024 else 16)
 
 
-@triton.heuristics(
-    {
-        "BLOCK": heur_block,
-        "num_warps": heur_num_warps,
-    }
-)
 @triton.jit(do_not_specialize=["philox_seed", "philox_offset"])
-def uniform_kernel(
-    out_ptr,
-    N,
-    philox_seed,
-    philox_offset,
-    from_,
-    to,
-    BLOCK: tl.constexpr,
+def uniform_sampling_repaired_kernel(
+    out_ptr, N, philox_seed, philox_offset, from_, to, BLOCK: tl.constexpr
 ):
     philox_seed = philox_seed.to(tl.int64)
     philox_offset = philox_offset.to(tl.int64)
     c0 = (philox_offset & 0xFFFFFFFF).to(tl.uint32)
     c1 = ((philox_offset >> 32) & 0xFFFFFFFF).to(tl.uint32)
-    i4 = tl.program_id(0) * BLOCK + tl.arange(0, BLOCK)
-    c0 += i4
+    pid = tl.program_id(0).to(tl.int64)
+    lane = tl.arange(0, BLOCK).to(tl.int64)
+    i4 = pid * BLOCK + lane
+    c0 += i4.to(tl.uint32)
     _O = c0 * 0
     r0, r1, r2, r3 = tl.philox(philox_seed, c0, c1, _O, _O)
-    r0 = uint_to_uniform_float(r0) * (to - from_) + from_
-    r1 = uint_to_uniform_float(r1) * (to - from_) + from_
-    r2 = uint_to_uniform_float(r2) * (to - from_) + from_
-    r3 = uint_to_uniform_float(r3) * (to - from_) + from_
-    off_0 = tl.program_id(0) * BLOCK * 4 + tl.arange(0, BLOCK)
+    # Explicitly retain the default native affine FMA recorded for the source.
+    r0 = tl.fma(uint_to_uniform_float(r0), to - from_, from_)
+    r1 = tl.fma(uint_to_uniform_float(r1), to - from_, from_)
+    r2 = tl.fma(uint_to_uniform_float(r2), to - from_, from_)
+    r3 = tl.fma(uint_to_uniform_float(r3), to - from_, from_)
+    off_0 = pid * BLOCK * 4 + lane
     off_1 = off_0 + BLOCK
     off_2 = off_1 + BLOCK
     off_3 = off_2 + BLOCK
-    tl.store(out_ptr + off_0, r0, mask=off_0 < N, eviction_policy="evict_first")
-    tl.store(out_ptr + off_1, r1, mask=off_1 < N, eviction_policy="evict_first")
-    tl.store(out_ptr + off_2, r2, mask=off_2 < N, eviction_policy="evict_first")
-    tl.store(out_ptr + off_3, r3, mask=off_3 < N, eviction_policy="evict_first")
+    tl.store(out_ptr + tl.minimum(off_0, N - 1), r0, mask=off_0 < N,
+             eviction_policy="evict_first")
+    tl.store(out_ptr + tl.minimum(off_1, N - 1), r1, mask=off_1 < N,
+             eviction_policy="evict_first")
+    tl.store(out_ptr + tl.minimum(off_2, N - 1), r2, mask=off_2 < N,
+             eviction_policy="evict_first")
+    tl.store(out_ptr + tl.minimum(off_3, N - 1), r3, mask=off_3 < N,
+             eviction_policy="evict_first")
 
 
 
-def volume(shape: Shape) -> int:
+@triton.jit(do_not_specialize=["philox_seed", "philox_offset"])
+def uniform_sampling_index_commuted_kernel(
+    out_ptr, N, philox_seed, philox_offset, from_, to, BLOCK: tl.constexpr
+):
+    philox_seed = philox_seed.to(tl.int64)
+    philox_offset = philox_offset.to(tl.int64)
+    c0 = (philox_offset & 0xFFFFFFFF).to(tl.uint32)
+    c1 = ((philox_offset >> 32) & 0xFFFFFFFF).to(tl.uint32)
+    pid = tl.program_id(0).to(tl.int64)
+    lane = tl.arange(0, BLOCK).to(tl.int64)
+    i4 = BLOCK * pid + lane
+    c0 += i4.to(tl.uint32)
+    _O = c0 * 0
+    r0, r1, r2, r3 = tl.philox(philox_seed, c0, c1, _O, _O)
+    # Explicitly retain the default native affine FMA recorded for the source.
+    r0 = tl.fma(uint_to_uniform_float(r0), to - from_, from_)
+    r1 = tl.fma(uint_to_uniform_float(r1), to - from_, from_)
+    r2 = tl.fma(uint_to_uniform_float(r2), to - from_, from_)
+    r3 = tl.fma(uint_to_uniform_float(r3), to - from_, from_)
+    off_0 = pid * BLOCK * 4 + lane
+    off_1 = off_0 + BLOCK
+    off_2 = off_1 + BLOCK
+    off_3 = off_2 + BLOCK
+    tl.store(out_ptr + tl.minimum(off_0, N - 1), r0, mask=off_0 < N,
+             eviction_policy="evict_first")
+    tl.store(out_ptr + tl.minimum(off_1, N - 1), r1, mask=off_1 < N,
+             eviction_policy="evict_first")
+    tl.store(out_ptr + tl.minimum(off_2, N - 1), r2, mask=off_2 < N,
+             eviction_policy="evict_first")
+    tl.store(out_ptr + tl.minimum(off_3, N - 1), r3, mask=off_3 < N,
+             eviction_policy="evict_first")
+
+
+def volume(shape):
     return functools.reduce(operator.mul, shape, 1)
 
 
-UNROLL = 4
+@functools.lru_cache(maxsize=1)
+def _reservation_module():
+    from torch.utils.cpp_extension import load
+    return load(
+        name="veritile_uniform_sampling_reservation_v1",
+        sources=[str(Path(__file__).with_name("reserve_philox.cpp"))],
+        extra_cflags=["-O2"], with_cuda=False, verbose=False,
+    )
 
 
-def uniform_(self, from_=0.0, to=1.0, *, generator=None):
-    logging.debug("GEMS UNIFORM")
-    N = volume(self.shape)
-    grid_fn = lambda meta: (triton.cdiv(N, meta["BLOCK"] * UNROLL),)
+def _signed64(word):
+    return word if word < (1 << 63) else word - (1 << 64)
 
-    increment = triton.cdiv(N, UNROLL)
-    philox_seed, philox_offset = philox_cuda_seed_offset(increment)
+
+def _launch_chunks(n, block, start):
+    """Split only at low-word carry boundaries; retain global four-stream order."""
+    done = 0
+    counters = (n + 4 * block - 1) // (4 * block) * block
+    while done < counters:
+        offset = start + done
+        available = (1 << 32) - (offset & 0xFFFFFFFF)
+        count = min(counters - done, available)
+        elements = min(n - 4 * done, 4 * count)
+        yield 4 * done, elements, count // block, _signed64(offset)
+        done += count
+
+
+def uniform_sampling_repaired(self, from_=0.0, to=1.0, *, generator=None):
+    if not isinstance(self, torch.Tensor) or self.layout != torch.strided:
+        raise TypeError("uniform output must be a strided torch.Tensor")
+    if self.dtype != torch.float32:
+        raise TypeError("this repaired precision profile requires FP32 output")
+    if self.device.type != "cuda":
+        raise ValueError("uniform output must be on a CUDA device")
+    if generator is not None and (
+        not isinstance(generator, torch.Generator) or generator.device != self.device
+    ):
+        raise ValueError("generator must belong to the output CUDA device")
+    if not self.is_contiguous():
+        raise ValueError("uniform output must be contiguous")
+    if self.is_neg():
+        raise ValueError("uniform output must have no unresolved negative view bit")
+    if self.numel() > 0 and self.data_ptr() % 4 != 0:
+        raise ValueError("nonempty output must have a four-byte-aligned data pointer")
+    if not isinstance(from_, float) or not isinstance(to, float):
+        raise TypeError("uniform bounds must be Python floats")
+    lower, upper = float(from_), float(to)
+    n = volume(self.shape)
+    if n >= 2**63:
+        raise ValueError("uniform output extent must fit signed64")
+    if n == 0:
+        return self
+    block = heur_block({"N": n})
+    warps = heur_num_warps({"N": n})
+    counter_count = (n + 4 * block - 1) // (4 * block) * block
+    reservation = _reservation_module()
     with torch.cuda.device(self.device):
-        uniform_kernel[grid_fn](self, N, philox_seed, philox_offset, from_, to)
+        scratch = torch.empty((n,), device=self.device, dtype=torch.float32)
+        selected = (torch.cuda.default_generators[self.device.index]
+                    if generator is None else generator)
+        seed, start = reservation.reserve(selected, self.device.index, block, counter_count)
+        for base, size, programs, offset in _launch_chunks(n, block, start):
+            uniform_sampling_repaired_kernel[(programs,)](
+                scratch[base:base + size], size, _signed64(seed), offset, lower, upper,
+                BLOCK=block, num_warps=warps, enable_fp_fusion=True,
+            )
+        self.copy_(scratch.reshape(self.shape))
     return self
-
-
-
-
-##################################################################################################################################################
-
-
-def test_uniform_():
-    results = {}
-
-    # Test case 1: 1D tensor, float32, default from=0, to=1
-    x_1d = torch.empty((10,), device='cuda', dtype=torch.float32)
-    uniform_(x_1d)
-    results['test_case_1'] = x_1d
-
-    # Test case 2: 2D tensor, float32, from=2, to=5
-    x_2d = torch.empty((4, 4), device='cuda', dtype=torch.float32)
-    uniform_(x_2d, from_=2.0, to=5.0)
-    results['test_case_2'] = x_2d
-
-    # Test case 3: 3D tensor, float64, from=-1, to=1
-    x_3d = torch.empty((2, 3, 4), device='cuda', dtype=torch.float64)
-    uniform_(x_3d, from_=-1.0, to=1.0)
-    results['test_case_3'] = x_3d
-
-    # Test case 4: Empty tensor, float32, from=0, to=1
-    x_empty = torch.empty((0,), device='cuda', dtype=torch.float32)
-    uniform_(x_empty)
-    results['test_case_4'] = x_empty
-
-    # Test case 5: Single-element tensor, float32, from=5, to=10
-    x_single = torch.empty((1,), device='cuda', dtype=torch.float32)
-    uniform_(x_single, from_=5.0, to=10.0)
-    results['test_case_5'] = x_single
-
-    # Test case 6: Large tensor, float32, from=-10, to=10
-    x_large = torch.empty((1024, 1024), device='cuda', dtype=torch.float32)
-    uniform_(x_large, from_=-10.0, to=10.0)
-    results['test_case_6'] = x_large
-
-    # Test case 7: 1D tensor, float16, default from=0, to=1
-    x_float16 = torch.empty((10,), device='cuda', dtype=torch.float16)
-    uniform_(x_float16)
-    results['test_case_7'] = x_float16
-
-    # Test case 8: Tensor with specific shapes (non-square), float32, from=-5, to=5
-    x_shape1 = torch.empty((3, 7), device='cuda', dtype=torch.float32)
-    x_shape2 = torch.empty((5, 3, 2), device='cuda', dtype=torch.float32)
-    uniform_(x_shape1, from_=-5.0, to=5.0)
-    uniform_(x_shape2, from_=-5.0, to=5.0)
-    results['test_case_8_1'] = x_shape1
-    results['test_case_8_2'] = x_shape2
-
-    # Test case 9: Tensor with 4D shape, float32, from=0.5, to=2.5
-    x_4d = torch.empty((2, 2, 3, 4), device='cuda', dtype=torch.float32)
-    uniform_(x_4d, from_=0.5, to=2.5)
-    results['test_case_9'] = x_4d
-
-    # Test case 10: Tensor with nan values, float32, checking if the range is filled correctly
-    x_nan = torch.full((10,), float('nan'), device='cuda', dtype=torch.float32)
-    uniform_(x_nan, from_=1.0, to=2.0)
-    results['test_case_10'] = x_nan
-
-    # Test case 11: Tensor with negative shape values (expecting an exception)
-    try:
-        x_negative = torch.empty((-1,), device='cuda', dtype=torch.float32)
-        uniform_(x_negative)
-    except Exception as e:
-        results['test_case_11'] = str(e)
-
-    # Test case 12: Tensor with mixed positive and negative shape values (expecting an exception)
-    try:
-        x_invalid = torch.empty((3, -4), device='cuda', dtype=torch.float32)
-        uniform_(x_invalid)
-    except Exception as e:
-        results['test_case_12'] = str(e)
-
-    # Test case 13: Very large tensor, checking if it handles allocation and computation
-    x_very_large = torch.empty((4096, 4096), device='cuda', dtype=torch.float32)
-    uniform_(x_very_large, from_=-10.0, to=10.0)
-    results['test_case_13'] = x_very_large
-
-    # Test case 14: Tensor with extreme value ranges
-    x_extreme = torch.empty((10,), device='cuda', dtype=torch.float32)
-    uniform_(x_extreme, from_=-1e5, to=1e5)
-    results['test_case_14'] = x_extreme
-
-    # Test case 15: Edge case where from_ == to
-    x_equal = torch.empty((10,), device='cuda', dtype=torch.float32)
-    uniform_(x_equal, from_=5.0, to=5.0)
-    results['test_case_15'] = x_equal
-
-    # Test case 16: Tensor with NaN, Inf values for from_ and to (expecting exception)
-    try:
-        x_nan_inf = torch.empty((10,), device='cuda', dtype=torch.float32)
-        uniform_(x_nan_inf, from_=float('nan'), to=float('inf'))
-    except Exception as e:
-        results['test_case_16'] = str(e)
-
-    return results
-
-result_gold = test_uniform_()

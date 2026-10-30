@@ -1,33 +1,20 @@
-import VeriTile.Triton
+import bench.tritonbench_g.rmsnorm_fused_llama.Sources.Mathematical_Kernels
+import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.IndexTransform
+import VeriTile.Meta.StatementAudit
 
-/-!
-Source-audit target: _rms_norm_fwd_fused
-Source-audit Lean: rmsLlamaTyped%
-Source-audit params: BLOCK_SIZE=B
-Source-audit args: input=tl.float32, weight=tl.float32, output=tl.float16
-Selected fp32 input/weight and fp16 output profile only; other storage combinations remain separate obligations.
--/
+/-! Complete ordinary quotations for the literal/runtime original source and
+its existing integer pointer-product candidate. Runtime epsilon is explicitly
+declared without a dummy value or custom source frontend. -/
+namespace VeriTile.Bench.Repairs.RmsnormFusedLlama
+open VeriTile Triton FP.Structural
 
-namespace VeriTile.Bench.TritonBenchG.RmsnormFusedLlama
-open VeriTile.Triton
-
-open Lean
-syntax "rmsLlamaTyped%" "[" tritonDType "," tritonDType "," tritonDType "]" : term
-set_option hygiene false in
-macro_rules
-  | `(rmsLlamaTyped%[$input:tritonDType, $weight:tritonDType, $output:tritonDType]) => do
-    let half := match output with
-      | `(tritonDType| tl.float16) => Bool.true
-      | _ => Bool.false
-    let store : TSyntax `tritonStmt ← if half then
-      `(tritonStmt| tl.store(Y + cols, y.to(tl.float16), mask=mask))
-      else `(tritonStmt| tl.store(Y + cols, (y.to(tl.float16)).to($output:tritonDType), mask=mask))
-    `(fun (X Y W : RegionName) (stride N B : Nat) (eps : ℝ) =>
-      ComputeKernel.mk [X, W] [Y] (triton {
-  tl.region X = $input, W = $weight, Y = $output
+def kernel (X Y W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
+  triton {
+  tl.ports inputs=[X,W], outputs=[Y]
+  tl.region X = tl.float32, W = tl.float32, Y = tl.float32
   row = tl.program_id(0)
-  Y += row * $(stride)
-  X += row * $(stride)
+  Y += row * $(N)
+  X += row * $(N)
   _var = tl.zeros([$(B)], dtype=tl.float32)
   for off in range(0, $(N), $(B)) {
     cols = off + tl.arange(0, $(B))
@@ -43,248 +30,95 @@ macro_rules
     x = tl.load(X + cols, mask=mask, other=0.0).to(tl.float32)
     x_hat = x * rstd
     y = x_hat * w
-    $store
+    tl.store(Y + cols, (y.to(tl.float16)).to(tl.float32), mask=mask)
   }
-}).surfaceBody)
+  }
 
-/-- Floating storage varies independently; the wrapper correlates output=input. -/
-inductive Storage where
-  | fp32 | fp64 | fp16 | bf16 | f8e4 | f8e5
-  deriving DecidableEq, Repr
+def runtimeKernel (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
+  triton {
+  tl.ports inputs=[X,W], outputs=[Y]
+  tl.region X = tl.float32, W = tl.float32, Y = tl.float32
+  tl.param eps_arg : tl.float32
+  row = tl.program_id(0)
+  Y += row * $(N)
+  X += row * $(N)
+  _var = tl.zeros([$(B)], dtype=tl.float32)
+  for off in range(0, $(N), $(B)) {
+    cols = off + tl.arange(0, $(B))
+    x = tl.load(X + cols, mask=cols < $(N), other=0.0).to(tl.float32)
+    _var += x * x
+  }
+  var = tl.sum(_var, axis=0) / $(N)
+  rstd = 1 / tl.sqrt(var + eps_arg)
+  for off in range(0, $(N), $(B)) {
+    cols = off + tl.arange(0, $(B))
+    mask = cols < $(N)
+    w = tl.load(W + cols, mask=mask).to(tl.float32)
+    x = tl.load(X + cols, mask=mask, other=0.0).to(tl.float32)
+    x_hat = x * rstd
+    y = x_hat * w
+    tl.store(Y + cols, (y.to(tl.float16)).to(tl.float32), mask=mask)
+  }
+  }
 
-abbrev Source := RegionName → RegionName → RegionName → Nat → Nat → Nat → ℝ → ComputeKernel
-set_option maxHeartbeats 16000000
-set_option maxRecDepth 16000
+def indexCommutedKernel (X Y W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
+  triton {
+  tl.ports inputs=[X,W], outputs=[Y]
+  tl.region X = tl.float32, W = tl.float32, Y = tl.float32
+  row = tl.program_id(0)
+  Y += $(N) * row
+  X += row * $(N)
+  _var = tl.zeros([$(B)], dtype=tl.float32)
+  for off in range(0, $(N), $(B)) {
+    cols = off + tl.arange(0, $(B))
+    x = tl.load(X + cols, mask=cols < $(N), other=0.0).to(tl.float32)
+    _var += x * x
+  }
+  var = tl.sum(_var, axis=0) / $(N)
+  rstd = 1 / tl.sqrt(var + $(eps))
+  for off in range(0, $(N), $(B)) {
+    cols = off + tl.arange(0, $(B))
+    mask = cols < $(N)
+    w = tl.load(W + cols, mask=mask).to(tl.float32)
+    x = tl.load(X + cols, mask=mask, other=0.0).to(tl.float32)
+    x_hat = x * rstd
+    y = x_hat * w
+    tl.store(Y + cols, (y.to(tl.float16)).to(tl.float32), mask=mask)
+  }
+  }
 
-/-- Complete source body with both loops and explicit fp32 input/weight conversions.
-The explicit fp16 output conversion precedes the destination storage conversion. -/
-def originalTyped (input weight output : Storage) : Source :=
-  match input, weight, output with
-  | .fp32, .fp32, .fp32 => rmsLlamaTyped%[tl.float32, tl.float32, tl.float32]
-  | .fp32, .fp32, .fp64 => rmsLlamaTyped%[tl.float32, tl.float32, tl.float64]
-  | .fp32, .fp32, .fp16 => rmsLlamaTyped%[tl.float32, tl.float32, tl.float16]
-  | .fp32, .fp32, .bf16 => rmsLlamaTyped%[tl.float32, tl.float32, tl.bfloat16]
-  | .fp32, .fp32, .f8e4 => rmsLlamaTyped%[tl.float32, tl.float32, tl.float8e4nv]
-  | .fp32, .fp32, .f8e5 => rmsLlamaTyped%[tl.float32, tl.float32, tl.float8e5]
-  | .fp32, .fp64, .fp32 => rmsLlamaTyped%[tl.float32, tl.float64, tl.float32]
-  | .fp32, .fp64, .fp64 => rmsLlamaTyped%[tl.float32, tl.float64, tl.float64]
-  | .fp32, .fp64, .fp16 => rmsLlamaTyped%[tl.float32, tl.float64, tl.float16]
-  | .fp32, .fp64, .bf16 => rmsLlamaTyped%[tl.float32, tl.float64, tl.bfloat16]
-  | .fp32, .fp64, .f8e4 => rmsLlamaTyped%[tl.float32, tl.float64, tl.float8e4nv]
-  | .fp32, .fp64, .f8e5 => rmsLlamaTyped%[tl.float32, tl.float64, tl.float8e5]
-  | .fp32, .fp16, .fp32 => rmsLlamaTyped%[tl.float32, tl.float16, tl.float32]
-  | .fp32, .fp16, .fp64 => rmsLlamaTyped%[tl.float32, tl.float16, tl.float64]
-  | .fp32, .fp16, .fp16 => rmsLlamaTyped%[tl.float32, tl.float16, tl.float16]
-  | .fp32, .fp16, .bf16 => rmsLlamaTyped%[tl.float32, tl.float16, tl.bfloat16]
-  | .fp32, .fp16, .f8e4 => rmsLlamaTyped%[tl.float32, tl.float16, tl.float8e4nv]
-  | .fp32, .fp16, .f8e5 => rmsLlamaTyped%[tl.float32, tl.float16, tl.float8e5]
-  | .fp32, .bf16, .fp32 => rmsLlamaTyped%[tl.float32, tl.bfloat16, tl.float32]
-  | .fp32, .bf16, .fp64 => rmsLlamaTyped%[tl.float32, tl.bfloat16, tl.float64]
-  | .fp32, .bf16, .fp16 => rmsLlamaTyped%[tl.float32, tl.bfloat16, tl.float16]
-  | .fp32, .bf16, .bf16 => rmsLlamaTyped%[tl.float32, tl.bfloat16, tl.bfloat16]
-  | .fp32, .bf16, .f8e4 => rmsLlamaTyped%[tl.float32, tl.bfloat16, tl.float8e4nv]
-  | .fp32, .bf16, .f8e5 => rmsLlamaTyped%[tl.float32, tl.bfloat16, tl.float8e5]
-  | .fp32, .f8e4, .fp32 => rmsLlamaTyped%[tl.float32, tl.float8e4nv, tl.float32]
-  | .fp32, .f8e4, .fp64 => rmsLlamaTyped%[tl.float32, tl.float8e4nv, tl.float64]
-  | .fp32, .f8e4, .fp16 => rmsLlamaTyped%[tl.float32, tl.float8e4nv, tl.float16]
-  | .fp32, .f8e4, .bf16 => rmsLlamaTyped%[tl.float32, tl.float8e4nv, tl.bfloat16]
-  | .fp32, .f8e4, .f8e4 => rmsLlamaTyped%[tl.float32, tl.float8e4nv, tl.float8e4nv]
-  | .fp32, .f8e4, .f8e5 => rmsLlamaTyped%[tl.float32, tl.float8e4nv, tl.float8e5]
-  | .fp32, .f8e5, .fp32 => rmsLlamaTyped%[tl.float32, tl.float8e5, tl.float32]
-  | .fp32, .f8e5, .fp64 => rmsLlamaTyped%[tl.float32, tl.float8e5, tl.float64]
-  | .fp32, .f8e5, .fp16 => rmsLlamaTyped%[tl.float32, tl.float8e5, tl.float16]
-  | .fp32, .f8e5, .bf16 => rmsLlamaTyped%[tl.float32, tl.float8e5, tl.bfloat16]
-  | .fp32, .f8e5, .f8e4 => rmsLlamaTyped%[tl.float32, tl.float8e5, tl.float8e4nv]
-  | .fp32, .f8e5, .f8e5 => rmsLlamaTyped%[tl.float32, tl.float8e5, tl.float8e5]
-  | .fp64, .fp32, .fp32 => rmsLlamaTyped%[tl.float64, tl.float32, tl.float32]
-  | .fp64, .fp32, .fp64 => rmsLlamaTyped%[tl.float64, tl.float32, tl.float64]
-  | .fp64, .fp32, .fp16 => rmsLlamaTyped%[tl.float64, tl.float32, tl.float16]
-  | .fp64, .fp32, .bf16 => rmsLlamaTyped%[tl.float64, tl.float32, tl.bfloat16]
-  | .fp64, .fp32, .f8e4 => rmsLlamaTyped%[tl.float64, tl.float32, tl.float8e4nv]
-  | .fp64, .fp32, .f8e5 => rmsLlamaTyped%[tl.float64, tl.float32, tl.float8e5]
-  | .fp64, .fp64, .fp32 => rmsLlamaTyped%[tl.float64, tl.float64, tl.float32]
-  | .fp64, .fp64, .fp64 => rmsLlamaTyped%[tl.float64, tl.float64, tl.float64]
-  | .fp64, .fp64, .fp16 => rmsLlamaTyped%[tl.float64, tl.float64, tl.float16]
-  | .fp64, .fp64, .bf16 => rmsLlamaTyped%[tl.float64, tl.float64, tl.bfloat16]
-  | .fp64, .fp64, .f8e4 => rmsLlamaTyped%[tl.float64, tl.float64, tl.float8e4nv]
-  | .fp64, .fp64, .f8e5 => rmsLlamaTyped%[tl.float64, tl.float64, tl.float8e5]
-  | .fp64, .fp16, .fp32 => rmsLlamaTyped%[tl.float64, tl.float16, tl.float32]
-  | .fp64, .fp16, .fp64 => rmsLlamaTyped%[tl.float64, tl.float16, tl.float64]
-  | .fp64, .fp16, .fp16 => rmsLlamaTyped%[tl.float64, tl.float16, tl.float16]
-  | .fp64, .fp16, .bf16 => rmsLlamaTyped%[tl.float64, tl.float16, tl.bfloat16]
-  | .fp64, .fp16, .f8e4 => rmsLlamaTyped%[tl.float64, tl.float16, tl.float8e4nv]
-  | .fp64, .fp16, .f8e5 => rmsLlamaTyped%[tl.float64, tl.float16, tl.float8e5]
-  | .fp64, .bf16, .fp32 => rmsLlamaTyped%[tl.float64, tl.bfloat16, tl.float32]
-  | .fp64, .bf16, .fp64 => rmsLlamaTyped%[tl.float64, tl.bfloat16, tl.float64]
-  | .fp64, .bf16, .fp16 => rmsLlamaTyped%[tl.float64, tl.bfloat16, tl.float16]
-  | .fp64, .bf16, .bf16 => rmsLlamaTyped%[tl.float64, tl.bfloat16, tl.bfloat16]
-  | .fp64, .bf16, .f8e4 => rmsLlamaTyped%[tl.float64, tl.bfloat16, tl.float8e4nv]
-  | .fp64, .bf16, .f8e5 => rmsLlamaTyped%[tl.float64, tl.bfloat16, tl.float8e5]
-  | .fp64, .f8e4, .fp32 => rmsLlamaTyped%[tl.float64, tl.float8e4nv, tl.float32]
-  | .fp64, .f8e4, .fp64 => rmsLlamaTyped%[tl.float64, tl.float8e4nv, tl.float64]
-  | .fp64, .f8e4, .fp16 => rmsLlamaTyped%[tl.float64, tl.float8e4nv, tl.float16]
-  | .fp64, .f8e4, .bf16 => rmsLlamaTyped%[tl.float64, tl.float8e4nv, tl.bfloat16]
-  | .fp64, .f8e4, .f8e4 => rmsLlamaTyped%[tl.float64, tl.float8e4nv, tl.float8e4nv]
-  | .fp64, .f8e4, .f8e5 => rmsLlamaTyped%[tl.float64, tl.float8e4nv, tl.float8e5]
-  | .fp64, .f8e5, .fp32 => rmsLlamaTyped%[tl.float64, tl.float8e5, tl.float32]
-  | .fp64, .f8e5, .fp64 => rmsLlamaTyped%[tl.float64, tl.float8e5, tl.float64]
-  | .fp64, .f8e5, .fp16 => rmsLlamaTyped%[tl.float64, tl.float8e5, tl.float16]
-  | .fp64, .f8e5, .bf16 => rmsLlamaTyped%[tl.float64, tl.float8e5, tl.bfloat16]
-  | .fp64, .f8e5, .f8e4 => rmsLlamaTyped%[tl.float64, tl.float8e5, tl.float8e4nv]
-  | .fp64, .f8e5, .f8e5 => rmsLlamaTyped%[tl.float64, tl.float8e5, tl.float8e5]
-  | .fp16, .fp32, .fp32 => rmsLlamaTyped%[tl.float16, tl.float32, tl.float32]
-  | .fp16, .fp32, .fp64 => rmsLlamaTyped%[tl.float16, tl.float32, tl.float64]
-  | .fp16, .fp32, .fp16 => rmsLlamaTyped%[tl.float16, tl.float32, tl.float16]
-  | .fp16, .fp32, .bf16 => rmsLlamaTyped%[tl.float16, tl.float32, tl.bfloat16]
-  | .fp16, .fp32, .f8e4 => rmsLlamaTyped%[tl.float16, tl.float32, tl.float8e4nv]
-  | .fp16, .fp32, .f8e5 => rmsLlamaTyped%[tl.float16, tl.float32, tl.float8e5]
-  | .fp16, .fp64, .fp32 => rmsLlamaTyped%[tl.float16, tl.float64, tl.float32]
-  | .fp16, .fp64, .fp64 => rmsLlamaTyped%[tl.float16, tl.float64, tl.float64]
-  | .fp16, .fp64, .fp16 => rmsLlamaTyped%[tl.float16, tl.float64, tl.float16]
-  | .fp16, .fp64, .bf16 => rmsLlamaTyped%[tl.float16, tl.float64, tl.bfloat16]
-  | .fp16, .fp64, .f8e4 => rmsLlamaTyped%[tl.float16, tl.float64, tl.float8e4nv]
-  | .fp16, .fp64, .f8e5 => rmsLlamaTyped%[tl.float16, tl.float64, tl.float8e5]
-  | .fp16, .fp16, .fp32 => rmsLlamaTyped%[tl.float16, tl.float16, tl.float32]
-  | .fp16, .fp16, .fp64 => rmsLlamaTyped%[tl.float16, tl.float16, tl.float64]
-  | .fp16, .fp16, .fp16 => rmsLlamaTyped%[tl.float16, tl.float16, tl.float16]
-  | .fp16, .fp16, .bf16 => rmsLlamaTyped%[tl.float16, tl.float16, tl.bfloat16]
-  | .fp16, .fp16, .f8e4 => rmsLlamaTyped%[tl.float16, tl.float16, tl.float8e4nv]
-  | .fp16, .fp16, .f8e5 => rmsLlamaTyped%[tl.float16, tl.float16, tl.float8e5]
-  | .fp16, .bf16, .fp32 => rmsLlamaTyped%[tl.float16, tl.bfloat16, tl.float32]
-  | .fp16, .bf16, .fp64 => rmsLlamaTyped%[tl.float16, tl.bfloat16, tl.float64]
-  | .fp16, .bf16, .fp16 => rmsLlamaTyped%[tl.float16, tl.bfloat16, tl.float16]
-  | .fp16, .bf16, .bf16 => rmsLlamaTyped%[tl.float16, tl.bfloat16, tl.bfloat16]
-  | .fp16, .bf16, .f8e4 => rmsLlamaTyped%[tl.float16, tl.bfloat16, tl.float8e4nv]
-  | .fp16, .bf16, .f8e5 => rmsLlamaTyped%[tl.float16, tl.bfloat16, tl.float8e5]
-  | .fp16, .f8e4, .fp32 => rmsLlamaTyped%[tl.float16, tl.float8e4nv, tl.float32]
-  | .fp16, .f8e4, .fp64 => rmsLlamaTyped%[tl.float16, tl.float8e4nv, tl.float64]
-  | .fp16, .f8e4, .fp16 => rmsLlamaTyped%[tl.float16, tl.float8e4nv, tl.float16]
-  | .fp16, .f8e4, .bf16 => rmsLlamaTyped%[tl.float16, tl.float8e4nv, tl.bfloat16]
-  | .fp16, .f8e4, .f8e4 => rmsLlamaTyped%[tl.float16, tl.float8e4nv, tl.float8e4nv]
-  | .fp16, .f8e4, .f8e5 => rmsLlamaTyped%[tl.float16, tl.float8e4nv, tl.float8e5]
-  | .fp16, .f8e5, .fp32 => rmsLlamaTyped%[tl.float16, tl.float8e5, tl.float32]
-  | .fp16, .f8e5, .fp64 => rmsLlamaTyped%[tl.float16, tl.float8e5, tl.float64]
-  | .fp16, .f8e5, .fp16 => rmsLlamaTyped%[tl.float16, tl.float8e5, tl.float16]
-  | .fp16, .f8e5, .bf16 => rmsLlamaTyped%[tl.float16, tl.float8e5, tl.bfloat16]
-  | .fp16, .f8e5, .f8e4 => rmsLlamaTyped%[tl.float16, tl.float8e5, tl.float8e4nv]
-  | .fp16, .f8e5, .f8e5 => rmsLlamaTyped%[tl.float16, tl.float8e5, tl.float8e5]
-  | .bf16, .fp32, .fp32 => rmsLlamaTyped%[tl.bfloat16, tl.float32, tl.float32]
-  | .bf16, .fp32, .fp64 => rmsLlamaTyped%[tl.bfloat16, tl.float32, tl.float64]
-  | .bf16, .fp32, .fp16 => rmsLlamaTyped%[tl.bfloat16, tl.float32, tl.float16]
-  | .bf16, .fp32, .bf16 => rmsLlamaTyped%[tl.bfloat16, tl.float32, tl.bfloat16]
-  | .bf16, .fp32, .f8e4 => rmsLlamaTyped%[tl.bfloat16, tl.float32, tl.float8e4nv]
-  | .bf16, .fp32, .f8e5 => rmsLlamaTyped%[tl.bfloat16, tl.float32, tl.float8e5]
-  | .bf16, .fp64, .fp32 => rmsLlamaTyped%[tl.bfloat16, tl.float64, tl.float32]
-  | .bf16, .fp64, .fp64 => rmsLlamaTyped%[tl.bfloat16, tl.float64, tl.float64]
-  | .bf16, .fp64, .fp16 => rmsLlamaTyped%[tl.bfloat16, tl.float64, tl.float16]
-  | .bf16, .fp64, .bf16 => rmsLlamaTyped%[tl.bfloat16, tl.float64, tl.bfloat16]
-  | .bf16, .fp64, .f8e4 => rmsLlamaTyped%[tl.bfloat16, tl.float64, tl.float8e4nv]
-  | .bf16, .fp64, .f8e5 => rmsLlamaTyped%[tl.bfloat16, tl.float64, tl.float8e5]
-  | .bf16, .fp16, .fp32 => rmsLlamaTyped%[tl.bfloat16, tl.float16, tl.float32]
-  | .bf16, .fp16, .fp64 => rmsLlamaTyped%[tl.bfloat16, tl.float16, tl.float64]
-  | .bf16, .fp16, .fp16 => rmsLlamaTyped%[tl.bfloat16, tl.float16, tl.float16]
-  | .bf16, .fp16, .bf16 => rmsLlamaTyped%[tl.bfloat16, tl.float16, tl.bfloat16]
-  | .bf16, .fp16, .f8e4 => rmsLlamaTyped%[tl.bfloat16, tl.float16, tl.float8e4nv]
-  | .bf16, .fp16, .f8e5 => rmsLlamaTyped%[tl.bfloat16, tl.float16, tl.float8e5]
-  | .bf16, .bf16, .fp32 => rmsLlamaTyped%[tl.bfloat16, tl.bfloat16, tl.float32]
-  | .bf16, .bf16, .fp64 => rmsLlamaTyped%[tl.bfloat16, tl.bfloat16, tl.float64]
-  | .bf16, .bf16, .fp16 => rmsLlamaTyped%[tl.bfloat16, tl.bfloat16, tl.float16]
-  | .bf16, .bf16, .bf16 => rmsLlamaTyped%[tl.bfloat16, tl.bfloat16, tl.bfloat16]
-  | .bf16, .bf16, .f8e4 => rmsLlamaTyped%[tl.bfloat16, tl.bfloat16, tl.float8e4nv]
-  | .bf16, .bf16, .f8e5 => rmsLlamaTyped%[tl.bfloat16, tl.bfloat16, tl.float8e5]
-  | .bf16, .f8e4, .fp32 => rmsLlamaTyped%[tl.bfloat16, tl.float8e4nv, tl.float32]
-  | .bf16, .f8e4, .fp64 => rmsLlamaTyped%[tl.bfloat16, tl.float8e4nv, tl.float64]
-  | .bf16, .f8e4, .fp16 => rmsLlamaTyped%[tl.bfloat16, tl.float8e4nv, tl.float16]
-  | .bf16, .f8e4, .bf16 => rmsLlamaTyped%[tl.bfloat16, tl.float8e4nv, tl.bfloat16]
-  | .bf16, .f8e4, .f8e4 => rmsLlamaTyped%[tl.bfloat16, tl.float8e4nv, tl.float8e4nv]
-  | .bf16, .f8e4, .f8e5 => rmsLlamaTyped%[tl.bfloat16, tl.float8e4nv, tl.float8e5]
-  | .bf16, .f8e5, .fp32 => rmsLlamaTyped%[tl.bfloat16, tl.float8e5, tl.float32]
-  | .bf16, .f8e5, .fp64 => rmsLlamaTyped%[tl.bfloat16, tl.float8e5, tl.float64]
-  | .bf16, .f8e5, .fp16 => rmsLlamaTyped%[tl.bfloat16, tl.float8e5, tl.float16]
-  | .bf16, .f8e5, .bf16 => rmsLlamaTyped%[tl.bfloat16, tl.float8e5, tl.bfloat16]
-  | .bf16, .f8e5, .f8e4 => rmsLlamaTyped%[tl.bfloat16, tl.float8e5, tl.float8e4nv]
-  | .bf16, .f8e5, .f8e5 => rmsLlamaTyped%[tl.bfloat16, tl.float8e5, tl.float8e5]
-  | .f8e4, .fp32, .fp32 => rmsLlamaTyped%[tl.float8e4nv, tl.float32, tl.float32]
-  | .f8e4, .fp32, .fp64 => rmsLlamaTyped%[tl.float8e4nv, tl.float32, tl.float64]
-  | .f8e4, .fp32, .fp16 => rmsLlamaTyped%[tl.float8e4nv, tl.float32, tl.float16]
-  | .f8e4, .fp32, .bf16 => rmsLlamaTyped%[tl.float8e4nv, tl.float32, tl.bfloat16]
-  | .f8e4, .fp32, .f8e4 => rmsLlamaTyped%[tl.float8e4nv, tl.float32, tl.float8e4nv]
-  | .f8e4, .fp32, .f8e5 => rmsLlamaTyped%[tl.float8e4nv, tl.float32, tl.float8e5]
-  | .f8e4, .fp64, .fp32 => rmsLlamaTyped%[tl.float8e4nv, tl.float64, tl.float32]
-  | .f8e4, .fp64, .fp64 => rmsLlamaTyped%[tl.float8e4nv, tl.float64, tl.float64]
-  | .f8e4, .fp64, .fp16 => rmsLlamaTyped%[tl.float8e4nv, tl.float64, tl.float16]
-  | .f8e4, .fp64, .bf16 => rmsLlamaTyped%[tl.float8e4nv, tl.float64, tl.bfloat16]
-  | .f8e4, .fp64, .f8e4 => rmsLlamaTyped%[tl.float8e4nv, tl.float64, tl.float8e4nv]
-  | .f8e4, .fp64, .f8e5 => rmsLlamaTyped%[tl.float8e4nv, tl.float64, tl.float8e5]
-  | .f8e4, .fp16, .fp32 => rmsLlamaTyped%[tl.float8e4nv, tl.float16, tl.float32]
-  | .f8e4, .fp16, .fp64 => rmsLlamaTyped%[tl.float8e4nv, tl.float16, tl.float64]
-  | .f8e4, .fp16, .fp16 => rmsLlamaTyped%[tl.float8e4nv, tl.float16, tl.float16]
-  | .f8e4, .fp16, .bf16 => rmsLlamaTyped%[tl.float8e4nv, tl.float16, tl.bfloat16]
-  | .f8e4, .fp16, .f8e4 => rmsLlamaTyped%[tl.float8e4nv, tl.float16, tl.float8e4nv]
-  | .f8e4, .fp16, .f8e5 => rmsLlamaTyped%[tl.float8e4nv, tl.float16, tl.float8e5]
-  | .f8e4, .bf16, .fp32 => rmsLlamaTyped%[tl.float8e4nv, tl.bfloat16, tl.float32]
-  | .f8e4, .bf16, .fp64 => rmsLlamaTyped%[tl.float8e4nv, tl.bfloat16, tl.float64]
-  | .f8e4, .bf16, .fp16 => rmsLlamaTyped%[tl.float8e4nv, tl.bfloat16, tl.float16]
-  | .f8e4, .bf16, .bf16 => rmsLlamaTyped%[tl.float8e4nv, tl.bfloat16, tl.bfloat16]
-  | .f8e4, .bf16, .f8e4 => rmsLlamaTyped%[tl.float8e4nv, tl.bfloat16, tl.float8e4nv]
-  | .f8e4, .bf16, .f8e5 => rmsLlamaTyped%[tl.float8e4nv, tl.bfloat16, tl.float8e5]
-  | .f8e4, .f8e4, .fp32 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e4nv, tl.float32]
-  | .f8e4, .f8e4, .fp64 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e4nv, tl.float64]
-  | .f8e4, .f8e4, .fp16 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e4nv, tl.float16]
-  | .f8e4, .f8e4, .bf16 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e4nv, tl.bfloat16]
-  | .f8e4, .f8e4, .f8e4 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e4nv, tl.float8e4nv]
-  | .f8e4, .f8e4, .f8e5 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e4nv, tl.float8e5]
-  | .f8e4, .f8e5, .fp32 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e5, tl.float32]
-  | .f8e4, .f8e5, .fp64 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e5, tl.float64]
-  | .f8e4, .f8e5, .fp16 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e5, tl.float16]
-  | .f8e4, .f8e5, .bf16 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e5, tl.bfloat16]
-  | .f8e4, .f8e5, .f8e4 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e5, tl.float8e4nv]
-  | .f8e4, .f8e5, .f8e5 => rmsLlamaTyped%[tl.float8e4nv, tl.float8e5, tl.float8e5]
-  | .f8e5, .fp32, .fp32 => rmsLlamaTyped%[tl.float8e5, tl.float32, tl.float32]
-  | .f8e5, .fp32, .fp64 => rmsLlamaTyped%[tl.float8e5, tl.float32, tl.float64]
-  | .f8e5, .fp32, .fp16 => rmsLlamaTyped%[tl.float8e5, tl.float32, tl.float16]
-  | .f8e5, .fp32, .bf16 => rmsLlamaTyped%[tl.float8e5, tl.float32, tl.bfloat16]
-  | .f8e5, .fp32, .f8e4 => rmsLlamaTyped%[tl.float8e5, tl.float32, tl.float8e4nv]
-  | .f8e5, .fp32, .f8e5 => rmsLlamaTyped%[tl.float8e5, tl.float32, tl.float8e5]
-  | .f8e5, .fp64, .fp32 => rmsLlamaTyped%[tl.float8e5, tl.float64, tl.float32]
-  | .f8e5, .fp64, .fp64 => rmsLlamaTyped%[tl.float8e5, tl.float64, tl.float64]
-  | .f8e5, .fp64, .fp16 => rmsLlamaTyped%[tl.float8e5, tl.float64, tl.float16]
-  | .f8e5, .fp64, .bf16 => rmsLlamaTyped%[tl.float8e5, tl.float64, tl.bfloat16]
-  | .f8e5, .fp64, .f8e4 => rmsLlamaTyped%[tl.float8e5, tl.float64, tl.float8e4nv]
-  | .f8e5, .fp64, .f8e5 => rmsLlamaTyped%[tl.float8e5, tl.float64, tl.float8e5]
-  | .f8e5, .fp16, .fp32 => rmsLlamaTyped%[tl.float8e5, tl.float16, tl.float32]
-  | .f8e5, .fp16, .fp64 => rmsLlamaTyped%[tl.float8e5, tl.float16, tl.float64]
-  | .f8e5, .fp16, .fp16 => rmsLlamaTyped%[tl.float8e5, tl.float16, tl.float16]
-  | .f8e5, .fp16, .bf16 => rmsLlamaTyped%[tl.float8e5, tl.float16, tl.bfloat16]
-  | .f8e5, .fp16, .f8e4 => rmsLlamaTyped%[tl.float8e5, tl.float16, tl.float8e4nv]
-  | .f8e5, .fp16, .f8e5 => rmsLlamaTyped%[tl.float8e5, tl.float16, tl.float8e5]
-  | .f8e5, .bf16, .fp32 => rmsLlamaTyped%[tl.float8e5, tl.bfloat16, tl.float32]
-  | .f8e5, .bf16, .fp64 => rmsLlamaTyped%[tl.float8e5, tl.bfloat16, tl.float64]
-  | .f8e5, .bf16, .fp16 => rmsLlamaTyped%[tl.float8e5, tl.bfloat16, tl.float16]
-  | .f8e5, .bf16, .bf16 => rmsLlamaTyped%[tl.float8e5, tl.bfloat16, tl.bfloat16]
-  | .f8e5, .bf16, .f8e4 => rmsLlamaTyped%[tl.float8e5, tl.bfloat16, tl.float8e4nv]
-  | .f8e5, .bf16, .f8e5 => rmsLlamaTyped%[tl.float8e5, tl.bfloat16, tl.float8e5]
-  | .f8e5, .f8e4, .fp32 => rmsLlamaTyped%[tl.float8e5, tl.float8e4nv, tl.float32]
-  | .f8e5, .f8e4, .fp64 => rmsLlamaTyped%[tl.float8e5, tl.float8e4nv, tl.float64]
-  | .f8e5, .f8e4, .fp16 => rmsLlamaTyped%[tl.float8e5, tl.float8e4nv, tl.float16]
-  | .f8e5, .f8e4, .bf16 => rmsLlamaTyped%[tl.float8e5, tl.float8e4nv, tl.bfloat16]
-  | .f8e5, .f8e4, .f8e4 => rmsLlamaTyped%[tl.float8e5, tl.float8e4nv, tl.float8e4nv]
-  | .f8e5, .f8e4, .f8e5 => rmsLlamaTyped%[tl.float8e5, tl.float8e4nv, tl.float8e5]
-  | .f8e5, .f8e5, .fp32 => rmsLlamaTyped%[tl.float8e5, tl.float8e5, tl.float32]
-  | .f8e5, .f8e5, .fp64 => rmsLlamaTyped%[tl.float8e5, tl.float8e5, tl.float64]
-  | .f8e5, .f8e5, .fp16 => rmsLlamaTyped%[tl.float8e5, tl.float8e5, tl.float16]
-  | .f8e5, .f8e5, .bf16 => rmsLlamaTyped%[tl.float8e5, tl.float8e5, tl.bfloat16]
-  | .f8e5, .f8e5, .f8e4 => rmsLlamaTyped%[tl.float8e5, tl.float8e5, tl.float8e4nv]
-  | .f8e5, .f8e5, .f8e5 => rmsLlamaTyped%[tl.float8e5, tl.float8e5, tl.float8e5]
+def runtimeCandidate (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
+  triton {
+  tl.ports inputs=[X,W], outputs=[Y]
+  tl.region X = tl.float32, W = tl.float32, Y = tl.float32
+  tl.param eps_arg : tl.float32
+  row = tl.program_id(0)
+  Y += $(N) * row
+  X += row * $(N)
+  _var = tl.zeros([$(B)], dtype=tl.float32)
+  for off in range(0, $(N), $(B)) {
+    cols = off + tl.arange(0, $(B))
+    x = tl.load(X + cols, mask=cols < $(N), other=0.0).to(tl.float32)
+    _var += x * x
+  }
+  var = tl.sum(_var, axis=0) / $(N)
+  rstd = 1 / tl.sqrt(var + eps_arg)
+  for off in range(0, $(N), $(B)) {
+    cols = off + tl.arange(0, $(B))
+    mask = cols < $(N)
+    w = tl.load(W + cols, mask=mask).to(tl.float32)
+    x = tl.load(X + cols, mask=mask, other=0.0).to(tl.float32)
+    x_hat = x * rstd
+    y = x_hat * w
+    tl.store(Y + cols, (y.to(tl.float16)).to(tl.float32), mask=mask)
+  }
+  }
 
-/-- Only the natural multiplication in the output row-pointer update commutes. -/
-def typedKernel (input weight output : Storage) (v : Bool)
-    (X Y W : RegionName) (stride N B : Nat) (eps : ℝ) : ComputeKernel :=
-  let source := originalTyped input weight output X Y W stride N B eps
-  if v then ComputeKernel.mk source.inputs source.outputs
-    (source.surfaceBody.take 1 ++
-      [.assign .ptr [] "Y" (.alg (.ptrAdd .nil (.ptrBase Y)
-        (.mul .nat .nil (.constNat stride) (.ref .nat [] "row"))))] ++ source.surfaceBody.drop 2)
-  else source
+theorem source_eq (X Y W : RegionName) (N B : Nat) (eps : ℝ) :
+    kernel X Y W N B eps=
+      VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.originalTyped .fp32 .fp32 .fp32 X Y W N N B eps := rfl
 
-end VeriTile.Bench.TritonBenchG.RmsnormFusedLlama
+theorem candidate_eq (X Y W : RegionName) (N B : Nat) (eps : ℝ) :
+    indexCommutedKernel X Y W N B eps=
+      VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.typedKernel .fp32 .fp32 .fp32 Bool.true X Y W N N B eps := rfl
+end VeriTile.Bench.Repairs.RmsnormFusedLlama

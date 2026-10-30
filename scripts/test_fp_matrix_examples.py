@@ -28,7 +28,7 @@ class MatrixExampleTests(unittest.TestCase):
         return result.stdout
 
     def test_nonsquare_iterations_backend_and_precision(self):
-        self.assertEqual(self.lean((ROOT / "bench/tests/FPMatrixExamples.lean").read_text()), "")
+        self.assertEqual(self.lean((ROOT / "tests/lean/FPMatrixExamples.lean").read_text()), "")
 
     def test_general_fp_specs_separate_strict_and_empirical_evidence(self):
         for side in ("Depth", "Width"):

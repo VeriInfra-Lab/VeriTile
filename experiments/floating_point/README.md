@@ -1,7 +1,7 @@
 # Floating-point rule experiments
 
 For additional basic relations, use the
-[supplemental experiment instructions](./supplement/README.md).
+[supplemental experiment instructions](supplement/README.md).
 Both catalogues use local-ULP mean bias and a ratio of peak absolute oracle errors.
 
 The bias protocol pools IID scalar instances into one mean per replicate in local ULPs.
@@ -9,7 +9,7 @@ The magnitude gate compares peak absolute oracle errors without ULP normalizatio
 The published tables use fresh GPU samples from this protocol and independent CPU
 replay. Their recorded source hashes bind the sampling and aggregation semantics.
 
-Edit [config.py](./config.py), check atomic expression pairs with Triton kernels on an NVIDIA GPU,
+Edit [config.py](config.py), check atomic expression pairs with Triton kernels on an NVIDIA GPU,
 then import the result directory on the development machine (Python + NumPy).
 The importer recomputes both gates instead of trusting PASS labels.
 
@@ -102,7 +102,7 @@ The GPU runner, compiler, hardware and fp64 oracle remain trusted components.
 
 ## Concrete coverage
 
-All 14 atomic catalogue IDs have template pairs in [kernels.py](./kernels.py).
+All 14 atomic catalogue IDs have template pairs in [kernels.py](kernels.py).
 Evidence covers that exact pair/configuration, not all implementations with the
 same rule name.
 
@@ -211,18 +211,18 @@ quantized ties and nonfinite errors, plus adaptive stopping and replay integrity
 
 ## Current results table
 
-The checked-in [current table](./report/summary.md) contains all 42 instances,
-with full-precision [CSV](./report/summary.csv) and [JSON](./report/summary.json).
+The checked-in [current table](report/summary.md) contains all 42 instances,
+with full-precision [CSV](report/summary.csv) and [JSON](report/summary.json).
 The current H200 run (reported as NVIDIA L20X) uses seed 20261003, tau=0.05
 local ULP and a five-SE bias band across replicate means. Replicates use independent input tuples at the fixed seed.
 Current totals are in the table.
 The DLC task is named `traces_kernel_equivalence_testing` (`dlchk3ifersdpxho`).
 
-[Experiment settings](./report/experiment.json) record the input distribution,
+[Experiment settings](report/experiment.json) record the input distribution,
 precision profiles, gates, device/compiler details and checked source hashes.
-The [nonacceptance audit](./report/warning_audit.json) records all warnings and
+The [nonacceptance audit](report/warning_audit.json) records all warnings and
 rejections from the replayed observations, with bias means in local-ULP units.
-[Exact counterexamples](./report/exact_counterexamples.json) show why four
+[Exact counterexamples](report/exact_counterexamples.json) show why four
 transformations are not unconditional floating-point identities; those examples
 are independent of the statistical classifications. Lower oracle error does not
 cancel a failed or inconclusive bias-budget check.
@@ -284,7 +284,7 @@ The current report admits fp32 ADD-ASSOC. The row-wise-sum example binds it
 alongside fp32 ADD-COMMUTE, retaining explicit evidence premises for both atoms.
 The resulting derivation does not claim a whole-reduction IEEE or statistical guarantee.
 
-The [worked example](./EXAMPLE.md) has separate
+The [worked example](EXAMPLE.md) has separate
 [real correctness](../../bench/examples/TritonBenchVectorAddition/Correct.lean) and
 [FP equivalence](../../bench/examples/TritonBenchVectorAddition/FPEquiv.lean) files, each
 with sources shared through the sibling `Kernels.lean`. The FP file does not import the

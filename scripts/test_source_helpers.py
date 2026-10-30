@@ -9,8 +9,8 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from bench import audit_source as source
-from bench.source_helpers import python_source_with_helpers
+from scripts.bench import audit_source as source
+from scripts.bench.source_helpers import python_source_with_helpers
 
 
 class SourceHelperTests(unittest.TestCase):

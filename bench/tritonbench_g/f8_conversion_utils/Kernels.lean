@@ -1,192 +1,65 @@
-import VeriTile.Triton.DSL
-import VeriTile.Triton.Source
-/-! Complete fp8 conversion kernels, retaining typed pointers, omitted load
-padding and implicit destination conversion. The two identical stores in the
-toHalf source are both retained. The candidate commutes only the integer
-block index. Host reinterpret/launch operations are outside these kernels. -/
-namespace VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource
+import bench.tritonbench_g.f8_conversion_utils.Sources.Mathematical_Kernels
+
+namespace VeriTile.Bench.Repairs.F8ConversionUtils
 open VeriTile.Triton
-inductive Format where
-  | e4 | e5
+inductive Direction where
+  | decode | encode
   deriving DecidableEq
-inductive Input where
-  | fp16 | fp32
+def Direction.doubleStore : Direction → Bool | .decode => Bool.true | .encode => Bool.false
+namespace Source
+open VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource
+abbrev toHalf := VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource.toHalf
+abbrev toFP8 := VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource.toFP8
+inductive Profile where
+  | decodeE5 | encodeHalfE5 | encodeSingleE5 | decodeE4 | encodeHalfE4 | encodeSingleE4
   deriving DecidableEq
 
-abbrev sourceType := RegionName → RegionName → Nat → Nat → ComputeKernel
+def Profile.input : Profile → FloatDType
+  | .decodeE5 => .f8e5 | .decodeE4 => .f8e4
+  | .encodeHalfE5 | .encodeHalfE4 => .fp16 | .encodeSingleE5 | .encodeSingleE4 => .real
+def Profile.output : Profile → FloatDType
+  | .decodeE5 | .decodeE4 => .fp16
+  | .encodeHalfE5 | .encodeSingleE5 => .f8e5
+  | .encodeHalfE4 | .encodeSingleE4 => .f8e4
+def Profile.twice : Profile → Bool
+  | .decodeE5 | .decodeE4 => Bool.true | _ => Bool.false
 
-def toHalf (format : Format) (swapped : Bool) : sourceType :=
-  match format,swapped with
-  | .e4,Bool.false => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.ports inputs=[X], outputs=[Y]
-  tl.region X = tl.float8e4nv, Y = tl.float16
-  pid = tl.program_id(0)
-  offs = pid * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float16), mask=mask)
-  tl.store(Y + offs, x.to(tl.float16), mask=mask)
-}
-  | .e4,Bool.true => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.ports inputs=[X], outputs=[Y]
-  tl.region X = tl.float8e4nv, Y = tl.float16
-  pid = tl.program_id(0)
-  offs = $(BLOCK_SIZE) * pid + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float16), mask=mask)
-  tl.store(Y + offs, x.to(tl.float16), mask=mask)
-}
-  | .e5,Bool.false => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.ports inputs=[X], outputs=[Y]
-  tl.region X = tl.float8e5, Y = tl.float16
-  pid = tl.program_id(0)
-  offs = pid * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float16), mask=mask)
-  tl.store(Y + offs, x.to(tl.float16), mask=mask)
-}
-  | .e5,Bool.true => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.ports inputs=[X], outputs=[Y]
-  tl.region X = tl.float8e5, Y = tl.float16
-  pid = tl.program_id(0)
-  offs = $(BLOCK_SIZE) * pid + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float16), mask=mask)
-  tl.store(Y + offs, x.to(tl.float16), mask=mask)
-}
+def kernel (p : Profile) (Y X : RegionName) (N B : Nat) : ComputeKernel :=
+  match p with
+  | .decodeE5 => toHalf .e5 Bool.false Y X N B
+  | .encodeHalfE5 => toFP8 .fp16 .e5 Bool.false Y X N B
+  | .encodeSingleE5 => toFP8 .fp32 .e5 Bool.false Y X N B
+  | .decodeE4 => toHalf .e4 Bool.false Y X N B
+  | .encodeHalfE4 => toFP8 .fp16 .e4 Bool.false Y X N B
+  | .encodeSingleE4 => toFP8 .fp32 .e4 Bool.false Y X N B
 
-def toFP8 (input : Input) (format : Format) (swapped : Bool) : sourceType :=
-  match input,format,swapped with
-  | .fp16,.e4,Bool.false => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.region X = tl.float16, Y = tl.float8e4nv
-  pid = tl.program_id(0)
-  offs = pid * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float8e4nv), mask=mask)
-}
-  | .fp16,.e4,Bool.true => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.region X = tl.float16, Y = tl.float8e4nv
-  pid = tl.program_id(0)
-  offs = $(BLOCK_SIZE) * pid + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float8e4nv), mask=mask)
-}
-  | .fp16,.e5,Bool.false => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.region X = tl.float16, Y = tl.float8e5
-  pid = tl.program_id(0)
-  offs = pid * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float8e5), mask=mask)
-}
-  | .fp16,.e5,Bool.true => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.region X = tl.float16, Y = tl.float8e5
-  pid = tl.program_id(0)
-  offs = $(BLOCK_SIZE) * pid + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float8e5), mask=mask)
-}
-  | .fp32,.e4,Bool.false => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.region X = tl.float32, Y = tl.float8e4nv
-  pid = tl.program_id(0)
-  offs = pid * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float8e4nv), mask=mask)
-}
-  | .fp32,.e4,Bool.true => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.region X = tl.float32, Y = tl.float8e4nv
-  pid = tl.program_id(0)
-  offs = $(BLOCK_SIZE) * pid + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float8e4nv), mask=mask)
-}
-  | .fp32,.e5,Bool.false => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.region X = tl.float32, Y = tl.float8e5
-  pid = tl.program_id(0)
-  offs = pid * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float8e5), mask=mask)
-}
-  | .fp32,.e5,Bool.true => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.region X = tl.float32, Y = tl.float8e5
-  pid = tl.program_id(0)
-  offs = $(BLOCK_SIZE) * pid + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float8e5), mask=mask)
-}
+/-- Existing source candidate: commute only the natural tile-index product.
+Both decode stores and every source conversion remain unchanged. -/
+def indexCommuted (p : Profile) (Y X : RegionName) (N B : Nat) : ComputeKernel :=
+  match p with
+  | .decodeE5 => toHalf .e5 Bool.true Y X N B
+  | .encodeHalfE5 => toFP8 .fp16 .e5 Bool.true Y X N B
+  | .encodeSingleE5 => toFP8 .fp32 .e5 Bool.true Y X N B
+  | .decodeE4 => toHalf .e4 Bool.true Y X N B
+  | .encodeHalfE4 => toFP8 .fp16 .e4 Bool.true Y X N B
+  | .encodeSingleE4 => toFP8 .fp32 .e4 Bool.true Y X N B
 
-def realForward (swapped : Bool) : sourceType :=
-  match swapped with
-  | Bool.false => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.ports inputs=[X], outputs=[Y]
-  tl.region X = tl.float64, Y = tl.float64
-  pid = tl.program_id(0)
-  offs = pid * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float64), mask=mask)
-  tl.store(Y + offs, x.to(tl.float64), mask=mask)
-}
-  | Bool.true => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.ports inputs=[X], outputs=[Y]
-  tl.region X = tl.float64, Y = tl.float64
-  pid = tl.program_id(0)
-  offs = $(BLOCK_SIZE) * pid + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float64), mask=mask)
-  tl.store(Y + offs, x.to(tl.float64), mask=mask)
-}
+def Profile.inputWidth : Profile → Nat | .decodeE5 | .decodeE4 => 1 | .encodeHalfE5 | .encodeHalfE4 => 2 | .encodeSingleE5 | .encodeSingleE4 => 4
+def Profile.outputWidth : Profile → Nat | .decodeE5 | .decodeE4 => 2 | _ => 1
 
-def realReverse (swapped : Bool) : sourceType :=
-  match swapped with
-  | Bool.false => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.region X = tl.float64, Y = tl.float64
-  pid = tl.program_id(0)
-  offs = pid * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float64), mask=mask)
-}
-  | Bool.true => fun (Y X : RegionName) (N BLOCK_SIZE : Nat) => triton {
-  tl.region X = tl.float64, Y = tl.float64
-  pid = tl.program_id(0)
-  offs = $(BLOCK_SIZE) * pid + tl.arange(0, $(BLOCK_SIZE))
-  mask = offs < $(N)
-  x = tl.load(X + offs, mask=mask)
-  tl.store(Y + offs, x.to(tl.float64), mask=mask)
-}
-
-/- Compatibility spelling only: each case delegates to a complete ordinary
-quotation above. These aliases generate no kernel statements or AST nodes. -/
-syntax "f8Forward%" "[" tritonDType "," tritonDType "," ident "]" : term
-syntax "f8Reverse%" "[" tritonDType "," tritonDType "," ident "]" : term
-open Lean
-macro_rules
-  | `(f8Forward%[tl.float8e4nv,tl.float16,original]) => `(toHalf .e4 Bool.false)
-  | `(f8Forward%[tl.float8e5,tl.float16,original]) => `(toHalf .e5 Bool.false)
-  | `(f8Forward%[tl.float64,tl.float64,original]) => `(realForward Bool.false)
-  | `(f8Forward%[tl.float8e4nv,tl.float16,indexCommuted]) => `(toHalf .e4 Bool.true)
-  | `(f8Forward%[tl.float8e5,tl.float16,indexCommuted]) => `(toHalf .e5 Bool.true)
-  | `(f8Forward%[tl.float64,tl.float64,indexCommuted]) => `(realForward Bool.true)
-  | `(f8Reverse%[tl.float16,tl.float8e4nv,original]) => `(toFP8 .fp16 .e4 Bool.false)
-  | `(f8Reverse%[tl.float16,tl.float8e5,original]) => `(toFP8 .fp16 .e5 Bool.false)
-  | `(f8Reverse%[tl.float32,tl.float8e4nv,original]) => `(toFP8 .fp32 .e4 Bool.false)
-  | `(f8Reverse%[tl.float32,tl.float8e5,original]) => `(toFP8 .fp32 .e5 Bool.false)
-  | `(f8Reverse%[tl.float64,tl.float64,original]) => `(realReverse Bool.false)
-  | `(f8Reverse%[tl.float16,tl.float8e4nv,indexCommuted]) => `(toFP8 .fp16 .e4 Bool.true)
-  | `(f8Reverse%[tl.float16,tl.float8e5,indexCommuted]) => `(toFP8 .fp16 .e5 Bool.true)
-  | `(f8Reverse%[tl.float32,tl.float8e4nv,indexCommuted]) => `(toFP8 .fp32 .e4 Bool.true)
-  | `(f8Reverse%[tl.float32,tl.float8e5,indexCommuted]) => `(toFP8 .fp32 .e5 Bool.true)
-  | `(f8Reverse%[tl.float64,tl.float64,indexCommuted]) => `(realReverse Bool.true)
-end VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource
+def Profile.direction : Profile → Direction
+  | .decodeE5 | .decodeE4 => .decode | _ => .encode
+def Profile.encoder : Profile → Input
+  | .encodeSingleE5 | .encodeSingleE4 => .fp32 | _ => .fp16
+def Profile.format : Profile → Format
+  | .decodeE4 | .encodeHalfE4 | .encodeSingleE4 => .e4 | _ => .e5
+end Source
+namespace Chunking
+def chunkSize : Nat := 2^30
+def chunkCount (n : Nat) : Nat := (n+chunkSize-1)/chunkSize
+def chunkStart (k : Nat) : Nat := k*chunkSize
+def chunkLength (n k : Nat) : Nat := min chunkSize (n-chunkStart k)
+end Chunking
+/-- Empty tensors return their allocation without a kernel launch. -/
+def launchChunks (n : Nat) : List Nat := List.range (Chunking.chunkCount n)
+end VeriTile.Bench.Repairs.F8ConversionUtils

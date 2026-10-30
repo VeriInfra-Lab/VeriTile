@@ -10,7 +10,7 @@ review and backend binding; compilation alone does not establish either. No
 case is currently claimed as a proved equivalence, and no new numerical rule
 is admitted by this collection. Each `task.json` records these statuses.
 
-The [collection audit](../IMPORTED_KERNEL_AUDIT.md) records confirmed conversion
+The [collection audit](../../documents/bench/IMPORTED_KERNEL_AUDIT.md) records confirmed conversion
 defects and remaining proof obligations separately from compilation.
 
 A Lean draft uses the same file responsibilities as the other benchmarks:

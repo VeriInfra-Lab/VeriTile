@@ -1,44 +1,46 @@
 import VeriTile.Triton
-import VeriTile.Examples.Common
 
-namespace VeriTile.Bench.TritonBenchG.ReluTritonKernel
-open VeriTile.Triton VeriTile.Examples
-open scoped VeriTile.Triton.MaskedKernelIO₁
-/-- Faithful 1:1 transcription of `relu_triton_kernel.py`'s `relu_kernel`.
+/-! Canonical readable FP32 repair and the existing store-inline candidate.
+The original benchmark is kept separately: its pid-zero store gate is defective.
+`ib`, `ob`, and `elementBytes` only choose pointer coordinates for optional
+physical-memory proofs; the Python kernel uses element offsets (0, 0, 1). -/
+namespace VeriTile.Bench.Repairs.ReluTritonKernel
+open VeriTile.Triton
 
-Allowed mechanical Lean-syntax-only changes:
-- Python `N: tl.constexpr` / `block_size: tl.constexpr` → Lean `Nat`.
-- Python `if cond: body` → `if cond { body }`, the DSL-side gate (block syntax
-  uses braces because Lean is whitespace-insensitive; the `if` keyword itself
-  is shared). -/
-def relu_kernel
-    (x_ptr out_ptr : RegionName)
-    (N block_size : Nat) :
-    ComputeKernel := triton {
-  pid = tl.program_id(0)
-  block_start = pid * $(block_size)
-  offsets = block_start + tl.arange(0, $(block_size))
-  mask = offsets < $(N)
-  x = tl.load(x_ptr + offsets, mask=mask)
-  result = tl.where(x >= 0, x, 0.0)
-  if pid == 0 {
-    tl.store(out_ptr + offsets, result, mask=mask)
+def blockSize : Nat := 1024
+def gridCount (n : Nat) : Nat := (n + 1023) / 1024
+
+def kernel (input output : RegionName) (ib ob elementBytes N B : Nat) : ComputeKernel :=
+  let x_ptr : Region .fp32 := input.cast
+  let out_ptr : Region .fp32 := output.cast
+  triton {
+    pid = tl.program_id(0)
+    block_start = pid * $(B)
+    offsets = block_start + tl.arange(0, $(B))
+    mask = offsets < $(N)
+    x = tl.load(x_ptr + ($(ib) + $(elementBytes) * offsets), mask=mask)
+    result = tl.where(x >= 0, x, 0.0)
+    tl.store(out_ptr + ($(ob) + $(elementBytes) * offsets), result, mask=mask)
   }
-}
 
-/-- Inline ReLU into the guarded store, avoiding work for nonzero programs. -/
-def relu_fused_kernel
-    (x_ptr out_ptr : RegionName)
-    (N block_size : Nat) :
-    ComputeKernel := triton {
-  pid = tl.program_id(0)
-  block_start = pid * $(block_size)
-  offsets = block_start + tl.arange(0, $(block_size))
-  mask = offsets < $(N)
-  x = tl.load(x_ptr + offsets, mask=mask)
-  if pid == 0 {
-    tl.store(out_ptr + offsets, tl.where(x >= 0, x, 0.0), mask=mask)
+/-- The same existing store-inline transformation, applied after the gate fix.
+Only the private result register disappears; comparison and selection retain
+FP32 precision, all input words, and the original masked load/store. -/
+def fusedKernel (input output : RegionName) (ib ob elementBytes N B : Nat) : ComputeKernel :=
+  let x_ptr : Region .fp32 := input.cast
+  let out_ptr : Region .fp32 := output.cast
+  triton {
+    pid = tl.program_id(0)
+    block_start = pid * $(B)
+    offsets = block_start + tl.arange(0, $(B))
+    mask = offsets < $(N)
+    x = tl.load(x_ptr + ($(ib) + $(elementBytes) * offsets), mask=mask)
+    tl.store(out_ptr + ($(ob) + $(elementBytes) * offsets), tl.where(x >= 0, x, 0.0), mask=mask)
   }
-}
 
-end VeriTile.Bench.TritonBenchG.ReluTritonKernel
+/-- Source selected by the checked Python wrapper. -/
+def originalKernel (N : Nat) : ComputeKernel := kernel "x" "out" 0 0 1 N blockSize
+
+def inlinedKernel (N : Nat) : ComputeKernel := fusedKernel "x" "out" 0 0 1 N blockSize
+
+end VeriTile.Bench.Repairs.ReluTritonKernel

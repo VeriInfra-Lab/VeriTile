@@ -29,7 +29,7 @@ used as the authority for interfaces and modeled guarantees.
 - Public API names extracted from English design notes, cookbook pages, and
   README are resolved by the pinned Lean toolchain.
 - `bench/examples/VectorAdd/Correct.lean` elaborates, including its axiom and statement
-  audits. `bench/tests/TritonSmoke.lean` and `bench/tests/LoopInvariant.lean`
+  audits. `tests/lean/TritonSmoke.lean` and `tests/lean/LoopInvariant.lean`
   elaborate too. These runs emit existing unused-simp-argument warnings.
 - Site CI now checks source synchronization and links. The existing artifact
   gate also checks documented API names.

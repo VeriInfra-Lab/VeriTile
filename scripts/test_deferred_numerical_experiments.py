@@ -1,4 +1,9 @@
 """Regression checks for deferred evidence, declaration binding and omissions."""
+# Make the repository packages available for direct invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+
 import copy
 import hashlib
 import json
@@ -9,10 +14,8 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "bench"))
-import deferred_numerical_experiments as queue
-
-
+sys.path.insert(0, str(ROOT / "scripts" / "bench"))
+from scripts.bench import deferred_numerical_experiments as queue
 class DeferredNumericalExperimentsTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -62,7 +65,7 @@ class DeferredNumericalExperimentsTests(unittest.TestCase):
                          "mixed_sparse_attention (maximum revision)")
 
     def test_new_execution_cannot_be_silently_relabelled_not_run(self):
-        with self.changed_json(queue.BASE + "fp_value_extensions.json",
+        with self.changed_json(queue.BASE + "scripts.bench.fp_value_extensions.json",
                                lambda d: d.update(native_gpu_execution=True)):
             with self.assertRaisesRegex(ValueError, "New execution evidence"):
                 queue.collect()

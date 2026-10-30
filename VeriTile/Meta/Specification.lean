@@ -7,7 +7,7 @@ surface. It elaborates *identically* to `theorem` (same kernel object, same
 axiom footprint, `#axiomsClean`/`#print axioms` unaffected); the keyword is
 a machine-readable marker registered in Lean's environment by `kernel_headline`.
 The trust audit enumerates this metadata, independently of source formatting.
-Source inventories (`scripts/spec_sheet.py`, `bench/check_proof_gap_manifest.py`)
+Source inventories (`scripts/spec_sheet.py`, `scripts/bench/check_proof_gap_manifest.py`)
 also use the keyword as a visible declaration marker.
 
 Modeled on Mathlib's `lemma` command macro.

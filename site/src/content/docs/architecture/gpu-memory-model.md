@@ -213,12 +213,12 @@ alignment and imports no benchmark code. Kernel admission policy belongs to
 the per-task contract; native access requirements belong to the applicable
 backend bridge.
 
-The current [add_example revision](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/repairs/tritonbench_g/add_example/README.md)
+The current [add_example revision](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/tritonbench_g/add_example/README.md)
 reuses the existing finite-address helpers under
 `bench/tritonbench_g/add_example/Proofs/` and supplies its own checked host
 composition. These remain scoped helpers, not a generic implementation of all
 Triton memory instructions. Its
-[load/store audit](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/repairs/tritonbench_g/add_example/LOAD_STORE_AUDIT.md)
+[load/store audit](https://github.com/VeriInfra-Lab/VeriTile/blob/main/validation/tasks/add_example/LOAD_STORE_AUDIT.md)
 records the source-to-model mapping, Triton version, targets, compiler evidence,
 reproduction command and GPU execution status. Those task-specific observations
 do not establish the same lowering for other kernels or backends.

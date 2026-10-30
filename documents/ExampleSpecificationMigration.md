@@ -53,7 +53,7 @@ FP equivalence. Pending entries must not be advertised as proved.
 | Fused layernorm | `FusedLayerNorm/Correct.lean` — checked for both original kernels against population-variance normalization and affine transformation | `FusedLayerNorm/FPEquiv.lean` — checked for `N <= 2^24`, including empty output rows; original statistics, affine suffix, bf16 stores and frames retained |
 
 There are 19 correctness modules and 19 modules with completed FP specifications.
-They expose 21 public FP specifications. The [current rule-usage guide](./FPRemainingAdmissionGaps.md)
+They expose 21 public FP specifications. The [current rule-usage guide](FPRemainingAdmissionGaps.md)
 records the group/specification split and the 12 empirical instances actually used.
 StableLogSumExp proves the conditional candidate. Its older general FP target
 is refuted in `StableLogSumExp/Proofs/Unconditional.lean` by a logical model of
@@ -123,7 +123,7 @@ Binary64 constant projection is partial (finite normals); the structural
 interpreter deliberately rejects raw fp64 payload constants and typed fp64
 loads, which these examples do not use. This is not a complete IEEE evaluator.
 
-[The current proof boundaries](./FPRemainingAdmissionGaps.md) distinguish actual
+[The current proof boundaries](FPRemainingAdmissionGaps.md) distinguish actual
 dependencies from available catalogue entries. Historical main-table-only
 countermodels do not establish a gap in the combined strict and empirical theory.
 The historical unconditional logsumexp shift's general FP specification is refuted

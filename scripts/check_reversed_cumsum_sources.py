@@ -7,10 +7,15 @@ boolean spelling, and the independent tuple assignment of program IDs.
 Negative controls must reject changed loop bounds, padding, casts and math.
 """
 from __future__ import annotations
+# Make the repository packages available for direct invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+
 import argparse,ast,hashlib,json,re,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
-from bench import audit_source as source
+from scripts.bench import audit_source as source
 from scripts.check_reversed_cumsum_native import SOURCES
 
 def digest(b):return hashlib.sha256(b).hexdigest()
@@ -89,7 +94,7 @@ def check(original,lean,params):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=False)
-    paths=[Path(__file__),ROOT/'scripts/check_reversed_cumsum_native.py',ROOT/'bench/audit_source.py']
+    paths=[Path(__file__),ROOT/'scripts/check_reversed_cumsum_native.py',ROOT/'scripts/bench/audit_source.py']
     for directory,_,_ in SOURCES.values():paths.extend([ROOT/'bench/tritonbench_g'/directory/(directory+'.py'),ROOT/'bench/tritonbench_g'/directory/'Proofs/Source.lean'])
     captured={p:p.read_bytes() for p in paths};rows=[]
     for kind,(directory,pin,_) in SOURCES.items():

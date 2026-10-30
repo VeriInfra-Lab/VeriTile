@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from bench import audit_source as source
+from scripts.bench import audit_source as source
 
 
 class SourceSelectionTests(unittest.TestCase):
