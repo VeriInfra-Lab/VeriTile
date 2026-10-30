@@ -1,0 +1,825 @@
+{
+  "schema": 1,
+  "task": "parallel_attention kernel-only",
+  "status": "ready-for-independent-review",
+  "entry": "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Public.lean",
+  "module_count": 51,
+  "repository_source_dependency_count": 212,
+  "source_guard": {
+    "status": "passed",
+    "scope": "frozen transcription drift and structural counts",
+    "semantic_equivalence_by_hash": false,
+    "counts": {
+      "dot": 18,
+      "load": 20,
+      "store": 5
+    },
+    "source_sha256": "3cf92301a18073573c84be1bf775440e9f7b234dba9dd7c37f9d94eb15eb8fe4",
+    "pins_sha256": "009e662f9519b11ef8b4a243b7c8193b0ed306899b923d9b52387212b7dba37c"
+  },
+  "modules": {
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Combined.lean": {
+      "source_sha256": "eee6fc23b8b54d55b9ec2e5a4906d6f17b0cd2dc7bc15b88b079d3186376edd4",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Combined.workspace-build.json",
+      "receipt_sha256": "53844bbc0f173eb8d19e260398dc505b99f459690c026b21576bc709d65d66d1",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Combined.ilean": "182a996a932294f7a6da5325b7c47cfd6b9a1d3293f7fcc798b492c92da0cd1d",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Combined.olean": "3aa8a25a81ec894496a1e939a28e696d1806314d58b87702cdad2e67ba8fcc01",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Combined.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Correct.lean": {
+      "source_sha256": "a8a2429dda5c136322b0963b427857d7bb7263bf35c9ad1b694df005faafeadf",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Correct.workspace-build.json",
+      "receipt_sha256": "58784d44538e50eed5174faab4464af58f9695c6d6ed2ef34eeadd3981df7a17",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Correct.olean": "e406b34225cf485c1c15f1445dc090a65fe15e817cfc185c0b789c7016f66a8d",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Correct.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Correct.ilean": "2e04780b13b4e396a885abbd7d744df39a613762ef8d99e552b56038762d5743"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Coverage.lean": {
+      "source_sha256": "e87dc5670d45a5324bad851d1622c9980ca2408ea07f448dab98e558201bca57",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Coverage.workspace-build.json",
+      "receipt_sha256": "8e13bfef54d6c9a665ef826a6d1a4eed34d5a5ccb9ae39dccd3ccc979311b462",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Coverage.ilean": "dfe94c12fa66032ff390fde185f876dd9066b282c83086b40b26783375d75a81",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Coverage.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Coverage.olean": "6d733898ca840935bb31d4e644e15bd10c0f3d8be9a371dff90aa81e824e150b"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardGraph.lean": {
+      "source_sha256": "d322a9ddc83d94db3f184ea0dd2a74b7da555d4ca0efcd07523984d972b99a7f",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardGraph.workspace-build.json",
+      "receipt_sha256": "e305610f7c64b8d43e8c37e3e7dcbb545f8ffe9b63284c9b8a30e9126ae0d257",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardGraph.ilean": "152534147690c8881a49bd37070f90b2f75c3a01dfeff559dd5e9ee7f6f888dd",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardGraph.olean": "4ddce0ae21c18f17715e0c192f81e95f25c6e2e0d350fe932d4cc70a37a528e8",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardGraph.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardLoop.lean": {
+      "source_sha256": "6217ba5bc290a1706db9c28e3a32efce1e52f3ccf2f31268c111582b3d03b4f0",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardLoop.workspace-build.json",
+      "receipt_sha256": "ae63e6807eced957ec8b2d2cf6863bfbaca28bd5e235385bb9aaaa3dd25f7cbd",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardLoop.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardLoop.ilean": "f696f0f83673b4efb496be0ba0c4b93bce91850d0ae53db733fd10840d1f702d",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardLoop.olean": "fa913b3d5be1eb9a3204a52f094036ff23ee19783ca2b84602d3724e66b6517c"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardWhole.lean": {
+      "source_sha256": "c2ea394b6070dddb12fa8ee029f295a6971a344eeb593bd2c12f27a4b9af7e65",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardWhole.workspace-build.json",
+      "receipt_sha256": "965d879b899fad7cab167017f8b6dccac55aeaeb87c85345bcc1c9308169cbf9",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardWhole.ilean": "9ea369201f6739fbf8d6ab431d42ebaa52a931a5f3b1232b27fd07da09c3416c",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardWhole.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardWhole.olean": "679d846a966ef1b2ba9b872f75c8748c3f0dc62d5a246a807b9dc5571fa26e0f"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPEquiv.lean": {
+      "source_sha256": "ad8bd5d0a9aae2747626d6ee5f4fc97cd025739781ca3c1cc8ae2f9a42c988ba",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPEquiv.workspace-build.json",
+      "receipt_sha256": "ea1924f3b767a642e363cf3b793e1a3c404db4ca3cd619bc582f2385a693af0b",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPEquiv.ilean": "e0f76999e288b1274fb0e717442bd0edfaf7509ff1455918bb83af3cfc945ce8",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPEquiv.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPEquiv.olean": "1d71cd875d73be4a1585060efa7921488d0367352d0f8d0d137fc1746c762ad5"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardGraph.lean": {
+      "source_sha256": "b7f60f8812ddc2fc7d9abd4faebbb9eb87e36d67d4185a5fff5411d957caea92",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardGraph.workspace-build.json",
+      "receipt_sha256": "5b29393f1cd9afd82faaca4107124798a8929cccc89dc9dccc0d0ff1940f8b82",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardGraph.ilean": "c6cab1661f71d4561985245bf57f80d7bb143ab22a95deb2bda02f0a4a71d829",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardGraph.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardGraph.olean": "83eb3d5d19994286809b635000238b8c911d81212a69af16611d701beb906abb"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardLoop.lean": {
+      "source_sha256": "6d53f3e95bdde941dfd8782c4f66153915babd9b8aa3e245897ec9adce197759",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardLoop.workspace-build.json",
+      "receipt_sha256": "dccfd007dc1e9ec6f0c55989494a8ab74de8213a5aeffe71f33d5fd42ecb16f6",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardLoop.olean": "239a203d2a9d07a71a419b57dd99cebd94fee1e1c391d9381643bda1b50d9599",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardLoop.ilean": "96177f682ec0359da8f9e4bf6458957a061ec2deb956686c49aee4e086f04e8a",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardLoop.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardWhole.lean": {
+      "source_sha256": "9884c7f9de0f1ad60bedf7b911a630589722d0caf1f68d1466f54c17d17e0353",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardWhole.workspace-build.json",
+      "receipt_sha256": "e6cfcd8693240998879bfad1a7b641a5e4b6151e8aa118b4219e5151e66febd3",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardWhole.olean": "92a36e459771d676896869b87a74195566cad0369d85f452ecb9d61c130fb1b2",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardWhole.ilean": "0fc2941294a8ecd3fb41c4227cede1eb1c5400ac896d74eadcae09fa7a631544",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardWhole.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPRange.lean": {
+      "source_sha256": "83486913e076978e00afea117fd9ae6b4d8d612826f22472208b068cf27e7e42",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPRange.workspace-build.json",
+      "receipt_sha256": "76cd5a371276db770d9a08e7e9a3bf0fa2c0f9ed6b40496b8b8ee2e1b61cc6eb",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPRange.ilean": "c0e2340b5074cd28ed46c330d2cab012a650e57e368b8c5bbe70a8cc7561b4fc",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPRange.olean": "d4aa05703ff4ef2b470d6fffb5b49a06d317ceff34072e3baa3e1fe6245ab29f",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPRange.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardObserved.lean": {
+      "source_sha256": "b2debb86c29620a717a56aac0a50bff178fc198ebdcb8a31be9f2d4d3ff05692",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardObserved.workspace-build.json",
+      "receipt_sha256": "dfb7593734fd53dc63bb55eca251fe835ab2a0eb73c6bd85962fefe336f19dd3",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardObserved.ilean": "31f50af9d3dd3b8bb016c7c8ec96415bd982e37c7ea828e3e0067c8648628560",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardObserved.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardObserved.olean": "58acd6ce163387dd215415d5f9fe99c47aaa1936783180421d454219e8ab806b"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardProjection.lean": {
+      "source_sha256": "2ebd2dd2026117fc06427ccbe96427ac432af6b3d92520abd52202a1c8bceb18",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardProjection.workspace-build.json",
+      "receipt_sha256": "9cabeb7a01d635d8d896423b02dc276c80bced4e20468d4301305a4039b955bb",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardProjection.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardProjection.olean": "53bd4f5ecf452971da398059b9929f44f373c1c76593cf4ad18c577cffe85313",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardProjection.ilean": "ba4eda80e6237d79de1b3ccb557fcacabda710d816283192ed49a38c69b0d4df"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardScalar.lean": {
+      "source_sha256": "387398d424a93352ce083774adb887b591c869df47348ae268c80acfc95432ce",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardScalar.workspace-build.json",
+      "receipt_sha256": "c9e5e52e32d40cd38f454a8a9c4b8d0836060f3e2c0c796738d446f5c38206e9",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardScalar.ilean": "8f42ccb23e2366e7d66d8187b2f75cbba183b796341708c8beb79003d7434023",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardScalar.olean": "37fda370611ea1459be6e5fe2682ca9c0675da5944d7fc685aea9ddd1eafa715",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardScalar.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Grid.lean": {
+      "source_sha256": "594503fdc66f122fed873f9898139cd5b3527bb06dc9c93018efa42f6b183de6",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Grid.workspace-build.json",
+      "receipt_sha256": "622c2d1dbe1047b93822e5bd4f7f687ae869b6d5fe7db748d67c4f8ad0891e3b",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Grid.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Grid.ilean": "73e57f85c487a3991f11b995a8bf06e26eba82eb22eb6fa1679e2bee04120478",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Grid.olean": "e35918e02c3a75e3dbefaa1dcf54f9dab859e9b0f6f73662246febed67f46b2f"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridComposition.lean": {
+      "source_sha256": "39d49165bbdcaa4d94fd8c477bfc7719fd3972cdbb85ac5068544d952c72a1cc",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridComposition.workspace-build.json",
+      "receipt_sha256": "7c3dac245633aec4fc6c52fb1150e080f8c368d2070b0d66c8430c4587a7bcb1",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridComposition.olean": "9ae48044ae52f6336470fedecf6f68f5e52a7d12e968e863978fa39b62cfc8f0",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridComposition.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridComposition.ilean": "e32d305ab4208a4d6c57706fde9297aed37794ae600aa9974759d9d0ce12cc8c"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridTargets.lean": {
+      "source_sha256": "12c6baff5ccce07808596139849801352fd4d40c14cccc5ef278a4e10798928e",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridTargets.workspace-build.json",
+      "receipt_sha256": "470ac8b58eaedbd4afdcfef25d7d4570a14e0f6b249c33bcabca07b91ed039b2",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridTargets.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridTargets.olean": "b967c8ce5be0abc6099bf6f156d247f37d6a94f6833cfbf7c6c41b34940068fd",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridTargets.ilean": "170a14adb48ce052fc7d2f0da8ea82b19f09c93b19b9877a6789deafdd098fa8"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/InputCongruence.lean": {
+      "source_sha256": "1f40de2312f23e302f5f86a9c90bce86b74764d846b845df48708d4db45b6eab",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/InputCongruence.workspace-build.json",
+      "receipt_sha256": "9f0ea51fefc2fe68251a4aba587570a05cecda815f640d53f0b1b795bcbadede",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/InputCongruence.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/InputCongruence.olean": "cb538a28949b6eb9e11712f37a116374ffe40a85d20578fee1ab72dbef55b1b6",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/InputCongruence.ilean": "084924b1c0e2822231b758842b2132883a1662c441a1956a436a41059e1b4068"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Kernels.lean": {
+      "source_sha256": "1f68c5595062a091bcda7a23df13f5a4de3df9fe134334217e8e02541e5172c0",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Kernels.workspace-build.json",
+      "receipt_sha256": "32cfb61a95f8f962fbcd7d5bdf3fe4e2d80e21ebba55310558e660144881460a",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Kernels.olean": "74fab22ff85683046f784ba3169dccb0dec4c7583438b6ffb57da7441ebf23d7",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Kernels.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Kernels.ilean": "e0d508068687f6b9de69d2fb759bf89111ebf94369ac9b6bdfc863740c30b1c8"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueProjection.lean": {
+      "source_sha256": "d9a07092d6b23b790c7a08e7be42dc72665a31af24c3d015674549a32439588a",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueProjection.workspace-build.json",
+      "receipt_sha256": "c79b8b058755b4d050dedcf35836f1d7394fb5bb80cb70112b91494ff64a251d",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueProjection.olean": "3878eee1a863418a48e509bc3003a05b4d14c1bafe2a96a2f7bcc35fda77b53c",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueProjection.ilean": "66b0c7001a9c41ab05e76a7b87beff5b34597d1491f5ce18afae7c493cd5e21e",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueProjection.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueScalar.lean": {
+      "source_sha256": "16c4c0fb7d5b9a337ce02ca5537657b9b74546848799125a5a574f49fd1aac88",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueScalar.workspace-build.json",
+      "receipt_sha256": "76cf2dc44459b670b78f48216a157ee5b3aedc6f9b318a9f258300604ebfcd1a",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueScalar.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueScalar.ilean": "8435018620568d10c7f32e4392a102d160044ea1d58d45c5f8457e6e713d9aba",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueScalar.olean": "094e7adeaab83395c82fa23c977a5c96508897e32a1e404129e10a664b58d776"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeCombined.lean": {
+      "source_sha256": "dc27b1818b9ed628dd3f7922bff4d6e0f61d4985ee17710a26da82f22fd68b40",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeCombined.workspace-build.json",
+      "receipt_sha256": "1195258d17b240c7613b96c5cf599274df72759d097fa73f1ef4c666e439a12f",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeCombined.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeCombined.olean": "105b7908e2cb37ca5f86c320a67e311abae1241c37c8333a01e9b545f03030ef",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeCombined.ilean": "6af49a2278650ff9955302a9472eb763284d558cfa034c3eb562fd9bb4e15592"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeGrid.lean": {
+      "source_sha256": "30a34bd4912d4852388243fb1ef2362969b6909dc1fb20e7d21fd4d81c3da258",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeGrid.workspace-build.json",
+      "receipt_sha256": "dc58a4f37ec1c055a4ce32de6296fd5f83490523f9403eefbe387723d4a3346f",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeGrid.olean": "4b7f372cc141b37dc1a3679f5e512635e452b0e08fa87323ff7b71c24ee43552",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeGrid.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeGrid.ilean": "338b6592895ce555d78b8f77577a86e55e2b3f4a48581b2a245980367b04f358"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeMemory.lean": {
+      "source_sha256": "02ed02f96c8574be1d8dfe1c64a7ceb7bcb502cda94dbaac2aaa9ab6ffcccd81",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeMemory.workspace-build.json",
+      "receipt_sha256": "3cadb3a9330251f0ce96338b03b4b4082f1cf64089fc7d4ebd857c051e49b500",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeMemory.olean": "a065f4f235a0ff6ba5c0f08d66b9b026da5e452ac4352ee6c29ecd3fb598c063",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeMemory.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeMemory.ilean": "7b84521dcbb73686ef3bf0fd181b3681ea7db288409adc8fe2ee74aee84d45ca"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeObserved.lean": {
+      "source_sha256": "3aba3a020029db2c48df2de6bab71405e563bdaee33dbca4a129e17d1791294e",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeObserved.workspace-build.json",
+      "receipt_sha256": "33a58b0b96140d0f6619ec2b0697ee6c4cee1db548319a43dc9c8b16e0e912ff",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeObserved.ilean": "3d79049a20a2f52f91261311114e74e9593070f08563fd8d753717fc4d4249f7",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeObserved.olean": "9b8b4fcd14346b16db97a5275ef704c3c20b5844c54df6b09881ebf8f54f359d",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeObserved.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeReference.lean": {
+      "source_sha256": "5528e25f61181f0dabd17992a850c7286fdfac394e4e32aa48e6e255a0b09e0e",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeReference.workspace-build.json",
+      "receipt_sha256": "980ddb7905807cf6814dddb58ca302959a36ec888c5412095d4e216b4c8074aa",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeReference.olean": "d022b2ef71852eb23772c0ea9073c6460feba65f69052382dab4cbb1c3997a81",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeReference.ilean": "82c7c42a320e0cd22f1622802b04b4b7cc62b7aa5eb691610042f0ac53d36c90",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeReference.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeStage.lean": {
+      "source_sha256": "0489a4cd206abb14f96112eef66e9e4eb061f9b31fa3f441cdda41057f2f5f64",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeStage.workspace-build.json",
+      "receipt_sha256": "7052b503fd30bccdab52e6cae23e13be3a298afb5d586a7b435e68fac5b9d4c3",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeStage.olean": "ffc1fb1a9eb3efb4cd9a6e18df52b730ffd3a99cdd3daebccbd0bf6b94cd988a",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeStage.ilean": "fd92d3a395e5df3bc767b55c3fb9e47a4db090c12e7ea8054f2190b6d32a3c9c",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeStage.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Observed.lean": {
+      "source_sha256": "a63b465768ec561064802724724c0d370ddc033d8fddc6fe4721159834276291",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Observed.workspace-build.json",
+      "receipt_sha256": "6b77c5a180069976707913166a817a6bca84889019906926258fa8447504564e",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Observed.ilean": "3b8ff31fd8f79e0cc6ce8fbcf1e7b4d92bbc0a5ee891ec821106627089cabf41",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Observed.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Observed.olean": "c5434256aa5f3adfde123bbf9410059b605d1618bdd7f4550745a61a3b32fa39"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Public.lean": {
+      "source_sha256": "407c442776c3894cf8bdb99d6891d008fa9766d61625a6baa1161d2cc0a77b0a",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Public.workspace-build.json",
+      "receipt_sha256": "3c579dbf3c4e66b30335e80b79c83f8f3d4d711ebaba0b26e1013a1b167b8737",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Public.olean": "5d8d9f07991b9cafcf2098b136f50611c46a931b39e1ea1a40fb80a21bfbef00",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Public.ilean": "168503d581d5ed2e97701712382c411dbe13151f2b0c96f81e127b7f89827f59",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Public.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryGraph.lean": {
+      "source_sha256": "13a4c36dd1cfeafde1678778162c608cdb9afa3ce3c5b4b2f34229e5843f9de1",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryGraph.workspace-build.json",
+      "receipt_sha256": "0cf732a95163d6034db81a43c12d6c5dee86cd0128d5b0245ffc8c3ef08088f1",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryGraph.olean": "4c7a1ac502d970f23fa313651a4a579b813078343dc0ae16b69f12a526b04309",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryGraph.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryGraph.ilean": "55d8474c0ce6fde48486c888329d4661700b655ba3559c904aabd2d46becc160"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryLoop.lean": {
+      "source_sha256": "62affcec3f414aaed9a481df77104b393b555814438b6f34fba660d69f56d65d",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryLoop.workspace-build.json",
+      "receipt_sha256": "eef07d8c8af5dd57fbd19e1b7b7eb8146f87df17ba7a671f53d2f0ea31b555c0",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryLoop.ilean": "c9b5db507badb4b5a9f16e3a0862e9bb2130de4e65118f0fb95c423c892de24f",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryLoop.olean": "da56aa5348f897ebe8d78e40accbc286910a34583dc669a54fd0dca71cc5d117",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryLoop.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryProjection.lean": {
+      "source_sha256": "8645783594ff27c2a135fe03984a0bb4c3f97b10d092186322e766e5f0be43ba",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryProjection.workspace-build.json",
+      "receipt_sha256": "5d9ab33bdf748b701c75b49d04f5549450f1817c3c2037cc4ff6d716de4c1537",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryProjection.ilean": "625dfef5b60ca2145b1d8aed3bc35eacb3dd9bcb387b974e9c6aa0732eafbdc0",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryProjection.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryProjection.olean": "b4d49ddea51ac777e6ca1fa47bd08c24c71960e5bdb4626442407e6d83dc3295"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryScalar.lean": {
+      "source_sha256": "ed2dc6e08f69f2040b6193aa277d95ba4a59970d0563d2aea4ff9a7920bfbc35",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryScalar.workspace-build.json",
+      "receipt_sha256": "c3013bd63ce2714ff14b9526cf22ebf896ccb40c54a9672762c119201e164d88",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryScalar.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryScalar.olean": "36682ffe8a48c2a949984dab5f686c3549d75236d247c88d32681abaf562eefb",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryScalar.ilean": "057063818f74f3238df55c32bddfd972e97bc85f12173306ce077b7009dc13d1"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QuerySyntax.lean": {
+      "source_sha256": "f4e99243332198e4ff9738e56b75968bc1112f8425b726e2148ad0e269e14b8d",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QuerySyntax.workspace-build.json",
+      "receipt_sha256": "b84f5ae4b2a6870a1d6595ca2f5e039789afe982587ccb24b8f2c827a832110a",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QuerySyntax.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QuerySyntax.ilean": "17bcb50b0aa707867dcd07f4044b34c1ea109196a2ca8bbea18637c7d01df5a9",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QuerySyntax.olean": "a36574011a953bb7cdaaf317206f47dcea6a8713301ebd1bd6d7331f5b5f0b47"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryWhole.lean": {
+      "source_sha256": "b24b31897afcf491fa1b6a18b9cc13da3f102fcf44a8a500ab80856a44488400",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryWhole.workspace-build.json",
+      "receipt_sha256": "a36f33ba62cf54466f7cdaa27b584c4a82ec7cc17cd7c21854b8499e3ca0bdf0",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryWhole.olean": "44bd6e2391299a1dac315ec92228964fd905d724d932f91bec54463a04d970f6",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryWhole.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryWhole.ilean": "d84085b1806a4dc45bd6ca09e065f4a50bdbfb6e93a5402ec647ee5c3f37e1d2"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealCombined.lean": {
+      "source_sha256": "c10ac694d51bb70b287ef0e64d0e7e8918f1c0a4e83a037d556bf343157d1c07",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealCombined.workspace-build.json",
+      "receipt_sha256": "e9d17c7b09ccb199225ee4b3bf34d527a5fa23c0ed0648189ce54c457711dac7",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealCombined.olean": "9777c9999bf08a155e0af0c035e80a575a2fc8fbb342d766292f06111f353c51",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealCombined.ilean": "3f13198bc75946a72520ce8adfe289abcfeb4772d4986ff141579ce9862a6059",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealCombined.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealGrid.lean": {
+      "source_sha256": "676439e2e9fd17df75a4bfa06e27411e7929a99adb6ccb926924dabac9a2de6a",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealGrid.workspace-build.json",
+      "receipt_sha256": "4229e6d0921a0dd4b80c8f6bd7fd369a206f65ac9616a3ae1abaa8ce32cd1b20",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealGrid.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealGrid.olean": "416c220878109334437fa867e451467183b71a509cfe6d168e351e8b67938feb",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealGrid.ilean": "d937d53b6e23985e044ead8fb354594212019f2c66dcee671fe3dbe94189bf86"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealObserved.lean": {
+      "source_sha256": "a6568be2d7f5473d36bc8d2efbb34fef83525a2a5869835fbc91f13104f875a4",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealObserved.workspace-build.json",
+      "receipt_sha256": "109498b88ccadd483055b89dfd934a490d6b8e55dface1d0b71789c00aede8b1",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealObserved.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealObserved.olean": "58bed64dcc6f85aae59b5261f8bbc68225eda19c2ef37ea7e5576edce95a814d",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealObserved.ilean": "0af316d1b2fa5ee63510297d014cd884c8154d66ca16b00e3840bcdbcd8bbfe0"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Reference.lean": {
+      "source_sha256": "1e34bcb47f6b0477525b4701c1f78a3bea4c365e9190da1884d1b57e428ebf86",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Reference.workspace-build.json",
+      "receipt_sha256": "63b813dae00bba7649b1a45c64d870a90951b289496ed6b38a63117876f96959",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Reference.olean": "05422d1685e24381cb498fac4e34c12824f5f799bc19e459f10d577b10e37568",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Reference.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Reference.ilean": "f1fd5ebbd1b0f6d9995f3ae57d4cf111f25f96675f9ce0ff5c066482883ecd44"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarModel.lean": {
+      "source_sha256": "022a8493c8106aea38d46a94ad5c2d9b0210b2fba6951415c36eb3c7dc978842",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarModel.workspace-build.json",
+      "receipt_sha256": "1d16272b48545cb0b6b35ec949c2e252861d5405c538ca93bbba1f9ff721b501",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarModel.ilean": "741b079aa203086065d11503f02bce47ec6081dd87f27f72bc2823851d90cede",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarModel.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarModel.olean": "e6478fdddcddbb6e87514f302db1cfb769667ea25aa01282f749982420b0c7ec"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarProjection.lean": {
+      "source_sha256": "9c8d9635141fa262e67a5d8b134862eb0b1801dd7ac7a6ba5d66b0f0031a6d95",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarProjection.workspace-build.json",
+      "receipt_sha256": "f8cf43e840e0ab92bbdebd49d103469638786ec36f296f5847f2cfbeed7c6e3e",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarProjection.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarProjection.olean": "1819f08eea0479f1b2747d9d114f83661111fd34060aae0653f3a9c7031bc5b4",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarProjection.ilean": "5d55a0f6900b6c18bb5801f96a426e13c89dd89d7c4d0a9ea3232182f1494436"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleForwardReal.lean": {
+      "source_sha256": "5e2c705d12be423b805e1f5355866b48c36b83f6a1c336cfc35e5f10213ce625",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleForwardReal.workspace-build.json",
+      "receipt_sha256": "30f959382c9dcff098c419d674e878341de86a4f2b56259b1fb0f6b19d52c1e6",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleForwardReal.olean": "85836c608189eecbc10f63cb4db003567f09f90608d46f6df62ec578561fd954",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleForwardReal.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleForwardReal.ilean": "594f09337d09186f7fc29094b9b958c0cc34c042fc98751d5164e1b1aa53b851"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleGraphReal.lean": {
+      "source_sha256": "2a6dc62aa6de3d006b99b7fe9a6c83f5fe5f6d251b86fe7ca7685e49f2a0dc4c",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleGraphReal.workspace-build.json",
+      "receipt_sha256": "62a0d48e503ae17a7c05a403fc8b2558a3d2bc72890a77c942a3fea5841d3a7e",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleGraphReal.ilean": "4b18b93d0a9ec0d879ba6c82aa862fa422daf012142f6065971c63ea2b232b8c",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleGraphReal.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleGraphReal.olean": "642473954d028a4765fefe94f402aca7f69a34eca4b72eb31d81f836995a1d8e"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleKeyValueReal.lean": {
+      "source_sha256": "07ed70d37c11352cc3ddcec62907e9302d78fe21dac1a15cac17485d80156b43",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleKeyValueReal.workspace-build.json",
+      "receipt_sha256": "0f8e0ae36d24c7698026fa72818dc33ee69d71b708060526264ec9385df69d3e",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleKeyValueReal.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleKeyValueReal.ilean": "e8c8865b2270d70f04bba2a3cccda6555ca2791490315bd3654c287c11284138",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleKeyValueReal.olean": "2f3c9b27a1bbe109d5c02c34379681d1e9c177c0a147beb53c469945c1be0d36"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleOps.lean": {
+      "source_sha256": "c2aa2eca3d2cf684cf665a6331eb915b86dc76ebe12d4fc8e3748f313feea6c0",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleOps.workspace-build.json",
+      "receipt_sha256": "95f51576fcfc7603cfc1f2942a54076a3462768bfb47366b39d15d18f224f2bb",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleOps.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleOps.ilean": "973d5edc1c1fe875c921558cc858d94b3376206197d7c66cca6e81766e13abac",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleOps.olean": "1c65aaef34c325a5a21e359a177bd5f5f9e2d6508f4a490eb472105c48f6d8df"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleQueryReal.lean": {
+      "source_sha256": "18a0da15801a2db01ff3238393f159fc4e365cdc83e12bbc2d0a1551f7718764",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleQueryReal.workspace-build.json",
+      "receipt_sha256": "8cf10980cc6145b24fe942e37b79663d4025080f00851c7cadc2f6f32916a190",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleQueryReal.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleQueryReal.olean": "86558f56b509a2a1ab618cd8cf06cbd527235ae76b99420acfbb02fdbd2e5cd0",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleQueryReal.ilean": "db28a0a7de4d3b1ca98257880350615ade9019e3659a2bc55a7064ccf587e824"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleReverseReal.lean": {
+      "source_sha256": "58447ba7bb6a8029c83f5f13eda11733ccb41903cdbb01b38a209ca5916a1965",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleReverseReal.workspace-build.json",
+      "receipt_sha256": "6d2b2387e2e9a64595c07a5201518b5ac4a35816d01bed8609018b8c9a8d323c",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleReverseReal.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleReverseReal.olean": "8d066835d27db87db62c46bd93140f8f72278b41f1b5a272d96db058d4a2a41d",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleReverseReal.ilean": "19b81a09183c3eb8166f2c9c4fcb0cd21cd6d3d0b5be2d61e90cd5d1495a7f3e"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/SourceSyntax.lean": {
+      "source_sha256": "089794de13c7fa2882a933ab6f2a8b9aa3b0da7fc7acd74ad9f3e89e2973eff4",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/SourceSyntax.workspace-build.json",
+      "receipt_sha256": "ccdf2aa6400e15e1bf6399679a6b5ff40e06500d1591d65fe1fa4551b5a5420c",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/SourceSyntax.ilean": "d7ab3ab0c917404297dc5119b78b923ffd8d56968b56884ca5082f59887f6fe9",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/SourceSyntax.olean": "0361089ee8ce9a1d247d2483187f9043aa2da1063f607fa2c46db48f87771927",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/SourceSyntax.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Stores.lean": {
+      "source_sha256": "8a7cbdc9c35658284b827d53991ccde240aceb97dd68f9092a3c8cdd7626ad1a",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Stores.workspace-build.json",
+      "receipt_sha256": "eb4dc5d91edaf0ce3f2fed21ff5348e45f7249399b50553e3f0e963f145f3579",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Stores.ilean": "976f3925931679859640e165c50d64aef976b6bdaba05aaba0bce0c38e65c2ac",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Stores.olean": "27581a439177342345fb78311299cc8fda7d81fc6ae5baa9f872c1c60f3f5d69",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Stores.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Tensor.lean": {
+      "source_sha256": "13ff599b0f4f854b07605135cd8f44c02ed3b14f5be54b358b62002fc0143c6a",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Tensor.workspace-build.json",
+      "receipt_sha256": "7b3f2e03d992175c648a2bc3fd91b33635eb7e509be3b32ed9571d6758416eea",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Tensor.ilean": "8e6c339fd3b2d0fb7789e3c21733e8888ce1ff7c4fc468e0c813453d6e534f89",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Tensor.olean": "619dfef358fe3538ae0969d13cd11c8a08e64bd697945cf07b25f972b62553c4",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Tensor.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/TensorEndpoints.lean": {
+      "source_sha256": "ee1df7ac64ccf18c2450eebc325f95ae329c0ead8b0e1373e4cc6f1596248fc7",
+      "receipt": ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/TensorEndpoints.workspace-build.json",
+      "receipt_sha256": "4d5e1d269b2dacec030c61b34e38fb8c0736be99f4dbb508bc91ffb423ee6703",
+      "objects": {
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/TensorEndpoints.olean": "50e646ab57bdc8dec61ce7e1cec0c0069429d57bde0467aa104e9519c6738609",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/TensorEndpoints.ilean": "1c19e4144b653e1f9d040b66fae51803367f3da48b93114f75f30a6632b39c1f",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/TensorEndpoints.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  },
+  "file_sha256": {
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleForwardReal.lean": "5e2c705d12be423b805e1f5355866b48c36b83f6a1c336cfc35e5f10213ce625",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleGraphReal.lean": "2a6dc62aa6de3d006b99b7fe9a6c83f5fe5f6d251b86fe7ca7685e49f2a0dc4c",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleOps.lean": "c2aa2eca3d2cf684cf665a6331eb915b86dc76ebe12d4fc8e3748f313feea6c0",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Specification.lean": "aec54a51093a1561b8c8dca6469f104c340d1b1581be8b55d4c555c4fb97cc9e",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Types.lean": "1aedd5badacc275e943f2d6215a02f957731e06fd74d887db35c0550bdd534d2",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Graph.lean": "4b7fca5465d3ee8c30763e248feaa7db2397377e13dde68b2dfa65cf949d7b59",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Geometry.lean": "56c47a6461e19d1b2537ff19e6f24cf4c19f10fb49a9bf319e1172a619421196",
+    "VeriTile/Meta/StatementAudit.lean": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5",
+    "VeriTile/Meta/Specification.lean": "7580bdc657b49d3cb8c518cbc08bcd7f405f0ede509e3a7deb6dd8ab9dbdb8fe",
+    "VeriTile/Spec.lean": "f94f43290c0ea840da152773cb7f73b6c7a9494e8e48185a27ac754cd4e7c84c",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Arithmetic.lean": "1ee8cb777044a0a36f4ba1e5ad20a69cc51b82633b5ed534842eeb27293ccd1e",
+    "VeriTile/Triton/Float/ScalarOps.lean": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072",
+    "VeriTile/Triton/Float/BitValue.lean": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Stores.lean": "8a7cbdc9c35658284b827d53991ccde240aceb97dd68f9092a3c8cdd7626ad1a",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarProjection.lean": "9c8d9635141fa262e67a5d8b134862eb0b1801dd7ac7a6ba5d66b0f0031a6d95",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPRange.lean": "83486913e076978e00afea117fd9ae6b4d8d612826f22472208b068cf27e7e42",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardGraph.lean": "b7f60f8812ddc2fc7d9abd4faebbb9eb87e36d67d4185a5fff5411d957caea92",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/SourceSyntax.lean": "089794de13c7fa2882a933ab6f2a8b9aa3b0da7fc7acd74ad9f3e89e2973eff4",
+    "VeriTile/Triton/Float/Structural.lean": "628ce9ece2eed2ac3bcc6addf119ab112fe8d67e0679e24c21404d7b5938df83",
+    "VeriTile/Triton/Core/Reshape.lean": "4e3e858f5b928bcdd25b207ec6a43a78fbe46011ed42fc6e55041690d5bb20e9",
+    "VeriTile/Triton/Core/Shape.lean": "97a634b9623f864dd27c755699d400572df83011ec33b2cc6e79ff028df9ee1f",
+    "VeriTile/Triton/Core/Types.lean": "6081c35bbf70ce3df78e95f45965e8d0130e71423bdbddf04de05c3795e64a58",
+    "VeriTile/Triton/Core/DiscreteReduction.lean": "afa9c2d98feab63377d0f8a1c558411b5f49468f6bc3f3fd5b859efe4cbf4e9c",
+    "VeriTile/Triton/Core/Ast.lean": "6487a828d0ee6b7c66be5e211086d4b87c3b8a277dfd297c1976b56e69b8c565",
+    "VeriTile/Triton/Random/DirectProfile.lean": "a75b2388a81156451e046b72540887f38e7241f2226ad640ff09ae3f42899d98",
+    "VeriTile/Triton/Random/SourceProfile.lean": "fb47ebbcf78dd10ce64048904b24d1cfab8f9c48d18ee92349b7bf7e9a9868f0",
+    "VeriTile/Triton/Random/Philox.lean": "af9c757d813b48f48ab75e43c1edbb6cc4a3a79aeccf58c57a7defa8fb1e0be8",
+    "VeriTile/Triton/Random/Direct.lean": "83dd0dea48ecccbd10605ecf916651842dedc5797ee6479aab4144b4f2eca568",
+    "VeriTile/Triton/Core/Float8.lean": "2425adfde67fe0c645437bd1945429dbd5b991c2b70519de6861262c8d914c59",
+    "VeriTile/Triton.lean": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+    "VeriTile/Triton/Concurrency.lean": "b6312bcc71e3596bb9fbfd039b11b412a22df3a4cbcd6e740c703c9271739f6e",
+    "VeriTile/Triton/Concurrency/Atomic.lean": "03dc2a7547ff4c90ca22d3af13867ca243306fbb06e73ddc424d41545129da52",
+    "VeriTile/Triton/Launch/Composition.lean": "1a4db9f31530ff88a9727478b8cfa1df9de9934168c759a2934c4367877090a3",
+    "VeriTile/Triton/Memory/Footprint.lean": "ef80d79ae760c927093577188f384f31aae7f54527dc67358308389ee0af7eb2",
+    "VeriTile/Triton/Memory/Frame.lean": "69ceb0d4ffea1563dcd1dd3a1ea1ca12f7d4f7a1bca192edd7c6a300091ad49e",
+    "VeriTile/Triton/Memory/Frame/Kernel.lean": "d15f68b693226f9d4d6ac64428fca447e973a0141b5310e98026c755a293c0ee",
+    "VeriTile/Triton/Memory/Frame/Basic.lean": "14e010c95c718cb6b994031fab88ee85da4fe0ad623c8adeadf3bb755bc1c593",
+    "VeriTile/Triton/Semantics.lean": "c766bb73f0eada86490c02bc145e7b011de1d184609b8021325648d949678346",
+    "VeriTile/Triton/Semantics/StreamingAccumulator.lean": "19fdebafec049bd11c48abba4ec0daf711436d9a0fa242b0d063a9e609e5bd40",
+    "VeriTile/Triton/Semantics/TileOps.lean": "01fa462cef459fe683fcc8f55d94eff99ca88bce747b16405350746894cb1e3e",
+    "VeriTile/Triton/Semantics/State.lean": "e505bc73033417f411aca7fe9deed4510a2e87f183fe3597b13dd0ec9d0c9cdb",
+    "VeriTile/Triton/Semantics/Scalar.lean": "f64e84224c4998ef36b99d0f4fe1b7b26bb28faf739b5f9c5e6b317e801377ce",
+    "VeriTile/Triton/Core.lean": "f2c559b54eff3fbf43926fa5930428ec02a55fba27686bbd58a5b5f3b6c28a2d",
+    "VeriTile/Triton/Math/Erf.lean": "ec935c59c2569790cf8dcfac003947565c5c8a22889f99445b89a39c996d8e32",
+    "VeriTile/Triton/Math/Attention.lean": "bd83e1c4debe6448af1c99b37608f1429c0e9fde03caf9ab394cab873a338e78",
+    "VeriTile/Triton/Semantics/BlockPtrEval.lean": "50145ec9e7feca0282f1dc351017f7e7bbb83776b905eb96f5894c658e6e742f",
+    "VeriTile/Triton/Semantics/EvalOp.lean": "2d81a6187bc0a503194101871e70ff61791b8ddf4f21d6ee00399b77e050cd20",
+    "VeriTile/Triton/Random/UniformValues.lean": "d2cb297b2aa730102adf8edab25581357071495da672876c22497e3669be90bb",
+    "VeriTile/Triton/Random/Values.lean": "74055de9bdcb4b5b338c5f1294f4781bcf715f207a78c1ddddf900c22c9e3c85",
+    "VeriTile/Triton/Random/Proofs/CanonicalUniformBridge.lean": "e744120a52249bf3753ac4dc81967dd37930c8c3cc71b4cc234da110c9994938",
+    "VeriTile/Triton/Random/Proofs/RoundDyadic.lean": "351506829a6a90e45afb1ef6f7b31d3f58ee5d653092bc9850011adbd495d91e",
+    "VeriTile/Triton/Random/Proofs/SignificandBounds.lean": "9fd6c6ebf6cc0f2e252a7dd0010e1fabed9042e044a08afb29b8d234fe7ff181",
+    "VeriTile/Triton/Random/Proofs/DyadicStep.lean": "fd79754a45a24b8de2cc85cc1a2cb0a4aa5360f8d19dae6ceadae9ccf3f389b5",
+    "VeriTile/Triton/Random/Proofs/DyadicExponent.lean": "4c899ee927a6519e12c867cc452087ed827f3af5262b9dd1886acb5485ee7ddd",
+    "VeriTile/Triton/Random/Proofs/RoundQuotientBridge.lean": "81481928ad4594579c8e85fc9bbbd87fd16a6f611a77208c2c4be5bb2d715237",
+    "VeriTile/Triton/Random/Proofs/Dyadic.lean": "3b5d946b8df775934f9113a1de483f1949c4a24bdc7ad3e37964c8e7ccdef4b4",
+    "VeriTile/Triton/Random/Proofs/RoundExpansion.lean": "e866ae4a5a6a918ba92be25082d59931bce3d17fcfc4a56367cd3bb8db83cde9",
+    "VeriTile/Triton/Random/Proofs/PackRoundedProof.lean": "e0b324729400380ff8d3f9e9ddd1a31e6084456ff0f31d84d2c0ac36c9ed4346",
+    "VeriTile/Triton/Random/Proofs/PackDecode.lean": "1ae0557bb8844952317dedf27641eb69ea6bebad185362b78524e62cf2b3e5e2",
+    "VeriTile/Triton/Semantics/Float8.lean": "dff538de87e46bdd7cf041faba3188696dd9532d9650653d5cb37af7769e90b1",
+    "VeriTile/Triton/Semantics/AtomicReduction.lean": "47bc59ef56e2a0bf9eac3d65fe2e3f5a6c033525dbd001406c6ddd15d2219efc",
+    "VeriTile/Triton/Semantics/BroadcastReshape.lean": "693f8fa230e9ee1f1bc7341df73be2d2765e1d4df23d46de759565214d19d8ee",
+    "VeriTile/Triton/Semantics/BroadcastReshape/Attr.lean": "10d5e6207c051ca7ebcac33dea3cde3a38dfe662091422182cc8ea1ac9521ef0",
+    "VeriTile/Triton/Semantics/MaskedReduction.lean": "679ec47fa431c57fda950756e5ae1a22dfc145224d6eb21c68ff43f950a942a8",
+    "VeriTile/Triton/Math/L2Norm.lean": "ea38e69c53fdb4ffa7336c8d0c3998010cfa28de80c2006fd7bf0c8edcb5ab94",
+    "VeriTile/Triton/Semantics/TiledIndexing.lean": "8425f2f91c45531afcc7bdf63bd7f3b0fe5b7993f7ee5602f872c98ff002c022",
+    "VeriTile/Triton/Math/LogSumExp.lean": "b7bc8b44d7144a88450a9720de9216e24817510bb8a76c87305831cdffe41697",
+    "VeriTile/Triton/Semantics/StreamBridge.lean": "85f1e61730d3d76071d6bbd82093f20263329a6922942ea2bb96c329fe9009c6",
+    "VeriTile/Triton/Semantics/LaneBridge.lean": "cba3a5c109464d5018e1b9aa47a6688040e42e07de81fc9178a7ec74a780a85d",
+    "VeriTile/Triton/Semantics/Eval.lean": "c981d48a41d1a1cccd61376afc8d273754b397b160f257e80edf597453e61148",
+    "VeriTile/Triton/Semantics/Step.lean": "709189a5c592f0dde041cfeb17e6b2d6bdde8b48e4c618104aa7baf8bde452d5",
+    "VeriTile/Triton/Semantics/Offset.lean": "4554d0b999c47059742ec69104ab9eae2a9d6e6cd9a970c8653ff567f308fffa",
+    "VeriTile/Triton/Memory/Bounds.lean": "300ce8bb3c7cd5c7991a25f0ae2bf5680f933fa0048f519ce29f73bd5654d0a4",
+    "VeriTile/Triton/Memory/Frame/Stmt.lean": "98a4a4032c574773dc719d85d79452c1d1c745f11db296da9ce78019cddbf116",
+    "VeriTile/Triton/Launch/Grid.lean": "74c1c565e02dc30e35751531333bd59ba16f4f9305f40a7ca591e4b24e251925",
+    "VeriTile/Triton/Concurrency/Trace.lean": "85b2f0867c77795663ca6de96344f8896014bb919e9632ea400479138cc52c8c",
+    "VeriTile/Triton/Concurrency/ProducerConsumer.lean": "0ba0c4c59a75b83b52782a2bc7f58880af134e9c2718e03fd8e5ca831d8de06a",
+    "VeriTile/Triton/Concurrency/Refinement.lean": "0baf4b34389f4d1b1ea978e8fd4525e306e8110733a33c9793f3cad851b93196",
+    "VeriTile/Triton/Concurrency/Discipline.lean": "3901bcbadeaf513cb0723a0db9c77f23e8f4700bf6b076cb9da0869abf17395a",
+    "VeriTile/Triton/Launch.lean": "2dd3ea1acf4cecd1ba4f24dee9868bf5089fa898ca9bf73a6074b4717241b4e6",
+    "VeriTile/Triton/Math.lean": "9000ce833e405e6652bcd66c930a51d8374c909ca6fe464e0fe77d0cd3648d09",
+    "VeriTile/Triton/Math/Softmax.lean": "1ab0be1a888802002a7cfd0ce9cc156216353ed0f6764242cd46eb7996c691e3",
+    "VeriTile/Triton/Math/RMSNorm.lean": "75461e0a3513065eadeac912211b6578bf63cc7527be13fb1197ac440bde6934",
+    "VeriTile/Triton/Math/Reduction.lean": "ef4e0f3e0f78128941ead72b49e44322c1fd6960d0cf703c1af3c7793f42a516",
+    "VeriTile/Triton/Math/Optimizer.lean": "5935dd7e4bf5bcfb75c9ff5cdb51cb7bae43fcda91daa0fc83d6d4c1edb3f896",
+    "VeriTile/Triton/Math/Loss.lean": "a449d710a036ccb84cca2bbad6c12175add8154c1baf63a8b1e67c7a1d4fa775",
+    "VeriTile/Triton/Math/Activation.lean": "7fe53782eb9cab940d8fe722311c429d5a3dccf6cef6f1ca880109bfc752027f",
+    "VeriTile/Triton/DSL.lean": "2423c62c7d2ce4f66fb836f36c35d2b904fc759e8f782684a28af52d0ab7faf4",
+    "VeriTile/Triton/DSL/Expansion.lean": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "72854c692284e4e54206f4fe11b33f96d97db45b7bdb785613dab3b78fd24dbc",
+    "VeriTile/Triton/DSL/Typing.lean": "2e42a8276db7a03700a36e310f742f7f06b9e2f54cd75778501fbbe2def86d79",
+    "VeriTile/Triton/DSL/Syntax.lean": "b796fa1137a5cd2aa06c62b20ea21d7248959fcba41c6e1598d2c2678a32b99e",
+    "VeriTile/Triton/DSL/Expansion/DirectRandom.lean": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc",
+    "VeriTile/Triton/Core/Integer.lean": "ef1c0c34a0038ce6538f2d02f3a3941bb1a4a631fdb5e089f0dae063f26efe57",
+    "VeriTile/Triton/DSL/Expansion/Common.lean": "4b6380326b745c239a07e67224591b75b8532a897a3e7947a29e6b23cc4cc0d7",
+    "VeriTile/Triton/DSL/Metadata.lean": "f15dacfc449594204f6eb64b5b0cc8dad3e591f303c767268867a6a935bd0fa8",
+    "VeriTile/Triton/DSL/Expansion/Control.lean": "5a64987af770f0c2ffbf01c23c3069ad9971e03a55e3b117a76c1578f42b8b1d",
+    "VeriTile/Triton/DSL/Expansion/DType.lean": "2d61abff958ff6abdd0768a6bcd72c9d1192679b4c30c2d67c83efa774c23b7b",
+    "VeriTile/Triton/DSL/Expansion/Compute.lean": "93b296835d7f6bdec3a5e5a5d4c3cc3f8518be143c488a1b38bc839bf0abec0a",
+    "VeriTile/Triton/Core/SignedCast.lean": "41081ffabb1ee3f6c6f016cc0c1a59eb91afad9c09ae8d4a4d2698b776d4603c",
+    "VeriTile/Triton/Core/FixedInteger.lean": "c2cf48fbd4b6c2e257b77d33cc947e879097428d85ef6d07f4e679f4abf686b8",
+    "VeriTile/Triton/DSL/Expansion/Memory.lean": "e44b7908c6d74c70a58b84a675b3f303d1f09d950ea5c4870a52b746f5ea36e1",
+    "VeriTile/Triton/DSL/FiniteHelperSource.lean": "b16e6ac66af74f85feefa9219e4aa880b46d54277d1d309ca495dbb62cccf0d0",
+    "VeriTile/Triton/DSL/RandomProfile.lean": "61f31027a53ea7305b18341f0c7dced51c9407589bf4fe16b1c7bfded7859d04",
+    "VeriTile/Triton/DSL/Inference.lean": "26d322c80b08a3432a44eaddf14c07deac1895f254b37dd699ede7af7af74593",
+    "VeriTile/Triton/Float.lean": "92d888b138f8b593d5337806b3128af63832e8c2a1ab482efceedbd432821b7d",
+    "VeriTile/Triton/Float/Equivalence.lean": "965c88093e53e551c6b947880faeb750cdbe66db04a8cdf2e98a49cc82bb6bf7",
+    "VeriTile/Triton/Float/Pipeline.lean": "5a892afbc554b181bcff18de0901bef31fa70f659fe420274e6c8cfcd5975646",
+    "VeriTile/Triton/Float/Refine.lean": "fa767a47f0f9e79c951c2b5d074455612c3464438220ee829de29f17e5eabc83",
+    "VeriTile/Triton/Correctness.lean": "0e5c59fe03bdf99aa94059eb533b44bd5764fa48e844751e9603891b730a03ce",
+    "VeriTile/Triton/ExternalCheck.lean": "df0c83664a16531f22d5c4c7898d358dffbae95a64173cddc2ace6257feabb95",
+    "VeriTile/Triton/Memory.lean": "95ded98671abf69963028f62c116ea94ad838d2e784fe59f350f688f1c0618f0",
+    "VeriTile/Triton/Memory/KernelSpec.lean": "f6e211da67da821f3853b0dbf6ce13b648bdb5df98816193024b94170758dbe3",
+    "VeriTile/Triton/Memory/KernelSpec/TileGather.lean": "964d1e68747a97b25d3f65d1728efc51d913d937ef5cb08e40ba991e99dbf0a9",
+    "VeriTile/Triton/Memory/KernelSpec/TileIndex.lean": "07294995905ab00ee3c4981cbae5e18bf50796815cd9bd49e93b8d427e72c8b1",
+    "VeriTile/Triton/Memory/KernelSpec/Base.lean": "4497d69d92d2bc9baa0861fc0cec9bcf8eab5309c2c582f2d9aa0e5da27c54a8",
+    "VeriTile/Triton/Memory/KernelCore.lean": "617a8949869c9a9bf366bfe74a02f7a98c1b001f496d7af3f40662445702f311",
+    "VeriTile/Triton/Memory/Denotation.lean": "d0708c4acf9061d947132f579f2d70077ac72e7e9d71174170f95589e9f2df75",
+    "VeriTile/Triton/Memory/Flatten.lean": "f840337af2d699df8cc0f43cc10dfababc7bee57cb8126486f88a09a66e841c1",
+    "VeriTile/Triton/Semantics/BlockPadding.lean": "157d22d7b2bc8c299457836eb29e45efd8ecfef0b4d75610cec905d978cad00c",
+    "VeriTile/Triton/Float/EvalOpR.lean": "18a04fa08f022f68150ab1dcc6ff81436d72dcdf1d9e502eb7b138424c610099",
+    "VeriTile/Triton/Float/RoundingModel.lean": "daf9e33b135dada924c82ff35858160eccee563486eaa3c0806698647821a673",
+    "VeriTile/Triton/Memory/FlattenR.lean": "3b0c9b1969fb82f751a31ffe74500c082252cfcf0af91a3464c4ded9cebc5401",
+    "VeriTile/Triton/Float/StepR.lean": "72982c87c66f95566d3cf03be69cfedb2088fc0fdd643bba5801981d1a72df32",
+    "VeriTile/Triton/Memory/KernelSpec/TileMetadata.lean": "c457a30724b6288584a6e2e5e8533bcdbf59300eb4b20f8d82ca9be36efbe77c",
+    "VeriTile/Triton/Memory/KernelSpec/TileND.lean": "d1b1fd6fd0be7fb1741e34d6bffec81b1f46db04eb7866db363e2d8cb7b4645a",
+    "VeriTile/Triton/Memory/KernelSpec/Tile.lean": "6056b7cf40200213a953c9249bfc1ecdb81534363fc5686a7538220fbea66872",
+    "VeriTile/Triton/Memory/KernelSpec/StreamAttentionMetadata.lean": "c4d582356c4ced27762da21e73b7d22ffea362c2014dd336d1522de988998a99",
+    "VeriTile/Triton/Memory/KernelSpec/StreamAttention.lean": "a3d9812b4dea7ab67edffe5d338f108f91464f79910fb88abed54b9dff2f7a30",
+    "VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean": "e723e4737a7384bd4ed69011b5d7135d8630f7c540c1848be3d18a8f1c94c02a",
+    "VeriTile/Triton/Memory/KernelSpec/Stream.lean": "308da848372ad8982ece008ea561836d1b2f96bac711cef3436cc859c2aa254e",
+    "VeriTile/Triton/Memory/KernelSpec/Grouped.lean": "809d66cfa5021f0ffc7f569ef5aa1b91edea5afafb56d123f8093ab24c18850f",
+    "VeriTile/Triton/Memory/KernelSpec/Gather.lean": "aa6b2a6a0b9cfc873d3194a9ce4c8cad9c1f881e6c0e7454000065d0101ae457",
+    "VeriTile/Triton/Memory/KernelSpec/Scatter.lean": "e32c3d321b97105b4ce5d192d87c94bed970c38b750f5b26ff10d71a237a4b24",
+    "VeriTile/Triton/Memory/KernelSpec/Metadata.lean": "27672a7a080cce048c2556e3f9705abba985fc4c20b3e378e0ea31e929c01009",
+    "VeriTile/Triton/Memory/KernelSpec/BooleanMasked.lean": "7dc158c61ed167c2d6dcd50ebfb2285094ee5862195d2f50fe6446ed6fe628fb",
+    "VeriTile/Triton/Memory/KernelSpec/MaskedND.lean": "e4056b3085024808ab8fc1e04d3af2381a879fea9374ab0f4751ba9fbdf15532",
+    "VeriTile/Triton/Memory/KernelSpec/Masked.lean": "cf1ea6e930e5832c72d9c95e1bb4345e2e21cd4fe9028e019d09efe92f62ff8c",
+    "VeriTile/Triton/Memory/KernelSpec/Basic.lean": "2a5b4b4946ade9c9bc25414589a5b1a4f815b001847c88b455718f7131981e81",
+    "VeriTile/Triton/Memory/Layout.lean": "e0532314b8f5de6b4abc349368cdf2fd369280ee2ce97eedf364cd12f847996a",
+    "VeriTile/Triton/Memory/Locality.lean": "f7ccd964b50caafd95aa8a8319856f0f893d7acd6264c315f47060563d709cbc",
+    "VeriTile/Triton/Memory/FlattenTolerant.lean": "3465fcb1233e1ad47c3f7c89c3377fae203cd168f9cf47c34485ea480f71a66a",
+    "VeriTile/Triton/Memory/Typing.lean": "20ed89f4c6e4040275af913ce63ecc706bcbdb9a5b20ce4cbaed493cdc6542b6",
+    "VeriTile/Triton/Memory/Typing/Checker.lean": "b8bc166f97ad6997f250a1c9d6c78cad8cc9d903b7bcfb643889882bd3d0b73a",
+    "VeriTile/Triton/Memory/Typing/Region.lean": "1dc180cb6dce4ca8380bd736a9aaaf18b9832ea89b1bd00d60f36aafb1e5497a",
+    "VeriTile/Triton/Memory/Typing/Contracts.lean": "e2944a01c12d91c5d77108f370f41df87e0c080bc20ff93947fdf1a047d5f3fd",
+    "VeriTile/Triton/Memory/View.lean": "81902179bc5303b70f7e76fa8896df3d3ac0c130e7b25950ab21c546f286f077",
+    "VeriTile/Triton/Float/StateErasure.lean": "d87d2d39b9cff48d8f7011f451329afefc3bc76ae600776bd599ec5b62b3b93e",
+    "VeriTile/Triton/Float/Erasure.lean": "91f6aa138fc0527b7a11a91b0054a2ac3f864557bdd3ffc3ad556ff910398cd3",
+    "VeriTile/Triton/KernelLemmas.lean": "22dba3bab9b64beb95ccae479e1e4fd0df8982a30751b814bbd38cd8bac87d9d",
+    "VeriTile/Triton/KernelLemmas/CarryFold.lean": "652e516656ffb90b3e85d37f47942c4bfe1a26f1fbc98218879f5a47da03bd49",
+    "VeriTile/Triton/KernelLemmas/LoopInvariant.lean": "ed17ccd8157fd3fd026d950a6b73eccd04fa13626048792e2d93ae7fcdf564f0",
+    "VeriTile/Triton/KernelLemmas/ScatterStore.lean": "b48c2d047c8ffc611d7791c14d4f98128bf17208f5a134edffe9c8678da7ff17",
+    "VeriTile/Triton/KernelLemmas/Matmul.lean": "93eee78a5a29fe9526eada5beb986df35c6f9a24768a20ff9c9a64f8b156ce80",
+    "VeriTile/Triton/KernelLemmas/OffsetInjective.lean": "f91a71264bd1a72de9cb368592047dcce3377ebd8dbf1dc59734481a8ead8efc",
+    "VeriTile/Triton/KernelLemmas/EvalHelpers.lean": "4a19550e09aabcadc3434134e8f6fdccf0dbcc3d634820c7b491d3bc3cecb9d9",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarModel.lean": "022a8493c8106aea38d46a94ad5c2d9b0210b2fba6951415c36eb3c7dc978842",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryGraph.lean": "13a4c36dd1cfeafde1678778162c608cdb9afa3ce3c5b4b2f34229e5843f9de1",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QuerySyntax.lean": "f4e99243332198e4ff9738e56b75968bc1112f8425b726e2148ad0e269e14b8d",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardGraph.lean": "d322a9ddc83d94db3f184ea0dd2a74b7da555d4ca0efcd07523984d972b99a7f",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardWhole.lean": "c2ea394b6070dddb12fa8ee029f295a6971a344eeb593bd2c12f27a4b9af7e65",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardWhole.lean": "9884c7f9de0f1ad60bedf7b911a630589722d0caf1f68d1466f54c17d17e0353",
+    "bench/tritonbench_g/fused_recurrent_hgrn/Proofs/FPStages.lean": "da5ac692698125f077485785461af8112e7616374fd8afda05a3ad8779db390e",
+    "bench/tritonbench_g/fused_recurrent_hgrn/FusedRecurrentHgrn.lean": "837f2ffe4ad6411033b5f4622cb08977b8cf1f0ea3804931eb3346529045e549",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardLoop.lean": "6d53f3e95bdde941dfd8782c4f66153915babd9b8aa3e245897ec9adce197759",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardLoop.lean": "6217ba5bc290a1706db9c28e3a32efce1e52f3ccf2f31268c111582b3d03b4f0",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealObserved.lean": "a6568be2d7f5473d36bc8d2efbb34fef83525a2a5869835fbc91f13104f875a4",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardObserved.lean": "b2debb86c29620a717a56aac0a50bff178fc198ebdcb8a31be9f2d4d3ff05692",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Observed.lean": "a63b465768ec561064802724724c0d370ddc033d8fddc6fe4721159834276291",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryWhole.lean": "b24b31897afcf491fa1b6a18b9cc13da3f102fcf44a8a500ab80856a44488400",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryLoop.lean": "62affcec3f414aaed9a481df77104b393b555814438b6f34fba660d69f56d65d",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Reference.lean": "1e34bcb47f6b0477525b4701c1f78a3bea4c365e9190da1884d1b57e428ebf86",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleReverseReal.lean": "58447ba7bb6a8029c83f5f13eda11733ccb41903cdbb01b38a209ca5916a1965",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleKeyValueReal.lean": "07ed70d37c11352cc3ddcec62907e9302d78fe21dac1a15cac17485d80156b43",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleQueryReal.lean": "18a0da15801a2db01ff3238393f159fc4e365cdc83e12bbc2d0a1551f7718764",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueProjection.lean": "d9a07092d6b23b790c7a08e7be42dc72665a31af24c3d015674549a32439588a",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardProjection.lean": "2ebd2dd2026117fc06427ccbe96427ac432af6b3d92520abd52202a1c8bceb18",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardScalar.lean": "387398d424a93352ce083774adb887b591c869df47348ae268c80acfc95432ce",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueScalar.lean": "16c4c0fb7d5b9a337ce02ca5537657b9b74546848799125a5a574f49fd1aac88",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryProjection.lean": "8645783594ff27c2a135fe03984a0bb4c3f97b10d092186322e766e5f0be43ba",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryScalar.lean": "ed2dc6e08f69f2040b6193aa277d95ba4a59970d0563d2aea4ff9a7920bfbc35",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/TensorEndpoints.lean": "ee1df7ac64ccf18c2450eebc325f95ae329c0ead8b0e1373e4cc6f1596248fc7",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Coverage.lean": "e87dc5670d45a5324bad851d1622c9980ca2408ea07f448dab98e558201bca57",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridComposition.lean": "39d49165bbdcaa4d94fd8c477bfc7719fd3972cdbb85ac5068544d952c72a1cc",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Grid.lean": "594503fdc66f122fed873f9898139cd5b3527bb06dc9c93018efa42f6b183de6",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Contract.lean": "cffd77d744f3fd332c9d29120cea5cae819d8fead169dac1f22ccf268206c009",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Wrapper.lean": "8730a8a48b98c2a56f19df81130413fb0d912e04c6668095b1d5924607148a05",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Combined.lean": "af924f169ebeb177b8d2e1bc0530a2b34dd42142508ea7587c1a0c60fe80b29a",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Grid.lean": "40ca54e998dce27ca7fd2b5746f4d1b5f5af90695f269b7b4784796bffef5d76",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/HostMemory.lean": "3119aa5bacd8bf3bfe3d5d6a832d29ad2d62ce27b439ff86b6f24f2674a03423",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Execution.lean": "7f5330ed767daa6661164f9c44840ce8f8d23f516e9cd4edd98a6d35dc23fc21",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Memory.lean": "7ae05fcaf8f448e99707dd824f0a92b2211a433dd7130930171b508362c85030",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/InputCongruence.lean": "1f40de2312f23e302f5f86a9c90bce86b74764d846b845df48708d4db45b6eab",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeReference.lean": "5528e25f61181f0dabd17992a850c7286fdfac394e4e32aa48e6e255a0b09e0e",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeMemory.lean": "02ed02f96c8574be1d8dfe1c64a7ceb7bcb502cda94dbaac2aaa9ab6ffcccd81",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeStage.lean": "0489a4cd206abb14f96112eef66e9e4eb061f9b31fa3f441cdda41057f2f5f64",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/NativePlans.lean": "2a06ab6b257b6057f92c5370e86999dc5996cd13407022d6f13f0d9bee2c5f98",
+    "bench/repairs/tritonbench_g/parallel_attention/Proofs/Lowering.lean": "b7b7b1e745bf97af4de299ccc0005d9fcef1d608122dfb5f4a514f663d2216bd",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Tensor.lean": "13ff599b0f4f854b07605135cd8f44c02ed3b14f5be54b358b62002fc0143c6a",
+    "VeriTile/Torch/FP32.lean": "013a646a19c94863c9348e5797b89a4ae95e10bb79b4109f6df36433bd168082",
+    "VeriTile/Torch/Tensor.lean": "5ffea95271519b19b6ac5bd006cb95f778ebc99c21648700ca74d054557db052",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeObserved.lean": "3aba3a020029db2c48df2de6bab71405e563bdaee33dbca4a129e17d1791294e",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeCombined.lean": "dc27b1818b9ed628dd3f7922bff4d6e0f61d4985ee17710a26da82f22fd68b40",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Combined.lean": "eee6fc23b8b54d55b9ec2e5a4906d6f17b0cd2dc7bc15b88b079d3186376edd4",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeGrid.lean": "30a34bd4912d4852388243fb1ef2362969b6909dc1fb20e7d21fd4d81c3da258",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridTargets.lean": "12c6baff5ccce07808596139849801352fd4d40c14cccc5ef278a4e10798928e",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealCombined.lean": "c10ac694d51bb70b287ef0e64d0e7e8918f1c0a4e83a037d556bf343157d1c07",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealGrid.lean": "676439e2e9fd17df75a4bfa06e27411e7929a99adb6ccb926924dabac9a2de6a",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Kernels.lean": "1f68c5595062a091bcda7a23df13f5a4de3df9fe134334217e8e02541e5172c0",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Public.lean": "407c442776c3894cf8bdb99d6891d008fa9766d61625a6baa1161d2cc0a77b0a",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPEquiv.lean": "ad8bd5d0a9aae2747626d6ee5f4fc97cd025739781ca3c1cc8ae2f9a42c988ba",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Correct.lean": "a8a2429dda5c136322b0963b427857d7bb7263bf35c9ad1b694df005faafeadf",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Combined.workspace-build.json": "53844bbc0f173eb8d19e260398dc505b99f459690c026b21576bc709d65d66d1",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Correct.workspace-build.json": "58784d44538e50eed5174faab4464af58f9695c6d6ed2ef34eeadd3981df7a17",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Coverage.workspace-build.json": "8e13bfef54d6c9a665ef826a6d1a4eed34d5a5ccb9ae39dccd3ccc979311b462",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardGraph.workspace-build.json": "e305610f7c64b8d43e8c37e3e7dcbb545f8ffe9b63284c9b8a30e9126ae0d257",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardLoop.workspace-build.json": "ae63e6807eced957ec8b2d2cf6863bfbaca28bd5e235385bb9aaaa3dd25f7cbd",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPBackwardWhole.workspace-build.json": "965d879b899fad7cab167017f8b6dccac55aeaeb87c85345bcc1c9308169cbf9",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPEquiv.workspace-build.json": "ea1924f3b767a642e363cf3b793e1a3c404db4ca3cd619bc582f2385a693af0b",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardGraph.workspace-build.json": "5b29393f1cd9afd82faaca4107124798a8929cccc89dc9dccc0d0ff1940f8b82",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardLoop.workspace-build.json": "dccfd007dc1e9ec6f0c55989494a8ab74de8213a5aeffe71f33d5fd42ecb16f6",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPForwardWhole.workspace-build.json": "e6cfcd8693240998879bfad1a7b641a5e4b6151e8aa118b4219e5151e66febd3",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPRange.workspace-build.json": "76cd5a371276db770d9a08e7e9a3bf0fa2c0f9ed6b40496b8b8ee2e1b61cc6eb",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardObserved.workspace-build.json": "dfb7593734fd53dc63bb55eca251fe835ab2a0eb73c6bd85962fefe336f19dd3",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardProjection.workspace-build.json": "9cabeb7a01d635d8d896423b02dc276c80bced4e20468d4301305a4039b955bb",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ForwardScalar.workspace-build.json": "c9e5e52e32d40cd38f454a8a9c4b8d0836060f3e2c0c796738d446f5c38206e9",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Grid.workspace-build.json": "622c2d1dbe1047b93822e5bd4f7f687ae869b6d5fe7db748d67c4f8ad0891e3b",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridComposition.workspace-build.json": "7c3dac245633aec4fc6c52fb1150e080f8c368d2070b0d66c8430c4587a7bcb1",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/GridTargets.workspace-build.json": "470ac8b58eaedbd4afdcfef25d7d4570a14e0f6b249c33bcabca07b91ed039b2",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/InputCongruence.workspace-build.json": "9f0ea51fefc2fe68251a4aba587570a05cecda815f640d53f0b1b795bcbadede",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Kernels.workspace-build.json": "32cfb61a95f8f962fbcd7d5bdf3fe4e2d80e21ebba55310558e660144881460a",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueProjection.workspace-build.json": "c79b8b058755b4d050dedcf35836f1d7394fb5bb80cb70112b91494ff64a251d",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/KeyValueScalar.workspace-build.json": "76cf2dc44459b670b78f48216a157ee5b3aedc6f9b318a9f258300604ebfcd1a",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeCombined.workspace-build.json": "1195258d17b240c7613b96c5cf599274df72759d097fa73f1ef4c666e439a12f",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeGrid.workspace-build.json": "dc58a4f37ec1c055a4ce32de6296fd5f83490523f9403eefbe387723d4a3346f",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeMemory.workspace-build.json": "3cadb3a9330251f0ce96338b03b4b4082f1cf64089fc7d4ebd857c051e49b500",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeObserved.workspace-build.json": "33a58b0b96140d0f6619ec2b0697ee6c4cee1db548319a43dc9c8b16e0e912ff",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeReference.workspace-build.json": "980ddb7905807cf6814dddb58ca302959a36ec888c5412095d4e216b4c8074aa",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/NativeStage.workspace-build.json": "7052b503fd30bccdab52e6cae23e13be3a298afb5d586a7b435e68fac5b9d4c3",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Observed.workspace-build.json": "6b77c5a180069976707913166a817a6bca84889019906926258fa8447504564e",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Public.workspace-build.json": "3c579dbf3c4e66b30335e80b79c83f8f3d4d711ebaba0b26e1013a1b167b8737",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryGraph.workspace-build.json": "0cf732a95163d6034db81a43c12d6c5dee86cd0128d5b0245ffc8c3ef08088f1",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryLoop.workspace-build.json": "eef07d8c8af5dd57fbd19e1b7b7eb8146f87df17ba7a671f53d2f0ea31b555c0",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryProjection.workspace-build.json": "5d9ab33bdf748b701c75b49d04f5549450f1817c3c2037cc4ff6d716de4c1537",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryScalar.workspace-build.json": "c3013bd63ce2714ff14b9526cf22ebf896ccb40c54a9672762c119201e164d88",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QuerySyntax.workspace-build.json": "b84f5ae4b2a6870a1d6595ca2f5e039789afe982587ccb24b8f2c827a832110a",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/QueryWhole.workspace-build.json": "a36f33ba62cf54466f7cdaa27b584c4a82ec7cc17cd7c21854b8499e3ca0bdf0",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealCombined.workspace-build.json": "e9d17c7b09ccb199225ee4b3bf34d527a5fa23c0ed0648189ce54c457711dac7",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealGrid.workspace-build.json": "4229e6d0921a0dd4b80c8f6bd7fd369a206f65ac9616a3ae1abaa8ce32cd1b20",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/RealObserved.workspace-build.json": "109498b88ccadd483055b89dfd934a490d6b8e55dface1d0b71789c00aede8b1",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Reference.workspace-build.json": "63b813dae00bba7649b1a45c64d870a90951b289496ed6b38a63117876f96959",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarModel.workspace-build.json": "1d16272b48545cb0b6b35ec949c2e252861d5405c538ca93bbba1f9ff721b501",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScalarProjection.workspace-build.json": "f8cf43e840e0ab92bbdebd49d103469638786ec36f296f5847f2cfbeed7c6e3e",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleForwardReal.workspace-build.json": "30f959382c9dcff098c419d674e878341de86a4f2b56259b1fb0f6b19d52c1e6",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleGraphReal.workspace-build.json": "62a0d48e503ae17a7c05a403fc8b2558a3d2bc72890a77c942a3fea5841d3a7e",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleKeyValueReal.workspace-build.json": "0f8e0ae36d24c7698026fa72818dc33ee69d71b708060526264ec9385df69d3e",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleOps.workspace-build.json": "95f51576fcfc7603cfc1f2942a54076a3462768bfb47366b39d15d18f224f2bb",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleQueryReal.workspace-build.json": "8cf10980cc6145b24fe942e37b79663d4025080f00851c7cadc2f6f32916a190",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/ScaleReverseReal.workspace-build.json": "6d2b2387e2e9a64595c07a5201518b5ac4a35816d01bed8609018b8c9a8d323c",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/SourceSyntax.workspace-build.json": "ccdf2aa6400e15e1bf6399679a6b5ff40e06500d1591d65fe1fa4551b5a5420c",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Stores.workspace-build.json": "eb4dc5d91edaf0ce3f2fed21ff5348e45f7249399b50553e3f0e963f145f3579",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Tensor.workspace-build.json": "7b3f2e03d992175c648a2bc3fd91b33635eb7e509be3b32ed9571d6758416eea",
+    ".veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/TensorEndpoints.workspace-build.json": "4d5e1d269b2dacec030c61b34e38fb8c0736be99f4dbb508bc91ffb423ee6703",
+    "bench/repairs/tritonbench_g/parallel_attention/parallel_attention_repaired.py": "3cf92301a18073573c84be1bf775440e9f7b234dba9dd7c37f9d94eb15eb8fe4",
+    "bench/repairs/tritonbench_g/parallel_attention/validation.json": "c08d40e39e4ff395e4d9761e207f74584055ebb7b40de3496adde59973621563",
+    "bench/repairs/tritonbench_g/parallel_attention/cuda-lowering.json": "07119388077b4bfc774c6f6916a19183dcc1250eb88ce6b9edc4ab2dca3b165a",
+    "bench/repairs/tritonbench_g/parallel_attention/lowering-binding.json": "752a7d05400fcc2e108350482ab85dd0aec3475128ca8f3edc9d6552d98eff7d",
+    "bench/repairs/tritonbench_g/parallel_attention/checks/kernel-ast.json": "13e9ee82c790bf7ae198f0dd602fb1f482ed851ad2b5e8cc968179e722e4e879",
+    "bench/repairs/tritonbench_g/parallel_attention/checks/COMPILER-CONTRACT.md": "87b415ed4b72a2de1dc7b76eb3011f8f8ed136878be1421b1ceebb8418d20f69",
+    "bench/repairs/tritonbench_g/parallel_attention/checks/mutation-guards.json": "9ca503ece706dba824fe0406a81b215fd505e1671e961b0b56f5416a37a0f528",
+    "bench/repairs/tritonbench_g/parallel_attention/checks/resolve.py": "0b2a2a8d4149a46761c8adb5cfbe67faa0f3c1e94674a30c0850ee1ff0f641c3",
+    "bench/repairs/tritonbench_g/parallel_attention/checks/check_dot.py": "361aac078a04299350952a6373b0bd46261fb224efbe111eff7eda6aa5c94ef5",
+    "bench/repairs/tritonbench_g/parallel_attention/checks/check_scalar.py": "ff05dee90c29ec41f9551afe92f2333dbbcf8301c922bf8e6bc6042ff6a930dd",
+    "bench/repairs/tritonbench_g/parallel_attention/checks/check_norm.py": "298c6af9fd44621bbd996e054327077ef1aed238b3b2da397821664f94e3a87b",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/source-guard-result.json": "725b2367b6458efcba7a863cd5a980f1b1eec30e1396e60b304c2d96df5f1994",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/source_guard.py": "951a01ebb56615885268f00aba41a42242c9e01f9855a20e99ec3d99cfb393a9",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/freeze.py": "95a41c41b11c980d05415d581a34c2066b93cb96e8ebf85766b0341360ab8b80",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/README.md": "0ff5105016088c8509822823d4a410dcfdf857190d31e67af9424e1681717646",
+    "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/source-pins.json": "009e662f9519b11ef8b4a243b7c8193b0ed306899b923d9b52387212b7dba37c"
+  },
+  "build_log_sha256": {
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/public-build-v1.log": "1803bbc4d3ed515c9df141be7bd65dca3d34e781d96357fbececd3d53d62c0fe"
+  },
+  "scope": {
+    "forward": "O and Z",
+    "backward": "partial value-shard DQ/DK scratch and complete DV",
+    "real_scale": "actual ABI sigma, arbitrary Real",
+    "native": "fixed staged interpretation plus separately admitted local compiler/ABI mapping",
+    "host_sum_normalization_autograd_allocation_byteheap": false,
+    "numerical_or_compiler_experiments_rerun": false,
+    "independent_review_completed": false
+  }
+}

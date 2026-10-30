@@ -1,0 +1,93 @@
+{
+  "schema": "veritile-source-verified-entry-v2",
+  "task": "kv_cache_filling",
+  "status": "verified_main_kernel_source",
+  "accepted": true,
+  "source_commit": "4f67a85e33281c365777cc0d2c7f1784097ef32f",
+  "selected_python": {
+    "path": "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py",
+    "sha256": "c2652aa0fca4bb8343693e3ae35b749ba36eb28c1e18ad4a04d52ba213508506"
+  },
+  "effective_public_entries": {
+    "Kernels": {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+      "sha256": "df790afec0a210789e0fcda1ebd283a63e3deae81f8d72dae32561f559eb8e2a",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.Kernels"
+    },
+    "Contract": {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
+      "sha256": "e51881b1f1b24ef55e6b41971923d47326cd492b82d6b66b4908bed69923674f",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.Contract"
+    },
+    "Correct": {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+      "sha256": "2198046b504bb6373323c8b5007129da97e935e2b402a1247287fce687e0f69e",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Correct"
+    },
+    "FPEquiv": {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean",
+      "sha256": "416cac7f0b298a65744e564e7207f66e5abf042629e16e4c50f2e468f00616a2",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.FPEquiv"
+    },
+    "IO": {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
+      "sha256": "ba9ff521ee6eda71c7fa23966704538e711758c986b658a953bf3479fe0e8904",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.IO"
+    }
+  },
+  "public_endpoints": {
+    "real": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real",
+    "native": "VeriTile.Bench.Repairs.KvCacheFilling.FPEquiv.kernel_native"
+  },
+  "scope": "Actual complete copy/INT8/INT4 DSL programs, valid source accesses, successful execution, every cache/metadata output and exact exterior frame. The family is not a composed host execution.",
+  "verification": {
+    "status": "passed_with_recorded_limit",
+    "limits": [
+      "Official comparator unavailable; Lean kernel and statement/axiom audits were run.",
+      "Pinned external Lean/Mathlib dependencies reuse installed artifacts. No GPU or new numerical experiment.",
+      "Historical optional raw/Tensor/host delivery remains unrecovered and is not certified by this main-kernel reconstruction.",
+      "The 183-task scan checks source availability, not fresh proof validity of every task."
+    ],
+    "evidence_files": [
+      {
+        "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/public-build.log",
+        "sha256": "eabd7c8292dbfa92672657dc488424b4d293f8daa1036c288016c914a1394290"
+      },
+      {
+        "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/source-closure.json",
+        "sha256": "657ba8b38a3438e118ded2d02eebf3b0cc5b5c0a18ede28f744e40e3f393ab5b"
+      },
+      {
+        "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/clean-build.log.gz",
+        "sha256": "8f5efe4e3523a65941dc29029828a3c4b70c565ff6ab63d8f34618479ef6f833"
+      }
+    ],
+    "clean_project_build": {
+      "exit_code": 0,
+      "source_commit": "4f67a85e33281c365777cc0d2c7f1784097ef32f",
+      "raw_log_sha256": "01faab8a82401021abce6bad34a694e6213c51931987e54b65f208c1bef219ab",
+      "command": "lake build VeriTile bench.tests.FPMinimumReduction bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SourcePreservation bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Correct bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.FPEquiv bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Correct bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.FPEquiv",
+      "initial_project_build_present": false,
+      "initial_veritile_cache_present": false
+    }
+  },
+  "review": {
+    "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/review.json",
+    "sha256": "5357964c1d07b5ee7e193cffb02a645cc26421e9319bd6b47029691d36c90bf3"
+  },
+  "previous_delivery": {
+    "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/superseded-selection.json",
+    "sha256": "f1970e347dee4e23900fbe8c1e77d273f70447e13ae1aa92cf47d8a02cae3f0e"
+  },
+  "historical_optional_missing_modules": [
+    "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.MetadataABI",
+    "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.PublicAudit",
+    "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.PublicNative",
+    "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.PublicReal",
+    "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SourceBacking",
+    "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SourceTensor",
+    "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.WholeBacking"
+  ],
+  "historical_receipts_restored": false,
+  "numerical_experiments_rerun": false
+}

@@ -1,0 +1,320 @@
+{
+  "source_sha256": "f6faaf6e84e960102afca4c63573af27c412e2c36a1a3a9d3a95ecab264665b7",
+  "triton": "3.7.1",
+  "target": "cuda sm90",
+  "native_gpu_execution": false,
+  "cases": [
+    {
+      "config": 0,
+      "tile": [
+        128,
+        256,
+        64
+      ],
+      "stages": 3,
+      "warps": 8,
+      "ops": [
+        "wgmma.commit_group.sync.aligned",
+        "wgmma.fence.sync.aligned",
+        "wgmma.mma_async.sync.aligned.m64n256k8.f32.tf32.tf32",
+        "wgmma.wait_group.sync.aligned"
+      ],
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-0.ttir",
+          "sha256": "797dcecd26519947b501ea155d7a24344cc9ca5a5231a256809d5390e922d303"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-0.ttgir",
+          "sha256": "ee534508ed0ef7900db035ec86f08ed6a43e6d5e2397b09abd20343035bddc35"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-0.ptx",
+          "sha256": "8f8f654779be6d8bbad0b58f2c2efa47ff520ffefba0bdf4b1314aa8e15e3bce"
+        }
+      },
+      "live_predicates": {
+        "%p169": [
+          "mov.pred \t%p169, -1;"
+        ]
+      },
+      "instruction_sites": 8,
+      "accumulator_live": true
+    },
+    {
+      "config": 1,
+      "tile": [
+        64,
+        256,
+        32
+      ],
+      "stages": 4,
+      "warps": 4,
+      "ops": [
+        "wgmma.commit_group.sync.aligned",
+        "wgmma.fence.sync.aligned",
+        "wgmma.mma_async.sync.aligned.m64n256k8.f32.tf32.tf32",
+        "wgmma.wait_group.sync.aligned"
+      ],
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-1.ttir",
+          "sha256": "d9d00414ea1366188df45545c608921686aa43da7187a49eccdf3f3348180a17"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-1.ttgir",
+          "sha256": "2d84e67b4ec22570c23832f5051595fb3d294dea0b882bf9aabcaaf22c6b7668"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-1.ptx",
+          "sha256": "ea18b40cbecf9422f5a6fcb33e5c998f3b507a49e4e33f3df62a82203f9fe996"
+        }
+      },
+      "live_predicates": {
+        "%p124": [
+          "mov.pred \t%p124, -1;"
+        ]
+      },
+      "instruction_sites": 4,
+      "accumulator_live": true
+    },
+    {
+      "config": 2,
+      "tile": [
+        128,
+        128,
+        32
+      ],
+      "stages": 4,
+      "warps": 4,
+      "ops": [
+        "wgmma.commit_group.sync.aligned",
+        "wgmma.fence.sync.aligned",
+        "wgmma.mma_async.sync.aligned.m64n128k8.f32.tf32.tf32",
+        "wgmma.wait_group.sync.aligned"
+      ],
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-2.ttir",
+          "sha256": "5acf1a0e3ed80af4935552a2164214ec79e18d47ee316df404f3dae317f74137"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-2.ttgir",
+          "sha256": "b86fcad889c85c58126f3cd75af6f5bda5a3921f4536d4cc09ae615be227014a"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-2.ptx",
+          "sha256": "9c6e7c24f68977ee496502b3709e240ee8c2ec24a8ed80d48b939d917b86b678"
+        }
+      },
+      "live_predicates": {
+        "%p139": [
+          "mov.pred \t%p139, -1;"
+        ]
+      },
+      "instruction_sites": 8,
+      "accumulator_live": true
+    },
+    {
+      "config": 3,
+      "tile": [
+        128,
+        64,
+        32
+      ],
+      "stages": 4,
+      "warps": 4,
+      "ops": [
+        "wgmma.commit_group.sync.aligned",
+        "wgmma.fence.sync.aligned",
+        "wgmma.mma_async.sync.aligned.m64n64k8.f32.tf32.tf32",
+        "wgmma.wait_group.sync.aligned"
+      ],
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-3.ttir",
+          "sha256": "52209e9e361a53d8377464813ae4ee5f0a167df97774d0423aaf4954da65d954"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-3.ttgir",
+          "sha256": "258fd63bb5dfb4eb577f1e7e5ca07f9e14771417fae05c5201e1bf7217ad5b2f"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-3.ptx",
+          "sha256": "12acb7192b544027f6700d5617e2a4e04910cf8697c56cc91e142dd791ea2c51"
+        }
+      },
+      "live_predicates": {
+        "%p91": [
+          "mov.pred \t%p91, -1;"
+        ]
+      },
+      "instruction_sites": 8,
+      "accumulator_live": true
+    },
+    {
+      "config": 4,
+      "tile": [
+        64,
+        128,
+        32
+      ],
+      "stages": 4,
+      "warps": 4,
+      "ops": [
+        "wgmma.commit_group.sync.aligned",
+        "wgmma.fence.sync.aligned",
+        "wgmma.mma_async.sync.aligned.m64n128k8.f32.tf32.tf32",
+        "wgmma.wait_group.sync.aligned"
+      ],
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-4.ttir",
+          "sha256": "f360bb76544d9eaff4eefc4e2f5bd81d1561b23cc0d4bd979272f31630100789"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-4.ttgir",
+          "sha256": "58a18b02ea20f48770476cc59d141f3b49dbca2d244be72fcf27717f544bc0c6"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-4.ptx",
+          "sha256": "936203d0831ed481c582129d8b0b19969211c9287db981eaa1667305731b56a0"
+        }
+      },
+      "live_predicates": {
+        "%p169": [
+          "mov.pred \t%p169, -1;"
+        ]
+      },
+      "instruction_sites": 4,
+      "accumulator_live": true
+    },
+    {
+      "config": 5,
+      "tile": [
+        128,
+        32,
+        32
+      ],
+      "stages": 4,
+      "warps": 4,
+      "ops": [
+        "wgmma.commit_group.sync.aligned",
+        "wgmma.fence.sync.aligned",
+        "wgmma.mma_async.sync.aligned.m64n32k8.f32.tf32.tf32",
+        "wgmma.wait_group.sync.aligned"
+      ],
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-5.ttir",
+          "sha256": "3ae8a13fc2dec64c54b9801ad9af860c43a4ca631954de1e5b4bc179abdd18a7"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-5.ttgir",
+          "sha256": "c5973f696146747581af63e215a65134652f86112d0e22862406c71eee0fa736"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-5.ptx",
+          "sha256": "22a20177d65e410538a2b493ee47a08830a4490844cb00c49aa86b2d9eb57c01"
+        }
+      },
+      "live_predicates": {
+        "%p67": [
+          "mov.pred \t%p67, -1;"
+        ]
+      },
+      "instruction_sites": 8,
+      "accumulator_live": true
+    },
+    {
+      "config": 6,
+      "tile": [
+        64,
+        32,
+        32
+      ],
+      "stages": 5,
+      "warps": 2,
+      "ops": [
+        "mma.sync.aligned.m16n8k8.row.col.f32.tf32.tf32.f32"
+      ],
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-6.ttir",
+          "sha256": "a043f66d510511f5a8de6e0b3511ed6ae6f9d82e2078d33636676d849f23e06e"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-6.ttgir",
+          "sha256": "23bee50ec66a1f5ccfcf375f4b40f61288470b39ccfe9f185555ad6b5fb50302"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-6.ptx",
+          "sha256": "e6fbb36b7970b4eb8582ec35c908babed39527cd134c721123870fd48fb318bb"
+        }
+      },
+      "live_predicates": {},
+      "instruction_sites": 32,
+      "accumulator_live": true
+    },
+    {
+      "config": 7,
+      "tile": [
+        32,
+        64,
+        32
+      ],
+      "stages": 5,
+      "warps": 2,
+      "ops": [
+        "mma.sync.aligned.m16n8k8.row.col.f32.tf32.tf32.f32"
+      ],
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-7.ttir",
+          "sha256": "453343ff3640f53e107656f1f49812a230b2d27da59d80b13d3f999b8f8b9c29"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-7.ttgir",
+          "sha256": "b52aac1e726418292747f46d0866762fcf2939ee67ddf0f875f773347ab9c381"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-7.ptx",
+          "sha256": "5e9ac3118066cdf54d7e03bfa4c20cde7ebe1ac72d3c55d1f86d12169fa1aecc"
+        }
+      },
+      "live_predicates": {},
+      "instruction_sites": 32,
+      "accumulator_live": true
+    },
+    {
+      "config": 8,
+      "tile": [
+        64,
+        64,
+        32
+      ],
+      "stages": 4,
+      "warps": 2,
+      "ops": [
+        "mma.sync.aligned.m16n8k8.row.col.f32.tf32.tf32.f32"
+      ],
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-8.ttir",
+          "sha256": "95eed12e4be2dde239e9c71b18c32273968a2c301cc864da97292320ff221de0"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-8.ttgir",
+          "sha256": "0def453c7750c96666f07109fd982d3649baca6a633f89723bfe44d44350730e"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-bmm-fwd-k8/config-8.ptx",
+          "sha256": "915f9396ab493a1e1976aed18103826421e3e7be5575f4d124b5c9de22876259"
+        }
+      },
+      "live_predicates": {},
+      "instruction_sites": 64,
+      "accumulator_live": true
+    }
+  ]
+}

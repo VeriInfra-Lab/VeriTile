@@ -1,0 +1,83 @@
+{
+  "schema_version": 3,
+  "id": "rmsnorm_cast_after",
+  "suite": "negative",
+  "family": "normalization",
+  "description": "cast after instead of before the weight multiplication; reference output may be fp32",
+  "lean": {
+    "namespace": "VeriTile.Bench.BugDetection.rmsnorm_cast_after",
+    "inputs": "tasks/rmsnorm_cast_after/IO.lean",
+    "programs": "tasks/rmsnorm_cast_after/Kernels.lean",
+    "contract": "tasks/rmsnorm_cast_after/Contract.lean",
+    "real_problem": "tasks/rmsnorm_cast_after/Correct.lean",
+    "problem": "tasks/rmsnorm_cast_after/FPEquiv.lean",
+    "backend_connection": "tasks/rmsnorm_cast_after/Proofs/Backend.lean",
+    "validation": "tasks/rmsnorm_cast_after/Misc/Validation.lean",
+    "correctness_goal": "correctnessProblem",
+    "equivalence_goal": "equivalenceProblem",
+    "inequivalence_goal": "inequivalenceProblem",
+    "counterexample_goal": "counterexampleProblem"
+  },
+  "configuration": {
+    "values": {
+      "inputScaleNum": 1,
+      "inputScaleDen": 1,
+      "generatorScale": 1,
+      "shiftNum": 1,
+      "shiftDen": 10,
+      "dtype": "bf16",
+      "n": 16,
+      "hidden": 2048,
+      "intermediate": 6144,
+      "expertIntermediate": 640,
+      "sharedIntermediate": 512,
+      "experts": 128,
+      "topK": 6,
+      "heads": 16,
+      "kvHeads": 16,
+      "seq": 16,
+      "headDim": 128,
+      "vocab": 1024,
+      "chunks": 8,
+      "block": 16
+    },
+    "scope": "fixed_complete_problem"
+  },
+  "problem_kind": "precision_change",
+  "real_expectation": "same_formula_after_rounding_erasure_expected",
+  "status": "LEAN_CHALLENGE",
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "self_contained": true,
+  "interface": {
+    "inputs": [
+      {
+        "name": "x",
+        "shape": [
+          16,
+          2048
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "weight",
+        "shape": [
+          2048
+        ],
+        "dtype": "fp32"
+      }
+    ],
+    "output_shape": [
+      16,
+      2048
+    ],
+    "output_precision": [
+      "fp32",
+      "bf16"
+    ],
+    "scratch": []
+  },
+  "source_translation_status": "PENDING",
+  "source_layer": "standard_triton_lowering"
+}

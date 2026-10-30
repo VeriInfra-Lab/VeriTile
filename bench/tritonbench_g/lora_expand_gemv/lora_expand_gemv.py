@@ -76,129 +76,64 @@ def _bgmv_expand_kernel(
 
 @torch.inference_mode()
 def _bgmv_expand(
-    inputs: torch.Tensor,
-    lora_b_weights: torch.Tensor,
-    output_tensor: torch.Tensor,
-    lora_indices_tensor: torch.Tensor,
-    add_inputs: bool = True,
+    inputs: torch.Tensor, lora_b_weights: torch.Tensor, output_tensor: torch.Tensor,
+    lora_indices_tensor: torch.Tensor, add_inputs: bool = True,
 ) -> None:
-    """
-    Args:
-        inputs (torch.Tensor): input tensor
-        lora_b_weights (torch.Tensor): lora'a weight
-        output_tensor (torch.Tensor): output tensor
-        lora_indices_tensor (torch.Tensor): (batch_size,). The LoRA index
-            corresponding to each batch, An index of -1 means no lora should be
-            applied.
-        batches (int): batch size
-        add_inputs (bool, optional):  Defaults to False, adds the final lora 
-            results to the output.
-    """
-    assert inputs.dtype in [torch.float16, torch.bfloat16, torch.float32]
-    assert lora_b_weights.dtype in [
-        torch.float16,
-        torch.bfloat16,
-    ]
-    assert inputs.size(1) == lora_b_weights.size(-1)
-
-    assert inputs.is_contiguous()
-    assert output_tensor.is_contiguous()
-
-    if lora_b_weights.ndim == 4:  # shape:(lora_num,1,size,rank)
-        assert lora_b_weights.size(1) == 1
-        lora_b_weights = lora_b_weights.squeeze(dim=1)
-    else:
-        assert lora_b_weights.ndim == 3  # shape:(lora_num,size,rank)
-    assert lora_b_weights.is_contiguous()
-
-    # TODO tuning this config
-    N, K = lora_b_weights.shape[-2:]  # K= rank,N=hidden_size
+    tensors = (inputs, lora_b_weights, output_tensor, lora_indices_tensor)
+    if not all(isinstance(t, torch.Tensor) for t in tensors):
+        raise TypeError("LoRA GEMV inputs must be tensors")
+    if any(t.layout != torch.strided for t in tensors):
+        raise ValueError("LoRA GEMV requires strided tensors")
+    if (inputs.dtype != torch.float32 or lora_b_weights.dtype != torch.float16 or
+            output_tensor.dtype != torch.float32 or lora_indices_tensor.dtype not in (torch.int32, torch.int64)):
+        raise TypeError("LoRA GEMV checked profile is FP32 input/output, FP16 weights and signed integer indices")
+    if (inputs.ndim != 2 or output_tensor.ndim != 2 or lora_indices_tensor.ndim != 1 or
+            lora_b_weights.ndim not in (3, 4)):
+        raise ValueError("LoRA GEMV expects matrices, 3D/4D weights and vector indices")
+    if lora_b_weights.ndim == 4 and lora_b_weights.shape[1] != 1:
+        raise ValueError("four-dimensional weights require a singleton dimension")
+    if not all(t.is_cuda and t.device == inputs.device for t in tensors):
+        raise ValueError("LoRA GEMV tensors must share a CUDA device")
+    if any(not t.is_contiguous() or t.is_neg() or t.is_conj() for t in tensors):
+        raise ValueError("LoRA GEMV requires contiguous storage without lazy views")
+    if type(add_inputs) is not bool:
+        raise TypeError("add_inputs must be a bool")
+    B = lora_indices_tensor.numel()
+    L, N, K = lora_b_weights.shape[0], lora_b_weights.shape[-2], lora_b_weights.shape[-1]
+    C = output_tensor.shape[1]
+    if K == 0 or K > 4096:
+        raise ValueError("LoRA GEMV rank must be in 1..4096 for the 256-row source tile")
+    if inputs.shape[1] != K or B > inputs.shape[0] or B > output_tensor.shape[0] or N > C:
+        raise ValueError("LoRA GEMV input, output and index dimensions must fit")
     BLOCK_K = triton.next_power_of_2(K)
-    EVEN_K = K % BLOCK_K == 0
-    ADD_INPUTS = add_inputs
-    CAST_TYPE = False
-    if inputs.dtype == torch.float32 and lora_b_weights.dtype in [
-            torch.float16,
-            torch.bfloat16,
-    ]:
-        CAST_TYPE = True
-    batches = lora_indices_tensor.size(0)
-    # config = get_lora_op_configs("expand", batches, N)
-    grid = lambda META: (
-        META["SPLIT_N"],
-        batches,
-    )
-    _bgmv_expand_kernel[grid](
-        inputs,
-        lora_b_weights,
-        output_tensor,
-        N,
-        K,
-        lora_indices_tensor,
-        inputs.stride(0),
-        inputs.stride(1),
-        lora_b_weights.stride(0),
-        lora_b_weights.stride(1),
-        lora_b_weights.stride(2),
-        output_tensor.stride(0),
-        output_tensor.stride(1),
-        BLOCK_K=BLOCK_K,
-        BLOCK_N=256,
-        SPLIT_N=lora_b_weights.shape[-2:][0],
-        EVEN_K=EVEN_K,
-        ADD_INPUTS=ADD_INPUTS,
-        CAST_TYPE=CAST_TYPE,
-        # **config,
-    )
-    return
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-# Define the test function
-def test_bgmv_expand():
-    # Define input parameters
-    batch_size = 4
-    hidden_size = 128
-    rank = 64
-    lora_num = 3
-
-    # Create input tensors
-    inputs = torch.randn(batch_size, hidden_size, dtype=torch.float16, device='cuda')
-    lora_b_weights = torch.randn(lora_num, rank, hidden_size, dtype=torch.float16, device='cuda')
-    lora_indices_tensor = torch.tensor([0, 1, -1, 2], dtype=torch.int32, device='cuda')
-
-    # Initialize a dictionary to store results
-    results = {}
-
-    # Test case 1: add_inputs=True
-    output_tensor_1 = torch.zeros(batch_size, rank, dtype=torch.float16, device='cuda')
-    _bgmv_expand(
-        inputs=inputs,
-        lora_b_weights=lora_b_weights,
-        output_tensor=output_tensor_1,
-        lora_indices_tensor=lora_indices_tensor,
-        add_inputs=True
-    )
-    results['test_case_1'] = output_tensor_1
-
-    # Test case 2: add_inputs=False
-    output_tensor_2 = torch.zeros(batch_size, rank, dtype=torch.float16, device='cuda')
-    _bgmv_expand(
-        inputs=inputs,
-        lora_b_weights=lora_b_weights,
-        output_tensor=output_tensor_2,
-        lora_indices_tensor=lora_indices_tensor,
-        add_inputs=False
-    )
-    results['test_case_2'] = output_tensor_2
-
-    return results
-
-# Run the test
-result_gold = test_bgmv_expand()
+    if (B > 65535 or max(L, N, K, C, N * K) >= 2**31 or 2 * N >= 2**31 or
+            B * K + BLOCK_K >= 2**31 or L * (N * K) + N * K + 256 * K + BLOCK_K >= 2**31 or
+            B * C + N + 256 >= 2**31):
+        raise ValueError("LoRA GEMV formed source offsets and launch arguments must fit signed int32")
+    output_storage = output_tensor.untyped_storage()
+    output_start, output_bytes = output_storage.data_ptr(), output_storage.nbytes()
+    for tensor in (inputs, lora_b_weights, lora_indices_tensor):
+        read_storage = tensor.untyped_storage()
+        read_start, read_bytes = read_storage.data_ptr(), read_storage.nbytes()
+        if (output_bytes and read_bytes and
+                output_start < read_start + read_bytes and
+                read_start < output_start + output_bytes):
+            raise ValueError("LoRA GEMV output backing bytes must be separate from read operands")
+    if B and N and any(t.numel() and t.data_ptr() % 16 for t in (inputs, lora_b_weights, output_tensor)):
+        raise ValueError("nonempty LoRA GEMV data pointers require 16-byte alignment")
+    if B == 0:
+        return None
+    indices = lora_indices_tensor.tolist()
+    if any(index != -1 and not 0 <= index < L for index in indices):
+        raise ValueError("LoRA GEMV adapter indices must be -1 or name an existing adapter")
+    if N == 0:
+        return None
+    weights = lora_b_weights.squeeze(1) if lora_b_weights.ndim == 4 else lora_b_weights
+    with torch.cuda.device(inputs.device):
+        _bgmv_expand_kernel[(N, B)](
+            inputs, weights, output_tensor, N, K, lora_indices_tensor,
+            K, 1, N * K, K, 1, C, 1,
+            BLOCK_N=256, BLOCK_K=BLOCK_K, SPLIT_N=N,
+            EVEN_K=K % BLOCK_K == 0, ADD_INPUTS=add_inputs, CAST_TYPE=True,
+        )
+    return None

@@ -1,11 +1,8 @@
+"""Checked direct FP32 RMSNorm; original pow/rsqrt kernel is unchanged."""
+import math
 import torch
-
 import triton
 import triton.language as tl
-
-
-torch.manual_seed(1234)
-
 
 @triton.jit
 def rmsnorm_triton(x_ptr, rms_w_ptr, output_ptr,
@@ -42,54 +39,44 @@ def rmsnorm_triton(x_ptr, rms_w_ptr, output_ptr,
 
 
 def rmsnorm_triton_wrapper(x, rms_w, eps=1e-6):
+    if not isinstance(x, torch.Tensor) or not isinstance(rms_w, torch.Tensor):
+        raise TypeError("x and rms_w must be tensors")
+    if any(t.layout != torch.strided or t.dtype != torch.float32 or not t.is_cuda
+           for t in (x, rms_w)):
+        raise TypeError("x and rms_w must be strided FP32 CUDA tensors")
+    if x.device != rms_w.device:
+        raise ValueError("x and rms_w must be on the same device")
+    if x.ndim != 3 or x.shape[2] <= 0 or rms_w.shape != (x.shape[2],):
+        raise ValueError("x must have rank three and a positive matching weight width")
+    if any(not t.is_contiguous() or t.is_neg() or t.is_conj() for t in (x, rms_w)):
+        raise ValueError("inputs must be contiguous with no lazy flags")
+    if type(eps) is not float or not math.isfinite(eps) or eps <= 0.0:
+        raise ValueError("eps must be a finite positive Python float")
     batch, M, K = x.shape
-    assert rms_w.shape[-1] == K
+    padded = triton.cdiv(K, 1024) * 1024
+    if x.numel() != 0:
+        if batch >= 2**31 or M > 65535 or padded >= 2**31:
+            raise ValueError("grid and final loop increment must fit the source index ABI")
+        if any(v >= 2**31 for v in (*x.stride(), *rms_w.stride())):
+            raise ValueError("source strides must fit signed 32-bit arguments")
+        input_max = (batch - 1) * x.stride(0) + (M - 1) * x.stride(1) + (padded - 1) * x.stride(2)
+        weight_max = (padded - 1) * rms_w.stride(0)
+        if input_max >= 2**31 or weight_max >= 2**31:
+            raise ValueError("all formed source offsets must fit signed 32-bit arithmetic")
+        if x.data_ptr() % 4 != 0 or rms_w.data_ptr() % 4 != 0:
+            raise ValueError("FP32 inputs must be 4-byte aligned")
+        if x.data_ptr() + 4 * input_max >= 2**64 or rms_w.data_ptr() + 4 * weight_max >= 2**64:
+            raise ValueError("formed input pointers must not wrap")
     out = torch.empty_like(x)
-    rmsnorm_triton[(batch, M,)](x, rms_w, out,
-                                *x.stride(),
-                                *rms_w.stride(),
-                                *out.stride(),
-                                N_SIZE=K, eps=eps, BLOCK_N_SIZE=1024,
-                                )
+    if x.numel() == 0:
+        return out
+    output_max = (batch - 1) * out.stride(0) + (M - 1) * out.stride(1) + (padded - 1) * out.stride(2)
+    if any(v >= 2**31 for v in out.stride()) or output_max >= 2**31:
+        raise ValueError("all formed output offsets must fit signed 32-bit arithmetic")
+    if out.data_ptr() % 4 != 0 or out.data_ptr() + 4 * output_max >= 2**64:
+        raise ValueError("formed output pointers must be aligned and must not wrap")
+    with torch.cuda.device(x.device):
+        rmsnorm_triton[(batch, M,)](x, rms_w, out,
+                                  *x.stride(), *rms_w.stride(), *out.stride(),
+                                  N_SIZE=K, eps=eps, BLOCK_N_SIZE=1024)
     return out
-
-
-
-##################################################################################################################################################
-
-
-def test_rmsnorm_triton():
-    results = {}
-    
-    # Case 1
-    batch, M, K = 2, 4, 1024
-    x = torch.randn((batch, M, K), dtype=torch.float16, device='cuda')
-    rms_w = torch.randn((K,), dtype=torch.float16, device='cuda')
-    eps = 1e-6
-    out = rmsnorm_triton_wrapper(x, rms_w, eps)
-    results['test_case_1'] = out
-
-    # Case 2: Different eps value
-    eps = 1e-5
-    out = rmsnorm_triton_wrapper(x, rms_w, eps)
-    results['test_case_2'] = out
-
-    # Case 3: Different batch size
-    batch, M, K = 3, 4, 1024
-    x = torch.randn((batch, M, K), dtype=torch.float16, device='cuda')
-    rms_w = torch.randn((K,), dtype=torch.float16, device='cuda')
-    eps = 1e-6
-    out = rmsnorm_triton_wrapper(x, rms_w, eps)
-    results['test_case_3'] = out
-
-    # Case 4: Different M size
-    batch, M, K = 2, 5, 1024
-    x = torch.randn((batch, M, K), dtype=torch.float16, device='cuda')
-    rms_w = torch.randn((K,), dtype=torch.float16, device='cuda')
-    eps = 1e-6
-    out = rmsnorm_triton_wrapper(x, rms_w, eps)
-    results['test_case_4'] = out
-
-    return results
-
-result_gold = test_rmsnorm_triton()

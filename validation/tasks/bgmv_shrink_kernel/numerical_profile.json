@@ -1,0 +1,12 @@
+{
+  "triton_version": "3.7.1",
+  "sum_sha256": "5982dd4cb2c82d1ed019dec338e3268d91bf4721da3bd422d53bb4583f9422a2",
+  "sum_selector_sha256": "6efa32bf065f98435deb14e9776a94d0d7e7dba2d68fa400e9f577eb6d5bd888",
+  "input_formats": [
+    "float16",
+    "bfloat16"
+  ],
+  "output_format": "float32",
+  "default_sum_dtype_for_half": null,
+  "default_sum_dtype_for_bfloat16": null
+}

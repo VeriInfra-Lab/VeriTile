@@ -14,7 +14,7 @@ def fused_recurrent_rwkv6_fwd_kernel(
     p_q = q + i_bh * s_k_h + i_k * BK + tl.arange(0, BK) + ((T-1) * K if REVERSE else 0)
     p_k = k + i_bh * s_k_h + i_k * BK + tl.arange(0, BK) + ((T-1) * K if REVERSE else 0)
     p_v = v + i_bh * s_v_h + i_v * BV + tl.arange(0, BV) + ((T-1) * V if REVERSE else 0)
-    p_o = o + (i_bh + i_k * B * H) * s_v_h + i_v * BV + tl.arange(0, BV) + ((T-1) * V if REVERSE else 0)
+    p_o = o + (i_bh + i_k * B * H) * (T * V) + i_v * BV + tl.arange(0, BV) + ((T-1) * V if REVERSE else 0)
     p_w = w + i_bh * s_k_h + i_k * BK + tl.arange(0, BK) + ((T-1) * K if REVERSE else 0)
     p_u = u + i_h * K + tl.arange(0, BK) + i_k * BK
 
@@ -50,11 +50,75 @@ def fused_recurrent_rwkv6_fwd_kernel(
         p_ht = ht + i_bh * K * V + (i_k * BK + tl.arange(0, BK)[None, :]) * V + (i_v * BV + tl.arange(0, BV)[:, None])
         tl.store(p_ht, b_h.to(p_ht.dtype.element_ty), mask=mask_kv)
 
+def _check_tensor(x, name):
+    if type(x) is not torch.Tensor:
+        raise TypeError(f"{name} must be an ordinary Tensor")
+    if x.layout != torch.strided or x.dtype != torch.float32 or x.device.type != "cuda":
+        raise ValueError(f"{name} must be a strided FP32 CUDA Tensor")
+    if not x.is_contiguous() or x.is_neg() or x.is_conj():
+        raise ValueError(f"{name} must be contiguous with resolved logical view flags")
+
+
+def _index_limit(B, H, T, K, V, BK, BV):
+    Z = B * H
+    NK, NV = triton.cdiv(K, BK), triton.cdiv(V, BV)
+    KP, VP = NK * BK, NV * BV
+    # Covers every source setup expression, masked lanes and final advances.
+    return (Z + NK + NV + BK + BV + K + V + H +
+            Z * T * K + Z * T * V + NK * Z * T * V + Z * K * V +
+            KP * V + VP + H * K + KP + T * K + T * V + NK * Z + 32)
+
+
+def _check_pointer(x, limit, negative=0):
+    if x.numel():
+        ptr = x.data_ptr()
+        if ptr % 4 or ptr < 4 * negative or ptr + 4 * (limit + 1) >= 2**64:
+            raise ValueError("active FP32 pointer needs alignment and formed-address room")
+
+
+def _check_inputs(q, k, v, w, u, initial_state, output_final_state, reverse):
+    if type(output_final_state) is not bool or type(reverse) is not bool:
+        raise TypeError("output_final_state and reverse must be bool")
+    values = [(q, "r"), (k, "k"), (v, "v"), (w, "w"), (u, "u")]
+    if initial_state is not None:
+        values.append((initial_state, "initial_state"))
+    for x, name in values:
+        _check_tensor(x, name)
+    if q.ndim != 4 or k.shape != q.shape or w.shape != q.shape or v.ndim != 4 or v.shape[:3] != q.shape[:3]:
+        raise ValueError("expected R/K/W [B,H,T,K] and V [B,H,T,V]")
+    B, H, T, K = q.shape
+    V = v.shape[-1]
+    if min(B, H, K, V) < 1:
+        raise ValueError("B, H, K and V must be positive; T may be zero")
+    if u.shape != (H, K) or initial_state is not None and initial_state.shape != (B, H, K, V):
+        raise ValueError("expected U [H,K] and optional state [B,H,K,V]")
+    if any(x.device != q.device for x, _ in values):
+        raise ValueError("all inputs must share one CUDA device")
+    BK, BV = min(triton.next_power_of_2(K), 32), min(triton.next_power_of_2(V), 32)
+    NK, NV = triton.cdiv(K, BK), triton.cdiv(V, BV)
+    if NV >= 2**31 or NK > 65535 or B * H > 65535:
+        raise ValueError("RWKV launch axes exceed CUDA limits")
+    limit = _index_limit(B, H, T, K, V, BK, BV)
+    if limit >= 2**31:
+        raise ValueError("RWKV setup expressions exceed signed 32-bit range")
+    for x, name in values:
+        negative = (V if name == "v" else K) if reverse and name in ("r", "k", "v", "w") else 0
+        _check_pointer(x, limit, negative)
+    return limit
+
+
+def _check_scale(scale):
+    if type(scale) not in (int, float):
+        raise TypeError("scale must be a Python int or float")
+
+
 class FusedRecurrentRWKV6Function(torch.autograd.Function):
 
     @staticmethod
     def forward(ctx, r, k, v, w, u, scale=None, initial_state=None, output_final_state=False, reverse=False):
         q = r
+        limit = _check_inputs(q, k, v, w, u, initial_state, output_final_state, reverse)
+        _check_scale(scale)
         B, H, T, K, V = *q.shape, v.shape[-1]
 
         BK, BV = min(triton.next_power_of_2(K), 32), min(triton.next_power_of_2(V), 32)
@@ -65,19 +129,29 @@ class FusedRecurrentRWKV6Function(torch.autograd.Function):
         final_state = q.new_empty(B, H, K, V) if output_final_state else None
 
         o = q.new_empty(NK, B, H, T, V, dtype=torch.float32)
+        _check_pointer(o, limit, V if reverse else 0)
+        if final_state is not None:
+            _check_pointer(final_state, limit)
         grid = (NV, NK, B * H)
-        fused_recurrent_rwkv6_fwd_kernel[grid](
-            q, k, v, w, u, o, initial_state, final_state,
-            k.stride(1),
-            v.stride(1),
-            scale,
-            B=B, H=H, T=T, K=K, V=V, BK=BK, BV=BV,
-            USE_INITIAL_STATE=initial_state is not None,
-            STORE_FINAL_STATE=final_state is not None,
-            REVERSE=reverse,
-            num_warps=num_warps,
-            num_stages=num_stages
-        )
+        if T or output_final_state:
+            # The JIT binds raw Python ints as i32/i64/u64. Do not convert
+            # scale to float or restrict the branch that performs no launch.
+            if type(scale) is int and not -(2**63) <= scale < 2**64:
+                raise ValueError("launched integer scale must fit the Triton i64/u64 ABI")
+            with torch.cuda.device(q.device):
+                fused_recurrent_rwkv6_fwd_kernel[grid](
+                    q, k, v, w, u, o, initial_state, final_state,
+                    T * K,
+                    T * V,
+                    scale,
+                    B=B, H=H, T=T, K=K, V=V, BK=BK, BV=BV,
+                    USE_INITIAL_STATE=initial_state is not None,
+                    STORE_FINAL_STATE=final_state is not None,
+                    REVERSE=reverse,
+                    num_warps=num_warps,
+                    num_stages=num_stages
+                )
+
 
         o = o.sum(0)
         ctx.save_for_backward(q, k, v, w, u, initial_state)
@@ -95,50 +169,9 @@ def fused_recurrent_rwkv6(
     initial_state: torch.Tensor = None,
     output_final_state: bool = False
 ) -> Tuple[torch.Tensor, torch.Tensor]:
+    _check_inputs(r, k, v, w, u, initial_state, output_final_state, False)
+    _check_scale(scale)
     if scale == -1:
         scale = r.shape[-1] ** -0.5
     o, final_state = FusedRecurrentRWKV6Function.apply(r, k, v, w, u, scale, initial_state, output_final_state)
     return o, final_state
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_fused_recurrent_rwkv6():
-    # Define input dimensions
-    B, H, T, K, V = 2, 3, 4, 8, 8
-
-    # Create random input tensors
-    r = torch.randn(B, H, T, K, dtype=torch.float32, device='cuda')
-    k = torch.randn(B, H, T, K, dtype=torch.float32, device='cuda')
-    v = torch.randn(B, H, T, V, dtype=torch.float32, device='cuda')
-    w = torch.randn(B, H, T, K, dtype=torch.float32, device='cuda')
-    u = torch.randn(H, K, dtype=torch.float32, device='cuda')
-
-    # Prepare a dictionary to store results
-    results = {}
-
-    # Test without initial state, without final state, forward
-    o, final_state = fused_recurrent_rwkv6(r, k, v, w, u, scale=0.5, initial_state=None, output_final_state=False)
-    results["test_case_1"] = {"output": o.shape, "final_state": final_state}
-
-    # Test with initial state, without final state, forward
-    initial_state = torch.randn(B, H, K, V, dtype=torch.float32, device='cuda')
-    o, final_state = fused_recurrent_rwkv6(r, k, v, w, u, scale=0.5, initial_state=initial_state, output_final_state=False)
-    results["test_case_2"] = {"output": o.shape, "final_state": final_state}
-
-    # Test without initial state, with final state, forward
-    o, final_state = fused_recurrent_rwkv6(r, k, v, w, u, scale=0.5, initial_state=None, output_final_state=True)
-    results["test_case_3"] = {"output": o.shape, "final_state": final_state.shape}
-
-    # Test with initial state, with final state, forward
-    o, final_state = fused_recurrent_rwkv6(r, k, v, w, u, scale=0.5, initial_state=initial_state, output_final_state=True)
-    results["test_case_4"] = {"output": o.shape, "final_state": final_state.shape}
-
-    return results
-
-result_gold = test_fused_recurrent_rwkv6()

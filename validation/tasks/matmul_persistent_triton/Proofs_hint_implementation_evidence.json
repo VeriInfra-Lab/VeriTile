@@ -1,0 +1,919 @@
+{
+  "installed_triton_version": "3.7.1",
+  "installed_implementation_files": [
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/language/core.py",
+      "sha256": "373eebe68a4c1f6959c81ae6c382b65c5c2893d53274a205f5ff9bbb100fb31b",
+      "size_bytes": 124780,
+      "line_evidence": [
+        {
+          "first": 2935,
+          "last": 2967,
+          "text": "2935: @builtin\n2936: def multiple_of(input, values, _semantic=None):\n2937:     \"\"\"\n2938:     Let the compiler know that the values in :code:`input` are all multiples of :code:`value`.\n2939:     \"\"\"\n2940:     if isinstance(values, constexpr):\n2941:         values = [values]\n2942:     for i, d in enumerate(values):\n2943:         if not isinstance(d, constexpr):\n2944:             raise TypeError(f\"values element {i} must have type `constexpr`\")\n2945:         if not isinstance(d.value, int):\n2946:             raise TypeError(f\"values element {i} must have type `constexpr[int]`, got `constexpr[{type(d.value)}]\")\n2947:     values = [x.value for x in values]\n2948:     return _semantic.multiple_of(input, values)\n2949: \n2950: \n2951: @builtin\n2952: def max_contiguous(input, values, _semantic=None):\n2953:     \"\"\"\n2954:     Let the compiler know that the `value` first values in :code:`input` are contiguous.\n2955:     \"\"\"\n2956:     if isinstance(values, constexpr):\n2957:         values = [values]\n2958:     for i, d in enumerate(values):\n2959:         if not isinstance(d, constexpr):\n2960:             raise TypeError(f\"values element {i} must have type `constexpr`\")\n2961:         if not isinstance(d.value, int):\n2962:             raise TypeError(f\"values element {i} must have type `constexpr[int]`, got `constexpr[{type(d.value)}]\")\n2963:     values = [x.value for x in values]\n2964:     return _semantic.max_contiguous(input, values)\n2965: \n2966: \n2967: @builtin"
+        }
+      ]
+    },
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/language/semantic.py",
+      "sha256": "22b7669ff8ba591fc1540ce01a4030cf54aa2dccfdb21c2d31fa55d5cab77c7c",
+      "size_bytes": 101549,
+      "line_evidence": [
+        {
+          "first": 1815,
+          "last": 1825,
+          "text": "1815:     def multiple_of(self, x: TensorTy, values: List[int]) -> TensorTy:\n1816:         if max(1, len(x.shape)) != len(values):\n1817:             raise ValueError(\"Shape of input to multiple_of does not match the length of values\")\n1818:         x.handle.set_attr(\"tt.divisibility\", ir.make_attr(values, x.handle.get_context()))\n1819:         return x\n1820: \n1821:     def max_contiguous(self, x: TensorTy, values: List[int]) -> TensorTy:\n1822:         if len(x.shape) != len(values):\n1823:             raise ValueError(\"Shape of input to max_contiguous does not match the length of values\")\n1824:         x.handle.set_attr(\"tt.contiguity\", ir.make_attr(values, x.handle.get_context()))\n1825:         return x"
+        }
+      ]
+    },
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/runtime/interpreter.py",
+      "sha256": "cdeca087f97ed6aadb0dbbc87ccd630d0278358e6c380b4bfe96e8f98afe3ab8",
+      "size_bytes": 64932,
+      "line_evidence": [
+        {
+          "first": 28,
+          "last": 57,
+          "text": "28: class TensorHandle:\n29:     '''\n30:         data: numpy array\n31:         dtype: triton type, either pointer_type or scalar_type.\n32:         we don't store block_type here because the shape information is already available in the data field\n33:         attr: a dictionary of attributes\n34:     '''\n35:     data: np.ndarray\n36:     dtype: tl.dtype\n37:     attr: Dict = dataclasses.field(default_factory=dict)\n38: \n39:     def __post_init__(self):\n40:         if not _validate_np_data_size(self.data, self.dtype):\n41:             raise ValueError(f\"numpy data itemsize ({self.data.itemsize * 8} bits) exceeds dtype primitive_bitwidth \"\n42:                              f\"({self.dtype.primitive_bitwidth} bits) for triton type {self.dtype}\")\n43: \n44:     def __bool__(self):\n45:         return bool(self.data.all())\n46: \n47:     def get_element_ty(self):\n48:         dtype = self.dtype\n49:         while hasattr(dtype, \"element_ty\"):\n50:             dtype = dtype.element_ty\n51:         return dtype\n52: \n53:     def clone(self):\n54:         return TensorHandle(self.data.copy(), self.dtype)\n55: \n56:     def set_attr(self, key, value):\n57:         self.attr[key] = value"
+        },
+        {
+          "first": 1162,
+          "last": 1181,
+          "text": "1162:     def _set_attr(input, values, name):\n1163:         # skip non tensor types. This may happen for induction variables.\n1164:         if not isinstance(input, tl.tensor):\n1165:             return input\n1166:         # Unwrap constexpr\n1167:         values = [values] if not isinstance(values, (list, tuple)) else values\n1168:         values = [v.value if isinstance(v, tl.constexpr) else v for v in values]\n1169:         if len(values) != max(1, len(input.shape)):\n1170:             raise ValueError(f\"len(values) != len(input.shape) for {name}\")\n1171:         input.handle.set_attr(name, values)\n1172:         return input\n1173: \n1174:     scope.set_attr(lang, \"range\", _new_range)\n1175:     scope.set_attr(lang, \"static_range\", _new_range)\n1176:     scope.set_attr(lang, \"static_assert\", _new_static_assert)\n1177:     scope.set_attr(lang, \"static_print\", print)\n1178:     scope.set_attr(lang.dtype, \"to_ir\", _new_to_ir)\n1179:     scope.set_attr(lang, \"multiple_of\", partial(_set_attr, name=\"tt.divisibility\"))\n1180:     scope.set_attr(lang, \"max_contiguous\", partial(_set_attr, name=\"tt.contiguity\"))\n1181:     scope.set_attr(lang, \"max_constancy\", partial(_set_attr, name=\"tt.constancy\"))"
+        }
+      ]
+    },
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py",
+      "sha256": "d012f2a7e705592e590630a0df58099ceeb9ef71517c561fc81644c0c9399658",
+      "size_bytes": 23857,
+      "line_evidence": [
+        {
+          "first": 258,
+          "last": 263,
+          "text": "258:         dump_enabled = pm.enable_debug()\n259:         emuTF32 = (capability // 10 >= 8)\n260:         passes.ttir.add_convert_to_ttgpuir(pm, f\"cuda:{capability}\", opt.num_warps, 32, opt.num_ctas)\n261:         # optimize TTGIR\n262:         passes.ttgpuir.add_coalesce(pm)\n263:         passes.ttgpuir.add_f32_dot_tc(pm, emuTF32)"
+        }
+      ]
+    },
+    {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/_C/libtriton.so",
+      "sha256": "e1e17b42f65d04185099e8512cdedf3989355e7e7d3f429022c5302e4833f3d7",
+      "size_bytes": 461559216
+    }
+  ],
+  "installed_binary_functions": {
+    "hint_override": {
+      "start_address": "0x5017c70",
+      "stop_address": "0x5018170",
+      "source_lines": [
+        {
+          "address": "0x5017c70",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1128,
+          "column": 0
+        },
+        {
+          "address": "0x5017c92",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1130,
+          "column": 16
+        },
+        {
+          "address": "0x5017cb0",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1130,
+          "column": 16
+        },
+        {
+          "address": "0x5017cb5",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1131,
+          "column": 34
+        },
+        {
+          "address": "0x5017cc2",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1130,
+          "column": 16
+        },
+        {
+          "address": "0x5017cdb",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 184,
+          "column": 24
+        },
+        {
+          "address": "0x5017ce3",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 185,
+          "column": 20
+        },
+        {
+          "address": "0x5017cfb",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 184,
+          "column": 24
+        },
+        {
+          "address": "0x5017d3d",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 33,
+          "column": 31
+        },
+        {
+          "address": "0x5017d99",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1154,
+          "column": 1
+        },
+        {
+          "address": "0x5017d9b",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1154,
+          "column": 1
+        },
+        {
+          "address": "0x5017db0",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 186,
+          "column": 25
+        },
+        {
+          "address": "0x5017dc4",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1134,
+          "column": 22
+        },
+        {
+          "address": "0x5017e03",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 86,
+          "column": 54
+        },
+        {
+          "address": "0x5017e34",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 105,
+          "column": 51
+        },
+        {
+          "address": "0x5017e8b",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1142,
+          "column": 3
+        },
+        {
+          "address": "0x5017eaf",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1144,
+          "column": 3
+        },
+        {
+          "address": "0x5017ed3",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1146,
+          "column": 3
+        },
+        {
+          "address": "0x5017f0e",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 109,
+          "column": 60
+        },
+        {
+          "address": "0x5017f5a",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 32,
+          "column": 33
+        },
+        {
+          "address": "0x5017f8d",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 33,
+          "column": 9
+        },
+        {
+          "address": "0x5017fc6",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 33,
+          "column": 31
+        },
+        {
+          "address": "0x5017fda",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 34,
+          "column": 5
+        },
+        {
+          "address": "0x5017fe8",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 35,
+          "column": 5
+        },
+        {
+          "address": "0x5017ff9",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1148,
+          "column": 0
+        },
+        {
+          "address": "0x5018033",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 19,
+          "column": 7
+        },
+        {
+          "address": "0x5018092",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1151,
+          "column": 21
+        },
+        {
+          "address": "0x50180b0",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1151,
+          "column": 21
+        },
+        {
+          "address": "0x50180b5",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1152,
+          "column": 40
+        },
+        {
+          "address": "0x50180c0",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1152,
+          "column": 5
+        },
+        {
+          "address": "0x50180cd",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1151,
+          "column": 21
+        },
+        {
+          "address": "0x501812d",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 34,
+          "column": 5
+        },
+        {
+          "address": "0x501814c",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 35,
+          "column": 5
+        },
+        {
+          "address": "0x501816b",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 35,
+          "column": 5
+        }
+      ]
+    },
+    "hint_dimension_setter": {
+      "start_address": "0x5012cb0",
+      "stop_address": "0x5012f90",
+      "source_lines": [
+        {
+          "address": "0x5012cb0",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1196,
+          "column": 0
+        },
+        {
+          "address": "0x5012ced",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1197,
+          "column": 23
+        },
+        {
+          "address": "0x5012cfa",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1198,
+          "column": 35
+        },
+        {
+          "address": "0x5012d84",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1199,
+          "column": 25
+        },
+        {
+          "address": "0x5012efd",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1203,
+          "column": 1
+        }
+      ]
+    },
+    "alignment_consumers": {
+      "start_address": "0x5014060",
+      "stop_address": "0x5014aa0",
+      "source_lines": [
+        {
+          "address": "0x5014060",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1263,
+          "column": 0
+        },
+        {
+          "address": "0x5014095",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1264,
+          "column": 19
+        },
+        {
+          "address": "0x501409d",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1265,
+          "column": 7
+        },
+        {
+          "address": "0x50140aa",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1267,
+          "column": 26
+        },
+        {
+          "address": "0x50140d8",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1269,
+          "column": 20
+        },
+        {
+          "address": "0x50140dd",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1269,
+          "column": 12
+        },
+        {
+          "address": "0x50140e4",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1270,
+          "column": 20
+        },
+        {
+          "address": "0x50140e9",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1270,
+          "column": 12
+        },
+        {
+          "address": "0x50140f0",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1272,
+          "column": 38
+        },
+        {
+          "address": "0x50140f5",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1272,
+          "column": 10
+        },
+        {
+          "address": "0x5014109",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1273,
+          "column": 1
+        },
+        {
+          "address": "0x5014170",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1276,
+          "column": 0
+        },
+        {
+          "address": "0x50141ae",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1281,
+          "column": 18
+        },
+        {
+          "address": "0x50141bf",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1282,
+          "column": 24
+        },
+        {
+          "address": "0x50141c7",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1283,
+          "column": 20
+        },
+        {
+          "address": "0x50141db",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1285,
+          "column": 40
+        },
+        {
+          "address": "0x50141f3",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1286,
+          "column": 3
+        },
+        {
+          "address": "0x5014204",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1288,
+          "column": 25
+        },
+        {
+          "address": "0x5014208",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1289,
+          "column": 3
+        },
+        {
+          "address": "0x5014231",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1289,
+          "column": 3
+        },
+        {
+          "address": "0x501432d",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1290,
+          "column": 16
+        },
+        {
+          "address": "0x5014334",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1293,
+          "column": 1
+        },
+        {
+          "address": "0x5014336",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1293,
+          "column": 1
+        },
+        {
+          "address": "0x50143a2",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1286,
+          "column": 3
+        },
+        {
+          "address": "0x50143d0",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1309,
+          "column": 0
+        },
+        {
+          "address": "0x501440b",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1310,
+          "column": 19
+        },
+        {
+          "address": "0x5014410",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1311,
+          "column": 20
+        },
+        {
+          "address": "0x5014415",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1312,
+          "column": 8
+        },
+        {
+          "address": "0x5014418",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1312,
+          "column": 7
+        },
+        {
+          "address": "0x5014421",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1314,
+          "column": 18
+        },
+        {
+          "address": "0x5014438",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1315,
+          "column": 24
+        },
+        {
+          "address": "0x501444d",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1317,
+          "column": 49
+        },
+        {
+          "address": "0x501445d",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 85,
+          "column": 54
+        },
+        {
+          "address": "0x5014461",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1318,
+          "column": 23
+        },
+        {
+          "address": "0x5014471",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1319,
+          "column": 26
+        },
+        {
+          "address": "0x5014490",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1320,
+          "column": 22
+        },
+        {
+          "address": "0x5014495",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1321,
+          "column": 61
+        },
+        {
+          "address": "0x5014497",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1321,
+          "column": 59
+        },
+        {
+          "address": "0x50144af",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1312,
+          "column": 7
+        },
+        {
+          "address": "0x50144b4",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1321,
+          "column": 59
+        },
+        {
+          "address": "0x50144bb",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1321,
+          "column": 28
+        },
+        {
+          "address": "0x50144d9",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1324,
+          "column": 44
+        },
+        {
+          "address": "0x50144e8",
+          "file": "include/triton/Analysis/AxisInfo.h",
+          "line": 60,
+          "column": 52
+        },
+        {
+          "address": "0x50144ec",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1325,
+          "column": 24
+        },
+        {
+          "address": "0x50144f6",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1326,
+          "column": 3
+        },
+        {
+          "address": "0x5014521",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1326,
+          "column": 3
+        },
+        {
+          "address": "0x50145c8",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1326,
+          "column": 3
+        },
+        {
+          "address": "0x5014619",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1326,
+          "column": 3
+        },
+        {
+          "address": "0x50146bc",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1326,
+          "column": 3
+        },
+        {
+          "address": "0x5014726",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1330,
+          "column": 3
+        },
+        {
+          "address": "0x50147b2",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1330,
+          "column": 3
+        },
+        {
+          "address": "0x50147bd",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1330,
+          "column": 3
+        },
+        {
+          "address": "0x50147e1",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1330,
+          "column": 3
+        },
+        {
+          "address": "0x5014825",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1330,
+          "column": 3
+        },
+        {
+          "address": "0x50148ca",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1330,
+          "column": 3
+        },
+        {
+          "address": "0x50148f9",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1337,
+          "column": 1
+        },
+        {
+          "address": "0x50148fb",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1337,
+          "column": 1
+        },
+        {
+          "address": "0x5014990",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1295,
+          "column": 0
+        },
+        {
+          "address": "0x50149c5",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1296,
+          "column": 19
+        },
+        {
+          "address": "0x50149cd",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1297,
+          "column": 7
+        },
+        {
+          "address": "0x50149da",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1300,
+          "column": 26
+        },
+        {
+          "address": "0x5014a08",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1302,
+          "column": 20
+        },
+        {
+          "address": "0x5014a0d",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1302,
+          "column": 12
+        },
+        {
+          "address": "0x5014a14",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1303,
+          "column": 20
+        },
+        {
+          "address": "0x5014a19",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1303,
+          "column": 12
+        },
+        {
+          "address": "0x5014a20",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1305,
+          "column": 37
+        },
+        {
+          "address": "0x5014a25",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1305,
+          "column": 10
+        },
+        {
+          "address": "0x5014a39",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 1306,
+          "column": 1
+        }
+      ]
+    },
+    "make_range_visitor": {
+      "start_address": "0x5019200",
+      "stop_address": "0x5019270",
+      "source_lines": [
+        {
+          "address": "0x5019200",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 68,
+          "column": 0
+        },
+        {
+          "address": "0x5019224",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 69,
+          "column": 12
+        },
+        {
+          "address": "0x501923a",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 69,
+          "column": 5
+        },
+        {
+          "address": "0x501923d",
+          "file": "lib/Analysis/AxisInfo.cpp",
+          "line": 69,
+          "column": 5
+        }
+      ]
+    }
+  },
+  "installed_binary_attribute_strings": [
+    {
+      "virtual_address": "0x1b09f5f",
+      "string": "tt.contiguity"
+    },
+    {
+      "virtual_address": "0x231a881",
+      "string": "tt.divisibility"
+    },
+    {
+      "virtual_address": "0x22919a4",
+      "string": "tt.constancy"
+    }
+  ],
+  "dwarf_version": 4,
+  "installed_cpp_source_present": false,
+  "installed_source_checksum_available": false,
+  "release_source_binary_identity_proved": false,
+  "release_source_relation": "Version-tag implementation and inspected relevant line numbers/operations match installed DWARF/disassembly; no reproducible-build or source-hash identity proof.",
+  "original_source": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/matmul_persistent_triton/Proofs/source_reference.py",
+    "sha256": "4537e22452bcb9df7844521498b61232772d7ae44e9aa3220c38c2b341f2152c",
+    "size_bytes": 5910,
+    "line_evidence": [
+      {
+        "first": 49,
+        "last": 79,
+        "text": "49:     pid_m = 0\n50:     pid_n = 0\n51:     offs_am = tl.arange(0, BLOCK_SIZE_M)\n52:     offs_bn = tl.arange(0, BLOCK_SIZE_N)\n53: \n54:     accumulator = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)\n55: \n56:     for _ in range(0, k_tiles * tiles_per_SM):\n57:         ki = tl.where(ki == k_tiles - 1, 0, ki + 1)\n58:         if ki == 0:\n59:             tile_id += NUM_SMS\n60:             group_id = tile_id // num_pid_in_group\n61:             first_pid_m = group_id * GROUP_SIZE_M\n62:             group_size_m = min(num_pid_m - first_pid_m, GROUP_SIZE_M)\n63:             pid_m = first_pid_m + (tile_id % group_size_m)\n64:             pid_n = (tile_id % num_pid_in_group) // group_size_m\n65: \n66:             start_m = pid_m * BLOCK_SIZE_M\n67:             start_n = pid_n * BLOCK_SIZE_N\n68:             offs_am = start_m + tl.arange(0, BLOCK_SIZE_M)\n69:             offs_bn = start_n + tl.arange(0, BLOCK_SIZE_N)\n70:             offs_am = tl.where(offs_am < M, offs_am, 0)\n71:             offs_bn = tl.where(offs_bn < N, offs_bn, 0)\n72:             offs_am = tl.max_contiguous(tl.multiple_of(offs_am, BLOCK_SIZE_M), BLOCK_SIZE_M)\n73:             offs_bn = tl.max_contiguous(tl.multiple_of(offs_bn, BLOCK_SIZE_N), BLOCK_SIZE_N)\n74:         offs_k = ki * BLOCK_SIZE_K + tl.arange(0, BLOCK_SIZE_K)\n75:         a_ptrs = a_ptr + (offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak)\n76:         b_ptrs = b_ptr + (offs_k[:, None] * stride_bk + offs_bn[None, :] * stride_bn)\n77: \n78:         a = tl.load(a_ptrs, mask=offs_k_for_mask[None, :] < K - ki * BLOCK_SIZE_K, other=0.0)\n79:         b = tl.load(b_ptrs, mask=offs_k_for_mask[:, None] < K - ki * BLOCK_SIZE_K, other=0.0)"
+      },
+      {
+        "first": 95,
+        "last": 115,
+        "text": "95: def matmul_persistent(a, b):\n96:     configs = {\n97:         torch.float8_e4m3fn: {\n98:             \"BLOCK_SIZE_M\": 128, \"BLOCK_SIZE_N\": 256, \"BLOCK_SIZE_K\": 128, \"GROUP_SIZE_M\": 8, \"num_stages\": 4,\n99:             \"num_warps\": 8\n100:         }, torch.float16: {\n101:             \"BLOCK_SIZE_M\": 128, \"BLOCK_SIZE_N\": 256, \"BLOCK_SIZE_K\": 64, \"GROUP_SIZE_M\": 8, \"num_stages\": 3,\n102:             \"num_warps\": 8\n103:         }\n104:     }\n105:     # Check constraints.\n106:     assert a.shape[1] == b.shape[0], \"Incompatible dimensions\"\n107:     assert a.dtype == b.dtype, \"Incompatible dtypes\"\n108:     NUM_SMS = torch.cuda.get_device_properties(\"cuda\").multi_processor_count\n109:     M, K = a.shape\n110:     K, N = b.shape\n111:     dtype = a.dtype\n112:     # Allocates output.\n113:     c = torch.empty((M, N), device=a.device, dtype=dtype)\n114:     # 1D launch kernel where each block gets its own program.\n115:     grid = lambda META: (min(NUM_SMS, triton.cdiv(M, META[\"BLOCK_SIZE_M\"]) * triton.cdiv(N, META[\"BLOCK_SIZE_N\"])), )"
+      }
+    ]
+  },
+  "recorded_ttir": [
+    {
+      "path": "/tmp/veritile-persistent-native-src/native_evidence/fp16.ttir",
+      "sha256": "81f218c089d240507217b940bd1da5700f39ad8d70295d22cdb874c7e64ba0d4",
+      "size_bytes": 22709,
+      "line_evidence": [
+        {
+          "first": 79,
+          "last": 79,
+          "text": "79:         %offs_am_63 = arith.select %offs_am_62, %offs_am_58, %cst_3 {tt.contiguity = dense<128> : tensor<1xi32>, tt.divisibility = dense<128> : tensor<1xi32>} : tensor<128xi1>, tensor<128xi32> loc(#loc187)"
+        },
+        {
+          "first": 82,
+          "last": 82,
+          "text": "82:         %offs_bn_66 = arith.select %offs_bn_65, %offs_bn_60, %cst_2 {tt.contiguity = dense<256> : tensor<1xi32>, tt.divisibility = dense<256> : tensor<1xi32>} : tensor<256xi1>, tensor<256xi32> loc(#loc188)"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/veritile-persistent-native-src/native_evidence/fp8e4nv.ttir",
+      "sha256": "4c5fabddf97a132349aef1afca0b6534dc5b5a4d54bb5643d074c9893778a1f9",
+      "size_bytes": 22493,
+      "line_evidence": [
+        {
+          "first": 76,
+          "last": 76,
+          "text": "76:         %offs_am_60 = arith.select %offs_am_59, %offs_am_55, %cst_3 {tt.contiguity = dense<128> : tensor<1xi32>, tt.divisibility = dense<128> : tensor<1xi32>} : tensor<128xi1>, tensor<128xi32> loc(#loc182)"
+        },
+        {
+          "first": 79,
+          "last": 79,
+          "text": "79:         %offs_bn_63 = arith.select %offs_bn_62, %offs_bn_57, %cst_2 {tt.contiguity = dense<256> : tensor<1xi32>, tt.divisibility = dense<256> : tensor<1xi32>} : tensor<256xi1>, tensor<256xi32> loc(#loc183)"
+        }
+      ]
+    }
+  ],
+  "release_comparison_files": [
+    {
+      "path": "/tmp/veritile-persistent-hints-src/evidence/upstream-v3.7.1-AxisInfo.h",
+      "sha256": "de23fb9f306eb54153c228589e204c97d1f4a45400e94306bce6ea162348c236",
+      "size_bytes": 9165,
+      "line_evidence": [
+        {
+          "first": 38,
+          "last": 85,
+          "text": "38:   // contiguity[d] is the length of the shortest sequence of contiguous integers\n39:   // along dimension d.\n40:   //\n41:   // If we have an array of N elements with a contiguity value C, then the array\n42:   // can be divided into a list of N/C sequences of C contiguous elements.\n43:   // Since we have N = 2^k, C must be a power of two.\n44:   //\n45:   // For example, the 2D array\n46:   //\n47:   //   [[10, 11, 12, 13, 18, 19, 20, 21],\n48:   //    [20, 21, 22, 23, 28, 29, 30, 31]]\n49:   //\n50:   // has contiguity [1, 4], and\n51:   //\n52:   //   [[12, 16, 20, 24],\n53:   //    [13, 17, 21, 25],\n54:   //    [14, 18, 22, 26],\n55:   //    [15, 19, 23, 27],\n56:   //    [18, 22, 26, 30],\n57:   //    [19, 23, 27, 31]]\n58:   //\n59:   // has contiguity [2, 1].\n60:   int64_t getContiguity(size_t dim) const { return contiguity[dim]; }\n61:   const DimVectorT &getContiguity() const { return contiguity; }\n62: \n63:   // divisibility[d] is the largest power of two that divides the first element\n64:   // of all groups of length contiguity[d] along dimension d.\n65:   //\n66:   // For example,\n67:   //\n68:   //   [[10, 11, 12, 13, 18, 19, 20, 21],\n69:   //    [20, 21, 22, 23, 28, 29, 30, 31]]\n70:   //\n71:   //  has divisibility [1, 2], and\n72:   //\n73:   //    [[12, 16, 20, 24],\n74:   //     [13, 17, 21, 25],\n75:   //     [14, 18, 22, 26],\n76:   //     [15, 19, 23, 27]]\n77:   //\n78:   // has divisibility [4, 1].\n79:   //\n80:   // On the other hand,\n81:   //\n82:   //   [0, 1, 2, 0, 4, 5, 6, 7]\n83:   //\n84:   // has divisibility 1 because its contiguity is 1.\n85:   int64_t getDivisibility(size_t dim) const { return divisibility[dim]; }"
+        }
+      ],
+      "retrieved_url": "https://raw.githubusercontent.com/triton-lang/triton/v3.7.1/include/triton/Analysis/AxisInfo.h",
+      "provenance": "release-tag source comparison, not an installed source file"
+    },
+    {
+      "path": "/tmp/veritile-persistent-hints-src/evidence/upstream-v3.7.1-AxisInfo.cpp",
+      "sha256": "5ef4ca658647472fdeb61d660678f0d85528a771d77eb2e43f184817b3b5858c",
+      "size_bytes": 55971,
+      "line_evidence": [
+        {
+          "first": 1126,
+          "last": 1155,
+          "text": "1126: LogicalResult AxisInfoAnalysis::visitOperation(\n1127:     Operation *op, ArrayRef<const dataflow::Lattice<AxisInfo> *> operands,\n1128:     ArrayRef<dataflow::Lattice<AxisInfo> *> results) {\n1129:   // If any operands are not yet ready, skip this operation for now.\n1130:   for (auto op : operands)\n1131:     if (op->getValue().getRank() == 0)\n1132:       return success();\n1133:   AxisInfo curr = visitors.apply(op, operands);\n1134:   if (curr.getRank() == 0) {\n1135:     setAllToEntryStates(results);\n1136:     return success();\n1137:   }\n1138:   // override with hint\n1139:   auto newContiguity = curr.getContiguity();\n1140:   auto newDivisibility = curr.getDivisibility();\n1141:   auto newConstancy = curr.getConstancy();\n1142:   AxisInfo::initDimVectorFromHint(op->getDiscardableAttr(\"tt.contiguity\"),\n1143:                                   &newContiguity);\n1144:   AxisInfo::initDimVectorFromHint(op->getDiscardableAttr(\"tt.divisibility\"),\n1145:                                   &newDivisibility);\n1146:   AxisInfo::initDimVectorFromHint(op->getDiscardableAttr(\"tt.constancy\"),\n1147:                                   &newConstancy);\n1148:   curr = AxisInfo(newContiguity, newDivisibility, newConstancy,\n1149:                   curr.getConstantValue());\n1150:   // join all lattice elements\n1151:   for (auto *result : results)\n1152:     propagateIfChanged(result, result->join(curr));\n1153:   return success();\n1154: }\n1155: "
+        },
+        {
+          "first": 1196,
+          "last": 1203,
+          "text": "1196: void AxisInfo::initDimVectorFromHint(Attribute attr, DimVectorT *vec) {\n1197:   if (auto int_attr = dyn_cast_or_null<IntegerAttr>(attr))\n1198:     *vec = DimVectorT(1, int_attr.getValue().getZExtValue());\n1199:   if (auto dense_attr = dyn_cast_or_null<DenseElementsAttr>(attr)) {\n1200:     auto vals = dense_attr.getValues<int>();\n1201:     *vec = DimVectorT(vals.begin(), vals.end());\n1202:   }\n1203: }"
+        },
+        {
+          "first": 1275,
+          "last": 1293,
+          "text": "1275: unsigned ModuleAxisInfoAnalysis::getContiguity(Value offsetsValue,\n1276:                                                unsigned elementBitWidth) {\n1277:   // FIXME: This is not as good as it could be, as we don't need to restrict\n1278:   // the analysis to one dimension. We should determine contiguity on the\n1279:   // flattenOuts() layout\n1280:   auto tensorTy = cast<RankedTensorType>(offsetsValue.getType());\n1281:   auto linAttr = gpu::toLinearEncoding(tensorTy);\n1282:   auto order = linAttr.getOrder();\n1283:   unsigned align = getAlignment(offsetsValue, elementBitWidth);\n1284: \n1285:   auto uniqueContigPerThread = linAttr.getContigPerThread();\n1286:   assert(order[0] < uniqueContigPerThread.size() &&\n1287:          \"Unexpected uniqueContigPerThread size\");\n1288:   unsigned contiguity = uniqueContigPerThread[order[0]];\n1289:   LDBG(\"getContiguity uniqueContigPerThread = \" << contiguity);\n1290:   contiguity = std::min(align, contiguity);\n1291: \n1292:   return contiguity;\n1293: }"
+        },
+        {
+          "first": 1308,
+          "last": 1336,
+          "text": "1308: unsigned ModuleAxisInfoAnalysis::getAlignment(Value offsetsValue,\n1309:                                               unsigned elementBitWidth) {\n1310:   auto tensorTy = cast<RankedTensorType>(offsetsValue.getType());\n1311:   auto *axisInfo = getAxisInfo(offsetsValue);\n1312:   if (!axisInfo)\n1313:     return 1;\n1314:   auto linAttr = gpu::toLinearEncoding(tensorTy);\n1315:   auto order = linAttr.getOrder();\n1316: \n1317:   auto divisibility = axisInfo->getDivisibility(order[0]);\n1318:   auto elemNumBytes = std::max<unsigned>(elementBitWidth / 8, 1);\n1319:   auto elemTy = tensorTy.getElementType();\n1320:   auto maxMultiple = isa<PointerType>(elemTy)\n1321:                          ? std::max<int64_t>(divisibility / elemNumBytes, 1)\n1322:                          : divisibility;\n1323: \n1324:   auto maxContig = axisInfo->getContiguity(order[0]);\n1325:   unsigned alignment = std::min(maxMultiple, maxContig);\n1326:   LDBG(\"getAlignment order[0] \" << order[0] << \" maxContig = \" << maxContig\n1327:                                 << \" elemNumBits = \" << elementBitWidth\n1328:                                 << \" maxMultiple = \" << maxMultiple\n1329:                                 << \" alignment \" << alignment);\n1330:   LLVM_DEBUG({\n1331:     std::string axisStr;\n1332:     llvm::raw_string_ostream os(axisStr);\n1333:     axisInfo->print(os);\n1334:     LDBG(\"-- \" << axisStr);\n1335:   });\n1336:   return alignment;"
+        }
+      ],
+      "retrieved_url": "https://raw.githubusercontent.com/triton-lang/triton/v3.7.1/lib/Analysis/AxisInfo.cpp",
+      "provenance": "release-tag source comparison, not an installed source file"
+    }
+  ],
+  "offline_pass_observation": {
+    "script": {
+      "path": "/tmp/veritile-persistent-hints-src/evidence/probe_axis.py",
+      "sha256": "c86e41d1dc044dd576f6288a50b4f8411d5492118351e86237142703f5379f92",
+      "size_bytes": 1098
+    },
+    "log": {
+      "path": "/tmp/veritile-persistent-hints-src/evidence/axis-probe.log",
+      "sha256": "95c7bfba0f4728d26a45482380ba9e26ab32d8a6764838af9bfa9216bec2bbb6",
+      "size_bytes": 167
+    },
+    "outputs": [
+      {
+        "path": "/tmp/veritile-persistent-hints-src/evidence/fp16-coalesce.ttgir",
+        "sha256": "56f31a4c796a3a6091631dd160a7e4e3b6f600b53030b5bd5c88e4b08cb0ed6c",
+        "size_bytes": 29656
+      },
+      {
+        "path": "/tmp/veritile-persistent-hints-src/evidence/fp8e4nv-coalesce.ttgir",
+        "sha256": "91752b76be6e01ebeabd4f09530aa655a027b8ec5377bd47bb876b2895fe9bc9",
+        "size_bytes": 29559
+      }
+    ],
+    "scope": "Both original hint pairs survive installed convert/coalesce. No runtime values or GPU execution; no compiler-soundness conclusion."
+  },
+  "binary_disassembly_files": [
+    {
+      "path": "/tmp/veritile-persistent-hints-src/evidence/axis-visit.disasm",
+      "sha256": "fb8c8dded0f367d02bb90d2f5f54526d1747527d76928fd2486898f6eaa7dca3",
+      "size_bytes": 22083
+    },
+    {
+      "path": "/tmp/veritile-persistent-hints-src/evidence/axis-init-hint.disasm",
+      "sha256": "356faf967e79b2731d9b2a3530f80ac7ba6d32f09ff09ff99df0c2327a9f1108",
+      "size_bytes": 13267
+    },
+    {
+      "path": "/tmp/veritile-persistent-hints-src/evidence/axis-alignment.disasm",
+      "sha256": "4542af53aab844010f5e7a3dff257b755a744f68559ccb8a2fa3990849982709",
+      "size_bytes": 45662
+    },
+    {
+      "path": "/tmp/veritile-persistent-hints-src/evidence/axis-makerange.disasm",
+      "sha256": "c25ecda2855173a239f29519ade674f29c6502e67d4d9ab06036369c56755aba",
+      "size_bytes": 2899
+    }
+  ]
+}

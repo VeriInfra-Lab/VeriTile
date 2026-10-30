@@ -14,7 +14,11 @@ def diag_ssm_forward_kernel(s_ptr, x_ptr, lambda_ptr, y_ptr, length,
         lambda_ptr: [dim]
         y_ptr: [length, batch_size, dim]
     """
-    col_idx = tl.program_id(0) * BLOCK_SIZE
+    # Widen before every shape product, time loop and pointer offset.
+    length = tl.cast(length, tl.int64)
+    batch_size = tl.cast(batch_size, tl.int64)
+    dim = tl.cast(dim, tl.int64)
+    col_idx = tl.cast(tl.program_id(0), tl.int64) * BLOCK_SIZE
     col_offsets = col_idx + tl.arange(0, BLOCK_SIZE)
     mask = col_offsets < batch_size * dim
     s = tl.load(s_ptr + col_offsets, mask=mask, other=0)
@@ -42,7 +46,11 @@ def diag_ssm_backward_kernel(
         grad_y_ptr: [length, batch_size, dim]
     """
 
-    col_idx = tl.program_id(0) * BLOCK_SIZE
+    # Widen before every shape product, time loop and pointer offset.
+    length = tl.cast(length, tl.int64)
+    batch_size = tl.cast(batch_size, tl.int64)
+    dim = tl.cast(dim, tl.int64)
+    col_idx = tl.cast(tl.program_id(0), tl.int64) * BLOCK_SIZE
     col_offsets = col_idx + tl.arange(0, BLOCK_SIZE)
     mask = col_offsets < batch_size * dim
 
@@ -87,7 +95,11 @@ def diag_ssm_forward_kernel_complex(s_ptr, x_ptr, y_ptr, lambda_ptr,
         lambda_ptr: [dim, 2]
         y_ptr: [length, batch_size, dim, 2]
     """
-    col_idx = tl.program_id(0) * BLOCK_SIZE
+    # Widen before every shape product, time loop and pointer offset.
+    length = tl.cast(length, tl.int64)
+    batch_size = tl.cast(batch_size, tl.int64)
+    dim = tl.cast(dim, tl.int64)
+    col_idx = tl.cast(tl.program_id(0), tl.int64) * BLOCK_SIZE
     col_offsets = col_idx + tl.arange(0, BLOCK_SIZE)
     mask = col_offsets < batch_size * dim
 
@@ -138,7 +150,11 @@ def diag_ssm_backward_kernel_complex(
     # Reference: https://pytorch.org/docs/stable/notes/autograd.html#autograd-for-complex-numbers
     # Negate the imaginary part when loading or storing gradients.
 
-    col_idx = tl.program_id(0) * BLOCK_SIZE
+    # Widen before every shape product, time loop and pointer offset.
+    length = tl.cast(length, tl.int64)
+    batch_size = tl.cast(batch_size, tl.int64)
+    dim = tl.cast(dim, tl.int64)
+    col_idx = tl.cast(tl.program_id(0), tl.int64) * BLOCK_SIZE
     col_offsets = col_idx + tl.arange(0, BLOCK_SIZE)
     mask = col_offsets < batch_size * dim
 
@@ -196,6 +212,38 @@ def diag_ssm_backward_kernel_complex(
         -grad_lambda_imag,
         mask=mask)
 
+def _check_tensor(tensor, *, contiguous):
+    if not isinstance(tensor, torch.Tensor):
+        raise TypeError("expected a torch.Tensor")
+    if tensor.layout != torch.strided:
+        raise ValueError("expected strided layout")
+    if tensor.dtype not in (torch.float32, torch.complex64):
+        raise ValueError("expected float32 or complex64")
+    if not tensor.is_cuda:
+        raise ValueError("expected a CUDA tensor")
+    if contiguous and not tensor.is_contiguous():
+        raise ValueError("expected a contiguous tensor")
+    if tensor.is_neg() or tensor.is_conj():
+        raise ValueError("unresolved negative/conjugate views are unsupported")
+    if tensor.numel() and tensor.data_ptr() % 4:
+        raise ValueError("expected a 4-byte aligned data pointer")
+
+
+def _check_inputs(s, x, Lambda):
+    for tensor in (s, x, Lambda):
+        _check_tensor(tensor, contiguous=True)
+    if not (s.dtype == x.dtype == Lambda.dtype):
+        raise ValueError("input dtypes must match")
+    if not (s.device == x.device == Lambda.device):
+        raise ValueError("input devices must match")
+    if x.ndim != 3:
+        raise ValueError("x must have shape [length, batch, dim]")
+    length, batch_size, dim = x.shape
+    if s.shape != (batch_size, dim) or Lambda.shape != (dim,):
+        raise ValueError("expected s[batch, dim] and Lambda[dim]")
+    return length, batch_size, dim
+
+
 class _ssm_forward(torch.autograd.Function):
     # TODO: Use @triton.autotune to select the best BLOCK_SIZE.
     # BLOCK_SIZE = 128 appears to work well on an RTX 3090.
@@ -203,28 +251,28 @@ class _ssm_forward(torch.autograd.Function):
 
     @staticmethod
     def forward(ctx, s, x, Lambda):
-        assert s.is_contiguous() and x.is_contiguous() and Lambda.is_contiguous()
-        length, batch_size, dim = x.shape
+        length, batch_size, dim = _check_inputs(s, x, Lambda)
         n = batch_size * dim
         y = torch.zeros_like(x)
         grid = lambda meta: (triton.cdiv(n, meta['BLOCK_SIZE']), )
 
-        if Lambda.dtype == torch.complex64:
-            # Ensure s and x are complex tensors.
-            if not torch.is_complex(s):
-                raise ValueError("s must be a complex tensor when Lambda is complex")
-            if not torch.is_complex(x):
-                raise ValueError("x must be a complex tensor when Lambda is complex")
-            diag_ssm_forward_kernel_complex[grid](
-                torch.view_as_real(s), torch.view_as_real(x),
-                torch.view_as_real(y), torch.view_as_real(Lambda), length,
-                batch_size, dim, _ssm_forward.BLOCK_SIZE)
-        elif Lambda.dtype.is_floating_point:
-            diag_ssm_forward_kernel[grid](s, x, Lambda, y, length,
-                                          batch_size, dim,
-                                          _ssm_forward.BLOCK_SIZE)
-        else:
-            raise ValueError("Unsupported dtype: %s" % Lambda.dtype)
+        with torch.cuda.device(x.device):
+            if Lambda.dtype == torch.complex64:
+                # Ensure s and x are complex tensors.
+                if not torch.is_complex(s):
+                    raise ValueError("s must be a complex tensor when Lambda is complex")
+                if not torch.is_complex(x):
+                    raise ValueError("x must be a complex tensor when Lambda is complex")
+                diag_ssm_forward_kernel_complex[grid](
+                    torch.view_as_real(s), torch.view_as_real(x),
+                    torch.view_as_real(y), torch.view_as_real(Lambda), length,
+                    batch_size, dim, _ssm_forward.BLOCK_SIZE)
+            elif Lambda.dtype.is_floating_point:
+                diag_ssm_forward_kernel[grid](s, x, Lambda, y, length,
+                                              batch_size, dim,
+                                              _ssm_forward.BLOCK_SIZE)
+            else:
+                raise ValueError("Unsupported dtype: %s" % Lambda.dtype)
         ctx.save_for_backward(s, y, Lambda)
         return y
 
@@ -232,6 +280,11 @@ class _ssm_forward(torch.autograd.Function):
     def backward(ctx, grad_y):
         s, y, Lambda = ctx.saved_tensors
         length, batch_size, dim = y.shape
+        # The original autograd path already materializes a noncontiguous
+        # cotangent. No additional input or logical-view copies are introduced.
+        _check_tensor(grad_y, contiguous=False)
+        if grad_y.dtype != y.dtype or grad_y.device != y.device or grad_y.shape != y.shape:
+            raise ValueError("grad_y must match the saved output")
         grad_y = grad_y.contiguous()
         n = batch_size * dim
         grad_s = torch.empty_like(s)
@@ -240,73 +293,19 @@ class _ssm_forward(torch.autograd.Function):
         # Sum these values after the kernel finishes.
         grad_lambda = torch.empty_like(s)
         grid = lambda meta: (triton.cdiv(n, meta['BLOCK_SIZE']), )
-        if Lambda.dtype == torch.complex64:
-            diag_ssm_backward_kernel_complex[grid](
-                torch.view_as_real(s), torch.view_as_real(Lambda),
-                torch.view_as_real(y), torch.view_as_real(grad_s),
-                torch.view_as_real(grad_x),
-                torch.view_as_real(grad_lambda),
-                torch.view_as_real(grad_y), length, batch_size, dim,
-                _ssm_forward.BLOCK_SIZE)
-        else:
-            diag_ssm_backward_kernel[grid](
-                s, Lambda, y, grad_s, grad_x, grad_lambda, grad_y, length,
-                batch_size, dim, _ssm_forward.BLOCK_SIZE)
+        with torch.cuda.device(y.device):
+            if Lambda.dtype == torch.complex64:
+                diag_ssm_backward_kernel_complex[grid](
+                    torch.view_as_real(s), torch.view_as_real(Lambda),
+                    torch.view_as_real(y), torch.view_as_real(grad_s),
+                    torch.view_as_real(grad_x),
+                    torch.view_as_real(grad_lambda),
+                    torch.view_as_real(grad_y), length, batch_size, dim,
+                    _ssm_forward.BLOCK_SIZE)
+            else:
+                diag_ssm_backward_kernel[grid](
+                    s, Lambda, y, grad_s, grad_x, grad_lambda, grad_y, length,
+                    batch_size, dim, _ssm_forward.BLOCK_SIZE)
         return grad_s, grad_x, grad_lambda.sum(dim=0)
 
 diag_ssm_forward_triton = _ssm_forward.apply
-
-##################################################################################################################################################
-
-def test_diag_ssm_triton():
-    # Test parameters
-    batch_size, dim, length = 2, 3, 5  # Define the test tensor dimensions.
-    BLOCK_SIZE = 128  # Triton kernel block size
-
-    # Initialize input tensors with requires_grad=True.
-    # Real tensors
-    s_real = torch.randn((batch_size, dim), dtype=torch.float32, device="cuda", requires_grad=True)
-    x_real = torch.randn((length, batch_size, dim), dtype=torch.float32, device="cuda", requires_grad=True)
-    Lambda_real = torch.rand((dim,), dtype=torch.float32, device="cuda", requires_grad=True)
-    
-    # Complex tensors
-    s_complex = torch.randn((batch_size, dim), dtype=torch.complex64, device="cuda", requires_grad=True)
-    x_complex = torch.randn((length, batch_size, dim), dtype=torch.complex64, device="cuda", requires_grad=True)
-    Lambda_complex = torch.rand((dim,), dtype=torch.complex64, device="cuda", requires_grad=True)
-
-    # Triton forward pass with real Lambda
-    y_triton_real = diag_ssm_forward_triton(s_real, x_real, Lambda_real)
-    # Triton forward pass with complex Lambda
-    y_triton_complex = diag_ssm_forward_triton(s_complex, x_complex, Lambda_complex)
-
-    # Triton backward pass with real Lambda
-    grad_output_real = torch.ones_like(y_triton_real, device="cuda")
-    y_triton_real.backward(grad_output_real)
-    # Triton backward pass with complex Lambda
-    grad_output_complex = torch.ones_like(y_triton_complex, device="cuda")
-    y_triton_complex.backward(grad_output_complex)
-
-    results = {
-        "test_case_1": {
-            "y_triton_real": y_triton_real,
-            "grad_s_real": s_real.grad.clone(),
-            "grad_x_real": x_real.grad.clone(),
-            "grad_Lambda_real": Lambda_real.grad.clone(),
-        },
-        "test_case_2": {
-            "y_triton_complex": y_triton_complex,
-            "grad_s_complex": s_complex.grad.clone(),
-            "grad_x_complex": x_complex.grad.clone(),
-            "grad_Lambda_complex": Lambda_complex.grad.clone(),
-        }
-    }
-    
-    return results
-
-if __name__ == "__main__":
-    result_gold = test_diag_ssm_triton()
-    # Output the results.
-    for test_case, outputs in result_gold.items():
-        print(f"{test_case}:")
-        for name, tensor in outputs.items():
-            print(f"  {name}: {tensor}")

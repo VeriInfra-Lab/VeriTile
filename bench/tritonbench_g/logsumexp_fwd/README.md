@@ -1,7 +1,11 @@
 # logsumexp_fwd
 
-- Source file: `logsumexp_fwd.py`
-- Corpus: TritonBench-G v1
-- Status: Triton kernel ported; faithful whole-grid block-LSE correctness proven.
+Current repaired Python implementation: [logsumexp_fwd.py](logsumexp_fwd.py).
 
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

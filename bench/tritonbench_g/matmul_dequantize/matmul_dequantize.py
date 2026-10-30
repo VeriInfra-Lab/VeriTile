@@ -3,6 +3,170 @@ import torch
 import triton
 import triton.language as tl
 
+from functools import lru_cache
+
+_I32 = 1 << 31
+_U64 = 1 << 64
+
+
+class _Index(int):
+    """Check every node of the source's nonnegative signed-int32 expressions."""
+    def __new__(cls, value):
+        if not 0 <= value < _I32:
+            raise ValueError("source expression exceeds nonnegative signed int32")
+        return int.__new__(cls, value)
+    def __add__(self, rhs): return _Index(int(self) + int(rhs))
+    def __radd__(self, lhs): return _Index(int(lhs) + int(self))
+    def __sub__(self, rhs): return _Index(int(self) - int(rhs))
+    def __mul__(self, rhs): return _Index(int(self) * int(rhs))
+    def __rmul__(self, lhs): return _Index(int(lhs) * int(self))
+    def __floordiv__(self, rhs): return _Index(int(self) // int(rhs))
+    def __mod__(self, rhs): return _Index(int(self) % int(rhs))
+
+
+def _cdiv(x, y): return (_Index(x) + _Index(y) - 1) // y
+
+
+def _dense(t, dtype, name, device):
+    if not isinstance(t, torch.Tensor):
+        raise TypeError(f"{name} must be a Tensor")
+    if (t.ndim != 2 or t.dtype != dtype or t.layout != torch.strided or
+            not t.is_cuda or t.device != device or t.is_neg() or t.is_conj()):
+        raise ValueError(f"{name} requires a resolved rank-two {dtype} Tensor on {device}")
+    rows, cols = t.shape
+    if rows <= 0 or cols <= 0 or not t.is_contiguous() or t.stride() != (cols, 1):
+        raise ValueError(f"{name} requires positive shape and canonical contiguous strides")
+    storage, width = t.untyped_storage(), t.element_size()
+    base, size, offset, ptr = storage.data_ptr(), storage.nbytes(), t.storage_offset(), t.data_ptr()
+    if (offset < 0 or base < 0 or size % width or base + size >= _U64 or
+            ptr != base + width * offset or ptr % width or
+            width * (offset + rows * cols) > size or ptr + width * _I32 >= _U64):
+        raise ValueError(f"{name} has an invalid allocation or formed pointer span")
+    return base, base + size, size // width - offset
+
+
+def _apart(spans):
+    for i, (lo, hi, _) in enumerate(spans):
+        if any(not (hi <= x or y <= lo) for x, y, _ in spans[:i]):
+            raise ValueError("all live tensor allocations must be disjoint")
+
+
+@lru_cache(maxsize=128)
+def _source_indices(route, M, N, K, group, capacities):
+    """Literal ABI roots/accesses: source-specific guards, no launcher limit."""
+    N, K, group = map(_Index, (N, K, group))
+    if route in ("gptq", "s2"): M = _Index(M)
+    _Index(8 * (K // 8))
+    # Canonical contiguous strides admitted by _dense.
+    strides = ((K, _Index(1)), (N, _Index(1)), (N, _Index(1)),
+               (N // 8, _Index(1)), (N, _Index(1)), (N, _Index(1)))
+    def coord(t, r, c): return _Index(r) * strides[t][0] + _Index(c) * strides[t][1]
+    def access(t, offset, active):
+        if active and not offset < capacities[t]:
+            raise ValueError("active source access exceeds its allocation")
+    if route in ('gptq', 's2'):
+        for bm, bn in (((64, 256), (128, 128)) if route == 'gptq' else ((64, 128),)):
+            second = route == 's2'
+            nm, nn, nk = _cdiv(M, bm), _cdiv(N, bn), _cdiv(K, 32)
+            ng = 8 * nn
+            ai = (32 * _Index(1) if second else _Index(32)) * strides[0][1]
+            bi = ((32 * _Index(1)) * strides[1][0]) // 8 if second else (32 // _Index(8)) * strides[1][0]
+            _cdiv(K, _Index(32) * 1)
+            for pid0 in range(int(nm) * int(nn)):
+                pid = _Index(pid0)
+                gid, first = pid // ng, (pid // ng) * 8
+                gs = min(nm - first, _Index(8))
+                pm, pn = first + pid % gs, (pid % ng) // gs
+                offm = [pm * bm + _Index(i) for i in range(bm)]
+                offn = [pn * bn + _Index(j) for j in range(bn)]
+                im = [v % M if second else v for v in offm]
+                jn = [v % N if second else v for v in offn]
+                ek = [(_Index(0) * 32 + e) if second else _Index(e) for e in range(32)]
+                for step in range(int(nk) + 1):
+                    sk = (_Index(step) * 32) * 1 if second else _Index(step) * 32
+                    for i in range(bm):
+                        for e in range(32):
+                            ki = ek[e] + sk
+                            address = coord(0, im[i], ek[e]) + _Index(step) * ai
+                            if step < nk: access(0, address, ki < K if second else offm[i] < M)
+                    for e in range(32):
+                        ki = ek[e] + sk
+                        for j in range(bn):
+                            address = coord(1, ek[e] // 8, jn[j]) + _Index(step) * bi
+                            if step < nk: access(1, address, ki < K if second else True)
+                for step in range(int(nk)):
+                    sk = (_Index(step) * 32) * 1 if second else _Index(step) * 32
+                    for e in range(32):
+                        ki = ek[e] + sk
+                        g = ki // group if second else (_Index(0) if group == K else _Index(step) // (group // 32))
+                        for j in range(bn):
+                            scale = coord(2, g, jn[j]); zero = coord(3, g, jn[j] // 8)
+                            (_Index(ek[e]) % 8) * 4; (jn[j] % 8) * 4
+                            access(2, scale, ki < K if second else True)
+                            access(3, zero, ki < K if second else True)
+                for j in range(bn):
+                    jn[j] * strides[2][1]; (jn[j] // 8) * strides[3][1]
+                for i in range(bm):
+                    for j in range(bn):
+                        access(4, coord(4, offm[i], offn[j]), offm[i] < M and offn[j] < N)
+    else:
+        nk, nn = _cdiv(K, 64), _cdiv(N, 32)
+        for kp in range(int(nk)):
+            for np in range(int(nn)):
+                for i in range(64):
+                    k = _Index(kp) * 64 + _Index(i)
+                    for j in range(32):
+                        n = _Index(np) * 32 + _Index(j)
+                        active = k < K and n < N
+                        access(5, coord(5, k, n), active)
+                        access(1, coord(1, k // 8, n), active)
+                        access(3, coord(3, k // group, n // 8), active)
+                        access(2, coord(2, k // group, n), active)
+                        (k % 8) * 4; (n % 8) * 4
+
+
+def _check(route, a, q, s, z, group, output=None, scratch=None, device=None, dtype=None):
+    if type(group) is not int or group <= 0:
+        raise ValueError("group_size must be a positive Python integer")
+    if not isinstance(q, torch.Tensor) or q.ndim != 2:
+        raise ValueError("packed weight must be rank two")
+    K, N = q.shape[0] * 8, q.shape[1]
+    if device is None:
+        if not isinstance(a, torch.Tensor): raise TypeError("input must be a Tensor")
+        if a.ndim != 2: raise ValueError("input must be rank two")
+        device = a.device
+    else:
+        device = torch.device(device)
+        if device.type != 'cuda': raise ValueError("dequantization requires a CUDA device")
+        if device.index is None: device = torch.device('cuda', torch.cuda.current_device())
+    selected = torch.float32 if route in ('s2', 'dequant32') else torch.float16
+    if dtype is not None and dtype != selected:
+        raise ValueError("dequantization dtype must be float16 or float32 and match scales")
+    spans = [_dense(q, torch.int32, 'qweight', device), _dense(s, selected, 'scales', device),
+             _dense(z, torch.int32, 'qzeros', device)]
+    if K <= 0 or N <= 0 or K % 8 or N % 8 or K % group:
+        raise ValueError("positive K/N multiples of eight and group_size dividing K are required")
+    if tuple(s.shape) != (K // group, N) or tuple(z.shape) != (K // group, N // 8):
+        raise ValueError("scale or packed-zero shape mismatch")
+    M = 1 if a is None else a.shape[0]
+    capacities = [M*K, spans[0][2], spans[1][2], spans[2][2], M*N, K*N]
+    if a is not None:
+        span = _dense(a, selected if route == 's2' else torch.float16, 'input', device)
+        spans.append(span); capacities[0] = span[2]
+        if tuple(a.shape) != (M, K): raise ValueError("input shape mismatch")
+    if output is not None:
+        span = _dense(output, torch.float16, 'output', device);spans.append(span);capacities[4] = span[2]
+        if tuple(output.shape) != (M, N): raise ValueError("output shape mismatch")
+    if scratch is not None:
+        span = _dense(scratch, selected, 'dequantized output', device);spans.append(span);capacities[5] = span[2]
+        if tuple(scratch.shape) != (K, N): raise ValueError("dequantized output shape mismatch")
+    _apart(spans)
+    if route == 'gptq' and (K % 32 or group % 32 or N % 256):
+        raise ValueError("both GPTQ tunings require K/group multiples of 32 and N of 256")
+    _source_indices(route, M, N, K, group, tuple(capacities))
+    return M, N, K
+
+
 @triton.autotune(
     configs=[
         triton.Config({'BLOCK_SIZE_M': 64, 'BLOCK_SIZE_N': 256, 'BLOCK_SIZE_K': 32, 'GROUP_SIZE_M': 8}, num_stages=4, num_warps=4),
@@ -107,11 +271,7 @@ def matmul_dequantize_int4_gptq(x: torch.FloatTensor, qweight: torch.IntTensor, 
 
     Returns C of shape (..., N) float16
     """
-    assert x.shape[-1] == (qweight.shape[0] * 8), "A must be a multiple of 8 in the last dimension"
-    assert x.is_contiguous(), "A must be contiguous"
-
-    M, K = x.shape
-    N = qweight.shape[1]
+    M, N, K = _check("gptq", x, qweight, scales, qzeros, group_size, output)
 
     if output is None:
         inplace = False
@@ -119,6 +279,7 @@ def matmul_dequantize_int4_gptq(x: torch.FloatTensor, qweight: torch.IntTensor, 
     else:
         inplace = True
 
+    _check("gptq", x, qweight, scales, qzeros, group_size, output)
     grid = lambda META: (
         triton.cdiv(M, META['BLOCK_SIZE_M']) * triton.cdiv(N, META['BLOCK_SIZE_N']),
     )
@@ -189,10 +350,10 @@ def matmul_kernel(
             + (offs_bn[None, :] // 8) * stride_bzpn
         b_shift_bits = (offs_k[:, None] % 8) * 4 
         bzp_shift_bits = (offs_bn[None, :] % 8) * 4
-        a = tl.load(a_ptrs)
-        b = tl.load(b_ptrs)
-        bs = tl.load(bs_ptrs)
-        bzp = tl.load(bzp_ptrs)
+        a = tl.load(a_ptrs, mask=(offs_k[None, :] + k * BLOCK_SIZE_K * SPLIT_K < K), other=0.0)
+        b = tl.load(b_ptrs, mask=(offs_k[:, None] + k * BLOCK_SIZE_K * SPLIT_K < K), other=0.0)
+        bs = tl.load(bs_ptrs, mask=(offs_k[:, None] + k * BLOCK_SIZE_K * SPLIT_K < K), other=0.0)
+        bzp = tl.load(bzp_ptrs, mask=(offs_k[:, None] + k * BLOCK_SIZE_K * SPLIT_K < K), other=0.0)
 
         int_b = (b >> b_shift_bits) & 0xF
         int_bzp = (bzp >> bzp_shift_bits) & 0xF
@@ -216,12 +377,10 @@ def matmul_dequantize_int4_s2(x: torch.FloatTensor, qweight: torch.IntTensor, sc
     """
     Perform matrix multiplication and dequantize the result from 4-bit integers.
     """
-    assert x.is_contiguous(), "A must be contiguous"
-    assert qweight.is_contiguous(), "B must be contiguous"  
-    M, K = x.shape
-    N = scales.shape[1]
+    M, N, K = _check("s2", x, qweight, scales, qzeros, group_size, output)
     if output is None:
         output = torch.zeros((M, N), device=x.device, dtype=torch.float16)  
+    _check("s2", x, qweight, scales, qzeros, group_size, output)
     grid = lambda META: (
         triton.cdiv(M, META['BLOCK_SIZE_M']) * triton.cdiv(N, META['BLOCK_SIZE_N']),
         META['SPLIT_K'],
@@ -285,9 +444,10 @@ def dequantize_kernel(
 
 
 def dequantize_int4(b, b_scale, b_zero_point, device, dtype, group_size):
-    Kw, N = b.shape
-    K = Kw * 8
+    route = "dequant32" if dtype == torch.float32 else "dequant16"
+    _, N, K = _check(route, None, b, b_scale, b_zero_point, group_size, device=device, dtype=dtype)
     fp_b = torch.ones((K, N), device=device, dtype=dtype)
+    _check(route, None, b, b_scale, b_zero_point, group_size, scratch=fp_b, device=device, dtype=dtype)
     grid = lambda META: (
         triton.cdiv(K, META['BLOCK_SIZE_K']),
         triton.cdiv(N, META['BLOCK_SIZE_N']), 
@@ -309,49 +469,11 @@ def matmul_dequantize_int4_s1(a, b, b_scale, b_zero_point, group_size=128, out=N
     this is for `prefill` stage, since weight size is fixed so is dequantize overhead,
     perfill stage have more tokens to amortize dequant cost.
     """
-    assert a.is_contiguous(), "Matrix A must be contiguous"
-    M, K = a.shape
-    Kw, N = b.shape
+    M, N, K = _check("s1", a, b, b_scale, b_zero_point, group_size, out)
     if out is None:
         out = torch.empty((M, N), device=a.device, dtype=a.dtype)
     fp_b = dequantize_int4(b, b_scale, b_zero_point, a.device, a.dtype, group_size)
+    _check("s1", a, b, b_scale, b_zero_point, group_size, out, fp_b)
     torch.mm(a, fp_b, out=out)
     fp_b = None
     return out
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-# Test for matmul_dequantize_int4_gptq
-def test_multiple_matmul():
-    M, K, N = 128, 256, 512
-    group_size_1 = 32
-    group_size_2 = 128
-
-    x = torch.randn((M, K), dtype=torch.float16, device='cuda')
-    qweight = torch.randint(0, 16, (K // 8, N), dtype=torch.int32, device='cuda')
-    scales = torch.randn((K // group_size_1, N), dtype=torch.float16, device='cuda')
-    qzeros = torch.randint(0, 16, (K // group_size_1, N // 8), dtype=torch.int32, device='cuda')
-
-    # Test case 1
-    output_1 = matmul_dequantize_int4_gptq(x, qweight, scales, qzeros, group_size_1)
-
-    # Test case 2
-    output_2 = matmul_dequantize_int4_s2(x, qweight, scales, qzeros, group_size_2)
-
-    # Test case 3
-    output_3 = matmul_dequantize_int4_s1(x, qweight, scales, qzeros, group_size_2)
-
-    return {
-        "test_case_1": output_1,
-        "test_case_2": output_2,
-        "test_case_3": output_3
-    }
-
-# Run tests
-result_gold = test_multiple_matmul()

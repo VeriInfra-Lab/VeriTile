@@ -1,0 +1,21 @@
+{
+  "original_sha256": "3879b6fb82f9f47763e3c0f059e17597f973dcf85ec1150227adbaaf1c756c0a",
+  "forward_channels_unchanged": 11,
+  "exact_partial_derivatives": 33,
+  "repaired_coefficient_occurrences": 29,
+  "coefficient_occurrences_rounding_to_same_fp32": 29,
+  "original_inconsistent_partial_derivatives": 21,
+  "exact_witness": {
+    "point": [
+      1,
+      0,
+      0
+    ],
+    "upstream_channel": 0,
+    "component": "x",
+    "original": "29085172607791/2500000000000",
+    "derivative": "232681380862329/20000000000000",
+    "difference": "-1/20000000000000"
+  },
+  "mathematical_target": "Original exact decimal degree-five polynomials and their true Jacobian transpose"
+}

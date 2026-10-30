@@ -1,0 +1,31 @@
+import bench.pretrain_kernels.tasks.local_triton_topk_dx.IO
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+namespace VeriTile.Bench.PretrainKernels.local_triton_topk_dx
+open VeriTile Triton
+noncomputable section
+set_option maxRecDepth 50000
+set_option maxHeartbeats 4000000
+set_option linter.unusedTactic false
+namespace Contract
+open scoped BigOperators Classical
+
+def Allowed (_xs : IO.Inputs) : Prop :=
+  True
+
+def output : IO.Inputs → IO.OutputIndex → ℝ :=
+  fun xs (i0,i1) =>
+    let input0 := xs.input0
+    let input1 := xs.input1
+    let literal_nan : Fin 1 → ℝ := fun _ => 0
+    let visnan : Fin 256 → Fin 4096 → Bool := fun i0 i1 => decide (False)
+    let vwhere : Fin 256 → Fin 4096 → ℝ := fun i0 i1 => (if visnan i0 i1 then literal_nan ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ else input0 i0 i1)
+    let vwhereFinite : Fin 256 → Fin 4096 → Prop := fun i0 i1 => (if visnan i0 i1 then False else True)
+    let vsort_value : Fin 256 → Fin 4096 → ℝ := fun i0 i1 => vwhere i0 ⟨((((List.finRange 4096).mergeSort (fun left right => decide (vwhere i0 ⟨(left.val) % 4096, Nat.mod_lt _ (by decide)⟩ > vwhere i0 ⟨(right.val) % 4096, Nat.mod_lt _ (by decide)⟩ ∨ (vwhere i0 ⟨(left.val) % 4096, Nat.mod_lt _ (by decide)⟩ = vwhere i0 ⟨(right.val) % 4096, Nat.mod_lt _ (by decide)⟩ ∧ left.val ≤ right.val)))).getD i1.val 0).val) % 4096, Nat.mod_lt _ (by decide)⟩
+    let vsort_index : Fin 256 → Fin 4096 → Int := fun i0 i1 => ((((List.finRange 4096).mergeSort (fun left right => decide (vwhere i0 ⟨(left.val) % 4096, Nat.mod_lt _ (by decide)⟩ > vwhere i0 ⟨(right.val) % 4096, Nat.mod_lt _ (by decide)⟩ ∨ (vwhere i0 ⟨(left.val) % 4096, Nat.mod_lt _ (by decide)⟩ = vwhere i0 ⟨(right.val) % 4096, Nat.mod_lt _ (by decide)⟩ ∧ left.val ≤ right.val)))).getD i1.val 0).val : Int)
+    let vscatter_add : Fin 256 → Fin 4096 → ℝ := fun i0 i1 => (0 + (∑ lane : Fin 8, if vsort_index i0 ⟨(lane.val) % 4096, Nat.mod_lt _ (by decide)⟩ = (i1.val : Int) then input1 i0 ⟨(lane.val) % 8, Nat.mod_lt _ (by decide)⟩ else 0))
+    vscatter_add i0 i1
+
+end Contract
+end
+end VeriTile.Bench.PretrainKernels.local_triton_topk_dx

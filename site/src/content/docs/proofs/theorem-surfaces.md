@@ -2,6 +2,19 @@
 title: "Examples Theorem Surface Style"
 ---
 
+Correctness against a formula uses real semantics (`Spec.Real claim`).
+Implementation equivalence uses `lhs ≡[R] rhs` (`open scoped VeriTile.Spec`):
+two-gates admits the atomic assumptions and Lean checks their formal composition.
+The rule model `R` holds the experiment configuration and admission records;
+those records are not separate public theorem parameters.
+Both use `specification`; `#print_spec` exposes the implementations and atom
+records. See [CorrectnessSurfaces.md](/VeriTile/proofs/correctness-surfaces/).
+
+Existing unwrapped/abstract-rounding headlines retain their historical meaning;
+they are not automatically admitted FP rules. Exact FP facts remain internal
+helper lemmas. The library vocabulary below describes legacy mathematical and
+abstract-rounding reasoning, which is distinct from the new equivalence calculus.
+
 User-facing theorem surfaces in `VeriTile/Examples/` should start from the
 public compute-facing APIs. See
 [`CorrectnessSurfaces.md`](/VeriTile/proofs/correctness-surfaces/) for the full user guide.
@@ -10,7 +23,7 @@ public compute-facing APIs. See
   stated on a `KernelIO` `⊨` / `⊨[R]` face, not on the surfaces below; that
   triple bundles the addressing, the output values and the frame into one line.
   See [`CorrectnessSurfaces.md`](/VeriTile/proofs/correctness-surfaces/) and
-  [`../bench/MAIN_THEOREM_CONVENTIONS.md`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/MAIN_THEOREM_CONVENTIONS.md) §4.
+  [`../documents/bench/MAIN_THEOREM_CONVENTIONS.md`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/bench/MAIN_THEOREM_CONVENTIONS.md) §4.
 - Single-kernel correctness against a mathematical or algorithmic spec uses
   `ComputeCorrect.Realizes_without_Rounding` (*a kernel realizes a spec*), `ComputeCorrect.Post`,
   or `ComputeCorrect.General`.

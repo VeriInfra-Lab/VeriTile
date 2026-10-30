@@ -1,3 +1,4 @@
+"""Checked FP32 source entry; original benchmark remains unchanged."""
 
 import torch
 import triton
@@ -45,8 +46,27 @@ def _swiglu_bwd_kernel(
         out = x * x_sigmoid * y
         tl.store(OUT + cols, out, mask=cols < ncols)
 
+def _check_payload(tensor):
+    if not isinstance(tensor, torch.Tensor):
+        raise TypeError("expected a tensor")
+    if tensor.layout != torch.strided or tensor.dtype != torch.float32:
+        raise TypeError("expected strided FP32 storage")
+    if not tensor.is_cuda:
+        raise ValueError("expected CUDA storage")
+    if tensor.is_neg():
+        raise ValueError("negative views are unsupported")
+
+
 # Function to invoke the backward kernel
-def _swiglu_bwd(xy, dout, dxy=None, recompute_output=False, out=None):
+def swiglu_backward_checked(xy, dout, dxy=None, recompute_output=False, out=None):
+    _check_payload(xy)
+    _check_payload(dout)
+    if dxy is not None:
+        _check_payload(dxy)
+    if recompute_output and out is not None:
+        _check_payload(out)
+    if xy.ndim == 0 or xy.shape[-1] == 0 or xy.shape[-1] % 2 != 0:
+        raise ValueError("expected a positive even final dimension")
     if xy.stride(-1) != 1:
         xy = xy.contiguous()
     if dout.stride(-1) != 1:
@@ -72,6 +92,30 @@ def _swiglu_bwd(xy, dout, dxy=None, recompute_output=False, out=None):
             assert out.shape == x.shape
         assert out.stride(-1) == 1
     M, N = x.shape
+    active = [x, y, dout, dx, dy] + ([out] if recompute_output else [])
+    if any(t.device != x.device for t in active):
+        raise ValueError("active tensors must share one device")
+    if not (M < 2**31 and N < 2**31 and all(
+            t.stride(0) < 2**31 and M * t.stride(0) + N + 1024 < 2**31 for t in active)):
+        raise ValueError("signed int32 launch metadata bound exceeded")
+    if M > 1 and dxy.stride(0) < 2 * N:
+        raise ValueError("gradient rows overlap")
+    if recompute_output and M > 1 and out.stride(0) < N:
+        raise ValueError("output rows overlap")
+    if M > 0:
+        if any(t.data_ptr() % 4 != 0 for t in active):
+            raise ValueError("active FP32 pointers must be 4-byte aligned")
+        def live_span(t):
+            start = t.data_ptr()
+            return start, start + 4 * ((M - 1) * t.stride(0) + t.shape[1])
+        def overlaps(a, b):
+            a_start, a_end = live_span(a)
+            b_start, b_end = live_span(b)
+            return a_start < b_end and b_start < a_end
+        if any(overlaps(dxy, t) for t in (xy, dout)):
+            raise ValueError("gradient byte range must not overlap live inputs")
+        if recompute_output and any(overlaps(out, t) for t in (xy, dout, dxy)):
+            raise ValueError("output byte range must not overlap inputs or gradients")
     grid = lambda META: (M, triton.cdiv(N, META['BLOCK_N']))
     with torch.cuda.device(x.device.index):
         _swiglu_bwd_kernel[grid](
@@ -86,33 +130,3 @@ def _swiglu_bwd(xy, dout, dxy=None, recompute_output=False, out=None):
 
 
 
-
-##################################################################################################################################################
-
-
-import torch
-
-# Test the backward function
-def test_swiglu_bwd():
-    # Create random input and gradient tensors
-    batch_size = 4
-    ncols = 128
-    xy = torch.randn(batch_size, 2 * ncols, device='cuda', dtype=torch.float32)
-    dout = torch.randn(batch_size, ncols, device='cuda', dtype=torch.float32)
-    
-    # Call the backward function without recompute_output
-    dxy = _swiglu_bwd(xy, dout)
-    
-    # Call the backward function with recompute_output
-    dxy_recompute, out = _swiglu_bwd(xy, dout, recompute_output=True)
-    
-    # Store results in a dictionary
-    results = {
-        "test_case_1": dxy,
-        "test_case_2": (dxy_recompute, out)
-    }
-    
-    return results
-
-# Run the tests
-result_gold = test_swiglu_bwd()

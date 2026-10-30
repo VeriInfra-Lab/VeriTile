@@ -49,13 +49,19 @@ jobs:
       - name: Check audit runner regressions
         run: |
           python3 -m unittest discover -s scripts -p 'test_audit_source.py'
+          python3 -m unittest discover -s scripts -p 'test_correctness_surface_audit.py'
+          python3 -m unittest discover -s scripts -p 'test_source_dtype_audit.py'
+          python3 -m unittest discover -s scripts -p 'test_source_helpers.py'
+          python3 -m unittest discover -s scripts -p 'test_source_materializations.py'
+          python3 -m unittest discover -s scripts -p 'test_source_control_materializations.py'
+          python3 -m unittest discover -s scripts -p 'test_source_uniform_materializations.py'
           python3 -m unittest discover -s scripts -p 'test_audit_shards.py'
 
       - name: Build Lean project
         uses: leanprover/lean-action@v1
         with:
           build: true
-          build-args: "VeriTile VeriTileFull"
+          build-args: "VeriTile VeriTileFull bench.examples.VectorAdd.Kernels bench.tritonbench_g.softmax_triton1.Proofs.Mathematical_Kernels"
           test: false
           lint: false
           use-mathlib-cache: auto
@@ -68,21 +74,37 @@ jobs:
 
       - name: Check audit and documentation regressions
         run: |
-          lake env lean bench/tests/StatementAudit.lean
-          lake env lean bench/tests/KernelIOProjection.lean
-          lake env lean bench/tests/DTypeResolution.lean
-          lake env lean bench/tests/ModuleSpecAudit.lean
-          lake env lean bench/tests/ModuleHeadlineAudit.lean
+          lake build tests.lean.StatementAudit
+          lake build tests.lean.KernelIOProjection
+          lake build tests.lean.DTypeResolution
+          lake build tests.lean.FloatNegativeScalar
+          lake build tests.lean.Float32FiniteDecode
+          lake build tests.lean.PhiloxRandom
+          lake build tests.lean.PhiloxRandOp
+          lake build tests.lean.RandomFrontend
+          lake build tests.lean.DirectRandomFrontend
+          lake build tests.lean.ConditionalCast
+          lake build tests.lean.BuiltinFloatZero
+          lake build tests.lean.RegisterDTypeWhere
+          lake build tests.lean.PointerElementCast
+          lake build tests.lean.ReverseRange
+          lake build tests.lean.UnsignedIntegerCast
+          lake build tests.lean.SignedBitwise
+          lake build tests.lean.FloatRuntimeScalar
+          lake build tests.lean.FloatDivisionPromotion
+          lake build tests.lean.SignedRangeAddressInference
+          lake build tests.lean.SignedLoadCast
+          lake build tests.lean.LibdevicePowi
+          lake build tests.lean.LibdevicePowiDynamic
+          lake build tests.lean.KldivRuntimeEpsilon
+          lake build tests.lean.ModuleSpecAudit
+          lake build tests.lean.ModuleHeadlineAudit
           python3 -m unittest discover -s scripts -p 'test_audit_gates.py'
           python3 -m unittest discover -s scripts -p 'test_doc_api.py'
           python3 -m unittest discover -s scripts -p 'test_coverage_review.py'
-          python3 bench/coverage_review.py
+          python3 scripts/bench/coverage_review.py
           python3 scripts/test_check_comparator.py
 
-      - name: Check representative standalone ports after library changes
-        env:
-          CHECK_PORTS_JOBS: 1
-          AUDIT_TRUST_JOBS: 1
-        run: |
-          bash bench/check_ports.sh vector_addition mean_reduction quantize_global
-          bash bench/audit_trust.sh vector_addition mean_reduction quantize_global
+      # The complete selected corpus is independently replayed by Bench audit.
+      - name: Check final corpus membership and scope
+        run: python3 -B scripts/bench/final_inventory.py --check

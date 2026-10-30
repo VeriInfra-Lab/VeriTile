@@ -1,0 +1,14 @@
+{
+  "scope": "selected kernel invocation; actual prepared FP32/FP16 pointers",
+  "public_entries": ["Correct.correct", "FPEquiv.fp_equiv"],
+  "numerical_equality_assumptions": [],
+  "numerical_experiment_todos": [],
+  "concrete_semantics": ["FP32 add/sub/mul/FMA", "maxnum", "half pack/unpack", "source pointer casts", "six binary32 literal words", "little-endian 2/4-byte input codec"],
+  "explicit_primitive_semantics_ports": ["div.full.f32 scalar", "libdevice tanh scalar", "libdevice erf scalar", "one named fixed K8 TF32/K16 FP16 instruction lane"],
+  "compiler_boundary": "explicit source expression graph evaluated under visible sourceOrder or contracted policy; no FMA/split or dot/add fusion equality premise",
+  "dot": "constructed chronological fixed instruction sequence; every original configuration's K divisibility proved",
+  "native_real_relation": "no exact equality or error bound asserted; Real is input-only ideal projection",
+  "gpu_or_compiler_implementation_conformance_claim": false,
+  "host_or_autocast_engine_or_copyback_added_to_scope": false,
+  "historical_records": ["FPValueScope.md", "numerical-obligations.json", "Proofs/HostCorrect.lean", "Proofs/HostFPEquiv.lean"]
+}

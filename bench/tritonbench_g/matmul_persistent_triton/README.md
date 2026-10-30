@@ -1,13 +1,15 @@
 # matmul_persistent_triton
 
-- Source file: `matmul_persistent_triton.py` (upstream `data/TritonBench_G_v1/matmul_persistent_triton.py`)
-- Corpus: TritonBench-G v1
-- Size: 154 lines, 1 `@triton.jit` kernel(s)
-- Status: BLOCKED — not imported. Every other `tl.*` form it uses is in the DSL
-  surface, but it needs: `tl.float8e4nv`.
-  See [`../tritonbench_coverage.md`](../tritonbench_coverage.md) for the
-  ranked unlock levers.
+Current repaired Python implementation: [matmul_persistent_triton.py](matmul_persistent_triton.py).
 
-This directory is the per-kernel workspace for the TritonBench-G
-full-formalization roadmap. It is currently a placeholder: the upstream
-Python source has **not** been imported.
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+fun (a,b) row col => ∑ k : Fin K, a row k * b k col
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

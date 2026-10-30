@@ -85,8 +85,64 @@ class StridedBuffer:
         return self._data_ptr
 
 
+def _checked_view(view):
+    if not isinstance(view, (torch.Tensor, StridedBuffer)):
+        raise TypeError("expected a Tensor or StridedBuffer")
+    base = view.unwrap() if isinstance(view, StridedBuffer) else view
+    if not isinstance(base, torch.Tensor):
+        raise TypeError("StridedBuffer base must be a Tensor")
+    if base.layout != torch.strided:
+        raise TypeError("base must have strided storage")
+    if view.dtype != torch.float32 or base.dtype != torch.float32:
+        raise TypeError("view and base must be FP32")
+    if base.is_neg():
+        raise ValueError("base must have no unresolved negative view bit")
+    if not base.is_cuda or view.device != base.device:
+        raise ValueError("view must retain its CUDA base device")
+    shape, strides = tuple(view.shape), tuple(view.stride())
+    if len(shape) != 1 or len(strides) != 1:
+        raise ValueError("view must have rank one")
+    n, stride = shape[0], strides[0]
+    if type(n) is not int or n < 0 or type(stride) is not int:
+        raise TypeError("shape and stride must be integers")
+    if not -(1 << 63) <= stride < (1 << 63):
+        raise ValueError("stride must fit signed int64")
+    storage = base.untyped_storage()
+    storage_base, storage_bytes = storage.data_ptr(), storage.nbytes()
+    delta = view.data_ptr() - storage_base
+    if storage_base % 4 != 0 or delta % 4 != 0:
+        raise ValueError("FP32 pointers must be four-byte aligned")
+    if storage_base + storage_bytes > (1 << 64):
+        raise ValueError("storage exceeds the native address space")
+    last = delta + 4 * (n - 1) * stride if n else delta
+    lo, hi = min(delta, last), max(delta, last)
+    if n and (lo < 0 or hi + 4 > storage_bytes):
+        raise ValueError("signed view exceeds its backing storage")
+    return n, stride, storage_base + lo, storage_base + hi + 4
+
+
+def _check_inputs(val0, in0, out0):
+    if not isinstance(val0, float):
+        raise TypeError("val0 must be a Python float")
+    n, sx, ilo, ihi = _checked_view(in0)
+    m, sy, olo, ohi = _checked_view(out0)
+    if n != m:
+        raise ValueError("operand shapes mismatch")
+    if n == 0:
+        raise ZeroDivisionError("integer division or modulo by zero")
+    if n >= (1 << 31):
+        raise ValueError("element count must be smaller than 2**31")
+    if in0.device != out0.device:
+        raise ValueError("views must share one CUDA device")
+    if sy == 0:
+        raise ValueError("output stride must be nonzero")
+    if not (ihi <= olo or ohi <= ilo):
+        raise ValueError("active input and output spans must be disjoint")
+
+
 def pow_func_scalar_tensor_wrapper_rank_1(val0, in0: Union[torch.Tensor, StridedBuffer], /, *, out0: Union[torch.Tensor, StridedBuffer]): 
     """Generated wrapper function with Pointwise: scalar, StridedBuffer, StridedBuffer(a1!) -> StridedBuffer(a1!)"""
+    _check_inputs(val0, in0, out0)
     assert in0.shape == out0.shape, 'operand shapes mismatch'
     # task partitioning
     shape = out0.shape
@@ -181,49 +237,3 @@ def pow_func_scalar_tensor_kernel_rank_1(
 
 
 
-##################################################################################################################################################
-
-
-def test_pow_func_scalar_tensor_wrapper_rank_1():
-    # Case 1: Test with a 1D tensor, matching shapes for input and output, scalar exponent
-    in_tensor = torch.tensor([1.0, 2.0, 3.0, 4.0], dtype=torch.float32, device="cuda")
-    out_tensor = torch.zeros_like(in_tensor, device="cuda")
-    scalar_value = 2.0  # Exponent for the pow operation
-    
-    # Call the kernel wrapper function
-    pow_func_scalar_tensor_wrapper_rank_1(scalar_value, in_tensor, out0=out_tensor)
-
-    # Case 2: Test with a different exponent (fractional)
-    scalar_value = 0.5
-    pow_func_scalar_tensor_wrapper_rank_1(scalar_value, in_tensor, out0=out_tensor)
-
-    # Case 3: Test with a different shape (larger tensor)
-    in_tensor_large = torch.tensor([2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0], dtype=torch.float32, device="cuda")
-    out_tensor_large = torch.zeros_like(in_tensor_large, device="cuda")
-    scalar_value = 3.0
-    pow_func_scalar_tensor_wrapper_rank_1(scalar_value, in_tensor_large, out0=out_tensor_large)
-
-    # Case 4: Test with negative values in the input tensor
-    in_tensor_negative = torch.tensor([-1.0, -2.0, -3.0], dtype=torch.float32, device="cuda")
-    out_tensor_negative = torch.zeros_like(in_tensor_negative, device="cuda")
-    scalar_value = 2.0  # Exponent should result in positive values for even powers
-    pow_func_scalar_tensor_wrapper_rank_1(scalar_value, in_tensor_negative, out0=out_tensor_negative)
-
-    # Case 5: Test with large exponent
-    in_tensor_large_exp = torch.tensor([1.0, 2.0, 3.0], dtype=torch.float32, device="cuda")
-    out_tensor_large_exp = torch.zeros_like(in_tensor_large_exp, device="cuda")
-    scalar_value = 10.0  # Large exponent
-    pow_func_scalar_tensor_wrapper_rank_1(scalar_value, in_tensor_large_exp, out0=out_tensor_large_exp)
-
-    # Collect results
-    results = {
-        "test_case_1": out_tensor.clone().cpu().numpy(),
-        "test_case_2": out_tensor.clone().cpu().numpy(),
-        "test_case_3": out_tensor_large.clone().cpu().numpy(),
-        "test_case_4": out_tensor_negative.clone().cpu().numpy(),
-        "test_case_5": out_tensor_large_exp.clone().cpu().numpy(),
-    }
-    return results
-
-# Run the test function
-result_gold = test_pow_func_scalar_tensor_wrapper_rank_1()

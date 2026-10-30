@@ -1,3 +1,6 @@
+import math
+import struct
+
 import torch
 import triton
 import triton.language as tl
@@ -80,7 +83,7 @@ def _fwd_kernel(
         # update acc
         p = p.to(tl.float16)
         v = tl.load(v_tile_ptr, boundary_check=(0, 1))
-        acc += tl.dot(p, v)
+        acc += tl.dot(p.to(v.dtype), v)
         # update m_i and l_i
         l_prev = l_curr
         m_prev = m_curr
@@ -97,7 +100,7 @@ def _fwd_kernel(
     tl.store(m_ptrs, m_prev)
 
     acc = acc.to(tl.float16)
-    tl.store(out_tile_ptr, acc, boundary_check=(0, 1))
+    tl.store(out_tile_ptr, acc.to(Out.dtype.element_ty), boundary_check=(0, 1))
 
 
 @triton.jit
@@ -224,7 +227,7 @@ def _bwd_kernel(
             p = tl.exp(qk * sm_scale - m[:, None])
             # compute dv
             do = tl.load(do_tile_ptr, boundary_check=(0, 1))
-            dv += tl.dot(tl.trans(p.to(tl.float16)), do)
+            dv += tl.dot(tl.trans(p.to(tl.float16).to(do.dtype)), do)
             # compute dp = dot(v, do)
             Di = tl.load(D_ptrs + offs_m_curr)
             dp = tl.zeros([BLOCK_M, BLOCK_N], dtype=tl.float32) - Di[:, None]
@@ -232,10 +235,10 @@ def _bwd_kernel(
             # compute ds = p * (dp - delta[:, None])
             ds = p * dp * sm_scale
             # compute dk = dot(ds.T, q)
-            dk += tl.dot(tl.trans(ds.to(tl.float16)), q)
+            dk += tl.dot(tl.trans(ds.to(tl.float16).to(q.dtype)), q)
             # compute dq
             dq = tl.load(dq_tile_ptr)
-            dq += tl.dot(ds.to(tl.float16), k)
+            dq += tl.dot(ds.to(tl.float16).to(k.dtype), k)
             tl.store(dq_tile_ptr, dq)
             # increment pointers
             dq_ptrs += BLOCK_M * stride_qm
@@ -249,16 +252,85 @@ def _bwd_kernel(
         k_tile_ptr = tl.advance(k_tile_ptr, [BLOCK_M, 0])
         v_tile_ptr = tl.advance(v_tile_ptr, [BLOCK_M, 0])
         # write-back
-        tl.store(dv_tile_ptr, dv.to(tl.float16), boundary_check=(0, 1))
-        tl.store(dk_tile_ptr, dk.to(tl.float16), boundary_check=(0, 1))
+        tl.store(dv_tile_ptr, dv.to(tl.float16).to(DV.dtype.element_ty), boundary_check=(0, 1))
+        tl.store(dk_tile_ptr, dk.to(tl.float16).to(DK.dtype.element_ty), boundary_check=(0, 1))
         dv_tile_ptr = tl.advance(dv_tile_ptr, [BLOCK_M, 0])
         dk_tile_ptr = tl.advance(dk_tile_ptr, [BLOCK_M, 0])
+
+
+def _validate_inputs(q, k, v, sm_scale, *, allow_fp16=False):
+    """Admit the whole-kernel CUDA domain before allocating or launching.
+
+    The formal domain uses FP32; FP16 retains the original rounded arithmetic.
+    The element-count bound protects all signed32 row/element expressions,
+    including preprocessing and the backward negative block-pointer reset.
+    Dereferenced byte displacements are below 4 * (2**31 - 1). Even the
+    unused final dq_ptrs advance adds at most 128 * 128 * 4 bytes, hence
+    all pointer displacements fit signed64.
+    """
+    tensors = (q, k, v)
+    if not all(type(t) is torch.Tensor for t in tensors):
+        raise TypeError("q, k and v must be tensors")
+    if not all(t.layout == torch.strided and t.ndim == 4 for t in tensors):
+        raise ValueError("q, k and v must be strided rank-4 tensors")
+    if not (q.shape == k.shape == v.shape):
+        raise ValueError("q, k and v must have the same [Z, H, N, D] shape")
+    if not (q.device == k.device == v.device and q.device.type == "cuda"):
+        raise ValueError("q, k and v must be on the same CUDA device")
+    allowed_dtypes = (torch.float32, torch.float16) if allow_fp16 else (torch.float32,)
+    if not (q.dtype == k.dtype == v.dtype and q.dtype in allowed_dtypes):
+        raise ValueError("Q/K/V dtype is outside the selected checked or compatibility entry")
+    if not all(t.is_contiguous() and not t.is_conj() and not t.is_neg() for t in tensors):
+        raise ValueError("q, k and v must be contiguous with resolved conjugate/negative bits")
+    z, h, n, d = q.shape
+    if not (z > 0 and h > 0 and n > 0 and n % 128 == 0 and d in (16, 32, 64, 128)):
+        raise ValueError("positive Z/H/N, N divisible by 128 and D in {16,32,64,128} required")
+    # PyTorch contiguity ignores singleton strides; this kernel flattens heads
+    # through stride_qh, so its address contract requires canonical strides.
+    canonical_strides = (h * n * d, n * d, d, 1)
+    if not all(t.stride() == canonical_strides for t in tensors):
+        raise ValueError("q, k and v must have canonical contiguous strides")
+    if q.numel() > 2**31 - 1 or z * h > 65535:
+        raise ValueError("shape exceeds signed32 addressing or CUDA grid-y bounds")
+    if type(sm_scale) not in (int, float):
+        raise TypeError("sm_scale must be a real scalar")
+    if type(sm_scale) is int and sm_scale >= 2**64:
+        raise ValueError("integer sm_scale must fit the Triton scalar ABI")
+    try:
+        scale = float(sm_scale)
+    except OverflowError as error:
+        raise ValueError("sm_scale must be representable as a finite real scalar") from error
+    if not (math.isfinite(scale) and scale > 0):
+        raise ValueError("sm_scale must be finite and positive")
+    try:
+        launch_scale = struct.unpack("f", struct.pack("f", scale))[0]
+    except OverflowError as error:
+        raise ValueError("sm_scale must remain finite and positive in FP32") from error
+    if not (math.isfinite(launch_scale) and launch_scale > 0):
+        raise ValueError("sm_scale must remain finite and positive in FP32")
+    return sm_scale
+
+
+def _pointer_contract(tensors, elements):
+    # Source final advancement plus the pinned profiles' masked prefetch reserve.
+    envelope = elements + 65536
+    for tensor in tensors:
+        pointer, width = tensor.data_ptr(), tensor.element_size()
+        if tensor.storage_offset() < 0 or width*(tensor.storage_offset()+tensor.numel()) > tensor.untyped_storage().nbytes():
+            raise ValueError("source tensor extent must be backed by its actual storage")
+        if pointer < 0 or pointer % width or pointer + width*(envelope + 1) >= 2**64:
+            raise ValueError("naturally aligned formed source byte addresses must fit unsigned64")
 
 
 class _attention(torch.autograd.Function):
 
     @staticmethod
     def forward(ctx, q, k, v, sm_scale):
+        return _attention._forward(ctx, q, k, v, sm_scale, allow_fp16=False)
+
+    @staticmethod
+    def _forward(ctx, q, k, v, sm_scale, *, allow_fp16):
+        sm_scale = _validate_inputs(q, k, v, sm_scale, allow_fp16=allow_fp16)
         BLOCK = 128
         # shape constraints
         Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]
@@ -276,19 +348,21 @@ class _attention(torch.autograd.Function):
             dtype=torch.float32)
         num_warps = 4 if Lk <= 64 else 8
         D0 = q.shape[0] * q.shape[1] * q.shape[2]
-        _fwd_kernel[grid](
-            q, k, v, sm_scale,
-            L, m,
-            o,
-            q.stride(0), q.stride(1), q.stride(2), q.stride(3),
-            k.stride(0), k.stride(1), k.stride(2), k.stride(3),
-            v.stride(0), v.stride(1), v.stride(2), v.stride(3),
-            o.stride(0), o.stride(1), o.stride(2), o.stride(3),
-            q.shape[0], q.shape[1], q.shape[2], D0,
-            BLOCK_M=BLOCK, BLOCK_N=BLOCK,
-            BLOCK_DMODEL=Lk, num_warps=num_warps,
-            num_stages=2,
-        )
+        _pointer_contract((q, k, v, o, L, m), q.numel())
+        with torch.cuda.device(q.device):
+            _fwd_kernel[grid](
+                q, k, v, sm_scale,
+                L, m,
+                o,
+                q.stride(0), q.stride(1), q.stride(2), q.stride(3),
+                k.stride(0), k.stride(1), k.stride(2), k.stride(3),
+                v.stride(0), v.stride(1), v.stride(2), v.stride(3),
+                o.stride(0), o.stride(1), o.stride(2), o.stride(3),
+                q.shape[0], q.shape[1], q.shape[2], D0,
+                BLOCK_M=BLOCK, BLOCK_N=BLOCK,
+                BLOCK_DMODEL=Lk, num_warps=num_warps,
+                num_stages=2,
+            )
 
         ctx.save_for_backward(q, k, v, o, L, m)
         ctx.grid = grid
@@ -300,6 +374,12 @@ class _attention(torch.autograd.Function):
     def backward(ctx, do):
         BLOCK = 128
         q, k, v, o, l, m = ctx.saved_tensors
+        if type(do) is not torch.Tensor:
+            raise TypeError("incoming gradient must be a tensor")
+        if not (do.layout == torch.strided and do.shape == o.shape and
+                do.device == o.device and do.dtype == o.dtype and
+                not do.is_conj() and not do.is_neg()):
+            raise ValueError("incoming gradient must match output shape/device/dtype with resolved bits")
         do = do.contiguous()
         dq = torch.zeros_like(q, dtype=torch.float32)
         dk = torch.empty_like(k)
@@ -307,57 +387,41 @@ class _attention(torch.autograd.Function):
         do_scaled = torch.empty_like(do)
         delta = torch.empty_like(l)
         D0 = q.shape[0] * q.shape[1] * q.shape[2]
-        _bwd_preprocess[(ctx.grid[0] * ctx.grid[1], )](
-            o, do, l,
-            do_scaled, delta,
-            BLOCK_M=BLOCK, D_HEAD=ctx.BLOCK_DMODEL,
-        )
-        _bwd_kernel[(ctx.grid[1],)](
-            q, k, v, ctx.sm_scale,
-            o, do_scaled,
-            dq, dk, dv,
-            l, m,
-            delta,
-            q.stride(0), q.stride(1), q.stride(2), q.stride(3),
-            k.stride(0), k.stride(1), k.stride(2), k.stride(3),
-            v.stride(0), v.stride(1), v.stride(2), v.stride(3),
-            q.shape[0], q.shape[1], q.shape[2], D0,
-            ctx.grid[0],
-            BLOCK_M=BLOCK, BLOCK_N=BLOCK,
-            BLOCK_DMODEL=ctx.BLOCK_DMODEL, num_warps=8,
-            num_stages=1,
-        )
+        _pointer_contract((q, k, v, o, l, m, do, dq, dk, dv, do_scaled, delta), q.numel())
+        with torch.cuda.device(q.device):
+            _bwd_preprocess[(ctx.grid[0] * ctx.grid[1], )](
+                o, do, l,
+                do_scaled, delta,
+                BLOCK_M=BLOCK, D_HEAD=ctx.BLOCK_DMODEL,
+            )
+            _bwd_kernel[(ctx.grid[1],)](
+                q, k, v, ctx.sm_scale,
+                o, do_scaled,
+                dq, dk, dv,
+                l, m,
+                delta,
+                q.stride(0), q.stride(1), q.stride(2), q.stride(3),
+                k.stride(0), k.stride(1), k.stride(2), k.stride(3),
+                v.stride(0), v.stride(1), v.stride(2), v.stride(3),
+                q.shape[0], q.shape[1], q.shape[2], D0,
+                ctx.grid[0],
+                BLOCK_M=BLOCK, BLOCK_N=BLOCK,
+                BLOCK_DMODEL=ctx.BLOCK_DMODEL, num_warps=8,
+                num_stages=1,
+            )
         return dq, dk, dv, None
 
 
 attention = _attention.apply
 
 
+class _attention_compatibility(torch.autograd.Function):
+    """Retained FP16 compatibility path; the checked native theorem selects FP32."""
+    @staticmethod
+    def forward(ctx, q, k, v, sm_scale):
+        return _attention._forward(ctx, q, k, v, sm_scale, allow_fp16=True)
 
-##################################################################################################################################################
+    backward = staticmethod(_attention.backward)
 
 
-import torch
-
-def test_attention():
-    # Initialize random tensors for q, k, v
-    batch_size = 2
-    num_heads = 4
-    seq_len = 128
-    d_model = 64
-
-    q = torch.randn(batch_size, num_heads, seq_len, d_model, device='cuda', dtype=torch.float16)
-    k = torch.randn(batch_size, num_heads, seq_len, d_model, device='cuda', dtype=torch.float16)
-    v = torch.randn(batch_size, num_heads, seq_len, d_model, device='cuda', dtype=torch.float16)
-    sm_scale = 1.0 / (d_model ** 0.5)
-
-    # Compute attention using Triton for each possible input size
-    result = {}
-    
-    # Test case 1
-    output_triton = attention(q, k, v, sm_scale)
-    result['test_case_1'] = output_triton
-
-    return result
-
-result_gold = test_attention()
+attention_compatibility = _attention_compatibility.apply

@@ -1,0 +1,82 @@
+{
+  "schema_version": 3,
+  "id": "local_triton_router_matmul_default",
+  "suite": "pretrain",
+  "self_contained": true,
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "conversion_status": "LEAN_DRAFT",
+  "comparison": {
+    "function": "build_local_triton_matmul",
+    "args": [],
+    "keywords": {
+      "fp32": true,
+      "with_bias": false
+    }
+  },
+  "source_organization_status": "PROVISIONAL_LOWERING",
+  "inputs": [
+    [
+      "parameter0",
+      [
+        65,
+        257
+      ],
+      "fp32"
+    ],
+    [
+      "input0",
+      [
+        65,
+        257
+      ],
+      "fp32"
+    ]
+  ],
+  "output": [
+    65,
+    65
+  ],
+  "output_precision": "fp32",
+  "scratch": [
+    [
+      "vmul",
+      [
+        65,
+        257
+      ],
+      "fp32"
+    ],
+    [
+      "vmm",
+      [
+        65,
+        65
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vmul",
+      [
+        65,
+        257
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vmm",
+      [
+        65,
+        65
+      ],
+      "fp32"
+    ]
+  ],
+  "scope": "Initialized weights and tensor tables are explicit task parameters. Native layout and configuration connections remain obligations.",
+  "native_comparison": "local_triton_router_matmul_default",
+  "reference_graph_nodes": 7,
+  "candidate_graph_nodes": 7,
+  "real_projection_status": "DIRECT",
+  "metadata_decoder_binding_status": "NOT_REQUIRED"
+}

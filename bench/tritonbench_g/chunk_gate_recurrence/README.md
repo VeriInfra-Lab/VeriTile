@@ -1,7 +1,15 @@
 # chunk_gate_recurrence
 
-- Source file: `chunk_gate_recurrence.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
+Current repaired Python implementation: [chunk_gate_recurrence.py](chunk_gate_recurrence.py).
 
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+Independent exclusive forward and reverse suffix/product formulas; logical forward state or backward state, DG = sum over key:Fin64 and value:Fin16 of reverse*saved, and initial gradient. All 1024 contraction terms are retained.
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

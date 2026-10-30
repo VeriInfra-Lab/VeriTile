@@ -12,12 +12,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class ComparatorGateTests(unittest.TestCase):
     def project(self, root, source):
-        (root / 'scripts').mkdir()
+        (root / 'scripts' / 'bench').mkdir(parents=True)
         (root / 'bench/tritonbench_g/fixture').mkdir(parents=True)
         for name in ('check_comparator.py', 'comparator_common.py', 'check-artifact.sh', 'source_axioms.py'):
             shutil.copyfile(ROOT / 'scripts' / name, root / 'scripts' / name)
-        for name in ('audit_trust_prep.py', 'check_ports.sh', 'audit_trust.sh', 'check_worker_results.py'):
-            shutil.copyfile(ROOT / 'bench' / name, root / 'bench' / name)
+        for name in ('audit_trust_prep.py', 'audit_source.py', 'check_ports.sh', 'audit_trust.sh', 'check_worker_results.py', 'port_layout.py'):
+            shutil.copyfile(ROOT / 'scripts' / 'bench' / name, root / 'scripts' / 'bench' / name)
         # The trust-path fixture has a real Lean command boundary without
         # importing this project's Mathlib-heavy library into tiny regressions.
         (root / 'VeriTile/Meta').mkdir(parents=True)
@@ -35,10 +35,14 @@ class ComparatorGateTests(unittest.TestCase):
             'name': 'comparatorgates', 'lakeDir': '.lake'}))
         subprocess.run(['git', 'init', '-q', str(root)], check=True)
 
-    def run_check(self, source, script=None, library=False, env=None):
+    def run_check(self, source, script=None, library=False, env=None, dependencies=None):
         with tempfile.TemporaryDirectory(prefix='veritile-check-regression-') as temp:
             root = Path(temp)
             self.project(root, source)
+            for name, body in (dependencies or {}).items():
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(body)
             if library:
                 (root / 'VeriTile/Fixture.lean').write_text(source)
                 (root / 'scripts/kernel-manifest.tsv').write_text(
@@ -66,15 +70,51 @@ class ComparatorGateTests(unittest.TestCase):
         result, reports, inventories = self.run_check(
             'private theorem «a.b» : True := True.intro\n'
             'macro "fixtureTheorem" : command => `(theorem generated : True := True.intro)\n'
-            'fixtureTheorem\n', script='bench/check_ports.sh')
+            'fixtureTheorem\n', script='scripts/bench/check_ports.sh')
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(len(reports), 1)
         self.assertTrue(reports[0]['accepted'])
         self.assertGreaterEqual(reports[0]['theorem_count'], 2)
         self.assertTrue(any('a.b' in name for name in inventories[0]['theorems']))
 
+    def test_module_header_and_private_imports_are_replayed(self):
+        source = (ROOT / 'bench/tritonbench_g/fast_layernorm/Proofs/Settings.lean').read_text()
+        result, reports, inventories = self.run_check(
+            source, script='scripts/bench/audit_trust.sh')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(reports[0]['accepted'])
+        names = inventories[0]['theorems']
+        self.assertTrue(any(name.endswith('Settings.nextPower_covers') for name in names), names)
+        self.assertTrue(any('.nextPower_covers.go' in name for name in names), names)
+
+    def test_string_literal_reduction_is_replayed(self):
+        result, reports, _ = self.run_check('''
+def strTag (s : String) : Nat := if s = "live" then 1 else 0
+theorem strTag_live : strTag "live" = 1 := rfl
+theorem dtype_distinct : ("int32" = "int64") = False := by decide
+theorem region_distinct : ("Q" = "O") = False := by decide
+theorem append_literal : "abc" ++ "def" = "abcdef" := by decide
+''', script='scripts/bench/audit_trust.sh')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(reports[0]['accepted'])
+        self.assertGreaterEqual(reports[0]['theorem_count'], 4)
+
+    def test_core_module_audit_rejects_axioms_and_specifications(self):
+        for declaration, diagnostic in [
+            ('axiom injected : False\ntheorem target : False := injected\n', 'axiom'),
+            ('theorem target : False := by sorry\n', 'DISALLOWED axiom'),
+            ('def expectedSpec : Nat := 0\n', 'specification declarations'),
+            ('def VeriTile.Triton.ComputeKernel : Nat := 0\n', 'kernel declarations')]:
+            with self.subTest(declaration=declaration):
+                result, reports, _ = self.run_check(
+                    'module\npublic import Init\npublic section\n' + declaration,
+                    script='scripts/bench/audit_trust.sh')
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(diagnostic, result.stderr)
+                self.assertFalse(any(report['accepted'] for report in reports))
+
     def test_compiling_unapproved_proofs_fail_in_every_gate(self):
-        for script in ('bench/check_ports.sh', 'bench/audit_trust.sh', None):
+        for script in ('scripts/bench/check_ports.sh', 'scripts/bench/audit_trust.sh', None):
             with self.subTest(script=script):
                 # This compiles without warnings. It is deliberately not named
                 # *_correct: comparator must cover more than the headline net.
@@ -86,10 +126,47 @@ class ComparatorGateTests(unittest.TestCase):
                 self.assertFalse(reports[0]['accepted'])
                 self.assertIn('Illegal axiom detected', result.stderr)
 
+    def test_realized_private_match_equations_are_replayed(self):
+        result, reports, inventories = self.run_check('''
+structure Model where
+  binary : Nat → Option Nat → Nat
+  choose : Option Nat → Nat
+private def model : Model where
+  binary := fun x y => match x, y with
+    | 0, none => 1
+    | 0, some _ => 2
+    | _, _ => 3
+  choose := fun x => match x with
+    | some n => n
+    | none => 0
+theorem binary_none : model.binary 0 none = 1 := by simp [model]
+theorem binary_some : model.binary 0 (some 7) = 2 := by simp [model]
+theorem chosen : model.choose (some 7) = 7 := by simp [model]
+''')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(reports[0]['accepted'])
+        names = inventories[0]['theorems']
+        self.assertTrue(any('model.match_' in n and '.eq_' in n for n in names), names)
+        self.assertTrue({'binary_none', 'binary_some', 'chosen'}.issubset(names))
+
     def test_sorry_rejected(self):
         result, reports, _ = self.run_check('theorem target : True := by sorry\n')
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('sorryAx', result.stderr)
+
+    def test_public_entry_replay_checks_imported_proof_dependencies(self):
+        for helper, accepted in [
+            ('theorem helper : True := True.intro\n', True),
+            ('axiom injected : True\ntheorem helper : True := injected\n', False)]:
+            with self.subTest(accepted=accepted):
+                result, reports, inventories = self.run_check(
+                    'import VeriTile.Helper\ntheorem target : True := helper\n',
+                    dependencies={'VeriTile/Helper.lean': helper})
+                self.assertEqual(inventories[0]['theorems'], ['target'])
+                self.assertEqual(result.returncode == 0, accepted, result.stdout + result.stderr)
+                self.assertEqual(reports[0]['accepted'], accepted)
+                if not accepted:
+                    self.assertIn('Illegal axiom detected', result.stderr)
         self.assertFalse(reports[0]['accepted'])
 
     def test_library_manifest_passes(self):
@@ -98,7 +175,7 @@ class ComparatorGateTests(unittest.TestCase):
         self.assertEqual(reports[0]['theorem_count'], 1)
 
     def test_definition_only_fixture_reports_zero_targets(self):
-        result, reports, inventories = self.run_check('def value : Nat := 42\n', script='bench/audit_trust.sh')
+        result, reports, inventories = self.run_check('def value : Nat := 42\n', script='scripts/bench/audit_trust.sh')
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(reports[0]['theorem_count'], 0)
         self.assertEqual(inventories[0]['aliases'], ['veritile_comparator_empty_module'])

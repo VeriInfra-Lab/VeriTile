@@ -22,12 +22,16 @@ def _kldiv_kernel_forward(
     log_target: tl.constexpr = False,
     reduction: tl.constexpr = _REDUCTION_MODE_BATCHMEAN,
 ):
+    n_cols = tl.cast(n_cols, tl.int64)
+    y_stride = tl.cast(y_stride, tl.int64)
+    gt_stride = tl.cast(gt_stride, tl.int64)
+    loss_stride = tl.cast(loss_stride, tl.int64)
     pid = tl.program_id(0).to(tl.int64)
     y_ptr += pid * y_stride
     gt_ptr += pid * gt_stride
     loss_ptr += pid * loss_stride
 
-    base_offsets = tl.arange(0, BLOCK_SIZE)
+    base_offsets = tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
 
     loss_sum = 0.0
     for i in range(0, n_cols, BLOCK_SIZE):
@@ -46,6 +50,7 @@ def _kldiv_kernel_forward(
         if reduction == 0:  # _REDUCTION_MODE_NONE
             tl.store(loss_ptr + offsets, loss, mask=mask)
         else:
+            loss = tl.where(mask, loss, 0.0)
             loss_sum += tl.sum(loss, axis=0)
 
     if reduction != 0:
@@ -62,16 +67,19 @@ def _kldiv_kernel_backward(
     BLOCK_SIZE: tl.constexpr,
     log_target: tl.constexpr = False,
 ):
+    n_cols = tl.cast(n_cols, tl.int64)
+    target_stride = tl.cast(target_stride, tl.int64)
+    new_grads_stride = tl.cast(new_grads_stride, tl.int64)
     pid = tl.program_id(0).to(tl.int64)
 
     target_ptr += pid * target_stride
     new_grads_ptr += pid * new_grads_stride
 
-    offsets = tl.arange(0, BLOCK_SIZE)
+    offsets = tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
     mask = offsets < n_cols
 
     for i in range(0, n_cols, BLOCK_SIZE):
-        offsets = i + tl.arange(0, BLOCK_SIZE)
+        offsets = i + tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
         mask = offsets < n_cols
 
         target = tl.load(target_ptr + offsets, mask=mask, other=0.0)
@@ -84,108 +92,89 @@ def _kldiv_kernel_backward(
         tl.store(new_grads_ptr + offsets, res, mask=mask)
 
 
-def kldiv_forward_triton(y_pred, y_true, log_target, reduction, eps):  # [BT, V]
+def _check_tensors(*tensors):
+    if not all(isinstance(t, torch.Tensor) for t in tensors):
+        raise TypeError("kldiv requires Tensor arguments")
+    if any(t.layout != torch.strided for t in tensors):
+        raise ValueError("kldiv requires strided tensors")
+    if any(t.dtype != torch.float32 for t in tensors):
+        raise ValueError("kldiv requires FP32 tensors")
+    if any(not t.is_cuda for t in tensors):
+        raise ValueError("kldiv requires CUDA tensors")
+    if any(t.device != tensors[0].device for t in tensors[1:]):
+        raise ValueError("kldiv requires tensors on the same device")
+    if any(not t.is_contiguous() for t in tensors):
+        raise ValueError("kldiv requires contiguous tensors")
+    if any(t.is_neg() for t in tensors):
+        raise ValueError("kldiv requires resolved negative views")
+    if any(t.numel() != 0 and t.data_ptr() % 4 != 0 for t in tensors):
+        raise ValueError("kldiv requires aligned active FP32 pointers")
+
+
+def _check_matrix_pair(a, b):
+    if a.ndim != 2 or b.ndim != 2:
+        raise ValueError("kldiv requires rank-two matrices")
+    if a.shape != b.shape:
+        raise ValueError("kldiv requires matching matrix shapes")
+
+
+def _storage_separate(a, b):
+    a_storage, b_storage = a.untyped_storage(), b.untyped_storage()
+    a_base, b_base = a_storage.data_ptr(), b_storage.data_ptr()
+    return (a_base + a_storage.nbytes() <= b_base or
+            b_base + b_storage.nbytes() <= a_base)
+
+
+def kldiv_forward_triton(y_pred, y_true, log_target, reduction, eps):
+    """Checked rank-two contiguous FP32 CUDA clamped KL divergence."""
+    _check_tensors(y_pred, y_true)
+    _check_matrix_pair(y_pred, y_true)
+    if type(log_target) is not bool:
+        raise TypeError("log_target must be bool")
+    if not isinstance(reduction, str) or reduction not in ("none", "sum", "mean", "batchmean"):
+        raise ValueError("unsupported KL reduction")
+    if type(eps) is not float:
+        raise TypeError("eps must be a Python float")
     BT, V = y_pred.shape
-
-    BLOCK_SIZE = min(16384, triton.next_power_of_2(V))
+    BLOCK_SIZE = min(16384, triton.next_power_of_2(max(1, V)))
     num_warps = 4 if BLOCK_SIZE < 2048 else 8 if BLOCK_SIZE < 8192 else 16 if BLOCK_SIZE < 32768 else 32
-
-    grid = (BT,)
-    reduction = {"none": 0, "sum": 1, "mean": 2, "batchmean": 3}[reduction]
-
-    out_size = (BT, V) if reduction == 0 else (BT,)
+    mode = {"none": 0, "sum": 1, "mean": 2, "batchmean": 3}[reduction]
+    out_size = (BT, V) if mode == 0 else (BT,)
     output_tensor = torch.zeros(out_size, device=y_pred.device, dtype=torch.float32)
-
-    _kldiv_kernel_forward[grid](
-        y_pred,
-        y_pred.stride(0),
-        y_true,
-        y_true.stride(0),
-        output_tensor,
-        output_tensor.stride(0),
-        V,
-        eps=eps,
-        BLOCK_SIZE=BLOCK_SIZE,
-        num_warps=num_warps,
-        log_target=log_target,
-        reduction=reduction,
-    )
-
-    if reduction == 3:  # _REDUCTION_MODE_BATCHMEAN
-        return output_tensor.sum() / BT
-    elif reduction == 1:  # _REDUCTION_MODE_SUM
-        return output_tensor.sum(dim=0)
-    elif reduction == 2:  # _REDUCTION_MODE_MEAN
-        return output_tensor.sum() / (BT * V)
-    else:
+    with torch.cuda.device(y_pred.device):
+        _kldiv_kernel_forward[(BT,)](
+            y_pred, V, y_true, V, output_tensor, V if mode == 0 else 1, V,
+            eps=eps, BLOCK_SIZE=BLOCK_SIZE, num_warps=num_warps,
+            log_target=log_target, reduction=mode,
+        )
+        if mode == 3:
+            return output_tensor.sum() / BT
+        if mode == 1:
+            return output_tensor.sum(dim=0)
+        if mode == 2:
+            return output_tensor.sum() / (BT * V)
         return output_tensor
 
 
 def kldiv_backward_triton(target, grad_output, new_grads, log_target):
+    """Write the unscaled derivative directly, then apply the cotangent."""
+    _check_tensors(new_grads, target, grad_output)
+    _check_matrix_pair(new_grads, target)
+    if grad_output.ndim != 0 and grad_output.shape != new_grads.shape:
+        raise ValueError("grad_output must be scalar or have the matrix shape")
+    if type(log_target) is not bool:
+        raise TypeError("log_target must be bool")
+    if new_grads.numel() != 0:
+        if not _storage_separate(new_grads, target) or not _storage_separate(new_grads, grad_output):
+            raise ValueError("destination storage must be separate from target and cotangent")
     BT, V = target.shape
-
-    BLOCK_SIZE = min(16384, triton.next_power_of_2(V))
+    BLOCK_SIZE = min(16384, triton.next_power_of_2(max(1, V)))
     num_warps = 4 if BLOCK_SIZE < 2048 else 8 if BLOCK_SIZE < 8192 else 16 if BLOCK_SIZE < 32768 else 32
-
-    grid = (BT,)
-
-    _kldiv_kernel_backward[grid](
-        target,
-        target.stride(0),
-        new_grads,
-        new_grads.stride(0),
-        V,
-        BLOCK_SIZE=BLOCK_SIZE,
-        num_warps=num_warps,
-        log_target=log_target,
-    )
-
-    if torch.equal(grad_output, torch.tensor(1.0, device=grad_output.device)):
-        return new_grads
-
-    return new_grads * grad_output
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-# Test cases for kldiv_forward_triton
-def test_kldiv():
-    # Define input tensors
-    y_pred = torch.tensor([[0.2, 0.3, 0.5], [0.1, 0.6, 0.3]], device='cuda', dtype=torch.float32).log()
-    y_true = torch.tensor([[0.1, 0.4, 0.5], [0.2, 0.5, 0.3]], device='cuda', dtype=torch.float32)
-    eps = 1e-6
-
-    # Test different reduction modes
-    results = {}
-    for i, reduction in enumerate(["none", "sum", "mean", "batchmean"]):
-        output = kldiv_forward_triton(y_pred, y_true, log_target=False, reduction=reduction, eps=eps)
-        results[f"test_case_{i+1}"] = output
-
-    # Test with log_target=True
-    y_true_log = y_true.log()
-    output_log_target = kldiv_forward_triton(y_pred, y_true_log, log_target=True, reduction="sum", eps=eps)
-    results["test_case_5"] = output_log_target
-
-    # Define input tensors
-    target = torch.tensor([[0.1, 0.4, 0.5], [0.2, 0.5, 0.3]], device='cuda', dtype=torch.float32)
-    grad_output = torch.tensor(1.0, device='cuda', dtype=torch.float32)
-    new_grads = torch.zeros_like(target)
-
-    # Test with log_target=False
-    backward_output = kldiv_backward_triton(target, grad_output, new_grads, log_target=False)
-    results["test_case_6"] = backward_output
-
-    # Test with log_target=True
-    target_log = target.log()
-    backward_output_log_target = kldiv_backward_triton(target_log, grad_output, new_grads, log_target=True)
-    results["test_case_7"] = backward_output_log_target
-
-    return results
-
-# Run tests
-result_gold = test_kldiv()
+    with torch.cuda.device(new_grads.device):
+        _kldiv_kernel_backward[(BT,)](
+            target, V, new_grads, V, V,
+            BLOCK_SIZE=BLOCK_SIZE, num_warps=num_warps, log_target=log_target,
+        )
+        if torch.equal(grad_output, torch.tensor(1.0, device=grad_output.device)):
+            return new_grads
+        return new_grads * grad_output

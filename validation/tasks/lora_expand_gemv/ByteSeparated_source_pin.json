@@ -1,0 +1,6 @@
+{
+  "candidate_path": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_byte_separated.py",
+  "candidate_sha256": "85f452b177066c749577b51a730ac49b81acd153ed4f5fc6d141762b4075ae03",
+  "kernel_ast_sha256": "f91a144fdd8549497c3e49a24ab6bca10c7bcf298df74c4d4cd52aa23ed60c10",
+  "frozen_canonical_sha256": "8f36abb103e6dbe0b646c65a8d763a7d57afdd901a9888ea398987f219e70d81"
+}

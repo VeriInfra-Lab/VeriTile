@@ -7,7 +7,7 @@ surface. It elaborates *identically* to `theorem` (same kernel object, same
 axiom footprint, `#axiomsClean`/`#print axioms` unaffected); the keyword is
 a machine-readable marker registered in Lean's environment by `kernel_headline`.
 The trust audit enumerates this metadata, independently of source formatting.
-Source inventories (`scripts/spec_sheet.py`, `bench/check_proof_gap_manifest.py`)
+Source inventories (`scripts/spec_sheet.py`, `scripts/bench/check_proof_gap_manifest.py`)
 also use the keyword as a visible declaration marker.
 
 Modeled on Mathlib's `lemma` command macro.
@@ -20,6 +20,7 @@ elaborates identically to `def`; combine with modifiers as usual
 -/
 
 import Lean
+import VeriTile.Spec
 
 namespace VeriTile.Meta
 
@@ -27,6 +28,14 @@ namespace VeriTile.Meta
 source layout, identifier spelling, and declaration modifiers. -/
 initialize headlineAttr : Lean.TagAttribute ←
   Lean.registerTagAttribute `kernel_headline "A public kernel specification theorem."
+
+/-- Labels for dependency reports. Tagging a declaration supplies no proof and
+does not change its meaning. Reports discover uses through elaborated terms. -/
+initialize specPrimitiveAttr : Lean.TagAttribute ←
+  Lean.registerTagAttribute `spec_primitive "An execution primitive shown by #print_spec."
+
+initialize specRuleAttr : Lean.TagAttribute ←
+  Lean.registerTagAttribute `spec_rule "A transformation rule shown by #print_spec."
 
 end VeriTile.Meta
 

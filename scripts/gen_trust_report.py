@@ -12,7 +12,7 @@ is a single machine-checkable trust gate over the whole library corpus.
 
 Only LIBRARY theorems (file column under `VeriTile/`) go here; standalone
 bench ports and the relocated `bench/examples/*` files are not importable and
-are audited externally by `bench/audit_trust.sh`.
+are audited externally by `scripts/bench/audit_trust.sh`.
 
 Usage:  python3 scripts/gen_trust_report.py   (run from repo root)
 """
@@ -40,7 +40,7 @@ def main() -> None:
         if status != "proven":
             continue
         if not file_.startswith("VeriTile/"):
-            continue  # bench/examples handled by bench/audit_trust.sh
+            continue  # bench/examples handled by scripts/bench/audit_trust.sh
         rows.append((module_of(file_), thm, id_, kind))
 
     # group by module, preserve first-seen module order, sort theorems within
@@ -70,7 +70,7 @@ def main() -> None:
     lines.append("Quot.sound}) — a real soundness finding, NOT something to paper over.")
     lines.append("")
     lines.append(f"Coverage: {len(rows)} library theorems across {len(modules)} modules.")
-    lines.append("Standalone bench ports + bench/examples are audited by bench/audit_trust.sh.")
+    lines.append("Standalone bench ports + bench/examples are audited by scripts/bench/audit_trust.sh.")
     lines.append("-/")
     lines.append("import VeriTile.Meta.StatementAudit")
     for mod in modules:

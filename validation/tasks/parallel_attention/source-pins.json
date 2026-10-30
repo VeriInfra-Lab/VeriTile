@@ -1,0 +1,23 @@
+{
+  "kind": "reviewable transcription drift lock",
+  "python_kernel_asts": {
+    "parallel_rebased_fwd_kernel": "bb106e933e89c684f2b83940007782c606867fea60bdd6a04d6c0e9fbc9cbf50",
+    "_parallel_rebased_bwd_dq": "233ad33049fc160211333ca481e2b07cae3efac4fc4a458320269ce9c23ffcec",
+    "_parallel_rebased_bwd_dkv": "b825a9b52dc18c0c2489dc5ba6c5f452dede62cb98d92f68d114989f9c957c97",
+    "parallel_rebased_bwd_kernel": "c1fe343bf3cc8a4c1ec8bed743e1be900be9df28f12a140b30df04e67e20c40b"
+  },
+  "lean_transcriptions": {
+    "SourceSyntax.lean": "089794de13c7fa2882a933ab6f2a8b9aa3b0da7fc7acd74ad9f3e89e2973eff4",
+    "QuerySyntax.lean": "f4e99243332198e4ff9738e56b75968bc1112f8425b726e2148ad0e269e14b8d",
+    "ScalarModel.lean": "022a8493c8106aea38d46a94ad5c2d9b0210b2fba6951415c36eb3c7dc978842",
+    "Combined.lean": "eee6fc23b8b54d55b9ec2e5a4906d6f17b0cd2dc7bc15b88b079d3186376edd4",
+    "NativeStage.lean": "0489a4cd206abb14f96112eef66e9e4eb061f9b31fa3f441cdda41057f2f5f64"
+  },
+  "mapping": {
+    "parallel_rebased_fwd_kernel": "SourceSyntax.forwardSource",
+    "_parallel_rebased_bwd_dq": "QuerySyntax.querySource",
+    "_parallel_rebased_bwd_dkv": "SourceSyntax.backwardSource",
+    "parallel_rebased_bwd_kernel": "Combined.combinedKernel"
+  },
+  "boundary": "Transcription and local native routing require independent review. Hash equality proves drift freedom only."
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": 3,
+  "id": "local_expert_bias_update",
+  "suite": "pretrain",
+  "self_contained": true,
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "conversion_status": "LEAN_DRAFT",
+  "comparison": {
+    "function": "build_local_expert_bias_update"
+  },
+  "source_organization_status": "PROVISIONAL_LOWERING",
+  "inputs": [
+    [
+      "input0",
+      [
+        4,
+        128
+      ],
+      "fp32"
+    ]
+  ],
+  "output": [
+    4,
+    128
+  ],
+  "output_precision": "fp32",
+  "scratch": [
+    [
+      "vsum_1",
+      [
+        4,
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "vmul",
+      [
+        4,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "vsub",
+      [
+        4,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "vsign",
+      [
+        4,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "vmul_1",
+      [
+        4,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "vadd",
+      [
+        4,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vsum_1",
+      [
+        4,
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vmul",
+      [
+        4,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vsub",
+      [
+        4,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vsign",
+      [
+        4,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vmul_1",
+      [
+        4,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vadd",
+      [
+        4,
+        128
+      ],
+      "fp32"
+    ]
+  ],
+  "scope": "Initialized weights and tensor tables are explicit task parameters. Native layout and configuration connections remain obligations.",
+  "native_comparison": "local_expert_bias_update",
+  "reference_graph_nodes": 11,
+  "candidate_graph_nodes": 11,
+  "real_projection_status": "DIRECT",
+  "metadata_decoder_binding_status": "NOT_REQUIRED"
+}

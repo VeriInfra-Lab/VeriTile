@@ -1,3 +1,5 @@
+# Independent candidate: numeric int8 conversion, packed weights, INT32 word sum.
+# Result is signed low32(dense sum), equal to the exact sum when representable.
 
 import torch
 import triton
@@ -208,7 +210,16 @@ def matmul_kernel(
             mask = 3 << (2 * i)
             b = ((b_uint8 & mask) >> (2 * i)).to(tl.int8)  # Cast to int8.
             tensor_full = tl.full((1,), 1, dtype=tl.int8)  # Use int8.
-            accumulator += tl.dot(a, (b - tensor_full), out_dtype=tl.int32)  # Keep a and b as int8.
+            # The zero-seeded block sum fits INT32 for all retained BK <= 128.
+            partial = tl.dot(a, (b - tensor_full), out_dtype=tl.int32)
+            accumulator = tl.inline_asm_elementwise(
+                "add.u32 $0, $1, $2;",
+                constraints="=r,r,r",
+                args=[accumulator, partial],
+                dtype=tl.int32,
+                is_pure=True,
+                pack=1,
+            )
             a_ptrs += BLOCK_SIZE_K * stride_ak
             b_ptrs += BLOCK_SIZE_K * stride_bk
     c = accumulator
@@ -226,6 +237,8 @@ def matmul(a, b):
     M, K = a.shape
     _, N = b.shape
     c = torch.empty((M, N), device=a.device, dtype=torch.int32)
+    if c.data_ptr() + 4 * ((M + 256) * max(N, 1) + N + 256) >= 2**63:
+        raise ValueError("formed output byte pointers exceed signed64")
     grid = lambda META: (
         triton.cdiv(M, META["BLOCK_SIZE_M"]) * triton.cdiv(N, META["BLOCK_SIZE_N"]),
     )
@@ -245,26 +258,58 @@ def matmul(a, b):
     )
     return c
 
+_unchecked_matmul = matmul
 
 
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_matmul():
-    # Define test matrices for different configurations
-    test_results = {}
-
-    # Test case
-    M1, K1, N1 = 256, 256, 128
-    a1 = torch.randint(0, 256, (M1, K1), dtype=torch.int32, device='cuda')
-    b1 = torch.randint(0, 4, (K1 // 4, N1), dtype=torch.uint8, device='cuda')
-    c1 = matmul(a1, b1)
-    test_results["test_case"] = c1
-
-    return test_results
-
-result_gold = test_matmul()
-print(result_gold)
+def matmul(a, b):
+    """Checked FP32-by-packed-uint8 contract with signed low32 output."""
+    if not isinstance(a, torch.Tensor) or not isinstance(b, torch.Tensor):
+        raise TypeError("a and b must be tensors")
+    if a.layout != torch.strided or b.layout != torch.strided:
+        raise ValueError("a and b must have strided layout")
+    if a.ndim != 2 or b.ndim != 2:
+        raise ValueError("a and b must have rank two")
+    if a.dtype != torch.float32 or b.dtype != torch.uint8:
+        raise TypeError("a must be FP32 and b must be packed uint8")
+    if not a.is_cuda or not b.is_cuda or a.device != b.device:
+        raise ValueError("a and b must be on the same CUDA device")
+    if a.device.index != torch.cuda.current_device():
+        raise ValueError("the input device must be the current CUDA device")
+    if a.shape[1] != 4 * b.shape[0]:
+        raise ValueError("incompatible packed dimensions")
+    if not a.is_contiguous():
+        raise ValueError("a must be contiguous")
+    if a.is_neg() or b.is_neg():
+        raise ValueError("unresolved negative views are unsupported")
+    if a.numel() and a.data_ptr() % 4:
+        raise ValueError("nonempty FP32 a must have a four-byte aligned data pointer")
+    m, k = a.shape
+    _, n = b.shape
+    am, ak = a.stride()
+    bk, bn = b.stride()
+    limit = 2**31
+    if min(am, ak, bk, bn) < 0:
+        raise ValueError("negative strides are unsupported")
+    if max(m, n, k) + 512 >= limit or max(am, ak, bk, bn) + 256 >= limit:
+        raise ValueError("dimensions and strides exceed the source int32 domain")
+    for config in get_autotune_config():
+        bm = config.kwargs["BLOCK_SIZE_M"]
+        block_n = config.kwargs["BLOCK_SIZE_N"]
+        group_m = config.kwargs["GROUP_SIZE_M"]
+        rows = triton.cdiv(m, bm)
+        cols = triton.cdiv(n, block_n)
+        if rows * cols >= limit or group_m * cols >= limit:
+            raise ValueError("grouped indices exceed the source int32 domain")
+    if (m * am + (k + 128) * ak >= limit
+            or (k // 4 + 128) * bk + n * bn >= limit
+            or (m + 256) * max(n, 1) + n + 256 >= limit):
+        raise ValueError("formed offsets exceed the source int32 domain")
+    if (a.data_ptr() + 4 * (m * am + (k + 128) * ak) >= 2**63
+            or b.data_ptr() + (k // 4 + 128) * bk + n * bn >= 2**63):
+        raise ValueError("formed input byte pointers exceed signed64")
+    if not torch.isfinite(a).all().item():
+        raise ValueError("FP32-to-int8 conversion requires finite inputs")
+    truncated = torch.trunc(a)
+    if not ((truncated >= -128) & (truncated <= 127)).all().item():
+        raise ValueError("truncated inputs must fit signed int8")
+    return _unchecked_matmul(a, b)

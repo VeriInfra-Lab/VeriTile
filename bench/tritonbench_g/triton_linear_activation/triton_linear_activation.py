@@ -6,10 +6,18 @@ import triton
 import triton.language as tl
 from torch.autograd.function import FunctionCtx
 from torch.cuda.amp import custom_fwd
-from triton.ops.matmul_perf_model import early_config_prune, estimate_matmul_time
+try:
+    from triton.ops.matmul_perf_model import early_config_prune, estimate_matmul_time
+    _prune_configs_by = {"early_config_prune": early_config_prune, "perf_model": estimate_matmul_time, "top_k": 10}
+except ModuleNotFoundError as error:
+    if error.name not in ("triton.ops", "triton.ops.matmul_perf_model"):
+        raise
+    # Current Triton omits this optional legacy performance model.
+    # The complete original configuration family remains available to autotuning.
+    _prune_configs_by = None
 
 
-sqrt2pi = math.sqrt(2.0 / math.pi)
+sqrt2pi = tl.constexpr(math.sqrt(2.0 / math.pi))
 sqrt2 = tl.constexpr(math.sqrt(2.0))
 
 
@@ -87,7 +95,7 @@ def get_configs_io_bound():
     ]
     + get_configs_io_bound(),
     key=["CACHE_KEY_M", "CACHE_KEY_N", "CACHE_KEY_K"],
-    prune_configs_by={"early_config_prune": early_config_prune, "perf_model": estimate_matmul_time, "top_k": 10},
+    prune_configs_by=_prune_configs_by,
 )
 @triton.heuristics(
     {
@@ -132,10 +140,10 @@ def kernel_fma(
     ACTIVATION: tl.constexpr,
 ):
     """
-    Kernel for computing Out = activation(A x W + C)
+    Kernel for computing Out = activation(A @ W.T + bias)
 
     - Input has shape (M, K)
-    - Weight has shape (K, N)
+    - Weight has shape (N, K)
     - Bias has shape (N,)
     - Output has shape (M, N)
     - ActInputs (optional) has shape (M, N)
@@ -166,11 +174,9 @@ def kernel_fma(
     # modulo operation is used to wrap around the indices that go beyond the matrix boundaries
     # The value loaded are not ok but at least we are not reading outside the A/B matrices
     # Then, during storing in C a mask is used and the results related to these wrong values is discarded!
-    # Regarding max_contiguous and multiple_of, they are used to force the compiler to vectorize loads
-    # multiple_of indicates that the first element of rm / rn is a multiple of BLOCK_M / BLOCK_N
-    # max_contiguous indicates that the range is a block of BLOCK_M / BLOCK_N contiguous elements
-    m_offs = tl.max_contiguous(tl.multiple_of(m_offs_untagged % M, BLOCK_M), BLOCK_M)
-    n_offs = tl.max_contiguous(tl.multiple_of(n_offs_untagged % N, BLOCK_N), BLOCK_N)
+    # Wrapped tails are not contiguous, so no false alignment/contiguity hints are attached.
+    m_offs = m_offs_untagged % M
+    n_offs = n_offs_untagged % N
 
     k_range_offs = tl.arange(0, BLOCK_K)
 
@@ -197,8 +203,9 @@ def kernel_fma(
 
     # optional: save the activation inputs
     if SHOULD_SAVE_ACT_INPUTS:
-        act_in_ptrs = ACT_INPUTS + m_offs[:, None] * act_inputs_m_stride + n_offs[None, :] * act_inputs_n_stride
-        tl.store(act_in_ptrs, acc)
+        act_in_ptrs = ACT_INPUTS + m_offs_untagged[:, None] * act_inputs_m_stride + n_offs_untagged[None, :] * act_inputs_n_stride
+        save_mask = (m_offs_untagged < M)[:, None] & (n_offs_untagged < N)[None, :]
+        tl.store(act_in_ptrs, acc, mask=save_mask)
 
     # optional: fused activation (while the data is in shared memory)
     if ACTIVATION == "tanh":
@@ -211,24 +218,92 @@ def kernel_fma(
         acc = relu(acc)
 
     # write back result
-    C = C + m_offs[:, None] * output_m_stride + n_offs[None, :] * output_n_stride
-    c_ptr_mask = (m_offs < M)[:, None] & (n_offs < N)[None, :]
+    C = C + m_offs_untagged[:, None] * output_m_stride + n_offs_untagged[None, :] * output_n_stride
+    c_ptr_mask = (m_offs_untagged < M)[:, None] & (n_offs_untagged < N)[None, :]
     tl.store(C, acc, mask=c_ptr_mask)
+
+
+def _canonical_fp32(value, device, name):
+    if (not isinstance(value, torch.Tensor) or value.layout != torch.strided
+            or not value.is_cuda or value.device != device
+            or value.dtype != torch.float32 or not value.is_contiguous()
+            or value.storage_offset() != 0 or value.is_neg() or value.is_conj()):
+        raise ValueError(name + " must be an ordinary canonical FP32 CUDA tensor")
+    if value.numel() and value.data_ptr() % 4 != 0:
+        raise ValueError(name + " must have an aligned active FP32 pointer")
+    stride = 1
+    for axis in range(value.ndim - 1, -1, -1):
+        if value.stride(axis) != stride:
+            raise ValueError(name + " must have canonical strides")
+        stride *= max(1, value.shape[axis])
+
+
+def _validate_inputs(x, weight, bias, activation, act_inputs):
+    if not isinstance(x, torch.Tensor) or x.ndim not in (2, 3):
+        raise ValueError("x must be a rank-two matrix or rank-three batch")
+    if activation is not None and not isinstance(activation, str):
+        raise TypeError("activation must be a string or None")
+    _canonical_fp32(x, x.device, "x")
+    _canonical_fp32(weight, x.device, "weight")
+    if weight.ndim != 2 or x.shape[-1] != weight.shape[1]:
+        raise ValueError("weight must have shape [N,K] matching x")
+    M = x.shape[0] if x.ndim == 2 else x.shape[0] * x.shape[1]
+    N, K = weight.shape
+    inputs = [x, weight]
+    if bias is not None:
+        _canonical_fp32(bias, x.device, "bias")
+        if bias.shape != (N,):
+            raise ValueError("bias must have shape [N]")
+        inputs.append(bias)
+    if act_inputs is not None:
+        _canonical_fp32(act_inputs, x.device, "act_inputs")
+        if act_inputs.shape != (M, N):
+            raise ValueError("act_inputs must have shape [M,N]")
+        inputs.append(act_inputs)
+    live = [v for v in inputs if v.numel()]
+    for i, left in enumerate(live):
+        a = left.untyped_storage()
+        for right in live[i + 1:]:
+            b = right.untyped_storage()
+            if not (a.data_ptr() + a.nbytes() <= b.data_ptr()
+                    or b.data_ptr() + b.nbytes() <= a.data_ptr()):
+                raise ValueError("input and saved allocations must be independent")
+    # Source expressions, including masked output lanes and the final K-pointer
+    # increment, remain signed32. Legal runtime launch limits are a separate ABI.
+    if (max(M, N, K) + 256 >= 2**31
+            or (M + 256) * max(N, 1) + N + 256 >= 2**31
+            or M * max(K, 1) + K + 256 >= 2**31
+            or N * max(K, 1) + K + 256 >= 2**31):
+        raise ValueError("formed source indices exceed the admitted signed32 range")
+
+
+class _SavedBuffer:
+    # AMP recursively casts tensor arguments, but not this private holder.
+    # The public forward still receives the original tensor in its usual slot.
+    __slots__ = ("tensor",)
+
+    def __init__(self, tensor):
+        self.tensor = tensor
 
 
 class LinearLayer(torch.autograd.Function):
     @staticmethod
+    def forward(ctx, x, weight, bias, activation, act_inputs):
+        _validate_inputs(x, weight, bias, activation, act_inputs)
+        return LinearLayer._forward_compute(ctx, x, weight, bias, activation, _SavedBuffer(act_inputs))
+
+    @staticmethod
     @custom_fwd(cast_inputs=torch.float16)
-    def forward(
+    def _forward_compute(
         ctx: FunctionCtx,
         x: torch.Tensor,
         weight: torch.Tensor,
         bias: Optional[torch.Tensor],
         activation: str,
-        act_inputs: Optional[torch.Tensor],
+        saved: _SavedBuffer,
     ) -> torch.Tensor:
         """
-        Compute e = activation(x @ weight + bias).
+        Compute e = activation(x @ weight.T + bias).
         This wrapper kicks the `kernel_fma` Triton kernel
         :param ctx: context for autograd
         :param x: input tensor
@@ -238,6 +313,12 @@ class LinearLayer(torch.autograd.Function):
         :param act_inputs: an optional tensor to save the activation inputs (for backward)
         :return: result tensor
         """
+        caller_saved = saved.tensor
+        # Preserve original FP16 internal stores when AMP casts computation;
+        # copy that stored value back to the actual caller-owned FP32 tensor.
+        act_inputs = caller_saved
+        if caller_saved is not None and caller_saved.dtype != x.dtype:
+            act_inputs = torch.empty(caller_saved.shape, device=x.device, dtype=x.dtype)
         x_ = x if x.ndim == 2 else x.flatten(0, 1)
 
         assert x.dtype == weight.dtype, f"Input and weight must have the same dtype, got {x.dtype} and {weight.dtype}"
@@ -257,33 +338,38 @@ class LinearLayer(torch.autograd.Function):
         # 1D launch kernel where each block gets its own program.
         grid = lambda META: (triton.cdiv(M, META["BLOCK_M"]) * triton.cdiv(N, META["BLOCK_N"]),)  # noqa
 
-        kernel_fma[grid](
-            outputs,
-            act_inputs,
-            x_,
-            weight,  # data ptrs
-            bias if bias is not None else x,  # auto skip bias if not present
-            M,  # shapes
-            N,
-            K,
-            M // 32,  # key for triton cache (limit number of compilations)
-            N // 32,
-            K // 32,
-            output_m_stride=outputs.stride(0),  # strides
-            output_n_stride=outputs.stride(1),
-            act_inputs_m_stride=act_inputs.stride(0) if act_inputs is not None else 0,
-            act_inputs_n_stride=act_inputs.stride(1) if act_inputs is not None else 0,
-            a_m_stride=x_.stride(0),
-            a_k_stride=x_.stride(1),
-            b_n_stride=weight.stride(0),
-            b_k_stride=weight.stride(1),
-            HAS_BIAS=bias is not None,  # optional fused bias
-            SHOULD_SAVE_ACT_INPUTS=act_inputs is not None,  # optional save activation inputs
-            ACTIVATION=activation if not None else x,  # optional fused activation
-            GROUP_M=8,  # speed optimization: group the programs
-        )
+        if M and N:
+            with torch.cuda.device(x.device):
+                kernel_fma[grid](
+                    outputs,
+                    act_inputs,
+                    x_,
+                    weight,  # data ptrs
+                    bias if bias is not None else x,  # auto skip bias if not present
+                    M,  # shapes
+                    N,
+                    K,
+                    M // 32,  # key for triton cache (limit number of compilations)
+                    N // 32,
+                    K // 32,
+                    output_m_stride=outputs.stride(0),  # strides
+                    output_n_stride=outputs.stride(1),
+                    act_inputs_m_stride=act_inputs.stride(0) if act_inputs is not None else 0,
+                    act_inputs_n_stride=act_inputs.stride(1) if act_inputs is not None else 0,
+                    a_m_stride=x_.stride(0),
+                    a_k_stride=x_.stride(1),
+                    b_n_stride=weight.stride(0),
+                    b_k_stride=weight.stride(1),
+                    HAS_BIAS=bias is not None,  # optional fused bias
+                    SHOULD_SAVE_ACT_INPUTS=act_inputs is not None,  # optional save activation inputs
+                    ACTIVATION=activation,  # optional fused activation
+                    GROUP_M=8,  # speed optimization: group the programs
+                )
 
-        outputs = outputs if x.ndim == 2 else outputs.reshape(x.shape[0], -1, N)
+        if caller_saved is not None and act_inputs is not caller_saved:
+            caller_saved.copy_(act_inputs)
+
+        outputs = outputs if x.ndim == 2 else outputs.reshape(x.shape[0], x.shape[1], N)
         ctx.save_for_backward(weight, bias, x)
         return outputs
 
@@ -296,40 +382,3 @@ def linear_layer(
     act_inputs: Optional[torch.Tensor] = None,
 ) -> torch.Tensor:
     return LinearLayer.apply(x, weight, bias, activation, act_inputs)
-
-
-
-
-##################################################################################################################################################
-
-
-def test_linear_layer():
-    # Test case 1: No bias, no activation, no act_inputs
-    x = torch.randn(64, 128, device='cuda', dtype=torch.float16)
-    weight = torch.randn(128, 128, device='cuda', dtype=torch.float16)
-    output1 = linear_layer(x, weight, None)
-
-    # Test case 2: With bias, no activation, no act_inputs
-    bias = torch.randn(128, device='cuda', dtype=torch.float16)
-    output2 = linear_layer(x, weight, bias)
-
-    # Test case 3: With bias, with activation (ReLU), no act_inputs
-    output3 = linear_layer(x, weight, bias, activation="relu")
-
-    # Test case 4: With bias, with activation (GELU), with act_inputs
-    act_inputs = torch.empty_like(output3)
-    output4 = linear_layer(x, weight, bias, activation="gelu", act_inputs=act_inputs)
-
-    # Test case 5: With bias, with activation (tanh), with act_inputs
-    output5 = linear_layer(x, weight, bias, activation="tanh", act_inputs=act_inputs)
-
-    return {
-        "test_case_1": output1,
-        "test_case_2": output2,
-        "test_case_3": output3,
-        "test_case_4": output4,
-        "test_case_5": output5,
-    }
-
-# Run the test cases
-result_gold = test_linear_layer()

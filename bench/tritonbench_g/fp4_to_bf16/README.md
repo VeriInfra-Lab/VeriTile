@@ -1,13 +1,15 @@
 # fp4_to_bf16
 
-- Source file: `fp4_to_bf16.py` (upstream `data/TritonBench_G_v1/fp4_to_bf16.py`)
-- Corpus: TritonBench-G v1
-- Size: 214 lines, 2 `@triton.jit` kernel(s)
-- Status: BLOCKED — not imported. Every other `tl.*` form it uses is in the DSL
-  surface, but it needs: `tl.interleave`.
-  See [`../tritonbench_coverage.md`](../tritonbench_coverage.md) for the
-  ranked unlock levers.
+Current repaired Python implementation: [fp4_to_bf16.py](fp4_to_bf16.py).
 
-This directory is the per-kernel workspace for the TritonBench-G
-full-formalization roadmap. It is currently a placeholder: the upstream
-Python source has **not** been imported.
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+fp4_to_bf16_real: logicalRealIO implements, on LogicalByteDomain, xs ↦ (j ↦ some (nibbleReal (logicalNibble xs j))).
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

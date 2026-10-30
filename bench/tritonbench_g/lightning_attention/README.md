@@ -1,7 +1,15 @@
 # lightning_attention
 
-- Source file: `lightning_attention.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
+Current repaired Python implementation: [lightning_attention.py](lightning_attention.py).
 
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+Independent complete causal forward and backward VJP formulas; LogicalDerivatives remains conjoined.
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

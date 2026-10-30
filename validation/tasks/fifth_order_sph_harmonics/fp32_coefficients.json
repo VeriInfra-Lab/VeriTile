@@ -1,0 +1,155 @@
+{
+  "profile": "binary32 nearest-even source constants; operation cfg is separate",
+  "constants": [
+    {
+      "name": "CONST000",
+      "source_decimal": "1.73430461568895",
+      "fp32_bits": "3fddfdb2"
+    },
+    {
+      "name": "CONST001",
+      "source_decimal": "2.32681380862329",
+      "fp32_bits": "4014ea84"
+    },
+    {
+      "name": "CONST002",
+      "source_decimal": "1.60565407233314",
+      "fp32_bits": "3fcd8613"
+    },
+    {
+      "name": "CONST003",
+      "source_decimal": "3.21130814466628",
+      "fp32_bits": "404d8613"
+    },
+    {
+      "name": "CONST004",
+      "source_decimal": "3.31662479035540",
+      "fp32_bits": "40544395"
+    },
+    {
+      "name": "CONST005",
+      "source_decimal": "6.21867148191637",
+      "fp32_bits": "40c6ff5b"
+    },
+    {
+      "name": "CONST006",
+      "source_decimal": "6.21867148191637",
+      "fp32_bits": "40c6ff5b"
+    },
+    {
+      "name": "CONST007",
+      "source_decimal": "1.60565407233314",
+      "fp32_bits": "3fcd8613"
+    },
+    {
+      "name": "CONST009",
+      "source_decimal": "11.6340690431164",
+      "fp32_bits": "413a2526"
+    },
+    {
+      "name": "CONST010",
+      "source_decimal": "12.8452325786651",
+      "fp32_bits": "414d8613"
+    },
+    {
+      "name": "CONST011",
+      "source_decimal": "12.4373429638327",
+      "fp32_bits": "4146ff5b"
+    },
+    {
+      "name": "CONST012",
+      "source_decimal": "12.8452325786651",
+      "fp32_bits": "414d8613"
+    },
+    {
+      "name": "CONST013",
+      "source_decimal": "13.8744369255116",
+      "fp32_bits": "415dfdb2"
+    },
+    {
+      "name": "CONST017",
+      "source_decimal": "33.9852909359329",
+      "fp32_bits": "4207f0f0"
+    },
+    {
+      "name": "CONST018",
+      "source_decimal": "7.35803132638072",
+      "fp32_bits": "40eb74fe"
+    },
+    {
+      "name": "CONST020",
+      "source_decimal": "-44.1481879582843",
+      "fp32_bits": "c23097bf"
+    },
+    {
+      "name": "CONST021",
+      "source_decimal": "-41.6233107765348",
+      "fp32_bits": "c2267e45"
+    },
+    {
+      "name": "CONST022",
+      "source_decimal": "-29.4321253055229",
+      "fp32_bits": "c1eb74fe"
+    },
+    {
+      "name": "CONST023",
+      "source_decimal": "-23.2681380862329",
+      "fp32_bits": "c1ba2526"
+    },
+    {
+      "name": "CONST024",
+      "source_decimal": "-19.2678488679977",
+      "fp32_bits": "c19a248e"
+    },
+    {
+      "name": "CONST025",
+      "source_decimal": "-19.2678488679977",
+      "fp32_bits": "c19a248e"
+    },
+    {
+      "name": "CONST026",
+      "source_decimal": "-16.9926454679664",
+      "fp32_bits": "c187f0f0"
+    },
+    {
+      "name": "CONST027",
+      "source_decimal": "-16.9926454679664",
+      "fp32_bits": "c187f0f0"
+    },
+    {
+      "name": "CONST028",
+      "source_decimal": "-13.8744369255116",
+      "fp32_bits": "c15dfdb2"
+    },
+    {
+      "name": "CONST029",
+      "source_decimal": "-16.5831239517770",
+      "fp32_bits": "c184aa3d"
+    },
+    {
+      "name": "CONST030",
+      "source_decimal": "3.46860923137790",
+      "fp32_bits": "405dfdb2"
+    },
+    {
+      "name": "CONST031",
+      "source_decimal": "-8.49632273398321",
+      "fp32_bits": "c107f0f0"
+    },
+    {
+      "name": "CONST032",
+      "source_decimal": "-5.20291384706685",
+      "fp32_bits": "c0a67e45"
+    },
+    {
+      "name": "CONST033",
+      "source_decimal": "-3.46860923137790",
+      "fp32_bits": "c05dfdb2"
+    },
+    {
+      "name": "CONST034",
+      "source_decimal": "-1.73430461568895",
+      "fp32_bits": "bfddfdb2"
+    }
+  ]
+}

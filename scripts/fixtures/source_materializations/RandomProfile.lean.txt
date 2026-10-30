@@ -1,0 +1,376 @@
+import Lean
+import VeriTile.Triton.DSL.Syntax
+import VeriTile.Triton.Random.SourceProfile
+
+/-! Source-profile preprocessing for canonical `tl.rand`.
+Machine integer provenance is separate from the existing mathematical Env/EOut.
+This pass establishes source dtypes, not the native correctness of arbitrary
+mathematical integer arithmetic. Dynamic intermediate bounds belong in the
+source contract. Unknown widths and constexpr promotions are rejected.
+-/
+namespace VeriTile.Triton.Random
+
+/-- Legal zero-based arange sizes for pinned Triton 3.7.1. The native tensor
+size limit is 1048576 and the positive interval length is a power of two. -/
+def ArangeSizeDomain (n : Nat) : Prop :=
+  0 < n ∧ n ≤ 1048576 ∧ ∃ k : Nat, n = 2^k
+
+/-- Explicit source constexpr adapter. Lean checks the representability proof;
+the adapter does not change the mathematical value or make a runtime register
+into a constexpr. Use its fully rooted name in a DSL antiquotation. -/
+def i32NatConstexpr (n : Nat) (_h : n < 2^31) : Nat := n
+
+/-- Stronger symbolic block-size adapter, retaining all arange shape conditions. -/
+def i32ArangeSize (n : Nat) (_h : ArangeSizeDomain n) : Nat := n
+
+/-- Explicit source constexpr round-count adapter. Nat includes zero and needs
+no machine-width restriction. This records a constexpr source parameter. -/
+def roundsConstexpr (n : Nat) : Nat := n
+
+end VeriTile.Triton.Random
+
+open Lean
+namespace VeriTile.Triton.DSL.RandomProfile
+
+open VeriTile.Triton.Random (IntegerType)
+
+private structure Info where
+  machine : Option IntegerType := none
+  constant : Option (TSyntax `term) := none
+  literal : Option Nat := none
+  arangeSize : Bool := Bool.false
+  externalInput : Bool := Bool.false
+  deriving Inhabited
+
+private structure Ctx where
+  values : List (String × Info) := []
+  regions : List (String × IntegerType) := []
+  deriving Inhabited
+
+private def key (i : TSyntax `ident) : String :=
+  i.getId.eraseMacroScopes.toString
+
+private def Ctx.lookup (ctx : Ctx) (i : TSyntax `ident) : Info :=
+  ((ctx.values.find? (fun p => p.1 == key i)).map Prod.snd).getD {}
+
+private def Ctx.bind (ctx : Ctx) (i : TSyntax `ident) (value : Info) : Ctx :=
+  { ctx with values := (key i, value) :: ctx.values.filter (fun p => p.1 != key i) }
+
+private def integerType? : TSyntax `tritonDType → Option IntegerType
+  | `(tritonDType| tl.int32) => some .i32
+  | `(tritonDType| tl.int64) => some .i64
+  | `(tritonDType| tl.uint32) => some .u32
+  | `(tritonDType| tl.uint64) => some .u64
+  | _ => none
+
+private def integerTerm : IntegerType → MacroM (TSyntax `term)
+  | .i32 => `(VeriTile.Triton.Random.IntegerType.i32)
+  | .i64 => `(VeriTile.Triton.Random.IntegerType.i64)
+  | .u32 => `(VeriTile.Triton.Random.IntegerType.u32)
+  | .u64 => `(VeriTile.Triton.Random.IntegerType.u64)
+
+private def integerTypeTerm? : TSyntax `term → Option IntegerType
+  | `(VeriTile.Triton.Random.IntegerType.i32) => some .i32
+  | `(VeriTile.Triton.Random.IntegerType.i64) => some .i64
+  | `(VeriTile.Triton.Random.IntegerType.u32) => some .u32
+  | `(VeriTile.Triton.Random.IntegerType.u64) => some .u64
+  | _ => none
+
+/-- Recover only the exact profile syntax emitted by this prepass. Main uses
+it to select the signed/unsigned mathematical load carrier for each operand. -/
+partial def configTypes? (cfg : TSyntax `term) : Option (IntegerType × IntegerType) :=
+  match cfg with
+  | `(($inner:term)) => configTypes? inner
+  | `(({ seedType := $s:term, offsetType := $o:term, nRounds := $_:term } :
+      VeriTile.Triton.Random.SourceProfile)) => do
+      return (← integerTypeTerm? s, ← integerTypeTerm? o)
+  | _ => none
+
+private def literalArangeSize (n : Nat) : Bool :=
+  n > 0 && n ≤ 1048576 && (List.range 21).any (fun k => n == 2^k)
+
+private def literalInfo (n : Nat) : MacroM Info := do
+  let t : TSyntax `term := ⟨Syntax.mkNumLit (toString n)⟩
+  return { machine := if n < 2^31 then some .i32 else none
+           constant := some t, literal := some n, arangeSize := literalArangeSize n }
+
+/-- Only rooted constants are recognized: a local function with a matching
+short name cannot impersonate the checked adapter and bypass its proof. -/
+private partial def termInfo (t : TSyntax `term) : MacroM Info := do
+  match t with
+  | `(($e:term)) => termInfo e
+  | `(($e:term : Nat)) =>
+      let info ← termInfo e
+      if info.constant.isSome then return { info with constant := some t }
+      return { externalInput := e.raw.isIdent }
+  | `(($e:term : Int)) => return { externalInput := e.raw.isIdent }
+  | `($n:num) => literalInfo n.getNat
+  | `(_root_.VeriTile.Triton.Random.i32NatConstexpr $_n:term $_h:term) =>
+      return { machine := some .i32, constant := some t }
+  | `(_root_.VeriTile.Triton.Random.i32ArangeSize $_n:term $_h:term) =>
+      return { machine := some .i32, constant := some t, arangeSize := Bool.true }
+  | `(_root_.VeriTile.Triton.Random.roundsConstexpr $_n:term) =>
+      return { constant := some t }
+  | _ => return {}
+
+private def promote (a b : IntegerType) : Option IntegerType :=
+  if a == b then some a else
+    match a, b with
+    | .i32, .i64 | .i64, .i32 => some .i64
+    | .u32, .u64 | .u64, .u32 => some .u64
+    | _, _ => none
+
+private def arithmeticInfo (mul : Bool) (a b : Info) : MacroM Info := do
+  match a.literal, b.literal with
+  | some x, some y => literalInfo (if mul then x*y else x+y)
+  | _, _ =>
+      -- Python constexpr arithmetic happens before tensor promotion. Two
+      -- symbolic bounded operands do not imply a bounded sum or product.
+      if a.constant.isSome && b.constant.isSome then return {}
+      return { machine := do promote (← a.machine) (← b.machine) }
+
+private partial def pointerRegion? : TSyntax `tritonExpr → Option String
+  | `(tritonExpr| $i:ident) => some (key i)
+  | `(tritonExpr| ($e:tritonExpr)) => pointerRegion? e
+  | `(tritonExpr| $p:tritonExpr + $_off:tritonExpr) => pointerRegion? p
+  | _ => none
+
+private def loadInfo (ctx : Ctx) (p : TSyntax `tritonExpr) : Info :=
+  { machine := do
+      let r ← pointerRegion? p
+      let pair ← ctx.regions.find? (fun pair => pair.1 == r)
+      pure pair.2 }
+
+private def castInfo (source : Info) (dst : TSyntax `tritonDType) : Info :=
+  match source.machine, integerType? dst with
+  | some src, some dst =>
+      if src == dst || (src == .i32 && dst == .i64) || (src == .u32 && dst == .u64)
+      then { machine := some dst }
+      else {} -- Narrowing and signedness changes need actual machine casts.
+  | _, _ => {}
+
+private def integerMethodCast? (e : TSyntax `tritonExpr) :
+    Option (TSyntax `tritonExpr × TSyntax `tritonDType) := do
+  let k := e.raw.getKind
+  let args := e.raw.getArgs
+  if k == ``tritonMethodCast || k == ``tritonIdentMethodCast ||
+      k == ``tritonIdentMethodCastSpaced then
+    if h : args.size = 5 ∨ args.size = 6 then
+      return (⟨args[0]'(by omega)⟩, ⟨args[args.size - 2]'(by omega)⟩)
+    else none
+  else if k == ``tritonDottedIdentMethodCast then
+    if h : args.size = 4 then
+      let i := args[0]
+      match i.getId.eraseMacroScopes with
+      | .str base "to" =>
+          if base.isAnonymous then none
+          else return (⟨mkIdentFrom i base⟩, ⟨args[2]⟩)
+      | _ => none
+    else none
+  else none
+
+private partial def exprInfo (ctx : Ctx) (e : TSyntax `tritonExpr) : MacroM Info := do
+  if e.raw.isIdent then return { ctx.lookup ⟨e.raw⟩ with externalInput := Bool.false }
+  if let some (base, dt) := integerMethodCast? e then
+    return castInfo (← exprInfo ctx base) dt
+  match e with
+  | `(tritonExpr| $n:num) => literalInfo n.getNat
+  | `(tritonExpr| $($t:term)) => termInfo t
+  | `(tritonExpr| $i:ident) => return { ctx.lookup i with externalInput := Bool.false }
+  | `(tritonExpr| ($a:tritonExpr)) => exprInfo ctx a
+  | `(tritonExpr| tl.program_id($axisExpr:tritonExpr))
+  | `(tritonExpr| tl.program_id(axis=$axisExpr:tritonExpr)) =>
+      let axisInfo ← exprInfo ctx axisExpr
+      match axisInfo.literal with
+      | some n => return { machine := if n < 3 then some .i32 else none }
+      | none => return {}
+  | `(tritonExpr| tl.arange($end_:tritonExpr)) =>
+      let info ← exprInfo ctx end_
+      return { machine := if info.arangeSize then some .i32 else none }
+  | `(tritonExpr| tl.arange($start:tritonExpr, $end_:tritonExpr)) =>
+      let first ← exprInfo ctx start
+      let last ← exprInfo ctx end_
+      return { machine := if first.literal == some 0 && last.arangeSize then some .i32 else none }
+  | `(tritonExpr| $a:tritonExpr + $b:tritonExpr) =>
+      arithmeticInfo Bool.false (← exprInfo ctx a) (← exprInfo ctx b)
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr) =>
+      arithmeticInfo Bool.true (← exprInfo ctx a) (← exprInfo ctx b)
+  | `(tritonExpr| $a:tritonExpr[ : , None ])
+  | `(tritonExpr| $a:tritonExpr[ None , : ])
+  | `(tritonExpr| $a:tritonExpr[ None ]) =>
+      let info ← exprInfo ctx a
+      return { info with
+        constant := none
+        literal := none
+        arangeSize := Bool.false
+        externalInput := Bool.false }
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $_kwargs:tritonMemKwarg]*)) =>
+      return loadInfo ctx p
+  | `(tritonExpr| tl.load($p:tritonExpr, $_mask:tritonExpr $[, $_kwargs:tritonMemKwarg]*)) =>
+      return loadInfo ctx p
+  | `(tritonExpr| tl.cast($a:tritonExpr, $dt:tritonDType)) =>
+      return castInfo (← exprInfo ctx a) dt
+  | _ => return {}
+
+private partial def containsFeature (raw : Syntax) : Bool :=
+  raw.getKind == ``tritonRand || raw.getKind == ``tritonRandRounds ||
+  raw.getKind == ``tritonRandRoundsKw || raw.getKind == ``tritonRandProfiled ||
+  raw.getKind == ``tritonSourceInteger || raw.getArgs.any containsFeature
+
+private def roundTerm (ctx : Ctx) (rounds : Option (TSyntax `tritonExpr)) :
+    MacroM (TSyntax `term) := do
+  match rounds with
+  | none => `((10 : Nat))
+  | some e =>
+      match (← exprInfo ctx e).constant with
+      | some t => `(($t : Nat))
+      | none =>
+          Macro.throwError
+            "tl.rand: n_rounds must be a known nonnegative constexpr; use the rooted roundsConstexpr adapter for a symbolic source constexpr"
+
+mutual
+
+private partial def rewriteRand (ctx : Ctx) (seed offsets : TSyntax `tritonExpr)
+    (rounds : Option (TSyntax `tritonExpr)) : MacroM Syntax := do
+  let some seedType := (← exprInfo ctx seed).machine |
+    Macro.throwError
+      "tl.rand: seed has no supported source integer profile; annotate a direct external scalar binding with tl.source_integer"
+  let some offsetType := (← exprInfo ctx offsets).machine |
+    Macro.throwError
+      "tl.rand: offsets have no supported source integer profile; unknown symbolic sizes need a checked rooted i32ArangeSize adapter"
+  let st ← integerTerm seedType
+  let ot ← integerTerm offsetType
+  let n ← roundTerm ctx rounds
+  let cfg ← `(({ seedType := $st, offsetType := $ot, nRounds := $n } :
+    VeriTile.Triton.Random.SourceProfile))
+  let seed' : TSyntax `tritonExpr := ⟨← rewriteRaw ctx seed.raw⟩
+  let offsets' : TSyntax `tritonExpr := ⟨← rewriteRaw ctx offsets.raw⟩
+  return (← `(tritonExpr| tl.__rand_profiled($cfg, $seed', $offsets'))).raw
+
+private partial def rewriteRaw (ctx : Ctx) (raw : Syntax) : MacroM Syntax := do
+  let e : TSyntax `tritonExpr := ⟨raw⟩
+  match e with
+  | `(tritonExpr| tl.rand($seed:tritonExpr, $offsets:tritonExpr)) =>
+      rewriteRand ctx seed offsets none
+  | `(tritonExpr| tl.rand($seed:tritonExpr, $offsets:tritonExpr, $rounds:tritonExpr))
+  | `(tritonExpr| tl.rand($seed:tritonExpr, $offsets:tritonExpr, n_rounds=$rounds:tritonExpr)) =>
+      rewriteRand ctx seed offsets (some rounds)
+  | `(tritonExpr| tl.__rand_profiled($_:term, $_:tritonExpr, $_:tritonExpr)) =>
+      Macro.throwError "tl.__rand_profiled is internal syntax; use tl.rand with source profiles"
+  | `(tritonExpr| $($_:term)) => return raw
+  | `(tritonExpr| tl.arange($i:ident)) =>
+      match (ctx.lookup i).constant with
+      | some t => return (← `(tritonExpr| tl.arange($($t)))).raw
+      | none => return raw
+  | `(tritonExpr| tl.arange($start:tritonExpr, $i:ident)) =>
+      match (ctx.lookup i).constant with
+      | some t => return (← `(tritonExpr| tl.arange($start, $($t)))).raw
+      | none => return raw
+  | _ =>
+      match raw with
+      | .node info kind args => return .node info kind (← args.mapM (rewriteRaw ctx))
+      | _ => return raw
+
+end
+
+private def sameConstant (a b : Option (TSyntax `term)) : Bool :=
+  match a, b with
+  | none, none => Bool.true
+  | some x, some y => x.raw == y.raw
+  | _, _ => Bool.false
+
+private def mergeCtx (a b : Ctx) : Ctx :=
+  { values := a.values.filterMap fun (name, x) => do
+      let (_, y) ← b.values.find? (fun p => p.1 == name)
+      pure (name, { machine := if x.machine == y.machine then x.machine else none
+                    constant := if sameConstant x.constant y.constant then x.constant else none
+                    literal := if x.literal == y.literal then x.literal else none
+                    arangeSize := x.arangeSize && y.arangeSize
+                    externalInput := Bool.false })
+    regions := a.regions.filter (fun x => b.regions.any (fun y => x == y)) }
+
+mutual
+
+private partial def prepareStmts (ctx : Ctx) (stmts : List (TSyntax `tritonStmt)) :
+    MacroM (List (TSyntax `tritonStmt) × Ctx) := do
+  match stmts with
+  | [] => return ([], ctx)
+  | st :: rest =>
+      let (head, next) ← prepareStmt ctx st
+      let (tail, finalCtx) ← prepareStmts next rest
+      return (head ++ tail, finalCtx)
+
+private partial def prepareStmt (ctx : Ctx) (st : TSyntax `tritonStmt) :
+    MacroM (List (TSyntax `tritonStmt) × Ctx) := do
+  match st with
+  | `(tritonStmt| tl.source_integer $i:ident = $dt:tritonDType) =>
+      let info := ctx.lookup i
+      unless info.externalInput do
+        Macro.throwError
+          "tl.source_integer: expected a preceding direct external Int/Nat scalar binding; computed values and aliases cannot acquire an ABI profile"
+      let some machine := integerType? dt |
+        Macro.throwError
+          "tl.source_integer: supported source ABIs are int32, int64, uint32 and uint64"
+      if info.machine.isSome && info.machine != some machine then
+        Macro.throwError "tl.source_integer: conflicting ABI declarations for one binding"
+      return ([], ctx.bind i { info with machine := some machine })
+  | `(tritonStmt| tl.region $i:ident = $dt:tritonDType $[, $is:ident = $dts:tritonDType]*) =>
+      let pairs := (i, dt) :: (is.zip dts).toList
+      let regions := pairs.foldl (fun rs (i, dt) =>
+        let rs := rs.filter (fun p => p.1 != key i)
+        match integerType? dt with
+        | some d => (key i, d) :: rs
+        | none => rs) ctx.regions
+      return ([st], { ctx with regions := regions })
+  | `(tritonStmt| $i:ident = $e:tritonExpr) =>
+      let info ← exprInfo ctx e
+      let e' : TSyntax `tritonExpr := ⟨← rewriteRaw ctx e.raw⟩
+      return ([← `(tritonStmt| $i:ident = $e':tritonExpr)], ctx.bind i info)
+  | `(tritonStmt| $i:ident := $e:tritonExpr) =>
+      let info ← exprInfo ctx e
+      let e' : TSyntax `tritonExpr := ⟨← rewriteRaw ctx e.raw⟩
+      return ([← `(tritonStmt| $i:ident := $e':tritonExpr)], ctx.bind i info)
+  | `(tritonStmt| if $cond:tritonExpr { $thenStmts:tritonStmt* } else { $elseStmts:tritonStmt* }) =>
+      let cond' : TSyntax `tritonExpr := ⟨← rewriteRaw ctx cond.raw⟩
+      let (ts, tc) ← prepareStmts ctx thenStmts.toList
+      let (es, ec) ← prepareStmts ctx elseStmts.toList
+      let ts := ts.toArray
+      let es := es.toArray
+      return ([← `(tritonStmt| if $cond':tritonExpr { $ts:tritonStmt* } else { $es:tritonStmt* })], mergeCtx tc ec)
+  | `(tritonStmt| tl.if $cond:tritonExpr { $thenStmts:tritonStmt* } else { $elseStmts:tritonStmt* }) =>
+      let cond' : TSyntax `tritonExpr := ⟨← rewriteRaw ctx cond.raw⟩
+      let (ts, tc) ← prepareStmts ctx thenStmts.toList
+      let (es, ec) ← prepareStmts ctx elseStmts.toList
+      let ts := ts.toArray
+      let es := es.toArray
+      return ([← `(tritonStmt| tl.if $cond':tritonExpr { $ts:tritonStmt* } else { $es:tritonStmt* })], mergeCtx tc ec)
+  | `(tritonStmt| if $cond:tritonExpr { $thenStmts:tritonStmt* }) =>
+      let cond' : TSyntax `tritonExpr := ⟨← rewriteRaw ctx cond.raw⟩
+      let (ts, tc) ← prepareStmts ctx thenStmts.toList
+      let ts := ts.toArray
+      return ([← `(tritonStmt| if $cond':tritonExpr { $ts:tritonStmt* })], mergeCtx tc ctx)
+  | `(tritonStmt| tl.if $cond:tritonExpr { $thenStmts:tritonStmt* }) =>
+      let cond' : TSyntax `tritonExpr := ⟨← rewriteRaw ctx cond.raw⟩
+      let (ts, tc) ← prepareStmts ctx thenStmts.toList
+      let ts := ts.toArray
+      return ([← `(tritonStmt| tl.if $cond':tritonExpr { $ts:tritonStmt* })], mergeCtx tc ctx)
+  | `(tritonStmt| tl.store($_p:tritonExpr, $_v:tritonExpr)) =>
+      return ([⟨← rewriteRaw ctx st.raw⟩], ctx)
+  | `(tritonStmt| tl.store($_p:tritonExpr, $_v:tritonExpr, $_kw:tritonMemKwarg $[, $_kws:tritonMemKwarg]*)) =>
+      return ([⟨← rewriteRaw ctx st.raw⟩], ctx)
+  | _ =>
+      -- Unrecognized control flow may reassign any register. Never carry
+      -- old width evidence through it or expand a nested rand out of scope.
+      if containsFeature st.raw then
+        Macro.throwError
+          "tl.rand: source-profile preprocessing does not support this statement/control-flow form"
+      return ([st], { ctx with values := [] })
+
+end
+
+/-- Blocks without the new source forms are byte-for-byte syntax unchanged. -/
+def prepare (stmts : List (TSyntax `tritonStmt)) : MacroM (List (TSyntax `tritonStmt)) := do
+  if !stmts.any (fun s => containsFeature s.raw) then return stmts
+  return (← prepareStmts {} stmts).1
+
+end VeriTile.Triton.DSL.RandomProfile

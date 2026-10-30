@@ -1,0 +1,552 @@
+{
+  "negative_controls": [
+    {
+      "profile": "shape2-half0-tf321",
+      "fault": "swap_fragment_store_sources",
+      "rejected": true
+    },
+    {
+      "profile": "shape2-half1-tf320",
+      "fault": "swap_fragment_store_sources",
+      "rejected": true
+    },
+    {
+      "profile": "shape2-half1-tf321",
+      "fault": "swap_fragment_store_sources",
+      "rejected": true
+    }
+  ],
+  "source_sha256": "37ad52bccd9a329291c6509200adfb8a3125975225685c9e2c4f300578a8561b",
+  "status": "PASS",
+  "script_sha256": "0a69365c7e8343cd2f47de93faac661a4901331db0d54fb00ae10c8709054c3d",
+  "method": "bounded symbolic PTX def-use/shared-memory/WGMMA descriptor and register-layout provenance; arithmetic instructions uninterpreted",
+  "GPU_execution": false,
+  "native_numerical_conformance": false,
+  "profiles": [
+    {
+      "label": "shape0-half0-tf320",
+      "ptx": "/tmp/conv2d-checked-lowering/shape0-half0-tf320.ptx",
+      "sha256": "4264f5bbbdace8305d4645fffed785d325204ac4e910f620daead9c0cc10c608",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 60,
+          "fma_instructions": 786432,
+          "wgmma_instructions": 0,
+          "wgmma_operand_bindings": 0,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    },
+    {
+      "label": "shape0-half0-tf321",
+      "ptx": "/tmp/conv2d-checked-lowering/shape0-half0-tf321.ptx",
+      "sha256": "59af419f95313b02ae3599c6cb215cdfabf2b7d0fc3ae44373ccc254fbfd6334",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 60,
+          "fma_instructions": 0,
+          "wgmma_instructions": 48,
+          "wgmma_operand_bindings": 36864,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    },
+    {
+      "label": "shape0-half1-tf320",
+      "ptx": "/tmp/conv2d-checked-lowering/shape0-half1-tf320.ptx",
+      "sha256": "f81bdabad691ff8c8325adedb356062abf979431e6e6fce3f1ab843928dcd6a6",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 60,
+          "fma_instructions": 0,
+          "wgmma_instructions": 24,
+          "wgmma_operand_bindings": 36864,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    },
+    {
+      "label": "shape0-half1-tf321",
+      "ptx": "/tmp/conv2d-checked-lowering/shape0-half1-tf321.ptx",
+      "sha256": "f81bdabad691ff8c8325adedb356062abf979431e6e6fce3f1ab843928dcd6a6",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 60,
+          "fma_instructions": 0,
+          "wgmma_instructions": 24,
+          "wgmma_operand_bindings": 36864,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    },
+    {
+      "label": "shape1-half0-tf320",
+      "ptx": "/tmp/conv2d-checked-lowering/shape1-half0-tf320.ptx",
+      "sha256": "468bf35763fc32429f79a5fed3596a727fb322d5b28de80ee6694a943022e1e8",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 768,
+          "fma_instructions": 1048576,
+          "wgmma_instructions": 0,
+          "wgmma_operand_bindings": 0,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            0,
+            2,
+            1
+          ],
+          "stored_words": 0,
+          "fma_instructions": 1048576,
+          "wgmma_instructions": 0,
+          "wgmma_operand_bindings": 0,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            0,
+            1,
+            1
+          ],
+          "stored_words": 72,
+          "fma_instructions": 1048576,
+          "wgmma_instructions": 0,
+          "wgmma_operand_bindings": 0,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    },
+    {
+      "label": "shape1-half0-tf321",
+      "ptx": "/tmp/conv2d-checked-lowering/shape1-half0-tf321.ptx",
+      "sha256": "e5087beb47478be72f30245715e187947f5b51bc7a3fecab8a0046dd9b8dff8a",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 768,
+          "fma_instructions": 0,
+          "wgmma_instructions": 64,
+          "wgmma_operand_bindings": 49152,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            0,
+            2,
+            1
+          ],
+          "stored_words": 0,
+          "fma_instructions": 0,
+          "wgmma_instructions": 64,
+          "wgmma_operand_bindings": 49152,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            0,
+            1,
+            1
+          ],
+          "stored_words": 72,
+          "fma_instructions": 0,
+          "wgmma_instructions": 64,
+          "wgmma_operand_bindings": 49152,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    },
+    {
+      "label": "shape1-half1-tf320",
+      "ptx": "/tmp/conv2d-checked-lowering/shape1-half1-tf320.ptx",
+      "sha256": "8e830bee009af5fdbda87e8cb1c92790d6d64f69fc63fdbec5c01329b296fbe5",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 768,
+          "fma_instructions": 0,
+          "wgmma_instructions": 32,
+          "wgmma_operand_bindings": 49152,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            0,
+            2,
+            1
+          ],
+          "stored_words": 0,
+          "fma_instructions": 0,
+          "wgmma_instructions": 32,
+          "wgmma_operand_bindings": 49152,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            0,
+            1,
+            1
+          ],
+          "stored_words": 72,
+          "fma_instructions": 0,
+          "wgmma_instructions": 32,
+          "wgmma_operand_bindings": 49152,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    },
+    {
+      "label": "shape1-half1-tf321",
+      "ptx": "/tmp/conv2d-checked-lowering/shape1-half1-tf321.ptx",
+      "sha256": "8e830bee009af5fdbda87e8cb1c92790d6d64f69fc63fdbec5c01329b296fbe5",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 768,
+          "fma_instructions": 0,
+          "wgmma_instructions": 32,
+          "wgmma_operand_bindings": 49152,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            0,
+            2,
+            1
+          ],
+          "stored_words": 0,
+          "fma_instructions": 0,
+          "wgmma_instructions": 32,
+          "wgmma_operand_bindings": 49152,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            0,
+            1,
+            1
+          ],
+          "stored_words": 72,
+          "fma_instructions": 0,
+          "wgmma_instructions": 32,
+          "wgmma_operand_bindings": 49152,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    },
+    {
+      "label": "shape2-half0-tf320",
+      "ptx": "/tmp/conv2d-checked-lowering/shape2-half0-tf320.ptx",
+      "sha256": "73d12ea074bec431d9313752dad411286dd00cdb2c629cdf14b861809c47f00f",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 384,
+          "fma_instructions": 131072,
+          "wgmma_instructions": 0,
+          "wgmma_operand_bindings": 0,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            1,
+            0,
+            0
+          ],
+          "stored_words": 48,
+          "fma_instructions": 131072,
+          "wgmma_instructions": 0,
+          "wgmma_operand_bindings": 0,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    },
+    {
+      "label": "shape2-half0-tf321",
+      "ptx": "/tmp/conv2d-checked-lowering/shape2-half0-tf321.ptx",
+      "sha256": "470f3eee989d5cea3210e6af4db073e0ca61a5ff9c30812b44a775c66074e4b8",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 384,
+          "fma_instructions": 0,
+          "wgmma_instructions": 8,
+          "wgmma_operand_bindings": 6144,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0,
+            1
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            1,
+            0,
+            0
+          ],
+          "stored_words": 48,
+          "fma_instructions": 0,
+          "wgmma_instructions": 8,
+          "wgmma_operand_bindings": 6144,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    },
+    {
+      "label": "shape2-half1-tf320",
+      "ptx": "/tmp/conv2d-checked-lowering/shape2-half1-tf320.ptx",
+      "sha256": "628d546c3bb8dfe21a91003ed0afc1e8818f69988f493f280e95486f5760844f",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 384,
+          "fma_instructions": 0,
+          "wgmma_instructions": 4,
+          "wgmma_operand_bindings": 6144,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0,
+            1
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            1,
+            0,
+            0
+          ],
+          "stored_words": 48,
+          "fma_instructions": 0,
+          "wgmma_instructions": 4,
+          "wgmma_operand_bindings": 6144,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    },
+    {
+      "label": "shape2-half1-tf321",
+      "ptx": "/tmp/conv2d-checked-lowering/shape2-half1-tf321.ptx",
+      "sha256": "628d546c3bb8dfe21a91003ed0afc1e8818f69988f493f280e95486f5760844f",
+      "cases": [
+        {
+          "pid": [
+            0,
+            0,
+            0
+          ],
+          "stored_words": 384,
+          "fma_instructions": 0,
+          "wgmma_instructions": 4,
+          "wgmma_operand_bindings": 6144,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0,
+            1
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        },
+        {
+          "pid": [
+            1,
+            0,
+            0
+          ],
+          "stored_words": 48,
+          "fma_instructions": 0,
+          "wgmma_instructions": 4,
+          "wgmma_operand_bindings": 6144,
+          "complete_ordered_carry": true,
+          "masked_zero_operands": true,
+          "store_coverage": true,
+          "fragment_anchors": [
+            0
+          ],
+          "fragment_identity_in_every_carry_event": true,
+          "literal_opcode_scales_transpose": true
+        }
+      ]
+    }
+  ]
+}

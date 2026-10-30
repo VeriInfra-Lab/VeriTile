@@ -1,0 +1,106 @@
+{
+  "triton_version": "3.8.0",
+  "reference_sources": [
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/standard.py",
+      "sha256": "113296c74fb8b8dcf67a1b82f71926842eb66d0c77fe2c4f8d0f315715a38fd4"
+    },
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/core.py",
+      "sha256": "b4966729f21f0db6f20fa4cb9b2b5402c5735e1424ffba05dbd8f480dedee790"
+    }
+  ],
+  "source_claims": [
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/standard.py",
+      "line": 147,
+      "claim": "argmax selects by ordered greater-than or equality with smaller index; NaN cases do not obey ordinary ordered tie law."
+    },
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/standard.py",
+      "line": 177,
+      "claim": "unindexed max promotes floating inputs narrower than32 to float32, then reduces core.maximum."
+    },
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/core.py",
+      "line": 2934,
+      "claim": "maximum default PropagateNan.NONE; signed-zero/payload lowering still needs compiler/device binding."
+    }
+  ],
+  "no_native_execution_performed": true,
+  "python_source": {
+    "path": "bench/tritonbench_g/matrix_reduction/matrix_reduction.py",
+    "sha256": "892dbf360e3cfa530ca8f0b3d1532d4308b991299466dbd8fea3bac107300770"
+  },
+  "typed_source": {
+    "path": "bench/tritonbench_g/matrix_reduction/Proofs/TypedSource.lean",
+    "sha256": "6e4a769a7b871e50b630b7b8c80d024c8e5fc743279174a0d48b22ed6460ae8e"
+  },
+  "status": "kernel_checked_software_contract_native_binding_open",
+  "contract_scope": {
+    "profiles": [
+      "fp16",
+      "fp32"
+    ],
+    "domain": "N > 0; symbolic M, input strides; non-NaN input bit patterns; infinity/subnormal/signed zero included",
+    "source": "full original row maximum and store; Python implicit output conversion explicit in typed port",
+    "half_pipeline": "16-bit storage word, exact IEEE binary32 intermediate encoding, max selection, image-domain exact narrowing back to original16 bits",
+    "conversion_laws": [
+      "narrow_widen",
+      "widen_order",
+      "widen_preserves_finite_magnitude",
+      "widen_preserves_sign",
+      "widen_positive_infinity",
+      "widen_negative_infinity"
+    ],
+    "specification": "selected input bit pattern with maximal non-NaN machine comparison key; output retains a selected zero sign; all cells outside output rows unchanged",
+    "remaining_binding": [
+      "compiler/device lowering including unindexed-max signed-zero choice",
+      "native address/index arithmetic and launch/memory validity"
+    ],
+    "not_a_general_conversion_claim": "narrow is specified and proved only on the exact image of widen; arbitrary fp32 rounding is not used by this source"
+  },
+  "formal_source_bridge": {
+    "declaration": "VeriTile.Bench.TritonBenchG.MatrixReduction.TypedSource.source_shape",
+    "file": "bench/tritonbench_g/matrix_reduction/Proofs/TypedShape.lean",
+    "relation": "both storage profiles have exactly the legacy source surfaceBody after dtype erasure; this is a structural source link, separate from bit semantics"
+  },
+  "proof_sources": [
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/FPCorrect.lean",
+      "sha256": "cab28786c110bf90f2b4df6287bab98e9f3f82536ce42b249adbd4f0c084e218"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/MatrixReduction.lean",
+      "sha256": "09d7fa0e6cf49a53a92078f38daecaeb801ee6ecae1cad6b45dee75d29508702"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/BinaryConversion.lean",
+      "sha256": "b9eae6c52f3c68c4121d630bb801eba2c78f12aa463c04ec7534dd9f1af0db31"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/BitEncoding.lean",
+      "sha256": "d40905fa78ef671d8ac7a1d0b6028e3d31c64a0124fd24d8e6be724734e55f70"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/ConcreteCorrect.lean",
+      "sha256": "2b942e28c90198ef5218df32de5083770e831742f1ff0f7603a9292141c0ab5e"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/MachineMax.lean",
+      "sha256": "695a899065f4b1202c2e6a6057b1e6d303e8b4bb475caab70c7b7a032185fe20"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/OrderKey.lean",
+      "sha256": "886b5b7e34069245adf20b89ef125f4bb9be440d5ad33a213725381094c59c09"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/TypedShape.lean",
+      "sha256": "d5b1299b6a5fd59ecc8e6a24804fde69aa894703a71b9870e81d66397a7c8a28"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/TypedSource.lean",
+      "sha256": "6e4a769a7b871e50b630b7b8c80d024c8e5fc743279174a0d48b22ed6460ae8e"
+    }
+  ]
+}

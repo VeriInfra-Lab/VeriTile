@@ -1,0 +1,35 @@
+# SGMV expand slice: accepted body and observed candidate graph
+
+The two old public statements and the entire old `SgmvExpandSlice.lean` remain byte-for-byte unchanged. The new proof covers the complete old accepted active body: `ADD_INPUTS=false`, `CAST_TYPE=false`, `EVEN_K=true`, `BLOCK_K>0`, `K=BLOCK_K*numKBlocks`. It executes every K block, metadata load, modulo gather, pointer advance, final conversion and masked store. Dimensions, strides, slice offset, sequence metadata and initial memory remain parameters. Output readback retains the original output-address injectivity condition; the complete memory-effect theorem does not need injectivity. There is no output-value, finite-value or non-NaN premise.
+
+The inherited boundary is the active kernel body. Native linearized PID decomposition, early returns and the signed `lora_index == -1` sentinel remain the old host/control binding. The body exposes row, column and batch PIDs separately and uses nonnegative Nat metadata and addresses. The native input/domain obligations include valid modulo dimensions, gather addresses and fixed-width address arithmetic. These ordinary input/layout requirements are not missing numeric laws. No new claim is made for `ADD_INPUTS=true`, `CAST_TYPE=true` or a partial last K block.
+
+## Actual source issue and candidate
+
+The original Python `a_ptr` at lines 49–50 is a singleton tuple because of its trailing comma. Both original fp16 and bf16 offline compile attempts fail at `tl.load(a_ptr)` with `tuple_type` lacking `scalar`. The original kernel AST and logs are archived. The old accepted Lean source already had a pointer expression; `source_projection` proves the complete erased control/address correspondence to that accepted Lean source, not execution of the failing original Python kernel.
+
+A separately archived candidate deletes that tuple comma and its adjacent space; this is the only changed source line. Its fp16 and bf16 configurations compile for CUDA SM90 with BLOCK_M=32, BLOCK_N=32, BLOCK_K=16, accepted flags and `enable_fp_fusion=false`. No GPU execution was performed. Both candidate TTIRs contain `tt.dot A, B, accumulator`; PTX uses `mma.sync.aligned.m16n8k16.row.col.f32.f16.f16.f32` or its bf16 counterpart. The explicit accumulator survives even when ordinary FP fusion is disabled. These two compile configurations do not prove every parameterized layout is a valid native launch.
+
+## Formats and independent values
+
+The valid accepted native operand pairs are fp16/fp16 and bf16/bf16: the host enables `CAST_TYPE` for fp32 input, and the installed Triton 3.8 dot checker requires matching non-fp8 operand dtypes. Mixed fp16/bf16 dot is not silently promoted using the different rules for scalar multiplication. The theorem supplies output-format profiles fp16, bf16 and fp32; the two offline compiles tested matching low-precision output only. Other host output formats are not claimed.
+
+`Word = FP.Value.fp32` is a bit carrier. Physical fp16/bf16 payloads occupy its low 16 bits and are tagged with their actual storage dtype. The upper carrier bits are not part of a native half/bfloat payload. Operand decode and cross-format conversion use the existing binary16/bfloat model directly. Same-format conversions preserve payload bits; cross-format NaNs canonicalize by the specified software profile. The accumulator is fp32, including the `.real` promoted register under explicit `some fp32` compute context; `.real` does not mean native fp64.
+
+For each output lane, the source reference starts from +0 and, for each `cur` in `range(0,K,BLOCK_K)`, reads the complete A/B tiles from initial memory at the original modulo/stride/adapter addresses, computes `D(A,B)`, and then applies `FP.add cfg old delta`. The final value is converted fp32 → weight format → output format. The memory reference folds only active writes over initial memory. Execution proves success, all active readbacks and all other memory unchanged, allowing input/output aliasing because all loop loads precede the final stores.
+
+The `Dot` parameter receives precision, both physical operand dtypes, output dtype, options, dimensions and complete operands. The source software instance uses increasing-k separate fp32 multiplication and addition, with +0 as each dot seed. Its whole-loop theorem is parameterized by all data bits, dimensions and config; the finite witness is additional evidence, not the reason for a bit-interpreter classification.
+
+## Independently proved compiled-graph profile
+
+`fusedSource` is the accepted body with `accumulator = tl.dot(A,B,accumulator)`. `fused_dot_node` proves that its actual parser node is `dotAcc`, preserving both low-precision storage dtypes and fp32 compute context. This separately modeled graph matches the explicit-accumulator operation observed in the comma-only candidate's TTIR; it is not obtained by assuming dot-plus-add and dotAcc have identical values.
+
+`DotAcc.apply` receives the complete incoming accumulator as well as both operand tiles. The independent reference folds that callback over the entire K loop, followed by the same two conversions and masked memory update. `fused_execution_memory` and `fused_correctness` prove full execution/readback/frame from arbitrary initial state. The software instance performs increasing-k fp32 FMA, seeded by the incoming accumulator, with one rounding per contribution. Native MMA order, internal precision and exceptional behavior are a separate binding; this software profile is not claimed to be the GPU algorithm.
+
+There is no pending universal dot-plus-add = dotAcc assumption. A kernel-checked example with half A=[1,-1], B=[1,1] and fp32 carry=2^24 gives source software 0x4b800000 and sequential FMA software 0x4b7fffff. This refutes identifying those software graphs unconditionally. It is not a measured GPU counterexample.
+
+## Public results and remaining native bindings
+
+Four specifications are exported: source backend values, source sequential software bits, candidate dotAcc backend values and candidate sequential-FMA software bits. The two backend contracts keep dot/dotAcc explicitly parameterized. Both software contracts cover the full accepted parameter range. Two additional success witnesses each cover all two input × three output profiles, two K blocks, nonzero batch/PIDs/adapter/slice, one active lane and masked lanes. They read back 20, preserve masked Y addresses 78/87 and preserve input X address 42. The software graph-difference theorem is separate evidence.
+
+Native refinement must bind the selected FP config (rounding, FTZ, exceptional values), conversion behavior including cross-format NaNs, and the selected native MMA dotAcc algorithm/options to its callback. The compiler's explicit-accumulator graph is recorded independently, rather than represented as an assumed universal reassociation law. Address safety, launch restrictions, optimizer alignment hints and active-body host mapping remain explicit source/domain boundaries. The original tuple bug must be fixed before any original-kernel native execution can be claimed.

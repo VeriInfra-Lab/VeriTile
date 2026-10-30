@@ -1,0 +1,51 @@
+{
+  "original_source": "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py",
+  "original_sha256": "9661c6a64cb20de85a75775c6daec1dc7e16397d1aa48b83296e9f37039a0ba6",
+  "revision_source": "bench/repairs/tritonbench_g/isfinite_kernel/isfinite_kernel_repaired.py",
+  "revision_sha256": "4c668f34fd9a1dbb12725599202e1c3ef2206ec209c2a10e0ed2b31b76a0dd43",
+  "unchanged_ast": {
+    "StridedBuffer": {
+      "original": "898a379ffe2cd8232113fe338c07c11ee31b2507d1a1876cac8d28868343cd34",
+      "revision": "898a379ffe2cd8232113fe338c07c11ee31b2507d1a1876cac8d28868343cd34"
+    },
+    "isfinite_func": {
+      "original": "a4709f1def39a448f84af91f5b0f2639260984428ea3739bd4aaa6daa2521941",
+      "revision": "a4709f1def39a448f84af91f5b0f2639260984428ea3739bd4aaa6daa2521941"
+    }
+  },
+  "source_kernel": "isfinite_strided_chunk",
+  "source_declaration": "VeriTile.Bench.Repairs.IsfiniteKernel.source",
+  "host_changes": [
+    "Explicit FP32/FP64 rank-one raw input and Bool output contract",
+    "Exact byte-footprint disjointness guard, allowing disjoint views of the same allocation",
+    "Empty return of original out0 without device setup or launch",
+    "Direct pointer slices; no clone, copyback, reshape, scratch, or normalization",
+    "Chunks of at most 2^30 elements and fixed 1024-lane grids",
+    "Signed int64 index and stride address multiplication before typed-width scaling"
+  ],
+  "source_changes": [
+    "Replace generated block-pointer/capped-loop writer with direct masked flat strided writer",
+    "Preserve the original scalar helper and both explicit precision branches"
+  ],
+  "supported_precision": [
+    "FP32",
+    "FP64"
+  ],
+  "default_production_precision": "FP32",
+  "raw_api": "Original StridedBuffer supports shape/stride/dtype/data_ptr reinterpretation; base dtype and lazy metadata flags are retained",
+  "tensor_flags": "Standard Tensor operands reject lazy-negative metadata; raw StridedBuffer semantics do not interpret that flag",
+  "allocation": "No new allocation; exact original output object returned",
+  "scalar_numerical_deferrals": [],
+  "structural_deferrals": [],
+  "cpu_scalar_adapter": "numpy.isfinite replaces only the unsupported CUDA libdevice externs during actual Triton CPU interpretation",
+  "gpu_execution": false,
+  "candidate_kernel": "isfinite_strided_chunk_index_commuted",
+  "canonical_source": "bench/repairs/tritonbench_g/isfinite_kernel/Kernels.lean",
+  "proof_scope": "Kernel execution, all-word FP32/FP64 classification, active-lane results and exterior memory frame; host proofs optional",
+  "primitive_model_boundaries": [
+    "CUDA finitef/isfinited denote all-word exponent-field finiteness classification at the selected precision",
+    "Same-precision casts and typed loads preserve their scalar value",
+    "Native byte-address/load/store ABI, metadata observation and absence of concurrent external mutation"
+  ],
+  "candidate_change": "Commute only pid * BLOCK_SIZE to BLOCK_SIZE * pid; no floating numerical transformation"
+}

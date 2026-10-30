@@ -25,50 +25,60 @@ def _dropout(
     tl.store(output_ptr + offsets, output, mask=mask)
 
 
-def dropout(x, x_keep, p):
-    output = torch.empty_like(x)
-    assert x.is_contiguous()
+# Integer index-commutation candidate; floating arithmetic is unchanged.
+@triton.jit
+def _dropout_index_commuted(
+    x_ptr,  # pointer to the input
+    x_keep_ptr,  # pointer to a mask of 0s and 1s
+    output_ptr,  # pointer to the output
+    n_elements,  # number of elements in the `x` tensor
+    p,  # probability that an element of `x` is changed to zero
+    BLOCK_SIZE: tl.constexpr,
+):
+    pid = tl.program_id(axis=0)
+    block_start = BLOCK_SIZE * pid
+    offsets = block_start + tl.arange(0, BLOCK_SIZE)
+    mask = offsets < n_elements
+    # Load data
+    x = tl.load(x_ptr + offsets, mask=mask)
+    x_keep = tl.load(x_keep_ptr + offsets, mask=mask)
+    # The line below is the crucial part, described in the paragraph above!
+    output = tl.where(x_keep, x / (1 - p), 0.0)
+    # Write-back output
+    tl.store(output_ptr + offsets, output, mask=mask)
+
+
+def dropout_repaired(x, x_keep, p):
+    """Given-mask inverted dropout on contiguous FP32/int32 CUDA tensors."""
+    if not isinstance(x, torch.Tensor) or not isinstance(x_keep, torch.Tensor):
+        raise TypeError("x and x_keep must be tensors")
+    if x.layout != torch.strided or x_keep.layout != torch.strided:
+        raise ValueError("x and x_keep must use strided layouts")
+    if x.dtype != torch.float32 or x_keep.dtype != torch.int32:
+        raise ValueError("x must be FP32 and x_keep must be int32")
+    if not (x.is_cuda and x_keep.is_cuda):
+        raise ValueError("x and x_keep must be CUDA tensors")
+    if x.device != x_keep.device:
+        raise ValueError("x and x_keep must have the same device")
+    if x.shape != x_keep.shape:
+        raise ValueError("x and x_keep must have the same shape")
+    if not (x.is_contiguous() and x_keep.is_contiguous()):
+        raise ValueError("x and x_keep must be contiguous")
+    if x.is_neg() or x_keep.is_neg():
+        raise ValueError("unresolved negative views are unsupported")
     n_elements = x.numel()
-    grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']), )
-    _dropout[grid](x, x_keep, output, n_elements, p, BLOCK_SIZE=1024)
+    if n_elements >= 2**31:
+        raise ValueError("numel must be less than 2**31")
+    if n_elements > 0 and (x.data_ptr() % 4 != 0 or x_keep.data_ptr() % 4 != 0):
+        raise ValueError("nonempty inputs require 4-byte aligned data pointers")
+    if type(p) is not float:
+        raise TypeError("p must be a Python float")
+    if not 0.0 <= p <= 1.0:
+        raise ValueError("p must lie in [0, 1]")
+    output = torch.empty_like(x)
+    if n_elements == 0:
+        return output
+    grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']),)
+    with torch.cuda.device(x.device):
+        _dropout[grid](x, x_keep, output, n_elements, p, BLOCK_SIZE=1024)
     return output
-
-
-
-##################################################################################################################################################
-
-
-# Test for the dropout function
-def test_dropout():
-    # Dictionary to store test case results
-    results = {}
-    
-    # Test case 1
-    x = torch.randn(size=(10,)).cuda()
-    p = 0.5
-    x_keep = (torch.rand(size=(10,)) > p).to(torch.int32).cuda()
-    output = dropout(x, x_keep=x_keep, p=p)
-    results['test_case_1'] = output
-
-    # Test case 2: p = 0 (no dropout)
-    p = 0.0
-    x_keep = (torch.rand(size=(10,)) > p).to(torch.int32).cuda()
-    output = dropout(x, x_keep=x_keep, p=p)
-    results['test_case_2'] = output
-
-    # Test case 3: p = 1 (full dropout)
-    p = 1.0
-    x_keep = (torch.rand(size=(10,)) > p).to(torch.int32).cuda()
-    output = dropout(x, x_keep=x_keep, p=p)
-    results['test_case_3'] = output
-
-    # Test case 4: different block size
-    p = 0.5
-    x_keep = (torch.rand(size=(10,)) > p).to(torch.int32).cuda()
-    output = dropout(x, x_keep=x_keep, p=p)
-    results['test_case_4'] = output
-    
-    return results
-
-# Run tests and store result
-result_gold = test_dropout()

@@ -1,13 +1,10 @@
+"""Direct FP32 paged copy with original reshape and signed-control repair."""
 import torch
 import triton
 import triton.language as tl
 
-
-# supports two types of cache layouts
-# 1. [num_blocks, num_kv_heads, block_size, head_dim]
-# 2. [num_blocks, num_kv_heads, head_dim // x, block_size, x]
 @triton.jit
-def _copy_to_kcache_seqlen_n_kernel(
+def _copy_to_kcache_seqlen_n_kernel_repaired(
     K,  # K or V
     KCache,  # [num_blocks, num_kv_heads, head_dim // x, block_size, x]
     BLOCK_TABLES,
@@ -33,19 +30,19 @@ def _copy_to_kcache_seqlen_n_kernel(
     #   E.g. if n_tokens = 5, seq_lengths = [12, 15], then the already-copied position ids are [0-6, 0-9]
     #   for the two sequences, respectively. And the position ids to be copied are [7-11, 9-14].
     # When n_tokens = 1, consider token idx as the sequence idx, since it's only used during regular decoding stage
-    cur_token_idx = tl.program_id(0)
+    cur_token_idx = tl.program_id(0).to(tl.int64)
     cur_seq_idx = cur_token_idx // n_tokens
     # `cur_token_shift` is only valid and functional when `n_tokens` > 1
     cur_token_shift = cur_token_idx - (n_tokens * (cur_seq_idx + 1))
-    cur_kv_head_idx = tl.program_id(1)
-    split_x_idx = tl.program_id(2)
+    cur_kv_head_idx = tl.program_id(1).to(tl.int64)
+    split_x_idx = tl.program_id(2).to(tl.int64)
 
-    past_kv_seq_len = tl.load(seq_lengths + cur_seq_idx) + cur_token_shift
+    past_kv_seq_len = tl.load(seq_lengths + cur_seq_idx).to(tl.int64) + cur_token_shift
     last_bt_block_idx = past_kv_seq_len // block_size
     block_table_ptr = BLOCK_TABLES + cur_seq_idx * stride_bts
-    block_id = tl.load(block_table_ptr + last_bt_block_idx * stride_btb)
+    block_id = tl.load(block_table_ptr + last_bt_block_idx * stride_btb).to(tl.int64)
     offset_last_block = past_kv_seq_len % block_size
-    offsets_dmodel = split_x_idx * KCACHE_X + tl.arange(0, KCACHE_X)
+    offsets_dmodel = split_x_idx * KCACHE_X + tl.arange(0, KCACHE_X).to(tl.int64)
     offsets_k = cur_token_idx * stride_kt + cur_kv_head_idx * stride_kh + offsets_dmodel * stride_kd
     k = tl.load(K + offsets_k)
     offsets_kcache = (
@@ -53,140 +50,149 @@ def _copy_to_kcache_seqlen_n_kernel(
         + cur_kv_head_idx * stride_kch
         + split_x_idx * stride_kcsplit_x
         + offset_last_block * stride_kcs
-        + tl.arange(0, KCACHE_X)
+        + tl.arange(0, KCACHE_X).to(tl.int64)
     )
     tl.store(KCache + offsets_kcache, k)
     return
 
 
-def copy_k_to_blocked_cache(
-    k: torch.Tensor,
-    k_cache: torch.Tensor,
-    kv_lengths: torch.Tensor,
-    block_tables: torch.Tensor,
-    n: int = 1,
-    use_new_kcache_layout: bool = False,
+@triton.jit
+def _copy_to_kcache_seqlen_n_kernel_commuted(
+    K,  # K or V
+    KCache,  # [num_blocks, num_kv_heads, head_dim // x, block_size, x]
+    BLOCK_TABLES,
+    seq_lengths,
+    stride_kt,
+    stride_kh,
+    stride_kd,
+    stride_kcb,
+    stride_kch,
+    stride_kcsplit_x,
+    stride_kcs,
+    stride_kcx,
+    stride_bts,
+    stride_btb,
+    block_size,
+    n_tokens,
+    HEAD_DIM: tl.constexpr,
+    KCACHE_X: tl.constexpr,
 ):
-    """
-    Copy keys or values to the blocked key/value cache during decoding stage.
+    # `n_tokens` is used to specify the number of tokens to copy for each sequence
+    # When n_tokens > 1, tokens from different sequences are packed into the first dimension of the grid,
+    #   `seq_lengths` must be the lengths of sequences counting the number of tokens to copy
+    #   E.g. if n_tokens = 5, seq_lengths = [12, 15], then the already-copied position ids are [0-6, 0-9]
+    #   for the two sequences, respectively. And the position ids to be copied are [7-11, 9-14].
+    # When n_tokens = 1, consider token idx as the sequence idx, since it's only used during regular decoding stage
+    cur_token_idx = tl.program_id(0).to(tl.int64)
+    cur_seq_idx = cur_token_idx // n_tokens
+    # `cur_token_shift` is only valid and functional when `n_tokens` > 1
+    cur_token_shift = cur_token_idx - (n_tokens * (cur_seq_idx + 1))
+    cur_kv_head_idx = tl.program_id(1).to(tl.int64)
+    split_x_idx = tl.program_id(2).to(tl.int64)
 
-    Args:
-        k (torch.Tensor): [bsz, 1, num_kv_heads, head_dim]/[bsz, num_kv_heads, head_dim] - Keys or values during decoding with seq len 1.
-            [bsz * n, num_kv_heads, head_dim] - Keys or values with seq len n
-        k_cache (torch.Tensor): [num_blocks, num_kv_heads, block_size, head_dim] - Blocked key or value cache.
-            new KCache Layout [num_blocks, num_kv_heads, head_dim // x, block_size, x]
-        kv_lengths (torch.Tensor): [bsz] - Past key/value sequence lengths plus current sequence length for each sequence.
-        block_tables (torch.Tensor): [bsz, max_blocks_per_sequence] - Block tables for each sequence.
-        n (int): Number of tokens to copy for each sequence. Default to 1.
-        use_new_kcache_layout (bool): Whether to use the new layout for kcache. Default to False.
-    """
-    assert k.dtype == k_cache.dtype, "Expected consistent dtype for tensor and cache."
-    if k.dim() == 4:
-        k = k.reshape(-1, k.size(-2), k.size(-1))
-    k_shape = k.shape
-    bsz, num_kv_heads, head_dim = k_shape
-    # NOTE when n > 1, the shape of k is [bsz * n, num_kv_heads, head_dim]
-    if n > 1:
-        assert bsz % n == 0, "Each sequence should have the same number of tokens to be copied"
-        bsz = bsz // n
-
-    assert kv_lengths.shape[0] == block_tables.shape[0] == bsz, (
-        f"Got incompatible batch size (number of seqs):\n"
-        f"  Past kv sequence lengths bsz {kv_lengths.shape[0]}; "
-        f" block tables bsz {block_tables.shape[0]}, input k batch size {bsz}"
+    past_kv_seq_len = tl.load(seq_lengths + cur_seq_idx).to(tl.int64) + cur_token_shift
+    last_bt_block_idx = past_kv_seq_len // block_size
+    block_table_ptr = BLOCK_TABLES + cur_seq_idx * stride_bts
+    block_id = tl.load(block_table_ptr + last_bt_block_idx * stride_btb).to(tl.int64)
+    offset_last_block = past_kv_seq_len % block_size
+    offsets_dmodel = split_x_idx * KCACHE_X + tl.arange(0, KCACHE_X).to(tl.int64)
+    offsets_k = cur_kv_head_idx * stride_kh + cur_token_idx * stride_kt + offsets_dmodel * stride_kd
+    k = tl.load(K + offsets_k)
+    offsets_kcache = (
+        block_id * stride_kcb
+        + cur_kv_head_idx * stride_kch
+        + split_x_idx * stride_kcsplit_x
+        + offset_last_block * stride_kcs
+        + tl.arange(0, KCACHE_X).to(tl.int64)
     )
+    tl.store(KCache + offsets_kcache, k)
+    return
 
-    k_cache_shape = k_cache.shape
-    # Modify if the shape of kv cahce is changed.
-    block_size = k_cache_shape[-2]
 
-    x = head_dim
-    stride_kcsplit_x, stride_kcs, stride_kcd = 0, k_cache.stride(2), k_cache.stride(3)
+def _checked_copy(k, k_cache, kv_lengths, block_tables, kernel,
+                  n=1, use_new_kcache_layout=False):
+    tensors = (k, k_cache, kv_lengths, block_tables)
+    if not all(isinstance(t, torch.Tensor) for t in tensors):
+        raise TypeError("all arguments must be tensors")
+    if type(n) is not int or n <= 0 or n >= (1 << 31):
+        raise ValueError("n must be a positive signed-int32 Python integer")
+    if type(use_new_kcache_layout) is not bool:
+        raise TypeError("cache layout selector must be Boolean")
+    if any(t.layout != torch.strided for t in tensors):
+        raise TypeError("strided tensors required")
+    if k.dtype != torch.float32 or k_cache.dtype != torch.float32 or kv_lengths.dtype != torch.int32 or block_tables.dtype != torch.int32:
+        raise TypeError("FP32 payloads and int32 metadata required")
+    if any(not t.is_cuda for t in tensors):
+        raise ValueError("CUDA tensors required")
+    if any(t.device != k.device for t in tensors):
+        raise ValueError("one CUDA device required")
+    if k.ndim not in (3, 4) or kv_lengths.ndim != 1 or block_tables.ndim != 2:
+        raise ValueError("rank 3/4 source, rank 1 lengths and rank 2 table required")
+    if any(not t.is_contiguous() for t in tensors):
+        raise ValueError("contiguous tensors required")
+    if any(t.is_neg() for t in tensors):
+        raise ValueError("unresolved negative views are unsupported")
+    if k.ndim == 4:
+        k = k.reshape(k.shape[0]*k.shape[1], k.shape[2], k.shape[3])
+    count, heads, dims = k.shape
+    if count % n or kv_lengths.shape[0] != count//n or block_tables.shape[0] != count//n:
+        raise ValueError("each sequence must supply n tokens and one metadata row")
     if use_new_kcache_layout:
-        # when using kcache layout [num_blocks, num_kv_heads, head_dim // x, block_size, x]
-        assert (
-            len(k_cache_shape) == 5
-            and k_cache_shape[1] == k_shape[1]
-            and k_cache_shape[2] * k_cache_shape[4] == k_shape[2]
-        ), f"Incompatible k_cache shape {k_cache_shape} with k shape {k_shape}"
-        x = k_cache.size(-1)
-        stride_kcsplit_x, stride_kcs, stride_kcd = k_cache.stride()[2:]
+        if k_cache.ndim != 5 or k_cache.shape[1] != heads or k_cache.shape[2]*k_cache.shape[4] != dims:
+            raise ValueError("split cache shape must be [B,H,D/X,S,X]")
+        blocks, _, splits, block_size, width = k_cache.shape
+    else:
+        if k_cache.ndim != 4 or k_cache.shape[1] != heads or k_cache.shape[3] != dims:
+            raise ValueError("legacy cache shape must be [B,H,S,D]")
+        blocks, _, block_size, width = k_cache.shape
+        splits = 1
+    if heads <= 0 or dims <= 0 or block_size <= 0 or width <= 0 or width & (width-1):
+        raise ValueError("positive geometry and power-of-two split width required")
+    if count >= (1 << 31) or heads >= (1 << 16) or splits >= (1 << 16) or count*heads*splits >= (1 << 31):
+        raise ValueError("grid exceeds signed launcher limits")
+    if any(t.numel() >= (1 << 63) for t in tensors) or block_size >= (1 << 63) or block_tables.shape[1] >= (1 << 63):
+        raise ValueError("signed int64 address arithmetic required")
+    if width > (1 << 20):
+        raise ValueError("split tile exceeds 2**20 elements")
+    if any(t.numel() > 0 and t.data_ptr() % 4 for t in tensors):
+        raise ValueError("four-byte alignment required")
+    if any(not (a.data_ptr()+4*a.numel() <= b.data_ptr() or b.data_ptr()+4*b.numel() <= a.data_ptr())
+           for i,a in enumerate(tensors) for b in tensors[i+1:]):
+        raise ValueError("tensor data spans must be disjoint")
+    lengths, tables = kv_lengths.cpu().tolist(), block_tables.cpu().tolist()
+    destinations = []
+    for seq, length in enumerate(lengths):
+        if length < n or length > block_size*block_tables.shape[1]:
+            raise ValueError("sequence positions outside block table")
+        for u in range(n):
+            column, slot = divmod(length-n+u, block_size)
+            block = tables[seq][column]
+            if block < 0 or block >= blocks:
+                raise ValueError("block ID outside cache")
+            destinations.append((block,slot))
+    if len(set(destinations)) != count:
+        raise ValueError("cache destinations must be unique")
+    if count == 0:
+        return None
+    split_stride = block_size*width if use_new_kcache_layout else 0
+    with torch.cuda.device(k.device):
+        kernel[(count, heads, splits)](
+            k,k_cache,block_tables,kv_lengths,heads*dims,dims,1,
+            heads*block_size*dims,block_size*dims,split_stride,width,1,
+            block_tables.shape[1],1,block_size,n_tokens=n,
+            HEAD_DIM=dims,KCACHE_X=width,num_warps=8 if dims>128 else 4)
+    return None
 
-    num_warps = 8 if head_dim > 128 else 4
-    grid = (bsz * n, num_kv_heads, head_dim // x)
-    _copy_to_kcache_seqlen_n_kernel[grid](
-        k,
-        k_cache,
-        block_tables,
-        kv_lengths,
-        k.stride(0),
-        k.stride(1),
-        k.stride(2),
-        k_cache.stride(0),
-        k_cache.stride(1),
-        stride_kcsplit_x,
-        stride_kcs,
-        stride_kcd,
-        block_tables.stride(0),
-        block_tables.stride(1),
-        block_size,
-        n_tokens=n,
-        HEAD_DIM=head_dim,
-        KCACHE_X=x,
-        num_warps=num_warps,
-    )
+
+def copy_k_to_blocked_cache_repaired(k, k_cache, kv_lengths, block_tables,
+                                     n=1, use_new_kcache_layout=False):
+    return _checked_copy(k, k_cache, kv_lengths, block_tables,
+                         _copy_to_kcache_seqlen_n_kernel_repaired,
+                         n, use_new_kcache_layout)
 
 
-
-
-##################################################################################################################################################
-
-
-# Test for copy_k_to_blocked_cache
-def test_copy_k_to_blocked_cache():
-    # Parameters
-    bsz = 2
-    num_kv_heads = 4
-    head_dim = 64
-    block_size = 16
-    max_blocks_per_sequence = 10
-    n = 1
-
-    # Inputs
-    k = torch.randn(bsz, 1, num_kv_heads, head_dim, dtype=torch.float32, device="cuda")
-    k_cache = torch.zeros(max_blocks_per_sequence, num_kv_heads, block_size, head_dim, dtype=torch.float32, device="cuda")
-    kv_lengths = torch.tensor([5, 10], dtype=torch.int32, device="cuda")
-    block_tables = torch.randint(0, max_blocks_per_sequence, (bsz, max_blocks_per_sequence), dtype=torch.int32, device="cuda")
-
-    # Test with old kcache layout
-    copy_k_to_blocked_cache(k, k_cache, kv_lengths, block_tables, n, use_new_kcache_layout=False)
-    test_case_1 = k_cache.clone()
-
-    # Test with new kcache layout
-    k_cache_new_layout = torch.zeros(max_blocks_per_sequence, num_kv_heads, head_dim // 8, block_size, 8, dtype=torch.float32, device="cuda")
-    copy_k_to_blocked_cache(k, k_cache_new_layout, kv_lengths, block_tables, n, use_new_kcache_layout=True)
-    test_case_2 = k_cache_new_layout.clone()
-
-    # Additional test cases to cover more branches
-    n = 2
-    k = torch.randn(bsz * n, num_kv_heads, head_dim, dtype=torch.float32, device="cuda")
-    kv_lengths = torch.tensor([5, 10], dtype=torch.int32, device="cuda")
-
-    # Test with old kcache layout and n > 1
-    copy_k_to_blocked_cache(k, k_cache, kv_lengths, block_tables, n, use_new_kcache_layout=False)
-    test_case_3 = k_cache.clone()
-
-    # Test with new kcache layout and n > 1
-    k_cache_new_layout = torch.zeros(max_blocks_per_sequence, num_kv_heads, head_dim // 8, block_size, 8, dtype=torch.float32, device="cuda")
-    copy_k_to_blocked_cache(k, k_cache_new_layout, kv_lengths, block_tables, n, use_new_kcache_layout=True)
-    test_case_4 = k_cache_new_layout.clone()
-
-    return {
-        "test_case_1": test_case_1,
-        "test_case_2": test_case_2,
-        "test_case_3": test_case_3,
-        "test_case_4": test_case_4,
-    }
-
-# Run tests
-result_gold = test_copy_k_to_blocked_cache()
+def copy_k_to_blocked_cache_commuted(k, k_cache, kv_lengths, block_tables,
+                                    n=1, use_new_kcache_layout=False):
+    return _checked_copy(k, k_cache, kv_lengths, block_tables,
+                         _copy_to_kcache_seqlen_n_kernel_commuted,
+                         n, use_new_kcache_layout)
