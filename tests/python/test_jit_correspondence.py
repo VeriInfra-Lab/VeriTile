@@ -16,7 +16,7 @@ class JITCorrespondenceTests(unittest.TestCase):
         self.lean = (DIRECTORY / "Kernels.lean").read_text()
 
     def test_all_original_and_candidate_bodies(self):
-        self.assertEqual(len(check_manifest(ROOT, DIRECTORY / "jit-correspondence.json")), 5)
+        self.assertEqual(len(check_manifest(ROOT, DIRECTORY / "jit-correspondence.json")), 6)
 
     def test_cast_nan_clamp_store_and_parameter_changes_are_rejected(self):
         mutations = [

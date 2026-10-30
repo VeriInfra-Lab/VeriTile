@@ -74,6 +74,16 @@ class BodyCorpusTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "reused"):
             scan(self.root)
 
+    def test_unchanged_candidate_stage_can_share_lean_source(self):
+        self.write("bench/tritonbench_g/sample/candidate.py", PYTHON)
+        self.manifest([self.record, {**self.record,
+            "python": "bench/tritonbench_g/sample/candidate.py"}])
+        self.assertTrue(scan(self.root)["complete"])
+        self.write("bench/tritonbench_g/sample/candidate.py", PYTHON.replace(
+            "tl.arange(0, B)", "tl.arange(1, B)"))
+        with self.assertRaisesRegex(ValueError, "correspondence mismatch"):
+            scan(self.root)
+
     def test_worked_example_without_reference_is_not_a_pass(self):
         self.write("bench/examples/Sample/Kernels.lean", LEAN)
         result = scan(self.root)
@@ -120,6 +130,76 @@ class BodyCorpusTests(unittest.TestCase):
             "    if B > 0 {\n      tl.store(out_ptr + offsets, x)\n    }"))
         with self.assertRaises(SyntaxError):
             scan(self.root)
+
+    def test_all_collections_and_unselected_tasks_are_discovered(self):
+        for collection in ("bug_detection", "pretrain_kernels"):
+            self.write(f"bench/{collection}/tasks/sample/Kernels.lean", LEAN)
+            self.write(f"bench/{collection}/tasks/sample/task.json", '{"id":"sample"}')
+        self.write("bench/examples/Sample/Kernels.lean", LEAN)
+        self.write("bench/tritonbench_g/unselected/Kernels.lean", LEAN)
+        self.write("bench/tritonbench_g/unselected/unselected.py", PYTHON)
+        result = scan(self.root)
+        self.assertEqual(result["counts"]["total"], 5)
+        self.assertEqual(result["counts"]["collections"], {
+            "bug_detection": 1, "examples": 1, "pretrain_kernels": 1, "tritonbench_g": 2})
+        rows = result["tasks"] + result["examples"]
+        self.assertEqual(len({r["id"] for r in rows}), 5)
+        imported = [r for r in rows if r["collection"] in {"bug_detection", "pretrain_kernels"}]
+        self.assertTrue(all(r["status"] == "no_independent_python_reference" for r in imported))
+        self.assertFalse(result["complete"])
+
+    def test_discovery_does_not_require_a_selection_ledger(self):
+        (self.root / "validation/task_progress.json").unlink()
+        self.assertEqual(scan(self.root)["counts"]["total"], 1)
+
+    def test_missing_kernel_and_missing_selected_directory_are_errors(self):
+        self.write("bench/pretrain_kernels/tasks/incomplete/task.json", '{}')
+        with self.assertRaisesRegex(ValueError, "missing selected Lean"):
+            scan(self.root)
+        (self.root / "bench/pretrain_kernels/tasks/incomplete/task.json").unlink()
+        (self.root / "bench/pretrain_kernels/tasks/incomplete").rmdir()
+        self.write("validation/task_progress.json", json.dumps({"tasks": [
+            {"task": "absent", "kernel_revision": {"source": "missing.py", "kernel_source": "missing.lean"}}]}))
+        with self.assertRaisesRegex(ValueError, "selected tasks missing"):
+            scan(self.root)
+
+    def test_unregistered_candidate_file_is_not_omitted(self):
+        self.write("bench/tritonbench_g/sample/candidate.py", PYTHON.replace("first(", "candidate(", 1))
+        result = scan(self.root)
+        self.assertFalse(result["complete"])
+        self.assertEqual(result["counts"]["selected_jit_functions"], 1)
+        self.assertEqual(result["counts"]["uncovered_selected_jit_functions"], 0)
+        self.assertEqual(result["counts"]["inventoried_jit_functions"], 2)
+        self.assertEqual(result["counts"]["uncovered_inventoried_jit_functions"], 1)
+        self.assertEqual(result["tasks"][0]["uncovered_python_jits"][0]["function"], "candidate")
+
+    def test_dynamic_wrapper_bodies_are_inventoried_without_executing_python(self):
+        self.write("bench/tritonbench_g/sample/source.py", "raise RuntimeError('never execute this')\n")
+        self.write("bench/tritonbench_g/sample/body.py", PYTHON)
+        record = {**self.record, "python": "bench/tritonbench_g/sample/body.py"}
+        self.manifest([record])
+        result = scan(self.root)
+        self.assertEqual(result["tasks"][0]["status"], "no_selected_jit_resolved")
+        self.assertEqual(result["counts"]["inventoried_jit_functions"], 1)
+        self.assertFalse(result["complete"])
+
+    def test_imported_collection_can_register_an_independent_reference(self):
+        self.write("bench/pretrain_kernels/tasks/sample/Kernels.lean", LEAN)
+        self.write("bench/pretrain_kernels/source-references.json", json.dumps({"sample": "bench/tritonbench_g/sample/source.py"}))
+        self.write("bench/pretrain_kernels/tasks/sample/jit-correspondence.json", json.dumps([
+            {**self.record, "lean": "bench/pretrain_kernels/tasks/sample/Kernels.lean"}]))
+        result = scan(self.root)
+        self.assertEqual(result["counts"]["total"], 2)
+        self.assertTrue(result["complete"])
+
+    def test_unknown_reference_and_empty_inventory_do_not_pass(self):
+        self.write("bench/tritonbench_g/source-references.json", '{"absent":"missing.py"}')
+        with self.assertRaisesRegex(ValueError, "unknown"):
+            scan(self.root)
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            (root / "bench").mkdir()
+            self.assertFalse(scan(root)["complete"])
 
 
 if __name__ == "__main__":
