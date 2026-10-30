@@ -2,8 +2,8 @@
 
 `Correct.lean` exposes shared `ProgramIO.Implements` / `ImplementsOn` Real
 specifications for the distinct cached and uncached kernels. Ordinary single-source
-native results are retained in `Misc/NativeCorrect.lean`; `FPEquiv.lean` records
-the missing optimization-pair targets.
+native results are retained in `Misc/NativeCorrect.lean`; `FPEquiv.lean` proves
+the retained Q-address CSE pairs for both cached and uncached kernels.
 `IO.lean` lists source identity, actual IO channels, masks, in-place aliases,
 metadata-dependent cache windows, and the empty scratch footprint. Mathematical
 and selected-native targets use logical operands. The four former raw typed
@@ -39,8 +39,8 @@ unchanged. The map adds no finite-payload guard or FP-to-Real arithmetic law.
 independent selected native FP32 graphs on every raw word. The uncached graphs are
 `fma(c,a,neg(mul(s,b)))` and `fma(s,a,mul(c,b))`; cached pairs use
 `fma(a,c,neg(mul(b,s)))` and `fma(b,c,mul(a,s))`. These operand and contraction
-orders retain default fusion. This task has no faithful historical source
-optimization pair; the auxiliary theorem implements the independent ordered graph.
+orders retain default fusion. The auxiliary single-source theorem implements the independent ordered graph.
+The related retained address-CSE pair is described below.
 Loads, same-format casts, and selected local mul/neg/fma semantics are primitive
 model boundaries. No numerical conformance obligations or finite payload
 restrictions remain in the public theorem. Sine and cosine are loaded tables.
@@ -93,8 +93,8 @@ The IO binding and interface helpers reuse `Typed.*Execution`, `*_memory`, and
 the existing ownership/value/frame proofs. Native payloads retain all words and arbitrary initial product
 provenance, with exactly the original selected mul/neg/FMA model and atom
 outputs. All old raw statements and complete TensorBridge statements remain
-available. This format pass adds no numerical assumptions, experiments or GPU
-claims and changes no Python, kernel, contract, dtype or mathematical domain.
+available. The public numerical rules, contract, source dtypes and mathematical domains
+are retained. Current body correspondence and proof replay are recorded below.
 
 
 The 2026-10-21 implementation pairs are complete for both distinct source
@@ -118,3 +118,17 @@ experiment is needed. The independent Real specifications, original native
 formulas and optional Tensor applications remain retained at their scope.
 
 Optional reader and application modules are in `Misc/`: [Misc/TensorBridge.lean](Misc/TensorBridge.lean), [Misc/NativeCorrect.lean](Misc/NativeCorrect.lean). Their declaration namespaces and proof statements are preserved. The main `Contract.lean`, `Correct.lean` and `FPEquiv.lean` entries remain at the task root.
+
+### 逐句 Python 函数体
+
+`Kernels.lean` 直接粘贴两份选定的原始函数体；原始 Python 未修改。
+指针 dtype、运行 stride/count 和 constexpr 由体外调用签名提供。
+保留全部 signed64 cast、GQA 分支、提前 return、所有 mask、metadata
+读取及 cache-before-Q 写回顺序。`address_shared.py` 是已有 Lean
+Q-address CSE 候选的新写 Python 对照，明确不作为历史原始程序。
+
+`Proofs/SourcePreservation.lean` 分别连接两份原始程序及两份已有候选的
+完整执行：对任意浮点原语和初始状态，成功/失败和全部内存结果一致。
+旧代码把一个非负索引寄存器表示为 Int，当前前端使用等值的 Nat 投影；
+证明比较完整可观察内存，不要求临时寄存器文件相等。实际新程序的
+安全性、Real/FP、全部输出、frame 和原有 host/Tensor 结果另外直接重验。

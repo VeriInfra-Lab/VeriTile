@@ -100,3 +100,19 @@ It is a targeted CPU/source check, not a GPU numerical experiment. Final Lean
 builds and source hashes are recorded in the delivery manifest.
 
 `Misc/TensorBridge.lean` contains the optional mathematical Tensor application and admission correspondence as ordinary theorems. Neither primary file imports it. `FPEquiv.softmax_kernel_fp32` in [Misc/NativeObservation.lean](Misc/NativeObservation.lean) uses the shared typed IO on the original shape/stride, row coverage and output-injectivity domain. `TensorBridge.softmax_checked_fp32` retains the original actual Tensor application; the separate reciprocal-equivalence theorem retains its admitted numerical rule and operand conditions.
+
+### 原生函数体与调用边界
+
+原始 `softmax_kernel` 逐句对照所选修复 Python，保留两个 int64 转换、
+全部语句、mask 和 FP32 运算/归约次序。`softmax_triton1` 与
+`softmax_triton2` 的原始函数体相同，因此共享前者的可读源码入口；
+两题分别对照自己的 Python 检查。五个运行时 int64 参数在函数体外以
+Int 值绑定，只有 BLOCK_SIZE 是 constexpr；Tensor 视图基址也在调用边界
+绑定，不往源程序插入额外语句。所有旧基址、stride、维度与全量输出/frame
+和安全范围保留；整数非溢出及实际物理绑定继续使用已有证明。
+
+`reciprocal_candidate.py` 是既有 Lean reciprocal 变换的 Python 对照，明确
+标注为本次编写，不冒充历史来源。原始 Python 未改动。主 FP 结果继续仅在
+实际最终 store mask 选中的 numerator 为 finite、共享 denominator 为
+finite/nonzero 时使用 DIV-MUL-RCP。`site_values_iff` 从当前完整原始前缀
+重新证明这些条件的精确对应；未缩小范围或用空执行域规避证明。

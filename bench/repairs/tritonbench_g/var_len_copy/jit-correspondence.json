@@ -1,0 +1,90 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/var_len_copy/Kernels.lean",
+    "lean_definition": "source",
+    "python": "bench/repairs/tritonbench_g/var_len_copy/var_len_copy_repaired.py",
+    "python_function": "var_len_copy_kernel_triton_repaired",
+    "signature_definition": "sourceSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "old_a_start",
+          "i32"
+        ],
+        [
+          "old_a_len",
+          "i32"
+        ],
+        [
+          "old_a_location",
+          "fp32"
+        ],
+        [
+          "new_a_start",
+          "i32"
+        ],
+        [
+          "new_a_location",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "old_a_len",
+        "old_a_start",
+        "new_a_start",
+        "old_a_location"
+      ],
+      "writePorts": [
+        "new_a_location"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/var_len_copy/Kernels.lean",
+    "lean_definition": "commutedSource",
+    "python": "bench/repairs/tritonbench_g/var_len_copy/var_len_copy_repaired.py",
+    "python_function": "var_len_copy_kernel_triton_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "old_a_start",
+          "i32"
+        ],
+        [
+          "old_a_len",
+          "i32"
+        ],
+        [
+          "old_a_location",
+          "fp32"
+        ],
+        [
+          "new_a_start",
+          "i32"
+        ],
+        [
+          "new_a_location",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "old_a_len",
+        "old_a_start",
+        "new_a_start",
+        "old_a_location"
+      ],
+      "writePorts": [
+        "new_a_location"
+      ]
+    }
+  }
+]

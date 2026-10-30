@@ -35,8 +35,7 @@ example (x : RegionName) (B : Nat) :
 example (x : RegionName) (B : Nat) :
     (mixedMin x B).surfaceBody.getLast? = some
       (.assign .real [B] "m_new" (.compute (.alg .fp32
-        (.where (.lt .real (.consSame .nil)
-          (.castFloat .fp16 .real (.ref .fp16 [B] "inp")) (.ref .real [B] "m"))
+        (.minimumFloat .real (.consSame .nil)
           (.castFloat .fp16 .real (.ref .fp16 [B] "inp")) (.ref .real [B] "m"))))) := rfl
 
 private def assignedHalf : ComputeStmt → Bool

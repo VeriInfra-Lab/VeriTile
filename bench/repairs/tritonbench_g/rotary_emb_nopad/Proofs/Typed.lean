@@ -28,7 +28,7 @@ def uncachedExecution {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     simp [Kernels.uncached,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,Option.bind,
       algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,
-      numericLt,natLt,numericEq,bop,numeric,store,VeriTile.Triton.Region.cast,
+      numericLt,natLt,numericLe,natLe,numericEq,bop,numeric,store,VeriTile.Triton.Region.cast,
       ComputeDType.eraseDType,ofFloat,toFloat,integralFloorDiv,integralMod,
       headNonneg,signedLeader,leader]
     rfl
@@ -45,7 +45,7 @@ def cachedExecution {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     simp [Kernels.cached,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,Option.bind,
       algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,
-      numericLt,natLt,numericEq,bop,numeric,store,VeriTile.Triton.Region.cast,
+      numericLt,natLt,numericLe,natLe,numericEq,bop,numeric,store,VeriTile.Triton.Region.cast,
       ComputeDType.eraseDType,ofFloat,toFloat,integralFloorDiv,integralMod,head]
     rfl
 

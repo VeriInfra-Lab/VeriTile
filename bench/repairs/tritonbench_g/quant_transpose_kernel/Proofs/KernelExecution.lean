@@ -1,5 +1,6 @@
 import bench.repairs.tritonbench_g.quant_transpose_kernel.Kernels
 import bench.tritonbench_g.quantize_global.Proofs.IntegerSemantics
+import VeriTile.Triton.Float.SignedCast
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.QuantTransposeKernel.KernelExecution
@@ -27,12 +28,15 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (round : α → BitVec
     {t : State α // exec M round p Bool.false s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp (config := { maxSteps := 1000000 }) [exec, typed, kernel, quotedOriginal, quotedCommuted,
+  simp only [exec, typed, kernel, quotedOriginal, sourceKernel, ComputeKernel.surfaceBody,
+    QuantizeIntegerStage.exec, QuantizeIntegerStage.run, QuantizeIntegerStage.step,
+    QuantizeIntegerStage.evalExpr, FP.Structural.eval_intToSigned]
+  simp (config := { maxSteps := 1000000 }) [exec, typed, kernel, quotedOriginal, quotedCommuted, sourceKernel, commutedSourceKernel,
     ComputeKernel.surfaceBody, QuantizeIntegerStage.exec, QuantizeIntegerStage.run,
     QuantizeIntegerStage.step, QuantizeIntegerStage.evalExpr, QuantizeIntegerStage.store,
     QuantizeIntegerStage.storedInteger, QuantizeIntegerStage.byteOutput,
     QuantizeIntegerStage.outputRegister, FP.Structural.evalExpr,
-    FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold, FP.Structural.store,
+    FP.Structural.evalComputeOp, FP.Structural.eval_intToSigned, FP.Structural.evalOp_unfold, FP.Structural.store,
     FP.Structural.numeric, FP.Structural.numericLt, FP.Structural.numericEq,
     FP.Structural.natLt, FP.Structural.bop, FP.Structural.integralFloorDiv,
     FP.Structural.integralMod, ComputeDType.eraseDType,
@@ -73,7 +77,7 @@ private theorem address_run {α : Type} [Inhabited α] (M : Algebra α)
       bodyRun M round p (addressBody p Bool.true) s := by
   cases hr : s.regs .nat [128] "rm" <;>
     cases hc : s.regs .nat [128] "rn" <;>
-    simp (config := { maxSteps := 1000000 }) [bodyRun, addressBody, kernel, quotedOriginal, quotedCommuted,
+    simp (config := { maxSteps := 1000000 }) [bodyRun, addressBody, kernel, quotedOriginal, quotedCommuted, sourceKernel, commutedSourceKernel,
       ComputeKernel.surfaceBody, List.drop, List.take,
       QuantizeIntegerStage.run, QuantizeIntegerStage.step, QuantizeIntegerStage.evalExpr,
       FP.Structural.evalOp_unfold, FP.Structural.numeric, FP.Structural.bop,

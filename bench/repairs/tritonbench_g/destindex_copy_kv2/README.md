@@ -101,3 +101,17 @@ imported explicitly from `Misc/`. The primary `Contract.lean`, `Correct.lean` an
 not re-export optional native conclusions. Declaration names, statements and
 proof bodies are preserved; this file organization changes no input domain,
 precision, numerical rule or task completion status.
+
+### 逐句函数体来源（2026-10-25）
+
+`Kernels.lean` 直接粘贴所选 Python 函数体，保留无 mask 的 destination
+读取、独立 strides、所有原始 mask、浮点 load/store 和末尾 `return`。
+调用 dtype/运行整数/constexpr 在函数体外。删除旧 Lean 多出的
+`k.to(tl.float32)`，按真实隐式写回规则重新验证完整程序。
+`index_commuted.py` 是为已有索引候选新写的 Python 对照，明确标注；
+原始 Python 不变。旧精度多态辅助 API 保留为单列的 Legacy 来源。
+
+`Proofs/SourcePreservation.lean` 在原有 raw-copy 后端下核对新旧原始/候选
+完整执行（包括成功/失败、寄存器和全部内存），使用已有 FP32 同存储
+拷贝解释。一般浮点代数不额外假设 cast 恒等；新程序的完整候选等价
+与 Real/word/byte/host/Tensor 结果直接重证。

@@ -52,7 +52,7 @@ See [source construction findings and validated cleanups](../review-checkpoints/
 Main-entry role review: 183/183 tasks; 179 organized, 4 unchanged; no remaining auxiliary proof conclusions in selected readers or main-to-Misc imports. Genuine multi-kernel/stage headlines retained; proof completion and numerical scope unchanged.
 See [per-declaration roles and targeted validation](../review-checkpoints/2026-10-23/reference-separation/README.md).
 
-IO organization review: 183/183 tasks; 116 consolidated, 67 unchanged. Selected readers reuse canonical IO data; genuinely different encodings and schedules retained. Changed tasks have definition-preservation and scoped build evidence; this is not full-source replay.
+IO organization review: 183/183 tasks; 117 consolidated, 66 unchanged. Selected readers reuse canonical IO data; genuinely different encodings and schedules retained. Changed tasks have definition-preservation and scoped build evidence; this is not full-source replay.
 See [per-task IO sources, preservation and validation limits](../review-checkpoints/2026-10-23/reference-separation/README.md).
 
 Main-formula review: 183/183 tasks; fixed: 179, unchanged: 4.

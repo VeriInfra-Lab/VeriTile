@@ -28,6 +28,15 @@ The Python implementation is unchanged. The compared candidate reuses the
 benchmark's existing `update_commuted_kernel` transformation at the repaired
 runtime scalar ABI: only `diff * beta2 + grad` becomes `grad + diff * beta2`.
 
+`Kernels.lean` now pastes the selected original into `sourceBody` and the
+existing candidate into `commutedBody`; `jit-correspondence.json` checks both
+against their Python bodies. The external call signature carries FP32 pointer
+and scalar-register types. Both element counts remain runtime integers, and
+only `BLOCK_SIZE` is constexpr. Caller-bound natural counts use the existing
+mathematical index projection. The native graph and observed FMA profile stay
+unchanged. Generic execution references retain the actual FP32 load callbacks;
+the native graph backend already interprets these loads as identity on words.
+
 `Contract.lean` matches the Python tensor guards:
 
 - P, G and M are strided, contiguous FP32 CUDA Tensors on one device, with no

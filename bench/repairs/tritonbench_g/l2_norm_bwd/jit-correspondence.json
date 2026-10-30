@@ -1,0 +1,154 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/l2_norm_bwd/Kernels.lean",
+    "lean_definition": "kernel",
+    "python": "bench/repairs/tritonbench_g/l2_norm_bwd/l2_norm_bwd_repaired.py",
+    "python_function": "_l2_norm_bwd_kernel_repaired",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row_value",
+      "stride_x_col": "stride_x_col_value",
+      "stride_dy_row": "stride_dy_row_value",
+      "stride_dy_col": "stride_dy_col_value",
+      "stride_dx_row": "stride_dx_row_value",
+      "stride_dx_col": "stride_dx_col_value",
+      "N": "N_value"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "DY",
+          "fp32"
+        ],
+        [
+          "DX",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i64"
+        ],
+        [
+          "stride_x_col",
+          "i64"
+        ],
+        [
+          "stride_dy_row",
+          "i64"
+        ],
+        [
+          "stride_dy_col",
+          "i64"
+        ],
+        [
+          "stride_dx_row",
+          "i64"
+        ],
+        [
+          "stride_dx_col",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "X",
+        "DY"
+      ],
+      "writePorts": [
+        "DX"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/l2_norm_bwd/Kernels.lean",
+    "lean_definition": "indexCommutedKernel",
+    "python": "bench/repairs/tritonbench_g/l2_norm_bwd/l2_norm_bwd_index_commuted.py",
+    "python_function": "_l2_norm_bwd_kernel_index_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row_value",
+      "stride_x_col": "stride_x_col_value",
+      "stride_dy_row": "stride_dy_row_value",
+      "stride_dy_col": "stride_dy_col_value",
+      "stride_dx_row": "stride_dx_row_value",
+      "stride_dx_col": "stride_dx_col_value",
+      "N": "N_value"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "DY",
+          "fp32"
+        ],
+        [
+          "DX",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i64"
+        ],
+        [
+          "stride_x_col",
+          "i64"
+        ],
+        [
+          "stride_dy_row",
+          "i64"
+        ],
+        [
+          "stride_dy_col",
+          "i64"
+        ],
+        [
+          "stride_dx_row",
+          "i64"
+        ],
+        [
+          "stride_dx_col",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "X",
+        "DY"
+      ],
+      "writePorts": [
+        "DX"
+      ]
+    }
+  }
+]

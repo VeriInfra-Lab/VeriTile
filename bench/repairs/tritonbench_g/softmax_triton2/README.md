@@ -152,3 +152,17 @@ results retain their all-word scope and do not serve as this program pair.
 `RealProof.checked` Tensor application, with their complete names, statements
 and proofs. The required row IO proof remains in `Proofs/Real.lean`; the main
 entries do not import the optional application.
+
+### 原生函数体与调用边界
+
+原始 `softmax_kernel` 逐句对照所选修复 Python，保留两个 int64 转换、
+全部语句、mask 和 FP32 运算/归约次序。`softmax_triton1` 与
+`softmax_triton2` 的原始函数体相同，因此共享前者的可读源码入口；
+两题分别对照自己的 Python 检查。五个运行时 int64 参数在函数体外以
+Int 值绑定，只有 BLOCK_SIZE 是 constexpr；Tensor 视图基址也在调用边界
+绑定，不往源程序插入额外语句。所有旧基址、stride、维度与全量输出/frame
+和安全范围保留；整数非溢出及实际物理绑定继续使用已有证明。
+
+已有 guarded 候选直接粘贴原 Python，保留 `libdevice.finitef`、完整计数、
+分母检查及运行时除法 fallback；不额外排除任何原始输入词。
+主等价性沿用原来的局部分类器实现绑定与 DIV-MUL-RCP，无新数值规则。

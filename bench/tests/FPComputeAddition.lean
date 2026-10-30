@@ -33,7 +33,12 @@ theorem reduce_then_add (R : ScalarArithmetic.Rules) :
 
 /-- info: FP assumptions used by reduce_then_add:
 ---
-info:   add_commute -/
+info:   none
+---
+info: Strict model certificates used by reduce_then_add:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (ScalarArithmetic.strict_certificate ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions reduce_then_add
 
@@ -58,13 +63,10 @@ example (R : ScalarArithmetic.Rules) : True := by
       all_goals fp_prove
   trivial
 
-example : True := by
-  fail_if_success
-    have : program Bool.false Bool.false ≡[([] : Spec.Assumptions GuardedFragment)]
-        program Bool.false Bool.true := by
-      equiv_decompose
-      all_goals fp_prove
-  trivial
+/-- Empty experimental rules retain the fixed strict FP32 certificate. -/
+example : program Bool.false Bool.false ≡[([] : Spec.Assumptions GuardedFragment)]
+    program Bool.false Bool.true := by
+  equiv_decompose <;> fp_prove
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

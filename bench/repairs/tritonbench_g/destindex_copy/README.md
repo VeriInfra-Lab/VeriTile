@@ -103,3 +103,11 @@ Targeted builds cover the new descriptor/raw-result module, both public entries
 and the Tensor consumer. The mathematical/native formula and public surface
 audits use shared IO relations and logical metadata only. This format pass does
 not rerun the historical CPU checks, independent replay or GPU experiments.
+
+### 共享原始函数体（2026-10-25）
+
+所选 `_copy_heads` 和 `destindex_copy_kv1` 的所选原始函数拥有完全相同
+的参数角色及函数体（包括全部 mask 和 `return`）；显式对应清单分别
+检查两个原始 Python 文件与 kv1 中同一份可读 `triton { ... }`。
+两路 KV 调用的独立 head/feature 维度、实际 IO 和所有证明范围均保留。
+已有候选也明确复用同一已标注为新写的索引候选 Python 对照。

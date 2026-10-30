@@ -30,7 +30,7 @@ theorem uncached_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
       safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,Option.bind,
-      algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,numericLt,natLt,numericEq,
+      algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,numericLt,natLt,numericLe,natLe,numericEq,
       bop,numeric,store,Region.cast,ComputeDType.eraseDType,ofFloat,toFloat,
       integralFloorDiv,integralMod,headNonneg,signedLeader,leader]
     try dsimp only [TileShape.insertAxis,TileShape.dropInsertedIndex]
@@ -75,7 +75,7 @@ theorem cached_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
       safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,Option.bind,
-      algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,numericLt,natLt,numericEq,
+      algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,numericLt,natLt,numericLe,natLe,numericEq,
       bop,numeric,store,Region.cast,ComputeDType.eraseDType,ofFloat,toFloat,
       integralFloorDiv,integralMod,head,token]
     try dsimp only [TileShape.insertAxis,TileShape.dropInsertedIndex]

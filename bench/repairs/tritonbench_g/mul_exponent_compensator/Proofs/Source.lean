@@ -36,7 +36,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // FP.Structural.exec M (candidateKernel p.x p.output p.n p.block) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [candidateKernel,FP.Structural.exec,ComputeKernel.surfaceBody,
+  simp [candidateKernel,sourceBody,FP.Structural.exec,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     numericLt,natLt,bop,store,Region.cast,ComputeDType.eraseDType]
   rfl
@@ -49,8 +49,9 @@ theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α)
   congr 1
   funext mem i
   by_cases bound : s.pids 0 * p.block + i.1.val < p.n
-  · simp [bound,numeric,ofFloat,toFloat]
-  · simp [bound]
+  · simp [bound,numeric,ofFloat,toFloat,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add,
+      VeriTile.Bench.TritonBenchG.MulExponentCompensator.exponentCompensator]
+  · simp [bound,numeric,ofFloat,toFloat,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
 
 theorem expectedMemory_eq_scatter {α : Type} [Inhabited α] (M : Algebra α)
     (p : Parameters) (s : State α) :
@@ -110,7 +111,7 @@ theorem complete_correct {α : Type} [Inhabited α] (M : Algebra α)
   ⟨(execution M p s).val, (execution M p s).property,
     execution_memory M p s⟩
 
-#specNonCircular expectedMemory avoiding [candidateKernel, FP.Structural.exec]
+#specNonCircular expectedMemory avoiding [candidateKernel,sourceBody, FP.Structural.exec]
 #axiomsClean expected_cell
 #axiomsClean complete_correct
 #axiomsClean execution

@@ -10,7 +10,7 @@ set_option linter.unusedSimpArgs false
 private theorem head_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList M bounds (headBody p) s := by
-  simp [headBody,kernel,ComputeKernel.surfaceBody,
+  simp [headBody,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,bop,Region.cast,Option.bind,
@@ -23,7 +23,7 @@ private theorem metadata_safe {α : Type} [Inhabited α] (M : Algebra α) (p : P
     (block : (KernelFP.sequence p s.pids*p.strideBts).toNat+
       ((position p s).tdiv p.blockSize*p.strideBtb).toNat<bounds p.blockTables.cast) :
     Safety.traceSafeList M bounds (metadataBody p) (headState p s) := by
-  simp [metadataBody,kernel,ComputeKernel.surfaceBody,
+  simp [metadataBody,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -39,7 +39,7 @@ private theorem tail_safe {α : Type} [Inhabited α] (M : Algebra α) (v : Bool)
     (input : ∀ i : TileIndex [p.width],sourceOffset p s.pids i<bounds p.K)
     (output : ∀ i : TileIndex [p.width],targetOffset p s i<bounds p.KCache) :
     Safety.traceSafeList M bounds (tailBody v p) (metadataState p s) := by
-  cases v <;> simp [tailBody,kernel,ComputeKernel.surfaceBody,
+  cases v <;> simp [tailBody,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

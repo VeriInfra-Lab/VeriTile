@@ -45,12 +45,12 @@ theorem step (os ol ns : Region .int) (src dst : RegionName) (B : Nat)
     (hO : s.regs .int [] "old_start" = some (Tile.scalar oldStart))
     (hN : s.regs .int [] "new_start" = some (Tile.scalar newStart))
     (hI : s.regs .int [] "i" = some (Tile.scalar current))
-    (hOld : s.regs .nat [B] "old_offset" = some (Tile.vec fun i ↦ i.val))
-    (hNew : s.regs .nat [B] "new_offset" = some (Tile.vec fun i ↦ i.val)) :
+    (hOld : s.regs .int [B] "old_offset" = some (Tile.vec fun i ↦ (i.val : Int)))
+    (hNew : s.regs .int [B] "new_offset" = some (Tile.vec fun i ↦ (i.val : Int))) :
     stepStmts (body os ol ns src dst B) s =
       some (scatter (B := B) (midState (B := B) s src length oldStart current) dst newStart current length
         (value s src length oldStart current)) := by
-  simp [body, source, kernel, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
+  simp [body, source, kernel,Source.source,Source.commutedSource, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Kernel.eraseDType,

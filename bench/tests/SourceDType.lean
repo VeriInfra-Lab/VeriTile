@@ -41,6 +41,24 @@ def halfExpected (X V : RegionName) : ComputeKernel := triton {
 theorem half_keeps_store_rounding (X V : RegionName) :
     source X V .fp16 = halfExpected X V := rfl
 
+/-- Both FP8 formats are floating branches and keep their actual store format. -/
+def fp8E4Expected (X V : RegionName) : ComputeKernel := triton {
+  tl.region X = tl.float32, V = tl.float8e4nv
+  value = tl.load(X)
+  p = V + $(0)
+  tl.store(p, value.to(tl.float8e4nv))
+}
+def fp8E5Expected (X V : RegionName) : ComputeKernel := triton {
+  tl.region X = tl.float32, V = tl.float8e5
+  value = tl.load(X)
+  p = V + $(0)
+  tl.store(p, value.to(tl.float8e5))
+}
+theorem fp8_formats_are_distinct (X V : RegionName) :
+    source X V .f8e4 = fp8E4Expected X V ∧
+      source X V .f8e5 = fp8E5Expected X V := ⟨rfl,rfl⟩
+#axiomsClean fp8_formats_are_distinct
+
 def masked (X V : RegionName) : ComputeKernel := triton (dtype V := SourceDType.u8) {
   tl.region X = tl.float32
   tl.param n : tl.int64

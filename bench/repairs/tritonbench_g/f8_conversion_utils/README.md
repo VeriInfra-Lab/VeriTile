@@ -79,3 +79,17 @@ signatures, both decoder stores, omitted load padding and every parameter.
 The frozen generators are proof-only and are not imported by the source or
 public proof entries. This organization change preserves the existing proof
 status, checked input scope, native policy and empty numerical-obligation list.
+
+### 原生函数体与完整 dtype 配置
+
+原始 Python 函数体直接进入 `Kernels.lean`，保留 decode 的两次 store。
+FP8 E4/E5、FP16/FP32 输入共六个现有配置分别提供调用 dtype；N 为运行整数，
+只有 BLOCK_SIZE 是 constexpr。`index_commuted.py` 明确是已有 Lean 索引交换
+候选的 Python 对照，不冒充历史来源；原始修复 Python 未改动。
+
+`Proofs/SourcePreservation.lean` 对全部原始/候选配置和所有参数证明完整
+kernel 相等。真实隐式 FP8↔FP16、FP32→FP8 store 转换保留在编译后的图中，
+源码没有额外 cast。独立 Real 投影与 FP/执行/安全/输出/frame、完整 chunk
+调度及旧 native/host/Tensor 范围继续重放。FP8 dtype 在调用信息中明确区分，
+对应检查拒绝拿另一种格式的 ABI 冒用审查记录。复用既有转换/word 模型，
+不新增数值规则；旧 CUDA lowering 记录保留历史证据边界，不自动重跑 GPU。

@@ -65,6 +65,30 @@ def maskedExplicit (X Y : RegionName) (n B : Nat) : ComputeKernel := triton {
 theorem masked_preserves_storage_and_target (X Y : RegionName) (n B : Nat) :
     masked X Y n B = maskedExplicit X Y n B := by rfl
 
+/-- FP32 storage has a Real carrier, so dtype resolution must also preserve
+its FP32 source annotation. The complete load and cast remain in the program. -/
+def fp32Target (X Y : RegionName) : ComputeKernel := triton {
+  tl.region X = tl.float32, Y = tl.float32
+  target = tl.load(Y + $(0))
+  value = tl.load(X + $(0)).to(target.dtype)
+}
+
+def fp32Explicit (X Y : RegionName) : ComputeKernel := triton {
+  tl.region X = tl.float32, Y = tl.float32
+  target = tl.load(Y + $(0))
+  value = tl.load(X + $(0)).to(tl.float32)
+}
+
+theorem fp32_retains_load_and_cast (X Y : RegionName) : fp32Target X Y = fp32Explicit X Y := rfl
+
+/-- error: value .dtype cast requires known source precision -/
+#guard_msgs in
+def unknownNativeDType (X : RegionName) : ComputeKernel := triton {
+  tl.region X = tl.float32
+  value = tl.load(X + $(0)).to(unbound.dtype)
+}
+
+#axiomsClean fp32_retains_load_and_cast
 #axiomsClean parametric_preserves_both_formats
 #axiomsClean masked_preserves_storage_and_target
 

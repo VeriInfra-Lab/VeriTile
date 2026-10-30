@@ -20,7 +20,7 @@ specification load_reduce_kernel_output_summary
       (write := fun i : Fin BLOCK_M => some (y_ptr, i.val))
       (expected := fun i =>
         matrixReduceSpec s x_ptr stride_xm stride_xn BLOCK_M BLOCK_N i) := by
-  refine ⟨⟨_, rfl⟩, ?_⟩
+  refine ⟨⟨_, mathematical_supported ..⟩, ?_⟩
   exact load_reduce_kernel_compute_correct x_ptr y_ptr stride_xm stride_xn
     stride_y BLOCK_M BLOCK_N s
 

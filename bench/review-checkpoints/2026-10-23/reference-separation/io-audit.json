@@ -11657,15 +11657,21 @@
       "assessment": {
         "organization": "The full memory interface and named logical view already reside in IO.lean. PairIO.lean contains candidate source/schedule selection and thin variants, without another full memory descriptor.",
         "preservation": {
-          "all_task_sources_byte_identical": true,
-          "current_io": "bench/repairs/tritonbench_g/fast_rope_embedding/IO.lean",
-          "prior_source_pins_match": true
+          "kind": "actual_source_binding_reproved_with_shared_memory_descriptor",
+          "review_evidence": {
+            "path": "bench/pr22-split/receipts/native-rope-bodies.json",
+            "sha256": "1a1015f34577639b8f6d06eaf152b8af01ee4f04412110249680186532440e66"
+          },
+          "full_memory_io_fields_reused": true,
+          "actual_kernel_schedule_directly_proved": true,
+          "claim_of_whole_source_byte_identity": false
         },
         "different_stage_or_encoding_exceptions": [],
         "previous_assessment": {
           "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
           "task": "fast_rope_embedding"
-        }
+        },
+        "current_source_binding": "Fast IO still schedules the actual Fast body, including its true group-size assignment. Its own source prelude and complete execution/safety are now proved separately; only the identical loop and memory mapping are reused. All previous stride and singleton domains, outputs and frame remain."
       },
       "distinct_views": "Real 与具体 FP32 软件模型仅选择 Operations；实际内存、四头 group mask、Q 原位输出、C/S 系数与方向参数使用同一个 Interface.memory/programIO。",
       "readers": [
@@ -11702,20 +11708,20 @@
       ],
       "changed_paths": [],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fast_rope_embedding.json",
-        "sha256": "3afc44f9e0e116dcd04aa6cfab0cbe702478032709ea0073df1e3fe67a4835d2",
-        "task": "fast_rope_embedding"
+        "path": "bench/pr22-split/receipts/native-rope-bodies.json",
+        "sha256": "1a1015f34577639b8f6d06eaf152b8af01ee4f04412110249680186532440e66"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "comparator": "Required host isolation unavailable; actual frozen-source invocations recorded.",
+        "scope": "Complete selected source, logical/physical IO, access safety, execution, outputs/frame and retained native/host/Tensor roots replayed locally, jointly and independently; no GPU experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
-        "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+        "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
         "review_evidence": {
-          "path": ".veritile-cache/headline-formulas-20261022/queue05/result.json",
-          "sha256": "71d52238e5e187b559ad3d1a56cb19cc9630f4b8ab1767948b3e1b93a428989d",
-          "task_index": 7,
-          "task": "fast_rope_embedding"
+          "path": "bench/pr22-split/receipts/native-rope-bodies.json",
+          "sha256": "1a1015f34577639b8f6d06eaf152b8af01ee4f04412110249680186532440e66"
         },
         "io_data_unchanged": true
       },
@@ -22782,16 +22788,15 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean",
-          "sha256": "c23bddec72d2f02c53d5e21055d340e9a6a84de1d07567169a027eb5a3815844"
+          "sha256": "b06df86a28cfda358f50c9303a54a14cfc0c30f489b9f1f227809b29f1051032"
         }
       ],
       "changed_paths": [
         "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/masked_add_cuda.json",
-        "sha256": "531e97f5dd58e5395d049ef48741e27e131140b92551ff8da57e96bde1f75ca7",
-        "task": "masked_add_cuda"
+        "path": "bench/pr22-split/receipts/native-adam-and-masked-add.json",
+        "sha256": "efe42b6b87ba1a832f6e766a10aceb5177505cbda0d55feb251b5369f60046b7"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {},
@@ -22853,7 +22858,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/masked_add_cuda.json",
         "sha256": "531e97f5dd58e5395d049ef48741e27e131140b92551ff8da57e96bde1f75ca7",
         "task": "masked_add_cuda"
-      }
+      },
+      "current_body_source_review": "Keep the two genuine native/Real IO encodings and the single shared full layouts. Change only the Real projection proof to source_supported for the exact native body, whose external signature now includes the actual signed mask input. Re-prove complete Real execution/safety/output/frame and native memory equivalence via IOReal/IOEquiv; independent cold replay covers both. No copied IO description or reduced domain."
     },
     {
       "task": "masked_select",
@@ -24872,14 +24878,13 @@
         },
         {
           "path": "bench/tritonbench_g/matrix_reduction/IO.lean",
-          "sha256": "6a0e4c05c7802692bf11402b5ff1811a6738074148004c42e29c71e99df9df6b"
+          "sha256": "8913dd89a78e22b6f74135fa469e49065a85a68c14541f2680f0510b2ec63042"
         }
       ],
       "changed_paths": [],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_reduction.json",
-        "sha256": "c5aa0405b47a17333ad610d92884cb272472181140ae733a7f4ab9454e966bb2",
-        "task": "matrix_reduction"
+        "path": "bench/pr22-split/receipts/native-block-pointer-reduction.json",
+        "sha256": "cdb93f6a781e4fc498a32062c33f37dc1cc2c2b890a4d237105453995c6932c9"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {
@@ -24950,7 +24955,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_reduction.json",
         "sha256": "c5aa0405b47a17333ad610d92884cb272472181140ae733a7f4ab9454e966bb2",
         "task": "matrix_reduction"
-      }
+      },
+      "current_body_source_review": "Keep all shared full native/Real IO layouts, both storage encodings, logical coordinates and source/candidate schedules. Update only explicit projection proof and the comment clarifying externally supplied runtime strides. Both actual kernels now reference exact raw Python bodies, with true FP16 maximum widening/narrowing and corrected direct FP32 store. Complete math/opaque-FP execution, safety, every output/frame, bit/native/Tensor/host scopes and full cold replay are recorded; no duplicated IO or extra input premise."
     },
     {
       "task": "matrix_transpose",
@@ -30201,25 +30207,23 @@
     },
     {
       "task": "rope_embedding",
-      "status": "no_issue_identified",
+      "status": "fixed",
       "selected_public_entries": [
         "bench/repairs/tritonbench_g/rope_embedding/Contract.lean",
         "bench/repairs/tritonbench_g/rope_embedding/Correct.lean",
         "bench/repairs/tritonbench_g/rope_embedding/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "The main theorem explicitly uses the genuinely shared FastRopeEmbedding.LogicalIO.view/interface. Its owning fast_rope_embedding/IO.lean is maintained by queue05. This task IO.lean defines its distinct typed FP source pair only.",
+        "organization": "The unique complete Q/coefficient read/write/mask/frame descriptor and logical bijections remain shared in FastRopeEmbedding.IO. Ordinary IO.lean owns thin ordinary-source invocation/programIO, logical ropeIO and nativeIO instances plus the actual FP pair. Correct and Misc/NativeCorrect contain the independent formulas and apply direct ordinary-source Interface proofs. Actual source kernels differ in their prelude; their schedules cannot be aliased. No detailed memory descriptor is duplicated.",
         "preservation": {
-          "kind": "unchanged_sources",
-          "fresh_source_review": {
-            "path": ".veritile-cache/io-unification-20261023/queue12/fresh-source-review.json",
-            "sha256": "b986318afb1581600f2095cbb5349961971de792e1ec308bbb0877173b84169b"
+          "kind": "actual_source_binding_reproved_with_shared_memory_descriptor",
+          "review_evidence": {
+            "path": "bench/pr22-split/receipts/native-rope-bodies.json",
+            "sha256": "1a1015f34577639b8f6d06eaf152b8af01ee4f04412110249680186532440e66"
           },
-          "all_prior_relevant_source_hashes_match": true,
-          "prior_owner_report": {
-            "path": ".veritile-cache/logical-reader-review-20261022/queue12/result.json",
-            "sha256": "1acd093fdb5df5a7fed2f0fba54b4e617613726893846119a55bbd0b72bb6386"
-          }
+          "full_memory_io_fields_reused": true,
+          "actual_kernel_schedule_directly_proved": true,
+          "claim_of_whole_source_byte_identity": false
         },
         "different_stage_or_encoding_exceptions": [],
         "previous_assessment": {
@@ -30227,11 +30231,11 @@
           "task": "rope_embedding"
         }
       },
-      "distinct_views": "Shared FP32 rotary IO preserves both directions, four-head grouping, odd tails, original row/cos/sin strides and exact selected source. PairIO Program wrappers retain both full typed sources. Shared fast_rope IO was inspected and not edited by this queue.",
+      "distinct_views": "Both directions, selected group size 4, canonical packed row/coefficient strides, odd-tail frame and the original launch/input domain remain. The ordinary actual source replaces the accidental Fast-source schedule; Interface.judgment_iff plus direct full IO safety/success/output/frame proofs connect both independent Real and native formulas. The existing complete actual source/candidate FP pair has empty numerical assumptions.",
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/rope_embedding/Correct.lean",
-          "sha256": "51001a17ba9203d385aace00e59478fde8d72129362d83c33ac36a5fe3cd0f55"
+          "sha256": "ff0ffb8d74cf95c6be41d321c76b2cf9945ab88d2e1deebb7e0820a450a273a2"
         },
         {
           "path": "bench/repairs/tritonbench_g/rope_embedding/FPEquiv.lean",
@@ -30257,27 +30261,31 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/rope_embedding/IO.lean",
-          "sha256": "ce20de5dbd61518b8a85ed9fe420b333eb664d2c4f208ba615927669121af9cd"
+          "sha256": "6135412871e0b614375e955c1785c9254ab3c2a297f60f2221a08bbd2bb75202"
         }
       ],
-      "changed_paths": [],
+      "changed_paths": [
+        "bench/repairs/tritonbench_g/rope_embedding/Correct.lean",
+        "bench/repairs/tritonbench_g/rope_embedding/Misc/NativeCorrect.lean",
+        "bench/repairs/tritonbench_g/rope_embedding/IO.lean"
+      ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rope_embedding.json",
-        "sha256": "06e8b0a7732fabacf1f36330e84e006f646586d2514a2ceb060898f80ca57906",
-        "task": "rope_embedding"
+        "path": "bench/pr22-split/receipts/native-rope-bodies.json",
+        "sha256": "1a1015f34577639b8f6d06eaf152b8af01ee4f04412110249680186532440e66"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "comparator": "Required host isolation unavailable; actual frozen-source invocations recorded.",
+        "scope": "Complete selected source, logical/physical IO, access safety, execution, outputs/frame and retained native/host/Tensor roots replayed locally, jointly and independently; no GPU experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
-        "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+        "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
         "review_evidence": {
-          "path": ".veritile-cache/headline-formulas-20261022/queue12/result.json",
-          "sha256": "c937c6187ba90c6901b06a8819404c7f5dda17e36be0cf64b1f29a753fe66f36",
-          "task_index": 10,
-          "task": "rope_embedding"
+          "path": "bench/pr22-split/receipts/native-rope-bodies.json",
+          "sha256": "1a1015f34577639b8f6d06eaf152b8af01ee4f04412110249680186532440e66"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -36653,6 +36661,10 @@
       "scope": "Pasted-body entry and source/proof connection; shared-helper compatibility is separately replayed."
     }
   ],
+  "counts": {
+    "fixed": 117,
+    "no_issue_identified": 66
+  },
   "pr22_split_base_integration": {
     "base_commit": "25ad2949386cd0b992e2d3cb7cf26fac86f6a25c",
     "source": "VeriTile/Triton/Memory/LogicalScheduledKernelIO.lean",

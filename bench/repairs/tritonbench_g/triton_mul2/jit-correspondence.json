@@ -1,0 +1,142 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean",
+    "lean_definition": "sourceKernel",
+    "python": "bench/repairs/tritonbench_g/triton_mul2/triton_mul2_repaired.py",
+    "python_function": "mul2_kernel",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "in_ptr0",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "in_ptr0"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean",
+    "lean_definition": "inplaceSourceKernel",
+    "python": "bench/repairs/tritonbench_g/triton_mul2/triton_mul2_repaired.py",
+    "python_function": "mul2_inplace_kernel",
+    "signature_definition": "inplaceSignature",
+    "expected_call_bindings": {
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "ptr"
+      ],
+      "writePorts": [
+        "ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean",
+    "lean_definition": "commutedSourceKernel",
+    "python": "bench/repairs/tritonbench_g/triton_mul2/triton_mul2_repaired.py",
+    "python_function": "mul2_commuted_kernel",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "in_ptr0",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "in_ptr0"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean",
+    "lean_definition": "inplaceCommutedSourceKernel",
+    "python": "bench/repairs/tritonbench_g/triton_mul2/triton_mul2_repaired.py",
+    "python_function": "mul2_inplace_commuted_kernel",
+    "signature_definition": "inplaceSignature",
+    "expected_call_bindings": {
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "ptr"
+      ],
+      "writePorts": [
+        "ptr"
+      ]
+    }
+  }
+]

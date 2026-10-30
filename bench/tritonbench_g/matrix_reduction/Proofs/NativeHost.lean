@@ -123,7 +123,7 @@ theorem allocated_outcomes (mem : Memory S d) (num : Numerics) (laws : Numerical
       (ops.schedule admitted) y.state xs input hn
     have hk : sourceKernel mem num admitted (layout d M N x y) (x.tensor.stride 0)
         (x.tensor.stride 1) (y.tensor.stride 0) (ops.schedule admitted) y.state = .ok t := by
-      simpa [kernel,Tensor.stride,setup.x_strides,setup.y_strides] using hkc
+      simpa [kernel, source16, source32,Tensor.stride,setup.x_strides,setup.y_strides] using hkc
     cases hm : ops.torchMax x.tensor x.base t 1 with
     | error message => simp [run,checked,Except.mapError,Except.bind,Except.map,bind,pure,Functor.map,SeqRight.seqRight,Seq.seq,hx,hy,hl,hk,hm]
     | ok golden =>

@@ -11,7 +11,7 @@ set_option maxRecDepth 16000
 theorem successful {α : Type} [Inhabited α] (A : Algebra α) (d : Storage)
     (s : State α) (M N : Nat) (hN : 0 < N) :
     ∃ t, exec A (kernel d "x" "out" N 1 1 M N) s = some t := by
-  cases d <;> simp [kernel, ComputeKernel.surfaceBody, FP.Structural.exec, run, step,
+  cases d <;> simp [kernel, source16, source32, ComputeKernel.surfaceBody, FP.Structural.exec, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, store, State.setReg,
     TileShape.axisDim, hN, BlockPtr.inBounds, TileShape.insertAxisIndex,
     TileShape.eraseAxis, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType]
@@ -26,7 +26,7 @@ def formula {α : Type} (A : Algebra α) (d : Storage) (M N : Nat)
   let reduced := A.reduceMax (some .fp32) ⟨1, by simp⟩ Bool.false values (i,())
   match d with
   | .fp16 => A.cast none .real .fp16 reduced
-  | .fp32 => A.cast (some .fp32) .real .real reduced
+  | .fp32 => reduced
 
 def sourceValues {α : Type} [Inhabited α] (d : Storage) (M N : Nat) (s : State α) :
     Fin M → Fin N → α :=
@@ -41,7 +41,7 @@ theorem source_graph {α : Type} [Inhabited α] (A : Algebra α) (d : Storage)
     (s : State α) (M N : Nat) (hN : 0 < N) :
     ∃ t, exec A (kernel d "x" "out" N 1 1 M N) s = some t ∧
       t.mem = written A d M N s := by
-  cases d <;> simp [kernel, ComputeKernel.surfaceBody, FP.Structural.exec, run, step,
+  cases d <;> simp [kernel, source16, source32, ComputeKernel.surfaceBody, FP.Structural.exec, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, store, State.setReg,
     TileShape.axisDim, hN, BlockPtr.inBounds, TileShape.insertAxisIndex,
     TileShape.eraseAxis, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,

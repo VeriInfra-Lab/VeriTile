@@ -40,3 +40,14 @@ cover arbitrary layouts, including signed-index storage, both masks and all
 strides. Targeted source/proof builds and fresh joint main/retained optional
 imports are recorded in the source-only cache. Domains, programs and theorem
 statements are unchanged.
+
+### 逐句函数体
+
+两份既有 Python 原始/候选保持不变；完整函数体直接粘贴到 Kernels。
+保留每个 signed64 cast、INT64 索引读取、两维 mask、原始 stride、
+形成的所有源/目标指针和最终写回；调用实参与 dtype/constexpr 在体外。
+
+`Proofs/SourcePreservation.lean` 对完整原始/候选分别证明：任意浮点原语、
+参数及初始状态下，新旧执行的成功/失败和全部内存单元一致。
+实际新代码直接重验原有 Real、FP、逐次访存安全、输出/frame、word/byte、
+host/Tensor 范围；整数索引表示变化只调整证明中的精确 cast 和比较推导。

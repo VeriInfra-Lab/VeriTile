@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "kind": "verbatim_fields_from_archived_review",
+  "archive": {
+    "commit": "5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce",
+    "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+    "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a",
+    "url": "https://github.com/VeriInfra-Lab/VeriTile/blob/5ea0e46126cc1c6eb05e4219ddc5dc13246ec3ce/bench/review-checkpoints/2026-10-25/native-index-select-body/review.json"
+  },
+  "context": "Verification below was performed on the archived source snapshot. Nested evidence paths resolve in that archive. The full semantic review, theorem audit and logs remain there. This split has separate integration checks.",
+  "excerpt": {
+    "status": "verified_task_batch_corpus_migration_incomplete",
+    "code_commit": "58af6d09ab4c9b63a2d85cef8093d7677df5b0d3",
+    "new_task_migrations": [
+      "index_select_cat"
+    ],
+    "verification": {
+      "frontend_regressions": {
+        "status": "PASS",
+        "configured_modules": 93,
+        "previous_verified_code": "048fdf36b116d749260c9851d49fe9224aea5e88",
+        "scope": "All 93 configured frontend regressions, including exact full kernels for constexpr quotient/static shifted arange and signed source literals; runtime/mutable static bounds and scientific floating-literal misuse retain explicit rejection. Earlier terminal-return/integer-read/precision regressions remain included; no failed targets omitted."
+      },
+      "integration": {
+        "status": "PASS",
+        "explicit_modules": 1566,
+        "jobs": 10583
+      },
+      "independent_clean_checkout": {
+        "status": "PASS",
+        "explicit_modules": 27,
+        "jobs": 8472,
+        "scope": "All changed task modules and their complete dependency closure. All 2309 previously independently replayed Lean source files are byte-identical; exact prior-closure audit retained.",
+        "project_build_initially_present": false,
+        "veritile_cache_initially_present": false,
+        "only_fixed_external_dependencies_reused": true
+      },
+      "joint_import": "PASS: all 1566 roots",
+      "task_directories": "Every Lean file in the newly migrated index_select_cat directory, including optional native/host/Tensor readers and all complete semantic/source-binding proofs.",
+      "targeted_python": {
+        "status": "PASS",
+        "tests": 45
+      },
+      "all_python": {
+        "status": "KNOWN_PREEXISTING_FAILURE",
+        "tests": 290,
+        "errors": 1,
+        "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+      },
+      "official_comparator": "UNAVAILABLE: actual frozen-source invocations report host isolation unavailable. The official pinned comparator/exporter/landrun successfully built with a SHA256-verified local Go toolchain. Host Landlock ABI v4 cannot satisfy required v5, and the systemd user bus is unavailable. Isolation checks remain fail-closed.",
+      "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+      "gpu_or_numerical_experiment": "Not run. No new numeric laws, axioms or hardware-conformance claim.",
+      "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+    },
+    "corpus_complete": false,
+    "corpus_counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "legacy_ast_only": 1,
+        "no_selected_jit_resolved": 2,
+        "selected_body_copy_checked": 45,
+        "uncovered_jit_functions": 135
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "selected_body_copy_checked": 2,
+        "spec_derived_body_copy_checked": 15
+      },
+      "selected_jit_functions": 328,
+      "uncovered_selected_jit_functions": 257,
+      "primary_files_with_int64_screen_warning": 39,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 107,
+          "antiquotes": 119,
+          "dsl_loop": 1,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 0,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 0
+        }
+      }
+    }
+  }
+}

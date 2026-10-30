@@ -48,7 +48,7 @@ theorem source_empty (s : BlockState) (os ol ns : Region .int) (src dst : Region
     (B : Nat) (length : Int) (hB : 0 < B) (hle : length ≤ 0)
     (hL : s.readMemValue .int ol.cast (s.pids 0) = length) :
     ∃ final, exec (source os ol ns src dst B) s = some final ∧ final.mem = s.mem := by
-  simp [exec,source,Source.kernel,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [exec,source,Source.kernel,Source.source,Source.commutedSource,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Kernel.eraseDType,

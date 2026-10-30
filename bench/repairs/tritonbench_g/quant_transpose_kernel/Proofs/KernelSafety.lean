@@ -20,7 +20,7 @@ theorem source_safe {α : Type} [Inhabited α] (algebra : Algebra α)
     (output : ∀ r c, r<p.M → c<p.N → r+c*p.M<bounds ⟨p.output⟩) :
     QuantizeIntegerStage.TraceSafe algebra (some round) bounds (typed p version) s := by
   cases version <;>
-    simp (config := { maxSteps := 1000000 }) [QuantizeIntegerStage.TraceSafe,typed,kernel,quotedOriginal,quotedCommuted,
+    simp (config := { maxSteps := 1000000 }) [QuantizeIntegerStage.TraceSafe,typed,kernel,quotedOriginal,quotedCommuted, sourceKernel, commutedSourceKernel,
       ComputeKernel.surfaceBody,QuantizeIntegerStage.Safety.traceSafeList_unfold,
       QuantizeIntegerStage.Safety.stepSafe_unfold,QuantizeIntegerStage.Safety.safeExpr_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,

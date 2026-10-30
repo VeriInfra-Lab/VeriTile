@@ -19,7 +19,7 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
   cases version
   all_goals
     simp (maxSteps := 1400000) [TraceSafe, kernel, original, candidate,
-      TypedSource.kernel, ComputeKernel.surfaceBody,
+      TypedSource.kernel, TypedSource.indexCommutedKernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,

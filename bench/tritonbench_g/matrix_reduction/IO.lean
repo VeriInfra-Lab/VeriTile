@@ -15,11 +15,11 @@ interpretation only; the native source retains its original storage precision. -
 def matrixReductionIO (storage : Storage) (M N : Nat) : MaskedTileKernelIO₁ where
   kernel := (kernel storage "x" "out" N 1 1 M N).eraseDType
   projection := by
-    cases storage <;> simp [kernel, ComputeKernel.eraseDType,
-      ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
-      ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
-      Except.bind, bind, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-      ComputeKernel.surfaceBody]
+    have h : (TypedSource.kernel storage "x" "out" N 1 1 M N).toAlgorithm? =
+        .ok (TypedSource.kernel storage "x" "out" N 1 1 M N).toAlgKernel := by
+      cases storage <;> rfl
+    simp only [ComputeKernel.eraseDType,h,ComputeKernel.toAlgorithm?_fromKernelBody,
+      ComputeKernel.toAlgKernel_fromKernelBody]
   inp := "x"
   out := "out"
   shape := [M, N]
@@ -38,7 +38,8 @@ noncomputable section
 /-- Native IO of the authoritative typed source. Storage is exactly FP16 or
 FP32 as selected by the source. The primitive backend retains promotion,
 reduction order/NaN policy, and destination conversion; all payloads are admitted.
-The source contains no program-ID or runtime-scalar read. -/
+The bound invocation has no program-ID or free scalar-register read; the
+three source runtime strides are supplied by its external call bindings. -/
 def matrixReductionNativeIO {α : Type} (A : Algebra α) (storage : Storage)
     (M N : Nat) : ProgramIO α α where
   inputs := [⟨(channel storage).toTileDType, [M, N], "x"⟩]

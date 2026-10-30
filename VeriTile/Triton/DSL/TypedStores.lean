@@ -21,6 +21,20 @@ private def name (id : Ident) : Name := id.getId.eraseMacroScopes
 private def lookup (types : Types) (id : Ident) : Option Triton.SourceDType :=
   (types.find? (fun entry => entry.1 == name id)).map Prod.snd
 
+/-- Block-pointer construction and advance preserve their base element type.
+The expression compiler separately validates every shape/stride/order field. -/
+private def blockPointerBase (e : TSyntax `tritonExpr) : Option (TSyntax `tritonExpr) := do
+  let args := e.raw.getArgs
+  let first ← args[0]?
+  unless first.isAtom do failure
+  if first.getAtomVal == "tl.make_block_ptr(" then
+    if args[1]?.any Syntax.isIdent && args[2]?.any (fun a => a.isAtom && a.getAtomVal == "=") then
+      unless args[1]!.getId.eraseMacroScopes == `base do failure
+      return ⟨← args[3]?⟩
+    return ⟨← args[1]?⟩
+  if first.getAtomVal == "tl.advance(" then return ⟨← args[1]?⟩
+  failure
+
 private partial def pointerType (types : Types) (e : TSyntax `tritonExpr) : Option Triton.SourceDType :=
   match e with
   | `(tritonExpr| $id:ident) => lookup types id
@@ -31,14 +45,16 @@ private partial def pointerType (types : Types) (e : TSyntax `tritonExpr) : Opti
       | _, _ => none
   | `(tritonExpr| $a:tritonExpr - $b:tritonExpr) =>
       if (pointerType types b).isSome then none else pointerType types a
-  | _ => none
+  | _ => do
+      let base ← blockPointerBase e
+      pointerType types base
 
 private partial def dtypeOverride (raw : Syntax) : Bool :=
   (raw.isAtom && raw.getAtomVal == "dtype") ||
   (raw.isIdent && raw.getId.eraseMacroScopes == `dtype) || raw.getArgs.any dtypeOverride
 
 private def sourceKinds : List Triton.SourceDType :=
-  [.fp16,.bf16,.fp32,.fp64,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean]
+  [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean]
 
 private partial def dtypeToken (raw : Syntax) : Option Name :=
   if raw.isAtom then
@@ -136,9 +152,13 @@ private partial def valueType (pointers : Types) (values : Values)
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
   | `(tritonExpr| tl.extra.cuda.libdevice.pow($a:tritonExpr, $_:num)) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
-  | `(tritonExpr| tl.sum($a:tritonExpr $[, $_:tritonReduceKwarg]*))
-  | `(tritonExpr| tl.max($a:tritonExpr $[, $_:tritonReduceKwarg]*)) =>
+  | `(tritonExpr| tl.sum($a:tritonExpr $[, $_:tritonReduceKwarg]*)) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
+  | `(tritonExpr| tl.max($a:tritonExpr $[, $_:tritonReduceKwarg]*)) =>
+      match valueType pointers values a with
+      | some (.typed .fp16) | some (.typed .bf16) | some (.typed .fp32) => some (.typed .fp32)
+      | some (.typed .fp64) => some (.typed .fp64)
+      | _ => none
   | `(tritonExpr| -$a:tritonExpr) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
   | `(tritonExpr| $a:tritonExpr[:, None])
@@ -165,18 +185,49 @@ private partial def valueType (pointers : Types) (values : Values)
 private partial def containsStore (raw : Syntax) : Bool :=
   (raw.isAtom && raw.getAtomVal == "tl.store") || raw.getArgs.any containsStore
 
-/-- The current ComputeExpr representation retains load precision at a complete
-load assignment. Nested floating loads cannot yet carry that event through an
-arbitrary algebraic expression. Refuse that form instead of dropping it. -/
-private partial def rejectNestedLoads (raw : Syntax) (completeLoad : Bool := Bool.false) : MacroM Unit := do
-  let isLoad := raw.getNumArgs > 0 && raw[0].isAtom && raw[0].getAtomVal == "tl.load("
-  if isLoad && !completeLoad then
-    Macro.throwErrorAt raw "nested load source precision is unsupported by the current frontend"
-  for arg in raw.getArgs do rejectNestedLoads arg
+/-- Integer memory reads have no floating load event. Identify the actual
+source pointer type, rather than trusting a cast's destination type. -/
+private def integerLoad (pointers : Types) (raw : Syntax) : Bool := Id.run do
+  let e : TSyntax `tritonExpr := ⟨raw⟩
+  let source : Option (TSyntax `tritonExpr × Array (TSyntax `tritonMemKwarg)) := match e with
+    | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)) => some (p,kwargs)
+    | `(tritonExpr| tl.load($p:tritonExpr, $_:tritonExpr $[, $kwargs:tritonMemKwarg]*)) => some (p,kwargs)
+    | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:tritonDType)) => some (p,kwargs)
+    | `(tritonExpr| tl.load($p:tritonExpr, $_:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:tritonDType)) => some (p,kwargs)
+    | _ => none
+  let some (p,kwargs) := source | return Bool.false
+  if kwargs.any (fun kw => dtypeOverride kw.raw) then return Bool.false
+  return (pointerType pointers p).any (fun dtype =>
+    [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains dtype)
 
-private def checkAssignmentLoads (value : TSyntax `tritonExpr) : MacroM Unit := do
-  -- Direct load-and-cast is a supported complete ComputeExpr as well.
-  rejectNestedLoads value.raw Bool.true
+/-- Complete floating load assignments retain their source precision. Nested
+floating reads still fail closed; known integer reads can remain in algebraic
+expressions. Check their address/mask children too, so a nested floating read
+cannot be hidden by an integer outer load or a conversion to integer. -/
+private partial def rejectNestedLoads (pointers : Types) (raw : Syntax)
+    (completeLoad : Bool := Bool.false) : MacroM Unit := do
+  let isLoad := raw.getNumArgs > 0 && raw[0].isAtom && raw[0].getAtomVal == "tl.load("
+  if isLoad && !completeLoad && !integerLoad pointers raw then
+    Macro.throwErrorAt raw "nested load source precision is unsupported by the current frontend"
+  for arg in raw.getArgs do rejectNestedLoads pointers arg
+
+private def checkAssignmentLoads (pointers : Types) (value : TSyntax `tritonExpr) : MacroM Unit := do
+  -- The existing integer frontend preserves a direct tl.cast(load(...), dtype)
+  -- just like load(...).to(dtype). Integer reads have no floating load event.
+  -- Keep arbitrary nested floating loads rejected: their load precision must
+  -- not disappear into an algebraic Op during source elaboration.
+  if let `(tritonExpr| tl.cast($loaded:tritonExpr, $_:tritonDType)) := value then
+    let pointer : Option (TSyntax `tritonExpr) := match loaded with
+      | `(tritonExpr| tl.load($p:tritonExpr $[, $_:tritonMemKwarg]*)) => some p
+      | `(tritonExpr| tl.load($p:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*)) => some p
+      | _ => none
+    if let some p := pointer then
+      if (pointerType pointers p).any (fun dt =>
+          [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains dt) then
+        rejectNestedLoads pointers loaded.raw Bool.true
+        return
+  -- Direct load-and-method-cast is a supported complete ComputeExpr as well.
+  rejectNestedLoads pointers value.raw Bool.true
 
 private partial def rejectPointerRebinding (pointers : Types) (raw : Syntax) : MacroM Unit := do
   if let `(tritonStmt| $id:ident = $value:tritonExpr) := raw then
@@ -215,13 +266,19 @@ private def checkInvariant (invariants : Values) (id : Ident) (value : Option Va
     unless value == some expected do
       Macro.throwErrorAt id "loop-carried value requires a stable, known source dtype"
 
-/-- Every store must resolve its destination even when its conversion is an
-identity. Unknown control flow fails closed; branch results do not acquire
-an unproved source dtype after the merge. -/
-partial def lower (pointers : Types) (values : Values)
-    (body : List (TSyntax `tritonStmt)) (invariants : Values := []) : MacroM (List (TSyntax `tritonStmt)) := do
+/-- Retain only names with the same known information on every path.
+This tracks dtype, never equality of pointer addresses or computed values. -/
+private def commonInfo [BEq α] (yes no : List (Name × α)) : List (Name × α) :=
+  yes.filter (fun entry => no.any (fun other => other.1 == entry.1 && other.2 == entry.2))
+
+/-- Lower the full block and retain its conservative exit information. A
+supported branch joins only identical known dtypes from both exits; one-arm
+branches include the unchanged entry environment as their other exit. -/
+private partial def lowerWithState (pointers : Types) (values : Values)
+    (body : List (TSyntax `tritonStmt)) (invariants : Values := []) :
+    MacroM (List (TSyntax `tritonStmt) × Types × Values) := do
   match body with
-  | [] => return []
+  | [] => return ([],pointers,values)
   | stmt :: rest =>
       let mut nextPointers := pointers
       let mut nextValues := values
@@ -230,12 +287,23 @@ partial def lower (pointers : Types) (values : Values)
         if (lookup pointers iterator).isSome || values.any (fun p => p.1 == name iterator) then
           Macro.throwErrorAt iterator "loop iterator shadows a tracked pointer or value"
         for st in body do rejectPointerRebinding pointers st.raw
-        let stable := values.filter (fun p => match p.2 with | .typed _ => Bool.true | _ => Bool.false)
-        let body ← lower pointers values body.toList (invariants ++ stable)
+        -- This pass proves floating store precision, not integer SSA widths.
+        -- Forget integer entry facts before lowering a possibly zero-trip loop:
+        -- arithmetic can reassign those registers, and unknown integer widths
+        -- must retain the destination conversion. Explicit source casts remain
+        -- in the ordinary expression compiler. Floating carried facts still
+        -- require a stable dtype on every assignment and every branch.
+        let stable := values.filter (fun p => match p.2 with
+          | .typed dtype => [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5].contains dtype
+          | _ => Bool.false)
+        let entry := values.filter (fun p => match p.2 with
+          | .typed dtype => [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5].contains dtype
+          | _ => Bool.true)
+        let (body,_,_) ← lowerWithState pointers entry body.toList (invariants ++ stable)
         return (body.toArray, stable)
       match stmt with
       | `(tritonStmt| $id:ident = $value:tritonExpr) =>
-          checkAssignmentLoads value
+          checkAssignmentLoads pointers value
           checkInvariant invariants id (valueType pointers values value)
           nextPointers := pointers.filter (fun entry => entry.1 != name id)
           nextValues := values.filter (fun entry => entry.1 != name id)
@@ -244,7 +312,7 @@ partial def lower (pointers : Types) (values : Values)
           if let some dtype := valueType pointers values value then
             nextValues := (name id, dtype) :: nextValues
       | `(tritonStmt| $id:ident += $value:tritonExpr) =>
-          rejectNestedLoads value.raw
+          rejectNestedLoads pointers value.raw
           let expression ← `(tritonExpr| $id:ident + $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype
@@ -253,7 +321,7 @@ partial def lower (pointers : Types) (values : Values)
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
       | `(tritonStmt| $id:ident -= $value:tritonExpr) =>
-          rejectNestedLoads value.raw
+          rejectNestedLoads pointers value.raw
           let expression ← `(tritonExpr| $id:ident - $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype
@@ -262,7 +330,7 @@ partial def lower (pointers : Types) (values : Values)
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
       | `(tritonStmt| $id:ident *= $value:tritonExpr) =>
-          rejectNestedLoads value.raw
+          rejectNestedLoads pointers value.raw
           let expression ← `(tritonExpr| $id:ident * $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype
@@ -271,7 +339,7 @@ partial def lower (pointers : Types) (values : Values)
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
       | `(tritonStmt| $id:ident /= $value:tritonExpr) =>
-          rejectNestedLoads value.raw
+          rejectNestedLoads pointers value.raw
           let expression ← `(tritonExpr| $id:ident / $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype
@@ -280,26 +348,31 @@ partial def lower (pointers : Types) (values : Values)
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
       | `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr)) =>
-          rejectNestedLoads value.raw
+          rejectNestedLoads pointers value.raw
           let value ← convertedValue pointers values destination value
           stmt ← `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr))
       | `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr, $kwarg:tritonMemKwarg $[, $kwargs:tritonMemKwarg]*)) =>
-          rejectNestedLoads value.raw
+          rejectNestedLoads pointers value.raw
           let value ← convertedValue pointers values destination value
           stmt ← `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr, $kwarg:tritonMemKwarg $[, $kwargs:tritonMemKwarg]*))
       | `(tritonStmt| if $condition:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* }) =>
-          rejectNestedLoads condition.raw
+          rejectNestedLoads pointers condition.raw
           for st in yes ++ no do rejectPointerRebinding pointers st.raw
-          let yes := (← lower pointers values yes.toList invariants).toArray
-          let no := (← lower pointers values no.toList invariants).toArray
+          let (yes,yesPointers,yesValues) ← lowerWithState pointers values yes.toList invariants
+          let (no,noPointers,noValues) ← lowerWithState pointers values no.toList invariants
+          let yes := yes.toArray
+          let no := no.toArray
           stmt ← `(tritonStmt| if $condition { $yes* } else { $no* })
-          nextValues := []
+          nextPointers := commonInfo yesPointers noPointers
+          nextValues := commonInfo yesValues noValues
       | `(tritonStmt| if $condition:tritonExpr { $yes:tritonStmt* }) =>
-          rejectNestedLoads condition.raw
+          rejectNestedLoads pointers condition.raw
           for st in yes do rejectPointerRebinding pointers st.raw
-          let yes := (← lower pointers values yes.toList invariants).toArray
+          let (yes,yesPointers,yesValues) ← lowerWithState pointers values yes.toList invariants
+          let yes := yes.toArray
           stmt ← `(tritonStmt| if $condition { $yes* })
-          nextValues := []
+          nextPointers := commonInfo yesPointers pointers
+          nextValues := commonInfo yesValues values
       | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, $step:tritonExpr) { $body:tritonStmt* }) =>
           let (body, stable) ← loopBody i body
           stmt ← `(tritonStmt| for $i in range($start, $stop, $step) { $body* })
@@ -312,6 +385,10 @@ partial def lower (pointers : Types) (values : Values)
           let (body, stable) ← loopBody i body
           stmt ← `(tritonStmt| for $i in range($stop) { $body* })
           nextValues := stable
+      | `(tritonStmt| for $i:ident in tl.static_range($($n:term)) { $body:tritonStmt* }) =>
+          let (body, stable) ← loopBody i body
+          stmt ← `(tritonStmt| for $i in tl.static_range($($n)) { $body* })
+          nextValues := stable
       | `(tritonStmt| for $i:ident in tl.static_range($n:num) { $body:tritonStmt* }) =>
           let (body, stable) ← loopBody i body
           stmt ← `(tritonStmt| for $i in tl.static_range($n:num) { $body* })
@@ -319,13 +396,20 @@ partial def lower (pointers : Types) (values : Values)
       | _ =>
           if mentions (invariants.map Prod.fst) stmt.raw then
             Macro.throwErrorAt stmt "unsupported statement involving a loop-carried source dtype"
-          rejectNestedLoads stmt.raw
+          rejectNestedLoads pointers stmt.raw
           rejectPointerRebinding pointers stmt.raw
           if containsStore stmt.raw then
             Macro.throwErrorAt stmt "unsupported store control flow in call signature"
           -- An unsupported statement can assign a tracked value through a
           -- form not understood above. Forget value types conservatively.
           nextValues := []
-      return stmt :: (← lower nextPointers nextValues rest invariants)
+      let (rest,finalPointers,finalValues) ← lowerWithState nextPointers nextValues rest invariants
+      return (stmt :: rest,finalPointers,finalValues)
+
+/-- Every store resolves its destination dtype. Supported control flow keeps
+only dtype facts proved by both exits; unsupported forms forget value facts. -/
+def lower (pointers : Types) (values : Values)
+    (body : List (TSyntax `tritonStmt)) (invariants : Values := []) : MacroM (List (TSyntax `tritonStmt)) := do
+  return (← lowerWithState pointers values body invariants).1
 
 end VeriTile.Triton.DSL.TypedStores

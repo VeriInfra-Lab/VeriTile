@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matrix_reduction.Kernels
+import bench.tritonbench_g.matrix_reduction.Proofs.SourceProjection
 
 /-! Existing mathematical helpers, preserved under their original names. -/
 
@@ -42,7 +42,7 @@ theorem load_reduce_kernel_correct
   have h_inj := BlockState.tileIndex1d_offset_injective (BLOCK := BLOCK_M)
   by_cases hBM : 0 < BLOCK_M
   · by_cases hBN : 0 < BLOCK_N
-    · simp [exec, load_reduce_kernel, stepStmts, stepStmt, evalOp, evalOp.eq_def,
+    · simp [exec, mathematical_projection, LegacyBody.load_reduce_kernel, stepStmts, stepStmt, evalOp, evalOp.eq_def,
             Tile.reduceMax, Tile.reduceMaxDrop,
             TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
             BlockPtr.address, BlockPtr.inBounds, hBN] at hExec
@@ -52,7 +52,7 @@ theorem load_reduce_kernel_correct
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
         BlockPtr.address, hBN]
       congr with x
-    · simp [exec, load_reduce_kernel, stepStmts, stepStmt, evalOp, evalOp.eq_def,
+    · simp [exec, mathematical_projection, LegacyBody.load_reduce_kernel, stepStmts, stepStmt, evalOp, evalOp.eq_def,
             Tile.reduceMax, Tile.reduceMaxDrop,
             TileShape.axisDim, TileShape.eraseAxis, hBN] at hExec
   · exact False.elim (hBM (Nat.lt_of_le_of_lt (Nat.zero_le _) i.isLt))
@@ -68,7 +68,7 @@ theorem load_reduce_kernel_compute_correct
       (initialState := s)
       (write := fun i : Fin BLOCK_M => some (y_ptr, i.val))
       (expected := fun i => matrixReduceSpec s x_ptr stride_xm stride_xn BLOCK_M BLOCK_N i) := by
-  apply ComputeKernel.computeCorrect_of_toAlgKernel rfl
+  apply ComputeKernel.computeCorrect_of_toAlgKernel (mathematical_supported ..)
   intro s0 s' hExec hs0
   subst s0
   intro i
@@ -197,8 +197,9 @@ theorem matrix_reduction_flattenOk (x_ptr y_ptr : RegionName)
     (stride_xm stride_xn stride_y BLOCK_M BLOCK_N : Nat) :
     ((load_reduce_kernel x_ptr y_ptr stride_xm stride_xn stride_y BLOCK_M
       BLOCK_N).toAlgKernel).FlattenOk := by
+  rw [mathematical_projection]
   unfold Kernel.FlattenOk
-  simp [load_reduce_kernel, ComputeKernel.toAlgKernel, StmtList.FlattenOk,
+  simp [mathematical_projection, LegacyBody.load_reduce_kernel, ComputeKernel.toAlgKernel, StmtList.FlattenOk,
     Stmt.FlattenOk, Op.FlattenOk]
   exact flattenOk_reduceMax _ _ _ (flattenOk_ref _ _ _)
 
@@ -209,7 +210,7 @@ theorem matrix_reduction_terminates (x_ptr y_ptr : RegionName)
     (s : BlockState) :
     ∃ s1, exec (load_reduce_kernel x_ptr y_ptr stride_xm stride_xn stride_y
       BLOCK_M BLOCK_N) s = some s1 := by
-  simp [exec, load_reduce_kernel, stepStmts, stepStmt, evalOp.eq_def,
+  simp [exec, mathematical_projection, LegacyBody.load_reduce_kernel, stepStmts, stepStmt, evalOp.eq_def,
     Tile.reduceMax, Tile.reduceMaxDrop, TileShape.axisDim, TileShape.eraseAxis,
     TileShape.insertAxisIndex, BlockPtr.address, BlockPtr.inBounds, hBN]
 
@@ -222,7 +223,7 @@ theorem matrix_reduction_traceSafe (x_ptr y_ptr : RegionName)
     (hY : ∀ i : Fin BLOCK_M, i.val < bounds y_ptr) :
     ((load_reduce_kernel x_ptr y_ptr stride_xm stride_xn stride_y BLOCK_M
       BLOCK_N).toAlgKernel).TraceSafe bounds s := by
-  simp [Kernel.TraceSafe, load_reduce_kernel, Stmt.TraceSafeList, Stmt.TraceSafe,
+  simp [Kernel.TraceSafe, mathematical_projection, LegacyBody.load_reduce_kernel, Stmt.TraceSafeList, Stmt.TraceSafe,
     Op.SafeAt, MaskOpt.SafeAt, MaskOpt.Active, MemAccess.SafeAt,
     MemAccess.MemorySafe, memAccessMemorySafe, MemAccess.ActiveAddressSafe,
     memAccessActiveAddressSafe, Op.PointerAddressesSafeOn, Op.MemorySafe,
@@ -245,7 +246,7 @@ theorem matrix_reduction_frame (x_ptr y_ptr : RegionName)
     ∀ (r : RegionName) (o : Nat), (r ≠ y_ptr ∨ ∀ i : Fin BLOCK_M, o ≠ i.val) →
       s'.mem r o = s.mem r o := by
   intro r o hcond
-  simp [exec, load_reduce_kernel, stepStmts, stepStmt, evalOp.eq_def,
+  simp [exec, mathematical_projection, LegacyBody.load_reduce_kernel, stepStmts, stepStmt, evalOp.eq_def,
     Tile.reduceMax, Tile.reduceMaxDrop, TileShape.axisDim, TileShape.eraseAxis,
     TileShape.insertAxisIndex, hBN] at hExec
   subst hExec
@@ -290,6 +291,7 @@ def matrixReduceIO (x_ptr y_ptr : RegionName)
     MaskedTileKernelIO₁ where
   kernel := load_reduce_kernel x_ptr y_ptr stride_xm stride_xn stride_y BLOCK_M
     BLOCK_N
+  projection := mathematical_supported ..
   inp := x_ptr
   out := y_ptr
   shape := [BLOCK_M, BLOCK_N]

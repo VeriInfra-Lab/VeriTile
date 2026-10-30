@@ -1,0 +1,148 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/dequantize_matmul/Kernels.lean",
+    "lean_definition": "kernel",
+    "python": "bench/repairs/tritonbench_g/dequantize_matmul/dequantize_matmul_repaired.py",
+    "python_function": "dequantize_kernel",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "K": "K_value",
+      "N": "N_value",
+      "stride_bk": "stride_bk_value",
+      "stride_bn": "stride_bn_value",
+      "stride_scale": "stride_scale_value",
+      "stride_fpbk": "stride_fpbk_value",
+      "stride_fpbn": "stride_fpbn_value"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "b_ptr",
+          "i8"
+        ],
+        [
+          "b_scale_ptr",
+          "fp32"
+        ],
+        [
+          "fpb_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_scale",
+          "integer"
+        ],
+        [
+          "stride_fpbk",
+          "integer"
+        ],
+        [
+          "stride_fpbn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "b_ptr",
+        "b_scale_ptr"
+      ],
+      "writePorts": [
+        "fpb_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/dequantize_matmul/Kernels.lean",
+    "lean_definition": "indexCommutedKernel",
+    "python": "bench/repairs/tritonbench_g/dequantize_matmul/index_commuted.py",
+    "python_function": "dequantize_index_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "K": "K_value",
+      "N": "N_value",
+      "stride_bk": "stride_bk_value",
+      "stride_bn": "stride_bn_value",
+      "stride_scale": "stride_scale_value",
+      "stride_fpbk": "stride_fpbk_value",
+      "stride_fpbn": "stride_fpbn_value"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "b_ptr",
+          "i8"
+        ],
+        [
+          "b_scale_ptr",
+          "fp32"
+        ],
+        [
+          "fpb_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_scale",
+          "integer"
+        ],
+        [
+          "stride_fpbk",
+          "integer"
+        ],
+        [
+          "stride_fpbn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "b_ptr",
+        "b_scale_ptr"
+      ],
+      "writePorts": [
+        "fpb_ptr"
+      ]
+    }
+  }
+]

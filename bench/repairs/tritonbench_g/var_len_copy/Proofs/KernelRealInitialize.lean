@@ -16,7 +16,7 @@ def prefixBody (os ol ns : Region .int) (src dst : RegionName) (B : Nat) : List 
     (source os ol ns src dst B).body = prefixBody os ol ns src dst B ++
       [.forRangeInt "i" (.constInt 0) (.ref .int [] "length") (.constNat B)
         (body os ol ns src dst B)] := by
-  simp [prefixBody,body,source,kernel,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [prefixBody,body,source,kernel,Source.source,Source.commutedSource,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Kernel.eraseDType,
@@ -31,7 +31,7 @@ def prefixBody (os ol ns : Region .int) (src dst : RegionName) (B : Nat) : List 
     (hN : s.readMemValue .int ns.cast (s.pids 0) = (newStart : Int)) :
     ∃ mid, stepStmts (prefixBody os ol ns src dst B) s = some mid ∧
       Inv s src dst B length oldStart newStart 0 mid := by
-  simp [prefixBody,source,kernel,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [prefixBody,source,kernel,Source.source,Source.commutedSource,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Kernel.eraseDType,
@@ -51,8 +51,8 @@ def prefixBody (os ol ns : Region .int) (src dst : RegionName) (B : Nat) : List 
   · simpa using congrArg (fun n ↦ some (Tile.scalar n)) hL
   · simpa using congrArg (fun n ↦ some (Tile.scalar n)) hO
   · simpa using congrArg (fun n ↦ some (Tile.scalar n)) hN
-  · simp
-  · simp
+  · simp [Tile.vec]
+  · simp [Tile.vec]
   · intro t lane ht; omega
 
  theorem source_run (s : BlockState) (os ol ns : Region .int) (src dst : RegionName)

@@ -16,7 +16,8 @@ theorem implements (storage : MaskStorage) (n : Nat) (alpha : ℝ) :
   apply UKernelIO.RegionalImplements3D.intro
   · intro bounds s vals _ hi _ _
     rw [show (io storage n alpha).kernel.toAlgKernel =
-      (integer_math_kernel "grad" "data" "mask" n alpha blockSize).toAlgKernel from
+      { (integer_math_kernel "grad" "data" "mask" n alpha blockSize).toAlgKernel with
+        inputs := ["grad","data","mask"] } from
         source_projection storage (parameters "grad" "data" "mask" n) alpha]
     exact integer_math_kernel_traceSafe "grad" "data" "mask" n alpha blockSize bounds s
       (hi (⟨1, by decide⟩ : Fin 3)) (hi (⟨0, by decide⟩ : Fin 3))
@@ -29,7 +30,7 @@ theorem implements (storage : MaskStorage) (n : Nat) (alpha : ℝ) :
       (hpins (⟨1, by decide⟩ : Fin 3)) (hpins (⟨0, by decide⟩ : Fin 3))
       (hpins (⟨2, by decide⟩ : Fin 3))
     refine ⟨final, ?_, ?_, ?_⟩
-    · simpa only [io, kernel_eq_original, integer_projection] using he
+    · simpa only [io, source_execution, integer_exec] using he
     · intro o j hj
       simpa only [io, ChanTy.read, formula, if_pos hj.2] using hv j hj
     · intro r address outside _

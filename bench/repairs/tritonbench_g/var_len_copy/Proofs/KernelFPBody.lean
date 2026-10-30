@@ -24,7 +24,7 @@ theorem load_equivalence {α : Type} [Inhabited α] (M : Algebra α)
     (B : Nat) (s : State α) :
     step M (loadStatement Bool.false os ol ns src dst B) s =
       step M (loadStatement Bool.true os ol ns src dst B) s := by
-  all_goals simp only [loadStatement, body, kernel, ComputeKernel.surfaceBody,
+  all_goals simp only [loadStatement, body, kernel,Source.source,Source.commutedSource, ComputeKernel.surfaceBody,
     List.getElem?_cons_zero, List.getElem?_cons_succ, List.headD_cons]
   all_goals simp only [step, evalExpr, evalComputeOp]
   all_goals

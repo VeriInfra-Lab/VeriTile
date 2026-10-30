@@ -1,0 +1,176 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/l2_norm_triton2/l2_norm_triton2_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/l2_norm_triton1/Kernels.lean",
+    "python_function": "_l2_norm_fwd_1pass_kernel_repaired",
+    "lean_definition": "template",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/l2_norm_triton2/l2_norm_triton2_candidate.py",
+    "lean": "bench/repairs/tritonbench_g/l2_norm_triton1/Kernels.lean",
+    "python_function": "_l2_norm_fwd_1pass_kernel_index_commuted",
+    "lean_definition": "commutedTemplate",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/l2_norm_triton2/l2_norm_triton2_repaired.py",
+    "python_function": "_l2_norm_bwd_kernel_repaired",
+    "lean": "bench/repairs/tritonbench_g/l2_norm_triton2/Kernels.lean",
+    "lean_definition": "backwardTemplate",
+    "signature_definition": "backwardSignature",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "DY",
+          "fp32"
+        ],
+        [
+          "DX",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "X",
+        "DY"
+      ],
+      "writePorts": [
+        "DX"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/l2_norm_triton2/l2_norm_triton2_candidate.py",
+    "python_function": "_l2_norm_bwd_kernel_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/l2_norm_triton2/Kernels.lean",
+    "lean_definition": "commutedBackwardTemplate",
+    "signature_definition": "backwardSignature",
+    "expected_call_bindings": {
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "DY",
+          "fp32"
+        ],
+        [
+          "DX",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "X",
+        "DY"
+      ],
+      "writePorts": [
+        "DX"
+      ]
+    }
+  }
+]

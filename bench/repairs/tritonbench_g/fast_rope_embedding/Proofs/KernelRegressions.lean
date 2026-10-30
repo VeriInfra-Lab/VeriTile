@@ -1,3 +1,4 @@
+import bench.tritonbench_g.fast_rope_embedding.Kernels
 import bench.repairs.tritonbench_g.fast_rope_embedding.Contract
 import bench.repairs.tritonbench_g.rope_embedding.Proofs.SourceBinding
 

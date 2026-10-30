@@ -29,7 +29,7 @@ def scalar {α : Type} (M : Algebra α) (N B : Nat) (eps : α) (xs dys : Nat →
     (i : Nat) : α :=
   let cast := M.cast (some .fp32) .real .real
   let bin := M.binary (some .fp32) .real
-  let shifted := bin .add (variance M N B xs) (cast eps)
+  let shifted := bin .add (variance M N B xs) eps
   let one := M.literal (some .fp32) .real 1
   let rstd := bin .div one (M.unary (some .fp32) .sqrt shifted)
   bin .sub (bin .mul (cast (dys i)) rstd)

@@ -21,7 +21,7 @@ theorem source_traceSafe {α : Type} [Inhabited α]
     FP.Structural.TraceSafe sem.backend bounds (commutedSource total n B)
       (programState params pid s) := by
   simp (maxSteps := 1400000) [FP.Structural.TraceSafe, commutedSource,
-    commutedWithArguments, ComputeKernel.surfaceBody,
+    commutedWithArguments, commutedBody, ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
     Safety.safeOp_unfold, Safety.safeCompute_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,
     Safety.addressSafe_unfold, Safety.maskActive_unfold,

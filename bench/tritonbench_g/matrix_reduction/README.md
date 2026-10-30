@@ -92,3 +92,31 @@ reference result is `KernelNativeResults.matrix_reduction_bits`.
 `Misc/TensorBridge.lean` retains `matrix_reduction_correct`, `matrix_reduction_fp`
 and `matrix_reduction_maximum` under the `TensorBridge` namespace, with the
 same actual input-storage bindings and optional non-NaN interpretation.
+
+
+## Native body correspondence
+
+`Kernels.lean` pastes the complete original block-pointer body and the existing
+`matrix_reduction_optimized.py` affine-address body for both FP16 and FP32.
+Runtime strides, including the unused `stride_y`, are declared and bound outside
+the body; only BLOCK_M/BLOCK_N are constexpr. `jit-correspondence.json` checks
+all four full bodies and the two distinct ABI profiles. The original Python
+and candidate are unchanged.
+
+The block-pointer frontend preserves the base element dtype through rebinding
+and `tl.advance`. The implicit FP16 maximum promotion follows the selected
+[Triton 3.8 source](https://github.com/triton-lang/triton/blob/v3.8.0/python/triton/language/standard.py#L165).
+Its required narrowing store remains. The earlier presentation's redundant
+FP32-to-FP32 final cast is removed: the actual arbitrary-backend FP32 graph is
+load, maximum, direct store. The source/candidate pair is re-proved for that
+actual graph, with no new cast-identity premise or numeric law.
+
+`load_reduce_kernel` is solely a compatibility mathematical projection of the
+full actual FP32 source. `Proofs/SourceProjection.lean` connects its entire
+algorithm to the frozen independent companion in `Proofs/LegacyBody.lean`.
+All legacy mathematical helpers and public judgments retain their dimensions,
+strides, M=0 case, necessary N>0 condition, complete execution, safety, output
+windows and frames. Current typed source/candidate and optional strict bit,
+Tensor and host results are replayed from their real implementations. Earlier
+`fp_source_evidence.json` remains historical evidence for the unchanged primitive
+models; current source hashes and proof replay are recorded separately.

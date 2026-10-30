@@ -190,7 +190,7 @@ theorem kernel_correct (ops : Memory S d) (num : Numerics) (laws : NumericalCont
   let value := fun i => rowResult num d (xs i) (schedule.tree i)
   refine ⟨stores ops p.yAddress value schedule.rows s,?_,?_,?_,?_⟩
   · change sourceObserved ops p (max N 1) 1 s = xs at he
-    simp [kernel,sourceKernel,present,he,hy,value]
+    simp [kernel, source16, source32,sourceKernel,present,he,hy,value]
   · intro i
     have hs := complete_tree_maximum num laws d (xs i) (hn i) (schedule.tree i) (schedule.covers_columns i)
     exact ⟨value i,stores_readback ops p value schedule.rows s i (schedule.covers_rows i),hs.1,hs.2,
@@ -212,7 +212,7 @@ theorem kernel_correct (ops : Memory S d) (num : Numerics) (laws : NumericalCont
 #axiomsClean stores_readback
 #axiomsClean stores_byte_readback
 #axiomsClean kernel_correct
-#specNonCircular KernelSpec avoiding [kernel,sourceKernel,stores,observed,sourceObserved]
+#specNonCircular KernelSpec avoiding [kernel, source16, source32,sourceKernel,stores,observed,sourceObserved]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

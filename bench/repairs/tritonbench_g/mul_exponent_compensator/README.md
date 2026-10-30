@@ -134,3 +134,30 @@ namespaces, full theorem statements, proof bodies and prior acceptance status
 are preserved. `Correct.lean`, `FPEquiv.lean` and their required proof helpers
 do not import these optional entries. This directory move adds no correctness
 claim or numerical validation.
+
+
+## Native body correspondence
+
+`Kernels.lean` pastes the complete selected original and scalar-left Python
+functions from `mul_exponent_compensator_repaired.py`. Both `.to(tl.int64)`
+casts, the original `exponent_compensator: tl.constexpr = 2.0 ** (127 - 15)`,
+all masks, loads and stores remain visible. Only BLOCK_SIZE is a call
+constexpr; the declared runtime int64 length is bound outside the body.
+`jit-correspondence.json` checks both complete bodies and external signatures.
+
+The frontend folds only this generic exact-static-power subset to a weak
+Python value, retaining its first interpretation in the original FP32 tensor
+operation. Other floating powers and runtime exponents are rejected. Actual
+signed mathematical index registers now match the displayed casts. The full
+execution/memory and safety proofs transport those nonnegative addresses to
+the old natural-index formulas. `Proofs/SourcePreservation.lean` constructs
+both complete old/new executions and proves equality of all memory cells for
+arbitrary floating callbacks and all old sizes. It does not claim equality of
+their differently typed registers or ASTs.
+
+The optional native decoder follows those actual signed casts into the same
+existing finite index graph, using shared structural decoding in
+`triton_mul2/Proofs/SignedSource.lean`. All original width, sign-extension,
+allocation and grid-bound proofs are retained; no new per-task bit arithmetic
+or numerical rule is introduced. Independent Real formula, full scheduled
+outputs/frame and the strict software multiplication certificate are unchanged.

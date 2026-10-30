@@ -106,6 +106,7 @@ theorem statement0 {α : Type} [Inhabited α] (c : Invocation α) :
   simp only [statement,source,kernel,ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.bop,FP.Structural.natLt,rowState,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,loaded,masked,productSum,tileScalar,input,Invocation.xs,Invocation.dys,Invocation.q,Invocation.rs,state0,state1]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
+  try simp [index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   try rfl
 
 #axiomsClean statement0
@@ -145,6 +146,7 @@ theorem statement4 {α : Type} [Inhabited α] (c : Invocation α) :
   simp only [statement,source,kernel,ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.bop,FP.Structural.natLt,rowState,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,loaded,masked,productSum,tileScalar,input,Invocation.xs,Invocation.dys,Invocation.q,Invocation.rs,state0,state1,state2,state3,state4,state5]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
+  try simp [index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   try rfl
 
 #axiomsClean statement4
@@ -154,6 +156,7 @@ theorem statement5 {α : Type} [Inhabited α] (c : Invocation α) :
   simp only [statement,source,kernel,ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.bop,FP.Structural.natLt,rowState,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,loaded,masked,productSum,tileScalar,input,Invocation.xs,Invocation.dys,Invocation.q,Invocation.rs,state0,state1,state2,state3,state4,state5,state6]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
+  try simp [index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   try rfl
 
 #axiomsClean statement5
@@ -163,6 +166,7 @@ theorem statement6 {α : Type} [Inhabited α] (c : Invocation α) :
   simp only [statement,source,kernel,ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.bop,FP.Structural.natLt,rowState,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,loaded,masked,productSum,tileScalar,input,Invocation.xs,Invocation.dys,Invocation.q,Invocation.rs,state0,state1,state2,state3,state4,state5,state6,state7]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
+  try simp [index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   try rfl
 
 #axiomsClean statement6
@@ -172,6 +176,7 @@ theorem statement7 {α : Type} [Inhabited α] (c : Invocation α) :
   simp only [statement,source,kernel,ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.bop,FP.Structural.natLt,rowState,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,loaded,masked,productSum,tileScalar,input,Invocation.xs,Invocation.dys,Invocation.q,Invocation.rs,state0,state1,state2,state3,state4,state5,state6,state7,state8]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
+  try simp [index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   try rfl
 
 #axiomsClean statement7
@@ -181,6 +186,7 @@ theorem statement8 {α : Type} [Inhabited α] (c : Invocation α) :
   simp only [statement,source,kernel,ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.bop,FP.Structural.natLt,rowState,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,loaded,masked,productSum,tileScalar,input,Invocation.xs,Invocation.dys,Invocation.q,Invocation.rs,state0,state1,state2,state3,state4,state5,state6,state7,state8,state9]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
+  try simp [index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   try rfl
 
 #axiomsClean statement8
@@ -190,7 +196,11 @@ theorem statement9 {α : Type} [Inhabited α] (c : Invocation α) :
   simp only [statement,source,kernel,ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.bop,FP.Structural.natLt,rowState,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,loaded,masked,productSum,tileScalar,input,Invocation.xs,Invocation.dys,Invocation.q,Invocation.rs,state0,state1,state2,state3,state4,state5,state6,state7,state8,state9,state10]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
+  try simp [index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   try rfl
+  congr 1
+  funext i
+  simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,index_lt]
 
 #axiomsClean statement9
 
@@ -199,6 +209,7 @@ theorem statement10 {α : Type} [Inhabited α] (c : Invocation α) :
   simp only [statement,source,kernel,ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.bop,FP.Structural.natLt,rowState,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,loaded,masked,productSum,tileScalar,input,Invocation.xs,Invocation.dys,Invocation.q,Invocation.rs,state0,state1,state2,state3,state4,state5,state6,state7,state8,state9,state10,state11]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
+  try simp [index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   try rfl
 
 #axiomsClean statement10
@@ -208,6 +219,7 @@ theorem statement11 {α : Type} [Inhabited α] (c : Invocation α) :
   simp only [statement,source,kernel,ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.bop,FP.Structural.natLt,rowState,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,loaded,masked,productSum,tileScalar,input,Invocation.xs,Invocation.dys,Invocation.q,Invocation.rs,state0,state1,state2,state3,state4,state5,state6,state7,state8,state9,state10,state11,state12]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
+  try simp [index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   try rfl
 
 #axiomsClean statement11
@@ -217,6 +229,7 @@ theorem statement12 {α : Type} [Inhabited α] (c : Invocation α) :
   simp only [statement,source,kernel,ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.bop,FP.Structural.natLt,rowState,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,loaded,masked,productSum,tileScalar,input,Invocation.xs,Invocation.dys,Invocation.q,Invocation.rs,state0,state1,state2,state3,state4,state5,state6,state7,state8,state9,state10,state11,state12,state13]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
+  try simp [index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   try rfl
 
 #axiomsClean statement12
@@ -226,6 +239,7 @@ theorem statement13 {α : Type} [Inhabited α] (c : Invocation α) :
   simp only [statement,source,kernel,ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.bop,FP.Structural.natLt,rowState,FP.Structural.ofFloat,FP.Structural.toFloat,TileShape.axisDim,Region.cast,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,decide_eq_true_eq,ite_true,ite_false,Nat.zero_add,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,loaded,masked,productSum,tileScalar,input,Invocation.xs,Invocation.dys,Invocation.q,Invocation.rs,state0,state1,state2,state3,state4,state5,state6,state7,state8,state9,state10,state11,state12,state13,state14]
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
+  try simp [index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   try rfl
 
 #axiomsClean statement13

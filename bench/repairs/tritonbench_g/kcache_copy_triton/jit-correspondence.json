@@ -1,0 +1,208 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/kcache_copy_triton/Kernels.lean",
+    "lean_definition": "quotedOriginal",
+    "python": "bench/repairs/tritonbench_g/kcache_copy_triton/kcache_copy_triton_repaired.py",
+    "python_function": "_copy_to_kcache_seqlen_n_kernel_repaired",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_kt": "p.strideKt",
+      "stride_kh": "p.strideKh",
+      "stride_kd": "p.strideKd",
+      "stride_kcb": "p.strideKcb",
+      "stride_kch": "p.strideKch",
+      "stride_kcsplit_x": "p.strideKcsplit",
+      "stride_kcs": "p.strideKcs",
+      "stride_kcx": "stride_kcx",
+      "stride_bts": "p.strideBts",
+      "stride_btb": "p.strideBtb",
+      "block_size": "p.blockSize",
+      "n_tokens": "p.n"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "KCache",
+          "fp32"
+        ],
+        [
+          "BLOCK_TABLES",
+          "i32"
+        ],
+        [
+          "seq_lengths",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_kt",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kd",
+          "integer"
+        ],
+        [
+          "stride_kcb",
+          "integer"
+        ],
+        [
+          "stride_kch",
+          "integer"
+        ],
+        [
+          "stride_kcsplit_x",
+          "integer"
+        ],
+        [
+          "stride_kcs",
+          "integer"
+        ],
+        [
+          "stride_kcx",
+          "integer"
+        ],
+        [
+          "stride_bts",
+          "integer"
+        ],
+        [
+          "stride_btb",
+          "integer"
+        ],
+        [
+          "block_size",
+          "integer"
+        ],
+        [
+          "n_tokens",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "HEAD_DIM",
+        "KCACHE_X"
+      ],
+      "readPorts": [
+        "K",
+        "BLOCK_TABLES",
+        "seq_lengths"
+      ],
+      "writePorts": [
+        "KCache"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/kcache_copy_triton/Kernels.lean",
+    "lean_definition": "quotedCommuted",
+    "python": "bench/repairs/tritonbench_g/kcache_copy_triton/kcache_copy_triton_repaired.py",
+    "python_function": "_copy_to_kcache_seqlen_n_kernel_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_kt": "p.strideKt",
+      "stride_kh": "p.strideKh",
+      "stride_kd": "p.strideKd",
+      "stride_kcb": "p.strideKcb",
+      "stride_kch": "p.strideKch",
+      "stride_kcsplit_x": "p.strideKcsplit",
+      "stride_kcs": "p.strideKcs",
+      "stride_kcx": "stride_kcx",
+      "stride_bts": "p.strideBts",
+      "stride_btb": "p.strideBtb",
+      "block_size": "p.blockSize",
+      "n_tokens": "p.n"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "KCache",
+          "fp32"
+        ],
+        [
+          "BLOCK_TABLES",
+          "i32"
+        ],
+        [
+          "seq_lengths",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_kt",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kd",
+          "integer"
+        ],
+        [
+          "stride_kcb",
+          "integer"
+        ],
+        [
+          "stride_kch",
+          "integer"
+        ],
+        [
+          "stride_kcsplit_x",
+          "integer"
+        ],
+        [
+          "stride_kcs",
+          "integer"
+        ],
+        [
+          "stride_kcx",
+          "integer"
+        ],
+        [
+          "stride_bts",
+          "integer"
+        ],
+        [
+          "stride_btb",
+          "integer"
+        ],
+        [
+          "block_size",
+          "integer"
+        ],
+        [
+          "n_tokens",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "HEAD_DIM",
+        "KCACHE_X"
+      ],
+      "readPorts": [
+        "K",
+        "BLOCK_TABLES",
+        "seq_lengths"
+      ],
+      "writePorts": [
+        "KCache"
+      ]
+    }
+  }
+]

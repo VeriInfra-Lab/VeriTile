@@ -1,5 +1,6 @@
 import bench.repairs.tritonbench_g.mul_exponent_compensator.Proofs.Contract
 import bench.repairs.tritonbench_g.triton_mul2.Proofs.Host
+import bench.tritonbench_g.triton_mul2.Proofs.SignedSource
 
 /-! The i32 program and lane registers are sign-extended before i64 arithmetic.
 The finite interpreter lowers and executes the actual complete typed source;
@@ -7,7 +8,8 @@ only the ordered scalar multiply is supplied as an operation. -/
 namespace VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.Native
 open VeriTile.Triton
 open VeriTile.Bench.Repairs.TritonMul2 (Operations Layout Allocated Memory stores program launch launch_correct)
-open TritonMul2Finite (IndexExpr MaskExpr lowerIndex lowerBool lowerMask)
+open TritonMul2Finite (IndexExpr MaskExpr)
+open TritonMul2Finite.SignedSource (lowerNat lowerInt lowerBool lowerMask)
 noncomputable section
 open Classical
 set_option maxHeartbeats 5000000
@@ -66,14 +68,15 @@ inductive Instruction where
 
 def lowerStatement : Stmt → Option Instruction
   | .assign .real _ name (.const v) => if v=exponentCompensator then some (.constant name) else none
-  | .assign .nat _ name e => return .indexAssign name (←lowerIndex e)
+  | .assign .nat _ name e => return .indexAssign name (←lowerNat e)
+  | .assign .int _ name e => return .indexAssign name (←lowerInt e)
   | .assign .bool _ name e => return .maskAssign name (←lowerBool e)
   | .assign .real _ name (.load .real (.region region offset) mask _) =>
-      return .load name region (←lowerIndex offset) (←lowerMask mask)
+      return .load name region (←lowerNat offset) (←lowerMask mask)
   | .assign .real _ name (.mul .real _ (.ref _ _ input) (.ref _ _ constant)) =>
       some (.multiply name input constant)
   | .store .real _ (.region region offset) (.ref _ _ name) mask =>
-      return .store region (←lowerIndex offset) name (←lowerMask mask)
+      return .store region (←lowerNat offset) name (←lowerMask mask)
   | _ => none
 
 def lowerBody : List Stmt → Option (List Instruction)
@@ -90,7 +93,8 @@ def sourceCode (n B : Nat) : List Instruction :=
 
 theorem source_lowering (n B : Nat) :
     lowerBody (candidateKernel "src" "dst" n B).body=some (sourceCode n B) := by
-  simp [lowerBody,lowerStatement,lowerIndex,lowerMask,lowerBool,candidateKernel,
+  have constant : (2 : ℝ)^112 = exponentCompensator := rfl
+  simp [constant,lowerBody,lowerStatement,lowerNat,lowerInt,lowerMask,lowerBool,candidateKernel,sourceBody,
     ComputeKernel.body,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,sourceCode,
     bind,pure,Except.bind,Option.bind,ComputeKernel.eraseDType,ComputeDType.eraseDType,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?]
 

@@ -75,6 +75,121 @@ class BodyCorpusTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "reused"):
             scan(self.root)
 
+    def fp8_record(self):
+        self.write("bench/repairs/sample/Kernels.lean", LEAN.replace(
+            '("x_ptr",.fp32),("out_ptr",.fp32)',
+            '("x_ptr",.f8e5),("out_ptr",.fp16)'))
+        record = {**self.record, "expected_signature": {
+            **self.record["expected_signature"],
+            "pointers": [["x_ptr", "f8e5"], ["out_ptr", "fp16"]]}}
+        self.manifest([record])
+        return record
+
+    def test_fp8_pointer_format_is_a_checked_call_dtype(self):
+        self.fp8_record()
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        self.assertEqual(result["tasks"][0]["checked_pairs"][0]["mode"], "pasted_body")
+
+    def test_fp8_formats_cannot_reuse_each_others_reviewed_abi(self):
+        self.fp8_record()
+        p = self.directory / "Kernels.lean"
+        p.write_text(p.read_text().replace(".f8e5", ".f8e4"))
+        with self.assertRaisesRegex(ValueError, "reviewed launch types"):
+            scan(self.root)
+
+    def test_configured_jit_records_runtime_specialization_options(self):
+        self.write("bench/repairs/sample/source.py", PYTHON.replace("@triton.jit",
+            "@triton.jit(do_not_specialize=['x_ptr'], do_not_specialize_on_alignment=[1])"))
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        pair = result["tasks"][0]["checked_pairs"][0]
+        self.assertEqual(pair["jit_options"], {"do_not_specialize": "['x_ptr']",
+                                               "do_not_specialize_on_alignment": "[1]"})
+        self.assertEqual(pair["constexpr_parameters"], ["B"])
+
+    def test_custom_jit_frontend_is_not_a_standard_source_certificate(self):
+        self.write("bench/repairs/sample/source.py", PYTHON.replace("@triton.jit",
+            "@triton.jit(frontend=custom_frontend)"))
+        with self.assertRaisesRegex(ValueError, "unsupported triton.jit decorator option"):
+            scan(self.root)
+
+    def test_jit_options_must_refer_to_actual_function_arguments(self):
+        for value in ("['missing']", "[3]", "[True]", "dynamic_options"):
+            self.write("bench/repairs/sample/source.py", PYTHON.replace("@triton.jit",
+                "@triton.jit(do_not_specialize=" + value + ")"))
+            with self.assertRaisesRegex(ValueError, "specialization option"):
+                scan(self.root)
+
+    def profiled_records(self):
+        second = {**self.record, "lean_definition": "body64", "signature_definition": "signature64",
+                  "profile_variant": "float64", "expected_signature": {
+                      **self.record["expected_signature"],
+                      "pointers": [["x_ptr", "fp64"], ["out_ptr", "fp64"]]}}
+        lean64 = LEAN.replace("callSignature", "signature64").replace("def body (", "def body64 (")
+        lean64 = lean64.replace(".fp32", ".fp64")
+        self.write("bench/repairs/sample/Kernels.lean", LEAN + lean64)
+        return [{**self.record, "profile_variant": "float32"}, second]
+
+    def test_distinct_checked_abi_profiles_of_one_source_are_both_recorded(self):
+        self.manifest(self.profiled_records())
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        pairs = result["tasks"][0]["checked_pairs"]
+        self.assertEqual([p["profile_variant"] for p in pairs], ["float32", "float64"])
+
+    def test_profile_tag_cannot_hide_duplicate_abi(self):
+        records = self.profiled_records()
+        records[1]["expected_signature"] = records[0]["expected_signature"]
+        self.manifest(records)
+        with self.assertRaisesRegex(ValueError, "duplicate ABI"):
+            scan(self.root)
+
+    def test_each_profile_body_is_checked(self):
+        self.manifest(self.profiled_records())
+        p = self.directory / "Kernels.lean"
+        first, second = p.read_text().split("def signature64", 1)
+        p.write_text(first + "def signature64" + second.replace("tl.arange(0, B)", "tl.arange(1, B)"))
+        with self.assertRaisesRegex(ValueError, "correspondence mismatch"):
+            scan(self.root)
+
+    def offset_call(self, bindings="x_ptr := input_base, out_ptr := output_base"):
+        self.write("bench/repairs/sample/Kernels.lean", LEAN.replace(
+            "with_triton_signature callSignature in",
+            "with_triton_call callSignature call_args [] pointer_offsets [" + bindings + "] in"))
+        record = {**self.record, "expected_call_bindings": {},
+                  "expected_pointer_offsets": {"x_ptr": "input_base", "out_ptr": "output_base"}}
+        self.manifest([record])
+        return record
+
+    def test_external_pointer_offsets_are_checked_and_recorded(self):
+        self.offset_call()
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        self.assertEqual(result["tasks"][0]["checked_pairs"][0]["pointer_offsets"],
+                         {"x_ptr": "input_base", "out_ptr": "output_base"})
+
+    def test_unreviewed_or_changed_pointer_offset_is_rejected(self):
+        record = self.offset_call()
+        for expected in (None, {"x_ptr": "other_base", "out_ptr": "output_base"}):
+            record = {**record, "expected_pointer_offsets": expected}
+            self.manifest([record])
+            with self.assertRaisesRegex(ValueError, "pointer offsets differ"):
+                scan(self.root)
+
+    def test_missing_or_duplicated_pointer_offset_is_rejected(self):
+        for bindings in ("x_ptr := input_base", "x_ptr := input_base, x_ptr := input_base"):
+            self.offset_call(bindings)
+            with self.assertRaisesRegex(ValueError, "pointer offset"):
+                scan(self.root)
+
+    def test_offset_cannot_bind_a_nonpointer_argument(self):
+        record = self.offset_call("B := input_base")
+        record["expected_pointer_offsets"] = {"B": "input_base"}
+        self.manifest([record])
+        with self.assertRaisesRegex(ValueError, "not a pointer"):
+            scan(self.root)
+
     def test_worked_example_without_reference_is_not_a_pass(self):
         self.write("bench/examples/Sample/Kernels.lean", LEAN)
         result = scan(self.root)
