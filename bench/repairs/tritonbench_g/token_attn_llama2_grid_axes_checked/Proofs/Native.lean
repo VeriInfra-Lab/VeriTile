@@ -137,6 +137,10 @@ def eval (I : Instructions) (S : Schedule) (scale : Word) : Term → Word
       I.fmaRN (eval I S scale x) (eval I S scale y) (eval I S scale c)
     | .right,some .fp32,.fp32,c,.binary (some .fp32) .fp32 .mul x y =>
       I.fmaRN (eval I S scale x) (eval I S scale y) (eval I S scale c)
+    | .left,some .fp32,.real,.binary none .fp32 .mul x y,c =>
+      I.fmaRN (eval I S scale x) (eval I S scale y) (eval I S scale c)
+    | .right,some .fp32,.real,c,.binary none .fp32 .mul x y =>
+      I.fmaRN (eval I S scale x) (eval I S scale y) (eval I S scale c)
     | _,_,_,a,b => I.addRN (eval I S scale a) (eval I S scale b)
   | .binary p d .mul a b =>
     if S.reverseScale (.binary p d .mul (shape a) (shape b)) then

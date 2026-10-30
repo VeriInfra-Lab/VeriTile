@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.rotary_transform_tile_checked.Proofs.SourceBlocks
 import bench.repairs.tritonbench_g.rotary_transform_tile_checked.KernelSource
 import bench.repairs.tritonbench_g.rotary_transform.Kernels
 import bench.repairs.tritonbench_g.rotary_transform_tile_checked.Proofs.ProgramModel
@@ -25,20 +26,38 @@ def kernel (s : Shape) (cumulative64 offsets64 : Bool) : ComputeKernel :=
     (if s.varlen then 0 else s.maximum*s.heads*s.width) (s.heads*s.width) s.width 1
     s.blockK s.blockM s.offsetTensor s.varlen s.interleaved s.conjugate
 
-/-- The six-statement source prefix evaluates program IDs, original signed
+/-- Selected source blocks used only to decompose the actual execution. -/
+def sourceBody (s : Shape) : List ComputeStmt :=
+  SourceBlocks.body s.varlen (kernel s Bool.true Bool.true)
+
+theorem run_source_body {α : Type} [Inhabited α] (M : Algebra α)
+    (s : Shape) (initial : State α) :
+    run M (kernel s Bool.true Bool.true).surfaceBody initial = run M (sourceBody s) initial := by
+  have h := SourceBlocks.run_constant_branch M s.varlen
+    ((kernel s Bool.true Bool.true).surfaceBody.take 4)
+    (((kernel s Bool.true Bool.true).surfaceBody.drop 4).flatMap (SourceBlocks.select Bool.false))
+    (((kernel s Bool.true Bool.true).surfaceBody.drop 4).flatMap (SourceBlocks.select Bool.true)) initial
+  cases ht : s.offsetTensor <;>
+    simpa only [sourceBody,SourceBlocks.body,kernel,KernelSource.source,KernelSource.source64_64,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,ComputeKernel.surfaceBody,
+      List.take,List.drop,List.flatMap_cons,List.flatMap_nil,SourceBlocks.select,List.append_nil,
+      ht,Bool.false_eq_true,if_false,if_true] using h
+
+#axiomsClean run_source_body
+
+/-- The selected source prefix evaluates program IDs, original signed
 metadata and scalar input/output pointers. Its state is derived by execution
 of the quotation, without supplied register or output values. -/
 def setup {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     (cumulative64 offsets64 : Bool) (initial : State α)
     :
-    { final // FP.Structural.run M ((kernel s cumulative64 offsets64).surfaceBody.take 6) initial = some final } := by
-  by_cases hv : s.varlen = Bool.true
+    { final // FP.Structural.run M ((sourceBody s).take (SourceBlocks.setupCount s.varlen)) initial = some final } := by
+  by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    unfold kernel
-    rw [KernelSource.signed_carrier]
-    simp (config := { maxSteps := 10000 }) [KernelSource.source64_64, hv,
+    simp (config := { maxSteps := 10000 }) [sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,kernel,KernelSource.source,
+      KernelSource.source64_64,KernelSource.source64_64_tensor,KernelSource.source64_32_scalar, hv,ht,
       FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
       evalExpr, evalComputeOp, evalOp_unfold,
       numeric, natLt, numericLt, numericLe, numericEq, bop, Region.cast,
@@ -58,7 +77,7 @@ def ifBody : ComputeStmt → List ComputeStmt
   | _ => []
 
 def continuation (s : Shape) : List ComputeStmt :=
-  ((kernel s Bool.true Bool.true).surfaceBody.drop 6).flatMap ifBody
+  ((sourceBody s).drop (SourceBlocks.setupCount s.varlen)).flatMap ifBody
 
 /-- The next four assignments are extracted from the actual early-return body. -/
 def indices {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
@@ -70,7 +89,8 @@ def indices {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     refine ⟨?_, ?_⟩
     swap
     simp (config := { maxSteps := 20000 }) [continuation,ifBody,setup,kernel,
-      KernelSource.source,KernelSource.source64_64, hv,ht,
+      sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+      KernelSource.source,KernelSource.source64_64,KernelSource.source64_64_tensor,KernelSource.source64_32_scalar, hv,ht,
       FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
       evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, natLt, numericLt, numericLe, numericEq, bop, Region.cast,

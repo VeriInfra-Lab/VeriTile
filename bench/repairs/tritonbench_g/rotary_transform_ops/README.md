@@ -1,6 +1,6 @@
 # rotary_transform_ops kernel verification
 
-The original Python kernel and guards are unchanged; the new candidate is described below. The domain remains FP32
+The original Python kernel and guards are unchanged; the existing xor candidate is described below. The domain remains FP32
 CUDA contiguous payloads, canonical strides, zero storage offsets, no lazy
 flags, `0 < D <= 256`, and rotary width at most D. CU retains its original
 signed int32/int64 storage and unit stride; offsets retain their original
@@ -11,12 +11,19 @@ and zero rotary width retain the existing behavior. No clone, conversion,
 packing, allocator change, guard narrowing, or runtime compatibility condition
 is introduced.
 
-`KernelSource.lean` contains four complete ordinary Triton blocks for the JIT body, including signed metadata
-loads, early return, both arithmetic branches, masks and stores. Its four
-storage-width declarations share the exact signed-value interpreter; the
-original word widths are separately bound to caller bytes. FP32 compute tags
-use the interpreter's erased `.real` carrier. That carrier is opaque and does
-not assert real-number arithmetic.
+`Kernels.lean` contains both complete pasted Python bodies. Each has six
+caller profiles: scalar offsets with either cumulative storage width, and tensor
+offsets with all four signed metadata-width pairs. `KernelSource.lean` and
+`XorSource.lean` are compatibility imports. Dtypes, runtime values and the
+scalar/pointer Boolean are supplied outside the quotation; all original source
+branches remain visible. The signed-value interpreter shares an Int carrier,
+while the original word widths remain bound to caller bytes. FP32 compute tags
+use the opaque `.real` carrier, without asserting real-number arithmetic.
+
+`Model.lean` contains the byte-identical former mathematical definitions from
+`Kernels.lean`, including the original width-256 domain and block-selection
+rules. Pure geometry imports this model directly. No executable source is
+constructed from the independent mathematical result.
 
 `TypedSetup`, `TypedLoads`, `TypedStores`, and `TypedControl` use slices of this
 same quotation. Their execution witnesses compose into the complete source
@@ -92,7 +99,7 @@ native replay, or GPU test was added by this format revision.
 Optional proof entries are in `Misc/`: [TensorBridge.lean](Misc/TensorBridge.lean), [NativeCorrect.lean](Misc/NativeCorrect.lean), [KernelAudit.lean](Misc/KernelAudit.lean). Their declaration namespaces, theorem statements, proof bodies and existing acceptance/program-pair statuses are preserved. The primary `Correct.lean` and `FPEquiv.lean` entries do not import these optional readers.
 
 
-The new complete source `XorSource.lean` replaces the adjacent-branch index
+The existing candidate in `Kernels.lean` replaces the adjacent-branch index
 `rk + ((rk + 1) % 2) * 2 - 1` with `rk ^ 1`. Both compute exactly the partner
 sequence `1,0,3,2,...`; source lanes range from zero through 255. This replaces
 multiple integer operations with one xor; no measured performance improvement
@@ -107,7 +114,21 @@ Its `ReadProgramIO.EquivalentOn` judgment concludes both actual safety traces,
 both successful complete grids, all result reads including untouched suffix,
 and both complete exterior frames. The xor identity is exact integer
 arithmetic, with no numerical relaxation, experimental rule or new deferral.
-The original four metadata source macros have also been materialized as
-ordinary readable blocks with the same literal bodies and typed ASTs. This
-source presentation change retains the existing independent Real and native
-proofs. Main entries and their proof helpers import no optional `Misc` result.
+The complete raw bodies retain Python assignment spelling, source casts and
+early return, and omit the historical injected `seqlen` initializer. Their ASTs
+are not claimed identical to that older presentation. `SourceBlocks` and
+`SourceBlockSafety` prove complete execution and safety through the immutable
+caller branch. `TypedExecution`, `SourceSafety` and `XorPair` reconnect the
+actual programs to the existing independent Real and native results. Main entries and their proof helpers import no optional `Misc` result.
+
+## Source correspondence
+
+`jit-correspondence.json` checks all twelve complete body/profile mappings to
+`rotary_transform_ops_repaired.py`. That Python file, its two existing kernels
+and all public specifications are unchanged. The eight checks in
+`bench/tests/test_rotary_transform_ops_body.py` reject dropped casts, invented
+initialization, changed early return, changed storage dtype or caller choice,
+and any additional candidate transformation. The candidate differs only in
+the adjacent-partner index assignment. Current replay receipts are recorded
+under `bench/review-checkpoints/`; historical compiler/CPU evidence above is
+not a claim that a new GPU or numerical run took place.

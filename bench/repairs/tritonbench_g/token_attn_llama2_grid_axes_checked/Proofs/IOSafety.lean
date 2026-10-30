@@ -60,14 +60,14 @@ theorem schedule (M : Program → Algebra β) (c : Call) (m : Metadata c) (scale
     · exact SourceSafety.source_safe (M pid) (c.parameters scale) (start c.grid pid s) bounds
         (source_bounds M c m scale allWork encode observe xs s v h bounds hb pid (within pid (by simp)))
     · intro next ran
-      change exec (M pid) (source (c.parameters scale)) (start c.grid pid s) = some next at ran
+      change exec (sourceBackend (M pid)) (source (c.parameters scale)) (start c.grid pid s) = some next at ran
       have eqNext := Option.some.inj
-        (ran.symm.trans (execution (M pid) (c.parameters scale) (start c.grid pid s)).property)
+        (ran.symm.trans (SourceExecution.execution (M pid) (c.parameters scale) (start c.grid pid s)).property)
       have preserved : ReadsEq (c.parameters scale) next s := by
         intro r hr
         funext o
-        rw [eqNext,execution_memory]
-        exact written_frame _ _ _ r o (Or.inr (Or.inl hr))
+        rw [eqNext,SourceCorrectness.execution_memory]
+        exact SourceCorrectness.written_frame _ _ _ r o (Or.inr (Or.inl hr))
       exact ih (fun pid member => within pid (by simp [member])) next (h.preserve scale preserved)
 
 #axiomsClean schedule

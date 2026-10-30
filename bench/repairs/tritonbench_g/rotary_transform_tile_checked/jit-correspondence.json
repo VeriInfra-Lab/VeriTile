@@ -1,0 +1,1434 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/rotary_transform_tile_checked.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel",
+    "lean_definition": "source32_32_scalar",
+    "signature_definition": "call32_32_scalar",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim",
+      "SEQLEN_OFFSETS": "SEQLEN_OFFSETS"
+    },
+    "profile_variant": "32_32_scalar",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": false
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel_shared",
+    "lean_definition": "shared32_32_scalar",
+    "signature_definition": "call32_32_scalar",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim",
+      "SEQLEN_OFFSETS": "SEQLEN_OFFSETS"
+    },
+    "profile_variant": "32_32_scalar",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": false
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/rotary_transform_tile_checked.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel",
+    "lean_definition": "source32_32_tensor",
+    "signature_definition": "call32_32_tensor",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i32"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    },
+    "profile_variant": "32_32_tensor",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": true
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel_shared",
+    "lean_definition": "shared32_32_tensor",
+    "signature_definition": "call32_32_tensor",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i32"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    },
+    "profile_variant": "32_32_tensor",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": true
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/rotary_transform_tile_checked.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel",
+    "lean_definition": "source32_64_tensor",
+    "signature_definition": "call32_64_tensor",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i32"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    },
+    "profile_variant": "32_64_tensor",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": true
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel_shared",
+    "lean_definition": "shared32_64_tensor",
+    "signature_definition": "call32_64_tensor",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i32"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    },
+    "profile_variant": "32_64_tensor",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": true
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/rotary_transform_tile_checked.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel",
+    "lean_definition": "source64_32_scalar",
+    "signature_definition": "call64_32_scalar",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim",
+      "SEQLEN_OFFSETS": "SEQLEN_OFFSETS"
+    },
+    "profile_variant": "64_32_scalar",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": false
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel_shared",
+    "lean_definition": "shared64_32_scalar",
+    "signature_definition": "call64_32_scalar",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim",
+      "SEQLEN_OFFSETS": "SEQLEN_OFFSETS"
+    },
+    "profile_variant": "64_32_scalar",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": false
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/rotary_transform_tile_checked.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel",
+    "lean_definition": "source64_32_tensor",
+    "signature_definition": "call64_32_tensor",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i64"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    },
+    "profile_variant": "64_32_tensor",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": true
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel_shared",
+    "lean_definition": "shared64_32_tensor",
+    "signature_definition": "call64_32_tensor",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i64"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    },
+    "profile_variant": "64_32_tensor",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": true
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/rotary_transform_tile_checked.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel",
+    "lean_definition": "source64_64_tensor",
+    "signature_definition": "call64_64_tensor",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i64"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    },
+    "profile_variant": "64_64_tensor",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": true
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+    "python_function": "rotary_kernel_shared",
+    "lean_definition": "shared64_64_tensor",
+    "signature_definition": "call64_64_tensor",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          "i64"
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "specializeBooleans": [
+        "IS_SEQLEN_OFFSETS_TENSOR"
+      ]
+    },
+    "expected_call_bindings": {
+      "nheads": "0",
+      "CACHE_KEY_SEQLEN": "0",
+      "seqlen": "seqlen",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    },
+    "profile_variant": "64_64_tensor",
+    "expected_specialized_booleans": {
+      "IS_SEQLEN_OFFSETS_TENSOR": true
+    }
+  }
+]

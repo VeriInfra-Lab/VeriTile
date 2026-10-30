@@ -126,12 +126,12 @@ private partial def block (choices : Choices) (initial initialUncertain : List N
   let mut uncertain := initialUncertain
   let mut output := []
   for st in stmts do
-    let branches : Option (TSyntax `tritonExpr × Array (TSyntax `tritonStmt) × Array (TSyntax `tritonStmt)) :=
+    let branches : Option (TSyntax `tritonExpr × Array (TSyntax `tritonStmt) × Array (TSyntax `tritonStmt) × Bool) :=
       match st with
-      | `(tritonStmt| if $c:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* }) => some (c,yes,no)
-      | `(tritonStmt| if $c:tritonExpr { $yes:tritonStmt* }) => some (c,yes,#[])
+      | `(tritonStmt| if $c:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* }) => some (c,yes,no,Bool.true)
+      | `(tritonStmt| if $c:tritonExpr { $yes:tritonStmt* }) => some (c,yes,#[],Bool.false)
       | _ => none
-    if let some (condition,yes,no) := branches then
+    if let some (condition,yes,no,hasElse) := branches then
       if let some value := boolValue choices condition then
         let (body,after,afterUncertain) ← block choices names uncertain (if value then yes.toList else no.toList)
         output := output ++ body
@@ -145,7 +145,8 @@ private partial def block (choices : Choices) (initial initialUncertain : List N
           Macro.throwErrorAt st "None mask branches require an immutable Boolean constexpr test"
         let yes := yes.toArray
         let no := no.toArray
-        output := output ++ [← `(tritonStmt| if $condition { $yes* } else { $no* })]
+        output := output ++ [← if hasElse then `(tritonStmt| if $condition { $yes* } else { $no* })
+          else `(tritonStmt| if $condition { $yes* })]
         names := afterYes
         uncertain := (uncertainYes ++ uncertainNo).eraseDups
       continue

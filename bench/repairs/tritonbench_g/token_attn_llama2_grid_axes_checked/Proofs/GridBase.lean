@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.token_attn_llama2_grid_axes_checked.Proofs.SourceContract
 import bench.repairs.tritonbench_g.token_attn_llama2.Proofs.FPContract
 
 /-! Sequential whole-grid execution, with independent initial-memory score
@@ -92,7 +93,7 @@ def Post (M : Algebra α) (p : Parameters) (g : Grid) (jobs : List Program)
 def runPrograms (M : Algebra α) (p : Parameters) (g : Grid) :
     List Program → State α → Option (State α)
   | [], s => some s
-  | a :: jobs, s => (FP.Structural.exec M (source p) (start g a s)).bind
+  | a :: jobs, s => (FP.Structural.exec (sourceBackend M) (source p) (start g a s)).bind
       (runPrograms M p g jobs)
 
 /-- Every execution uses the previous program's memory, not an isolated copy. -/
@@ -105,7 +106,7 @@ theorem run_correct (M : Algebra α) (p : Parameters) (sep : Separated p)
     have hw : WritesApart p (start g a s) := by
       intro i j hi hj he
       exact (unique a (by simp) a (by simp) i j hi hj he).2
-    obtain ⟨next, he, hv, hf⟩ := VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.correctness M p (start g a s) hw
+    obtain ⟨next, he, hv, hf⟩ := VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.SourceCorrectness.correctness M p (start g a s) hw
     have hr : ReadsEq p next s := by
       intro r hn
       funext o

@@ -259,8 +259,6 @@ theorem integer_assignment_loop (n : Int) (trips : Nat) : overwrittenLoop n trip
     after = n
   } := rfl
 
-/-- error: per-call specialization does not yet support reassigned scalar arguments -/
-#guard_msgs in
 def conditionalArgumentOverwrite (n : Int) (flag : Bool) : ComputeKernel :=
   with_triton_call ({scalars := [("n",.integer)], constexpr := ["flag"]} : CallSignature)
     call_args [n := n] in triton {
@@ -268,6 +266,19 @@ def conditionalArgumentOverwrite (n : Int) (flag : Bool) : ComputeKernel :=
         n = tl.cast(n, tl.int64)
       after = n
     }
+
+/-- Each branch binds the remaining source independently; the unassigned path
+reads the original signed input and the assigned path reads the local cast. -/
+theorem conditional_argument_binding (n : Int) (flag : Bool) :
+    conditionalArgumentOverwrite n flag = triton {
+      if $((flag : Bool)) {
+        n = tl.cast($((n : Int)), tl.int64)
+        after = n
+      } else {
+        after = $((n : Int))
+      }
+    } := rfl
+#axiomsClean conditional_argument_binding
 
 /-- error: per-call specialization does not yet support reassigned scalar arguments -/
 #guard_msgs in

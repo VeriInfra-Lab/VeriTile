@@ -33936,52 +33936,12 @@
         "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/FPEquiv.lean"
       ],
       "assessment": {
+        "organization": "Canonical logical IO, layouts, channels, schedule, masks and domain stay in task IO.lean; readers remain thin. The selected source and explicit primitive backend follow the complete original body. Proofs provide execution, safety, frame and full logical connections.",
+        "source_update": "The actual source and its typed implicit destination conversion replace the historical presentation. The original/candidate orientation and selected primitive interpretation are stated in the current source review; no whole-kernel premise or additional public input condition is added.",
+        "verification": "All own modules, full cumulative warm and independent empty-project replay plus joint imports pass. This is a renewed semantic/source review, not reuse of old unchanged-byte evidence.",
         "previous_assessment": {
-          "organization": "Existing memory/event interfaces and every associated logical view now share task-level IO.lean; original namespaces retained.",
-          "preservation": {
-            "task": "token_attn_llama2",
-            "moved_bodies": [
-              {
-                "from": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/LogicalIO.lean",
-                "to": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/IO.lean",
-                "namespace": [
-                  "VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.Logical"
-                ],
-                "declarations": [
-                  "Inputs",
-                  "inputs",
-                  "outputs",
-                  "Inputs.keyAt",
-                  "domain",
-                  "io"
-                ],
-                "body_sha256": "4fe50de5562052f2aecffb59c05422593f8ed544ac9a9fa9f1253d8912fc0c31",
-                "byte_preserved": true
-              }
-            ],
-            "imports_only": [
-              "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/LogicalIO.lean"
-            ],
-            "unchanged_public_entries": [
-              "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Contract.lean",
-              "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Correct.lean",
-              "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/FPEquiv.lean"
-            ],
-            "original_io_body_byte_preserved": true
-          },
-          "different_stage_or_encoding_exceptions": [],
-          "previous_assessment": {
-            "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-            "task": "token_attn_llama2"
-          }
-        },
-        "reference_separation": {
-          "organization": "ref09: declarations retain their original bodies and public scope; interface adapters, required formulas, and optional native content follow their actual consumers.",
-          "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/token_attn_llama2.json",
-            "sha256": "1c645cc3ac1abda6651b65f3f805515f2ab1ac4c860e973899237ce950fcca1b",
-            "task": "token_attn_llama2"
-          }
+          "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/previous-io-review.json",
+          "sha256": "1e0f5d6ec8ef9fda1cee8b7a80571d57c0f58541b37917d703eae3bfbb4328ed"
         }
       },
       "distinct_views": "AddressedProgramIO permits per-region/address native leaf encoding, while symbolic ProgramIO permits arbitrary symbolic payloads for the actual pair. symbolicIO already reuses the canonical io.toMemoryIO; only binding/encoding/schedule plumbing is adapted. Correct.kernelIO is a thin Real instantiation. Signed metadata and all source grid axes/strides remain intact.",
@@ -34010,19 +33970,22 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/IO.lean",
-          "sha256": "a0592b095e083694a18f5e987c5d12b4c22e2b48e6000e5052a04e837d48a816"
+          "sha256": "02a99be10c32a249af7b7a8d8e9499cbfd23cc7c648b6a244ea73cd4bea18508"
         }
       ],
       "changed_paths": [
         "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/token_attn_llama2.json",
-        "sha256": "1c645cc3ac1abda6651b65f3f805515f2ab1ac4c860e973899237ce950fcca1b",
-        "task": "token_attn_llama2"
+        "path": "bench/pr22-split/receipts/native-token-attention-function-bodies.json",
+        "sha256": "0538d4e3da1f97c646e5b596bce813cde08ad03a26e1baae5a0dcf473826ba7a"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable due host isolation; actual attempts recorded.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error; no false repin.",
+        "scope": "Full source replay on current public domains; no GPU or new numerical experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -34032,7 +33995,7 @@
           "task_index": 8,
           "task": "token_attn_llama2"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -34101,6 +34064,10 @@
         "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/token_attn_llama2.json",
         "sha256": "1c645cc3ac1abda6651b65f3f805515f2ab1ac4c860e973899237ce950fcca1b",
         "task": "token_attn_llama2"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-token-attention-function-bodies.json",
+        "sha256": "0538d4e3da1f97c646e5b596bce813cde08ad03a26e1baae5a0dcf473826ba7a"
       }
     },
     {

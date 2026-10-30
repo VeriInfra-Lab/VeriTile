@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.rotary_transform_tile_checked.Proofs.SourceSafety
 import bench.repairs.tritonbench_g.rotary_transform_tile_checked.Proofs.TypedControl
 import VeriTile.Triton.Float.StructuralSafety
 
@@ -21,27 +22,88 @@ theorem candidate_carrier (s : Shape) (cu64 off64 : Bool) :
     candidate s cu64 off64 = candidate s Bool.true Bool.true := by
   simp only [candidate,KernelSource.shared_signed_carrier]
 
+/-- The candidate has the same immutable caller branch as the original. -/
+def sourceBody (s : Shape) : List ComputeStmt :=
+  SourceBlocks.body s.varlen (candidate s Bool.true Bool.true)
+
+theorem run_candidate_body (M : Algebra α) (s : Shape) (u : State α) :
+    run M (candidate s Bool.true Bool.true).surfaceBody u = run M (sourceBody s) u := by
+  have h := SourceBlocks.run_constant_branch M s.varlen
+    ((candidate s Bool.true Bool.true).surfaceBody.take 4)
+    (((candidate s Bool.true Bool.true).surfaceBody.drop 4).flatMap (SourceBlocks.select Bool.false))
+    (((candidate s Bool.true Bool.true).surfaceBody.drop 4).flatMap (SourceBlocks.select Bool.true)) u
+  cases ht : s.offsetTensor <;>
+    simpa only [sourceBody,SourceBlocks.body,candidate,KernelSource.shared,KernelSource.shared64_64,
+      KernelSource.shared64_64_tensor,KernelSource.shared64_32_scalar,ComputeKernel.surfaceBody,
+      List.take,List.drop,List.flatMap_cons,List.flatMap_nil,SourceBlocks.select,List.append_nil,
+      ht,Bool.false_eq_true,if_false,if_true] using h
+
+theorem candidate_body_safe_iff (M : Algebra α) (s : Shape)
+    (bounds : RegionName → Nat) (u : State α) :
+    TraceSafe M bounds (candidate s Bool.true Bool.true) u ↔
+      Safety.traceSafeList M bounds (sourceBody s) u := by
+  have h := SourceBlocks.safe_constant_branch M bounds s.varlen
+    ((candidate s Bool.true Bool.true).surfaceBody.take 4)
+    (((candidate s Bool.true Bool.true).surfaceBody.drop 4).flatMap (SourceBlocks.select Bool.false))
+    (((candidate s Bool.true Bool.true).surfaceBody.drop 4).flatMap (SourceBlocks.select Bool.true)) u
+  cases ht : s.offsetTensor <;>
+    simpa only [TraceSafe,sourceBody,SourceBlocks.body,candidate,KernelSource.shared,KernelSource.shared64_64,
+      KernelSource.shared64_64_tensor,KernelSource.shared64_32_scalar,ComputeKernel.surfaceBody,
+      List.take,List.drop,List.flatMap_cons,List.flatMap_nil,SourceBlocks.select,List.append_nil,
+      ht,Bool.false_eq_true,if_false,if_true] using h
+
+#axiomsClean run_candidate_body
+#axiomsClean candidate_body_safe_iff
+
 /-- Proof-only slices of the two entire quotations. -/
 def continuation (s : Shape) :=
-  ((candidate s Bool.true Bool.true).surfaceBody.drop 6).flatMap TypedExecution.ifBody
+  ((sourceBody s).drop (SourceBlocks.setupCount s.varlen)).flatMap TypedExecution.ifBody
 def interleaved (s : Shape) :=
   ((continuation s).drop 4).flatMap (TypedExecution.branchBody Bool.true)
 def split (s : Shape) :=
   ((continuation s).drop 4).flatMap (TypedExecution.branchBody Bool.false)
 
-theorem prefix_same (s : Shape) : (continuation s).take 4 = (TypedExecution.continuation s).take 4 := rfl
+theorem prefix_same (s : Shape) : (continuation s).take 4 = (TypedExecution.continuation s).take 4 := by
+  cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+    simp [continuation,sourceBody,TypedExecution.continuation,TypedExecution.sourceBody,
+      SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,candidate,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,
+      KernelSource.shared,KernelSource.shared64_64,KernelSource.shared64_64_tensor,KernelSource.shared64_32_scalar,
+      TypedExecution.ifBody,TypedExecution.branchBody,TypedExecution.splitBody,TypedExecution.interleavedBody,
+      interleaved,split,ComputeKernel.surfaceBody,List.take,List.drop,List.flatMap,hv,ht]
 
-theorem split_same (s : Shape) : split s = TypedExecution.splitBody s := rfl
+theorem split_same (s : Shape) : split s = TypedExecution.splitBody s := by
+  cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+    simp [continuation,sourceBody,TypedExecution.continuation,TypedExecution.sourceBody,
+      SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,candidate,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,
+      KernelSource.shared,KernelSource.shared64_64,KernelSource.shared64_64_tensor,KernelSource.shared64_32_scalar,
+      TypedExecution.ifBody,TypedExecution.branchBody,TypedExecution.splitBody,TypedExecution.interleavedBody,
+      interleaved,split,ComputeKernel.surfaceBody,List.take,List.drop,List.flatMap,hv,ht]
 
 theorem interleaved_body (s : Shape) :
-    interleaved s = (interleaved s).take 2 ++ (TypedExecution.interleavedBody s).drop 2 := rfl
+    interleaved s = (interleaved s).take 2 ++ (TypedExecution.interleavedBody s).drop 2 := by
+  cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+    simp [continuation,sourceBody,TypedExecution.continuation,TypedExecution.sourceBody,
+      SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,candidate,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,
+      KernelSource.shared,KernelSource.shared64_64,KernelSource.shared64_64_tensor,KernelSource.shared64_32_scalar,
+      TypedExecution.ifBody,TypedExecution.branchBody,TypedExecution.splitBody,TypedExecution.interleavedBody,
+      interleaved,split,ComputeKernel.surfaceBody,List.take,List.drop,List.flatMap,hv,ht]
 
 theorem indices_rk (M : Algebra α) (s : Shape) (u t : State α)
     (ran : run M ((TypedExecution.continuation s).take 4) u = some t) :
     t.regs .nat [s.blockK] "rk" = some (fun i => i.1.val) := by
   have code : (TypedExecution.continuation s).take 4 =
       (TypedExecution.continuation s).take 2 ++
-        ((TypedExecution.continuation s).drop 2).take 2 := rfl
+        ((TypedExecution.continuation s).drop 2).take 2 := by
+    cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+      simp [continuation,sourceBody,TypedExecution.continuation,TypedExecution.sourceBody,
+        SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,candidate,TypedExecution.kernel,
+        KernelSource.source,KernelSource.source64_64,KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,
+        KernelSource.shared,KernelSource.shared64_64,KernelSource.shared64_64_tensor,KernelSource.shared64_32_scalar,
+        TypedExecution.ifBody,TypedExecution.branchBody,TypedExecution.splitBody,TypedExecution.interleavedBody,
+        interleaved,split,ComputeKernel.surfaceBody,List.take,List.drop,List.flatMap,hv,ht]
   rw [code,run_append] at ran
   cases h : run M ((TypedExecution.continuation s).take 2) u with
   | none => simp [h] at ran
@@ -50,9 +112,11 @@ theorem indices_rk (M : Algebra α) (s : Shape) (u t : State α)
     have last : run M (((TypedExecution.continuation s).drop 2).take 2) v =
         some ((v.setReg "rk" .nat [s.blockK] (fun i => i.1.val)).setReg
           "rk_half" .nat [s.blockK/2] (fun i => i.1.val)) := by
-      simp [TypedExecution.continuation,TypedExecution.ifBody,TypedExecution.kernel,
-        KernelSource.source,KernelSource.source64_64,ComputeKernel.surfaceBody,List.drop,List.take,
-        run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold]
+      cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+       simp [TypedExecution.continuation,TypedExecution.ifBody,TypedExecution.kernel,
+        KernelSource.source,KernelSource.source64_64,TypedExecution.sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+        KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,hv,ht,ComputeKernel.surfaceBody,List.drop,List.take,
+        FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold]
     rw [last] at ran
     cases Option.some.inj ran
     simp
@@ -60,18 +124,24 @@ theorem indices_rk (M : Algebra α) (s : Shape) (u t : State α)
 theorem interleaved_prefix_run (M : Algebra α) (s : Shape) (u : State α)
     (rk : u.regs .nat [s.blockK] "rk" = some (fun i => i.1.val)) :
     run M ((TypedExecution.interleavedBody s).take 2) u = run M ((interleaved s).take 2) u := by
-  simp [interleaved,continuation,TypedExecution.interleavedBody,TypedExecution.continuation,
+  cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+   simp [interleaved,continuation,TypedExecution.interleavedBody,TypedExecution.continuation,
     TypedExecution.branchBody,TypedExecution.ifBody,TypedExecution.kernel,candidate,
     KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
-    ComputeKernel.surfaceBody,List.drop,List.take,List.flatMap,run,FP.Structural.step,evalExpr,evalComputeOp,
+    sourceBody,TypedExecution.sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+    KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,KernelSource.shared64_64_tensor,KernelSource.shared64_32_scalar,hv,ht,
+    ComputeKernel.surfaceBody,List.drop,List.take,List.flatMap,FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,
     evalOp_unfold,numeric,numericLt,natLt,bop,integralFloorDiv,integralMod,Option.bind,rk]
 
 theorem interleaved_prefix_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat) (u : State α) :
     Safety.traceSafeList M bounds ((TypedExecution.interleavedBody s).take 2) u ↔
       Safety.traceSafeList M bounds ((interleaved s).take 2) u := by
-  simp [interleaved,continuation,TypedExecution.interleavedBody,TypedExecution.continuation,
+  cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+   simp [interleaved,continuation,TypedExecution.interleavedBody,TypedExecution.continuation,
     TypedExecution.branchBody,TypedExecution.ifBody,TypedExecution.kernel,candidate,
     KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
+    sourceBody,TypedExecution.sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+    KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,KernelSource.shared64_64_tensor,KernelSource.shared64_32_scalar,hv,ht,
     ComputeKernel.surfaceBody,List.drop,List.take,List.flatMap,
     Safety.traceSafeList_cons,Safety.traceSafeList_nil,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
@@ -93,10 +163,24 @@ theorem interleaved_safe (M : Algebra α) (s : Shape) (bounds : RegionName → N
 
 theorem old_tail_code (s : Shape) : (TypedExecution.continuation s).drop 4 =
     [.ifThenElse (.boolNot (.constBool s.interleaved))
-      (TypedExecution.splitBody s) (TypedExecution.interleavedBody s)] := rfl
+      (TypedExecution.splitBody s) (TypedExecution.interleavedBody s)] := by
+  cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+    simp [continuation,sourceBody,TypedExecution.continuation,TypedExecution.sourceBody,
+      SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,candidate,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,
+      KernelSource.shared,KernelSource.shared64_64,KernelSource.shared64_64_tensor,KernelSource.shared64_32_scalar,
+      TypedExecution.ifBody,TypedExecution.branchBody,TypedExecution.splitBody,TypedExecution.interleavedBody,
+      interleaved,split,ComputeKernel.surfaceBody,List.take,List.drop,List.flatMap,hv,ht]
 
 theorem new_tail_code (s : Shape) : (continuation s).drop 4 =
-    [.ifThenElse (.boolNot (.constBool s.interleaved)) (split s) (interleaved s)] := rfl
+    [.ifThenElse (.boolNot (.constBool s.interleaved)) (split s) (interleaved s)] := by
+  cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+    simp [continuation,sourceBody,TypedExecution.continuation,TypedExecution.sourceBody,
+      SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,candidate,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,
+      KernelSource.shared,KernelSource.shared64_64,KernelSource.shared64_64_tensor,KernelSource.shared64_32_scalar,
+      TypedExecution.ifBody,TypedExecution.branchBody,TypedExecution.splitBody,TypedExecution.interleavedBody,
+      interleaved,split,ComputeKernel.surfaceBody,List.take,List.drop,List.flatMap,hv,ht]
 
 theorem tail_run (M : Algebra α) (s : Shape) (u : State α)
     (rk : u.regs .nat [s.blockK] "rk" = some (fun i => i.1.val)) :
@@ -148,37 +232,46 @@ theorem guarded_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat) 
     Safety.stepSafe_unfold,continuation_safe]
   simp
 
-/-- Exact full-state equality, both signed metadata widths and every original
-source flag. All payloads and initial register states remain unrestricted. -/
+theorem original_body_split (s : Shape) :
+    TypedExecution.sourceBody s =
+      (TypedExecution.sourceBody s).take (SourceBlocks.setupCount s.varlen) ++
+        [.ifThen (TypedExecution.guard s) (TypedExecution.continuation s)] := by
+  rw [← TypedExecution.source_tail]
+  exact (List.take_append_drop _ _).symm
+
+theorem candidate_body_split (s : Shape) :
+    sourceBody s =
+      (TypedExecution.sourceBody s).take (SourceBlocks.setupCount s.varlen) ++
+        [.ifThen (TypedExecution.guard s) (continuation s)] := by
+  cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+    simp [TypedExecution.guard,TypedExecution.guardOf,continuation,sourceBody,TypedExecution.continuation,TypedExecution.sourceBody,
+      SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,candidate,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,
+      KernelSource.shared,KernelSource.shared64_64,KernelSource.shared64_64_tensor,KernelSource.shared64_32_scalar,
+      TypedExecution.ifBody,TypedExecution.branchBody,TypedExecution.splitBody,TypedExecution.interleavedBody,
+      interleaved,split,ComputeKernel.surfaceBody,List.take,List.drop,List.flatMap,hv,ht]
+
+/-- Exact complete-state equality for both widths, every flag and all initial
+states. The source-specific ordered FP operations are unchanged. -/
 theorem execution (M : Algebra α) (s : Shape) (cu64 off64 : Bool) (u : State α) :
     exec M (TypedExecution.kernel s cu64 off64) u = exec M (candidate s cu64 off64) u := by
   rw [TypedExecution.kernel_carrier,candidate_carrier]
-  have oldBody : (TypedExecution.kernel s Bool.true Bool.true).surfaceBody =
-      (TypedExecution.kernel s Bool.true Bool.true).surfaceBody.take 6 ++
-        [.ifThen (TypedExecution.guard s) (TypedExecution.continuation s)] := rfl
-  have newBody : (candidate s Bool.true Bool.true).surfaceBody =
-      (TypedExecution.kernel s Bool.true Bool.true).surfaceBody.take 6 ++
-        [.ifThen (TypedExecution.guard s) (continuation s)] := rfl
   change run M (TypedExecution.kernel s Bool.true Bool.true).surfaceBody u =
     run M (candidate s Bool.true Bool.true).surfaceBody u
-  rw [oldBody,newBody,run_append,run_append]
-  exact congrArg (fun f => (run M ((TypedExecution.kernel s Bool.true Bool.true).surfaceBody.take 6) u).bind f)
+  rw [TypedExecution.run_source_body,run_candidate_body,original_body_split,candidate_body_split,
+    run_append,run_append]
+  exact congrArg (fun f => (run M ((TypedExecution.sourceBody s).take (SourceBlocks.setupCount s.varlen)) u).bind f)
     (funext (guarded_run M s))
 
-/-- The same reached source addresses and masks are safe for both full programs. -/
+/-- Safety is transported through each actual source branch, not postulated
+for a replacement runner. -/
 theorem trace_safe (M : Algebra α) (s : Shape) (cu64 off64 : Bool)
     (bounds : RegionName → Nat) (u : State α) :
     TraceSafe M bounds (TypedExecution.kernel s cu64 off64) u ↔
       TraceSafe M bounds (candidate s cu64 off64) u := by
-  rw [TypedExecution.kernel_carrier,candidate_carrier]
-  have oldBody : (TypedExecution.kernel s Bool.true Bool.true).surfaceBody =
-      (TypedExecution.kernel s Bool.true Bool.true).surfaceBody.take 6 ++
-        [.ifThen (TypedExecution.guard s) (TypedExecution.continuation s)] := rfl
-  have newBody : (candidate s Bool.true Bool.true).surfaceBody =
-      (TypedExecution.kernel s Bool.true Bool.true).surfaceBody.take 6 ++
-        [.ifThen (TypedExecution.guard s) (continuation s)] := rfl
-  unfold TraceSafe
-  rw [oldBody,newBody]
+  rw [TypedExecution.kernel_carrier,candidate_carrier,
+    SourceSafety.source_body_safe_iff,candidate_body_safe_iff,
+    original_body_split,candidate_body_split]
   simp only [Safety.traceSafeList_append]
   exact and_congr_right (fun _ => forall_congr' (fun t => imp_congr_right
     (fun _ => guarded_safe M s bounds t)))

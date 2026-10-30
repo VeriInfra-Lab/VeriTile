@@ -28,7 +28,8 @@ def loads {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     refine ⟨?_, ?_⟩
     swap
     simp (config := { maxSteps := 40000 }) [payload,loadsCount,branchBody,continuation,ifBody,
-      indices,setup,kernel,KernelSource.source,KernelSource.source64_64, hv,ht,hi,
+      indices,setup,kernel,KernelSource.source,KernelSource.source64_64,sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar, hv,ht,hi,
       FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
       evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, natLt, numericLt, numericLe, numericEq, bop, Region.cast,
