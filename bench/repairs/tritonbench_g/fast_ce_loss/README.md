@@ -50,9 +50,38 @@ listed above retain their original historical scope.
 
 Optional proof entries are in `Misc/`: [TensorBridge.lean](Misc/TensorBridge.lean), [NativeCorrect.lean](Misc/NativeCorrect.lean), [Audit.lean](Misc/Audit.lean), [KernelAudit.lean](Misc/KernelAudit.lean). Their declaration namespaces, theorem statements, proof bodies and existing acceptance/program-pair statuses are preserved. The primary `Correct.lean` and `FPEquiv.lean` entries do not import these optional readers.
 
-The selected Lean source now lists all 24 FP32/int64 specializations as complete
-ordinary `triton` quotations: four softcap/scaling combinations for each of the
-three original bodies and their existing signed row-index candidates. The
-source-only regression proves equality of all six complete source functions by
-`rfl`, including all flags, parameters and kernel headers. This presentation
-change preserves every existing Real, main-pair, native and Tensor statement.
+## Original Python function bodies
+
+`Kernels.lean` contains six complete pasted Python bodies: the three selected
+JITs in `fast_ce_loss_body.py` and their existing row-index commutation
+candidates in `candidate_kernels.py`. Each body has all 17 top-level statements.
+Original casts, names, one-line constexpr branches and statement order remain.
+Caller pointer/scalar types, constexpr bindings and the `triton_tanh` import
+binding live outside `triton { ... }`. The candidate functions retain the
+original signatures and both the `triton.heuristics` and `triton.jit` decorators;
+only the established integer row-offset product is commuted.
+
+The selected wrapper loads `fast_ce_loss_body.py` with a literal local
+`importlib` loader. The corpus checker statically resolves and pins both files
+and requires correspondence for every JIT in the loaded file. It never executes
+the loader. Import rebinding, nonliteral file selection and incomplete body
+coverage cannot certify correspondence. The separate libdevice alias is checked
+against its actual Python import and assignment.
+
+The previous Lean source specialized away the two constexpr conditionals and
+added explicit terminal `.to(tl.float32)` conversions absent from Python. The new source
+keeps both conditionals and the original plain stores. Internal execution
+expressions now describe those actual stores. The backward store retains its
+existing implicit conversion of the computed `tl.where` expression to the
+pointer dtype in the execution model; this adds no text to the pasted body.
+No arbitrary floating-point cast
+identity is assumed. Independent real formulas and public correctness,
+equivalence, IO and contract declarations retain their prior source. Internal
+proofs are replayed against the complete new source bodies.
+
+The new frontend regression compares one-statement inline suites with their
+indented counterparts and rejects unsupported multi-statement inline suites.
+The Python regression mutates casts, constexpr guards, caller bindings, import
+aliases and candidate decorators to check that source drift is rejected.
+Current migration verification is recorded separately from the historical
+numerical and compiler experiments above; no new GPU experiment is claimed.

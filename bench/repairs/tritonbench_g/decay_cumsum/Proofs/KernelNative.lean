@@ -9,7 +9,7 @@ def observe (cell : Cell Node) : Word := (cell.read .real).value
 def Outputs (instructions : Instructions) (kind : Kind) (h : Call) (p : Phase)
     (prog : Program h p) (scale : Word) (u v : State Node) : Prop :=
   ∀ r∈FPTile.outputs kind, ∀ (t : Fin p.span) (j : Fin h.BK),
-    v.mem r (FPPrefix.off h p prog t.val j)=storedWord
+    v.mem r (FPPrefix.off h p prog t.val j)=outputCell kind p.span r t.val
       (evaluateWords instructions kind p.span scale
         (fun s n => (KernelExecution.read h p prog u j s n).value) r t.val)
 

@@ -898,6 +898,7 @@ partial def mergeBranchEnv (base thenEnv elseEnv : Env) : Env :=
 
 partial def staticBoolCond? (env : Env) (cond : TSyntax `tritonExpr) : Bool :=
   match cond with
+  | `(tritonExpr| $(($_:term : Bool))) => Bool.true
   | `(tritonExpr| $a:ident == $_:str) =>
       !env.any (fun entry => entry.1 == a.getId.toString)
   | `(tritonExpr| $a:ident != $_:str) =>
@@ -2281,9 +2282,10 @@ private partial def containsExplicitConversion (env : Env) (raw : Syntax) : Bool
       | `(tritonExpr| tl.cast($_:tritonExpr, $_:tritonDType)) => Bool.true
       | _ => Bool.false) || raw.getArgs.any (containsExplicitConversion env)
 
-/-- A previously typed floating register remains floating when combined with
-an integer. Whole-body index pins cannot override ordinary type promotion. -/
-private partial def hasKnownFloatingRegister (env : Env) (raw : Syntax) : Bool :=
+/-- A typed floating register or explicit floating literal remains floating
+when combined with an integer. Whole-body index pins cannot override source
+type evidence, including an earlier `0.0` branch assignment. -/
+private partial def hasKnownFloatingValue (env : Env) (raw : Syntax) : Bool :=
   let here := if raw.isIdent then
     let name := raw.getId.eraseMacroScopes.toString
     env.any fun entry =>
@@ -2292,7 +2294,10 @@ private partial def hasKnownFloatingRegister (env : Env) (raw : Syntax) : Bool :
         | _ => Bool.false
       floating && (entry.1 == name || entry.1 == raw.getId.toString)
     else Bool.false
-  here || raw.getArgs.any (hasKnownFloatingRegister env)
+  let explicitLiteral := match (⟨raw⟩ : TSyntax `tritonExpr) with
+    | `(tritonExpr| $_:scientific) => Bool.true
+    | _ => Bool.false
+  here || explicitLiteral || raw.getArgs.any (hasKnownFloatingValue env)
 
 /-- Carry known floating and int32 storage into nested load expressions, and
 preserve integer storage underneath unsigned casts. This is
@@ -3048,7 +3053,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       try
         let inferred ← expandExpr env e
         if inferred.dtype == .int8 || inferred.dtype == .int32 then return inferred
-        if hasKnownFloatingRegister env e.raw then
+        if hasKnownFloatingValue env e.raw then
           match inferred.dtype with
           | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
           | _ => pure ()
@@ -4114,6 +4119,44 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
         `(ComputeStmt.assign TileDType.int [] $nameLit (ComputeExpr.alg $idxTerm))
       pure (← `(Stmt.forRangeInt $revNameLit $lower $stop'.term $step'.term [$idxAssign, $algBody,*]),
         ← `(ComputeStmt.forRangeInt $revNameLit $lower $stop'.term $step'.term
+              [$computeIdxAssign, $computeBody,*]),
+        env, bodyHasCompute)
+  | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, -$step:tritonExpr) { $stmts:tritonStmt* }) => do
+      let nameLit ← identAsStr i
+      let name := i.getId.toString
+      let rec mentionsName (raw : Syntax) (candidate : String) : Bool :=
+        (raw.isIdent && raw.getId.eraseMacroScopes.toString == candidate) ||
+          raw.getArgs.any (fun child => mentionsName child candidate)
+      let mut revName := "__rev_" ++ name
+      while env.any (fun entry => entry.1 == revName) ||
+          stmts.any (fun stmt => mentionsName stmt.raw revName) do
+        revName := revName ++ "_"
+      let revNameLit : TSyntax `term := Syntax.mkStrLit revName
+      let start' ← expandIntExpectedExpr env start
+      let stop' ← expandIntExpectedExpr env stop
+      let step' ← expandNatExpectedExpr env step
+      ensureShape SInfo.scalar start'.shape "reverse range start"
+      ensureShape SInfo.scalar stop'.shape "reverse range stop"
+      ensureShape SInfo.scalar step'.shape "reverse range step"
+      let bodyEnv :=
+        (name, DInfo.int, SInfo.scalar, none) ::
+        (revName, DInfo.int, SInfo.scalar, none) :: env
+      let (algBody, computeBody, _, bodyHasCompute) ←
+        expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
+      -- A casted or runtime signed stop need not be syntactically negative.
+      -- Mirror both endpoints: j = -i runs from -start to -stop.
+      -- The interpreter captures all bounds once, including for an empty loop.
+      let zero ← `(Op.constInt 0)
+      let lower ← `(Op.sub NumericDType.int Broadcast.nil $zero $start'.term)
+      let upper ← `(Op.sub NumericDType.int Broadcast.nil $zero $stop'.term)
+      let revRef ← `(Op.ref TileDType.int [] $revNameLit)
+      let idxTerm ← `(Op.sub NumericDType.int Broadcast.nil $zero $revRef)
+      let idxAssign ← `(Stmt.assign TileDType.int [] $nameLit $idxTerm)
+      let computeIdxAssign ←
+        `(ComputeStmt.assign TileDType.int [] $nameLit (ComputeExpr.alg $idxTerm))
+      pure (← `(Stmt.forRangeInt $revNameLit $lower $upper $step'.term [$idxAssign, $algBody,*]),
+        ← `(ComputeStmt.forRangeInt $revNameLit $lower $upper $step'.term
               [$computeIdxAssign, $computeBody,*]),
         env, bodyHasCompute)
   | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, $step:tritonExpr) { $stmts:tritonStmt* }) => do

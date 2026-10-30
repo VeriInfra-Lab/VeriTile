@@ -54,7 +54,7 @@ theorem backward_control_safe (M : Algebra α) (h : Call) (p : Phase) (n : Nat)
   have bdg := hb "dg" (by simp [inputRegions,outputRegions])
   simp (config := { maxSteps := 1000000 }) [backwardArithmetic,dataLoadCode,assign32,
     gateOp,loadOp,pointerOp,maskOp,gatedOp,differenceGatedOp,addOp,gradientOp,
-    refOp,storeCode,retreatCode,
+    refOp,storeCode,directStoreCode,retreatCode,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

@@ -49,7 +49,7 @@ theorem expected_stable (M : Algebra α) (kind : Kind) (h : Call) (p : Phase) (p
     rw [rawEq "q" (by simp [inputs]) t.val t.isLt,rawEq "k" (by simp [inputs]) t.val t.isLt,
       rawEq "g" (by simp [inputs]) t.val t.isLt,rawEq "g" (by simp [inputs]) (p.span-1) endpoint]
   · unfold expected FPBackwardBase.output
-    apply congrArg (FPReference.stored M)
+    apply congrArg (FPReference.backwardStored M r)
     split
     · unfold FPBackwardBase.qValue
       rw [rawEq "dqi" (by simp [inputs,FPBackwardBase.inputRegions]) t.val t.isLt,

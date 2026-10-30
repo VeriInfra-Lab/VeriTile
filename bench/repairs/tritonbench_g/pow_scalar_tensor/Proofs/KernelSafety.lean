@@ -51,7 +51,34 @@ theorem loop_safe (M : Algebra α) (c : Parameters) (candidate : Bool) (bounds :
       · rw [preserveP];simp [atTile,atJ,hp]
       · rw [preserveC];simp [atTile,atJ,hc]
 
-def sourcePrefix (c : Parameters) (candidate : Bool) := (sourceKernel c candidate).surfaceBody.take 3
+def sourceBranches (c : Parameters) (candidate : Bool) : List ComputeStmt × List ComputeStmt :=
+  match ((sourceKernel c candidate).surfaceBody[2]? : Option ComputeStmt) with
+  | some (.ifThenElse _ yes no) => (yes,no)
+  | _ => ([],[])
+
+/-- Proof-only decomposition of the actual selected constexpr arm. -/
+def chosenBody (c : Parameters) (candidate : Bool) : List ComputeStmt :=
+  (sourceKernel c candidate).surfaceBody.take 2 ++
+    (if c.oneTile then (sourceBranches c candidate).1 else (sourceBranches c candidate).2)
+
+private theorem actual_body (c : Parameters) (candidate : Bool) :
+    (sourceKernel c candidate).surfaceBody =
+      (sourceKernel c candidate).surfaceBody.take 2 ++
+        [.ifThenElse (.constBool c.oneTile) (sourceBranches c candidate).1 (sourceBranches c candidate).2] := by
+  cases candidate <;> rfl
+
+private theorem branch_trace (M : Algebra α) (bounds : RegionName → Nat)
+    (headBody yes no : List ComputeStmt) (b : Bool) (s : State α) :
+    traceSafeList M bounds (headBody ++ [.ifThenElse (.constBool b) yes no]) s ↔
+      traceSafeList M bounds (headBody ++ (if b then yes else no)) s := by
+  have single : ∀ t, traceSafeList M bounds [.ifThenElse (.constBool b) yes no] t ↔
+      traceSafeList M bounds (if b then yes else no) t := by
+    intro t
+    rw [traceSafeList_cons]
+    cases b <;> simp [stepSafe_unfold,safeOp_unfold,evalOp_unfold]
+  simp only [traceSafeList_append,single]
+
+def sourcePrefix (c : Parameters) (candidate : Bool) := (chosenBody c candidate).take 3
 
 def prepared (c : Parameters) (s : State α) : State α :=
   let t := s.setReg "pid" .nat [] (fun _ => s.pids 0)
@@ -61,42 +88,35 @@ def prepared (c : Parameters) (s : State α) : State α :=
 
 theorem prefix_run (M : Algebra α) (c : Parameters) (candidate : Bool) (s : State α) :
     run M (sourcePrefix c candidate) s=some (prepared c s) := by
-  cases candidate <;> cases branch : c.oneTile
-  all_goals simp only [sourcePrefix,sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
-    oneTileKernel,oneTileCommuted,ComputeKernel.surfaceBody,List.take,
-    Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
-    numeric,FP.Structural.bop,prepared,Broadcast.leftIndex,Broadcast.rightIndex,
-    State.setReg,ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
-    dite_true,dite_false,ite_true,ite_false]
-  all_goals rfl
+  cases candidate <;> cases branch : c.oneTile <;>
+    simp [sourcePrefix,chosenBody,sourceBranches,sourceKernel,kernel,commutedKernel,branch,
+      originalBody,commutedBody,ComputeKernel.surfaceBody,List.take,run,step,
+      evalExpr,evalOp_unfold,numeric,prepared] <;> rfl
 
 theorem prefix_safe (M : Algebra α) (c : Parameters) (candidate : Bool)
     (bounds : RegionName → Nat) (s : State α) : traceSafeList M bounds (sourcePrefix c candidate) s := by
-  cases candidate <;> cases branch : c.oneTile
-  all_goals simp only [sourcePrefix,sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
-    oneTileKernel,oneTileCommuted,ComputeKernel.surfaceBody,List.take,
-    Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeOp_unfold,
-    step,evalExpr,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
-    State.setReg,numeric,FP.Structural.bop,and_true,true_and,
-    ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
-    dite_true,dite_false,ite_true,ite_false]
+  cases candidate <;> cases branch : c.oneTile <;>
+    simp [sourcePrefix,chosenBody,sourceBranches,sourceKernel,kernel,commutedKernel,branch,
+      originalBody,commutedBody,ComputeKernel.surfaceBody,List.take,
+      traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeOp_unfold,
+      step,evalExpr,evalOp_unfold,numeric]
 
 theorem source_safe (M : Algebra α) (c : Parameters) (candidate : Bool) (bounds : RegionName → Nat)
     (hi : ∀ i,i<c.n → (c.input.base+(i:Int)*c.input.stride).toNat<bounds c.input.region)
     (ho : ∀ i,i<c.n → (c.output.base+(i:Int)*c.output.stride).toNat<bounds c.output.region)
     (s : State α) : FP.Structural.TraceSafe M bounds (sourceKernel c candidate) s := by
   unfold FP.Structural.TraceSafe
-  rw [←List.take_append_drop 3 (sourceKernel c candidate).surfaceBody,traceSafeList_append]
+  rw [actual_body,branch_trace]
+  change traceSafeList M bounds (chosenBody c candidate) s
+  rw [←List.take_append_drop 3 (chosenBody c candidate),traceSafeList_append]
   refine ⟨prefix_safe M c candidate bounds s,?_⟩
   intro t ran
   have same : t=prepared c s := Option.some.inj (ran.symm.trans (prefix_run M c candidate s))
   subst t
   cases branch : c.oneTile
-  · have code : (sourceKernel c candidate).surfaceBody.drop 3=
-        [.forRangeDyn "j" (.constNat 0) (.constNat c.tiles) (.constNat 1) (loopBody c candidate)] := by
-      cases candidate <;> simp only [sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
+  · have code : (chosenBody c candidate).drop 3=
+        [.forRange "j" 0 c.tiles 1 (loopBody c candidate)] := by
+      cases candidate <;> simp [chosenBody,sourceBranches,originalBody,commutedBody,sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
         oneTileKernel,oneTileCommuted,perTile,loopBody,tileAssign,ComputeKernel.surfaceBody,List.drop,
         Bool.false_eq_true,ite_false,ite_true]
     rw [code]
@@ -106,8 +126,8 @@ theorem source_safe (M : Algebra α) (c : Parameters) (candidate : Bool) (bounds
       · simp [prepared,branch]
       · simp [prepared,branch]
     · intro t _;exact traceSafeList_nil _ _ _
-  · have code : (sourceKernel c candidate).surfaceBody.drop 3=perTile c candidate := by
-      cases candidate <;> simp only [sourceKernel,kernel,commutedKernel,branch,perTile,Bool.false_eq_true,ite_false,ite_true]
+  · have code : (chosenBody c candidate).drop 3=perTile c candidate := by
+      cases candidate <;> simp [chosenBody,sourceBranches,originalBody,commutedBody,oneTileKernel,oneTileCommuted,ComputeKernel.surfaceBody,sourceKernel,kernel,commutedKernel,branch,perTile,Bool.false_eq_true,ite_false,ite_true]
     rw [code]
     exact tile_safe M c candidate (prepared c s) (s.pids 0) (by simp [prepared,branch]) bounds
       (fun j active => hi _ active) (fun j active => ho _ active)

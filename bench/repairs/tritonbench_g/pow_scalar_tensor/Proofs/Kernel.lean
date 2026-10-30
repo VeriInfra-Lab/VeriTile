@@ -40,7 +40,7 @@ theorem kernel_execution [Inhabited α] (M : Algebra α) (c : Parameters)
     refine ⟨actual,flat,?_,?_,obs⟩
     · cases candidate <;>
         simpa [sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
-          perTile,oneTileKernel,oneTileCommuted,FP.Structural.exec,StructuralControl.gridBody,
+          perTile,oneTileKernel,oneTileCommuted,originalBody,commutedBody,FP.Structural.exec,StructuralControl.gridBody,
           StructuralControl.loopBody,SourceForRange.tileIdStmt,SourceForRange.numTilesStmt,
           ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric,range_assign] using ran
     · simpa only [kernelIds,branch,Bool.false_eq_true,if_false] using flatRan
@@ -48,7 +48,7 @@ theorem kernel_execution [Inhabited α] (M : Algebra α) (c : Parameters)
       (tileOutput M (config c candidate)) (perTile c candidate) (tile_implementation M c candidate) c.n c.B s
     refine ⟨actual,flatState (tileOutput M (config c candidate)) (s.pids 0) s,?_,?_,obs⟩
     · cases candidate <;>
-        simpa [sourceKernel,kernel,commutedKernel,branch,oneTileKernel,oneTileCommuted,perTile,
+        simpa [sourceKernel,kernel,commutedKernel,branch,oneTileKernel,oneTileCommuted,perTile,originalBody,commutedBody,
           FP.Structural.exec,StructuralControl.oneTileBody,SourceForRange.numTilesStmt,
           ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric] using ran
     · simp [kernelIds,branch,runTiles,flatTile]
@@ -59,11 +59,11 @@ theorem signed_source_lowering [Inhabited α] (M : Algebra α) (c : Parameters)
     (candidate : Bool) (s : State α) :
     ∃ displayed historical,
       FP.Structural.exec M (sourceKernel c candidate) s = some displayed ∧
-      FP.Structural.exec M (WholeSource.kernel (config c candidate) c.oneTile c.tiles) s = some historical ∧
+      FP.Structural.exec (sourceCastBridge M) (WholeSource.kernel (config c candidate) c.oneTile c.tiles) s = some historical ∧
       displayed.mem = historical.mem ∧ displayed.undef = historical.undef := by
   obtain ⟨displayed,flat,ran,flatRan,obs⟩ := kernel_execution M c candidate s
   obtain ⟨historical,flat',oldRan,oldFlatRan,oldObs⟩ :=
-    WholeHost.kernel_execution M (config c candidate) c.oneTile c.tiles s
+    WholeHost.kernel_execution (sourceCastBridge M) (config c candidate) c.oneTile c.tiles s
   have equal : flat = flat' := Option.some.inj (flatRan.symm.trans oldFlatRan)
   subst flat'
   exact ⟨displayed,historical,ran,oldRan,obs.1.trans oldObs.1.symm,obs.2.trans oldObs.2.symm⟩
@@ -120,7 +120,7 @@ theorem grid_result [Inhabited α] (M : Algebra α) (base : ℝ) (candidate : Bo
   let c := config (parameters base a) candidate
   obtain ⟨flat,hflat,hvalues,hinput,hframe,hbounds⟩ := capped_grid_success hin hout hstride
     (HostPlan.block_pos hn) hsep (fun x => Cell.mk .fp32 (scalarResult M base x))
-    (flatTile (tileOutput M c)) (WholeHost.tile_contract M c hout hstride)
+    (flatTile (tileOutput M c)) (WholeHost.tile_contract (sourceCastBridge M) c hout hstride)
     (cappedTileIds n (HostPlan.block n)) (List.Perm.refl _) s
   obtain ⟨actual,flat',hactual,hflat',hobs⟩ := grid_execution M base candidate a s
   have equal : flat = flat' := Option.some.inj (hflat.symm.trans (by

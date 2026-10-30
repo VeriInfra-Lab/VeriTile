@@ -15,9 +15,9 @@ theorem logits (M : Algebra α) (p : Parameters) (initial : State α)
     KernelNative.logits M p initial=Reference.logits M p args x (initial.pids 1) := by
   funext i
   by_cases active : initial.pids 1*p.block+i.1.val<p.cols
-  · simp [KernelNative.logits,Reference.logits,active,binding _ active,
+  · simp [KernelNative.logits,KernelNative.loadedLogits,Reference.logits,active,binding _ active,
       CrossEntropy1.RuntimeArgs.fp,abi.logitScale]
-  · simp [KernelNative.logits,Reference.logits,active]
+  · simp [KernelNative.logits,KernelNative.loadedLogits,Reference.logits,active]
 
 theorem lse (M : Algebra α) (p : Parameters) (initial : State α)
     (args : RuntimeArgs.Values α) (abi : RuntimeArgs.Bound p initial args)
@@ -51,7 +51,7 @@ theorem forward (M : Algebra α) (p : Parameters) (initial : State α)
     simp only [KernelNative.owns,Reference.owns,labelBinding]
   have gather (hit : Reference.owns p (initial.pids 1) label) :
       KernelNative.gathered M p initial=
-        M.binary (some .fp32) .real .mul (x (label-p.classStart).toNat) args.logitScale := by
+        M.binary (some .fp32) .real .mul (M.fp32Load (x (label-p.classStart).toNat)) args.logitScale := by
     have lower : (0 : Int)≤(initial.pids 1 : Int)*p.block := mul_nonneg (Int.natCast_nonneg _) (Int.natCast_nonneg _)
     have upper := lt_of_lt_of_le hit.2 (min_le_left _ _)
     have hk : (label-p.classStart).toNat<p.cols := by

@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.pow_scalar_tensor.Proofs.SourceResults
 import bench.repairs.tritonbench_g.pow_scalar_tensor.Proofs.KernelInterface
 import bench.repairs.tritonbench_g.pow_scalar_tensor.Kernels
 import bench.repairs.tritonbench_g.pow_scalar_tensor.Proofs.Kernel
@@ -31,7 +32,7 @@ theorem raw_grid_fp32 (rest : Algebra Float32Bits) (base : ℝ) (baseWord : Floa
     hin hout hstride hsep initial
   refine ⟨final,ran,?_,inputs,frame,bounds⟩
   intro i hi
-  simpa only [KernelInterface.view, KernelInterface.buffer, fp32_scalar] using values i hi
+  simpa only [KernelInterface.view, KernelInterface.buffer, source_fp32_scalar] using values i hi
 
 #axiomsClean raw_grid_fp32
 end

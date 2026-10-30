@@ -16,7 +16,7 @@ def evaluate (M : Algebra α) (kind : Kind) (span : Nat) (scale : ℝ)
   | .forward => FPReference.forward M (read "g") t
   | .prepare => FPReference.stored M (if r="qg" then FPReference.prepareQ M scale (read "q" t) (read "g" t)
       else FPReference.prepareK M (read "k" t) (read "g" (span-1)) (read "g" t))
-  | .backward => FPReference.stored M (if r="dqo" then FPReference.backwardQ M (read "dqi" t) (read "dqo" t) (read "g" t)
+  | .backward => FPReference.backwardStored M r (if r="dqo" then FPReference.backwardQ M (read "dqi" t) (read "dqo" t) (read "g" t)
       else if r="dko" then FPReference.backwardK M (read "dki" t) (read "dko" t) (read "g" (span-1)) (read "g" t)
       else FPReference.backwardCarry M span (read "dqi") (read "dqo") (read "dki") (read "dko")
         (read "q") (read "k") (read "g") (span-t))
@@ -43,7 +43,7 @@ theorem tile_evaluate (M : Algebra α) (kind : Kind) (h : Call) (p : Phase) (pos
     rw [reads "q" (by simp [Roles.inputs]) t.val t.isLt,reads "k" (by simp [Roles.inputs]) t.val t.isLt,
       reads "g" (by simp [Roles.inputs]) t.val t.isLt,reads "g" (by simp [Roles.inputs]) (p.span-1) endpoint]
   · unfold FPTile.expected FPBackwardBase.output evaluate
-    apply congrArg (FPReference.stored M)
+    apply congrArg (FPReference.backwardStored M r)
     split
     · unfold FPBackwardBase.qValue
       rw [reads "dqi" (by simp [Roles.inputs]) t.val t.isLt,reads "dqo" (by simp [Roles.inputs]) t.val t.isLt,

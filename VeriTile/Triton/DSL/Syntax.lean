@@ -307,7 +307,8 @@ syntax:50 tritonExpr:51 " != " tritonExpr:51 : tritonExpr
 syntax:60 tritonExpr:60 " + " tritonExpr:61 : tritonExpr
 syntax:60 tritonExpr:60 " - " tritonExpr:61 : tritonExpr
 syntax:55 tritonExpr:55 " & " tritonExpr:56 : tritonExpr
-syntax:45 tritonExpr:46 " and " tritonExpr:46 : tritonExpr
+-- Python Boolean conjunctions associate left; comparisons still bind tighter.
+syntax:45 tritonExpr:45 " and " tritonExpr:46 : tritonExpr
 syntax:55 tritonExpr:55 " ^ " tritonExpr:56 : tritonExpr
 syntax:54 tritonExpr:54 " | " tritonExpr:55 : tritonExpr
 syntax:75 "~" tritonExpr:76 : tritonExpr

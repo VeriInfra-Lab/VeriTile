@@ -60,12 +60,23 @@ theorem whole_wrapper_equiv (compiler : Compiler) (p : Instructions)
     api targets decode encode before live ordinaryPreparation ordinaryCopy
   have refs : (fun r i => FPLogical.reference (algebra p selected kind scale) h kind scaleSlot
       (Host.logicalData h targets decode before) r (Logical.coordinates h i))=
-      (fun r i => storedWord (reference p h kind scale targets before r i)) := by
+      (fun r i => outputCell kind (Logical.chunkSpan h (Logical.coordinates h i).2.1.val) r
+        ((Logical.coordinates h i).2.1.val-Logical.chunkStart h (Logical.coordinates h i).2.1.val)
+        (reference p h kind scale targets before r i)) := by
     funext r i
     rw [reference_lowering]
     rfl
   rw [refs] at source
-  exact source
+  have jobs : Host.allJobs h kind targets encode
+      (fun r i => outputCell kind (Logical.chunkSpan h (Logical.coordinates h i).2.1.val) r
+        ((Logical.coordinates h i).2.1.val-Logical.chunkStart h (Logical.coordinates h i).2.1.val)
+        (reference p h kind scale targets before r i)) =
+      Host.allJobs h kind targets encodeWord (reference p h kind scale targets before) := by
+    unfold Host.allJobs
+    apply congrArg (fun f => (Host.order kind).flatMap f)
+    funext r
+    simp only [Host.roleJobs,Copyback.jobs,encode,raw,outputCell_value]
+  simpa only [Host.Outcome,jobs] using source
 
 /-- No successful compiler/setup witness on preparation error, even when the
 dimensions cannot fit any allocation. Empty calls return before preparation. -/

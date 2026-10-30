@@ -30,6 +30,9 @@ def scalar_binding_term(text: str) -> str:
     if not isinstance(text, str):
         raise ValueError("unsupported per-call scalar binding")
     text = text.strip()
+    typed = re.fullmatch(r"\((.+)\s*:\s*(Nat|Int)\s*\)", text, re.S)
+    if typed:
+        return "(" + scalar_binding_term(typed[1]) + " : " + typed[2] + ")"
     if re.fullmatch(r"[\w.]+", text):
         return text
     try:
@@ -299,10 +302,217 @@ def call_signature(text: str, name: str) -> dict:
                 or len({p[0] for p in bindings}) != len(bindings)):
             raise ValueError("invalid unary source import binding")
         fields["unaryImports"] = [list(p) for p in bindings]
+    imports = re.search(r"\bbinaryImports\s*:=\s*(\[[^\]]*\])", match[1])
+    if re.search(r"\bbinaryImports\s*:=", match[1]) and not imports:
+        raise ValueError("binary imports must be a literal list of source bindings")
+    if imports:
+        bindings = ast.literal_eval(imports[1])
+        targets = {"triton.language.extra.cuda.libdevice.pow"}
+        if (not isinstance(bindings, list) or any(not isinstance(p, tuple) or len(p) != 2
+                or not isinstance(p[0], str) or not re.fullmatch(r"[A-Za-z_]\w*", p[0])
+                or p[0] in {"tl", "triton"} or p[1] not in targets for p in bindings)
+                or len({p[0] for p in bindings}) != len(bindings)):
+            raise ValueError("invalid binary source import binding")
+        fields["binaryImports"] = [list(p) for p in bindings]
+    globals_match = re.search(r"\bsourceConstants\s*:=\s*(\[[^\]]*\])", match[1])
+    if re.search(r"\bsourceConstants\s*:=", match[1]) and not globals_match:
+        raise ValueError("source constants must be a literal list of bindings")
+    if globals_match:
+        entries = ast.literal_eval(globals_match[1])
+        if (not isinstance(entries, list) or any(not isinstance(entry, tuple) or len(entry) != 2
+                or not isinstance(entry[0], str) or not re.fullmatch(r"[A-Za-z_]\w*", entry[0])
+                or not isinstance(entry[1], str) for entry in entries)
+                or len({entry[0] for entry in entries}) != len(entries)):
+            raise ValueError("invalid source constant bindings")
+        fields["sourceConstants"] = [list(entry) for entry in entries]
     names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"] + fields.get("sourceDTypePointers", [])
+    external = [n for n, _ in fields.get("sourceConstants", [])]
+    reserved = names + fields.get("functions", []) + [n for key in ("finiteImports", "unaryImports", "binaryImports") for n, _ in fields.get(key, [])] + ["tl", "triton", "libdevice", "float", "True", "False", "None"]
+    if any(n in reserved for n in external):
+        raise ValueError("source constants shadow parameters, helpers or imports")
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")
     return fields
+
+
+def check_source_constants(python_text: str, function: ast.FunctionDef, expected: dict[str, str]) -> None:
+    """Bind unique literal module constexpr declarations, without executing Python.
+
+    Preserve literal spelling as well as Python's value. Any reassignment,
+    shadowing, imported alias, deletion or computed initializer fails closed.
+    """
+    module = ast.parse(python_text)
+    initializers = {}
+    for node in module.body:
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name) and isinstance(node.value, ast.Call)
+                and ast.unparse(node.value.func) == "tl.constexpr"):
+            initializers.setdefault(node.targets[0].id, []).append(node)
+    loaded = {n.id for statement in function.body for n in ast.walk(statement)
+              if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load)}
+    if loaded & set(initializers) != set(expected):
+        raise ValueError("source constant bindings differ from referenced Python globals")
+    def numeric(node):
+        return ((isinstance(node, ast.Constant) and type(node.value) in (int, float))
+                or (isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub) and numeric(node.operand)))
+    for name, literal in expected.items():
+        assignments = initializers.get(name, [])
+        if len(assignments) != 1:
+            raise ValueError("source constant requires one module declaration")
+        declaration = assignments[0];call = declaration.value
+        if len(call.args) != 1 or call.keywords or not numeric(call.args[0]):
+            raise ValueError("source constant requires a numeric literal")
+        actual = ast.get_source_segment(python_text, call.args[0])
+        if actual != literal:
+            raise ValueError("source constant literal differs from Python")
+        for node in ast.walk(module):
+            if (isinstance(node, ast.Name) and node.id == name
+                    and isinstance(node.ctx, (ast.Store, ast.Del)) and node is not declaration.targets[0]):
+                raise ValueError("source constant name is rebound")
+            if isinstance(node, ast.arg) and node.arg == name:
+                raise ValueError("source constant name is shadowed")
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.name == name:
+                raise ValueError("source constant name is rebound")
+            if isinstance(node, ast.alias) and (node.asname or node.name.split(".")[0]) == name:
+                raise ValueError("source constant name is rebound")
+
+
+def check_unary_imports(python_text: str, expected: dict[str, str]) -> None:
+    """Resolve imports and a direct imported-module attribute alias, without execution.
+
+    `from ... import tanh as f` and `from ... import libdevice; f = libdevice.tanh`
+    bind the same function object. Calls, computed attributes and rebinding a
+    checked alias are rejected. An earlier reassignment invalidates a module
+    import before an attribute alias can use it.
+    """
+    imported, bound = {}, {}
+
+    def target(expr):
+        if isinstance(expr, ast.Name):
+            return imported.get(expr.id)
+        if isinstance(expr, ast.Attribute):
+            parent = target(expr.value)
+            return parent + "." + expr.attr if parent else None
+        return None
+
+    def bind(name, value):
+        if name in bound:
+            raise ValueError("unary source import name is rebound")
+        imported[name] = value
+        if name in expected:
+            bound[name] = value
+
+    for node in ast.parse(python_text).body:
+        if isinstance(node, ast.ImportFrom) and node.module is not None:
+            if node.level:
+                raise ValueError("relative import makes unary source binding ambiguous")
+            if any(a.name == "*" for a in node.names):
+                raise ValueError("wildcard import makes unary source binding ambiguous")
+            for alias in node.names:
+                bind(alias.asname or alias.name, node.module + "." + alias.name)
+            continue
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                name = alias.asname or alias.name.split(".")[0]
+                if name in expected:
+                    raise ValueError("unary source import name is rebound")
+                bind(name, alias.name if alias.asname else name)
+            continue
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name)
+                and node.targets[0].id in expected):
+            name = node.targets[0].id
+            value = target(node.value)
+            if value != expected[name]:
+                raise ValueError("unary source import differs from the original Python binding")
+            bind(name, value)
+            continue
+        for child in ast.walk(node):
+            if isinstance(child, (ast.Attribute, ast.Subscript)) and isinstance(child.ctx, (ast.Store, ast.Del)):
+                root = child.value
+                while isinstance(root, (ast.Attribute, ast.Subscript)):
+                    root = root.value
+                if isinstance(root, ast.Name):
+                    if root.id in expected:
+                        raise ValueError("unary source import name is rebound")
+                    imported.pop(root.id, None)
+            if isinstance(child, ast.Name) and isinstance(child.ctx, (ast.Store, ast.Del)):
+                if child.id in expected:
+                    raise ValueError("unary source import name is rebound")
+                imported.pop(child.id, None)
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                if child.name in expected:
+                    raise ValueError("unary source import name is rebound")
+                imported.pop(child.name, None)
+    if bound != expected:
+        raise ValueError("unary source import differs from the original Python binding")
+
+
+def check_binary_imports(python_text: str, expected: dict[str, str]) -> dict[str, list[str]]:
+    """Check the caller-selected primary import and record every fallback.
+
+    ImportError fallback paths are provenance, not asserted intrinsic identities.
+    Only a direct import or a pure nested ImportError/import ladder is accepted;
+    arbitrary code, rebinding and shadowing fail closed.
+    """
+    module = ast.parse(python_text)
+    result = {}
+    allowed = set()
+    targets = {"triton.language.extra.cuda.libdevice.pow",
+               "triton.language.math.pow", "triton.language.libdevice.pow"}
+    def ladder(nodes, name):
+        if len(nodes) != 1:
+            raise ValueError("binary source import branch must contain one import")
+        node = nodes[0]
+        if isinstance(node, ast.ImportFrom):
+            if node.level or node.module is None or len(node.names) != 1:
+                raise ValueError("ambiguous binary source import")
+            alias = node.names[0]
+            target = node.module + "." + alias.name
+            if (alias.asname or alias.name) != name or target not in targets:
+                raise ValueError("unsupported binary source import branch")
+            allowed.add(id(alias))
+            return [target]
+        if (isinstance(node, ast.Try) and not node.orelse and not node.finalbody
+                and len(node.handlers) == 1 and node.handlers[0].name is None
+                and isinstance(node.handlers[0].type, ast.Name)
+                and node.handlers[0].type.id == "ImportError"):
+            return ladder(node.body, name) + ladder(node.handlers[0].body, name)
+        raise ValueError("binary source import needs a pure ImportError fallback")
+    for name, target in expected.items():
+        declarations = [n for n in module.body if any(
+            isinstance(a, ast.alias) and (a.asname or a.name) == name for a in ast.walk(n))]
+        if len(declarations) != 1:
+            raise ValueError("binary source import requires one declaration")
+        alternatives = ladder(declarations, name)
+        if alternatives[0] != target or len(alternatives) != len(set(alternatives)):
+            raise ValueError("binary source primary binding differs from the caller")
+        result[name] = alternatives
+    for node in ast.walk(module):
+        if isinstance(node, ast.ImportFrom) and any(a.name == "*" for a in node.names):
+            raise ValueError("wildcard import makes binary source binding ambiguous")
+        if isinstance(node, ast.ExceptHandler) and node.name in expected:
+            raise ValueError("binary source import name is shadowed")
+        if isinstance(node, (ast.MatchAs, ast.MatchStar)) and node.name in expected:
+            raise ValueError("binary source import name is shadowed")
+        if isinstance(node, ast.MatchMapping) and node.rest in expected:
+            raise ValueError("binary source import name is shadowed")
+        if isinstance(node, ast.alias) and (node.asname or node.name.split(".")[0]) in expected:
+            if id(node) not in allowed:
+                raise ValueError("binary source import name is rebound")
+        if isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del)) and node.id in expected:
+            raise ValueError("binary source import name is rebound")
+        if isinstance(node, ast.arg) and node.arg in expected:
+            raise ValueError("binary source import name is shadowed")
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.name in expected:
+            raise ValueError("binary source import name is rebound")
+        if isinstance(node, (ast.Attribute, ast.Subscript)) and isinstance(node.ctx, (ast.Store, ast.Del)):
+            root = node.value
+            while isinstance(root, (ast.Attribute, ast.Subscript)): root = root.value
+            if isinstance(root, ast.Name) and root.id in expected:
+                raise ValueError("binary source import object is mutated")
+    return result
+
 
 def check(python_text: str, lean_text: str, python_function: str, lean_definition: str,
           signature_definition: str | None = None, expected_signature: dict | None = None,
@@ -448,27 +658,13 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         for alias, target in profile.get("finiteImports", []):
             if (alias, target) not in imported:
                 raise ValueError("finite source import differs from the original Python binding")
+        check_source_constants(python_text, function, dict(profile.get("sourceConstants", [])))
+        binary_imports = dict(profile.get("binaryImports", []))
+        if binary_imports:
+            check_binary_imports(python_text, binary_imports)
         unary_imports = dict(profile.get("unaryImports", []))
         if unary_imports:
-            bound = {}
-            for node in ast.parse(python_text).body:
-                if isinstance(node, ast.ImportFrom) and node.module is not None:
-                    if any(a.name == "*" for a in node.names):
-                        raise ValueError("wildcard import makes unary source binding ambiguous")
-                    for alias in node.names:
-                        name = alias.asname or alias.name
-                        if name in unary_imports:
-                            bound[name] = node.module + "." + alias.name
-                else:
-                    if isinstance(node, ast.Import) and any((a.asname or a.name.split(".")[0]) in unary_imports for a in node.names):
-                        raise ValueError("unary source import name is rebound")
-                    for child in ast.walk(node):
-                        if isinstance(child, ast.Name) and isinstance(child.ctx, (ast.Store, ast.Del)) and child.id in unary_imports:
-                            raise ValueError("unary source import name is rebound")
-                    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.name in unary_imports:
-                        raise ValueError("unary source import name is rebound")
-            if bound != unary_imports:
-                raise ValueError("unary source import differs from the original Python binding")
+            check_unary_imports(python_text, unary_imports)
         if any(isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == "tanh"
                for n in ast.walk(function)) and "tanh" not in unary_imports:
             raise ValueError("bare tanh requires its original source import binding")
@@ -548,6 +744,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         result["source_dtype"] = source_dtype
     if jit_options is not None:
         result["jit_options"] = jit_options
+    if profile is not None and profile.get("binaryImports"):
+        result["source_binary_import_choices"] = check_binary_imports(python_text, dict(profile["binaryImports"]))
     return result
 
 

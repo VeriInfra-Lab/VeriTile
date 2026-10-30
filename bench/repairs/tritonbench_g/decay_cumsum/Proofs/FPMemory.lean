@@ -77,6 +77,38 @@ theorem frame (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
     exact outside ⟨same ▸ hr,t,j,he⟩
   · exact Or.inl same
 
+theorem direct_cell (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
+    (t : Nat) (r : RegionName) (value : Values α .real [h.BK]) (u : State α) (j : Fin h.BK) :
+    (directScatter M h.BK r (off h p prog t) value u).mem r (off h p prog t j)=
+      Cell.mk .real (value (j,PUnit.unit)) := by
+  apply State.scatter_readback (shape := [h.BK]) r (fun i => off h p prog t i.1)
+    (fun i => Cell.mk .real (value i)) u (j,PUnit.unit)
+  rintro ⟨a,⟨⟩⟩ ⟨b,⟨⟩⟩ he
+  have same := (off_unique h p prog t t a b he).2
+  subst b
+  rfl
+
+theorem direct_other_step (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
+    (t t' : Nat) (different : t≠t') (r : RegionName) (value : Values α .real [h.BK])
+    (u : State α) (j : Fin h.BK) :
+    (directScatter M h.BK r (off h p prog t) value u).mem r (off h p prog t' j)=u.mem r (off h p prog t' j) := by
+  apply State.scatter_frame
+  right
+  rintro ⟨k,⟨⟩⟩ _ he
+  exact different (off_unique h p prog t t' k j he.symm).1
+
+theorem direct_frame (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
+    (t : Fin p.span) (r : RegionName) (regions : List RegionName) (hr : r∈regions)
+    (value : Values α .real [h.BK]) (u : State α) :
+    Frame h p prog regions u (directScatter M h.BK r (off h p prog t.val) value u) := by
+  intro r' o outside
+  apply State.scatter_frame
+  by_cases same : r'=r
+  · right
+    rintro ⟨j,⟨⟩⟩ _ he
+    exact outside ⟨same ▸ hr,t,j,he⟩
+  · exact Or.inl same
+
 #axiomsClean cell
 #axiomsClean frame
 end

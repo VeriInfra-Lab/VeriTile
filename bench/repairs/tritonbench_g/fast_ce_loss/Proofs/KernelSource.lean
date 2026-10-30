@@ -43,8 +43,8 @@ def engine {α : Type} (M : Algebra α) : Algebra α := M.withDefaultPrecision .
 def label {α : Type} [Inhabited α] (p : Parameters) (initial : State α) : Int :=
   (initial.mem (Region.cast p.labels) (initial.pids 0)).read .int
 
-def forwardFrontLength (p : Parameters) : Nat :=
-  12 + (if p.hasScaling then 1 else 0) + (if p.hasSoftcap then 1 else 0)
+/-- The copied body retains both constexpr conditionals as source statements. -/
+def forwardFrontLength (_p : Parameters) : Nat := 14
 
 def forwardFront (p : Parameters) := (forward p).surfaceBody.take (forwardFrontLength p)
 def forwardTail (p : Parameters) := (forward p).surfaceBody.drop (forwardFrontLength p)

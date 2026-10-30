@@ -15,7 +15,13 @@ theorem prefix_safe (M : Algebra α) (kind : Kind) (h : Call) (p : Phase)
     (hf : u.pids 0=prog.feature) (hc : u.pids 1=prog.chunk) (hr : u.pids 2=prog.row)
     (hg : ∀ j : Fin h.BK, off h p prog (p.span-1) j<bounds "g") :
     Safety.traceSafeList (engine M) bounds (prefixSource kind h p) u := by
-  have last : prog.chunk*p.span+p.span-1=prog.chunk*p.span+(p.span-1) := by omega
+  have sub : ((p.span-1 : Nat) : Int)=(p.span : Int)-1 := by omega
+  have last (j : Fin h.BK) :
+      ((prog.row : Int)*h.headStride+((prog.chunk : Int)*p.span+p.span-1)*h.width+(prog.feature : Int)*h.BK+j.val).toNat = off h p prog (p.span-1) j := by
+    have inside : (prog.row : Int)*h.headStride+((prog.chunk : Int)*p.span+p.span-1)*h.width+(prog.feature : Int)*h.BK+j.val = (off h p prog (p.span-1) j : Int) := by
+      simp only [off,Int.natCast_add,Int.natCast_mul,sub]
+      ring
+    rw [inside,Int.toNat_natCast]
   cases kind <;>
     simp (config := { maxSteps := 500000 }) [prefixSource,ids,pcode,forwardPointer,backwardPointer,
       zeroCode,maskCode,headOp,featureOp,chunkOp,lastOp,lastOffset,
@@ -23,11 +29,10 @@ theorem prefix_safe (M : Algebra α) (kind : Kind) (h : Call) (p : Phase)
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
-      hf,hc,hr,State.setReg,engine,numeric,natLt,bop,integralFloorDiv,ComputeDType.eraseDType,
+      hf,hc,hr,State.setReg,engine,numeric,natLt,numericLt,bop,integralFloorDiv,ComputeDType.eraseDType,
       Broadcast.leftIndex,Broadcast.rightIndex,Region.cast]
   intro j
-  convert hg j using 1 <;> simp only [off,last,Nat.add_mul]
-  all_goals ring
+  simpa only [last] using hg j
 
 #axiomsClean prefix_safe
 end

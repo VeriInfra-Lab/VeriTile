@@ -1,0 +1,402 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/cross_entropy2/cross_entropy2_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean",
+    "python_function": "cross_entropy_fwd_kernel",
+    "lean_definition": "forwardSyntax",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "loss_ptr",
+          "fp32"
+        ],
+        [
+          "lse_ptr",
+          "fp32"
+        ],
+        [
+          "z_loss_ptr",
+          "fp32"
+        ],
+        [
+          "logits_ptr",
+          "fp32"
+        ],
+        [
+          "labels_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "smoothing",
+          "fp32"
+        ],
+        [
+          "logit_scale",
+          "fp32"
+        ],
+        [
+          "lse_square_scale",
+          "fp32"
+        ],
+        [
+          "ignored_index",
+          "i64"
+        ],
+        [
+          "total_classes",
+          "i64"
+        ],
+        [
+          "class_start_idx",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ],
+        [
+          "n_rows",
+          "i64"
+        ],
+        [
+          "logits_row_stride",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "HAS_SMOOTHING",
+        "SPLIT"
+      ],
+      "readPorts": [
+        "logits_ptr",
+        "labels_ptr"
+      ],
+      "writePorts": [
+        "loss_ptr",
+        "lse_ptr",
+        "z_loss_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "ignored_index": "p.ignored",
+      "total_classes": "(p.totalClasses : Int)",
+      "class_start_idx": "p.classStart",
+      "n_cols": "p.cols",
+      "n_rows": "p.rows",
+      "logits_row_stride": "p.logitsStride"
+    },
+    "expected_pointer_offsets": {
+      "loss_ptr": "p.lossBase",
+      "lse_ptr": "p.lseBase",
+      "z_loss_ptr": "p.zLossBase",
+      "logits_ptr": "p.logitsBase",
+      "labels_ptr": "p.labelsBase"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/cross_entropy2/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean",
+    "python_function": "cross_entropy_fwd_kernel_index_commuted",
+    "lean_definition": "forwardIndexCommutedSyntax",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "loss_ptr",
+          "fp32"
+        ],
+        [
+          "lse_ptr",
+          "fp32"
+        ],
+        [
+          "z_loss_ptr",
+          "fp32"
+        ],
+        [
+          "logits_ptr",
+          "fp32"
+        ],
+        [
+          "labels_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "smoothing",
+          "fp32"
+        ],
+        [
+          "logit_scale",
+          "fp32"
+        ],
+        [
+          "lse_square_scale",
+          "fp32"
+        ],
+        [
+          "ignored_index",
+          "i64"
+        ],
+        [
+          "total_classes",
+          "i64"
+        ],
+        [
+          "class_start_idx",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ],
+        [
+          "n_rows",
+          "i64"
+        ],
+        [
+          "logits_row_stride",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "HAS_SMOOTHING",
+        "SPLIT"
+      ],
+      "readPorts": [
+        "logits_ptr",
+        "labels_ptr"
+      ],
+      "writePorts": [
+        "loss_ptr",
+        "lse_ptr",
+        "z_loss_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "ignored_index": "p.ignored",
+      "total_classes": "(p.totalClasses : Int)",
+      "class_start_idx": "p.classStart",
+      "n_cols": "p.cols",
+      "n_rows": "p.rows",
+      "logits_row_stride": "p.logitsStride"
+    },
+    "expected_pointer_offsets": {
+      "loss_ptr": "p.lossBase",
+      "lse_ptr": "p.lseBase",
+      "z_loss_ptr": "p.zLossBase",
+      "logits_ptr": "p.logitsBase",
+      "labels_ptr": "p.labelsBase"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/cross_entropy2/cross_entropy2_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean",
+    "python_function": "cross_entropy_bwd_kernel",
+    "lean_definition": "backwardSyntax",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "dlogits_ptr",
+          "fp32"
+        ],
+        [
+          "dloss_ptr",
+          "fp32"
+        ],
+        [
+          "logits_ptr",
+          "fp32"
+        ],
+        [
+          "lse_ptr",
+          "fp32"
+        ],
+        [
+          "labels_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "smoothing",
+          "fp32"
+        ],
+        [
+          "logit_scale",
+          "fp32"
+        ],
+        [
+          "lse_square_scale",
+          "fp32"
+        ],
+        [
+          "ignored_index",
+          "i64"
+        ],
+        [
+          "total_classes",
+          "i64"
+        ],
+        [
+          "class_start_idx",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ],
+        [
+          "logits_row_stride",
+          "i64"
+        ],
+        [
+          "dlogits_row_stride",
+          "i64"
+        ],
+        [
+          "dloss_row_stride",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "HAS_SMOOTHING"
+      ],
+      "readPorts": [
+        "dloss_ptr",
+        "logits_ptr",
+        "lse_ptr",
+        "labels_ptr"
+      ],
+      "writePorts": [
+        "dlogits_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "ignored_index": "p.ignored",
+      "total_classes": "(p.totalClasses : Int)",
+      "class_start_idx": "p.classStart",
+      "n_cols": "p.cols",
+      "logits_row_stride": "p.logitsStride",
+      "dlogits_row_stride": "p.gradientStride",
+      "dloss_row_stride": "p.upstreamStride"
+    },
+    "expected_pointer_offsets": {
+      "dlogits_ptr": "p.gradientBase",
+      "dloss_ptr": "p.upstreamBase",
+      "logits_ptr": "p.logitsBase",
+      "lse_ptr": "p.lseBase",
+      "labels_ptr": "p.labelsBase"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/cross_entropy2/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean",
+    "python_function": "cross_entropy_bwd_kernel_index_commuted",
+    "lean_definition": "backwardIndexCommutedSyntax",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "dlogits_ptr",
+          "fp32"
+        ],
+        [
+          "dloss_ptr",
+          "fp32"
+        ],
+        [
+          "logits_ptr",
+          "fp32"
+        ],
+        [
+          "lse_ptr",
+          "fp32"
+        ],
+        [
+          "labels_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "smoothing",
+          "fp32"
+        ],
+        [
+          "logit_scale",
+          "fp32"
+        ],
+        [
+          "lse_square_scale",
+          "fp32"
+        ],
+        [
+          "ignored_index",
+          "i64"
+        ],
+        [
+          "total_classes",
+          "i64"
+        ],
+        [
+          "class_start_idx",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ],
+        [
+          "logits_row_stride",
+          "i64"
+        ],
+        [
+          "dlogits_row_stride",
+          "i64"
+        ],
+        [
+          "dloss_row_stride",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "HAS_SMOOTHING"
+      ],
+      "readPorts": [
+        "dloss_ptr",
+        "logits_ptr",
+        "lse_ptr",
+        "labels_ptr"
+      ],
+      "writePorts": [
+        "dlogits_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "ignored_index": "p.ignored",
+      "total_classes": "(p.totalClasses : Int)",
+      "class_start_idx": "p.classStart",
+      "n_cols": "p.cols",
+      "logits_row_stride": "p.logitsStride",
+      "dlogits_row_stride": "p.gradientStride",
+      "dloss_row_stride": "p.upstreamStride"
+    },
+    "expected_pointer_offsets": {
+      "dlogits_ptr": "p.gradientBase",
+      "dloss_ptr": "p.upstreamBase",
+      "logits_ptr": "p.logitsBase",
+      "lse_ptr": "p.lseBase",
+      "labels_ptr": "p.labelsBase"
+    }
+  }
+]

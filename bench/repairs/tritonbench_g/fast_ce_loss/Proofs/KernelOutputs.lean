@@ -10,8 +10,8 @@ variable {α : Type} [Inhabited α]
     (positive : 0<p.block) (validLabel : label p initial = -100 ∨ 0≤label p initial)
     (distinct : p.loss≠p.lse) :
     ∃ final, exec (engine M) (forward p) initial=some final ∧
-      (final.mem p.lse (initial.pids 0)).read .real=KernelModel.cast M (lseValue M p initial 0) ∧
-      (final.mem p.loss (initial.pids 0)).read .real=KernelModel.cast M (forwardLoss M p initial) ∧
+      (final.mem p.lse (initial.pids 0)).read .real=lseValue M p initial 0 ∧
+      (final.mem p.loss (initial.pids 0)).read .real=forwardLoss M p initial ∧
       (∀ region offset,
         (region≠p.loss ∨ offset≠initial.pids 0) →
         (region≠p.lse ∨ offset≠initial.pids 0) →
@@ -33,9 +33,9 @@ variable {α : Type} [Inhabited α]
     (distinct : p.loss≠p.lse) :
     ∃ final, exec (engine M) (chunked p) initial=some final ∧
       (final.mem p.lse (initial.pids 0*p.chunks+initial.pids 1)).read .real=
-        KernelModel.cast M (lseValue M p initial (initial.pids 1)) ∧
+        lseValue M p initial (initial.pids 1) ∧
       (initial.pids 1=0 → (final.mem p.loss (initial.pids 0)).read .real=
-        KernelModel.cast M (chunkLoss M p initial)) ∧
+        chunkLoss M p initial) ∧
       (∀ region offset,
         (initial.pids 1=0 → region≠p.loss ∨ offset≠initial.pids 0) →
         (region≠p.lse ∨ offset≠initial.pids 0*p.chunks+initial.pids 1) →

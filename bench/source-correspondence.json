@@ -6,22 +6,21 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 95,
-      "uncovered_jit_functions": 86
+      "selected_body_copy_checked": 102,
+      "uncovered_jit_functions": 81
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
       "selected_body_copy_checked": 2,
       "spec_derived_body_copy_checked": 15
     },
-    "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 179,
-    "primary_files_with_int64_screen_warning": 23,
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 169,
+    "primary_files_with_int64_screen_warning": 22,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 63,
-        "antiquotes": 71,
+        "in_body_type_directives": 58,
+        "antiquotes": 64,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -3736,9 +3735,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 16,
-        "antiquotes": 64,
-        "dsl_assignment": 82,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 140,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -3795,23 +3794,177 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "cross_entropy_fwd_kernel",
+          "lean_definition": "forwardSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "n_rows": "p.rows",
+            "logits_row_stride": "p.logitsStride"
+          },
+          "statements": 12,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "n_rows": "i64",
+            "logits_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING",
+            "SPLIT"
+          ],
+          "pointer_offsets": {
+            "loss_ptr": "p.lossBase",
+            "lse_ptr": "p.lseBase",
+            "logits_ptr": "p.logitsBase",
+            "labels_ptr": "p.labelsBase"
+          },
           "python": "bench/repairs/tritonbench_g/cross_entropy1/cross_entropy1_repaired.py",
-          "function": "cross_entropy_fwd_kernel"
+          "lean": "bench/repairs/tritonbench_g/cross_entropy1/Kernels.lean"
         },
         {
+          "python_function": "cross_entropy_fwd_kernel_index_commuted",
+          "lean_definition": "forwardIndexCommutedSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "n_rows": "p.rows",
+            "logits_row_stride": "p.logitsStride"
+          },
+          "statements": 12,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "n_rows": "i64",
+            "logits_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING",
+            "SPLIT"
+          ],
+          "pointer_offsets": {
+            "loss_ptr": "p.lossBase",
+            "lse_ptr": "p.lseBase",
+            "logits_ptr": "p.logitsBase",
+            "labels_ptr": "p.labelsBase"
+          },
+          "python": "bench/repairs/tritonbench_g/cross_entropy1/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/cross_entropy1/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_bwd_kernel",
+          "lean_definition": "backwardSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "logits_row_stride": "p.logitsStride",
+            "dlogits_row_stride": "p.gradientStride",
+            "dloss_row_stride": "p.upstreamStride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "logits_row_stride": "i64",
+            "dlogits_row_stride": "i64",
+            "dloss_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING"
+          ],
+          "pointer_offsets": {
+            "dlogits_ptr": "p.gradientBase",
+            "dloss_ptr": "p.upstreamBase",
+            "logits_ptr": "p.logitsBase",
+            "lse_ptr": "p.lseBase",
+            "labels_ptr": "p.labelsBase"
+          },
           "python": "bench/repairs/tritonbench_g/cross_entropy1/cross_entropy1_repaired.py",
-          "function": "cross_entropy_bwd_kernel"
+          "lean": "bench/repairs/tritonbench_g/cross_entropy1/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_bwd_kernel_index_commuted",
+          "lean_definition": "backwardIndexCommutedSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "logits_row_stride": "p.logitsStride",
+            "dlogits_row_stride": "p.gradientStride",
+            "dloss_row_stride": "p.upstreamStride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "logits_row_stride": "i64",
+            "dlogits_row_stride": "i64",
+            "dloss_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING"
+          ],
+          "pointer_offsets": {
+            "dlogits_ptr": "p.gradientBase",
+            "dloss_ptr": "p.upstreamBase",
+            "logits_ptr": "p.logitsBase",
+            "lse_ptr": "p.lseBase",
+            "labels_ptr": "p.labelsBase"
+          },
+          "python": "bench/repairs/tritonbench_g/cross_entropy1/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/cross_entropy1/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/cross_entropy1/Kernels.lean": "427c0b2be861b4e9551ef5ae69125b9d195d4b7ab51a116608783377fb2cd562",
-        "bench/repairs/tritonbench_g/cross_entropy1/cross_entropy1_repaired.py": "e6932518ddf889508a922c49c256fd521eee4041d9115ba2d34954647ba24957"
+        "bench/repairs/tritonbench_g/cross_entropy1/Kernels.lean": "bef1e4b8c08ee5c57f15fc7b6fa4dec55da5c4f3b79f8d78de99ddc463e4576f",
+        "bench/repairs/tritonbench_g/cross_entropy1/candidate_kernels.py": "59b10053c283beb63d1dd8d8f24a8267a8a06822f21634cc91a6cf3cceb028f1",
+        "bench/repairs/tritonbench_g/cross_entropy1/cross_entropy1_repaired.py": "e6932518ddf889508a922c49c256fd521eee4041d9115ba2d34954647ba24957",
+        "bench/repairs/tritonbench_g/cross_entropy1/jit-correspondence.json": "5de55f3270827e37517617aad4e40aada7966e83f137e24b9ebf9518ce9f790e"
       }
     },
     {
@@ -3822,9 +3975,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 20,
-        "antiquotes": 82,
-        "dsl_assignment": 76,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 136,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -3889,23 +4042,183 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "cross_entropy_fwd_kernel",
+          "lean_definition": "forwardSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "n_rows": "p.rows",
+            "logits_row_stride": "p.logitsStride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "i64",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "n_rows": "i64",
+            "logits_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING",
+            "SPLIT"
+          ],
+          "pointer_offsets": {
+            "loss_ptr": "p.lossBase",
+            "lse_ptr": "p.lseBase",
+            "z_loss_ptr": "p.zLossBase",
+            "logits_ptr": "p.logitsBase",
+            "labels_ptr": "p.labelsBase"
+          },
           "python": "bench/repairs/tritonbench_g/cross_entropy2/cross_entropy2_repaired.py",
-          "function": "cross_entropy_fwd_kernel"
+          "lean": "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean"
         },
         {
+          "python_function": "cross_entropy_fwd_kernel_index_commuted",
+          "lean_definition": "forwardIndexCommutedSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "n_rows": "p.rows",
+            "logits_row_stride": "p.logitsStride"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "i64",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "n_rows": "i64",
+            "logits_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING",
+            "SPLIT"
+          ],
+          "pointer_offsets": {
+            "loss_ptr": "p.lossBase",
+            "lse_ptr": "p.lseBase",
+            "z_loss_ptr": "p.zLossBase",
+            "logits_ptr": "p.logitsBase",
+            "labels_ptr": "p.labelsBase"
+          },
+          "python": "bench/repairs/tritonbench_g/cross_entropy2/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_bwd_kernel",
+          "lean_definition": "backwardSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "logits_row_stride": "p.logitsStride",
+            "dlogits_row_stride": "p.gradientStride",
+            "dloss_row_stride": "p.upstreamStride"
+          },
+          "statements": 17,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "i64",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "logits_row_stride": "i64",
+            "dlogits_row_stride": "i64",
+            "dloss_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING"
+          ],
+          "pointer_offsets": {
+            "dlogits_ptr": "p.gradientBase",
+            "dloss_ptr": "p.upstreamBase",
+            "logits_ptr": "p.logitsBase",
+            "lse_ptr": "p.lseBase",
+            "labels_ptr": "p.labelsBase"
+          },
           "python": "bench/repairs/tritonbench_g/cross_entropy2/cross_entropy2_repaired.py",
-          "function": "cross_entropy_bwd_kernel"
+          "lean": "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_bwd_kernel_index_commuted",
+          "lean_definition": "backwardIndexCommutedSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "logits_row_stride": "p.logitsStride",
+            "dlogits_row_stride": "p.gradientStride",
+            "dloss_row_stride": "p.upstreamStride"
+          },
+          "statements": 17,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "i64",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "logits_row_stride": "i64",
+            "dlogits_row_stride": "i64",
+            "dloss_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING"
+          ],
+          "pointer_offsets": {
+            "dlogits_ptr": "p.gradientBase",
+            "dloss_ptr": "p.upstreamBase",
+            "logits_ptr": "p.logitsBase",
+            "lse_ptr": "p.lseBase",
+            "labels_ptr": "p.labelsBase"
+          },
+          "python": "bench/repairs/tritonbench_g/cross_entropy2/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean": "d5d6726c481a7f630c13d74ffc2de28b09650bc22bb6549e916c84e7a1eb6539",
-        "bench/repairs/tritonbench_g/cross_entropy2/cross_entropy2_repaired.py": "628b6d679381ed6d1353fc070a313cc7587ca52676a84eacf16637323c575ba9"
+        "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean": "69addde43203938d960fd0534d5ba3f659423bfa835756b3a32e9678f823857b",
+        "bench/repairs/tritonbench_g/cross_entropy2/candidate_kernels.py": "af23b96771201dca421d7dd7241ddf58bd13792aa075e0f1386885a3cba745e2",
+        "bench/repairs/tritonbench_g/cross_entropy2/cross_entropy2_repaired.py": "628b6d679381ed6d1353fc070a313cc7587ca52676a84eacf16637323c575ba9",
+        "bench/repairs/tritonbench_g/cross_entropy2/jit-correspondence.json": "27bd97129797bccb733a1725f1bc1fcd0632853c1871f926b09ea089bba38c75"
       }
     },
     {
@@ -3916,22 +4229,254 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 20,
-        "antiquotes": 72,
-        "dsl_assignment": 33,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 93,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "cross_entropy_fwd_kernel",
+          "line": 16,
+          "statements": 14,
+          "explicit_int64_casts": [
+            {
+              "line": 35,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 36,
+              "expression": "tl.program_id(1).to(tl.int64)"
+            },
+            {
+              "line": 38,
+              "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+            },
+            {
+              "line": 37,
+              "expression": "logits_row_stride.to(tl.int64)"
+            }
+          ],
+          "python": "bench/repairs/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py"
+        },
+        {
+          "function": "cross_entropy_bwd_kernel",
+          "line": 86,
+          "statements": 16,
+          "explicit_int64_casts": [
+            {
+              "line": 105,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 106,
+              "expression": "tl.program_id(1).to(tl.int64)"
+            },
+            {
+              "line": 109,
+              "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+            },
+            {
+              "line": 107,
+              "expression": "logits_row_stride.to(tl.int64)"
+            },
+            {
+              "line": 108,
+              "expression": "dlogits_row_stride.to(tl.int64)"
+            }
+          ],
+          "python": "bench/repairs/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py"
+        }
+      ],
+      "python_source_delegations": [
+        {
+          "python": "bench/repairs/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py",
+          "spec": "_source_spec",
+          "module_binding": "_source",
+          "spec_line": 8,
+          "load_line": 11
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "cross_entropy_fwd_kernel",
+          "lean_definition": "forwardSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "n_rows": "p.rows",
+            "logits_row_stride": "p.logitsStride"
+          },
+          "statements": 14,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "n_rows": "i64",
+            "logits_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING",
+            "SPLIT"
+          ],
+          "pointer_offsets": {
+            "loss_ptr": "p.lossBase",
+            "lse_ptr": "p.lseBase",
+            "z_loss_ptr": "p.zlossBase",
+            "logits_ptr": "p.logitsBase",
+            "labels_ptr": "p.labelsBase"
+          },
+          "python": "bench/repairs/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py",
+          "lean": "bench/repairs/tritonbench_g/cross_entropy_ops/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_fwd_kernel_index_commuted",
+          "lean_definition": "forwardIndexCommutedSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "n_rows": "p.rows",
+            "logits_row_stride": "p.logitsStride"
+          },
+          "statements": 14,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "n_rows": "i64",
+            "logits_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING",
+            "SPLIT"
+          ],
+          "pointer_offsets": {
+            "loss_ptr": "p.lossBase",
+            "lse_ptr": "p.lseBase",
+            "z_loss_ptr": "p.zlossBase",
+            "logits_ptr": "p.logitsBase",
+            "labels_ptr": "p.labelsBase"
+          },
+          "python": "bench/repairs/tritonbench_g/cross_entropy_ops/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/cross_entropy_ops/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_bwd_kernel",
+          "lean_definition": "backwardSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "logits_row_stride": "p.logitsStride",
+            "dlogits_row_stride": "p.gradientStride",
+            "dloss_row_stride": "p.upstreamStride"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "logits_row_stride": "i64",
+            "dlogits_row_stride": "i64",
+            "dloss_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING"
+          ],
+          "pointer_offsets": {
+            "dlogits_ptr": "p.gradientBase",
+            "dloss_ptr": "p.upstreamBase",
+            "logits_ptr": "p.logitsBase",
+            "lse_ptr": "p.lseBase",
+            "labels_ptr": "p.labelsBase"
+          },
+          "python": "bench/repairs/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py",
+          "lean": "bench/repairs/tritonbench_g/cross_entropy_ops/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_bwd_kernel_index_commuted",
+          "lean_definition": "backwardIndexCommutedSyntax",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "ignored_index": "p.ignored",
+            "total_classes": "(p.totalClasses : Int)",
+            "class_start_idx": "p.classStart",
+            "n_cols": "p.cols",
+            "logits_row_stride": "p.logitsStride",
+            "dlogits_row_stride": "p.gradientStride",
+            "dloss_row_stride": "p.upstreamStride"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "logits_row_stride": "i64",
+            "dlogits_row_stride": "i64",
+            "dloss_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING"
+          ],
+          "pointer_offsets": {
+            "dlogits_ptr": "p.gradientBase",
+            "dloss_ptr": "p.upstreamBase",
+            "logits_ptr": "p.logitsBase",
+            "lse_ptr": "p.lseBase",
+            "labels_ptr": "p.labelsBase"
+          },
+          "python": "bench/repairs/tritonbench_g/cross_entropy_ops/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/cross_entropy_ops/Kernels.lean"
+        }
+      ],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
-      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "no_selected_jit_resolved",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair; every JIT in the statically resolved local delegated source",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/cross_entropy_ops/Kernels.lean": "b27c33895ea041668b2f6262beacec612a2f70f6b24c201b13a6683733ba091d",
-        "bench/repairs/tritonbench_g/cross_entropy_ops/cross_entropy_ops_repaired.py": "5f106a09beaeb4807b9a8f6409e0f015478be518e8a31d9ca889a32f9cd7e768"
+        "bench/repairs/tritonbench_g/cross_entropy_ops/Kernels.lean": "eeb8e0ed6cd260f2050ad1fa88024e68c5f89b25ef04a038afb78d1b3e41c8ad",
+        "bench/repairs/tritonbench_g/cross_entropy_ops/candidate_kernels.py": "ffdf4f54246d4ab3d428e820877978ba6b25b8907491f395695c946cebdfbc15",
+        "bench/repairs/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py": "b690a712bd968686ee78818e81dbbb21a8d15331e132eb1c994d1ed3eb2b4ba5",
+        "bench/repairs/tritonbench_g/cross_entropy_ops/cross_entropy_ops_repaired.py": "5f106a09beaeb4807b9a8f6409e0f015478be518e8a31d9ca889a32f9cd7e768",
+        "bench/repairs/tritonbench_g/cross_entropy_ops/jit-correspondence.json": "99abd2da11503d4da123c51e6b037efecbb9bcb523928d2817bf7549dd305feb"
       }
     },
     {
@@ -3942,9 +4487,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 6,
-        "in_body_type_directives": 6,
-        "antiquotes": 270,
-        "dsl_assignment": 19,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 77,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 6
@@ -4024,27 +4569,215 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "fwd_decay_cumsum",
+          "lean_definition": "quotedForward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 8,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
           "python": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
-          "function": "fwd_decay_cumsum"
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
         },
         {
-          "python": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
-          "function": "prepare_qg_kg"
+          "python_function": "fwd_decay_cumsum_index_commuted",
+          "lean_definition": "quotedForwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 8,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/repairs/tritonbench_g/decay_cumsum/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
         },
         {
+          "python_function": "prepare_qg_kg",
+          "lean_definition": "quotedPrepare",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 11,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
           "python": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
-          "function": "bwd_decay_global_cumsum"
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
+        },
+        {
+          "python_function": "prepare_qg_kg_index_commuted",
+          "lean_definition": "quotedPrepareIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 11,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/repairs/tritonbench_g/decay_cumsum/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
+        },
+        {
+          "python_function": "bwd_decay_global_cumsum",
+          "lean_definition": "quotedBackward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
+        },
+        {
+          "python_function": "bwd_decay_global_cumsum_index_commuted",
+          "lean_definition": "quotedBackwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/repairs/tritonbench_g/decay_cumsum/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean": "6738c4c464dd24c428f9b941ed12604afc637062349b27b609a6f2dca7645f2d",
-        "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py": "8280a38504ba5e0d5fb398180cc30cb90230739a6ca545e2c455e1d6cc309974"
+        "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean": "75b83abf032a2e5a03bd9066aaebeba2f5a0957dd8e86c0508bf0527baa962df",
+        "bench/repairs/tritonbench_g/decay_cumsum/candidate_kernels.py": "874852c1247af7f1ab9b2034bdb0e076eea6f234abee468378a7dbd6cc3cb7ba",
+        "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py": "8280a38504ba5e0d5fb398180cc30cb90230739a6ca545e2c455e1d6cc309974",
+        "bench/repairs/tritonbench_g/decay_cumsum/jit-correspondence.json": "ef23b9dde3d4cc2d251a25acfa623a8a2d5576481ce9e4bce7aee75412887cfc"
       }
     },
     {
@@ -5341,23 +6074,255 @@
       "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 24,
-        "in_body_type_directives": 24,
-        "antiquotes": 208,
-        "dsl_assignment": 6,
+        "quotations": 6,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 44,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "_cross_entropy_forward",
+          "line": 28,
+          "statements": 17,
+          "explicit_int64_casts": [
+            {
+              "line": 40,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 49,
+              "expression": "tl.load(labels_ptr).to(tl.int64)"
+            },
+            {
+              "line": 41,
+              "expression": "logits_row_stride.to(tl.int64)"
+            }
+          ],
+          "python": "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py"
+        },
+        {
+          "function": "_chunked_cross_entropy_forward",
+          "line": 74,
+          "statements": 17,
+          "explicit_int64_casts": [
+            {
+              "line": 87,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 88,
+              "expression": "tl.program_id(1).to(tl.int64)"
+            },
+            {
+              "line": 97,
+              "expression": "tl.load(labels_ptr).to(tl.int64)"
+            },
+            {
+              "line": 89,
+              "expression": "logits_row_stride.to(tl.int64)"
+            }
+          ],
+          "python": "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py"
+        },
+        {
+          "function": "_cross_entropy_backward",
+          "line": 124,
+          "statements": 17,
+          "explicit_int64_casts": [
+            {
+              "line": 136,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 137,
+              "expression": "tl.program_id(1).to(tl.int64)"
+            },
+            {
+              "line": 143,
+              "expression": "tl.load(labels_ptr + row_idx).to(tl.int64)"
+            },
+            {
+              "line": 139,
+              "expression": "logits_row_stride.to(tl.int64)"
+            }
+          ],
+          "python": "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py"
+        }
+      ],
+      "python_source_delegations": [
+        {
+          "python": "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
+          "spec": "_source_spec",
+          "module_binding": "_source",
+          "spec_line": 7,
+          "load_line": 10
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "_cross_entropy_forward",
+          "lean_definition": "forward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "logits_row_stride": "logits_row_stride"
+          },
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
+          "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean"
+        },
+        {
+          "python_function": "_cross_entropy_forward_index_commuted",
+          "lean_definition": "forwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "logits_row_stride": "logits_row_stride"
+          },
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/fast_ce_loss/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean"
+        },
+        {
+          "python_function": "_chunked_cross_entropy_forward",
+          "lean_definition": "chunked",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "logits_row_stride": "logits_row_stride"
+          },
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "N_CHUNKS",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
+          "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean"
+        },
+        {
+          "python_function": "_chunked_cross_entropy_forward_index_commuted",
+          "lean_definition": "chunkedIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "logits_row_stride": "logits_row_stride"
+          },
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "N_CHUNKS",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/fast_ce_loss/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean"
+        },
+        {
+          "python_function": "_cross_entropy_backward",
+          "lean_definition": "backward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "logits_row_stride": "logits_row_stride",
+            "dloss_row_stride": "dloss_row_stride"
+          },
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer",
+            "dloss_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
+          "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean"
+        },
+        {
+          "python_function": "_cross_entropy_backward_index_commuted",
+          "lean_definition": "backwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "logits_row_stride": "logits_row_stride",
+            "dloss_row_stride": "dloss_row_stride"
+          },
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer",
+            "dloss_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/fast_ce_loss/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean"
+        }
+      ],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
-      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "no_selected_jit_resolved",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair; every JIT in the statically resolved local delegated source",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean": "8f3eaeb86793cdc99503c53072e6354a4d6c0a11fb20216b71c2c6974e44615b",
-        "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_repaired.py": "c848b2bb538b8b0800a069e564b2a796dcdf23f0b2688e0fc8b6f73a5ecf07ff"
+        "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean": "14c6a0fe92c6eb426dc9d9585fcf31238f8203f472e4236f89ff0637df79b80e",
+        "bench/repairs/tritonbench_g/fast_ce_loss/candidate_kernels.py": "be074c3d8b70894582634f88d7c8d55a4d14b4464b19154a5d8d6e5324886f1c",
+        "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py": "bd8421753644480fb676f8b76e351be1db156b791376f8b0d5a925febeefc382",
+        "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_repaired.py": "c848b2bb538b8b0800a069e564b2a796dcdf23f0b2688e0fc8b6f73a5ecf07ff",
+        "bench/repairs/tritonbench_g/fast_ce_loss/jit-correspondence.json": "9e21985a8bdc09a41dc58e26e85fd4f8fe2bb4ec9d1bb8d51e9c6899a3a1bc5b"
       }
     },
     {
@@ -8395,7 +9360,7 @@
         "quotations": 4,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 56,
+        "dsl_assignment": 55,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -8553,9 +9518,9 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/kldiv_triton/Kernels.lean": "51ed979371a1e844e1b7418413e3b6abf7153bb2e437f7e7b11d6fabcc403adf",
+        "bench/repairs/tritonbench_g/kldiv_triton/Kernels.lean": "8f9823e0c761bb3b31bc33e7778f1e8d11ee0f5f6693ec1ab6b5676c3b10e033",
         "bench/repairs/tritonbench_g/kldiv_triton/index_commuted.py": "81b14d2eff168880716fbe59349bb1bba3493905bdba151fc93596c9f1402f89",
-        "bench/repairs/tritonbench_g/kldiv_triton/jit-correspondence.json": "84f8dd1d2d0549cf832cb9f6c4a68290d84e25305118eab294af2a241c4f862a",
+        "bench/repairs/tritonbench_g/kldiv_triton/jit-correspondence.json": "1b1f639ae4766b1cacb0b2b4fa832169e27e074eb80cff498828fbe5526c24e4",
         "bench/repairs/tritonbench_g/kldiv_triton/kldiv_triton_repaired.py": "ea1be2fd98aadf2f294964417898b348da5cd9d99d18632a96d7fe966625340d"
       }
     },
@@ -10794,13 +11759,13 @@
       "lean": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 1,
+        "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 27,
-        "dsl_assignment": 4,
+        "antiquotes": 0,
+        "dsl_assignment": 44,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -10810,18 +11775,92 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_tma_load_store",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "p.rows",
+            "N": "p.columns",
+            "K": "p.inner",
+            "stride_am": "p.aRow",
+            "stride_ak": "p.aInner",
+            "stride_bk": "p.bInner",
+            "stride_bn": "p.bColumn",
+            "stride_cm": "p.cRow",
+            "stride_cn": "p.cColumn"
+          },
+          "statements": 8,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "OUTPUT_F16"
+          ],
           "python": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/matmul_tma_static_checked_v2.py",
-          "function": "matmul_tma_load_store"
+          "lean": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean"
+        },
+        {
+          "python_function": "matmul_tma_explicit_output",
+          "lean_definition": "sourceExplicitOutput",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "p.rows",
+            "N": "p.columns",
+            "K": "p.inner",
+            "stride_am": "p.aRow",
+            "stride_ak": "p.aInner",
+            "stride_bk": "p.bInner",
+            "stride_bn": "p.bColumn",
+            "stride_cm": "p.cRow",
+            "stride_cn": "p.cColumn"
+          },
+          "statements": 8,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "OUTPUT_F16"
+          ],
+          "python": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean": "4cef5bbae45e1e87f3f930ea9a850cfb14290dec4f054ad4ff4f6a6059eb4818",
+        "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean": "f8ad152c5bf18c596c77d7145bbba4e72f3f2f07759cbbef2a3fe8964868766b",
+        "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/jit-correspondence.json": "eba0c88e9e576746be77eda4daa5607392323421534b9adb0c2de56cea3864ba",
+        "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/candidate_kernels.py": "1838d67cab05206a1d08825e863bfcec7f9e9e96fdaf6c0ec5b30312d1fefbdf",
         "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/matmul_tma_static_checked_v2.py": "71d5329036259331442629daac29492bb71c0d26b2acd64d5e5ef9f7142f5b5b"
       }
     },
@@ -12461,13 +13500,13 @@
       "lean": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 4,
+        "quotations": 3,
         "in_body_type_directives": 0,
-        "antiquotes": 60,
-        "dsl_assignment": 18,
+        "antiquotes": 0,
+        "dsl_assignment": 47,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 4
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -12483,22 +13522,132 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "pow_func_scalar_tensor",
+          "lean_definition": "powerFunction",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "inferred_helper_values",
+          "call_bindings": null,
+          "statements": 1,
+          "runtime_parameters": {},
+          "constexpr_parameters": [],
+          "body_kind": "helper",
+          "helper_parameters": [
+            "x",
+            "exponent"
+          ],
           "python": "bench/repairs/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_repaired.py",
-          "function": "pow_func_scalar_tensor"
+          "lean": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean"
         },
         {
+          "python_function": "pow_func_scalar_tensor_kernel_rank_1",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "val0": "c.base",
+            "in0_stride0": "c.input.stride",
+            "out0_stride0": "c.output.stride",
+            "s0": "c.n",
+            "num_tasks": "c.n",
+            "tiles_per_cta": "c.tiles"
+          },
+          "statements": 3,
+          "runtime_parameters": {
+            "val0": "fp32",
+            "in0_stride0": "integer",
+            "out0_stride0": "integer",
+            "s0": "integer",
+            "num_tasks": "integer",
+            "tiles_per_cta": "integer"
+          },
+          "constexpr_parameters": [
+            "in0_stride_order0",
+            "one_tile_per_cta",
+            "out0_stride_order0",
+            "tile_size0"
+          ],
+          "source_functions": [
+            "powerFunction"
+          ],
+          "pointer_offsets": {
+            "in0_ptr": "c.input.base",
+            "out0_ptr": "c.output.base"
+          },
+          "jit_options": {
+            "do_not_specialize": "['val0']"
+          },
+          "source_binary_import_choices": {
+            "_pow": [
+              "triton.language.extra.cuda.libdevice.pow",
+              "triton.language.math.pow",
+              "triton.language.libdevice.pow"
+            ]
+          },
           "python": "bench/repairs/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_repaired.py",
-          "function": "pow_func_scalar_tensor_kernel_rank_1"
+          "lean": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean"
+        },
+        {
+          "python_function": "pow_func_scalar_tensor_kernel_rank_1_index_commuted",
+          "lean_definition": "commutedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "val0": "c.base",
+            "in0_stride0": "c.input.stride",
+            "out0_stride0": "c.output.stride",
+            "s0": "c.n",
+            "num_tasks": "c.n",
+            "tiles_per_cta": "c.tiles"
+          },
+          "statements": 3,
+          "runtime_parameters": {
+            "val0": "fp32",
+            "in0_stride0": "integer",
+            "out0_stride0": "integer",
+            "s0": "integer",
+            "num_tasks": "integer",
+            "tiles_per_cta": "integer"
+          },
+          "constexpr_parameters": [
+            "in0_stride_order0",
+            "one_tile_per_cta",
+            "out0_stride_order0",
+            "tile_size0"
+          ],
+          "source_functions": [
+            "powerFunction"
+          ],
+          "pointer_offsets": {
+            "in0_ptr": "c.input.base",
+            "out0_ptr": "c.output.base"
+          },
+          "jit_options": {
+            "do_not_specialize": "['val0']"
+          },
+          "source_binary_import_choices": {
+            "_pow": [
+              "triton.language.extra.cuda.libdevice.pow",
+              "triton.language.math.pow",
+              "triton.language.libdevice.pow"
+            ]
+          },
+          "python": "bench/repairs/tritonbench_g/pow_scalar_tensor/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean": "85e1679ceb328737a3f60a96cc478c2cb2757804407d89617642c59655361c78",
+        "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean": "c087872ea6066741abaf2861a5e6ff968d6039f9e1a4c23445d1c278e21f2da0",
+        "bench/repairs/tritonbench_g/pow_scalar_tensor/candidate_kernels.py": "a90744c713d35a7a238b2263b8bf4589c38ea996a1000a80268ab49d0ba5b048",
+        "bench/repairs/tritonbench_g/pow_scalar_tensor/jit-correspondence.json": "8a72e6abf63eb5e8b4221b037f937ca477398cb0329ca1c9cbaba063744cbe8c",
         "bench/repairs/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_repaired.py": "62f28a99074ccd1c44aa7cd7d4a2cbe9c764c1b513c7216754f8e9ff6c09c826"
       }
     },

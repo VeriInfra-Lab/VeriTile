@@ -24282,19 +24282,12 @@
         "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "The main logical tensor equivalences/views already live in the selected task IO.lean, with complete judgment and execution connections in Proofs/. No separate same-task logical-view definition remains to migrate; distinct candidate/native thin views are retained.",
-        "preservation": {
-          "all_recorded_source_bytes_unchanged": true,
-          "full_public_judgment_types": "All selected Correct/FPEquiv and IO source bytes match saved before and the pinned prior owner report; their previous successful full-scope/source/joint checks are reused, with no fresh Lean replay claimed.",
-          "audit": {
-            "path": ".veritile-cache/io-unification-20261023/queue10/audit.json",
-            "sha256": "b916c524819e4d2aeb54d8b0da86ac8fa5acadac06522b6a90fc19ada2136a5b"
-          }
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "Canonical logical IO, layouts, channels, schedule, masks and domain stay in task IO.lean; readers remain thin. The selected source and explicit primitive backend follow the complete original body. Proofs provide execution, safety, frame and full logical connections.",
+        "source_update": "The actual source and its typed implicit destination conversion replace the historical presentation. The original/candidate orientation and selected primitive interpretation are stated in the current source review; no whole-kernel premise or additional public input condition is added.",
+        "verification": "All own modules, full cumulative warm and independent empty-project replay plus joint imports pass. This is a renewed semantic/source review, not reuse of old unchanged-byte evidence.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "matmul_tma"
+          "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/previous-io-review.json",
+          "sha256": "fe6d74632c1ff5e19a0785570359d84d5a331a75f1e137b26cdad2b9d673a442"
         }
       },
       "distinct_views": [
@@ -24307,7 +24300,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean",
-          "sha256": "d18c46873b24bfea2ab9bcb833e42208b538f04095efde28ae8840888d719bdc"
+          "sha256": "339456edf034b7c68eb915cb2d8ef3536dbb1e96c37cb63700dc1a886408ef75"
         }
       ],
       "io_sources": [
@@ -24325,17 +24318,23 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/IO.lean",
-          "sha256": "46512e1d8d290bf7697bac60bd93904b5cc3d7e4bf4f31071bd98dcad3b624a2"
+          "sha256": "cdda0d2c05fbdc156e4607e0d9ec3b0c40d2356f971a34515a5ec5cae3b64fbb"
         }
       ],
-      "changed_paths": [],
+      "changed_paths": [
+        "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/IO.lean"
+      ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matmul_tma.json",
-        "sha256": "8b3b235ce36b6de172e635a805f8082b43deb93c2deba433febfcce32957d884",
-        "task": "matmul_tma"
+        "path": "bench/pr22-split/receipts/native-tma-matmul-function-bodies.json",
+        "sha256": "5f71fa1f9ba130eecf1f378d4c61662e9c54bee40a569c2d864dd18ff064b9a2"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable due host isolation; actual attempts recorded.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error; no false repin.",
+        "scope": "Full source replay on current public domains; no GPU or new numerical experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -24345,7 +24344,7 @@
           "task_index": 1,
           "task": "matmul_tma"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false
       },
       "previous_io_sources": [
         {
@@ -24410,6 +24409,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matmul_tma.json",
         "sha256": "8b3b235ce36b6de172e635a805f8082b43deb93c2deba433febfcce32957d884",
         "task": "matmul_tma"
+      },
+      "current_body_source_review": {
+        "path": "bench/pr22-split/receipts/native-tma-matmul-function-bodies.json",
+        "sha256": "5f71fa1f9ba130eecf1f378d4c61662e9c54bee40a569c2d864dd18ff064b9a2"
       }
     },
     {

@@ -4,7 +4,25 @@ Preserved raw endpoint readers are also in Misc: `Misc/KernelRealResults.lean`, 
 
 Optional proofs (layout review 2026-10-21): Native correctness, Tensor applications, and optional readers/audits are now imported explicitly from Misc. Declaration namespaces, theorem types/proofs, kernel-stage boundaries, input domains and prior completion/blocker status are unchanged. Main `FPEquiv.lean` no longer re-exports optional native theorems. Moved entries: `Misc/TensorBridge.lean`, `Misc/NativeCorrect.lean`, `Misc/NativeFPEquiv.lean`, `Misc/HostCorrect.lean`, `Misc/HostFPEquiv.lean`.
 
-Current source-pair review (2026-10-21): The current `FPEquiv.lean` headline is `decay_cumsum_source_equiv`: actual complete FP32 forward, preparation or backward source versus its pre-existing mask-index candidate, uniformly over every selected main/tail phase. Only the exact natural lane-mask product is commuted; no numerical rule or additional operand domain is used. `PairIO.lean` exposes both source programs and `Proofs/SourcePair.lean` reuses all three original `MaskEquivalence` proofs. The previous compiled/native IO declaration `decay_cumsum_kernel_equiv` retains its full name, statement, ABI and proof as an ordinary theorem in `Misc/NativeCorrect.lean`. No new host/full-grid pair theorem or native-to-Real assertion is claimed.
+Function-body migration: `Kernels.lean` contains all six complete original and
+existing mask-index candidate bodies, with 8/11/15 Python statements per
+forward/prepare/backward function. Program-ID and loop-bound int64 casts,
+pointer dtype casts, masks, branches and source order remain verbatim. Dtypes,
+call arguments and the immutable module literal `inv_ln2` are bound outside
+the pasted body. `jit-correspondence.json` checks the original function bodies,
+call metadata and exact module literal; the candidates commute only the
+existing integer lane-mask product.
+
+The raw source uses signed indices. The reverse range retains `(BT - 1)` before
+its int64 cast, including the empty `BT=0` range. The public repaired wrapper's
+existing positive tile restrictions remain unchanged. The backward dq/dk
+stores have no extra cast in Python and no invented cast in Lean. The ordered
+FP reference retains these direct stores; the native symbolic carrier retains
+their arithmetic provenance while byte encoding observes their raw FP32 words.
+The historical hand-written AST is archived as a proof artifact, with no claim
+that it equals the pasted source. Complete execution, safety, independent Real
+results and the source/candidate equivalence are checked against the actual
+source. The source pair uses no floating numerical law.
 
 The canonical candidate is unchanged: `decay_cumsum_repaired.py`, SHA256
 `8280a38504ba5e0d5fb398180cc30cb90230739a6ca545e2c455e1d6cc309974`.

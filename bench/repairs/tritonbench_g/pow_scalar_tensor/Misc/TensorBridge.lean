@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.pow_scalar_tensor.Proofs.SourceResults
 import bench.repairs.tritonbench_g.pow_scalar_tensor.Proofs.Contract
 import bench.repairs.tritonbench_g.pow_scalar_tensor.Proofs.KernelAccess
 import bench.repairs.tritonbench_g.pow_scalar_tensor.Correct
@@ -51,7 +52,7 @@ theorem kernel_correctness (rest : Algebra ℝ) (base : ℝ) (candidate : Bool)
   intro i hi
   simp only [Physical.buffer_region] at result
   rw [result i hi,values i hi]
-  simp [Cell.read,real_scalar]
+  simp [Cell.read,source_real_scalar]
 
 /-- Kernel-grid specialization to all FP32 words. baseWord is the scalar word
 already supplied by the ordinary launch ABI. The symbolic DSL scalar argument
@@ -90,7 +91,7 @@ theorem grid_fp32_equiv (rest : Algebra Float32Bits) (base : ℝ) (baseWord : Fl
   · intro i hi
     simp only [Physical.buffer_region] at va
     rw [va i hi,values i hi]
-    simp [Cell.read,fp32_scalar]
+    simp [Cell.read,source_fp32_scalar]
   · intro i hi
     exact ⟨Physical.backing_bounds x h.input i hi,
       Physical.backing_bounds y h.output i (by simpa [←h.shape] using hi)⟩

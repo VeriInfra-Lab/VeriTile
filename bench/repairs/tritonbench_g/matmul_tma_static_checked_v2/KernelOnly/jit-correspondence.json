@@ -1,0 +1,158 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/matmul_tma_static_checked_v2.py",
+    "lean": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean",
+    "python_function": "matmul_tma_load_store",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "inputFloat"
+        ],
+        [
+          "b_ptr",
+          "inputFloat"
+        ],
+        [
+          "c_ptr",
+          "outputFloat"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_K",
+        "OUTPUT_F16"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "p.rows",
+      "N": "p.columns",
+      "K": "p.inner",
+      "stride_am": "p.aRow",
+      "stride_ak": "p.aInner",
+      "stride_bk": "p.bInner",
+      "stride_bn": "p.bColumn",
+      "stride_cm": "p.cRow",
+      "stride_cn": "p.cColumn"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean",
+    "python_function": "matmul_tma_explicit_output",
+    "lean_definition": "sourceExplicitOutput",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "inputFloat"
+        ],
+        [
+          "b_ptr",
+          "inputFloat"
+        ],
+        [
+          "c_ptr",
+          "outputFloat"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_K",
+        "OUTPUT_F16"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "p.rows",
+      "N": "p.columns",
+      "K": "p.inner",
+      "stride_am": "p.aRow",
+      "stride_ak": "p.aInner",
+      "stride_bk": "p.bInner",
+      "stride_bn": "p.bColumn",
+      "stride_cm": "p.cRow",
+      "stride_cn": "p.cColumn"
+    }
+  }
+]

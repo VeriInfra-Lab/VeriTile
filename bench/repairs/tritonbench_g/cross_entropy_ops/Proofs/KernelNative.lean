@@ -16,19 +16,22 @@ variable {α : Type} [Inhabited α]
 
 def engine (M : Algebra α) : Algebra α := M.withDefaultPrecision .fp32
 
-def front (p : Parameters) := (forwardSyntax p).surfaceBody.take 11
-def tailCode (p : Parameters) := (forwardSyntax p).surfaceBody.drop 11
+def front (p : Parameters) := (forwardSyntax p).surfaceBody.take 12
+def tailCode (p : Parameters) := (forwardSyntax p).surfaceBody.drop 12
 
 theorem body_split (p : Parameters) :
     (forwardSyntax p).surfaceBody=front p++tailCode p := by
-  exact (List.take_append_drop 11 _).symm
+  exact (List.take_append_drop 12 _).symm
+
+def loadedLogits (M : Algebra α) (p : Parameters) (initial : State α) : Values α .real [p.block] :=
+  fun i => M.fp32Load
+    (if initial.pids 1*p.block+i.1.val<p.cols then
+      (initial.mem p.logits (p.logitsBase+initial.pids 0*p.logitsStride+
+        (initial.pids 1*p.block+i.1.val))).read .real else M.negInf)
 
 def rawLogits (M : Algebra α) (p : Parameters) (initial : State α) : Values α .real [p.block] :=
   fun i => M.binary (some .fp32) .real .mul
-    (M.cast (some .fp32) .real .real
-      (if initial.pids 1*p.block+i.1.val<p.cols then
-        (initial.mem p.logits (p.logitsBase+initial.pids 0*p.logitsStride+
-          (initial.pids 1*p.block+i.1.val))).read .real else M.negInf))
+    (M.cast (some .fp32) .real .real (loadedLogits M p initial i))
     (RuntimeArgs.fp initial "logit_scale")
 
 def logits (M : Algebra α) (p : Parameters) (initial : State α) : Values α .real [p.block] :=
@@ -82,6 +85,7 @@ def ready (M : Algebra α) (p : Parameters) (initial : State α) : State α :=
   let s := s.setReg "col_offsets" .int [p.block] (fun (lane,_) => (block : Int)*p.block+lane.val)
   let s := s.setReg "label_idx" .int [] (fun _ =>
     (initial.mem (Region.cast p.labels) (p.labelsBase+row)).read .int)
+  let s := s.setReg "__veritile_source_load_0" .real [p.block] (loadedLogits M p initial)
   let s := s.setReg "logits" .real [p.block] (rawLogits M p initial)
   let s := s.setReg "logits" .real [p.block] (logits M p initial)
   let s := s.setReg "max_logits" .real [] (maxTile M p initial)
@@ -97,7 +101,7 @@ theorem forwardPrefix (M : Algebra α) (p : Parameters)
   have scaleWord : RuntimeArgs.fp initial "logit_scale"=values.logitScale := by simp [RuntimeArgs.fp,abi.logitScale]
   cases hs : p.hasSmoothing
   all_goals
-    simp [front,forwardSyntax,hs,ComputeKernel.surfaceBody,ready,logits,rawLogits,maxValue,sumValue,lseValue,maxTile,sumTile,lseTile,
+    simp [front,forwardSyntax,hs,ComputeKernel.surfaceBody,ready,logits,rawLogits,loadedLogits,maxValue,sumValue,lseValue,maxTile,sumTile,lseTile,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,natLt,numericLt,numericLe,bop,ofFloat,toFloat,Region.cast,
@@ -112,10 +116,10 @@ theorem forwardPrefix (M : Algebra α) (p : Parameters)
         by_cases scalar : sh=[]
         · subst sh
           cases d <;>
-            simp (config := {maxSteps := 1000000}) [bop,logits,rawLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
+            simp (config := {maxSteps := 1000000}) [bop,logits,rawLogits,loadedLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
               Broadcast.leftIndex,Broadcast.rightIndex]
           all_goals
-            congr <;> first | rfl | simp (config := {failIfUnchanged := Bool.false}) [bop,logits,rawLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
+            congr <;> first | rfl | simp (config := {failIfUnchanged := Bool.false}) [bop,logits,rawLogits,loadedLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
               Broadcast.leftIndex,Broadcast.rightIndex]
           all_goals
             funext i
@@ -123,10 +127,10 @@ theorem forwardPrefix (M : Algebra α) (p : Parameters)
         · by_cases vector : sh=[p.block]
           · subst sh
             cases d <;>
-              simp (config := {maxSteps := 1000000}) [bop,logits,rawLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
+              simp (config := {maxSteps := 1000000}) [bop,logits,rawLogits,loadedLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
                 Broadcast.leftIndex,Broadcast.rightIndex]
             all_goals
-              congr <;> first | rfl | simp (config := {failIfUnchanged := Bool.false}) [bop,logits,rawLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
+              congr <;> first | rfl | simp (config := {failIfUnchanged := Bool.false}) [bop,logits,rawLogits,loadedLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
                 Broadcast.leftIndex,Broadcast.rightIndex]
           · have reversed : [p.block]≠sh := Ne.symm vector
             simp [scalar,reversed]
@@ -153,8 +157,8 @@ def owns (p : Parameters) (initial : State α) : Prop :=
     target p initial-p.classStart<min (p.cols : Int) (((initial.pids 1 : Int)+1)*p.block)
 
 def gathered (M : Algebra α) (p : Parameters) (initial : State α) : α :=
-  M.binary (some .fp32) .real .mul ((initial.mem p.logits (p.logitsBase+initial.pids 0*p.logitsStride+
-    (target p initial-p.classStart).toNat)).read .real) (RuntimeArgs.fp initial "logit_scale")
+  M.binary (some .fp32) .real .mul (M.fp32Load ((initial.mem p.logits (p.logitsBase+initial.pids 0*p.logitsStride+
+    (target p initial-p.classStart).toNat)).read .real)) (RuntimeArgs.fp initial "logit_scale")
 
 def coreLoss (M : Algebra α) (p : Parameters) (initial : State α) : α := by
   classical
@@ -173,12 +177,12 @@ def coreLoss (M : Algebra α) (p : Parameters) (initial : State α) : α := by
   else M.literal (some .fp32) .real 0.0
 
 def lossValue (M : Algebra α) (p : Parameters) (initial : State α) : α :=
-  if target p initial=p.ignored then M.literal (some .fp32) .real 0.0 else
+  M.cast (some .fp32) .real .real (if target p initial=p.ignored then M.literal (some .fp32) .real 0.0 else
     if p.split then coreLoss M p initial else
       M.binary (some .fp32) .real .add (coreLoss M p initial)
         (M.binary (some .fp32) .real .mul
           (M.binary (some .fp32) .real .mul (RuntimeArgs.fp initial "lse_square_scale")
-            (lseValue M p initial)) (lseValue M p initial))
+            (lseValue M p initial)) (lseValue M p initial)))
 
 def zValue (M : Algebra α) (p : Parameters) (initial : State α) : α :=
   if target p initial=p.ignored then M.literal (some .fp32) .real 0.0 else
