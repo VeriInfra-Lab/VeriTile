@@ -1,0 +1,34 @@
+{
+  "task": "kldiv_compute",
+  "entry": "VeriTile.Bench.Repairs.KldivCompute.Contiguous.FPEquiv.checked_reference_if_local",
+  "status": "local numerical conformance deferred",
+  "profile": "FP32 loads, original division -> tl.log -> multiplication -> FP32 store; no arithmetic rewriting",
+  "admission": "All FP32 words. No value finiteness or positivity guard. Numerical domains apply only to optional reference transport.",
+  "local_predicate": "VeriTile.Bench.Repairs.KldivCompute.Contiguous.FPProof.LocalPorts",
+  "coordinate_domain": "Domain.divide x y; Domain.logarithm (native.divide x y); Domain.multiply x (native.logarithm (native.divide x y))",
+  "operations": [
+    {
+      "name": "divide",
+      "arity": 2,
+      "required_evidence": "Installed FP32 division lowering versus chosen scalar reference, on the declared operand domain, including FTZ/subnormal and exceptional-word policies."
+    },
+    {
+      "name": "logarithm",
+      "arity": 1,
+      "required_evidence": "Installed tl.log intrinsic lowering versus chosen scalar reference on actual quotient words; no correctly-rounded claim."
+    },
+    {
+      "name": "multiply",
+      "arity": 2,
+      "required_evidence": "Installed FP32 multiply versus chosen scalar reference on actual x/log words, including overflow, FTZ and NaN policy."
+    }
+  ],
+  "structural_not_deferred": [
+    "ordered exact Python admission",
+    "signed32 indices/masks and active 64-bit addresses",
+    "grid coverage and source execution",
+    "actual returned Tensor and input logical views",
+    "full caller byte frames"
+  ],
+  "validation": "CPU Triton interpreter/reference/frame controls; no GPU execution or native numerical measurement"
+}

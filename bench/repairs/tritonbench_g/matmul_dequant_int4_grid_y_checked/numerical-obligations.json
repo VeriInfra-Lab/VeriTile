@@ -1,0 +1,31 @@
+{
+  "numerical_transformations": 0,
+  "required_numerical_experiments": 0,
+  "new_primitive_experiments": 0,
+  "standalone_fp16": {
+    "kind": "finite primitive-model conversion correspondence",
+    "domain": "all integer nibble differences -15 through 15",
+    "statement": "narrow(convert32_signed(n)) = convert16_signed(n)",
+    "source": "mechanically materialized exact integer promotion in the unchanged shared quotation",
+    "input_domain_restriction": false
+  },
+  "standalone_fp32": {
+    "local_conversion_gate": false,
+    "operation_order": "signed INT32 nibble subtraction, FP32 conversion, FP32 multiplication and store"
+  },
+  "raw_fused": "Retained complete-source/compiled-model correspondence, half multiplication/FMA, narrowing and selected fixed-K16 MMA ports. No new task numerical experiment.",
+  "host_library": "Historical ordinary Torch quantizer/mm helper and library semantics remain reused, not new kernel gates.",
+  "saved_checks": "34 interpreter controls and6 offline JIT-binder compilations are source/compiler controls, not primitive conformance experiments.",
+  "claims_not_made": [
+    "GPU execution",
+    "universal compiler/native primitive conformance",
+    "native FP equals Real"
+  ],
+  "implementation_pair_review_20261021": {
+    "status": "missing_pair_target",
+    "native_results": "Ordinary single-source theorems retained in NativeCorrect.lean with original full names, contracts and proofs.",
+    "blocker": "The standalone dequantization stage has no second implementation; the preserved fused matrix multiplication is a distinct stage.",
+    "additional_numerical_experiments": 0,
+    "classification": "Missing program target, not an unadmitted numerical rewrite."
+  }
+}

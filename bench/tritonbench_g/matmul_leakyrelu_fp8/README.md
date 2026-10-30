@@ -1,7 +1,3 @@
 # matmul_leakyrelu_fp8
 
-- Source file: `matmul_leakyrelu_fp8.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
-
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [matmul_leakyrelu_fp8_scalar_cast](../../repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/README.md).

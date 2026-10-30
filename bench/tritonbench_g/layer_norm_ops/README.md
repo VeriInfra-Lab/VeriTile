@@ -1,7 +1,3 @@
 # layer_norm_ops
 
-- Source file: `layer_norm_ops.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
-
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [layer_norm_ops](../../repairs/tritonbench_g/layer_norm_ops/README.md).

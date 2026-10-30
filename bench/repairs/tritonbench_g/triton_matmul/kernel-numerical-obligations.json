@@ -1,0 +1,48 @@
+{
+  "task": "triton_matmul",
+  "canonical_source_sha256": "ae92db50d9682c192a9404f75686f30dd02e9881d6fd440d00dce82ccd68c84f",
+  "source_changed": false,
+  "domain_changed": false,
+  "real_model_abi_isolation": "Task-local KernelRealModel is constructed against current Algebra; new public roots exclude the stale external context_attn_fwd.FPModel cache. Shared cache and old conditional results remain unchanged.",
+  "numerical_transformations": 0,
+  "new_primitive_experiments": 0,
+  "required_numerical_experiments": 0,
+  "deferred_experiments": [],
+  "native_model_ports": [
+    "Native.Correspondence.half16: fixed K16 MMA with live FP32 seed/result",
+    "Native.Correspondence.e4m3_32: fixed K32 MMA with live FP32 seed/result",
+    "Native.Correspondence.castHalf: original FP32-to-FP16 encoding",
+    "Native.Correspondence.castE4M3: original FP32-to-E4M3FN encoding"
+  ],
+  "port_classification": "Retained instruction-local semantic interfaces, not pending new numerical-transformation experiments.",
+  "derived_not_assumed": [
+    "variable-shape dotAcc from fixed instruction groups",
+    "full shared DSL execution and grid success",
+    "finite signed64 source execution and whole-memory correspondence",
+    "full-K independent Real formula",
+    "actual output Tensor physicalIndex readback",
+    "native physical byte stores, exterior byte frame and original A/B preservation"
+  ],
+  "ordinary_abi": [
+    "unchanged Contract.InputContract",
+    "original TensorBinding.Laws for actual A/B/C views",
+    "input memory bindings and initial C byte binding",
+    "existing C metadata, byte window and physical separation"
+  ],
+  "forbidden_gates_absent": [
+    "allocator or returned-object identity",
+    "whole CompilerBinding",
+    "assumed successful source execution or expected output",
+    "new finite-value or shape/dtype restrictions",
+    "native equality to ideal Real"
+  ],
+  "validation": {
+    "preallocation_rejections": 26,
+    "actual_cpu_interpreter_calls": 18,
+    "actual_jit_binder_offline_compilations": 6,
+    "gpu_execution": false,
+    "numerical_conformance_claim": false
+  },
+  "program_pair_status": "missing_pair_target",
+  "native_result_role": "Auxiliary ordinary theorem in selected NativeCorrect.lean; preserved historical full name"
+}

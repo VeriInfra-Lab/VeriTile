@@ -1,7 +1,3 @@
 # token_softmax_llama
 
-- Source file: `token_softmax_llama.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
-
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [token_softmax_llama](../../repairs/tritonbench_g/token_softmax_llama/README.md).

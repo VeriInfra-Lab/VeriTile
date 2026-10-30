@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Triton.Float.SignedCast
 
 /-!
 # `matmul_dequant_int4` — strict per-kernel correctness
@@ -109,6 +110,22 @@ the frame proof, not a rename. Registered in `proof_blockers.md`.
 namespace VeriTile.Bench.TritonBenchG.MatmulDequantInt4
 
 open VeriTile.Triton
+
+/-- The source nibble mask itself supplies the machine-cast range; no
+new premise is imposed on input words, dimensions or the public contract. -/
+@[local simp] private theorem nibble_int_mod32 (n : Nat) :
+    ((n &&& 15 : Nat) : Int) % 4294967296 = ((n &&& 15 : Nat) : Int) := by
+  have h : n &&& 15 ≤ 15 := Nat.and_le_right
+  apply Int.emod_eq_of_lt <;> omega
+@[local simp] private theorem nibble_nat_mod32 (n : Nat) :
+    (n &&& 15) % 4294967296 = n &&& 15 := by
+  have h : n &&& 15 ≤ 15 := Nat.and_le_right
+  apply Nat.mod_eq_of_lt
+  omega
+@[local simp] private theorem nibble_sign32 (n : Nat) :
+    2 * (n &&& 15) < 4294967296 := by
+  have h : n &&& 15 ≤ 15 := Nat.and_le_right
+  omega
 
 /-! # ══════════ CORRECT — genuine / dimension-general (review this) ══════════ -/
 

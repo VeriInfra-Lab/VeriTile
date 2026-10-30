@@ -57,7 +57,7 @@ Run from the repository root with the pinned Lean toolchain and dependencies:
 lake build VeriTile VeriTileFull
 python3 -m unittest discover -s scripts -p 'test_coverage_review.py'
 python3 bench/coverage_review.py
-python3 bench/check_proof_gap_manifest.py
+python3 bench/final_inventory.py --check
 python3 -m unittest discover -s scripts -p 'test_doc_api.py'
 python3 site/scripts/check-doc-api.py
 python3 site/scripts/sync-docs.py --check

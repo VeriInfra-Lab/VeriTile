@@ -1,0 +1,10 @@
+{
+  "files": {
+    "bench/tritonbench_g/kldiv_compute/kldiv_compute.py": "277fe50965bceefdf3aab7b4780aa051c531ca97fe161519eea590b119e96fc6",
+    "bench/repairs/tritonbench_g/kldiv_compute/kldiv_compute_repaired.py": "1565e81f560319d9f8ab63338920c17270468f248fed28ebd2b7edca3dc7eded",
+    "bench/repairs/tritonbench_g/kldiv_compute/kldiv_compute_conditional.py": "de55a18353dced044837a8551f16131bc9d87e116e53e24a60ec1180cde6ae74",
+    "bench/repairs/tritonbench_g/kldiv_compute/revision002/kldiv_compute_repaired.py": "1a1639b69d19f2dfb09f9454a2483643f3d3c6985ed3c8dc870fea3ca1eaacb9"
+  },
+  "checked_profile": "direct contiguous same-shape/device FP32 CUDA; numel<2^31; original 1024-lane JIT; no input materialization",
+  "gpu_conformance": "unmeasured"
+}

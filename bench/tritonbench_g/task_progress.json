@@ -1,0 +1,2572 @@
+{
+  "schema": 1,
+  "kind": "final_selected_task_progress",
+  "counting_rule": "Count each of the 183 original task identities once per explicitly labeled review scope. kernel_revision alone records completion under the twelve current kernel-only rules and the approved add_value template. Retained historical and prior contract results stay pinned to their recorded versions; they do not certify subsequent in-progress source edits. Original defects, GPU execution and numerical replay remain separate. Current actual-pair completion follows program_pair_review; a source/native theorem alone does not satisfy FPEquiv. Missing targets/connections are program work, not numerical deferrals.",
+  "policy": "bench/TODO.md",
+  "tasks": [
+    {
+      "task": "adam_update_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/adam_update_triton/adam_update_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/adam_update_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/adam_update_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/adam_update_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/adam_update_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real parameter/sign and momentum formulas retained. Actual complete original/candidate P/M grid schedules, arbitrary complete grid permutation, all FP32 tensor and scalar words, both original B configurations, native source-selected FMA ports, safe successful execution and both full exterior frames. Both momentum expressions lower to identical ordered FMA; no finite guard or FP commutation assumption."
+      }
+    },
+    {
+      "task": "add_example",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/add_example/add_example_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/add_example/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/add_example/Contract.lean",
+          "bench/repairs/tritonbench_g/add_example/Correct.lean",
+          "bench/repairs/tritonbench_g/add_example/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent xs(i)+ys(i), Correct.lean:29 and Contract.lean:57. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "add_value",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/add_value/add_value_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/add_value/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/add_value/Contract.lean",
+          "bench/repairs/tritonbench_g/add_value/Correct.lean",
+          "bench/repairs/tritonbench_g/add_value/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: xs[i]+10. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "apply_penalty",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/apply_penalty/apply_penalty_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/apply_penalty/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/apply_penalty/Contract.lean",
+          "bench/repairs/tritonbench_g/apply_penalty/Correct.lean",
+          "bench/repairs/tritonbench_g/apply_penalty/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent Real lionPenalty=(if 0<x then x/repetition else x*repetition)-count*frequency-presence; metadata-dependent gather/scatter and exterior frame.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "attention_forward_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/attention_forward_triton/attention_forward_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/attention_forward_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/attention_forward_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/attention_forward_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/attention_forward_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real attention retained. Original full grid/permutations, Separated/OutputInjective, all FP32 words and typed FP16 outputs, all masks/load/store sites and native instruction graph unchanged. Actual complete candidate implementation proves dual safe successful execution, all outputs and dual raw frames."
+      }
+    },
+    {
+      "task": "attention_fwd_triton1",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/attention_fwd_triton1_tile_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent chunked linear-attention and history formulas retained. Full head/chunk schedule including empty, STORE/IFCOND branches, original FP32 storage/loads/casts/dot flags, all payloads and original shape domain. Exact integer pointer equality composes through the entire actual loop and launch, preserving both successful safe executions, output/history cells and both frames."
+      }
+    },
+    {
+      "task": "attention_fwd_triton2",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/attention_fwd_triton2_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/attention_fwd_triton2/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/attention_fwd_triton2/Contract.lean",
+          "bench/repairs/tritonbench_g/attention_fwd_triton2/Correct.lean",
+          "bench/repairs/tritonbench_g/attention_fwd_triton2/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent normalized attention Real formula retained. Original domain, region separation, all complete 3D grid permutations, quantization scales, FP32/BF16/FP16 conversions and dot profiles remain. Full source execution and trace safety agree exactly, giving both success, active typed output equality and both exterior frames without a floating rewrite."
+      }
+    },
+    {
+      "task": "attention_fwd_triton3",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/attention_fwd_triton3_scalar_cast.py",
+        "kernel_source": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Contract.lean",
+          "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Correct.lean",
+          "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/FPEquiv.lean"
+        ],
+        "proof_scope": "Retain independent Real attention target and exact selected scalar-cast source. Six logical arrays and raw FP32 scale slot, all original words/native expression carriers, INIT/END/window branches, signed loops, full grid and padded O/M/L storage scopes. Exact full native graph output equality and arbitrary observer transport, both actual successful safe full schedules and dual exterior frames; duplicate arange/add/comparison eliminated without floating rewrite."
+      }
+    },
+    {
+      "task": "attention_kernel",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/attention_kernel/attention_kernel_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/attention_kernel/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/attention_kernel/Contract.lean",
+          "bench/repairs/tritonbench_g/attention_kernel/Correct.lean",
+          "bench/repairs/tritonbench_g/attention_kernel/FPEquiv.lean"
+        ],
+        "proof_scope": "Retained independent full Real attention formula, original FP16/BF16 storage and all word values, arbitrary strides/input aliases and original output separation, every complete grid permutation including empty. Exact complete source prefix scheduling and trace-safety equality; both actual grids succeed safely, all typed outputs and both exterior frames. No numerical rewrite."
+      }
+    },
+    {
+      "task": "attention_kernel_aligned",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/attention_kernel_aligned/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/attention_kernel_aligned/Contract.lean",
+          "bench/repairs/tritonbench_g/attention_kernel_aligned/Correct.lean",
+          "bench/repairs/tritonbench_g/attention_kernel_aligned/FPEquiv.lean"
+        ],
+        "proof_scope": "Two independent Real complete attention results retained. Original Guard/separation-on-nonempty and all complete grid permutations, FP16 and BF16 source precision, every native expression/raw word and scaleWord ABI, original strides/tails/masks and instruction routing. Exact complete source scheduling and safety equality; both successful safe grids, all typed outputs and raw exterior frames. No floating rewrite or new numerical rule."
+      }
+    },
+    {
+      "task": "attention_llama",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/attention_llama_scalar_abi_checked/attention_llama_scalar_abi_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/attention_llama_scalar_abi_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/attention_llama_scalar_abi_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/attention_llama_scalar_abi_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/attention_llama_scalar_abi_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Retained independent Real target and original Config/scalar ABI/output-injectivity domain. Complete OrdinaryProgramIO uses original common initial state and disjoint merge, not serial scheduling. All words, signed-byte E5M2 roles, casts/masks/seeded MMA/reduction trees preserved. Task-local narrow actual implementation judgment proves both ordinary runs, both actual safety results, every FP16 output and dual exact raw frames. Both normalizer spellings lower to the same ordered FMA."
+      }
+    },
+    {
+      "task": "attention_score",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/attention_score_tile_checked/attention_score_tile_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/attention_score_tile_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/attention_score_tile_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Reused.RealPhysical.logicalTarget: independent N-term windowed exp2 score sum. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "attn_fwd_causal",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/attn_fwd_causal/attn_fwd_causal_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/attn_fwd_causal/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/attn_fwd_causal/Contract.lean",
+          "bench/repairs/tritonbench_g/attn_fwd_causal/Correct.lean",
+          "bench/repairs/tritonbench_g/attn_fwd_causal/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real causal attention retained. Original complete two-stage source and full-grid permutations, input/output separation, all native words, TF32 QK/FP16 PV/output/FP32 state and local compiler graph unchanged. Exact source state/safety equality feeds full ProgramIO dual safe success, tagged outputs and dual raw frames."
+      }
+    },
+    {
+      "task": "attn_fwd_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/attn_fwd_triton_tile_checked/attn_fwd_triton_tile_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/attn_fwd_triton_tile_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/attn_fwd_triton_tile_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/attn_fwd_triton_tile_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/attn_fwd_triton_tile_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real attention retained. Original stage=3, nonoverlap/separation, complete grid, unrestricted compound Graph.Expr input carrier, TF32/FP16 graph and BF16 store. Exact complete source run/safety transport proves dual safe successful ProgramIO runs, tagged outputs and exterior frames."
+      }
+    },
+    {
+      "task": "batched_vecmat_mult",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/batched_vecmat_mult/batched_vecmat_mult_int64.py",
+        "kernel_source": "bench/repairs/tritonbench_g/batched_vecmat_mult/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/batched_vecmat_mult/Contract.lean",
+          "bench/repairs/tritonbench_g/batched_vecmat_mult/Correct.lean",
+          "bench/repairs/tritonbench_g/batched_vecmat_mult/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent full Real dot target retained. Original floor grid, unrestricted SourceGraph.Expr inputs/profile, K=0 and empty axes remain. Complete actual safe successful runs, contracted FP32 tagged output observations and dual raw frames; no finite/leaf-only guard."
+      }
+    },
+    {
+      "task": "bgmv_expand_slice",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/bgmv_expand_slice_physical_tile_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real batched gather/FP16-dot plus existing-output formula retained. Actual signed skip source, both EVEN_K/ADD_INPUTS branches, full grid, masks, FP16 products/reduction and FP32 conversion/add. Shared strict all-word FP32 add_comm instance closes the only numeric rewrite; both executions safe/successful, typed outputs and full dual frames. No finite-only guard."
+      }
+    },
+    {
+      "task": "bgmv_shrink_kernel",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Contract.lean",
+          "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Correct.lean",
+          "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real gathered dot/atomic-update target retained. Complete batch by 64 catalog, actual signed metadata including sentinel, original typed input/output domain and each address's independent complete atomic order. Shared per-address interface explicitly preserves both schedule completeness, all program success/safety, locality/coverage, source-cell traces, tagged outputs and exterior frames. Strict all-word FP32 multiplication has no finite guard."
+      }
+    },
+    {
+      "task": "block_sparse_attn",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/block_sparse_attn/block_sparse_attn_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/block_sparse_attn/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/block_sparse_attn/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/block_sparse_attn/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/block_sparse_attn/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real sparse target retained. Original Geometry/Admissible metadata domain, complete three-axis grid, CSR occurrences/features, runtime FP32 scalar ABI, unrestricted native words/replicas/tags, unchanged lowering/MMA suffix. Complete source run/safety transport proves ProgramIO dual safe success, all tagged outputs and dual frames. Full original AST/interface preservation proved."
+      }
+    },
+    {
+      "task": "bmm_chunk_bwd",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/bmm_chunk_bwd/bmm_chunk_bwd_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/bmm_chunk_bwd/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/bmm_chunk_bwd/Contract.lean",
+          "bench/repairs/tritonbench_g/bmm_chunk_bwd/Correct.lean",
+          "bench/repairs/tritonbench_g/bmm_chunk_bwd/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: finite sum Dout^T*A plus optional residual. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "bmm_chunk_fwd",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/bmm_chunk_fwd/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/bmm_chunk_fwd/Contract.lean",
+          "bench/repairs/tritonbench_g/bmm_chunk_fwd/Correct.lean",
+          "bench/repairs/tritonbench_g/bmm_chunk_fwd/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent full-K chunked A*Bᵀ, signed sequence filtering, padding and causal zeros; actual ordinary main grid and cleanup.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "bmm_optimized",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/bmm_optimized_grid_axes_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real batched dot retained. Eight complete mask branches, original configs/shapes and arbitrary complete three-axis grid orders, all native words, original ordered FMA, empty outputs/K=0. Full state/safety transport to shared ProgramIO safe success, typed outputs and dual raw frames."
+      }
+    },
+    {
+      "task": "cache_transform_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/cache_transform_triton/cache_transform_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/cache_transform_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/cache_transform_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent byte-gather formula, original exact-cell signed metadata/uint8 input domain, fixed 256 block, accepted count bounds and complete source schedule retained. Unsigned quotient/remainder proof includes non-underflow; unconditional metadata row load and both masks preserved. Both actual schedules are safe and successful with all output bytes/tags and both exterior frames."
+      }
+    },
+    {
+      "task": "chunk_bwd_dqkg",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunk_bwd_dqkg/chunk_bwd_dqkg_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunk_bwd_dqkg/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunk_bwd_dqkg/Source.lean",
+          "bench/repairs/tritonbench_g/chunk_bwd_dqkg/Contract.lean",
+          "bench/repairs/tritonbench_g/chunk_bwd_dqkg/Correct.lean",
+          "bench/repairs/tritonbench_g/chunk_bwd_dqkg/FPEquiv.lean"
+        ],
+        "proof_scope": "Original independent Real chunk-gradient target, all three dq/dk/dg outputs, full configurations and CTA permutations including empty axes. Complete ordinary typed source and prior APIs preserved. Same arbitrary compound native inputs, Instructions/Routing/runtime scale and TF32 WGMMA/FMA graphs. Exact whole-state source run/safety equality; safe successful full schedules, typed outputs and both raw frames."
+      }
+    },
+    {
+      "task": "chunk_cumsum_kernel",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Contract.lean",
+          "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Correct.lean",
+          "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: PublicReal.formula: inclusive prefix sum over initial logical input; output/input separation is retained in Correct.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "chunk_cumsum_vector",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunk_cumsum_vector/chunk_cumsum_vector_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunk_cumsum_vector/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunk_cumsum_vector/Contract.lean",
+          "bench/repairs/tritonbench_g/chunk_cumsum_vector/Correct.lean",
+          "bench/repairs/tritonbench_g/chunk_cumsum_vector/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Inclusive time prefix sum over initial logical input; full time loop for one actual feature-tile invocation, all nine configurations.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "chunk_delta_fwd",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/chunk_delta_fwd_static_dot.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Contract.lean",
+          "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Correct.lean",
+          "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent retained Real rounded-window history/corrected recurrence; original ShapeValid and weight strides, all raw FP32 words, optional initial/final states, all nested chunk loops and padded/overlap cases. Every complete CTA permutation, both actual sources safe/successful, all history/corrected/final outputs and dual exterior frames. Old sumLeft alternative not used because its native FMA graph differs."
+      }
+    },
+    {
+      "task": "chunk_gate_recurrence",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunk_gate_recurrence/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunk_gate_recurrence/Contract.lean",
+          "bench/repairs/tritonbench_g/chunk_gate_recurrence/Correct.lean",
+          "bench/repairs/tritonbench_g/chunk_gate_recurrence/FPEquiv.lean"
+        ],
+        "proof_scope": "Retained independent Real recurrence/gradient target and original complete legal 64x16 per-program IO scope. Both full N-time loops, all forward states, backward DI/DG and final DL, seed modes/strides, all raw FP32 words and original masks/casts retained. Both source graphs lower to identical ordered FMA; exact full-run and trace-safety proofs yield both success, all typed outputs and dual exterior frames. No new whole-grid Tensor obligation."
+      }
+    },
+    {
+      "task": "chunk_gated_attention",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunk_gated_attention/chunk_gated_attention_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/chunk_gated_attention/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Host.innerState gated history/final contraction; Host.chunkPrefix finite within-chunk sum. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "chunk_gla_fwd",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunk_gla_fwd/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunk_gla_fwd/Contract.lean",
+          "bench/repairs/tritonbench_g/chunk_gla_fwd/Correct.lean",
+          "bench/repairs/tritonbench_g/chunk_gla_fwd/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: RealIO.attention:154 and output:161 are independent causal gated attention / caller-supplied attention-history contraction, via Logical.attention and KernelReal.consumerFormula.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "chunk_gla_simple",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/chunk_gla_simple_min_dot_tile.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Contract.lean",
+          "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Correct.lean",
+          "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real causal gated contraction retained. Original min-dot-tile shape with positive BT, arbitrary NativeGraph.Expr logical inputs and all scale-word observations, unchanged FP32 dots/casts/gate/order. Complete original 3D schedule, actual access safety and successful execution, every typed output and both exterior frames. Full original and historical scaleFirst function rfl preservation; no leaf-only/concrete-model/finite narrowing."
+      }
+    },
+    {
+      "task": "chunk_linear_attn",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunk_linear_attn/chunk_linear_attn_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunk_linear_attn/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunk_linear_attn/Contract.lean",
+          "bench/repairs/tritonbench_g/chunk_linear_attn/Correct.lean",
+          "bench/repairs/tritonbench_g/chunk_linear_attn/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real causal attention and full VJP retained. Original Config and every legal per-stage grid permutation, arbitrary NativeTerms expressions/all raw FP32 words/runtime scale/FP32Profile and optional endpoints. Actual complete original and candidate schedules include all four grids plus unchanged finite FP32 sum; both safely succeed, all nine observed channels and complete memory agree, and both exterior frames hold. Fixed original IO encoding/observation/scalar ABI; no numerical or whole-output caller premise."
+      }
+    },
+    {
+      "task": "chunk_retention",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunk_retention/Whole001/chunk_retention_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunk_retention/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunk_retention/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/chunk_retention/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/chunk_retention/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent four-stage Real specifications retained. Original addressed per-stage IO, Legal p/grid, complete active cells, arbitrary all-word inputs, dot/FMA graph/casts/optional channels unchanged; other three stages reuse original. Narrow actual invocation pair proves both safe successful runs, typed outputs and dual raw frames."
+      }
+    },
+    {
+      "task": "chunk_retention_ops",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunk_retention_ops/chunk_retention_ops_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunk_retention_ops/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunk_retention_ops/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/chunk_retention_ops/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/chunk_retention_ops/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Four independent Real entries retained. Exact sibling source binding, original arbitrary PID/all-word addressed domain and eight output channels. Only forwardOutput changes; source safety/success/full typed output observations and both exact raw frames retained through narrow original-runner view."
+      }
+    },
+    {
+      "task": "chunked_cumsum_fwd",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/chunked_cumsum_fwd_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+          "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Mathlib optional-bias/softplus/clamp preparation and inclusive prepared*rate sum retained. Original all-FP32-word inputs and independent runtime clamp bounds, all geometry/full grid/tails/padding, arbitrary original prefix/FMA topology and same explicit NativeModel ports. Both actual schedules safe/successful, both packed output arrays and dual exterior frames. Concrete strict FP32 mul/fma ports retain addends; no split-to-fused or associativity premise."
+      }
+    },
+    {
+      "task": "context_attn_bloom",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/context_attn_bloom/context_attn_bloom_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/context_attn_bloom/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/context_attn_bloom/Contract.lean",
+          "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean",
+          "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real complete attention target and original selected FP32/TF32/FMA source retained. Actual metadata-selected complete schedules, same PublicDomain.native, arbitrary WordISA and all word/tag values, empty grid, source masks/guard/sentinel/casts and native observers. Exact full source-state and safety equality transports safe successful full grids, all typed observations and both raw exterior frames. Prior scaleFirst source preserved; no unsupported pair claim."
+      }
+    },
+    {
+      "task": "context_attn_fwd",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/context_attn_fwd/context_attn_fwd_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/context_attn_fwd/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/context_attn_fwd/Contract.lean",
+          "bench/repairs/tritonbench_g/context_attn_fwd/Correct.lean",
+          "bench/repairs/tritonbench_g/context_attn_fwd/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent initial-array Real normalized attention specification retained. Original arbitrary launch lists, all arrays/aliases including metadata/output, duplicate jobs and full native consumers. Exact integer source-run/safety equality plus existing actual ArrayProgramIO execution proves both success/safety, all final typed output cells and dual complete frames without a floating rewrite."
+      }
+    },
+    {
+      "task": "context_attn_llama",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/context_attn_llama/context_attn_llama_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/context_attn_llama/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/context_attn_llama/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/context_attn_llama/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/context_attn_llama/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent complete paged Real attention retained. Original nine input views, metadata domain, arbitrary jobs/repeats, original aliases, all FP32/native words, original dot and source precision. Actual full state and trace-safety equality plus retained implementation prove both successful safe schedules, typed outputs and dual exterior frames."
+      }
+    },
+    {
+      "task": "context_attn_mistral",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/context_attn_mistral/context_attn_mistral_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/context_attn_mistral/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/context_attn_mistral/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/context_attn_mistral/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/context_attn_mistral/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real finite-sentinel target retained. Actual arbitrary-job ArrayProgramIO, repeated jobs/aliases, original metadata separation, all FP32 payloads and native consumers preserved. Complete quotation has full rfl preservation; exact execution/safety transport yields both safe successful runs, every typed final output and both exterior frames."
+      }
+    },
+    {
+      "task": "context_attn_nopad",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/context_attn_nopad/context_attn_nopad_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/context_attn_nopad/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/context_attn_nopad/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/context_attn_nopad/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/context_attn_nopad/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent complete Real causal attention retained. Original selected FP32 grid, metadata domain, tail masks, source input aliases/native words, conversion/dot/normalization order preserved. Complete run and trace equality connect original ProgramIO to both safe successful schedules, active outputs and exterior frames."
+      }
+    },
+    {
+      "task": "cosine_compute",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/cosine_compute/cosine_compute_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/cosine_compute/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/cosine_compute/Contract.lean",
+          "bench/repairs/tritonbench_g/cosine_compute/Correct.lean",
+          "bench/repairs/tritonbench_g/cosine_compute/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Real.cos on every active logical input; mathematical native arithmetic is separate from opaque FP32 cosine.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "cross_entropy1",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/cross_entropy1/cross_entropy1_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/cross_entropy1/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/cross_entropy1/Contract.lean",
+          "bench/repairs/tritonbench_g/cross_entropy1/Correct.lean",
+          "bench/repairs/tritonbench_g/cross_entropy1/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real cross-entropy targets and original row/block kernel scope retained. Four full readable original/candidate quotations have complete old-source rfl preservation. Runtime FP32 scalars and Int64 class count, signed label conversion, ignored/partition ownership branches, original output aliases/separation, all raw words and all loss/LSE/z-loss or active gradient outputs preserved. Source execution/safety transport connects both successful safe invocations, typed outputs and both full exterior frames; split z-loss frame retained where applicable."
+      }
+    },
+    {
+      "task": "cross_entropy2",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/cross_entropy2/cross_entropy2_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/cross_entropy2/Contract.lean",
+          "bench/repairs/tritonbench_g/cross_entropy2/Correct.lean",
+          "bench/repairs/tritonbench_g/cross_entropy2/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real cross-entropy targets and original row/block kernel scope retained. Four full readable original/candidate quotations have complete old-source rfl preservation. Runtime FP32 scalars and Int64 class count, signed label conversion, ignored/partition ownership branches, original output aliases/separation, all raw words and all loss/LSE/z-loss or active gradient outputs preserved. Source execution/safety transport connects both successful safe invocations, typed outputs and both full exterior frames; split z-loss frame retained where applicable."
+      }
+    },
+    {
+      "task": "cross_entropy_ops",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/cross_entropy_ops/cross_entropy_ops_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/cross_entropy_ops/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/cross_entropy_ops/Contract.lean",
+          "bench/repairs/tritonbench_g/cross_entropy_ops/Correct.lean",
+          "bench/repairs/tritonbench_g/cross_entropy_ops/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real cross-entropy targets and original row/block kernel scope retained. Four full readable original/candidate quotations have complete old-source rfl preservation. Runtime FP32 scalars and Int64 class count, signed label conversion, ignored/partition ownership branches, original output aliases/separation, all raw words and all loss/LSE/z-loss or active gradient outputs preserved. Source execution/safety transport connects both successful safe invocations, typed outputs and both full exterior frames; split z-loss frame retained where applicable."
+      }
+    },
+    {
+      "task": "decay_cumsum",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/decay_cumsum/Contract.lean",
+          "bench/repairs/tritonbench_g/decay_cumsum/Correct.lean",
+          "bench/repairs/tritonbench_g/decay_cumsum/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: KernelReal.forward inclusive prefix; prepareQ/prepareK gates; backward reverse gradient prefix. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "dequantize_matmul",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/dequantize_matmul/dequantize_matmul_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/dequantize_matmul/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/dequantize_matmul/Contract.lean",
+          "bench/repairs/tritonbench_g/dequantize_matmul/Correct.lean",
+          "bench/repairs/tritonbench_g/dequantize_matmul/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Correct.formula:8 is independent signed integer cast * Real column scale; PublicIO.result maps every K*N cell.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "dequantize_rowwise",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/dequantize_rowwise/dequantize_rowwise_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/dequantize_rowwise/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/dequantize_rowwise/Contract.lean",
+          "bench/repairs/tritonbench_g/dequantize_rowwise/Correct.lean",
+          "bench/repairs/tritonbench_g/dequantize_rowwise/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Correct.dequantize_rowwise_correct: scale 0 * (weights j : Real) / 127 on masked row, one unmasked scale channel including empty rows; independent of execution. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "destindex_copy",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/destindex_copy/destindex_copy_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/destindex_copy/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/destindex_copy/Contract.lean",
+          "bench/repairs/tritonbench_g/destindex_copy/Correct.lean",
+          "bench/repairs/tritonbench_g/destindex_copy/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: destindex_copy_kv1/IO.lean:41 target copies source row to destination row over all heads/dims; Correct.lean:13-16 uses copyIO.ImplementsOn with independent admissible injective destinations. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "destindex_copy_kv1",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/destindex_copy_kv1/destindex_copy_kv1_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/destindex_copy_kv1/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/destindex_copy_kv1/Contract.lean",
+          "bench/repairs/tritonbench_g/destindex_copy_kv1/Correct.lean",
+          "bench/repairs/tritonbench_g/destindex_copy_kv1/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Logical row-copy identity wired to nonnegative injective destination metadata, with arbitrary complete row order and exact exterior frame. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "destindex_copy_kv2",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/destindex_copy_kv2/destindex_copy_kv2_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/destindex_copy_kv2/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/destindex_copy_kv2/Contract.lean",
+          "bench/repairs/tritonbench_g/destindex_copy_kv2/Correct.lean",
+          "bench/repairs/tritonbench_g/destindex_copy_kv2/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: CopyIO.target from kv1: source[row,head,dim] copied to output[destination[row],head,dim], width exact premise and complete program orders retained. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "diag_ssm_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/diag_ssm_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/diag_ssm_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/diag_ssm_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent forward/backward recurrences including conjugates and all complex component channels, Correct.lean:17,24,32,40. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "dropout_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/dropout_triton/dropout_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/dropout_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/dropout_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/dropout_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: if keep[i]!=0 then x[i]/(1-p) else 0, Real total division. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "embedding_triton_kernel",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/embedding_triton_kernel/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/embedding_triton_kernel/Contract.lean",
+          "bench/repairs/tritonbench_g/embedding_triton_kernel/Correct.lean",
+          "bench/repairs/tritonbench_g/embedding_triton_kernel/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent vocabulary lookup, invalid IDs -> mathematical zero; signed-int32 metadata, 64 iterations, output layout and frame.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "f8_conversion_utils",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/f8_conversion_utils/f8_conversion_utils_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/f8_conversion_utils/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/f8_conversion_utils/Contract.lean",
+          "bench/repairs/tritonbench_g/f8_conversion_utils/Correct.lean",
+          "bench/repairs/tritonbench_g/f8_conversion_utils/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: identity under independent Real cast erasure. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "fast_ce_loss",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fast_ce_loss/Contract.lean",
+          "bench/repairs/tritonbench_g/fast_ce_loss/Correct.lean",
+          "bench/repairs/tritonbench_g/fast_ce_loss/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: {'formula': 'KernelMath.fullLSE/rowLoss/blockLSE/partialLoss and KernelReal.gradient', 'entry': 'bench/repairs/tritonbench_g/fast_ce_loss/Correct.lean'}. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "fast_layernorm",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fast_layernorm/fast_layernorm_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fast_layernorm/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fast_layernorm/Contract.lean",
+          "bench/repairs/tritonbench_g/fast_layernorm/Correct.lean",
+          "bench/repairs/tritonbench_g/fast_layernorm/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real normalization and forward/dX/dW/db formulas retained. Three existing complete per-program IO scopes, optional bias, all native inputs, zero extents/rows and separate affine output masks unchanged. Exact masked-access reasoning preserves all active loads and the unchanged floating graph; both actual complete source schedules succeed safely, output typed cells agree and full exterior frames hold."
+      }
+    },
+    {
+      "task": "fast_rms_layernorm",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fast_rms_layernorm/Contract.lean",
+          "bench/repairs/tritonbench_g/fast_rms_layernorm/Correct.lean",
+          "bench/repairs/tritonbench_g/fast_rms_layernorm/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real RMS normalization and derivatives retained. Complete runtime-epsilon source, regular/Gemma modes, full feature-owner DW grid and row DX grid in actual stage order, original empty-row zero-DW domain and all native words. Actual candidate/original success, source safety, typed outputs and dual exterior frames. Complete old/new source identities retain precision and conversions."
+      }
+    },
+    {
+      "task": "fast_rope_embedding",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fast_rope_embedding/fast_rope_embedding_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fast_rope_embedding/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fast_rope_embedding/Contract.lean",
+          "bench/repairs/tritonbench_g/fast_rope_embedding/Correct.lean",
+          "bench/repairs/tritonbench_g/fast_rope_embedding/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real two-coordinate rotation; the actual complete per-launch logical IO matches retained Correct scope. Launched row/head-group and original stride premises explicit, dynamic four-head loop, masks/casts, arbitrary FP32 words, both safe successful runs, active typed outputs and dual exterior frames. Arbitrary launch-list exact execution/safety transport remains a helper, not a replacement judgment."
+      }
+    },
+    {
+      "task": "fifth_order_sph_harmonics",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Contract.lean",
+          "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Correct.lean",
+          "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real eleven-channel polynomial and gradient targets, original output-width fit, both complete grids, every FP32 input/upstream/old-gradient word and storage precision retained. No reassociation or FMA rewrite. Full source execution/safety equality and original IO certificates yield both safe successful schedules, all typed outputs and dual exterior frames."
+      }
+    },
+    {
+      "task": "flash_attn",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/flash_attn_scalar_abi_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real attention retained. Complete grid, original layouts, scalar ABI/native words, FP32/internal FP16, actual trace safety and successful execution, all typed O/L observations and dual raw frames. Ordinary sources preserve complete original AST and scalar ABI."
+      }
+    },
+    {
+      "task": "flash_decode2_llama",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/flash_decode2_llama/flash_decode2_llama_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/flash_decode2_llama/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/flash_decode2_llama/Contract.lean",
+          "bench/repairs/tritonbench_g/flash_decode2_llama/Correct.lean",
+          "bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real weighted-summary formula retained. Original full unmasked loop, Geometry/Lengths domain, all native words and length metadata, arbitrary complete B*H grid orders/empty grids. Actual run/safety congruence connects ProgramIO dual safe success, all D outputs and dual raw frames."
+      }
+    },
+    {
+      "task": "flash_decode2_phi",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/flash_decode2_phi_block_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real weighted-summary target retained. Original native Fits and D<=BD, arbitrary symbolic terms/all words, zero lengths/Q=0/count>S and independent capacities retained without Positive. Full grid permutations and padded-lane masks retained. ProgramIO dual safety/success, all outputs and dual raw frames proved."
+      }
+    },
+    {
+      "task": "fp4_to_bf16",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fp4_to_bf16/fp4_to_bf16_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fp4_to_bf16/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fp4_to_bf16/Contract.lean",
+          "bench/repairs/tritonbench_g/fp4_to_bf16/Correct.lean",
+          "bench/repairs/tritonbench_g/fp4_to_bf16/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Correct.fp4_to_bf16_real: high nibble then low nibble independent E2M1 sign/exponent/mantissa formula, finite BF16 Real observation, all 256 bytes and both zero signs. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "fused_activation",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fused_activation/fused_activation_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fused_activation/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fused_activation/Contract.lean",
+          "bench/repairs/tritonbench_g/fused_activation/Correct.lean",
+          "bench/repairs/tritonbench_g/fused_activation/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: RealIO.lean:12 scalar formula (input/2+x+bias) then sigmoid/ReLU; Correct.lean:18-23 independent regional target. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "fused_layernorm_triton",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fused_layernorm_triton/fused_layernorm_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fused_layernorm_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fused_layernorm_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/fused_layernorm_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/fused_layernorm_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Mathlib Real mean/population-variance and affine formula retained on actual readable source. Original D>0, allowed block/tree and Separation, arbitrary raw FP words/Native.Term expressions and explicit instruction/profile data, full row grid, all Mean/Rstd/BF16 Y outputs, both actual safety/success and dual exterior frames. Full historical/readable regional-memory preservation and Python AST regression retained. No finite-only restriction or new hardware premise."
+      }
+    },
+    {
+      "task": "fused_recurrent_delta",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fused_recurrent_delta/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fused_recurrent_delta/Contract.lean",
+          "bench/repairs/tritonbench_g/fused_recurrent_delta/Correct.lean",
+          "bench/repairs/tritonbench_g/fused_recurrent_delta/FPEquiv.lean",
+          "bench/repairs/tritonbench_g/fused_recurrent_delta/Whole.lean"
+        ],
+        "proof_scope": "Independent Real delta recurrence and complete backward VJP retained and connected to actual runtime source. Original per-program scope, scalar/vector beta and every optional state/gradient branch, arbitrary 32-bit words/runtime scale, both backward loops and store/reload barriers. Both actual sources safe/successful with all typed outputs and dual exterior frames. No added positivity/finite assumptions; no arbitrary-interleaving whole-grid claim."
+      }
+    },
+    {
+      "task": "fused_recurrent_hgrn",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Contract.lean",
+          "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Correct.lean",
+          "bench/repairs/tritonbench_g/fused_recurrent_hgrn/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real recurrent formula and derivative retained. Original two-phase full forward/backward ProgramIO schedule, zero T, all optional state flags, independent positive forward/backward widths, all native words and source arithmetic order. Exact integer associativity lifts through full loops/actual launches, giving both safety/success, every output and both complete exterior frames."
+      }
+    },
+    {
+      "task": "fused_recurrent_retention",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fused_recurrent_retention/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fused_recurrent_retention/Contract.lean",
+          "bench/repairs/tritonbench_g/fused_recurrent_retention/Correct.lean",
+          "bench/repairs/tritonbench_g/fused_recurrent_retention/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real recurrence/adjoint retained. Full NV*NK*BH grid, original Shape.Admitted/PlanBinding, arbitrary Staged.Node tags, optional flags and strides. Four ordinary sources preserve complete old AST. Source run/safety transport proves both successful safe schedules, all partial/final outputs and dual raw frames."
+      }
+    },
+    {
+      "task": "fused_rotary_embedding",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/fused_rotary_embedding_tile_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real split-half Q/K rotation and V copy retained. Full original Config.Valid/metadata domain, in-place Q, leader K/V cache branches, indirect int32 tables, both cache layouts, all source words and complete grids including empty. Exact source execution and trace safety transported to complete Q/K/V output equality and dual exterior frames; unchanged distinct floating orders."
+      }
+    },
+    {
+      "task": "fused_rwkv6_kernel",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real forward/reverse RWKV recurrence retained. Original scalar_abi_checked Shape/Sizes/raw scalar binding and all Native.Term words, complete key/value/head grid and no-launch behavior, both initial/final flags, all O shard and Ht outputs, safe successful executions and dual exterior frames. Full original-function rfl preservation; reordered prefix run/safety and unchanged suffix proved. No finite/pitch restrictions or numeric rewrite."
+      }
+    },
+    {
+      "task": "geglu_tanh_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/geglu_tanh_triton/geglu_tanh_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/geglu_tanh_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/geglu_tanh_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/geglu_tanh_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: {'formula': 'RealExecution.formula GELU product and analytic backward derivatives', 'entry': 'bench/repairs/tritonbench_g/geglu_tanh_triton/Correct.lean'}. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "index_select_bwd",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/index_select_bwd/index_select_bwd_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/index_select_bwd/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/index_select_bwd/Contract.lean",
+          "bench/repairs/tritonbench_g/index_select_bwd/Correct.lean",
+          "bench/repairs/tritonbench_g/index_select_bwd/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real scatter-add derivative, arbitrary duplicate indices and empty matrices; same host domain. Actual original fixed-block and adaptive power-of-two kernel specializations compare on the existing unit-stride per-slice IO with count bounds explicit; both success/safety/output/frames. Entire rows and slices composed in the original input-index order with raw-memory equality, arbitrary addition primitive and all FP32 words."
+      }
+    },
+    {
+      "task": "index_select_cat",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/index_select_cat/index_select_cat_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/index_select_cat/Contract.lean",
+          "bench/repairs/tritonbench_g/index_select_cat/Correct.lean",
+          "bench/repairs/tritonbench_g/index_select_cat/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent gather: copy initial metadata-selected source cells to output coordinates; LogicalIO.read is signed-index/stride selection and copyValues copies the declared payload channel.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "int4_matmul",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/int4_matmul/int4_matmul_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/int4_matmul/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/int4_matmul/Contract.lean",
+          "bench/repairs/tritonbench_g/int4_matmul/Correct.lean",
+          "bench/repairs/tritonbench_g/int4_matmul/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real dequantized complete matrix product. All 36 original tile configurations, full grouped CTA and per-output split orders, original packed/strided domains and zeroed output boundary. FP32/INT32 source graph and all floating words unchanged; both full schedules safe/successful, outputs and exterior frames via the retained per-address IO."
+      }
+    },
+    {
+      "task": "int8_dequant_matmul",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/int8_dequant_matmul_scalar_cast.py",
+        "kernel_source": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Contract.lean",
+          "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Correct.lean",
+          "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real dense target retained. Full418 configs, native scale/bias/divisor words, original all split/bias/tail branches and per-address independent split ordering. IntegerDot runner and complete per-address traces/locality/coverage/source-cell traces fixed. Main pair proves dual safety/success/typed outputs/raw frames. Full direct original AST retained."
+      }
+    },
+    {
+      "task": "int8_matmul_kernel",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/int8_matmul_kernel_modular_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent dense low32 integer result and original FP32-to-int8 cast domain retained, including overflow, zero axes/K and original output geometry/separation. Complete direct quotation is preserved by rfl; actual add.u32 ASM remains in Python with an existing strict word-add projection. Both legal configurations execute safely and successfully with equal INT32 outputs and both exterior frames. Defective carry-fed predecessor is separately diagnosed and excluded as a comparison target."
+      }
+    },
+    {
+      "task": "int8_matmul_quantization",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/int8_matmul_quantization_i32_safe.py",
+        "kernel_source": "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/Contract.lean",
+          "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/Correct.lean",
+          "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/FPEquiv.lean"
+        ],
+        "proof_scope": "Retain independent Real producer and scaled integer-GEMM formulas. Full producer and GEMM actual schedules, original storage precisions/configs/layouts/all words, typed reset initializer and independent per-cell split traces. Exact actual source and IntegerDot run/safety connections; safe successful schedules, all byte/scale/GEMM outputs and exterior frames, no FP numeric rewrite."
+      }
+    },
+    {
+      "task": "int8_quantization",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/int8_quantization/int8_quantization_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/int8_quantization/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/int8_quantization/Contract.lean",
+          "bench/repairs/tritonbench_g/int8_quantization/Correct.lean",
+          "bench/repairs/tritonbench_g/int8_quantization/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real quantization formula retained. Original query/key modes, exceptional-block paths, complete source schedules/chunks, all FP32 words, INT8 conversion and code/scale outputs. Only two fixed constant products are strictly kernel-checked in the named FP32 software model; no finite guard or numerical experiment. Full candidate execution/safety and original IO give both safe successful schedules, every typed output and dual frames."
+      }
+    },
+    {
+      "task": "int_scaled_matmul",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/int_scaled_matmul/revision001/int_scaled_matmul_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/int_scaled_matmul/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/int_scaled_matmul/Contract.lean",
+          "bench/repairs/tritonbench_g/int_scaled_matmul/Correct.lean",
+          "bench/repairs/tritonbench_g/int_scaled_matmul/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent full-K signed8 sum with signed32 wrap and ideal-Real scaling/truncation formula proved against actual full sources. Original grouped geometry/EVEN_K coverage/separation, all signed input patterns and FP32 scale words, undefined-conversion policy, K=0 and empty/tail cases retained. Both actual candidate/original schedules safe/successful, all typed signed32 outputs and dual exterior frames. Optional native/Tensor applications retained."
+      }
+    },
+    {
+      "task": "isfinite_kernel",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/isfinite_kernel/isfinite_kernel_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/isfinite_kernel/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/isfinite_kernel/Contract.lean",
+          "bench/repairs/tritonbench_g/isfinite_kernel/Correct.lean",
+          "bench/repairs/tritonbench_g/isfinite_kernel/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real finite predicate and complete actual source IO, plus unchanged FP32/FP64 index-transformation pair. Former all-word classification remains an auxiliary theorem at its original full domain."
+      }
+    },
+    {
+      "task": "iv_dependent_matmul",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/iv_dependent_matmul_dot_shape.py",
+        "kernel_source": "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Contract.lean",
+          "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/Correct.lean",
+          "bench/repairs/tritonbench_g/iv_dependent_matmul_dot_shape/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent full-K dense Real matrix product, including empty K; all pointer schedules. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "kcache_copy_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/kcache_copy_triton/kcache_copy_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/kcache_copy_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/kcache_copy_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/kcache_copy_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/kcache_copy_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: CopyIO.formula identity copy with independently defined signed metadata routing and explicit output injectivity for mathematical correctness. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "kldiv_compute",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/kldiv_compute/kldiv_compute_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/kldiv_compute/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/kldiv_compute/Contract.lean",
+          "bench/repairs/tritonbench_g/kldiv_compute/Correct.lean",
+          "bench/repairs/tritonbench_g/kldiv_compute/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent x*Real.log(x/y), Contract.lean:14; Correct.lean:34. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "kldiv_ops",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/kldiv_ops/kldiv_ops_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/kldiv_ops/Contract.lean",
+          "bench/repairs/tritonbench_g/kldiv_ops/Correct.lean",
+          "bench/repairs/tritonbench_g/kldiv_ops/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real KL forward and prediction derivative formulas; full rows/chunks, both target branches, every reduction code and runtime epsilon. Original positive-block and input/output separation premises retained, both empty axes and all scalar words. Complete actual candidate/original success, source safety, typed outputs and exterior frames; no floating rewrite."
+      }
+    },
+    {
+      "task": "kldiv_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/kldiv_triton/kldiv_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/kldiv_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/kldiv_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/kldiv_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/kldiv_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real KL loss/chunk reductions and unscaled derivative retained. Original all-payload domain, arbitrary complete row permutations, independent runtime strides, output-address injectivity, both target modes, every reduction code and empty axes. Original zero-target/tail fixes and Int64 casts remain; exact pointer-state/safety transport connects both safe successful grids, typed outputs and dual frames."
+      }
+    },
+    {
+      "task": "ksoftmax_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/ksoftmax_triton_grid_y_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: softmax/log-softmax normalized exponential; backward gradient; extended log-backward formula. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "kv_cache_copy",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/kv_cache_copy/kv_cache_copy_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/kv_cache_copy/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/kv_cache_copy/Contract.lean",
+          "bench/repairs/tritonbench_g/kv_cache_copy/Correct.lean",
+          "bench/repairs/tritonbench_g/kv_cache_copy/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: {'formula': 'CopyIO.reference copying original K/V lane snapshots to logical cache metadata addresses', 'entry': 'bench/repairs/tritonbench_g/kv_cache_copy/Correct.lean'}. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "kv_cache_filling",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
+          "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Actual complete copy/INT8/INT4 DSL programs, valid source accesses, successful execution, every cache/metadata output and exact exterior frame. The family is not a composed host execution."
+      }
+    },
+    {
+      "task": "l2_norm_bwd",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/l2_norm_bwd/l2_norm_bwd_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/l2_norm_bwd/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/l2_norm_bwd/Contract.lean",
+          "bench/repairs/tritonbench_g/l2_norm_bwd/Correct.lean",
+          "bench/repairs/tritonbench_g/l2_norm_bwd/FPEquiv.lean"
+        ],
+        "proof_scope": "Complete repaired signed64 independent-stride row grid. Independent Real target dy/sqrt(q) - dot*x/(q*sqrt(q)), q=sum(x^2)+eps and dot=sum(dy*x). Actual original/candidate FP32 programs differ only in three integer row-stride products; both successful executions, actual trace safety, all DX cells and both exterior frames are proved. Runtime eps, casts, FP graph and reductions are unchanged; R=[]."
+      }
+    },
+    {
+      "task": "l2_norm_triton1",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/l2_norm_triton1/l2_norm_triton1_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/l2_norm_triton1/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/l2_norm_triton1/Contract.lean",
+          "bench/repairs/tritonbench_g/l2_norm_triton1/Correct.lean",
+          "bench/repairs/tritonbench_g/l2_norm_triton1/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent Real x/sqrt(sum_j x_j^2+eps), runtime unrestricted eps; Correct retains N<=B cover.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "l2_norm_triton2",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/l2_norm_triton2/l2_norm_triton2_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/l2_norm_triton2/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/l2_norm_triton2/Contract.lean",
+          "bench/repairs/tritonbench_g/l2_norm_triton2/Correct.lean",
+          "bench/repairs/tritonbench_g/l2_norm_triton2/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Forward x/sqrt(sum x²+eps); backward dy/sqrt(s+eps)-sum(dy*x)/(s+eps)/sqrt(s+eps)*x. Independent finite sums, arbitrary Real epsilon under total sqrt/division.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "layer_norm_fwd",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_nonzero_tile.py",
+        "kernel_source": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Contract.lean",
+          "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Correct.lean",
+          "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/FPEquiv.lean"
+        ],
+        "proof_scope": "Complete selected-positive-tile ordinary grid. Independent Real sums, canonical Philox, residual, normalization and affine formulas cover all enabled outputs. Actual original and existing FP32 index-commuted candidate differ only in the initial X integer row-stride product. Both successful ordinary runs, actual trace safety, all seven active typed outputs and both exterior frames are proved, including empty grids and zero-column statistics; R=[]."
+      }
+    },
+    {
+      "task": "layer_norm_liger",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/layer_norm_liger/layer_norm_liger_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/layer_norm_liger/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/layer_norm_liger/Contract.lean",
+          "bench/repairs/tritonbench_g/layer_norm_liger/Correct.lean",
+          "bench/repairs/tritonbench_g/layer_norm_liger/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real normalization/derivatives retained. Original complete per-program scopes: Y/Mean/RSTD and full backward DX interval plus DW/DB, including empty groups. Arbitrary primitives, aliases and all words preserved. Actual candidate execution/safety gives dual successful safe runs, every typed output and dual raw frames. Complete old source identities proved."
+      }
+    },
+    {
+      "task": "layer_norm_ops",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/layer_norm_ops/layer_norm_ops_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/layer_norm_ops/Contract.lean",
+          "bench/repairs/tritonbench_g/layer_norm_ops/Correct.lean",
+          "bench/repairs/tritonbench_g/layer_norm_ops/FPEquiv.lean"
+        ],
+        "proof_scope": "Retain independent Real formulas, full original forward/backward source-stage scopes and admissibility. All 16 forward flag combinations and backward empty/weight-read/recompute/residual/gradient branches, arbitrary typed Algebra and original words, precise storage/conversions/floating order. Both actual runs safe/successful with every output and complete exterior frames; no new numerical rule."
+      }
+    },
+    {
+      "task": "layer_norm_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/layer_norm_triton/layer_norm_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/layer_norm_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/layer_norm_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/layer_norm_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/layer_norm_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Retain all three independent Real source-stage formulas and their original IO scopes. Complete actual forward/grouped/final kernels; original forward 0<N<=B and original grouped readback/row domain, all arbitrary scalar meanings, row loops, reductions, masks and source order. Both source schedules safe/successful with every observed output and both frames; no new host-composition requirement."
+      }
+    },
+    {
+      "task": "layer_norm_welfold",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/layer_norm_welfold/layer_norm_welfold_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/layer_norm_welfold/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/layer_norm_welfold/Contract.lean",
+          "bench/repairs/tritonbench_g/layer_norm_welfold/Correct.lean",
+          "bench/repairs/tritonbench_g/layer_norm_welfold/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real mean/population-variance/normalization formula connected to the actual readable original. Original Configuration and Separation, arbitrary carrier words/structural Algebra and reduction topology, complete row grid including empty rows, FP32 statistics and BF16 outputs, both source safety/success/all active outputs and dual exterior frames. Complete historical-to-readable source semantic preservation proved; no finite-only restriction."
+      }
+    },
+    {
+      "task": "layernorm_fwd_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/layernorm_fwd_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/layernorm_fwd_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real layer normalization target, original arbitrary strides/output injectivity and runtime epsilon retained. Three complete streaming loops and sequence/head grid, all payloads, original FP32 operations and reduction order. Complete ordinary original quotation has full AST preservation; exact candidate execution plus original active bounds prove both safe successful schedules, typed outputs and dual frames."
+      }
+    },
+    {
+      "task": "lightning_attention",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/lightning_attention_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Retained independent Real causal attention, full VJP and derivatives under original geometry. Actual three-stage FP source schedules over all original dimensions/raw words and arbitrary Instructions/Plan, including per-CTA materialization, padded overlapping windows and initial output/gradient scratch. Full forward and intra-to-inter backward run/safety/source observer connection; both successful safe schedules, all typed outputs and dual exterior frames. No new input/numerical/host-conformance premise."
+      }
+    },
+    {
+      "task": "llama_ff_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/llama_ff_triton_scalar_cast.py",
+        "kernel_source": "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Contract.lean",
+          "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Correct.lean",
+          "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent decoded Real RMSNorm-SwiGLU retained. Complete original grid/stages and half/E5M2 byteDomain, signed casts, tails, half outputs/FP32 accumulation/all payloads unchanged. Full source run/safety equality connects actual ArrayProgramIO dual safe success, all outputs and dual raw frames; four complete source identities proved."
+      }
+    },
+    {
+      "task": "log_softmax",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/log_softmax/log_softmax_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/log_softmax/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/log_softmax/Contract.lean",
+          "bench/repairs/tritonbench_g/log_softmax/Correct.lean",
+          "bench/repairs/tritonbench_g/log_softmax/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: unshifted Real log-softmax and g-exp(saved_y)*sum(g). Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "logsumexp_fwd",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/logsumexp_fwd/logsumexp_fwd_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/logsumexp_fwd/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/logsumexp_fwd/Contract.lean",
+          "bench/repairs/tritonbench_g/logsumexp_fwd/Correct.lean",
+          "bench/repairs/tritonbench_g/logsumexp_fwd/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real stable logsumexp formula and full scratch-output grid retained. Runtime arbitrary scale/all payloads, original signed casts and positive-block geometry, complete row/block permutations and empty cases unchanged. Scaled branch keeps its required postmultiply mask. Exact actual source-run proof and separate candidate safety connect both safe successful full schedules, every typed scratch cell and both exterior frames."
+      }
+    },
+    {
+      "task": "lora_expand_gemv",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_byte_separated.py",
+        "kernel_source": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Contract.lean",
+          "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Correct.lean",
+          "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real full LoRA formula retained; original Valid domain, signed indices, arbitrary strides, FP32 X narrowed to FP16, FP16 weight/product/reduction and FP32 output/optional add. Every N*B permutation including empty, all native word interpretations and original byte/storage boundaries. Full actual successful safe schedules, exact output cells and exterior frames; optional complete Raw.State equality also retained."
+      }
+    },
+    {
+      "task": "masked_add_cuda",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/masked_add_cuda/masked_add_cuda_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/masked_add_cuda/Contract.lean",
+          "bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean",
+          "bench/repairs/tritonbench_g/masked_add_cuda/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: {'formula': 'formula conditional masked grad + data*alpha', 'entry': 'bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean'}. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "masked_select",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/masked_select/masked_select_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/masked_select/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/masked_select/Contract.lean",
+          "bench/repairs/tritonbench_g/masked_select/Correct.lean",
+          "bench/repairs/tritonbench_g/masked_select/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent stable list filtering and payload map; prepared inclusive count prefix relation explicit in IO.Prefixes.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "matmul_dequant_int4",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/matmul_dequant_int4_grid_y_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real dequantization retained. Original KernelGrid.Valid already requires outputColumnStride=1; no new restriction. Both original storage profiles, full two-axis grid/tails and all typed primitive words unchanged. Exact source run/safety equality feeds dual successful safe ProgramIO executions, every output and both frames."
+      }
+    },
+    {
+      "task": "matmul_dequantize",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matmul_dequantize/matmul_dequantize_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matmul_dequantize/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matmul_dequantize/Contract.lean",
+          "bench/repairs/tritonbench_g/matmul_dequantize/Correct.lean",
+          "bench/repairs/tritonbench_g/matmul_dequantize/FPEquiv.lean"
+        ],
+        "proof_scope": "Four retained independent Real formulas with original K/group restrictions. Actual GPTQ/S2/dequant32/dequant16 full grids, arbitrary native typed algebra/dot, all words, source storage/casts/branches and original strided/region domains. Exact full execution and safety equality, both successful schedules, complete observed output and exterior frames."
+      }
+    },
+    {
+      "task": "matmul_dequantize_int4",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matmul_dequantize_int4/matmul_dequantize_int4_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matmul_dequantize_int4/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matmul_dequantize_int4/Contract.lean",
+          "bench/repairs/tritonbench_g/matmul_dequantize_int4/Correct.lean",
+          "bench/repairs/tritonbench_g/matmul_dequantize_int4/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real packed matrix product retained. Full 17 original configurations, original layout/group constraints and arbitrary output strides, all native words and signed packed channels, FP16 input/scales/output with FP32 accumulation. Complete source and compiled execution/safety connection, same FP16 FMA/live K16 MMA phases and original primitive model bindings. Both complete grids safe/successful with all typed output and dual frames."
+      }
+    },
+    {
+      "task": "matmul_kernel",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matmul_kernel/matmul_kernel_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matmul_kernel/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matmul_kernel/Contract.lean",
+          "bench/repairs/tritonbench_g/matmul_kernel/Correct.lean",
+          "bench/repairs/tritonbench_g/matmul_kernel/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent full Real matrix product retained. Original Valid config, complete two-dimensional grid and source mask cases, all words, empty axes/K=0, TF32/live dot/FP16 narrowing/FP32 output. Full source state/safety and original successful launch compose to ProgramIO dual safe success, all typed outputs and dual frames. Original signed32 guards suffice for changed subtraction."
+      }
+    },
+    {
+      "task": "matmul_leakyrelu",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matmul_leakyrelu/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matmul_leakyrelu/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/matmul_leakyrelu/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/matmul_leakyrelu/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Original independent Real full-grid matrix product and leaky activation now proved. Original all-word FP32/TF32 K32 source domain and FP16 output, full schedules/geometry/region separation/empty behavior retained. Complete source-to-IO proof of both safe successful schedules, all typed outputs and dual exterior frames. Conditional R contains one actual local dot/add-to-dotAcc relation; future evidence and admission remain explicit, gates NOT_RUN. Strict all-word FP32 slope commutation reused."
+      }
+    },
+    {
+      "task": "matmul_leakyrelu_fp8",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/matmul_leakyrelu_fp8_scalar_cast.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Contract.lean",
+          "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Correct.lean",
+          "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/FPEquiv.lean"
+        ],
+        "proof_scope": "Retained independent Real dot/activation formula, grouped full grid, all original geometry/layout premises, all FP32 words, ordered native dot model and FP16 output conversion. Revised public judgment uses shared ProgramIO complete IO equivalence: original bounds and input binding, both safe successful schedules, typed output equality and both exact frames. Raw all-state equality remains a helper."
+      }
+    },
+    {
+      "task": "matmul_persistent_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/matmul_persistent_triton_scalar_cast.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Contract.lean",
+          "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/Correct.lean",
+          "bench/repairs/tritonbench_g/matmul_persistent_triton_scalar_cast/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real dense dot target retained. Original FP16/E4M3 profiles, SMS-positive domain, every persistent PID/assigned tile/complete K loop, tails and all words unchanged. Four readable original/candidate quotations preserve the full old source. Revised public ProgramIO judgment constructively proves both safe successful schedules, typed outputs and dual exact frames without optional zero-conversion laws; physical Tensor applications remain Misc."
+      }
+    },
+    {
+      "task": "matmul_tma",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/matmul_tma_static_checked_v2.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent full Real matrix product retained. All original transpose/output flags, strides, FP16 inputs, fixed-K16 dot and original one-program scope. FP16 output branch unchanged. Native same-format identity preserves complete source run; shared ProgramIO proves dual safety/success, selected typed outputs and dual raw frames."
+      }
+    },
+    {
+      "task": "matmul_triton1",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matmul_triton1/revision001/matmul_triton1_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matmul_triton1/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matmul_triton1/Contract.lean",
+          "bench/repairs/tritonbench_g/matmul_triton1/Correct.lean",
+          "bench/repairs/tritonbench_g/matmul_triton1/FPEquiv.lean"
+        ],
+        "proof_scope": "Original independent Real matrix-product formula and all input/storage/domain conditions retained. Complete actual original versus maskHoisted source, full launch grid and original configurations, empty/K=0 behavior, all casts/live dot/FP order. Cached-mask invariant proves full candidate execution and source safety; complete schedules share output memory and both exact exterior frames. No FP numerical rewrite."
+      }
+    },
+    {
+      "task": "matmul_triton2",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matmul_triton2/revision001/matmul_triton2_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Original independent Real matrix-product formula and all input/storage/domain conditions retained. Complete actual original versus maskHoisted source, full launch grid and original configurations, empty/K=0 behavior, all casts/live dot/FP order. Cached-mask invariant proves full candidate execution and source safety; complete schedules share output memory and both exact exterior frames. No FP numerical rewrite."
+      }
+    },
+    {
+      "task": "matmul_triton_autotune",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune_view_safe.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matmul_triton_autotune/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matmul_triton_autotune/Contract.lean",
+          "bench/repairs/tritonbench_g/matmul_triton_autotune/Correct.lean",
+          "bench/repairs/tritonbench_g/matmul_triton_autotune/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent GEMM and optional leaky-ReLU, Correct.lean:15,21. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "matrix_reduction",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/tritonbench_g/matrix_reduction/matrix_reduction.py",
+        "kernel_source": "bench/tritonbench_g/matrix_reduction/Kernels.lean",
+        "public_entries": [
+          "bench/tritonbench_g/matrix_reduction/Contract.lean",
+          "bench/tritonbench_g/matrix_reduction/Correct.lean",
+          "bench/tritonbench_g/matrix_reduction/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent nonempty-row Real maximum retained; M=0 admitted. FP16/FP32 all words, unchanged max/conversion, original whole-row one-block scope, dual source safety, success, every typed output and dual raw frames. All three complete original source identities proved."
+      }
+    },
+    {
+      "task": "matrix_transpose",
+      "original_status": "verified",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matrix_transpose/matrix_transpose_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matrix_transpose/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matrix_transpose/Contract.lean",
+          "bench/repairs/tritonbench_g/matrix_transpose/Correct.lean",
+          "bench/repairs/tritonbench_g/matrix_transpose/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent coordinate transpose: output[col*m+row]=matrix[row*d+col]; read/write windows make headline xs j the mathematical transpose.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "matrix_vector_multip",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/matrix_vector_multip/matrix_vector_multip_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/matrix_vector_multip/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/matrix_vector_multip/Contract.lean",
+          "bench/repairs/tritonbench_g/matrix_vector_multip/Correct.lean",
+          "bench/repairs/tritonbench_g/matrix_vector_multip/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real matrix-vector dot target and original accepted configuration/domain retained. Actual complete source/candidate grid permutations, full N outputs, empty axes/tails, all words and ordered FP32 reduction. Both sources map to identical ordered carry nodes under the original selected fused native interpretation; this is no split-rounded mul/add-to-FMA claim. Both safe successful full schedules, typed outputs and dual frames. Only grid result is a specification headline; the per-program instance remains an ordinary helper theorem."
+      }
+    },
+    {
+      "task": "max_reduction",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/max_reduction/max_reduction_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/max_reduction/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/max_reduction/Contract.lean",
+          "bench/repairs/tritonbench_g/max_reduction/Correct.lean",
+          "bench/repairs/tritonbench_g/max_reduction/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: {'formula': 'stage blockMaximum; dimension attainment, upper bound, least tie index', 'entry': 'bench/repairs/tritonbench_g/max_reduction/Correct.lean'}. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "mean_reduction",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/mean_reduction/mean_reduction_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/mean_reduction/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/mean_reduction/Contract.lean",
+          "bench/repairs/tritonbench_g/mean_reduction/Correct.lean",
+          "bench/repairs/tritonbench_g/mean_reduction/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent finite row sum divided by N (including N=0 Real division), MeanIO.mathematical.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "mixed_sparse_attention",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/mixed_sparse_attention/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/mixed_sparse_attention/Contract.lean",
+          "bench/repairs/tritonbench_g/mixed_sparse_attention/Correct.lean",
+          "bench/repairs/tritonbench_g/mixed_sparse_attention/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent multiplicity-preserving sparse Real attention unchanged. Full original sparse block/column loops, early return, storage modes, original metadata/native word domain, complete arbitrary grid orders, exact casts/dot/reduction graph retained. Actual full-state and source-safety proofs transport to ArrayProgramIO safe success, every typed output and dual raw frames."
+      }
+    },
+    {
+      "task": "mul_exponent_compensator",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/mul_exponent_compensator/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/mul_exponent_compensator/Contract.lean",
+          "bench/repairs/tritonbench_g/mul_exponent_compensator/Correct.lean",
+          "bench/repairs/tritonbench_g/mul_exponent_compensator/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real output x[i]*2^112; actual readable masked FP32 original versus scalar-left candidate over arbitrary complete grid permutations, B>0, all FP32 words and explicit FP.Config, arbitrary src/dst including in-place. Both successful safe executions, active typed output cells and whole exterior frames. Source machine-index projection and prior physical/Tensor scopes retained."
+      }
+    },
+    {
+      "task": "multinomial_sampling",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/multinomial_sampling/Contract.lean",
+          "bench/repairs/tritonbench_g/multinomial_sampling/Correct.lean",
+          "bench/repairs/tritonbench_g/multinomial_sampling/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent inverse-CDF categorical Real relation retained. Original complete per-program scope, signed64 seed/label domain, masked-load undefined fallback inputs, scan/max/Philox and zero-boundary behavior unchanged. Narrow actual UndefProgramIO invocation view concludes both source safety and successful runs, typed labels and dual raw frames."
+      }
+    },
+    {
+      "task": "nested_loops_processing",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/nested_loops_processing/nested_loops_processing_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/nested_loops_processing/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/nested_loops_processing/Contract.lean",
+          "bench/repairs/tritonbench_g/nested_loops_processing/Correct.lean",
+          "bench/repairs/tritonbench_g/nested_loops_processing/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent last-writer copy formula over signed-int32 arange/zero initial output; Correct.lean:14. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "parallel_attention",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/parallel_attention/parallel_attention_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real forward/backward targets retained. Original unrestricted Shape/full grid/native words, exact original forward or DQ-then-DKV stage-specific compiler models and runner preserved. Full backward shell is readable and connected to original stage split. Actual source equality/safety and complete IO prove dual safe success, every typed output and dual raw frames."
+      }
+    },
+    {
+      "task": "parallel_retention_attention",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/parallel_retention_attention/parallel_retention_attention_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/parallel_retention_attention/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/parallel_retention_attention/Contract.lean",
+          "bench/repairs/tritonbench_g/parallel_retention_attention/Correct.lean",
+          "bench/repairs/tritonbench_g/parallel_retention_attention/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real forward/backward formulas retained. Entire original per-program domains and full DQ/barrier/DKV shell, arbitrary native Scalar and finite dot trees, all original words/storage/conversions, source safety/success and every active typed output with both frames. Multiplication/addition remain distinct ordered operations; no FP rewrite or experimental rule."
+      }
+    },
+    {
+      "task": "pow_scalar_tensor",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/pow_scalar_tensor/Contract.lean",
+          "bench/repairs/tritonbench_g/pow_scalar_tensor/Correct.lean",
+          "bench/repairs/tritonbench_g/pow_scalar_tensor/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: kernel_raw_correctness: independent Real.rpow of each logical signed-stride input under powerDefined, valid spans, nonzero output stride and disjoint footprints; complete capped CTA programIO. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "quant_transpose_kernel",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/quant_transpose_kernel/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/quant_transpose_kernel/Contract.lean",
+          "bench/repairs/tritonbench_g/quant_transpose_kernel/Correct.lean",
+          "bench/repairs/tritonbench_g/quant_transpose_kernel/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Reference.lean:10-14 + Proofs/KernelModels.lean:14 independent low8 of nearest-even/clamped signed64 rounding of 127*(x*inverse); Correct.lean:17-21. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "quantize_copy_kv",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/quantize_copy_kv/quantize_copy_kv_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/quantize_copy_kv/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/quantize_copy_kv/Contract.lean",
+          "bench/repairs/tritonbench_g/quantize_copy_kv/Correct.lean",
+          "bench/repairs/tritonbench_g/quantize_copy_kv/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent max(abs(row))/127 scale and zero-row guarded signed-byte truncation, for both address spellings. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "quantize_global",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/quantize_global/quantize_global_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/quantize_global/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/quantize_global/Contract.lean",
+          "bench/repairs/tritonbench_g/quantize_global/Correct.lean",
+          "bench/repairs/tritonbench_g/quantize_global/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: QuantizeIO.realValues independent signed INT8 nearest-even quantization; scaleCondition: absmax>=0 and abs(x)<=absmax; zero maximum totalized. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "quantize_kv_copy",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/quantize_kv_copy/quantize_kv_copy_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/quantize_kv_copy/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/quantize_kv_copy/Contract.lean",
+          "bench/repairs/tritonbench_g/quantize_kv_copy/Correct.lean",
+          "bench/repairs/tritonbench_g/quantize_kv_copy/FPEquiv.lean"
+        ],
+        "proof_scope": "Retained independent Real code/scale formula, full flattened token/head grid, signed destination binding and target injectivity, original group coverage and all native words. Complete actual source execution and safety proofs preserve ordered FP32 abs/max/divisions, INT8 conversion, both outputs and both exterior frames. No new floating law."
+      }
+    },
+    {
+      "task": "quantize_kv_transform",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/quantize_kv_transform/quantize_kv_transform_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/quantize_kv_transform/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/quantize_kv_transform/Contract.lean",
+          "bench/repairs/tritonbench_g/quantize_kv_transform/Correct.lean",
+          "bench/repairs/tritonbench_g/quantize_kv_transform/FPEquiv.lean"
+        ],
+        "proof_scope": "Retained independent Real code/scale target, original width/head/column coverage, signed destination/injectivity domain and arbitrary complete token permutations including zero. All raw FP32 words, total signed-byte conversion, reduction order/casts/masks preserved. Complete run/safety transport gives both success, typed code/scale outputs and exterior frames."
+      }
+    },
+    {
+      "task": "rbe_triton_transform",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rbe_triton_transform_checked_launch/rbe_triton_transform_checked_launch.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rbe_triton_transform_checked_launch/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rbe_triton_transform_checked_launch/Contract.lean",
+          "bench/repairs/tritonbench_g/rbe_triton_transform_checked_launch/Correct.lean",
+          "bench/repairs/tritonbench_g/rbe_triton_transform_checked_launch/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent dense trigonometric Real target retained. Original index projection, signed positions, all payloads, odd/empty shapes, both barriers, FP32 cast/trig/mul/add order, X/Y separation and every complete two-axis schedule preserved. Complete original quotation has a full rfl preservation certificate; actual pair proves both safety/success, all output cells and dual exterior frames."
+      }
+    },
+    {
+      "task": "relu_strided_buffer",
+      "original_status": "verified",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/relu_strided_buffer/relu_strided_buffer_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/relu_strided_buffer/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/relu_strided_buffer/Contract.lean",
+          "bench/repairs/tritonbench_g/relu_strided_buffer/Correct.lean",
+          "bench/repairs/tritonbench_g/relu_strided_buffer/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: max(0,x) on complete signed input/output views. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "relu_triton_kernel",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/relu_triton_kernel/relu_triton_kernel_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/relu_triton_kernel/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/relu_triton_kernel/Contract.lean",
+          "bench/repairs/tritonbench_g/relu_triton_kernel/Correct.lean",
+          "bench/repairs/tritonbench_g/relu_triton_kernel/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: {'formula': 'max 0 x', 'entry': 'bench/repairs/tritonbench_g/relu_triton_kernel/Correct.lean'}. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "reversed_cumsum",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/reversed_cumsum/reversed_cumsum_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/reversed_cumsum/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/reversed_cumsum/Contract.lean",
+          "bench/repairs/tritonbench_g/reversed_cumsum/Correct.lean",
+          "bench/repairs/tritonbench_g/reversed_cumsum/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent ordinary suffix sum over time at each active feature, Interface.reference.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "reversed_cumsum_scalar",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Contract.lean",
+          "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Correct.lean",
+          "bench/repairs/tritonbench_g/reversed_cumsum_scalar/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Interface.reference: finite initial logical suffix sum sum{k >= t} xs[k]; original stride/output layout and admitted configurations retained.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "rms_matmul_rbe",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rms_matmul_rbe_scalar_domain/rms_matmul_rbe_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rms_matmul_rbe_scalar_domain/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rms_matmul_rbe_scalar_domain/Contract.lean",
+          "bench/repairs/tritonbench_g/rms_matmul_rbe_scalar_domain/Correct.lean",
+          "bench/repairs/tritonbench_g/rms_matmul_rbe_scalar_domain/FPEquiv.lean"
+        ],
+        "proof_scope": "Retained independent Real RMS/dot/rotary formula. Full named-array IO with finite footprints, runtime EPS/THETA, every original finite launch order, original signed-byte domain and separation/even-width premises. FP32 computation, FP16/E5 conversion and storage chains unchanged. Both schedules safe and successful with all output cells and dual exterior frames. Primary typed source interpretation is distinct from optional native lowering realization."
+      }
+    },
+    {
+      "task": "rms_norm_triton",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rms_norm_triton/rms_norm_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rms_norm_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rms_norm_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/rms_norm_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Whole.realFormula: independent x * reciprocal sqrt((sum x²)/N + eps) * w, with the source pre-weight cast in native interpretation and separate Real idealization.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "rms_rbe_matmul",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/rms_rbe_matmul_launch_guard.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rms_rbe_matmul/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Contract.lean",
+          "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Correct.lean",
+          "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real RMS-normalized dot/optional rotary formula retained. Full original grid including empty, masked K tails, FP16/E5 storage, signed-byte domain, native dot/reduction profiles and all FP words. Actual readable original/candidate source execution and trace safety connected to shared ProgramIO success/output/dual-frame judgment."
+      }
+    },
+    {
+      "task": "rmsnorm_fused",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rmsnorm_fused/rmsnorm_fused_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rmsnorm_fused/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rmsnorm_fused/Contract.lean",
+          "bench/repairs/tritonbench_g/rmsnorm_fused/Correct.lean",
+          "bench/repairs/tritonbench_g/rmsnorm_fused/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Correct.kernel_formula independent finite RMS norm affine formula. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "rmsnorm_fused_llama",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/rmsnorm_fused_llama_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Contract.lean",
+          "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Correct.lean",
+          "bench/repairs/tritonbench_g/rmsnorm_fused_llama/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Reference.real:12 -> RealGrid.value:12 independent sum-of-squares RMS normalization with weight/epsilon over every logical column; Real retains arbitrary/empty dimensions.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "rmsnorm_implementation",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rmsnorm_implementation/rmsnorm_implementation_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rmsnorm_implementation/Contract.lean",
+          "bench/repairs/tritonbench_g/rmsnorm_implementation/Correct.lean",
+          "bench/repairs/tritonbench_g/rmsnorm_implementation/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: rmsnorm_kernel_correctness: Interface.formula x w k = x[k]/sqrt(sum_j x[j]^2/n+eps)*w[k], finite row independent of source execution; OutputUnique only. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "rmsnorm_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rmsnorm_triton/rmsnorm_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rmsnorm_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rmsnorm_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/rmsnorm_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/rmsnorm_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: IO.lean:58-64 independent unpadded RMS normalization of every row; Correct.lean:16-20 complete regional schedule via IOCorrect.complete. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "rope_backward_transform",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rope_backward_transform/rope_backward_transform_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rope_backward_transform/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rope_backward_transform/Contract.lean",
+          "bench/repairs/tritonbench_g/rope_backward_transform/Correct.lean",
+          "bench/repairs/tritonbench_g/rope_backward_transform/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real inverse-rotation formula and original accepted Request domain unchanged. Actual full reverse launchRows schedule, arbitrary FP32 words/Tagged payloads, coefficient strides, selected ordered FMA interpretation and odd unwritten tails retained. Shared ReadProgramIO judgment preserves both safe successful executions, every result read and both exact writable-window frames."
+      }
+    },
+    {
+      "task": "rope_embedding",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rope_embedding/rope_embedding_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rope_embedding/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rope_embedding/Contract.lean",
+          "bench/repairs/tritonbench_g/rope_embedding/Correct.lean",
+          "bench/repairs/tritonbench_g/rope_embedding/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Correct.mathematical / Spec.pair: (a*cos-b*sin,b*cos+a*sin), backward negates sine, four-head active windows and odd-tail frame. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "rope_transform",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rope_transform/rope_transform_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rope_transform/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rope_transform/Contract.lean",
+          "bench/repairs/tritonbench_g/rope_transform/Correct.lean",
+          "bench/repairs/tritonbench_g/rope_transform/FPEquiv.lean"
+        ],
+        "proof_scope": "Retained independent Real rotation formula and all original Requests, including empty schedules. Full forward row grid, both Q/K channels, padded heads, all Tagged/native FP32 words, casts and source-specific FMA backend preserved. Exact actual run/trace-safety proofs connect both successful safe schedules, every typed output and both raw exterior frames."
+      }
+    },
+    {
+      "task": "rotary_emb",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rotary_emb/rotary_emb_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rotary_emb/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rotary_emb/Contract.lean",
+          "bench/repairs/tritonbench_g/rotary_emb/Correct.lean",
+          "bench/repairs/tritonbench_g/rotary_emb/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: independent interleaved in-place Q/K rotation across all four output halves. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "rotary_emb_nopad",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rotary_emb_nopad/Contract.lean",
+          "bench/repairs/tritonbench_g/rotary_emb_nopad/Correct.lean",
+          "bench/repairs/tritonbench_g/rotary_emb_nopad/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real cached/uncached targets and original complete per-tile IO scopes retained. GQA/early return, signed metadata, all Q/cache output halves, native all-word payloads, token/head premises and original metadata domain unchanged. Exact full-source run/safety equality, arbitrary schedule helpers and original IO certificates prove both safe successful invocations, typed outputs and dual K/exterior frames."
+      }
+    },
+    {
+      "task": "rotary_transform",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/rotary_transform_tile_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/rotary_transform_tile_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real rotation target and original Config.Valid/domain retained. Eight ordinary quotations replace the source macro, with complete original function equality checked against the archived source. Full native grid, packed/fixed/scalar/tensor metadata, both widths, inplace/interleaved/conjugate modes, all native words and empty/suffix behavior retained. ReadProgramIO pair proves both safe successful schedules, every result read and both exterior frames."
+      }
+    },
+    {
+      "task": "rotary_transform_ops",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rotary_transform_ops/rotary_transform_ops_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rotary_transform_ops/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rotary_transform_ops/Contract.lean",
+          "bench/repairs/tritonbench_g/rotary_transform_ops/Correct.lean",
+          "bench/repairs/tritonbench_g/rotary_transform_ops/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real rotary formula retained. Complete original whole-grid read/write IO scope, all four metadata ABIs, all FP32 words, alias/flag/empty branches and copied suffix. Exact integer source-state execution and safety equivalence with both successful safe grids, complete output observations and both raw frames."
+      }
+    },
+    {
+      "task": "rowwise_quantization_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/rowwise_quantization_triton/rowwise_quantization_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/rowwise_quantization_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/rowwise_quantization_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/rowwise_quantization_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/rowwise_quantization_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real quantization retained. Original all-word domain and full row permutations, exact FP32 arithmetic, llrint64/INT8 low byte and FP16 maximum conversion unchanged. Source store reordering preserves full state and access safety; IntegerProgramIO proves both safe successful schedules, both typed output channels and dual frames."
+      }
+    },
+    {
+      "task": "seeded_dropout",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/seeded_dropout/Contract.lean",
+          "bench/repairs/tritonbench_g/seeded_dropout/Correct.lean",
+          "bench/repairs/tritonbench_g/seeded_dropout/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Whole.realFormula: keep input/(1-p) iff canonical random(seed, logical offset)>p, otherwise zero; total Real division and no native-to-Real equality.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "sgmv_expand_slice",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice_byte_separated.py",
+        "kernel_source": "bench/repairs/tritonbench_g/sgmv_expand_slice/ByteSeparated/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/sgmv_expand_slice/ByteSeparated/Contract.lean",
+          "bench/repairs/tritonbench_g/sgmv_expand_slice/ByteSeparated/Correct.lean",
+          "bench/repairs/tritonbench_g/sgmv_expand_slice/ByteSeparated/FPEquiv.lean"
+        ],
+        "proof_scope": "Retained independent Real contraction with ordered overlaps; complete original K loops and job schedule, 8 signed metadata ABIs, all original FP16/FP32 word patterns, both ADD modes, empty/skip/tail/singleton cases. Original geometry/capacity/private-region/segment-fit and binding domain; no success/safety caller assumption. Both actual source schedules safe/successful, all readback outputs including untouched cells and dual exterior frames. All48 original complete function rfl equalities; native/profile/order unchanged."
+      }
+    },
+    {
+      "task": "sin_computation",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/sin_computation/sin_computation_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/sin_computation/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/sin_computation/Contract.lean",
+          "bench/repairs/tritonbench_g/sin_computation/Correct.lean",
+          "bench/repairs/tritonbench_g/sin_computation/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Real.sin of each independent logical input value. Active lane bounds/value, masked tails and exterior frame established by existing flat source proofs.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "sin_kernel",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/sin_kernel/sin_kernel_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/sin_kernel/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/sin_kernel/Contract.lean",
+          "bench/repairs/tritonbench_g/sin_kernel/Correct.lean",
+          "bench/repairs/tritonbench_g/sin_kernel/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent Real.sin of each input; Correct.lean:23. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "softmax_flaggems",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/softmax_flaggems_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/Contract.lean",
+          "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/Correct.lean",
+          "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Interface.forwardFormula -> Target.flatForward finite/-inf softmax; backwardFormula -> Target.flatBackward saved-output VJP. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "softmax_optimize",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/softmax_optimize/softmax_optimize_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/softmax_optimize/Contract.lean",
+          "bench/repairs/tritonbench_g/softmax_optimize/Correct.lean",
+          "bench/repairs/tritonbench_g/softmax_optimize/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: SoftmaxIO.rowSoftmax:39 independent exp(x_j)/sum exp(x_i) over exactly N logical inputs; Correct.softmax_row_correct uses it.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "softmax_reducev",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/softmax_reducev_neginf_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real normalized weighted-sum formula retained. Original complete workset and all its permutations, arbitrary FP32 words and length metadata/capacities, same native reduction/FMA/replica profiles and observers, including original empty/alias behavior. Exact source execution and trace-safety equality; both complete successful safe schedules, all typed outputs and exterior raw frames."
+      }
+    },
+    {
+      "task": "softmax_triton1",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/softmax_triton1/softmax_triton1_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/softmax_triton1/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/softmax_triton1/Contract.lean",
+          "bench/repairs/tritonbench_g/softmax_triton1/Correct.lean",
+          "bench/repairs/tritonbench_g/softmax_triton1/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Correct.lean:27-31 direct independent exp(xs i)/sum active Fin B exp(xs j); reference:10-11 exp/sum over n logical columns; ReciprocalCorrect.lean retained. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "softmax_triton2",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/softmax_triton2/softmax_triton2_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/softmax_triton2/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/softmax_triton2/Contract.lean",
+          "bench/repairs/tritonbench_g/softmax_triton2/Correct.lean",
+          "bench/repairs/tritonbench_g/softmax_triton2/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real softmax retained. Original strided/masked complete per-launch active typed IO and full raw FP32 input domain retained. Finite-count and denominator>=1 tests guard the sole admitted rewrite, with original division otherwise. Fixed primitive Ports are model bindings. Main ProgramIO.Equivalent proves both actual source safety, success, every typed output and dual exterior frames; checked grid remains optional in Misc."
+      }
+    },
+    {
+      "task": "softmax_triton3",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/softmax_triton3/softmax_triton3_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/softmax_triton3/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/softmax_triton3/Contract.lean",
+          "bench/repairs/tritonbench_g/softmax_triton3/Correct.lean",
+          "bench/repairs/tritonbench_g/softmax_triton3/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real softmax retained. Original strided/masked complete per-launch active typed IO and full raw FP32 input domain retained. Finite-count and denominator>=1 tests guard the sole admitted rewrite, with original division otherwise. Fixed primitive Ports are model bindings. Main ProgramIO.Equivalent proves both actual source safety, success, every typed output and dual exterior frames; checked grid remains optional in Misc."
+      }
+    },
+    {
+      "task": "spinning_lock_reduction",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction_phased.py",
+        "kernel_source": "bench/repairs/tritonbench_g/spinning_lock_reduction/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/spinning_lock_reduction/Contract.lean",
+          "bench/repairs/tritonbench_g/spinning_lock_reduction/Correct.lean",
+          "bench/repairs/tritonbench_g/spinning_lock_reduction/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent phased publication/zero-output Real specification retained. Readable complete CAS/retry/barrier source and original concurrent controller retained; full nine rounds, admitted native payloads, original publication/readiness domain, producer/consumer stages, completed actual interleavings, both safety/output bindings and raw frames. Includes stronger all-source-schedule step/run transport; no sequential substitute."
+      }
+    },
+    {
+      "task": "square_matrix",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/square_matrix/square_matrix_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/square_matrix/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/square_matrix/Contract.lean",
+          "bench/repairs/tritonbench_g/square_matrix/Correct.lean",
+          "bench/repairs/tritonbench_g/square_matrix/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: elementwise Real square x*x. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "streamk_matmul",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/streamk_matmul_tile_checked/streamk_matmul_tile_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/streamk_matmul_tile_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/streamk_matmul_tile_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/streamk_matmul_tile_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/streamk_matmul_tile_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent full-K Real matrix product retained. Six readable complete source bodies parsed by original task reader; complete source-event decode, masks, FP32 MMA/atomic order and FP16 full-tile conversion unchanged. Original event/concurrent runner, input/scratch domain, empty axes/K=0, all successful events, both access safety, output binding and exterior frames preserved."
+      }
+    },
+    {
+      "task": "swiglu_backward",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/swiglu_backward/swiglu_backward_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/swiglu_backward/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/swiglu_backward/Contract.lean",
+          "bench/repairs/tritonbench_g/swiglu_backward/Correct.lean",
+          "bench/repairs/tritonbench_g/swiglu_backward/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: analytic sigmoid gradients d*y*s*(1+x*(1-s)), d*x*s and optional x*s*y. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "swiglu_fwd",
+      "original_status": "verified_with_deferred_numerics",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/swiglu_fwd/swiglu_fwd_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/swiglu_fwd/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/swiglu_fwd/Contract.lean",
+          "bench/repairs/tritonbench_g/swiglu_fwd/Correct.lean",
+          "bench/repairs/tritonbench_g/swiglu_fwd/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: {'formula': 'x*y/(1+Real.exp(-x))', 'entry': 'bench/repairs/tritonbench_g/swiglu_fwd/Correct.lean'}. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "swiglu_triton",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/swiglu_triton/swiglu_triton_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/swiglu_triton/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/swiglu_triton/Contract.lean",
+          "bench/repairs/tritonbench_g/swiglu_triton/Correct.lean",
+          "bench/repairs/tritonbench_g/swiglu_triton/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent a*sigmoid(a)*b forward plus analytic derivatives da/db, PublicIO.formula Math.formula with Math derivative proofs.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "token_attn_llama2",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/token_attn_llama2_grid_axes_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real score formula, original Valid/MetadataValues domain, arbitrary complete grid permutations, repeated page IDs, strides/aliases, all symbolic native payloads and empty cases retained. Exact register/expression and complete schedule proofs yield both safe successful executions, all outputs and dual exterior frames without a floating rewrite."
+      }
+    },
+    {
+      "task": "token_attn_mistral",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/token_attn_mistral_grid_y_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent gathered weighted-sum Real formula retained. Complete original work list and counts, original Domain/Separate/Unique and IO binding/bounds, arbitrary source strides, symbolic native FP32 words, empty and zero-block/width behavior. Exact integer distributivity proves full source execution and trace-safety equality; both actual full schedules succeed safely, output cells agree and exterior frames hold. The superseded sort-only attempt is not accepted."
+      }
+    },
+    {
+      "task": "token_attn_reduceV",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/token_attn_reduceV_grid_y_checked.py",
+        "kernel_source": "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real gathered weighted-sum formula, original B by H complete permutations, metadata LengthsMatch, Separate/Unique, strides and symbolic native words retained. Empty/zero-block and padded-lane behavior unchanged. Exact integer distributivity composes through full run/safety, typed output agreement and both exterior frames."
+      }
+    },
+    {
+      "task": "token_softmax_bloom",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/token_softmax_bloom/token_softmax_bloom_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/token_softmax_bloom/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/token_softmax_bloom/Contract.lean",
+          "bench/repairs/tritonbench_g/token_softmax_bloom/Correct.lean",
+          "bench/repairs/tritonbench_g/token_softmax_bloom/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent exp(input)/sum(exp(input)) over finite segment; IO.lean:96. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "token_softmax_llama",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/token_softmax_llama/token_softmax_llama_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/token_softmax_llama/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/token_softmax_llama/Contract.lean",
+          "bench/repairs/tritonbench_g/token_softmax_llama/Correct.lean",
+          "bench/repairs/tritonbench_g/token_softmax_llama/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Correct.realRow / Real.target independent exp(input)/finite sum exp(input). Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "triton_argmax",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_nan_first.py",
+        "kernel_source": "bench/repairs/tritonbench_g/triton_argmax_nan_first/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Contract.lean",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Correct.lean",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/FPEquiv.lean"
+        ],
+        "proof_scope": "Current statement-preserving quotations and explicit runtime arguments; independent Real firstMaximum under the documented integer/bool macro idealization; full global and dimension FP pair IO with all thirteen scratch formats, explicit NaN0/clamp/truncate, success/safety/output/frame. No hardware/compiler refinement."
+      }
+    },
+    {
+      "task": "triton_attention",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/triton_attention_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/triton_attention_scalar_abi_checked/FPEquivBound.lean"
+        ],
+        "proof_scope": "Independent complete Real causal attention and Q/K/V VJP retained. Full original three-stage materialized pipeline, scalar ABI/owners, all complete stage schedules, FP32 words/internal FP16 casts, original initialized-DQ domain, unchanged codecs/observer/runner. Narrow implementation view proves both source-schedule safety, successful materialization, every Out/DQ/DK/DV cell and dual exterior frames. Main selected FPEquivBound directly re-exports actual FPEquiv; optional native application remains in Misc."
+      }
+    },
+    {
+      "task": "triton_conv2d_fwd",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/triton_conv2d_fwd/triton_conv2d_fwd_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/triton_conv2d_fwd/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/triton_conv2d_fwd/Contract.lean",
+          "bench/repairs/tritonbench_g/triton_conv2d_fwd/Correct.lean",
+          "bench/repairs/tritonbench_g/triton_conv2d_fwd/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real grouped convolution target and original Valid domain retained. Complete original grid, h/w/c loops, masks/tails, FP16/default paths, TF32 flags, source casts and all payloads unchanged. Exact whole-kernel and full-schedule run/safety equality yields both safe successful executions, typed outputs and both full exterior frames."
+      }
+    },
+    {
+      "task": "triton_linear_activation",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/triton_linear_activation/triton_linear_activation_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/triton_linear_activation/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/triton_linear_activation/Contract.lean",
+          "bench/repairs/tritonbench_g/triton_linear_activation/Correct.lean",
+          "bench/repairs/tritonbench_g/triton_linear_activation/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real linear/activation target and original complete per-invocation IO scope retained. Both storage modes, all activation/bias/saved-output flags, full descending K loop, original canonical-stride/separation/positive-inner premises and all values. Exact whole-source run/safety equality gives both safe successful actual invocations, typed outputs and full dual frames."
+      }
+    },
+    {
+      "task": "triton_matmul",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/triton_matmul/triton_matmul_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Contract.lean",
+          "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/Correct.lean",
+          "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Real matmul target and original Geometry retained. Complete actual grid permutations, FP16/E4M3 storage and FP32 carry, original conversion/instruction model, tails/K loops, all words and input/output separation. Full actual source run/safety transport preserves both success, every typed output and both complete exterior frames."
+      }
+    },
+    {
+      "task": "triton_mul2",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/triton_mul2/triton_mul2_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/triton_mul2/Contract.lean",
+          "bench/repairs/tritonbench_g/triton_mul2/Correct.lean",
+          "bench/repairs/tritonbench_g/triton_mul2/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent 2*xs(i), Correct.lean:31,59. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "triton_softmax",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/triton_softmax/triton_softmax_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/triton_softmax/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/triton_softmax/Contract.lean",
+          "bench/repairs/tritonbench_g/triton_softmax/Correct.lean",
+          "bench/repairs/tritonbench_g/triton_softmax/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: unshifted independent Real softmax exp(x_i)/sum(exp(x_j)). Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "uniform_sampling",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/uniform_sampling/uniform_sampling_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/uniform_sampling/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/uniform_sampling/Contract.lean",
+          "bench/repairs/tritonbench_g/uniform_sampling/Correct.lean",
+          "bench/repairs/tritonbench_g/uniform_sampling/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent canonical Philox10 word/rounded decoder followed by lower+uniform*(upper-lower); all four fields, output windows, clamped masks and frame.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "var_len_copy",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/var_len_copy/var_len_copy_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/var_len_copy/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/var_len_copy/Contract.lean",
+          "bench/repairs/tritonbench_g/var_len_copy/Correct.lean",
+          "bench/repairs/tritonbench_g/var_len_copy/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: each destination segment equals simultaneous initial source segment; signed nonpositive lengths produce no stores. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "vector_addition",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/vector_addition/vector_addition_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/vector_addition/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/vector_addition/Contract.lean",
+          "bench/repairs/tritonbench_g/vector_addition/Correct.lean",
+          "bench/repairs/tritonbench_g/vector_addition/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: {'formula': 'xs i + ys i', 'entry': 'bench/repairs/tritonbench_g/vector_addition/Correct.lean'}. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    },
+    {
+      "task": "vector_addition_custom",
+      "original_status": "source_defect_pending_repair",
+      "kernel_revision": {
+        "source": "bench/repairs/tritonbench_g/vector_addition_custom/vector_addition_custom_repaired.py",
+        "kernel_source": "bench/repairs/tritonbench_g/vector_addition_custom/Kernels.lean",
+        "public_entries": [
+          "bench/repairs/tritonbench_g/vector_addition_custom/Contract.lean",
+          "bench/repairs/tritonbench_g/vector_addition_custom/Correct.lean",
+          "bench/repairs/tritonbench_g/vector_addition_custom/FPEquiv.lean"
+        ],
+        "proof_scope": "Independent Correct target: Independent Real xs[i]+ys[i], with regional alias-friendly input binding and active-mask output/frame.. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes."
+      }
+    }
+  ]
+}

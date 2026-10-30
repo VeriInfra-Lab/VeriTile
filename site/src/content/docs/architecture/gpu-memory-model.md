@@ -6,6 +6,12 @@ This document states what VeriTile means when it talks about "GPU memory".
 It is a functional-correctness model for the supported Triton subset, not a
 microarchitectural model of CUDA hardware.
 
+The named-cell core and the task-specific physical byte-address bridges are
+different layers. The sections below describe the core unless explicitly
+marked otherwise. Physical access requirements and their external references
+are collected in [Physical byte-address contracts](#physical-byte-address-contracts);
+compiler observations for a particular kernel remain beside that kernel.
+
 ## Modeled Layers
 
 | GPU concept | VeriTile model | Notes |
@@ -143,11 +149,12 @@ hypotheses transport region-model proofs into flat pointer memory.
 `Kernel.TraceSafe` / `TraceSafeR` provide per-execution safety obligations,
 including register-indirect addressing. The `⊨` / `⊨[R]` surfaces in
 `Memory/KernelSpec.lean` assemble the bridge conditions, termination, outputs,
-and frame. See the [vector-add example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd.lean).
+and frame. See the [vector-add example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd/Correct.lean).
 
-Flat memory still uses typed, element-sized cells. Byte addressing,
-mixed-dtype overlapping allocations, and full hardware alias behavior need
-further modeling. Each theorem retains its allocation and safety assumptions.
+This shared flat-memory bridge still uses typed, element-sized cells. Separate
+task-specific byte-address bridges exist, as described below; they do not make
+mixed-dtype overlapping allocations or full hardware alias behavior part of
+every core theorem. Each theorem retains its allocation and safety assumptions.
 
 Longer-term extension points remain:
 
@@ -159,3 +166,59 @@ Longer-term extension points remain:
   scheduling or trace models.
 - **Floating-point fidelity (#1):** replace or refine the `R` abstraction with
   IEEE / mixed-precision semantics where needed.
+
+## Physical byte-address contracts
+
+This is the shared reference for interpreting physical load/store premises.
+It does not assert that the named-cell core proves these premises or that a
+particular compiler lowering has been formally verified.
+
+### Instruction access size and alignment
+
+[PTX ISA 8.7, section 6.4.1, Addresses as Operands](https://docs.nvidia.com/cuda/archive/12.8.0/parallel-thread-execution/index.html#addresses-as-operands)
+defines addresses in bytes and requires natural alignment to the total access
+size of the instruction. Misaligned behavior is undefined; it need not fault.
+Scalar `.b32` accesses require 4-byte alignment, while `ld.v4.b32` accesses
+16 bytes and requires 16-byte alignment. A scalar element's size alone does
+not justify the alignment or bounds of a vectorized instruction.
+
+For a physical bridge, active accesses also need valid byte spans, an applicable
+address space, allocation permissions and the bounds needed to avoid address
+wrap. These obligations are separate from the mathematical tensor formula.
+They are not replaced by a predicate asserting Tensor contiguity.
+
+### Masks, transfers and external contracts
+
+[Triton load](https://triton-lang.org/main/python-api/generated/triton.language.load.html)
+and [Triton store](https://triton-lang.org/main/python-api/generated/triton.language.store.html)
+specify that false mask elements do not perform memory accesses. The corresponding
+[PTX predicate guards](https://docs.nvidia.com/cuda/archive/12.8.0/parallel-thread-execution/index.html#predicated-execution)
+control instruction execution. Inactive load values and their possible use in
+later computation still need the source-level proof's treatment.
+
+[PTX ld](https://docs.nvidia.com/cuda/archive/12.8.0/parallel-thread-execution/index.html#data-movement-and-conversion-instructions-ld)
+and [PTX st](https://docs.nvidia.com/cuda/archive/12.8.0/parallel-thread-execution/index.html#data-movement-and-conversion-instructions-st)
+specify memory transfers. Concrete packing, permissions, allocation freshness,
+memory-frame laws and successful race-free execution remain explicit external
+contracts wherever the theorem assumes them. A specification citation is not
+a proof of the compiler, allocator or GPU runtime implementation.
+
+### Torch binding and current consumer
+
+[`VeriTile/Torch/Tensor.lean`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/VeriTile/Torch/Tensor.lean) owns shared Tensor
+metadata observations; [`FP32.lean`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/VeriTile/Torch/FP32.lean) binds FP32
+Tensor views to backing storage and logical values. Their API references sit
+next to `TensorLaws` and `logicalValue`. This layer imposes no universal storage
+alignment and imports no benchmark code. Kernel admission policy belongs to
+the per-task contract; native access requirements belong to the applicable
+backend bridge.
+
+The current [add_example revision](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/repairs/tritonbench_g/add_example/README.md)
+reuses the existing finite-address helpers under
+`bench/tritonbench_g/add_example/Proofs/` and supplies its own checked host
+composition. These remain scoped helpers, not a generic implementation of all
+Triton memory instructions. Its
+[load/store audit](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/repairs/tritonbench_g/add_example/LOAD_STORE_AUDIT.md)
+records the source-to-model mapping, Triton version, targets, compiler evidence,
+reproduction command and GPU execution status. Those task-specific observations
+do not establish the same lowering for other kernels or backends.

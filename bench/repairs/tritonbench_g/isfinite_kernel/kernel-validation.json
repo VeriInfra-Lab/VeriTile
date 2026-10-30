@@ -1,0 +1,59 @@
+{
+  "standard": "kernel-only all-word classification; readable typed source shared by Correct/FPEquiv",
+  "status": "verified",
+  "selected_precision": [
+    "FP32",
+    "FP64 (explicit original branch)"
+  ],
+  "classification_domain": "all raw words, including all NaN payloads and infinities; no finite-only guard",
+  "mathematical_formula": {
+    "FP32": "exponent != 255",
+    "FP64": "exponent != 2047"
+  },
+  "input_contract": "existing rank-one direct signed strided contract retained; raw StridedBuffer, negative/zero input strides, negative output strides, disjoint byte footprints",
+  "canonical_source": "Kernels.lean: isfiniteDirect%",
+  "public_correctness": "VeriTile.Bench.Repairs.IsfiniteKernel.Correct.isfinite_kernel_correctness",
+  "public_equivalence": "VeriTile.Bench.Repairs.IsfiniteKernel.FPEquiv.isfinite_index_commuted_equiv",
+  "numerical_transformations": [],
+  "numerical_deferrals": [],
+  "primitive_model_boundaries": [
+    "finitef/isfinited word classification",
+    "same-precision casts and typed loads/stores",
+    "metadata observation and absence of concurrent mutation"
+  ],
+  "lean_build_log": "/tmp/isfinite-acceptance-build.log",
+  "optional_legacy_build_log": "/tmp/isfinite-final-build.log",
+  "python_validation": {
+    "source_interpreter_cases": 84,
+    "guard_rejections": 17,
+    "wrapper_admissions": 38,
+    "original_empty_counterexample": true,
+    "large_extent_controls": [
+      2147483648,
+      2147483649
+    ],
+    "scalar_cpu_adapter": "numpy.isfinite for CUDA libdevice externs only",
+    "gpu_execution": false
+  },
+  "offline_lowering": {
+    "receipt": "cuda-lowering.json",
+    "profiles": 16,
+    "sm": 90,
+    "triton": "3.7.1"
+  },
+  "gpu_execution": false,
+  "independent_numerical_replay": false,
+  "original_defect_retained": "empty generated wrapper divides by zero, reproduced by actual original AST",
+  "proof_scope": "one complete kernel invocation; logical result/frame and raw-byte/native finite-index correspondence; no wrapper orchestration proof required",
+  "sha256": {
+    "Kernels.lean": "6e3f141c02741d413d6914c215ba10d720f71a8469a8200004441b99f8c87d9c",
+    "Contract.lean": "e76e9e3d60cbf4c33f75d8d991ca2c60553cd9f54fd567e88891501b0218ae00",
+    "Correct.lean": "243c3a4b0e5a8dce8c6dd5085959bc7282271a5fc9c7a001cee0117ce7a2bf5a",
+    "FPEquiv.lean": "072997f185a9a3efa5dc35cb60d3b361efcc423dc7d2f13325a92d5d0ad17bab",
+    "Proofs/Kernel.lean": "1ea028c9723f22bc3879f32d67db8830eb5c760a17b3273395d6adcdc43113b0",
+    "Proofs/Source.lean": "caf43fca0063b97e37087c72a7c7ef2c93792a676f7d74b925db3e64c61fe6e9",
+    "isfinite_kernel_repaired.py": "4c668f34fd9a1dbb12725599202e1c3ef2206ec209c2a10e0ed2b31b76a0dd43",
+    "test_revision.py": "85ff9ea231f09627d3d6dd7204c8d037849e0bce82874185f481f5a0c3cf783d",
+    "check_cuda_lowering.py": "eb3595ba6103f18c2a7563f2edb21bb7bcab68c4e9e8d2b0df858c093717d3b9"
+  }
+}

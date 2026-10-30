@@ -1,0 +1,24 @@
+{
+  "task": "ksoftmax_triton",
+  "candidate": "ksoftmax_triton_grid_y_checked",
+  "numerical_transformations": [],
+  "required_numerical_experiments": [],
+  "required_numerical_rewrite_assumptions": [],
+  "numerical_experiment_count": 0,
+  "source_delta": "Live integer query-axis admission guard only; both JIT bodies and floating arithmetic are byte/AST-identical.",
+  "inherited_schedule_transformation": "Reverse the complete source row schedule; frozen theorem holds for every Algebra and entire source memory.",
+  "historical_optional_interfaces": [
+    "Words.LocalExact",
+    "Words.NumericDomain",
+    "body_exact_if_local"
+  ],
+  "historical_interface_classification": "Optional primitive/model conformance; not a current numerical transformation or deferred experiment.",
+  "model_boundaries": [
+    "Ordinary Tensor API, contiguous geometry, pointer facts and stable metadata during execution.",
+    "The inherited selected local compiler/ABI and scalar/reduction primitive semantics."
+  ],
+  "python_numerical_domain": "All FP32 bit patterns, unchanged.",
+  "mathematical_domain": "Inherited independent real formula domains only; never Python guards.",
+  "native_equals_real_claim": false,
+  "new_gpu_execution": false
+}

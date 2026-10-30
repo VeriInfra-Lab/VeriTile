@@ -31,6 +31,7 @@ export const coverage: { reviewed_on: string; basis: string; rows: CoverageRow[]
 );
 
 export const coverageLabels: Record<string, string> = {
+  selected_contract: 'Final selected contract',
   full_value_candidate: 'Original-kernel candidate',
   specialization: 'Configured model / stage',
   precomputed_input_slice: 'Precomputed-input slice',
@@ -41,6 +42,7 @@ export const coverageLabels: Record<string, string> = {
 };
 
 export const numericLabels: Record<string, string> = {
+  explicit_fp_contract: 'Explicit FP model and assumptions',
   mathematical: 'Mathematical execution',
   abstract_rounding: 'Abstract cast/store rounding',
 };

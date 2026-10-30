@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REVIEWS = ROOT / 'bench/tritonbench_g/coverage_review.json'
 sys.path.insert(0, str(ROOT / 'scripts'))
 from spec_sheet import split_decls, split_statement, strip_comments
+from port_layout import proof_files
 
 LEVELS = {'full_value_candidate', 'specialization', 'precomputed_input_slice',
           'pre_rounding_slice', 'projection_only', 'blocked_summary',
@@ -58,6 +59,12 @@ def load_reviews(rows, root=ROOT, path=REVIEWS):
             if digest(source) != port[key]:
                 raise ValueError(f'Coverage review is stale: {source.relative_to(root)}; '
                                  'review the changed source before updating its fingerprint')
+        if ((lean.parent / 'Kernels.lean').is_file()
+                or (lean.parent / 'FPCorrect.lean').is_file()):
+            expected_support = {p.relative_to(root).as_posix(): digest(p)
+                                for p in proof_files(lean.parent) if p != lean}
+            if port.get('support_sha256') != expected_support:
+                raise ValueError(f'Coverage review is stale: shared source/proofs for {file}')
         functions = {(n.name, n.lineno) for n in ast.parse(python.read_text()).body
                      if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))}
         for entry in port['declarations']:
@@ -66,7 +73,8 @@ def load_reviews(rows, root=ROOT, path=REVIEWS):
                 raise ValueError(f'Unexpected/duplicate coverage declaration: {key}')
             if entry['coverage_level'] not in LEVELS or not entry['scope'].strip():
                 raise ValueError(f'Missing explicit coverage scope/category: {key}')
-            if entry['numeric_model'] not in {'mathematical', 'abstract_rounding'}:
+            if entry['numeric_model'] not in {'mathematical', 'abstract_rounding', 'admitted_fp',
+                                               'backend_fp', 'bit_interpreter'}:
                 raise ValueError(f'Invalid numeric model: {key}')
             links = entry['python_functions']
             if not links or any((f['name'], f['line']) not in functions for f in links):
@@ -148,14 +156,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--json', action='store_true')
     args = parser.parse_args()
-    from check_proof_gap_manifest import collect
-    rows = collect()
-    data = render_inventory(rows)
+    from final_inventory import coverage
+    data = coverage(ROOT)
     if args.json:
         print(json.dumps(data, ensure_ascii=False))
     else:
-        print(f'{len(data["rows"])} coverage reviews; '
-              f'{len({r.file for r in rows})} source pairs and Python links checked.')
+        print(f'{len(data["rows"])} selected public specifications; '
+              f'{len({r["port"] for r in data["rows"]})} final task reviews checked.')
 
 
 if __name__ == '__main__':

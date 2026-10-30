@@ -1,0 +1,242 @@
+{
+  "schema": "veritile-isolated-verified-entry-v1",
+  "task": "chunked_cumsum_fwd",
+  "status": "ACCEPTED_ISOLATED_KERNEL_REVISION",
+  "isolated_generation": "minimum-staging/chunked_cumsum_fwd",
+  "effective_public_entries": {
+    "Kernels": {
+      "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Kernels.lean",
+      "sha256": "f5466ba779825dd50363f53bf5b9b6093160a9f90d72a8c6deae0a8e5bf5628b"
+    },
+    "Contract": {
+      "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+      "sha256": "8f4a97e7b335ed58a77b0ae3694caa167ffc5988b34e036f7cd5b167544f5c7a"
+    },
+    "Correct": {
+      "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean",
+      "sha256": "cc1f607da039e2cc9902d92dee75a0fff928c48bdbbfe51d53ef9107de48097e",
+      "module": "bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.Correct"
+    },
+    "FPEquiv": {
+      "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean",
+      "sha256": "97638de2c130a6aef03a4ef66b8bdc9edfd8b3fe2c1ff1abf2061f137527d0e7",
+      "module": "bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.FPEquiv"
+    },
+    "IO": {
+      "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean",
+      "sha256": "e0c9afb3a7d0d44ce15296f624421eafad0cc3d149d02bd9f6dc47fcdf537dea",
+      "module": "bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.IO"
+    }
+  },
+  "targets": [
+    "bench.repairs.tritonbench_g.chunked_cumsum_fwd.Kernels",
+    "bench.repairs.tritonbench_g.chunked_cumsum_fwd.Contract",
+    "bench.repairs.tritonbench_g.chunked_cumsum_fwd.Correct",
+    "bench.repairs.tritonbench_g.chunked_cumsum_fwd.FPEquiv",
+    "bench.repairs.tritonbench_g.chunked_cumsum_fwd.Proofs.KernelAudit"
+  ],
+  "shared_packet": {
+    "path": ".veritile-cache/minimum-staging/frozen-v1/packet.json",
+    "sha256": "184033d8cb218d6a4efba8ccdc2bc43d7dc35fb96d0d38c15e2e9cd746451685"
+  },
+  "shared_build_receipt": {
+    "path": ".veritile-cache/minimum-staging/logs/20261020T062940512810Z/receipt.json",
+    "sha256": "e41196ffafb88a2092d4fee91784b39c7bf89ba7d15a20548b10e876879a9a90"
+  },
+  "consumer_packet": {
+    "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/delivery.json",
+    "sha256": "6589b8e901ee65e6d9d3ea3b3a8084522e8c16e96ccc852df9474d85c7b5a4d0"
+  },
+  "consumer_build_receipt": {
+    "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/logs/20261020T064818575458Z/receipt.json",
+    "sha256": "1fe5472f989e69e3c55e1923b692d5263d4af71ea62136ceac4f32a94af3846a"
+  },
+  "replay": {
+    "command": "python3 .veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/replay_generation.py .veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/replay-plan.json",
+    "plan": {
+      "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/replay-plan.json",
+      "sha256": "793b70ea9ebf8d41bd1cd4bcf5305b08b5b91719a8a907c282b9eeb617b4605d"
+    },
+    "driver": {
+      "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/replay_generation.py",
+      "sha256": "ffa13bf73eb2c2acb3438ffa8ab185db0bf43a98e66a7dc543f9d0fc98b0adc8"
+    },
+    "metadata_check": {
+      "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/frozen-replay-driver-check.log",
+      "sha256": "43bb77fdd4c98e876daf048f1105e2e5c866b654c6d8229397c5f0297faca5d3"
+    },
+    "full_replay_run": false
+  },
+  "default_lake_uses_original_core": true,
+  "live_core_promotion": false,
+  "historical_rejection_preserved": true,
+  "compiled_profile_scope": {
+    "profiles": 42,
+    "widths": [
+      1,
+      4,
+      64
+    ],
+    "all_admitted_widths_bound_to_saved_PTX": false,
+    "gpu_execution": false
+  },
+  "external_environment_boundary": "Replay pins exact repository source closure, Lean binary and directly imported external artifacts including Init. Installed transitive external dependencies/runtime libraries remain prerequisites.",
+  "task_acceptance": "verified",
+  "shared_root_acceptance": {
+    "path": ".veritile-cache/minimum-staging/root-review.json",
+    "sha256": "a04d3ff49d2a5888058cd49a43b6feff42ac41ef6a19c67e224a1bdbb020a4d6"
+  },
+  "shared_independent_review": {
+    "path": ".veritile-cache/independent-reviews/minimum-support-kldiv_ops_kernel/review.json",
+    "sha256": "c7f4110820e3b0690235d2d6c2fed618793d2b478b02b7e6c2258101231fc01b"
+  },
+  "consumer_build_driver": {
+    "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/tools/build_consumer.py",
+    "sha256": "0be67beba093249b026faadad35b1834445dbaf9996f7bdc7c20e636c35f7556"
+  },
+  "consumer_build_cache": {
+    "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/provenance/build-cache.json",
+    "sha256": "d406dbb98ad32945c6fbd89d2470ff861131a15be6c73928d9e02f10ec12051f"
+  },
+  "consumer_import_closure": {
+    "total": 89,
+    "shared": 56,
+    "consumer": 33,
+    "source_map": {
+      "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/source-map.json",
+      "sha256": "09f0cb1a160a88166c260c47ba854e2c4167a752f9529aa7cc9cb40dbe1744ca"
+    },
+    "modules": {
+      "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/modules.json",
+      "sha256": "127e1db550d6ce2b6a96481126f90bfdb46ea30442aeac305b9691051d5d7648"
+    },
+    "imports": {
+      "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/imports.json",
+      "sha256": "b4a2301b223466b8d3d9bf73b27cd3ea7d8c7e732b4f958d9aa9e2a2e98234dd"
+    }
+  },
+  "compile_fix_delta": {
+    "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/evidence/compile-fixes.json",
+    "sha256": "6c0e47e93b71b754b56622467b241dd266939a8667d7e878c4122c4964addb40"
+  },
+  "new_numerical_experiment_deferral": false,
+  "legacy_deferred_family_classification": "Historical contract/host review only; not the current isolated kernel recovery.",
+  "model_boundaries": "Eight fixed-arity scalar laws, explicit target quiet-NaN word, unary ex2/log models, PrefixPlan and bias operand order, ordinary Tensor/ABI bindings.",
+  "accepted": true,
+  "selected_python": {
+    "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/chunked_cumsum_fwd_repaired.py",
+    "sha256": "5f834ef4712a5f138681eb9c97ec332c43119e716e4d3c82fa8537fc0ec02d2a"
+  },
+  "root_review": {
+    "path": ".veritile-cache/kernel-batch063/root-review.json",
+    "sha256": "4c962e59e98107669866fa87328eaca85623323061351a3dac7a86df57728810"
+  },
+  "independent_review": {
+    "path": ".veritile-cache/independent-reviews/chunked_cumsum_fwd-minimum-resume_rwkv/final-v1/review.json",
+    "sha256": "ba69c861745ad83cef7fbc43eaf2dfe244cdb19d2fa4e4f4fdb2d16c6d43e075"
+  },
+  "root_integration": {
+    "path": ".veritile-cache/kernel-batch063/integration-receipt.json",
+    "sha256": "e8362fd725d3f4e09cdd6cf8c1fbd1e249ee3cdb4909978c2da27acbc1d79a09"
+  },
+  "public_endpoints": {
+    "real": "VeriTile.Bench.Repairs.ChunkedCumsumFwd.Correct.kernel_correct",
+    "native": "VeriTile.Bench.Repairs.ChunkedCumsumFwd.FPEquiv.kernel_fp32"
+  },
+  "object_storage": "Frozen source and object tree; root integration excludes the original consumer output.",
+  "default_lake_generation": "historical; minimum not promoted",
+  "deferred_experiments": [],
+  "previous_interface_selection": {
+    "effective_public_entries": {
+      "Kernels": {
+        "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Kernels.lean",
+        "sha256": "f5466ba779825dd50363f53bf5b9b6093160a9f90d72a8c6deae0a8e5bf5628b"
+      },
+      "Contract": {
+        "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+        "sha256": "8f4a97e7b335ed58a77b0ae3694caa167ffc5988b34e036f7cd5b167544f5c7a"
+      },
+      "Correct": {
+        "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Correct.lean",
+        "sha256": "71c5953eec4cc8fbc3fd1fd64194e3bc1b55db9fa30c52453af498290e57c74d"
+      },
+      "FPEquiv": {
+        "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/FPEquiv.lean",
+        "sha256": "05024a3214aed2985a199d64d1eff2a21a5342625df79c8ef98b9185385b63fd"
+      }
+    },
+    "public_endpoints": {
+      "real": "VeriTile.Bench.Repairs.ChunkedCumsumFwd.Correct.repaired_real",
+      "native": "VeriTile.Bench.Repairs.ChunkedCumsumFwd.FPEquiv.repaired_fp32"
+    },
+    "auxiliary_entries": []
+  },
+  "auxiliary_entries": [
+    {
+      "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/TensorBridge.lean",
+      "sha256": "53789979b014276c2962045fb56edf0cec704de1ac3a33fe16d50b5c1d3ac37c",
+      "module": "bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.TensorBridge"
+    }
+  ],
+  "tensor_endpoints": [
+    "VeriTile.Bench.Repairs.ChunkedCumsumFwd.TensorBridge.Real.repaired_real",
+    "VeriTile.Bench.Repairs.ChunkedCumsumFwd.TensorBridge.Native.repaired_fp32"
+  ],
+  "kernel_interface_split": {
+    "status": "built",
+    "tensor_free_main": true,
+    "full_previous_tensor_statements_retained": true,
+    "logs": [
+      ".veritile-cache/kernel-interface-split-20261020/chunked_cumsum_fwd/build002.log"
+    ],
+    "exit_code": 0,
+    "scope": "Current raw interfaces and Tensor bridge compiled against accepted isolated dependencies; frozen sources, source precision, Tensor input domain and model boundaries unchanged. No independent full replay or GPU experiment."
+  },
+  "previous_public_io_selection": {
+    "effective_public_entries": {
+      "Kernels": {
+        "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Kernels.lean",
+        "sha256": "f5466ba779825dd50363f53bf5b9b6093160a9f90d72a8c6deae0a8e5bf5628b"
+      },
+      "Contract": {
+        "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+        "sha256": "8f4a97e7b335ed58a77b0ae3694caa167ffc5988b34e036f7cd5b167544f5c7a"
+      },
+      "Correct": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean",
+        "sha256": "c90022c39ba1821add99519b129f49e9979c36b2321b6eab4fa37357b32c645c",
+        "module": "bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.Correct"
+      },
+      "FPEquiv": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean",
+        "sha256": "6c210c071df47c8ea9f6dbd9b1a98ae49515d97dde1be532856d8211891bfba0",
+        "module": "bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.FPEquiv"
+      }
+    },
+    "auxiliary_entries": [
+      {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/TensorBridge.lean",
+        "sha256": "53789979b014276c2962045fb56edf0cec704de1ac3a33fe16d50b5c1d3ac37c",
+        "module": "bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.TensorBridge"
+      }
+    ],
+    "public_endpoints": {
+      "real": "VeriTile.Bench.Repairs.ChunkedCumsumFwd.Correct.kernel_correct",
+      "native": "VeriTile.Bench.Repairs.ChunkedCumsumFwd.FPEquiv.kernel_fp32"
+    }
+  },
+  "public_io_format": {
+    "status": "built",
+    "format": "standard_typed_regional_io",
+    "report": ".veritile-cache/public-io-format-20261020/chunked_cumsum_fwd/report.json",
+    "log": ".veritile-cache/public-io-format-20261020/chunked_cumsum_fwd/final-build.log",
+    "exit_code": 0,
+    "actual_source_trace_safety": true,
+    "full_grid_two_outputs": true,
+    "tensor_statements_preserved": true,
+    "isolated_minimum": true,
+    "frozen_generation_unchanged": true,
+    "independent_full_replay": false,
+    "gpu_execution": false
+  }
+}

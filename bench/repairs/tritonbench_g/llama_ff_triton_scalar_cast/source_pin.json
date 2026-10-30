@@ -1,0 +1,24 @@
+{
+  "selected_python": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/llama_ff_triton_scalar_cast.py",
+    "sha256": "c603fead96e4e516f81824f1312d3fa80c2e999c2ad50883e9cb7b50d15d71eb"
+  },
+  "readable_quotation": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Kernels.lean",
+    "sha256": "750cfff7051fca23d20781de3d4d35d28cdc37078d470be9eef2584829edd1e9"
+  },
+  "shared_adapter": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Quotation.lean",
+    "sha256": "4f67a6a14a58ef2fe5e721dc46f2ec6b09871754cfff04923e7c16cb88c7eb34"
+  },
+  "original_accepted_defect_packet": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/task-deliveries/llama_ff_triton/delivery.json",
+    "sha256": "7ba1abd5a5f2737d82b28e89e0a6ac09eb7783dd5522aa7f7fecce70a2e7a111"
+  },
+  "historical_25_file_pin": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/task-deliveries/llama_ff_triton/historical.json",
+    "sha256": "5cbe6e42c6aad1e86ca8bcbfe1a618b3745633e5888f619269ae5399728d4cc5"
+  },
+  "delta": "Only the twelve runtime scalar .to(tl.int64) calls change to tl.cast(..., tl.int64)",
+  "root_owns_registration": true
+}

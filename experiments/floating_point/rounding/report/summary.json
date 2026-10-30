@@ -1,0 +1,326 @@
+{
+  "config": {
+    "relation": "R32(R32(u) + v) -> R32(u + v)",
+    "rounding": "nearest, ties to even; gradual underflow",
+    "arithmetic": "exact sum represented with binary64 TwoSum before R32",
+    "oracle_error": "compensated binary64 distance to the TwoSum expansion",
+    "domain": "finite inputs; nonfinite outputs are errors, never filtered",
+    "distribution": {
+      "family": "independent normal",
+      "mean": 1.0,
+      "std": 1.0
+    },
+    "u": "binary64 draw; no preliminary binary32 quantization",
+    "v_profiles": [
+      "fp32",
+      "fp64"
+    ],
+    "output": "fp32",
+    "seed": 20261021,
+    "replicates": 4096,
+    "samples_per_replicate": 65536,
+    "stopping": "fixed budget chosen before sampling; no retry-until-PASS",
+    "gates": {
+      "bias": {
+        "tau": 0.05,
+        "se_multiplier": 5.0
+      },
+      "vars": {
+        "quantile": 0.9,
+        "horizon": 625000,
+        "alpha": 0.00135,
+        "bootstrap": 1000,
+        "min_exceedances": 40,
+        "warn": 10.0,
+        "fail": 100.0
+      },
+      "warning_policy": "pass_only"
+    },
+    "gpu_tested": false,
+    "lean_admission": "NOT_IMPORTED",
+    "scope": "CPU numerical probe; not the catalogue's 4096x4096 GPU profile",
+    "created_utc": "2026-10-21T03:48:42.947648+00:00",
+    "backend": {
+      "python": "3.12.13",
+      "numpy": "2.5.2",
+      "machine": "x86_64",
+      "platform": "Linux-5.10.134-013.8.2.kangaroo.al8.x86_64-x86_64-with-glibc2.35"
+    },
+    "sources": {
+      "run.py": "a859f60cfa568ddded37eb38fc20c6cfff3b7ba321be0c201eafd8e1f87f3320",
+      "numerical_gates.py": "b280bb606d5b92510b1f8a3fbda01661cf74093d49dd35b4c4ba0a5c344bceb9"
+    }
+  },
+  "rounding_checks": {
+    "exact_rational_checks": 2074,
+    "midpoint_corrections": 6,
+    "status": "PASS",
+    "signed_zero": "numeric comparison, not bitwise zero-sign equivalence"
+  },
+  "results": {
+    "fp32": {
+      "v_profile": "fp32",
+      "samples": 268435456,
+      "elapsed_seconds": 21.698641926050186,
+      "diagnostics": {
+        "intermediate_rounding_changed": 268435455,
+        "outputs_differ": 61613653,
+        "binary64_midpoint_corrections": 0,
+        "max_abs_local_ulp_delta": 11741240.0,
+        "worst_local_ulp_sample": {
+          "u": "0x1.4a426ba66be3cp-2",
+          "v": "-0x1.4a426c0000000p-2",
+          "reference": "0x0.0p+0",
+          "candidate": "-0x1.6650700000000p-28",
+          "exact_sum_high": "-0x1.6650710000000p-28",
+          "exact_sum_low": "0x0.0p+0"
+        }
+      },
+      "observations_sha256": "ec7a906954da3f7027a3e00837ac09cfa82c98ba0955951f0bfbe4f2d0a2abbf",
+      "remove_rounding": {
+        "checker_version": "local-ulp-bias-absolute-error-ratio",
+        "bias": {
+          "status": "INCONCLUSIVE",
+          "replicates": 4096,
+          "bucket_count": 1,
+          "mean": [
+            -0.056385304778814316
+          ],
+          "std": [
+            4.501953118716728
+          ],
+          "units": "local_ulp",
+          "standard_error": [
+            0.07034301747994888
+          ],
+          "tau": 0.05,
+          "se_multiplier": 5.0,
+          "interval_lower": [
+            -0.4081003921785587
+          ],
+          "interval_upper": [
+            0.29532978262093007
+          ],
+          "upper": 0.4081003921785587,
+          "lower": 0.0,
+          "abs_z": [
+            0.8015764293149185
+          ],
+          "snr": [
+            0.012524631708045601
+          ],
+          "inconclusive_buckets": [
+            0
+          ],
+          "failing_buckets": []
+        },
+        "vars": {
+          "status": "PASS",
+          "branch": "pot_pwm",
+          "xi": -1.200008877944558,
+          "scale": 0.19799487377478048,
+          "return_level": 1.0156987596515004,
+          "bootstrap_se": 0.00430055552124446,
+          "upper": 1.0286003272710773,
+          "valid": true,
+          "empirical_fallback": false,
+          "replicates": 4096,
+          "maximum_k": 1.0,
+          "positive_count": 4096,
+          "threshold": 0.8507045418250294,
+          "exceedances": 410,
+          "exceedance_rate": 0.10009765625
+        },
+        "decision": "INCONCLUSIVE"
+      },
+      "insert_rounding": {
+        "checker_version": "local-ulp-bias-absolute-error-ratio",
+        "bias": {
+          "status": "INCONCLUSIVE",
+          "replicates": 4096,
+          "bucket_count": 1,
+          "mean": [
+            0.056385304778814316
+          ],
+          "std": [
+            4.501953118716728
+          ],
+          "units": "local_ulp",
+          "standard_error": [
+            0.07034301747994888
+          ],
+          "tau": 0.05,
+          "se_multiplier": 5.0,
+          "interval_lower": [
+            -0.29532978262093007
+          ],
+          "interval_upper": [
+            0.4081003921785587
+          ],
+          "upper": 0.4081003921785587,
+          "lower": 0.0,
+          "abs_z": [
+            0.8015764293149185
+          ],
+          "snr": [
+            0.012524631708045601
+          ],
+          "inconclusive_buckets": [
+            0
+          ],
+          "failing_buckets": []
+        },
+        "vars": {
+          "status": "PASS",
+          "branch": "pot_pwm",
+          "xi": 0.8020988750579177,
+          "scale": 0.017655466610276886,
+          "return_level": 2.1804686731139418,
+          "bootstrap_se": 0.03152881203935855,
+          "upper": 2.2750543838392874,
+          "valid": true,
+          "empirical_fallback": false,
+          "replicates": 4096,
+          "maximum_k": 2.9997605228754742,
+          "positive_count": 4096,
+          "threshold": 1.9854835021101045,
+          "exceedances": 410,
+          "exceedance_rate": 0.10009765625
+        },
+        "decision": "INCONCLUSIVE"
+      }
+    },
+    "fp64": {
+      "v_profile": "fp64",
+      "samples": 268435456,
+      "elapsed_seconds": 21.615409235935658,
+      "diagnostics": {
+        "intermediate_rounding_changed": 268435455,
+        "outputs_differ": 50490872,
+        "binary64_midpoint_corrections": 0,
+        "max_abs_local_ulp_delta": 15503646.0,
+        "worst_local_ulp_sample": {
+          "u": "0x1.1f125d136ee17p+0",
+          "v": "-0x1.1f125c79c3af0p+0",
+          "reference": "0x1.863c500000000p-24",
+          "candidate": "0x1.3356640000000p-25",
+          "exact_sum_high": "0x1.335664e000000p-25",
+          "exact_sum_low": "0x0.0p+0"
+        }
+      },
+      "observations_sha256": "38e7d303fc5c284e79b401746df58f5be7750971baf349d7b1809dc40d21fb1a",
+      "remove_rounding": {
+        "checker_version": "local-ulp-bias-absolute-error-ratio",
+        "bias": {
+          "status": "INCONCLUSIVE",
+          "replicates": 4096,
+          "bucket_count": 1,
+          "mean": [
+            -0.06340884882956743
+          ],
+          "std": [
+            4.96388486928856
+          ],
+          "units": "local_ulp",
+          "standard_error": [
+            0.07756070108263376
+          ],
+          "tau": 0.05,
+          "se_multiplier": 5.0,
+          "interval_lower": [
+            -0.4512123542427362
+          ],
+          "interval_upper": [
+            0.32439465658360134
+          ],
+          "upper": 0.4512123542427362,
+          "lower": 0.0,
+          "abs_z": [
+            0.8175383660084656
+          ],
+          "snr": [
+            0.012774036968882276
+          ],
+          "inconclusive_buckets": [
+            0
+          ],
+          "failing_buckets": []
+        },
+        "vars": {
+          "status": "PASS",
+          "branch": "pot_pwm",
+          "xi": -1.8498351211106288,
+          "scale": 0.19812837638671102,
+          "return_level": 1.0079836026811884,
+          "bootstrap_se": 0.0017488334818041222,
+          "upper": 1.01323006289067,
+          "valid": true,
+          "empirical_fallback": false,
+          "replicates": 4096,
+          "maximum_k": 1.0,
+          "positive_count": 4096,
+          "threshold": 0.900877637473898,
+          "exceedances": 410,
+          "exceedance_rate": 0.10009765625
+        },
+        "decision": "INCONCLUSIVE"
+      },
+      "insert_rounding": {
+        "checker_version": "local-ulp-bias-absolute-error-ratio",
+        "bias": {
+          "status": "INCONCLUSIVE",
+          "replicates": 4096,
+          "bucket_count": 1,
+          "mean": [
+            0.06340884882956743
+          ],
+          "std": [
+            4.96388486928856
+          ],
+          "units": "local_ulp",
+          "standard_error": [
+            0.07756070108263376
+          ],
+          "tau": 0.05,
+          "se_multiplier": 5.0,
+          "interval_lower": [
+            -0.32439465658360134
+          ],
+          "interval_upper": [
+            0.4512123542427362
+          ],
+          "upper": 0.4512123542427362,
+          "lower": 0.0,
+          "abs_z": [
+            0.8175383660084656
+          ],
+          "snr": [
+            0.012774036968882276
+          ],
+          "inconclusive_buckets": [
+            0
+          ],
+          "failing_buckets": []
+        },
+        "vars": {
+          "status": "PASS",
+          "branch": "pot_pwm",
+          "xi": 0.4221767785428516,
+          "scale": 0.028512386352658473,
+          "return_level": 2.2290998818135854,
+          "bootstrap_se": 0.02195603857505058,
+          "upper": 2.2949674923896457,
+          "valid": true,
+          "empirical_fallback": false,
+          "replicates": 4096,
+          "maximum_k": 2.889162357188418,
+          "positive_count": 4096,
+          "threshold": 1.914211997430823,
+          "exceedances": 410,
+          "exceedance_rate": 0.10009765625
+        },
+        "decision": "INCONCLUSIVE"
+      }
+    }
+  }
+}

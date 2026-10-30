@@ -9,7 +9,7 @@ lemmas, and new kernel transcriptions.
 ```
                     ┌─────────────────────────────────────────────┐
                     │  bench/tritonbench_g/<kernel>/X.lean        │  ← per-kernel glue
-   per-kernel       │  bench/examples/X.lean                      │
+   per-kernel       │  bench/examples/<example>/*.lean            │
                     │  - kernel definition (`triton { ... }`)     │
                     │  - kernel-specific *Spec, *Load, *Offset    │
                     │  - kernel correctness theorem               │
@@ -92,13 +92,45 @@ softmax / log-sum-exp / L2 / max-with-mask alike.
 
 ### `bench/tritonbench_g/<kernel>/`, `bench/examples/`
 
-**Naming**: per-kernel (`L2NormTriton1.lean`, `RowWise.lean`). Every showcased
-kernel is **self-contained in one bench file** (kernel definition +
-correctness/refinement stack + trust gates); bench files import library
-modules only, never each other. `VeriTile/Examples/` retains only shared
-vocabulary (`Common.lean`), pure-math spec files (`AttentionForwardClosedForm`,
-`FlashAttention2` identities), and the multi-file `FlashAttention1` /
-`ApproxGeLU` stacks (relocation pending).
+**Organization**: use the source and public-specification split documented in
+[`bench/examples/README.md`](../bench/examples/README.md): `Kernels.lean`,
+`Correct.lean`, `FPEquiv.lean`, required helpers under `Proofs/`, and optional
+proofs and applications under `Misc/`. `Correct.lean` proves only an independent
+Real mathematical specification through Mathlib. `FPEquiv.lean` compares two
+actual kernel implementations as `original ≡[R] candidate`, with the concrete
+transformation and applicable rules visible.
+`Kernels.lean` imports source definitions only. Real and FP public entries do
+not import each other; their required `Proofs/` helpers do not import those
+public entries. Neither main entry nor its required helpers imports `Misc/`.
+Cross-task proof reuse imports the applicable helper, preserving its premises.
+Required proof connections stay in `Proofs/`; optional entries belong in
+`Misc/` without duplicating the underlying proofs.
+
+`Misc/` holds optional single-source FP/native correctness, host proofs,
+Tensor applications, candidate-correctness applications and audit entries,
+including `Misc/NativeCorrect.lean` and `Misc/TensorBridge.lean`. These ordinary
+auxiliary theorems may apply the public results. An audit that imports reader
+entries belongs in `Misc/PublicAudit.lean`, not at the task's top level or in
+`Proofs/`. A single-source native observation does not replace the main
+two-kernel equivalence; an absent existing comparison target is recorded
+explicitly.
+
+A task with an explicit Python host admission policy may additionally expose
+`Contract.lean`, shared by its Real and FP layers. It owns public input-domain
+definitions and check logic; equivalence and supporting lemmas belong in
+`Proofs/Contract.lean`. Keep the input assumptions visible: a Tensor-level
+statement uses the named contract, while a kernel IO states its corresponding
+typed regions, layout and access bounds. Reuse shared metadata-to-memory
+bindings when connecting these views. Python sources and task documentation
+remain beside the Lean entries.
+
+The TritonBench-G scope clarified on 2026-10-19 requires kernel correctness and
+kernel equivalence; the wrapper supplies input assertions. Allocation, host
+launch orchestration and returned-Tensor identity are not per-task proof or
+acceptance requirements. Existing host proofs may remain optional helpers,
+under `Misc/`, outside the current public kernel entries. This organization
+does not add FP32-correctness or host-proof acceptance requirements.
+See [`bench/TODO.md`](../bench/TODO.md).
 
 **Belongs here**:
 - The `triton { ... }` kernel transcription
@@ -108,6 +140,40 @@ vocabulary (`Common.lean`), pure-math spec files (`AttentionForwardClosedForm`,
 **Pattern**: glue code. The `*Spec` reads "this kernel writes
 `Triton.TiledX.operator (load_xs ...) ...`" by binding kernel layout to
 math operators through the bridge lemmas in `Semantics/`.
+
+### Shared Torch interfaces and repair candidates
+
+`VeriTile/Torch/` owns kernel-independent Tensor metadata and its memory/value
+binding. It may depend on the shared Triton value types and memory vocabulary,
+but never on benchmark modules. A particular kernel's supported shapes, dtypes,
+layout checks and launch configuration remain in that kernel's contract.
+
+`bench/repairs/tritonbench_g/<kernel>/` holds a source revision whose contract or
+implementation differs from the imported original. It uses the same public
+entry/helper split and may reuse the original source or applicable proof helpers.
+Keeping a revision there does not certify the original program or change its
+acceptance status. Integration and historical cleanup are separate decisions.
+
+Generic-looking code in an existing task helper need not be promoted before
+finishing that task. Extract shared mechanisms when there is a concrete reuse
+need; keep source lowering and kernel-specific host composition local.
+
+### Documentation and evidence locations
+
+| Content | Home |
+| --- | --- |
+| Shared semantics, normative references and trusted-boundary explanations | An existing relevant document under `documents/`, indexed by `documents/README.md`; physical memory requirements belong in `GpuMemoryModel.md`. |
+| Meaning and assumptions of a particular definition | Its Lean module/definition documentation, with direct references or links to the shared explanation. |
+| Task contract, public theorem entry points and validation status | The task's `README.md`. |
+| A kernel's compiler observations, version/target details and reproduction instructions | A task-local audit document, linked from its README and the relevant shared reference. |
+| Task-specific check scripts | Beside the task they check; the two small add_example scripts do not require a separate test hierarchy. Shared test infrastructure belongs under `scripts/` or `bench/tests/`. |
+| Cross-task scope decisions and deferred work | `bench/TODO.md`; it is not a semantic specification or an acceptance ledger. |
+
+Reusable rules should not acquire their only documentation inside one task's
+audit. Task-specific compilation results should not become unconditional claims
+in the shared semantic reference. Generated replay artifacts retain the
+project's existing evidence/archival policy; reproducible local compiler dumps
+need not be copied into every source directory.
 
 ## How to add a new piece
 
@@ -131,16 +197,20 @@ When you write a new lemma or definition, ask:
 ## Physical module layout
 
 The three-layer rule above is about *where new math/bridge/glue lives*. The
-physical `VeriTile/Triton/` tree also carries the semantic, correctness, and
+physical `VeriTile/` tree also carries the semantic, correctness, and
 float infrastructure. Current directory map:
 
 ```text
 VeriTile/
+  Torch/                   Shared Torch host API observations and bindings.
+    Tensor.lean            Metadata and dynamic argument classification.
+    FP32.lean              FP32 storage, Tensor laws and logical-value bridge.
   Triton.lean               Umbrella prelude — `import VeriTile.Triton` pulls
                             the whole subset (Core + Semantics + Memory +
                             KernelLemmas + Correctness + Float + DSL + Math +
-                            Launch + Concurrency). All 173 bench ports and the
-                            showcase files import this single module.
+                            Launch + Concurrency). Benchmark and showcase modules
+                            may instead use focused imports, especially for
+                            source-only entries.
   Triton/
     Core/                   AST: the `Kernel` / `ComputeKernel` types and the
                             `ComputeOp` bit constants (the former

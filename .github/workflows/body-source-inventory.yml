@@ -1,0 +1,27 @@
+name: Body source inventory
+
+on:
+  pull_request:
+    branches: [main, fp-examples]
+    paths: ['bench/**', 'VeriTile/Triton/DSL/**', '.github/workflows/body-source-inventory.yml']
+  push:
+    branches: [main, fp-examples]
+    paths: ['bench/**', 'VeriTile/Triton/DSL/**', '.github/workflows/body-source-inventory.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventory-drift:
+    # Passing means the full inventory has not drifted. Pending translations
+    # remain explicitly pending; this job does not certify corpus completion.
+    name: Inventory drift and correspondence regressions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python3 -B -m unittest bench.tests.test_jit_correspondence bench.tests.test_body_corpus
+      - run: python3 -B -m bench.check_body_corpus --check

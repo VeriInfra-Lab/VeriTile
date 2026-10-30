@@ -1,4 +1,6 @@
 import VeriTile.Triton
+import VeriTile.Triton.Float.LegacyRealInt8
+import VeriTile.Triton.Float.MaximumPrimitive
 
 /-!
 # `int8_matmul_quantization` — strict per-kernel correctness
@@ -140,6 +142,11 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
+private theorem eval_precision_scope (d : FloatDType) (p : IndexComputePrecision)
+    (e : Op d.toTileDType sh) (s : BlockState) :
+    evalOp (Op.withPrecision d p e) s = evalOp e s := by
+  rw [evalOp.eq_def]
+
 /-! # ══════════ CORRECT — genuine / dimension-general (review this) ══════════ -/
 
 section Correct_without_Rounding
@@ -149,12 +156,15 @@ section QuantizeKernel
 /-! ## Kernel 1: `quantize_int8_perrow_kernel` — surface -/
 
 set_option linter.unusedVariables false in
+-- Historical mathematical projection: the final int8 conversion uses the
+-- legacy unbounded Real truncation primitive. The typed FP source and its
+-- width/domain-checked conversion are separate, and never use this wrapper.
 def int8_matmul_quantization_quantize_surface
     (fpa_ptr : RegionName) (a_ptr : Region .int) (as_ptr : RegionName)
     (M K : Nat)
     (stride_fpam stride_fpak stride_am stride_ak stride_asm : Nat)
     (BLOCK_SIZE_M BLOCK_SIZE_K numKBlocks : Nat) :
-    ComputeKernel := triton {
+    ComputeKernel := legacy_real_int8% triton {
   pid_m = tl.program_id(0)
   offs_k = tl.arange(0, $(BLOCK_SIZE_K))
   offs_am = (pid_m * $(BLOCK_SIZE_M) + tl.arange(0, $(BLOCK_SIZE_M))) % $(M)
@@ -354,13 +364,11 @@ def qAbsOp (BM BK : Nat) : Op .real [BM, BK] :=
 def qReduceOp (BM BK : Nat) : Op .real [BM] :=
   Op.reduceMax ⟨1, by simp⟩ Bool.false (qAbsOp BM BK)
 
-/-- The lowered `tl.maximum(a_max, tl.max(tl.abs(fpa), axis=1))` — a
-`gt`/`where` pair with the reduce operand duplicated (the DSL has no
-`Op.max2` route for `tl.maximum`). -/
+/-- The parsed floating maximum primitive. The historical mathematical
+interpreter projects it to `max`; the typed FP source keeps an independent
+maximum callback and does not use a comparison/select equivalence. -/
 def qAbsMaxOp (BM BK : Nat) : Op .real [BM] :=
-  Op.where
-    (Op.gt ComparableDType.real (Broadcast.consSame Broadcast.nil)
-      (Op.ref .real [BM] "a_max") (qReduceOp BM BK))
+  Op.maximumFloat .real (Broadcast.consSame Broadcast.nil)
     (Op.ref .real [BM] "a_max") (qReduceOp BM BK)
 
 /-- The prologue: program id, the two offset vectors, the two pointer tiles
@@ -425,9 +433,10 @@ def qLoop2Body (K stride_fpak stride_ak BM BK : Nat) : List Stmt :=
   [ Stmt.assign .real [BM, BK] "fpa" (qFpaLoadOp K BM BK),
     Stmt.assign .int [BM, BK] "inta"
       (Op.castRealToInt8 (Op.castFloat FloatDType.real FloatDType.real
-        (Op.div .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
-          (Op.ref .real [BM, BK] "fpa")
-          (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale"))))),
+        (Op.withPrecision .real .fp32
+          (Op.div .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
+            (Op.ref .real [BM, BK] "fpa")
+            (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale")))))),
     Stmt.store .int [BM, BK] (MemAccess.ptr (Op.ref .ptr [BM, BK] "a_ptrs"))
       (Op.ref .int [BM, BK] "inta") (MaskOpt.mask (qKMaskOp K BM BK)),
     Stmt.assign .ptr [BM, BK] "fpa_ptrs"
@@ -448,7 +457,8 @@ def qTail (as_ptr : RegionName) (stride_asm BM : Nat) : List Stmt :=
         (Op.arange BM)),
     Stmt.store .fp16 [BM]
       (MemAccess.region (Region.cast as_ptr) (Op.ref .nat [BM] "as_offs"))
-      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM] "a_scale"))
+      (Op.castFloat FloatDType.real FloatDType.fp16
+        (Op.withPrecision .real .fp32 (Op.ref .real [BM] "a_scale")))
       MaskOpt.none ]
 
 set_option maxRecDepth 20000 in
@@ -896,26 +906,18 @@ private theorem q_absMax_eval (s0 : BlockState) (fpa : RegionName) (t : BlockSta
     evalOp (qAbsMaxOp BM BK) t
       = some (qMaxTile s0 fpa K sfm sfk BM BK pm (i + 1)) := by
   unfold qAbsMaxOp
-  rw [q_where_eval _ _ _ t _ _ _
-    (q_gtTile_eval ComparableDType.real (Broadcast.consSame Broadcast.nil) _ _ t _ _
-      (by rw [evalOp_ref]; exact hamax)
-      (q_reduce_eval s0 fpa t K sfm sfk BM BK pm i hBK hfpa))
-    (by rw [evalOp_ref]; exact hamax)
-    (q_reduce_eval s0 fpa t K sfm sfk BM BK pm i hBK hfpa)]
+  have hh := evalOp_maximumFloat_real (Broadcast.consSame Broadcast.nil) (Op.ref .real [BM] "a_max") (qReduceOp BM BK) t
+  simp only [FloatDType.toTileDType] at hh
+  rw [hh]
+  rw [evalOp_max2, evalOp_ref, hamax,
+    q_reduce_eval s0 fpa t K sfm sfk BM BK pm i hBK hfpa]
   refine congrArg some ?_
   apply Tile.ext
   intro idx
   obtain ⟨r, u⟩ := idx
-  simp only [qMaxTile, qBlockMaxTile, Tile.select, Tile.cop_data,
-    Broadcast.leftIndex, Broadcast.rightIndex, ComparableDType.gt,
-    decide_eq_true_eq, gt_iff_lt, qMaxPartial]
-  set p : ℝ := qMaxPartial K BK (qFpaElem s0 fpa sfm sfk (pm * BM + r.val)) i
-  set b : ℝ := qBlockMax K BK (qFpaElem s0 fpa sfm sfk (pm * BM + r.val)) i
-  split_ifs with hgt
-  · have hbp : b < p := WithBot.coe_lt_coe.mp hgt
-    rw [max_eq_left (le_of_lt hbp)]
-  · have hbp : ¬b < p := fun h => hgt (WithBot.coe_lt_coe.mpr h)
-    rw [max_eq_right (not_lt.mp hbp)]
+  simp [qMaxTile, qBlockMaxTile, Tile.bop_data,
+    Broadcast.leftIndex, Broadcast.rightIndex, qMaxPartial]
+  rfl
 
 /-! ### The loop-1 invariant -/
 
@@ -1188,9 +1190,10 @@ private theorem q_inta_eval (s0 : BlockState) (fpa : RegionName) (t : BlockState
     (hscale : t.regs .real [BM] "a_scale"
       = some (qScaleTile s0 fpa K sfm sfk BM BK numKBlocks pm)) :
     evalOp (Op.castRealToInt8 (Op.castFloat FloatDType.real FloatDType.real
-        (Op.div .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
-          (Op.ref .real [BM, BK] "fpa")
-          (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale"))))) t
+        (Op.withPrecision .real .fp32
+          (Op.div .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
+            (Op.ref .real [BM, BK] "fpa")
+            (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale")))))) t
       = some (qIntaTile s0 fpa K sfm sfk BM BK numKBlocks pm c) := by
   have hexp : evalOp ((Op.expandDim ⟨1, by simp⟩
         (Op.ref .real [BM] "a_scale")) : Op .real [BM, 1]) t
@@ -1204,15 +1207,17 @@ private theorem q_inta_eval (s0 : BlockState) (fpa : RegionName) (t : BlockState
       rw [evalOp_ref]; exact hfpa)
     hexp
   have hcast : evalOp (Op.castFloat FloatDType.real FloatDType.real
-      (Op.div .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
-        (Op.ref .real [BM, BK] "fpa")
-        (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale")))) t
+      (Op.withPrecision .real .fp32
+        (Op.div .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
+          (Op.ref .real [BM, BK] "fpa")
+          (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale"))))) t
       = some (Tile.bop NumericDType.real.div
           (Broadcast.consSame (Broadcast.consR Broadcast.nil))
           (qFpaTile s0 fpa K sfm sfk BM BK pm c)
           (Tile.expandDim ⟨1, by simp⟩
             (qScaleTile s0 fpa K sfm sfk BM BK numKBlocks pm))) := by
     rw [evalOp_castFloat]
+    rw [eval_precision_scope]
     erw [hdiv]
     simp only [Option.bind_eq_bind, Option.bind_some]
     refine congrArg some ?_
@@ -1589,20 +1594,24 @@ private theorem q_scaleStore_eq (as_ptr : RegionName) (t : BlockState)
     (hsc : t.regs .real [BM] "a_scale" = some vt) :
     stepStmt (Stmt.store .fp16 [BM]
         (MemAccess.region (Region.cast as_ptr) (Op.ref .nat [BM] "as_offs"))
-        (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM] "a_scale"))
+        (Op.castFloat FloatDType.real FloatDType.fp16
+        (Op.withPrecision .real .fp32 (Op.ref .real [BM] "a_scale")))
         MaskOpt.none) t
       = some ((TileShape.allIndices [BM]).foldl
           (fun acc i => acc.writeMemTyped .fp16 as_ptr (base + i.1.val)
             (FloatDType.real.cast FloatDType.fp16 (vt.data i))) t) := by
   have hval : @evalOp TileDType.fp16 [BM]
-      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BM] "a_scale")) t
+      (Op.castFloat FloatDType.real FloatDType.fp16
+        (Op.withPrecision .real .fp32 (Op.ref .real [BM] "a_scale"))) t
       = some (⟨fun i => FloatDType.real.cast FloatDType.fp16 (vt.data i)⟩
           : Tile .fp16 [BM]) := by
     show evalOp (Op.castFloat FloatDType.real FloatDType.fp16
-        (Op.ref .real [BM] "a_scale")) t
+        (Op.withPrecision .real .fp32 (Op.ref .real [BM] "a_scale"))) t
       = some ⟨fun i => FloatDType.real.cast FloatDType.fp16 (vt.data i)⟩
     rw [evalOp_castFloat]
-    simp [evalOp_ref, hsc]
+    rw [eval_precision_scope]
+    erw [evalOp_ref, hsc]
+    rfl
   unfold stepStmt
   rw [hval]
   simp only [evalOp_ref, hoffs, Option.bind_eq_bind, Option.bind_some,
@@ -2150,11 +2159,12 @@ the masked **`.fp16`-typed** store of `c`. -/
 def mmPostLoop (C : RegionName) (M N stride_cm stride_cn BM BN : Nat) : List Stmt :=
   [ Stmt.assign .fp16 [BM, BN] "c"
       (Op.castFloat FloatDType.real FloatDType.fp16
-        (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
-          (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
-            (Op.intToReal (Op.ref .int [BM, BN] "accumulator"))
-            (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale")))
-          (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BN] "b_scale")))),
+        (Op.withPrecision .real .fp32
+          (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
+            (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
+              (Op.intToReal (Op.ref .int [BM, BN] "accumulator"))
+              (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale")))
+            (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BN] "b_scale"))))),
     Stmt.assign .nat [BM] "offs_cm"
       (Op.add .nat Broadcast.scalarL
         (Op.mul .nat Broadcast.nil (Op.ref .nat [] "pid_m") (Op.constNat BM))
@@ -3404,11 +3414,12 @@ private theorem mm_c_eval (s0 : BlockState) (A B : Region .int)
       = some (mmAccTile s0 A B M N K stride_am stride_ak stride_bk stride_bn
           BM BN BK pm pn numKBlocks)) :
     evalOp (Op.castFloat FloatDType.real FloatDType.fp16
-        (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
-          (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
-            (Op.intToReal (Op.ref .int [BM, BN] "accumulator"))
-            (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale")))
-          (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BN] "b_scale")))) t
+        (Op.withPrecision .real .fp32
+          (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
+            (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
+              (Op.intToReal (Op.ref .int [BM, BN] "accumulator"))
+              (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale")))
+            (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BN] "b_scale"))))) t
       = some (⟨fun ix => FloatDType.real.cast FloatDType.fp16
           (some (mmCVal s0 A B as_ptr bs_ptr M N K stride_am stride_ak
             stride_asm stride_bk stride_bn stride_bsn BM BN BK numKBlocks
@@ -3455,7 +3466,9 @@ private theorem mm_c_eval (s0 : BlockState) (A B : Region .int)
     mm_mulTile_eval NumericDType.real _ _ _ t _ _ hmul1 hbP
   -- `Eq.trans`, not `rw`: the dependent expandDim result shapes make the
   -- kabstract pattern fail to key even on a syntactically identical target.
-  refine Eq.trans (mm_castFp16_eval _ t _ hmul2) (congrArg some ?_)
+  refine Eq.trans (mm_castFp16_eval _ t _ (show
+    evalOp (Op.withPrecision .real .fp32 _) t = _ from by
+      rw [eval_precision_scope]; exact hmul2)) (congrArg some ?_)
   apply Tile.ext
   intro idx
   obtain ⟨r, c, u⟩ := idx
@@ -3676,11 +3689,12 @@ theorem mmPostLoop_run (s0 : BlockState) (A B : Region .int)
   -- 1. the epilogue: `c = (accumulator * a_scale[:, None] * b_scale[None, :]).to(tl.float16)`
   rw [stepStmts.cons_some (@stepStmt_assign_eq_some TileDType.fp16 [BM, BN] "c"
     (Op.castFloat FloatDType.real FloatDType.fp16
-      (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
-        (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
-          (Op.intToReal (Op.ref .int [BM, BN] "accumulator"))
-          (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale")))
-        (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BN] "b_scale")))) _
+      (Op.withPrecision .real .fp32
+        (Op.mul .real (Broadcast.consR (Broadcast.consSame Broadcast.nil))
+          (Op.mul .real (Broadcast.consSame (Broadcast.consR Broadcast.nil))
+            (Op.intToReal (Op.ref .int [BM, BN] "accumulator"))
+            (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "a_scale")))
+          (Op.expandDim ⟨0, by simp⟩ (Op.ref .real [BN] "b_scale"))))) _
     (⟨fun ix => FloatDType.real.cast FloatDType.fp16
         (some (mmCVal s0 A B as_ptr bs_ptr M N K stride_am stride_ak stride_asm
           stride_bk stride_bn stride_bsn BM BN BK numKBlocks pm pn ix))⟩

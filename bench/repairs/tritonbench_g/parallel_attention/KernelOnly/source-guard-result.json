@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "scope": "frozen transcription drift and structural counts",
+  "semantic_equivalence_by_hash": false,
+  "counts": {
+    "dot": 18,
+    "load": 20,
+    "store": 5
+  },
+  "source_sha256": "3cf92301a18073573c84be1bf775440e9f7b234dba9dd7c37f9d94eb15eb8fe4",
+  "pins_sha256": "009e662f9519b11ef8b4a243b7c8193b0ed306899b923d9b52387212b7dba37c"
+}

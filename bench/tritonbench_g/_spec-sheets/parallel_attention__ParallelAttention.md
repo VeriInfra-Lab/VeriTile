@@ -331,7 +331,8 @@ noncomputable def paVGuarded (s : BlockState) (v : RegionName)
   if t < T ∧ paIv s V BV * BV + p < V then
     s.readMem v (s.pids 2 * s_vo_h + t * s_vo_t
       + (paIv s V BV * BV + p) * s_vo_d)
-  else 0
+  else s.undef v (s.pids 2 * s_vo_h + t * s_vo_t
+      + (paIv s V BV * BV + p) * s_vo_d)
 ```
 </details>
 
@@ -348,7 +349,8 @@ noncomputable def paQGuarded (s : BlockState) (q : RegionName)
   if s.pids 1 * BTL + a < T ∧ paIk s V BV * BK + e < K then
     s.readMem q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + a) * s_qk_t
       + (paIk s V BV * BK + e) * s_qk_d) * scale
-  else 0
+  else s.undef q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + a) * s_qk_t
+      + (paIk s V BV * BK + e) * s_qk_d) * scale
 ```
 </details>
 
@@ -364,7 +366,8 @@ noncomputable def paKGuarded (s : BlockState) (k : RegionName)
   if paIk s V BV * BK + e < K ∧ t < T then
     s.readMem k (s.pids 2 * s_qk_h + (paIk s V BV * BK + e) * s_qk_d
       + t * s_qk_t)
-  else 0
+  else s.undef k (s.pids 2 * s_qk_h + (paIk s V BV * BK + e) * s_qk_d
+      + t * s_qk_t)
 ```
 </details>
 
@@ -382,14 +385,15 @@ executing the full backward dk/dv surface succeeds, the `dk` block store
 holds `Σ_{t ≥ i_c·BTL + l} 2·ds(l,t)·score(l,t)·q[e,t]` and the `dv` block
 store holds `Σ_{t ≥ i_c·BTL + l} score(l,t)²·do[p,t]` at every in-window
 lane — the causal key sweep from the diagonal row to the streamed top
-`cdiv(T,BTS)·BTS` (loads beyond `T` read as zero, so ragged tails are
-exact), with the `i_v = 0` gate folding the normalizer gradient `dz` into
+`cdiv(T,BTS)·BTS` (all source-unspecified lanes are independent initial
+`undef` inputs, including ragged tails), with the `i_v = 0` gate folding the normalizer gradient `dz` into
 `ds`.
 
 Side conditions: `dk ≠ dv` (distinct output buffers), the host's contiguous
 last-dim strides `s_k_d = 1` / `s_v_d = 1` with `BK ≤ s_k_t` / `BV ≤ s_v_t`
-(store-lane injectivity), the host's own `assert BTL % BTS == 0`, and a
-clean-input state (`undef ≡ 0`, the masked `dz` load's off-lanes). -/
+(store-lane injectivity), the host's own `assert BTL % BTS == 0`, and
+`0 < BTS`. No zero-undef premise remains: the `dz` guarded reference reads
+its initial unspecified address value when its source load mask is false. -/
 ```
 </details>
 
@@ -403,8 +407,7 @@ specification pa_bwd_dkv_exec_genuine
     (hDkDv : dk ≠ dv)
     (hSkd : s_k_d = 1) (hSvd : s_v_d = 1)
     (hσk : BK ≤ s_k_t) (hσv : BV ≤ s_v_t)
-    (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS)
-    (hundef : ∀ rg off, s.undef rg off = 0) :
+    (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS) :
     ∃ sF, exec (pa_bwd_dkv_surface q k v do_ dz dk dv i_bh i_c i_k i_v i_h
         s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d scale
         B H T K V BTL BTS BK BV).toAlgKernel s = some sF
@@ -428,7 +431,6 @@ specification pa_bwd_dkv_exec_genuine
 - `hσv : BV ≤ s_v_t`
 - `hBTS : BTL % BTS = 0`
 - `hBTSpos : 0 < BTS`
-- `hundef : ∀ rg off, s.undef rg off = 0`
 
 **Closed-form spec defs (transitive):** `pa_bwd_dkv_surface`, `pbDkActive`, `pbDkOffset`, `pbDkOut`, `pbDvActive`, `pbDvOffset`, `pbDvOut`, `pbDkPart`, `pbNB`, `pbDvPart`, `pbDsVal`, `pbSVal`, `pbQGuarded`, `pbDoGuarded`, `pbVGuarded`, `pbDzGuarded`, `pbKGuarded`
 
@@ -554,7 +556,7 @@ def pbDkOffset (i_bh i_c i_k i_v B H s_k_h s_k_t s_k_d BTL BK : Nat)
 
 ```
 /-- **The stored `dk` lane**: the same key sweep (up to the larger of the
-streamed top and the diagonal end; the kernel loads beyond `T` read as zero)
+streamed top and the diagonal end; the guarded inputs retain all source padding)
 with the gate term. -/
 ```
 ```lean
@@ -595,7 +597,7 @@ def pbDvOffset (i_bh i_c i_k i_v B H s_v_h s_v_t s_v_d BTL BV : Nat)
 ```
 /-- **The stored `dv` lane**: the key sweep from `i_c·BTL` up to the larger of
 the streamed top `cdiv(T,BTS)·BTS` and the diagonal end `(i_c+1)·BTL` (the
-kernel loads beyond `T` read as zero, so the tail summands vanish). -/
+kernel loads beyond `T` retain their source-unspecified values). -/
 ```
 ```lean
 noncomputable def pbDvOut (s : BlockState) (q k do_ : RegionName)
@@ -695,7 +697,7 @@ noncomputable def pbQGuarded (s : BlockState) (q : RegionName)
     (e t : Nat) : ℝ :=
   if i_k * BK + e < K ∧ t < T then
     s.readMem q (i_bh * s_k_h + (i_k * BK + e) * s_k_d + t * s_k_t)
-  else 0
+  else s.undef q (i_bh * s_k_h + (i_k * BK + e) * s_k_d + t * s_k_t)
 ```
 </details>
 
@@ -710,7 +712,7 @@ noncomputable def pbDoGuarded (s : BlockState) (do_ : RegionName)
     (p t : Nat) : ℝ :=
   if i_v * BV + p < V ∧ t < T then
     s.readMem do_ (i_bh * s_v_h + (i_v * BV + p) * s_v_d + t * s_v_t)
-  else 0
+  else s.undef do_ (i_bh * s_v_h + (i_v * BV + p) * s_v_d + t * s_v_t)
 ```
 </details>
 
@@ -726,7 +728,8 @@ noncomputable def pbVGuarded (s : BlockState) (v : RegionName)
   if i_c * BTL + l < T ∧ i_v * BV + p < V then
     s.readMem v (i_bh * s_v_h + (i_c * BTL + l) * s_v_t
       + (i_v * BV + p) * s_v_d)
-  else 0
+  else s.undef v (i_bh * s_v_h + (i_c * BTL + l) * s_v_t
+      + (i_v * BV + p) * s_v_d)
 ```
 </details>
 
@@ -734,12 +737,12 @@ noncomputable def pbVGuarded (s : BlockState) (v : RegionName)
 
 ```
 /-- The mask-guarded `dz` lane at absolute key `t` (masked-off lanes read the
-clean-input `undef ≡ 0` oracle). -/
+initial state's address-indexed `undef` value). -/
 ```
 ```lean
 noncomputable def pbDzGuarded (s : BlockState) (dz : RegionName)
     (i_bh T : Nat) (t : Nat) : ℝ :=
-  if t < T then s.readMem dz (i_bh * T + t) else 0
+  if t < T then s.readMem dz (i_bh * T + t) else s.undef dz (i_bh * T + t)
 ```
 </details>
 
@@ -755,6 +758,7 @@ noncomputable def pbKGuarded (s : BlockState) (k : RegionName)
   if i_c * BTL + l < T ∧ i_k * BK + e < K then
     s.readMem k (i_bh * s_k_h + (i_c * BTL + l) * s_k_t
       + (i_k * BK + e) * s_k_d)
-  else 0
+  else s.undef k (i_bh * s_k_h + (i_c * BTL + l) * s_k_t
+      + (i_k * BK + e) * s_k_d)
 ```
 </details>

@@ -1,0 +1,103 @@
+{
+  "triton_version": "3.8.0",
+  "reference_sources": [
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/standard.py",
+      "sha256": "113296c74fb8b8dcf67a1b82f71926842eb66d0c77fe2c4f8d0f315715a38fd4"
+    },
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/core.py",
+      "sha256": "b4966729f21f0db6f20fa4cb9b2b5402c5735e1424ffba05dbd8f480dedee790"
+    }
+  ],
+  "source_claims": [
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/standard.py",
+      "line": 147,
+      "claim": "argmax selects by ordered greater-than or equality with smaller index; NaN cases do not obey ordinary ordered tie law."
+    },
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/standard.py",
+      "line": 177,
+      "claim": "unindexed max promotes floating inputs narrower than32 to float32, then reduces core.maximum."
+    },
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/core.py",
+      "line": 2934,
+      "claim": "maximum default PropagateNan.NONE; signed-zero/payload lowering still needs compiler/device binding."
+    }
+  ],
+  "no_native_execution_performed": true,
+  "python_source": {
+    "path": "bench/tritonbench_g/triton_argmax/triton_argmax.py",
+    "sha256": "a584c32ee9c78789629db612fa9106617214f1d07cbef9f3a225490ed013dd9d"
+  },
+  "typed_source": {
+    "path": "bench/tritonbench_g/triton_argmax/Proofs/TypedSource.lean",
+    "sha256": "883fe063b77883939b227e3015b77b18eda48962dd9712cf479c0b85a5eb2f1c"
+  },
+  "status": "source_binding_review_not_native_validation",
+  "contract_scope": {
+    "profiles": [
+      "fp16",
+      "fp32"
+    ],
+    "stages": [
+      "global argmax stage1",
+      "global argmax stage2",
+      "dim-specific single block: 0 < N <= BLOCK_N, both index width branches"
+    ],
+    "domain": "non-NaN padded inputs; infinity/subnormal/signed zero included",
+    "tie": "least lane index; signed zeros compare equal",
+    "missing": [
+      "global-stage composition to Python wrapper",
+      "arbitrary multiblock dimension loop beyond prior accepted scope",
+      "compiler/native refinement; integer/address machine bounds"
+    ],
+    "stage2": "returns the input payload at selected lane; end-to-end valid original index requires stage1 composition and nonempty logical input",
+    "dim_contract": "actual32-bit intermediate comparison; selected valid index<N; maximal normalized input bits; least tie index; masked frame"
+  },
+  "formal_source_bridges": [
+    "TypedSource.stage1_prefix_shape (before final explicit int64 store)",
+    "TypedSource.stage2_shape",
+    "TypedSource.dim_shape"
+  ],
+  "proof_sources": [
+    {
+      "path": "bench/tritonbench_g/triton_argmax/FPCorrect.lean",
+      "sha256": "7722d408f2d4c8185f330f29349fe5dd19615a259ba776fa86253016df851071"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_argmax/Proofs/BitBackend.lean",
+      "sha256": "9f65009a41b28fe1659d8310afd5a8fa9ce35bf913d7a4e2cb9c9ba942024335"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_argmax/Proofs/BitCorrect.lean",
+      "sha256": "70cdaefb3e2680efdec48a7eb31b6bdc3537adfd5157eb8a56111e25d11f6199"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_argmax/Proofs/DimBackend.lean",
+      "sha256": "f1603f93743ea608fba8d0e5d49ed49bf15d7bfdc503dc876ecf7c9efc507ee9"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_argmax/Proofs/DimCorrect.lean",
+      "sha256": "5875623917a608d10ff15074bf69d3dddf3228021c7792b1e6bafe8845d26501"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_argmax/Proofs/DimSource.lean",
+      "sha256": "17385269fb7c934dd2ba636dafae50a667a6d9c27043e8931670d9745a5645af"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_argmax/Proofs/TypedShape.lean",
+      "sha256": "2d6640b8bfc5c9cc2fabaf5027e15cb7333c68c76d69ccfdb4c49ef4fc344e71"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_argmax/Proofs/TypedSource.lean",
+      "sha256": "883fe063b77883939b227e3015b77b18eda48962dd9712cf479c0b85a5eb2f1c"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_argmax/TritonArgmax.lean",
+      "sha256": "95fc2e52a375a90f723de1ccead3a1101ac5338663d233e6c50bfffb2f72de36"
+    }
+  ]
+}

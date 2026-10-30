@@ -1,0 +1,2368 @@
+{
+  "status": "PASS",
+  "source_sha256": "37ad52bccd9a329291c6509200adfb8a3125975225685c9e2c4f300578a8561b",
+  "script_sha256": "c16c3b6673e22ec40295530db9a87cd67dcf2de91f5dbf74e238653aa114dddf",
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "triton_version": "3.7.1",
+  "actual_source_JIT_binder": true,
+  "default_compiler_options": true,
+  "GPU_execution": false,
+  "native_numerical_conformance": false,
+  "profiles": [
+    {
+      "label": "shape0-half0-tf320",
+      "shape": {
+        "N": 1,
+        "C": 3,
+        "O": 5,
+        "H": 4,
+        "W": 5,
+        "OH": 2,
+        "OW": 6,
+        "KH": 3,
+        "KW": 2,
+        "SH": 2,
+        "SW": 1,
+        "PH": 1,
+        "PW": 1,
+        "groups": 1
+      },
+      "fp16": false,
+      "tf32": false,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "constexpr",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "i32",
+        "weight_height_stride": "i32",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "batch_dim": 1,
+        "input_width_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 3,
+        "kernel_width": 2,
+        "stride_height": 2,
+        "stride_width": 1,
+        "padding_height": 1,
+        "padding_width": 1,
+        "groups": 1,
+        "fp16": false,
+        "tf32": false,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [],
+        "(11,)": [],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [],
+        "(19,)": [],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "b8e9d0d6c988d8cdc52f14476843cbe3e5eb4270f0a28794d79674e91d7df981",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 40960,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half0-tf320.ttir",
+          "sha256": "6316c278425720a3a2601fb7214e4c3cb8c820c3378018dca7a7d9535eeb9095"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half0-tf320.ttgir",
+          "sha256": "547fecbdabd18d586d7e239ebb4d450278ff5893b7060325c4ee5340bfa37720"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half0-tf320.llir",
+          "sha256": "f2ea2d084c71326ea366ebc3ab4bf2614ce156d19bf3a9ad972ab0df79c43738"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half0-tf320.ptx",
+          "sha256": "4264f5bbbdace8305d4645fffed785d325204ac4e910f620daead9c0cc10c608"
+        }
+      },
+      "opcodes": {
+        "mul.lo.s32": 124,
+        "cvt.u32.u16": 3,
+        "mul.wide.s32": 68,
+        "add.s64": 323,
+        "add.s32": 257,
+        "cvt.u32.u64": 2,
+        "fma.rn.f32": 1024
+      },
+      "seconds": 1.7228323728777468,
+      "status": "compiled"
+    },
+    {
+      "label": "shape0-half0-tf321",
+      "shape": {
+        "N": 1,
+        "C": 3,
+        "O": 5,
+        "H": 4,
+        "W": 5,
+        "OH": 2,
+        "OW": 6,
+        "KH": 3,
+        "KW": 2,
+        "SH": 2,
+        "SW": 1,
+        "PH": 1,
+        "PW": 1,
+        "groups": 1
+      },
+      "fp16": false,
+      "tf32": true,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "constexpr",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "i32",
+        "weight_height_stride": "i32",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "batch_dim": 1,
+        "input_width_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 3,
+        "kernel_width": 2,
+        "stride_height": 2,
+        "stride_width": 1,
+        "padding_height": 1,
+        "padding_width": 1,
+        "groups": 1,
+        "fp16": false,
+        "tf32": true,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [],
+        "(11,)": [],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [],
+        "(19,)": [],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "40c324cbdd13ba3a2b06c46062501909dbf897a492ef118732e1309ec7fdf97d",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 61440,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half0-tf321.ttir",
+          "sha256": "dca1c3f03aae351399dd8c521aacf193d26dc755e82bb727913d6bebacab8ddc"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half0-tf321.ttgir",
+          "sha256": "48eb2233b286f02724d844af87eb4582fb354ebdd4cd1835a81c646640b1b3f7"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half0-tf321.llir",
+          "sha256": "bd6cebc36bed0de728c0e5266f97cd635bc9f255e512ec6303533a0a7447c499"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half0-tf321.ptx",
+          "sha256": "59af419f95313b02ae3599c6cb215cdfabf2b7d0fc3ae44373ccc254fbfd6334"
+        }
+      },
+      "opcodes": {
+        "mul.lo.s32": 124,
+        "cvt.u32.u16": 3,
+        "mul.wide.s32": 68,
+        "add.s64": 333,
+        "add.s32": 278,
+        "cvt.u32.u64": 2,
+        "wgmma.wait_group.sync.aligned": 2,
+        "cvt.u64.u32": 4,
+        "wgmma.mma_async.sync.aligned.m64n32k8.f32.tf32.tf32": 8
+      },
+      "seconds": 0.9655239759013057,
+      "status": "compiled"
+    },
+    {
+      "label": "shape0-half1-tf320",
+      "shape": {
+        "N": 1,
+        "C": 3,
+        "O": 5,
+        "H": 4,
+        "W": 5,
+        "OH": 2,
+        "OW": 6,
+        "KH": 3,
+        "KW": 2,
+        "SH": 2,
+        "SW": 1,
+        "PH": 1,
+        "PW": 1,
+        "groups": 1
+      },
+      "fp16": true,
+      "tf32": false,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "constexpr",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "i32",
+        "weight_height_stride": "i32",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "batch_dim": 1,
+        "input_width_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 3,
+        "kernel_width": 2,
+        "stride_height": 2,
+        "stride_width": 1,
+        "padding_height": 1,
+        "padding_width": 1,
+        "groups": 1,
+        "fp16": true,
+        "tf32": false,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [],
+        "(11,)": [],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [],
+        "(19,)": [],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "121efc8cd8372785a5dff5fb0a2045074875cc3c9c254e2131ef5ab328a68c06",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 43008,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half1-tf320.ttir",
+          "sha256": "dd6f754840674edd0b190b65608486e537e94853cb4f6be9dd2707af81077482"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half1-tf320.ttgir",
+          "sha256": "060ab77a79068a7c4cea00d542c47fb86809193f7aad8bfc012b2be0db6f7582"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half1-tf320.llir",
+          "sha256": "b3d5f6fcbc6019b5e261b82a0651419e308aebc860623b89102f8758def59aed"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half1-tf320.ptx",
+          "sha256": "f81bdabad691ff8c8325adedb356062abf979431e6e6fce3f1ab843928dcd6a6"
+        }
+      },
+      "opcodes": {
+        "mul.lo.s32": 124,
+        "cvt.u32.u16": 3,
+        "mul.wide.s32": 68,
+        "add.s64": 324,
+        "add.s32": 276,
+        "cvt.u64.u32": 2,
+        "cvt.u32.u64": 2,
+        "cvt.rn.f16x2.f32": 16,
+        "cvt.rn.f16.f32": 8,
+        "wgmma.mma_async.sync.aligned.m64n32k16.f32.f16.f16": 4,
+        "wgmma.wait_group.sync.aligned": 1
+      },
+      "seconds": 0.985937125980854,
+      "status": "compiled"
+    },
+    {
+      "label": "shape0-half1-tf321",
+      "shape": {
+        "N": 1,
+        "C": 3,
+        "O": 5,
+        "H": 4,
+        "W": 5,
+        "OH": 2,
+        "OW": 6,
+        "KH": 3,
+        "KW": 2,
+        "SH": 2,
+        "SW": 1,
+        "PH": 1,
+        "PW": 1,
+        "groups": 1
+      },
+      "fp16": true,
+      "tf32": true,
+      "grid": [
+        1,
+        1,
+        1
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "constexpr",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "i32",
+        "weight_height_stride": "i32",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "batch_dim": 1,
+        "input_width_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 3,
+        "kernel_width": 2,
+        "stride_height": 2,
+        "stride_width": 1,
+        "padding_height": 1,
+        "padding_width": 1,
+        "groups": 1,
+        "fp16": true,
+        "tf32": true,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [],
+        "(11,)": [],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [],
+        "(19,)": [],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "daab8cc544756f215c71e5a3fb42abad56d580aa7225637d379adef872e62e59",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 43008,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half1-tf321.ttir",
+          "sha256": "46e2c73fc93375f54bb668991064d9fbe6a7ba6b1bb83ebe0d2b24e24c5724d6"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half1-tf321.ttgir",
+          "sha256": "90b28ae8f23c337c7b53ecad3c0a36a8aa7443fe0e6316e1cd8ec0be05e6f29d"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half1-tf321.llir",
+          "sha256": "b3d5f6fcbc6019b5e261b82a0651419e308aebc860623b89102f8758def59aed"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape0-half1-tf321.ptx",
+          "sha256": "f81bdabad691ff8c8325adedb356062abf979431e6e6fce3f1ab843928dcd6a6"
+        }
+      },
+      "opcodes": {
+        "mul.lo.s32": 124,
+        "cvt.u32.u16": 3,
+        "mul.wide.s32": 68,
+        "add.s64": 324,
+        "add.s32": 276,
+        "cvt.u64.u32": 2,
+        "cvt.u32.u64": 2,
+        "cvt.rn.f16x2.f32": 16,
+        "cvt.rn.f16.f32": 8,
+        "wgmma.mma_async.sync.aligned.m64n32k16.f32.f16.f16": 4,
+        "wgmma.wait_group.sync.aligned": 1
+      },
+      "seconds": 1.0151037122122943,
+      "status": "compiled"
+    },
+    {
+      "label": "shape1-half0-tf320",
+      "shape": {
+        "N": 2,
+        "C": 66,
+        "O": 70,
+        "H": 3,
+        "W": 4,
+        "OH": 4,
+        "OW": 3,
+        "KH": 2,
+        "KW": 2,
+        "SH": 1,
+        "SW": 2,
+        "PH": 1,
+        "PW": 1,
+        "groups": 2
+      },
+      "fp16": false,
+      "tf32": false,
+      "grid": [
+        1,
+        3,
+        2
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "i32",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "i32",
+        "weight_height_stride": "i32",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "input_width_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 2,
+        "kernel_width": 2,
+        "stride_height": 1,
+        "stride_width": 2,
+        "padding_height": 1,
+        "padding_width": 1,
+        "groups": 2,
+        "fp16": false,
+        "tf32": false,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [],
+        "(11,)": [],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [],
+        "(19,)": [],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "6835cbff2cf2774cda8c2578a094659f23726e873fb628775dcdf163ccd0bc5f",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 40960,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half0-tf320.ttir",
+          "sha256": "a6860f0991b38916d9249d765a4d91b5ebc868f892296972c4230d12e4cee285"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half0-tf320.ttgir",
+          "sha256": "40335f1d3d5eaa2076932febef20f67a4d7dc840fa88b5653d98cb0f524717af"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half0-tf320.llir",
+          "sha256": "baf59018802173b1d5096852f9f32ef27dbcd7c2e8e4ee8105e147db6f38a15b"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half0-tf320.ptx",
+          "sha256": "468bf35763fc32429f79a5fed3596a727fb322d5b28de80ee6694a943022e1e8"
+        }
+      },
+      "opcodes": {
+        "add.s32": 248,
+        "mul.lo.s32": 123,
+        "cvt.u32.u16": 3,
+        "mul.wide.s32": 67,
+        "add.s64": 333,
+        "cvt.s64.s32": 2,
+        "cvt.u64.u32": 6,
+        "cvt.u32.u64": 3,
+        "mul.lo.s64": 1,
+        "fma.rn.f32": 1024
+      },
+      "seconds": 1.5058693927712739,
+      "status": "compiled"
+    },
+    {
+      "label": "shape1-half0-tf321",
+      "shape": {
+        "N": 2,
+        "C": 66,
+        "O": 70,
+        "H": 3,
+        "W": 4,
+        "OH": 4,
+        "OW": 3,
+        "KH": 2,
+        "KW": 2,
+        "SH": 1,
+        "SW": 2,
+        "PH": 1,
+        "PW": 1,
+        "groups": 2
+      },
+      "fp16": false,
+      "tf32": true,
+      "grid": [
+        1,
+        3,
+        2
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "i32",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "i32",
+        "weight_height_stride": "i32",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "input_width_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 2,
+        "kernel_width": 2,
+        "stride_height": 1,
+        "stride_width": 2,
+        "padding_height": 1,
+        "padding_width": 1,
+        "groups": 2,
+        "fp16": false,
+        "tf32": true,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [],
+        "(11,)": [],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [],
+        "(19,)": [],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "05a62db00c2fcd9700a2fa99d241b354c7e26ae55cbb3218d2b69157fb95d9eb",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 61440,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half0-tf321.ttir",
+          "sha256": "edd9ecc3d5b7ada453104423c3a27ded8e5ea0c987fa4b08dc8c28a7905b987d"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half0-tf321.ttgir",
+          "sha256": "972f1711c4e791b988d6a3345cf29758c6ecb68bb854c654c4a2b71df08f9a78"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half0-tf321.llir",
+          "sha256": "1b5d1f8a5ee4dd1091dfc5b7429cf6911ecd3c1d36a3142f462a80fc1b40e0b3"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half0-tf321.ptx",
+          "sha256": "e5087beb47478be72f30245715e187947f5b51bc7a3fecab8a0046dd9b8dff8a"
+        }
+      },
+      "opcodes": {
+        "add.s32": 269,
+        "mul.lo.s32": 123,
+        "cvt.u32.u16": 3,
+        "mul.wide.s32": 67,
+        "add.s64": 343,
+        "cvt.s64.s32": 2,
+        "cvt.u64.u32": 10,
+        "cvt.u32.u64": 3,
+        "mul.lo.s64": 1,
+        "wgmma.wait_group.sync.aligned": 2,
+        "wgmma.mma_async.sync.aligned.m64n32k8.f32.tf32.tf32": 8
+      },
+      "seconds": 0.9993105763569474,
+      "status": "compiled"
+    },
+    {
+      "label": "shape1-half1-tf320",
+      "shape": {
+        "N": 2,
+        "C": 66,
+        "O": 70,
+        "H": 3,
+        "W": 4,
+        "OH": 4,
+        "OW": 3,
+        "KH": 2,
+        "KW": 2,
+        "SH": 1,
+        "SW": 2,
+        "PH": 1,
+        "PW": 1,
+        "groups": 2
+      },
+      "fp16": true,
+      "tf32": false,
+      "grid": [
+        1,
+        3,
+        2
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "i32",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "i32",
+        "weight_height_stride": "i32",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "input_width_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 2,
+        "kernel_width": 2,
+        "stride_height": 1,
+        "stride_width": 2,
+        "padding_height": 1,
+        "padding_width": 1,
+        "groups": 2,
+        "fp16": true,
+        "tf32": false,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [],
+        "(11,)": [],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [],
+        "(19,)": [],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "33a45135ee3e7fba78f6470813534be6202e525b25c185a1004501c96171ed93",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 43008,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half1-tf320.ttir",
+          "sha256": "66f09713d009e705076136e78879cdd7fb9e4d4346816c7c595f691e1ab5178a"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half1-tf320.ttgir",
+          "sha256": "d52b03eede486195781879af5a730509ab939f6b9733dfdc0edfa8e9060369a0"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half1-tf320.llir",
+          "sha256": "e83f0429515705b14f2c1ab266f454d5e1b41cbd3799057135bbf91c245ba0aa"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half1-tf320.ptx",
+          "sha256": "8e830bee009af5fdbda87e8cb1c92790d6d64f69fc63fdbec5c01329b296fbe5"
+        }
+      },
+      "opcodes": {
+        "add.s32": 267,
+        "mul.lo.s32": 123,
+        "cvt.u32.u16": 3,
+        "mul.wide.s32": 67,
+        "add.s64": 334,
+        "cvt.u64.u32": 8,
+        "cvt.s64.s32": 2,
+        "cvt.u32.u64": 3,
+        "mul.lo.s64": 1,
+        "cvt.rn.f16x2.f32": 16,
+        "cvt.rn.f16.f32": 8,
+        "wgmma.mma_async.sync.aligned.m64n32k16.f32.f16.f16": 4,
+        "wgmma.wait_group.sync.aligned": 1
+      },
+      "seconds": 1.0101416492834687,
+      "status": "compiled"
+    },
+    {
+      "label": "shape1-half1-tf321",
+      "shape": {
+        "N": 2,
+        "C": 66,
+        "O": 70,
+        "H": 3,
+        "W": 4,
+        "OH": 4,
+        "OW": 3,
+        "KH": 2,
+        "KW": 2,
+        "SH": 1,
+        "SW": 2,
+        "PH": 1,
+        "PW": 1,
+        "groups": 2
+      },
+      "fp16": true,
+      "tf32": true,
+      "grid": [
+        1,
+        3,
+        2
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "i32",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "i32",
+        "weight_height_stride": "i32",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "input_width_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 2,
+        "kernel_width": 2,
+        "stride_height": 1,
+        "stride_width": 2,
+        "padding_height": 1,
+        "padding_width": 1,
+        "groups": 2,
+        "fp16": true,
+        "tf32": true,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [],
+        "(11,)": [],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [],
+        "(19,)": [],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "373fbe10b81a6b386326bffdafaae45a9c126dcf317fe7e4f6440840c657dd37",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 43008,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half1-tf321.ttir",
+          "sha256": "2d016d8d3ec3112e78e96b690cfbf36e1cc0895ed5a39c6ca8aac7cb4fe5434a"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half1-tf321.ttgir",
+          "sha256": "e7c058f1ee33f09972b6f205b33d2cf591a32270abb7731c12568ad20263e2a5"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half1-tf321.llir",
+          "sha256": "e83f0429515705b14f2c1ab266f454d5e1b41cbd3799057135bbf91c245ba0aa"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape1-half1-tf321.ptx",
+          "sha256": "8e830bee009af5fdbda87e8cb1c92790d6d64f69fc63fdbec5c01329b296fbe5"
+        }
+      },
+      "opcodes": {
+        "add.s32": 267,
+        "mul.lo.s32": 123,
+        "cvt.u32.u16": 3,
+        "mul.wide.s32": 67,
+        "add.s64": 334,
+        "cvt.u64.u32": 8,
+        "cvt.s64.s32": 2,
+        "cvt.u32.u64": 3,
+        "mul.lo.s64": 1,
+        "cvt.rn.f16x2.f32": 16,
+        "cvt.rn.f16.f32": 8,
+        "wgmma.mma_async.sync.aligned.m64n32k16.f32.f16.f16": 4,
+        "wgmma.wait_group.sync.aligned": 1
+      },
+      "seconds": 0.9817823590710759,
+      "status": "compiled"
+    },
+    {
+      "label": "shape2-half0-tf320",
+      "shape": {
+        "N": 1,
+        "C": 2,
+        "O": 3,
+        "H": 12,
+        "W": 12,
+        "OH": 12,
+        "OW": 12,
+        "KH": 1,
+        "KW": 1,
+        "SH": 1,
+        "SW": 1,
+        "PH": 0,
+        "PW": 0,
+        "groups": 1
+      },
+      "fp16": false,
+      "tf32": false,
+      "grid": [
+        2,
+        1,
+        1
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "constexpr",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "constexpr",
+        "weight_height_stride": "constexpr",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "batch_dim": 1,
+        "input_width_stride": 1,
+        "weight_in_feat_stride": 1,
+        "weight_height_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 1,
+        "kernel_width": 1,
+        "stride_height": 1,
+        "stride_width": 1,
+        "padding_height": 0,
+        "padding_width": 0,
+        "groups": 1,
+        "fp16": false,
+        "tf32": false,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "b6690fdc39b7d78b5fa23bd0ffba618ab27185295dd6b1af5dd75e65c9114f03",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 40960,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half0-tf320.ttir",
+          "sha256": "78d607b10a49f97f0c22883314b89bace0e2c7f24e878b61f64d9360d75877e4"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half0-tf320.ttgir",
+          "sha256": "ab6000a642ed2ab7fa2c2855fede80546b8d2d967cd769ce0dc83fb47f8fca17"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half0-tf320.llir",
+          "sha256": "c5f4ae9daf23b14ae679577ea6dd0759e8c664dd5dcac2f6552114ae2559df2d"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half0-tf320.ptx",
+          "sha256": "73d12ea074bec431d9313752dad411286dd00cdb2c629cdf14b861809c47f00f"
+        }
+      },
+      "opcodes": {
+        "mul.lo.s32": 110,
+        "add.s32": 181,
+        "mul.wide.s32": 4,
+        "add.s64": 120,
+        "mul.wide.u32": 1,
+        "fma.rn.f32": 1024
+      },
+      "seconds": 1.1537073263898492,
+      "status": "compiled"
+    },
+    {
+      "label": "shape2-half0-tf321",
+      "shape": {
+        "N": 1,
+        "C": 2,
+        "O": 3,
+        "H": 12,
+        "W": 12,
+        "OH": 12,
+        "OW": 12,
+        "KH": 1,
+        "KW": 1,
+        "SH": 1,
+        "SW": 1,
+        "PH": 0,
+        "PW": 0,
+        "groups": 1
+      },
+      "fp16": false,
+      "tf32": true,
+      "grid": [
+        2,
+        1,
+        1
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "constexpr",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "constexpr",
+        "weight_height_stride": "constexpr",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "batch_dim": 1,
+        "input_width_stride": 1,
+        "weight_in_feat_stride": 1,
+        "weight_height_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 1,
+        "kernel_width": 1,
+        "stride_height": 1,
+        "stride_width": 1,
+        "padding_height": 0,
+        "padding_width": 0,
+        "groups": 1,
+        "fp16": false,
+        "tf32": true,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "9222d786f3517cc9fe917ef8ec5a2788f7ab1fafb69e312220a6fdbf709b0717",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 61440,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half0-tf321.ttir",
+          "sha256": "f74b9a520b82efe31d5a1c5a27fb19f294fe39dc7a90df6b69791cc4152f2dd0"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half0-tf321.ttgir",
+          "sha256": "9d130688f1d6ab46536ed77c78b29698fe415d3ba595cbfa76015d5f53785fc2"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half0-tf321.llir",
+          "sha256": "c001327101dbb3a5eefd6101b2ad026fed90145a79b4e0f69af0f3620ced5d43"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half0-tf321.ptx",
+          "sha256": "470f3eee989d5cea3210e6af4db073e0ca61a5ff9c30812b44a775c66074e4b8"
+        }
+      },
+      "opcodes": {
+        "mul.lo.s32": 110,
+        "add.s32": 187,
+        "mul.wide.s32": 4,
+        "add.s64": 130,
+        "mul.wide.u32": 1,
+        "cvt.u64.u32": 4,
+        "wgmma.mma_async.sync.aligned.m64n32k8.f32.tf32.tf32": 8,
+        "wgmma.wait_group.sync.aligned": 2
+      },
+      "seconds": 0.815389946103096,
+      "status": "compiled"
+    },
+    {
+      "label": "shape2-half1-tf320",
+      "shape": {
+        "N": 1,
+        "C": 2,
+        "O": 3,
+        "H": 12,
+        "W": 12,
+        "OH": 12,
+        "OW": 12,
+        "KH": 1,
+        "KW": 1,
+        "SH": 1,
+        "SW": 1,
+        "PH": 0,
+        "PW": 0,
+        "groups": 1
+      },
+      "fp16": true,
+      "tf32": false,
+      "grid": [
+        2,
+        1,
+        1
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "constexpr",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "constexpr",
+        "weight_height_stride": "constexpr",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "batch_dim": 1,
+        "input_width_stride": 1,
+        "weight_in_feat_stride": 1,
+        "weight_height_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 1,
+        "kernel_width": 1,
+        "stride_height": 1,
+        "stride_width": 1,
+        "padding_height": 0,
+        "padding_width": 0,
+        "groups": 1,
+        "fp16": true,
+        "tf32": false,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "2c9a9ca8153a8368d8f471852b441850f75112c4be7f3a8ad93c7c18482fe431",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 43008,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half1-tf320.ttir",
+          "sha256": "81dcf803bdbdfd5c897ba81c4096eb31957250bac83730f7d7f56a8a9c2f8687"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half1-tf320.ttgir",
+          "sha256": "5ae32367064511fac98cab743de134b18b50ed33eadd55c3c8fa4a2ba5d3f032"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half1-tf320.llir",
+          "sha256": "ad4a598221e03624ff24e2ab4d6ce0b6ac5f9458e4a84559cad5707935c3b895"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half1-tf320.ptx",
+          "sha256": "628d546c3bb8dfe21a91003ed0afc1e8818f69988f493f280e95486f5760844f"
+        }
+      },
+      "opcodes": {
+        "mul.lo.s32": 110,
+        "add.s32": 199,
+        "mul.wide.s32": 4,
+        "add.s64": 121,
+        "mul.wide.u32": 1,
+        "cvt.u64.u32": 2,
+        "cvt.rn.f16x2.f32": 16,
+        "cvt.rn.f16.f32": 8,
+        "wgmma.mma_async.sync.aligned.m64n32k16.f32.f16.f16": 4,
+        "wgmma.wait_group.sync.aligned": 1
+      },
+      "seconds": 0.8393292622640729,
+      "status": "compiled"
+    },
+    {
+      "label": "shape2-half1-tf321",
+      "shape": {
+        "N": 1,
+        "C": 2,
+        "O": 3,
+        "H": 12,
+        "W": 12,
+        "OH": 12,
+        "OW": 12,
+        "KH": 1,
+        "KW": 1,
+        "SH": 1,
+        "SW": 1,
+        "PH": 0,
+        "PW": 0,
+        "groups": 1
+      },
+      "fp16": true,
+      "tf32": true,
+      "grid": [
+        2,
+        1,
+        1
+      ],
+      "signature": {
+        "input_pointer": "*fp32",
+        "weight_pointer": "*fp32",
+        "output_pointer": "*fp32",
+        "batch_dim": "constexpr",
+        "in_feat_dim": "i32",
+        "in_height": "i32",
+        "in_width": "i32",
+        "out_feat_dim": "i32",
+        "out_height": "i32",
+        "out_width": "i32",
+        "input_batch_stride": "i32",
+        "input_in_feat_stride": "i32",
+        "input_height_stride": "i32",
+        "input_width_stride": "constexpr",
+        "weight_out_feat_stride": "i32",
+        "weight_in_feat_stride": "constexpr",
+        "weight_height_stride": "constexpr",
+        "weight_width_stride": "constexpr",
+        "output_batch_stride": "i32",
+        "output_out_feat_stride": "i32",
+        "output_height_stride": "i32",
+        "output_width_stride": "constexpr",
+        "kernel_height": "constexpr",
+        "kernel_width": "constexpr",
+        "stride_height": "constexpr",
+        "stride_width": "constexpr",
+        "padding_height": "constexpr",
+        "padding_width": "constexpr",
+        "groups": "constexpr",
+        "fp16": "constexpr",
+        "tf32": "constexpr",
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": "constexpr",
+        "BLOCK_SIZE_IN_FEAT": "constexpr",
+        "BLOCK_SIZE_OUT_FEAT": "constexpr"
+      },
+      "constants": {
+        "batch_dim": 1,
+        "input_width_stride": 1,
+        "weight_in_feat_stride": 1,
+        "weight_height_stride": 1,
+        "weight_width_stride": 1,
+        "output_width_stride": 1,
+        "kernel_height": 1,
+        "kernel_width": 1,
+        "stride_height": 1,
+        "stride_width": 1,
+        "padding_height": 0,
+        "padding_width": 0,
+        "groups": 1,
+        "fp16": true,
+        "tf32": true,
+        "BLOCK_SIZE_BATCH_HEIGHT_WIDTH": 128,
+        "BLOCK_SIZE_IN_FEAT": 32,
+        "BLOCK_SIZE_OUT_FEAT": 32
+      },
+      "attrs": {
+        "(0,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(1,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(2,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(3,)": [],
+        "(4,)": [],
+        "(5,)": [],
+        "(6,)": [],
+        "(7,)": [],
+        "(8,)": [],
+        "(9,)": [],
+        "(10,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(11,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(12,)": [],
+        "(13,)": [],
+        "(14,)": [],
+        "(15,)": [],
+        "(16,)": [],
+        "(17,)": [],
+        "(18,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(19,)": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "(20,)": [],
+        "(21,)": [],
+        "(22,)": [],
+        "(23,)": [],
+        "(24,)": [],
+        "(25,)": [],
+        "(26,)": [],
+        "(27,)": [],
+        "(28,)": [],
+        "(29,)": [],
+        "(30,)": [],
+        "(31,)": [],
+        "(32,)": [],
+        "(33,)": []
+      },
+      "metadata": {
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "c47049c9708e5508bfc0fd78aba70efb2c22347fb01c4395fd07e583d4b41376",
+        "instrumentation_mode": "",
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "name": "conv2d_forward_kernel",
+        "num_ctas": 1,
+        "num_stages": 3,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "sanitize_overflow": true,
+        "shared": 43008,
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half1-tf321.ttir",
+          "sha256": "f5b8c5191ca2f7db598d279519ecb29ae9eda40f372b22450268a4ef91d68512"
+        },
+        "ttgir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half1-tf321.ttgir",
+          "sha256": "4ae203add925b6bbb8fed1802651a64cc8904522392c01f257b1819f851eb07d"
+        },
+        "llir": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half1-tf321.llir",
+          "sha256": "ad4a598221e03624ff24e2ab4d6ce0b6ac5f9458e4a84559cad5707935c3b895"
+        },
+        "ptx": {
+          "path": "/tmp/conv2d-checked-lowering/shape2-half1-tf321.ptx",
+          "sha256": "628d546c3bb8dfe21a91003ed0afc1e8818f69988f493f280e95486f5760844f"
+        }
+      },
+      "opcodes": {
+        "mul.lo.s32": 110,
+        "add.s32": 199,
+        "mul.wide.s32": 4,
+        "add.s64": 121,
+        "mul.wide.u32": 1,
+        "cvt.u64.u32": 2,
+        "cvt.rn.f16x2.f32": 16,
+        "cvt.rn.f16.f32": 8,
+        "wgmma.mma_async.sync.aligned.m64n32k16.f32.f16.f16": 4,
+        "wgmma.wait_group.sync.aligned": 1
+      },
+      "seconds": 0.8338157134130597,
+      "status": "compiled"
+    }
+  ]
+}

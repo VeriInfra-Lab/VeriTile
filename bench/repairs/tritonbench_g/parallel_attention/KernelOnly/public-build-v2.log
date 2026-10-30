@@ -1,0 +1,305 @@
+{"module": "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPEquivV2.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/FPEquivV2.olean"}
+VeriTile.Bench.Repairs.ParallelAttention.ShapeContract (s : ParallelAttention.Shape) : Prop
+structure VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.Outputs (κ : Type)
+  (regions : κ → Triton.RegionName) (shapes : κ → List ℕ) (read : CommonBacking.Memory)
+  (source : Triton.FP.Structural.State CommonBacking.Word) : Type
+number of parameters: 5
+fields:
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.Outputs.view : κ → TensorBinding.View
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.Outputs.region : ∀ (k : κ),
+      (self.view k).region = regions k
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.Outputs.shape : ∀ (k : κ),
+      (self.view k).tensor.metadata.shape = shapes k
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.Outputs.initial : ∀ (k : κ),
+      ∀ i < (self.view k).tensor.metadata.numel,
+        Triton.FP.Structural.Cell.read Triton.TileDType.real (source.mem (self.view k).region i) =
+          (read (CommonBacking.address (self.view k) i)).bits
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.Outputs.separate : ∀ (k l : κ),
+      k ≠ l →
+        ∀ (i j : ℕ),
+          i < (self.view k).tensor.metadata.numel →
+            j < (self.view l).tensor.metadata.numel →
+              CommonBacking.address (self.view k) i ≠ CommonBacking.address (self.view l) j
+constructor:
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.Outputs.mk {κ : Type} {regions : κ → Triton.RegionName}
+    {shapes : κ → List ℕ} {read : CommonBacking.Memory} {source : Triton.FP.Structural.State CommonBacking.Word}
+    (view : κ → TensorBinding.View) (region : ∀ (k : κ), (view k).region = regions k)
+    (shape : ∀ (k : κ), (view k).tensor.metadata.shape = shapes k)
+    (initial :
+      ∀ (k : κ),
+        ∀ i < (view k).tensor.metadata.numel,
+          Triton.FP.Structural.Cell.read Triton.TileDType.real (source.mem (view k).region i) =
+            (read (CommonBacking.address (view k) i)).bits)
+    (separate :
+      ∀ (k l : κ),
+        k ≠ l →
+          ∀ (i j : ℕ),
+            i < (view k).tensor.metadata.numel →
+              j < (view l).tensor.metadata.numel →
+                CommonBacking.address (view k) i ≠ CommonBacking.address (view l) j) :
+    CommonBacking.Outputs κ regions shapes read source
+structure VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.ForwardBacking (shape : ParallelAttention.Shape)
+  (read : CommonBacking.Memory) (inputs : TensorBinding.ForwardTensorInputs shape)
+  (before : Triton.FP.Structural.State CommonBacking.Word) : Type
+number of parameters: 4
+fields:
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.ForwardBacking.outputs : CommonBacking.Outputs
+      CommonBacking.ForwardPort CommonBacking.ForwardPort.region (fun k => TensorBinding.forwardShape shape k.region)
+      read (TensorBinding.initialForward read inputs before)
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.ForwardBacking.queryRegion : inputs.query.region =
+      { name := "q" }
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.ForwardBacking.keyRegion : inputs.key.region =
+      { name := "k" }
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.ForwardBacking.valueRegion : inputs.value.region =
+      { name := "v" }
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.ForwardBacking.inputSeparate : CommonBacking.InputSeparation
+      self.outputs.view (CommonBacking.forwardInputs inputs)
+constructor:
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.ForwardBacking.mk {shape : ParallelAttention.Shape}
+    {read : CommonBacking.Memory} {inputs : TensorBinding.ForwardTensorInputs shape}
+    {before : Triton.FP.Structural.State CommonBacking.Word}
+    (outputs :
+      CommonBacking.Outputs CommonBacking.ForwardPort CommonBacking.ForwardPort.region
+        (fun k => TensorBinding.forwardShape shape k.region) read (TensorBinding.initialForward read inputs before))
+    (queryRegion : inputs.query.region = { name := "q" }) (keyRegion : inputs.key.region = { name := "k" })
+    (valueRegion : inputs.value.region = { name := "v" })
+    (inputSeparate : CommonBacking.InputSeparation outputs.view (CommonBacking.forwardInputs inputs)) :
+    CommonBacking.ForwardBacking shape read inputs before
+structure VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.BackwardBacking (shape : ParallelAttention.Shape)
+  (read : CommonBacking.Memory) (inputs : TensorBinding.BackwardTensorInputs shape)
+  (before : Triton.FP.Structural.State CommonBacking.Word) : Type
+number of parameters: 4
+fields:
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.BackwardBacking.outputs : CommonBacking.Outputs
+      CommonBacking.BackwardPort CommonBacking.BackwardPort.region (fun k => TensorBinding.backwardShape shape k.region)
+      read (TensorBinding.initial read inputs before)
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.BackwardBacking.queryRegion : inputs.forward.query.region =
+      { name := "q" }
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.BackwardBacking.keyRegion : inputs.forward.key.region =
+      { name := "k" }
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.BackwardBacking.valueRegion : inputs.forward.value.region =
+      { name := "v" }
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.BackwardBacking.outGradRegion : inputs.outGrad.region =
+      { name := "do" }
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.BackwardBacking.normGradRegion : inputs.normGrad.region =
+      { name := "dz" }
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.BackwardBacking.inputSeparate : CommonBacking.InputSeparation
+      self.outputs.view (CommonBacking.backwardInputs inputs)
+constructor:
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.BackwardBacking.mk {shape : ParallelAttention.Shape}
+    {read : CommonBacking.Memory} {inputs : TensorBinding.BackwardTensorInputs shape}
+    {before : Triton.FP.Structural.State CommonBacking.Word}
+    (outputs :
+      CommonBacking.Outputs CommonBacking.BackwardPort CommonBacking.BackwardPort.region
+        (fun k => TensorBinding.backwardShape shape k.region) read (TensorBinding.initial read inputs before))
+    (queryRegion : inputs.forward.query.region = { name := "q" })
+    (keyRegion : inputs.forward.key.region = { name := "k" })
+    (valueRegion : inputs.forward.value.region = { name := "v" })
+    (outGradRegion : inputs.outGrad.region = { name := "do" })
+    (normGradRegion : inputs.normGrad.region = { name := "dz" })
+    (inputSeparate : CommonBacking.InputSeparation outputs.view (CommonBacking.backwardInputs inputs)) :
+    CommonBacking.BackwardBacking shape read inputs before
+structure VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.JointBinding {κ : Type}
+  (read post : CommonBacking.Memory) (source final : Triton.FP.Structural.State CommonBacking.Word)
+  (views : κ → TensorBinding.View) (ins : List TensorBinding.View) (writes : Triton.RegionName → ℕ → Prop) : Prop
+number of parameters: 8
+fields:
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.JointBinding.beforeOutputs : ∀ (k : κ),
+      ∀ i < (views k).tensor.metadata.numel,
+        Triton.FP.Structural.Cell.read Triton.TileDType.real (source.mem (views k).region i) =
+          (read (CommonBacking.address (views k) i)).bits
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.JointBinding.beforeInputs : CommonBacking.InputBinding
+      read source ins
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.JointBinding.afterOutputs : ∀ (k : κ),
+      ∀ i < (views k).tensor.metadata.numel,
+        (post (CommonBacking.address (views k) i)).bits =
+          Triton.FP.Structural.Cell.read Triton.TileDType.real (final.mem (views k).region i)
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.JointBinding.afterInputs : CommonBacking.InputBinding
+      post final ins
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.JointBinding.logicalOutputs : ∀ (k : κ),
+      ∀ i < (views k).tensor.metadata.numel,
+        (Torch.FP32.logicalValue post (views k).tensor ⋯ i).bits =
+          Triton.FP.Structural.Cell.read Triton.TileDType.real (final.mem (views k).region i)
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.JointBinding.logicalInputs : ∀ v ∈ ins,
+      ∀ i < v.tensor.metadata.numel,
+        Torch.FP32.logicalValue post v.tensor ⋯ i = Torch.FP32.logicalValue read v.tensor ⋯ i
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.JointBinding.inputStorageFrame : ∀ v ∈ ins,
+      ∀ (a : ℕ), CommonBacking.inStorage v a → post a = read a
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.JointBinding.frame : ∀ (a : ℕ),
+      ¬CommonBacking.PhysicalWrites views writes a → post a = read a
+constructor:
+  VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.JointBinding.mk {κ : Type}
+    {read post : CommonBacking.Memory} {source final : Triton.FP.Structural.State CommonBacking.Word}
+    {views : κ → TensorBinding.View} {ins : List TensorBinding.View} {writes : Triton.RegionName → ℕ → Prop}
+    (beforeOutputs :
+      ∀ (k : κ),
+        ∀ i < (views k).tensor.metadata.numel,
+          Triton.FP.Structural.Cell.read Triton.TileDType.real (source.mem (views k).region i) =
+            (read (CommonBacking.address (views k) i)).bits)
+    (beforeInputs : CommonBacking.InputBinding read source ins)
+    (afterOutputs :
+      ∀ (k : κ),
+        ∀ i < (views k).tensor.metadata.numel,
+          (post (CommonBacking.address (views k) i)).bits =
+            Triton.FP.Structural.Cell.read Triton.TileDType.real (final.mem (views k).region i))
+    (afterInputs : CommonBacking.InputBinding post final ins)
+    (logicalOutputs :
+      ∀ (k : κ),
+        ∀ i < (views k).tensor.metadata.numel,
+          (Torch.FP32.logicalValue post (views k).tensor ⋯ i).bits =
+            Triton.FP.Structural.Cell.read Triton.TileDType.real (final.mem (views k).region i))
+    (logicalInputs :
+      ∀ v ∈ ins,
+        ∀ i < v.tensor.metadata.numel,
+          Torch.FP32.logicalValue post v.tensor ⋯ i = Torch.FP32.logicalValue read v.tensor ⋯ i)
+    (inputStorageFrame : ∀ v ∈ ins, ∀ (a : ℕ), CommonBacking.inStorage v a → post a = read a)
+    (frame : ∀ (a : ℕ), ¬CommonBacking.PhysicalWrites views writes a → post a = read a) :
+    CommonBacking.JointBinding read post source final views ins writes
+forward_grid_real : ∀ (shape : ParallelAttention.Shape),
+  ParallelAttention.ShapeContract shape →
+    ∀ (σ : ℝ) (s : Triton.FP.Structural.State ℝ),
+      ∃ final,
+        runPrograms (forwardLaunch realScalars shape σ) (programs shape 128) s = some final ∧
+          SameInputs s final ∧
+            (∀ (p : Program shape 128) (r : Fin 128) (v : Fin shape.BV),
+                (outputRectangle shape p.tile 128).active (r, v, ()) →
+                  final.mem { name := "o" } ((outputRectangle shape p.tile 128).address (r, v, ())) =
+                    Triton.FP.Structural.Cell.mk Triton.TileDType.real
+                      (ParallelAttention.outputSpec shape.T shape.K σ
+                        (ParallelAttention.headInputs (inputReaders shape s) ↑p.head) (↑p.chunk * 128 + ↑r)
+                        (↑p.value * shape.BV + ↑v))) ∧
+              (∀ (p : Program shape 128) (r : Fin 128),
+                  ↑p.value = 0 →
+                    ↑p.chunk * 128 + ↑r < shape.T →
+                      final.mem { name := "z" } (normalizerAddress shape p.tile ↑r) =
+                        Triton.FP.Structural.Cell.mk Triton.TileDType.real
+                          (ParallelAttention.normalizerSpec shape.T shape.K σ
+                            (ParallelAttention.headInputs (inputReaders shape s) ↑p.head) (↑p.chunk * 128 + ↑r))) ∧
+                ∀ (R : Triton.RegionName) (off : ℕ),
+                  (∀ p ∈ programs shape 128, ¬forwardWrites shape p R off) → final.mem R off = s.mem R off
+backward_grid_real : ∀ (shape : ParallelAttention.Shape),
+  ParallelAttention.ShapeContract shape →
+    ∀ (σ : ℝ) (s : Triton.FP.Structural.State ℝ),
+      ∃ final,
+        runPrograms (combinedLaunch realScalars shape σ) (programs shape 64) s = some final ∧
+          SameInputs s final ∧
+            (∀ p ∈ programs shape 64,
+                ∀ (R : Triton.RegionName) (off : ℕ),
+                  backwardWrites shape p R off →
+                    final.mem R off = backwardMathTarget shape σ (inputReaders shape s) p R off) ∧
+              ∀ (R : Triton.RegionName) (off : ℕ),
+                (∀ p ∈ programs shape 64, ¬backwardWrites shape p R off) → final.mem R off = s.mem R off
+CommonBacking.forward_joint : ∀ (actual reference : Scalars CommonBacking.Word),
+  NativeStage.PrimitiveLaws actual reference →
+    ∀ (d : ParallelAttention.NativePlans.Descriptor),
+      ParallelAttention.ShapeContract d.shape →
+        ∀ (σ : ℝ),
+          TensorBinding.ScaleABI d σ →
+            ∀ (read : CommonBacking.Memory) (inputs : TensorBinding.ForwardTensorInputs d.shape)
+              (before : Triton.FP.Structural.State CommonBacking.Word)
+              (backing : CommonBacking.ForwardBacking d.shape read inputs before),
+              ∃ final post,
+                runPrograms (fun p s => NativeStage.forwardRun actual d σ (withProgram p s)) (programs d.shape 128)
+                      (TensorBinding.initialForward read inputs before) =
+                    some final ∧
+                  post =
+                      CommonBacking.jointPost read backing.outputs.view (CommonBacking.forwardFootprint d.shape) final ∧
+                    CommonBacking.JointBinding read post (TensorBinding.initialForward read inputs before) final
+                        backing.outputs.view (CommonBacking.forwardInputs inputs)
+                        (CommonBacking.forwardFootprint d.shape) ∧
+                      (∀ (p : Program d.shape 128) (k : CommonBacking.ForwardPort) (i : ℕ),
+                          forwardWrites d.shape p (backing.outputs.view k).region i →
+                            (Torch.FP32.logicalValue post (backing.outputs.view k).tensor ⋯ i).bits =
+                              Triton.FP.Structural.Cell.read Triton.TileDType.real
+                                (NativeStage.forwardGridTarget reference d σ p
+                                  (TensorBinding.initialForward read inputs before) (backing.outputs.view k).region
+                                  i)) ∧
+                        (∀ (R : Triton.RegionName) (i : ℕ),
+                            ¬CommonBacking.forwardFootprint d.shape R i →
+                              final.mem R i = (TensorBinding.initialForward read inputs before).mem R i) ∧
+                          ∀ (p q : Program d.shape 128) (k l : CommonBacking.ForwardPort) (i j : ℕ),
+                            forwardWrites d.shape p (backing.outputs.view k).region i →
+                              forwardWrites d.shape q (backing.outputs.view l).region j →
+                                CommonBacking.address (backing.outputs.view k) i =
+                                    CommonBacking.address (backing.outputs.view l) j →
+                                  p = q ∧ k = l ∧ i = j
+CommonBacking.backward_joint : ∀ (actual reference : Scalars CommonBacking.Word),
+  NativeStage.PrimitiveLaws actual reference →
+    ∀ (d : ParallelAttention.NativePlans.Descriptor),
+      ParallelAttention.ShapeContract d.shape →
+        ∀ (σ : ℝ),
+          TensorBinding.ScaleABI d σ →
+            ∀ (read : CommonBacking.Memory) (inputs : TensorBinding.BackwardTensorInputs d.shape)
+              (before : Triton.FP.Structural.State CommonBacking.Word)
+              (backing : CommonBacking.BackwardBacking d.shape read inputs before),
+              ∃ final post,
+                runPrograms (NativeStage.combinedRun actual d σ) (programs d.shape 64)
+                      (TensorBinding.initial read inputs before) =
+                    some final ∧
+                  post =
+                      CommonBacking.jointPost read backing.outputs.view (CommonBacking.backwardFootprint d.shape)
+                        final ∧
+                    CommonBacking.JointBinding read post (TensorBinding.initial read inputs before) final
+                        backing.outputs.view (CommonBacking.backwardInputs inputs)
+                        (CommonBacking.backwardFootprint d.shape) ∧
+                      (∀ (p : Program d.shape 64) (k : CommonBacking.BackwardPort) (i : ℕ),
+                          backwardWrites d.shape p (backing.outputs.view k).region i →
+                            (Torch.FP32.logicalValue post (backing.outputs.view k).tensor ⋯ i).bits =
+                              Triton.FP.Structural.Cell.read Triton.TileDType.real
+                                (NativeStage.backwardGridTarget reference d σ p
+                                  (TensorBinding.initial read inputs before) (backing.outputs.view k).region i)) ∧
+                        (∀ (R : Triton.RegionName) (i : ℕ),
+                            ¬CommonBacking.backwardFootprint d.shape R i →
+                              final.mem R i = (TensorBinding.initial read inputs before).mem R i) ∧
+                          ∀ (p q : Program d.shape 64) (k l : CommonBacking.BackwardPort) (i j : ℕ),
+                            backwardWrites d.shape p (backing.outputs.view k).region i →
+                              backwardWrites d.shape q (backing.outputs.view l).region j →
+                                CommonBacking.address (backing.outputs.view k) i =
+                                    CommonBacking.address (backing.outputs.view l) j →
+                                  p = q ∧ k = l ∧ i = j
+VeriTile.Bench.Repairs.ParallelAttentionKernel.forward_grid_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ParallelAttentionKernel.backward_grid_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.forward_joint: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.backward_joint: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.realize_joint: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.forward_all_stores: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.backward_all_stores: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.forward_physical_unique: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.backward_physical_unique: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.forward_empty_post: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.backward_empty_post: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.ParallelAttentionKernel.NativeStage.forwardGridTarget: definition does not reference [VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.jointPost,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.ParallelAttentionKernel.runPrograms] — non-circular ✓
+VeriTile.Bench.Repairs.ParallelAttentionKernel.NativeStage.backwardGridTarget: definition does not reference [VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.jointPost,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.ParallelAttentionKernel.runPrograms] — non-circular ✓
+VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.forwardFootprint: definition does not reference [VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.jointPost,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.ParallelAttentionKernel.runPrograms] — non-circular ✓
+VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.backwardFootprint: definition does not reference [VeriTile.Bench.Repairs.ParallelAttentionKernel.CommonBacking.jointPost,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.ParallelAttentionKernel.runPrograms] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/parallel_attention/KernelOnly/PublicV2.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/parallel_attention/KernelOnly/PublicV2.olean"}

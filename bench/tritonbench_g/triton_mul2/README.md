@@ -1,7 +1,3 @@
 # triton_mul2
 
-- Source file: `triton_mul2.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
-
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [triton_mul2](../../repairs/tritonbench_g/triton_mul2/README.md).

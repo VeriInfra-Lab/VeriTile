@@ -1,0 +1,32 @@
+{
+  "scope": "FP32 source/native operation graph; no exact-Real floating interpretation",
+  "status": "GPU numerical conformance deferred",
+  "ports": [
+    {
+      "name": "addRN",
+      "domain": "all raw FP32 words, including NaNs, infinities, subnormals and signed zeros",
+      "required_evidence": "pointwise agreement with the selected rounded native instruction, under recorded target/FTZ/NaN behavior"
+    },
+    {
+      "name": "mulRN",
+      "domain": "all raw FP32 words, including NaNs, infinities, subnormals and signed zeros",
+      "required_evidence": "pointwise agreement with the selected rounded native instruction, under recorded target/FTZ/NaN behavior"
+    },
+    {
+      "name": "fmaRN",
+      "domain": "all raw FP32 words, including NaNs, infinities, subnormals and signed zeros",
+      "required_evidence": "pointwise agreement with the selected rounded native instruction, under recorded target/FTZ/NaN behavior"
+    }
+  ],
+  "structural_parameters": [
+    "complete ordered reduction trees",
+    "actual permitted FMA contraction and operand-order schedule"
+  ],
+  "excluded_assumptions": [
+    "whole reduction result equality",
+    "whole tensor/output equality",
+    "successful kernel execution",
+    "compiler-wide conformance"
+  ],
+  "runtime_boundary": "ordinary Tensor storage/metadata interpretation and successful CUDA launch; shared grid-product compatibility deferred separately"
+}

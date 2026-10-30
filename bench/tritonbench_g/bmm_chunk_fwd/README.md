@@ -1,7 +1,3 @@
 # bmm_chunk_fwd
 
-- Source file: `bmm_chunk_fwd.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
-
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [bmm_chunk_fwd](../../repairs/tritonbench_g/bmm_chunk_fwd/README.md).

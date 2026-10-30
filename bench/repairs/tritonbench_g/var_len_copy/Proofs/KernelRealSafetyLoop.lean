@@ -1,0 +1,57 @@
+import bench.repairs.tritonbench_g.var_len_copy.Proofs.KernelRealSafetyStep
+
+namespace VeriTile.Bench.Repairs.VarLenCopy.KernelReal
+open VeriTile Triton
+open VeriTile.Bench.TritonBenchG.VarLenCopy
+
+ theorem invariant_safe (bounds : RegionBounds) (initial s : BlockState)
+    (os ol ns : Region .int) (src dst : RegionName)
+    (B : Nat) (length : Int) (oldStart newStart c : Nat)
+    (hB : 0 < B) (hc : c < Math.rounds length B)
+    (hsrc : oldStart + length.toNat ≤ bounds src)
+    (hdst : newStart + length.toNat ≤ bounds dst)
+    (h : Inv initial src dst B length oldStart newStart c s) :
+    Stmt.TraceSafeList bounds (body os ol ns src dst B)
+      (s.setReg "i" .int [] (Tile.scalar (c * B : Nat))) := by
+  have hi := h.setIndex (c * B : Nat)
+  have hstart := (Math.loop_test length hB).mpr hc
+  apply body_safe bounds os ol ns src dst B _ length oldStart newStart (c * B : Nat)
+    hi.lengthReg hi.oldReg hi.newReg (by simp) hi.oldOffset hi.newOffset
+  · intro i hL
+    rw [address_nat]
+    omega
+  · intro i hL
+    rw [address_nat]
+    omega
+
+ theorem loop_safe (bounds : RegionBounds) (initial : BlockState)
+    (os ol ns : Region .int) (src dst : RegionName)
+    (B : Nat) (length : Int) (oldStart newStart : Nat)
+    (hB : 0 < B) (hsd : src ≠ dst)
+    (hsrc : oldStart + length.toNat ≤ bounds src)
+    (hdst : newStart + length.toNat ≤ bounds dst) :
+    ∀ c s, c ≤ Math.rounds length B → Inv initial src dst B length oldStart newStart c s →
+      Stmt.forRangeIntTraceSafe bounds "i" (c * B : Nat) length B (body os ol ns src dst B) s := by
+  intro c s
+  induction h : (Math.rounds length B - c) using Nat.strong_induction_on generalizing c s with
+  | _ remaining ih =>
+    intro hc hi
+    by_cases hd : c = Math.rounds length B
+    · subst c
+      have hcover := Math.rounds_coverage length hB
+      rw [Stmt.forRangeIntTraceSafe, if_neg (Nat.ne_of_gt hB), if_neg (by omega)]
+      trivial
+    · have hlt : c < Math.rounds length B := by omega
+      have htest := (Math.loop_test length hB).mpr hlt
+      obtain ⟨mid,he,hm⟩ := invariant_step initial s os ol ns src dst B length oldStart newStart c hB hlt hsd hi
+      rw [Stmt.forRangeIntTraceSafe, if_neg (Nat.ne_of_gt hB), if_pos (by omega)]
+      refine ⟨invariant_safe bounds initial s os ol ns src dst B length oldStart newStart c hB hlt hsrc hdst hi, ?_⟩
+      rw [he]
+      have ht := ih (Math.rounds length B - (c + 1)) (by omega)
+        (c + 1) mid rfl (by omega) hm
+      simpa only [Nat.add_mul,Nat.one_mul,Nat.cast_add] using ht
+
+end VeriTile.Bench.Repairs.VarLenCopy.KernelReal
+
+#guard_msgs (drop info) in
+#auditModuleAxioms

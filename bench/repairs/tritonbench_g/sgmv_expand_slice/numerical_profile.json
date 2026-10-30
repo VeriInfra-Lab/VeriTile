@@ -1,0 +1,15 @@
+{
+  "input": "fp32",
+  "weight": "fp16",
+  "output": "fp32",
+  "metadata": [
+    "int32",
+    "int64"
+  ],
+  "launch": "BLOCK_M=32, BLOCK_N=32, BLOCK_K=16, num_warps=4, num_ctas=1",
+  "accumulation": "eight m16n8k16 primitives per 32x32x16 dotAcc; incoming FP32 accumulator",
+  "finish": "FP32->FP16, optional old-first FP32 add, FP32 store",
+  "overlaps": "serial original batch order",
+  "boundary": "exact source compilation, local conversion/add/MMA instruction bits, two local zero conversions",
+  "validation": "CPU actual-AST checks; no GPU execution or hardware primitive conformance claim"
+}

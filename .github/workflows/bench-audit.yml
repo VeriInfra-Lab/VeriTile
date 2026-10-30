@@ -1,146 +1,165 @@
 name: Bench audit
 
-# TritonBench-G completion gates: comparator-backed trust audit (bench/audit_trust.sh),
-# proof-gap manifest exact-match (bench/check_proof_gap_manifest.py), and the
-# textual py<->lean faithfulness scans (bench/audit_tritonbench_g.sh).
-#
-# Elaboration and proof replay dominate runtime (parallelized in
-# bench/audit_trust.sh), so this workflow is scoped to bench/ changes rather
-# than every .lean touch; the weekly scheduled run catches drift introduced
-# by library changes that never touch bench/.
-
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'bench/**'
-      - 'scripts/check_comparator.py'
-      - 'scripts/comparator_common.py'
-      - 'scripts/setup-comparator.sh'
-      - 'scripts/kernel-manifest.tsv'
-      - 'scripts/test_audit_shards.py'
-      - 'lean-toolchain'
-      - '.github/actions/setup-comparator/**'
-      - '.github/workflows/bench-audit.yml'
   pull_request:
-    branches:
-      - main
-    paths:
-      - 'bench/**'
-      - 'scripts/check_comparator.py'
-      - 'scripts/comparator_common.py'
-      - 'scripts/setup-comparator.sh'
-      - 'scripts/kernel-manifest.tsv'
-      - 'scripts/test_audit_shards.py'
-      - 'lean-toolchain'
-      - '.github/actions/setup-comparator/**'
-      - '.github/workflows/bench-audit.yml'
-  schedule:
-    # Weekly drift check (Monday 03:17 UTC) so library-only changes that
-    # break bench ports or scans still surface within a week.
-    - cron: '17 3 * * 1'
+    branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
+    inputs:
+      full_audit:
+        description: Replay every retained module, including unused helper theorems
+        type: boolean
+        default: false
+  schedule:
+    - cron: '17 3 * * 1'
 
 permissions:
   contents: read
 
-# Keep the newest audit for each ref.
 concurrency:
   group: bench-audit-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   global:
-    name: TritonBench-G global gates
-    if: >-
-      github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: ubuntu-latest
+    name: Final source gates and library replay
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
     timeout-minutes: 360
-
+    outputs:
+      audit_mode: ${{ steps.scope.outputs.mode }}
+      shard_count: ${{ steps.scope.outputs.count }}
+      shards: ${{ steps.scope.outputs.shards }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install required audit tools
+      - uses: actions/checkout@v4
+      - name: Select public-entry or full-corpus audit
+        id: scope
+        env:
+          FULL_AUDIT: ${{ inputs.full_audit }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          full = os.environ['GITHUB_EVENT_NAME'] == 'schedule' or os.environ['FULL_AUDIT'] == 'true'
+          count = 64 if full else 16
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              print('mode=' + ('--final-inventory' if full else '--ci-targets'), file=output)
+              print(f'count={count}', file=output)
+              print('shards=' + json.dumps(list(range(count))), file=output)
+          PY
+      - name: Make room for the complete Lean corpus
+        run: sudo rm -rf /usr/local/lib/android /opt/ghc /usr/share/dotnet
+      - name: Install required source audit tools
         run: |
           sudo apt-get update
           sudo apt-get install -y ripgrep
           command -v rg && command -v python3
-
-      - name: Check audit source and sharding regressions
+      - name: Check final source and audit regressions
         run: |
-          python3 -m unittest discover -s scripts -p 'test_audit_source.py'
-          python3 -m unittest discover -s scripts -p 'test_audit_shards.py'
-
-      - name: Build Lean project
-        uses: leanprover/lean-action@v1
+          python3 -B -m unittest discover -s bench/tests -p 'test_*.py'
+          python3 -B -m unittest discover -s scripts -p 'test_audit_source.py'
+          python3 -B -m unittest discover -s scripts -p 'test_audit_shards.py'
+          python3 -B -m unittest discover -s scripts -p 'test_comparator_preflight.py'
+          python3 -B bench/final_inventory.py --check
+          python3 -B -m bench.check_body_corpus --check
+          python3 -B bench/check_imported_kernel_review.py
+      - uses: leanprover/lean-action@v1
         with:
           build: true
-          build-args: "VeriTile VeriTileFull"
+          build-args: "VeriTile VeriTileMath VeriTileFull"
           test: false
           lint: false
           use-mathlib-cache: auto
+      - uses: ./.github/actions/setup-comparator
+      - name: Replay library proofs
+        run: python3 scripts/check_comparator.py --library
+      - name: Bind the built snapshot
+        run: python3 bench/final_inventory.py --check
 
-      - name: Set up official proof comparator
-        uses: ./.github/actions/setup-comparator
-
-      - name: Run structural and library comparator gates once
-        run: bench/audit_tritonbench_g.sh --global-only
+  drafts:
+    name: All 334 benchmark interfaces
+    needs: global
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make room for the benchmark builds
+        run: sudo rm -rf /usr/local/lib/android /opt/ghc /usr/share/dotnet
+      - uses: leanprover/lean-action@v1
+        with:
+          build: true
+          build-args: "BugDetection PretrainKernels"
+          test: false
+          lint: false
+          use-mathlib-cache: auto
+      - name: Check final interfaces and recorded source bindings
+        run: |
+          python3 bench/bug_detection/check.py --verify-record
+          python3 bench/pretrain_kernels/check.py --verify-record
+          python3 bench/check_imported_kernel_review.py
 
   audit:
-    name: TritonBench-G audit shard ${{ matrix.shard }}
-    # Each shard requires the global gates and checks a disjoint corpus subset.
+    name: Final entry build and replay ${{ matrix.shard }}
     needs: global
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 360
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1, 2, 3]
+        shard: ${{ fromJSON(needs.global.outputs.shards) }}
     env:
       AUDIT_TRUST_JOBS: 1
-      AUDIT_TRUST_SHARD_COUNT: 4
+      AUDIT_TRUST_SHARD_COUNT: ${{ needs.global.outputs.shard_count }}
       AUDIT_TRUST_SHARD_INDEX: ${{ matrix.shard }}
-
+      AUDIT_MODE: ${{ needs.global.outputs.audit_mode }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Build corpus dependencies
-        uses: leanprover/lean-action@v1
+      - uses: actions/checkout@v4
+      - name: Make room for proof replay
+        run: sudo rm -rf /usr/local/lib/android /opt/ghc /usr/share/dotnet
+      - uses: leanprover/lean-action@v1
         with:
-          build: true
-          build-args: "VeriTile"
+          build: false
           test: false
           lint: false
-          use-mathlib-cache: auto
-
-      - name: Set up official proof comparator
-        uses: ./.github/actions/setup-comparator
-
-      - name: Run corpus shard with comparator
-        run: bench/audit_trust.sh
+          use-mathlib-cache: false
+      - name: Fetch Mathlib cache with bounded network retries
+        env:
+          MATHLIB_CACHE_GET_URL: https://cache.mathlib.org/mathlib4
+        run: |
+          for delay in 0 5 15; do
+            sleep "$delay"
+            if lake exe cache get; then
+              exit 0
+            fi
+          done
+          exit 1
+      - name: Build every selected module and its complete dependencies
+        run: |
+          if [ "$AUDIT_MODE" = --final-inventory ]; then
+            python3 bench/final_inventory.py --targets > "$RUNNER_TEMP/all-targets.txt"
+          else
+            python3 bench/final_inventory.py --ci-targets > "$RUNNER_TEMP/all-targets.txt"
+          fi
+          python3 bench/select_audit_shard.py "$AUDIT_TRUST_SHARD_COUNT" "$AUDIT_TRUST_SHARD_INDEX" \
+            < "$RUNNER_TEMP/all-targets.txt" > "$RUNNER_TEMP/shard-targets.txt"
+          test -s "$RUNNER_TEMP/shard-targets.txt"
+          sed 's|/|.|g; s|\.lean$||' "$RUNNER_TEMP/shard-targets.txt" | xargs lake build
+      - uses: ./.github/actions/setup-comparator
+      - name: Replay selected entries and their proof dependencies
+        run: bench/audit_trust.sh "$AUDIT_MODE"
 
   complete:
     name: TritonBench-G audit complete
-    needs: [global, audit]
-    # A failed, cancelled, or skipped dependency must never become a green gate.
-    # Retain the existing policy of running this workflow only for local PRs.
-    if: >-
-      always() &&
-      (github.event_name != 'pull_request' ||
-       github.event.pull_request.head.repo.full_name == github.repository)
-    runs-on: ubuntu-latest
+    needs: [global, drafts, audit]
+    if: always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
     env:
       GLOBAL_RESULT: ${{ needs.global.result }}
       CORPUS_RESULT: ${{ needs.audit.result }}
+      DRAFTS_RESULT: ${{ needs.drafts.result }}
     steps:
-      - name: Require global gates and all corpus shards
+      - name: Require every build and proof gate
         run: |
-          if [[ "$GLOBAL_RESULT" != success || "$CORPUS_RESULT" != success ]]; then
-            printf 'Audit incomplete: global=%s, corpus=%s\n' "$GLOBAL_RESULT" "$CORPUS_RESULT"
-            exit 1
-          fi
-          printf 'Global gates and all four corpus shards passed\n'
+          test "$GLOBAL_RESULT" = success
+          test "$CORPUS_RESULT" = success
+          test "$DRAFTS_RESULT" = success

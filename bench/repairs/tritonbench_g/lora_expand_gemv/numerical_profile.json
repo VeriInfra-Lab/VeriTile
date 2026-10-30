@@ -1,0 +1,16 @@
+{
+  "sum_sha256": "5982dd4cb2c82d1ed019dec338e3268d91bf4721da3bd422d53bb4583f9422a2",
+  "sum_selector_sha256": "6efa32bf065f98435deb14e9776a94d0d7e7dba2d68fa400e9f577eb6d5bd888",
+  "next_power_of_two_sha256": "5201d063b62d9fcba01dca83b045ff660fe36fa351447093f7eca5cac27db5c8",
+  "triton_version": "3.7.1",
+  "input": "fp32",
+  "weight": "fp16",
+  "output": "fp32",
+  "metadata": [
+    "int32",
+    "int64"
+  ],
+  "graph": "FP32->FP16 X; explicit FP16 products and scalar reduction tree; FP16->FP32 result; optional FP32 add",
+  "compiler_selection": "erased-shape operand swaps and adjacent FP16 mul/add contraction; six fixed scalar primitive families",
+  "validation": "CPU production AST execution only; native primitive conformance remains local boundary"
+}

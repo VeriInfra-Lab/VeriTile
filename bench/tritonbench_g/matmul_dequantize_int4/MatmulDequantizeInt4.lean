@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-!
 # `matmul_dequantize_int4` — strict per-kernel correctness
@@ -49,7 +50,10 @@ spec, so no part of the trust path is self-referential.
 
 ## Modeling boundary
 
-Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.autotune` and the
+The source's `(b).to(a.dtype)` remains an explicit `.real → .real`
+`Op.castFloat` in the algorithm AST and is evaluated through the identity
+cast of this model. Arithmetic is over `ℝ` (not bit-accurate IEEE float);
+`@triton.autotune` and the
 host launch (the 1-D grid `cdiv(M,BM)·cdiv(N,BN)`, the block sizes, and
 `NO_GROUPS = (group_size == K)`) are the *trusted boundary*. Every dimension,
 stride and block size stays a symbolic parameter.
@@ -557,7 +561,8 @@ def mdqLoopBody
     Stmt.assign .real [BM, BN] "accumulator"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BN] "accumulator")
-        (Op.dot (batch := []) (Op.ref .real [BM, BK] "a") (Op.ref .real [BK, BN] "b"))),
+        (Op.dot (batch := []) (Op.ref .real [BM, BK] "a")
+          (Op.castFloat .real .real (Op.ref .real [BK, BN] "b")))),
     Stmt.assign .ptr [BM, BK] "a_ptrs"
       (Op.ptrAdd Broadcast.scalarR (Op.ref .ptr [BM, BK] "a_ptrs")
         (Op.mul .nat Broadcast.nil (Op.constNat BK) (Op.constNat stride_ak))),
@@ -1604,12 +1609,12 @@ theorem mdqLoopBody_run (s0 : BlockState) (a scales : RegionName)
         (mdq_expandDim_eval _ _ _ _ (by rw [evalOp_ref]; simpa using hscalesT)))
       (mdq_expandDim_eval _ _ _ _ (by rw [evalOp_ref]; simpa using hzerosT))
   rw [stepStmts.cons_some (stepStmt_assign_eq_some h5)]
-  -- 6. `accumulator += tl.dot(a, b)`
+  -- 6. `accumulator += tl.dot(a, (b).to(a.dtype))`
   have h6 : evalOp (Op.add .real
         (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BN] "accumulator")
         (Op.dot (batch := []) (Op.ref .real [BM, BK] "a")
-          (Op.ref .real [BK, BN] "b")))
+          (Op.castFloat .real .real (Op.ref .real [BK, BN] "b"))))
         (((t.setReg "b" .nat [BK, BN]
               (mdqBNibbleTile s0 b stride_bk stride_bn BN BK pn i)).setReg
             "b" .real [BK, BN]
@@ -1623,7 +1628,7 @@ theorem mdqLoopBody_run (s0 : BlockState) (a scales : RegionName)
     exact mdq_addTile_eval NumericDType.real _ _ _ _ _ _
       (by rw [evalOp_ref]; simpa using htAcc)
       (mdq_dot_eval _ _ _ _ _ (by rw [evalOp_ref]; simpa using htATile)
-        (by rw [evalOp_ref]; simp))
+        (by erw [evalOp_castFloat, evalOp_ref]; simp [FloatDType.cast]))
   rw [stepStmts.cons_some (stepStmt_assign_eq_some h6)]
   -- 7. `a_ptrs += BLOCK_SIZE_K * stride_ak`
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
@@ -2829,3 +2834,6 @@ specification matmul_dequantize_int4_exec_genuine
 end Correct_without_Rounding
 
 end VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4
+
+#guard_msgs (drop info) in
+#auditModuleAxioms

@@ -1,0 +1,109 @@
+/- Historical event-model result, retained for provenance only.
+The current public kernel theorem does not import this module. -/
+import bench.repairs.tritonbench_g.rms_rbe_matmul.Proofs.Program
+import bench.repairs.tritonbench_g.rms_matmul_rbe.Proofs.Real
+import bench.repairs.tritonbench_g.rms_rbe_matmul.Proofs.Mathematical
+namespace VeriTile.Bench.Repairs.RmsRbeMatmul.HistoricalReal
+open VeriTile.Bench.Repairs.RmsMatmulRbe
+noncomputable section
+set_option maxHeartbeats 5000000
+
+/-- Mathematical storage contains decoded Real input values; all representation
+casts are erased. It is not an assertion that native floating arithmetic is exact. -/
+def idealStorage : StorageOps ℝ ℝ where
+  toOps := realOps
+  hzero := 0
+  widen := id
+  narrow := id
+  e5Half := fun _ => 0
+  e5Single := fun _ => 0
+  e5Encode := fun _ => 0
+
+def targetAt (p : Parameters ℝ) (b : Buffers) (initial : Memory ℝ ℝ) (x : Cell s) :=
+  realTarget p (rowInput idealStorage b initial x.1 x.2.1) b.useRotary x.2.1 x.2.2
+
+theorem callee_correct (p : Parameters ℝ) (x : RowInput ℝ)
+    (plans : Nat → Nat → DotPlan) (reduction : Reduction) (rotary : Bool) (row n : Nat) :
+    rms_matmul_rbe realOps p x plans reduction rotary row n=realTarget p x rotary row n :=
+  value_real p x plans reduction rotary row n
+
+theorem correct (p : Parameters ℝ) (b : Buffers) (decoded : b.useByte=Bool.false)
+    (sep : b.Separate) (injective : Function.Injective (outputAddress b : Cell s → Address))
+    (schedule : Schedule s) (initial : Memory ℝ ℝ) (x : Cell s) :
+    run idealStorage p b selectedPlans selectedReductions schedule.events initial (outputAddress b x)=
+      .inr (.inr (targetAt p b initial x)) := by
+  rw [(whole_word_and_frame idealStorage p b sep injective selectedPlans selectedReductions schedule initial).1 x]
+  unfold wordTarget
+  rw [←value_reference,show idealStorage.toOps=realOps from rfl,value_real]
+  simp [encode,decoded,idealStorage,targetAt]
+
+theorem correct_frame (p : Parameters ℝ) (b : Buffers) (schedule : Schedule s)
+    (initial : Memory ℝ ℝ) (q : Address) (outside : ∀ x : Cell s,q≠outputAddress b x) :
+    run idealStorage p b selectedPlans selectedReductions schedule.events initial q=initial q :=
+  run_frame idealStorage p b selectedPlans selectedReductions schedule.events initial q outside
+
+def MainReal : Prop :=
+  (∀ p x plans reduction rotary row n,
+    value realOps p x plans reduction rotary row n=realTarget p x rotary row n) ∧
+  (∀ (s : Shape) (p : Parameters ℝ) (b : Buffers),b.useByte=Bool.false → b.Separate →
+    Function.Injective (outputAddress b : Cell s → Address) → ∀ (schedule : Schedule s) (initial : Memory ℝ ℝ),
+      (∀ x : Cell s,run idealStorage p b selectedPlans selectedReductions schedule.events initial (outputAddress b x)=
+        .inr (.inr (targetAt p b initial x))) ∧
+      (∀ q,(∀ x : Cell s,q≠outputAddress b x) → run idealStorage p b selectedPlans selectedReductions schedule.events initial q=initial q))
+theorem main_real : MainReal := by
+  constructor
+  · exact callee_correct
+  · intro s p b decoded sep inj schedule initial
+    exact ⟨correct p b decoded sep inj schedule initial,correct_frame p b schedule initial⟩
+
+namespace RawClaims
+open VeriTile.Triton FP.Structural
+open VeriTile.Bench.Repairs.RbeTritonTransform
+open Numerics
+def RealClaim : Prop := ∀ {Store : Type}, ∀ (api : Memory.API ℝ Store Byte) (r : Request) (input output : RegionName)
+    (s : State ℝ) (call : Native.Preparation api id r input s)
+    (abi : Native.IndexABI api id r input s call),
+    (Native.entry api id id ideal r input output s call).tensor=call.output ∧
+    (∀ b m c, b<r.batches → m<r.rows → c<r.columns →
+      Native.logicalRead api (Native.entry api id id ideal r input output s call).memory
+        call.output b m c = Rotary.expected r (fun o => (s.mem input o).read .fp32) b m c) ∧
+    (∀ b, call.caller b → api.byte (Native.entry api id id ideal r input output s call).memory b=api.byte call.before b)
+theorem real_claim : RealClaim := by
+  intro Store api r input output s call abi
+  exact Rotary.whole_real api r input output s call abi
+end RawClaims
+
+def WholeReal : Prop := MainReal ∧ RawClaims.RealClaim
+theorem whole_real_apis : WholeReal := ⟨main_real,RawClaims.real_claim⟩
+
+#axiomsClean main_real
+#axiomsClean RawClaims.real_claim
+#axiomsClean whole_real_apis
+#axiomsClean callee_correct
+#axiomsClean correct
+#axiomsClean correct_frame
+
+theorem python_checks_iff_input_contract (i : RmsRbeMatmul.Contract.Inputs) :
+    RmsRbeMatmul.Contract.checkInputs i=.ok () ↔ RmsRbeMatmul.Contract.InputContract i :=
+  RmsRbeMatmul.Contract.checkInputs_iff i
+
+specification rms_rbe_matmul_repaired_real_returns
+    (decode : Byte → ℝ) (encodeByte : ℝ → Byte) (cast : HostCast ℝ ℝ)
+    (i : RmsRbeMatmul.Contract.Inputs) (h : RmsRbeMatmul.Contract.InputContract i) (a : Checked.Allocation i)
+    (returns : Checked.Returns i a) (caller prepared : Memory ℝ ℝ)
+    (prep : Checked.HostPreparation i a cast caller prepared) :
+    (Checked.mathematicalEntry decode encodeByte i a returns prepared).1.metadata.shape=
+      [(Checked.shape i).B,(Checked.shape i).M,(Checked.shape i).heads,(Checked.shape i).headDim] ∧
+    (∀ x : Cell (Checked.shape i),Checked.tensorWord (Checked.mathematicalEntry decode encodeByte i a returns prepared).2
+      (Checked.mathematicalEntry decode encodeByte i a returns prepared).1
+      (RmsMatmulRbe.Checked.flat3 (Checked.shape i).M (Checked.shape i).N x.1 x.2.1 x.2.2)=
+      Checked.mathematicalTarget decode encodeByte cast i a caller x) ∧
+    (∀ q,q.1≠a.out.base → (Checked.sourceDType i=weightDType (Checked.buffers i a) ∨ q.1≠a.rms.base) →
+      (Checked.mathematicalEntry decode encodeByte i a returns prepared).2 q=caller q) :=
+  ⟨returns.view.shape,Checked.mathematical_returns decode encodeByte cast i h a returns caller prepared prep⟩
+
+#axiomsClean rms_rbe_matmul_repaired_real_returns
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.Repairs.RmsRbeMatmul.HistoricalReal

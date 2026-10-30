@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-!
 # `fused_recurrent_hgrn` — strict per-kernel correctness
@@ -255,7 +256,7 @@ theorem fused_recurrent_hgrn_fwd_body_split
     (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) :
     (fused_recurrent_hgrn_fwd_surface x g o h0 ht T D BD
         USE_INITIAL_STATE STORE_FINAL_STATE).toAlgorithm?
-      = Except.ok (Kernel.mk [x, x, g, g, o, o] []
+      = Except.ok (Kernel.mk [] [o, ht]
           (hgrnFwdPrologue x g o h0 T D BD USE_INITIAL_STATE
             ++ [Stmt.forRange "_i" 0 T 1 (hgrnFwdOuterBody D BD)]
             ++ hgrnFwdEpilogue ht D BD STORE_FINAL_STATE)) := by
@@ -388,7 +389,7 @@ def fused_recurrent_hgrn_bwd_surface
   for i in range($(T) - $(1), -$(1), -$(1)) {
     b_g = tl.load(p_g, mask=mask, other=0).to(tl.float32)
     b_do = tl.load(p_do, mask=mask, other=0).to(tl.float32)
-    if i > 0 {
+    if i > $((0 : Int)) {
       b_o = tl.load(p_o, mask=mask, other=0).to(tl.float32)
     } else {
       if USE_INITIAL_STATE {
@@ -422,8 +423,7 @@ theorem fused_recurrent_hgrn_bwd_surface_toAlgorithm_supported
       Except.ok
         (fused_recurrent_hgrn_bwd_surface G O H0 DX DG DO T D BD
           USE_INITIAL_STATE).toAlgKernel := by
-  simp [fused_recurrent_hgrn_bwd_surface, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?]
+  rfl
 
 def dIndex (s : BlockState) (BD : Nat) (i : Fin BD) : Nat :=
   s.pids 0 * BD + i.val
@@ -1696,3 +1696,6 @@ end IOFace
 
 end VeriTile.Bench.TritonBenchG.FusedRecurrentHgrn
 
+
+#guard_msgs (drop info) in
+#auditModuleAxioms

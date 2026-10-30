@@ -1,0 +1,35 @@
+# /opt/conda/lib/python3.11/site-packages/triton/language/core.py lines 2934-2952
+def maximum(x, y, propagate_nan: constexpr = PropagateNan.NONE, _semantic=None):
+    """
+    Computes the element-wise maximum of :code:`x` and :code:`y`.
+
+    :param x: the first input tensor
+    :type x: Block
+    :param y: the second input tensor
+    :type y: Block
+    :param propagate_nan: whether to propagate NaN values.
+    :type propagate_nan: tl.PropagateNan
+
+    .. seealso:: :class:`tl.PropagateNan`
+    """
+    x = _semantic.to_tensor(x)
+    y = _semantic.to_tensor(y)
+    x = _promote_bfloat16_to_float32(x, _semantic=_semantic)
+    y = _promote_bfloat16_to_float32(y, _semantic=_semantic)
+    propagate_nan = _unwrap_if_constexpr(propagate_nan)
+    return _semantic.maximum(x, y, propagate_nan)
+
+# /opt/conda/lib/python3.11/site-packages/triton/language/semantic.py lines 383-395
+    def maximum(self, x: TensorTy, y: TensorTy, propagate_nan: tl.PropagateNan):
+        x, y = self.binary_op_type_checking_impl(x, y)
+        dtype = x.dtype
+        if dtype.is_floating():
+            if propagate_nan == tl.PropagateNan.ALL:
+                return self.tensor(self.builder.create_maximumf(x.handle, y.handle), x.type)
+            elif propagate_nan == tl.PropagateNan.NONE:
+                return self.tensor(self.builder.create_maxnumf(x.handle, y.handle), x.type)
+            else:
+                raise ValueError(f"Unexpected propagate_nan {propagate_nan}")
+        elif dtype.is_int_signed():
+            return self.tensor(self.builder.create_maxsi(x.handle, y.handle), x.type)
+        elif dtype.is_int_unsigned():

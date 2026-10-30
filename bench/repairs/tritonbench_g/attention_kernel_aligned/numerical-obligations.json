@@ -1,0 +1,38 @@
+{
+  "task": "attention_kernel_aligned",
+  "source_sha256": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
+  "deferred_numerical_equalities": [],
+  "deferred_numerical_experiments": [],
+  "new_numerical_transformations": [],
+  "native_model": {
+    "one_instruction_model_per_source_precision": true,
+    "input_words": "Every FP16/BF16 word, including NaN and infinity; raw word leaves are identity reads",
+    "FP16_QK": "Fixed seeded m16n8k16 with FP16 accumulation/output and storage bias operations",
+    "BF16_QK": "Fixed seeded m16n8k16 with FP32 accumulation, BF16 narrowing, explicit storage +0 and bias operations",
+    "online_state_and_PV": "FP32, retaining selected reduction trees, probability narrowing, accumulator seeds and fusion",
+    "output": "Explicit source storage cast, then the low 16 bits at the actual caller output Tensor coordinate",
+    "no_whole_result_ports": ["variable-sized dot", "whole reduction", "softmax result", "kernel result", "complete lowering or execution equality"],
+    "native_to_Real_identity_claim": false,
+    "legacy_local_transport": "Optional historical two-model refinement; not a premise of either new kernel-native endpoint"
+  },
+  "model_boundaries": [
+    "Truthful Tensor metadata, Python scalar/type classification and FP32 launch-word observation",
+    "Ordinary original two-byte Tensor coordinate, capacity, pointer and contiguity API laws",
+    "Stable caller memory between observations and kernel execution",
+    "Individual scalar/conversion/fixed-MMA instruction semantics and compiler/source/ISA correspondence",
+    "Decoded integer compiler reduction routes, resource availability, driver and hardware applicability"
+  ],
+  "validation": {
+    "host_admissions": 1042,
+    "host_rejections": 43,
+    "configuration_family_size": 1024,
+    "admitted_configuration_pairs": 1004,
+    "CPU_FP16_complete_grids": 8,
+    "BF16_CPU_numeric_execution": false,
+    "actual_JIT_binder_SM80_profiles": 8,
+    "precision_profiles": 8,
+    "GPU_execution": false,
+    "universal_compiler_conformance_claim": false
+  },
+  "shared_grid_product_compatibility": "Deferred outside this task as previously scoped; no new guard or implementation"
+}
