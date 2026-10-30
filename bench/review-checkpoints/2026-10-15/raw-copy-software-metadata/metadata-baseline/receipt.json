@@ -1,0 +1,76 @@
+{
+  "schema": 3,
+  "status": "raw_copy_software_metadata_pending_incremental_acceptance",
+  "summary": {
+    "tasks": 184,
+    "baseline_public_records_preserved": 747,
+    "original_41_registry_unchanged": true,
+    "new_specification_records": 144,
+    "new_parametric_value_contracts": 140,
+    "recurrence_identities_not_value_contracts": 1,
+    "memory_frames_not_value_contracts": 2,
+    "protocol_contracts_not_value_contracts": 1,
+    "standalone_model_value_contracts": 6,
+    "source_frontend_classes": {
+      "shared_triton_dsl": 36,
+      "task_local_exact_ast": 3
+    },
+    "fixed_witnesses_promoted": 0,
+    "extended_tasks": 39,
+    "extension_dtype_relations": {
+      "selected_explicit_profiles_only": 29,
+      "new_source_declared_profiles": 6,
+      "complete_enumerated_wrapper_dtype_domain": 4
+    },
+    "software_profile_dtype_relations": {
+      "selected_explicit_profiles_only": 21,
+      "new_source_declared_profiles": 3,
+      "complete_enumerated_wrapper_dtype_domain": 4
+    },
+    "original23_dtype_relations": {
+      "selected_explicit_profiles_only": 21,
+      "complete_enumerated_wrapper_dtype_domain": 2
+    },
+    "new_declaration_models": {
+      "backend_value_contract": 77,
+      "bit_interpreter_contract": 63,
+      "recurrence_identity": 1,
+      "memory_frame_contract": 2,
+      "protocol_contract": 1
+    },
+    "current_task_statuses": {
+      "backend_equivalence_existing_reports": 41,
+      "full_declared_profile_backend_value_contract": 10,
+      "backend_equivalence_needs_validation": 3,
+      "backend_equivalence_no_extra_law": 63,
+      "backend_equivalence_reference_revalidated": 2,
+      "full_declared_profile_software_value_contract": 28,
+      "bit_interpreter_contract_only": 30,
+      "candidate_only_software_contract": 1,
+      "backend_value_contract_only": 6
+    },
+    "historical_numeric_statuses": {
+      "existing_numeric_evidence": 43,
+      "requires_numeric_model_revision": 3,
+      "awaiting_numeric_validation": 3,
+      "no_extra_numeric_law": 129,
+      "missing_source": 6
+    },
+    "native_experiment_jobs": 37,
+    "native_execution": false,
+    "original_pending_exact_bindings": 5,
+    "review_pending_items": 0
+  },
+  "inputs_zip_sha256": "634392faa9ec11a2e54b23b99ecc068c97afc384a327e41380a1dc893754efdc",
+  "artifact_sha256": {
+    "input-sha256.json": "6d916ac9b02ffc622d11dfb6dc43e581f2c7c3b1bf81be6e89cd81846efb37a4"
+  },
+  "source_review_package_sha256": {
+    "bench/review-checkpoints/2026-10-15/destindex-copy-raw-bit-closure/receipt.json": "a0446e6db808793260df677b14c0a89e0c1836c948efb48344a4530b9c366e85",
+    "bench/review-checkpoints/2026-10-15/destindex-copy-raw-bit-closure/root-review.json": "2e5baba1e12d09a821902d8b714db1de13710743440a04af9e14e2aa89537391",
+    "bench/review-checkpoints/2026-10-15/matrix-transpose-raw-bit-closure/receipt.json": "d1e08725ffa022beb68080fbc0a81d15f58953a954a78bfca394f53a05ff52bd",
+    "bench/review-checkpoints/2026-10-15/matrix-transpose-raw-bit-closure/root-review.json": "7d95f96609b3c98f229efc13733caf71ac8a17db72259da9226a409c4495c31b"
+  },
+  "native_execution": false,
+  "proof_compilation": "not_run_by_metadata_generator"
+}

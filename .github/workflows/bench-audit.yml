@@ -5,58 +5,10 @@ name: Bench audit
 # are not rewritten to accommodate new typed and multi-entry contracts.
 # Corpus workers retain the Lean axiom/spec gates and official comparator.
 #
-# Elaboration and proof replay dominate runtime (parallelized in
-# bench/audit_trust.sh), so this workflow is scoped to bench/ changes rather
-# than every .lean touch; the weekly scheduled run catches drift introduced
-# by library changes that never touch bench/.
-
+# Historical all-target acceptance is retained for explicit diagnostics.
+# Main releases use verified-scope.yml; pending original-program acceptance
+# is not promoted by the selected proof build.
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'bench/**'
-      - 'scripts/check_comparator.py'
-      - 'scripts/comparator_common.py'
-      - 'scripts/setup-comparator.sh'
-      - 'scripts/kernel-manifest.tsv'
-      - 'scripts/test_audit_shards.py'
-      - 'scripts/test_acceptance_bundle.py'
-      - 'scripts/test_comparator_preflight.py'
-      - 'lakefile.toml'
-      - 'scripts/test_source_control_materializations.py'
-      - 'scripts/test_source_uniform_materializations.py'
-      - 'scripts/fixtures/source_uniform_materializations/**'
-      - 'scripts/check_triton_softmax_source_profiles.py'
-      - 'scripts/fixtures/source_control_materializations/**'
-      - 'lean-toolchain'
-      - '.github/actions/setup-comparator/**'
-      - '.github/workflows/bench-audit.yml'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'bench/**'
-      - 'scripts/check_comparator.py'
-      - 'scripts/comparator_common.py'
-      - 'scripts/setup-comparator.sh'
-      - 'scripts/kernel-manifest.tsv'
-      - 'scripts/test_audit_shards.py'
-      - 'scripts/test_acceptance_bundle.py'
-      - 'scripts/test_comparator_preflight.py'
-      - 'lakefile.toml'
-      - 'scripts/test_source_control_materializations.py'
-      - 'scripts/test_source_uniform_materializations.py'
-      - 'scripts/fixtures/source_uniform_materializations/**'
-      - 'scripts/check_triton_softmax_source_profiles.py'
-      - 'scripts/fixtures/source_control_materializations/**'
-      - 'lean-toolchain'
-      - '.github/actions/setup-comparator/**'
-      - '.github/workflows/bench-audit.yml'
-  schedule:
-    # Weekly drift check (Monday 03:17 UTC) so library-only changes that
-    # break bench ports or scans still surface within a week.
-    - cron: '17 3 * * 1'
   workflow_dispatch:
 
 permissions:

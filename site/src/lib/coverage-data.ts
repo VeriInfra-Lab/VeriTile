@@ -1,49 +1,26 @@
 import { execFileSync } from 'node:child_process';
 import { resolve } from 'node:path';
-import checkedRun from './coverage-ci.json';
 
-type CorpusCheck = {
-  schema: number; conclusion: string; commit: string; run_id: number;
-  url: string; completed_at: string;
+export type ScopeTask = {
+  task: string; proof_scope: 'selected' | 'pending'; body_status: string;
+  entries: string[]; python: string; kernel: string;
 };
-const recordedCheck = checkedRun as CorpusCheck | null;
-if (recordedCheck !== null && (recordedCheck.schema !== 1 || recordedCheck.conclusion !== 'success'
-    || !/^[0-9a-f]{40}$/.test(recordedCheck.commit)
-    || recordedCheck.url !== `https://github.com/VeriInfra-Lab/VeriTile/actions/runs/${recordedCheck.run_id}`)) {
-  throw new Error('Invalid recorded corpus-check evidence.');
-}
-export const corpusCheck = recordedCheck;
-
-type Reference = { name: string; line: number };
-export type CoverageRow = {
-  id: string; port: string; file: string; line: number; declaration: string;
-  python_file: string; python_functions: Reference[]; coverage_level: string;
-  numeric_model: string; scope: string; statement: string; references: Reference[];
-  io: { name: string; kernel: string; definition: string }[]; issue: string;
+export type ReleaseScope = {
+  root_count: number; source_dependency_count: number; tasks: ScopeTask[];
+  proof_task_counts: { selected: number; pending: number };
+  pending_original_program_reviews: number;
+  known_unselected_build_failures: string[];
+  pending_python_tests: Record<string, string>;
+  body_counts: { tasks: number; examples: number; task_status: Record<string, number> };
+  examples: { name: string; python: string; lean: string; status: string; source_provenance: string }[];
 };
 
-// One validator owns source fingerprints, explicit reviews, and the manifest.
-// A source edit without an updated review stops the website build too.
-export const coverage: { reviewed_on: string; basis: string; rows: CoverageRow[] } = JSON.parse(
-  execFileSync('python3', ['bench/coverage_review.py', '--json'], {
+// Fail on source/scope drift. This reports the selected release inventory;
+// building a website does not run Lean or certify the pending original programs.
+export const releaseScope: ReleaseScope = JSON.parse(
+  execFileSync('python3', ['bench/verified_scope.py', '--json'], {
     cwd: resolve(process.cwd(), '..'), encoding: 'utf8', maxBuffer: 16 * 1024 * 1024,
   }),
 );
-
-export const coverageLabels: Record<string, string> = {
-  full_value_candidate: 'Original-kernel candidate',
-  specialization: 'Configured model / stage',
-  precomputed_input_slice: 'Precomputed-input slice',
-  pre_rounding_slice: 'Pre-rounding slice',
-  projection_only: 'Projection only',
-  blocked_summary: 'Blocked surface',
-  public_summary_with_proof_gap: 'Value proof gap',
-};
-
-export const numericLabels: Record<string, string> = {
-  mathematical: 'Mathematical execution',
-  abstract_rounding: 'Abstract cast/store rounding',
-};
-
-export const sourceLink = (path: string, line: number) =>
-  `https://github.com/VeriInfra-Lab/VeriTile/blob/main/${path}#L${line}`;
+export const sourceLink = (path: string) =>
+  `https://github.com/VeriInfra-Lab/VeriTile/blob/main/${path}`;

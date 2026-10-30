@@ -45,20 +45,43 @@ in a temporary standalone module. The positive example must compile, changing
 addition to subtraction must fail with an unsolved proof obligation, and both
 displayed sample outputs are proved separately.
 
-## Validation and remaining integration blockers
+## User-approved release scope
 
-The original stopped migration scope remains 124/183 selected tasks, 19/19
-worked examples, with 59 task migrations still pending. This integration does
-not expand that scope or claim to complete the imported benchmark drafts.
+On 2026-10-30 the maintainer chose to publish the already verified scope and
+leave other work explicitly pending. `verified-scope.yml` is the main release
+gate. The old Artifact and Bench audit workflows remain manually runnable
+diagnostics for the historical all-target/original-program requirements.
 
-The old original-program acceptance ledger is a different scope: it contains
-172 pending tasks, 10 verified with deferred numerics and one verified task.
-The historical global gate rejects pending original-program reviews, as before.
-In addition, its October 16 catalog no longer matches current source files,
-and the historical numerical authority rejects the changed
-`VeriTile/Triton/Float/Structural.lean` hash. Those gates remain enabled.
-They must not be made green by deleting pending cases, refreshing unreviewed
-hashes, or treating the body-correspondence count as full original-program
-acceptance. The PR remains draft while main's required validation is unresolved.
+The selected build contains 6,169 roots: the previous 6,166-root set plus the
+previously unlisted DequantizeRowwise Contract and SwiGLU Correct/FPEquiv public
+entries, now explicitly rebuilt. Its local source closure is pinned by hash.
+All 124 body-migrated tasks have their public entries inside that closure; 59
+other task entry sets remain pending for this release. Body correspondence is
+124/183 tasks and 19/19 worked examples. All 183 task dispositions are checked;
+omission or silent promotion fails the gate.
 
-Fresh integration results are recorded separately from the archived receipts.
+The Lean audit enumerates actual theorem objects in the selected modules,
+including private helpers, and checks their dependency union against only
+`propext`, `Quot.sound` and `Classical.choice`. This is a Lean build and axiom
+audit, not independent hardware validation. The Guarded program IO and Proof
+comparator integration workflows retain their official comparator checks;
+their results are limited to their respective interfaces and fixtures.
+
+Selected Python regressions have an explicit complete test-file inventory.
+The old `test_exact_numerical_bindings.py` remains pending because its
+historical authority binds an older Structural.lean; it is still run by the
+manual historical Bench audit. Its frozen hashes and assertions are unchanged.
+The selected suite's three immutable metadata fixtures (about 5.5 MB) are
+tracked locally so release CI does not download the large historical archive.
+
+`legacy-diagnostics.json` records the interrupted broad build and its old
+module failures. The historical original-program ledger separately records
+172 pending reviews, 10 verified with deferred numerics and one verified.
+Those original-program statuses, the remaining body migrations and imported
+benchmark drafts are not promoted by this release.
+
+Website coverage uses the source-bound selected inventory and displays both
+selected and pending entries. The main dependency ranges and existing security
+overrides are retained; the lockfile is refreshed within compatible versions
+and adds zod/undici patch-range overrides for the current advisory checks.
+Fresh integration results are recorded separately from archived receipts.

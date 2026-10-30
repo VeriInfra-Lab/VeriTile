@@ -46,21 +46,24 @@ externally checked. See [Triton subset and gaps](./documents/TritonSubset.md).
   [`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](./bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
 - **Examples**: 184 TritonBench-G task directories, with original-source
   proof contracts in the declared scopes of 183 tasks and one repaired-only
-  candidate. The [development progress audit](./bench/review-checkpoints/2026-10-15/development-progress-audit/README.md)
+  candidate. The [development progress audit](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/review-checkpoints/2026-10-15/development-progress-audit/README.md)
   separates mathematical proofs, implementation equivalence, software bit-value
   contracts and remaining acceptance work. See the
   [current source inventory](./bench/current_source_acceptance.md) for checked
   inputs and reproduction commands. Additional examples include FlashAttention-1
   forward, online softmax, Welford, LayerNorm, log-sum-exp.
-- **CI gates**: `.github/workflows/bench-audit.yml` runs the full library build,
-  Python↔Lean faithfulness scans, proof-gap manifest checks, and library
-  comparator once, then checks the standalone corpus in four shards through
-  `bench/audit_trust.sh`. Each file must pass elaboration, Lean trust/spec
-  checks, and official comparator replay. The final gate requires the global
-  job and all four shards to succeed. `.github/workflows/artifact.yml` runs `lake build` +
-  `scripts/check-artifact.sh` (no `sorry`, axiom whitelist, manifest schema,
-  doc-drift checks). `.github/workflows/site.yml` builds and deploys the docs
-  site to GitHub Pages on every push touching `site/`.
+- **Release validation**: `.github/workflows/verified-scope.yml` checks the
+  explicit 6,169-root proof set, source fingerprints, current formula/IO/reader
+  reviews and body correspondence. All selected theorem dependencies are
+  audited against the standard Lean axiom base. The scope covers 124/183 task
+  entry sets and 19/19 worked examples; the other 59 task entry sets and the
+  separate 172 pending original-program acceptance reviews stay pending.
+  [Scope and reproduction](./bench/verified-scope/README.md) explain the limits.
+  Guarded program IO and Proof comparator integration retain their official
+  comparator checks for their named interfaces and fixtures. The historical
+  Artifact and Bench audit workflows are available for manual full-scope
+  diagnostics. `.github/workflows/site.yml` checks and publishes the docs.
+
 
 Pending for complete kernel verification: concrete floating-point execution
 (the bf16/fp32 scalar foundation is implemented), PTX-level codegen,

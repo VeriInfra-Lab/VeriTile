@@ -1,139 +1,73 @@
 ---
-import { coverage, coverageLabels, numericLabels, sourceLink, corpusCheck } from '../lib/coverage-data';
-const counts = Object.entries(coverageLabels).map(([key, label]) => ({
-  key, label, count: coverage.rows.filter((row) => row.coverage_level === key).length,
-})).filter(({ count }) => count > 0);
+import { releaseScope as scope, sourceLink } from '../lib/coverage-data';
+const bodyChecked = scope.body_counts.task_status.selected_body_copy_checked ?? 0;
 ---
-
-<section class="coverage-browser" aria-label="Browse proof coverage" data-coverage>
-  <p>Reviewed {coverage.rows.length} statements across {new Set(coverage.rows.map((row) => row.port)).size} ports on {coverage.reviewed_on}.</p>
-  {corpusCheck ? <p>Latest recorded completed corpus check: <a href={corpusCheck.url}><code>{corpusCheck.commit.slice(0, 8)}</code></a>, {corpusCheck.completed_at}.
-    This historical result applies to that commit. Source review and website builds do not certify later commits; <a href="https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/bench-audit.yml">check newer runs</a>.</p>
-    : <p>No completed corpus audit has been recorded in this public repository yet.
-      Source review and website builds do not certify the corpus; <a href="https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/bench-audit.yml">check the full audit status</a>.</p>}
-  <ul class="coverage-counts">{counts.map(({ label, count }) => <li><strong>{count}</strong>{' '}{label}</li>)}</ul>
-  <div class="coverage-filters" data-coverage-controls hidden>
-    <label>Find a kernel, theorem, or limitation
-      <input type="search" data-coverage-search placeholder="e.g. quantize, frame, fp16" aria-controls="coverage-results" />
-    </label>
-    <label>Proof scope
-      <select data-coverage-scope aria-controls="coverage-results">
-        <option value="">All scopes</option>
-        {counts.map(({ key, label, count }) => <option value={key}>{label} ({count})</option>)}
-      </select>
-    </label>
-    <label>Numeric model
-      <select data-coverage-numeric aria-controls="coverage-results">
-        <option value="">All models</option>
-        {Object.entries(numericLabels).map(([key, label]) => <option value={key}>{label}</option>)}
-      </select>
-    </label>
-    <button type="button" data-coverage-reset>Clear filters</button>
-  </div>
-  <p role="status" aria-live="polite" aria-atomic="true" data-coverage-count>{coverage.rows.length} statements shown.</p>
-  <div class="coverage-scroll" tabindex="0" role="region" aria-label="Proof coverage table; scroll horizontally on narrow screens">
-    <table id="coverage-results">
-      <caption>Each row describes one theorem. Expand its statement for all explicit hypotheses, then inspect the linked IO definition for its bounds, masks, and memory assumptions.</caption>
-      <colgroup><col style="width: 25%" /><col style="width: 40%" /><col style="width: 35%" /></colgroup>
-      <thead><tr><th scope="col">Kernel and theorem</th><th scope="col">Reviewed scope</th><th scope="col">Contract and source evidence</th></tr></thead>
+<section aria-label="Selected verification scope" data-scope-table>
+  <ul>
+    <li><strong>{scope.proof_task_counts.selected}/{scope.body_counts.tasks}</strong> tasks have all current public entries in the selected proof build.</li>
+    <li><strong>{bodyChecked}/{scope.body_counts.tasks}</strong> selected task bodies and <strong>{scope.examples.length}/{scope.body_counts.examples}</strong> worked examples have checked Python/Lean statement correspondence.</li>
+    <li><strong>{scope.proof_task_counts.pending}</strong> task entry sets remain outside this release's proof gate.</li>
+    <li><strong>{scope.pending_original_program_reviews}</strong> original-program acceptance reviews remain pending under the separate historical ledger.</li>
+  </ul>
+  <p>The selected build contains {scope.root_count.toLocaleString()} root modules and {scope.source_dependency_count.toLocaleString()} local dependency files. Its CI builds those roots and audits every theorem's axiom dependencies, including private helpers. Read the linked contracts for input domains and the FP equivalence statements for numerical assumptions. This is not a native hardware or full-corpus acceptance certificate.</p>
+  <p><a href="https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/verified-scope.yml">Check the selected proof run and its exact commit</a>. Website builds only check source fingerprints and inventory consistency.</p>
+  <label>Find a task <input type="search" placeholder="e.g. softmax, layer_norm" data-scope-search /></label>
+  <p data-scope-count role="status" aria-live="polite">{scope.tasks.length} tasks shown.</p>
+  <div class="table-scroll" tabindex="0" role="region" aria-label="Task verification scope">
+    <table>
+      <thead><tr><th>Task</th><th>Selected proof build</th><th>Function body</th><th>Sources and public contracts</th></tr></thead>
       <tbody>
-        {coverage.rows.map((row) => (
-          <tr id={row.id} data-coverage-row data-scope={row.coverage_level} data-numeric={row.numeric_model}>
-            <th scope="row">
-              <a href={`#${row.id}`}>{row.port}</a>
-              <a class="coverage-theorem" href={sourceLink(row.file, row.line)}><code>{row.declaration}</code></a>
-              <span class="coverage-numeric">{numericLabels[row.numeric_model]}</span>
-            </th>
-            <td><strong>{coverageLabels[row.coverage_level]}</strong><p>{row.scope}</p></td>
-            <td>
-              <details>
-                <summary>Statement and preconditions</summary>
-                <pre tabindex="0"><code>{row.statement}</code></pre>
-                {row.io.map((io) => <details><summary>IO definition: <code>{io.name}</code></summary><pre tabindex="0"><code>{io.definition}</code></pre></details>)}
-                <p>Referenced model/specification definitions:</p>
-                <ul>{row.references.map((ref) => <li><a href={sourceLink(row.file, ref.line)}><code>{ref.name}</code></a></li>)}</ul>
-              </details>
-              <details>
-                <summary>Python source</summary>
-                <ul>{row.python_functions.map((ref) => <li><a href={sourceLink(row.python_file, ref.line)}><code>{ref.name}</code> (line {ref.line})</a></li>)}</ul>
-              </details>
-              {corpusCheck && <a href={corpusCheck.url}>Recorded check: <code>{corpusCheck.commit.slice(0, 8)}</code></a>}
-            </td>
-          </tr>
-        ))}
+        {scope.tasks.map(row => <tr data-scope-row>
+          <th scope="row">{row.task}</th>
+          <td>{row.proof_scope === 'selected' ? 'Included' : 'Pending'}</td>
+          <td>{row.body_status === 'selected_body_copy_checked' ? 'Statement correspondence checked' : 'Pending: uncovered JIT functions'}</td>
+          <td><a href={sourceLink(row.python)}>Python</a>{' · '}<a href={sourceLink(row.kernel)}>Lean kernel</a>
+            <ul>{row.entries.map(path => <li><a href={sourceLink(path)}>{path.split('/').at(-1)}</a></li>)}</ul>
+          </td>
+        </tr>)}
       </tbody>
     </table>
   </div>
-  <p data-coverage-empty hidden>No statements match these filters. Clear the filters or try another term.</p>
+  <details><summary>Worked examples and source provenance</summary>
+    <ul>{scope.examples.map(row => <li><a href={sourceLink(row.lean)}>{row.name}</a>{' — '}{row.source_provenance.replaceAll('_', ' ')}{' · '}<a href={sourceLink(row.python)}>Python source</a></li>)}</ul>
+    <p>Sources authored from independent mathematical specifications are identified separately from historical Python originals.</p>
+  </details>
+  <details><summary>Pending legacy checks</summary>
+    <p>{scope.known_unselected_build_failures.length} old modules failed the broad integration build and are outside the selected release gate. Their sources and failed results remain available; they are not counted as verified by this release.</p>
+    <ul>{Object.entries(scope.pending_python_tests).map(([name, reason]) => <li><code>{name}</code>: {reason}</li>)}</ul>
+    <p><a href={sourceLink('bench/main-integration/README.md')}>Integration evidence and historical audit instructions</a></p>
+  </details>
 </section>
-
 <script>
-  function setupCoverage() {
-    document.querySelectorAll<HTMLElement>('[data-coverage]').forEach((root) => {
+  function setup() {
+    document.querySelectorAll<HTMLElement>('[data-scope-table]').forEach(root => {
       if (root.dataset.ready) return;
       root.dataset.ready = 'true';
-      const search = root.querySelector<HTMLInputElement>('[data-coverage-search]')!;
-      const scope = root.querySelector<HTMLSelectElement>('[data-coverage-scope]')!;
-      const numeric = root.querySelector<HTMLSelectElement>('[data-coverage-numeric]')!;
-      const rows = Array.from(root.querySelectorAll<HTMLTableRowElement>('[data-coverage-row]'));
-      const text = rows.map((row) => row.textContent?.toLocaleLowerCase() || '');
-      const count = root.querySelector<HTMLElement>('[data-coverage-count]')!;
-      const empty = root.querySelector<HTMLElement>('[data-coverage-empty]')!;
-      const update = () => {
-        const terms = search.value.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
-        let visible = 0;
-        rows.forEach((row, i) => {
-          row.hidden = !terms.every((term) => text[i].includes(term))
-            || (!!scope.value && row.dataset.scope !== scope.value)
-            || (!!numeric.value && row.dataset.numeric !== numeric.value);
-          if (!row.hidden) visible++;
-        });
-        count.textContent = `${visible} of ${rows.length} statements shown.`;
-        empty.hidden = visible !== 0;
-      };
-      const reset = () => { search.value = scope.value = numeric.value = ''; update(); };
-      search.addEventListener('input', update);
-      scope.addEventListener('change', update);
-      numeric.addEventListener('change', update);
-      root.querySelector('[data-coverage-reset]')!.addEventListener('click', () => { reset(); search.focus(); });
-      const revealHash = () => {
-        let id: string;
-        try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
-        const row = rows.find((item) => item.id === id);
-        if (!row) return;
-        if (row.hidden) reset();
-        row.querySelector('details')!.open = true;
-        row.scrollIntoView({ block: 'start' });
-      };
-      root.querySelector<HTMLElement>('[data-coverage-controls]')!.hidden = false;
-      window.addEventListener('hashchange', revealHash);
-      revealHash();
+      const search = root.querySelector<HTMLInputElement>('[data-scope-search]')!;
+      const rows = Array.from(root.querySelectorAll<HTMLTableRowElement>('[data-scope-row]'));
+      search.addEventListener('input', () => {
+        const query = search.value.trim().toLocaleLowerCase();
+        let count = 0;
+        for (const row of rows) {
+          row.hidden = !row.textContent?.toLocaleLowerCase().includes(query);
+          if (!row.hidden) count++;
+        }
+        root.querySelector('[data-scope-count]')!.textContent = `${count} of ${rows.length} tasks shown.`;
+      });
     });
   }
-  setupCoverage();
-  document.addEventListener('astro:page-load', setupCoverage);
+  setup();
+  document.addEventListener('astro:page-load', setup);
 </script>
-
 <style>
-  .coverage-filters:not([hidden]) { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; margin-block: 1.5rem; }
-  .coverage-filters label { flex: 1 1 12rem; font-size: .9rem; }
-  .coverage-filters input, .coverage-filters select { display: block; width: 100%; margin-top: .4rem; min-height: 2.75rem; padding: .5rem; }
-  .coverage-filters input, .coverage-filters select, .coverage-filters button { color: var(--vt-ink); background: var(--vt-paper); border: 1px solid var(--vt-rule-2); border-radius: .2rem; font: inherit; }
-  .coverage-filters button { min-height: 2.75rem; padding: .5rem .8rem; cursor: pointer; }
-  .coverage-counts { display: flex; flex-wrap: wrap; gap: .6rem 1.2rem; padding: 0; list-style: none; font-size: .9rem; }
-  .coverage-counts li { margin: 0; }
-  .coverage-counts strong { margin-inline-end: .2rem; }
-  .coverage-scroll { overflow-x: auto; }
-  .coverage-scroll table { display: table; min-width: 48rem; width: 100%; table-layout: fixed; font-size: .9rem; }
-  caption { caption-side: bottom; text-align: left; color: var(--vt-ink-2); padding: .75rem; }
-  th, td { vertical-align: top; padding: .8rem; overflow-wrap: anywhere; }
-  .coverage-scroll th[scope='row'] { font-family: inherit; text-transform: none; letter-spacing: normal; font-size: inherit; font-weight: 400; overflow-wrap: anywhere; }
-  td p { margin-block: .5rem; }
-  .coverage-theorem, .coverage-numeric { display: block; margin-top: .65rem; }
-  .coverage-numeric { color: var(--vt-ink-2); font-size: var(--vt-text-small); }
-  summary { cursor: pointer; padding-block: .35rem; }
-  pre { max-width: 44rem; max-height: 32rem; overflow: auto; font-size: var(--vt-text-small); white-space: pre; background: var(--vt-paper-2); padding: .75rem; }
-  tr:target { outline: 2px solid var(--vt-seal-ink); outline-offset: -2px; scroll-margin-top: 5rem; }
+  label { display: block; margin-block: 1.5rem .5rem; }
+  input { display: block; padding: .6rem; width: min(100%, 26rem); font: inherit; }
+  .table-scroll { overflow-x: auto; }
+  table { display: table; width: 100%; min-width: 44rem; font-size: .9rem; }
+  th, td { padding: .7rem; vertical-align: top; overflow-wrap: anywhere; }
+  th[scope='row'] { font-family: inherit; text-transform: none; font-weight: 500; }
+  td ul { padding-left: 1rem; margin-block: .5rem; }
+  details { margin-block: 1.5rem; }
+  summary { cursor: pointer; }
   [hidden] { display: none !important; }
-  :focus-visible { outline: 2px solid var(--vt-seal-ink); outline-offset: 3px; }
 </style>

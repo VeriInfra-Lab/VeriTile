@@ -1,7 +1,7 @@
 {
   "application_lean_python_files": 19709,
   "application_git_blobs_identical_to_fp_examples": true,
-  "main_website_dependency_update_preserved": true,
+  "main_website_dependency_update_preserved": "Original dependency ranges and overrides retained; compatible lockfile refresh plus zod/undici security overrides applied after CI reported new advisories.",
   "source_commit": "d67b1d0444c2e0fb8066414c2041129b53bf2931",
   "base_commit": "16abbb7e77bf111bf7ede620ec6bf91744e7325b",
   "seven_document_conflicts": {

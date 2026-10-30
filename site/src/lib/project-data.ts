@@ -27,9 +27,9 @@ export const corpus = {
 
 const vectorAddSource = readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/Correct.lean'), 'utf8')
   + '\n' + readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/Kernels.lean'), 'utf8');
-const kernelMatch = vectorAddSource.match(/def addKernel [^\n]* := (triton \{[\s\S]*?\n\})/);
+const kernelMatch = vectorAddSource.match(/def addKernel [\s\S]*?\n  (triton \{[\s\S]*?\n\})/);
 const contractMatch = vectorAddSource.match(/specification add_kernel_correctness[^\n]*\n\s*(.+) := by/);
-const proofMatch = vectorAddSource.match(/(specification add_kernel_correctness[^\n]*\n[\s\S]*?)(?=\n\n\/\-! ## Trust gates)/);
+const proofMatch = vectorAddSource.match(/(specification add_kernel_correctness[^\n]*\n[\s\S]*?)(?=\n\nsection Optimized)/);
 if (!kernelMatch || !contractMatch || !proofMatch) {
   throw new Error('The VectorAdd showcase changed. Update the homepage excerpt selectors.');
 }
@@ -38,23 +38,20 @@ export const vectorAddKernel = kernelMatch[1];
 export const vectorAddContract = contractMatch[1];
 export const vectorAddProof = proofMatch[1];
 
-const pythonMatch = vectorAddSource.match(/```python\n([\s\S]*?)\n```/);
+const pythonSource = readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/native_kernels.py'), 'utf8');
+const pythonMatch = pythonSource.match(/(@triton\.jit\ndef addKernel[\s\S]*?)(?=\n\n@triton\.jit)/);
 if (!pythonMatch) throw new Error('Homepage Python excerpt changed. Update its selector.');
-// Show only the aligned, unmasked kernel bodies. Match display names so readers
-// can compare operations directly; the verified kernel and demo stay verbatim.
-function comparisonBody(lines: string[], aliases: Record<string, string>): string {
+// Both excerpts retain their actual source identifiers and operations.
+function comparisonBody(lines: string[]): string {
   return lines
     .filter((line) => !line.trim().startsWith('#'))
     .map((line) => line.trim()
-      .replace(/\b[A-Za-z_]\w*\b/g, (name) => Object.hasOwn(aliases, name) ? aliases[name] : name)
       .replace(/^(\w+)\s*(:?=)\s*/, (_, name: string, operator: string) => `${name.padEnd(7)} ${operator} `))
     .join('\n');
 }
 export const vectorAddBodies = {
-  python: comparisonBody(pythonMatch[1].split('\n').slice(2), { BLOCK_SIZE: 'B' }),
-  lean: comparisonBody(vectorAddKernel.split('\n').slice(1, -1), {
-    blockSize: 'B', offs: 'offsets', xReg: 'x_ptr', yReg: 'y_ptr', outReg: 'out_ptr', out: 'output',
-  }),
+  python: comparisonBody(pythonMatch[1].trimEnd().split('\n').slice(2)),
+  lean: comparisonBody(vectorAddKernel.split('\n').slice(1, -1)),
 };
 
 const proofRows = readFileSync(resolve(benchRoot, 'proof_gap_manifest.tsv'), 'utf8').trim().split('\n');
@@ -80,6 +77,7 @@ const recordInputs = [
   'lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
   'site/scripts/record-home-demo.py', 'bench/examples/VectorAdd/Correct.lean',
   'bench/examples/VectorAdd/Kernels.lean',
+  'bench/examples/VectorAdd/Proofs/Real.lean',
   ...leanFiles('VeriTile'),
 ].sort();
 const fingerprint = createHash('sha256');

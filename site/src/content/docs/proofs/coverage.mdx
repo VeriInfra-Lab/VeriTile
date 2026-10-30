@@ -1,47 +1,30 @@
 ---
-title: Proof coverage by kernel
-description: Search every registered benchmark theorem, its numeric model, prerequisites, source, and reviewed limitations.
+title: Verified scope and pending work
+description: Inspect the selected proof build, Python-to-Lean body correspondence, and unfinished original-program acceptance.
 tableOfContents: false
 ---
 
 import CoverageTable from '../../../components/CoverageTable.astro';
 
-Find the theorem that matches the operation and configuration you intend to
-use. The table distinguishes original-kernel candidates, configured models,
-individual stages, and slices that consume precomputed values. It records a
-review of the **stated claim**; it is not an independent certification of
-Python translation, GPU compilation, or hardware execution.
+The release gate covers the explicitly selected source and proof set. The
+rest of the repository includes historical proofs, intermediate work and
+benchmark drafts whose presence does not establish completion.
 
-<details>
-<summary>How to read the scope, contracts, and numeric models</summary>
+Three checks answer different questions:
 
-An **original-kernel candidate** has an explicit per-program value target
-corresponding to the identified Python kernel, subject to the model and
-contract assumptions. A **configured model / stage** narrows the mode,
-layout, output, or pipeline stage; inspect its scope note. A
-**precomputed-input slice** starts after an omitted producer, and a
-**pre-rounding slice** omits the final quantized result. A **blocked surface**
-records a rejected faithful operation alongside any narrower results.
+- **Selected proof build:** the named Lean modules compile and their theorem
+  dependencies pass the axiom audit. The public contracts retain their input
+  domains, chosen models and any explicit numerical assumptions.
+- **Function-body correspondence:** the registered Python JIT function bodies
+  match their Lean quotations statement by statement. This check does not
+  establish compiler correctness or hardware behavior.
+- **Original-program acceptance:** the separate historical ledger includes
+  wider source, host, native and numerical obligations. Pending reviews remain
+  pending even when a selected proof or body comparison passes.
 
-The exact theorem statement shows all explicit binders. IO definitions add
-allocation disjointness, loaded-input windows, masks, bounds, and frame
-conditions through their contract type. `Realizes` is a partial-correctness
-surface: it specifies outputs of successful executions and does not by itself
-promise termination or a frame. An explicit exec-existential adds termination;
-`KernelIO` contracts add termination, output values, and a frame.
-
-**Mathematical execution** uses the repository's real/integer/index models.
-**Abstract cast/store rounding** adds a `RoundingModel`; some theorems require
-identity rounding on particular dtypes. Neither label promises bit-accurate
-IEEE behavior, fixed-width overflow, or a numerical error bound.
-
-The source fingerprints and complete declaration inventory are checked at
-build time. Source changes require an updated review. Building this page does
-not run Lean or the comparator; use the
-[CI audit history](https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/bench-audit.yml)
-for proof-check outcomes and their exact commits, and the
-[trust audit guide](/VeriTile/proofs/trust-audit/) to reproduce them.
-
-</details>
+The table is generated from the current source-bound release inventory.
+See the [trust audit guide](/VeriTile/proofs/trust-audit/) for the model boundary,
+and the [integration record](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/main-integration/README.md)
+for the frozen archives and remaining work.
 
 <CoverageTable />

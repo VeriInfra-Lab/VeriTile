@@ -5,7 +5,33 @@ axiom, and no self-referential spec. A theorem's soundness depends only on its
 *statement* and its *axiom footprint* — never on the lemmas its proof uses — and
 these commands check exactly that.
 
-## Run the gates
+## Main release scope
+
+`verified-scope.yml` validates the source-bound selection in
+[`bench/verified-scope`](../bench/verified-scope/README.md): 6,169 roots covering
+the public entries of 124 selected tasks, with 59 task entry sets still pending.
+It rebuilds the selected roots and audits every theorem in those modules,
+including private helpers, against the standard axiom base. The source gate
+also checks formula, IO, reader and Python/Lean body correspondence records.
+The latter is complete for 124/183 tasks and 19/19 worked examples.
+
+```bash
+python3 bench/verified_scope.py
+python3 bench/verified_scope.py --regressions
+python3 bench/verified_scope.py --build
+```
+
+This gate does not promote the separate 172 pending original-program acceptance
+reviews or certify native hardware behavior. Official comparator checks remain
+required in the Guarded program IO and Proof comparator integration workflows
+for their named interfaces and fixtures; they do not certify every release root.
+
+## Historical full-scope diagnostics
+
+The commands below and the Artifact/Bench audit workflows retain the wider
+historical checks and may fail on pending work. Restore their immutable evidence
+first with `python3 scripts/restore_historical_evidence.py --download`.
+
 
 ```bash
 # install the pinned comparator/exporter and sandbox tools once
@@ -23,8 +49,7 @@ bash bench/audit_trust.sh swiglu_fwd         # just named kernels
 bash bench/audit_tritonbench_g.sh
 ```
 
-CI runs `bench/audit_tritonbench_g.sh --global-only` once for the structural
-and library gates, then four dependent `bench/audit_trust.sh` corpus shards.
+The manual historical audit runs global structural and library checks once then four dependent `bench/audit_trust.sh` corpus shards.
 The final completion check requires the global job and all four shards to
 succeed, including their official comparator checks. A global-only result
 does not claim that the standalone corpus passed. Local runs without options

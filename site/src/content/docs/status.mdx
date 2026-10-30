@@ -31,16 +31,16 @@ From the repository root:
 
 ```bash
 lake build
-scripts/check-artifact.sh
-bench/audit_tritonbench_g.sh
+python3 bench/verified_scope.py --regressions
+python3 bench/verified_scope.py --build
 ```
 
-The artifact gate checks proof placeholders, allowed axioms, the kernel
-manifest, and documentation consistency. The bench audit also checks port
-elaboration, registered proof gaps, Python/Lean translation patterns, and
-trust reports. See the
-[artifact workflow](https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/artifact.yml)
-and [bench workflow](https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/bench-audit.yml)
+The selected release gate checks source bindings, declared pending work,
+current contracts, Python/Lean function bodies and the complete selected
+theorem axiom footprint. The manually dispatched historical audits retain
+the wider original-program and legacy-corpus checks, which are still pending. See the
+[selected release workflow](https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/verified-scope.yml)
+and [manual historical bench workflow](https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/bench-audit.yml)
 for recorded CI runs.
 
 ## Upstream bug reports

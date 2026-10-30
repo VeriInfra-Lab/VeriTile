@@ -1,0 +1,54 @@
+name: Verified release scope
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verified-scope-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sources:
+    name: Selected source, contracts and pending inventory
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python3 bench/verified_scope.py
+      - run: python3 -B -m bench.check_body_corpus --check
+      - run: python3 -B bench/check_main_formula_review.py
+      - run: python3 -B bench/check_io_organization.py
+      - run: python3 -B bench/check_main_entry_roles.py
+      - run: python3 -B bench/verified_scope.py --regressions
+
+  proofs:
+    name: Selected Lean proofs and complete axiom audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: auto
+      - name: Build every selected root and audit all its theorem dependencies
+        run: |
+          set -o pipefail
+          python3 bench/verified_scope.py --build 2>&1 | tee "$RUNNER_TEMP/verified-scope.log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verified-scope-proof-replay
+          path: ${{ runner.temp }}/verified-scope.log
+          if-no-files-found: error

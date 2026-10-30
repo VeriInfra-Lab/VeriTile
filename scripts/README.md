@@ -93,7 +93,9 @@ when reporting benchmark results. The previous benchmark setup used version
 
 ## Artifact checker
 
-`scripts/check-artifact.sh` is the local release/CI gate for the Lean artifact.
+`scripts/check-artifact.sh` is the historical full-scope Lean artifact gate.
+Main releases use `python3 bench/verified_scope.py --build` and the checks in
+`.github/workflows/verified-scope.yml`; see `bench/verified-scope/README.md`.
 It runs `lake build VeriTile VeriTileFull`, rejects Lean `sorry` warnings, runs
 the official comparator on every proven library target in the manifest, checks declared axioms
 against `scripts/artifact-axiom-whitelist.txt`, validates the per-kernel
@@ -117,7 +119,7 @@ require the official comparator and the sandbox tools installed above. Missing
 tools, export failures, and comparator rejections fail the gate. CI installs
 the same pinned tools through `.github/actions/setup-comparator`.
 
-The public Bench audit workflow first runs one global job: the full library
+The manually dispatched historical Bench audit workflow first runs one global job: the full library
 build, structural checks, and library comparator. Four dependent jobs build
 the lite `VeriTile` target and audit disjoint shards of the standalone corpus.
 Each runner keeps its own mutable comparator workspace. The final
