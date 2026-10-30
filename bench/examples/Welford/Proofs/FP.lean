@@ -23,36 +23,33 @@ open VeriTile Triton FP.Structural
 set_option maxHeartbeats 1600000
 
 
+/-- Resolve the explicitly typed source arithmetic at its FP32 precision.
+The load conversion remains the algebra's real FP32 load operation. -/
+def sourceEngine {α : Type} (M : Algebra α) : Algebra α :=
+  M.withDefaultPrecision .fp32
+
 private def realRef (n : RegName) : Op .real [] := .ref .real [] n
 
+/-- Proof-only loop decomposition of the actual source. kernel_body below
+connects it to the complete authoritative program for every row length. -/
 def body (xReg : RegionName) (rowStride : Nat) : List ComputeStmt :=
-  [.assign .real [] "xi" (.alg (.load .real (.region xReg
-      (.add .nat .nil (.mul .nat .nil (.ref .nat [] "pid") (.constNat rowStride))
-        (.ref .nat [] "i"))) .none)),
-   .assign .real [] "delta" (.alg (.sub .real .nil (realRef "xi") (realRef "M"))),
-   .assign .real [] "M" (.alg (.add .real .nil (realRef "M")
-      (.div .real .nil (realRef "delta")
-        (.add .real .nil (.natToReal (.ref .nat [] "i")) (.const 1))))),
-   .assign .real [] "delta2" (.alg (.sub .real .nil (realRef "xi") (realRef "M"))),
-   .assign .real [] "S" (.alg (.add .real .nil (realRef "S")
-      (.mul .real .nil (realRef "delta") (realRef "delta2"))))]
+  match (onlineWelfordKernel xReg "__mean" "__variance" 0 rowStride).surfaceBody with
+  | _ :: _ :: _ :: .forLoop _ _ code :: _ => code
+  | _ => []
 
 def initialCode : List ComputeStmt :=
   [.assign .nat [] "pid" (.alg (.programId 0)),
    .assign .real [] "M" (.alg (.const 0)),
    .assign .real [] "S" (.alg (.const 0))]
 
+/-- The explicit count conversion and both original output stores. -/
 def outputCode (meanReg varReg : RegionName) (N : Nat) : List ComputeStmt :=
-  [.store .bf16 [] (.region ⟨meanReg.name⟩ (.constNat 0))
-      (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (realRef "M")))) .none,
-   .store .bf16 [] (.region ⟨varReg.name⟩ (.constNat 0))
-      (.alg (.castFloat .real .bf16
-        (.withPrecision .real .fp32
-          (.div .real .nil (realRef "S") (.natToReal (.constNat N)))))) .none]
+  (onlineWelfordKernel "__input" meanReg varReg N 0).surfaceBody.drop 4
 
 theorem kernel_body (x m v : RegionName) (N stride : Nat) :
     (onlineWelfordKernel x m v N stride).surfaceBody =
-      initialCode ++ [.forLoop "i" N (body x stride)] ++ outputCode m v N := rfl
+      initialCode ++ [.forLoop "i" N (body x stride)] ++ outputCode m v N := by
+  simp [ComputeKernel.surfaceBody, onlineWelfordKernel, initialCode, body, outputCode] <;> norm_num
 
 def update {α : Type} (M : Algebra α) (i : Nat) (x : α) (acc : α × α) : α × α :=
   let delta := M.binary none .real .sub x acc.1
@@ -138,13 +135,13 @@ private def Invariant {α : Type} [Inhabited α] (M : Algebra α) (xs : Fin N �
 
 private theorem iteration {α : Type} [Inhabited α] (M : Algebra α)
     (xReg : RegionName) (stride : Nat) (xs : Fin N → α) (origin : State α)
-    (hx : ∀ i : Fin N, (origin.mem xReg (origin.pids 0 * stride + i.val)).read .real = xs i)
-    (i : Nat) (s : State α) (hi : i < N) (hs : Invariant M xs origin i s) :
-    ∃ t, run M (body xReg stride) (s.setReg "i" .nat [] (fun _ => i)) = some t ∧
-      Invariant M xs origin (i + 1) t := by
+    (hx : ∀ i : Fin N, M.fp32Load ((origin.mem xReg (origin.pids 0 * stride + i.val)).read .real) = xs i)
+    (i : Nat) (s : State α) (hi : i < N) (hs : Invariant (sourceEngine M) xs origin i s) :
+    ∃ t, run (sourceEngine M) (body xReg stride) (s.setReg "i" .nat [] (fun _ => i)) = some t ∧
+      Invariant (sourceEngine M) xs origin (i + 1) t := by
   rcases hs with ⟨hm, hv, hpid, hmem, hpids⟩
   have hxi := hx ⟨i, hi⟩
-  simp [body, run, step, evalExpr, evalOp_unfold, numeric, FP.Structural.bop,
+  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, body, onlineWelfordKernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, FP.Structural.bop,
     realRef, State.setReg, hmem, hm, hv, hpid, hxi, Region.cast,
     Invariant, recurrence, hi, update, hpids]
   exact ⟨rfl, rfl⟩
@@ -153,26 +150,26 @@ private theorem iteration {α : Type} [Inhabited α] (M : Algebra α)
 law about arithmetic, count conversion or finite values is needed to execute. -/
 theorem loop_run_with_pid {α : Type} [Inhabited α] (M : Algebra α)
     (xReg : RegionName) (stride : Nat) (xs : Fin N → α) (origin : State α)
-    (hx : ∀ i : Fin N, (origin.mem xReg (origin.pids 0 * stride + i.val)).read .real = xs i) :
-    ∃ t, run M (initialCode ++ [.forLoop "i" N (body xReg stride)]) origin = some t ∧
-      t.regs .real [] "M" = some (fun _ => (recurrence M xs N).1) ∧
-      t.regs .real [] "S" = some (fun _ => (recurrence M xs N).2) ∧
+    (hx : ∀ i : Fin N, M.fp32Load ((origin.mem xReg (origin.pids 0 * stride + i.val)).read .real) = xs i) :
+    ∃ t, run (sourceEngine M) (initialCode ++ [.forLoop "i" N (body xReg stride)]) origin = some t ∧
+      t.regs .real [] "M" = some (fun _ => (recurrence (sourceEngine M) xs N).1) ∧
+      t.regs .real [] "S" = some (fun _ => (recurrence (sourceEngine M) xs N).2) ∧
       t.regs .nat [] "pid" = some (fun _ => origin.pids 0) ∧
       t.mem = origin.mem ∧ t.pids = origin.pids := by
   let s := ((origin.setReg "pid" .nat [] (fun _ => origin.pids 0)).setReg "M" .real []
-    (fun _ => M.literal none .real 0)).setReg "S" .real [] (fun _ => M.literal none .real 0)
-  have hs : Invariant M xs origin 0 s := by simp [Invariant, recurrence, s, State.setReg]
-  obtain ⟨t, ht, hm, hv, hpid, hmem, hpids⟩ := forLoop_invariant M hs (iteration M xReg stride xs origin hx)
+    (fun _ => (sourceEngine M).literal none .real 0)).setReg "S" .real [] (fun _ => (sourceEngine M).literal none .real 0)
+  have hs : Invariant (sourceEngine M) xs origin 0 s := by simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, Invariant, recurrence, s, State.setReg]
+  obtain ⟨t, ht, hm, hv, hpid, hmem, hpids⟩ := forLoop_invariant (sourceEngine M) hs (iteration M xReg stride xs origin hx)
   refine ⟨t, ?_, hm, hv, hpid, hmem, hpids⟩
   rw [run_append]
-  simpa [initialCode, run, step, evalExpr, evalOp_unfold, s] using ht
+  simpa [initialCode, run, step, evalExpr, evalComputeOp, evalOp_unfold, s] using ht
 
 theorem loop_run {α : Type} [Inhabited α] (M : Algebra α)
     (xReg : RegionName) (stride : Nat) (xs : Fin N → α) (origin : State α)
-    (hx : ∀ i : Fin N, (origin.mem xReg (origin.pids 0 * stride + i.val)).read .real = xs i) :
-    ∃ t, run M (initialCode ++ [.forLoop "i" N (body xReg stride)]) origin = some t ∧
-      t.regs .real [] "M" = some (fun _ => (recurrence M xs N).1) ∧
-      t.regs .real [] "S" = some (fun _ => (recurrence M xs N).2) ∧
+    (hx : ∀ i : Fin N, M.fp32Load ((origin.mem xReg (origin.pids 0 * stride + i.val)).read .real) = xs i) :
+    ∃ t, run (sourceEngine M) (initialCode ++ [.forLoop "i" N (body xReg stride)]) origin = some t ∧
+      t.regs .real [] "M" = some (fun _ => (recurrence (sourceEngine M) xs N).1) ∧
+      t.regs .real [] "S" = some (fun _ => (recurrence (sourceEngine M) xs N).2) ∧
       t.mem = origin.mem ∧ t.pids = origin.pids := by
   obtain ⟨t, ht, hm, hv, _, hmem, hpids⟩ := loop_run_with_pid M xReg stride xs origin hx
   exact ⟨t, ht, hm, hv, hmem, hpids⟩
@@ -190,27 +187,29 @@ reads finish before the two stores. Empty rows still execute the original code. 
 theorem online_run {α : Type} [Inhabited α] (M : Algebra α)
     (xReg meanReg varReg : RegionName) (stride : Nat) (xs : Fin N → α) (s : State α)
     (hd : meanReg ≠ varReg)
-    (hx : ∀ i : Fin N, (s.mem xReg (s.pids 0 * stride + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (onlineWelfordKernel xReg meanReg varReg N stride) s = some t ∧
-      t.mem meanReg 0 = .mk .bf16 (meanValue M xs) ∧
-      t.mem varReg 0 = .mk .bf16 (varianceValue M xs) ∧
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem xReg (s.pids 0 * stride + i.val)).read .real) = xs i) :
+    ∃ t, FP.Structural.exec (sourceEngine M) (onlineWelfordKernel xReg meanReg varReg N stride) s = some t ∧
+      t.mem meanReg 0 = .mk .bf16 (meanValue (sourceEngine M) xs) ∧
+      t.mem varReg 0 = .mk .bf16 (varianceValue (sourceEngine M) xs) ∧
       (∀ r o, (r ≠ meanReg ∨ o ≠ 0) → (r ≠ varReg ∨ o ≠ 0) → t.mem r o = s.mem r o) := by
   obtain ⟨u, hu, hm, hv, hmem, _⟩ := loop_run M xReg stride xs s hx
-  have he : FP.Structural.exec M (onlineWelfordKernel xReg meanReg varReg N stride) s =
-      run M (initialCode ++ [.forLoop "i" N (body xReg stride)] ++ outputCode meanReg varReg N) s :=
-    congrArg (fun code => run M code s) (kernel_body xReg meanReg varReg N stride)
-  let t := (u.write meanReg 0 (.mk .bf16 (meanValue M xs))).write varReg 0
-    (.mk .bf16 (varianceValue M xs))
+  have he : FP.Structural.exec (sourceEngine M) (onlineWelfordKernel xReg meanReg varReg N stride) s =
+      run (sourceEngine M) (initialCode ++ [.forLoop "i" N (body xReg stride)] ++ outputCode meanReg varReg N) s :=
+    congrArg (fun code => run (sourceEngine M) code s) (kernel_body xReg meanReg varReg N stride)
+  let counted := u.setReg "count" .real [] (fun _ => (sourceEngine M).fromNat none N)
+  let t := (counted.write meanReg 0 (.mk .bf16 (meanValue (sourceEngine M) xs))).write varReg 0
+    (.mk .bf16 (varianceValue (sourceEngine M) xs))
   refine ⟨t, ?_, ?_, ?_, ?_⟩
   · rw [he, run_append, hu]
-    simp [outputCode, run, step, evalExpr, evalOp_unfold, realRef, hm, hv, numeric,
+    simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, outputCode, onlineWelfordKernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold, realRef, hm, hv, numeric,
       FP.Structural.bop, store, TileShape.allIndices, Region.cast, meanValue, varianceValue,
-      t, State.write, ofFloat, toFloat]
+      t, counted, State.write, ofFloat, toFloat]
   · exact (State.write_other _ varReg meanReg 0 0 _ (Or.inl hd)).trans
       (State.write_same _ _ _ _)
   · exact State.write_same _ _ _ _
   · intro r o h₁ h₂
-    rw [State.write_other _ varReg r 0 o _ h₂, State.write_other _ meanReg r 0 o _ h₁, hmem]
+    rw [State.write_other _ varReg r 0 o _ h₂, State.write_other _ meanReg r 0 o _ h₁]
+    exact congrFun (congrFun hmem r) o
 
 def sumValue {α : Type} (M : Algebra α) (xs : Fin N → α) : α :=
   M.reduceSum none (shape := [N]) ⟨0, by simp⟩ Bool.false (fun i => xs i.1) PUnit.unit
@@ -228,12 +227,12 @@ integer-count conversions and bf16 stores; no fold identity is assumed. -/
 theorem twopass_run {α : Type} [Inhabited α] (M : Algebra α)
     (xReg meanReg varReg : RegionName) (stride : Nat) (xs : Fin N → α) (s : State α)
     (hd : meanReg ≠ varReg)
-    (hx : ∀ i : Fin N, (s.mem xReg (s.pids 0 * stride + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (twopassWelfordKernel xReg meanReg varReg N stride) s = some t ∧
-      t.mem meanReg 0 = .mk .bf16 (M.cast none .real .bf16 (twopassMean M xs)) ∧
-      t.mem varReg 0 = .mk .bf16 (M.cast none .real .bf16 (twopassVariance M xs)) ∧
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem xReg (s.pids 0 * stride + i.val)).read .real) = xs i) :
+    ∃ t, FP.Structural.exec (sourceEngine M) (twopassWelfordKernel xReg meanReg varReg N stride) s = some t ∧
+      t.mem meanReg 0 = .mk .bf16 ((sourceEngine M).cast none .real .bf16 (twopassMean (sourceEngine M) xs)) ∧
+      t.mem varReg 0 = .mk .bf16 ((sourceEngine M).cast none .real .bf16 (twopassVariance (sourceEngine M) xs)) ∧
       (∀ r o, (r ≠ meanReg ∨ o ≠ 0) → (r ≠ varReg ∨ o ≠ 0) → t.mem r o = s.mem r o) := by
-  simp [twopassWelfordKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, twopassWelfordKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, store, State.write, TileShape.allIndices,
     TileShape.eraseAxis, Region.cast, ofFloat, toFloat, hx, hd,
     sumValue, twopassMean, twopassVariance]
@@ -285,24 +284,24 @@ two-output frame. In particular, proving only the mean is insufficient. -/
 theorem online_io_run {α : Type} [Inhabited α] (M : Algebra α)
     (x mean variance : RegionName) (stride : Nat) (xs : Fin N → α) (s : State α)
     (hd : mean ≠ variance)
-    (hx : ∀ i : Fin N, (s.mem x (s.pids 0 * stride + i.val)).read .real = xs i) :
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i) :
     IO₁ₓ₂PrivateScratch (onlineIO x mean variance N stride) ∧
-    ∃ t, FP.Structural.exec M (onlineIO x mean variance N stride).kernel s = some t ∧
-      t.mem mean 0 = .mk .bf16 (meanValue M xs) ∧
-      t.mem variance 0 = .mk .bf16 (varianceValue M xs) ∧
+    ∃ t, FP.Structural.exec (sourceEngine M) (onlineIO x mean variance N stride).kernel s = some t ∧
+      t.mem mean 0 = .mk .bf16 (meanValue (sourceEngine M) xs) ∧
+      t.mem variance 0 = .mk .bf16 (varianceValue (sourceEngine M) xs) ∧
       IO₁ₓ₂Frame (onlineIO x mean variance N stride) s t := by
   obtain ⟨t, ht, hm, hv, hf⟩ := online_run M x mean variance stride xs s hd hx
-  refine ⟨by simp [IO₁ₓ₂PrivateScratch, onlineIO], t, ht, hm, hv, ?_⟩
+  refine ⟨by simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, IO₁ₓ₂PrivateScratch, onlineIO], t, ht, hm, hv, ?_⟩
   exact scalar_outputs_frame rfl rfl rfl rfl hf
 
 theorem twopass_io_run {α : Type} [Inhabited α] (M : Algebra α)
     (x mean variance : RegionName) (stride : Nat) (xs : Fin N → α) (s : State α)
     (hd : mean ≠ variance)
-    (hx : ∀ i : Fin N, (s.mem x (s.pids 0 * stride + i.val)).read .real = xs i) :
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i) :
     IO₁ₓ₂PrivateScratch (twopassIO x mean variance N stride) ∧
-    ∃ t, FP.Structural.exec M (twopassIO x mean variance N stride).kernel s = some t ∧
-      t.mem mean 0 = .mk .bf16 (M.cast none .real .bf16 (twopassMean M xs)) ∧
-      t.mem variance 0 = .mk .bf16 (M.cast none .real .bf16 (twopassVariance M xs)) ∧
+    ∃ t, FP.Structural.exec (sourceEngine M) (twopassIO x mean variance N stride).kernel s = some t ∧
+      t.mem mean 0 = .mk .bf16 ((sourceEngine M).cast none .real .bf16 (twopassMean (sourceEngine M) xs)) ∧
+      t.mem variance 0 = .mk .bf16 ((sourceEngine M).cast none .real .bf16 (twopassVariance (sourceEngine M) xs)) ∧
       IO₁ₓ₂Frame (twopassIO x mean variance N stride) s t := by
   obtain ⟨t, ht, hm, hv, hf⟩ := twopass_run M x mean variance stride xs s hd hx
   refine ⟨by simp [IO₁ₓ₂PrivateScratch, twopassIO, onlineIO], t, ht, hm, hv, ?_⟩
@@ -316,7 +315,7 @@ theorem fp32_online_statistics_run {α : Type} [Inhabited α]
     (hM : FP.Guarded.Models R.assumptions M D) (s : State α)
     (x mean variance : RegionName) (N stride : Nat) (hN : 0 < N) (hdistinct : mean ≠ variance)
     (xs : Nat → α) (empty : FP.Equational.ReductionTree 0)
-    (hx : ∀ i : Fin N, (s.mem x (s.pids 0 * stride + i.val)).read .real = xs i.val)
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i.val)
     (hc : FP.WelfordInduction.CountConversion M N)
     (hd : FP.WelfordInduction.IterationDomain M D xs empty N) :
     IO₁ₓ₂PrivateScratch (onlineIO x mean variance N stride) ∧
@@ -445,7 +444,7 @@ theorem original_runs {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α) (plans : Schedules)
     (x mean variance : RegionName) (N stride : Nat) (hN : 0 < N) (hdistinct : mean ≠ variance)
     (xs : Nat → α) (empty : ReductionPlan 0)
-    (hx : ∀ i : Fin N, (s.mem x (s.pids 0 * stride + i.val)).read .real = xs i.val)
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * stride + i.val)).read .real) = xs i.val)
     (hc : CountConversion M N) (hi : IterationDomain M D xs empty.tree N)
     (hs : StatisticsDomain M D (rowPrefix xs N) (plan empty N) (rowPlan plans N)) :
     IO₁ₓ₂PrivateScratch (onlineIO x mean variance N stride) ∧
@@ -455,9 +454,9 @@ theorem original_runs {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
       IO₁ₓ₂Outputs (onlineIO x mean variance N stride) (twopassIO x mean variance N stride) s a b ∧
       IO₁ₓ₂Frame (onlineIO x mean variance N stride) s a ∧
       IO₁ₓ₂Frame (twopassIO x mean variance N stride) s b := by
-  obtain ⟨hpa, a, ha, hma, hva, hfa⟩ := online_io_run (engine M plans)
+  obtain ⟨hpa, a, ha, hma, hva, hfa⟩ := online_io_run (FP.ScalarReduction.algebra M plans)
     x mean variance stride (rowPrefix xs N) s hdistinct hx
-  obtain ⟨hpb, b, hb, hmb, hvb, hfb⟩ := twopass_io_run (engine M plans)
+  obtain ⟨hpb, b, hb, hmb, hvb, hfb⟩ := twopass_io_run (FP.ScalarReduction.algebra M plans)
     x mean variance stride (rowPrefix xs N) s hdistinct hx
   have hv := original_values R M D hM s plans xs empty N hN hc hi hs
   refine ⟨hpa, hpb, a, b, ha, hb, ⟨?_, ?_⟩, hfa, hfb⟩
@@ -485,14 +484,14 @@ open _root_.VeriTile.Triton.FP.Equational (ReductionPlan Schedules)
 open WelfordFPExecution WelfordFPComparison
 
 def rowExpressions (x : RegionName) (stride : Nat) (i : Nat) : Expr MemoryInput :=
-  .input ⟨x, fun pid => pid * stride + i, .real⟩
+  .fp32Load (.input ⟨x, fun pid => pid * stride + i, .real⟩)
 
-def rowValues {α : Type} [Inhabited α] (s : State α) (x : RegionName)
-    (stride i : Nat) : α := (s.mem x (s.pids 0 * stride + i)).read .real
+def rowValues {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (x : RegionName)
+    (stride i : Nat) : α := M.fp32Load ((s.mem x (s.pids 0 * stride + i)).read .real)
 
 @[simp] theorem eval_row {α : Type} [Inhabited α] (M : Algebra α)
     (s : State α) (x : RegionName) (stride i : Nat) :
-    (rowExpressions x stride i).eval M (MemoryInput.read s) = rowValues s x stride i := rfl
+    (rowExpressions x stride i).eval M (MemoryInput.read s) = rowValues M s x stride i := rfl
 
 /-- The numerical proof domain contains initialization, each iteration, and
 both normalization paths for all three statistics. Dimensions stay symbolic. -/
@@ -505,9 +504,9 @@ def requirements (x : RegionName) (N stride : Nat) (empty : ReductionPlan 0)
 theorem requirements_holds {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (s : State α) (x : RegionName) (N stride : Nat) (empty : ReductionPlan 0) (plans : Schedules) :
     (requirements x N stride empty plans).Holds M D s ↔
-      FP.WelfordInduction.IterationDomain M D (rowValues s x stride) empty.tree N ∧
+      FP.WelfordInduction.IterationDomain M D (rowValues M s x stride) empty.tree N ∧
       FP.WelfordSchedule.StatisticsDomain M D
-        (FP.WelfordInduction.rowPrefix (rowValues s x stride) N)
+        (FP.WelfordInduction.rowPrefix (rowValues M s x stride) N)
         (FP.WelfordInduction.plan empty N) (rowPlan plans N) := by
   unfold requirements Condition.Holds
   rw [← Requirements.holds_map]
@@ -546,7 +545,7 @@ theorem original_runs_under_count {α : Type} [Inhabited α] (R : Rules) (M : Al
       IO₁ₓ₂Frame (twopass x mean variance N stride empty).io s b := by
   obtain ⟨hi, hs⟩ := (requirements_holds M D s x N stride empty plans).mp hd
   exact original_runs R M D hM s plans x mean variance N stride hN hdistinct
-    (rowValues s x stride) empty (fun _ => rfl) hc hi hs
+    (rowValues M s x stride) empty (fun _ => rfl) hc hi hs
 
 /-- Compose strictly certified bounded count conversion and the admitted
 arithmetic relaxations with both executions and output frames. The nonempty-row

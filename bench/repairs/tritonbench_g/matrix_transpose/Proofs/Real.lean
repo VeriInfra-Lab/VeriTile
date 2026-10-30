@@ -32,7 +32,7 @@ def runWrapper (m d : Nat) (samples : Nat → ℝ) (initial : BlockState) :
 theorem source_projection (m d : Nat) :
     ((source "matrix" "out" m d).eraseDType.toAlgKernel).body =
       (kernel "matrix" "out" (max d 1) 1 (max m 1) 1 m d).toAlgKernel.body := by
-  unfold source
+  change (typedKernel Bool.false "matrix" "out" (max d 1) 1 (max m 1) 1 m d).eraseDType.toAlgKernel.body = _
   rw [typed_projection]
   rfl
 

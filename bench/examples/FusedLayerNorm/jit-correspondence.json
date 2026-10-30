@@ -1,0 +1,98 @@
+[
+  {
+    "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+    "python_function": "twoPassLayerNormKernel",
+    "lean": "bench/examples/FusedLayerNorm/Kernels.lean",
+    "lean_definition": "twoPassLayerNormKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "γReg",
+          "fp32"
+        ],
+        [
+          "βReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "bf16"
+        ]
+      ],
+      "scalars": [
+        [
+          "rowStride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "N",
+        "ε"
+      ],
+      "readPorts": [
+        "xReg",
+        "γReg",
+        "βReg"
+      ],
+      "writePorts": [
+        "yReg"
+      ]
+    },
+    "expected_call_bindings": {
+      "rowStride": "rowStride"
+    }
+  },
+  {
+    "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+    "python_function": "fusedLayerNormKernel",
+    "lean": "bench/examples/FusedLayerNorm/Kernels.lean",
+    "lean_definition": "fusedLayerNormKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "γReg",
+          "fp32"
+        ],
+        [
+          "βReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "bf16"
+        ]
+      ],
+      "scalars": [
+        [
+          "rowStride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "N",
+        "ε"
+      ],
+      "readPorts": [
+        "xReg",
+        "γReg",
+        "βReg"
+      ],
+      "writePorts": [
+        "yReg"
+      ]
+    },
+    "expected_call_bindings": {
+      "rowStride": "rowStride"
+    }
+  }
+]

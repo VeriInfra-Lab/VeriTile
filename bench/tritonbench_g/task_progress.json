@@ -268,6 +268,23 @@
               "generation": "fresh root joint; applicable internal objects reused"
             },
             "report": "bench/review-checkpoints/2026-10-21/finish-pending-105/README.md"
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "regression_only_pending_body_migration",
+            "notes": "Complete grid-helper API compatibility regression: retain the same shared ordinary-grid layout, constructed frames and both in-place outputs. Full native-example-to-mathematical-kernel equality is definitional. Re-open compatibility aliases to those complete algorithm frames and adapt one explicit unfolding in the benchmark frame proof. All selected-config grid, host and native word scopes are replayed. This task still awaits its own Python-body migration and is not counted complete."
           }
         },
         "transformation_rules": [],
@@ -747,9 +764,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/adam_update_triton.json",
-            "sha256": "810829731d10238dc94f9dc1fc1ba0ca7e4f4a26add3c00d7fc7d0e83ba22081",
-            "task": "adam_update_triton"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AdamUpdateTriton.Correct.lion_kernel_correctness",
@@ -911,7 +927,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/add_example/add_example_repaired.py": "08307d73b804cc8afa2762981d55954f70034b8c49882c078d8058b56dd23c9b",
-          "bench/repairs/tritonbench_g/add_example/Kernels.lean": "f42099c0f3caacedf74f235d0aa083beaa5a02a2daded788333c209a41d180b1",
+          "bench/repairs/tritonbench_g/add_example/Kernels.lean": "a84a458bccd5f799e812703ab91b79c4a1ccc0fd79ecfeacbfa3663d6d116c40",
           "bench/repairs/tritonbench_g/add_example/Contract.lean": "bd4c9d1cf819570bc48508142d7b7ae92ab88db2b5e16c81bc9074d3a2548518",
           "bench/repairs/tritonbench_g/add_example/Correct.lean": "bb73923ea50cab6a9fbe0c09820fd6a16aaeb5dc14b6f2ab4da0cb6436dca6d1",
           "bench/repairs/tritonbench_g/add_example/FPEquiv.lean": "8d76af84d6d31ecfde6acc666c90d4d90c1e8fd862e1a190f8a610e41ff1f5dd",
@@ -986,6 +1002,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [
@@ -1363,9 +1396,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_example.json",
-            "sha256": "395a41f618ed564d30811da48969c8774260362acb6419d59b8fe1cdcc0ffc28",
-            "task": "add_example"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AddExample.Contiguous.Correct.add_kernel_correctness",
@@ -2192,7 +2224,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/add_value/add_value_repaired.py": "439dbbf37b927a5d48615b8e5f29941aa48a8ac668f97768f504dc36f0b12ea8",
-          "bench/repairs/tritonbench_g/add_value/Kernels.lean": "9914c49b3b6da81b5ebf3a58a39fb5f25d5e3df4158676ddb5fd1d11a4cf3e92",
+          "bench/repairs/tritonbench_g/add_value/Kernels.lean": "719df098d87b99a74dc9fa65c0e0a330f6684cd73dd1041730f43c3894845e6b",
           "bench/repairs/tritonbench_g/add_value/Contract.lean": "36b1fa88811be14136a351e003ca10634dd4be8192c12a6cfe3423f781ad92cd",
           "bench/repairs/tritonbench_g/add_value/Correct.lean": "7e7b322a93ad53cb3278c8b05c1385671a04e68a2e995513a38a0b13949dde92",
           "bench/repairs/tritonbench_g/add_value/FPEquiv.lean": "2499aa49ee538e90cce970ae7aa9484943e1deb24d6d50b9e0d78c503b9d82c8",
@@ -2260,6 +2292,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [
@@ -2625,9 +2674,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_value.json",
-            "sha256": "785376d3d30f2b2ef18f60d01d020b34d6572a6e32787ca07a7352508cc90c84",
-            "task": "add_value"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AddValue.Contiguous.Correct.puzzle1_kernel_correctness",
@@ -17474,10 +17522,10 @@
           "bench/repairs/tritonbench_g/cache_transform_triton/Contract.lean": "34f75f253f9affb86bda44900bc061b14a65748a753bf14331785bb585cfef08",
           "bench/repairs/tritonbench_g/cache_transform_triton/Correct.lean": "637faea7986c25ed40756bc0fb8dd3358934162e72eacbc4d5d8a1e40c35f48b",
           "bench/repairs/tritonbench_g/cache_transform_triton/FPEquiv.lean": "1c9b93b51366cfd6bc5e85921a4c962c3e1db40aa3c694d9669eb918c0ce404c",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean": "e2410cb0b6b8b897d1ccd7e58967aa770fbe8b09bab3094698de70df121a8ccc",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean": "4d6627aea156ad8a4c0c78d2542de256f79c7aafaada5baba2d67ca02fcc215e",
           "bench/repairs/tritonbench_g/cache_transform_triton/Misc/NativeCorrect.lean": "030291f749873637179bbd451a32199578ab5895e2389122bbe835f86aad963d",
           "bench/repairs/tritonbench_g/cache_transform_triton/Misc/TensorBridge.lean": "6b881e5c230a91310b0d833f5ea230c762cd2cef00ad62de7b3495d473b8c7c0",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean": "324c25b53f0e605aa18df6c285c0a72048914c1ff4f11263ef93ba536d64aa1d",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean": "1cc5d3dbd2c23630e2e34f7bf436586525952b72aad91dc795f393af8525811b",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairIO.lean": "0b6733db4c2d7e889435ed990f502cde15e4e543ef3d99c019911dcf57324c26",
           "bench/repairs/tritonbench_g/cache_transform_triton/cache_transform_triton_repaired.py": "e48153e24889ca841307f5a1ad075827992a38eece518e870f19a08144a4ff82"
         },
@@ -17570,6 +17618,23 @@
               "generation": "fresh root joint; applicable internal objects reused"
             },
             "report": "bench/review-checkpoints/2026-10-21/finish-pending-105/README.md"
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -17847,12 +17912,12 @@
           "bench/repairs/tritonbench_g/cache_transform_triton/Misc/NativeCorrect.lean": "030291f749873637179bbd451a32199578ab5895e2389122bbe835f86aad963d",
           "bench/repairs/tritonbench_g/cache_transform_triton/Correct.lean": "835c1248387d5b708e7a87e14d17cb3d343c222d924462d215273f7d9e16608b",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IOResult.lean": "4e6f1b7e83c4c56da434820f128fee2893a41622422c422d394ff961940715a9",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean": "f224539a28785d7d69e56d2a112c39ab374425f3ee9f08366360104072cf7d7f",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AccessSafety.lean": "49d22cfa23af6c5bb7d56d36f8156f8082c24f65fe24b1220698f27fb7c8761c",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean": "4d6627aea156ad8a4c0c78d2542de256f79c7aafaada5baba2d67ca02fcc215e",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AccessSafety.lean": "98a898fde5ca2c008628e9eea5861338c27ac5547ffd5c84e801d1e269c16cec",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AdmissionCore.lean": "9b11fd85723aeed2469e41860564ab1664edbe339415dcbd54ce0f9a20cfa2d0",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Bounds.lean": "f5dafb28f1af47c811b0e757c8600238b0650642f1a5ea13149699bce966bfa9",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Contract.lean": "3df9c57a777923643bc5357b23eb025bed6eaee9d0e31766a48a8f14e5b4594d",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Execution.lean": "b01e81e5ed13bd73ffc3bbc3b5272b5d4c874af0693027c1de85fcd5e4c3415c",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Execution.lean": "e07aeb96ff239ef239579ff048ee7a038684f5d06fc2950fa28688cc29df884b",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Grid.lean": "1c2aa02b240afd266476f3036c8fdafe1e2efdb4f3b9123be879bcc28c8b8a31",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IO.lean": "eba072c271f411759be8e23daaba19a53f6d00ebe8381bf4ade941eb001f1aff",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IOSafety.lean": "71d0916ae0ec190e9e7a4baa53513387b3c0ccef355138e87d53df17c122b0a9",
@@ -17860,7 +17925,7 @@
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/KernelSource.lean": "855688931bad7fc8b82bc82001a4f1a5d3146553489877cf4042f862e230d3bb",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Math.lean": "ae8baa4bbd27947ab634c490418fc25dba895bc13d61daa5fc379b52c7c0f175",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Native.lean": "39d8694b272fa41462abec62bc77a5a09ac0ea86d21b6f3af3cf4dec26ff05a3",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean": "324c25b53f0e605aa18df6c285c0a72048914c1ff4f11263ef93ba536d64aa1d",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean": "1cc5d3dbd2c23630e2e34f7bf436586525952b72aad91dc795f393af8525811b",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairIO.lean": "2b925235e9fdae31fa94732549f8397d6a23e120ad5f6bd2cfbf7a279c403c64",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Tensor.lean": "c77339e9e9478e22edd733b0fc7cc9ffa8fb1f01a39b128e850fba9d49176016",
           "bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.lean": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
@@ -17869,7 +17934,10 @@
           "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
           "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
           "bench/repairs/tritonbench_g/cache_transform_triton/IO.lean": "0da5b4f7fd8466e85dd5c9c84ebdf146a4f568667cfd032b42d4c6646d632871",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/LogicalReader.lean": "99d0b88a98f84195dd3893183b8b0617c19a52718a60f2c471fb88435ec55e96"
+          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/LogicalReader.lean": "99d0b88a98f84195dd3893183b8b0617c19a52718a60f2c471fb88435ec55e96",
+          "VeriTile/Triton/DSL/CallSignature.lean": "0b72fc818a3980e212f728654eeb8219de6cd8639df3d20f3e62f266e409ec94",
+          "VeriTile/Triton/DSL/TypedStores.lean": "83526623cc15f060e855037028004854a353715e431960492dd405562fd0b4e4",
+          "VeriTile/Triton/DSL/Expansion/Main.lean": "8b35036541c6e5e70a93a98dce6266a6fda460c609f59fe7fd25ae4307ccf464"
         },
         "cross_review": {
           "report": "bench/review-checkpoints/2026-10-21/cross-review/README.md",
@@ -18024,9 +18092,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/cache_transform_triton.json",
-            "sha256": "21d3be25f6e3e9c53f6e9d3bcd74b4f427f7191a7ed139ad6628c253448c7e24",
-            "task": "cache_transform_triton"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.CacheTransform.Correct.kernel_real",
@@ -18085,22 +18152,25 @@
         },
         "current_source_replay": {
           "review": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
-          },
-          "check": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/cache_transform_triton.lean",
-            "sha256": "c76389737c1d5057cc8a9537b6caf1545ddc8be0b942efcfe855fe263ece8b6c"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           },
           "log": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/cache_transform_triton.log.gz",
-            "sha256": "0e66e171104bea145308f3de96f31bcec6be86e4c3731a58b2ffdcb2fcd72ff0"
-          }
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
+          },
+          "scope": "Current selected public Real/FP entries rebuilt after shared frontend changes; see review for exact targets and limits."
         },
         "jit_correspondence": {
-          "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-          "scope": "Statement correspondence is separate from prior model proof acceptance."
+          "status": "selected_body_copy_checked",
+          "inventory": "bench/source-correspondence.json",
+          "manifest": "bench/repairs/tritonbench_g/cache_transform_triton/jit-correspondence.json",
+          "scope": "Selected original Python and explicit native counterpart of existing candidate; source check plus complete old/new program equalities and public proof replay."
+        },
+        "pasted_body_review": {
+          "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+          "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
+          "task": "cache_transform_triton"
         }
       }
     },
@@ -33675,7 +33745,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/cosine_compute/cosine_compute_repaired.py": "cea2cd128dd3af27896c2dc0b7a4eb32769fd99859cef5c3b9b1e69b73c8b3e3",
-          "bench/repairs/tritonbench_g/cosine_compute/Kernels.lean": "1ace69a50e42f5cf602b49d02c984a7a84df68356d58338a4fdfa573e6724c50",
+          "bench/repairs/tritonbench_g/cosine_compute/Kernels.lean": "bc4609c1580fe1cda16e0c7e59abb3b812bf540e7bef814b769fef25ed5c097c",
           "bench/repairs/tritonbench_g/cosine_compute/Contract.lean": "b287dbd4cd7d719d4b575c1ac1dbe782b64fd4db9091016ffac63f21d6374bab",
           "bench/repairs/tritonbench_g/cosine_compute/Correct.lean": "e77984ddb5872798cb224a97e3d80a8b804ecd8125ba8181d7bef11af5fbed3e",
           "bench/repairs/tritonbench_g/cosine_compute/FPEquiv.lean": "c7154bc446c91d51e60bb4b3070452b0162550478045219448036c3cb5275f23",
@@ -33745,6 +33815,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -34105,9 +34192,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/cosine_compute.json",
-            "sha256": "c5722de39a3b3d8fc41da64170b8fb18e925cdc6bfef028958865c948cf3d0b8",
-            "task": "cosine_compute"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.CosineCompute.Correct.cosine_kernel_correctness",
@@ -38494,7 +38580,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/dequantize_rowwise/dequantize_rowwise_repaired.py": "df232e23aa9660d4f59c530586c8da80ccc9e11fe7a81c48aab31eedc7eda9aa",
-          "bench/repairs/tritonbench_g/dequantize_rowwise/Kernels.lean": "8b22621311e504630944cf0ec06a54643ccf0ad80c0c6a235070f4a528c5fb8e",
+          "bench/repairs/tritonbench_g/dequantize_rowwise/Kernels.lean": "c36fbd1ef5bc8398b40b18751a3c7ead5b22f8c4882c56205302a83047f6c8cd",
           "bench/repairs/tritonbench_g/dequantize_rowwise/Contract.lean": "adc62099b4b0484fcac2422dab9a637567658689b95200156e39d94a5d6f7732",
           "bench/repairs/tritonbench_g/dequantize_rowwise/Correct.lean": "880e5dbc2edbef9774646ad80a837db9e64dd1602cf6ff8311005d12b33a92ca",
           "bench/repairs/tritonbench_g/dequantize_rowwise/FPEquiv.lean": "5fb0d090450b58c1ccbaf3a677efa0321241d77c749ae83098efbdf8e6c8a014",
@@ -38607,6 +38693,23 @@
             "source_preservation_and_checks": ".veritile-cache/finish-pending-105-20261021/source-only/dequantize_rowwise/delivery.json",
             "source_sha256": "46447d8748548f091c82541525b7632dd773ab247dc2f50a6ce3e94bec5333f8",
             "scope": "Source readability only; existing domain, precision, candidates, theorem scopes and proof status retained."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -38863,7 +38966,10 @@
           "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/InputBinding.lean": "005efca0f3f6418a36dc557e6694ddfd827b3b1352f35f20a091ac6ab3982d26",
           "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/NativeAddress.lean": "67d408da0d329e4de7ec419be3a7697fc7b7e07afe7d9f21936549b7e81b9f1c",
           "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/NativeIndex.lean": "a8e7eb223e264b3493eb696f076259bcd39afd1c79aee57c7b44046fdd2ebc99",
-          "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/ReadableSource.lean": "fc4c3a3ad097b7146e0ab13ed89864f021872debca80b1ecaf5a8e4057478a5f"
+          "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/ReadableSource.lean": "fc4c3a3ad097b7146e0ab13ed89864f021872debca80b1ecaf5a8e4057478a5f",
+          "VeriTile/Triton/DSL/CallSignature.lean": "0b72fc818a3980e212f728654eeb8219de6cd8639df3d20f3e62f266e409ec94",
+          "VeriTile/Triton/DSL/TypedStores.lean": "83526623cc15f060e855037028004854a353715e431960492dd405562fd0b4e4",
+          "VeriTile/Triton/DSL/Expansion/Main.lean": "8b35036541c6e5e70a93a98dce6266a6fda460c609f59fe7fd25ae4307ccf464"
         },
         "cross_review": {
           "report": "bench/review-checkpoints/2026-10-21/cross-review/README.md",
@@ -39069,9 +39175,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
-            "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
-            "task": "dequantize_rowwise"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.DequantizeRowwise.dequantize_rowwise_correct",
@@ -39119,17 +39224,14 @@
         },
         "current_source_replay": {
           "review": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
-          },
-          "check": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/dequantize_rowwise.lean",
-            "sha256": "f2ff20d0700e2dddba6c165a96b8102bfcfd13cf9e322ab44967e81feff00d75"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           },
           "log": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/dequantize_rowwise.log.gz",
-            "sha256": "42fca4004adbcbef94067ef0738e8015abd4bbdd479c28f31b768baefb8a37ed"
-          }
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
+          },
+          "scope": "Current selected public Real/FP entries rebuilt after shared frontend changes; see review for exact targets and limits."
         },
         "jit_correspondence": {
           "status": "exact_ast_correspondence",
@@ -39137,8 +39239,8 @@
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         },
         "pasted_body_review": {
-          "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
-          "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+          "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+          "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
           "task": "dequantize_rowwise"
         }
       }
@@ -57960,7 +58062,7 @@
           "bench/repairs/tritonbench_g/index_select_bwd/Contract.lean": "0509d22fe38af484d08dd2dcc7d2627eaa3be9c73d243cdf090e3f2009088d19",
           "bench/repairs/tritonbench_g/index_select_bwd/Correct.lean": "d944771d4311db6e5691c951c3b1098584c8513bc905562ed1270f9287a2b1fc",
           "bench/repairs/tritonbench_g/index_select_bwd/FPEquiv.lean": "e06b9944c1a5f214e890d358ad1aa181b1c141c8dbc1641b40b9781af54df261",
-          "bench/repairs/tritonbench_g/index_select_bwd/Kernels.lean": "5cbadaa85645ab34dfa1735f93504019ebf3644b8897ccb6aef47c4737da1e9b",
+          "bench/repairs/tritonbench_g/index_select_bwd/Kernels.lean": "19ab4894ef756abf68a26cc2326ffb62076894bfa8af9f8aef49c0cc36d88879",
           "bench/repairs/tritonbench_g/index_select_bwd/Misc/NativeCorrect.lean": "0c2c8db93bbbf0efb453da050b06be0899a9269bed4e512e3c7dd75ae5804158",
           "bench/repairs/tritonbench_g/index_select_bwd/Misc/TensorBridge.lean": "60c7fbaff5a49af60f525829c4b7290a4a95100d7e5e93edd238219b0017156f",
           "bench/repairs/tritonbench_g/index_select_bwd/Proofs/Adaptive.lean": "35153c9f025adc57730fd02316b73bf6f281a2c8869c3dbafb71aa7cde13c481",
@@ -58134,6 +58236,23 @@
               "generation": "fresh root joint; applicable internal objects reused"
             },
             "report": "bench/review-checkpoints/2026-10-21/finish-pending-105/README.md"
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -58539,9 +58658,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/index_select_bwd.json",
-            "sha256": "bf5706728b640aab129f2ceec1f33960355fca828affae07a601fa1824665ad5",
-            "task": "index_select_bwd"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.IndexSelectBwd.Correct.index_select_bwd_kernel_correctness",
@@ -66540,7 +66658,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/kldiv_compute/kldiv_compute_repaired.py": "1565e81f560319d9f8ab63338920c17270468f248fed28ebd2b7edca3dc7eded",
-          "bench/repairs/tritonbench_g/kldiv_compute/Kernels.lean": "56d6a3f5e51034dd949d7aa6b7b73b8598ac3a543a2b729ce1a4f5b41b45d6ff",
+          "bench/repairs/tritonbench_g/kldiv_compute/Kernels.lean": "2426ed70a95e72cc2f0b185e054208f7e9051573767fafd1cc8d016c5769a27c",
           "bench/repairs/tritonbench_g/kldiv_compute/Contract.lean": "d65ac1b15e1d3c3678f15cbba64f52d0cb7c5bb293085c04e0866d9380c71185",
           "bench/repairs/tritonbench_g/kldiv_compute/Correct.lean": "596d4a5019ab84daf768454a733d0213b81bd14348034a0a09b7c9e1e0d36687",
           "bench/repairs/tritonbench_g/kldiv_compute/FPEquiv.lean": "a518b47a3d15436cc6b6b8c9fc9745b39d802704b0a63428f46749618bb63800",
@@ -66624,6 +66742,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -67036,9 +67171,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kldiv_compute.json",
-            "sha256": "fa0fc45dc503b987878f462cb1a735311b8d1b377f33d773f80d8e52c1dcd576",
-            "task": "kldiv_compute"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.KldivCompute.Kernel.Correct.correctness",
@@ -70328,7 +70462,24 @@
             "initial_project_build_present": false,
             "initial_veritile_cache_present": false
           },
-          "validation_scope": "Actual complete copy/INT8/INT4 DSL programs, valid source accesses, successful execution, every cache/metadata output and exact exterior frame. The family is not a composed host execution."
+          "validation_scope": "Actual complete copy/INT8/INT4 DSL programs, valid source accesses, successful execution, every cache/metadata output and exact exterior frame. The family is not a composed host execution.",
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "regression_only_pending_body_migration",
+            "notes": "Shared frontend dependency regression only: selected public source/schedule/safety/frame and FP entries replayed, with unchanged formulas, numerical rules and public domains. Python-body migration remains pending and is not counted complete."
+          }
         },
         "transformation_rules": [],
         "deferred_experiments": [],
@@ -70657,7 +70808,7 @@
           "VeriTile/Triton/DSL/Expansion/Control.lean": "5a64987af770f0c2ffbf01c23c3069ad9971e03a55e3b117a76c1578f42b8b1d",
           "VeriTile/Triton/DSL/Expansion/DType.lean": "2d61abff958ff6abdd0768a6bcd72c9d1192679b4c30c2d67c83efa774c23b7b",
           "VeriTile/Triton/DSL/Expansion/DirectRandom.lean": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc",
-          "VeriTile/Triton/DSL/Expansion/Main.lean": "8e16206792c45d0f92b0dc5581f09d043e242a1805fc58d1086d06aaf6d3d464",
+          "VeriTile/Triton/DSL/Expansion/Main.lean": "8b35036541c6e5e70a93a98dce6266a6fda460c609f59fe7fd25ae4307ccf464",
           "VeriTile/Triton/DSL/Expansion/Memory.lean": "61d9e124c8447fdb07ab4745dd8139ff89466dbf014e94dc6ab84c8614a3d690",
           "VeriTile/Triton/DSL/Expansion.lean": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
           "VeriTile/Triton/DSL/FiniteHelperSource.lean": "b16e6ac66af74f85feefa9219e4aa880b46d54277d1d309ca495dbb62cccf0d0",
@@ -70907,8 +71058,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/kv-reconstruction/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/review.json",
-            "sha256": "5357964c1d07b5ee7e193cffb02a645cc26421e9319bd6b47029691d36c90bf3"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real",
@@ -70974,17 +71125,14 @@
         },
         "current_source_replay": {
           "review": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
-          },
-          "check": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kv_cache_filling.lean",
-            "sha256": "e1386f9ff3bed391c262cd412b37d11214a67c830dfbb3674311ff549e8333c3"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           },
           "log": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kv_cache_filling.log.gz",
-            "sha256": "0d2b4be34eb9b4b79862138daeacc98c0105572e23761404e64554070aa09d35"
-          }
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
+          },
+          "scope": "Current selected public Real/FP entries rebuilt after shared frontend changes; see review for exact targets and limits."
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
@@ -71866,7 +72014,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/l2_norm_triton1/l2_norm_triton1_repaired.py": "9800aebfe7402fb481670b03614f5fda6935991b5480a41d32726f76bc7973c5",
-          "bench/repairs/tritonbench_g/l2_norm_triton1/Kernels.lean": "07cec892b1a45c5bdd2033058d0903f9215b02b6b58dbfb130724365e07d1a7c",
+          "bench/repairs/tritonbench_g/l2_norm_triton1/Kernels.lean": "d00a558f44d00ac59eed217298acfe26621bc238d434afd63e18450e7b12fcb6",
           "bench/repairs/tritonbench_g/l2_norm_triton1/Contract.lean": "9bd73481215eb7b67cdb604fbd6c0e7677764f8fb10967f97934315edfed8fd3",
           "bench/repairs/tritonbench_g/l2_norm_triton1/Correct.lean": "33a9b9feecf036c369959450208d493cdbeda1508e7ba1fd20376fb237949deb",
           "bench/repairs/tritonbench_g/l2_norm_triton1/FPEquiv.lean": "5d5a045ba71a16afd63fe46b84ee352d5b36b5bf3d96016e72970d1b70f1b85a",
@@ -71950,6 +72098,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -72421,9 +72586,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/l2_norm_triton1.json",
-            "sha256": "437f69c999389a17eb09fb052191bb30a3ede53f63249e1a24a990090cf7d0ff",
-            "task": "l2_norm_triton1"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.L2NormTriton1.Correct.grid_correct",
@@ -93241,7 +93405,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/matrix_transpose/matrix_transpose_repaired.py": "84131a4342debea02e9ae3620e7e4a19177ef04bd7d377857ea767d8549bbc94",
-          "bench/repairs/tritonbench_g/matrix_transpose/Kernels.lean": "4506b23c5eae6dc45ef2537616b1b9886361395f902e42ed244cf7bea4e6d3f9",
+          "bench/repairs/tritonbench_g/matrix_transpose/Kernels.lean": "8f58302ff527feb7c7480d2df784fade97b324979a354c303d32652e3b6be76c",
           "bench/repairs/tritonbench_g/matrix_transpose/Contract.lean": "cf867792b3a5950402e11295619ce35841bbf051a8f3bd1afdfc248dfb9c663b",
           "bench/repairs/tritonbench_g/matrix_transpose/Correct.lean": "7de15b875b1b5c9b71332132d7ac6e7b47957c8e292b8052cfbaefc68a05c2cc",
           "bench/repairs/tritonbench_g/matrix_transpose/FPEquiv.lean": "85c5ebb92b499f69ae2f7d8e4f469ca28c6ee110bef040bbe248d9ae3cf8da2d",
@@ -93328,6 +93492,23 @@
             "source_preservation_exit_code": 0,
             "source_checks_exit_code": 0,
             "scope": "Direct triton source organization and pointer-region metadata only; no new mathematical or numerical proof obligations."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -93753,9 +93934,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_transpose.json",
-            "sha256": "495cc6f6970be61584da2e084797df9163b5380c75fa1fbe35b8c1cfde144d3c",
-            "task": "matrix_transpose"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.MatrixTranspose.Correct.transpose_kernel_correctness",
@@ -111516,7 +111696,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/rmsnorm_fused/rmsnorm_fused_repaired.py": "677bf13ce7db6ef8b0097d6ed68c637ea75015a3949702f10b881909e3790ddd",
-          "bench/repairs/tritonbench_g/rmsnorm_fused/Kernels.lean": "80e123133c406c335d59ecba51fc201a1ac49d8167e0adae0923f682e7150e96",
+          "bench/repairs/tritonbench_g/rmsnorm_fused/Kernels.lean": "5dcf03c6b70cb5e5c2b232104adaf26e658c0e22baae2f3d20f6f1ed59965221",
           "bench/repairs/tritonbench_g/rmsnorm_fused/Contract.lean": "350b73e1d2adfeaa5d23794bfdb709d2ca85dc224f2ecaa985f27beff82c45b2",
           "bench/repairs/tritonbench_g/rmsnorm_fused/Correct.lean": "6040e007771ae96218f8c35a8bb0ea3afe7ffedb0108afb9e523827c5e919bf0",
           "bench/repairs/tritonbench_g/rmsnorm_fused/FPEquiv.lean": "87bc54069a04a6e8ab9dc5a5672ce9f3fb0af54620f9bdba732d47a0c0e29394",
@@ -111607,6 +111787,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -112100,9 +112297,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_fused.json",
-            "sha256": "956926889c0ddb2dd97a86f53090ad0057426a50782e8945cabdbf883c300b03",
-            "task": "rmsnorm_fused"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormFused.Correct.kernel_real",
@@ -112269,7 +112465,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/rmsnorm_fused_llama/rmsnorm_fused_llama_repaired.py": "74728350fa4edb13fb1548218e87f262671af134532e2be19dec38fb3fdc113e",
-          "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Kernels.lean": "71853769b8f826a4662b844bb4120903d038944a83a9bb3fade9479741438373",
+          "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Kernels.lean": "b9277ef17a69962ac46a75cb4f070bf706e0c507a4744be846ec6e6a3f2fe006",
           "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Contract.lean": "df12ad26f0cd3f509cd6f2da16e84d59d3a7680815b3be7364085f88fdff942b",
           "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Correct.lean": "3598c0c03e1faec77f695f70a1c4ccf736193cb69547d13ef8d5d012d88d8491",
           "bench/repairs/tritonbench_g/rmsnorm_fused_llama/FPEquiv.lean": "834c3315a7fa9d8ff9776804be5a711da40d1c861aa5c416c279be193ef1498e",
@@ -112367,6 +112563,23 @@
             "source_preservation_and_checks": ".veritile-cache/finish-pending-105-20261021/source-only/rmsnorm_fused_llama/delivery.json",
             "source_sha256": "b45fc4e053c4198d09f5b2e417834395923c94d5102abfdd1eada612243e3ab5",
             "scope": "Source readability only; existing domain, precision, candidates, theorem scopes and proof status retained."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -112840,9 +113053,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/rmsnorm_fused_llama.json",
-            "sha256": "cd56ccc22cff0e0d9e97d1cb6fc6a4e79bbb7317eee3b028359f4950b786a4bc",
-            "task": "rmsnorm_fused_llama"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormFusedLlama.Correct.rmsnorm_kernel_real",
@@ -113012,7 +113224,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/rmsnorm_implementation/rmsnorm_implementation_repaired.py": "210c3a54de4bbf00053a81f981860bf1068469b95903261034bf7b7515b3ef9d",
-          "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean": "350f526cd270c76e3eb810b1d65f1027e834f9917d532014b4e99472f859d0e0",
+          "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean": "cf61c94d857e0dcde7050672949e43a9d607e9ad36dae6ce646fd6a83dd1ff5d",
           "bench/repairs/tritonbench_g/rmsnorm_implementation/Contract.lean": "8ac15410dd421118d6e8621daab06fc940ad48586d8a807789138030303a5ebc",
           "bench/repairs/tritonbench_g/rmsnorm_implementation/Correct.lean": "1caac4629b537e712254e26c83a36e9171d6a651a091d583e80807801464635e",
           "bench/repairs/tritonbench_g/rmsnorm_implementation/FPEquiv.lean": "fbb7e2192f4e75c727464f7c2b2fd9c05e510ab84036ee1a1d4cff46cf0f6828",
@@ -113098,6 +113310,23 @@
             "source_preservation_and_checks": ".veritile-cache/finish-pending-105-20261021/source-only/rmsnorm_implementation/delivery.json",
             "source_sha256": "a26b39f78fc72e43bc6da741765813d38248adab71134531b2afbdcf977d12ce",
             "scope": "Source readability only; existing domain, precision, candidates, theorem scopes and proof status retained."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -113597,9 +113826,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_implementation.json",
-            "sha256": "35d9ca173344df14a4ccb15e407707c07a469281c2483fcf98f63157a2032c45",
-            "task": "rmsnorm_implementation"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormImplementation.Correct.rmsnorm_kernel_correctness",
@@ -113769,7 +113997,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/rmsnorm_triton/rmsnorm_triton_repaired.py": "5b89dde21e5b2752f1af7aaee97317c7a55824a08901a480fffdee875164cf0c",
-          "bench/repairs/tritonbench_g/rmsnorm_triton/Kernels.lean": "7366eb8c2dfba0bdc2afc00fa2d0f46c01f6d08edfdadc7b2a03b1620352e391",
+          "bench/repairs/tritonbench_g/rmsnorm_triton/Kernels.lean": "215c00d3ab891a31bc5a65a4648e1623146ed7b04ad9f460c050720a211bcf49",
           "bench/repairs/tritonbench_g/rmsnorm_triton/Contract.lean": "3ed420059a89e89bf136830453c1cd5d6b5f1e815f0278c533cc69ca615137cd",
           "bench/repairs/tritonbench_g/rmsnorm_triton/Correct.lean": "4b6701e2b6eb767a5a6937146a134d050ead56a6e8b0bc52403c47b8159face8",
           "bench/repairs/tritonbench_g/rmsnorm_triton/FPEquiv.lean": "74a1cb6d6e43c055ef62c1523bff3290c2addd270074f5965d7e5908c0d0a115",
@@ -113845,6 +114073,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -114313,9 +114558,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_triton.json",
-            "sha256": "a7bcc7f2b439d2d939d37224fa73f922c3062a80ed6d72ed5d0ab167bffba78f",
-            "task": "rmsnorm_triton"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormTriton.Correct.kernel_correct",
@@ -122029,7 +122273,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/sin_computation/sin_computation_repaired.py": "e20580824a971eabe300273dc2767c10b929de6a81ceb637ff569c62171e6b6d",
-          "bench/repairs/tritonbench_g/sin_computation/Kernels.lean": "621005af76669b80e4f4c729112d83c2ef3d3ab542ea00b5c8289268fdfc78cd",
+          "bench/repairs/tritonbench_g/sin_computation/Kernels.lean": "3c3f1ac40cabd98ae2e63ccbdb4f1eaf57dd5565bfe22d81d2091bd44ab209fa",
           "bench/repairs/tritonbench_g/sin_computation/Contract.lean": "705b7dbf51bf245db705dda52305dc137a3984ad47e843329cdf0acf23e8c013",
           "bench/repairs/tritonbench_g/sin_computation/Correct.lean": "0e6c813806d796f15507f8705b3d71c24d42d9c9cce785b2d35d240bec198263",
           "bench/repairs/tritonbench_g/sin_computation/FPEquiv.lean": "81a5bd8b96d3cdff0ba7f51664b34683b3c05bd3f7bee78a8b418a7a1ffce0cf",
@@ -122099,6 +122343,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -122471,9 +122732,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/sin_computation.json",
-            "sha256": "bc4280eedaf94a94cfbdb9ae7371b21d9d2ea07d9963651d5eecf6bd88e4e719",
-            "task": "sin_computation"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SinComputation.Contiguous.Correct.sin_kernel_correctness",
@@ -122641,7 +122901,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/sin_kernel/sin_kernel_repaired.py": "23cd97dd626a6be2989748d4d69a43a1dd8f855e47101f4c398b88495bd12fe1",
-          "bench/repairs/tritonbench_g/sin_kernel/Kernels.lean": "3e9358435a3f6ee643307222e2a777bb27bd71f13d8dd8d2e8d8fd7ccc206b23",
+          "bench/repairs/tritonbench_g/sin_kernel/Kernels.lean": "8672bc4dd4c4590dc4fb07296446125549e8cb7c34a5e0e6ff18fe6535f15ee5",
           "bench/repairs/tritonbench_g/sin_kernel/Contract.lean": "2c56eeb0a33a43f8f97405ccae26997c0548fd26df6f7cd8f3aa4cbb82fcb299",
           "bench/repairs/tritonbench_g/sin_kernel/Correct.lean": "4ec226181378ec4dbf29a1ab91a707eb8a39c433e19a867784fb1c6586fcfdbb",
           "bench/repairs/tritonbench_g/sin_kernel/FPEquiv.lean": "15cf3941725b5d6da615de6b966d7fa08a68195d4bd5bf104a952d7dfbee7ca8",
@@ -122716,6 +122976,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -123074,9 +123351,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/sin_kernel.json",
-            "sha256": "552128dfb463393109c9599628fc9ad1f49e11cca485e121c1e6256847abfe05",
-            "task": "sin_kernel"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SinKernel.Correct.sin_kernel_correctness",
@@ -128679,7 +128955,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/square_matrix/square_matrix_repaired.py": "79d2283c8d83fc8da965ebbee07a26695e05ff999ac82ac430f75ed15418d3fd",
-          "bench/repairs/tritonbench_g/square_matrix/Kernels.lean": "6fdfba926a68dcfa247d9e3e5da49802eb2b367729c042e18010d61f919fcc66",
+          "bench/repairs/tritonbench_g/square_matrix/Kernels.lean": "3f1e811883b68faab8cc737564372100d9a09f0c47a632ccbec1153c10338d4c",
           "bench/repairs/tritonbench_g/square_matrix/Contract.lean": "9cca13470613930986342b1079aa411fbce7272ad107a5891ef7fb584204eac3",
           "bench/repairs/tritonbench_g/square_matrix/Correct.lean": "cf5268fb1824bcb6efc4a4553c4d743d4ae00708adb566b6bd13ab7fecaf74b6",
           "bench/repairs/tritonbench_g/square_matrix/FPEquiv.lean": "a3d7d40883c36a849a99d2f25abdef8c826f982d18eeaf37a2f14c703b5db528",
@@ -128796,6 +129072,23 @@
             "source_preservation_and_checks": ".veritile-cache/finish-pending-105-20261021/source-only/square_matrix/delivery.json",
             "source_sha256": "099d269810d1a7b8c2201ed2c6930610bec43dfaa04d0f19dc9558ec4fdf4c00",
             "scope": "Source readability only; existing domain, precision, candidates, theorem scopes and proof status retained."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -129241,9 +129534,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/square_matrix.json",
-            "sha256": "95bf713b0e407720fedc973bdbbc4012b3687b8189d0f4f4b5e59373ff2d8741",
-            "task": "square_matrix"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SquareMatrix.Correct.square_kernel_correctness",
@@ -130891,7 +131183,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/swiglu_fwd/swiglu_fwd_checked.py": "11024396d179cadb06f086db70b89eb9faea74454a15b72004cce31e5c9f80e1",
-          "bench/repairs/tritonbench_g/swiglu_fwd/Kernels.lean": "c26d00e0c1a1d2bb7180b29e0ab37a5998fcd398cb449aaafff420b8d9810a18",
+          "bench/repairs/tritonbench_g/swiglu_fwd/Kernels.lean": "0c6fccf84a5622b62ce4a6f9d19c7a05a7d5f02da33297063951510bcf056594",
           "bench/repairs/tritonbench_g/swiglu_fwd/Contract.lean": "631718428f53fa6fb3395e97dfd257c8fbed604d1e39629b00111a550e176658",
           "bench/repairs/tritonbench_g/swiglu_fwd/Correct.lean": "771aff27f9c8a8f264deb4fd5c8e0369d63087ca9252b7aaa13912c5ddef4d86",
           "bench/repairs/tritonbench_g/swiglu_fwd/FPEquiv.lean": "b272431f8a4c0a6d6bc9fccd82d1398db492d51d7abe40b065d81721f6bd2bd2",
@@ -130995,6 +131287,23 @@
             "source_preservation_and_checks": ".veritile-cache/finish-pending-105-20261021/source-only/swiglu_fwd/delivery.json",
             "source_sha256": "c29e1b1f30e572da48ff09d7578185b2ef4582d68ae37fc963f3cca3391f9066",
             "scope": "Source readability only; existing domain, precision, candidates, theorem scopes and proof status retained."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [],
@@ -131454,9 +131763,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/swiglu_fwd.json",
-            "sha256": "194f45471fedbe2f13d82f94e48998363b7b5dc19a567b67235688d8164bc78d",
-            "task": "swiglu_fwd"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SwigluFwd.swiglu_kernel_correct",
@@ -136113,6 +136421,23 @@
               "generation": "fresh root joint; applicable internal objects reused"
             },
             "report": "bench/review-checkpoints/2026-10-21/finish-pending-105/README.md"
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "regression_only_pending_body_migration",
+            "notes": "Shared frontend dependency regression only: selected public source/schedule/safety/frame and FP entries replayed, with unchanged formulas, numerical rules and public domains. Python-body migration remains pending and is not counted complete."
           }
         },
         "transformation_rules": [],
@@ -136684,9 +137009,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
-            "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
-            "task": "triton_argmax"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.global",
@@ -136737,17 +137061,14 @@
         },
         "current_source_replay": {
           "review": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
-          },
-          "check": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/triton_argmax.lean",
-            "sha256": "e85d94db22482cda31ae1b31eeb7e6c6872c17de71a6bda231b6e40f5be973ef"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           },
           "log": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/triton_argmax.log.gz",
-            "sha256": "e7049570d6692172eab425ea120071312b96344e66b78e1623b0f0184ff4b7bf"
-          }
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
+          },
+          "scope": "Current selected public Real/FP entries rebuilt after shared frontend changes; see review for exact targets and limits."
         },
         "jit_source_proof_review": {
           "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
@@ -142892,7 +143213,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/vector_addition/vector_addition_repaired.py": "5ac4607fd65339cc5e3d3477a2bfb1b00872499423de2863921c29a5223b7a85",
-          "bench/repairs/tritonbench_g/vector_addition/Kernels.lean": "0812e45c0ec4f4288f37cbfce8fad4c763fbbabbb1c3fb19a7899412e1b7f4e0",
+          "bench/repairs/tritonbench_g/vector_addition/Kernels.lean": "8c97d31482e55f34b5f050c1b8297dbb10886fec3dfbc1bf4a482b4577d3724e",
           "bench/repairs/tritonbench_g/vector_addition/Contract.lean": "04ddc65cfda87252cf887d4d429506ba90de554be68cf2264fd984c5fc361de7",
           "bench/repairs/tritonbench_g/vector_addition/Correct.lean": "7e74d9ec36e6eade47b4d01454b426a6fc878c573153e96bf5108aa2ffe676cb",
           "bench/repairs/tritonbench_g/vector_addition/FPEquiv.lean": "b59b0b0e8a5752c8a5a16ec08adeab6f436085baf1135f6f57573fea01a1f598",
@@ -142965,6 +143286,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [
@@ -143349,9 +143687,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/vector_addition.json",
-            "sha256": "55283d24ddb7db1325042c6c466b4b65037a9c7d7ccee2deda21189d1127faf9",
-            "task": "vector_addition"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.VectorAddition.Contiguous.Correct.add_kernel_correctness",
@@ -143511,7 +143848,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/vector_addition_custom/vector_addition_custom_repaired.py": "b1c06db039e42a32c579e71acb33cd69fceaf818d0bba73edcde71244c53a34e",
-          "bench/repairs/tritonbench_g/vector_addition_custom/Kernels.lean": "44c6e9d3541cb118d4e4fea66c15ef378b2ec1963cfcdee0c61ac024edee42d2",
+          "bench/repairs/tritonbench_g/vector_addition_custom/Kernels.lean": "1184a7460e9d4a9e0cda394e4e016a47380e547cd7542efb002f525c395521bc",
           "bench/repairs/tritonbench_g/vector_addition_custom/Contract.lean": "9b88eed72cfc9f301759056cf1ffb49c11389408562e4ae58094d5bb2d75b825",
           "bench/repairs/tritonbench_g/vector_addition_custom/Correct.lean": "9d6baa99751d493fbdde51646abf2677b98ad6f464e97a3a23a37120af37c625",
           "bench/repairs/tritonbench_g/vector_addition_custom/FPEquiv.lean": "9afe8a3237294ace8530baf19036461d8305bb5598acaac7074e50958a0e1b25",
@@ -143587,6 +143924,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+              "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
+            },
+            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
           }
         },
         "transformation_rules": [
@@ -143971,9 +144325,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/vector_addition_custom.json",
-            "sha256": "11a765a7fec671dccdd2904110447cd6ce04087db3a77fc985856f53d1739020",
-            "task": "vector_addition_custom"
+            "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+            "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.Correct.add_kernel_correctness",
@@ -144924,7 +145277,7 @@
     "numerical_scope_changed": false,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/io-audit.json",
-    "audit_sha256": "44375ffce93d929fc1232d3e379603628b3f20cf6d60294a9643637990e9ac25",
+    "audit_sha256": "958ba353c95de9b168714a119e22d29ca56a9ca01cf402ee2cf8f078e7a4a168",
     "guard": "bench/check_io_organization.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "correct_formula_surface_refresh": "bench/review-checkpoints/2026-10-22/correct-formulas/README.md",
@@ -144957,6 +145310,14 @@
           "task": "dequantize_rowwise"
         },
         "scope": "Verbatim body, external signature, explicit runtime arguments and current public proof replay."
+      },
+      {
+        "task": "rmsnorm_fused_llama",
+        "review_evidence": {
+          "path": "bench/pr22-split/receipts/loops-and-spec-derived-sources.json",
+          "sha256": "471ecd9dbb900163788303628bb550a28d04420ad30d62156be9d83e781f5f19"
+        },
+        "scope": "Native runtime EPS register spelling correction and full local/cold current-source proof replay; prior IO organization and genuine distinct encodings retained."
       }
     ],
     "previous_audit": {
@@ -144984,7 +145345,7 @@
     "remaining_substantive_gaps": 0,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
-    "audit_sha256": "0ff7900bda71eebc705afc59869b05a4123821ea8c762ed959bdf2d80671e3c0",
+    "audit_sha256": "a6be975d7a7e102f64871b1fc8501661f3d9d7ee2e29a82bfdcf5251726f2f6c",
     "guard": "bench/check_main_formula_review.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "proof_completion_changed": false,
@@ -145150,40 +145511,499 @@
   "jit_correspondence_review": {
     "date": "2026-10-24",
     "review": {
-      "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
-      "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
-      "task": "dequantize_rowwise"
+      "path": "bench/pr22-split/receipts/all-examples-native-bodies.json",
+      "sha256": "84f7a4a2e4977c99347d8c540976391c40e1e9fda2632817f9bf654aebd9a02c"
     },
     "inventory": {
-      "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-      "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
+      "path": "bench/source-correspondence.json",
+      "sha256": "ceea4a8db31fd372e98189adf6b6a4c7c7e5fd4231c690cef1698343187c6a37"
     },
-    "counts": {
-      "not_certified_by_this_screen": 137,
-      "missing_explicit_int64_cast": 44,
-      "exact_ast_correspondence": 2
-    },
-    "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
     "pasted_body_entry_tasks": [
-      "dequantize_rowwise"
+      "add_example",
+      "add_value",
+      "cache_transform_triton",
+      "cosine_compute",
+      "dequantize_rowwise",
+      "index_select_bwd",
+      "kldiv_compute",
+      "l2_norm_triton1",
+      "matrix_transpose",
+      "rmsnorm_fused",
+      "rmsnorm_fused_llama",
+      "rmsnorm_implementation",
+      "rmsnorm_triton",
+      "sin_computation",
+      "sin_kernel",
+      "square_matrix",
+      "swiglu_fwd",
+      "vector_addition",
+      "vector_addition_custom"
     ],
+    "scope": "All 19 worked examples now have raw native body sources with explicit provenance and complete proof replay, including the full selected-config grid connections. Task migrations continue; pending entries remain pending.",
+    "counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "legacy_ast_only": 1,
+        "no_selected_jit_resolved": 2,
+        "selected_body_copy_checked": 19,
+        "uncovered_jit_functions": 161
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "selected_body_copy_checked": 2,
+        "spec_derived_body_copy_checked": 15
+      },
+      "selected_jit_functions": 328,
+      "uncovered_selected_jit_functions": 297,
+      "primary_files_with_int64_screen_warning": 44,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 130,
+          "antiquotes": 143,
+          "dsl_loop": 1,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 0,
+          "dsl_loop": 0,
+          "dsl_numeric_helpers": 0
+        }
+      }
+    },
     "previous_review": {
       "date": "2026-10-24",
       "review": {
-        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
-        "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
-        "task": "triton_argmax"
+        "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/review.json",
+        "sha256": "5aa92bba55c68455972543a93f51085be5cc769c65718339d4122b58820adf31"
       },
       "inventory": {
-        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
-        "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+        "path": "bench/source-correspondence.json",
+        "sha256": "1b1b5dd4fa34ebc4baf9189e5650b2df617cc34fce377a6fe1fc4636f0398e77"
       },
+      "pasted_body_entry_tasks": [
+        "add_example",
+        "add_value",
+        "cache_transform_triton",
+        "cosine_compute",
+        "dequantize_rowwise",
+        "index_select_bwd",
+        "kldiv_compute",
+        "l2_norm_triton1",
+        "matrix_transpose",
+        "rmsnorm_fused",
+        "rmsnorm_fused_llama",
+        "rmsnorm_implementation",
+        "rmsnorm_triton",
+        "sin_computation",
+        "sin_kernel",
+        "square_matrix",
+        "swiglu_fwd",
+        "vector_addition",
+        "vector_addition_custom"
+      ],
+      "scope": "Committed native fused pipeline batch with complete source, mathematical and typed FP proofs plus full combined and cold replay. Pending corpus entries remain pending.",
       "counts": {
-        "not_certified_by_this_screen": 137,
-        "missing_explicit_int64_cast": 45,
-        "exact_ast_correspondence": 1
+        "tasks": 183,
+        "examples": 19,
+        "task_status": {
+          "legacy_ast_only": 1,
+          "no_selected_jit_resolved": 2,
+          "selected_body_copy_checked": 19,
+          "uncovered_jit_functions": 161
+        },
+        "example_status": {
+          "authored_counterpart_body_copy_checked": 2,
+          "no_independent_python_reference": 2,
+          "selected_body_copy_checked": 1,
+          "spec_derived_body_copy_checked": 13,
+          "uncovered_jit_functions": 1
+        },
+        "selected_jit_functions": 328,
+        "uncovered_selected_jit_functions": 297,
+        "primary_files_with_int64_screen_warning": 44,
+        "primary_lean_file_features": {
+          "tasks": {
+            "in_body_type_directives": 130,
+            "antiquotes": 143,
+            "dsl_loop": 1,
+            "dsl_numeric_helpers": 8
+          },
+          "examples": {
+            "in_body_type_directives": 0,
+            "antiquotes": 3,
+            "dsl_loop": 0,
+            "dsl_numeric_helpers": 0
+          }
+        }
       },
-      "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+      "previous_review": {
+        "date": "2026-10-24",
+        "review": {
+          "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/review.json",
+          "sha256": "af788332b44388d044268d597802192241738655fbde343c95948b051ac381b5"
+        },
+        "inventory": {
+          "path": "bench/source-correspondence.json",
+          "sha256": "8d36495c2807782fe1aafaf7d0cbd15aed776dcfedf3aeec6e14232c99d884b5"
+        },
+        "pasted_body_entry_tasks": [
+          "add_example",
+          "add_value",
+          "cache_transform_triton",
+          "cosine_compute",
+          "dequantize_rowwise",
+          "index_select_bwd",
+          "kldiv_compute",
+          "l2_norm_triton1",
+          "matrix_transpose",
+          "rmsnorm_fused",
+          "rmsnorm_fused_llama",
+          "rmsnorm_implementation",
+          "rmsnorm_triton",
+          "sin_computation",
+          "sin_kernel",
+          "square_matrix",
+          "swiglu_fwd",
+          "vector_addition",
+          "vector_addition_custom"
+        ],
+        "scope": "Literal selected-source AST/signature checks with full public/deep and cold proof replay for the committed batch; all other pending entries remain pending.",
+        "counts": {
+          "tasks": 183,
+          "examples": 19,
+          "task_status": {
+            "legacy_ast_only": 1,
+            "no_selected_jit_resolved": 2,
+            "selected_body_copy_checked": 19,
+            "uncovered_jit_functions": 161
+          },
+          "example_status": {
+            "authored_counterpart_body_copy_checked": 2,
+            "no_independent_python_reference": 4,
+            "selected_body_copy_checked": 1,
+            "spec_derived_body_copy_checked": 11,
+            "uncovered_jit_functions": 1
+          },
+          "selected_jit_functions": 328,
+          "uncovered_selected_jit_functions": 297,
+          "primary_files_with_int64_screen_warning": 44,
+          "primary_lean_file_features": {
+            "tasks": {
+              "in_body_type_directives": 130,
+              "antiquotes": 143,
+              "dsl_loop": 1,
+              "dsl_numeric_helpers": 8
+            },
+            "examples": {
+              "in_body_type_directives": 0,
+              "antiquotes": 5,
+              "dsl_loop": 0,
+              "dsl_numeric_helpers": 0
+            }
+          }
+        },
+        "previous_review": {
+          "date": "2026-10-24",
+          "review": {
+            "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/review.json",
+            "sha256": "fa31d27c5e5701ab02f884e62b411e771915c9fe4ee0db67c62055ef84804e38"
+          },
+          "inventory": {
+            "path": "bench/source-correspondence.json",
+            "sha256": "af5de3da18d03b89786abc77e9461bc27f87783b51486ab9f47035d12a4eb8f1"
+          },
+          "pasted_body_entry_tasks": [
+            "add_example",
+            "add_value",
+            "cache_transform_triton",
+            "cosine_compute",
+            "dequantize_rowwise",
+            "index_select_bwd",
+            "kldiv_compute",
+            "l2_norm_triton1",
+            "matrix_transpose",
+            "rmsnorm_fused",
+            "rmsnorm_fused_llama",
+            "rmsnorm_implementation",
+            "rmsnorm_triton",
+            "sin_computation",
+            "sin_kernel",
+            "square_matrix",
+            "swiglu_fwd",
+            "vector_addition",
+            "vector_addition_custom"
+          ],
+          "scope": "Literal selected-source AST/signature checks with full public/deep and cold proof replay for the committed batch; all other pending entries remain pending.",
+          "counts": {
+            "tasks": 183,
+            "examples": 19,
+            "task_status": {
+              "legacy_ast_only": 1,
+              "no_selected_jit_resolved": 2,
+              "selected_body_copy_checked": 19,
+              "uncovered_jit_functions": 161
+            },
+            "example_status": {
+              "authored_counterpart_body_copy_checked": 2,
+              "no_independent_python_reference": 5,
+              "selected_body_copy_checked": 1,
+              "spec_derived_body_copy_checked": 10,
+              "uncovered_jit_functions": 1
+            },
+            "selected_jit_functions": 328,
+            "uncovered_selected_jit_functions": 297,
+            "primary_files_with_int64_screen_warning": 44,
+            "primary_lean_file_features": {
+              "tasks": {
+                "in_body_type_directives": 130,
+                "antiquotes": 143,
+                "dsl_loop": 1,
+                "dsl_numeric_helpers": 8
+              },
+              "examples": {
+                "in_body_type_directives": 0,
+                "antiquotes": 6,
+                "dsl_loop": 1,
+                "dsl_numeric_helpers": 0
+              }
+            }
+          },
+          "previous_review": {
+            "date": "2026-10-24",
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
+            },
+            "inventory": {
+              "path": "bench/source-correspondence.json",
+              "sha256": "fd2d3f2822102d4558999ac06a204902583e454ea65d4067c985c6f2b7bd00f6"
+            },
+            "pasted_body_entry_tasks": [
+              "add_example",
+              "add_value",
+              "cache_transform_triton",
+              "cosine_compute",
+              "dequantize_rowwise",
+              "index_select_bwd",
+              "kldiv_compute",
+              "l2_norm_triton1",
+              "matrix_transpose",
+              "rmsnorm_fused",
+              "rmsnorm_fused_llama",
+              "rmsnorm_implementation",
+              "rmsnorm_triton",
+              "sin_computation",
+              "sin_kernel",
+              "square_matrix",
+              "swiglu_fwd",
+              "vector_addition",
+              "vector_addition_custom"
+            ],
+            "scope": "Literal selected-source AST/signature checks with full public/deep and cold proof replay for the committed batch; all other pending entries remain pending.",
+            "counts": {
+              "tasks": 183,
+              "examples": 19,
+              "task_status": {
+                "legacy_ast_only": 1,
+                "no_selected_jit_resolved": 2,
+                "selected_body_copy_checked": 19,
+                "uncovered_jit_functions": 161
+              },
+              "example_status": {
+                "authored_counterpart_body_copy_checked": 2,
+                "no_independent_python_reference": 7,
+                "selected_body_copy_checked": 1,
+                "spec_derived_body_copy_checked": 8,
+                "uncovered_jit_functions": 1
+              },
+              "selected_jit_functions": 328,
+              "uncovered_selected_jit_functions": 297,
+              "primary_files_with_int64_screen_warning": 44,
+              "primary_lean_file_features": {
+                "tasks": {
+                  "in_body_type_directives": 130,
+                  "antiquotes": 143,
+                  "dsl_loop": 1,
+                  "dsl_numeric_helpers": 8
+                },
+                "examples": {
+                  "in_body_type_directives": 0,
+                  "antiquotes": 8,
+                  "dsl_loop": 3,
+                  "dsl_numeric_helpers": 2
+                }
+              }
+            },
+            "previous_review": {
+              "date": "2026-10-24",
+              "review": {
+                "path": "bench/pr22-split/receipts/loops-and-spec-derived-sources.json",
+                "sha256": "471ecd9dbb900163788303628bb550a28d04420ad30d62156be9d83e781f5f19"
+              },
+              "inventory": {
+                "path": "bench/source-correspondence.json",
+                "sha256": "24c53e490a0ff7568c59f8e7878f107806db6239a29ef52b817d5e058a62e8f4"
+              },
+              "pasted_body_entry_tasks": [
+                "add_example",
+                "add_value",
+                "cache_transform_triton",
+                "cosine_compute",
+                "dequantize_rowwise",
+                "index_select_bwd",
+                "kldiv_compute",
+                "l2_norm_triton1",
+                "matrix_transpose",
+                "rmsnorm_fused",
+                "rmsnorm_fused_llama",
+                "sin_computation",
+                "sin_kernel",
+                "square_matrix",
+                "swiglu_fwd",
+                "vector_addition",
+                "vector_addition_custom"
+              ],
+              "scope": "Full selected-source inventory with explicit new-example provenance, exact AST/signature/call binding checks and combined deep/cold proof replay. Pending tasks/examples remain pending.",
+              "counts": {
+                "tasks": 183,
+                "examples": 19,
+                "task_status": {
+                  "legacy_ast_only": 1,
+                  "no_selected_jit_resolved": 2,
+                  "selected_body_copy_checked": 17,
+                  "uncovered_jit_functions": 163
+                },
+                "example_status": {
+                  "authored_counterpart_body_copy_checked": 2,
+                  "no_independent_python_reference": 7,
+                  "selected_body_copy_checked": 1,
+                  "spec_derived_body_copy_checked": 8,
+                  "uncovered_jit_functions": 1
+                },
+                "selected_jit_functions": 328,
+                "uncovered_selected_jit_functions": 299,
+                "primary_files_with_int64_screen_warning": 44,
+                "primary_lean_file_features": {
+                  "tasks": {
+                    "in_body_type_directives": 132,
+                    "antiquotes": 145,
+                    "dsl_loop": 1,
+                    "dsl_numeric_helpers": 8
+                  },
+                  "examples": {
+                    "in_body_type_directives": 0,
+                    "antiquotes": 8,
+                    "dsl_loop": 3,
+                    "dsl_numeric_helpers": 2
+                  }
+                }
+              },
+              "previous_review": {
+                "date": "2026-10-24",
+                "review": {
+                  "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+                  "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+                },
+                "inventory": {
+                  "path": "bench/source-correspondence.json",
+                  "sha256": "5c80ef7b09379b23632d01541fb7ed1b78f553da9c311a889eba292b0c17b3d7"
+                },
+                "pasted_body_entry_tasks": [
+                  "add_example",
+                  "add_value",
+                  "cache_transform_triton",
+                  "cosine_compute",
+                  "dequantize_rowwise",
+                  "index_select_bwd",
+                  "kldiv_compute",
+                  "l2_norm_triton1",
+                  "matrix_transpose",
+                  "sin_computation",
+                  "sin_kernel",
+                  "square_matrix",
+                  "swiglu_fwd",
+                  "vector_addition",
+                  "vector_addition_custom"
+                ],
+                "scope": "Full selected-source inventory, exact body AST/signature/call binding checks and this batch proof replay. Pending tasks/examples remain pending.",
+                "counts": {
+                  "tasks": 183,
+                  "examples": 19,
+                  "task_status": {
+                    "legacy_ast_only": 1,
+                    "no_selected_jit_resolved": 2,
+                    "selected_body_copy_checked": 15,
+                    "uncovered_jit_functions": 165
+                  },
+                  "example_status": {
+                    "authored_counterpart_body_copy_checked": 2,
+                    "no_independent_python_reference": 16,
+                    "selected_body_copy_checked": 1
+                  },
+                  "selected_jit_functions": 328,
+                  "uncovered_selected_jit_functions": 301,
+                  "primary_files_with_int64_screen_warning": 44,
+                  "primary_lean_file_features": {
+                    "tasks": {
+                      "in_body_type_directives": 134,
+                      "antiquotes": 147,
+                      "dsl_loop": 1,
+                      "dsl_numeric_helpers": 8
+                    },
+                    "examples": {
+                      "in_body_type_directives": 0,
+                      "antiquotes": 16,
+                      "dsl_loop": 3,
+                      "dsl_numeric_helpers": 3
+                    }
+                  }
+                },
+                "previous_review": {
+                  "date": "2026-10-24",
+                  "review": {
+                    "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+                    "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+                    "task": "dequantize_rowwise"
+                  },
+                  "inventory": {
+                    "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
+                    "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
+                  },
+                  "counts": {
+                    "not_certified_by_this_screen": 137,
+                    "missing_explicit_int64_cast": 44,
+                    "exact_ast_correspondence": 2
+                  },
+                  "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
+                  "pasted_body_entry_tasks": [
+                    "dequantize_rowwise"
+                  ],
+                  "previous_review": {
+                    "date": "2026-10-24",
+                    "review": {
+                      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+                      "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+                      "task": "triton_argmax"
+                    },
+                    "inventory": {
+                      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+                      "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+                    },
+                    "counts": {
+                      "not_certified_by_this_screen": 137,
+                      "missing_explicit_int64_cast": 45,
+                      "exact_ast_correspondence": 1
+                    },
+                    "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

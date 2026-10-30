@@ -1,4 +1,4 @@
-import bench.examples.FusedSiLU.Kernels
+import bench.examples.FusedSiLU.Proofs.LegacyBody
 import Mathlib.Analysis.SpecialFunctions.Sigmoid
 import VeriTile.Triton
 import VeriTile.Examples.Common
@@ -69,7 +69,7 @@ stage. This file's headline is about the concatenated kernel.
 -/
 
 namespace VeriTile.Bench.Examples.FusedSiLUEquiv
-open VeriTile.Bench.Examples.FusedSiLU.Kernels
+open VeriTile.Bench.Examples.FusedSiLU.LegacyKernels
 open VeriTile.Triton VeriTile.Examples
 open scoped VeriTile.Triton.KernelIO₃
 

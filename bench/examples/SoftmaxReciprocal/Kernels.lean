@@ -1,51 +1,43 @@
 import VeriTile.Triton.DSL
+import VeriTile.Triton.DSL.CallSignature
 
-/-!
-SoftmaxReciprocal: source programs shared by the real and FP proof files.
-The definitions retain their original operation order, precision, casts, masks
-and memory effects. Correct.lean interprets the mathematical projection;
-FPEquiv.lean establishes equivalence under the indicated atomic assumptions.
-Both sources use tl.exp in the unchanged prefix. The reciprocal rewrite
-needs only div_mul_rcp; it assumes no exp-sub relation or equality between
-tl.exp and libdevice.exp.
--/
+/-! Spec-derived native sources are in native_kernels.py. These newly authored
+sources do not claim a historical Python origin; see source-references.json. -/
 
 namespace VeriTile.Bench.Examples.SoftmaxReciprocal.Kernels
 open VeriTile Triton
 
-def stableSoftmaxKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel := triton {
-  pid  := tl.program_id(0)
-  offs := pid * $(blockSize) + tl.arange(0, $(blockSize))
-  x    := tl.load($(xReg) + offs, dtype=tl.float32)
-  m    := tl.max(x, axis=0)
-  e    := tl.exp(x - m)
-  s    := tl.sum(e, axis=0)
-  y    := e / s
-  tl.store($(yReg) + offs, (y).to(tl.bfloat16))
-}
+def callSignature : CallSignature where
+  pointers := [("xReg", .fp32), ("yReg", .bf16)]
+  scalars := []
+  constexpr := ["blockSize"]
 
-/-- Optimized stable softmax: precompute `1 / S` once, then multiply per lane
-(`y = e · S⁻¹`), stored bf16. -/
-def softmaxRecipKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel := triton {
-  pid    := tl.program_id(0)
-  offs   := pid * $(blockSize) + tl.arange(0, $(blockSize))
-  x      := tl.load($(xReg) + offs, dtype=tl.float32)
-  m      := tl.max(x, axis=0)
-  e      := tl.exp(x - m)
-  s      := tl.sum(e, axis=0)
-  inv_s  := 1 / s
-  y      := e * inv_s
-  tl.store($(yReg) + offs, (y).to(tl.bfloat16))
-}
+def stableSoftmaxKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+  with_triton_signature callSignature in
+  triton {
+    pid = tl.program_id(0)
+    offs = pid * blockSize + tl.arange(0, blockSize)
+    x = tl.load(xReg + offs)
+    m = tl.max(x, axis=0)
+    e = tl.exp(x - m)
+    s = tl.sum(e, axis=0)
+    y = e / s
+    tl.store(yReg + offs, y.to(tl.bfloat16))
+  }
 
-def commonPrefix (xReg : RegionName) (B : Nat) : ComputeKernel := triton {
-  pid  := tl.program_id(0)
-  offs := pid * $(B) + tl.arange(0, $(B))
-  x    := tl.load($(xReg) + offs, dtype=tl.float32)
-  m    := tl.max(x, axis=0)
-  e    := tl.exp(x - m)
-  s    := tl.sum(e, axis=0)
-}
+def softmaxRecipKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+  with_triton_signature callSignature in
+  triton {
+    pid = tl.program_id(0)
+    offs = pid * blockSize + tl.arange(0, blockSize)
+    x = tl.load(xReg + offs)
+    m = tl.max(x, axis=0)
+    e = tl.exp(x - m)
+    s = tl.sum(e, axis=0)
+    inv_s = 1 / s
+    y = e * inv_s
+    tl.store(yReg + offs, y.to(tl.bfloat16))
+  }
 
 def originalKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel :=
   stableSoftmaxKernel xReg yReg B

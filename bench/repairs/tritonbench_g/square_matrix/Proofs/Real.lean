@@ -17,7 +17,8 @@ erasing its precision annotations, reusing the existing checked projection. -/
 theorem source_projection (n B : Nat) :
     (fp32Kernel n B).eraseDType.toAlgKernel.body =
       (sourceKernel "out" "x" n n n B).toAlgKernel.body := by
-  unfold fp32Kernel
+  change (VeriTile.Bench.TritonBenchG.SquareMatrix.typedKernel .fp32 Bool.false
+    "out" "x" n n n B).eraseDType.toAlgKernel.body = _
   rw [VeriTile.Bench.TritonBenchG.SquareMatrix.typed_projection]
   rfl
 

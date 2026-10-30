@@ -1,0 +1,104 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/rmsnorm_fused/rmsnorm_fused_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/rmsnorm_fused/Kernels.lean",
+    "python_function": "rms_norm_fwd_fused",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "stride": "N",
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rmsnorm_fused/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/rmsnorm_fused/Kernels.lean",
+    "python_function": "rms_norm_fwd_fused_index_commuted",
+    "lean_definition": "addressCommutedSource",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "stride": "N",
+      "N": "N"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    }
+  }
+]

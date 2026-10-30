@@ -39,11 +39,30 @@ def residualMathKernel (siluReg residualReg outReg : RegionName)
   tl.store($(outReg) + offsets, y)
 }
 
+def gateMathKernel (xReg gateReg zReg : RegionName) (blockSize : Nat) : ComputeKernel := triton {
+  pid     := tl.program_id(0)
+  offsets := pid * $(blockSize) + tl.arange($(blockSize))
+  x       := tl.load($(xReg) + offsets)
+  gate    := tl.load($(gateReg) + offsets)
+  z       := x * gate
+  tl.store($(zReg) + offsets, z)
+}
+
+/-- Step B: materialize `silu = z * sigmoid(z)` into the ℝ scratch tensor `silu`. -/
+def siluMathKernel (zReg siluReg : RegionName) (blockSize : Nat) : ComputeKernel := triton {
+  pid     := tl.program_id(0)
+  offsets := pid * $(blockSize) + tl.arange($(blockSize))
+  z       := tl.load($(zReg) + offsets)
+  silu    := z * tl.sigmoid(z)
+  tl.store($(siluReg) + offsets, silu)
+}
+
+
 def unfusedMathKernel (xReg gateReg residualReg zReg siluReg outReg : RegionName)
     (B : Nat) : ComputeKernel :=
   ComputeKernel.seq [xReg, gateReg, residualReg] [outReg]
-    [siluStepGate xReg gateReg zReg B,
-     siluStepSilu zReg siluReg B,
+    [gateMathKernel xReg gateReg zReg B,
+     siluMathKernel zReg siluReg B,
      residualMathKernel siluReg residualReg outReg B]
 
 private theorem erase_output_cast (B : Nat) :
@@ -56,7 +75,7 @@ theorem fused_projection (xReg gateReg residualReg outReg : RegionName) (B : Nat
     (fusedSiLUKernel xReg gateReg residualReg outReg B).eraseDType.toAlgorithm? =
       Except.ok (fusedMathKernel xReg gateReg residualReg outReg B).toAlgKernel := by
   simp [fusedSiLUKernel, fusedMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
@@ -65,8 +84,8 @@ theorem fused_projection (xReg gateReg residualReg outReg : RegionName) (B : Nat
 theorem unfused_projection (xReg gateReg residualReg zReg siluReg outReg : RegionName) (B : Nat) :
     (unfusedSiLUKernel xReg gateReg residualReg zReg siluReg outReg B).eraseDType.toAlgorithm? =
       Except.ok (unfusedMathKernel xReg gateReg residualReg zReg siluReg outReg B).toAlgKernel := by
-  simp [unfusedSiLUKernel, unfusedMathKernel, siluStepGate, siluStepSilu, siluStepResidual, residualMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+  simp [unfusedSiLUKernel, unfusedMathKernel, siluStepGate, siluStepSilu, gateMathKernel, siluMathKernel, siluStepResidual, residualMathKernel, ComputeKernel.eraseDType,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
@@ -75,7 +94,7 @@ theorem unfused_projection (xReg gateReg residualReg zReg siluReg outReg : Regio
 theorem gate_region_run (B : Nat) (s : BlockState) (xs gs : Fin B → ℝ)
     (hxs : ∀ i : Fin B, s.readMem "x" (s.pid * B + i.val) = xs i)
     (hgs : ∀ i : Fin B, s.readMem "gate" (s.pid * B + i.val) = gs i) :
-    ∃ s1, exec (siluStepGate "x" "gate" "z" B).toAlgKernel s = some s1 ∧
+    ∃ s1, exec (gateMathKernel "x" "gate" "z" B).toAlgKernel s = some s1 ∧
       (∀ i : Fin B, s1.readMem "z" (s.pid * B + i.val) = xs i * gs i) ∧
       (∀ (r : RegionName) o, (r ≠ "z" ∨ ∀ i : Fin B, o ≠ s.pid * B + i.val) →
         s1.mem r o = s.mem r o) := by
@@ -84,7 +103,7 @@ theorem gate_region_run (B : Nat) (s : BlockState) (xs gs : Fin B → ℝ)
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
   simp only [BlockState.pid_eq] at hxs hgs ⊢
-  simp [siluStepGate, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [gateMathKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Tile.bop, NumericDType.add, NumericDType.mul]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
   · rw [BlockState.scatter_readback_nd _ _ _ hinj (i, PUnit.unit)]
@@ -99,7 +118,7 @@ theorem gate_region_run (B : Nat) (s : BlockState) (xs gs : Fin B → ℝ)
 
 theorem silu_region_run (B : Nat) (s : BlockState) (zs : Fin B → ℝ)
     (hzs : ∀ i : Fin B, s.readMem "z" (s.pid * B + i.val) = zs i) :
-    ∃ s1, exec (siluStepSilu "z" "silu" B).toAlgKernel s = some s1 ∧
+    ∃ s1, exec (siluMathKernel "z" "silu" B).toAlgKernel s = some s1 ∧
       (∀ i : Fin B, s1.readMem "silu" (s.pid * B + i.val) = zs i * Real.sigmoid (zs i)) ∧
       (∀ (r : RegionName) o, (r ≠ "silu" ∨ ∀ i : Fin B, o ≠ s.pid * B + i.val) →
         s1.mem r o = s.mem r o) := by
@@ -108,7 +127,7 @@ theorem silu_region_run (B : Nat) (s : BlockState) (zs : Fin B → ℝ)
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
   simp only [BlockState.pid_eq] at hzs ⊢
-  simp [siluStepSilu, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [siluMathKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
   · rw [BlockState.scatter_readback_nd _ _ _ hinj (i, PUnit.unit)]
@@ -175,11 +194,11 @@ theorem fused_region_run (B : Nat) (s : BlockState) (xs gs rs : Fin B → ℝ)
 /-- The original concatenated pipeline executes its three stages in order. -/
 theorem unfused_exec_split (B : Nat) (s : BlockState) :
     exec (unfusedMathKernel "x" "gate" "residual" "z" "silu" "out" B).toAlgKernel s =
-      (exec (siluStepGate "x" "gate" "z" B).toAlgKernel s).bind (fun s1 =>
-        (exec (siluStepSilu "z" "silu" B).toAlgKernel s1).bind (fun s2 =>
+      (exec (gateMathKernel "x" "gate" "z" B).toAlgKernel s).bind (fun s1 =>
+        (exec (siluMathKernel "z" "silu" B).toAlgKernel s1).bind (fun s2 =>
           exec (residualMathKernel "silu" "residual" "out" B).toAlgKernel s2)) := by
   have h := execR_toAlgKernel_seq .triv ["x", "gate", "residual"] ["out"]
-    [siluStepGate "x" "gate" "z" B, siluStepSilu "z" "silu" B,
+    [gateMathKernel "x" "gate" "z" B, siluMathKernel "z" "silu" B,
       residualMathKernel "silu" "residual" "out" B] s (by
         intro k hk
         simp only [List.mem_cons, List.not_mem_nil, or_false] at hk
@@ -255,7 +274,7 @@ theorem fused_traceSafe (xReg gateReg residualReg outReg : RegionName) (B : Nat)
 
 theorem unfused_flattenOk (xReg gateReg residualReg zReg siluReg outReg : RegionName) (B : Nat) :
     (unfusedMathKernel xReg gateReg residualReg zReg siluReg outReg B).toAlgKernel.FlattenOk := by
-  simp [Kernel.FlattenOk, unfusedMathKernel, siluStepGate, siluStepSilu, residualMathKernel, StmtList.FlattenOk, Stmt.FlattenOk,
+  simp [Kernel.FlattenOk, unfusedMathKernel, gateMathKernel, siluMathKernel, residualMathKernel, StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
 
 set_option maxHeartbeats 1600000 in
@@ -270,7 +289,7 @@ theorem unfused_traceSafe (xReg gateReg residualReg zReg siluReg outReg : Region
     Kernel.TraceSafe bounds (unfusedMathKernel xReg gateReg residualReg zReg siluReg outReg B).toAlgKernel s := by
   unfold Kernel.TraceSafe
   simp only [BlockState.pid_eq] at h0 h1 h2 h3 h4 h5
-  simp [unfusedMathKernel, siluStepGate, siluStepSilu, residualMathKernel, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
+  simp [unfusedMathKernel, gateMathKernel, siluMathKernel, residualMathKernel, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
     MaskOpt.Active, BlockState.setReg, Tile.bop, Tile.uop,

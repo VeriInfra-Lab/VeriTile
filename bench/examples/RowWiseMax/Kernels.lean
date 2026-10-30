@@ -1,35 +1,34 @@
 import VeriTile.Triton.DSL
+import VeriTile.Triton.DSL.CallSignature
 
-/-!
-RowWiseMax: source programs shared by the real and FP proof files.
-The definitions retain their original operation order, precision, casts, masks
-and memory effects. Correct.lean interprets the mathematical projection;
-FPEquiv.lean establishes equivalence under the indicated atomic assumptions.
--/
+/-! New spec-derived native sources; provenance and mathematical source pins
+are recorded in source-references.json. The raw bodies match native_kernels.py. -/
 
 namespace VeriTile.Bench.Examples.RowWiseMax.Kernels
 open VeriTile Triton
 
-/-- Row-wise max over a row-major 2D matrix.
+def callSignature : CallSignature where
+  pointers := [("xReg",.fp32), ("yReg",.fp32)]
+  scalars := [("nCol",.i64)]
+  constexpr := ["blockSize"]
 
-Per `program_id`: gather `blockSize` cells from row `pid` of `xReg` (row
-stride `nCol`), reduce by max, and scatter the scalar to `yReg[pid]`. -/
 def rowWiseMaxKernel (xReg yReg : RegionName) (nCol blockSize : Nat) : ComputeKernel :=
+  with_triton_call callSignature call_args [nCol := nCol] in
   triton {
-    row    := tl.program_id(0)
-    cols   := tl.arange(0, $(blockSize))
-    values := tl.load($(xReg) + row * $(nCol) + cols)
-    result := tl.max(values, axis=0)
-    tl.store($(yReg) + row, result)
+    row = tl.program_id(0)
+    cols = tl.arange(0, blockSize)
+    values = tl.load(xReg + row * nCol + cols)
+    result = tl.max(values, axis=0)
+    tl.store(yReg + row, result)
   }
 
-/-- Eliminate the two intermediate register bindings without changing the
-load, reduction or output address. -/
 def inlinedKernel (xReg yReg : RegionName) (nCol blockSize : Nat) : ComputeKernel :=
+  with_triton_call callSignature call_args [nCol := nCol] in
   triton {
-    row    := tl.program_id(0)
-    cols   := tl.arange(0, $(blockSize))
-    tl.store($(yReg) + row, tl.max(tl.load($(xReg) + row * $(nCol) + cols), axis=0))
+    row = tl.program_id(0)
+    cols = tl.arange(0, blockSize)
+    values = tl.load(xReg + row * nCol + cols)
+    tl.store(yReg + row, tl.max(values, axis=0))
   }
 
 end VeriTile.Bench.Examples.RowWiseMax.Kernels

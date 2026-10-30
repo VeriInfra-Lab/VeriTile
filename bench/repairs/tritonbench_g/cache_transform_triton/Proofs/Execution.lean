@@ -41,7 +41,7 @@ private def rawExecution {α : Type} [Inhabited α] (M : Algebra α) (p : Parame
     {t : State α // FP.Structural.exec M (source p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [source, FP.Structural.exec, ComputeKernel.surfaceBody,
+  simp [source,body, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
     FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
     FP.Structural.evalOffsets, FP.Structural.store, FP.Structural.numeric,

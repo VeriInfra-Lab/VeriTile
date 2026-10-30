@@ -1,0 +1,96 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/matrix_transpose/matrix_transpose_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/matrix_transpose/Kernels.lean",
+    "python_function": "kernel",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "matrix_stridex": "matrixStride",
+      "matrix_stridey": "1",
+      "out_stridex": "outputStride",
+      "out_stridey": "1"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "M",
+          "fp16"
+        ],
+        [
+          "Out",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "matrix_stridex",
+          "i32"
+        ],
+        [
+          "matrix_stridey",
+          "i32"
+        ],
+        [
+          "out_stridex",
+          "i32"
+        ],
+        [
+          "out_stridey",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "SIZE_M",
+        "D_HEAD"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/matrix_transpose/matrix_transpose_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/matrix_transpose/Kernels.lean",
+    "python_function": "kernel_index_commuted",
+    "lean_definition": "indexCommutedSource",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "matrix_stridex": "matrixStride",
+      "matrix_stridey": "1",
+      "out_stridex": "outputStride",
+      "out_stridey": "1"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "M",
+          "fp16"
+        ],
+        [
+          "Out",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "matrix_stridex",
+          "i32"
+        ],
+        [
+          "matrix_stridey",
+          "i32"
+        ],
+        [
+          "out_stridex",
+          "i32"
+        ],
+        [
+          "out_stridey",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "SIZE_M",
+        "D_HEAD"
+      ]
+    }
+  }
+]

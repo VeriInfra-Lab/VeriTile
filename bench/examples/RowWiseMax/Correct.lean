@@ -22,6 +22,9 @@ open VeriTile.Triton.KernelIO₁ (Implements)
 open scoped VeriTile.Triton.KernelIO₁
 open VeriTile.Examples
 
+attribute [local simp] ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm?
+  ComputeDType.eraseDType
+
 /-- Read B elements from row offset pid * nCol and write one maximum at pid. -/
 def rowWiseMaxIO (nCol B : Nat) : KernelIO₁ where
   kernel := rowWiseMaxKernel ⟨"x"⟩ ⟨"y"⟩ nCol B

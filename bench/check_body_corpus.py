@@ -5,7 +5,9 @@ This is a source gate, not a Lean proof or a compiler-correctness certificate.
 `--check` checks the recorded inventory, including pending entries, for drift.
 `--require-complete` additionally rejects ANY pending entry. A partial manifest
 cannot certify a multi-stage Python file. No variable renaming, cast deletion,
-or generated Python reference is used to manufacture a correspondence pass.
+or generated Python mirror certifies a selected benchmark's original source.
+New native counterparts and sources authored from independent mathematical
+specifications have separate provenance from historical Python references.
 """
 from __future__ import annotations
 
@@ -77,8 +79,10 @@ def lean_features(path: Path) -> dict:
     return {name: len(re.findall(pattern, code)) for name, pattern in patterns.items()}
 
 
-def inspect(root: Path, task: str, python: str | None, lean: str, kind: str) -> dict:
+def inspect(root: Path, task: str, python: str | None, lean: str, kind: str,
+            provenance: str = "selected_revision") -> dict:
     row = {"name": task, "kind": kind, "python": python, "lean": lean}
+    row["source_provenance"] = provenance
     hashes = {}
     lean_path = local(root, lean)
     if not lean_path.is_file():
@@ -140,7 +144,9 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str) -> 
     elif any(p["mode"] != "pasted_body" for p in pairs):
         row["status"] = "legacy_ast_only"
     else:
-        row["status"] = "selected_body_copy_checked"
+        row["status"] = {"authored_native_counterpart": "authored_counterpart_body_copy_checked",
+                         "spec_derived_native_source": "spec_derived_body_copy_checked"}.get(
+                             provenance, "selected_body_copy_checked")
     row["source_sha256"] = dict(sorted(hashes.items()))
     return row
 
@@ -163,10 +169,36 @@ def scan(root: Path = ROOT) -> dict:
     if not isinstance(references, dict) or references.keys() - groups:
         raise ValueError("invalid or unknown worked-example source reference")
     for kernel in sorted((root / "bench/examples").glob("*/Kernels.lean")):
-        python = references.get(kernel.parent.name)
+        reference = references.get(kernel.parent.name)
+        provenance = "no_registered_reference"
+        python = reference
+        if isinstance(reference, dict):
+            if reference.get("provenance") not in ("authored_native_counterpart", "spec_derived_native_source") or not reference.get("note"):
+                raise ValueError("authored example source requires explicit provenance and explanation")
+            python = reference.get("python")
+            provenance = reference["provenance"]
+            if provenance == "spec_derived_native_source":
+                pins = reference.get("mathematical_spec_sha256")
+                if not isinstance(pins, dict) or not pins:
+                    raise ValueError("spec-derived source requires pinned independent mathematical specifications")
+                for name, expected in pins.items():
+                    path = local(root, name)
+                    if name in (python, kernel.relative_to(root).as_posix()) or path.suffix != ".lean":
+                        raise ValueError("mathematical specification cannot be the translated kernel or Python source")
+                    if not path.is_file() or digest(path) != expected:
+                        raise ValueError(f"mathematical specification pin drift: {name}")
+        elif isinstance(reference, str):
+            provenance = "registered_python_reference"
         if python is not None and not isinstance(python, str):
             raise ValueError("worked-example source reference must name a reviewed Python file")
-        examples.append(inspect(root, kernel.parent.name, python, kernel.relative_to(root).as_posix(), "example"))
+        row = inspect(root, kernel.parent.name, python, kernel.relative_to(root).as_posix(), "example", provenance)
+        if isinstance(reference, dict):
+            row["source_note"] = reference["note"]
+            if provenance == "spec_derived_native_source":
+                row["mathematical_spec_sha256"] = reference["mathematical_spec_sha256"]
+                row["source_sha256"].update(reference["mathematical_spec_sha256"])
+                row["source_sha256"] = dict(sorted(row["source_sha256"].items()))
+        examples.append(row)
     counts = {"tasks": len(tasks), "examples": len(examples)}
     for kind, rows in (("task_status", tasks), ("example_status", examples)):
         counts[kind] = dict(sorted(Counter(r["status"] for r in rows).items()))
@@ -180,7 +212,8 @@ def scan(root: Path = ROOT) -> dict:
         for kind, rows in (("tasks", tasks), ("examples", examples))}
     return {"schema": 1,
             "scope": "All task_progress selected Python files and all bench/examples/*/Kernels.lean. Source correspondence only; Lean proof replay, proof reachability, hardware semantics and undeclared candidate Python files are not certified by this gate.",
-            "complete": all(r["status"] == "selected_body_copy_checked" for r in tasks + examples),
+            "complete": all(r["status"] in ("selected_body_copy_checked", "authored_counterpart_body_copy_checked", "spec_derived_body_copy_checked")
+                            for r in tasks + examples),
             "counts": counts, "tasks": tasks, "examples": examples}
 
 

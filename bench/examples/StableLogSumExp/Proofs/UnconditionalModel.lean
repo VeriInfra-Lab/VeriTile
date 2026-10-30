@@ -301,8 +301,11 @@ theorem stored_outputs :
     rw [ha]
     change some (a.mem "y" 0) = _
     rw [hout]
-    have hv : StableLogSumExpFPExecution.stableValue engine (fun _ : Fin 1 => one) = one := by
+    have hv : StableLogSumExpFPExecution.stableValue
+        (SoftmaxStableFPExecution.sourceEngine engine)
+        (SoftmaxStableFPExecution.loadedRow engine (fun _ : Fin 1 => one)) = one := by
       simp only [StableLogSumExpFPExecution.stableValue, SoftmaxStableFPExecution.maximum,
+        SoftmaxStableFPExecution.sourceEngine, SoftmaxStableFPExecution.loadedRow,
         engine, SoftmaxStableFPContract.engine, Scheduled.fp32, Scheduled.Profile.algebra,
         Algebra.withDefaultPrecision, ScalarReduction.algebra, resolvePrecision,
         Option.getD_none]

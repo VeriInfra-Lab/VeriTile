@@ -1,4 +1,5 @@
 import json
+import hashlib
 from pathlib import Path
 import tempfile
 import unittest
@@ -87,9 +88,45 @@ class BodyCorpusTests(unittest.TestCase):
         self.write("bench/examples/Sample/jit-correspondence.json", json.dumps([record]))
         self.assertTrue(scan(self.root)["complete"])
 
+    def test_authored_counterpart_does_not_claim_historical_source_correspondence(self):
+        self.write("bench/examples/Sample/Kernels.lean", LEAN)
+        self.write("bench/examples/source-references.json", json.dumps({"Sample": {
+            "python": "bench/repairs/sample/source.py", "provenance": "authored_native_counterpart",
+            "note": "New native counterpart; not an independent historical source."}}))
+        record = {**self.record, "lean": "bench/examples/Sample/Kernels.lean"}
+        self.write("bench/examples/Sample/jit-correspondence.json", json.dumps([record]))
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        self.assertEqual(result["examples"][0]["status"], "authored_counterpart_body_copy_checked")
+        self.assertEqual(result["examples"][0]["source_provenance"], "authored_native_counterpart")
+
     def test_missing_source_fails_closed(self):
         (self.directory / "source.py").unlink()
         with self.assertRaisesRegex(ValueError, "missing selected Python"):
+            scan(self.root)
+
+    def test_spec_derived_source_requires_explicit_origin_and_pinned_mathematics(self):
+        self.write("bench/examples/Sample/Kernels.lean", LEAN)
+        self.write("bench/examples/Sample/Correct.lean", "-- Independent target: output[i] = input[i].\n")
+        spec = "bench/examples/Sample/Correct.lean"
+        reference = {"python": "bench/repairs/sample/source.py",
+                     "provenance": "spec_derived_native_source",
+                     "note": "New source from the identity specification, not a historical benchmark.",
+                     "mathematical_spec_sha256": {spec: hashlib.sha256((self.root / spec).read_bytes()).hexdigest()}}
+        self.write("bench/examples/source-references.json", json.dumps({"Sample": reference}))
+        record = {**self.record, "lean": "bench/examples/Sample/Kernels.lean"}
+        self.write("bench/examples/Sample/jit-correspondence.json", json.dumps([record]))
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        self.assertEqual(result["examples"][0]["status"], "spec_derived_body_copy_checked")
+        self.assertEqual(result["examples"][0]["source_provenance"], "spec_derived_native_source")
+        self.assertIn(spec, result["examples"][0]["source_sha256"])
+        self.write(spec, "-- Changed target.\n")
+        with self.assertRaisesRegex(ValueError, "specification pin drift"):
+            scan(self.root)
+        reference.pop("mathematical_spec_sha256")
+        self.write("bench/examples/source-references.json", json.dumps({"Sample": reference}))
+        with self.assertRaisesRegex(ValueError, "pinned independent"):
             scan(self.root)
 
     def test_legacy_ast_and_nested_functions_cannot_pass_body_copy(self):

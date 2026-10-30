@@ -25406,7 +25406,7 @@
         },
         {
           "path": "VeriTile/Triton/Memory/LogicalScheduledKernelIO.lean",
-          "sha256": "7d41240936eafa25461641526aa8ca5c91ede874a7bb977d862aab62cfe908fb"
+          "sha256": "63fc2fd56a16d72f476294a9bd175483cc1d188e5760f18d0c40ba59d9764e2b"
         },
         {
           "path": "bench/repairs/tritonbench_g/mean_reduction/IO.lean",
@@ -29599,6 +29599,14 @@
             "sha256": "cd56ccc22cff0e0d9e97d1cb6fc6a4e79bbb7317eee3b028359f4950b786a4bc",
             "task": "rmsnorm_fused_llama"
           }
+        },
+        "runtime_source_alignment": {
+          "change": "The invocation binding key eps_arg is corrected to the actual Python runtime parameter eps. No new detailed IO record is introduced; Real/native distinct views, logical Tensor inputs, EPS payload, execution/output/frame and full grid scope remain.",
+          "connection": "Current runtime original/candidate, typed/native memory, KernelPrecision and full public/grid/source/IO proofs all rebuilt locally and in an independent cold checkout. This is a renewed current-source review, not a byte-preservation claim against the old key spelling.",
+          "evidence": {
+            "path": "bench/pr22-split/receipts/loops-and-spec-derived-sources.json",
+            "sha256": "471ecd9dbb900163788303628bb550a28d04420ad30d62156be9d83e781f5f19"
+          }
         }
       },
       "distinct_views": "Real erases dtypes and uses AlgorithmLaunch; native retains symbolic terms, runtime epsilon register ABI, FP16 output round-trip and native reduction interpretation. Candidate inherits the native common memory.",
@@ -29631,31 +29639,35 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/NativeIO.lean",
-          "sha256": "0e1566c752bbecec8a241f0e86df586d091bea9da952aa93e12ad26ae3e65f15"
+          "sha256": "317ba844740edab15c130830ded7e904fa9a24b4fea624e3f5edcf2351bfe0f5"
         },
         {
           "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/PairIO.lean",
           "sha256": "6d42cbc6a9a0374cae6975c1471741fef65ed1fcd2bbd6a6a9faf937e3d19e37"
         }
       ],
-      "changed_paths": [],
+      "changed_paths": [
+        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/NativeIO.lean"
+      ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/rmsnorm_fused_llama.json",
-        "sha256": "cd56ccc22cff0e0d9e97d1cb6fc6a4e79bbb7317eee3b028359f4950b786a4bc",
-        "task": "rmsnorm_fused_llama"
+        "path": "bench/pr22-split/receipts/loops-and-spec-derived-sources.json",
+        "sha256": "471ecd9dbb900163788303628bb550a28d04420ad30d62156be9d83e781f5f19"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable; actual setup failure in current batch receipt.",
+        "gpu_or_native_experiment": "No new GPU/native experiment or numerical law.",
+        "corpus": "Body-copy migration remains incomplete."
+      },
       "remaining_issues": [],
       "main_formula_review": {
-        "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+        "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
         "review_evidence": {
-          "path": ".veritile-cache/headline-formulas-20261022/queue12/result.json",
-          "sha256": "c937c6187ba90c6901b06a8819404c7f5dda17e36be0cf64b1f29a753fe66f36",
-          "task_index": 6,
-          "task": "rmsnorm_fused_llama"
+          "path": "bench/pr22-split/receipts/loops-and-spec-derived-sources.json",
+          "sha256": "471ecd9dbb900163788303628bb550a28d04420ad30d62156be9d83e781f5f19"
         },
-        "io_data_unchanged": true
+        "io_data_unchanged": false,
+        "scope": "Runtime register spelling aligned with the actual selected Python; all existing public formula, input conditions, range, complete IO/execution/safety/output/frame and FP pair scopes revalidated."
       },
       "previous_io_sources": [
         {
@@ -29681,12 +29693,6 @@
           {
             "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/IO.lean",
             "sha256": "e938385c9e18e316b6db686da286c5eeccc215b92a00de27a991f9e0fdea56db"
-          }
-        ],
-        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/NativeIO.lean": [
-          {
-            "path": "bench/repairs/tritonbench_g/rmsnorm_fused_llama/NativeIO.lean",
-            "sha256": "0e1566c752bbecec8a241f0e86df586d091bea9da952aa93e12ad26ae3e65f15"
           }
         ],
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/PairIO.lean": [
@@ -29752,6 +29758,20 @@
         "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/rmsnorm_fused_llama.json",
         "sha256": "cd56ccc22cff0e0d9e97d1cb6fc6a4e79bbb7317eee3b028359f4950b786a4bc",
         "task": "rmsnorm_fused_llama"
+      },
+      "previous_io_review": {
+        "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/previous-llama-io-review.json.gz",
+        "sha256": "9235c8c74635aaca178a1e8dc473ad5b8f333131d4908f7fc35c23f309e65f80"
+      },
+      "previous_main_formula_review": {
+        "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+        "review_evidence": {
+          "path": ".veritile-cache/headline-formulas-20261022/queue12/result.json",
+          "sha256": "c937c6187ba90c6901b06a8819404c7f5dda17e36be0cf64b1f29a753fe66f36",
+          "task_index": 6,
+          "task": "rmsnorm_fused_llama"
+        },
+        "io_data_unchanged": true
       }
     },
     {
@@ -36632,5 +36652,12 @@
       ],
       "scope": "Pasted-body entry and source/proof connection; shared-helper compatibility is separately replayed."
     }
-  ]
+  ],
+  "pr22_split_base_integration": {
+    "base_commit": "25ad2949386cd0b992e2d3cb7cf26fac86f6a25c",
+    "source": "VeriTile/Triton/Memory/LogicalScheduledKernelIO.lean",
+    "old_sha256": "7d41240936eafa25461641526aa8ca5c91ede874a7bb977d862aab62cfe908fb",
+    "sha256": "63fc2fd56a16d72f476294a9bd175483cc1d188e5760f18d0c40ba59d9764e2b",
+    "review": "The newer base adds ImplementsOn and implementsOn_true. The pre-existing Implements definition, scoped notation and all imported task source bodies are unchanged."
+  }
 }

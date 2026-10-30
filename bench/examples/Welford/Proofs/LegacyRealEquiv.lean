@@ -1,4 +1,4 @@
-import bench.examples.Welford.Kernels
+import bench.examples.Welford.Proofs.LegacyBody
 import Mathlib.Data.Real.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Algebra.BigOperators.Field
@@ -16,7 +16,7 @@ The two-gates FP specification is in ../FPEquiv.lean.
 
 # Welford variance: two-pass vs online — kernel equivalence `≡[R]`
 
-Sources are in Kernels.lean. The proof below derives the real relation,
+Historical untyped sources are frozen in Proofs/LegacyBody.lean. The current native sources are proved in Correct.lean and FPEquiv.lean. The proof below derives the real relation,
 checks termination and memory framing, and states the public specification.
 
 `twopassWelfordKernel` computes the row mean/variance with two `tl.sum` passes;
@@ -78,7 +78,7 @@ no raw-store twin kernels needed.
 -/
 
 namespace VeriTile.Bench.Examples.Welford
-open VeriTile.Bench.Examples.Welford.Kernels
+open VeriTile.Bench.Examples.Welford.LegacyBody
 open VeriTile.Triton
 open scoped VeriTile.Triton.KernelIO₁ₓ₂
 

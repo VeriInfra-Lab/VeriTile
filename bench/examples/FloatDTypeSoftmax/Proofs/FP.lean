@@ -1,5 +1,5 @@
 import VeriTile.Triton.Float.Kernel
-import bench.examples.FloatDTypeSoftmax.Kernels
+import bench.examples.FloatDTypeSoftmax.Proofs.SourcePreservation
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Float.Reciprocal
 import VeriTile.Meta.StatementAudit

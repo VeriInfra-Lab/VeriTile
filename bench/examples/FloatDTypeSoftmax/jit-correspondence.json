@@ -1,0 +1,48 @@
+[
+  {
+    "python": "bench/examples/FloatDTypeSoftmax/native_kernels.py",
+    "python_function": "floatStableSoftmaxKernel",
+    "lean": "bench/examples/FloatDTypeSoftmax/Kernels.lean",
+    "lean_definition": "floatStableSoftmaxKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/FloatDTypeSoftmax/native_kernels.py",
+    "python_function": "floatSoftmaxRecipKernel",
+    "lean": "bench/examples/FloatDTypeSoftmax/Kernels.lean",
+    "lean_definition": "floatSoftmaxRecipKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ]
+    }
+  }
+]

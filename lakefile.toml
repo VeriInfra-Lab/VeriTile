@@ -57,6 +57,17 @@ globs = [
   "bench.tests.SignedBitwiseSource",
   "bench.tests.SourceDType",
   "bench.tests.CallSignature",
+  "bench.tests.PythonBody",
+  "bench.tests.ConstexprBody",
+  "bench.tests.NativeCountLoop",
+  "bench.tests.OptimizedRealExamples",
+  "bench.tests.FPGuardedExamples",
+  "bench.tests.NativeMatrixLoop",
+  "bench.tests.NativeMaxLoop",
+  "bench.tests.LoopBody",
+  "bench.tests.BoolMaskMultiply",
+  "bench.tests.FP32CallValue",
+  "bench.tests.TypedStores",
   "bench.tests.FPIntegerConversionNeg",
   "bench.tests.FPFmaSource",
   "bench.tests.StaticConditions",
@@ -904,6 +915,8 @@ globs = [
 # Complete enumeration of legacy standalone ports. Build membership is not proof acceptance.
 [[lean_lib]]
 name = "TritonBenchGLegacy"
+# Source-owned signed-index proofs for large tiles need a larger Lean task stack.
+moreLeanArgs = ["-s65536"]
 # Resolve imported legacy helpers from source, including modules outside the
 # explicit build target list. Membership does not imply task acceptance.
 roots = ["bench.tritonbench_g"]

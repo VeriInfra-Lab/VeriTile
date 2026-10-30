@@ -53,13 +53,13 @@ specification mhc_width_equiv (tau : ℝ) :
 /-- The division checks are on the loaded logit tiles and the actual fp32
 literal tau. Its value must be finite and nonzero. -/
 def matrixResidualSite (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.Site :=
-  .div (FP.ProfiledRewrite.prefixBefore (matrixOriginal S T D numIters tau).surfaceBody "z") S [S]
-    (.ref .real [S, S] "h_res_logits") tau
+  .divScalarFP32 (FP.ProfiledRewrite.prefixBefore (matrixOriginal S T D numIters tau).surfaceBody "z") S [S]
+    (.ref .real [S, S] "h_res_logits") (.const tau)
 
 def matrixBranchSite (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.Site :=
-  .div (FP.ProfiledRewrite.prefixBefore
+  .divScalarFP32 (FP.ProfiledRewrite.prefixBefore
     (matrixMiddle "res" "h_res" "h_pre" "res_mix" "branch_in" S T D numIters tau).surfaceBody "z" 1)
-    S [T] (.ref .real [S, T] "h_pre_logits") tau
+    S [T] (.ref .real [S, T] "h_pre_logits") (.const tau)
 
 def matrixOriginalProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.Program where
   kernel := matrixOriginal S T D numIters tau

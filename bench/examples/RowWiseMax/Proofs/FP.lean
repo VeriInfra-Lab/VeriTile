@@ -15,8 +15,8 @@ open FP.Structural
 set_option maxHeartbeats 1200000
 
 def reducedValue {α : Type} (M : Algebra α) (B : Nat) (xs : Fin B → α) : α :=
-  M.reduceMax none (shape := [B]) ⟨0, by simp⟩ Bool.false
-    (fun i => xs i.1) PUnit.unit
+  M.reduceMax (some .fp32) (shape := [B]) ⟨0, by simp⟩ Bool.false
+    (fun i => M.fp32Load (xs i.1)) PUnit.unit
 
 theorem original_run {α : Type} [Inhabited α] (M : Algebra α)
     (nCol B : Nat) (hB : 0 < B) (s : State α) (xs : Fin B → α)
@@ -24,9 +24,9 @@ theorem original_run {α : Type} [Inhabited α] (M : Algebra α)
     ∃ t, FP.Structural.exec M (rowWiseMaxKernel "x" "y" nCol B) s = some t ∧
       t.mem "y" (s.pids 0) = Cell.mk .real (reducedValue M B xs) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
-  simp [rowWiseMaxKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+  simp [rowWiseMaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, store, TileShape.axisDim, TileShape.allIndices,
-    TileShape.eraseAxis,
+    TileShape.eraseAxis, ComputeDType.eraseDType,
     hB, hx, reducedValue]
   intro r o hmiss
   exact (State.write_other _ "y" r (s.pids 0) o _ hmiss).trans rfl
@@ -37,9 +37,9 @@ theorem inlined_run {α : Type} [Inhabited α] (M : Algebra α)
     ∃ t, FP.Structural.exec M (inlinedKernel "x" "y" nCol B) s = some t ∧
       t.mem "y" (s.pids 0) = Cell.mk .real (reducedValue M B xs) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
-  simp [inlinedKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+  simp [inlinedKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, store, TileShape.axisDim, TileShape.allIndices,
-    TileShape.eraseAxis,
+    TileShape.eraseAxis, ComputeDType.eraseDType,
     hB, hx, reducedValue]
   intro r o hmiss
   exact (State.write_other _ "y" r (s.pids 0) o _ hmiss).trans rfl

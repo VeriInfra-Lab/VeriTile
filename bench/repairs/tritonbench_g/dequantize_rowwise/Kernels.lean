@@ -15,16 +15,16 @@ def callSignature : CallSignature where
 def body (x_ptr state_x output_ptr : RegionName) (BLOCK_SIZE P2 : Nat) : ComputeKernel :=
   with_triton_signature callSignature in
   triton {
-  pid = tl.program_id(axis=0).to(tl.int64)
-  block_start = pid * BLOCK_SIZE
-  arange = tl.arange(0, P2).to(tl.int64)
-  offsets = block_start + arange
-  row_mask = arange < BLOCK_SIZE
-  x = tl.load(x_ptr + offsets, mask=row_mask)
-  max_val = tl.load(state_x + pid)
-  output = max_val * x * inv_127
-  tl.store(output_ptr + offsets, output, mask=row_mask)
-}
+    pid = tl.program_id(axis=0).to(tl.int64)
+    block_start = pid * BLOCK_SIZE
+    arange = tl.arange(0, P2).to(tl.int64)
+    offsets = block_start + arange
+    row_mask = arange < BLOCK_SIZE
+    x = tl.load(x_ptr + offsets, mask=row_mask)
+    max_val = tl.load(state_x + pid)
+    output = max_val * x * inv_127
+    tl.store(output_ptr + offsets, output, mask=row_mask)
+  }
 
 /-- Candidate: commute only the signed integer row-start multiplication. -/
 def indexCommutedBody (x_ptr state_x output_ptr : RegionName) (BLOCK_SIZE P2 : Nat) : ComputeKernel :=
