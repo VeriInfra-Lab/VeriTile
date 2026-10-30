@@ -41,8 +41,8 @@ source comparison does not establish FP equivalence between those graphs.
 These numbers describe source-check coverage, not the number of incorrect
 algorithms or invalid Lean theorems.
 
-The TritonBench file-level screen finds type directives in 141 task files and antiquotes
-in 161 task files and all 19 example groups. In 44 primary files, Python has
+The TritonBench file-level screen finds type directives in 142 task files and antiquotes
+in 162 task files and all 19 example groups. In 44 primary files, Python has
 explicit int64 casts that are not visible in a direct Lean quotation. This
 last count is a warning screen: imported source, specialization and semantic
 connections require review. Unflagged files are not certified.

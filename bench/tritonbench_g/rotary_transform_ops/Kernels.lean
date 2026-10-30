@@ -1,103 +1,795 @@
-import Mathlib.Tactic
-import VeriTile.Meta.StatementAudit
-namespace VeriTile.Bench.Repairs.RotaryTransformOps
+import bench.tritonbench_g.rotary_transform_ops.Model
+import VeriTile.Triton.DSL
+import VeriTile.Triton.Source
 
-structure Ops (α : Type) where
-  zero : α
-  one : α
-  neg : α → α
-  mul : α → α → α
-  sub : α → α → α
-  add : α → α → α
+/-! Shared source entry for the original rotary implementation and its XOR
+index candidate. Both full branches and all four signed metadata storage
+combinations are retained here; algebraic models live in Model.lean. -/
 
-/-- Original source arithmetic, including the different high-output addition
-order in the split and adjacent branches. Both halves are loaded first. -/
-def sourcePair {α : Type} (p : Ops α) (interleaved conjugate : Bool)
-    (a b c sine : α) : α × α :=
-  let s := if conjugate then p.neg sine else sine
-  (p.sub (p.mul a c) (p.mul b s),
-    if interleaved then p.add (p.mul b c) (p.mul a s)
-    else p.add (p.mul a s) (p.mul b c))
-noncomputable def realOps : Ops ℝ := ⟨0,1,(-·),(·*·),(·-·),(·+·)⟩
+namespace VeriTile.Bench.Repairs.RotaryTransformOps.KernelSource
+open VeriTile.Triton
+set_option maxRecDepth 24000
+set_option maxHeartbeats 3000000
 
-inductive Region where
-  | input | output | cosine | sine | cumulative | offsets | other (n : Nat)
-  deriving DecidableEq, Repr
-abbrev Memory (α : Type) := Region → Nat → α
-def component (v : α×α) (second : Bool) := if second then v.2 else v.1
+/-- Complete ordinary source quotations for the four existing signed metadata
+storage combinations. Their source bodies and typed ASTs are unchanged. -/
+def source32_32
+    (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
+    (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel := triton {
+  tl.region OUT = tl.float32, X = tl.float32, COS = tl.float32, SIN = tl.float32, CU_SEQLENS = tl.int32, SEQLEN_OFFSETS = tl.int32
+  seqlen = $((seqlen : Int))
+  pid_m = tl.program_id(axis=0)
+  pid_batch = tl.program_id(axis=1)
+  pid_head = tl.program_id(axis=2)
+  rotary_dim_half = rotary_dim // $(2)
 
-structure Shape where
-  batches : Nat
-  maximum : Nat
-  total : Nat
-  heads : Nat
-  width : Nat
-  half : Nat
-  coefficientRows : Nat
-  varlen : Bool
-  offsetTensor : Bool
-  scalarOffset : Nat
-  interleaved : Bool
-  conjugate : Bool
-  inplace : Bool
-  deriving DecidableEq, Repr
-structure Metadata where
-  cumulative : Nat → Nat
-  offsets : Nat → Nat
-structure Config where
-  shape : Shape
-  metadata : Metadata
+  if not IS_VARLEN {
+    X = X + pid_batch * $(stride_x_batch) + pid_head * $(stride_x_nheads)
+    OUT = OUT + pid_batch * $(stride_out_batch) + pid_head * $(stride_out_nheads)
+  } else {
+    start_idx = tl.load(CU_SEQLENS + pid_batch)
+    seqlen = tl.load(CU_SEQLENS + pid_batch + $(1)) - start_idx
+    X = X + start_idx * $(stride_x_seqlen) + pid_head * $(stride_x_nheads)
+    OUT = OUT + start_idx * $(stride_out_seqlen) + pid_head * $(stride_out_nheads)
+  }
 
-def Shape.output (s : Shape) : Region := if s.inplace then .input else .output
-def Shape.blockK (s : Shape) := if 2*s.half≤32 then 32 else
-  if 2*s.half≤64 then 64 else if 2*s.half≤128 then 128 else 256
-def Shape.blockM (s : Shape) := if s.interleaved then 4 else if 2*s.half≤128 then 8 else 4
-def Shape.rowBlocks (s : Shape) := (s.maximum+s.blockM-1)/s.blockM
-def Shape.address (s : Shape) (token head col : Nat) := (token*s.heads+head)*s.width+col
-def Config.start (c : Config) (b : Nat) := if c.shape.varlen then c.metadata.cumulative b else b*c.shape.maximum
-def Config.length (c : Config) (b : Nat) := if c.shape.varlen then
-  c.metadata.cumulative (b+1)-c.metadata.cumulative b else c.shape.maximum
-def Config.shift (c : Config) (b : Nat) := if c.shape.offsetTensor then c.metadata.offsets b else c.shape.scalarOffset
+  if pid_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+  rm = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  if not IS_SEQLEN_OFFSETS_TENSOR {
+    rm_cs = rm + $((SEQLEN_OFFSETS_SCALAR : Int))
+  } else {
+    rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)
+  }
+  rk = tl.arange(0, $(BLOCK_K))
+  rk_half = tl.arange(0, $(BLOCK_K) // $(2))
 
-structure Config.Valid (c : Config) : Prop where
-  heads : 0<c.shape.heads
-  width : 0<c.shape.width
-  widthLimit : c.shape.width≤256
-  rotary : 2*c.shape.half≤c.shape.width
-  cumulativeZero : c.metadata.cumulative 0=0
-  cumulativeMonotone : ∀ a b,a≤b → b≤c.shape.batches → c.metadata.cumulative a≤c.metadata.cumulative b
-  total : c.shape.total=if c.shape.varlen then c.metadata.cumulative c.shape.batches else c.shape.batches*c.shape.maximum
-  lengthBound : ∀ b,b<c.shape.batches → c.length b≤c.shape.maximum
+  if not INTERLEAVED {
+    X = X + (rm[:, None] * $(stride_x_seqlen) +
+      rk_half[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X + rotary_dim_half * $(stride_x_headdim),
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    o0 = x0 * cos - x1 * sin
+    o1 = x0 * sin + x1 * cos
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) +
+      rk_half[None, :] * $(stride_out_headdim))
+    tl.store(OUT, o0,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+    tl.store(OUT + rotary_dim_half * $(stride_out_headdim), o1,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+  } else {
+    rk_swap = rk + ((rk + $(1)) % $(2)) * $(2) - $(1)
+    rk_repeat = tl.arange(0, $(BLOCK_K)) // $(2)
+    X0 = X + (rm[:, None] * $(stride_x_seqlen) + rk[None, :] * $(stride_x_headdim))
+    X1 = X + (rm[:, None] * $(stride_x_seqlen) + rk_swap[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X0,
+      mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X1,
+      mask=(rm[:, None] < seqlen) & (rk_swap[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    x0_cos = x0 * cos
+    x1_sin = x1 * sin
+    out = tl.where(rk[None, :] % $(2) == $(0), x0_cos - x1_sin, x0_cos + x1_sin)
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) + rk[None, :] * $(stride_out_headdim))
+    tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
+  }
+}
 
-structure Work where
-  batch : Nat
-  row : Nat
-  head : Nat
-  pair : Nat
-  deriving DecidableEq, Repr
-def Config.Active (c : Config) (w : Work) : Prop :=
-  w.batch<c.shape.batches ∧ w.row<c.length w.batch ∧ w.head<c.shape.heads ∧ w.pair<c.shape.half
-instance (c : Config) (w : Work) : Decidable (c.Active w) := inferInstanceAs (Decidable (_∧_∧_∧_))
-def Shape.dim (s : Shape) (pair : Nat) (second : Bool) :=
-  if s.interleaved then 2*pair+(if second then 1 else 0) else pair+(if second then s.half else 0)
-def Config.cell (c : Config) (w : Work) (second : Bool) :=
-  c.shape.address (c.start w.batch+w.row) w.head (c.shape.dim w.pair second)
-def Config.coeff (c : Config) (w : Work) := (w.row+c.shift w.batch)*c.shape.half+w.pair
-def Config.hasCoeff (c : Config) (w : Work) := w.row+c.shift w.batch<c.shape.coefficientRows
-instance (c : Config) (w : Work) : Decidable (c.hasCoeff w) := inferInstanceAs (Decidable (_<_))
+def source32_64
+    (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
+    (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel := triton {
+  tl.region OUT = tl.float32, X = tl.float32, COS = tl.float32, SIN = tl.float32, CU_SEQLENS = tl.int32, SEQLEN_OFFSETS = tl.int64
+  seqlen = $((seqlen : Int))
+  pid_m = tl.program_id(axis=0)
+  pid_batch = tl.program_id(axis=1)
+  pid_head = tl.program_id(axis=2)
+  rotary_dim_half = rotary_dim // $(2)
 
-def pairValues {α : Type} (c : Config) (p : Ops α) (w : Work) (m : Memory α) :=
-  sourcePair p c.shape.interleaved c.shape.conjugate
-    (m .input (c.cell w false)) (m .input (c.cell w true))
-    (if c.hasCoeff w then m .cosine (c.coeff w) else p.one)
-    (if c.hasCoeff w then m .sine (c.coeff w) else p.zero)
-def step {α : Type} (c : Config) (p : Ops α) (w : Work) (m : Memory α) : Memory α :=
-  let v := pairValues c p w m
-  let low := fun r a => if r=c.shape.output ∧ a=c.cell w false then v.1 else m r a
-  fun r a => if r=c.shape.output ∧ a=c.cell w true then v.2 else low r a
-def Writes (c : Config) (w : Work) (r : Region) (a : Nat) :=
-  r=c.shape.output ∧ (a=c.cell w false ∨ a=c.cell w true)
-instance (c : Config) (w : Work) (r : Region) (a : Nat) : Decidable (Writes c w r a) :=
-  inferInstanceAs (Decidable (_∧(_∨_)))
-end VeriTile.Bench.Repairs.RotaryTransformOps
+  if not IS_VARLEN {
+    X = X + pid_batch * $(stride_x_batch) + pid_head * $(stride_x_nheads)
+    OUT = OUT + pid_batch * $(stride_out_batch) + pid_head * $(stride_out_nheads)
+  } else {
+    start_idx = tl.load(CU_SEQLENS + pid_batch)
+    seqlen = tl.load(CU_SEQLENS + pid_batch + $(1)) - start_idx
+    X = X + start_idx * $(stride_x_seqlen) + pid_head * $(stride_x_nheads)
+    OUT = OUT + start_idx * $(stride_out_seqlen) + pid_head * $(stride_out_nheads)
+  }
 
+  if pid_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+  rm = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  if not IS_SEQLEN_OFFSETS_TENSOR {
+    rm_cs = rm + $((SEQLEN_OFFSETS_SCALAR : Int))
+  } else {
+    rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)
+  }
+  rk = tl.arange(0, $(BLOCK_K))
+  rk_half = tl.arange(0, $(BLOCK_K) // $(2))
+
+  if not INTERLEAVED {
+    X = X + (rm[:, None] * $(stride_x_seqlen) +
+      rk_half[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X + rotary_dim_half * $(stride_x_headdim),
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    o0 = x0 * cos - x1 * sin
+    o1 = x0 * sin + x1 * cos
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) +
+      rk_half[None, :] * $(stride_out_headdim))
+    tl.store(OUT, o0,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+    tl.store(OUT + rotary_dim_half * $(stride_out_headdim), o1,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+  } else {
+    rk_swap = rk + ((rk + $(1)) % $(2)) * $(2) - $(1)
+    rk_repeat = tl.arange(0, $(BLOCK_K)) // $(2)
+    X0 = X + (rm[:, None] * $(stride_x_seqlen) + rk[None, :] * $(stride_x_headdim))
+    X1 = X + (rm[:, None] * $(stride_x_seqlen) + rk_swap[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X0,
+      mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X1,
+      mask=(rm[:, None] < seqlen) & (rk_swap[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    x0_cos = x0 * cos
+    x1_sin = x1 * sin
+    out = tl.where(rk[None, :] % $(2) == $(0), x0_cos - x1_sin, x0_cos + x1_sin)
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) + rk[None, :] * $(stride_out_headdim))
+    tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
+  }
+}
+
+def source64_32
+    (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
+    (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel := triton {
+  tl.region OUT = tl.float32, X = tl.float32, COS = tl.float32, SIN = tl.float32, CU_SEQLENS = tl.int64, SEQLEN_OFFSETS = tl.int32
+  seqlen = $((seqlen : Int))
+  pid_m = tl.program_id(axis=0)
+  pid_batch = tl.program_id(axis=1)
+  pid_head = tl.program_id(axis=2)
+  rotary_dim_half = rotary_dim // $(2)
+
+  if not IS_VARLEN {
+    X = X + pid_batch * $(stride_x_batch) + pid_head * $(stride_x_nheads)
+    OUT = OUT + pid_batch * $(stride_out_batch) + pid_head * $(stride_out_nheads)
+  } else {
+    start_idx = tl.load(CU_SEQLENS + pid_batch)
+    seqlen = tl.load(CU_SEQLENS + pid_batch + $(1)) - start_idx
+    X = X + start_idx * $(stride_x_seqlen) + pid_head * $(stride_x_nheads)
+    OUT = OUT + start_idx * $(stride_out_seqlen) + pid_head * $(stride_out_nheads)
+  }
+
+  if pid_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+  rm = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  if not IS_SEQLEN_OFFSETS_TENSOR {
+    rm_cs = rm + $((SEQLEN_OFFSETS_SCALAR : Int))
+  } else {
+    rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)
+  }
+  rk = tl.arange(0, $(BLOCK_K))
+  rk_half = tl.arange(0, $(BLOCK_K) // $(2))
+
+  if not INTERLEAVED {
+    X = X + (rm[:, None] * $(stride_x_seqlen) +
+      rk_half[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X + rotary_dim_half * $(stride_x_headdim),
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    o0 = x0 * cos - x1 * sin
+    o1 = x0 * sin + x1 * cos
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) +
+      rk_half[None, :] * $(stride_out_headdim))
+    tl.store(OUT, o0,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+    tl.store(OUT + rotary_dim_half * $(stride_out_headdim), o1,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+  } else {
+    rk_swap = rk + ((rk + $(1)) % $(2)) * $(2) - $(1)
+    rk_repeat = tl.arange(0, $(BLOCK_K)) // $(2)
+    X0 = X + (rm[:, None] * $(stride_x_seqlen) + rk[None, :] * $(stride_x_headdim))
+    X1 = X + (rm[:, None] * $(stride_x_seqlen) + rk_swap[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X0,
+      mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X1,
+      mask=(rm[:, None] < seqlen) & (rk_swap[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    x0_cos = x0 * cos
+    x1_sin = x1 * sin
+    out = tl.where(rk[None, :] % $(2) == $(0), x0_cos - x1_sin, x0_cos + x1_sin)
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) + rk[None, :] * $(stride_out_headdim))
+    tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
+  }
+}
+
+def source64_64
+    (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
+    (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel := triton {
+  tl.region OUT = tl.float32, X = tl.float32, COS = tl.float32, SIN = tl.float32, CU_SEQLENS = tl.int64, SEQLEN_OFFSETS = tl.int64
+  seqlen = $((seqlen : Int))
+  pid_m = tl.program_id(axis=0)
+  pid_batch = tl.program_id(axis=1)
+  pid_head = tl.program_id(axis=2)
+  rotary_dim_half = rotary_dim // $(2)
+
+  if not IS_VARLEN {
+    X = X + pid_batch * $(stride_x_batch) + pid_head * $(stride_x_nheads)
+    OUT = OUT + pid_batch * $(stride_out_batch) + pid_head * $(stride_out_nheads)
+  } else {
+    start_idx = tl.load(CU_SEQLENS + pid_batch)
+    seqlen = tl.load(CU_SEQLENS + pid_batch + $(1)) - start_idx
+    X = X + start_idx * $(stride_x_seqlen) + pid_head * $(stride_x_nheads)
+    OUT = OUT + start_idx * $(stride_out_seqlen) + pid_head * $(stride_out_nheads)
+  }
+
+  if pid_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+  rm = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  if not IS_SEQLEN_OFFSETS_TENSOR {
+    rm_cs = rm + $((SEQLEN_OFFSETS_SCALAR : Int))
+  } else {
+    rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)
+  }
+  rk = tl.arange(0, $(BLOCK_K))
+  rk_half = tl.arange(0, $(BLOCK_K) // $(2))
+
+  if not INTERLEAVED {
+    X = X + (rm[:, None] * $(stride_x_seqlen) +
+      rk_half[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X + rotary_dim_half * $(stride_x_headdim),
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    o0 = x0 * cos - x1 * sin
+    o1 = x0 * sin + x1 * cos
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) +
+      rk_half[None, :] * $(stride_out_headdim))
+    tl.store(OUT, o0,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+    tl.store(OUT + rotary_dim_half * $(stride_out_headdim), o1,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+  } else {
+    rk_swap = rk + ((rk + $(1)) % $(2)) * $(2) - $(1)
+    rk_repeat = tl.arange(0, $(BLOCK_K)) // $(2)
+    X0 = X + (rm[:, None] * $(stride_x_seqlen) + rk[None, :] * $(stride_x_headdim))
+    X1 = X + (rm[:, None] * $(stride_x_seqlen) + rk_swap[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X0,
+      mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X1,
+      mask=(rm[:, None] < seqlen) & (rk_swap[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    x0_cos = x0 * cos
+    x1_sin = x1 * sin
+    out = tl.where(rk[None, :] % $(2) == $(0), x0_cos - x1_sin, x0_cos + x1_sin)
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) + rk[None, :] * $(stride_out_headdim))
+    tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
+  }
+}
+
+def source (cumulative64 offsets64 : Bool) :=
+  if cumulative64 then
+    if offsets64 then source64_64 else source64_32
+  else
+    if offsets64 then source32_64 else source32_32
+end VeriTile.Bench.Repairs.RotaryTransformOps.KernelSource
+
+
+namespace VeriTile.Bench.Repairs.RotaryTransformOps.XorSource
+open VeriTile.Triton
+set_option maxRecDepth 24000
+set_option maxHeartbeats 3000000
+
+/-- Complete ordinary source quotations for the four existing signed metadata
+storage combinations. The sole arithmetic change is exact adjacent-partner indexing with xor one. -/
+def source32_32
+    (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
+    (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel := triton {
+  tl.region OUT = tl.float32, X = tl.float32, COS = tl.float32, SIN = tl.float32, CU_SEQLENS = tl.int32, SEQLEN_OFFSETS = tl.int32
+  seqlen = $((seqlen : Int))
+  pid_m = tl.program_id(axis=0)
+  pid_batch = tl.program_id(axis=1)
+  pid_head = tl.program_id(axis=2)
+  rotary_dim_half = rotary_dim // $(2)
+
+  if not IS_VARLEN {
+    X = X + pid_batch * $(stride_x_batch) + pid_head * $(stride_x_nheads)
+    OUT = OUT + pid_batch * $(stride_out_batch) + pid_head * $(stride_out_nheads)
+  } else {
+    start_idx = tl.load(CU_SEQLENS + pid_batch)
+    seqlen = tl.load(CU_SEQLENS + pid_batch + $(1)) - start_idx
+    X = X + start_idx * $(stride_x_seqlen) + pid_head * $(stride_x_nheads)
+    OUT = OUT + start_idx * $(stride_out_seqlen) + pid_head * $(stride_out_nheads)
+  }
+
+  if pid_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+  rm = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  if not IS_SEQLEN_OFFSETS_TENSOR {
+    rm_cs = rm + $((SEQLEN_OFFSETS_SCALAR : Int))
+  } else {
+    rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)
+  }
+  rk = tl.arange(0, $(BLOCK_K))
+  rk_half = tl.arange(0, $(BLOCK_K) // $(2))
+
+  if not INTERLEAVED {
+    X = X + (rm[:, None] * $(stride_x_seqlen) +
+      rk_half[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X + rotary_dim_half * $(stride_x_headdim),
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    o0 = x0 * cos - x1 * sin
+    o1 = x0 * sin + x1 * cos
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) +
+      rk_half[None, :] * $(stride_out_headdim))
+    tl.store(OUT, o0,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+    tl.store(OUT + rotary_dim_half * $(stride_out_headdim), o1,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+  } else {
+    rk_swap = rk ^ $(1)
+    rk_repeat = tl.arange(0, $(BLOCK_K)) // $(2)
+    X0 = X + (rm[:, None] * $(stride_x_seqlen) + rk[None, :] * $(stride_x_headdim))
+    X1 = X + (rm[:, None] * $(stride_x_seqlen) + rk_swap[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X0,
+      mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X1,
+      mask=(rm[:, None] < seqlen) & (rk_swap[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    x0_cos = x0 * cos
+    x1_sin = x1 * sin
+    out = tl.where(rk[None, :] % $(2) == $(0), x0_cos - x1_sin, x0_cos + x1_sin)
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) + rk[None, :] * $(stride_out_headdim))
+    tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
+  }
+}
+
+def source32_64
+    (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
+    (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel := triton {
+  tl.region OUT = tl.float32, X = tl.float32, COS = tl.float32, SIN = tl.float32, CU_SEQLENS = tl.int32, SEQLEN_OFFSETS = tl.int64
+  seqlen = $((seqlen : Int))
+  pid_m = tl.program_id(axis=0)
+  pid_batch = tl.program_id(axis=1)
+  pid_head = tl.program_id(axis=2)
+  rotary_dim_half = rotary_dim // $(2)
+
+  if not IS_VARLEN {
+    X = X + pid_batch * $(stride_x_batch) + pid_head * $(stride_x_nheads)
+    OUT = OUT + pid_batch * $(stride_out_batch) + pid_head * $(stride_out_nheads)
+  } else {
+    start_idx = tl.load(CU_SEQLENS + pid_batch)
+    seqlen = tl.load(CU_SEQLENS + pid_batch + $(1)) - start_idx
+    X = X + start_idx * $(stride_x_seqlen) + pid_head * $(stride_x_nheads)
+    OUT = OUT + start_idx * $(stride_out_seqlen) + pid_head * $(stride_out_nheads)
+  }
+
+  if pid_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+  rm = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  if not IS_SEQLEN_OFFSETS_TENSOR {
+    rm_cs = rm + $((SEQLEN_OFFSETS_SCALAR : Int))
+  } else {
+    rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)
+  }
+  rk = tl.arange(0, $(BLOCK_K))
+  rk_half = tl.arange(0, $(BLOCK_K) // $(2))
+
+  if not INTERLEAVED {
+    X = X + (rm[:, None] * $(stride_x_seqlen) +
+      rk_half[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X + rotary_dim_half * $(stride_x_headdim),
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    o0 = x0 * cos - x1 * sin
+    o1 = x0 * sin + x1 * cos
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) +
+      rk_half[None, :] * $(stride_out_headdim))
+    tl.store(OUT, o0,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+    tl.store(OUT + rotary_dim_half * $(stride_out_headdim), o1,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+  } else {
+    rk_swap = rk ^ $(1)
+    rk_repeat = tl.arange(0, $(BLOCK_K)) // $(2)
+    X0 = X + (rm[:, None] * $(stride_x_seqlen) + rk[None, :] * $(stride_x_headdim))
+    X1 = X + (rm[:, None] * $(stride_x_seqlen) + rk_swap[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X0,
+      mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X1,
+      mask=(rm[:, None] < seqlen) & (rk_swap[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    x0_cos = x0 * cos
+    x1_sin = x1 * sin
+    out = tl.where(rk[None, :] % $(2) == $(0), x0_cos - x1_sin, x0_cos + x1_sin)
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) + rk[None, :] * $(stride_out_headdim))
+    tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
+  }
+}
+
+def source64_32
+    (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
+    (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel := triton {
+  tl.region OUT = tl.float32, X = tl.float32, COS = tl.float32, SIN = tl.float32, CU_SEQLENS = tl.int64, SEQLEN_OFFSETS = tl.int32
+  seqlen = $((seqlen : Int))
+  pid_m = tl.program_id(axis=0)
+  pid_batch = tl.program_id(axis=1)
+  pid_head = tl.program_id(axis=2)
+  rotary_dim_half = rotary_dim // $(2)
+
+  if not IS_VARLEN {
+    X = X + pid_batch * $(stride_x_batch) + pid_head * $(stride_x_nheads)
+    OUT = OUT + pid_batch * $(stride_out_batch) + pid_head * $(stride_out_nheads)
+  } else {
+    start_idx = tl.load(CU_SEQLENS + pid_batch)
+    seqlen = tl.load(CU_SEQLENS + pid_batch + $(1)) - start_idx
+    X = X + start_idx * $(stride_x_seqlen) + pid_head * $(stride_x_nheads)
+    OUT = OUT + start_idx * $(stride_out_seqlen) + pid_head * $(stride_out_nheads)
+  }
+
+  if pid_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+  rm = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  if not IS_SEQLEN_OFFSETS_TENSOR {
+    rm_cs = rm + $((SEQLEN_OFFSETS_SCALAR : Int))
+  } else {
+    rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)
+  }
+  rk = tl.arange(0, $(BLOCK_K))
+  rk_half = tl.arange(0, $(BLOCK_K) // $(2))
+
+  if not INTERLEAVED {
+    X = X + (rm[:, None] * $(stride_x_seqlen) +
+      rk_half[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X + rotary_dim_half * $(stride_x_headdim),
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    o0 = x0 * cos - x1 * sin
+    o1 = x0 * sin + x1 * cos
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) +
+      rk_half[None, :] * $(stride_out_headdim))
+    tl.store(OUT, o0,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+    tl.store(OUT + rotary_dim_half * $(stride_out_headdim), o1,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+  } else {
+    rk_swap = rk ^ $(1)
+    rk_repeat = tl.arange(0, $(BLOCK_K)) // $(2)
+    X0 = X + (rm[:, None] * $(stride_x_seqlen) + rk[None, :] * $(stride_x_headdim))
+    X1 = X + (rm[:, None] * $(stride_x_seqlen) + rk_swap[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X0,
+      mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X1,
+      mask=(rm[:, None] < seqlen) & (rk_swap[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    x0_cos = x0 * cos
+    x1_sin = x1 * sin
+    out = tl.where(rk[None, :] % $(2) == $(0), x0_cos - x1_sin, x0_cos + x1_sin)
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) + rk[None, :] * $(stride_out_headdim))
+    tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
+  }
+}
+
+def source64_64
+    (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
+    (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel := triton {
+  tl.region OUT = tl.float32, X = tl.float32, COS = tl.float32, SIN = tl.float32, CU_SEQLENS = tl.int64, SEQLEN_OFFSETS = tl.int64
+  seqlen = $((seqlen : Int))
+  pid_m = tl.program_id(axis=0)
+  pid_batch = tl.program_id(axis=1)
+  pid_head = tl.program_id(axis=2)
+  rotary_dim_half = rotary_dim // $(2)
+
+  if not IS_VARLEN {
+    X = X + pid_batch * $(stride_x_batch) + pid_head * $(stride_x_nheads)
+    OUT = OUT + pid_batch * $(stride_out_batch) + pid_head * $(stride_out_nheads)
+  } else {
+    start_idx = tl.load(CU_SEQLENS + pid_batch)
+    seqlen = tl.load(CU_SEQLENS + pid_batch + $(1)) - start_idx
+    X = X + start_idx * $(stride_x_seqlen) + pid_head * $(stride_x_nheads)
+    OUT = OUT + start_idx * $(stride_out_seqlen) + pid_head * $(stride_out_nheads)
+  }
+
+  if pid_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+  rm = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  if not IS_SEQLEN_OFFSETS_TENSOR {
+    rm_cs = rm + $((SEQLEN_OFFSETS_SCALAR : Int))
+  } else {
+    rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)
+  }
+  rk = tl.arange(0, $(BLOCK_K))
+  rk_half = tl.arange(0, $(BLOCK_K) // $(2))
+
+  if not INTERLEAVED {
+    X = X + (rm[:, None] * $(stride_x_seqlen) +
+      rk_half[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X + rotary_dim_half * $(stride_x_headdim),
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    o0 = x0 * cos - x1 * sin
+    o1 = x0 * sin + x1 * cos
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) +
+      rk_half[None, :] * $(stride_out_headdim))
+    tl.store(OUT, o0,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+    tl.store(OUT + rotary_dim_half * $(stride_out_headdim), o1,
+      mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))
+  } else {
+    rk_swap = rk ^ $(1)
+    rk_repeat = tl.arange(0, $(BLOCK_K)) // $(2)
+    X0 = X + (rm[:, None] * $(stride_x_seqlen) + rk[None, :] * $(stride_x_headdim))
+    X1 = X + (rm[:, None] * $(stride_x_seqlen) + rk_swap[None, :] * $(stride_x_headdim))
+    COS = (COS + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    SIN = (SIN + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :]))
+    cos = tl.load(COS,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=1.0).to(tl.float32)
+    sin = tl.load(SIN,
+      mask=(rm_cs[:, None] < $(seqlen_ro)) & (rk_repeat[None, :] < rotary_dim_half),
+      other=0.0).to(tl.float32)
+    x0 = tl.load(X0,
+      mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    x1 = tl.load(X1,
+      mask=(rm[:, None] < seqlen) & (rk_swap[None, :] < rotary_dim),
+      other=0.0).to(tl.float32)
+    if CONJUGATE {
+      sin = -sin
+    }
+    x0_cos = x0 * cos
+    x1_sin = x1 * sin
+    out = tl.where(rk[None, :] % $(2) == $(0), x0_cos - x1_sin, x0_cos + x1_sin)
+    OUT = OUT + (rm[:, None] * $(stride_out_seqlen) + rk[None, :] * $(stride_out_headdim))
+    tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
+  }
+}
+
+def source (cumulative64 offsets64 : Bool) :=
+  if cumulative64 then
+    if offsets64 then source64_64 else source64_32
+  else
+    if offsets64 then source32_64 else source32_32
+end VeriTile.Bench.Repairs.RotaryTransformOps.XorSource
+
+namespace VeriTile.Bench.Repairs.RotaryTransformOps.Kernels
+/-- Complete original program constructor, including both metadata widths. -/
+abbrev original := KernelSource.source
+/-- Complete XOR-indexed candidate with the same metadata choices. -/
+abbrev xorIndexed := XorSource.source
+end VeriTile.Bench.Repairs.RotaryTransformOps.Kernels
