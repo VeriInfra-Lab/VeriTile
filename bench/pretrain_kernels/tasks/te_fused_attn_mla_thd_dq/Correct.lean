@@ -27,7 +27,7 @@ def correctnessProblem : Prop :=
     let vge : Fin 128 → Fin 128 → Bool := fun i0 i1 => decide ((0 + (i0.val : Int) * 1) ≥ (0 + (i1.val : Int) * 1))
     let vbitwise_and : Fin 128 → Fin 128 → Bool := fun i0 i1 => (veq i0 i1 && vge i0 i1)
     let vbitwise_not : Fin 128 → Fin 128 → Bool := fun i0 i1 => (!vbitwise_and i0 i1)
-    let vmasked_fill : Fin 128 → Fin 128 → ℝ := fun i0 i1 => (if vbitwise_not i0 i1 then (-338953138925153550000000000000000000000 : ℝ) else 0)
+    let vmasked_fill : Fin 128 → Fin 128 → ℝ := fun i0 i1 => (if vbitwise_not i0 i1 then (-338953138925153547590470800371487866880 : ℝ) else 0)
     let vbmm : Fin 4 → Fin 128 → Fin 128 → ℝ := fun i0 i1 i2 => (∑ lane : Fin 192, input0 i1 i0 lane * input1 i2 i0 lane)
     let vmul : Fin 1 → Fin 4 → Fin 128 → Fin 128 → ℝ := fun i0 i1 i2 i3 => (vbmm i1 i2 i3 * (7216878364870323/100000000000000000))
     let vadd : Fin 1 → Fin 4 → Fin 128 → Fin 128 → ℝ := fun i0 i1 i2 i3 => (vmul ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ i1 i2 i3 + vmasked_fill i2 i3)

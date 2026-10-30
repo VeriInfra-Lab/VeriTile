@@ -8,6 +8,11 @@ Proofs/ReadableSource.lean proves complete function equality to the old definiti
 namespace VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2
 open Lean VeriTile Triton
 set_option linter.unusedVariables false
+
+/-- Scalar return of the uncalled Python JIT helper on nonnegative dimensions
+and a positive divisor. The launched softmax branches inline prev_multiple_of. -/
+def next_multiple_of (a b : Nat) : Nat := ((a + b - 1) / b) * b
+
 def forward_noninner :=
   fun (output_ptr input_ptr : RegionName)
         (M N K TILE_N TILE_K : Nat) (ONE_TILE_PER_CTA : Bool) => triton {
