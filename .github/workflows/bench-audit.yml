@@ -89,6 +89,15 @@ jobs:
                 --workspace "$RUNNER_TEMP/matmul-source-replay"
             done
           done
+      - name: Replay rotary source-entry connections
+        run: |
+          lake build bench.tritonbench_g.rotary_transform_ops.Correct \
+            bench.tritonbench_g.rotary_transform_ops.FPEquiv
+          for entry in Proofs/SourceEntry Correct FPEquiv; do
+            python3 scripts/check_comparator.py \
+              --file "bench/tritonbench_g/rotary_transform_ops/$entry.lean" --trust \
+              --workspace "$RUNNER_TEMP/rotary-source-replay"
+          done
       - name: Bind the built snapshot
         run: python3 scripts/bench/final_inventory.py --check
 

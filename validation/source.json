@@ -9725,6 +9725,7 @@
     "bench/tritonbench_g/rotary_transform_ops/IO.lean",
     "bench/tritonbench_g/rotary_transform_ops/KernelSource.lean",
     "bench/tritonbench_g/rotary_transform_ops/Kernels.lean",
+    "bench/tritonbench_g/rotary_transform_ops/Model.lean",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Bounds.lean",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Geometry.lean",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Grid.lean",
@@ -9756,6 +9757,7 @@
     "bench/tritonbench_g/rotary_transform_ops/Proofs/ProgramScatter.lean",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Scheduling.lean",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Source.lean",
+    "bench/tritonbench_g/rotary_transform_ops/Proofs/SourceEntry.lean",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/SourceSafety.lean",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedExecution.lean",
@@ -50423,10 +50425,14 @@
       "bench.tritonbench_g.rotary_transform_ops.XorSource"
     ],
     "bench/tritonbench_g/rotary_transform_ops/KernelSource.lean": [
-      "VeriTile.Triton.DSL",
-      "VeriTile.Triton.Source"
+      "bench.tritonbench_g.rotary_transform_ops.Kernels"
     ],
     "bench/tritonbench_g/rotary_transform_ops/Kernels.lean": [
+      "VeriTile.Triton.DSL",
+      "VeriTile.Triton.Source",
+      "bench.tritonbench_g.rotary_transform_ops.Model"
+    ],
+    "bench/tritonbench_g/rotary_transform_ops/Model.lean": [
       "Mathlib.Tactic",
       "VeriTile.Meta.StatementAudit"
     ],
@@ -50434,7 +50440,7 @@
       "bench.tritonbench_g.rotary_transform_ops.Proofs.Host"
     ],
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Geometry.lean": [
-      "bench.tritonbench_g.rotary_transform_ops.Kernels"
+      "bench.tritonbench_g.rotary_transform_ops.Model"
     ],
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Grid.lean": [
       "bench.tritonbench_g.rotary_transform_ops.Proofs.Memory"
@@ -50477,7 +50483,7 @@
     ],
     "bench/tritonbench_g/rotary_transform_ops/Proofs/KernelAlgebra.lean": [
       "VeriTile.Triton.Float.Structural",
-      "bench.tritonbench_g.rotary_transform_ops.Kernels"
+      "bench.tritonbench_g.rotary_transform_ops.Model"
     ],
     "bench/tritonbench_g/rotary_transform_ops/Proofs/KernelCompatibility.lean": [
       "bench.tritonbench_g.rotary_transform_ops.Proofs.KernelEndpoints"
@@ -50538,6 +50544,11 @@
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Source.lean": [
       "bench.tritonbench_g.rotary_transform_ops.Proofs.Vector"
     ],
+    "bench/tritonbench_g/rotary_transform_ops/Proofs/SourceEntry.lean": [
+      "VeriTile.Meta.StatementAudit",
+      "bench.tritonbench_g.rotary_transform_ops.KernelSource",
+      "bench.tritonbench_g.rotary_transform_ops.XorSource"
+    ],
     "bench/tritonbench_g/rotary_transform_ops/Proofs/SourceSafety.lean": [
       "VeriTile.Triton.Float.StructuralSafety",
       "bench.tritonbench_g.rotary_transform_ops.Proofs.TypedResult"
@@ -50563,9 +50574,9 @@
     "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedSetup.lean": [
       "VeriTile.Triton.Float.Structural",
       "bench.tritonbench_g.isfinite_kernel.Proofs.Mathematical_MemoryProjection",
-      "bench.tritonbench_g.rotary_transform_ops.KernelSource",
       "bench.tritonbench_g.rotary_transform_ops.Kernels",
-      "bench.tritonbench_g.rotary_transform_ops.Proofs.ProgramModel"
+      "bench.tritonbench_g.rotary_transform_ops.Proofs.ProgramModel",
+      "bench.tritonbench_g.rotary_transform_ops.Proofs.SourceEntry"
     ],
     "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedStores.lean": [
       "bench.tritonbench_g.rotary_transform_ops.Proofs.TypedLoads"
@@ -50589,8 +50600,7 @@
       "bench.tritonbench_g.rotary_transform_ops.Proofs.Host"
     ],
     "bench/tritonbench_g/rotary_transform_ops/XorSource.lean": [
-      "VeriTile.Triton.DSL",
-      "VeriTile.Triton.Source"
+      "bench.tritonbench_g.rotary_transform_ops.Kernels"
     ],
     "bench/tritonbench_g/rowwise_quantization_triton/Candidate.lean": [
       "bench.tritonbench_g.rowwise_quantization_triton.Kernels"
@@ -67705,10 +67715,11 @@
     "bench/tritonbench_g/rotary_transform_ops/Correct.lean": "85e6c2d2dfb45c89ac3ba51da429b39088f4686e3c8bcfd5a04c03a90939d788",
     "bench/tritonbench_g/rotary_transform_ops/FPEquiv.lean": "33136c18081bab441c1c695d9b70a9d73d2d8d8efdf59026f38bec61afff3e52",
     "bench/tritonbench_g/rotary_transform_ops/IO.lean": "6481e0eaf1fa69175b720d4a85573a0bdbc076fa50c7a97d3fd3dcacbdad7b13",
-    "bench/tritonbench_g/rotary_transform_ops/KernelSource.lean": "50e88de8192d321b8f5a54d71b74970f88157fb3278661d10c48c72a5e1ff8d5",
-    "bench/tritonbench_g/rotary_transform_ops/Kernels.lean": "f3eb064afeaa395ee5691cb94158df9611ef12769d06c19523de5dcd75cf7fef",
+    "bench/tritonbench_g/rotary_transform_ops/KernelSource.lean": "475abb56f029570d9de27d7100e709478e6e92ca1000de52b14c295ff0210719",
+    "bench/tritonbench_g/rotary_transform_ops/Kernels.lean": "286bc861a17f8a2c05cc36dd2983addcbb5a32df82075396a7673b56cbb49120",
+    "bench/tritonbench_g/rotary_transform_ops/Model.lean": "bf55e14bf85335335e32fdbdb641c3381e2b3288ce346d8535e59cdcd2ca6933",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Bounds.lean": "229da74b8a59c7d3c168270ac37fcb2b06f44f363464d3bb56b120dd8921a6b1",
-    "bench/tritonbench_g/rotary_transform_ops/Proofs/Geometry.lean": "e0b42c4f527971dde36bbb3fa54898703f0e7b3e436e3e2c9714d96a3b56c3ad",
+    "bench/tritonbench_g/rotary_transform_ops/Proofs/Geometry.lean": "13654858a1f1b4a9a7ffad154de282cc487593d03de4cbcd08df4e38e5177999",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Grid.lean": "20f4144bb5facf9e13d204d76aa11ed0760bbd65d83a9efdbffc6799e8df442e",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Guards.lean": "e3de1e71c9281a3b8c05095f1a98f9248d593558de0d4c6dabb22cb10985fcab",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/HistoricalCorrect.lean": "2f1d005358fe4f78d8b487a7dd9416d11b83e3bc80485d94f2552ebc5158b72f",
@@ -67720,7 +67731,7 @@
     "bench/tritonbench_g/rotary_transform_ops/Proofs/IOGeometry.lean": "4fd2d119cca2e92f30650e1df223edc91d24b9d6f8932a3d4d7ba5bfac56b23f",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/IOResult.lean": "803b2f09877a3adccd8bd8ab275e729a32b7955c666ba485dea49454462e9d49",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/IOSafety.lean": "edea361bde2f31eb71168fe6d44256e983e0848028540ce734b0d55dc4623a69",
-    "bench/tritonbench_g/rotary_transform_ops/Proofs/KernelAlgebra.lean": "c2e3dab3432d7f15c6f98ba5b9da4b2ede3142647b2379725151f63c1b69d0bf",
+    "bench/tritonbench_g/rotary_transform_ops/Proofs/KernelAlgebra.lean": "297e2ef13594fcf73755ec5226b8b634a029679c0d0eb2832766a96c99e5e4be",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/KernelCompatibility.lean": "333feb8d5ae4a0a53048f378937f8f8de3413ffdddd4e8be4637c775cb577ef9",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/KernelEndpoints.lean": "43256c4b32b6dbce56d734a1d1557f0d4feac688302294b99f4f488c5ece45c8",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/KernelIndex.lean": "21c0f036d41077e2f3f49a3ac6bc47d16e8fa280734055adeb053facb0048a83",
@@ -67738,20 +67749,21 @@
     "bench/tritonbench_g/rotary_transform_ops/Proofs/ProgramScatter.lean": "67a550a48ed719455f89e4177a387490282d332bb94b00ab7360b07719a6ffbc",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Scheduling.lean": "3cfcdfbc0e0339a15d02a66bc734eac56c8be184b4823cb49c15758db1ac0e29",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Source.lean": "0a8db3f1d1ad32964d52dc93c859f60642efc13563f470c47c6e86108b663797",
+    "bench/tritonbench_g/rotary_transform_ops/Proofs/SourceEntry.lean": "8ffb868a3c249af7b45b74f1fa5c64c30cd186a5f4afcef251f520a7ec60b9d8",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/SourceSafety.lean": "65b6f9c7801c60769acdbd7a11b9aef11a3b8d207d3cff87ff7d774340a32933",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean": "407c4222c6e14bd8e7eb79778ef0a81a650d7cd4b34f564806b054f5ca9a9dbd",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedExecution.lean": "869ac456235a93d8a4b3670ab87f30cbabab788cd17762be87fea821af8ae318",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedGrid.lean": "3869c23bd8e621a269750a6c984b71d1e756138ca012cc47862179236b5fc188",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedLoads.lean": "0ed2ea428d586a2ea9d31df94e76289a59b6b0b0d8bb3ca8df25f8c7951841d5",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedResult.lean": "ccc268856e15e3259ef939f88d618b49e9d3a6ae63dc89199c34707a4e8eb402",
-    "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedSetup.lean": "89cdfb8226013e0f6ed780cae7a1fe9f378672b446c22dcb00331c1c2dce9304",
+    "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedSetup.lean": "c12dde9e4a894c443527b9e5a7753e4d0b8e31f74b204fa4caf3056f20ae7417",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/TypedStores.lean": "b8a36f1740777053a6f257ea61e2abc9b1089622ac687af65c3607b1be2d33c0",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/Vector.lean": "e94fde8a45bd419151ebb96cd14d505e4178fa6a7b5260c2451400a12d1a2b06",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/XorIO.lean": "4b853cc28940ee80bdacbe580885dade9c7b0dd0fa56207d2e72496341c20228",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/XorPair.lean": "ed37a36c7b6b4132a94839519ad0e17d3d502d28d9271cdb6b2c7207c4ef1fe6",
     "bench/tritonbench_g/rotary_transform_ops/Proofs/XorSafety.lean": "a9647a3a44fbb4c577621df8a025173f8066cca98f57f064de965acf864096d7",
     "bench/tritonbench_g/rotary_transform_ops/Spec.lean": "1721bef742f5678be0ddf1f918f760f8cf4416243e0116ab1330127f690c0653",
-    "bench/tritonbench_g/rotary_transform_ops/XorSource.lean": "9da523b1507e797dc11c7d46ae8722286c62735690e1900107a6059d7b9cb30d",
+    "bench/tritonbench_g/rotary_transform_ops/XorSource.lean": "46829dde7c5979a77414a14ea45e9c9d432b4375166b8ca58761327b2b4c1b7b",
     "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py": "405cfe29f94ef81572227c5bf6a4bc956ccd0f36f193b1b5ed5495df45617aa8",
     "bench/tritonbench_g/rowwise_quantization_triton/Candidate.lean": "6c5f6c10c1feea2c529b07c4d01223577b23947aa9c86980c5702e0a1789310b",
     "bench/tritonbench_g/rowwise_quantization_triton/Contract.lean": "422af696d02265a5183846b1367d8ec19481bd3cd346c03277665643d977defc",
@@ -69386,7 +69398,7 @@
     "tests/lean/UnsignedIntegerCast.lean": "d315d7505465d25869603203c983fb4ff0e576bcb68bd4f8a9c87645f36c323c",
     "tests/lean/WelfordSourceContexts.lean": "f62e2138c4cfe983f10fade716f33eb4bdcf049374bad30225883a7da7c7a544",
     "validation/bench-layout.json": "0811e2b0f1d456687e23d144a7700d486d05e0cec9ee55c616e62cc8d05dc1c4",
-    "validation/contracts.json": "d8b26789fd7951e1295e82e21b95c0967f2a3deda0b7354e8ace8958b6a70834",
+    "validation/contracts.json": "c3522756971826745889dbaf55c3675b9639dccfd0fa588988abe741f01f9b8c",
     "validation/task_progress.json": "c00d05f4f17beabf26887bf9dcba850fc0b3b2ff194db595a81c0b92709225e8"
   },
   "validation_boundary": "Membership and reviewed scope only; requires Lean build, axiom/spec gates and official replay. Imported benchmark proof goals and Python/native correspondence gaps remain separate."
