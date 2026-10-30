@@ -52,10 +52,13 @@ externally checked. See [Triton subset and gaps](./documents/TritonSubset.md).
   forward, online softmax, Welford, LayerNorm, log-sum-exp.
 - **CI gates**: `.github/workflows/bench-audit.yml` runs the full library build,
   source correspondence inventories, final contract/source checks, and library
-  comparator once, then checks the standalone corpus in 16 shards through
-  `bench/audit_trust.sh`. Each file must pass elaboration, Lean trust/spec
-  checks, and official comparator replay. The final gate requires the global
-  job and all 16 shards to succeed. `.github/workflows/artifact.yml` runs `lake build` +
+  comparator on PRs and main pushes. The complete retained corpus and all 334
+  benchmark interfaces are built and audited daily at 04:00 Asia/Singapore
+  (20:00 UTC), or on manual dispatch. The daily corpus audit uses 64 shards
+  through `bench/audit_trust.sh`, retaining elaboration, Lean trust/spec checks
+  and official comparator replay. Its final gate requires every shard to pass.
+  Run the complete applicable proof checks locally before merging proof changes.
+  `.github/workflows/artifact.yml` runs `lake build` +
   `scripts/check-artifact.sh` (no `sorry`, axiom whitelist, manifest schema,
   doc-drift checks). `.github/workflows/site.yml` builds and deploys the docs
   site to GitHub Pages on every push touching `site/`.

@@ -10,15 +10,16 @@ on:
       full_audit:
         description: Replay every retained module, including unused helper theorems
         type: boolean
-        default: false
+        default: true
   schedule:
-    - cron: '17 3 * * 1'
+    # 04:00 Asia/Singapore; GitHub cron uses UTC.
+    - cron: '0 20 * * *'
 
 permissions:
   contents: read
 
 concurrency:
-  group: bench-audit-${{ github.ref }}
+  group: bench-audit-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -28,12 +29,13 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     outputs:
+      full_audit: ${{ steps.scope.outputs.full }}
       audit_mode: ${{ steps.scope.outputs.mode }}
       shard_count: ${{ steps.scope.outputs.count }}
       shards: ${{ steps.scope.outputs.shards }}
     steps:
       - uses: actions/checkout@v4
-      - name: Select public-entry or full-corpus audit
+      - name: Select daily or manually requested full-corpus audit
         id: scope
         env:
           FULL_AUDIT: ${{ inputs.full_audit }}
@@ -43,6 +45,7 @@ jobs:
           full = os.environ['GITHUB_EVENT_NAME'] == 'schedule' or os.environ['FULL_AUDIT'] == 'true'
           count = 64 if full else 16
           with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              print('full=' + str(full).lower(), file=output)
               print('mode=' + ('--final-inventory' if full else '--ci-targets'), file=output)
               print(f'count={count}', file=output)
               print('shards=' + json.dumps(list(range(count))), file=output)
@@ -79,6 +82,7 @@ jobs:
   drafts:
     name: All 334 benchmark interfaces
     needs: global
+    if: needs.global.outputs.full_audit == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     steps:
@@ -101,6 +105,7 @@ jobs:
   audit:
     name: Final entry build and replay ${{ matrix.shard }}
     needs: global
+    if: needs.global.outputs.full_audit == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     strategy:
@@ -157,9 +162,16 @@ jobs:
       GLOBAL_RESULT: ${{ needs.global.result }}
       CORPUS_RESULT: ${{ needs.audit.result }}
       DRAFTS_RESULT: ${{ needs.drafts.result }}
+      FULL_AUDIT: ${{ needs.global.outputs.full_audit }}
     steps:
       - name: Require every build and proof gate
         run: |
           test "$GLOBAL_RESULT" = success
-          test "$CORPUS_RESULT" = success
-          test "$DRAFTS_RESULT" = success
+          if [ "$FULL_AUDIT" = true ]; then
+            test "$CORPUS_RESULT" = success
+            test "$DRAFTS_RESULT" = success
+          else
+            test "$FULL_AUDIT" = false
+            test "$CORPUS_RESULT" = skipped
+            test "$DRAFTS_RESULT" = skipped
+          fi
