@@ -1,0 +1,244 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/chunk_delta_fwd_static_dot.py",
+    "python_function": "chunk_delta_rule_fwd_kernel_h",
+    "lean": "bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "d",
+          "fp32"
+        ],
+        [
+          "v_new",
+          "fp32"
+        ],
+        [
+          "h",
+          "fp32"
+        ],
+        [
+          "initial_state",
+          "fp32"
+        ],
+        [
+          "final_state",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_qk_t",
+          "integer"
+        ],
+        [
+          "s_qk_d",
+          "integer"
+        ],
+        [
+          "s_w_b",
+          "integer"
+        ],
+        [
+          "s_w_h",
+          "integer"
+        ],
+        [
+          "s_w_t",
+          "integer"
+        ],
+        [
+          "s_w_d",
+          "integer"
+        ],
+        [
+          "s_vo_h",
+          "integer"
+        ],
+        [
+          "s_vo_t",
+          "integer"
+        ],
+        [
+          "s_vo_d",
+          "integer"
+        ],
+        [
+          "s_h_h",
+          "integer"
+        ],
+        [
+          "s_h_t",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "H",
+        "T",
+        "K",
+        "V",
+        "BT",
+        "BC",
+        "BK",
+        "BV",
+        "NT",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE"
+      ],
+      "writePorts": [
+        "v_new",
+        "h",
+        "final_state"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "p.T*p.K",
+      "s_qk_t": "p.K",
+      "s_qk_d": "1",
+      "s_w_b": "p.wBatch",
+      "s_w_h": "p.wHead",
+      "s_w_t": "p.wTime",
+      "s_w_d": "p.wDim",
+      "s_vo_h": "p.T*p.V",
+      "s_vo_t": "p.V",
+      "s_vo_d": "1",
+      "s_h_h": "p.NT*p.K*p.V",
+      "s_h_t": "p.V"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/candidate_kernels.py",
+    "python_function": "chunk_delta_rule_fwd_kernel_h_address_fold",
+    "lean": "bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean",
+    "lean_definition": "addressFold",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "d",
+          "fp32"
+        ],
+        [
+          "v_new",
+          "fp32"
+        ],
+        [
+          "h",
+          "fp32"
+        ],
+        [
+          "initial_state",
+          "fp32"
+        ],
+        [
+          "final_state",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_qk_t",
+          "integer"
+        ],
+        [
+          "s_qk_d",
+          "integer"
+        ],
+        [
+          "s_w_b",
+          "integer"
+        ],
+        [
+          "s_w_h",
+          "integer"
+        ],
+        [
+          "s_w_t",
+          "integer"
+        ],
+        [
+          "s_w_d",
+          "integer"
+        ],
+        [
+          "s_vo_h",
+          "integer"
+        ],
+        [
+          "s_vo_t",
+          "integer"
+        ],
+        [
+          "s_vo_d",
+          "integer"
+        ],
+        [
+          "s_h_h",
+          "integer"
+        ],
+        [
+          "s_h_t",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "H",
+        "T",
+        "K",
+        "V",
+        "BT",
+        "BC",
+        "BK",
+        "BV",
+        "NT",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE"
+      ],
+      "writePorts": [
+        "v_new",
+        "h",
+        "final_state"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "p.T*p.K",
+      "s_qk_t": "p.K",
+      "s_qk_d": "1",
+      "s_w_b": "p.wBatch",
+      "s_w_h": "p.wHead",
+      "s_w_t": "p.wTime",
+      "s_w_d": "p.wDim",
+      "s_vo_h": "p.T*p.V",
+      "s_vo_t": "p.V",
+      "s_vo_d": "1",
+      "s_h_h": "p.NT*p.K*p.V",
+      "s_h_t": "p.V"
+    }
+  }
+]

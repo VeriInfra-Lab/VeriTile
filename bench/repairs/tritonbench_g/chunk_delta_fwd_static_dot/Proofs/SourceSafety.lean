@@ -26,14 +26,8 @@ theorem outer_body (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   refine ⟨?_,fun s _ => update (engine (withDot M D)) p s bounds⟩
   rw [traceSafeList_unfold]
   refine ⟨?_,?_⟩
-  · have h0 : (inner p).start = .constNat 0 := rfl
-    have hn : (inner p).stop = .div .nat .nil
-      (.sub .nat .nil (.add .nat .nil (.constNat p.BT) (.constNat p.BC)) (.constNat 1))
-        (.constNat p.BC) := rfl
-    have h1 : (inner p).stride = .constNat 1 := rfl
-    simp only [stepSafe_unfold,h0,hn,h1,safeOp_unfold,evalOp_unfold,Option.bind_some,
-      true_and,and_self,numeric,bop]
-    exact inner_range M D p pid input e.val c frozen hv.1 hv.2.1 hv.2.2.1 hv.2.2.2 bounds hb
+  · simpa only [stepSafe_unfold, loopSafe_eq_rangeSafe, innerCount] using
+      inner_range M D p pid input e.val c frozen hv.1 hv.2.1 hv.2.2.1 hv.2.2.2 bounds hb
   · cases step (engine (withDot M D)) _ e.val <;> simp only [traceSafeList_nil]
 
 theorem outer_range (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
@@ -71,14 +65,14 @@ theorem source (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   refine ⟨?_,?_⟩
   · rw [traceSafeList_unfold]
     refine ⟨?_,?_⟩
-    · simp only [stepSafe_unfold]
+    · simp only [stepSafe_unfold, loopSafe_eq_rangeSafe]
       exact outer_range M D p (s.pids 1,s.pids 2) s.mem (entryState M p s)
         hv.1 hv.2 bounds hb
     · cases step (engine (withDot M D)) _ (entryState M p s) <;> simp only [traceSafeList_nil]
   · intro last hlast
     obtain ⟨t,ht,hctx,hh,_⟩ := outerLoop M D p (s.pids 1,s.pids 2) s.mem
       (entryState M p s) hv.1 hv.2
-    simp [run,step,Option.bind,ht] at hlast
+    simp [run,step,loop_eq_range,Option.bind,ht] at hlast
     cases hlast
     exact finish (engine (withDot M D)) p (s.pids 1,s.pids 2) s.mem last _ hctx hh bounds hb
 

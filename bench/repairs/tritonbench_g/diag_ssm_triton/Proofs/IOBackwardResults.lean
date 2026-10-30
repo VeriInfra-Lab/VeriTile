@@ -81,8 +81,8 @@ theorem backward_complex_correct (p : BackwardLayout) (length : Nat)
   · intro bounds hb
     have h := ComplexBackwardSafety.trace_safe p u length bounds
       (backward_bounds_complex p length u v bounds hb) sep.toReadSeparation
-    simpa only [backwardIO,backwardKernel,↓reduceIte,Kernel.TraceSafe,Kernels.ReadableSource.complex_backward_preserved,
-      Erasure.complexBackward_body] using h
+    have actual := (SourceComplexBackward.backward_trace p length u bounds).mpr h
+    simpa only [backwardIO, backwardKernel, ↓reduceIte] using actual
   · obtain ⟨final,he,hx,hs,hl,hf⟩ := RegionCorrectness.complex_backward p length sep u
     refine ⟨final,he,?_,?_⟩
     · intro o k ha

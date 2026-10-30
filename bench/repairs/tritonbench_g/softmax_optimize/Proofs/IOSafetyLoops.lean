@@ -13,7 +13,7 @@ set_option maxRecDepth 16000
 
 def Control (N B row : Nat) (s : BlockState) : Prop :=
   s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)) ∧
-  s.regs .int [] "cols" = some (Tile.scalar (N : Int)) ∧
+  s.regs .int [] "N" = some (Tile.scalar (N : Int)) ∧
   s.regs .int [] "prev_multiple" = some (Tile.scalar (Config.previous N B : Int))
 
 def Bodies (Y X : RegionName) (N B : Nat) : List (List Stmt) :=
@@ -21,7 +21,7 @@ def Bodies (Y X : RegionName) (N B : Nat) : List (List Stmt) :=
     Source.outputFull Y X N B, Source.outputTail Y X N B, reductionStmts B]
 
 theorem avoids (Y X : RegionName) (N B : Nat) (body : List Stmt) (member : body ∈ Bodies Y X N B)
-    (name : RegName) (hn : name ∈ ["pid_m","cols","prev_multiple"]) :
+    (name : RegName) (hn : name ∈ ["pid_m","N","prev_multiple"]) :
     ∀ st ∈ body, Safety.AvoidsRegister name st := by
   simp only [Bodies, List.mem_cons, List.not_mem_nil, or_false] at member
   simp only [List.mem_cons, List.not_mem_nil, or_false] at hn
@@ -34,11 +34,11 @@ theorem avoids (Y X : RegionName) (N B : Nat) (body : List Stmt) (member : body 
 theorem preserves (Y X : RegionName) (N B row : Nat) (body : List Stmt)
     (member : body ∈ Bodies Y X N B) (s t : BlockState) (hc : Control N B row s)
     (run : stepStmts body s = some t) : Control N B row t := by
-  have eq (name : RegName) (hn : name ∈ ["pid_m","cols","prev_multiple"]) :=
+  have eq (name : RegName) (hn : name ∈ ["pid_m","N","prev_multiple"]) :=
     Safety.list_preserves_register name .int [] body s t (avoids Y X N B body member name hn) run
   refine ⟨?_,?_,?_⟩
   · rw [eq "pid_m" (by simp)]; exact hc.1
-  · rw [eq "cols" (by simp)]; exact hc.2.1
+  · rw [eq "N" (by simp)]; exact hc.2.1
   · rw [eq "prev_multiple" (by simp)]; exact hc.2.2
 
 theorem full_range (bounds : RegionBounds) (Y X : RegionName) (N B row : Nat)
@@ -76,7 +76,7 @@ theorem tail_range (bounds : RegionBounds) (Y X : RegionName) (N B row : Nat)
 def fullLoop (B : Nat) (body : List Stmt) : Stmt :=
   .forRangeInt "start_n" (.constInt 0) (.ref .int [] "prev_multiple") (.constNat B) body
 def tailLoop (B : Nat) (body : List Stmt) : Stmt :=
-  .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "cols") (.constNat B) body
+  .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "N") (.constNat B) body
 
 theorem full_safe (bounds : RegionBounds) (N B row : Nat) (body : List Stmt)
     (s : BlockState) (hc : Control N B row s)

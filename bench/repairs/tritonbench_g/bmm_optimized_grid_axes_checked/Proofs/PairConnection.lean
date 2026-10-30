@@ -80,7 +80,7 @@ theorem no_underflow (a b : Nat) : (a/b)*b≤a := Nat.div_mul_le_self a b
 
 theorem step_remainder (M : Algebra A) (out dividend divisor : RegName) :
     StepEq M
-      (.assign .nat [] out (.alg (.mod .nat .nil
+      (.assign .nat [] out (.alg (.tritonMod .nat .nil
         (.ref .nat [] dividend) (.ref .nat [] divisor))))
       (.assign .nat [] out (.alg (.sub .nat .nil (.ref .nat [] dividend)
         (.mul .nat .nil

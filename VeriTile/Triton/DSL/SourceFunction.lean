@@ -14,6 +14,9 @@ namespace DSL.SourceFunction
 open Lean
 
 syntax (name := sourceFunctionReturn) "return " tritonExpr : tritonStmt
+/-- Python permits an unparenthesized conditional return expression. -/
+syntax (name := sourceFunctionConditionalReturn)
+  "return " tritonExpr " if " tritonExpr " else " tritonExpr : tritonStmt
 syntax (name := tritonSourceFunctionCall) (priority := low)
   ident "(" tritonExpr ", " tritonExpr (", " tritonExpr)* ")" : tritonExpr
 syntax "triton_function " ident "(" ident,* ")" " in " "triton" tritonPythonBody : term
@@ -60,8 +63,11 @@ def check (environment : Environment) (functionName : String) (parameters : List
   let statements ← PythonBody.statements environment parsedBody
   unless statements.size == 1 do
     Macro.throwError "source helper currently requires exactly one return expression"
-  let `(tritonStmt| return $result:tritonExpr) := statements[0]!
-    | Macro.throwError "source helper currently requires exactly one return expression"
+  let result ← match statements[0]! with
+    | `(tritonStmt| return $yes:tritonExpr if $condition:tritonExpr else $no:tritonExpr) =>
+        `(tritonExpr| ($yes:tritonExpr if $condition:tritonExpr else $no:tritonExpr))
+    | `(tritonStmt| return $result:tritonExpr) => pure result
+    | _ => Macro.throwError "source helper currently requires exactly one return expression"
   rejectSplices result.raw
   unless parameters.eraseDups.length == parameters.length do
     Macro.throwError "source helper parameters must be distinct"

@@ -53,15 +53,16 @@ def entryStart (M : Algebra α) (p : Parameters) (s : State α) : State α :=
 
 theorem entry_prefix_safe (M : Algebra α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) :
-    traceSafeList M bounds ((outer p).before.take 4) s := by
+    traceSafeList M bounds ((outer p).before.take 2) s := by
   apply trace_of_steps
   intro st member u
   simp [outer,kernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD] at member
-  rcases member with rfl|rfl|rfl|rfl
-  all_goals simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]
+  rcases member with rfl|rfl
+  all_goals simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+    traceSafeList_unfold,evalOp_unfold,FP.Structural.step,evalExpr,Option.bind]
 
 theorem entry_prefix_run (M : Algebra α) (p : Parameters) (s : State α) :
-    run M ((outer p).before.take 4) s = some (entryStart M p s) := by
+    run M ((outer p).before.take 2) s = some (entryStart M p s) := by
   simp [outer,kernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   simp [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     entryStart,ofFloat,toFloat]

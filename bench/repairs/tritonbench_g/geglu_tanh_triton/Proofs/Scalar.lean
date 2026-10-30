@@ -5,14 +5,14 @@ namespace VeriTile.Bench.Repairs.GegluTanhTriton.Tile
 open VeriTile.Triton FP.Structural
 noncomputable section
 /-- Exact original scalar order, now evaluated for each active flat element.
-Assigned alpha retains its source default-precision tag; native resolution
-fixes it to FP32. The constexpr3*beta is folded before conversion. -/
+The ordinary alpha assignment materializes an FP32 scalar tensor.
+The constexpr 3*beta is folded before conversion. -/
 def scalar (M : Algebra α) (ch : Channel) (a b dc : α) : α :=
   let a := M.cast (some .fp32) .real .real a
   let b := M.fp32Load b
   let dc := M.fp32Load dc
   let lit := M.literal (some .fp32) .real
-  let alpha := M.literal none .real 0.7978845608028654
+  let alpha := M.literal (some .fp32) .real 0.7978845608028654
   let mul := M.binary (some .fp32) .real .mul
   let add := M.binary (some .fp32) .real .add
   let sub := M.binary (some .fp32) .real .sub

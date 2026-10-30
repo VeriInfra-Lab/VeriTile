@@ -26,8 +26,8 @@ theorem kernel_io (Y X : RegionName) (M N B : Nat) (hYX : Y ≠ X)
   have hpidReg : reduced.regs .int [] "pid_m" = some (Tile.scalar (initial.pid : Int)) := by
     rw [Assignments.reduction_register B hreduce .int [] "pid_m" (by simp)]
     exact hfirst.pidReg
-  have hcols : reduced.regs .int [] "cols" = some (Tile.scalar (N : Int)) := by
-    rw [Assignments.reduction_register B hreduce .int [] "cols" (by simp)]
+  have hcols : reduced.regs .int [] "N" = some (Tile.scalar (N : Int)) := by
+    rw [Assignments.reduction_register B hreduce .int [] "N" (by simp)]
     exact hfirst.colsReg
   let total : ℝ := ∑ j ∈ Finset.range N, Real.exp (initial.readMem X (initial.pid * N + j))
   have hpid : streamed.pid = initial.pid := by unfold BlockState.pid; rw [hfirst.pids]

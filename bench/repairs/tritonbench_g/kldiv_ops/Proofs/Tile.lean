@@ -21,13 +21,14 @@ def scalar (M : Algebra α) (flag : Bool) (eps y t : α) : α :=
     (M.unary (some .fp32) .exp b) (M.binary (some .fp32) .real .sub b a)
   else M.binary (some .fp32) .real .mul b (M.binary (some .fp32) .real .sub
     (M.unary (some .fp32) .log (M.binary (some .fp32) .real .max b
-      (M.cast (some .fp32) .real .real eps))) a)
+      eps)) a)
 
 structure Registers {α : Type} (p : Parameters) (red row : Nat) (eps carry : α) (s : State α) : Prop where
-  y : s.regs .ptr [] "Y"=some (fun _ => (p.Y,row*p.cols))
-  t : s.regs .ptr [] "T"=some (fun _ => (p.T,row*p.cols))
-  o : s.regs .ptr [] "O"=some (fun _ => (p.O,row*(if red=0 then p.cols else 1)))
-  base : s.regs .nat [p.block] "base_offsets"=some (fun j => j.1.val)
+  cols : s.regs .int [] "n_cols" = some (fun _ => (p.cols : Int))
+  y : s.regs .ptr [] "y_ptr"=some (fun _ => (p.Y,row*p.cols))
+  t : s.regs .ptr [] "gt_ptr"=some (fun _ => (p.T,row*p.cols))
+  o : s.regs .ptr [] "loss_ptr"=some (fun _ => (p.O,row*(if red=0 then p.cols else 1)))
+  base : s.regs .int [p.block] "base_offsets"=some (fun j => (j.1.val : Int))
   epsilon : s.regs .real [] "eps"=some (fun _ => eps)
   sum : s.regs .real [] "loss_sum"=some (fun _ => carry)
 
@@ -39,7 +40,7 @@ def prefixRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag
   refine ⟨?_,?_⟩
   swap
   cases flag <;>
-    simp [forwardPrefix,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,ComputeKernel.surfaceBody,run,step,evalExpr,
+    simp [forwardPrefix,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,KernelDSL.forwardBody,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,Algebra.withDefaultPrecision,resolvePrecision,
       ComputeDType.eraseDType,State.setReg,numeric,numericLt,natLt,FP.Structural.bop,Region.cast,bindEpsilon]
   all_goals rfl
@@ -83,11 +84,11 @@ def chunkRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag 
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+    simp [forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,KernelDSL.forwardBody,epsilonLoss,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,numericEq,natLt,FP.Structural.bop,store,Region.cast,hr,
-    h.y,h.t,h.o,h.base,h.epsilon,h.sum]
+    h.y,h.t,h.o,h.base,h.epsilon,h.sum,h.cols,h.cols]
     rfl
 
 

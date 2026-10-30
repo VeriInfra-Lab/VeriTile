@@ -39,8 +39,8 @@ theorem tail_run (rest : Algebra Word) (s : State Word) (X : RegionName) (O : Re
       t.mem=(written s O M K BM row inner current).mem := by
   obtain ⟨hk,hm,hv,hi⟩ := ready
   simp [TypedSource.dimension,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-    backend,State.setReg,hk,hm,hv,hi,ofFloat,toFloat,bop,numeric,natLt,ComputeDType.eraseDType,
-    Option.bind,store,Region.cast,written]
+    backend,State.setReg,hk,hm,hv,hi,ofFloat,toFloat,bop,numeric,numericLt,natLt,ComputeDType.eraseDType,
+    Option.bind,store,Region.cast,written,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
   all_goals simp only [fold_memory]
   all_goals rfl
 

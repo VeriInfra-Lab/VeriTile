@@ -1,3 +1,12 @@
+The raw Python body retains both explicit query-half casts to `sin1.dtype`.
+The ordinary FP32 stores do not contain a further cast. The proof execution
+summary follows that exact order; it does not assume arbitrary casts are
+identities. The historical manually typed source contains two extra output
+casts, so `fast_rope_embedding/Proofs/LegacyStoreView.lean` records only its
+syntactic difference. Current execution, safety, Real and native proofs use
+the raw source directly. The independent mathematical formula, native word
+formula, public input domain and original/candidate bodies are unchanged.
+
 # Checked FP32 RoPE embedding
 
 The current public proof object is the complete `_rope_embedding` kernel.

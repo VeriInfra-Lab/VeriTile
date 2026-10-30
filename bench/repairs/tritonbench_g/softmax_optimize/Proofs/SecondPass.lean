@@ -26,7 +26,7 @@ def result (mode : Mode) (s : BlockState) (Y X : RegionName) (N B start row : Na
 theorem run (mode : Mode) (s : BlockState) (Y X : RegionName) (N B start row : Nat)
     (shift total : ℝ)
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
+    (hcols : s.regs .int [] "N" = some (Tile.scalar (N : Int)))
     (hm : s.regs .real [] "m" = some (Tile.scalar (shift : WithBot ℝ)))
     (hz : s.regs .real [] "z" = some (Tile.scalar ((Real.exp (-shift) * total : ℝ) : WithBot ℝ))) :
     stepStmts (body mode Y X N B) (s.setReg "start_n" .int [] (Tile.scalar (start : Int))) =
@@ -78,7 +78,7 @@ structure Stable (Y : RegionName) (N B : Nat) (shift total : ℝ)
   numPids : current.numPids = initial.numPids
   undef : current.undef = initial.undef
   pidReg : current.regs .int [] "pid_m" = some (Tile.scalar (initial.pid : Int))
-  colsReg : current.regs .int [] "cols" = some (Tile.scalar (N : Int))
+  colsReg : current.regs .int [] "N" = some (Tile.scalar (N : Int))
   previousReg : current.regs .int [] "prev_multiple" = some (Tile.scalar (Config.previous N B : Int))
   m : current.regs .real [] "m" = some (Tile.scalar (shift : WithBot ℝ))
   z : current.regs .real [] "z" = some (Tile.scalar ((Real.exp (-shift) * total : ℝ) : WithBot ℝ))

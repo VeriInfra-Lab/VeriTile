@@ -12,7 +12,7 @@ variable {α : Type} [Inhabited α]
 theorem entry_tail (M : Algebra α) (p : Parameters) (s : State α)
     (hk : s.pids 0 = 0) (bounds : RegionName → Nat)
     (hb : Bounds p (s.pids 1,s.pids 2) bounds) :
-    traceSafeList M bounds ((outer p).before.drop 4) (entryStart M p s) := by
+    traceSafeList M bounds ((outer p).before.drop 2) (entryStart M p s) := by
   simp [outer,kernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   rw [singleton]
   cases hp : p.useSeed
@@ -36,7 +36,7 @@ theorem entry (M : Algebra α) (p : Parameters) (s : State α)
     (hk : s.pids 0 = 0) (bounds : RegionName → Nat)
     (hb : Bounds p (s.pids 1,s.pids 2) bounds) :
     traceSafeList M bounds (outer p).before s := by
-  rw [← List.take_append_drop 4 (outer p).before,traceSafeList_append]
+  rw [← List.take_append_drop 2 (outer p).before,traceSafeList_append]
   refine ⟨entry_prefix_safe M p s bounds,?_⟩
   intro next ran
   rw [entry_prefix_run] at ran

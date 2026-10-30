@@ -36,8 +36,8 @@ def twopassMathKernel (xReg meanReg varReg : RegionName)
 def onlineMathKernel (xReg meanReg varReg : RegionName)
     (blockSize rowStride : Nat) : ComputeKernel := triton {
   pid := tl.program_id(0)
-  M   := 0
-  S   := 0
+  M   := tl.full([], 0)
+  S   := tl.full([], 0)
   tl.for i in $(blockSize) {
     xi     := tl.load($(xReg) + (pid * $(rowStride) + i))
     delta  := xi - M
@@ -508,16 +508,16 @@ theorem online_traceSafe (bounds : RegionBounds)
       ((onlineMathKernel xReg meanReg varReg blockSize rowStride
         ).toAlgKernel) s := by
   unfold Kernel.TraceSafe
-  refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
+  refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt.eq_def]) ?_
   intro s1 hs1
   obtain ⟨v1, hv1, rfl⟩ := stepStmt_assign_inv hs1
   rw [show evalOp  (Op.programId 0) s = some (Tile.scalar (s.pids 0)) from by
     simp [evalOp.eq_def]] at hv1
   obtain rfl := Option.some_inj.mp hv1
-  refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
+  refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt.eq_def]) ?_
   intro s2 hs2
   obtain ⟨v2, hv2, rfl⟩ := stepStmt_assign_inv hs2
-  refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
+  refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt.eq_def]) ?_
   intro s3 hs3
   obtain ⟨v3, hv3, rfl⟩ := stepStmt_assign_inv hs3
   refine Stmt.TraceSafeList.cons_intro ?_ ?_

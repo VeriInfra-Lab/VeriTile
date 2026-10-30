@@ -35,8 +35,8 @@ def originalExecution {α : Type} [Inhabited α] (M : Algebra α)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [FP.Structural.exec,softmax_kernel,ComputeKernel.surfaceBody,run,step,
-      evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,natLt,bop,
+    simp [(show (1.0 : ℝ) = 1 by norm_num),← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, FP.Structural.exec,softmax_kernel,ComputeKernel.surfaceBody,run,step,
+      evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,numericLt,natLt,bop,
       TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeDType.eraseDType]
     rfl
 
@@ -58,9 +58,9 @@ def candidateExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Domain �
   all_goals
     refine ⟨?_,?_⟩
     swap
-    dsimp [num,den,numeratorValue,denominatorValue] at hc hf hz
-    simp [FP.Structural.exec,guarded_reciprocal_kernel,ComputeKernel.surfaceBody,run,step,
-      evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,natLt,bop,
+    dsimp [(show (1.0 : ℝ) = 1 by norm_num),← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, num,den,numeratorValue,denominatorValue] at hc hf hz
+    simp [(show (1.0 : ℝ) = 1 by norm_num),← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, FP.Structural.exec,guarded_reciprocal_kernel,ComputeKernel.surfaceBody,run,step,
+      evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,numericLt,natLt,bop,
       TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeDType.eraseDType,
       ports.finite_bind,ports.order_bind,numericEq,numericLe,FP.ProfiledRewrite.engine,
       Algebra.withDefaultPrecision,resolvePrecision,ofFloat,toFloat,hc,hf,hz]

@@ -34,8 +34,8 @@ def scalarPair (op : Operations α) (backward : Bool) (a b c s : α) (second : B
   let cosine := op.load c
   let first := op.cast a
   let other := op.cast b
-  op.cast (if second then op.add (op.mul other cosine) (op.mul first sine)
-    else op.sub (op.mul first cosine) (op.mul other sine))
+  if second then op.add (op.mul other cosine) (op.mul first sine)
+    else op.sub (op.mul first cosine) (op.mul other sine)
 def scalarResult (op : Operations α) (r : Request) (backward : Bool)
     (q cosine sine : Nat→α) (row head c : Nat) : α :=
   if c<2*r.half then

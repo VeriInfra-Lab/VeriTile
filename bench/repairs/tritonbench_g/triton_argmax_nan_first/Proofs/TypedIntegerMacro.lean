@@ -42,7 +42,8 @@ theorem source_run (kind : Formats.IntegerKind) (p : ScalarBinding.IntegerPrimit
       ofFloat,toFloat,bop,numeric,numericLt,numericEq,natLt,TileShape.discreteMaximum,
       TileShape.discreteIntArgMax,TypedReduction.self_equal,TypedReduction.presence,
       TypedReduction.selected,flag,clean,Typed.globalLoaded,Typed.firstIndex,written,Option.bind,
-      store,TileShape.allIndices,Region.cast,collectValues?]
+      store,TileShape.allIndices,Region.cast,collectValues?,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
+  all_goals simp only [← apply_ite (fun n : Nat => (n : Int)), ← Int.natCast_add, Int.toNat_natCast, State.write, State.setReg_mem]
   all_goals rfl
 
 theorem source_native (kind : Formats.IntegerKind) (p : ScalarBinding.IntegerPrimitives kind)

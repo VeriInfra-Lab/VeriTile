@@ -1,5 +1,6 @@
 import VeriTile.Triton.DSL.CallValue
 import VeriTile.Triton.DSL.PointerType
+import VeriTile.Triton.DSL.PythonConstants
 
 /-! Call-site store conversion with conservative source dtype tracking.
 A load and a register copy retain the source pointer's element type. Storing
@@ -72,7 +73,7 @@ private partial def dtypeToken (raw : Syntax) : Option Name :=
   else if raw.getNumArgs == 1 then dtypeToken raw[0]
   else none
 
-private def explicitCastType (pointers : Types) (e : TSyntax `tritonExpr) : Option Triton.PointerType := do
+private def explicitCastType (pointers : Types) (values : Values) (e : TSyntax `tritonExpr) : Option Triton.PointerType := do
   let direct : Option (TSyntax `tritonDType) := match e with
     | `(tritonExpr| tl.load($_:tritonExpr $[, $_:tritonMemKwarg]*).to($dtype:tritonDType)) => some dtype
     | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*).to($dtype:tritonDType)) => some dtype
@@ -90,6 +91,9 @@ private def explicitCastType (pointers : Types) (e : TSyntax `tritonExpr) : Opti
   match target with
   | .str (.str pointer "dtype") "element_ty"
   | .str (.str pointer "type") "element_ty" => lookup pointers (mkIdent pointer)
+  | .str tensor "dtype" => do
+      let (_, .typed dtype) ← values.find? (fun entry => entry.1 == tensor) | none
+      return dtype
   | _ => sourceKinds.find? (fun dtype => PointerType.dtypeName dtype == target)
 
 private def constructorType (pointers : Types) (e : TSyntax `tritonExpr) : Option Triton.PointerType := do
@@ -145,7 +149,7 @@ private partial def valueType (pointers : Types) (values : Values)
             [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains left then some (if right == .bf16 then .fp32 else right)
         else none
     | _, _ => none
-  if let some dtype := (explicitCastType pointers e).orElse (fun _ => constructorType pointers e) then some (.typed dtype) else
+  if let some dtype := (explicitCastType pointers values e).orElse (fun _ => constructorType pointers e) then some (.typed dtype) else
   match e with
   | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => valueType pointers values inner
   | `(tritonExpr| $id:ident) => (values.find? (fun entry => entry.1 == name id)).map Prod.snd
@@ -184,6 +188,8 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| tl.sigmoid($a:tritonExpr)) | `(tritonExpr| tl.rsqrt($a:tritonExpr))
   | `(tritonExpr| tl.math.rsqrt($a:tritonExpr))
   | `(tritonExpr| libdevice.exp($a:tritonExpr))
+  | `(tritonExpr| libdevice.tanh($a:tritonExpr))
+  | `(tritonExpr| tl.extra.cuda.libdevice.tanh($a:tritonExpr))
   | `(tritonExpr| tl.log($a:tritonExpr)) | `(tritonExpr| tl.sqrt($a:tritonExpr)) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
   | `(tritonExpr| tl.extra.cuda.libdevice.pow($a:tritonExpr, $_:num)) =>
@@ -248,7 +254,7 @@ private partial def valueType (pointers : Types) (values : Values)
 an inline scalar remains weak. Classify the source floating literal before it
 enters register dataflow. Triton's to_tensor_type uses the FP32 normal range,
 zero and infinities; other finite literals require an FP64 tensor frontend.
-See triton/compiler/code_generator.py::_sanitize_target_value and
+See triton/compiler/code_generator.py::_sanitize_value and
 triton/language/semantic.py::to_tensor_type in the upstream implementation. -/
 private partial def literalTensorFloatType (e : TSyntax `tritonExpr) : Option Triton.PointerType :=
   match e with
@@ -278,6 +284,54 @@ private def assignedValueType (pointers : Types) (values : Values)
   | some .fp64 =>
       Macro.throwErrorAt e "fp64 scalar literal assignment is not supported by this source frontend"
   | _ => return valueType pointers values e
+
+/-- Preserve the tensor creation performed by an ordinary Python assignment.
+The weak scalar used inside an expression must not be materialized this way.
+For finite decimal literals, check the intervening Python binary64 rounding
+before using the existing exact-literal FP32 node. -/
+private partial def materializeLiteral (e : TSyntax `tritonExpr) :
+    MacroM (TSyntax `tritonExpr) := do
+  unless literalTensorFloatType e == some .fp32 do return e
+  let rec infinity (e : TSyntax `tritonExpr) : Bool :=
+    match e with
+    | `(tritonExpr| tl.__python_literal($inner:tritonExpr))
+    | `(tritonExpr| ($inner:tritonExpr))
+    | `(tritonExpr| -$inner:tritonExpr) => infinity inner
+    | `(tritonExpr| -inf) => Bool.true
+    | `(tritonExpr| float($arg:term))
+    | `(tritonExpr| -float($arg:term)) =>
+        match arg with
+        | `(term| $s:str) => ["inf","-inf"].contains s.getString
+        | _ => Bool.false
+    | _ => Bool.false
+  -- Infinity already has an exact source primitive. Positive infinity is a
+  -- typed FP32 bit-pattern operation: putting its algebraic placeholder into
+  -- tl.full would discard that operation and introduce an undefined register.
+  if infinity e then return e
+  let rec unwrap (e : TSyntax `tritonExpr) : TSyntax `tritonExpr :=
+    match e with
+    | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => unwrap inner
+    | _ => e
+  match PythonConstants.evaluate (unwrap e) with
+  | .error message => Macro.throwErrorAt e message
+  | .ok (some value) =>
+      let rec negativeSign (e : TSyntax `tritonExpr) : Bool :=
+        match e with
+        | `(tritonExpr| tl.__python_literal($inner:tritonExpr))
+        | `(tritonExpr| ($inner:tritonExpr)) => negativeSign inner
+        | `(tritonExpr| -$inner:tritonExpr) => !negativeSign inner
+        | _ => Bool.false
+      -- A rational literal cannot encode the sign of exact zero. Preserve
+      -- Python's -0.0 using the same checked FP32 bit-pattern primitive.
+      if value.ideal == 0 && negativeSign e then
+        let dtypeName := mkIdent `dtype
+        return ← `(tritonExpr| tl.bitcast(tl.full([], 2147483648, $dtypeName:ident=tl.uint32), tl.float32))
+      unless PythonConstants.roundBinary 24 (-149) 127 value.ideal ==
+          PythonConstants.roundBinary 24 (-149) 127 value.binary64 do
+        Macro.throwErrorAt e "scalar literal assignment needs unsupported binary64-to-FP32 double rounding"
+  | .ok none => pure ()
+  let dtypeName := mkIdent `dtype
+  `(tritonExpr| tl.full([], $e:tritonExpr, $dtypeName:ident=tl.float32))
 
 private partial def containsStore (raw : Syntax) : Bool :=
   (raw.isAtom && raw.getAtomVal == "tl.store") || raw.getArgs.any containsStore
@@ -323,6 +377,16 @@ private partial def checkDivRN (pointers : Types) (values : Values) (raw : Synta
 private def checkAssignmentLoads (pointers : Types) (values : Values)
     (value : TSyntax `tritonExpr) : MacroM Unit := do
   checkDivRN pointers values value.raw
+  -- Negating one complete load keeps its floating load event and then its
+  -- ordered negation. Other nested load expressions still fail closed.
+  if let `(tritonExpr| -$loaded:tritonExpr) := value then
+    let isCompleteLoad := match loaded with
+      | `(tritonExpr| tl.load($_:tritonExpr $[, $_:tritonMemKwarg]*)) => Bool.true
+      | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*)) => Bool.true
+      | _ => Bool.false
+    if isCompleteLoad then
+      rejectNestedLoads pointers loaded.raw Bool.true
+      return
   -- The existing integer frontend preserves a direct tl.cast(load(...), dtype)
   -- just like load(...).to(dtype). Integer reads have no floating load event.
   -- Keep arbitrary nested floating loads rejected: their load precision must
@@ -491,8 +555,14 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           let expressions := #[x,y] ++ rhs
           unless targets.size == expressions.size do
             Macro.throwErrorAt stmt "tuple assignment needs one value per target"
+          -- A loop-carried tuple is checked per target below, against the
+          -- entry environment. Its dtype must remain invariant, and the
+          -- sequential IR still cannot capture an overwritten RHS register.
           if targets.any (fun id => invariants.any (fun entry => entry.1 == name id)) then
-            Macro.throwErrorAt stmt "unsupported statement involving a loop-carried source dtype"
+            unless expressions.all (fun value => match value with
+              | `(tritonExpr| $_:ident) => Bool.true
+              | _ => Bool.false) do
+              Macro.throwErrorAt stmt "unsupported statement involving a loop-carried source dtype"
           let mut overwritten : List Name := []
           for (id,value) in targets.zip expressions do
             if overwritten.any (fun target => readsTupleTarget target value.raw) then
@@ -511,6 +581,12 @@ private partial def lowerWithState (pointers : Types) (values : Values)
             nextValues := nextValues.filter (fun entry => entry.1 != name id)
             if let some dtype := dtype then
               nextValues := (name id, dtype) :: nextValues
+          let materialized ← expressions.mapM materializeLiteral
+          let x := materialized[0]!
+          let y := materialized[1]!
+          let rhs := materialized.extract 2 materialized.size
+          stmt ← `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
+            $x:tritonExpr, $y:tritonExpr $[, $rhs:tritonExpr]*)
       -- The grammar has a dedicated positional-axis assignment production.
       -- Its reduction dtype must enter the same dataflow as a generic RHS;
       -- otherwise a later store spuriously adds another destination cast.
@@ -527,6 +603,8 @@ private partial def lowerWithState (pointers : Types) (values : Values)
       | `(tritonStmt| $id:ident = $value:tritonExpr) =>
           checkAssignmentLoads pointers values value
           let dtype ← assignedValueType pointers values value
+          let materialized ← materializeLiteral value
+          stmt ← `(tritonStmt| $id:ident = $materialized:tritonExpr)
           checkInvariant invariants id dtype
           nextPointers := pointers.filter (fun entry => entry.1 != name id)
           nextValues := values.filter (fun entry => entry.1 != name id)

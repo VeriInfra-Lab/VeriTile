@@ -79,7 +79,7 @@ theorem first_integer (kind : Formats.IntegerKind) (p : ScalarBinding.IntegerPri
       t.mem=s.mem ∧
       t.regs .real [] "max_val"=some (fun _ => (s.mem X
         (Native.firstIndex g (fun i => (s.mem X i).read .real) (s.pids 0+base))).read .real) ∧
-      t.regs .nat [] "max_index"=some (fun _ => Native.firstIndex g (fun i => (s.mem X i).read .real) (s.pids 0+base)) ∧
+      t.regs .int [] "max_index"=some (fun _ => (Native.firstIndex g (fun i => (s.mem X i).read .real) (s.pids 0+base) : Int)) ∧
       ((ConversionMacro.SaturatingConversion.mk kind).emittedStore p ((s.mem X
         (Native.firstIndex g (fun i => (s.mem X i).read .real) (s.pids 0+base))).read .real)).cast (Formats.format_width kind)=
         Native.firstValue (integerScratch kind p) g (fun i => (s.mem X i).read .real) (s.pids 0+base) := by

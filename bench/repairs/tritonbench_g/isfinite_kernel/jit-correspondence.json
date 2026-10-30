@@ -1,0 +1,244 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/isfinite_kernel/isfinite_kernel_repaired.py",
+    "python_function": "isfinite_func",
+    "lean": "bench/repairs/tritonbench_g/isfinite_kernel/Kernels.lean",
+    "lean_definition": "finiteFunction"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/isfinite_kernel/isfinite_kernel_repaired.py",
+    "python_function": "isfinite_strided_chunk",
+    "lean": "bench/repairs/tritonbench_g/isfinite_kernel/Kernels.lean",
+    "lean_definition": "source32",
+    "signature_definition": "callSignature32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "in0_ptr",
+          "fp32"
+        ],
+        [
+          "out0_ptr",
+          "boolean"
+        ]
+      ],
+      "scalars": [
+        [
+          "in0_stride",
+          "integer"
+        ],
+        [
+          "out0_stride",
+          "integer"
+        ],
+        [
+          "n",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "functions": [
+        "finiteFunction"
+      ],
+      "finiteImports": [
+        [
+          "_isfinited",
+          "triton.language.extra.cuda.libdevice.isfinited"
+        ],
+        [
+          "_finitef",
+          "triton.language.extra.cuda.libdevice.finitef"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "in0_stride": "input.byteStride",
+      "out0_stride": "output.byteStride",
+      "n": "n"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "input.pointer",
+      "out0_ptr": "output.pointer"
+    },
+    "profile_variant": "fp32_input"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/isfinite_kernel/isfinite_kernel_repaired.py",
+    "python_function": "isfinite_strided_chunk_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/isfinite_kernel/Kernels.lean",
+    "lean_definition": "candidate32",
+    "signature_definition": "callSignature32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "in0_ptr",
+          "fp32"
+        ],
+        [
+          "out0_ptr",
+          "boolean"
+        ]
+      ],
+      "scalars": [
+        [
+          "in0_stride",
+          "integer"
+        ],
+        [
+          "out0_stride",
+          "integer"
+        ],
+        [
+          "n",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "functions": [
+        "finiteFunction"
+      ],
+      "finiteImports": [
+        [
+          "_isfinited",
+          "triton.language.extra.cuda.libdevice.isfinited"
+        ],
+        [
+          "_finitef",
+          "triton.language.extra.cuda.libdevice.finitef"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "in0_stride": "input.byteStride",
+      "out0_stride": "output.byteStride",
+      "n": "n"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "input.pointer",
+      "out0_ptr": "output.pointer"
+    },
+    "profile_variant": "fp32_input"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/isfinite_kernel/isfinite_kernel_repaired.py",
+    "python_function": "isfinite_strided_chunk",
+    "lean": "bench/repairs/tritonbench_g/isfinite_kernel/Kernels.lean",
+    "lean_definition": "source64",
+    "signature_definition": "callSignature64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "in0_ptr",
+          "fp64"
+        ],
+        [
+          "out0_ptr",
+          "boolean"
+        ]
+      ],
+      "scalars": [
+        [
+          "in0_stride",
+          "integer"
+        ],
+        [
+          "out0_stride",
+          "integer"
+        ],
+        [
+          "n",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "functions": [
+        "finiteFunction"
+      ],
+      "finiteImports": [
+        [
+          "_isfinited",
+          "triton.language.extra.cuda.libdevice.isfinited"
+        ],
+        [
+          "_finitef",
+          "triton.language.extra.cuda.libdevice.finitef"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "in0_stride": "input.byteStride",
+      "out0_stride": "output.byteStride",
+      "n": "n"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "input.pointer",
+      "out0_ptr": "output.pointer"
+    },
+    "profile_variant": "fp64_input"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/isfinite_kernel/isfinite_kernel_repaired.py",
+    "python_function": "isfinite_strided_chunk_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/isfinite_kernel/Kernels.lean",
+    "lean_definition": "candidate64",
+    "signature_definition": "callSignature64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "in0_ptr",
+          "fp64"
+        ],
+        [
+          "out0_ptr",
+          "boolean"
+        ]
+      ],
+      "scalars": [
+        [
+          "in0_stride",
+          "integer"
+        ],
+        [
+          "out0_stride",
+          "integer"
+        ],
+        [
+          "n",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "functions": [
+        "finiteFunction"
+      ],
+      "finiteImports": [
+        [
+          "_isfinited",
+          "triton.language.extra.cuda.libdevice.isfinited"
+        ],
+        [
+          "_finitef",
+          "triton.language.extra.cuda.libdevice.finitef"
+        ]
+      ]
+    },
+    "expected_call_bindings": {
+      "in0_stride": "input.byteStride",
+      "out0_stride": "output.byteStride",
+      "n": "n"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "input.pointer",
+      "out0_ptr": "output.pointer"
+    },
+    "profile_variant": "fp64_input"
+  }
+]

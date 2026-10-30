@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Reference
+import bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.SourceExecution
 import bench.tritonbench_g.fifth_order_sph_harmonics.Proofs.TypedReadback
 
 namespace VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Execution
@@ -7,39 +7,6 @@ noncomputable section
 set_option maxHeartbeats 40000000
 set_option maxRecDepth 64000
 set_option linter.unusedSimpArgs false
-
-private theorem fold_regs {α ι : Type} (xs : List ι)
-    (active : ι → Prop) [DecidablePred active] (r : RegionName)
-    (off : ι → Nat) (v : ι → Cell α) (s : State α) :
-    (xs.foldl (fun t i => if active i then t.write r (off i) (v i) else t) s).regs = s.regs := by
-  induction xs generalizing s with
-  | nil => rfl
-  | cons i xs ih => simp only [List.foldl_cons, ih]; split <;> rfl
-
-private theorem fold_pids {α ι : Type} (xs : List ι)
-    (active : ι → Prop) [DecidablePred active] (r : RegionName)
-    (off : ι → Nat) (v : ι → Cell α) (s : State α) :
-    (xs.foldl (fun t i => if active i then t.write r (off i) (v i) else t) s).pids = s.pids := by
-  induction xs generalizing s with
-  | nil => rfl
-  | cons i xs ih => simp only [List.foldl_cons, ih]; split <;> rfl
-
-/-- Complete direct forward execution at the checked output width and column offset. -/
-def forward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
-    {t : State α // FP.Structural.exec M (forwardKernel p) s = some t} :=
-  VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.execution M (forwardParameters p) s
-
-/-- The complete repaired backward source executes all loads, polynomial
-operations, original-zero accumulation and three stores. -/
-def backward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
-    {t : State α // FP.Structural.exec M (backwardKernel p) s = some t} := by
-  refine ⟨?_, ?_⟩
-  swap
-  simp (config := {maxSteps := 8000000}) [backwardKernel, backwardSource, FP.Structural.exec,
-    ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
-    State.setReg, store, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
-    numeric, numericLt, natLt, bop, Option.bind, fold_regs, fold_pids]
-  try rfl
 
 def coordinateOffset {α : Type} (p : Parameters) (s : State α)
     (i : TileIndex [p.blockSize]) : Nat := i.1.val*3+p.blockSize*3*s.pids 0
@@ -96,15 +63,43 @@ private theorem fold_memory {α ι : Type} (l : List ι) (r : RegionName)
       funext r' o
       simp [hi]
 
+private theorem nonnegative_index_lt (a : Int) (n : Nat) (h : 0 ≤ a) :
+    (a < (n : Int)) ↔ a.toNat < n := by omega
+
 theorem backward_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     (backward M p s).val.mem=(written M p s).mem := by
   simp (config := {maxSteps := 8000000}) [backward, written, channelWrite,
     List.finRange_succ, List.foldl_map, fold_memory, backwardValue, Reference.backwardValues,
-    load, maskedLoad, coordinateOffset, upstreamOffset, logicalOffset, bop, Region.cast]
+    load, maskedLoad, coordinateOffset, upstreamOffset, logicalOffset, bop, Region.cast,
+    ← Int.natCast_mul, ← Int.natCast_add, -Nat.cast_mul, -Nat.cast_add]
+  all_goals norm_cast
+  all_goals try simp only [Int.toNat_natCast, Int.ofNat_lt]
+  all_goals try simp (disch := positivity) only [nonnegative_index_lt, Int.toNat_add, Int.toNat_mul, Int.toNat_natCast, Int.reduceToNat]
   try rfl
+  all_goals congr! 4 <;> norm_cast
 
-#axiomsClean forward
-#axiomsClean backward
+/-- Only memory is compared with the independently specified channel stores.
+The pasted source retains its signed index casts and its actual registers. -/
+theorem forward_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
+    (forward M p s).val.mem =
+      (VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.written M (forwardParameters p) s).mem := by
+  simp (config := {maxSteps := 8000000}) [forward,
+    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.written,
+    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.channelWrite,
+    List.finRange_succ, List.foldl_map, fold_memory,
+    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.expected,
+    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.channels,
+    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.loaded,
+    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.coordOffset,
+    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.outputOffset,
+    forwardParameters, bop, Region.cast, ← Int.natCast_mul, ← Int.natCast_add, -Nat.cast_mul, -Nat.cast_add]
+  all_goals norm_cast
+  all_goals try simp only [Int.toNat_natCast, Int.ofNat_lt]
+  all_goals try simp (disch := positivity) only [nonnegative_index_lt, Int.toNat_add, Int.toNat_mul, Int.toNat_natCast, Int.reduceToNat]
+  try rfl
+  all_goals congr! 4 <;> norm_cast
+
 #axiomsClean backward_memory
+#axiomsClean forward_memory
 end
 end VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Execution

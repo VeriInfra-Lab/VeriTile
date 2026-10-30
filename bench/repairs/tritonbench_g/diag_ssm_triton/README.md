@@ -1,3 +1,43 @@
+# Copied Python function bodies
+
+`Kernels.lean` contains all four complete `@triton.jit` function bodies from
+`diag_ssm_triton_repaired.py` and all four existing index-commutation candidates
+from `candidate_kernels.py`. `jit-correspondence.json` checks each complete body.
+The candidates change only `tl.cast(tl.program_id(0), tl.int64) * BLOCK_SIZE`
+to `BLOCK_SIZE * tl.cast(tl.program_id(0), tl.int64)`; signatures, docstrings,
+casts, reverse-time branches, complex conjugation and update order are retained.
+Pointer types and runtime/constexpr argument bindings live outside `triton { ... }`.
+
+The shared frontend accepts the source's negation of one complete floating load
+and loop-carried tuples whose right-hand sides are independent identifiers.
+Each tuple target keeps its known floating dtype; a later component cannot read
+a target overwritten by an earlier component. Unsupported nested floating loads,
+computed loop-carried tuple expressions and dtype changes remain rejected.
+
+`SourceReal*`, `SourceBackward*`, `SourceComplex*` and `SourceComplexBackward*`
+prove execution, final-memory correspondence and access-safety equivalence for
+these actual bodies, including zero time. Their proof-only fragments keep the
+complete authoritative source in `Kernels.lean`. Signed temporary registers are
+related to mathematical natural indices at reachable iterations; they are not
+identified as equal whole states. `RegionCorrectness` transports the independent
+recurrences and memory frames through these checked memory equalities.
+`SourceReferenceTrace` connects only the fixed real mathematical fragments to
+the existing trivially rounded safety view; it makes no claim that those two
+safety judgments coincide for arbitrary programs.
+
+`SourcePair`, `FPExecution` and `FPInterface` compare the actual original and
+candidate programs, retaining their floating operations and precision. The
+candidate rewrite is integer multiplication commutation. No floating numerical
+law, extra whole-kernel premise or narrower input domain is introduced. The
+public `Correct.lean`, `FPEquiv.lean`, `IO.lean`, `Contract.lean` and original
+Python implementation remain unchanged.
+
+`PerProgram` preserves the four existing finite flat contracts through checked
+flattening and memory relations, including their zero-length alias cases. The
+internal `TypedPreservation` module now compares the actual original and
+index-commuted candidate in each family. Its former reflexivity claims against
+the unsigned historical model no longer describe the copied signed source.
+
 # diag_ssm_triton: four kernel proofs
 
 This candidate keeps all four floating kernel bodies: real FP32 forward and
@@ -84,8 +124,9 @@ The existing offline lowering check confirms these predicated scalar accesses.
 
 ## Sources and public proof entries
 
-- `Kernels.lean` selects FP32 from the single readable typed DSL in the original
-  task's `Kernels.lean`. No second handwritten kernel AST is maintained.
+- `Kernels.lean` contains the eight complete Python bodies described above.
+  FP32 component pointer types and runtime/constexpr arguments are supplied by
+  the call signature outside each copied body.
 - `IO.lean` gives the actual source selections and finite typed channels. The
   forward inputs are initial state, transition and all time rows; backward
   inputs are initial state, transition, saved rows through `L-2`, and all
@@ -153,6 +194,9 @@ int64 widening repairs the latter. The separately deferred shared Triton
 grid-product/segmented-launch issue stays outside this work.
 
 ## Targeted validation
+
+The dated validation notes below describe earlier checkpoints. The copied-body
+update requires a fresh proof replay and records its results separately.
 
 Build the public entries with the installed Lean toolchain:
 

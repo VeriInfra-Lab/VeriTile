@@ -36,7 +36,8 @@ theorem real_first (kind : TypedScratch.Kind) (rest : Algebra Math.Value)
       TileShape.eraseAxis, ofFloat, toFloat, bop, numeric, numericLt, numericEq,
       natLt, TileShape.discreteMaximum, TileShape.discreteIntArgMax,
       Reduction.orderedEq, TypedReal.globalLoaded, TypedReal.firstIndex,
-      Option.bind, store, TileShape.allIndices, Region.cast, TypedScratch.channel]
+      Option.bind, store, TileShape.allIndices, Region.cast, TypedScratch.channel,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
+  all_goals try simp only [← apply_ite (fun n : Nat => (n : Int)), ← Int.natCast_add, Int.toNat_natCast]
   all_goals
     refine ⟨?_, ?_, value, index⟩
     · intro i active
@@ -64,7 +65,7 @@ theorem real_second (kind : TypedScratch.Kind) (rest : Algebra Math.Value)
       TileShape.eraseAxis, ofFloat, toFloat, bop, numeric, numericLt, numericEq,
       natLt, TileShape.discreteMaximum, TileShape.discreteIntArgMax,
       Reduction.orderedEq, TypedReal.secondIndex,
-      Option.bind, store, TileShape.allIndices, Region.cast, TypedScratch.channel]
+      Option.bind, store, TileShape.allIndices, Region.cast, TypedScratch.channel,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
   all_goals
     refine ⟨?_, selected, output⟩
     intro i active

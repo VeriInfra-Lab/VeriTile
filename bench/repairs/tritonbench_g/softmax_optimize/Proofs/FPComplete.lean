@@ -27,7 +27,7 @@ decreasing_by omega
 def loopStatements (Y X : RegionName) (N B : Nat) (input : Bool) : List ComputeStmt :=
   [.forRangeInt "start_n" (.constInt 0) (.ref .int [] "prev_multiple") (.constNat B)
       (if input then TypedSource.fullInput X N B else TypedSource.fullOutput Y X N B),
-   .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "cols") (.constNat B)
+   .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "N") (.constNat B)
       (if input then TypedSource.tailInput X N B else TypedSource.tailOutput Y X N B)]
 
 theorem inputs (A : Algebra α) (eq : α → α → Bool)

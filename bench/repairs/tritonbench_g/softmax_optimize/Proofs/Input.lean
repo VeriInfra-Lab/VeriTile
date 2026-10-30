@@ -18,7 +18,7 @@ def fullState (s : BlockState) (X : RegionName) (N B start row : Nat)
 theorem full_run (s : BlockState) (X : RegionName) (N B start row : Nat)
     (m z : Tile .real [B])
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
+    (hcols : s.regs .int [] "N" = some (Tile.scalar (N : Int)))
     (hm : s.regs .real [B] "m" = some m)
     (hz : s.regs .real [B] "z" = some z) :
     stepStmts (Source.inputFull X N B)
@@ -60,7 +60,7 @@ def tailState (s : BlockState) (X : RegionName) (N B start row : Nat)
     (tailLoad s X N B start row)) m z (tailLoad s X N B start row)
 
 theorem mask_run (s : BlockState) (X : RegionName) (N B start row : Nat)
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int))) :
+    (hcols : s.regs .int [] "N" = some (Tile.scalar (N : Int))) :
     stepStmt (Source.maskStatement B) (prefixIntState X N B start row s) =
       some (maskedPrefix s X N B start row) := by
   apply stepStmt_assign_eq_some
@@ -76,7 +76,7 @@ theorem mask_run (s : BlockState) (X : RegionName) (N B start row : Nat)
 theorem tail_run (s : BlockState) (X : RegionName) (N B start row : Nat)
     (m z : Tile .real [B])
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
+    (hcols : s.regs .int [] "N" = some (Tile.scalar (N : Int)))
     (hm : s.regs .real [B] "m" = some m)
     (hz : s.regs .real [B] "z" = some z) :
     stepStmts (Source.inputTail X N B)

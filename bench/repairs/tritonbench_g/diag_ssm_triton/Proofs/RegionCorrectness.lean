@@ -104,10 +104,11 @@ theorem forward (p : ForwardLayout) (length : Nat) :
   intro sep u
   obtain ⟨v, he, ho, hf⟩ := RealReference.dssm_runR .triv p.s p.x p.l p.y
     length p.batch p.dim p.B sep u
-  refine ⟨v, ?_, ho, hf⟩
-  have hb := ForwardProjection.real_source_exec p.s p.x p.l p.y length p.batch p.dim p.B u
   have he' := (execR_triv _ _).symm.trans he
-  simpa only [exec, Kernels.ReadableSource.forward_preserved, Erasure.forward_body] using hb.trans he'
+  obtain ⟨actual, ha, hm⟩ := SourceReal.forward_memory p length u v he'
+  refine ⟨actual, ha, ?_, ?_⟩
+  · simpa only [BlockState.readMem, hm] using ho
+  · simpa only [hm] using hf
 
 theorem backward (p : BackwardLayout) (length : Nat) :
     Backward (Kernels.backwardTyped p.s p.l p.y p.gs p.gx p.gl p.gy
@@ -116,26 +117,35 @@ theorem backward (p : BackwardLayout) (length : Nat) :
   obtain ⟨v, he, hx, hs, hl, hf⟩ := RealReference.dssmb_runR .triv p.s p.l p.y p.gs p.gx p.gl p.gy
     length p.batch p.dim p.B sep.initial sep.output sep.gradient sep.transition
     sep.initialGradient sep.transitionGradient sep.terminal u
-  refine ⟨v, ?_, hx, hs, hl, hf⟩
-  have hb := backward_source_exec p length u
   have he' := (execR_triv _ _).symm.trans he
-  simpa only [exec, Kernels.ReadableSource.backward_preserved, Erasure.backward_body] using hb.trans he'
+  obtain ⟨actual, ha, hm⟩ := SourceBackward.backward_memory p length u v he'
+  refine ⟨actual, ha, ?_, ?_, ?_, ?_⟩
+  · simpa only [BlockState.readMem, hm] using hx
+  · simpa only [BlockState.readMem, hm] using hs
+  · simpa only [BlockState.readMem, hm] using hl
+  · simpa only [hm] using hf
 
 theorem complex_forward (p : ForwardLayout) (length : Nat) :
     ComplexForward (Kernels.complexForwardTyped p.s p.x p.y p.l
       length p.batch p.dim p.B).eraseDType p length := by
   intro u
   obtain ⟨v, he, hi⟩ := ComplexForwardLoop.run p u length
-  refine ⟨v, ?_, hi.outputs, hi.frame⟩
-  simpa only [exec, Kernels.ReadableSource.complex_forward_preserved, Erasure.complexForward_body] using he
+  obtain ⟨actual, ha, hm⟩ := SourceComplex.forward_memory p length u v he
+  refine ⟨actual, ha, ?_, ?_⟩
+  · simpa only [ComplexMemory.read, BlockState.readMem, hm] using hi.outputs
+  · simpa only [hm] using hi.frame
 
 theorem complex_backward (p : BackwardLayout) (length : Nat) :
     ComplexBackward (Kernels.complexBackwardTyped p.s p.l p.y p.gs p.gx p.gl p.gy
       length p.batch p.dim p.B).eraseDType p length := by
   intro sep u
   obtain ⟨v, he, hx, hs, hl, hf⟩ := ComplexBackwardRun.run p u length sep
-  refine ⟨v, ?_, hx, hs, hl, hf⟩
-  simpa only [exec, Kernels.ReadableSource.complex_backward_preserved, Erasure.complexBackward_body] using he
+  obtain ⟨actual, ha, hm⟩ := SourceComplexBackward.backward_memory p length u v he
+  refine ⟨actual, ha, ?_, ?_, ?_, ?_⟩
+  · simpa only [ComplexMemory.read, BlockState.readMem, hm] using hx
+  · simpa only [ComplexMemory.read, BlockState.readMem, hm] using hs
+  · simpa only [ComplexMemory.read, BlockState.readMem, hm] using hl
+  · simpa only [hm] using hf
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

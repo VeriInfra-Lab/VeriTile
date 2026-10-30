@@ -24,7 +24,8 @@ theorem output_row (A : Algebra α) (eq : α → α → Bool)
   obtain ⟨z,hz⟩ := Option.isSome_iff_exists.mp hz
   cases tail <;>
     simp (config := {maxSteps := 300000}) [TypedSource.fullOutput,TypedSource.tailOutput,
-      TypedSource.loopBody,TypedSource.body,kernel,ComputeKernel.surfaceBody,
+      TypedSource.loopBody,TypedSource.body,kernel,body,ComputeKernel.withScalarArguments,
+    ScalarArgument.integer,ScalarArgument.statement,ComputeKernel.surfaceBody,
       run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,store,
       VeriTile.Triton.FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,resolvePrecision,withEq,
       ComputeDType.eraseDType,numeric,numericEq,numericLt,numericLe,bop,ofFloat,toFloat,

@@ -12,20 +12,22 @@ def indexPrefix (X : RegionName) (B : Nat) : List Stmt :=
   [.assign .int [B] "n_offsets"
       (.add .int .scalarL (.ref .int [] "start_n") (.castNatToInt (.arange B))),
    .assign .int [B] "offset"
-      (.add .int .scalarL (.mul .int .nil (.ref .int [] "pid_m") (.ref .int [] "cols"))
+      (.add .int .scalarL (.mul .int .nil (.ref .int [] "pid_m") (.ref .int [] "N"))
         (.ref .int [B] "n_offsets")),
    .assign .ptr [B] "input_ptrs"
       (.ptrAdd .scalarL (.ptrBase X) (.castIntToNat (.ref .int [B] "offset")))]
 
 def maskStatement (B : Nat) : Stmt :=
-  .assign .bool [B] "mask" (.lt .int .scalarR (.ref .int [B] "n_offsets") (.ref .int [] "cols"))
+  .assign .bool [B] "mask" (.lt .int .scalarR (.ref .int [B] "n_offsets") (.ref .int [] "N"))
 
 def previousExpression (B : Nat) : Op .int [] :=
   .sub .int .nil
     (.mul .int .nil
       (FullSource.signedQuotient
-        (.sub .int .nil (.add .int .nil (.ref .int [] "cols") (.constInt B)) (.constInt 1))
-        (.constInt B)) (.constInt B)) (.constInt B)
+        (.add .int .nil (.ref .int [] "N")
+          (.castNatToInt (.sub .nat .nil (.constNat B) (.constNat 1))))
+        (.castNatToInt (.constNat B))) (.castNatToInt (.constNat B)))
+    (.castNatToInt (.constNat B))
 
 def update (B : Nat) : List Stmt :=
   [SignedTransport.sourceMaximum B,
@@ -65,22 +67,23 @@ theorem projects (Y X : RegionName) (M N B : Nat) :
 projection. It retains widened signed registers and both actual mass guards. -/
 theorem source_body (Y X : RegionName) (M N B : Nat) :
     (kernel Y X M N B).eraseDType.toAlgKernel.body =
-      [.assign .int [] "pid_m" (.castNatToInt (.programId 0)),
-       .assign .int [] "cols" (.constInt N),
+      [.assign .int [] "N" (.constInt N),
+       .assign .int [] "pid_m" (.castNatToInt (.programId 0)),
        .assign .real [B] "m" (.full [B] .negInf),
        .assign .real [B] "z" (.full [B] (.const 0)),
        .assign .int [] "prev_multiple" (previousExpression B),
        .forRangeInt "start_n" (.constInt 0) (.ref .int [] "prev_multiple") (.constNat B)
          (inputFull X N B),
-       .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "cols") (.constNat B)
+       .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "N") (.constNat B)
          (inputTail X N B)] ++ reductionStmts B ++
       [.assign .int [] "prev_multiple" (previousExpression B),
        .forRangeInt "start_n" (.constInt 0) (.ref .int [] "prev_multiple") (.constNat B)
          (outputFull Y X N B),
-       .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "cols") (.constNat B)
+       .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "N") (.constNat B)
          (outputTail Y X N B)] := by
   simp only [ComputeKernel.eraseDType, projects, ComputeKernel.toAlgKernel_fromKernelBody]
-  simp only [kernel, ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?,
+  simp only [kernel, body, ComputeKernel.withScalarArguments, ScalarArgument.integer, ScalarArgument.statement,
+    List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?,
     ComputeKernel.toAlgKernel, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType,

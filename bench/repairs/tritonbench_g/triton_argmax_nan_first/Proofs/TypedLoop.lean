@@ -14,10 +14,16 @@ theorem prefix_run (rest : Algebra Word) (s : State Word) (X : RegionName) (O : 
     ∃ t, run (backend rest) ((TypedSource.dimension X O M N K BM BN base index64).surfaceBody.take 7) s=some t ∧
       t.mem=s.mem ∧ Ready BM (((s.pids 0+base)/K)*BM) ((s.pids 0+base)%K)
         (fun _ => (0xff800000,0)) t := by
+  have nonnegative : ¬ ((s.pids 0 + base : Nat) : Int) < 0 := by omega
+  have remainder := Nat.mod_add_div (s.pids 0 + base) K
   cases index64 <;>
     simp [TypedSource.dimension,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-      backend,State.setReg,Ready,ofFloat,toFloat,bop,numeric,integralFloorDiv,integralMod,ComputeDType.eraseDType,Option.bind]
-  all_goals exact ⟨rfl,rfl⟩
+      backend,State.setReg,Ready,ofFloat,toFloat,bop,numeric,numericLt,integralFloorDiv,integralMod,ComputeDType.eraseDType,Option.bind, IntegerExpr.sameShape, -Nat.cast_add, -Nat.cast_mul, ← Int.natCast_add, ← Int.natCast_mul, -Int.natCast_mod, ← Int.natCast_ediv, ← Int.natCast_emod]
+  all_goals constructor <;> funext i <;> simp [bop, Broadcast.leftIndex, Broadcast.rightIndex, -Nat.cast_add, -Nat.cast_mul, ← Int.natCast_add, ← Int.natCast_mul, -Int.natCast_mod, ← Int.natCast_ediv, ← Int.natCast_emod, Int.emod_def, nonnegative]
+  all_goals
+    have equation := congrArg (fun n : Nat => (n : Int)) remainder
+    simp only [Nat.cast_add] at equation
+    exact sub_eq_iff_eq_add.mpr equation.symm
 
 def vectorLoop (initial : State Word) (X : RegionName) (M N K BM BN row inner : Nat)
     (positive : 0<BN) (cur : Nat) (current : Fin BM → Word × Nat) : Fin BM → Word × Nat :=
