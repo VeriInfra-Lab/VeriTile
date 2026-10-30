@@ -108,5 +108,46 @@ class PastedBodyTests(unittest.TestCase):
             check(self.python, self.lean, self.record["python_function"], "body", "callSignature")
 
 
+class MatmulSourceTests(unittest.TestCase):
+    def test_complete_standalone_dot_sources_are_checked(self):
+        for task in ("matmul_triton1", "matmul_triton2"):
+            directory = ROOT / "bench/tritonbench_g" / task
+            with self.subTest(task=task):
+                result = check_manifest(ROOT, directory / "jit-correspondence.json")
+                self.assertEqual(result[0]["mode"], "legacy_ast")
+                self.assertEqual(result[0]["status"], "PASS")
+
+    def test_compiler_fusion_and_removed_uint64_cast_are_rejected(self):
+        cases = {
+            "matmul_triton1": ("z += tl.dot(x_sub, y_sub, allow_tf32=False)",
+                               "z = tl.dot(x_sub, y_sub, z, allow_tf32=False)"),
+            "matmul_triton2": ("accumulator += tl.dot(a, b)",
+                               "accumulator = tl.dot(a, b, accumulator)")}
+        for task, (before, after) in cases.items():
+            directory = ROOT / "bench/tritonbench_g" / task
+            python = (directory / (task + ".py")).read_text()
+            lean = (directory / "Kernels.lean").read_text()
+            for original, changed in ((before, after), (".to(tl.uint64)", "")):
+                with self.subTest(task=task, mutation=original):
+                    self.assertIn(original, lean)
+                    # Preserve the compiler graph and mutate only the new
+                    # Python constructor, so the selected source must reject it.
+                    prefix, body = lean.split("def pythonBody", 1)
+                    with self.assertRaises(ValueError):
+                        check(python, prefix + "def pythonBody" + body.replace(original, changed, 1),
+                              "matmul_kernel", "pythonBody")
+
+    def test_zero_shape_normalization_preserves_dtype_and_dimensions(self):
+        directory = ROOT / "bench/tritonbench_g/matmul_triton1"
+        python = (directory / "matmul_triton1.py").read_text()
+        lean = (directory / "Kernels.lean").read_text()
+        for before, after in (("[m_block_size, n_block_size]", "[n_block_size, m_block_size]"),
+                              ("dtype=tl.float32", "dtype=tl.float16")):
+            prefix, body = lean.split("def pythonBody", 1)
+            with self.subTest(mutation=before), self.assertRaises(ValueError):
+                check(python, prefix + "def pythonBody" + body.replace(before, after, 1),
+                      "matmul_kernel", "pythonBody")
+
+
 if __name__ == "__main__":
     unittest.main()

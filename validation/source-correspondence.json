@@ -13,21 +13,21 @@
       "tritonbench_g": 183
     },
     "task_status": {
-      "legacy_ast_only": 1,
+      "legacy_ast_only": 3,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 2,
       "selected_body_copy_checked": 1,
-      "uncovered_jit_functions": 179
+      "uncovered_jit_functions": 177
     },
     "example_status": {
       "no_independent_python_reference": 19
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 324,
+    "uncovered_selected_jit_functions": 322,
     "inventoried_jit_functions": 412,
-    "uncovered_inventoried_jit_functions": 405,
+    "uncovered_inventoried_jit_functions": 403,
     "checked_pair_modes": {
-      "legacy_ast": 6,
+      "legacy_ast": 8,
       "pasted_body": 1
     },
     "collection_status": {
@@ -41,10 +41,10 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "legacy_ast_only": 1,
+        "legacy_ast_only": 3,
         "no_selected_jit_resolved": 2,
         "selected_body_copy_checked": 1,
-        "uncovered_jit_functions": 179
+        "uncovered_jit_functions": 177
       }
     },
     "primary_files_with_int64_screen_warning": 44,
@@ -24186,13 +24186,13 @@
       "python": "bench/tritonbench_g/matmul_triton1/matmul_triton1.py",
       "lean": "bench/tritonbench_g/matmul_triton1/Kernels.lean",
       "lean_screen": {
-        "quotations": 3,
+        "quotations": 4,
         "in_body_type_directives": 3,
-        "antiquotes": 91,
-        "dsl_assignment": 12,
+        "antiquotes": 92,
+        "dsl_assignment": 18,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 3
+        "load_dtype_extension": 4
       },
       "python_jits": [
         {
@@ -24215,24 +24215,31 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "pythonBody",
+          "status": "PASS",
+          "mode": "legacy_ast",
+          "statements": 22,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "k_block_size",
+            "m_block_size",
+            "n_block_size"
+          ],
           "python": "bench/tritonbench_g/matmul_triton1/matmul_triton1.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/matmul_triton1/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/matmul_triton1/matmul_triton1.py",
-          "function": "matmul_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "legacy_ast_only",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_triton1/Kernels.lean": "b20f3512b3d2d40bbe3aff47417003989031d210ae28716c7ff3cd8696bc3c57",
+        "bench/tritonbench_g/matmul_triton1/Kernels.lean": "b15fcf42aa67a3d742ab1376abcebdcf8b354b4ee8d6063f6f4672aab663313f",
+        "bench/tritonbench_g/matmul_triton1/jit-correspondence.json": "9f28408275883a2e5b691e0b21469b36023e381b1872347f0225d592cb347778",
         "bench/tritonbench_g/matmul_triton1/matmul_triton1.py": "705bfb2cecafd2644cfe60922a0eebce2e110d0221343c7e87b273c14bbfe62a"
       },
       "collection": "tritonbench_g",
@@ -24244,13 +24251,13 @@
       "python": "bench/tritonbench_g/matmul_triton2/matmul_triton2.py",
       "lean": "bench/tritonbench_g/matmul_triton2/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
+        "quotations": 3,
         "in_body_type_directives": 2,
-        "antiquotes": 70,
-        "dsl_assignment": 9,
+        "antiquotes": 71,
+        "dsl_assignment": 15,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 3
       },
       "python_jits": [
         {
@@ -24273,24 +24280,32 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "pythonBody",
+          "status": "PASS",
+          "mode": "legacy_ast",
+          "statements": 28,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
           "python": "bench/tritonbench_g/matmul_triton2/matmul_triton2.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/matmul_triton2/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/matmul_triton2/matmul_triton2.py",
-          "function": "matmul_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "legacy_ast_only",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_triton2/Kernels.lean": "c5a1394c85772c32b1ccb4c0ce9485d93e78be0a84d22fb08e312613a6d51623",
+        "bench/tritonbench_g/matmul_triton2/Kernels.lean": "4fc6b611a712e215163782a9ba74f10f212d2c17216e510de4ce00f0c497a160",
+        "bench/tritonbench_g/matmul_triton2/jit-correspondence.json": "5f7f8f44efdca62668ea14ee32bef252bf9f5fc23364dc00b02ff732d54d4af4",
         "bench/tritonbench_g/matmul_triton2/matmul_triton2.py": "8be06ecb63df7503e779d8dcf10d90de69d378f977b7f2cd9e06aeeb06eaef56"
       },
       "collection": "tritonbench_g",

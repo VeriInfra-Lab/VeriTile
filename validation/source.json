@@ -45483,6 +45483,7 @@
       "bench.tritonbench_g.matmul_triton1.Proofs.KernelInterface"
     ],
     "bench/tritonbench_g/matmul_triton1/Kernels.lean": [
+      "VeriTile.Triton.DSL.CallSignature",
       "bench.tritonbench_g.matmul_triton1.Sources.Kernels"
     ],
     "bench/tritonbench_g/matmul_triton1/Proofs/Bounds.lean": [
@@ -45621,6 +45622,7 @@
       "bench.tritonbench_g.matmul_triton2.Proofs.Grid"
     ],
     "bench/tritonbench_g/matmul_triton2/Kernels.lean": [
+      "VeriTile.Triton.DSL.CallSignature",
       "bench.tritonbench_g.matmul_triton2.Sources.Kernels"
     ],
     "bench/tritonbench_g/matmul_triton2/PairIO.lean": [
@@ -66380,10 +66382,10 @@
     "bench/tritonbench_g/matmul_tma/Sources/Tensor.lean": "81edd4f8460d9b08ab63d293ac2fc5ccb7dc236459d9d355e0efc52a7136ed43",
     "bench/tritonbench_g/matmul_tma/matmul_tma.py": "71d5329036259331442629daac29492bb71c0d26b2acd64d5e5ef9f7142f5b5b",
     "bench/tritonbench_g/matmul_triton1/Contract.lean": "b18af6d01e46f57de039da6e521f0280db2f8a74322623d0f482a7f53609b8bd",
-    "bench/tritonbench_g/matmul_triton1/Correct.lean": "59380d16e00bb4617925428befbd6b7f4c123940b1b76ff96b433acf17ad1d69",
-    "bench/tritonbench_g/matmul_triton1/FPEquiv.lean": "9c452d75495103c68f3ae7c0e126a8b6e6fc6b1d996053e0330fdf5e117ffb65",
+    "bench/tritonbench_g/matmul_triton1/Correct.lean": "30b384955a55c4a21618cc11fbbcbe76f36436d35a72b9625f04116ca06390ff",
+    "bench/tritonbench_g/matmul_triton1/FPEquiv.lean": "14e395f4843f79093399a959093c4428f341ef73e58b1ede3bfe64528e965867",
     "bench/tritonbench_g/matmul_triton1/IO.lean": "9abc48b5d2a3466dc4790259cd1e5396794ab3eb9d4f22f46d7d1672b1e02248",
-    "bench/tritonbench_g/matmul_triton1/Kernels.lean": "b20f3512b3d2d40bbe3aff47417003989031d210ae28716c7ff3cd8696bc3c57",
+    "bench/tritonbench_g/matmul_triton1/Kernels.lean": "b15fcf42aa67a3d742ab1376abcebdcf8b354b4ee8d6063f6f4672aab663313f",
     "bench/tritonbench_g/matmul_triton1/Proofs/Bounds.lean": "4ec3fc0f2953d6e53648b35b93ca07702bea8aec3e1f5cbcfd613f3f9e6eaa8a",
     "bench/tritonbench_g/matmul_triton1/Proofs/CheckedHost.lean": "fe346279094e6f836e85f2daab826f0092fb6008b7813c5b4cabe0929eb1bdc5",
     "bench/tritonbench_g/matmul_triton1/Proofs/Contract.lean": "0538950f388c94cb62d1bbd0446e2a15bacfeeb2c2db26500207b5f6eb69381c",
@@ -66415,12 +66417,13 @@
     "bench/tritonbench_g/matmul_triton1/Proofs/RealSum.lean": "925a414a0cf1c3996233955e90876b11eb9062faa6b4086beb43e8f39c68cea4",
     "bench/tritonbench_g/matmul_triton1/Proofs/TensorBinding.lean": "3838344a2531e2da23005dfd2a5bc8fd7c39c4aeedb72051d480536e6ac01f88",
     "bench/tritonbench_g/matmul_triton1/Sources/Kernels.lean": "7b7fac94961f5c161f646fa2ebc90c396402643017761d3a5ab3e94168739bc1",
+    "bench/tritonbench_g/matmul_triton1/jit-correspondence.json": "9f28408275883a2e5b691e0b21469b36023e381b1872347f0225d592cb347778",
     "bench/tritonbench_g/matmul_triton1/matmul_triton1.py": "705bfb2cecafd2644cfe60922a0eebce2e110d0221343c7e87b273c14bbfe62a",
     "bench/tritonbench_g/matmul_triton2/Contract.lean": "fa4086b1002366fdeecb7d18a858deb3c71a5a17d873dee4efd2c56f964574e8",
-    "bench/tritonbench_g/matmul_triton2/Correct.lean": "1a24c434e0f1e1e1a5e571c05e7f6214aa4b2b4b542b48271040c7ebd35922d4",
-    "bench/tritonbench_g/matmul_triton2/FPEquiv.lean": "970a5551e94d5f69de3af34f17d6e2f628243a2bf5724e7b1929065448b80224",
+    "bench/tritonbench_g/matmul_triton2/Correct.lean": "ab2f30e00604434c26fce83801df29546ba6d7c08c0daa14b120543c1646ecd0",
+    "bench/tritonbench_g/matmul_triton2/FPEquiv.lean": "77aacd324c6e086a94164cfa684db75688c8b38d0ddecd5bacc885520987e20e",
     "bench/tritonbench_g/matmul_triton2/IO.lean": "eddc24f03d63dbb5c8e2be126100c68b8c3e4af75ffc7cfba80d9828c15e8160",
-    "bench/tritonbench_g/matmul_triton2/Kernels.lean": "c5a1394c85772c32b1ccb4c0ce9485d93e78be0a84d22fb08e312613a6d51623",
+    "bench/tritonbench_g/matmul_triton2/Kernels.lean": "4fc6b611a712e215163782a9ba74f10f212d2c17216e510de4ce00f0c497a160",
     "bench/tritonbench_g/matmul_triton2/PairIO.lean": "4cac469bfb3ceff75e86b306449a9210f5a648738d6e61033c3261b2b81bdcd4",
     "bench/tritonbench_g/matmul_triton2/Proofs/Contract.lean": "0b2b33c601b1d57309b14f3d9c35c894f0c2b75e33e08807f24d809114b2f88b",
     "bench/tritonbench_g/matmul_triton2/Proofs/FPComplete.lean": "31af12040c0883a21012e35225c9cf30dde81689d3c7d18b79d72fff5a0e79db",
@@ -66440,6 +66443,7 @@
     "bench/tritonbench_g/matmul_triton2/Proofs/RealSum.lean": "e46ff9b53dd37361508cb9893b676e321e4fd65c49087c1e95f9f30119f4b06b",
     "bench/tritonbench_g/matmul_triton2/Reference.lean": "7a524c1b6be6109ca2561add0a32bf2c8edc21fbb6c7e449ee29e18eb80cce44",
     "bench/tritonbench_g/matmul_triton2/Sources/Kernels.lean": "c83c562aff7c6bd605210a923586a17aae4d3778eae8ca4143a2fe2c0a4683c1",
+    "bench/tritonbench_g/matmul_triton2/jit-correspondence.json": "5f7f8f44efdca62668ea14ee32bef252bf9f5fc23364dc00b02ff732d54d4af4",
     "bench/tritonbench_g/matmul_triton2/matmul_triton2.py": "8be06ecb63df7503e779d8dcf10d90de69d378f977b7f2cd9e06aeeb06eaef56",
     "bench/tritonbench_g/matmul_triton_autotune/Contract.lean": "3cd95501b83f57869376eaa821c908a01aa4ac82b9910e3b5e5afb68b6bb7aa9",
     "bench/tritonbench_g/matmul_triton_autotune/Correct.lean": "07455ae974a81d5d5f3c0568e4a1dfa08d223466c44a6a120da7c393a5b3185b",
@@ -69382,7 +69386,7 @@
     "tests/lean/UnsignedIntegerCast.lean": "d315d7505465d25869603203c983fb4ff0e576bcb68bd4f8a9c87645f36c323c",
     "tests/lean/WelfordSourceContexts.lean": "f62e2138c4cfe983f10fade716f33eb4bdcf049374bad30225883a7da7c7a544",
     "validation/bench-layout.json": "0811e2b0f1d456687e23d144a7700d486d05e0cec9ee55c616e62cc8d05dc1c4",
-    "validation/contracts.json": "27807ba5dcd3e6fbc41b3a1a1abf7b84c0dc5411937845179d870effc98d6763",
+    "validation/contracts.json": "d8b26789fd7951e1295e82e21b95c0967f2a3deda0b7354e8ace8958b6a70834",
     "validation/task_progress.json": "c00d05f4f17beabf26887bf9dcba850fc0b3b2ff194db595a81c0b92709225e8"
   },
   "validation_boundary": "Membership and reviewed scope only; requires Lean build, axiom/spec gates and official replay. Imported benchmark proof goals and Python/native correspondence gaps remain separate."
