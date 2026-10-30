@@ -7,13 +7,13 @@ set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
-def headCode (p : Parameters) := (prologue .fp32 p).take 7
+def headCode (p : Parameters) := (prologue .fp32 p).take 5
 def offsetExpr (p : Parameters) : Op .int [p.block] :=
   Op.intToSigned 32 (.load .int (.region p.offsets (.ref .nat [p.block] "off"))
     (.mask (.ref .bool [p.block] "off_mask")))
 def offsetCode (p : Parameters) : List ComputeStmt :=
   [.assign .int [p.block] "offset" (.alg (offsetExpr p))]
-def lastCode (p : Parameters) := (prologue .fp32 p).drop 8
+def lastCode (p : Parameters) := (prologue .fp32 p).drop 6
 
 theorem prologue_decomposition (d : Storage) (p : Parameters) :
     prologue d p = headCode p ++ offsetCode p ++ lastCode p := by cases d <;> rfl

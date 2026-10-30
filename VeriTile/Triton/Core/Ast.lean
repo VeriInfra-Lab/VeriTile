@@ -198,6 +198,8 @@ inductive Op : TileDType → TileShape → Type where
   | sigmoid   : Op .real shape → Op .real shape
   | sqrt      : Op .real shape → Op .real shape
   | rsqrt     : Op .real shape → Op .real shape
+  /-- CUDA libdevice rsqrt has its own FP interpretation, distinct from tl.rsqrt. -/
+  | libdeviceRsqrt : Op .real shape → Op .real shape
   | tanh      : Op .real shape → Op .real shape
   | sin       : Op .real shape → Op .real shape
   | cos       : Op .real shape → Op .real shape

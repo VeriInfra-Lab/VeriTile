@@ -13,13 +13,14 @@ def scatter (h : Call) (K pid : Nat) (acc : Fin K → ℝ) (u : BlockState) : Bl
     if pid*K+i.1.val<h.cols then v.writeMem "dw" (pid*K+i.1.val) (acc i.1) else v) u
 
 theorem tail_executes (h : Call) (K pid : Nat) (u : BlockState) (acc : Fin K → ℝ)
-    (hcol : u.regs .nat [K] "col"=some (columns K pid))
+    (hcol : u.regs .int [K] "col"=some (columns K pid))
     (hmask : u.regs .bool [K] "mask"=some (masks h K pid))
     (hacc : u.regs .real [K] "acc"=some (Tile.vec fun j => some (acc j))) :
     stepStmts (tailCode h K) u=some (scatter h K pid acc u) := by
   rw [(bindings h K).2.2]
   simp [tail,colOp,refOp,maskOp,stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,
-    hcol,hmask,hacc,columns,masks,Tile.vec,scatter,BlockState.writeMemTyped]
+    hcol,hmask,hacc,columns,masks,Tile.uop,Tile.vec,scatter,BlockState.writeMemTyped,
+    -Nat.cast_mul,-Nat.cast_add,← Int.natCast_mul,← Int.natCast_add]
 
 def footprint (h : Call) (K pid : Nat) (q : RegionName) (o : Nat) : Prop :=
   q="dw" ∧ ∃ j : Fin K,pid*K+j.val<h.cols ∧ o=pid*K+j.val
@@ -31,13 +32,14 @@ theorem complete (h : Call) (K : Nat) (u : BlockState) :
       (∀ q o,¬footprint h K (u.pids 0) q o → v.mem q o=u.mem q o) := by
   obtain ⟨v,he,inv⟩ := loop_executes h K (u.pids 0) u 0 (RealWeightStep.initial h K u)
     (initial_holds h K u)
+  simp only [Int.natCast_zero] at he
   let result := scatter h K (u.pids 0) (carry h K (u.pids 0) u h.rows) v
   refine ⟨result,?_,?_,?_⟩
   · change stepStmts (source h K).body u=some result
     rw [source_body,List.append_assoc,stepStmts.append_some (prefix_executes h K u)]
-    change stepStmts (.forRangeDyn _ _ _ _ _ :: tailCode h K) _=_
+    change stepStmts (.forRangeInt _ _ _ _ _ :: tailCode h K) _=_
     rw [stepStmts]
-    simp only [stepStmt,evalOp_constNat,Option.bind_eq_bind,Option.bind_some,Tile.scalar_data,he]
+    simp only [stepStmt,evalOp.eq_def,Option.bind_eq_bind,Option.bind_some,Tile.uop,Tile.scalar_data,Int.ofNat_eq_natCast,he]
     exact tail_executes h K (u.pids 0) v _ inv.col inv.mask inv.acc
   · intro j hj
     have injective : Function.Injective (fun i : TileIndex [K] => u.pids 0*K+i.1.val) := by

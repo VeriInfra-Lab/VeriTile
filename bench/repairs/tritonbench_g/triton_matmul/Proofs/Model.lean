@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.triton_matmul.Proofs.SourceDecomposition
+import bench.repairs.tritonbench_g.triton_matmul.Kernels
 import bench.tritonbench_g.triton_matmul.Proofs.SourceScope
 import bench.tritonbench_g.matmul_triton_autotune.Proofs.Host
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.Repair

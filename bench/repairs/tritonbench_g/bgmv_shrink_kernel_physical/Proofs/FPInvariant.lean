@@ -7,6 +7,13 @@ set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
+/-- Negative parts of the nonnegative source offsets contribute no backward
+pointer movement. These are integer address facts, with no FP operation law. -/
+theorem negative_nat (n : Nat) : Int.toNat (-(n : Int)) = 0 := by omega
+
+theorem negative_sum (a b c : Nat) :
+    Int.toNat (-(a : Int) + -(b : Int) + -(c : Int)) = 0 := by omega
+
 theorem setup_ready (M : Algebra α) (P : Primitives α) (h : Call)
     (batch split slot : Nat) (data : Data α) (metadata : data.indices batch=(slot:Int)) :
     Invariant h data batch split slot (accumulator M P h data batch slot split 0)
@@ -59,6 +66,7 @@ theorem iteration_ready (M : Algebra α) (P : Primitives α) (h : Call)
   all_goals
     norm_cast
     simp only [Int.toNat_natCast,Int.ofNat_lt]
+    simp only [negative_nat,negative_sum,Nat.sub_zero,Nat.mul_comm,Nat.add_assoc]
 
 #axiomsClean setup_ready
 #axiomsClean iteration_ready

@@ -1,4 +1,5 @@
 import bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealReads
+import bench.repairs.tritonbench_g.fast_rms_layernorm.Proofs.RealSource
 import bench.tritonbench_g.fast_rms_layernorm.Proofs.ForwardRun
 import bench.tritonbench_g.fast_rms_layernorm.Proofs.BackwardRun
 import bench.tritonbench_g.fast_rms_layernorm.Proofs.BackwardMath
@@ -14,8 +15,8 @@ def raw (h : Call) (u : BlockState) (r : RegionName) (stride : Nat) (j : Fin h.c
 def forwardFootprint (h : Call) (u : BlockState) (q : RegionName) (o : Nat) : Prop :=
   (q="y" ∧ ∃ j : Fin h.cols,o=u.pids 0*h.cols+j.val) ∨ (q="r" ∧ o=u.pids 0)
 
-theorem forward_complete (h : Call) (u : BlockState) :
-    ∃ v, exec (Kernels.forward h).eraseDType.toAlgKernel u=some v ∧
+private theorem forward_legacy (h : Call) (u : BlockState) :
+    ∃ v, exec (ForwardRun.original h.gemma "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block h.eps) u=some v ∧
       (∀ j : Fin h.cols,v.readMem "y" (u.pids 0*h.cols+j.val)=
         RealReference.output h.gemma h.eps (raw h u "x" h.cols) (raw h u "w" 0) j) ∧
       v.readMem "r" (u.pids 0)=RealReference.inv h.eps (raw h u "x" h.cols) ∧
@@ -36,11 +37,29 @@ theorem forward_complete (h : Call) (u : BlockState) :
     · rintro ⟨same,eq⟩
       exact outside (Or.inr ⟨same.symm,by simpa using eq.symm⟩)
 
+theorem forward_complete (h : Call) (u : BlockState) :
+    ∃ v, exec (Kernels.forward h).eraseDType.toAlgKernel u=some v ∧
+      (∀ j : Fin h.cols,v.readMem "y" (u.pids 0*h.cols+j.val)=
+        RealReference.output h.gemma h.eps (raw h u "x" h.cols) (raw h u "w" 0) j) ∧
+      v.readMem "r" (u.pids 0)=RealReference.inv h.eps (raw h u "x" h.cols) ∧
+      (∀ q o,¬forwardFootprint h u q o → v.mem q o=u.mem q o) := by
+  obtain ⟨w, hw, hy, hr, hf⟩ := forward_legacy h u
+  have same := RealSource.forward_memory h u
+  rw [hw, Option.map_some] at same
+  cases hv : exec (Kernels.forward h).eraseDType.toAlgKernel u with
+  | none => simp [hv] at same
+  | some v =>
+    have mem : v.mem = w.mem := by simpa [hv] using same
+    refine ⟨v, rfl, ?_, ?_, ?_⟩
+    · simpa [BlockState.readMem, mem] using hy
+    · simpa [BlockState.readMem, mem] using hr
+    · simpa [mem] using hf
+
 def backwardFootprint (h : Call) (u : BlockState) (q : RegionName) (o : Nat) : Prop :=
   q="dx" ∧ ∃ j : Fin h.cols,o=u.pids 0*h.cols+j.val
 
-theorem backward_values (h : Call) (u : BlockState) :
-    ∃ v, exec (Kernels.backward h).eraseDType.toAlgKernel u=some v ∧
+private theorem backward_legacy (h : Call) (u : BlockState) :
+    ∃ v, exec (BackwardRun.original h.gemma "dx" "x" "w" "r" "dw" h.cols h.cols 1 1 1 h.cols h.block h.eps) u=some v ∧
       (∀ j : Fin h.cols,v.readMem "dx" (u.pids 0*h.cols+j.val)=
         RealMath.gradient h.gemma h.cols (u.readMem "r" (u.pids 0))
           (fun k => u.readMem "x" (u.pids 0*h.cols+k.val))
@@ -73,6 +92,25 @@ theorem backward_values (h : Call) (u : BlockState) :
     apply BackwardRun.frame h.gemma "dx" "x" "w" "r" "dw" h.cols h.cols 1 1 1 h.cols h.block h.eps u v he q o
     intro j hj ⟨same,eq⟩
     exact outside ⟨same.symm,⟨⟨j.val,hj⟩,eq.symm⟩⟩
+
+theorem backward_values (h : Call) (u : BlockState) :
+    ∃ v, exec (Kernels.backward h).eraseDType.toAlgKernel u=some v ∧
+      (∀ j : Fin h.cols,v.readMem "dx" (u.pids 0*h.cols+j.val)=
+        RealMath.gradient h.gemma h.cols (u.readMem "r" (u.pids 0))
+          (fun k => u.readMem "x" (u.pids 0*h.cols+k.val))
+          (fun k => u.readMem "dx" (u.pids 0*h.cols+k.val))
+          (fun k => u.readMem "w" k.val) (lane h j)) ∧
+      (∀ q o,¬backwardFootprint h u q o → v.mem q o=u.mem q o) := by
+  obtain ⟨w, hw, ho, hf⟩ := backward_legacy h u
+  have same := RealSource.backward_memory h u
+  rw [hw, Option.map_some] at same
+  cases hv : exec (Kernels.backward h).eraseDType.toAlgKernel u with
+  | none => simp [hv] at same
+  | some v =>
+    have mem : v.mem = w.mem := by simpa [hv] using same
+    refine ⟨v, rfl, ?_, ?_⟩
+    · simpa [BlockState.readMem, mem] using ho
+    · simpa [mem] using hf
 
 theorem backward_complete (h : Call) (u : BlockState)
     (saved : u.readMem "r" (u.pids 0)=RealReference.inv h.eps (raw h u "x" h.cols)) :

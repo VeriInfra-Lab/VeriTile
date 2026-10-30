@@ -81,7 +81,7 @@ theorem input_prefix_values {α : Type} [Inhabited α] (A : Algebra α) (cmp : C
     (f : Flags) (r : Regions) (stride : Strides) (M N : Nat)
     (eps p : ℝ) (block : Nat) (hb : Random.ArangeSizeDomain block) (s : State α)
     (hsep : Domain.ReadWriteSeparated f r) :
-    ∃ t, run (engine A) ((repaired f r stride M N eps p block hb).surfaceBody.take 15) s=some t ∧
+    ∃ t, run (engine A) ((actual f r stride M N eps p block hb).surfaceBody.take 14) s=some t ∧
       Ready f r stride block (s.pids 0) t ∧ Frame f r stride M N (s.pids 0) s t ∧
       t.regs .real [block] "x"=some (combinedValues A cmp f s r stride M N p (s.pids 0) block) := by
   obtain ⟨s₁,h₁,hr₁⟩ := prefix_success A f r stride M N eps p block hb s
@@ -104,9 +104,11 @@ theorem input_prefix_values {α : Type} [Inhabited α] (A : Algebra α) (cmp : C
   change s₄.regs .real [block] "x"=some (residualCombined A f r stride s₃ N (s.pids 0) _) at hv₄
   rw [residualCombined_reads A f r stride s₃ s ((hf₁.trans (hf₂.trans hf₃)).readsEqual hsep)] at hv₄
   refine ⟨s₄,?_,hr₄,hf₁.trans (hf₂.trans (hf₃.trans hf₄)),hv₄⟩
-  have hcode : (repaired f r stride M N eps p block hb).surfaceBody.take 15=
+  have hcode : (actual f r stride M N eps p block hb).surfaceBody.take 14=
       stagePrefix f r stride M N eps p block hb ++ firstStream f r stride M N eps p block hb ++
-      secondInput f r stride M N eps p block hb ++ residual f r stride M N eps p block hb := rfl
+      secondInput f r stride M N eps p block hb ++ residual f r stride M N eps p block hb := by
+    by_cases hN : N = 1 <;>
+      simp only [stagePrefix,firstStream,secondInput,residual,actual,Source.kernel,hN,ite_true,ite_false] <;> rfl
   rw [hcode]
   simp only [run_append,h₁,h₂,h₃,h₄,Option.bind_some]
 

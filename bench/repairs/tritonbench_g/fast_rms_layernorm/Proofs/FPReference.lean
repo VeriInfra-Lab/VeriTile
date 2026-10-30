@@ -10,6 +10,9 @@ noncomputable section
 variable {α : Type}
 
 def literal (M : Algebra α) (x : ℝ) := M.literal (some .fp32) .real x
+/-- Runtime integer feature count converted by the source FP32 operation. -/
+def count (M : Algebra α) (h : Call) := M.fromNat (some .fp32) h.cols
+
 def cast (M : Algebra α) := M.cast (some .fp32) .real .real
 def add (M : Algebra α) := M.binary (some .fp32) .real .add
 def sub (M : Algebra α) := M.binary (some .fp32) .real .sub
@@ -27,16 +30,16 @@ def reduce (M : Algebra α) (B : Nat) (x : Fin B → α) : α :=
 def inv (M : Algebra α) (h : Call) (x : Fin h.block → α) : α :=
   M.unary (some .fp32) .rsqrt
     (add M (div M (reduce M h.block (fun j => mul M (input M h x j) (input M h x j)))
-      (literal M (h.cols:ℝ))) (literal M h.eps))
+      (count M h)) (literal M h.eps))
 
 def normalized (M : Algebra α) (h : Call) (x : Fin h.block → α) (j : Fin h.block) :=
   mul M (input M h x j) (inv M h x)
 
 def output (M : Algebra α) (h : Call) (x w : Fin h.block → α) (j : Fin h.block) : Cell α :=
-  .mk .real (cast M (if h.gemma then
+  .mk .real (if h.gemma then
     mul M (normalized M h x j) (add M (input M h w j) (literal M 1))
-  else mul M (cast M (normalized M h x j)) (M.fp32Load (padded M h w j))))
+  else mul M (cast M (normalized M h x j)) (M.fp32Load (padded M h w j)))
 
-def savedInv (M : Algebra α) (h : Call) (x : Fin h.block → α) : Cell α := .mk .real (cast M (inv M h x))
+def savedInv (M : Algebra α) (h : Call) (x : Fin h.block → α) : Cell α := .mk .real (inv M h x)
 end
 end VeriTile.Bench.Repairs.FastRmsLayernorm.FPReference

@@ -1,0 +1,813 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+    "python_function": "_rms_layernorm_forward",
+    "lean_definition": "regularRuntimeSource",
+    "signature_definition": "regularSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Y_row_stride",
+          "i32"
+        ],
+        [
+          "X_row_stride",
+          "i32"
+        ],
+        [
+          "W_row_stride",
+          "i32"
+        ],
+        [
+          "r_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y",
+        "r"
+      ]
+    },
+    "mode": "pasted_body",
+    "expected_call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols"
+    },
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_index_commuted.py",
+    "lean": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+    "python_function": "_rms_layernorm_forward_index_commuted",
+    "lean_definition": "regularRuntimeSourceIndexCommuted",
+    "signature_definition": "regularSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Y_row_stride",
+          "i32"
+        ],
+        [
+          "X_row_stride",
+          "i32"
+        ],
+        [
+          "W_row_stride",
+          "i32"
+        ],
+        [
+          "r_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y",
+        "r"
+      ]
+    },
+    "mode": "pasted_body",
+    "expected_call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols"
+    },
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+    "python_function": "_gemma_rms_layernorm_forward",
+    "lean_definition": "gemmaRuntimeSource",
+    "signature_definition": "gemmaSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Y_row_stride",
+          "i32"
+        ],
+        [
+          "X_row_stride",
+          "i32"
+        ],
+        [
+          "W_row_stride",
+          "i32"
+        ],
+        [
+          "r_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y",
+        "r"
+      ]
+    },
+    "mode": "pasted_body",
+    "expected_call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols"
+    },
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_index_commuted.py",
+    "lean": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+    "python_function": "_gemma_rms_layernorm_forward_index_commuted",
+    "lean_definition": "gemmaRuntimeSourceIndexCommuted",
+    "signature_definition": "gemmaSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Y_row_stride",
+          "i32"
+        ],
+        [
+          "X_row_stride",
+          "i32"
+        ],
+        [
+          "W_row_stride",
+          "i32"
+        ],
+        [
+          "r_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y",
+        "r"
+      ]
+    },
+    "mode": "pasted_body",
+    "expected_call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols"
+    },
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+    "python_function": "_rms_layernorm_backward",
+    "lean_definition": "inputGradientBody",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "dY",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ],
+        [
+          "dW",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "dY_row_stride",
+          "i32"
+        ],
+        [
+          "X_row_stride",
+          "i32"
+        ],
+        [
+          "W_row_stride",
+          "i32"
+        ],
+        [
+          "r_row_stride",
+          "i32"
+        ],
+        [
+          "dW_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "GEMMA",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "dY",
+        "X",
+        "W",
+        "r"
+      ],
+      "writePorts": [
+        "dY"
+      ]
+    },
+    "mode": "pasted_body",
+    "expected_call_bindings": {
+      "dY_row_stride": "dY_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "dW_row_stride": "dW_row_stride",
+      "n_cols": "n_cols"
+    },
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_index_commuted.py",
+    "lean": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+    "python_function": "_rms_layernorm_backward_index_commuted",
+    "lean_definition": "inputGradientBodyIndexCommuted",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "dY",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ],
+        [
+          "dW",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "dY_row_stride",
+          "i32"
+        ],
+        [
+          "X_row_stride",
+          "i32"
+        ],
+        [
+          "W_row_stride",
+          "i32"
+        ],
+        [
+          "r_row_stride",
+          "i32"
+        ],
+        [
+          "dW_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "GEMMA",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "dY",
+        "X",
+        "W",
+        "r"
+      ],
+      "writePorts": [
+        "dY"
+      ]
+    },
+    "mode": "pasted_body",
+    "expected_call_bindings": {
+      "dY_row_stride": "dY_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "dW_row_stride": "dW_row_stride",
+      "n_cols": "n_cols"
+    },
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+    "python_function": "_rms_layernorm_weight_backward",
+    "lean_definition": "weightSource",
+    "signature_definition": "weightSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "dW",
+          "fp32"
+        ],
+        [
+          "dY",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_rows",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "GEMMA",
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "dY",
+        "X",
+        "r"
+      ],
+      "writePorts": [
+        "dW"
+      ]
+    },
+    "mode": "pasted_body",
+    "expected_call_bindings": {
+      "n_rows": "n_rows",
+      "n_cols": "n_cols"
+    },
+    "profile_variant": "weight_gradient"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+    "python_function": "_rms_layernorm_forward",
+    "lean_definition": "regularSource",
+    "signature_definition": "regularSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Y_row_stride",
+          "i32"
+        ],
+        [
+          "X_row_stride",
+          "i32"
+        ],
+        [
+          "W_row_stride",
+          "i32"
+        ],
+        [
+          "r_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y",
+        "r"
+      ]
+    },
+    "mode": "pasted_body",
+    "expected_call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols",
+      "eps": "eps"
+    },
+    "profile_variant": "literal_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_index_commuted.py",
+    "lean": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+    "python_function": "_rms_layernorm_forward_index_commuted",
+    "lean_definition": "regularSourceIndexCommuted",
+    "signature_definition": "regularSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Y_row_stride",
+          "i32"
+        ],
+        [
+          "X_row_stride",
+          "i32"
+        ],
+        [
+          "W_row_stride",
+          "i32"
+        ],
+        [
+          "r_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y",
+        "r"
+      ]
+    },
+    "mode": "pasted_body",
+    "expected_call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols",
+      "eps": "eps"
+    },
+    "profile_variant": "literal_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+    "python_function": "_gemma_rms_layernorm_forward",
+    "lean_definition": "gemmaSource",
+    "signature_definition": "gemmaSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Y_row_stride",
+          "i32"
+        ],
+        [
+          "X_row_stride",
+          "i32"
+        ],
+        [
+          "W_row_stride",
+          "i32"
+        ],
+        [
+          "r_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y",
+        "r"
+      ]
+    },
+    "mode": "pasted_body",
+    "expected_call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols",
+      "eps": "eps"
+    },
+    "profile_variant": "literal_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm_index_commuted.py",
+    "lean": "bench/repairs/tritonbench_g/fast_rms_layernorm/Kernels.lean",
+    "python_function": "_gemma_rms_layernorm_forward_index_commuted",
+    "lean_definition": "gemmaSourceIndexCommuted",
+    "signature_definition": "gemmaSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Y_row_stride",
+          "i32"
+        ],
+        [
+          "X_row_stride",
+          "i32"
+        ],
+        [
+          "W_row_stride",
+          "i32"
+        ],
+        [
+          "r_row_stride",
+          "i32"
+        ],
+        [
+          "n_cols",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y",
+        "r"
+      ]
+    },
+    "mode": "pasted_body",
+    "expected_call_bindings": {
+      "Y_row_stride": "Y_row_stride",
+      "X_row_stride": "X_row_stride",
+      "W_row_stride": "W_row_stride",
+      "r_row_stride": "r_row_stride",
+      "n_cols": "n_cols",
+      "eps": "eps"
+    },
+    "profile_variant": "literal_epsilon"
+  }
+]

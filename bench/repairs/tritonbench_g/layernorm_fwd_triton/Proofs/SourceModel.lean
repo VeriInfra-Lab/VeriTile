@@ -6,12 +6,12 @@ open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange range_values)
 noncomputable section
 
-def prelude (p : Parameters) := (kernel p).surfaceBody.take 6
-def meanPost (p : Parameters) := ((kernel p).surfaceBody.drop 7).take 2
-def varPost (p : Parameters) := ((kernel p).surfaceBody.drop 10).take 2
+def prelude (p : Parameters) := (kernel p).surfaceBody.take 18
+def meanPost (p : Parameters) := ((kernel p).surfaceBody.drop 19).take 2
+def varPost (p : Parameters) := ((kernel p).surfaceBody.drop 22).take 2
 def loopBody (p : Parameters) (index : Nat) : List ComputeStmt :=
   match (kernel p).surfaceBody[index]? with
-  | some (.forRange _ _ _ _ xs) => xs
+  | some (.forRangeInt _ _ _ _ xs) => xs
   | _ => []
 
 def xBase {α : Type} (p : Parameters) (s : State α) := s.pids 0*p.xSeqStride+s.pids 1*p.xHeadStride
@@ -36,7 +36,7 @@ def meanValue {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : 
   M.binary (some .fp32) .real .div
     (M.reduceSum (some .fp32) ⟨0, by simp⟩ Bool.false
       (foldRange (meanStep M p s) 0 p.columns p.block (initial M p)) PUnit.unit)
-    (M.literal (some .fp32) .real (p.columns : ℝ))
+    (M.fromInt (some .fp32) (p.columns : Int))
 /-- The source explicitly selects zero on tail lanes before squaring. The
 zero's square and accumulator addition remain operations in every iteration. -/
 def centered {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)
@@ -51,11 +51,11 @@ def varianceValue {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (
   M.binary (some .fp32) .real .div
     (M.reduceSum (some .fp32) ⟨0, by simp⟩ Bool.false
       (foldRange (varStep M p s) 0 p.columns p.block (initial M p)) PUnit.unit)
-    (M.literal (some .fp32) .real (p.columns : ℝ))
+    (M.fromInt (some .fp32) (p.columns : Int))
 /-- The external epsilon register, supplied once per program by the launch.
 The successful execution theorem requires this scalar register to be present. -/
 def epsilonValue {α : Type} [Inhabited α] (s : State α) : α :=
-  ((s.regs .real [] "eps_arg").getD (fun _ => default)) PUnit.unit
+  ((s.regs .real [] "eps").getD (fun _ => default)) PUnit.unit
 
 def rstdValue {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) : α :=
   M.binary (some .fp32) .real .div (M.literal (some .fp32) .real 1)

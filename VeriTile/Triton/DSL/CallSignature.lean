@@ -13,6 +13,7 @@ import VeriTile.Triton.DSL.SourceFunctionStatements
 import VeriTile.Triton.DSL.NarrowUnsigned
 import VeriTile.Triton.DSL.SourceDType
 import VeriTile.Triton.DSL.Constexpr
+import VeriTile.Triton.DSL.OrderedRowSum
 import Lean
 
 /-! Call-site typing for a pasted Triton body. The signature describes pointer
@@ -75,6 +76,10 @@ structure CallSignature where
   Names and literal text are checked against Python by source correspondence.
   They are source metadata, not function parameters or body instructions. -/
   sourceConstants : List (String × String) := []
+  /-- Selected reduction topology for named FP32 operands of `tl.sum(x, 1)`
+  on [1, N] tiles. This is invocation configuration, not a source keyword or
+  an associativity assumption; the tree width is checked against the tile. -/
+  orderedRowSums : List (String × (Σ n, DSL.WelfordSource.Tree n)) := []
 
 namespace DSL.CallSignature
 open Lean Elab Term Meta
@@ -255,7 +260,9 @@ private partial def rejectArgumentMutation (names : List Name) (raw : Syntax)
 assignment reads its entry value on the RHS and binds the original source LHS.
 All later uses read that local register, including after a zero-trip loop.
 A conditional first assignment specializes each arm with its continuation.
-Loop, tuple, augmented and FP parameter writes remain rejected. -/
+A tuple of first integer parameter assignments captures every RHS from the
+entry environment before binding any target. Other tuple, loop, augmented and
+FP parameter writes remain rejected. -/
 private partial def bindCallStatements (rebindable : List Name)
     (values : List (Name × TSyntax `tritonExpr))
     (stmts : Array (TSyntax `tritonStmt)) : TermElabM (Array (TSyntax `tritonStmt)) := do
@@ -269,6 +276,27 @@ private partial def bindCallStatements (rebindable : List Name)
         let rhs : TSyntax `tritonExpr := ⟨← liftMacroM <| bindSourceValues current rhs.raw⟩
         result := result.push (← liftMacroM `(tritonStmt| $id:ident = $rhs:tritonExpr))
         current := current.filter (fun value => value.1 != name)
+        continue
+    if let `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
+        $x:tritonExpr, $y:tritonExpr $[, $rhs:tritonExpr]*) := st then
+      let targets := #[a,b] ++ ids
+      let expressions := #[x,y] ++ rhs
+      let names := targets.toList.map (fun id => id.getId.eraseMacroScopes)
+      if names.all (fun name => rebindable.contains name &&
+          current.any (fun value => value.1 == name)) then
+        unless targets.size == expressions.size && names.eraseDups.length == names.length do
+          throwErrorAt st "caller tuple assignment requires distinct targets and matching arity"
+        -- Substitute every original caller input before any target is bound.
+        -- The existing tuple lowering can then execute sequentially without
+        -- mistaking an earlier tuple write for the entry value of a later RHS.
+        let expressions ← expressions.mapM fun value => do
+          return (⟨← liftMacroM <| bindSourceValues current value.raw⟩ : TSyntax `tritonExpr)
+        let x := expressions[0]!
+        let y := expressions[1]!
+        let rhs := expressions.extract 2 expressions.size
+        result := result.push (← liftMacroM `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
+          $x:tritonExpr, $y:tritonExpr $[, $rhs:tritonExpr]*))
+        current := current.filter (fun value => !names.contains value.1)
         continue
     let branches : Option (TSyntax `tritonExpr × Array (TSyntax `tritonStmt) × Array (TSyntax `tritonStmt)) :=
       match st with
@@ -330,6 +358,57 @@ private partial def staticNatBound (constants assigned : List Name)
       let value ← elabTerm term none
       if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none
   | _ => return none
+
+/-- Retain a checked arange bound through immutable caller aliases. Inspect the
+actual constant before reduction; an arbitrary symbolic Nat or a same-named
+local function cannot manufacture the checked integer profile. -/
+private partial def checkedArangeTerm? (value : Expr) : TermElabM (Option (TSyntax `term)) := do
+  let value ← instantiateMVars value
+  if let .fvar id := value then
+    if let some rhs := (← id.getDecl).value? then return ← checkedArangeTerm? rhs
+  if let .letE _ _ rhs body _ := value then
+    return ← checkedArangeTerm? (body.instantiate1 rhs)
+  if let .mdata _ inner := value then return ← checkedArangeTerm? inner
+  if value.isAppOfArity ``VeriTile.Triton.Random.i32ArangeSize 2 then
+    let args := value.getAppArgs
+    let size ← exprToSyntax args[0]!
+    let proof ← exprToSyntax args[1]!
+    return some (← `(_root_.VeriTile.Triton.Random.i32ArangeSize $size $proof))
+  return none
+
+/-- A scalar signed full of a checked natural constant is a known forward
+range stride. Keep its source assignment, and specialize only the loop bound.
+Only a unique preceding top-level definition is accepted; any later, nested,
+tuple or iterator write invalidates the fact for the entire body. -/
+private partial def substituteRangeStrides (known : List (Name × TSyntax `tritonExpr))
+    (raw : Syntax) : MacroM Syntax := do
+  let args ← raw.getArgs.mapM (substituteRangeStrides known)
+  let rebuilt := match raw with
+    | .node info kind _ => Syntax.node info kind args
+    | _ => raw
+  if let `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $step:ident) { $body:tritonStmt* }) := rebuilt then
+    if let some (_, value) := known.find? (fun p => p.1 == step.getId.eraseMacroScopes) then
+      return (← `(tritonStmt| for $i in range($a, $b, $value:tritonExpr) { $body* })).raw
+  return rebuilt
+
+private def specializeImmutableRangeStrides (body : Array (TSyntax `tritonStmt)) :
+    TermElabM (Array (TSyntax `tritonStmt)) := do
+  let written := body.toList.flatMap (fun s => assignedNames s.raw)
+  let mut known : List (Name × TSyntax `tritonExpr) := []
+  let mut out := #[]
+  for stmt in body do
+    out := out.push (⟨← liftMacroM <| substituteRangeStrides known stmt.raw⟩ : TSyntax `tritonStmt)
+    if let `(tritonStmt| $id:ident = tl.full([], $value:tritonExpr, tl.int64)) := stmt then
+      let name := id.getId.eraseMacroScopes
+      unless (written.filter (· == name)).length == 1 do continue
+      let `(tritonExpr| $($term:term)) := value | continue
+      let term ← elabTerm term (some (mkConst ``Nat))
+      let checked ← checkedArangeTerm? term
+      let closed ← getNatValue? (← whnf term)
+      unless checked.isSome || closed.any (· < 2^31) do continue
+      known := (name,value) :: known
+  return out
+
 
 /-- Finite literal results of an immutable string caller expression. The union
 is conservative: correlations between caller conditions are never assumed. -/
@@ -648,6 +727,12 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
       if usesTypedFP32 && names.contains "dtype" then
         throwError "typed FP32 storage reserves the metadata dtype alias"
       for stmt in stmts do rejectBodyMetadata stmt.raw
+      let orderedRowSums ← bindings (fun value => do
+        let value ← whnf value
+        unless value.isAppOfArity ``Sigma.mk 4 do
+          throwError "ordered row sum configuration must supply its width and tree"
+        exprToSyntax value.getAppArgs[3]!)
+        (← mkAppM ``Triton.CallSignature.orderedRowSums #[profile])
       let sourceFunctions ← listValues (← mkAppM ``Triton.CallSignature.functions #[profile])
       let helperNames ← sourceFunctions.mapM fun function => do
         stringValue (← mkAppM ``Triton.SourceFunction.name #[function])
@@ -840,6 +925,8 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
             if let some n ← getNatValue? (← whnf value) then
               let literal : TSyntax `num := ⟨Syntax.mkNumLit (toString n)⟩
               liftMacroM `(tritonExpr| $(($literal:num : Nat)))
+            else if let some checked ← checkedArangeTerm? value then
+              liftMacroM `(tritonExpr| $($checked:term))
             else liftMacroM `(tritonExpr| $(($id:term : Nat)))
           else if ← isDefEq dtype (mkConst ``Int) then
             liftMacroM `(tritonExpr| $(($id:term : Int)))
@@ -858,6 +945,7 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
       -- Conditional, tuple and augmented first assignments still fail closed.
       let rebindable := integerArguments ++ pointers.map (fun p => Name.mkSimple p.1)
       let stmts ← bindCallStatements rebindable values stmts
+      let stmts ← specializeImmutableRangeStrides stmts
       let stmts ← RankOneBlockPtr.lower stmts
       let stmts ← liftMacroM <| stmts.mapM fun st => do
         return (⟨← normalizeBoundaryTuples st.raw⟩ : TSyntax `tritonStmt)
@@ -937,6 +1025,7 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
           if kind == .fp32 && (typedFP32 || typedFP32Names.contains name)
           then some (Name.mkSimple name) else none
         let body ← TypedStorageReduction.lower storagePointers body
+        let body ← OrderedRowSum.lower orderedRowSums body
         let emitted := finiteDeclarations ++ declarations ++ body.toArray
         let compiled ← `(triton { $emitted* })
         if usesTypedFP32 then
@@ -987,7 +1076,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       return (⟨← Inference.normalizeControlFlow st.raw⟩ : TSyntax `tritonStmt)
     let body ← liftMacroM <| ConstexprMask.lower choices body
     return ← elaborateCallCore profile body callValues pointerOffsets pointerPresence
-  unless stmts.any (fun st => ConstexprMask.needed st.raw) do
+  unless stmts.any (fun st => ConstexprMask.needed st.raw || ConstexprMask.directMaskNeeded st.raw) do
     return ← elaborateCallCore profile stmts callValues pointerOffsets pointerPresence
   for stmt in stmts do rejectBodyMetadata stmt.raw
   let signature ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)

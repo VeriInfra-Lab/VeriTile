@@ -47,7 +47,7 @@ theorem body_transport (M : Algebra α) (P : Primitives α) (h : Call)
   all_goals
     simp only [inputOffset,weightOffset,dtype,FloatDType.toTileDType,ofFloat,
       Nat.mul_comm slot (N*K)] at inputLoad weightLoad
-    simp only [body,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,
+    simp only [body,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.original_fp16_i64,Kernels.original_bf16_i64,
       ComputeKernel.surfaceBody,List.drop,Source.conditional?,Source.intRange?,
       Option.map_some,Option.getD_some,beq_self_eq_true]
     simp (config := {maxSteps := 100000}) [
@@ -58,10 +58,13 @@ theorem body_transport (M : Algebra α) (P : Primitives α) (h : Call)
       State.setReg,ofFloat,toFloat,TileShape.axisDim,Region.cast,Data.cells,dtype,
       ready.memory,ready.scaleReg,ready.batchReg,ready.offsetN,ready.offsetK,ready.inputPtr,ready.weightPtr,ready.acc,
       Broadcast.leftIndex,Broadcast.rightIndex,rebase]
+    have negativeRank (e : Nat) :
+        Int.toNat (-((split:Int)*256) + -(e:Int) + -((c:Int)*16384)) = 0 := by omega
     have rankCast (e : Nat) : (c:Int)*16384 + ((e:Int)+(split:Int)*256) =
         ((c*16384+(e+split*256):Nat):Int) := by norm_cast
-    simp only [rankCast,Int.toNat_natCast,Int.ofNat_lt]
-    simp_rw [inputLoad,weightLoad]
+    simp only [negativeRank,rankCast,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,
+      FPInvariant.negative_nat,FPInvariant.negative_sum,Nat.sub_zero]
+    simp only [inputLoad,weightLoad]
     rfl
 
 #axiomsClean body_transport

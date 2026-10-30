@@ -1,5 +1,6 @@
 import bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.SurfaceSource
 import VeriTile.Triton.Float.Structural
+import bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Proofs.SourceControl
 namespace VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPProgram
 open VeriTile.Triton
 set_option maxHeartbeats 3000000
@@ -12,8 +13,8 @@ def active (h : Call) := ((Source.conditional? (code h)
 def setup (h : Call) := ((Source.intRange? (active h) "k").map (·.before)).getD []
 def body (h : Call) := ((Source.intRange? (active h) "k").map (·.body)).getD []
 def tail (h : Call) := ((Source.intRange? (active h) "k").map (·.after)).getD []
-def guard : Op .bool [] := .ne .int .nil (.ref .int [] "lora_index") (.constInt (-1))
-def loop (h : Call) : ComputeStmt := .forRangeInt "k" (.constInt 0) (.constInt h.K) (.constNat 16384) (body h)
+def guard : Op .bool [] := .boolNot (.eq .int .nil (.ref .int [] "lora_index") (.constInt (-1)))
+def loop (h : Call) : ComputeStmt := .forRangeInt "k" (.constInt 0) (.constInt h.K) (.mul .nat .nil (.constNat 256) (.constNat 64)) (body h)
 
 theorem complete_code (h : Call) : code h=prelude h++[.ifThen guard (active h)] := by
   cases eq : h.storage <;> simp only [code,prelude,active,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.source,eq]

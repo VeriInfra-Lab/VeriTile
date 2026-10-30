@@ -1,5 +1,5 @@
 import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Source
-import bench.tritonbench_g.layer_norm_fwd.Proofs.FP
+import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RawPair
 
 namespace VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.Pair
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
@@ -21,20 +21,22 @@ def indexCommuted (f : Flags) (r : Regions) (stride : Strides)
     M N eps p (tile N) (tile_arange N)
   domain := []
 
-/-- Reuse the already proved complete-source equality. The selected positive
+/-- Complete actual-source equality preserves the selected positive
 tile, including N=0, every flag, cast and random stream remain in both sources. -/
 theorem execution {α : Type} [Inhabited α] (A : Algebra α)
     (f : Flags) (r : Regions) (stride : Strides) (M N : Nat) (eps p : ℝ)
     (s : State α) :
     exec A (original f r stride M N eps p).kernel s =
       exec A (indexCommuted f r stride M N eps p).kernel s :=
-  FPProof.whole_state f r stride M N eps p (tile N) (tile_arange N) A s
+  RawPair.whole_state (sourceFlags f) (sourceRegions r) (sourceStrides stride) M N eps p (tile N) (tile_arange N) A s
 
 theorem equivalent (f : Flags) (r : Regions) (stride : Strides)
     (M N : Nat) (eps p : ℝ) :
     original f r stride M N eps p ≡[assumptions]
       indexCommuted f r stride M N eps p := by
-  apply Spec.FloatingPoint.ofNumerical (structural := fun _ _ => False) rfl (by rfl)
+  apply Spec.FloatingPoint.ofNumerical (structural := fun _ _ => False) rfl (by
+    by_cases hN : N = 1 <;>
+      simp only [original,indexCommuted,quoted,Source.kernel,Source.indexCommuted,hN,ite_true,ite_false] <;> rfl)
   intro α _ A D _ s _
   exact execution (engine A) f r stride M N eps p s
 

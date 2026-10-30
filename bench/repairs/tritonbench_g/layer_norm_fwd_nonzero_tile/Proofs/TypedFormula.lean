@@ -43,8 +43,13 @@ def combinedValues {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comparison
   let both := fun j => if f.x1 then op A .add (first j) (second j) else first j
   fun j => if f.residual then op A .add (both j) (raw A s r.residual (row*stride.residual) N j.1.val) else both j
 
+/-- The runtime column count is converted by the actual FP32 primitive.
+The native integer-one call is a Python constexpr and therefore a literal. -/
+def countValue {α : Type} (A : Algebra α) (N : Nat) : α :=
+  if N = 1 then lit A 1 else (engine A).fromNat (some .fp32) N
+
 def meanValue {α : Type} (A : Algebra α) (N : Nat) (v : Values α .real [block]) : α :=
-  op A .div ((engine A).reduceSum (some .fp32) 0 Bool.false v PUnit.unit) (lit A N)
+  op A .div ((engine A).reduceSum (some .fp32) 0 Bool.false v PUnit.unit) (countValue A N)
 def centeredValues {α : Type} (A : Algebra α) (rms : Bool) (N : Nat)
     (v : Values α .real [block]) : Values α .real [block] := fun j =>
   if j.1.val<N then if rms then v j else op A .sub (v j) (meanValue A N v) else lit A 0
@@ -58,6 +63,8 @@ def rstdValue {α : Type} (A : Algebra α) (rms : Bool) (N : Nat) (eps : ℝ)
 def normalizedValues {α : Type} (A : Algebra α) (rms : Bool) (N : Nat) (eps : ℝ)
     (v : Values α .real [block]) : Values α .real [block] := fun j =>
   defaultOp A .mul (if rms then v j else defaultOp A .sub (v j) (meanValue A N v)) (rstdValue A rms N eps v)
+/-- The actual lowering retains the implicit FP32 destination conversion of
+the ordinary conditional affine expression. No explicit Python cast is added. -/
 def affineValue {α : Type} (A : Algebra α) (bias : Bool) (x w b : α) : α :=
   cast A (if bias then defaultOp A .add (defaultOp A .mul x w) b else defaultOp A .mul x w)
 

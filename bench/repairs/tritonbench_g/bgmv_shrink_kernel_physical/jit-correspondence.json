@@ -1,0 +1,770 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean",
+    "python_function": "_bgmv_shrink_kernel",
+    "lean_definition": "original_fp16_i32",
+    "signature_definition": "signature_fp16_i32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp16"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "outputFloat"
+        ],
+        [
+          "lora_indices",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ],
+        [
+          "scaling",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_K"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "fp16_i32"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_scalar_left.py",
+    "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean",
+    "python_function": "_bgmv_shrink_kernel_scalar_left",
+    "lean_definition": "scalarLeft_fp16_i32",
+    "signature_definition": "signature_fp16_i32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp16"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "outputFloat"
+        ],
+        [
+          "lora_indices",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ],
+        [
+          "scaling",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_K"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "fp16_i32"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean",
+    "python_function": "_bgmv_shrink_kernel",
+    "lean_definition": "original_fp16_i64",
+    "signature_definition": "signature_fp16_i64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp16"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "outputFloat"
+        ],
+        [
+          "lora_indices",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ],
+        [
+          "scaling",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_K"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "fp16_i64"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_scalar_left.py",
+    "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean",
+    "python_function": "_bgmv_shrink_kernel_scalar_left",
+    "lean_definition": "scalarLeft_fp16_i64",
+    "signature_definition": "signature_fp16_i64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp16"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "outputFloat"
+        ],
+        [
+          "lora_indices",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ],
+        [
+          "scaling",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_K"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "fp16_i64"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean",
+    "python_function": "_bgmv_shrink_kernel",
+    "lean_definition": "original_bf16_i32",
+    "signature_definition": "signature_bf16_i32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "bf16"
+        ],
+        [
+          "lora_ptr",
+          "bf16"
+        ],
+        [
+          "out_ptr",
+          "outputFloat"
+        ],
+        [
+          "lora_indices",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ],
+        [
+          "scaling",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_K"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "bf16_i32"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_scalar_left.py",
+    "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean",
+    "python_function": "_bgmv_shrink_kernel_scalar_left",
+    "lean_definition": "scalarLeft_bf16_i32",
+    "signature_definition": "signature_bf16_i32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "bf16"
+        ],
+        [
+          "lora_ptr",
+          "bf16"
+        ],
+        [
+          "out_ptr",
+          "outputFloat"
+        ],
+        [
+          "lora_indices",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ],
+        [
+          "scaling",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_K"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "bf16_i32"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_kernel_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean",
+    "python_function": "_bgmv_shrink_kernel",
+    "lean_definition": "original_bf16_i64",
+    "signature_definition": "signature_bf16_i64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "bf16"
+        ],
+        [
+          "lora_ptr",
+          "bf16"
+        ],
+        [
+          "out_ptr",
+          "outputFloat"
+        ],
+        [
+          "lora_indices",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ],
+        [
+          "scaling",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_K"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "bf16_i64"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/bgmv_shrink_scalar_left.py",
+    "lean": "bench/repairs/tritonbench_g/bgmv_shrink_kernel_physical/Kernels.lean",
+    "python_function": "_bgmv_shrink_kernel_scalar_left",
+    "lean_definition": "scalarLeft_bf16_i64",
+    "signature_definition": "signature_bf16_i64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "bf16"
+        ],
+        [
+          "lora_ptr",
+          "bf16"
+        ],
+        [
+          "out_ptr",
+          "outputFloat"
+        ],
+        [
+          "lora_indices",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ],
+        [
+          "scaling",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_K"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "bf16_i64"
+  }
+]

@@ -62,7 +62,7 @@ theorem suffix_registers (P : Source.Arithmetic α α) (p : Parameters)
     Registers p pid (suffixResult P p initial current tile) := by
   constructor <;>
     simp [suffixResult,masked_scatter_regs,storeRegisters,regs.start,regs.rows,regs.columns,
-      regs.count,regs.work,regs.group,regs.span,regs.lanesM,regs.lanesN,regs.lanesK]
+      regs.count,regs.work,regs.group,regs.span,regs.lanesM,regs.lanesN,regs.lanesK,regs.dimM,regs.dimN,regs.dimK,regs.strideAM,regs.strideAK,regs.strideBK,regs.strideBN,regs.strideCM,regs.strideCN]
 
 #axiomsClean written_post
 #axiomsClean suffix_post

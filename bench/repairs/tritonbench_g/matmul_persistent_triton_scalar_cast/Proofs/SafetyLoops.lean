@@ -11,6 +11,27 @@ set_option maxRecDepth 18000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
+private theorem signed_safe_of_nat_invariant (M : Algebra α)
+    (bounds : RegionName → Nat) (idx : RegName) (stop : Nat) (stride : Nat)
+    (body : List ComputeStmt) (P : Nat → State α → Prop)
+    (bodySafe : ∀ q, q < stop → ∀ t, P q t →
+      Safety.traceSafeList M bounds body (t.setReg idx .int [] (fun _ => (q : Int))))
+    (preserved : ∀ q, q < stop → ∀ t, P q t → ∀ u,
+      run M body (t.setReg idx .int [] (fun _ => (q : Int))) = some u → P (q + stride) u)
+    (start : Nat) (s : State α) (initial : P start s) :
+    Safety.rangeIntSafe M bounds idx start stop stride body s := by
+  apply Safety.rangeIntSafe_of_invariant M bounds idx stop stride body
+    (fun q t => 0 ≤ q ∧ P q.toNat t)
+  · intro q hq t inv
+    have eq : (q.toNat : Int) = q := Int.toNat_of_nonneg inv.1
+    simpa only [eq] using bodySafe q.toNat (by omega) t inv.2
+  · intro q hq t inv u ran
+    have eq : (q.toNat : Int) = q := Int.toNat_of_nonneg inv.1
+    refine ⟨by omega, ?_⟩
+    have result := preserved q.toNat (by omega) t inv.2 u (by simpa only [eq] using ran)
+    simpa only [Int.toNat_add inv.1 (Int.natCast_nonneg _),Int.toNat_natCast] using result
+  · simpa using And.intro (Int.natCast_nonneg start) initial
+
 /-- Bounds for exactly the source's clamped loads and masked output stores. -/
 structure TileBounds (p : Core.Parameters) (bounds : RegionName → Nat) (tile : Nat) : Prop where
   a : ∀ block (i : AIndex p),p.problem.k block i.2.1.val<p.problem.K → aOffset p tile block i<bounds "A"
@@ -20,8 +41,8 @@ structure TileBounds (p : Core.Parameters) (bounds : RegionName → Nat) (tile :
 theorem inner_loop_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     (initial current : State α) (tile : Nat) (h : InnerInvariant P p initial tile 0 current)
     (bounds : RegionName → Nat) (hb : TileBounds p bounds tile) :
-    Safety.rangeSafe (backend P) bounds "ki" 0 p.problem.kTiles 1 (Core.inner p) current := by
-  apply Safety.rangeSafe_of_invariant (backend P) bounds "ki" p.problem.kTiles 1 (Core.inner p)
+    Safety.rangeIntSafe (backend P) bounds "ki" 0 p.problem.kTiles 1 (Core.inner p) current := by
+  apply signed_safe_of_nat_invariant (backend P) bounds "ki" p.problem.kTiles 1 (Core.inner p)
     (fun q t => InnerInvariant P p initial tile q t)
   · intro q _ t inv
     exact inner_safe P p initial t tile q inv bounds (hb.a q) (hb.b q)
@@ -33,7 +54,7 @@ theorem inner_loop_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
 
 theorem inner_statement_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     (current : State α) (pid : Nat) (h : Registers p pid current) (bounds : RegionName → Nat)
-    (safe : Safety.rangeSafe (backend P) bounds "ki" 0 p.problem.kTiles 1 (Core.inner p) current) :
+    (safe : Safety.rangeIntSafe (backend P) bounds "ki" 0 p.problem.kTiles 1 (Core.inner p) current) :
     Safety.stepSafe (backend P) bounds (innerStatement p) current := by
   cases hp : p.problem.profile <;>
     simpa [innerStatement,Core.inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,hp,ComputeKernel.surfaceBody,
@@ -44,15 +65,16 @@ theorem outer_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     (tileBound : p.problem.tile pid ordinal<p.problem.tiles) (bounds : RegionName → Nat)
     (hb : TileBounds p bounds (p.problem.tile pid ordinal)) :
     Safety.traceSafeList (backend P) bounds (outer p)
-      (initial.setReg "tile_ordinal" .nat [] (fun _ => ordinal)) ∧
+      (initial.setReg "tile_ordinal" .int [] (fun _ => (ordinal : Int))) ∧
     ∃ final,run (backend P) (outer p)
-      (initial.setReg "tile_ordinal" .nat [] (fun _ => ordinal))=some final ∧ Registers p pid final := by
+      (initial.setReg "tile_ordinal" .int [] (fun _ => (ordinal : Int)))=some final ∧ Registers p pid final := by
   let setup := tilePreludeExecution P p pid ordinal initial regs
   have invariant := tile_initial P p pid ordinal initial regs tileBound
   have registers := tile_registers P p pid ordinal initial regs
   obtain ⟨last,ran,inv,reg⟩ := innerLoop P p initial setup.val pid (p.problem.tile pid ordinal) 0
     (Nat.zero_le _) invariant registers
   have stepRan : step (backend P) (innerStatement p) setup.val=some last := by
+    simp only [Int.natCast_zero] at ran
     rw [dynamicInner P p setup.val pid registers,ran]
   constructor
   · rw [outer_decomposition,Safety.traceSafeList_append]
@@ -82,9 +104,9 @@ theorem program_safe (P : Source.Arithmetic α α) (p : Core.Parameters) (initia
       (Source.tiles_exact p.problem sms _).mp
         ((Source.tile_mem p.problem _).mpr ⟨pid,pidBound,ordinal,ho,rfl⟩)
     outer_safe P p current pid ordinal ready tileBound bounds (hb _ tileBound)
-  have outerSafe : Safety.rangeSafe (backend P) bounds "tile_ordinal" 0 (p.problem.work pid) 1
+  have outerSafe : Safety.rangeIntSafe (backend P) bounds "tile_ordinal" 0 (p.problem.work pid) 1
       (outer p) prepared.val := by
-    apply Safety.rangeSafe_of_invariant (backend P) bounds "tile_ordinal" (p.problem.work pid) 1
+    apply signed_safe_of_nat_invariant (backend P) bounds "tile_ordinal" (p.problem.work pid) 1
       (outer p) (fun _ t => Registers p pid t)
     · intro q hq t ready
       exact (bodySafe q hq t ready).1

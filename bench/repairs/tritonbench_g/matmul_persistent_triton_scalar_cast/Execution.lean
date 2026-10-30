@@ -23,7 +23,7 @@ theorem source_decomposition (p : Parameters) :
 theorem dynamicOuter (P : Source.Arithmetic α α) (p : Parameters)
     (s : State α) (pid : Nat) (regs : Registers p pid s) :
     step (backend P) (outerStatement p) s=
-      FP.Structural.range (backend P) "tile_ordinal" 0 (p.problem.work pid) 1 (outer p) s := by
+      FP.Structural.rangeInt (backend P) "tile_ordinal" 0 (p.problem.work pid) 1 (outer p) s := by
   cases hp : p.problem.profile <;>
     simp [outerStatement,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,hp,ComputeKernel.surfaceBody,step,
       evalOp_unfold,evalExpr,evalComputeOp,Option.bind,regs.work]
@@ -59,6 +59,9 @@ theorem programExecution (P : Source.Arithmetic α α) (p : Parameters) (b : Buf
       (Source.tiles_exact p.problem sms _).mp ((Source.tile_mem p.problem _).mpr ⟨pid,pidBound,ordinal,bound,rfl⟩)
     exact outerExecution P p b current entry pid ordinal layout strides
       (inputs_outside p b prepared.val current entry ip outside) zero ready tileBound
+  have rangeAsSequence := Compose.range_sequence (backend P) "tile_ordinal" (outer p)
+    0 (p.problem.work pid) prepared.val
+  simp only [Int.natCast_zero] at rangeAsSequence
   obtain ⟨final,ran,post,ready⟩ := Compose.ready "C" (logicalAddress p)
     (logical_injective p b layout strides) (referenceValue P p b entry)
     (fun ordinal => Owns p (p.problem.tile pid ordinal))
@@ -70,7 +73,7 @@ theorem programExecution (P : Source.Arithmetic α α) (p : Parameters) (b : Buf
   · unfold program
     change run (backend P) (source p).surfaceBody (atProgram initial pid)=some final
     rw [source_decomposition,run_append,prepared.property,Option.bind_some,run,
-      dynamicOuter P p prepared.val pid regs,Compose.range_sequence]
+      dynamicOuter P p prepared.val pid regs,rangeAsSequence]
     simp only [Nat.sub_zero,ran,run]
     rfl
   · simpa [Post,ProgramOwns,List.mem_range',memory] using post

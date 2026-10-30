@@ -11,13 +11,13 @@ variable {α : Type} [Inhabited α]
 
 def expectedHeap (M : Algebra α) (h : Call) (K pid : Nat) (u : State α) :=
   commit "dw" (fun i : TileIndex [K] => pid*K+i.1.val)
-    (fun i => Cell.mk .real (FPReference.cast M (carry M h K pid u h.rows i)))
+    (fun i => Cell.mk .real (carry M h K pid u h.rows i))
     (fun i => pid*K+i.1.val<h.cols) (TileShape.allIndices [K]) u.mem
 
 theorem tail_executes (M : Algebra α) (h : Call) (K pid : Nat) (initial u : State α)
     (inv : Holds M h K pid initial h.rows u) :
     ∃ v, run (engine M) (tailCode h K) u=some v ∧ v.mem=expectedHeap M h K pid initial := by
-  simp [tailCode,Kernels.weightBackward,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [tailCode,Kernels.weightBackward,Kernels.weightSource,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,State.setReg,FP.Structural.store,
     inv.col,inv.mask,inv.acc,inv.mem,expectedHeap,columns,masks,FPReference.cast,fold_mem]
@@ -33,7 +33,12 @@ theorem source_memory (M : Algebra α) (h : Call) (K : Nat) (u : State α) :
   refine ⟨w,?_,hmem⟩
   change run (engine M) (Kernels.weightBackward h K).surfaceBody u=some w
   rw [source_body,run_append,run_append,prefix_executes]
-  simpa [run,step,FP.Structural.evalOp,he] using hw
+  simp [run,step,FP.Structural.evalOp]
+  change (rangeInt (engine M) "row" 0 (h.rows : Int) 1 (loopBody h K)
+    (FPWeightStep.initial M h K u)).bind (fun a => run (engine M) (tailCode h K) a) = some w
+  simp only [Int.natCast_zero] at he
+  rw [he]
+  exact hw
 
 def footprint (h : Call) (K pid : Nat) (q : RegionName) (o : Nat) : Prop :=
   q="dw" ∧ ∃ j : Fin K,pid*K+j.val<h.cols ∧ o=pid*K+j.val
@@ -51,7 +56,7 @@ theorem complete (M : Algebra α) (h : Call) (K : Nat) (u : State α) :
   · intro j hj
     rw [hm]
     exact commit_readback "dw" (fun i : TileIndex [K] => u.pids 0*K+i.1.val)
-      (fun i => Cell.mk .real (FPReference.cast M (carry M h K (u.pids 0) u h.rows i)))
+      (fun i => Cell.mk .real (carry M h K (u.pids 0) u h.rows i))
       (fun i => u.pids 0*K+i.1.val<h.cols) u (j,PUnit.unit) hj (row_injective _ _)
   · intro q o outside
     rw [hm]

@@ -12,7 +12,7 @@ def carry (h : Call) (K pid : Nat) (initial : BlockState) (n : Nat) (j : Fin K) 
 
 structure Holds (h : Call) (K pid : Nat) (initial : BlockState) (n : Nat) (u : BlockState) : Prop where
   bound : n≤h.rows
-  col : u.regs .nat [K] "col"=some (columns K pid)
+  col : u.regs .int [K] "col"=some (columns K pid)
   mask : u.regs .bool [K] "mask"=some (masks h K pid)
   acc : u.regs .real [K] "acc"=some (Tile.vec fun j => some (carry h K pid initial n j))
   mem : u.mem=initial.mem
@@ -26,7 +26,7 @@ theorem initial_holds (h : Call) (K : Nat) (u : BlockState) :
 
 theorem loop_executes (h : Call) (K pid : Nat) (initial : BlockState)
     (n : Nat) (u : BlockState) (inv : Holds h K pid initial n u) :
-    ∃ v,stepForRangeAux "row" n h.rows 1 (loopBody h K) u=some v ∧ Holds h K pid initial h.rows v := by
+    ∃ v,stepForRangeIntAux "row" (n : Int) (h.rows : Int) 1 (loopBody h K) u=some v ∧ Holds h K pid initial h.rows v := by
   by_cases hn : n<h.rows
   · obtain ⟨v,he,hmem,_,hcol,hmask,hacc⟩ := iteration h K pid n u
       (carry h K pid initial n) inv.col inv.mask inv.acc
@@ -38,11 +38,11 @@ theorem loop_executes (h : Call) (K pid : Nat) (initial : BlockState)
       ⟨Nat.succ_le_of_lt hn,hcol,hmask,by rw [next] at hacc; exact hacc,hmem.trans inv.mem⟩
     obtain ⟨w,hw,hf⟩ := loop_executes h K pid initial (n+1) v hv
     refine ⟨w,?_,hf⟩
-    rw [stepForRangeAux]
-    simpa [hn,he] using hw
+    rw [stepForRangeIntAux]
+    simpa [hn,he,Int.natCast_add] using hw
   · have eq : n=h.rows := Nat.le_antisymm inv.bound (Nat.le_of_not_gt hn)
     refine ⟨u,?_,by simpa [eq] using inv⟩
-    rw [stepForRangeAux]
+    rw [stepForRangeIntAux]
     simp [hn]
 termination_by h.rows-n
 

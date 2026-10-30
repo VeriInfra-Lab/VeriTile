@@ -249,6 +249,10 @@ def coerceNatIntOperands (_ctx : String) (a b : EOut) : MacroM (EOut × EOut) :=
   let a := a.forgetStorageWidth
   let b := b.forgetStorageWidth
   match a.dtype, b.dtype with
+  | .bool, .int =>
+      pure ({ a with term := ← `(Op.boolToInt $a.term), dtype := .int }, b)
+  | .int, .bool =>
+      pure (a, { b with term := ← `(Op.boolToInt $b.term), dtype := .int })
   | .nat, .int =>
       pure ({ a with term := ← `(Op.castNatToInt $a.term), dtype := .int }, b)
   | .int, .nat =>

@@ -65,7 +65,7 @@ theorem forward_memory (M : Algebra α) (h : Call) (u : State α) :
       numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,
       State.setReg,FP.Structural.store,TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
       forwardHeap,FPReference.output,FPReference.savedInv,FPReference.normalized,FPReference.inv,
-      FPReference.reduce,FPReference.input,FPReference.padded,FPReference.literal,FPReference.cast,
+      FPReference.reduce,FPReference.input,FPReference.padded,FPReference.literal,FPReference.count,FPReference.cast,
       FPReference.add,FPReference.mul,FPReference.div,fold_mem]
     <;> dsimp only [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,State.write,update]
     <;> norm_num

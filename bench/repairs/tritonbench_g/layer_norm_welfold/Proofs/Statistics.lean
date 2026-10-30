@@ -18,10 +18,10 @@ def meanValue {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
 
 def inverseValue {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
     (X : RegionName) (D B : Nat) (tree : ReductionTree B) : α :=
-  M.unary (some .fp32) .rsqrt (M.binary (some .fp32) .real .add
+  M.unary (some .fp32) .libdeviceRsqrt (M.binary (some .fp32) .real .add
     (M.binary (some .fp32) .real .div
       (treeValue M (allLanes M Bool.true s X D B (meanValue M s X D B tree)) tree)
-      (M.fromNat (some .fp32) D)) (M.literal none .real (1e-05)))
+      (M.fromNat (some .fp32) D)) (M.literal (some .fp32) .real (1e-05)))
 
 theorem init_run {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (S B : Nat) :
     ∃ t,run M (init S B) s=some t ∧ Ready s t (fun _ : Fin B => zero M) (zero M) := by
@@ -97,9 +97,9 @@ structure InverseStored {α : Type} (s t : State α) (Rstd : RegionName)
   inverse : t.regs .real [1,1] "tmp10"=some (fun _ => inverse)
 
 def inverseFromTotal {α : Type} (M : Algebra α) (D : Nat) (total : α) : α :=
-  M.unary (some .fp32) .rsqrt (M.binary (some .fp32) .real .add
+  M.unary (some .fp32) .libdeviceRsqrt (M.binary (some .fp32) .real .add
     (M.binary (some .fp32) .real .div total (M.fromNat (some .fp32) D))
-    (M.literal none .real (1e-05)))
+    (M.literal (some .fp32) .real (1e-05)))
 
 theorem inverse_run {α : Type} [Inhabited α] (M : Algebra α) (s t : State α)
     (Rstd : RegionName) (D : Nat) (mean total : α) (h : Summed s t mean total) :

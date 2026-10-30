@@ -40,7 +40,9 @@ theorem loop_runs (M : Algebra α) (P : Primitives α) (h : Call)
     (batch split slot : Nat) (data : Data α) (metadata : data.indices batch=(slot:Int)) :
     ∃ t,step (machine M P) (loop h) (preloop M P h batch split slot data metadata).val=some t ∧
       Invariant h data batch split slot (accumulator M P h data batch slot split h.cycles) t := by
-  simpa only [FPProgram.loop,step,Nat.zero_mul,evalOp_unfold,Option.bind_some,Int.natCast_zero] using range_runs M P h batch split slot 0 data _ (Nat.zero_le _)
+  unfold FPProgram.loop
+  rw [(SourceControl.constant_stride (machine M P) h.K (body h)).step]
+  simpa only [step,Nat.zero_mul,evalOp_unfold,Option.bind_some,Int.natCast_zero] using range_runs M P h batch split slot 0 data _ (Nat.zero_le _)
     (setup_ready M P h batch split slot data metadata)
 
 #axiomsClean range_runs

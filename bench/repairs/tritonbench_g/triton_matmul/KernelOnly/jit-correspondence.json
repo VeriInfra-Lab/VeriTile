@@ -1,0 +1,350 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/triton_matmul/triton_matmul_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/triton_matmul/Kernels.lean",
+    "python_function": "matmul_kernel_repaired",
+    "lean_definition": "halfSource",
+    "signature_definition": "signature_fp16",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp16"
+        ],
+        [
+          "b_ptr",
+          "fp16"
+        ],
+        [
+          "c_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ],
+        [
+          "stride_am",
+          "i64"
+        ],
+        [
+          "stride_ak",
+          "i64"
+        ],
+        [
+          "stride_bk",
+          "i64"
+        ],
+        [
+          "stride_bn",
+          "i64"
+        ],
+        [
+          "stride_cm",
+          "i64"
+        ],
+        [
+          "stride_cn",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "fp16"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/triton_matmul/triton_matmul_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/triton_matmul/Kernels.lean",
+    "python_function": "matmul_kernel_repaired",
+    "lean_definition": "byteSource",
+    "signature_definition": "signature_f8e4",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "f8e4"
+        ],
+        [
+          "b_ptr",
+          "f8e4"
+        ],
+        [
+          "c_ptr",
+          "f8e4"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ],
+        [
+          "stride_am",
+          "i64"
+        ],
+        [
+          "stride_ak",
+          "i64"
+        ],
+        [
+          "stride_bk",
+          "i64"
+        ],
+        [
+          "stride_bn",
+          "i64"
+        ],
+        [
+          "stride_cm",
+          "i64"
+        ],
+        [
+          "stride_cn",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "f8e4"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/triton_matmul_shifted.py",
+    "lean": "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/CandidateKernels.lean",
+    "python_function": "matmul_kernel_shifted",
+    "lean_definition": "halfSource",
+    "signature_definition": "signature_fp16",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp16"
+        ],
+        [
+          "b_ptr",
+          "fp16"
+        ],
+        [
+          "c_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ],
+        [
+          "stride_am",
+          "i64"
+        ],
+        [
+          "stride_ak",
+          "i64"
+        ],
+        [
+          "stride_bk",
+          "i64"
+        ],
+        [
+          "stride_bn",
+          "i64"
+        ],
+        [
+          "stride_cm",
+          "i64"
+        ],
+        [
+          "stride_cn",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "fp16"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/triton_matmul_shifted.py",
+    "lean": "bench/repairs/tritonbench_g/triton_matmul/KernelOnly/CandidateKernels.lean",
+    "python_function": "matmul_kernel_shifted",
+    "lean_definition": "byteSource",
+    "signature_definition": "signature_f8e4",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "f8e4"
+        ],
+        [
+          "b_ptr",
+          "f8e4"
+        ],
+        [
+          "c_ptr",
+          "f8e4"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "i64"
+        ],
+        [
+          "N",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ],
+        [
+          "stride_am",
+          "i64"
+        ],
+        [
+          "stride_ak",
+          "i64"
+        ],
+        [
+          "stride_bk",
+          "i64"
+        ],
+        [
+          "stride_bn",
+          "i64"
+        ],
+        [
+          "stride_cm",
+          "i64"
+        ],
+        [
+          "stride_cn",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "f8e4"
+  }
+]

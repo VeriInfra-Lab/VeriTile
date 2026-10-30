@@ -68,6 +68,15 @@ structure InnerInvariant (P : Source.Arithmetic α α) (p : Parameters)
   offBN : current.regs .int [256] "offs_bn" = some (fun i => (clamp p.problem.N (p.problem.column tile i.1.val) : Int))
   offK : current.regs .int [p.problem.profile.blockK] "offs_k_for_mask" = some (fun i => (i.1.val : Int))
   acc : current.regs .real [128,256] "accumulator" = some (fun i => accumulation P p initial tile block i.1 i.2.1)
+  dimM : current.regs .int [] "M" = some (fun _ => (p.problem.M : Int))
+  dimN : current.regs .int [] "N" = some (fun _ => (p.problem.N : Int))
+  dimK : current.regs .int [] "K" = some (fun _ => (p.problem.K : Int))
+  strideAM : current.regs .int [] "stride_am" = some (fun _ => (p.am : Int))
+  strideAK : current.regs .int [] "stride_ak" = some (fun _ => (p.ak : Int))
+  strideBK : current.regs .int [] "stride_bk" = some (fun _ => (p.bk : Int))
+  strideBN : current.regs .int [] "stride_bn" = some (fun _ => (p.bn : Int))
+  strideCM : current.regs .int [] "stride_cm" = some (fun _ => (p.cm : Int))
+  strideCN : current.regs .int [] "stride_cn" = some (fun _ => (p.cn : Int))
 
 structure Strides (p : Parameters) (b : Buffers) : Prop where
   am : p.am=b.A.rowStride

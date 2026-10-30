@@ -11,13 +11,14 @@ device context, empty/K=0 behavior, and launch choices are preserved.
 | FP16 | 128 | 256 | 64 | 8 | 3 | 8 |
 | E4M3FN | 128 | 256 | 128 | 8 | 4 | 8 |
 
-The original benchmark, original repaired directory, and original defect
-packet are frozen. This directory does not change canonical selection.
+The historical benchmark and predecessor repair remain available. This scalar-cast
+version is the selected task source in the current corpus.
 
 ## Evidence
 
-Workspace evidence is in
-`.veritile-cache/matmul-persistent-triton-scalar-cast/`.
+The following historical diagnostics were recorded under the former workspace
+cache. They are not fresh validation of the literal-body migration, and their
+original cache files are not required to build these sources or proofs:
 
 * `source-delta.json`: nine replacements; reversing them reproduces the entire
   frozen Python module byte for byte and AST for AST.
@@ -35,11 +36,19 @@ diagnostic arithmetic and is not evidence of native floating-point equality.
 
 ## Formal chain
 
-`Kernels.lean` contains complete ordinary typed DSL quotations for both storage
-profiles and both source alternatives. `Pair.selected_original_preserved` proves
-that expanding the old task macro preserved the full original AST. The operational
-proof uses the shared `FP.Structural.run`, dynamic ranges, masked stores, and
-`FP.Structural.exec`; no whole-quote execution law is a premise.
+`Kernels.lean` contains the original Python function body verbatim in four
+`triton { ... }` quotations: FP16/E4M3 original and row-index candidate. Caller
+pointer types, runtime scalars and constexpr metadata stay outside each body.
+`jit-correspondence.json` checks every statement and the external call metadata;
+`check_pair_source.py` checks the complete Python modules and permits only the
+one row-index product commutation. The tuple casts, Boolean ceiling expressions,
+signed nested loops, live dot and output dtype branch remain visible.
+
+The operational proofs use the shared `FP.Structural.run`, signed dynamic
+ranges, masked stores and `FP.Structural.exec`. Original scalar assignments and
+control registers are established by the prefix and preserved across both
+loops. No equality to the historical rewritten AST is assumed. The full Real,
+FP and IO judgments are re-proved for the copied source itself.
 
 The proof files separate prefix, tile setup, inner K loop, output store,
 persistent outer loop, and complete grid composition. `Targets.result` is

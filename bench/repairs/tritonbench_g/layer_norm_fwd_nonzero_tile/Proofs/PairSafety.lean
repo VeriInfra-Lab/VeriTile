@@ -1,5 +1,5 @@
 import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.Pair
-import VeriTile.Triton.Float.StructuralSafety
+import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RawPairSafety
 
 namespace VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.Pair
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
@@ -15,10 +15,9 @@ theorem candidate_prefix_safe {α : Type} [Inhabited α] (A : Algebra α)
     (f : Flags) (r : Regions) (stride : Strides) (M N : Nat) (eps p : ℝ)
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList A bounds
-      ((indexCommuted f r stride M N eps p).kernel.surfaceBody.take 2) s := by
-  simp [indexCommuted, Source.indexCommuted, ComputeKernel.surfaceBody,
-    Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
-    Safety.safeOp_unfold, step, evalExpr, evalOp_unfold]
+      ((indexCommuted f r stride M N eps p).kernel.surfaceBody.take 2) s :=
+  RawPair.candidate_prefix_safe A (sourceFlags f) (sourceRegions r) (sourceStrides stride)
+    M N eps p (tile N) (tile_arange N) bounds s
 
 /-- Safety is transported through the pure prefix's equal actual successor,
 then through the literally identical complete suffix. Execution equality alone
@@ -27,17 +26,9 @@ theorem trace_safe {α : Type} [Inhabited α] (A : Algebra α)
     (f : Flags) (r : Regions) (stride : Strides) (M N : Nat) (eps p : ℝ)
     (bounds : RegionName → Nat) (s : State α)
     (safe : TraceSafe A bounds (original f r stride M N eps p).kernel s) :
-    TraceSafe A bounds (indexCommuted f r stride M N eps p).kernel s := by
-  change Safety.traceSafeList A bounds _ s at safe ⊢
-  rw [← List.take_append_drop 2 (original f r stride M N eps p).kernel.surfaceBody,
-    Safety.traceSafeList_append] at safe
-  rw [← List.take_append_drop 2 (indexCommuted f r stride M N eps p).kernel.surfaceBody,
-    Safety.traceSafeList_append]
-  refine ⟨candidate_prefix_safe A f r stride M N eps p bounds s, ?_⟩
-  intro t executed
-  have hprefix := FPProof.prefix_run f r stride M N eps p (tile N) (tile_arange N) A s
-  have hsuffix := FPProof.suffix f r stride M N eps p (tile N) (tile_arange N)
-  exact hsuffix ▸ safe.2 t (hprefix.trans executed)
+    TraceSafe A bounds (indexCommuted f r stride M N eps p).kernel s :=
+  RawPair.trace_safe A (sourceFlags f) (sourceRegions r) (sourceStrides stride)
+    M N eps p (tile N) (tile_arange N) bounds s safe
 
 #axiomsClean trace_safe
 end

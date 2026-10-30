@@ -7,14 +7,14 @@ set_option maxHeartbeats 1200000
 set_option maxRecDepth 25000
 set_option linter.unusedSimpArgs false
 
-def columns (K pid : Nat) : Tile .nat [K] := Tile.vec (fun j => pid*K+j.val)
+def columns (K pid : Nat) : Tile .int [K] := Tile.vec (fun j => ((pid*K+j.val : Nat) : Int))
 def masks (h : Call) (K pid : Nat) : Tile .bool [K] := Tile.vec (fun j => decide (pid*K+j.val<h.cols))
 def raw (h : Call) (K pid : Nat) (u : BlockState) (role : RegionName) (row : Nat) (j : Fin K) : ℝ :=
   if pid*K+j.val<h.cols then u.readMem role (row*h.cols+(pid*K+j.val)) else 0
 def saved (u : BlockState) (row : Nat) : ℝ := u.readMem "r" row
 
 def initial (h : Call) (K : Nat) (u : BlockState) : BlockState :=
-  ((u.setReg "col" .nat [K] (columns K (u.pids 0))).setReg "mask" .bool [K] (masks h K (u.pids 0))).setReg
+  ((u.setReg "col" .int [K] (columns K (u.pids 0))).setReg "mask" .bool [K] (masks h K (u.pids 0))).setReg
     "acc" .real [K] (Tile.vec fun _ => some 0)
 
 theorem prefix_executes (h : Call) (K : Nat) (u : BlockState) :
@@ -23,7 +23,8 @@ theorem prefix_executes (h : Call) (K : Nat) (u : BlockState) :
   simp [initOps,colOp,stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,
     Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.vec,
     NumericDType.add,NumericDType.mul,ComparableDType.lt,
-    FloatDType.cast,FloatDType.ofWithBot,FloatDType.toWithBot,columns,masks,initial]
+    FloatDType.cast,FloatDType.ofWithBot,FloatDType.toWithBot,columns,masks,initial,
+    -Nat.cast_mul,-Nat.cast_add,← Int.natCast_mul,← Int.natCast_add]
 
 def nextAcc (h : Call) (K pid row : Nat) (u : BlockState) (acc : Fin K → ℝ) : Fin K → ℝ :=
   fun j => acc j+raw h K pid u "dx" row j*(raw h K pid u "x" row j*saved u row)
@@ -41,9 +42,9 @@ def result (h : Call) (K pid row : Nat) (u : BlockState) (acc : Fin K → ℝ) :
   (beforeAcc h K pid row u).setReg "acc" .real [K] (Tile.vec fun j => some (nextAcc h K pid row u acc j))
 
 theorem iteration_run (h : Call) (K pid row : Nat) (u : BlockState) (acc : Fin K → ℝ)
-    (hcol : u.regs .nat [K] "col"=some (columns K pid))
+    (hcol : u.regs .int [K] "col"=some (columns K pid))
     (hmask : u.regs .bool [K] "mask"=some (masks h K pid))
-    (hrow : u.regs .nat [] "row"=some (Tile.scalar row))
+    (hrow : u.regs .int [] "row"=some (Tile.scalar (row : Int)))
     (hacc : u.regs .real [K] "acc"=some (Tile.vec fun j => some (acc j))) :
     stepStmts (loopBody h K) u=some (result h K pid row u acc) := by
   rw [(bindings h K).2.1]
@@ -55,7 +56,7 @@ theorem iteration_run (h : Call) (K pid row : Nat) (u : BlockState) (acc : Fin K
   simp only [BlockState.setReg_readMem]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (RealWeightEval.normed K
     (raw h K pid u "x" row) (saved u row) _ (by simp [raw]) (by simp [saved])))]
-  have branch : stepStmt (.ifThen (.constBool (!h.gemma)) [.assign .real [K] "normed" (refOp K "normed")])
+  have branch : stepStmt (.ifThen (.boolNot (.constBool h.gemma)) [.assign .real [K] "normed" (refOp K "normed")])
       (mid h K pid row u)=some (beforeAcc h K pid row u) := by
     cases mode : h.gemma <;> simp [stepStmt,stepStmts,evalOp,evalOp_ref,refOp,beforeAcc,mid,mode]
   change stepStmts [.ifThen _ _,.assign _ _ _ _] (mid h K pid row u)=_
@@ -68,15 +69,15 @@ theorem iteration_run (h : Call) (K pid row : Nat) (u : BlockState) (acc : Fin K
   simp [stepStmts,result,nextAcc]
 
 theorem iteration (h : Call) (K pid row : Nat) (u : BlockState) (acc : Fin K → ℝ)
-    (hcol : u.regs .nat [K] "col"=some (columns K pid))
+    (hcol : u.regs .int [K] "col"=some (columns K pid))
     (hmask : u.regs .bool [K] "mask"=some (masks h K pid))
     (hacc : u.regs .real [K] "acc"=some (Tile.vec fun j => some (acc j))) :
-    ∃ v,stepStmts (loopBody h K) (u.setReg "row" .nat [] (Tile.scalar row))=some v ∧
+    ∃ v,stepStmts (loopBody h K) (u.setReg "row" .int [] (Tile.scalar (row : Int)))=some v ∧
       v.mem=u.mem ∧ v.pids=u.pids ∧
-      v.regs .nat [K] "col"=some (columns K pid) ∧
+      v.regs .int [K] "col"=some (columns K pid) ∧
       v.regs .bool [K] "mask"=some (masks h K pid) ∧
       v.regs .real [K] "acc"=some (Tile.vec fun j => some (nextAcc h K pid row u acc j)) := by
-  let bound:=u.setReg "row" .nat [] (Tile.scalar row)
+  let bound:=u.setReg "row" .int [] (Tile.scalar (row : Int))
   refine ⟨result h K pid row bound acc,
     iteration_run h K pid row bound acc (by simp [bound,hcol]) (by simp [bound,hmask])
       (by simp [bound]) (by simp [bound,hacc]),?_,?_,?_,?_,?_⟩

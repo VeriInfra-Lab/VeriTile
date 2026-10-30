@@ -193,7 +193,7 @@ theorem program_source {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc �
     (hp : pid<programs r) (hl : programs r<2^31) :
     ∃ actual typed,program M D r pid s=some actual ∧
       FP.Structural.exec (backend M D) (kernel r) (instanceState r pid s)=some typed ∧ actual.mem=typed.mem := by
-  obtain ⟨typed,he,hm⟩ := Source.execution_memory M D r.parameters r.storage (instanceState r pid s)
+  obtain ⟨typed,he,hm⟩ := Source.execution_memory M D r (instanceState r pid s)
   refine ⟨_,typed,program_eq M D r basis t s pid hp hl,he,?_⟩
   rw [Source.writtenSafe_eq,hm]
 

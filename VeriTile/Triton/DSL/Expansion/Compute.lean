@@ -1484,7 +1484,11 @@ partial def expandReshapeLike (expandExpr : ExprExpander) (env : Env) (ctx : Str
         Macro.throwError (ctx ++ ": literal element-count mismatch (" ++ toString inProduct ++
            " input elements vs " ++ toString outProduct ++ " output elements)")
   | _, _ => pure ()
-  pure ⟨← `(Op.reshape $outShape $e'.term), e'.dtype, .dims outDims, none, none⟩
+  let term ← `(Op.reshape $outShape $e'.term)
+  -- A reshape preserves floating precision and the operand's scoped operations.
+  -- Rebuild the compute expression at the new shape, as for expand_dims.
+  let (computeTerm?, computeDType?) ← floatingComputeArith? ctx term e' e'
+  pure ⟨term, e'.dtype, .dims outDims, computeTerm?, computeDType?⟩
 
 partial def expandRavel (expandExpr : ExprExpander) (env : Env)
     (e : TSyntax `tritonExpr) : MacroM EOut := do

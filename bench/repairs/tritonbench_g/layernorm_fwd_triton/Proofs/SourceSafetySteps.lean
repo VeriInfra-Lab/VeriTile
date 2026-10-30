@@ -23,11 +23,11 @@ theorem prelude_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList M bounds (prelude p) s := by
   apply list_safe
-  simp only [prelude,Source.kernel,runtimeSource,ComputeKernel.surfaceBody,
+  simp only [prelude,Source.kernel,runtimeSource,ComputeKernel.surfaceBody, Random.i32ArangeSize,
     List.take_succ_cons,List.take_zero]
   intro st member t
   simp only [List.mem_cons,List.not_mem_nil,or_false] at member
-  rcases member with rfl|rfl|rfl|rfl|rfl|rfl
+  rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,and_self]
 
@@ -35,7 +35,7 @@ theorem mean_post_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Paramete
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList M bounds (meanPost p) s := by
   apply list_safe
-  simp only [meanPost,Source.kernel,runtimeSource,ComputeKernel.surfaceBody,
+  simp only [meanPost,Source.kernel,runtimeSource,ComputeKernel.surfaceBody, Random.i32ArangeSize,
     List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]
   intro st member t
   simp only [List.mem_cons,List.not_mem_nil,or_false] at member
@@ -47,7 +47,7 @@ theorem var_post_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameter
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList M bounds (varPost p) s := by
   apply list_safe
-  simp only [varPost,Source.kernel,runtimeSource,ComputeKernel.surfaceBody,
+  simp only [varPost,Source.kernel,runtimeSource,ComputeKernel.surfaceBody, Random.i32ArangeSize,
     List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]
   intro st member t
   simp only [List.mem_cons,List.not_mem_nil,or_false] at member
@@ -59,28 +59,28 @@ theorem mean_body_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Paramete
     (bounds : RegionName → Nat) (s t : State α) (off : Nat)
     (a : TileIndex [p.block] → α) (ready : MeanReady M p s t a)
     (input : ∀ j,j<p.columns → xBase p s+j*p.xDimStride<bounds p.x) :
-    Safety.traceSafeList M bounds (loopBody p 6) (t.setReg "off" .nat [] (fun _ => off)) := by
-  simp [loopBody,Source.kernel,runtimeSource,ComputeKernel.surfaceBody,
+    Safety.traceSafeList M bounds (loopBody p 18) (t.setReg "off" .int [] (fun _ => (off : Int))) := by
+  simp [loopBody,Source.kernel,runtimeSource,ComputeKernel.surfaceBody, Random.i32ArangeSize,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
     FloatDType.toTileDType,FloatDType.numericDType,ofFloat,toFloat,
-    numeric,bop,numericLt,natLt,Region.cast,ready.x,ready.accumulator]
+    numeric,bop,numericLt,natLt,Region.cast,-Nat.cast_mul,-Nat.cast_add,← Int.natCast_mul,← Int.natCast_add,Int.toNat_add,Int.toNat_mul,Int.natCast_nonneg,Int.toNat_of_nonpos,ready.x, ready.nValue, ready.zeroValue, ready.stepValue, ready.lanes, ready.xStride, ready.yStride, ready.wStride,ready.accumulator]
   exact fun j active => input (off+j.val) active
 
 theorem var_body_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (bounds : RegionName → Nat) (s t : State α) (off : Nat)
     (a : TileIndex [p.block] → α) (ready : VarReady M p s t a)
     (input : ∀ j,j<p.columns → xBase p s+j*p.xDimStride<bounds p.x) :
-    Safety.traceSafeList M bounds (loopBody p 9) (t.setReg "off" .nat [] (fun _ => off)) := by
-  simp [loopBody,Source.kernel,runtimeSource,ComputeKernel.surfaceBody,
+    Safety.traceSafeList M bounds (loopBody p 21) (t.setReg "off" .int [] (fun _ => (off : Int))) := by
+  simp [loopBody,Source.kernel,runtimeSource,ComputeKernel.surfaceBody, Random.i32ArangeSize,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
     FloatDType.toTileDType,FloatDType.numericDType,ofFloat,toFloat,
-    numeric,bop,numericLt,natLt,Region.cast,ready.x,ready.accumulator,ready.mean]
+    numeric,bop,numericLt,natLt,Region.cast,-Nat.cast_mul,-Nat.cast_add,← Int.natCast_mul,← Int.natCast_add,Int.toNat_add,Int.toNat_mul,Int.natCast_nonneg,Int.toNat_of_nonpos,ready.x, ready.nValue, ready.zeroValue, ready.stepValue, ready.lanes, ready.xStride, ready.yStride, ready.wStride,ready.accumulator,ready.mean]
   exact fun j active => input (off+j.val) active
 
 theorem output_body_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
@@ -89,14 +89,14 @@ theorem output_body_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parame
     (input : ∀ j,j<p.columns → xBase p s+j*p.xDimStride<bounds p.x)
     (weight : ∀ j,j<p.columns → wBase p s+j*p.weightDimStride<bounds p.weight)
     (output : ∀ j,j<p.columns → yBase p s+j*p.yDimStride<bounds p.y) :
-    Safety.traceSafeList M bounds (loopBody p 12) (t.setReg "off" .nat [] (fun _ => off)) := by
-  simp [loopBody,Source.kernel,runtimeSource,ComputeKernel.surfaceBody,
+    Safety.traceSafeList M bounds (loopBody p 24) (t.setReg "off" .int [] (fun _ => (off : Int))) := by
+  simp [loopBody,Source.kernel,runtimeSource,ComputeKernel.surfaceBody, Random.i32ArangeSize,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,ComputeDType.eraseDType,
     FloatDType.toTileDType,FloatDType.numericDType,ofFloat,toFloat,
-    numeric,bop,numericLt,natLt,Region.cast,ready.x,ready.y,ready.w,ready.mean,ready.rstd]
+    numeric,bop,numericLt,natLt,Region.cast,-Nat.cast_mul,-Nat.cast_add,← Int.natCast_mul,← Int.natCast_add,Int.toNat_add,Int.toNat_mul,Int.natCast_nonneg,Int.toNat_of_nonpos,ready.x, ready.nValue, ready.zeroValue, ready.stepValue, ready.lanes, ready.xStride, ready.yStride, ready.wStride,ready.y,ready.w,ready.mean,ready.rstd]
   exact ⟨fun j active => weight (off+j.val) active,
     fun j active => input (off+j.val) active,fun j active => output (off+j.val) active⟩
 

@@ -1,0 +1,403 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean",
+    "python_function": "_multinomial_sampling_kernel",
+    "lean_definition": "original",
+    "signature_definition": "originalSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Scores",
+          "fp32"
+        ],
+        [
+          "Seeds",
+          "i64"
+        ],
+        [
+          "Offsets",
+          "i64"
+        ],
+        [
+          "Indices",
+          "i64"
+        ],
+        [
+          "Outputs",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_sb",
+          "i32"
+        ],
+        [
+          "stride_st",
+          "i32"
+        ],
+        [
+          "stride_ib",
+          "i32"
+        ],
+        [
+          "stride_it",
+          "i32"
+        ],
+        [
+          "num_batchs",
+          "i32"
+        ],
+        [
+          "num_tokens",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "Scores",
+        "Seeds",
+        "Offsets",
+        "Indices"
+      ],
+      "writePorts": [
+        "Outputs"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_sb": "stride_sb",
+      "stride_st": "stride_st",
+      "stride_ib": "stride_ib",
+      "stride_it": "stride_it",
+      "num_batchs": "num_batchs",
+      "num_tokens": "num_tokens"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "original",
+    "profile_scope": "selected FP32 wrapper"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean",
+    "python_function": "_multinomial_sampling_kernel",
+    "lean_definition": "original16",
+    "signature_definition": "original16Signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Scores",
+          "fp16"
+        ],
+        [
+          "Seeds",
+          "i64"
+        ],
+        [
+          "Offsets",
+          "i64"
+        ],
+        [
+          "Indices",
+          "i64"
+        ],
+        [
+          "Outputs",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_sb",
+          "i32"
+        ],
+        [
+          "stride_st",
+          "i32"
+        ],
+        [
+          "stride_ib",
+          "i32"
+        ],
+        [
+          "stride_it",
+          "i32"
+        ],
+        [
+          "num_batchs",
+          "i32"
+        ],
+        [
+          "num_tokens",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "Scores",
+        "Seeds",
+        "Offsets",
+        "Indices"
+      ],
+      "writePorts": [
+        "Outputs"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_sb": "stride_sb",
+      "stride_st": "stride_st",
+      "stride_ib": "stride_ib",
+      "stride_it": "stride_it",
+      "num_batchs": "num_batchs",
+      "num_tokens": "num_tokens"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "original16",
+    "profile_scope": "preserved historical storage instance; not a new wrapper admission"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean",
+    "python_function": "_multinomial_sampling_kernel",
+    "lean_definition": "originalBfloat16",
+    "signature_definition": "originalBfloat16Signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Scores",
+          "bf16"
+        ],
+        [
+          "Seeds",
+          "i64"
+        ],
+        [
+          "Offsets",
+          "i64"
+        ],
+        [
+          "Indices",
+          "i64"
+        ],
+        [
+          "Outputs",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_sb",
+          "i32"
+        ],
+        [
+          "stride_st",
+          "i32"
+        ],
+        [
+          "stride_ib",
+          "i32"
+        ],
+        [
+          "stride_it",
+          "i32"
+        ],
+        [
+          "num_batchs",
+          "i32"
+        ],
+        [
+          "num_tokens",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "Scores",
+        "Seeds",
+        "Offsets",
+        "Indices"
+      ],
+      "writePorts": [
+        "Outputs"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_sb": "stride_sb",
+      "stride_st": "stride_st",
+      "stride_ib": "stride_ib",
+      "stride_it": "stride_it",
+      "num_batchs": "num_batchs",
+      "num_tokens": "num_tokens"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "originalBfloat16",
+    "profile_scope": "preserved historical storage instance; not a new wrapper admission"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean",
+    "python_function": "_multinomial_sampling_kernel",
+    "lean_definition": "original64",
+    "signature_definition": "original64Signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Scores",
+          "fp64"
+        ],
+        [
+          "Seeds",
+          "i64"
+        ],
+        [
+          "Offsets",
+          "i64"
+        ],
+        [
+          "Indices",
+          "i64"
+        ],
+        [
+          "Outputs",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_sb",
+          "i32"
+        ],
+        [
+          "stride_st",
+          "i32"
+        ],
+        [
+          "stride_ib",
+          "i32"
+        ],
+        [
+          "stride_it",
+          "i32"
+        ],
+        [
+          "num_batchs",
+          "i32"
+        ],
+        [
+          "num_tokens",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "Scores",
+        "Seeds",
+        "Offsets",
+        "Indices"
+      ],
+      "writePorts": [
+        "Outputs"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_sb": "stride_sb",
+      "stride_st": "stride_st",
+      "stride_ib": "stride_ib",
+      "stride_it": "stride_it",
+      "num_batchs": "num_batchs",
+      "num_tokens": "num_tokens"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "original64",
+    "profile_scope": "preserved historical storage instance; not a new wrapper admission"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/multinomial_sampling/multinomial_sampling_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean",
+    "python_function": "_multinomial_sampling_unrolled_kernel",
+    "lean_definition": "unrolled",
+    "signature_definition": "unrolledSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Scores",
+          "fp32"
+        ],
+        [
+          "Seeds",
+          "i64"
+        ],
+        [
+          "Offsets",
+          "i64"
+        ],
+        [
+          "Indices",
+          "i64"
+        ],
+        [
+          "Outputs",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_sb",
+          "i32"
+        ],
+        [
+          "stride_st",
+          "i32"
+        ],
+        [
+          "stride_ib",
+          "i32"
+        ],
+        [
+          "stride_it",
+          "i32"
+        ],
+        [
+          "num_batchs",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "num_tokens",
+        "BLOCK",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "Scores",
+        "Seeds",
+        "Offsets",
+        "Indices"
+      ],
+      "writePorts": [
+        "Outputs"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_sb": "stride_sb",
+      "stride_st": "stride_st",
+      "stride_ib": "stride_ib",
+      "stride_it": "stride_it",
+      "num_batchs": "num_batchs"
+    },
+    "mode": "pasted_body",
+    "profile_variant": "unrolled",
+    "profile_scope": "selected FP32 wrapper"
+  }
+]
