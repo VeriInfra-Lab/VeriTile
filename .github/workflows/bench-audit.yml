@@ -74,6 +74,11 @@ jobs:
       - uses: ./.github/actions/setup-comparator
       - name: Replay library proofs
         run: python3 scripts/check_comparator.py --library
+      - name: Build and replay imported precision regressions
+        run: |
+          lake build tests.lean.ImportedBenchPrecision
+          python3 scripts/check_comparator.py \
+            --file tests/lean/ImportedBenchPrecision.lean --trust
       - name: Bind the built snapshot
         run: python3 scripts/bench/final_inventory.py --check
 
