@@ -69128,7 +69128,7 @@
     "lean-toolchain": "651c8accb402b0c071cd336e9d3dc0a55516b1bfb434ddc4801f14936785b1d2",
     "scripts/bench/audit_tritonbench_g.sh": "ee454ac25cedd84159bd97dc43dc2b3dad33fb0ecc4c6ad7eed6b4ed9bc58844",
     "scripts/bench/audit_trust.sh": "27f402721326d6da14b2d765db393e00033a9e43ffbd275a575c9e2ea394429e",
-    "scripts/bench/audit_trust_prep.py": "66b3ce445ac82faaaa4899064257510eb72926a1a4749d1b570aab7ddb9e4c9c",
+    "scripts/bench/audit_trust_prep.py": "f1c3c0f2e3a1a7d66936ae43e41aa702b7b7967d8200714afede71a42e5814da",
     "scripts/bench/check_worker_results.py": "d2a69adeba01ed40cf9f33d88aa145eaba300bb39502243e722607a280c477c6",
     "scripts/bench/final_inventory.py": "0148c3acc1cdc9eba43f4deb35bffd7a9f98bc5b3ac485f67ac25243d986d3f4",
     "scripts/bench/lean_import_scan.py": "4ed8bb0ed06ff1c63e3cba47a51fde74b503ceecb9bd673a18a48567b6457002",

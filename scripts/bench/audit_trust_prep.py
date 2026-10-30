@@ -171,7 +171,7 @@ def prepare_source(text, rel, manifest=MANIFEST):
         seen = set()
         def visit(source):
             for module in imported_modules(source):
-                if not module.startswith('bench.') or module in seen:
+                if not module.startswith(('bench.', 'tests.lean.')) or module in seen:
                     continue
                 seen.add(module)
                 path = root.joinpath(*module.split('.')).with_suffix('.lean')

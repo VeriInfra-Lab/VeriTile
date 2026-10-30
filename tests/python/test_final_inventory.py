@@ -127,6 +127,15 @@ class FinalReviewTests(unittest.TestCase):
         self.assertIn('#auditModuleSpecs from [bench.tritonbench_g.fixture.Kernels]', audited)
         self.assertNotIn('from [bench.fake', audited)
 
+    def test_moved_regression_imports_keep_their_transitive_source_audit(self):
+        directory = self.root / 'tests/lean'
+        directory.mkdir(parents=True)
+        (directory / 'Kernel.lean').write_text('import tests.lean.Helper\ndef kernel := 1\n')
+        (directory / 'Helper.lean').write_text('def helper := 1\n')
+        audited = prepare_source('import tests.lean.Kernel\ndef expectedSpec := 1\n',
+                                 'tests/lean/Reader.lean', self.root / 'scripts/absent.tsv')
+        self.assertIn('#auditModuleSpecs from [tests.lean.Helper, tests.lean.Kernel]', audited)
+
 
 class FinalCITargetTests(unittest.TestCase):
     def setUp(self):
