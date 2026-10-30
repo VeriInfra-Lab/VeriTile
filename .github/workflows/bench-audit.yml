@@ -98,6 +98,22 @@ jobs:
               --file "bench/tritonbench_g/rotary_transform_ops/$entry.lean" --trust \
               --workspace "$RUNNER_TEMP/rotary-source-replay"
           done
+      - name: Replay shared control-flow source connections
+        run: |
+          lake build tests.lean.ControlSource
+          for task in spinning_lock_reduction streamk_matmul; do
+            lake build "bench.tritonbench_g.$task.Correct" "bench.tritonbench_g.$task.FPEquiv"
+            for entry in Correct FPEquiv; do
+              python3 scripts/check_comparator.py \
+                --file "bench/tritonbench_g/$task/$entry.lean" --trust \
+                --workspace "$RUNNER_TEMP/control-source-replay"
+            done
+          done
+          python3 scripts/check_comparator.py \
+            --file bench/tritonbench_g/spinning_lock_reduction/Proofs/SourceEntry.lean --trust \
+            --workspace "$RUNNER_TEMP/control-source-replay"
+          python3 scripts/check_comparator.py --file tests/lean/ControlSource.lean --trust \
+            --workspace "$RUNNER_TEMP/control-source-replay"
       - name: Bind the built snapshot
         run: python3 scripts/bench/final_inventory.py --check
 

@@ -31202,10 +31202,10 @@
       "python": "bench/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction.py",
       "lean": "bench/tritonbench_g/spinning_lock_reduction/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 3,
+        "dsl_assignment": 7,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -31350,7 +31350,7 @@
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/spinning_lock_reduction/Kernels.lean": "f44567b272a9dec26a59a8b1b151ec5826004a734b1e334512958b28ace0fbc9",
+        "bench/tritonbench_g/spinning_lock_reduction/Kernels.lean": "adee4812f719196c6529ebf6d80916064bd463894549bc06cb1e788d14ab510d",
         "bench/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction.py": "b6a41096433e567770b7aeb5285329128768478b601eeaa36b8ba7ac2c5befb5",
         "bench/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction_area.py": "4ba6398a68c938a7efc0601cf759ff78d0d28414c2ed27e7acfea1071eb29270"
       },

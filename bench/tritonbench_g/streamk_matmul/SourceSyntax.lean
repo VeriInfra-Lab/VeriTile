@@ -1,10 +1,8 @@
 import bench.tritonbench_g.streamk_matmul.SourceReader
-import VeriTile.Triton.DSL.Syntax
+import VeriTile.Triton.DSL.BoolTerms
 
 namespace VeriTile.Bench.Repairs.StreamK.TileChecked.Syntax
 open Lean VeriTile.Triton.DSL Reader
-macro "true" : term => `(Bool.true)
-macro "false" : term => `(Bool.false)
 syntax "while " tritonExpr " { " tritonStmt* " }" : tritonStmt
 syntax "tl.full(" "(" ")" ", " tritonExpr ", " tritonDType ")" : tritonExpr
 syntax ident ", " ident " = " "swizzle_tile(" tritonExpr,* ")" : tritonStmt
