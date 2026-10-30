@@ -47,8 +47,7 @@ def candidate : ComputeKernel :=
     variance = variance + 0.000001
     z = f * tl.rsqrt(variance)
     z = z.to(tl.bfloat16)
-    w = w.to(tl.bfloat16)
-    scale = 1.0 + w
+    scale = (1.0 + w).to(tl.bfloat16)
     y = z * scale
     tl.store($(out_ptr) + r[:, None] * $(2048) + j[None, :], y)
   }

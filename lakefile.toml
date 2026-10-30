@@ -120,6 +120,7 @@ globs = [
   "tests.lean.FPMaximumPrimitive",
   "tests.lean.FPMinimumReduction",
   "tests.lean.FloatMinMaxPromotion",
+  "tests.lean.ImportedBenchPrecision",
   "tests.lean.SignedInteger16Cast",
   "tests.lean.SignedInteger16Contexts",
 ]

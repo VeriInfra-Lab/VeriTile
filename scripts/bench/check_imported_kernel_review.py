@@ -14,6 +14,7 @@ if __package__ in (None, ""):
     _sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
 
 from collections import Counter
+from fractions import Fraction
 import hashlib
 import itertools
 import json
@@ -51,6 +52,27 @@ def output_formula(source):
     return source.split('def output :', 1)[1].split(':=', 1)[1].split('\nend Contract', 1)[0].strip()
 
 
+def exact_finite_masks(program, mathematical_sources):
+    """Check finite mask literals, not program equivalence or FP acceptance.
+
+    Dtype erasure retains the exact source constant. A short decimal that
+    rounds to the same BF16 value is therefore not an interchangeable Real
+    specification. Limit this guard to the extreme finite floating sentinels;
+    ordinary algebraic rewrites need not retain every source literal.
+    """
+    literals = {Fraction(m[0]) for m in re.finditer(
+        r'(?<![\w.])-?\d+\.\d+(?:[eE][+-]?\d+)?', program)
+        if Fraction(m[0]) < -(2 ** 120)}
+    for source in mathematical_sources:
+        values = {Fraction(m[0]) for m in re.finditer(r'(?<![\w.])-?\d+', source)}
+        values.update(Fraction(int(m[1]), int(m[2]))
+                      for m in re.finditer(r'(-?\d+)\s*/\s*(\d+)', source)
+                      if int(m[2]) != 0)
+        for literal in literals:
+            assert literal in values, f'finite mask differs from the exact source literal: {literal}'
+    return sorted(map(str, literals))
+
+
 def task_facts(collection, ident):
     directory = ROOT / 'bench' / collection / 'tasks' / ident
     metadata = json.loads((directory / 'task.json').read_text())
@@ -62,6 +84,10 @@ def task_facts(collection, ident):
     fp = (directory / 'FPEquiv.lean').read_text()
     io = (directory / 'IO.lean').read_text()
     validation = (directory / 'Misc/Validation.lean').read_text()
+    # Contract may name a helper (e.g. attention's weight function). Its full
+    # definition environment supplies that literal. The formula equality
+    # checks below and Misc/Validation connect Correct to Contract.output.
+    finite_masks = exact_finite_masks(programs['original'], [contract])
     expected = re.sub(r'\s+', '', output_formula(contract))
     displayed = re.sub(r'\s+', '', correct.split('Spec.Real (', 1)[1])
     assert expected in displayed, ident
@@ -124,6 +150,7 @@ def task_facts(collection, ident):
         'same_arithmetic_body_after_scratch_renaming': canonical(programs['original']) == canonical(programs['candidate']),
         'float_rank_sort_sites': sort_sites, 'nan_scratch_tag_mismatches': nan_stores,
         'int64_in_lowering': 'tl.int64' in source,
+        'exact_finite_mask_literals': finite_masks,
     }
 
 

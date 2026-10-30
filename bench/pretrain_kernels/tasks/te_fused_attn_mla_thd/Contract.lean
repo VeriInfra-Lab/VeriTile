@@ -30,7 +30,7 @@ def output : IO.Inputs → IO.OutputIndex → ℝ :=
     let vge_2 : Fin 128 → Fin 128 → Bool := fun i0 i1 => decide ((0 + (i0.val : Int) * 1) ≥ (0 + (i1.val : Int) * 1))
     let vbitwise_and_2 : Fin 128 → Fin 128 → Bool := fun i0 i1 => (veq_2 i0 i1 && vge_2 i0 i1)
     let vbitwise_not_2 : Fin 128 → Fin 128 → Bool := fun i0 i1 => (!vbitwise_and_2 i0 i1)
-    let vmasked_fill_2 : Fin 128 → Fin 128 → ℝ := fun i0 i1 => (if vbitwise_not_2 i0 i1 then (-338953138925153550000000000000000000000 : ℝ) else 0)
+    let vmasked_fill_2 : Fin 128 → Fin 128 → ℝ := fun i0 i1 => (if vbitwise_not_2 i0 i1 then (-338953138925153547590470800371487866880 : ℝ) else 0)
     let vbmm_4 : Fin 4 → Fin 128 → Fin 128 → ℝ := fun i0 i1 i2 => (∑ lane : Fin 192, input0 i1 i0 lane * input1 i2 i0 lane)
     let vmul_2 : Fin 1 → Fin 4 → Fin 128 → Fin 128 → ℝ := fun i0 i1 i2 i3 => (vbmm_4 i1 i2 i3 * (7216878364870323/100000000000000000))
     let vadd_2 : Fin 1 → Fin 4 → Fin 128 → Fin 128 → ℝ := fun i0 i1 i2 i3 => (vmul_2 ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ i1 i2 i3 + vmasked_fill_2 i2 i3)
