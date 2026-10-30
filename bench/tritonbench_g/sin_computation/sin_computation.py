@@ -1,4 +1,3 @@
-
 import triton
 import triton.language as tl
 import torch
@@ -18,42 +17,50 @@ def sin_kernel(
     output = tl.sin(x)
     tl.store(out_ptr + offsets, output, mask=mask)
 
-def sin_triton(x, out):
+
+@triton.jit
+def sin_kernel_index_commuted(
+    in_ptr0: tl.tensor,
+    out_ptr: tl.tensor,
+    n_elements: tl.int32,
+    BLOCK_SIZE: "tl.constexpr",
+):
+    pid = tl.program_id(axis=0)
+    block_start = BLOCK_SIZE * pid
+    offsets = block_start + tl.arange(0, BLOCK_SIZE)
+    mask = offsets < n_elements
+    x = tl.load(in_ptr0 + offsets, mask=mask)
+    output = tl.sin(x)
+    tl.store(out_ptr + offsets, output, mask=mask)
+
+def sin_triton_repaired(x, out):
+    """Mutate the first x.numel() logical output cells; return None."""
+    if not isinstance(x, torch.Tensor) or not isinstance(out, torch.Tensor):
+        raise TypeError("x and out must be tensors")
+    if x.layout != torch.strided or out.layout != torch.strided:
+        raise TypeError("x and out must have strided layout")
+    if x.dtype != torch.float32 or out.dtype != torch.float32:
+        raise TypeError("x and out must have dtype torch.float32")
+    if not x.is_cuda or not out.is_cuda:
+        raise ValueError("x and out must be CUDA tensors")
+    if x.device != out.device:
+        raise ValueError("x and out must be on the same device")
     n_elements = x.numel()
-    sin_kernel[(n_elements,)](x, out, n_elements, BLOCK_SIZE=4)
-
-
-
-##################################################################################################################################################
-
-
-def test_sin_triton():
-    results = {}
-    
-    # Test case 1
-    x1 = torch.tensor([0.0, 1.0, 2.0, 3.0], device='cuda')
-    out1 = torch.empty_like(x1)
-    sin_triton(x1, out1)
-    results['test_case_1'] = out1
-
-    # Test case 2
-    x2 = torch.tensor([4.0, 5.0, 6.0, 7.0], device='cuda')
-    out2 = torch.empty_like(x2)
-    sin_triton(x2, out2)
-    results['test_case_2'] = out2
-
-    # Test case 3
-    x3 = torch.tensor([8.0, 9.0, 10.0, 11.0], device='cuda')
-    out3 = torch.empty_like(x3)
-    sin_triton(x3, out3)
-    results['test_case_3'] = out3
-
-    # Test case 4
-    x4 = torch.tensor([12.0, 13.0, 14.0, 15.0], device='cuda')
-    out4 = torch.empty_like(x4)
-    sin_triton(x4, out4)
-    results['test_case_4'] = out4
-
-    return results
-
-result_gold = test_sin_triton()
+    if out.numel() < n_elements:
+        raise ValueError("out must have at least x.numel() elements")
+    if not x.is_contiguous() or not out.is_contiguous():
+        raise ValueError("x and out must be contiguous")
+    if x.is_neg() or out.is_neg():
+        raise ValueError("x and out must have no unresolved negative view bit")
+    if n_elements >= 2**31:
+        raise ValueError("x must contain fewer than 2**31 elements")
+    if n_elements == 0:
+        return None
+    xp, op = x.data_ptr(), out.data_ptr()
+    if xp % 4 != 0 or op % 4 != 0:
+        raise ValueError("x and out must have 4-byte aligned data pointers")
+    if xp != op and xp + 4*n_elements > op and op + 4*n_elements > xp:
+        raise ValueError("active spans must be identical or disjoint")
+    with torch.cuda.device(x.device):
+        sin_kernel[((n_elements + 3) // 4,)](x, out, n_elements, BLOCK_SIZE=4)
+    return None

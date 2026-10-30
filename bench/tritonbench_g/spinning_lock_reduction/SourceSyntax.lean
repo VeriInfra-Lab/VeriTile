@@ -1,0 +1,1 @@
+import bench.tritonbench_g.spinning_lock_reduction.Proofs.LegacySyntax

@@ -1,0 +1,7 @@
+{
+  "files": {
+    "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py": "f962d270863d07fdb3329d1b852b6678f7bc4e003c0311ceaba89af782ef75e3",
+    "bench/repairs/tritonbench_g/triton_linear_activation/triton_linear_activation_repaired.py": "271cfcf8614afc2747837dbf8902f3addc9a3a605a6c1a85063ae2b6c346f8a9",
+    "bench/repairs/tritonbench_g/triton_linear_activation/triton_linear_activation_conditional.py": "e4a40925373cac3bb6166cbc1f5a89722ba1e8b440a03f3fd6c99a759f6bc87f"
+  }
+}

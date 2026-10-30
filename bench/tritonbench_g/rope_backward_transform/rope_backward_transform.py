@@ -11,8 +11,10 @@ def _triton_rope(
     k_row_stride,
     cos,
     cos_row_stride,
+    cos_col_stride,
     sin,
     sin_row_stride,
+    sin_col_stride,
     sl,
     bs: tl.constexpr,
     n_qh: tl.constexpr,
@@ -34,8 +36,8 @@ def _triton_rope(
     sin = sin + cos_row_idx * sin_row_stride
     cos_offsets = tl.arange(0, pad_hd // 2)
     cos_mask = cos_offsets < hd // 2
-    cos_row = tl.load(cos + cos_offsets, mask=cos_mask, other=0)
-    sin_row = tl.load(sin + cos_offsets, mask=cos_mask, other=0)
+    cos_row = tl.load(cos + cos_offsets * cos_col_stride, mask=cos_mask, other=0)
+    sin_row = tl.load(sin + cos_offsets * sin_col_stride, mask=cos_mask, other=0)
 
     first_half_q_offsets = tl.arange(0, pad_n_qh)[:, None] * hd + tl.arange(0, pad_hd // 2)[None, :]
     first_half_k_offsets = tl.arange(0, pad_n_kh)[:, None] * hd + tl.arange(0, pad_hd // 2)[None, :]
@@ -72,84 +74,91 @@ def _triton_rope(
         new_k_tile_2 = k_tile_2 * cos_row - k_tile_1 * sin_row
         tl.store(k_ptr + second_half_k_offsets, new_k_tile_2, mask=second_k_mask)
 
+def _span(t):
+    if not t.numel():
+        return 0
+    return sum((size - 1) * stride for size, stride in zip(t.shape, t.stride())) + 1
+
+
+def _check_storage(t):
+    storage = t.untyped_storage()
+    if t.numel() and not (
+        storage.data_ptr() <= t.data_ptr()
+        and t.data_ptr() + 4 * _span(t) <= storage.data_ptr() + storage.nbytes() <= 2**64
+        and t.data_ptr() % 4 == 0
+    ):
+        raise ValueError("FP32 view must fit aligned backing storage")
+
+
+def _separate(a, b):
+    x, y = a.untyped_storage(), b.untyped_storage()
+    if x._cdata == y._cdata or (x.nbytes() and y.nbytes() and not (
+        x.data_ptr() + x.nbytes() <= y.data_ptr()
+        or y.data_ptr() + y.nbytes() <= x.data_ptr()
+    )):
+        raise ValueError("gradient and read-only backing allocations must be separate")
+
+
 def rope_backward(dq, dk, cos, sin):
-    dq = dq.transpose(1, 2)
-    dk = dk.transpose(1, 2)
-
-    batch_size, seq_len, n_q_head, head_dim = dq.shape
-    n_kv_head = dk.shape[2]
-    pad_hd = triton.next_power_of_2(head_dim)
-    pad_n_q_head = triton.next_power_of_2(n_q_head)
-    pad_n_kv_head = triton.next_power_of_2(n_kv_head)
-    BLOCK_SIZE = max(pad_n_q_head, pad_n_kv_head)
-
+    """Checked FP32 input adjoint, retaining transpose/contiguous reuse."""
+    tensors = (dq, dk, cos, sin)
+    if not all(isinstance(t, torch.Tensor) for t in tensors):
+        raise TypeError("expected Tensor arguments")
+    if any(t.layout != torch.strided for t in tensors):
+        raise ValueError("only strided tensors are supported")
+    if any(t.dtype != torch.float32 for t in tensors):
+        raise TypeError("the selected profile requires FP32 tensors")
+    if not dq.is_cuda or any(t.device != dq.device for t in tensors):
+        raise ValueError("all tensors must share one CUDA device")
+    if any(t.is_neg() or t.is_conj() for t in tensors):
+        raise ValueError("resolved tensor views required")
+    if dq.ndim != 4 or dk.ndim != 4 or cos.ndim != 2 or sin.ndim != 2:
+        raise ValueError("expected gradients [B,H,S,D] and coefficients [L,D//2]")
+    if not dq.is_contiguous() or not dk.is_contiguous():
+        raise ValueError("gradient inputs must be contiguous")
+    batch_size, n_q_head, seq_len, head_dim = dq.shape
+    n_kv_head = dk.shape[1]
+    if (dk.shape[0], dk.shape[2], dk.shape[3]) != (batch_size, seq_len, head_dim):
+        raise ValueError("gradient batch, sequence and dimension must match")
+    if any(t.shape[0] < seq_len or t.shape[1] != head_dim // 2 for t in (cos, sin)):
+        raise ValueError("coefficient tables must cover every sequence and half-channel")
+    if any(stride < 0 for t in (cos, sin) for stride in t.stride()):
+        raise ValueError("nonnegative coefficient strides required")
+    for t in tensors:
+        _check_storage(t)
+    for a, b in ((dq, dk), (dq, cos), (dq, sin), (dk, cos), (dk, sin)):
+        _separate(a, b)
     n_row = batch_size * seq_len
-
-    dq = dq.contiguous()
-    dk = dk.contiguous()
-
-    _triton_rope[(n_row,)](
-        dq,
-        dq.stride(1),
-        dk,
-        dk.stride(1),
-        cos,
-        cos.stride(-2),
-        sin,
-        sin.stride(-2),
-        seq_len,
-        batch_size,
-        n_q_head,
-        n_kv_head,
-        head_dim,
-        pad_n_q_head,
-        pad_n_kv_head,
-        pad_hd,
-        BLOCK_SIZE=BLOCK_SIZE,
-        BACKWARD_PASS=True,
-    )
-    return dq.transpose(1, 2), dk.transpose(1, 2)
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_rope_backward():
-    # Define the test parameters
-    batch_size = 2
-    seq_len = 4
-    n_q_head = 8
-    n_kv_head = 8
-    head_dim = 16
-
-    # Create random gradient tensors for backward test
-    dq = torch.randn(batch_size, n_q_head, seq_len, head_dim, dtype=torch.float32, device='cuda')
-    dk = torch.randn(batch_size, n_kv_head, seq_len, head_dim, dtype=torch.float32, device='cuda')
-    cos = torch.randn(seq_len, head_dim // 2, dtype=torch.float32, device='cuda')
-    sin = torch.randn(seq_len, head_dim // 2, dtype=torch.float32, device='cuda')
-
-    # Test the backward function for the first branch
-    dq_out_1, dk_out_1 = rope_backward(dq, dk, cos, sin)
-
-    # Test the backward function for the second branch
-    dq_out_2, dk_out_2 = rope_backward(dq, dk, cos, sin)
-
-    # Test the backward function for the third branch
-    dq_out_3, dk_out_3 = rope_backward(dq, dk, cos, sin)
-
-    # Test the backward function for the fourth branch
-    dq_out_4, dk_out_4 = rope_backward(dq, dk, cos, sin)
-
-    results = {
-        "test_case_1": (dq_out_1, dk_out_1),
-        "test_case_2": (dq_out_2, dk_out_2),
-        "test_case_3": (dq_out_3, dk_out_3),
-        "test_case_4": (dq_out_4, dk_out_4),
-    }
-    return results
-
-result_gold = test_rope_backward()
+    pad_hd = triton.next_power_of_2(max(head_dim, 1))
+    pad_n_q_head = triton.next_power_of_2(max(n_q_head, 1))
+    pad_n_kv_head = triton.next_power_of_2(max(n_kv_head, 1))
+    if max(batch_size, n_row, seq_len, head_dim, n_q_head, n_kv_head,
+           n_q_head * head_dim, n_kv_head * head_dim,
+           *cos.stride(), *sin.stride()) >= 2**31:
+        raise ValueError("launch metadata exceeds signed-i32 profile")
+    if pad_hd > 65536 or max(pad_n_q_head, pad_n_kv_head) * pad_hd > 65536:
+        raise ValueError("padded tile exceeds checked profile")
+    q_last = ((n_row - 1) * n_q_head * head_dim + (pad_n_q_head - 1) * head_dim
+              + pad_hd // 2 - 1 + head_dim // 2) if n_row and head_dim >= 2 and (n_q_head or n_kv_head) else 0
+    k_last = ((n_row - 1) * n_kv_head * head_dim + (pad_n_kv_head - 1) * head_dim
+              + pad_hd // 2 - 1 + head_dim // 2) if n_row and head_dim >= 2 and (n_q_head or n_kv_head) else 0
+    c_last = ((seq_len - 1) * cos.stride(0) + (pad_hd // 2 - 1) * cos.stride(1)) if n_row and head_dim >= 2 and (n_q_head or n_kv_head) else 0
+    s_last = ((seq_len - 1) * sin.stride(0) + (pad_hd // 2 - 1) * sin.stride(1)) if n_row and head_dim >= 2 and (n_q_head or n_kv_head) else 0
+    if max(q_last, k_last, c_last, s_last) >= 2**31:
+        raise ValueError("formed padded offsets exceed signed-i32 profile")
+    with torch.cuda.device(dq.device):
+        dq = dq.transpose(1, 2).contiguous()
+        dk = dk.transpose(1, 2).contiguous()
+        if n_row == 0 or head_dim < 2 or (n_q_head == 0 and n_kv_head == 0):
+            return dq.transpose(1, 2), dk.transpose(1, 2)
+        if any(t.data_ptr() + 4 * last + 4 > 2**64
+               for t, last in ((dq, q_last), (dk, k_last), (cos, c_last), (sin, s_last))):
+            raise ValueError("formed pointers exceed 64-bit profile")
+        _triton_rope[(n_row,)](
+            dq, n_q_head * head_dim, dk, n_kv_head * head_dim,
+            cos, cos.stride(0), cos.stride(1), sin, sin.stride(0), sin.stride(1),
+            seq_len, batch_size, n_q_head, n_kv_head, head_dim,
+            pad_n_q_head, pad_n_kv_head, pad_hd,
+            BLOCK_SIZE=max(pad_n_q_head, pad_n_kv_head), BACKWARD_PASS=True,
+        )
+        return dq.transpose(1, 2), dk.transpose(1, 2)

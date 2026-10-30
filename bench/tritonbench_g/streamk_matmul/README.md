@@ -1,13 +1,15 @@
 # streamk_matmul
 
-- Source file: `streamk_matmul.py` (upstream `data/TritonBench_G_v1/streamk_matmul.py`)
-- Corpus: TritonBench-G v1
-- Size: 295 lines, 5 `@triton.jit` kernel(s)
-- Status: READY — not imported yet, but every `tl.*` form it uses is already in the
-  DSL surface, so the port is a scheduling question, not a capability one.
-  Import the `.py` **with** its `.lean` port in one change:
-  `bench/audit_tritonbench_g.sh` enforces `py_count == lean_count`.
+Current repaired Python implementation: [streamk_matmul.py](streamk_matmul.py).
 
-This directory is the per-kernel workspace for the TritonBench-G
-full-formalization roadmap. It is currently a placeholder: the upstream
-Python source has **not** been imported.
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+fun xs row col => sum (k : Fin K), xs.a row k * xs.b k col
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

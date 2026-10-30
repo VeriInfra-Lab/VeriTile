@@ -2,56 +2,55 @@ import triton
 import triton.language as tl
 import torch
 
-# Triton kernel
+
 @triton.jit
-def puzzle1_kernel(x_ptr: tl.tensor, output_ptr: tl.tensor, N: tl.int32, BLOCK_SIZE: tl.constexpr, value: tl.float32):
+def puzzle1_kernel(x_ptr: tl.tensor, output_ptr: tl.tensor, N: tl.int32,
+                   BLOCK_SIZE: tl.constexpr):
     pid = tl.program_id(axis=0)
     block_start = pid * BLOCK_SIZE
     offsets = block_start + tl.arange(0, BLOCK_SIZE)
     mask = offsets < N
     x = tl.load(x_ptr + offsets, mask=mask)
-    output = x + value
+    output = x + 10
     tl.store(output_ptr + offsets, output, mask=mask)
 
-# Wrapper function to call the kernel
-def puzzle1(x: torch.Tensor):
+
+@triton.jit
+def puzzle1_commuted_kernel(x_ptr: tl.tensor, output_ptr: tl.tensor, N: tl.int32,
+                            BLOCK_SIZE: tl.constexpr):
+    pid = tl.program_id(axis=0)
+    block_start = pid * BLOCK_SIZE
+    offsets = block_start + tl.arange(0, BLOCK_SIZE)
+    mask = offsets < N
+    x = tl.load(x_ptr + offsets, mask=mask)
+    y = 10
+    output = y + x
+    tl.store(output_ptr + offsets, output, mask=mask)
+
+
+def puzzle1_repaired(x: torch.Tensor):
+    """Add 10 to a contiguous FP32 CUDA tensor under the checked contract."""
+    if not isinstance(x, torch.Tensor):
+        raise TypeError("x must be a Tensor")
+    if x.layout != torch.strided:
+        raise ValueError("x must use strided layout")
+    if x.dtype != torch.float32:
+        raise TypeError("x must have FP32 dtype")
+    if not x.is_cuda:
+        raise ValueError("x must be on CUDA")
+    if not x.is_contiguous():
+        raise ValueError("x must be contiguous")
+    if x.is_neg():
+        raise ValueError("x must have no unresolved negative view bit")
+    N = x.numel()
+    if N >= 2**31:
+        raise ValueError("x must contain fewer than 2**31 elements")
+    if N > 0 and x.data_ptr() % 4 != 0:
+        raise ValueError("x must have a 4-byte aligned data pointer")
     output = torch.empty_like(x)
-    assert x.is_cuda and output.is_cuda
-    N = output.numel()
+    if N == 0:
+        return output
     grid = lambda meta: (triton.cdiv(N, meta['BLOCK_SIZE']),)
-    puzzle1_kernel[grid](x, output, N, BLOCK_SIZE=1024, value=10)
+    with torch.cuda.device(x.device):
+        puzzle1_kernel[grid](x, output, N, BLOCK_SIZE=1024)
     return output
-
-
-
-
-##################################################################################################################################################
-
-import torch
-
-def test_puzzle():
-    results = {}
-    
-    # Test case 1
-    a1 = torch.Tensor([4, 5, 3, 2]).to(device=torch.device('cuda'))
-    triton_output1 = puzzle1(a1)
-    results['test_case_1'] = triton_output1
-    
-    # Test case 2
-    a2 = torch.Tensor([1, 2, 3, 4, 5, 6, 7, 8]).to(device=torch.device('cuda'))
-    triton_output2 = puzzle1(a2)
-    results['test_case_2'] = triton_output2
-    
-    # Test case 3
-    a3 = torch.Tensor([10, 20, 30]).to(device=torch.device('cuda'))
-    triton_output3 = puzzle1(a3)
-    results['test_case_3'] = triton_output3
-    
-    # Test case 4
-    a4 = torch.Tensor([0, -1, -2, -3]).to(device=torch.device('cuda'))
-    triton_output4 = puzzle1(a4)
-    results['test_case_4'] = triton_output4
-    
-    return results
-
-result_gold = test_puzzle()

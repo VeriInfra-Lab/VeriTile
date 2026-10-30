@@ -1,0 +1,17 @@
+{
+  "scope": "selected contiguous FP32 B16 scalar/store graph, independent Real and FP targets",
+  "status": "GPU numerical conformance deferred",
+  "ports": [
+    {"name": "add", "domain": "all raw FP32 words", "required_evidence": "pointwise rounded add instruction semantics, including NaNs, signed zero and subnormals"},
+    {"name": "sub", "domain": "all raw FP32 words", "required_evidence": "pointwise rounded subtract instruction semantics"},
+    {"name": "mul", "domain": "all raw FP32 words", "required_evidence": "pointwise rounded multiply instruction semantics"},
+    {"name": "fma", "domain": "all raw FP32 words", "required_evidence": "pointwise fused multiply-add instruction semantics"},
+    {"name": "max", "domain": "all raw FP32 words", "required_evidence": "pointwise selected max instruction semantics and exceptional-word behavior"},
+    {"name": "exp", "domain": "all raw FP32 words", "required_evidence": "local rounded log2(e) multiplication followed by selected exp2 instruction"},
+    {"name": "div", "domain": "all raw FP32 words", "required_evidence": "pointwise selected division instruction semantics"},
+    {"name": "mma8", "domain": "fixed eight operand pairs plus live seed", "required_evidence": "fixed mma.sync m16n8k8 TF32 instruction component and exact seed operand; no WGMMA selector"}
+  ],
+  "structural_boundary": "External SourceBinding.Binding for the pinned Python/config: input routes, score graph, CSR control, normalization update and store ordering. Bound fragments are consumed, then rewritten by local structural maps. No result law is assumed; source pin and eight profiles alone do not produce the binding.",
+  "runtime_boundary": "Observed tensor headers and signed metadata, raw memory/word interpretation, fresh output allocation and interval separation, local little-endian WordCodec, no concurrent mutation, successful single launch; shared grid-product compatibility deferred",
+  "excluded_assumptions": ["exact Real floating arithmetic", "whole dot result", "whole reduction result", "whole output equality", "execution-success premise", "compiler-wide conformance"]
+}

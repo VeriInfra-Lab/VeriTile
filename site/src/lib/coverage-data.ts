@@ -25,12 +25,13 @@ export type CoverageRow = {
 // One validator owns source fingerprints, explicit reviews, and the manifest.
 // A source edit without an updated review stops the website build too.
 export const coverage: { reviewed_on: string; basis: string; rows: CoverageRow[] } = JSON.parse(
-  execFileSync('python3', ['bench/coverage_review.py', '--json'], {
+  execFileSync('python3', ['scripts/bench/coverage_review.py', '--json'], {
     cwd: resolve(process.cwd(), '..'), encoding: 'utf8', maxBuffer: 16 * 1024 * 1024,
   }),
 );
 
 export const coverageLabels: Record<string, string> = {
+  selected_contract: 'Final selected contract',
   full_value_candidate: 'Original-kernel candidate',
   specialization: 'Configured model / stage',
   precomputed_input_slice: 'Precomputed-input slice',
@@ -41,6 +42,7 @@ export const coverageLabels: Record<string, string> = {
 };
 
 export const numericLabels: Record<string, string> = {
+  explicit_fp_contract: 'Explicit FP model and assumptions',
   mathematical: 'Mathematical execution',
   abstract_rounding: 'Abstract cast/store rounding',
 };

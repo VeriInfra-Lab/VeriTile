@@ -1,0 +1,73 @@
+{
+  "status": "verified",
+  "standard": "kernel-only stable compaction and actual configuration equivalence",
+  "selected_precision": {
+    "input": "FP32",
+    "mask": "Bool",
+    "prefix": "Int64",
+    "output": "FP32"
+  },
+  "independent_formula": "((List.range n).filter mask).map input",
+  "canonical_source": "bench/tritonbench_g/masked_select/Kernels.lean: TypedCopy.source .fp32, reused by repair Kernels.lean",
+  "actual_variants": "The original twenty autotune configurations; no new Python kernel or synthetic optimization",
+  "public_correctness": [
+    "Correct.masked_select_kernel_correctness",
+    "Correct.masked_select_stable_correctness"
+  ],
+  "public_equivalence": "FPEquiv.masked_select_configuration_equiv",
+  "equivalence_observations": "Both actual kernel configurations succeed; entire memory equality and exterior frame",
+  "kernel_contract": "Prepared FP32 payload, Bool mask and inclusive prefix input cells; separate output; no assumed output or success",
+  "native_prefix": "Nat projection with proved prefix64/destination64 correspondence; zero-prefix native -1 only in store-inactive lanes",
+  "numerical_assumptions": [],
+  "numerical_deferrals": [],
+  "primitive_model_boundaries": [
+    "Typed raw loads/stores",
+    "Torch buffer preparation/allocation and metadata",
+    "Compiler/runtime correspondence and no concurrent writes"
+  ],
+  "original_defects_retained": [
+    "contiguous lazy-negative view reads raw positive values",
+    "empty prefix[-1] access"
+  ],
+  "lean_build_log": "/tmp/masked-select-final-build.log",
+  "optional_legacy_build_log": "/tmp/masked-select-acceptance-build.log",
+  "python_validation": {
+    "log": "/tmp/masked-select-contract-validation.log",
+    "raw_word_cases": 7,
+    "independent_block_widths": [
+      256,
+      512,
+      1024,
+      2048,
+      4096
+    ],
+    "rejection_cases": 10,
+    "method": "CPU AST replay, explicit vector-and adaptation, mocked CUDA/alloc dispatch",
+    "original_negative_view_counterexample": true
+  },
+  "offline_lowering": {
+    "receipt": "cuda-lowering.json",
+    "profiles": 20,
+    "sm": 90,
+    "triton": "3.7.1"
+  },
+  "gpu_execution": false,
+  "independent_numerical_replay": false,
+  "unchanged_python_asts": [
+    "masked_select_kernel",
+    "broadcastable",
+    "cfggen"
+  ],
+  "original_python_sha256": "509f95388d4a466c1973d3b441a0050b66bcd971b5a61e2bb762171ffc4c4c58",
+  "sha256": {
+    "Kernels.lean": "a7fab40f074c88059528dbf06c42a4650a9173474437d1502855e3f75d440075",
+    "Contract.lean": "d276fd11efc35395c7fb40305ca71660df37f7b7fbf0e560ec577dfef6d586b1",
+    "Correct.lean": "3ee2d9611e49d860fa019d96acee98bca600a36dc1aa82aac6d22c3704ffa025",
+    "FPEquiv.lean": "26562193e360f838277917e038f9589af4c85d211511d24335f272d70d9cc211",
+    "Proofs/Kernel.lean": "4e2ca3331b0d830871c725fcb8dc038e47609dbdde942cbf8e827689f62f8748",
+    "Proofs/Contract.lean": "e0ab477f41795482985753820ceeaf14ec9f8086ea40da1d26bdc5e121303ca3",
+    "Proofs/check_contract.py": "02a494fa07c94884e0b80e25661ef47f5f681b8a3ea361a6198359b9020105da",
+    "check_cuda_lowering.py": "c46ab5080e3e51f85d0fc854d70e719e3d73b5971397eac984e3cbd249528554",
+    "masked_select_repaired.py": "9b28fdd896227daab5970493602f5d580a94be1f8979484f613cfb8aa41f47fe"
+  }
+}

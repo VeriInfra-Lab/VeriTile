@@ -1,0 +1,19 @@
+{
+  "candidate": "matmul_tma_static_checked_v2",
+  "source_sha256": "71d5329036259331442629daac29492bb71c0d26b2acd64d5e5ef9f7142f5b5b",
+  "numerical_transformations": 0,
+  "new_primitive_experiments": 0,
+  "required_experiments": 0,
+  "deferred_experiments": [],
+  "native_local_boundary": [
+    "fixed-K16 first instruction, profile-indexed MMA/WGMMA",
+    "fixed-K16 carried FP32 instruction, profile-indexed MMA/WGMMA",
+    "FP32-to-FP16 output encoding; FP32 same-format identity proved"
+  ],
+  "no_variable_K_or_complete_dot_port": true,
+  "native_equals_Real": false,
+  "scope_note": "Generic full checked-domain source/native proof, with Dimensions derived from frontend tile checks. The twelve observed profiles are a separate evidence corollary; instruction-local realization stays explicit. No numerical transformation.",
+  "main_fpequiv_status": "missing_pair_target",
+  "native_certificate": "KernelOnly/NativeCorrect.lean: kernel_native (ordinary single-source theorem)",
+  "main_pair_gap_is_numerical_deferral": false
+}

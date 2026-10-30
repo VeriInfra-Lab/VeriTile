@@ -12,7 +12,7 @@ typed `Op : TileDType → TileShape → Type` terms, and exposes
 Algorithmic proofs run over the erased `.real` (mathematical) channel; the
 optional `GapPolicy` records — but does not internally prove — the
 compute-to-algorithm gap (IEEE-754 / PTX / TMA / concurrency), which stays
-externally checked. See [Triton subset and gaps](./documents/TritonSubset.md).
+externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
 
 ## What VeriTile Does
 
@@ -24,6 +24,15 @@ externally checked. See [Triton subset and gaps](./documents/TritonSubset.md).
   (writes-equality: the two final memories agree at every cell outside the
   declared scratch regions). Both project through `toAlgorithm?` and run on
   `Kernel.Correct_without_Rounding` / `Kernel.Refine` underneath.
+- **Public specifications**: correctness uses real semantics (`Spec.Real claim`);
+  implementation equivalence uses `lhs ≡[R] rhs` (`open scoped VeriTile.Spec`).
+  Two-gates admits atomic rewrite assumptions; Lean checks their composition.
+  `R` bundles the rule table and admissions; experiment bookkeeping stays there.
+  `#print_fp_assumptions name` lists only the atomic assumption names referenced
+  by an FP proof, such as `add_commute`. The GPU runner and trusted-report
+  example are available, with separate [correctness](bench/examples/TritonBenchVectorAddition/Correct.lean)
+  and [FP equivalence](bench/examples/TritonBenchVectorAddition/FPEquiv.lean) specifications.
+  See [specification meanings](documents/CorrectnessSurfaces.md#two-public-specification-meanings).
 - **Narrow-float / rounding-model layer** (#1): an abstract `RoundingModel`
   (`round : FloatDType → ℝ → ℝ`, fields `round_real` (real-channel identity) and `round_idem` (idempotence)) threads a
   black-box rounding function through the semantics (`evalOpR` / `stepStmtR` /
@@ -34,23 +43,28 @@ externally checked. See [Triton subset and gaps](./documents/TritonSubset.md).
   bridge `Realizes.toRealizes_without_Rounding` degenerates out to (as
   `ComputeCorrect.Realizes_without_Rounding`) at the trivial model. See the
   fused-vs-unfused SwiGLU showcase
-  [`bench/examples/FusedSwigluEquiv.lean`](./bench/examples/FusedSwigluEquiv.lean).
-- **Examples**: 173 ported TritonBench-G kernels with proofs (source of truth:
-  [`bench/tritonbench_g/completion_audit.md`](./bench/tritonbench_g/completion_audit.md);
-  see the [per-theorem coverage table](https://veriinfra-lab.github.io/VeriTile/proofs/coverage/)
-  for configured models, slices, and remaining gaps) plus FlashAttention-1
+  [`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
+- **Examples**: 184 TritonBench-G task directories, with original-source
+  proof contracts in the declared scopes of 183 tasks and one repaired-only
+  candidate. The [final contract review](./validation/contracts.json) records mathematical targets, implementation pairs, conditions and proof scope. See the
+  [current source inventory](./documents/bench/current_source_acceptance.md) for checked
+  inputs and reproduction commands. Additional examples include FlashAttention-1
   forward, online softmax, Welford, LayerNorm, log-sum-exp.
 - **CI gates**: `.github/workflows/bench-audit.yml` runs the full library build,
-  Python↔Lean faithfulness scans, proof-gap manifest checks, and library
-  comparator once, then checks the standalone corpus in four shards through
-  `bench/audit_trust.sh`. Each file must pass elaboration, Lean trust/spec
-  checks, and official comparator replay. The final gate requires the global
-  job and all four shards to succeed. `.github/workflows/artifact.yml` runs `lake build` +
+  source correspondence inventories, final contract/source checks, and library
+  comparator on PRs and main pushes. The complete retained corpus and all 334
+  benchmark interfaces are built and audited daily at 04:00 Asia/Singapore
+  (20:00 UTC), or on manual dispatch. The daily corpus audit uses 64 shards
+  through `scripts/bench/audit_trust.sh`, retaining elaboration, Lean trust/spec checks
+  and official comparator replay. Its final gate requires every shard to pass.
+  Run the complete applicable proof checks locally before merging proof changes.
+  `.github/workflows/artifact.yml` runs `lake build` +
   `scripts/check-artifact.sh` (no `sorry`, axiom whitelist, manifest schema,
   doc-drift checks). `.github/workflows/site.yml` builds and deploys the docs
   site to GitHub Pages on every push touching `site/`.
 
-Out of scope: IEEE-754 floating-point semantics, PTX-level codegen,
+Pending for complete kernel verification: concrete floating-point execution
+(the bf16/fp32 scalar foundation is implemented), PTX-level codegen,
 detailed concurrency (atomics / async-copy serialization, beyond the
 projection boundary), Python wrapper execution.
 
@@ -66,14 +80,14 @@ git clone https://github.com/VeriInfra-Lab/VeriTile.git
 cd VeriTile
 lake exe cache get
 lake build
-lake env lean bench/examples/VectorAdd.lean
+lake env lean bench/examples/VectorAdd/Correct.lean
 ```
 
 The repository pins the Lean and Mathlib versions. The cache command downloads
 precompiled dependencies; `lake build` builds the default library target.
 The last command compiles the complete vector-add example and checks its
 proofs in Lean. For the additional official comparator audit, follow the
-[verification setup](./scripts/README.md#setup). An agent CLI is optional.
+[verification setup](scripts/README.md#setup). An agent CLI is optional.
 
 The steps below outline how to write a new kernel; the proof sketch uses
 `...` where the linked complete example supplies the proof.
@@ -95,6 +109,13 @@ def addKernel (xReg yReg outReg : RegionName) (n : Nat) : ComputeKernel := trito
 
 ### 2. Choose a theorem surface
 
+For new public headlines, express correctness against the mathematical formula
+in real semantics (`Spec.Real`); use `lhs ≡[R] rhs` in the `VeriTile.Spec` scope
+for implementation equivalence derived from two-gates-admitted atomic rules. Both keep the `specification` keyword.
+After importing `VeriTile.Meta.StatementAudit`, `#print_fp_assumptions name`
+shows only the atomic assumptions referenced by an FP proof. The existing proof vocabulary below
+retains its original mathematical/abstract-rounding meaning.
+
 | Goal | Use |
 |---|---|
 | One kernel matches an output spec | `ComputeCorrect.Realizes_without_Rounding` |
@@ -105,7 +126,7 @@ def addKernel (xReg yReg outReg : RegionName) (n : Nat) : ComputeKernel := trito
 | Custom postcondition over the final state | `ComputeCorrect.Post` / `ComputeRefine.Post` |
 | Relation over arbitrary initial states (rare) | `ComputeCorrect.General` / `ComputeRefine.General` |
 
-Full surface guide: [CorrectnessSurfaces.md](./documents/CorrectnessSurfaces.md).
+Full surface guide: [CorrectnessSurfaces.md](documents/CorrectnessSurfaces.md).
 
 ### 3. Prove via the projected algorithm
 
@@ -130,26 +151,39 @@ recurrence; the algebraic content closes by `simp` on the spec or by
 invoking a math identity from `Mathlib`. The LLM proof wrapper
 `scripts/prove.sh` automates this loop and uses the official comparator to judge
 the targets selected with `--theorem` against the original task.
-See [setup and usage](./scripts/README.md).
+See [setup and usage](scripts/README.md).
 The artifact and bench check scripts also require comparator proof replay;
-see [the shared verification gate](./scripts/README.md#shared-comparator-gate).
+see [the shared verification gate](scripts/README.md#shared-comparator-gate).
 
 ### 4. Register in the kernel manifest
 
-Add a row to [`scripts/kernel-manifest.tsv`](./scripts/kernel-manifest.tsv)
+Add a row to [`scripts/kernel-manifest.tsv`](scripts/kernel-manifest.tsv)
 so `scripts/check-artifact.sh` recognizes the theorem in CI. Schema and
-naming conventions: [KernelManifest.md](./documents/KernelManifest.md),
-[TheoremSurfaces.md](./documents/TheoremSurfaces.md).
+naming conventions: [KernelManifest.md](documents/KernelManifest.md),
+[TheoremSurfaces.md](documents/TheoremSurfaces.md).
+
+See the [worked-example index](bench/examples/README.md) for the shared-source directory layout and proof scopes.
 
 ## Minimal Example
 
 Elementwise vector add against the `addSpec xs ys i = xs i + ys i` math
-spec — see [`bench/examples/VectorAdd.lean`](./bench/examples/VectorAdd.lean).
+spec — see [`bench/examples/VectorAdd/Correct.lean`](bench/examples/VectorAdd/Correct.lean).
 
-## Refinement Example
+## Floating-Point Equivalence Example
 
-Naive vs numerically-stable softmax (kernel pair refinement) — see
-[`bench/examples/SoftmaxStableEquiv.lean`](./bench/examples/SoftmaxStableEquiv.lean).
+Vector addition with swapped operands — see
+[`VectorAdd/FPEquiv.lean`](bench/examples/VectorAdd/FPEquiv.lean), alongside
+[`VectorAdd/Correct.lean`](bench/examples/VectorAdd/Correct.lean). The FP proof
+uses the experiment-selected `add_commute` atom; the real proof states the
+pointwise mathematical formula. `#print_fp_assumptions add_kernel_equiv`
+prints the atom used by the FP proof.
+
+The [floating-point experiment workflow](experiments/floating_point/README.md)
+provides configurable Triton/GPU candidate checks and CPU replay of two-gates
+results. The trusted GPU report supplies 30 accepted atomic instances for
+`lhs ≡[R] rhs`. Other worked examples are being migrated from their legacy
+models; the [coverage ledger](documents/ExampleSpecificationMigration.md)
+records completed cases and remaining proof requirements.
 
 ## Documentation Map
 
@@ -157,18 +191,18 @@ Task-oriented:
 
 | Question | Doc |
 |---|---|
-| Which Triton constructs are supported? | [TritonSubset.md](./documents/TritonSubset.md) |
-| What semantic caveats affect theorem interpretation? | [SemanticCaveats.md](./documents/SemanticCaveats.md) |
-| Where does my new lemma / definition belong? | [CodeOrganization.md](./documents/CodeOrganization.md) |
-| Tactic conventions (incl. `erw` carrier-bridge) | [ProofConventions.md](./documents/ProofConventions.md) |
-| Which theorem surface should I use? | [CorrectnessSurfaces.md](./documents/CorrectnessSurfaces.md) |
-| How does dtype erasure work? | [EraseDType.md](./documents/EraseDType.md) |
-| How does memory safety / framing work? | [MemorySafety.md](./documents/MemorySafety.md) |
-| What's the GPU memory model? | [GpuMemoryModel.md](./documents/GpuMemoryModel.md) |
-| How are atomics / async copies modeled? | [ConcurrencySemantics.md](./documents/ConcurrencySemantics.md) |
-| How does the kernel manifest work? | [KernelManifest.md](./documents/KernelManifest.md) |
-| Naming conventions for theorem surfaces | [TheoremSurfaces.md](./documents/TheoremSurfaces.md) |
-| LLM proof wrapper | [scripts/README.md](./scripts/README.md) |
+| Which Triton constructs are supported? | [TritonSubset.md](documents/TritonSubset.md) |
+| What semantic caveats affect theorem interpretation? | [SemanticCaveats.md](documents/SemanticCaveats.md) |
+| Where does my new lemma / definition belong? | [CodeOrganization.md](documents/CodeOrganization.md) |
+| Tactic conventions (incl. `erw` carrier-bridge) | [ProofConventions.md](documents/ProofConventions.md) |
+| Which theorem surface should I use? | [CorrectnessSurfaces.md](documents/CorrectnessSurfaces.md) |
+| How does dtype erasure work? | [EraseDType.md](documents/EraseDType.md) |
+| How does memory safety / framing work? | [MemorySafety.md](documents/MemorySafety.md) |
+| What's the GPU memory model? | [GpuMemoryModel.md](documents/GpuMemoryModel.md) |
+| How are atomics / async copies modeled? | [ConcurrencySemantics.md](documents/ConcurrencySemantics.md) |
+| How does the kernel manifest work? | [KernelManifest.md](documents/KernelManifest.md) |
+| Naming conventions for theorem surfaces | [TheoremSurfaces.md](documents/TheoremSurfaces.md) |
+| LLM proof wrapper | [scripts/README.md](scripts/README.md) |
 
 ## Repository Layout
 
@@ -190,25 +224,38 @@ VeriTile/
     Launch/                Grid-launch composition / write footprints
     Concurrency/           Grid-wide atomic-add correctness (above Launch)
   Examples/                Worked correctness/refinement proofs
-bench/tritonbench_g/       TritonBench-G v1 ports (173 pairs; see completion_audit.md)
-bench/examples/            Showcase proofs (SwiGLU rounding invariance, ...)
+bench/tritonbench_g/       One current repaired implementation and public proof entries per task
+bench/examples/            Worked examples with source, Real and FP entry points
+tests/lean/               Lean regressions
+tests/python/             Python regressions
+bench/bug_detection/       65 independent bug-detection challenges
+bench/pretrain_kernels/    269 independent pretraining challenges
+validation/               Current selections, contract review and source fingerprints
 documents/                 Design notes, subset spec, surface guide
+documents/archive/         Historical design and implementation plans
 scripts/                   CI gate, kernel manifest, LLM proof wrapper
+  bench/                   Benchmark inventories, source checks and audits
+site/                      Documentation website and generated reference pages
 verso/                     Slide deck / overview
 ```
 
 ## Verification
 
+- `bash scripts/bench/audit_tritonbench_g.sh --source-only` — source membership, current
+  contract bindings, Python/Lean correspondence and imported-challenge review
+- `python3 scripts/check_docs.py` — tracked Markdown links and reference-copy freshness
 - `lake build` — build the default `VeriTile` library target; standalone
   benchmarks/showcases and the GeLU/trust-report target are separate
 - `lake build VeriTile VeriTileFull` — also build the full analysis and library trust report
-- `lake env lean bench/examples/VectorAdd.lean` — quick example smoke check after building
+- `lake build TritonBenchSpecExamples` — build all worked examples, including the independent real/FP pairs
+- `lake env lean bench/examples/VectorAdd/Correct.lean` — quick example smoke check after building
 - `scripts/check-artifact.sh` — `lake build` ∧ `no sorry` ∧ axiom
   whitelist ∧ kernel-manifest schema ∧ README/doc-term drift
-- `bench/check_ports.sh` — per-port elaboration and official comparator replay
-- `bench/audit_tritonbench_g.sh` — the full bench gate: structural scans,
-  proof-gap manifest, library comparator, and standalone trust/comparator audit
-- `bench/audit_trust.sh` — trust gates and comparator replay for every standalone bench file
+- `scripts/bench/check_ports.sh` — current selected-corpus trust/replay; named arguments
+  retain the legacy filename-based port interface
+- `scripts/bench/audit_tritonbench_g.sh` — the full final-corpus gate: source/contract inventory,
+  complete builds, library comparator and corpus trust/replay checks
+- `scripts/bench/audit_trust.sh --final-inventory` — trust gates and comparator replay for every retained corpus module
 
 ## Environment
 
@@ -217,7 +264,7 @@ verso/                     Slide deck / overview
   [`lean4-skills`](https://github.com/lean4-skills/lean4-skills)
 - For artifact/bench verification and proof automation: Python 3 and the official comparator, lean4export,
   and landrun on Linux with a systemd user service; see
-  [installation instructions](./scripts/README.md#setup).
+  [installation instructions](scripts/README.md#setup).
 
 ## Roadmap
 
@@ -225,7 +272,7 @@ Long-running project. Goal: bring real Triton kernels (forward, backward,
 concurrency, production layouts / autograd) into Lean's proof scope with
 minimal modification. Live roadmap:
 [#1](https://github.com/VeriInfra-Lab/VeriTile/issues/1). Architecture and
-decision log: [PLAN.md](./PLAN.md).
+decision log: [PLAN.md](PLAN.md).
 
 ## Team
 
@@ -234,4 +281,4 @@ Zhaoyu Li, Mike He, and Aarti Gupta.
 
 ## License
 
-[MIT](./LICENSE) © 2026 Zenan Li.
+[MIT](LICENSE) © 2026 Zenan Li.

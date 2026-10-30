@@ -18,67 +18,97 @@ def chunk_global_reversed_cumsum_scalar_kernel(
     s,
     o,
     T: tl.constexpr,
+    H: tl.constexpr,
+    stride_sb: tl.constexpr,
+    stride_sh: tl.constexpr,
+    stride_st: tl.constexpr,
+    stride_ob: tl.constexpr,
+    stride_oh: tl.constexpr,
+    stride_ot: tl.constexpr,
     BT: tl.constexpr,
 ):
-    i_bh = tl.program_id(0)
+    i_bh = tl.program_id(0).to(tl.int64)
     b_z = tl.zeros([], dtype=tl.float32)
-    for i_t in range(tl.cdiv(T, BT) - 1, -1, -1):
-        p_s = tl.make_block_ptr(s + i_bh * T, (T,), (1,), (i_t * BT,), (BT,), (0,))
-        p_o = tl.make_block_ptr(o + i_bh * T, (T,), (1,), (i_t * BT,), (BT,), (0,))
-        b_s = tl.load(p_s, boundary_check=(0,)).to(tl.float32)
+    for i_t in range(tl.cast(tl.cdiv(T, BT), tl.int64) - 1, -1, -1):
+        start_t = tl.cast(i_t, tl.int64) * BT
+        lanes = tl.arange(0, BT).to(tl.int64)
+        active = lanes < T - start_t
+        times = start_t + tl.where(active, lanes, 0)
+        p_s = s + (i_bh // H) * stride_sb + (i_bh % H) * stride_sh + times * stride_st
+        p_o = o + (i_bh // H) * stride_ob + (i_bh % H) * stride_oh + times * stride_ot
+        b_s = tl.load(p_s, mask=active, other=0).to(tl.float32)
         b_zz = tl.sum(b_s, axis=0)
         b_z += b_zz
         b_o = b_s - tl.cumsum(b_s, axis=0) + b_z[None]
-        tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0,))
+        tl.store(p_o, b_o.to(p_o.dtype.element_ty), mask=active)
 
 
 def chunk_global_reversed_cumsum_scalar(
     s: torch.Tensor,
     dtype: Optional[torch.dtype] = None,
 ) -> torch.Tensor:
+    if not isinstance(s, torch.Tensor):
+        raise TypeError("s must be a Tensor")
+    if s.layout != torch.strided:
+        raise ValueError("s must have strided layout")
+    if s.dtype != torch.float32:
+        raise TypeError("s must be FP32")
+    if dtype is not None and dtype != torch.float32:
+        raise TypeError("dtype must be None or FP32")
+    if s.ndim != 3:
+        raise ValueError("s must have rank three")
+    if not s.is_cuda:
+        raise ValueError("s must be CUDA")
+    if not s.is_contiguous():
+        raise ValueError("s must be contiguous")
+    if s.is_neg():
+        raise ValueError("s must not have an unresolved negative view")
     B, H, T = s.shape
-    dtype = dtype or s.dtype
+    if s.numel() != 0 and B * H >= 2**31:
+        raise ValueError("nonempty row grid must fit CUDA grid-x")
+    if s.numel() != 0 and s.data_ptr() % 4 != 0:
+        raise ValueError("nonempty FP32 input must be 4-byte aligned")
+    dtype = torch.float32
     grid = (B * H,)
     z = torch.empty_like(s, dtype=dtype)
-    chunk_global_reversed_cumsum_scalar_kernel[grid](
-        s, z,
-        T=T
-    )
+    if z.numel() == 0:
+        return z
+    with torch.cuda.device(s.device):
+        chunk_global_reversed_cumsum_scalar_kernel[grid](
+            s, z,
+            T=T, H=H,
+            stride_sb=s.stride(0), stride_sh=s.stride(1), stride_st=s.stride(2),
+            stride_ob=z.stride(0), stride_oh=z.stride(1), stride_ot=z.stride(2),
+        )
     return z
 
 
-
-##################################################################################################################################################
-
-
-import torch
-
-# Test for chunk_global_reversed_cumsum_scalar
-def test_chunk_global_reversed_cumsum_scalar():
-    B, H, T = 2, 3, 4  # Example dimensions
-    results = {}
-    
-    # Test case 1
-    s1 = torch.rand((B, H, T), dtype=torch.float32).cuda()
-    result1 = chunk_global_reversed_cumsum_scalar(s1)
-    results['test_case_1'] = result1
-    
-    # Test case 2
-    s2 = torch.rand((B, H, T), dtype=torch.float32).cuda()
-    result2 = chunk_global_reversed_cumsum_scalar(s2)
-    results['test_case_2'] = result2
-    
-    # Test case 3
-    s3 = torch.rand((B, H, T), dtype=torch.float32).cuda()
-    result3 = chunk_global_reversed_cumsum_scalar(s3)
-    results['test_case_3'] = result3
-    
-    # Test case 4
-    s4 = torch.rand((B, H, T), dtype=torch.float32).cuda()
-    result4 = chunk_global_reversed_cumsum_scalar(s4)
-    results['test_case_4'] = result4
-    
-    return results
-
-# Run all tests
-result_gold = test_chunk_global_reversed_cumsum_scalar()
+# The intended kernel-equivalence candidate; wrapper selection is unchanged.
+@triton.jit
+def chunk_global_reversed_cumsum_scalar_kernel_index_commuted(
+    s,
+    o,
+    T: tl.constexpr,
+    H: tl.constexpr,
+    stride_sb: tl.constexpr,
+    stride_sh: tl.constexpr,
+    stride_st: tl.constexpr,
+    stride_ob: tl.constexpr,
+    stride_oh: tl.constexpr,
+    stride_ot: tl.constexpr,
+    BT: tl.constexpr,
+):
+    i_bh = tl.program_id(0).to(tl.int64)
+    b_z = tl.zeros([], dtype=tl.float32)
+    for i_t in range(tl.cast(tl.cdiv(T, BT), tl.int64) - 1, -1, -1):
+        start_t = tl.cast(i_t, tl.int64) * BT
+        lanes = tl.arange(0, BT).to(tl.int64)
+        active = lanes < T - start_t
+        times = start_t + tl.where(active, lanes, 0)
+        p_s = s + stride_sb * (i_bh // H) + stride_sh * (i_bh % H) + times * stride_st
+        p_o = o + (i_bh // H) * stride_ob + (i_bh % H) * stride_oh + times * stride_ot
+        b_s = tl.load(p_s, mask=active, other=0).to(tl.float32)
+        b_zz = tl.sum(b_s, axis=0)
+        b_z += b_zz
+        b_o = b_s - tl.cumsum(b_s, axis=0) + b_z[None]
+        tl.store(p_o, b_o.to(p_o.dtype.element_ty), mask=active)

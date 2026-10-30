@@ -2,12 +2,10 @@ import torch
 
 import triton
 import triton.language as tl
-import math
-import torch.nn.functional as F
 
 
 @triton.jit
-def _fwd_kernel(
+def _fwd_kernel_repaired(
     Q,
     K,
     V,
@@ -33,21 +31,21 @@ def _fwd_kernel(
     BLOCK_DMODEL: tl.constexpr,
     BLOCK_N: tl.constexpr,
 ):
-    cur_batch = tl.program_id(0)
-    cur_head = tl.program_id(1)
-    start_m = tl.program_id(2)
+    cur_batch = tl.program_id(0).to(tl.int64)
+    cur_head = tl.program_id(1).to(tl.int64)
+    start_m = tl.program_id(2).to(tl.int64)
 
     cur_kv_head = cur_head // kv_group_num
 
-    cur_batch_seq_len = tl.load(B_Seqlen + cur_batch)
-    cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch)
+    cur_batch_seq_len = tl.load(B_Seqlen + cur_batch).to(tl.int64)
+    cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch).to(tl.int64)
 
     block_start_loc = BLOCK_M * start_m
 
     # initialize offsets
-    offs_n = tl.arange(0, BLOCK_N)
-    offs_d = tl.arange(0, BLOCK_DMODEL)
-    offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    offs_n = tl.arange(0, BLOCK_N).to(tl.int64)
+    offs_d = tl.arange(0, BLOCK_DMODEL).to(tl.int64)
+    offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M).to(tl.int64)
     off_q = (
         (cur_batch_in_all_start_index + offs_m[:, None]) * stride_qbs
         + cur_head * stride_qh
@@ -82,7 +80,7 @@ def _fwd_kernel(
             qk *= sm_scale
             # [SYM] Mask outside the windows; use a large negative value instead of -inf.
             qk = tl.where(offs_m[:, None] >= (start_n + offs_n[None, :]), qk, -1e9)
-            qk = tl.where((start_n + offs_n[None, :]) > (offs_m[:, None] - sliding_window), qk, -1e9)
+            qk = tl.where((offs_m[:, None] - (start_n + offs_n[None, :])) < sliding_window, qk, -1e9)
 
             # -- compute m_ij, p, l_ij
             m_ij = tl.max(qk, 1)
@@ -128,106 +126,72 @@ def _fwd_kernel(
     return
 
 
+def _checked_arguments(q, k, v, o, b_start_loc, b_seq_len, max_input_len, sliding_window):
+    tensors = (q, k, v, o, b_start_loc, b_seq_len)
+    if any(not isinstance(t, torch.Tensor) for t in tensors):
+        raise TypeError("all buffers must be tensors")
+    if any(t.ndim != 3 for t in (q, k, v, o)) or b_start_loc.ndim != 1 or b_seq_len.ndim != 1:
+        raise ValueError("expected packed rank-three Q/K/V/O and metadata vectors")
+    tokens, heads, dim = q.shape
+    kvheads = k.shape[1]
+    if dim not in (16, 32, 64, 128) or k.shape != (tokens, kvheads, dim) or v.shape != k.shape or o.shape != q.shape:
+        raise ValueError("matching packed token counts, head width and output shape required")
+    if heads <= 0 or kvheads <= 0 or heads % kvheads:
+        raise ValueError("positive Hq divisible by positive Hkv required")
+    if b_start_loc.shape != b_seq_len.shape:
+        raise ValueError("metadata vector sizes must match")
+    if type(max_input_len) is not int or max_input_len < 0 or type(sliding_window) is not int:
+        raise ValueError("maximum length and window must be Python integers; maximum length must be nonnegative")
+    if any(t.dtype != torch.float32 for t in (q, k, v, o)):
+        raise TypeError("FP32 Q/K/V/O required")
+    if any(t.dtype != torch.int32 for t in (b_start_loc, b_seq_len)):
+        raise TypeError("signed-int32 starts and lengths required")
+    if not q.is_cuda or any(t.device != q.device for t in tensors):
+        raise ValueError("all buffers must share one CUDA device")
+    if any(t.is_neg() or not t.is_contiguous() for t in tensors):
+        raise ValueError("contiguous tensors without lazy-negative views required")
+    starts, lengths = b_start_loc.tolist(), b_seq_len.tolist()
+    intervals = []
+    for start, length in zip(starts, lengths):
+        if start < 0 or length < 0 or start+length > tokens:
+            raise ValueError("packed sequence interval is out of bounds")
+        if length:
+            intervals.append((start, start+length))
+    if any(a[0] < b[1] and b[0] < a[1] for i, a in enumerate(intervals) for b in intervals[i+1:]):
+        raise ValueError("packed sequence intervals must not overlap")
+    blocks = triton.cdiv(max_input_len, 128)
+    if not starts or not blocks:
+        return False
+    if len(starts) >= 2**31 or heads > 65535 or blocks > 65535:
+        raise ValueError("grid axis exceeds the CUDA launch bound")
+    if heads*dim >= 2**63 or kvheads*dim >= 2**63:
+        raise ValueError("dense strides exceed signed-int64 ABI")
+    for t in tensors:
+        if t.data_ptr()+4*t.numel() > 2**64:
+            raise ValueError("buffer exceeds the native pointer address space")
+        if t.numel() and t.data_ptr()%4:
+            raise ValueError("nonempty buffers require four-byte alignment")
+    lo, hi = o.data_ptr(), o.data_ptr()+4*o.numel()
+    for t in (q, k, v, b_start_loc, b_seq_len):
+        start, end = t.data_ptr(), t.data_ptr()+4*t.numel()
+        if not (hi <= start or end <= lo):
+            raise ValueError("output and input view byte intervals must be disjoint")
+    return True
+
+
 @torch.no_grad()
-def context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len, sliding_window):
-    BLOCK = 128
-    # shape constraints
-    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]
-    assert Lq == Lk and Lk == Lv
-    assert Lk in {16, 32, 64, 128}
-
-    sm_scale = 1.0 / (Lq ** 0.5)  # Compute the scale factor.
-    batch, head = b_seq_len.shape[0], q.shape[1]
-    kv_group_num = q.shape[1] // k.shape[1]
-
-    grid = (batch, head, triton.cdiv(max_input_len, BLOCK))  # batch, head,
-
-    num_warps = 4 if Lk <= 64 else 8
-    _fwd_kernel[grid](
-        q,
-        k,
-        v,
-        sm_scale,
-        b_start_loc,
-        b_seq_len,
-        o,
-        q.stride(0),
-        q.stride(1),
-        q.stride(2),
-        k.stride(0),
-        k.stride(1),
-        k.stride(2),
-        v.stride(0),
-        v.stride(1),
-        v.stride(2),
-        o.stride(0),
-        o.stride(1),
-        o.stride(2),
-        kv_group_num=kv_group_num,
-        sliding_window=sliding_window,
-        BLOCK_M=BLOCK,
-        BLOCK_DMODEL=Lk,
-        BLOCK_N=BLOCK,
-        num_warps=num_warps,
-        num_stages=1,
-    )
-    return
-
-
-
-
-##################################################################################################################################################
-
-
-def test_context_attention_fwd():
-    Z, H, N_CTX, D_HEAD = 4, 6, 1024, 128
-    dtype = torch.float16
-    q = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.1, std=0.2)
-    k = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.4, std=0.2)
-    v = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.3, std=0.2)
-    o = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.3, std=0.2)
-
-    max_input_len = N_CTX
-    b_start_loc = torch.zeros((Z,), dtype=torch.int32, device="cuda")
-    b_seq_len = torch.ones((Z,), dtype=torch.int32, device="cuda")
-
-    b_seq_len[0] = 512
-    b_seq_len[1] = 1024
-    b_seq_len[2] = 512
-    b_seq_len[3] = 1024
-
-    for i in range(1, Z):
-        b_start_loc[i] = b_start_loc[i - 1] + b_seq_len[i - 1]
-
-    results = {}
-    
-    # Test case 1
-    context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len, 10)
-    results['test_case_1'] = o.clone()
-
-    # Test case 2: Different sliding window
-    context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len, 20)
-    results['test_case_2'] = o.clone()
-
-    # Test case 3: Different max_input_len
-    context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len // 2, 10)
-    results['test_case_3'] = o.clone()
-
-    # Test case 4: Different batch size
-    Z = 2
-    q = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.1, std=0.2)
-    k = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.4, std=0.2)
-    v = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.3, std=0.2)
-    o = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.3, std=0.2)
-    b_start_loc = torch.zeros((Z,), dtype=torch.int32, device="cuda")
-    b_seq_len = torch.ones((Z,), dtype=torch.int32, device="cuda")
-    b_seq_len[0] = 512
-    b_seq_len[1] = 1024
-    for i in range(1, Z):
-        b_start_loc[i] = b_start_loc[i - 1] + b_seq_len[i - 1]
-    context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len, 10)
-    results['test_case_4'] = o.clone()
-
-    return results
-
-result_gold = test_context_attention_fwd()
+def context_attention_fwd_repaired(q, k, v, o, b_start_loc, b_seq_len, max_input_len, sliding_window):
+    """Checked packed FP32 Mistral context attention; mutates o, returns None."""
+    if not _checked_arguments(q, k, v, o, b_start_loc, b_seq_len, max_input_len, sliding_window):
+        return
+    dim, heads, kvheads = q.shape[2], q.shape[1], k.shape[1]
+    window = min(max(sliding_window, 0), (1 << 63)-1)
+    with torch.cuda.device(q.device):
+        _fwd_kernel_repaired[(b_seq_len.numel(), heads, triton.cdiv(max_input_len, 128))](
+            q, k, v, 1.0/(dim**0.5), b_start_loc, b_seq_len, o,
+            heads*dim, dim, 1, kvheads*dim, dim, 1,
+            kvheads*dim, dim, 1, heads*dim, dim, 1,
+            kv_group_num=heads//kvheads, sliding_window=window,
+            BLOCK_M=128, BLOCK_DMODEL=dim, BLOCK_N=128,
+            num_warps=4 if dim <= 64 else 8, num_stages=1,
+        )

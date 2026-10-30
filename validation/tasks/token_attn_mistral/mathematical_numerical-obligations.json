@@ -1,0 +1,29 @@
+{
+  "task": "token_attn_mistral",
+  "candidate": "token_attn_mistral_grid_y_checked.py",
+  "precision": "FP32 P/V/output; signed-int32 metadata; Python nonnegative signed-int32 integer window",
+  "new_numerical_transformations": [],
+  "deferred_numerical_equalities": [],
+  "deferred_numerical_experiments": [],
+  "native_model": {
+    "public_theorem": "VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.kernel_native",
+    "independent_target": "VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.NativeTarget.reference",
+    "primitive_parameters": ["addRN: Word -> Word -> Word", "mulRN: Word -> Word -> Word", "fmaRN: Word -> Word -> Word -> Word"],
+    "compiler_parameters": "Shape-driven complete ordered 128-lane reduction plans with explicit neutral leaves and legal adjacent contraction choices.",
+    "mask_semantics": "P uses n<attentionLength; table/V use first+n<sequence; padded products including possible 0*NaN are retained.",
+    "proved": "Full quoted-source grid execution, every caller logical output word, tagged-memory frame, physical exterior frame and preserved read Tensor elements.",
+    "model_boundaries": ["Reached native FP32 add/multiply/FMA behavior", "FP32 load and same-format cast interpretation", "Selected compiler reduction/contraction structure and source/ISA correspondence"],
+    "supplied_whole_result_callback": false,
+    "instruction_agreement_premise": false,
+    "native_equals_real_claim": false,
+    "universal_gpu_conformance_claim": false
+  },
+  "validation": {
+    "CPU_interpreter_cases": 55,
+    "guard_boundary_cases": 5,
+    "kernel_AST_identical": true,
+    "gpu_execution": false,
+    "new_offline_compilation": false
+  },
+  "shared_grid_product_compatibility": "deferred outside this repair; no new guard or implementation"
+}

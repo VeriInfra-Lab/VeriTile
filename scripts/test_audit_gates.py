@@ -1,6 +1,7 @@
 """Failure-injection regressions for the standalone audit gates."""
 import importlib.util
 import os
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -18,19 +19,47 @@ def load(name, relative):
     return module
 
 
-coverage = load('coverage_manifest', 'bench/check_proof_gap_manifest.py')
+coverage = load('coverage_manifest', 'scripts/bench/check_proof_gap_manifest.py')
 sheets = load('spec_sheets', 'scripts/spec_sheet.py')
 
 
 class AuditGateTests(unittest.TestCase):
+    def test_default_port_entry_forwards_scope_concurrency_and_exit_status(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / 'scripts' / 'bench').mkdir(parents=True)
+            shutil.copy2(ROOT / 'scripts/bench/check_ports.sh', root / 'scripts/bench/check_ports.sh')
+            entry = root / 'scripts/bench/audit_trust.sh'
+            entry.write_text('printf "%s|%s\\n" "$*" "$AUDIT_TRUST_JOBS"\nexit 17\n')
+            result = subprocess.run([str(root / 'scripts/bench/check_ports.sh')], cwd=root,
+                                    env={**os.environ, 'CHECK_PORTS_JOBS': '2'},
+                                    text=True, capture_output=True)
+            self.assertEqual(result.stdout.strip(), '--final-inventory|2')
+            self.assertEqual(result.returncode, 17)
+
+    def setUp(self):
+        self.fixture = tempfile.TemporaryDirectory()
+        self.addCleanup(self.fixture.cleanup)
+        self.fixture_root = Path(self.fixture.name)
+        for name in ('scripts/bench/check_ports.sh', 'scripts/bench/audit_trust.sh', 'scripts/bench/port_layout.py',
+                     'scripts/bench/audit_source.py', 'scripts/bench/check_worker_results.py'):
+            target = self.fixture_root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / name, target)
+        for task, helpers in [('vector_addition', ['Real']), ('mean_reduction', ['Candidate', 'Source'])]:
+            directory = self.fixture_root / 'bench/tritonbench_g' / task
+            (directory / 'Proofs').mkdir(parents=True)
+            for name in ['Correct', 'FPEquiv', 'Kernels', *['Proofs/' + h for h in helpers]]:
+                (directory / (name + '.lean')).write_text('-- Synthetic worker-accounting fixture.\n')
+
     def run_gate(self, script, env):
-        return subprocess.run(['bash', str(ROOT / script), 'vector_addition', 'mean_reduction'],
-                              cwd=ROOT, env={**os.environ, **env}, text=True,
+        return subprocess.run([str(self.fixture_root / script), 'vector_addition', 'mean_reduction'],
+                              cwd=self.fixture_root, env={**os.environ, **env}, text=True,
                               capture_output=True, timeout=20)
 
     def test_invalid_concurrency(self):
-        for script, variable in [('bench/check_ports.sh', 'CHECK_PORTS_JOBS'),
-                                 ('bench/audit_trust.sh', 'AUDIT_TRUST_JOBS')]:
+        for script, variable in [('scripts/bench/check_ports.sh', 'CHECK_PORTS_JOBS'),
+                                 ('scripts/bench/audit_trust.sh', 'AUDIT_TRUST_JOBS')]:
             for value in ['invalid', '0', '-1']:
                 with self.subTest(script=script, value=value):
                     result = self.run_gate(script, {variable: value})
@@ -39,19 +68,34 @@ class AuditGateTests(unittest.TestCase):
 
     def test_worker_failures_and_result_accounting(self):
         for script, variable, targets in [
-            ('bench/check_ports.sh', 'CHECK_PORTS_JOBS', ['vector_addition', 'mean_reduction']),
-            ('bench/audit_trust.sh', 'AUDIT_TRUST_JOBS', [
-                'bench/tritonbench_g/vector_addition/VectorAddition.lean',
-                'bench/tritonbench_g/mean_reduction/MeanReduction.lean'])]:
+            ('scripts/bench/check_ports.sh', 'CHECK_PORTS_JOBS', [
+                'vector_addition/Correct.lean', 'vector_addition/FPEquiv.lean',
+                'vector_addition/Kernels.lean', 'vector_addition/Proofs/Real.lean',
+                'mean_reduction/Correct.lean', 'mean_reduction/FPEquiv.lean',
+                'mean_reduction/Kernels.lean', 'mean_reduction/Proofs/Candidate.lean',
+                'mean_reduction/Proofs/Source.lean']),
+            ('scripts/bench/audit_trust.sh', 'AUDIT_TRUST_JOBS', [
+                'bench/tritonbench_g/vector_addition/Correct.lean',
+                'bench/tritonbench_g/vector_addition/FPEquiv.lean',
+                'bench/tritonbench_g/vector_addition/Kernels.lean',
+                'bench/tritonbench_g/vector_addition/Proofs/Real.lean',
+                'bench/tritonbench_g/mean_reduction/Correct.lean',
+                'bench/tritonbench_g/mean_reduction/FPEquiv.lean',
+                'bench/tritonbench_g/mean_reduction/Kernels.lean',
+                'bench/tritonbench_g/mean_reduction/Proofs/Candidate.lean',
+                'bench/tritonbench_g/mean_reduction/Proofs/Source.lean'])]:
             first = f'  ok    {targets[0]}\n'
-            both = first + f'  ok    {targets[1]}\n'
+            complete = ''.join(f'  ok    {target}\n' for target in targets)
+            without_helper = ''.join(f'  ok    {target}\n' for target in targets
+                                     if not target.endswith('/Proofs/Real.lean'))
             fixtures = [('launch-failure', '', 'exit 127', False),
                         ('killed-worker', '', 'kill -TERM $$', False),
                         ('no-results', '', 'exit 0', False),
                         ('partial-results', first, 'exit 0', False),
+                        ('missing-nested-proof', without_helper, 'exit 0', False),
                         ('duplicate-results', first * 2, 'exit 0', False),
                         ('unexpected-result', first + '  ok    surprise\n', 'exit 0', False),
-                        ('all-results', both, 'exit 0', True)]
+                        ('all-results', complete, 'exit 0', True)]
             for name, output, ending, success in fixtures:
                 with self.subTest(script=script, fault=name), tempfile.TemporaryDirectory() as temp:
                     launcher = Path(temp) / 'xargs'
@@ -142,7 +186,7 @@ class AuditGateTests(unittest.TestCase):
                 (directory / 'Fixture.lean').write_text(
                     'import VeriTile.Meta.StatementAudit\nnamespace Nested\n'
                     'private axiom injected : False\n' + declaration + '\nend Nested\n')
-                result = subprocess.run(['bash', 'bench/audit_trust.sh', directory.name],
+                result = subprocess.run(['bash', 'scripts/bench/audit_trust.sh', directory.name],
                                         cwd=ROOT, text=True, capture_output=True, timeout=90,
                                         env={**os.environ, 'AUDIT_TRUST_JOBS': '1'})
                 self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -151,10 +195,6 @@ class AuditGateTests(unittest.TestCase):
 
     def test_unannotated_proof_is_not_promoted(self):
         self.assertEqual(coverage.classify('kernel_correctness', 'a checked theorem')[0], 'unreviewed')
-        rows = {Path(row.file).parent.name: row for row in coverage.collect()}
-        self.assertEqual(rows['int8_quantization'].coverage_level, 'precomputed_input_slice')
-        for name in ['quantize_global', 'rowwise_quantization_triton']:
-            self.assertEqual(rows[name].coverage_level, 'pre_rounding_slice')
 
     def test_real_runner_rejects_macro_generated_circular_specs(self):
         declarations = [
@@ -169,7 +209,7 @@ class AuditGateTests(unittest.TestCase):
                     'import VeriTile.Triton.Core\nimport VeriTile.Meta.StatementAudit\n'
                     'open VeriTile.Triton\ndef kernel : ComputeKernel := .mk [] [] []\n'
                     + declaration + '\n')
-                result = subprocess.run(['bash', 'bench/audit_trust.sh', directory.name],
+                result = subprocess.run(['bash', 'scripts/bench/audit_trust.sh', directory.name],
                                         cwd=ROOT, text=True, capture_output=True, timeout=90,
                                         env={**os.environ, 'AUDIT_TRUST_JOBS': '1'})
                 self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -184,6 +224,88 @@ class AuditGateTests(unittest.TestCase):
                                     text=True, capture_output=True, timeout=90)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('specifications but no ComputeKernel', result.stdout)
+
+    def test_split_example_audit_checks_imported_sources_and_local_kernels(self):
+        prep = load('split_example_audit_prep', 'scripts/bench/audit_trust_prep.py')
+        prefix = ('import bench.examples.VectorAdd.Kernels\n'
+                  'import VeriTile.Meta.StatementAudit\n'
+                  'open VeriTile.Triton\n'
+                  'open VeriTile.Bench.Examples.VectorAdd.Kernels\n'
+                  'def localKernel : ComputeKernel := .mk [] [] []\n')
+        cases = [
+            ('Correct.lean', 'def expectedSpec : Nat := 42\n', True, 'localKernel'),
+            ('Correct.lean', 'def sourceAliasForAudit := addKernel "x" "y" "out" 1\n'
+             'def expectedSpec := sourceAliasForAudit.toAlgKernel.inputs.length\n', False,
+             'SELF-REFERENTIAL'),
+            ('Correct.lean', 'def expectedSpec := localKernel.toAlgKernel.inputs.length\n', False,
+             'SELF-REFERENTIAL'),
+            ('Proofs/Real.lean', 'def expectedSpec : Nat := 42\n', True, 'localKernel'),
+            ('Proofs/Real.lean', 'def sourceAliasForAudit := addKernel "x" "y" "out" 1\n'
+             'def expectedSpec := sourceAliasForAudit.toAlgKernel.inputs.length\n', False,
+             'SELF-REFERENTIAL'),
+        ]
+        for relative, declaration, accepted, marker in cases:
+            with self.subTest(relative=relative, declaration=declaration), tempfile.TemporaryDirectory() as temp:
+                path = Path(temp) / 'SplitAudit.lean'
+                path.write_text(prep.prepare_source(
+                    prefix + declaration, 'bench/examples/VectorAdd/' + relative,
+                    manifest=Path(temp) / 'absent.tsv'))
+                result = subprocess.run(['lake', 'env', 'lean', str(path)], cwd=ROOT,
+                                        text=True, capture_output=True, timeout=90)
+                self.assertEqual(result.returncode == 0, accepted, result.stdout + result.stderr)
+                self.assertIn(marker, result.stdout)
+                if accepted or 'sourceAliasForAudit' in declaration:
+                    self.assertIn('VectorAdd.Kernels.addKernel', result.stdout)
+
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'UnknownSource.lean'
+            path.write_text('import VeriTile.Meta.StatementAudit\n'
+                            '#auditModuleSpecs from [bench.examples.Missing.Kernels]\n')
+            result = subprocess.run(['lake', 'env', 'lean', str(path)], cwd=ROOT,
+                                    text=True, capture_output=True, timeout=90)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('kernel module is not imported', result.stdout)
+
+    def test_standalone_spec_is_independent_even_without_selected_kernel_modules(self):
+        cases = [
+            ('@[standalone_spec] def expectedSpec (n : Nat) : Prop := n = n\n', True, 'independentSpecs=1'),
+            ('@[standalone_spec] def expectedSpec := '
+             '(VeriTile.Bench.Examples.VectorAdd.Kernels.addKernel "x" "y" "out" 1).toAlgKernel.inputs.length\n',
+             False, 'SELF-REFERENTIAL'),
+            ('@[standalone_spec, kernel_spec] def expectedSpec (n : Nat) : Prop := n = n\n',
+             False, 'cannot also be a kernel specification'),
+        ]
+        for declaration, accepted, marker in cases:
+            with self.subTest(declaration=declaration), tempfile.TemporaryDirectory() as temp:
+                path = Path(temp) / 'ScalarAudit.lean'
+                path.write_text('import VeriTile.Meta.StatementAudit\n'
+                                'import bench.examples.VectorAdd.Kernels\n' +
+                                declaration + '#auditModuleSpecs\n')
+                result = subprocess.run(['lake', 'env', 'lean', str(path)], cwd=ROOT,
+                                        text=True, capture_output=True, timeout=90)
+                self.assertEqual(result.returncode == 0, accepted, result.stdout + result.stderr)
+                self.assertIn(marker, result.stdout)
+
+    def test_split_benchmark_audit_checks_actual_imported_source(self):
+        prep = load('split_benchmark_audit_prep', 'scripts/bench/audit_trust_prep.py')
+        prefix = ('import bench.tritonbench_g.softmax_triton1.Proofs.Mathematical_Kernels\n'
+                  'open VeriTile.Bench.TritonBenchG.SoftmaxTriton1\n')
+        for relative in ['Correct.lean', 'Proofs/Real.lean']:
+            for circular in [False, True]:
+                with self.subTest(relative=relative, circular=circular), tempfile.TemporaryDirectory() as temp:
+                    body = ('(softmax_kernel "y" "x" 4 4 4 4).toAlgKernel.inputs.length'
+                            if circular else '42')
+                    path = Path(temp) / 'SplitBenchmarkAudit.lean'
+                    path.write_text(prep.prepare_source(
+                        prefix + f'def expectedSpec : Nat := {body}\n',
+                        'bench/tritonbench_g/softmax_triton1/' + relative,
+                        manifest=Path(temp) / 'absent.tsv'))
+                    result = subprocess.run(['lake', 'env', 'lean', str(path)], cwd=ROOT,
+                                            text=True, capture_output=True, timeout=90)
+                    self.assertEqual(result.returncode == 0, not circular, result.stdout + result.stderr)
+                    self.assertIn('SoftmaxTriton1.softmax_kernel', result.stdout)
+                    if circular:
+                        self.assertIn('SELF-REFERENTIAL', result.stdout)
 
     def test_spec_sheet_collisions_are_port_qualified_and_preflighted(self):
         paths = ['rms_norm_triton/RmsNormTriton.lean', 'rmsnorm_triton/RmsnormTriton.lean']

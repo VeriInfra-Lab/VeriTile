@@ -1,0 +1,20 @@
+{
+  "candidate": "flash_decode2_phi_block_checked",
+  "kernel_and_precision_changed": false,
+  "native_domain": "all admitted 32-bit words, including signed zero, subnormals, infinities and NaN payloads",
+  "real_domain": "arbitrary Real stage-2 summary values via an independent physical-address reader",
+  "native_target": "independent sequential primitive expression graph with explicit fp32 load boundaries",
+  "structural_schedule": "fusion and operand-order choices depend on expression shapes, never input payloads",
+  "model_boundaries": [
+    "Torch Tensor metadata, contiguity, storage, pointer and logical-read API laws",
+    "specified scalar FP32 operations, exp32 and FMA behavior",
+    "supported source-preserving structural lowering choices"
+  ],
+  "new_numerical_experiment_obligations": [],
+  "excluded_claims": [
+    "stage-1 raw-token provenance",
+    "grid-product/runtime compatibility expansion",
+    "universal backend compilation or launch-resource availability",
+    "GPU execution"
+  ]
+}

@@ -1,7 +1,15 @@
 # swiglu_backward
 
-- Source file: `swiglu_backward.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
+Current repaired Python implementation: [swiglu_backward.py](swiglu_backward.py).
 
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+fun xs ch row col => backwardFormula ch (xs.x row col) (xs.y row col) (xs.dout row col)
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

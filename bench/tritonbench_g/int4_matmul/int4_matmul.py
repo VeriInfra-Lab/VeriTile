@@ -3,6 +3,72 @@ import torch
 import triton
 import triton.language as tl
 
+
+def _ordinary(t, dtype, shape=None, packed=False):
+    if type(t) is not torch.Tensor or t.layout != torch.strided or t.dtype != dtype or not t.is_cuda or t.ndim != 2:
+        raise ValueError("expected ordinary two-dimensional CUDA tensor with declared dtype")
+    if shape is not None and tuple(t.shape) != tuple(shape):
+        raise ValueError("incompatible packed shape")
+    if min(t.shape) <= 0 or t.storage_offset() != 0 or t.is_conj() or t.is_neg() or t.requires_grad:
+        raise ValueError("positive canonical tensors without lazy flags are required")
+    if t.data_ptr() % t.element_size():
+        raise ValueError("element-aligned tensor pointer required")
+    canonical = (t.shape[1], 1)
+    transposed_contiguous = ((1, t.shape[0]) if 1 in t.shape else canonical)
+    if tuple(t.stride()) != canonical and not (packed and tuple(t.stride()) == transposed_contiguous):
+        raise ValueError("canonical or quantizer-returned packed strides are required")
+
+
+def _independent(*tensors):
+    if len({t.device for t in tensors}) != 1:
+        raise ValueError("all tensors must share one CUDA device")
+    if len({t.untyped_storage().data_ptr() for t in tensors}) != len(tensors):
+        raise ValueError("independent allocations are required")
+
+
+def _validate_packed(qweight, scales, qzeros):
+    _ordinary(qweight, torch.int32, packed=True)
+    _ordinary(scales, torch.float32, packed=True)
+    K, N = qweight.shape[0] * 8, qweight.shape[1]
+    if N % 8 or K % scales.shape[0] or scales.shape[1] != N:
+        raise ValueError("packed K/N/group geometry is incompatible")
+    _ordinary(qzeros, torch.int32, (scales.shape[0], N // 8), packed=True)
+    _independent(qweight, scales, qzeros)
+    if max(K * N, scales.numel()) >= 2 ** 31:
+        raise ValueError("helper element offsets exceed signed32 domain")
+    return K, N, K // scales.shape[0]
+
+
+def _validate_matmul(x, qweight, scales, qzeros, group_size, output):
+    K, N, inferred = _validate_packed(qweight, scales, qzeros)
+    _ordinary(x, torch.float32)
+    M = x.shape[0]
+    if type(group_size) is not int or group_size <= 0 or inferred != group_size or x.shape[1] != K:
+        raise ValueError("incompatible inner dimension or group_size")
+    tensors = [x, qweight, scales, qzeros]
+    if output is not None:
+        _ordinary(output, torch.float32, (M, N))
+        tensors.append(output)
+    _independent(*tensors)
+    # Covers every original tile, all masked pointers, and final pointer increments.
+    kp = ((K + 1023) // 1024) * 1024 + 1024
+    mp, np = ((M + 127) // 128) * 128, ((N + 127) // 128) * 128
+    formed = [M * K + kp, (kp // 8 + 1) * N, (kp // group_size + 1) * N,
+              (kp // group_size + 1) * (N // 8), mp * N + np, M * N]
+    if max(formed + [mp, np, kp, mp * np, 1024 * qweight.stride(0)]) >= 2 ** 31:
+        raise ValueError("formed source indices exceed signed32 domain")
+
+
+def _validate_quantize(weight, group_size, tp_rank):
+    _ordinary(weight, torch.float32)
+    K, N = weight.shape
+    if type(group_size) is not int or group_size <= 0 or K % group_size or K % 8 or N % 8:
+        raise ValueError("quantization requires packed dimensions and complete groups")
+    if type(tp_rank) is not int or tp_rank != weight.device.index:
+        raise ValueError("tp_rank must name the input CUDA device")
+    if K * N >= 2 ** 31 or not bool(torch.isfinite(weight).all()):
+        raise ValueError("finite FP32 weights and signed32 helper indices are required")
+
 @triton.autotune(
 	configs=[
 		triton.Config({'SPLIT_K': 1, 'BLOCK_SIZE_M': 64, 'BLOCK_SIZE_N': 128, 'BLOCK_SIZE_K': 32, 'GROUP_SIZE_M': 8}, num_stages=4, num_warps=4),
@@ -100,10 +166,11 @@ def matmul_kernel(
             + (offs_bn[None, :] // 8) * stride_bzpn
         b_shift_bits = (offs_k[:, None] % 8) * 4 # assert BLOCK_SIZE_K % 8 == 0
         bzp_shift_bits = (offs_bn[None, :] % 8) * 4
-        a = tl.load(a_ptrs)
-        b = tl.load(b_ptrs)
-        bs = tl.load(bs_ptrs)
-        bzp = tl.load(bzp_ptrs)
+        k_mask = offs_k + k * BLOCK_SIZE_K * SPLIT_K < K
+        a = tl.load(a_ptrs, mask=k_mask[None, :], other=0)
+        b = tl.load(b_ptrs, mask=k_mask[:, None], other=0)
+        bs = tl.load(bs_ptrs, mask=k_mask[:, None], other=0)
+        bzp = tl.load(bzp_ptrs, mask=k_mask[:, None], other=0)
         # We accumulate along the K dimension.
         int_b = (b >> b_shift_bits) & 0xF
         int_bzp = (bzp >> bzp_shift_bits) & 0xF
@@ -130,27 +197,28 @@ def matmul_kernel(
 def matmul_dequantize_int4_s2(x: torch.FloatTensor, qweight: torch.IntTensor, scales: torch.FloatTensor, qzeros: torch.IntTensor, group_size: int = 128, output=None) -> torch.FloatTensor:
     """
     """
-    assert x.is_contiguous(), "A must be contiguous"
-    assert qweight.is_contiguous(), "B must be contiguous"  
+    _validate_matmul(x, qweight, scales, qzeros, group_size, output)  
     M, K = x.shape
     N = scales.shape[1]
     if output is None:
         output = torch.zeros((M, N), device=x.device, dtype=x.dtype)  
+    output.zero_()  # Required on cache hits, including a supplied output.
     grid = lambda META: (
         triton.cdiv(M, META['BLOCK_SIZE_M']) * triton.cdiv(N, META['BLOCK_SIZE_N']),
         META['SPLIT_K'],
     )
-    matmul_kernel[grid](
-        x, qweight, output,
-        scales, qzeros,
-        M, N, K,
-        x.stride(0), x.stride(1),
-        qweight.stride(0), qweight.stride(1),
-        output.stride(0), output.stride(1),
-        scales.stride(0), scales.stride(1),
-        qzeros.stride(0), qzeros.stride(1),
-        group_size,
-    )
+    with torch.cuda.device(x.device):
+        matmul_kernel[grid](
+            x, qweight, output,
+            scales, qzeros,
+            M, N, K,
+            x.stride(0), x.stride(1),
+            qweight.stride(0), qweight.stride(1),
+            output.stride(0), output.stride(1),
+            scales.stride(0), scales.stride(1),
+            qzeros.stride(0), qzeros.stride(1),
+            group_size,
+        )
     return output
 
 def quantize_int4(weight, group_size=128, tp_rank=0):
@@ -158,6 +226,7 @@ def quantize_int4(weight, group_size=128, tp_rank=0):
     # Scale shape: [H1 // group_size, H2]
     # zero_pint shape: [H1 // group_size, H2 // 8]
 
+    _validate_quantize(weight, group_size, tp_rank)
     weight = weight.transpose(1, 0)
     h1, h2 = weight.shape
     assert h1 % 8 == 0 and h2 % 8 == 0, "H1 {} H2 {}".format(h1, h2)
@@ -169,9 +238,11 @@ def quantize_int4(weight, group_size=128, tp_rank=0):
     weight_min = torch.where(weight_min > 0, 0, weight_min)
     weight_range = weight_max - weight_min 
     scale = weight_range / (2 ** 4 - 1)
+    if not bool(torch.isfinite(scale).all()) or not bool((scale > 0).all()):
+        raise ValueError("quantization groups require finite positive FP32 scale")
     zero_point = (-weight_min / scale).round().clamp(0, 15).to(torch.int32)
     weight = (weight / scale + zero_point).round().clamp(0, 15).to(torch.int32).view(h1, h2)
-    int_weight = torch.empty(h1, h2 // 8).to(torch.int32).to(weight.device)
+    int_weight = torch.zeros((h1, h2 // 8), dtype=torch.int32, device=weight.device)
     int_zero_point = torch.zeros(h1 // 8, h2 // group_size).to(torch.int32).to(weight.device)
     zero_point = zero_point.view(h1, -1)
     scale = scale.view(h1, -1)
@@ -209,6 +280,7 @@ def unpack_int4(weight, scale, zp):
     Test function to verify quantize int4 is correct.
     Will not be used in model inference.
     """
+    _validate_packed(weight, scale, zp)
     weight = weight.transpose(1, 0)
     scale = scale.transpose(1, 0)
     zp = zp.transpose(1, 0)
@@ -216,7 +288,7 @@ def unpack_int4(weight, scale, zp):
     group_size = h2 * 8 // scale.shape[1]
     group_num = scale.shape[1]
     fp_weight = torch.zeros(h1, h2 * 8).half().to(weight.device)
-    fp_zero_point = torch.zeros(h1, group_num).to(weight.device)
+    fp_zero_point = torch.zeros(h1, group_num, dtype=torch.float32).to(weight.device)
     for pack in range(0, h2):
         for i in range(8):
             fp_weight[:, pack * 8 + i] = (weight[:, pack] >> (i * 4)) & 0xF
@@ -230,22 +302,3 @@ def unpack_int4(weight, scale, zp):
 
 
 
-##################################################################################################################################################
-
-
-def test_correct_int4_s2(M=32, K=4096, N=4096):
-    group_size = 128
-    a = torch.randn((M, K), device='cuda', dtype=torch.float16)
-    b = torch.randn((K, N), device='cuda', dtype=torch.float16)
-    int_b, b_scale, b_zero_point, _ = quantize_int4(b, group_size=group_size)
-    
-    # Test case
-    triton_output = matmul_dequantize_int4_s2(a, int_b, b_scale, b_zero_point, group_size)
-    
-    results = {
-        "test_case_1": triton_output
-    }
-    
-    return results
-
-result_gold = test_correct_int4_s2()

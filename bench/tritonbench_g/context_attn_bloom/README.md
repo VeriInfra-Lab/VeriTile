@@ -1,7 +1,15 @@
 # context_attn_bloom
 
-- Source file: `context_attn_bloom.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
+Current repaired Python implementation: [context_attn_bloom.py](context_attn_bloom.py).
 
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+Mathematics.score displays logical-D QK and finite -100000000 causal sentinel; numerator/denominator show all visited padded lanes; expected is the guarded normalized-block recurrence, not an ordinary whole-length normalized attention quotient.
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

@@ -363,16 +363,39 @@ def _bwd_inter_kernel(
         dkv += dkv_current
 
 
+def _check_pointers(tensors, formed_limit):
+    for tensor in tensors:
+        pointer = tensor.data_ptr()
+        if pointer % 4 or pointer < 0 or pointer + 4 * formed_limit >= 2**63:
+            raise ValueError("aligned FP32 pointers with signed-64 formation room required")
+
+
 class LightningAttention2NoDecay(torch.autograd.Function):
     @staticmethod
     def forward(ctx, q, k, v):
-        q = q.contiguous()
-        k = k.contiguous()
-        v = v.contiguous()
+        if any(type(t) is not torch.Tensor for t in (q, k, v)):
+            raise TypeError("ordinary torch.Tensor inputs required")
+        if q.ndim != 4 or k.shape != q.shape or v.ndim != 4 or v.shape[:3] != q.shape[:3]:
+            raise ValueError("expected Q/K[B,H,N,D] and V[B,H,N,E]")
+        b, h, n, d = q.shape
+        e = v.shape[-1]
+        if min(b, h, n) <= 0 or min(d, e) < 16 or d & (d - 1) or e & (e - 1):
+            raise ValueError("positive B/H/N and power-of-two D/E >= 16 required")
+        if any(t.layout != torch.strided or t.dtype != torch.float32 or
+               not t.is_cuda or t.device != q.device for t in (q, k, v)):
+            raise ValueError("same-device strided CUDA FP32 tensors required")
+        if any(not t.is_contiguous() or t.is_neg() or t.is_conj() for t in (q, k, v)):
+            raise ValueError("contiguous inputs with resolved logical values required")
+        if max(triton.cdiv(n, 64), triton.cdiv(e, min(e, 32))) > 65535:
+            raise ValueError("kernel launch y axis exceeds 65535")
+        if (b * h * n + 128) * max(d, e) >= 2**31:
+            raise ValueError("formed tensor offsets exceed signed-int32 contract")
+        _check_pointers((q, k, v), (b * h * n + 128) * max(d, e))
 
         b, h, n, d = q.shape
         e = v.shape[-1]
         o = torch.empty((b, h, n, e), dtype=q.dtype, device=q.device)
+        _check_pointers((o,), (b * h * n + 128) * max(d, e))
 
         BLOCK = 64
         NUM_BLOCK = triton.cdiv(q.shape[2], BLOCK)
@@ -380,20 +403,22 @@ class LightningAttention2NoDecay(torch.autograd.Function):
         BLOCK_MODEL = min(triton.next_power_of_2(e), 32)
         grid = (b * h, triton.cdiv(e, BLOCK_MODEL))
 
-        _fwd_kernel[grid](
-            q,
-            k,
-            v,
-            o,
-            b,
-            h,
-            n,
-            d,
-            e,
-            BLOCK=BLOCK,
-            NUM_BLOCK=NUM_BLOCK,
-            BLOCK_MODEL=BLOCK_MODEL,
-        )
+        with torch.cuda.device(q.device):
+            _fwd_kernel[grid](
+                q,
+                k,
+                v,
+                o,
+                b,
+                h,
+                n,
+                d,
+                e,
+                BLOCK=BLOCK,
+                NUM_BLOCK=NUM_BLOCK,
+                BLOCK_MODEL=BLOCK_MODEL,
+                enable_fp_fusion=True,
+            )
 
         ctx.save_for_backward(q, k, v)
 
@@ -403,14 +428,21 @@ class LightningAttention2NoDecay(torch.autograd.Function):
     def backward(ctx, do):
         q, k, v = ctx.saved_tensors
 
-        q = q.contiguous()
-        k = k.contiguous()
-        v = v.contiguous()
+        if type(do) is not torch.Tensor:
+            raise TypeError("ordinary incoming cotangent required")
+        if (do.shape != v.shape or do.layout != torch.strided or do.dtype != torch.float32
+                or not do.is_cuda or do.device != q.device or do.is_neg() or do.is_conj()):
+            raise ValueError("same-shape/device resolved strided FP32 cotangent required")
+        # Autograd sum() supplies a zero-stride cotangent; retain its required materialization.
         do = do.contiguous()
+        _check_pointers((q, k, v, do), (q.shape[0] * q.shape[1] * q.shape[2] + 128)
+                        * max(q.shape[3], v.shape[3]))
 
         dq = torch.empty_like(q)
         dk = torch.empty_like(k)
         dv = torch.empty_like(v)
+        _check_pointers((dq, dk, dv), (q.shape[0] * q.shape[1] * q.shape[2] + 128)
+                        * max(q.shape[3], v.shape[3]))
 
         b, h, n, d = q.shape
         e = v.shape[-1]
@@ -424,86 +456,51 @@ class LightningAttention2NoDecay(torch.autograd.Function):
 
         # for intra part, compute in parallel
         grid = (b * h, NUM_BLOCK)
-        _bwd_intra_kernel[grid](
-            q,
-            k,
-            v,
-            do,
-            dq,
-            dk,
-            dv,
-            b,
-            h,
-            n,
-            d,
-            e,
-            BLOCK=BLOCK,
-            NUM_BLOCK=NUM_BLOCK,
-            CBLOCK=CBLOCK,
-            NUM_CBLOCK=NUM_CBLOCK,
-        )
+        with torch.cuda.device(q.device):
+            _bwd_intra_kernel[grid](
+                q,
+                k,
+                v,
+                do,
+                dq,
+                dk,
+                dv,
+                b,
+                h,
+                n,
+                d,
+                e,
+                BLOCK=BLOCK,
+                NUM_BLOCK=NUM_BLOCK,
+                CBLOCK=CBLOCK,
+                NUM_CBLOCK=NUM_CBLOCK,
+                enable_fp_fusion=True,
+            )
 
         # for inter part, compute in sequencial
         grid = (b * h,)
-        _bwd_inter_kernel[grid](
-            q,
-            k,
-            v,
-            do,
-            dq,
-            dk,
-            dv,
-            b,
-            h,
-            n,
-            d,
-            e,
-            BLOCK=BLOCK,
-            NUM_BLOCK=NUM_BLOCK,
-            CBLOCK=CBLOCK,
-            NUM_CBLOCK=NUM_CBLOCK,
-        )
+        with torch.cuda.device(q.device):
+            _bwd_inter_kernel[grid](
+                q,
+                k,
+                v,
+                do,
+                dq,
+                dk,
+                dv,
+                b,
+                h,
+                n,
+                d,
+                e,
+                BLOCK=BLOCK,
+                NUM_BLOCK=NUM_BLOCK,
+                CBLOCK=CBLOCK,
+                NUM_CBLOCK=NUM_CBLOCK,
+                enable_fp_fusion=True,
+            )
 
         return dq, dk, dv
 
 
 lightning_attn2_no_decay = LightningAttention2NoDecay.apply
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_lightning_attention2_no_decay():
-    # Input tensor shape
-    b, h, n, d, e = 2, 8, 128, 64, 128  # batch_size, num_heads, seq_len, embed_dim, value_dim
-
-    # Create random q, k, and v tensors.
-    q = torch.randn((b, h, n, d), dtype=torch.float32, device='cuda', requires_grad=True)
-    k = torch.randn((b, h, n, d), dtype=torch.float32, device='cuda', requires_grad=True)
-    v = torch.randn((b, h, n, e), dtype=torch.float32, device='cuda', requires_grad=True)
-
-    # Forward pass
-    o = lightning_attn2_no_decay(q, k, v)
-
-    # Backward pass
-    o.sum().backward()  # Compute the gradient of the sum.
-
-    # Return the results.
-    results = {
-        'test_case_1': (
-            o.cpu().detach().numpy(),  # Return the forward output directly.
-            q.grad.cpu().detach().numpy(),  # Gradient of q
-            k.grad.cpu().detach().numpy(),  # Gradient of k
-            v.grad.cpu().detach().numpy()   # Gradient of v
-        )
-    }
-    
-    return results
-
-# Run the test
-result_gold = test_lightning_attention2_no_decay()
-print(result_gold)

@@ -1,0 +1,18 @@
+{
+  "canonical_source": {
+    "path": "bench/repairs/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu_repaired.py",
+    "sha256": "ca9ec0b702afebc59e4fbed320a55e4784005a361856a0bba10d13e60e2db34a"
+  },
+  "original_source": {
+    "path": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py",
+    "sha256": "dfc37b67a0ef1ea4aff482715d0fe3b48c08b7d841f5e72c2a89a91c1bb021d6"
+  },
+  "canonical_kernel_helper_ast_sha256": "2f41fc628adbea49455d85a419338996775a1ab8c2b187b3625559614ab0cb69",
+  "typed_source_reuse": {
+    "bench/tritonbench_g/matmul_leakyrelu/Proofs/FPTypedSource.lean": "46fb4e157cac4d180c62417027a7c6ea5079bcaf9b77cf42b2c3237f1db05350",
+    "bench/tritonbench_g/matmul_leakyrelu/Proofs/FPFusedSource.lean": "9a8129e56b1f146c2f0f19a76999c71853f9500734f15bc2afba0ed477e3ea1c",
+    "bench/tritonbench_g/matmul_leakyrelu/Proofs/ContractedWhole.lean": "251b2f8d2df87b57c25ddd514a9bef1b49c88d4698687cefa8b125e7e4c0ed7b",
+    "bench/tritonbench_g/matmul_leakyrelu/Proofs/FPGraphDifference.lean": "fce2289f91a897e6293e2b2d6a5105924ef935438767805ad48416f8a1ecc6e7"
+  },
+  "model_boundary": "Compiler correspondence is retained from the historically selected SM90/Triton3.7.1 profile; no fresh offline compilation, GPU run, or universal source split/compiled contraction equality."
+}

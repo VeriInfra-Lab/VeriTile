@@ -1,28 +1,15 @@
 # chunk_gla_fwd
 
-- Source file: `chunk_gla_fwd.py` (upstream `data/TritonBench_G_v1/chunk_gla_fwd.py`)
-- Corpus: TritonBench-G v1
-- Size: 368 lines, 5 `@triton.jit` kernels
-- Status: **PORTED** (output kernel) — `ChunkGlaFwd.lean`, main theorem
-  `chunk_gla_fwd_o_exec_genuine` (`exec`-level, dimension-general, 0 `sorry`).
+Current repaired Python implementation: [chunk_gla_fwd.py](chunk_gla_fwd.py).
 
-The file's five kernels split four/one: four build the intra-chunk attention
-matrix `A`, and `chunk_gla_fwd_kernel_o` consumes it to produce the output. **The
-port covers the output kernel**; the four `A`-builders are the trusted boundary
-(covering a subset of a multi-kernel file is the established shape here —
-`triton_linear_activation` and `kv_cache_filling` do the same).
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
 
-`chunk_gla_fwd_kernel_o` is the gated sibling of the ported `chunk_gla_simple`:
-same `q`/`h`/`v`/`o` block-pointer layout, but the gate is a 2-D `[T, K]` tensor
-loaded per K block, and `A` is read from memory. The theorem's per-lane value is
+Mathematics.attention explicitly sums logical K causal gated QK terms and scales them. consumerValue explicitly sums logical K gated history terms plus causal attention/value terms. producerResult and consumerResult show the logical output coordinates.
 
-```
-O[i, p] = Σ_{kb < cdiv(K, BK)} Σ_e (scale·q ⊙ exp g)[i, kb·BK+e] · h[kb·BK+e, p]
-            + Σ_j tril(A)[i, j] · v[j, p]
-```
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
 
-Unlike the sibling's headline, there is **no `K = BK` hypothesis** — the K loop is
-verified in full multi-block generality, which is affordable because the kernel
-recomputes its block pointers from `i_k` each iteration instead of advancing them.
-Every dimension, stride, and the `scale` stay symbolic; the only side condition is
-the standard row-major output-injectivity `hInj`.
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

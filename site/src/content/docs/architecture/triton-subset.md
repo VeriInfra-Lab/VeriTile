@@ -74,7 +74,8 @@ values have shape `[]`; a matrix `[M, D]` has index shape
   Lean's hierarchical-name parser treating `x.to` as one identifier.
 - `tl.bitcast(x, tl.uint32|tl.int32|tl.float32)` is modeled in the compute AST
   for 32-bit payload reinterpretation. Constant uint32 bit patterns can project
-  to the algorithm layer (`.nat`, `.int`, or finite-normal `.real`); runtime
+  to the algorithm layer (`.nat`, `.int`, or finite `.real`, including zeros
+  and subnormals); runtime
   bitcasts remain compute-only and make `ComputeKernel.toAlgorithm?` fail.
 
 Supported channels:
@@ -84,8 +85,13 @@ Supported channels:
   backed by the same `WithBot ℝ` mathematical carrier as `.real`.
 - `.int`: AST-level signed mathematical-integer channel with
   arithmetic/comparison semantics. `tl.int8`, `tl.int16`, `tl.int32`, and
-  `tl.int64` all map here; bit width, overflow, and signed cast fidelity are
-  not modeled yet.
+  `tl.int64` all map here. Ordinary arithmetic does not imply fixed-width
+  overflow semantics. Explicit signed narrowing to `tl.int32` lowers through
+  `Op.intToSigned 32`, whose result is `(BitVec.ofInt 32 value).toInt` in the
+  mathematical, rounded and structural evaluators. Same-width i32 casts and
+  int8 widening retain their source representability contracts. Bool-to-i32
+  conversion produces 0/1. Other signed narrowing and float-to-integer cases
+  require their own supported paths and contracts.
 - `.nat`: used for offsets, loop counters, sizes, and address arithmetic.
 - `.bool`: produced by comparisons and consumed by masks / `tl.where`.
 
@@ -124,6 +130,17 @@ Supported channels:
 - `tl.maximum(a, b)` and `tl.minimum(a, b)` as pointwise select-based sugar
   over comparable channels. Branch broadcasting is currently limited to
   scalar-to-tile lifting, matching `tl.where`.
+  Signed integer operands stay signed through min/max, `tl.multiple_of`,
+  `tl.max_contiguous` and row/column broadcast views. Compiler-hint arguments
+  do not change the value's signedness.
+- `tl.minimum(a, float("inf"))` retains a distinct `Op.minPosInf` operation.
+  The operand must use fp32/fp64 computation; lower-precision operands need
+  an explicit cast. The DSL rejects an uncast operand instead of silently
+  widening the minimum operation.
+  Its real projection is identity on `WithBot ℝ`; FP execution calls the
+  backend's opaque `minPosInf` unary operation at the expression's compute
+  precision. This spelling does not introduce a standalone positive-infinity
+  value into the real carrier, or assume an FP identity for the operation.
 - Directed scans: `tl.cumsum`, `tl.cumprod`, and `tl.associative_scan(x, op,
   axis=N)` on `.real` tiles, each accepting `reverse=True/False`:
   `forward` is the prefix fold, `reverse` the suffix fold along the scanned
@@ -413,6 +430,40 @@ definitions live in `VeriTile.Triton.Correctness` and `VeriTile.Triton.Float`; s
 the compute/algorithm split and bitcast
 policy.
 
+## Deterministic random values
+
+`tl.rand(seed, offsets)` lowers to an explicit `Op.rand` carrying the source
+seed/offset integer types and the Philox round count. Supported source types
+are int32, int64, uint32 and uint64. The default is ten rounds; a positional
+third argument or `n_rounds=` can select a nonnegative constexpr, including
+zero. Both operands are evaluated and checked against their declared source
+ranges, including the seed when the offset tile is empty.
+
+The primitive computes the actual Philox bits and the canonical binary32
+conversion, retaining both the integer-to-float rounding and the subsequent
+rounded multiplication. Its finite real projection lies in `[0, 1-2^-24]`.
+Both `evalOp` and `evalOpR` use that projection; ambient rounding does not
+replace the generator's intrinsic binary32 conversion. Structural FP
+evaluation injects the same result bits through `fp32Bits`. A surrounding
+cast to fp64 retains the inner binary32 random value.
+
+External scalar seeds require a direct typed binding, for example
+`seed_arg = $((seed : Int))`, followed by
+`tl.source_integer seed_arg = tl.int32`. This metadata records source
+provenance; it does not prove native overflow safety. Symbolic block sizes
+use the fully rooted `_root_.VeriTile.Triton.Random.i32ArangeSize` adapter
+with an `ArangeSizeDomain` proof: positive, power of two and at most 2^20.
+The corresponding rooted `i32NatConstexpr` and `roundsConstexpr` adapters
+preserve explicit constexpr values. Unknown source widths or unproved
+symbolic arange sizes are rejected. Intermediate source-index arithmetic,
+native launch validity and source-to-Lean correspondence require separate
+proofs or evidence.
+
+This deterministic primitive supplies the values needed for seeded dropout.
+It does not establish dropout's complete execution, IO/frame, source fidelity
+or native numerical behavior, and it does not certify probability
+distributions, mutable RNG state or a general stochastic program model.
+
 ## Operator and Syntax Coverage Checklist
 
 This table is the current operator-coverage contract for GitHub issue #1.
@@ -452,7 +503,7 @@ current semantic contract.
 | Disjoint grid composition | Limited | `Kernel.GridFrames`, `GridWritesDisjoint`, and `mergeFrames` merge explicit per-program frames with pairwise-disjoint write footprints; no overlapping writes or scheduling semantics |
 | Tensor views | Supported | Strided `TensorView.loaded` / `TensorView.observe` wrappers for theorem statements |
 | Integer memory | Limited | Typed cells plus typed load/store support Nat/index and mathematical signed-Int HBM values; no richer signed/unsigned width lattice yet |
-| Randomness | Gap | No `tl.rand` or RNG state model yet (#1) |
+| Randomness | Limited | Deterministic `tl.rand` with explicit source integer profiles, Philox rounds and canonical binary32 conversion; no mutable RNG or probabilistic model |
 | Indirection | Limited | Typed index loads can feed pointer arithmetic for gather/paged-KV style data-dependent addresses (#1); no alias/bounds/page-ownership proof layer yet |
 | Block pointers | Limited | `tl.make_block_ptr`, `tl.advance`, block-pointer load/store with checked-axis zero padding / store skip; no hardware/TMA behavior |
 | Atomics / async / barriers | Limited | `tl.atomic_add` has an AlgKernel `Stmt.atomicAdd` marker, sequential single-program semantics, trace payload vocabulary, and a Real grid-merge sum theorem. `tl.atomic_xchg` / `tl.atomic_cas` now project to return-valued `Stmt.atomicRMW` markers and have single-cell RMW fold semantics, executable statement semantics, stateful trace emission, and a single-cell grid launcher relation with an explicit linearization witness. Other `tl.atomic_*`, `tl.async_copy`, `tl.async_wait`, and `tl.debug_barrier` lower to compute-facing failure markers only; async/TMA discipline remains documented but not implemented; no full scheduler, executable barriers, executable async copy semantics, TMA AST, or IEEE atomic semantics (#1) |
@@ -476,14 +527,14 @@ faithfully in the current Lean DSL?
 | Indirect / gather addressing | Limited | Surface + view semantics (#1) | Typed index tensor loads can drive pointer arithmetic and ordinary masked loads; alias analysis, bounds proof, page ownership, and paged FA-1 equivalence are not modeled yet. |
 | Active-lane memory bounds | Limited | Lean proof predicate (#1) | `Kernel.MemorySafe` checks direct region offsets, dynamic pointer addresses, mask activeness, and `boundary_check` block-pointer lanes against `RegionBounds`; no race freedom, frame theorem, or permission accounting. |
 | Single-program write footprint/frame | Limited | Predicate-level frame contract + extraction helpers | `WriteFootprint := (RegionName × Nat) → Prop` and `BlockState.WriteWithin` state that an execution only modified cells inside a supplied footprint; `tileImage` / `activeTileImage` helpers extract direct, masked, and checked block-pointer store footprints. |
-| RNG / dropout | Gap | State/probabilistic semantics (#1) | Blocks faithful dropout and stochastic kernels. |
+| RNG / dropout | Limited | Deterministic value semantics | Profiled `tl.rand` is modeled; complete dropout source/IO/FP proofs and state/probabilistic semantics remain separate obligations. |
 | Atomics / async / shared memory / barriers | Limited | Atomic-add slice + concurrency boundary (#1) | `tl.atomic_add` has a proof-facing marker and Real trace/grid-sum theorem; `tl.atomic_xchg` / `tl.atomic_cas` have return-valued algorithm markers, single-cell RMW fold semantics, executable statement/trace integration, and a single-cell grid launcher relation; remaining unsupported atomic family members and async/barrier surfaces fail projection explicitly; async/TMA, shared memory, barriers, full scheduling, and IEEE atomic behavior remain gaps. |
 | Whole-grid launch semantics | Limited | ND grid theorem surface + disjoint/atomic merge (#1) | `GridIndex`, `BlockState.withGridIndex`, `Kernel.ForAllPrograms`, and `ForAllProgramsSome` quantify per-program correctness; `Kernel.mergeFrames` handles pairwise-disjoint footprints, `Kernel.mergeFramesWithAtomic` handles selected Real atomic-add contributions, and `Kernel.GridLaunchedRMW` handles one order-sensitive RMW cell with an explicit linearization witness. No full race/scheduler/interleaved executor. |
 | Python/Triton source ingestion | Gap | Front-end/lifter (#1) | Users must write Lean `triton { ... }`; decorators, Python-side constexpr execution, and general Python control flow are not parsed. |
 | Type checking / pointer provenance | Limited | Optional checker (#1) | `Kernel.check` / `checkStrict` track register dtype/shape, pointer and block-pointer provenance, dtype mismatches, and basic block-pointer metadata; no bounds, alias, launch, or page-ownership proof. |
 
 Recommended near-term priority for expressiveness is to remove core semantic
-gaps before building a full Python lifter: RNG/dropout (#1),
+gaps before building a full Python lifter: stateful/probabilistic RNG and dropout integration (#1),
 atomics/async/concurrency (#1), and bounds/memory-safety assumptions (#1).
 A lifter is only useful for kernels whose operations are already representable.
 

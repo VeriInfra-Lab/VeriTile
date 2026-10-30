@@ -17,22 +17,26 @@ def rotary_embedding_kernel(
     head_dim_stride,
     cos_token_stride,
     cos_stride,
+    sin_token_stride,
+    sin_stride,
     q_total_tokens,
     Q_HEAD_NUM: tl.constexpr,
     KV_GROUP_NUM: tl.constexpr,
     HEAD_DIM: tl.constexpr,
+    BLOCK_PAIRS: tl.constexpr,
     BLOCK_TOKENS: tl.constexpr,  # token range length
 ):
-    cur_head_idx = tl.program_id(0)
-    cur_token_block_idx = tl.program_id(1)
+    cur_head_idx = tl.program_id(0).to(tl.int64)
+    cur_token_block_idx = tl.program_id(1).to(tl.int64)
 
-    tokens_range = cur_token_block_idx * BLOCK_TOKENS + tl.arange(0, BLOCK_TOKENS)
-    dim_range0 = tl.arange(0, HEAD_DIM // 2)
-    dim_range1 = tl.arange(HEAD_DIM // 2, HEAD_DIM)
+    tokens_range = cur_token_block_idx * BLOCK_TOKENS + tl.arange(0, BLOCK_TOKENS).to(tl.int64)
+    dim_range0 = tl.arange(0, BLOCK_PAIRS).to(tl.int64)
+    dim_range1 = dim_range0 + HEAD_DIM // 2
 
     off_cos_sin = tokens_range[:, None] * cos_token_stride + dim_range0[None, :] * cos_stride
-    loaded_cos = tl.load(cos + off_cos_sin, mask=(tokens_range[:, None] < q_total_tokens), other=0.0)
-    loaded_sin = tl.load(sin + off_cos_sin, mask=(tokens_range[:, None] < q_total_tokens), other=0.0)
+    loaded_cos = tl.load(cos + off_cos_sin, mask=(tokens_range[:, None] < q_total_tokens) & (dim_range0[None, :] < HEAD_DIM // 2), other=0.0)
+    off_sin = tokens_range[:, None] * sin_token_stride + dim_range0[None, :] * sin_stride
+    loaded_sin = tl.load(sin + off_sin, mask=(tokens_range[:, None] < q_total_tokens) & (dim_range0[None, :] < HEAD_DIM // 2), other=0.0)
 
     off_q0 = (
         tokens_range[:, None, None] * q_token_stride
@@ -46,12 +50,12 @@ def rotary_embedding_kernel(
     )
     loaded_q0 = tl.load(
         q + off_q0,
-        mask=((cur_head_idx < Q_HEAD_NUM) & (tokens_range[:, None, None] < q_total_tokens)),
+        mask=((cur_head_idx < Q_HEAD_NUM) & (tokens_range[:, None, None] < q_total_tokens) & (dim_range0[None, None, :] < HEAD_DIM // 2)),
         other=0.0,
     )
     loaded_q1 = tl.load(
         q + off_q1,
-        mask=((cur_head_idx < Q_HEAD_NUM) & (tokens_range[:, None, None] < q_total_tokens)),
+        mask=((cur_head_idx < Q_HEAD_NUM) & (tokens_range[:, None, None] < q_total_tokens) & (dim_range0[None, None, :] < HEAD_DIM // 2)),
         other=0.0,
     )
     out_q0 = loaded_q0 * loaded_cos[:, None, :] - loaded_q1 * loaded_sin[:, None, :]
@@ -60,12 +64,12 @@ def rotary_embedding_kernel(
     tl.store(
         q + off_q0,
         out_q0,
-        mask=((cur_head_idx < Q_HEAD_NUM) & (tokens_range[:, None, None] < q_total_tokens)),
+        mask=((cur_head_idx < Q_HEAD_NUM) & (tokens_range[:, None, None] < q_total_tokens) & (dim_range0[None, None, :] < HEAD_DIM // 2)),
     )
     tl.store(
         q + off_q1,
         out_q1,
-        mask=((cur_head_idx < Q_HEAD_NUM) & (tokens_range[:, None, None] < q_total_tokens)),
+        mask=((cur_head_idx < Q_HEAD_NUM) & (tokens_range[:, None, None] < q_total_tokens) & (dim_range0[None, None, :] < HEAD_DIM // 2)),
     )
 
     handle_kv = cur_head_idx % KV_GROUP_NUM == 0
@@ -83,12 +87,12 @@ def rotary_embedding_kernel(
         )
         loaded_k0 = tl.load(
             k + off_k0,
-            mask=(tokens_range[:, None, None] < q_total_tokens),
+            mask=(tokens_range[:, None, None] < q_total_tokens) & (dim_range0[None, None, :] < HEAD_DIM // 2),
             other=0.0,
         )
         loaded_k1 = tl.load(
             k + off_k1,
-            mask=(tokens_range[:, None, None] < q_total_tokens),
+            mask=(tokens_range[:, None, None] < q_total_tokens) & (dim_range0[None, None, :] < HEAD_DIM // 2),
             other=0.0,
         )
         out_k0 = loaded_k0 * loaded_cos[:, None, :] - loaded_k1 * loaded_sin[:, None, :]
@@ -96,12 +100,12 @@ def rotary_embedding_kernel(
         tl.store(
             k + off_k0,
             out_k0,
-            mask=(tokens_range[:, None, None] < q_total_tokens),
+            mask=(tokens_range[:, None, None] < q_total_tokens) & (dim_range0[None, None, :] < HEAD_DIM // 2),
         )
         tl.store(
             k + off_k1,
             out_k1,
-            mask=(tokens_range[:, None, None] < q_total_tokens),
+            mask=(tokens_range[:, None, None] < q_total_tokens) & (dim_range0[None, None, :] < HEAD_DIM // 2),
         )
 
 
@@ -121,6 +125,8 @@ def fused_rotary_embedding_kernel_v2(
     head_dim_stride,
     cos_token_stride,
     cos_stride,
+    sin_token_stride,
+    sin_stride,
     cacheb_stride,
     cacheh_stride,
     cachebs_stride,
@@ -130,15 +136,17 @@ def fused_rotary_embedding_kernel_v2(
     block_size,
     q_total_tokens,
     Q_HEAD_NUM: tl.constexpr,
+    K_HEAD_NUM: tl.constexpr,
     HEAD_DIM: tl.constexpr,
+    BLOCK_PAIRS: tl.constexpr,
 ):
-    block_head_index = tl.program_id(0)
+    block_head_index = tl.program_id(0).to(tl.int64)
     if block_head_index >= Q_HEAD_NUM:
         return
-    block_token_index = tl.program_id(1)
+    block_token_index = tl.program_id(1).to(tl.int64)
 
-    dim_range0 = tl.arange(0, HEAD_DIM // 2)
-    dim_range1 = tl.arange(HEAD_DIM // 2, HEAD_DIM)
+    dim_range0 = tl.arange(0, BLOCK_PAIRS).to(tl.int64)
+    dim_range1 = dim_range0 + HEAD_DIM // 2
 
     off_q0 = block_token_index * q_token_stride + block_head_index * q_head_stride + dim_range0 * head_dim_stride
     off_q1 = block_token_index * q_token_stride + block_head_index * q_head_stride + dim_range1 * head_dim_stride
@@ -146,24 +154,25 @@ def fused_rotary_embedding_kernel_v2(
     off_k1 = block_token_index * k_token_stride + block_head_index * k_head_stride + dim_range1 * head_dim_stride
 
     loaded_q0 = tl.load(
-        q + off_q0,
+        q + off_q0, mask=dim_range0 < HEAD_DIM // 2, other=0.0,
     )
     loaded_q1 = tl.load(
-        q + off_q1,
+        q + off_q1, mask=dim_range0 < HEAD_DIM // 2, other=0.0,
     )
 
     loaded_k0 = tl.load(
-        k + off_k0,
+        k + off_k0, mask=(block_head_index < K_HEAD_NUM) & (dim_range0 < HEAD_DIM // 2), other=0.0,
     )
 
     loaded_k1 = tl.load(
-        k + off_k1,
+        k + off_k1, mask=(block_head_index < K_HEAD_NUM) & (dim_range0 < HEAD_DIM // 2), other=0.0,
     )
 
     off_cos_sin = block_token_index * cos_token_stride + dim_range0 * cos_stride
 
-    loaded_cos = tl.load(cos + off_cos_sin, mask=(block_token_index < q_total_tokens), other=0.0)
-    loaded_sin = tl.load(sin + off_cos_sin, mask=(block_token_index < q_total_tokens), other=0.0)
+    loaded_cos = tl.load(cos + off_cos_sin, mask=(block_token_index < q_total_tokens) & (dim_range0 < HEAD_DIM // 2), other=0.0)
+    off_sin = block_token_index * sin_token_stride + dim_range0 * sin_stride
+    loaded_sin = tl.load(sin + off_sin, mask=(block_token_index < q_total_tokens) & (dim_range0 < HEAD_DIM // 2), other=0.0)
 
     out_q0 = loaded_q0 * loaded_cos - loaded_q1 * loaded_sin
     out_q1 = loaded_q0 * loaded_sin + loaded_q1 * loaded_cos
@@ -193,23 +202,113 @@ def fused_rotary_embedding_kernel_v2(
 
     tl.store(
         kv_cache + kv_range0,
-        out_k0,
+        out_k0, mask=(block_head_index < K_HEAD_NUM) & (dim_range0 < HEAD_DIM // 2),
     )
     tl.store(
         kv_cache + kv_range1,
-        out_k1,
+        out_k1, mask=(block_head_index < K_HEAD_NUM) & (dim_range0 < HEAD_DIM // 2),
     )
 
     # concat
     tl.store(
         q + off_q0,
-        out_q0,
+        out_q0, mask=dim_range0 < HEAD_DIM // 2,
     )
     tl.store(
         q + off_q1,
-        out_q1,
+        out_q1, mask=dim_range0 < HEAD_DIM // 2,
     )
 
+
+
+def _span(tensor):
+    if tensor.numel() == 0:
+        return None
+    storage = tensor.untyped_storage()
+    base, size = storage.data_ptr(), storage.nbytes()
+    unit = tensor.element_size()
+    if (tensor.data_ptr() != base or base % unit or unit*tensor.numel() > size
+            or base+size > 2**64):
+        raise ValueError("aligned contained canonical backing storage is required")
+    return base,base+size
+
+
+def _check_inputs(q, k, cos, sin, k_cache, block_tables, kv_lengths):
+    payloads = [q,k,cos,sin] + ([] if k_cache is None else [k_cache])
+    if any(not isinstance(t,torch.Tensor) for t in payloads):
+        raise TypeError("payload arguments must be tensors")
+    for t in payloads:
+        if (t.layout != torch.strided or t.dtype != torch.float32 or not t.is_cuda
+                or t.device != q.device or not t.is_contiguous() or t.storage_offset() != 0
+                or t.is_neg() or t.is_conj()):
+            raise ValueError("canonical FP32 CUDA payloads on one device are required")
+    if q.ndim != 3 or k.ndim != 3 or cos.ndim != 2 or sin.ndim != 2:
+        raise ValueError("Q/K need rank three and coefficients rank two")
+    tokens,hq,width = q.shape
+    hk = k.shape[1]
+    if hq <= 0 or hk <= 0 or hq % hk or width % 2:
+        raise ValueError("positive GQA-compatible heads and an even head width are required")
+    if k.shape[0] != tokens or k.shape[2] != width:
+        raise ValueError("Q/K token counts and head widths must agree")
+    half = width//2
+    if any(t.shape[0] < tokens or t.shape[1] < half for t in (cos,sin)):
+        raise ValueError("coefficient tables must contain every active token/pair")
+    tensors = list(payloads)
+    if k_cache is not None:
+        if k_cache.ndim != 4 or k_cache.shape[1] != hk or k_cache.shape[3] != width or k_cache.shape[2] <= 0:
+            raise ValueError("cache must have shape [blocks,K_heads,positive_block_size,width]")
+        for t in (block_tables,kv_lengths):
+            if (not isinstance(t,torch.Tensor) or t.layout != torch.strided or t.dtype != torch.int64
+                    or not t.is_cuda or t.device != q.device or not t.is_contiguous()
+                    or t.storage_offset() != 0 or t.is_neg() or t.is_conj()):
+                raise ValueError("cache metadata must be contiguous CUDA int64 on the Q device")
+        if block_tables.ndim != 2 or block_tables.shape[0] != tokens or kv_lengths.shape != (tokens,):
+            raise ValueError("cache metadata needs one row/length per input token")
+        if tokens and kv_lengths.stride(0) != 1:
+            raise ValueError("the original length load requires unit stride")
+        tensors.extend((block_tables,kv_lengths))
+    spans = [span for t in tensors if (span := _span(t)) is not None]
+    if any(a < d and c < b for i,(a,b) in enumerate(spans) for c,d in spans[i+1:]):
+        raise ValueError("all caller backing allocations must be physically separate")
+    if tokens == 0 or width == 0:
+        return
+    if torch.cuda.current_device() != q.device.index:
+        raise ValueError("the original launch requires the Q CUDA device to be current")
+    for t in tensors:
+        stride = 1
+        for n,s in zip(reversed(t.shape),reversed(t.stride())):
+            if s != stride:
+                raise ValueError("exact canonical launch strides are required")
+            stride *= max(1,n)
+    if any(t.numel() >= 2**60 for t in tensors):
+        raise ValueError("source byte extents must fit signed int64")
+    pairs = triton.next_power_of_2(half)
+    padded_tokens = triton.cdiv(tokens,4)*4
+    data_last = [(padded_tokens-1)*t.stride(0)+(hq-1)*width+half+pairs-1 for t in (q,k)]
+    coefficient_last = [(padded_tokens-1)*t.stride(0)+pairs-1 for t in (cos,sin)]
+    bounds = list(zip((q,k,cos,sin),data_last+coefficient_last))
+    if k_cache is not None:
+        blocks,_,block_size,_ = k_cache.shape
+        lengths = kv_lengths.to(device="cpu").tolist()
+        tables = block_tables.to(device="cpu").tolist()
+        selected = []
+        for token,length in enumerate(lengths):
+            if length <= 0:
+                raise ValueError("cache lengths must be positive")
+            page,slot = divmod(length-1,block_size)
+            if page >= block_tables.shape[1]:
+                raise ValueError("selected cache page is outside the block table")
+            block = tables[token][page]
+            if block < 0 or block >= blocks:
+                raise ValueError("selected cache block is outside the allocation")
+            selected.append((block,slot))
+        if len(set(selected)) != tokens:
+            raise ValueError("cache token destinations must be distinct")
+        last = ((blocks-1)*k_cache.stride(0)+(hq-1)*k_cache.stride(1)
+                +(block_size-1)*width+half+pairs-1)
+        bounds.append((k_cache,last))
+    if any(4*last+4 >= 2**63 or t.data_ptr()+4*last+4 > 2**64 for t,last in bounds):
+        raise ValueError("padded signed64 offsets and formed pointers must fit")
 
 def rotary_embedding(
     q: torch.Tensor,
@@ -230,7 +329,11 @@ def rotary_embedding(
         kv_lengths, Past key/value sequence lengths plus current sequence length for each sequence. [bsz]
         block_tables: Block tables for each sequence. [bsz, max_blocks_per_sequence]
     """
+    _check_inputs(q, k, cos, sin, k_cache, block_tables, kv_lengths)
     q_total_tokens, q_head_num, head_dim = q.shape
+    if q_total_tokens == 0 or head_dim == 0:
+        return None
+    block_pairs = triton.next_power_of_2(head_dim // 2)
     assert q.size(0) == k.size(0)
     BLOCK_TOKENS = 4
 
@@ -266,10 +369,13 @@ def rotary_embedding(
             head_dim_stride,
             cos_token_stride,
             cos_stride,
+            sin.stride(0),
+            sin.stride(1),
             q_total_tokens,
             Q_HEAD_NUM=q_head_num,
             KV_GROUP_NUM=kv_group_num,
             HEAD_DIM=head_dim,
+            BLOCK_PAIRS=block_pairs,
             BLOCK_TOKENS=BLOCK_TOKENS,
             num_warps=num_warps,
         )
@@ -290,6 +396,8 @@ def rotary_embedding(
             head_dim_stride,
             cos_token_stride,
             cos_stride,
+            sin.stride(0),
+            sin.stride(1),
             k_cache.stride(0),
             k_cache.stride(1),
             k_cache.stride(2),
@@ -299,7 +407,9 @@ def rotary_embedding(
             k_cache.size(-2),
             q_total_tokens,
             Q_HEAD_NUM=q_head_num,
+            K_HEAD_NUM=k_head_num,
             HEAD_DIM=head_dim,
+            BLOCK_PAIRS=block_pairs,
             num_warps=num_warps,
         )
     return
@@ -307,41 +417,3 @@ def rotary_embedding(
 
 
 
-##################################################################################################################################################
-
-
-def test_rotary_embedding():
-    # Test parameters
-    total_tokens = 32  # Total token count
-    head_num = 8       # Number of query heads
-    kv_head_num = 4    # Number of key/value heads
-    head_dim = 64      # Head dimension
-    max_position_len = 128  # Maximum position length
-    block_size = 4     # Block size
-
-    # Create the input tensors.
-    q = torch.randn((total_tokens, head_num, head_dim), dtype=torch.float32, device='cuda')  # Query
-    k = torch.randn((total_tokens, kv_head_num, head_dim), dtype=torch.float32, device='cuda')  # Key
-    cos = torch.randn((max_position_len, head_dim), dtype=torch.float32, device='cuda')  # Cosine
-    sin = torch.randn((max_position_len, head_dim), dtype=torch.float32, device='cuda')  # Sine
-
-    result = {}
-
-    # Call rotary_embedding branch 1 (without k_cache).
-    rotary_embedding(q, k, cos, sin)
-    result["test_case_1"] = (q.clone(), k.clone())
-
-    # Create additional tensors for branch 2.
-    num_blocks = 4  # Number of blocks in k_cache
-    batch_size = 2  # Batch size
-    k_cache = torch.randn((num_blocks, kv_head_num, block_size, head_dim), dtype=torch.float32, device='cuda')  # Key cache
-    block_tables = torch.randint(0, num_blocks, (batch_size, num_blocks), device='cuda')  # Block tables
-    kv_lengths = torch.randint(1, total_tokens, (batch_size,), device='cuda')  # KV lengths
-
-    # Call rotary_embedding branch 2 (with k_cache).
-    rotary_embedding(q, k, cos, sin, k_cache=k_cache, block_tables=block_tables, kv_lengths=kv_lengths)
-    result["test_case_2"] = (q.clone(), k.clone(), k_cache.clone())
-
-    return result
-
-result_gold = test_rotary_embedding()

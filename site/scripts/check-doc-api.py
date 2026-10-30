@@ -39,7 +39,8 @@ def main():
     pages += list((ROOT / 'site/src/content/docs/cookbook').glob('*.md'))
     for page in pages:
         names.update(extract_names(page.read_text()))
-    program = 'import VeriTile.Triton\nimport VeriTile.Triton.Memory.KernelSpec\nopen VeriTile.Triton\n'
+    program = ('import VeriTile.Triton\nimport VeriTile.Triton.Memory.KernelSpec\n'
+               'import VeriTile.Triton.Memory.RegionalScheduledKernelIO\nopen VeriTile.Triton\n')
     program += '\n'.join('#check ' + name for name in sorted(names)) + '\n'
     with tempfile.TemporaryDirectory(prefix='veritile-doc-api-') as temp:
         path = Path(temp) / 'DocApi.lean'

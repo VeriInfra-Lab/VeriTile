@@ -25,7 +25,7 @@ def conv2d_forward_kernel(
         input_pointer: Pointer to the input to convolve over.
             The input must be of shape [batch_dim, in_feat_dim, in_height, in_width].
         weight_pointer: Pointer to the weights input is convolved over by.
-            The weights must be of shape [out_feat_dim, in_feat_dim, kernel_height, kernel_width].
+            The weights must be of shape [out_feat_dim, in_feat_dim/groups, kernel_height, kernel_width].
         output_pointer: Pointer to a container the result is written to.
             The container must be of shape [batch_dim, out_feat_dim, out_height, out_width].
         batch_dim: Batch dimension of the input and output.
@@ -125,8 +125,8 @@ def conv2d_forward_kernel(
                 weight_mask = ((input_feat_offset < in_group_dim)[:, None] &
                                (output_feat_offset < out_group_dim)[None, :])
 
-                input_block = tl.load(curr_input_pointer, mask=input_mask)
-                weight_block = tl.load(curr_weight_pointer, mask=weight_mask)
+                input_block = tl.load(curr_input_pointer, mask=input_mask, other=0.0)
+                weight_block = tl.load(curr_weight_pointer, mask=weight_mask, other=0.0)
 
                 if fp16:
                     input_block = input_block.to(tl.float16)
@@ -146,7 +146,76 @@ def conv2d_forward_kernel(
     tl.store(output_pointer, accum, mask=output_mask)
 
 
+def _tensor_contract(tensor):
+    if (not isinstance(tensor, torch.Tensor) or tensor.layout != torch.strided
+            or tensor.ndim != 4 or not tensor.is_cuda
+            or tensor.dtype != torch.float32 or tensor.is_neg() or tensor.is_conj()):
+        raise ValueError("resolved rank-four FP32 CUDA tensors required")
+    if any(s <= 0 for s in tensor.stride()):
+        raise ValueError("positive tensor strides required")
+    storage = tensor.untyped_storage()
+    base, capacity, pointer = storage.data_ptr(), storage.nbytes(), tensor.data_ptr()
+    if tensor.numel():
+        top = sum((d - 1) * s for d, s in zip(tensor.shape, tensor.stride()))
+        if (pointer % 4 or pointer < base or pointer + 4 * (top + 1) > base + capacity
+                or base + capacity > 2**64):
+            raise ValueError("accessed FP32 elements must lie in actual backing storage")
+
+
+def _validate_inputs(input_tensor, weight_tensor, kernel_height, kernel_width,
+                     stride_height, stride_width, padding_height, padding_width,
+                     groups, fp16, tf32):
+    _tensor_contract(input_tensor)
+    _tensor_contract(weight_tensor)
+    if input_tensor.device != weight_tensor.device:
+        raise ValueError("input and weight must share a CUDA device")
+    if input_tensor.device.index != torch.cuda.current_device():
+        raise ValueError("input device must be the current CUDA device")
+    if type(fp16) is not bool or type(tf32) is not bool:
+        raise TypeError("fp16 and tf32 must be Boolean flags")
+    positives = (kernel_height, kernel_width, stride_height, stride_width, groups)
+    if any(type(v) is not int or v <= 0 for v in positives):
+        raise ValueError("kernel, stride, and groups must be positive integers")
+    if any(type(v) is not int or v < 0 for v in (padding_height, padding_width)):
+        raise ValueError("padding must be nonnegative integers")
+    batch, channels, height, width = input_tensor.shape
+    outputs = weight_tensor.shape[0]
+    if min(channels, height, width, outputs) <= 0 or channels % groups or outputs % groups:
+        raise ValueError("positive channels/spatial extents and divisible groups required")
+    cg, og = channels // groups, outputs // groups
+    if weight_tensor.shape != (outputs, cg, kernel_height, kernel_width):
+        raise ValueError("weight must have shape [O,C/groups,KH,KW]")
+    oh = (height + 2 * padding_height - kernel_height) // stride_height + 1
+    ow = (width + 2 * padding_width - kernel_width) // stride_width + 1
+    if oh <= 0 or ow <= 0:
+        raise ValueError("output spatial dimensions must be positive")
+    if batch and (triton.cdiv(outputs, 32) > 65535 or groups > 65535):
+        raise ValueError("direct CUDA grid Y and Z dimensions must not exceed 65535")
+    sn, sc, sh, sw = input_tensor.stride()
+    to, tc, th, tw = weight_tensor.stride()
+    padded_spatial = 128 * triton.cdiv(batch * oh * ow, 128)
+    padded_features = 32 * triton.cdiv(outputs, 32)
+    padded_channels = 32 * triton.cdiv(cg, 32)
+    padded_batch = padded_spatial // (oh * ow) + 1
+    height_abs = kernel_height + padding_height + stride_height * oh
+    width_abs = kernel_width + padding_width + stride_width * ow
+    envelope = (batch + channels + height + width + outputs + oh + ow
+                + kernel_height + kernel_width + stride_height + stride_width
+                + padding_height + padding_width + groups + cg + og + 128
+                + height + 2 * padding_height + width + 2 * padding_width
+                + padded_spatial + padded_features + padded_channels + padded_batch
+                + height_abs + width_abs + sn + sc + sh + sw + to + tc + th + tw
+                + padded_batch * sn + groups * cg * sc + padded_channels * sc
+                + height_abs * sh + width_abs * sw
+                + (padded_features + groups * og) * to + padded_channels * tc
+                + kernel_height * th + kernel_width * tw
+                + padded_batch * outputs * oh * ow
+                + (groups * og + padded_features) * oh * ow + oh * ow + ow)
+    if envelope >= 2**31:
+        raise ValueError("signed32 envelope exceeded for formed padded source expressions")
+
 def conv2d_forward(input_tensor, weight_tensor, kernel_height, kernel_width, stride_height, stride_width, padding_height, padding_width, groups, fp16=False, tf32=False):
+    _validate_inputs(input_tensor, weight_tensor, kernel_height, kernel_width, stride_height, stride_width, padding_height, padding_width, groups, fp16, tf32)
     # Extract dimensions
     batch_dim, in_feat_dim, in_height, in_width = input_tensor.shape
     out_feat_dim, _, _, _ = weight_tensor.shape
@@ -158,6 +227,8 @@ def conv2d_forward(input_tensor, weight_tensor, kernel_height, kernel_width, str
     weight_out_feat_stride, weight_in_feat_stride, weight_height_stride, weight_width_stride = weight_tensor.stride()
     output_tensor = torch.empty((batch_dim, out_feat_dim, out_height, out_width), device=input_tensor.device, dtype=torch.float32)
     output_batch_stride, output_out_feat_stride, output_height_stride, output_width_stride = output_tensor.stride()
+    if batch_dim == 0:
+        return output_tensor
 
     # Define block sizes
     BLOCK_SIZE_BATCH_HEIGHT_WIDTH = 128
@@ -184,42 +255,3 @@ def conv2d_forward(input_tensor, weight_tensor, kernel_height, kernel_width, str
     )
     
     return output_tensor
-
-
-
-
-##################################################################################################################################################
-
-
-# Test cases
-def test_conv2d_forward():
-    results = {}
-
-    # Test case 1: Basic test
-    input_tensor = torch.randn(1, 3, 32, 32, device='cuda', dtype=torch.float32)
-    weight_tensor = torch.randn(16, 3, 3, 3, device='cuda', dtype=torch.float32)
-    output_tensor = conv2d_forward(input_tensor, weight_tensor, 3, 3, 1, 1, 0, 0, 1)
-    results["test_case_1"] = output_tensor
-
-    # Test case 2: With padding and stride
-    input_tensor = torch.randn(1, 3, 32, 32, device='cuda', dtype=torch.float32)
-    weight_tensor = torch.randn(16, 3, 3, 3, device='cuda', dtype=torch.float32)
-    output_tensor = conv2d_forward(input_tensor, weight_tensor, 3, 3, 2, 2, 1, 1, 1)
-    results["test_case_2"] = output_tensor
-
-    # Test case 3: With groups
-    input_tensor = torch.randn(1, 6, 32, 32, device='cuda', dtype=torch.float32)
-    weight_tensor = torch.randn(16, 3, 3, 3, device='cuda', dtype=torch.float32)
-    output_tensor = conv2d_forward(input_tensor, weight_tensor, 3, 3, 1, 1, 0, 0, 2)
-    results["test_case_3"] = output_tensor
-
-    # Test case 4: Different kernel size
-    input_tensor = torch.randn(1, 3, 32, 32, device='cuda', dtype=torch.float32)
-    weight_tensor = torch.randn(16, 3, 5, 5, device='cuda', dtype=torch.float32)
-    output_tensor = conv2d_forward(input_tensor, weight_tensor, 5, 5, 1, 1, 0, 0, 1)
-    results["test_case_4"] = output_tensor
-
-    return results
-
-# Execute test
-result_gold = test_conv2d_forward()

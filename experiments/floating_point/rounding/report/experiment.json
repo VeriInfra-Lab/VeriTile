@@ -1,0 +1,52 @@
+{
+  "relation": "R32(R32(u) + v) -> R32(u + v)",
+  "rounding": "nearest, ties to even; gradual underflow",
+  "arithmetic": "exact sum represented with binary64 TwoSum before R32",
+  "oracle_error": "compensated binary64 distance to the TwoSum expansion",
+  "domain": "finite inputs; nonfinite outputs are errors, never filtered",
+  "distribution": {
+    "family": "independent normal",
+    "mean": 1.0,
+    "std": 1.0
+  },
+  "u": "binary64 draw; no preliminary binary32 quantization",
+  "v_profiles": [
+    "fp32",
+    "fp64"
+  ],
+  "output": "fp32",
+  "seed": 20261021,
+  "replicates": 4096,
+  "samples_per_replicate": 65536,
+  "stopping": "fixed budget chosen before sampling; no retry-until-PASS",
+  "gates": {
+    "bias": {
+      "tau": 0.05,
+      "se_multiplier": 5.0
+    },
+    "vars": {
+      "quantile": 0.9,
+      "horizon": 625000,
+      "alpha": 0.00135,
+      "bootstrap": 1000,
+      "min_exceedances": 40,
+      "warn": 10.0,
+      "fail": 100.0
+    },
+    "warning_policy": "pass_only"
+  },
+  "gpu_tested": false,
+  "lean_admission": "NOT_IMPORTED",
+  "scope": "CPU numerical probe; not the catalogue's 4096x4096 GPU profile",
+  "created_utc": "2026-10-21T03:48:42.947648+00:00",
+  "backend": {
+    "python": "3.12.13",
+    "numpy": "2.5.2",
+    "machine": "x86_64",
+    "platform": "Linux-5.10.134-013.8.2.kangaroo.al8.x86_64-x86_64-with-glibc2.35"
+  },
+  "sources": {
+    "run.py": "a859f60cfa568ddded37eb38fc20c6cfff3b7ba321be0c201eafd8e1f87f3320",
+    "numerical_gates.py": "b280bb606d5b92510b1f8a3fbda01661cf74093d49dd35b4c4ba0a5c344bceb9"
+  }
+}

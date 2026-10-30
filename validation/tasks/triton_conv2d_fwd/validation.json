@@ -1,0 +1,1328 @@
+{
+  "status": "PASS",
+  "source_sha256": "37ad52bccd9a329291c6509200adfb8a3125975225685c9e2c4f300578a8561b",
+  "script_sha256": "a8ec5341836356b315fa10babbe11157b36c577cbe5cf0d59f1a2940baa58fda",
+  "engine": "Actual source wrapper and Triton CPU interpreter with CUDA residency and current-device observation shims only; actual allocations, strides, flags, default launch and masks",
+  "GPU_execution": false,
+  "native_numerical_conformance": false,
+  "cases": [
+    {
+      "name": "tail1",
+      "fp16": false,
+      "tf32": false,
+      "shape": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "fp16": false,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "tail1",
+      "fp16": false,
+      "tf32": true,
+      "shape": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "fp16": false,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "tail1",
+      "fp16": true,
+      "tf32": false,
+      "shape": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "fp16": true,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "tail1",
+      "fp16": true,
+      "tf32": true,
+      "shape": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "fp16": true,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "padding32",
+      "fp16": false,
+      "tf32": false,
+      "shape": [
+        1,
+        2,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            32,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            288,
+            9,
+            3,
+            1
+          ],
+          "output_stride": [
+            2,
+            1,
+            1,
+            1
+          ],
+          "fp16": false,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "padding32",
+      "fp16": false,
+      "tf32": true,
+      "shape": [
+        1,
+        2,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            32,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            288,
+            9,
+            3,
+            1
+          ],
+          "output_stride": [
+            2,
+            1,
+            1,
+            1
+          ],
+          "fp16": false,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "padding32",
+      "fp16": true,
+      "tf32": false,
+      "shape": [
+        1,
+        2,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            32,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            288,
+            9,
+            3,
+            1
+          ],
+          "output_stride": [
+            2,
+            1,
+            1,
+            1
+          ],
+          "fp16": true,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "padding32",
+      "fp16": true,
+      "tf32": true,
+      "shape": [
+        1,
+        2,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            32,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            288,
+            9,
+            3,
+            1
+          ],
+          "output_stride": [
+            2,
+            1,
+            1,
+            1
+          ],
+          "fp16": true,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "group-tail",
+      "fp16": false,
+      "tf32": false,
+      "shape": [
+        2,
+        70,
+        4,
+        3
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            3,
+            2
+          ],
+          "input_stride": [
+            792,
+            12,
+            4,
+            1
+          ],
+          "weight_stride": [
+            132,
+            4,
+            2,
+            1
+          ],
+          "output_stride": [
+            840,
+            12,
+            3,
+            1
+          ],
+          "fp16": false,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "group-tail",
+      "fp16": false,
+      "tf32": true,
+      "shape": [
+        2,
+        70,
+        4,
+        3
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            3,
+            2
+          ],
+          "input_stride": [
+            792,
+            12,
+            4,
+            1
+          ],
+          "weight_stride": [
+            132,
+            4,
+            2,
+            1
+          ],
+          "output_stride": [
+            840,
+            12,
+            3,
+            1
+          ],
+          "fp16": false,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "group-tail",
+      "fp16": true,
+      "tf32": false,
+      "shape": [
+        2,
+        70,
+        4,
+        3
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            3,
+            2
+          ],
+          "input_stride": [
+            792,
+            12,
+            4,
+            1
+          ],
+          "weight_stride": [
+            132,
+            4,
+            2,
+            1
+          ],
+          "output_stride": [
+            840,
+            12,
+            3,
+            1
+          ],
+          "fp16": true,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "group-tail",
+      "fp16": true,
+      "tf32": true,
+      "shape": [
+        2,
+        70,
+        4,
+        3
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            3,
+            2
+          ],
+          "input_stride": [
+            792,
+            12,
+            4,
+            1
+          ],
+          "weight_stride": [
+            132,
+            4,
+            2,
+            1
+          ],
+          "output_stride": [
+            840,
+            12,
+            3,
+            1
+          ],
+          "fp16": true,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "strided",
+      "fp16": false,
+      "tf32": false,
+      "shape": [
+        1,
+        5,
+        2,
+        6
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            60,
+            20,
+            1,
+            4
+          ],
+          "weight_stride": [
+            18,
+            6,
+            1,
+            3
+          ],
+          "output_stride": [
+            60,
+            12,
+            6,
+            1
+          ],
+          "fp16": false,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "strided",
+      "fp16": false,
+      "tf32": true,
+      "shape": [
+        1,
+        5,
+        2,
+        6
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            60,
+            20,
+            1,
+            4
+          ],
+          "weight_stride": [
+            18,
+            6,
+            1,
+            3
+          ],
+          "output_stride": [
+            60,
+            12,
+            6,
+            1
+          ],
+          "fp16": false,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "strided",
+      "fp16": true,
+      "tf32": false,
+      "shape": [
+        1,
+        5,
+        2,
+        6
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            60,
+            20,
+            1,
+            4
+          ],
+          "weight_stride": [
+            18,
+            6,
+            1,
+            3
+          ],
+          "output_stride": [
+            60,
+            12,
+            6,
+            1
+          ],
+          "fp16": true,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "strided",
+      "fp16": true,
+      "tf32": true,
+      "shape": [
+        1,
+        5,
+        2,
+        6
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            60,
+            20,
+            1,
+            4
+          ],
+          "weight_stride": [
+            18,
+            6,
+            1,
+            3
+          ],
+          "output_stride": [
+            60,
+            12,
+            6,
+            1
+          ],
+          "fp16": true,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "spatial-tail",
+      "fp16": false,
+      "tf32": false,
+      "shape": [
+        1,
+        3,
+        12,
+        12
+      ],
+      "launches": [
+        {
+          "grid": [
+            2,
+            1,
+            1
+          ],
+          "input_stride": [
+            288,
+            144,
+            12,
+            1
+          ],
+          "weight_stride": [
+            2,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            432,
+            144,
+            12,
+            1
+          ],
+          "fp16": false,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "spatial-tail",
+      "fp16": false,
+      "tf32": true,
+      "shape": [
+        1,
+        3,
+        12,
+        12
+      ],
+      "launches": [
+        {
+          "grid": [
+            2,
+            1,
+            1
+          ],
+          "input_stride": [
+            288,
+            144,
+            12,
+            1
+          ],
+          "weight_stride": [
+            2,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            432,
+            144,
+            12,
+            1
+          ],
+          "fp16": false,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "spatial-tail",
+      "fp16": true,
+      "tf32": false,
+      "shape": [
+        1,
+        3,
+        12,
+        12
+      ],
+      "launches": [
+        {
+          "grid": [
+            2,
+            1,
+            1
+          ],
+          "input_stride": [
+            288,
+            144,
+            12,
+            1
+          ],
+          "weight_stride": [
+            2,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            432,
+            144,
+            12,
+            1
+          ],
+          "fp16": true,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "spatial-tail",
+      "fp16": true,
+      "tf32": true,
+      "shape": [
+        1,
+        3,
+        12,
+        12
+      ],
+      "launches": [
+        {
+          "grid": [
+            2,
+            1,
+            1
+          ],
+          "input_stride": [
+            288,
+            144,
+            12,
+            1
+          ],
+          "weight_stride": [
+            2,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            432,
+            144,
+            12,
+            1
+          ],
+          "fp16": true,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "offset",
+      "fp16": false,
+      "tf32": false,
+      "shape": [
+        1,
+        5,
+        2,
+        6
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            60,
+            20,
+            5,
+            1
+          ],
+          "weight_stride": [
+            18,
+            6,
+            2,
+            1
+          ],
+          "output_stride": [
+            60,
+            12,
+            6,
+            1
+          ],
+          "fp16": false,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "offset",
+      "fp16": false,
+      "tf32": true,
+      "shape": [
+        1,
+        5,
+        2,
+        6
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            60,
+            20,
+            5,
+            1
+          ],
+          "weight_stride": [
+            18,
+            6,
+            2,
+            1
+          ],
+          "output_stride": [
+            60,
+            12,
+            6,
+            1
+          ],
+          "fp16": false,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "offset",
+      "fp16": true,
+      "tf32": false,
+      "shape": [
+        1,
+        5,
+        2,
+        6
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            60,
+            20,
+            5,
+            1
+          ],
+          "weight_stride": [
+            18,
+            6,
+            2,
+            1
+          ],
+          "output_stride": [
+            60,
+            12,
+            6,
+            1
+          ],
+          "fp16": true,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "offset",
+      "fp16": true,
+      "tf32": true,
+      "shape": [
+        1,
+        5,
+        2,
+        6
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            60,
+            20,
+            5,
+            1
+          ],
+          "weight_stride": [
+            18,
+            6,
+            2,
+            1
+          ],
+          "output_stride": [
+            60,
+            12,
+            6,
+            1
+          ],
+          "fp16": true,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "alias",
+      "fp16": false,
+      "tf32": false,
+      "shape": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "fp16": false,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "alias",
+      "fp16": false,
+      "tf32": true,
+      "shape": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "fp16": false,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "alias",
+      "fp16": true,
+      "tf32": false,
+      "shape": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "fp16": true,
+          "tf32": false
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "alias",
+      "fp16": true,
+      "tf32": true,
+      "shape": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "launches": [
+        {
+          "grid": [
+            1,
+            1,
+            1
+          ],
+          "input_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "weight_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "output_stride": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "fp16": true,
+          "tf32": true
+        }
+      ],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "empty-batch",
+      "fp16": false,
+      "tf32": false,
+      "shape": [
+        0,
+        5,
+        2,
+        6
+      ],
+      "launches": [],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "empty-batch",
+      "fp16": false,
+      "tf32": true,
+      "shape": [
+        0,
+        5,
+        2,
+        6
+      ],
+      "launches": [],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "empty-batch",
+      "fp16": true,
+      "tf32": false,
+      "shape": [
+        0,
+        5,
+        2,
+        6
+      ],
+      "launches": [],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    },
+    {
+      "name": "empty-batch",
+      "fp16": true,
+      "tf32": true,
+      "shape": [
+        0,
+        5,
+        2,
+        6
+      ],
+      "launches": [],
+      "exact_small_integer_match": true,
+      "caller_bytes_preserved": true,
+      "fresh_output": true
+    }
+  ],
+  "rejected_domain_cases": [
+    {
+      "case": "lazy-neg",
+      "error": "resolved rank-four FP32 CUDA tensors required"
+    },
+    {
+      "case": "wrong-weight",
+      "error": "weight must have shape [O,C/groups,KH,KW]"
+    },
+    {
+      "case": "nonbool",
+      "error": "fp16 and tf32 must be Boolean flags"
+    },
+    {
+      "case": "zero-stride",
+      "error": "positive tensor strides required"
+    },
+    {
+      "case": "overflow",
+      "error": "signed32 envelope exceeded for formed padded source expressions"
+    },
+    {
+      "case": "dtype",
+      "error": "resolved rank-four FP32 CUDA tensors required"
+    },
+    {
+      "case": "rank",
+      "error": "resolved rank-four FP32 CUDA tensors required"
+    },
+    {
+      "case": "noninteger",
+      "error": "kernel, stride, and groups must be positive integers"
+    },
+    {
+      "case": "negative-padding",
+      "error": "padding must be nonnegative integers"
+    },
+    {
+      "case": "nondivisible",
+      "error": "positive channels/spatial extents and divisible groups required"
+    },
+    {
+      "case": "zero-stride-argument",
+      "error": "kernel, stride, and groups must be positive integers"
+    },
+    {
+      "case": "grid-z",
+      "error": "direct CUDA grid Y and Z dimensions must not exceed 65535"
+    },
+    {
+      "case": "grid-y",
+      "error": "direct CUDA grid Y and Z dimensions must not exceed 65535"
+    }
+  ]
+}

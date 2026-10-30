@@ -1,0 +1,1 @@
+import bench.tritonbench_g.streamk_matmul.Proofs.LegacySyntax

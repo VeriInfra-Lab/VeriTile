@@ -91,8 +91,17 @@ def _int8_matmul_rowwise_dequantize(
     EVEN_K: tl.constexpr,
     ACC_TYPE: tl.constexpr,
 ):
-    pid = tl.program_id(0)
-    pid_z = tl.program_id(1)
+    pid = tl.program_id(0).to(tl.int64)
+    pid_z = tl.program_id(1).to(tl.int64)
+    M = tl.cast(M, tl.int64)
+    N = tl.cast(N, tl.int64)
+    K = tl.cast(K, tl.int64)
+    stride_am = tl.cast(stride_am, tl.int64)
+    stride_ak = tl.cast(stride_ak, tl.int64)
+    stride_bk = tl.cast(stride_bk, tl.int64)
+    stride_bn = tl.cast(stride_bn, tl.int64)
+    stride_cm = tl.cast(stride_cm, tl.int64)
+    stride_cn = tl.cast(stride_cn, tl.int64)
     grid_m = tl.cdiv(M, BLOCK_M)
     grid_n = tl.cdiv(N, BLOCK_N)
     width = GROUP_M * grid_n
@@ -126,8 +135,9 @@ def _int8_matmul_rowwise_dequantize(
     acc = w_factor * (x_factor * (acc * divfactor))
     acc = acc.to(C.dtype.element_ty)
     if has_bias:
-        bias = tl.load(bias + rn).to(C.dtype.element_ty)
-        acc = acc + bias[None, :]
+        if pid_z == 0:
+            bias_value = tl.load(bias + rn, mask=rn < N, other=0.0).to(C.dtype.element_ty)
+            acc = acc + bias_value[None, :]
     C = C + (rm[:, None] * stride_cm + rn[None, :] * stride_cn)
     mask = (rm < M)[:, None] & (rn < N)[None, :]
     if SPLIT_K == 1:
@@ -135,77 +145,83 @@ def _int8_matmul_rowwise_dequantize(
     else:
         tl.atomic_add(C, acc, mask=mask)
 
+def _check(a, b, state_x, state_w, bias):
+    tensors = (a, b, state_x, state_w)
+    if not all(isinstance(t, torch.Tensor) for t in tensors):
+        raise TypeError("a, b and scales must be tensors")
+    if bias is not None and not isinstance(bias, torch.Tensor):
+        raise TypeError("bias must be a tensor or None")
+    if a.ndim != 2 or b.ndim != 2 or state_x.ndim != 1 or state_w.ndim != 1:
+        raise ValueError("expected matrices and scale vectors")
+    if any(t.layout != torch.strided for t in tensors):
+        raise ValueError("strided tensors required")
+    if a.dtype != torch.int8 or b.dtype != torch.int8 or state_x.dtype != torch.float32 or state_w.dtype != torch.float32:
+        raise TypeError("matrices must be INT8 and scales FP32")
+    if not a.is_cuda or any(t.device != a.device for t in tensors):
+        raise ValueError("one CUDA device required")
+    if any(not t.is_contiguous() or t.is_neg() for t in tensors):
+        raise ValueError("contiguous inputs without negative views required")
+    M, K = a.shape
+    _, N = b.shape
+    if b.shape[0] != K or state_x.shape != (M,) or state_w.shape != (N,):
+        raise ValueError("incompatible dimensions")
+    if bias is not None:
+        if bias.layout != torch.strided or bias.dtype != torch.float32 or bias.shape != (N,) or bias.device != a.device:
+            raise ValueError("bias must be an FP32 vector on the input device")
+        if not bias.is_contiguous() or bias.is_neg():
+            raise ValueError("bias must be contiguous without a negative view")
+    floats = (state_x, state_w) + (() if bias is None else (bias,))
+    if any(torch._C._overlaps(i, f) for i in (a, b) for f in floats):
+        raise ValueError("INT8 and FP32 inputs must not share raw storage")
+    if any(t.numel() and t.data_ptr() % 4 for t in floats):
+        raise ValueError("FP32 input pointers must be aligned to four bytes")
+    if M and N:
+        if max(M, N, K) >= 2**61:
+            raise ValueError("dimensions exceed native index range")
+        if triton.cdiv(M, 16) * triton.cdiv(N, 32) > 2**31 - 1:
+            raise ValueError("autotune grid exceeds CUDA grid range")
+        # Envelopes include every masked lane and final unused pointer advance.
+        bias_offset = 0 if bias is None else bias.storage_offset()
+        if (a.storage_offset() + M*K + K + 4095 >= 2**63 or
+            b.storage_offset() + (K+4095)*N + N >= 2**63 or
+            2*((M+255)*N + N+255) >= 2**63 or
+            4*(state_x.storage_offset()+M) >= 2**63 or
+            4*(state_w.storage_offset()+N) >= 2**63 or
+            4*(bias_offset+N+255) >= 2**63):
+            raise ValueError("formed element or byte offsets exceed native range")
+
 def int8_matmul_rowwise_dequantize(a, b, state_x, state_w, bias):
+    _check(a, b, state_x, state_w, bias)
     divfactor = 1.0 / (127.0 * 127.0)
     has_bias = 0 if bias is None else 1
     device = a.device
-    if a.stride(0) > 1 and a.stride(1) > 1:
-        a = a.contiguous()
-    if b.stride(0) > 1 and b.stride(1) > 1:
-        b = b.contiguous()
-    assert a.shape[1] == b.shape[0], "incompatible dimensions"
     M, K = a.shape
     _, N = b.shape
     c = torch.empty((M, N), device=device, dtype=torch.float16)
     ACC_TYPE = tl.float32
     grid = lambda META: (triton.cdiv(M, META["BLOCK_M"]) * triton.cdiv(N, META["BLOCK_N"]), META["SPLIT_K"])
-    _int8_matmul_rowwise_dequantize[grid](
-        a,
-        b,
-        c,
-        bias,
-        state_x,
-        state_w,
-        M,
-        N,
-        K,
-        divfactor,
-        has_bias,
-        a.stride(0),
-        a.stride(1),
-        b.stride(0),
-        b.stride(1),
-        c.stride(0),
-        c.stride(1),
-        GROUP_M=8,
-        ACC_TYPE=ACC_TYPE,
-    )
+    if M == 0 or N == 0:
+        return c
+    with torch.cuda.device(device):
+        _int8_matmul_rowwise_dequantize[grid](
+            a,
+            b,
+            c,
+            bias,
+            state_x,
+            state_w,
+            M,
+            N,
+            K,
+            divfactor,
+            has_bias,
+            K,
+            1,
+            N,
+            1,
+            N,
+            1,
+            GROUP_M=8,
+            ACC_TYPE=ACC_TYPE,
+        )
     return c
-
-
-
-
-##################################################################################################################################################
-
-
-def test_int8_matmul_rowwise_dequantize():
-    # Define test inputs
-    test_cases = {}
-    
-    # Test case 1
-    M1, K1, N1 = 256, 128, 256  # Example dimensions
-    a1 = torch.randint(-128, 127, (M1, K1), dtype=torch.int8, device='cuda')
-    b1 = torch.randint(-128, 127, (K1, N1), dtype=torch.int8, device='cuda')
-    state_x1 = torch.rand(M1, dtype=torch.float32, device='cuda')
-    state_w1 = torch.rand(N1, dtype=torch.float32, device='cuda')
-    bias1 = torch.rand(N1, dtype=torch.float16, device='cuda')  # Optional, can be None
-
-    # Call the wrapper function
-    c1 = int8_matmul_rowwise_dequantize(a1, b1, state_x1, state_w1, bias1)
-    test_cases['test_case_1'] = c1
-
-    # Test case 2: No bias
-    M2, K2, N2 = 128, 64, 128
-    a2 = torch.randint(-128, 127, (M2, K2), dtype=torch.int8, device='cuda')
-    b2 = torch.randint(-128, 127, (K2, N2), dtype=torch.int8, device='cuda')
-    state_x2 = torch.rand(M2, dtype=torch.float32, device='cuda')
-    state_w2 = torch.rand(N2, dtype=torch.float32, device='cuda')
-    bias2 = None
-
-    # Call the wrapper function
-    c2 = int8_matmul_rowwise_dequantize(a2, b2, state_x2, state_w2, bias2)
-    test_cases['test_case_2'] = c2
-
-    return test_cases
-
-result_gold = test_int8_matmul_rowwise_dequantize()

@@ -1,0 +1,227 @@
+{
+  "schema_version": 3,
+  "id": "local_route",
+  "suite": "pretrain",
+  "self_contained": true,
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "conversion_status": "LEAN_DRAFT",
+  "comparison": {
+    "function": "build_local_route"
+  },
+  "source_organization_status": "PROVISIONAL_LOWERING",
+  "inputs": [
+    [
+      "input0",
+      [
+        256,
+        128
+      ],
+      "fp32"
+    ]
+  ],
+  "output": [
+    256,
+    128
+  ],
+  "output_precision": "fp32",
+  "scratch": [
+    [
+      "literal_nan",
+      [
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "vsigmoid",
+      [
+        256,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "visnan",
+      [
+        256,
+        128
+      ],
+      "boolean"
+    ],
+    [
+      "vwhere",
+      [
+        256,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "vsort_value",
+      [
+        256,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "vsort_index",
+      [
+        256,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "vgather",
+      [
+        256,
+        6
+      ],
+      "fp32"
+    ],
+    [
+      "vsum_1",
+      [
+        256,
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "vadd",
+      [
+        256,
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "vdiv",
+      [
+        256,
+        6
+      ],
+      "fp32"
+    ],
+    [
+      "vmul_1",
+      [
+        256,
+        6
+      ],
+      "fp32"
+    ],
+    [
+      "vscatter",
+      [
+        256,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_literal_nan",
+      [
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vsigmoid",
+      [
+        256,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_visnan",
+      [
+        256,
+        128
+      ],
+      "boolean"
+    ],
+    [
+      "candidate_vwhere",
+      [
+        256,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vsort_value",
+      [
+        256,
+        128
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vsort_index",
+      [
+        256,
+        128
+      ],
+      "integer"
+    ],
+    [
+      "candidate_vgather",
+      [
+        256,
+        6
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vsum_1",
+      [
+        256,
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vadd",
+      [
+        256,
+        1
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vdiv",
+      [
+        256,
+        6
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vmul_1",
+      [
+        256,
+        6
+      ],
+      "fp32"
+    ],
+    [
+      "candidate_vscatter",
+      [
+        256,
+        128
+      ],
+      "fp32"
+    ]
+  ],
+  "scope": "Initialized weights and tensor tables are explicit task parameters. Native layout and configuration connections remain obligations.",
+  "native_comparison": "local_route",
+  "reference_graph_nodes": 21,
+  "candidate_graph_nodes": 26,
+  "real_projection_status": "PENDING_FINITE_CONNECTION",
+  "metadata_decoder_binding_status": "NOT_REQUIRED"
+}

@@ -1,13 +1,15 @@
 # layer_norm_fwd
 
-- Source file: `layer_norm_fwd.py` (upstream `data/TritonBench_G_v1/layer_norm_fwd.py`)
-- Corpus: TritonBench-G v1
-- Size: 218 lines, 1 `@triton.jit` kernel(s)
-- Status: BLOCKED — not imported. Every other `tl.*` form it uses is in the DSL
-  surface, but it needs: `tl.rand`.
-  See [`../tritonbench_coverage.md`](../tritonbench_coverage.md) for the
-  ranked unlock levers.
+Current repaired Python implementation: [layer_norm_fwd.py](layer_norm_fwd.py).
 
-This directory is the per-kernel workspace for the TritonBench-G
-full-formalization roadmap. It is currently a placeholder: the upstream
-Python source has **not** been imported.
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+Same-reader independent row scaling, canonical Philox dropout, ordered residual/RMS/LN and two affine formulas over named tensor inputs.
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

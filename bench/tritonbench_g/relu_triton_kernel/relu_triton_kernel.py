@@ -1,70 +1,54 @@
+"""ReLU with a checked contiguous FP32 CUDA contract and complete output coverage."""
+import torch
 import triton
 import triton.language as tl
-import torch
+
 
 @triton.jit
 def relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):
-    # Get the index of the current thread
     pid = tl.program_id(0)
     block_start = pid * block_size
     offsets = block_start + tl.arange(0, block_size)
     mask = offsets < N
-
-    # Load elements from global memory
     x = tl.load(x_ptr + offsets, mask=mask)
-
-    # Compute linear layer
     result = tl.where(x >= 0, x, 0.0)
+    tl.store(out_ptr + offsets, result, mask=mask)
 
-    # Write result to global memory
-    if pid == 0:
-        tl.store(out_ptr + offsets, result, mask=mask)
 
 def relu(x):
-    # Prepare output tensor
-    out = torch.empty_like(x, dtype=torch.float32, device=x.device)
-    N = out.numel()
+    """Return a fresh tensor. NaNs become +0; a selected -0 stays -0."""
+    if not isinstance(x, torch.Tensor):
+        raise TypeError("x must be a tensor")
+    if x.layout != torch.strided:
+        raise TypeError("x must have strided layout")
+    if x.dtype != torch.float32:
+        raise TypeError("x must have dtype torch.float32")
+    if not x.is_cuda:
+        raise ValueError("x must be a CUDA tensor")
+    if not x.is_contiguous():
+        raise ValueError("x must be contiguous")
+    if x.is_neg():
+        raise ValueError("x must not have an unresolved negative view bit")
+    N = x.numel()
+    if N >= (1 << 31):
+        raise ValueError("numel must be smaller than 2**31")
+    if N > 0 and x.data_ptr() % 4 != 0:
+        raise ValueError("nonempty x must have a 4-byte-aligned data pointer")
+    with torch.cuda.device(x.device):
+        out = torch.empty_like(x, dtype=torch.float32, device=x.device)
+        if N == 0:
+            return out
+        BLOCK_SIZE = 1024
+        relu_kernel[((N + BLOCK_SIZE - 1) // BLOCK_SIZE,)](x, out, N, BLOCK_SIZE)
+        return out
 
-    BLOCK_SIZE = 1024
-    num_blocks = (N + BLOCK_SIZE - 1) // BLOCK_SIZE  # Calculate the number of blocks needed
 
-    # Launch Triton kernel
-    grid = lambda meta: (triton.cdiv(N, BLOCK_SIZE), )
-
-    relu_kernel[grid](x, out, N, BLOCK_SIZE)
-
-    return out
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_relu():
-    results = {}
-    
-    # Test case 1: All negative values
-    input_tensor = torch.tensor([-3.0, -1.0, -0.5, -2.0, -5.0], dtype=torch.float32, device='cuda')
-    output_tensor = relu(input_tensor)
-    results['test_case_1'] = output_tensor
-
-    # Test case 2: All positive values
-    input_tensor = torch.tensor([3.0, 1.0, 0.5, 2.0, 5.0], dtype=torch.float32, device='cuda')
-    output_tensor = relu(input_tensor)
-    results['test_case_2'] = output_tensor
-
-    # Test case 3: Mixed values
-    input_tensor = torch.tensor([-3.0, -1.0, 0.0, 2.0, 5.0], dtype=torch.float32, device='cuda')
-    output_tensor = relu(input_tensor)
-    results['test_case_3'] = output_tensor
-
-    # Test case 4: Zero values
-    input_tensor = torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0], dtype=torch.float32, device='cuda')
-    output_tensor = relu(input_tensor)
-    results['test_case_4'] = output_tensor
-
-    return results
-
-result_gold = test_relu()
+@triton.jit
+def relu_inlined_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):
+    """Existing store-inline candidate; the wrapper selects relu_kernel."""
+    pid = tl.program_id(0)
+    block_start = pid * block_size
+    offsets = block_start + tl.arange(0, block_size)
+    mask = offsets < N
+    x = tl.load(x_ptr + offsets, mask=mask)
+    tl.store(out_ptr + offsets, tl.where(x >= 0, x, 0.0), mask=mask)

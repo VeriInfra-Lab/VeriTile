@@ -1,0 +1,40 @@
+{
+  "task": "kldiv_compute",
+  "entry": "VeriTile.Bench.Repairs.KldivCompute.Kernel.FPEquiv.kldiv_equiv",
+  "status": "structural equivalence of the existing two kernel sources; no numerical assumptions or deferred experiments",
+  "selected_source": "bench/repairs/tritonbench_g/kldiv_compute/kldiv_compute_repaired.py",
+  "selected_source_sha256": "1565e81f560319d9f8ab63338920c17270468f248fed28ebd2b7edca3dc7eded",
+  "profile": "FP32 loads, division -> tl.log -> multiplication -> FP32 store; original operand order and omitted masked-load padding",
+  "admission": "Exact selected wrapper guards, including its existing numel < 2^31 guard; all FP32 words admitted without positivity/finiteness restrictions.",
+  "independent_reference": "Two actual FP32 kernel sources in Kernels.lean with identical public masked IO; the ordered native formula is retained as an auxiliary result.",
+  "ordinary_backend_parameters": [
+    "divide : FP32Word -> FP32Word -> FP32Word",
+    "logarithm : FP32Word -> FP32Word",
+    "multiply : FP32Word -> FP32Word -> FP32Word"
+  ],
+  "numerical_assumptions": [],
+  "deferred_experiments": [],
+  "transformations": [
+    "Commute natural-number address operands: pid * B -> B * pid; all floating operations retain their source order."
+  ],
+  "proved_structural": [
+    "both actual kernel sources execute successfully for every program ID and initial state",
+    "all active typed outputs agree and each masked exterior memory frame is preserved",
+    "no floating operation, precision, operand order or finite-value domain changes",
+    "prior complete-grid native observation and Tensor/byte/control results retained as auxiliary results"
+  ],
+  "ordinary_boundaries": [
+    "Tensor metadata/physical-coordinate laws and the existing fresh output allocation",
+    "local physical read/write/frame laws",
+    "native little-endian FP32 byte codec",
+    "the same actual FP32 primitive interpretations in the source and independent ordered graph"
+  ],
+  "validation": "CPU source/reference/frame checker and Lean source builds/standard-base axiom audits; no GPU execution or primitive numerical measurement required for this address-only source equivalence",
+  "historical_host_obligations": "numerical-obligations.host.json",
+  "retained_native_observation": {
+    "entry": "VeriTile.Bench.Repairs.KldivCompute.Kernel.NativeCorrect.native_observation",
+    "file": "bench/repairs/tritonbench_g/kldiv_compute/NativeCorrect.lean",
+    "reference": "multiply x (logarithm (divide x y))",
+    "scope": "The original complete-grid native model theorem and optional Tensor/byte/frame results are preserved; backend parameters and physical boundaries listed in this record belong to these auxiliary results."
+  }
+}

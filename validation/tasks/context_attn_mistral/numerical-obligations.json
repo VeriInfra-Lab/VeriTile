@@ -1,0 +1,66 @@
+{
+  "scope": "selected SM90 FP32 scalar/store graph and raw-word recurrence, independent of mathematical Real proof",
+  "status": "local GPU numerical conformance deferred",
+  "ports": [
+    {
+      "name": "literal32",
+      "domain": "source literals and actual FP32 host scale",
+      "required_evidence": "pointwise rounded native instruction agreement, with explicit target instruction semantics"
+    },
+    {
+      "name": "add",
+      "domain": "all raw FP32 words including exceptional values, signed zeros and subnormals",
+      "required_evidence": "pointwise rounded native instruction agreement, with explicit target instruction semantics"
+    },
+    {
+      "name": "sub",
+      "domain": "all raw FP32 words including exceptional values, signed zeros and subnormals",
+      "required_evidence": "pointwise rounded native instruction agreement, with explicit target instruction semantics"
+    },
+    {
+      "name": "mul",
+      "domain": "all raw FP32 words including exceptional values, signed zeros and subnormals",
+      "required_evidence": "pointwise rounded native instruction agreement, with explicit target instruction semantics"
+    },
+    {
+      "name": "div",
+      "domain": "all raw FP32 words including exceptional values, signed zeros and subnormals",
+      "required_evidence": "pointwise rounded native instruction agreement, with explicit target instruction semantics"
+    },
+    {
+      "name": "max",
+      "domain": "all raw FP32 words including exceptional values, signed zeros and subnormals",
+      "required_evidence": "pointwise rounded native instruction agreement, with explicit target instruction semantics"
+    },
+    {
+      "name": "exp2",
+      "domain": "all raw FP32 words including exceptional values, signed zeros and subnormals",
+      "required_evidence": "pointwise rounded native instruction agreement, with explicit target instruction semantics"
+    },
+    {
+      "name": "fmaRN",
+      "domain": "all raw FP32 words including exceptional values, signed zeros and subnormals",
+      "required_evidence": "pointwise rounded native instruction agreement, with explicit target instruction semantics"
+    },
+    {
+      "name": "wgmmaTF32",
+      "domain": "all raw FP32 words including exceptional values, signed zeros and subnormals",
+      "required_evidence": "pointwise rounded native instruction agreement, with explicit target instruction semantics; fixed m64n{16,32,64,128}k8 TF32 instruction, explicit clear/live accumulator mode and FP32 seed"
+    }
+  ],
+  "structural_parameters": [
+    "complete ordered 128-lane reductions per physical consumer",
+    "operand orientation and source-allowed FMA contraction",
+    "discrete owner routes and final store owner",
+    "fixed instruction clear/live accumulator selector"
+  ],
+  "excluded_assumptions": [
+    "exact Real floating arithmetic",
+    "whole dot or reduction result",
+    "whole output tensor equality",
+    "successful source execution as an input premise",
+    "compiler-wide conformance"
+  ],
+  "source_boundary": "External selected-specialization SourceGraph.Binding is consumed by public selectedDispatch: exact canonical source fragments, raw operands, initialization, local iteration, integer control, cast and store mapping. Phantom syntax indices/source_split and eight saved profiles do not establish universal compiler correspondence. Independent recurrence, physical stores, exact four output bytes and byte frame are proved; no full FP AST register invariant claimed.",
+  "runtime_boundary": "Ordinary current Tensor metadata/raw-word and byte read/write interpretation, local little-endian WordCodec, host/device signed metadata identity, no concurrent mutation and successful single CUDA launch; shared grid-product overflow deferred separately"
+}

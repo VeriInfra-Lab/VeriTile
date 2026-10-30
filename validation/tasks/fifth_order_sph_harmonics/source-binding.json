@@ -1,0 +1,58 @@
+{
+  "original_python": "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics.py",
+  "original_sha256": "3879b6fb82f9f47763e3c0f059e17597f973dcf85ec1150227adbaaf1c756c0a",
+  "candidate_python": "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_repaired.py",
+  "candidate_sha256": "f1060f3487cf89047e0e3d4ffcee9fa16671bc287233baefe75a847c53334377",
+  "kernel_ast_sha256": {
+    "fifth_order_fwd_repaired": "7270a94c6847c415dc14c91b8831668b0d1a9633bf419c65966f8c078376434c",
+    "fifth_order_bwd_repaired": "7355b4eccb266876b43910451f0a6c9a3a6aa4701178b71f32450c7b3d02c528"
+  },
+  "precision": "FP32",
+  "forward_target": "Eleven unchanged exact decimal degree-five polynomials",
+  "backward_target": "True Jacobian transpose of those polynomials",
+  "launch": "One direct ceil(rows/block_size) grid; empty skips launch; no segmentation",
+  "layouts": "Dense [rows,3] coordinates and dense selected output; direct nonnegative two-stride upstream",
+  "numerical_profile": {
+    "enable_fp_fusion": false,
+    "rounding": "nearest-even",
+    "flush_inputs": false,
+    "flush_results": false
+  },
+  "numerical_deferrals": "Only local reached FP32 literal/add/sub/mul/sign operation equations",
+  "original_source_declaration_move": {
+    "new": "bench/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean",
+    "old_import_shim": "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/TypedSource.lean",
+    "qualified_namespace": "VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP",
+    "original_theorem_scope_unchanged": true
+  },
+  "lean_source_sha256": {
+    "Contract.lean": "f74de5d7245447c90af0b8891e12301c54e943d38c3246fc02f27e5327e4e44a",
+    "Correct.lean": "ad1ca4af673afacb9d7d8f44e5f5cc6b9d9ce36d9c3d6145a16ef034bd065b4d",
+    "FPEquiv.lean": "dfaad98a89f396048ff348a6a2e23b51f897385e036e607f1467bf6608db08bc",
+    "Kernels.lean": "9cdd2dcf389c031768d0805fe78952e4ae34f86408aa7777211ad0bb2a555809",
+    "Proofs/Access.lean": "da5b207a03a396f35afff51a531a07f2d7572c66898d4bd27bd0356ab5b0cfa7",
+    "Proofs/Arithmetic.lean": "39969085dc69e9acbd55b3fa1e1e7a1e91b5e3c9c0de4868c584c083b8656b42",
+    "Proofs/Contract.lean": "3d18af16de3f4b4424b76c79f9bca7f552f613eb709df92a327b104baefcb49c",
+    "Proofs/Defect.lean": "1df1770566f8cf99c26531a09f8a695a9662316c3a946e76e72ccbef62c6e983",
+    "Proofs/Equivalence.lean": "d647a208b1811af2f69d2f88f915f0041efbd9c3b6991ee58a16a0bb2aeaf809",
+    "Proofs/Execution.lean": "1bfc21f1fefa0ee74884708c5198f58eabc8c300fef2a74020d57e40789e4b45",
+    "Proofs/FP.lean": "c927da4a98322a29f4d82fa4eed27d18d66a0bca624cfc9cfa1d4554939416dd",
+    "Proofs/Frames.lean": "0ecb104352ca79ddf04b258f7b5f5e0a2527d652b7426742c0a8c38008bf18ce",
+    "Proofs/Grid.lean": "00d7dafb2a603a9b01d11ee43a08c09980c544de92ff5a951cd375d340a364ec",
+    "Proofs/Host.lean": "7fe59e31b3fcaded68e0be3e0a80b0b872ea4fcc4453aad4651abf9168117fa8",
+    "Proofs/Initialized.lean": "807edaac2dafb0cc32d827226a7befbb9ff06fb1a3798d7ad46629022f5f4e37",
+    "Proofs/Lowering.lean": "9a23d2e3409a18e25ab0a1bebbaafcbaa57d82072ebcc0ddc03fc5de0d6d383f",
+    "Proofs/Native.lean": "92b259d7b27480b0d1a5888ce957c9d6d38536a14ede0b773e00eb8794bb963c",
+    "Proofs/Packing.lean": "ebf69e7c024c29403a5c9a0929f9c406527a2ca99ecaa1a26017babbe66347b4",
+    "Proofs/Physical.lean": "05d9f27c70c9d3ae8e27caa514f562d307273fd26b8a5b4f8d3bcffdbb13cfbb",
+    "Proofs/Polynomial.lean": "601bb4416ec111154362fa65550f28ca5bea4069e756bad76505ba70959564d2",
+    "Proofs/Readback.lean": "d62cd8f407261354e0cd7f212a9f911eb1f6daa5ec3b6b696ea69149441e4473",
+    "Proofs/Real.lean": "1de0b7b2350606ef31178abd22a526c08a83811fd93eaa018c43654719a66773",
+    "Proofs/Reference.lean": "213392acd8c88af5d691443cf8fe2227740ed42c90beee4d527959f889af66c7",
+    "Proofs/ScalarReal.lean": "ce3c4356f532bf29abe97c5338fb2d9afeefcf80f6d5d3aa543167629d84ee9e",
+    "Proofs/Software.lean": "bb13e61ec4b0a859a0ae38c8a91fe5a4617296df5397365407cb8dc8e172e592",
+    "Proofs/SourceBridge.lean": "35af07ab0fe8232776c490519e20c86d98d75bff91e06bea41f2090415d4f33d",
+    "Proofs/Storage.lean": "74e89f4bb139f4e8edc8c4c13cdda11322eb37588d04bc087ed77ef9451fcd5d"
+  },
+  "cuda_execution": false
+}

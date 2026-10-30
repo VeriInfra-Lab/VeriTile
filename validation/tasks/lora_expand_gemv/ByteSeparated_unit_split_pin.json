@@ -1,0 +1,11 @@
+{
+  "original": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_byte_separated.py",
+  "candidate": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py",
+  "original_sha256": "85f452b177066c749577b51a730ac49b81acd153ed4f5fc6d141762b4075ae03",
+  "candidate_sha256": "c2303e4867a0321a9cf3169d0792802221295691953901a30f1ac3ef6e874cf2",
+  "delta": "split_n_length: tl.cdiv(N,SPLIT_N) -> 1; kernel renamed; all other AST nodes identical",
+  "condition": "Original selected wrapper always passes SPLIT_N=N and returns for B=0 or N=0 before launching",
+  "lean_original": "VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource",
+  "lean_candidate": "VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.unitSplitSource",
+  "check": "bench/repairs/tritonbench_g/lora_expand_gemv/check_unit_split_source.py"
+}

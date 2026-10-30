@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "profiles_replayed": [
+    "fp32",
+    "fp64"
+  ],
+  "kind": "independent process statistical replay; not a GPU or raw-output replay",
+  "summary_sha256": "e71ec34fee62545da75351c3b5715cdeb54aa2b7ad85bbbcb8159792565b5d83"
+}

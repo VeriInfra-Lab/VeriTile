@@ -9,8 +9,10 @@ def batched_vecmat_kernel(
         dim_m, dim_n, dim_k,
         output,
         block_m: tl.constexpr, block_n: tl.constexpr, block_k: tl.constexpr):
-    m_index = tl.program_id(0)
-    n_index = tl.program_id(1)
+    dim_n = tl.cast(dim_n, tl.int64)
+    dim_k = tl.cast(dim_k, tl.int64)
+    m_index = tl.program_id(0).to(tl.int64)
+    n_index = tl.program_id(1).to(tl.int64)
     output_tile = (m_index * block_m + tl.arange(0, block_m))[:, None] * dim_n \
         + (n_index * block_n + tl.arange(0, block_n))[None, :]
 
@@ -36,6 +38,10 @@ def batched_vecmat(
     M, N, K, block_m, block_n, block_k, num_warps=4, num_stages=1
 ):
 
+    for value in (M, N, K, block_m, block_n, block_k, num_warps, num_stages):
+        if type(value) is not int or value < 0:
+            raise ValueError("dimensions, blocks and tuning arguments must be nonnegative integers")
+
     A = torch.randn(M, K, device='cuda', dtype=torch.float32)  # shape: [M, K]
     B = torch.randn(M, N, K, device='cuda', dtype=torch.float32)  # shape: [M, N, K]
     output = torch.zeros(M, N, device='cuda', dtype=torch.float32)  # Output tensor, shape: [M, N]
@@ -60,25 +66,3 @@ def batched_vecmat(
     )
 
     return output
-
-
-
-##################################################################################################################################################
-
-
-# Function 3: Test the correctness of the Triton kernel against the reference implementation
-def test_vecmat():
-    M, N, K = 128, 128, 128
-    block_m, block_n, block_k = 16, 32, 64
-
-    results = {}
-    output = batched_vecmat(M, N, K, block_m, block_n, block_k)
-    results['test_case_1'] = output.clone()  # Store first result
-
-    output2 = batched_vecmat(M, N, K, block_m, block_n, block_k, num_warps=2, num_stages=2)
-    results['test_case_2'] = output2.clone()  # Store second result with different key
-
-    return results
-
-# Run the test
-result_gold = test_vecmat()

@@ -1,3 +1,4 @@
+"""Direct checked FP32 causal context attention; original floating source retained."""
 import torch
 import triton
 import triton.language as tl
@@ -13,19 +14,19 @@ def _fwd_kernel(
     BLOCK_M: tl.constexpr, BLOCK_DMODEL: tl.constexpr,
     BLOCK_N: tl.constexpr,
 ):
-    cur_batch = tl.program_id(0)
-    cur_head = tl.program_id(1)
-    start_m = tl.program_id(2)
+    cur_batch = tl.program_id(0).to(tl.int64)
+    cur_head = tl.program_id(1).to(tl.int64)
+    start_m = tl.program_id(2).to(tl.int64)
 
-    cur_batch_seq_len = tl.load(B_Seqlen + cur_batch)
-    cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch)
+    cur_batch_seq_len = tl.load(B_Seqlen + cur_batch).to(tl.int64)
+    cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch).to(tl.int64)
 
     block_start_loc = BLOCK_M * start_m
 
     # initialize offsets
-    offs_n = tl.arange(0, BLOCK_N)
-    offs_d = tl.arange(0, BLOCK_DMODEL)
-    offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    offs_n = tl.arange(0, BLOCK_N).to(tl.int64)
+    offs_d = tl.arange(0, BLOCK_DMODEL).to(tl.int64)
+    offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M).to(tl.int64)
     off_q = (cur_batch_in_all_start_index + offs_m[:, None]) * stride_qbs + cur_head * stride_qh + offs_d[None, :] * stride_qd
     off_k = offs_n[None, :] * stride_kbs + cur_head * stride_kh + offs_d[:, None] * stride_kd
     off_v = offs_n[:, None] * stride_vbs + cur_head * stride_vh + offs_d[None, :] * stride_vd
@@ -85,105 +86,100 @@ def _fwd_kernel(
     tl.store(out_ptrs, acc, mask=offs_m[:, None] < cur_batch_seq_len)
     return
 
+
+ORIGINAL_SHA256 = "5135592994e22667902175fca73221ce017294706324ef83d73110290dd1d869"
+_I32_MAX = (1 << 31) - 1
+_I64_WORD_MAX = ((1 << 63) - 1) // 4
+
+def _checked_tensor(x, dtype, device, name):
+    if type(x) is not torch.Tensor or x.layout != torch.strided or not x.is_cuda:
+        raise TypeError(f"{name} must be an ordinary strided CUDA Tensor")
+    if x.dtype != dtype or x.device != device:
+        raise TypeError(f"{name} has the wrong dtype or owner device")
+    if x.is_neg() or x.is_conj():
+        raise ValueError(f"{name} must have resolved negative/conjugate flags")
+    if any(s < 0 for s in x.stride()):
+        raise ValueError(f"{name} must have nonnegative strides")
+    if x.storage_offset() < 0 or x.untyped_storage().nbytes() % 4 or x.untyped_storage().nbytes() >= 1 << 63:
+        raise ValueError(f"{name} has an invalid four-byte storage ABI")
+    if x.numel() and x.data_ptr() % 4:
+        raise ValueError(f"{name} requires a four-byte aligned data pointer")
+    if x.numel():
+        last = x.storage_offset() + sum((n - 1) * s for n, s in zip(x.shape, x.stride()))
+        if last >= x.untyped_storage().nbytes() // 4:
+            raise ValueError(f"{name} view exceeds its allocation")
+
+
+def _formed_bound(x, shape):
+    # Includes masked, formed pointers; the bound is checked before the launch.
+    bound = x.storage_offset() + sum(max(n - 1, 0) * s for n, s in zip(shape, x.stride()))
+    if bound > _I64_WORD_MAX or any(s > _I64_WORD_MAX for s in x.stride()):
+        raise ValueError("formed pointer arithmetic exceeds signed INT64 byte range")
+
+
 @torch.no_grad()
 def context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len):
-    BLOCK = 128
-    # shape constraints
-    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]
-    assert Lq == Lk and Lk == Lv
-    assert Lk in {16, 32, 64, 128}
-
-    sm_scale = 1.0 / (Lq**0.5)  # Compute the scale factor.
-    batch, head = b_seq_len.shape[0], q.shape[1]
-
-    grid = (batch, head, triton.cdiv(max_input_len, BLOCK))  # batch, head,
-
-    num_warps = 4 if Lk <= 64 else 8
-    _fwd_kernel[grid](
-        q, k, v, sm_scale, b_start_loc, b_seq_len,
-        o,
-        q.stride(0), q.stride(1), q.stride(2),
-        k.stride(0), k.stride(1), k.stride(2),
-        v.stride(0), v.stride(1), v.stride(2),
-        o.stride(0), o.stride(1), o.stride(2),
-        BLOCK_M=BLOCK,
-        BLOCK_DMODEL=Lk,
-        BLOCK_N=BLOCK,
-        num_warps=num_warps,
-        num_stages=1,
-    )
-    return
-
-
-
-
-
-##################################################################################################################################################
-
-
-def test_context_attention_fwd():
-    Z, H, N_CTX, D_HEAD = 4, 6, 1024, 128
-    dtype = torch.float16
-    Z = 3
-    q = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.1, std=0.2)
-    k = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.4, std=0.2)
-    v = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.3, std=0.2)
-    o = torch.empty((Z * N_CTX, H, D_HEAD), dtype=dtype, device="cuda").normal_(mean=0.3, std=0.2)
-
-    max_input_len = N_CTX
-    Z = 4
-    b_start_loc = torch.zeros((Z,), dtype=torch.int32, device="cuda")
-    b_seq_len = torch.ones((Z,), dtype=torch.int32, device="cuda")
-
-    b_seq_len[0] = 512
-    b_seq_len[1] = 1024
-    b_seq_len[2] = 512
-    b_seq_len[3] = 1024
-
-    for i in range(1, Z):
-        b_start_loc[i] = b_start_loc[i - 1] + b_seq_len[i - 1]
-
-    # case 1: Normal call with the given setup (should run without issue)
-    result_case_1 = {}
-    context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len)
-    result_case_1['normal'] = o.clone()
-
-    # case 2: Alter max_input_len, making it smaller or larger to check boundary conditions
-    max_input_len_case_2 = 512
-    result_case_2 = {}
-    context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len_case_2)
-    result_case_2['max_input_len_512'] = o.clone()
-
-    # case 3: Modify batch size Z to test larger batch processing
-    Z_case_3 = 8  # larger batch size
-    b_start_loc_case_3 = torch.zeros((Z_case_3,), dtype=torch.int32, device="cuda")
-    b_seq_len_case_3 = torch.ones((Z_case_3,), dtype=torch.int32, device="cuda")
-    b_seq_len_case_3[0] = 512
-    b_seq_len_case_3[1] = 1024
-    for i in range(1, Z_case_3):
-        b_start_loc_case_3[i] = b_start_loc_case_3[i - 1] + b_seq_len_case_3[i - 1]
-
-    result_case_3 = {}
-    context_attention_fwd(q, k, v, o, b_start_loc_case_3, b_seq_len_case_3, max_input_len)
-    result_case_3['batch_size_8'] = o.clone()
-
-    # case 4: Test with different sequence lengths to check handling of varying sequence lengths
-    b_seq_len_case_4 = torch.tensor([512, 256, 1024, 512], dtype=torch.int32, device="cuda")
-    b_start_loc_case_4 = torch.zeros((4,), dtype=torch.int32, device="cuda")
-    for i in range(1, 4):
-        b_start_loc_case_4[i] = b_start_loc_case_4[i - 1] + b_seq_len_case_4[i - 1]
-
-    result_case_4 = {}
-    context_attention_fwd(q, k, v, o, b_start_loc_case_4, b_seq_len_case_4, max_input_len)
-    result_case_4['varying_seq_len'] = o.clone()
-
-    # Return all results in a dictionary
-    return {
-        'result_case_1': result_case_1,
-        'result_case_2': result_case_2,
-        'result_case_3': result_case_3,
-        'result_case_4': result_case_4
-    }
-
-# Execute and save results
-result_gold = test_context_attention_fwd()
+    """Update the supplied contiguous FP32 output and return None."""
+    if type(q) is not torch.Tensor:
+        raise TypeError("q must be an ordinary Tensor")
+    owner = q.device
+    for name, tensor in (("q", q), ("k", k), ("v", v), ("o", o)):
+        _checked_tensor(tensor, torch.float32, owner, name)
+        if tensor.ndim != 3 or tensor.shape != q.shape or not tensor.is_contiguous():
+            raise ValueError("Q/K/V/Out must be contiguous tensors of one [T,H,D] shape")
+    for name, tensor in (("b_start_loc", b_start_loc), ("b_seq_len", b_seq_len)):
+        _checked_tensor(tensor, torch.int32, owner, name)
+        if tensor.ndim != 1 or not tensor.is_contiguous():
+            raise ValueError("metadata must have a contiguous int32 vector ABI")
+    if b_start_loc.shape != b_seq_len.shape:
+        raise ValueError("metadata vector lengths differ")
+    rows, heads, dimension = q.shape
+    batch = b_seq_len.numel()
+    if dimension not in (16, 32, 64, 128) or heads <= 0:
+        raise ValueError("unsupported head dimensions")
+    # Canonical strides make the direct logical-to-pointer mapping explicit.
+    for tensor in (q, k, v, o):
+        if tensor.stride() != (heads * dimension, dimension, 1):
+            raise ValueError("payload tensors must have canonical contiguous strides")
+    if type(max_input_len) is not int or not 0 <= max_input_len <= _I32_MAX:
+        raise ValueError("max_input_len must be a nonnegative signed-INT32 Python int")
+    if batch > _I32_MAX or heads > 65535:
+        raise ValueError("batch/head grid exceeds the native CUDA axis limits")
+    for tensor in (q, k, v, o):
+        _formed_bound(tensor, (rows + max_input_len + 128, heads, dimension))
+    for tensor in (b_start_loc, b_seq_len):
+        _formed_bound(tensor, tensor.shape)
+    if batch == 0:
+        return None
+    def separate(a, b):
+        sa, sb = a.untyped_storage(), b.untyped_storage()
+        return (sa.nbytes() == 0 or sb.nbytes() == 0 or
+                sa.data_ptr() + sa.nbytes() <= sb.data_ptr() or
+                sb.data_ptr() + sb.nbytes() <= sa.data_ptr())
+    if any(not separate(o, t) for t in (q, k, v, b_start_loc, b_seq_len)):
+        raise ValueError("output backing storage must be disjoint from every read role")
+    with torch.cuda.device(owner):
+        starts = b_start_loc.cpu().tolist()
+        lengths = b_seq_len.cpu().tolist()
+        intervals = []
+        for start, length in zip(starts, lengths):
+            if start < 0 or length < 0 or length > max_input_len or start + length > rows:
+                raise ValueError("invalid sequence metadata or insufficient query capacity/max_input_len")
+            if length:
+                intervals.append((start, start + length))
+        intervals.sort()
+        if any(left[1] > right[0] for left, right in zip(intervals, intervals[1:])):
+            raise ValueError("packed output row intervals must not overlap")
+        maximum = max(lengths, default=0)
+        if maximum == 0:
+            return None
+        blocks = triton.cdiv(maximum, 128)
+        if blocks > 65535:
+            raise ValueError("query tile grid exceeds the native CUDA z limit")
+        _fwd_kernel[(batch, heads, blocks)](
+            q, k, v, 1.0 / (dimension ** 0.5), b_start_loc, b_seq_len, o,
+            *q.stride(), *k.stride(), *v.stride(), *o.stride(),
+            BLOCK_M=128, BLOCK_DMODEL=dimension, BLOCK_N=128,
+            num_warps=4 if dimension <= 64 else 8, num_stages=1,
+        )
+    return None

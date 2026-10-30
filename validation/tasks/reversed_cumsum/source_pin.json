@@ -1,0 +1,46 @@
+{
+  "port": "reversed_cumsum",
+  "source_file": "reversed_cumsum.py",
+  "source_url": "https://raw.githubusercontent.com/thunlp/TritonBench/603e28a/data/TritonBench_G_v1/reversed_cumsum.py",
+  "source_sha256": "28e2c4e324b0098cac1aec32d11a0883dbebc491564f20674f6f08f1939fe314",
+  "source_target": "chunk_global_reversed_cumsum_vector_kernel",
+  "lean_source": "Proofs/Source.lean",
+  "lean_selector": "reversedVectorSource%",
+  "lean_selector_args": {"version": "original"},
+  "source_body_ast_checks_complete": true,
+  "public_proof_composition_complete": true,
+  "public_axiom_gates": 8,
+  "fp_assumptions": [],
+  "legacy_repair": {
+    "file": "Proofs/LegacyReal.lean",
+    "source_ast_changed": false,
+    "statement_change": "Require an explicit zero input oracle for historical single-block closed forms; the complete public real contract remains valid for arbitrary oracles",
+    "affected_statements": [
+      "reversed_cumsum_single_block_surface_correct",
+      "reversed_cumsum_single_block_surface_compute_correct",
+      "reversed_cumsum_single_block_surface_active_closed_form",
+      "reversed_cumsum_output_summary_general"
+    ]
+  },
+  "proved_scope": {
+    "source_and_candidate": "Complete per-program JIT bodies, including signed reverse range and every cast/load/dot/store/carry update",
+    "real_execution": "All time dimensions including zero; arbitrary initial input and unspecified-value oracle; positive BT, distinct input/output regions, injective active output addresses",
+    "real_formula": "Initial input suffix plus the exact unspecified time-tail sum",
+    "frame": "All tagged region cells outside active output writes",
+    "finite_io": "Complete flattened source execution, active conventional suffix outputs and all physical-cell tags; explicit zero oracle, disjoint allocation and active bounds",
+    "typed_fp": "All independent FloatDType input/output choices, shapes, initial states and arithmetic algebras; equality of complete typed execution results",
+    "typed_success": "Independent bf16 input and fp16 output, arbitrary layouts and initial states in an explicit WithBot-real algebra with actual dot and reduction operations",
+    "concrete_typed_witness": {"T": 17, "S": 33, "BT": 16, "BS": 32, "program_id_0": 1, "program_id_1": 1, "input": 2, "unspecified_value": 7}
+  },
+  "native_checks_scope": "Offline compiler admission and IR inspection only; vector autotune/storage/tail matrix uses i32 runtime strides",
+  "remaining_boundaries": [
+    "Formal IEEE arithmetic and native compiler refinement",
+    "Runtime scalar ABI and fixed-width index no-overflow refinement",
+    "Host empty_like output layout compatibility and batch/head stride relation",
+    "Arbitrary noncontiguous PyTorch wrapper inputs",
+    "Launch-wide composition and autotuner selection",
+    "Independent end-to-end source acceptance and proof replay"
+  ],
+  "source_acceptance_complete": false,
+  "complete_task": false
+}

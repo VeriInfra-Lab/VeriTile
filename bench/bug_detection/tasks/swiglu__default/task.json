@@ -1,0 +1,100 @@
+{
+  "schema_version": 3,
+  "id": "swiglu__default",
+  "suite": "positive_variant",
+  "family": "linear_activation",
+  "description": "separate eager GEMMs/SiLU versus packed fc1 and compiled SwiGLU",
+  "lean": {
+    "namespace": "VeriTile.Bench.BugDetection.swiglu__default",
+    "inputs": "tasks/swiglu__default/IO.lean",
+    "programs": "tasks/swiglu__default/Kernels.lean",
+    "contract": "tasks/swiglu__default/Contract.lean",
+    "real_problem": "tasks/swiglu__default/Correct.lean",
+    "problem": "tasks/swiglu__default/FPEquiv.lean",
+    "backend_connection": "tasks/swiglu__default/Proofs/Backend.lean",
+    "validation": "tasks/swiglu__default/Misc/Validation.lean",
+    "correctness_goal": "correctnessProblem",
+    "equivalence_goal": "equivalenceProblem",
+    "inequivalence_goal": "inequivalenceProblem",
+    "counterexample_goal": "counterexampleProblem"
+  },
+  "configuration": {
+    "values": {
+      "inputScaleNum": 1,
+      "inputScaleDen": 1,
+      "generatorScale": 1,
+      "shiftNum": 1,
+      "shiftDen": 10,
+      "dtype": "bf16",
+      "n": 16,
+      "hidden": 2048,
+      "intermediate": 6144,
+      "expertIntermediate": 640,
+      "sharedIntermediate": 512,
+      "experts": 128,
+      "topK": 6,
+      "heads": 16,
+      "kvHeads": 16,
+      "seq": 16,
+      "headDim": 128,
+      "vocab": 1024,
+      "chunks": 8,
+      "block": 16
+    },
+    "scope": "fixed_complete_problem"
+  },
+  "problem_kind": "backend_rewrite",
+  "real_expectation": "equivalent_expected_under_domain",
+  "status": "LEAN_CHALLENGE",
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "self_contained": true,
+  "interface": {
+    "inputs": [
+      {
+        "name": "x",
+        "shape": [
+          16,
+          2048
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "gate",
+        "shape": [
+          6144,
+          2048
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "up",
+        "shape": [
+          6144,
+          2048
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "down",
+        "shape": [
+          2048,
+          6144
+        ],
+        "dtype": "bf16"
+      }
+    ],
+    "output_shape": [
+      16,
+      2048
+    ],
+    "output_precision": [
+      "bf16",
+      "bf16"
+    ],
+    "scratch": []
+  },
+  "source_translation_status": "PENDING",
+  "source_layer": "standard_triton_lowering"
+}

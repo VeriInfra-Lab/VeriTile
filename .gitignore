@@ -1,5 +1,8 @@
 # Lake build artifacts and downloaded packages
-/.lake/
+/.lake
+/verso/.lake/
+/verso/_site/
+/.veritile-cache/bug-detection-build/
 
 # macOS
 .DS_Store
@@ -24,9 +27,15 @@
 /scripts/claude-miromind.sh
 
 # Astro / Starlight docs site build artifacts
-/site/node_modules/
+/site/node_modules
 /site/dist/
 /site/.astro/
 
 # Python bytecode caches (py_compile / import of the bench ports)
 __pycache__/
+
+# Returned FP experiment bundles contain large measurements and compiler output.
+/experiments/floating_point/results/
+
+# Local historical review snapshots moved out of the published checkpoint set.
+/.local-review-archive/
