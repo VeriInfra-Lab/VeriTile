@@ -65,48 +65,65 @@ def matmul(a, b, activation=""):
     M, K = a.shape
     K, N = b.shape
     c = torch.empty((M, N), device=a.device, dtype=torch.float16)
+    if c.data_ptr() + 2 * (triton.cdiv(M, 32) * 32 * max(N, 1) + triton.cdiv(N, 32) * 32) >= 2**64:
+        raise ValueError("formed output byte pointers exceed uint64")
     grid = lambda META: (triton.cdiv(M, META['BLOCK_SIZE_M']) * triton.cdiv(N, META['BLOCK_SIZE_N']), )
-    matmul_kernel[grid](
-        a, b, c,
-        M, N, K,
-        a.stride(0), a.stride(1),
-        b.stride(0), b.stride(1),
-        c.stride(0), c.stride(1),
-        BLOCK_SIZE_M=32, BLOCK_SIZE_N=32, BLOCK_SIZE_K=32,
-        GROUP_SIZE_M=4,
-        ACTIVATION=activation
-    )
+    with torch.cuda.device(a.device):
+        matmul_kernel[grid](
+            a, b, c,
+            M, N, K,
+            a.stride(0), a.stride(1),
+            b.stride(0), b.stride(1),
+            c.stride(0), c.stride(1),
+            BLOCK_SIZE_M=32, BLOCK_SIZE_N=32, BLOCK_SIZE_K=32,
+            GROUP_SIZE_M=4,
+            ACTIVATION=activation
+        )
     return c
 
+_unchecked_matmul = matmul
 
 
-##################################################################################################################################################
-
-
-def test_matmul():
-    # Set random seed for reproducibility
-    torch.manual_seed(0)
-
-    # Define matrix dimensions
-    M, K, N = 64, 128, 64
-
-    # Create random matrices A and B
-    a = torch.randn((M, K), device='cuda', dtype=torch.float16)
-    b = torch.randn((K, N), device='cuda', dtype=torch.float16)
-
-    # Compute matrix multiplication using Triton with leaky_relu activation
-    c_triton_leaky_relu = matmul(a, b, activation="leaky_relu")
-
-    # Compute matrix multiplication using Triton without activation
-    c_triton_no_activation = matmul(a, b, activation="")
-
-    # Store results in a dictionary
-    results = {
-        "test_case_1": c_triton_leaky_relu,
-        "test_case_2": c_triton_no_activation
-    }
-    
-    return results
-
-# Run the test
-result_gold = test_matmul()
+def matmul(a, b, activation=""):
+    """Checked FP32 input contract; the original kernel and FP16 output are retained."""
+    if not isinstance(a, torch.Tensor) or not isinstance(b, torch.Tensor):
+        raise TypeError("a and b must be tensors")
+    if a.layout != torch.strided or b.layout != torch.strided:
+        raise ValueError("a and b must have strided layout")
+    if a.ndim != 2 or b.ndim != 2:
+        raise ValueError("a and b must have rank two")
+    if a.dtype != torch.float32 or b.dtype != torch.float32:
+        raise TypeError("a and b must be FP32")
+    if not a.is_cuda or not b.is_cuda or a.device != b.device:
+        raise ValueError("a and b must be on the same CUDA device")
+    if a.shape[1] != b.shape[0]:
+        raise ValueError("incompatible dimensions")
+    if not a.is_contiguous():
+        raise ValueError("a must be contiguous")
+    if a.is_neg() or b.is_neg():
+        raise ValueError("unresolved negative views are unsupported")
+    if type(activation) is not str:
+        raise TypeError("activation must be a string")
+    if any(x.numel() and x.data_ptr() % 4 for x in (a, b)):
+        raise ValueError("nonempty FP32 inputs must have four-byte aligned data pointers")
+    m, k = a.shape
+    _, n = b.shape
+    am, ak = a.stride()
+    bk, bn = b.stride()
+    limit = 2**31
+    if min(am, ak, bk, bn) < 0:
+        raise ValueError("negative strides are unsupported")
+    rows = triton.cdiv(m, 32)
+    cols = triton.cdiv(n, 32)
+    padded_k = triton.cdiv(k, 32) * 32
+    if (m + 32 >= limit or n + 32 >= limit or k + 32 >= limit
+            or max(am, ak, bk, bn) >= limit
+            or rows * cols >= limit or 4 * cols >= limit
+            or m * am + (padded_k + 32) * ak >= limit
+            or (padded_k + 32) * bk + n * bn >= limit
+            or rows * 32 * max(n, 1) + cols * 32 >= limit):
+        raise ValueError("formed indices exceed the source int32 domain")
+    if (a.data_ptr() + 4 * (m * am + (padded_k + 32) * ak) >= 2**64
+            or b.data_ptr() + 4 * ((padded_k + 32) * bk + n * bn) >= 2**64):
+        raise ValueError("formed input byte pointers exceed uint64")
+    return _unchecked_matmul(a, b, activation)

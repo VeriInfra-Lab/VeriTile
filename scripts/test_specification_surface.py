@@ -19,7 +19,7 @@ def lean(path):
 class SpecificationSurfaceTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        result = lean(ROOT / "bench/tests/SpecificationSurface.lean")
+        result = lean(ROOT / "tests/lean/SpecificationSurface.lean")
         if result.returncode:
             raise AssertionError(result.stdout + result.stderr)
         cls.output = result.stdout
@@ -72,7 +72,7 @@ class SpecificationSurfaceTests(unittest.TestCase):
         self.assertIn("synthetic; no experiment performed", report)
 
     def test_compact_view_preserves_pending_status_and_premises(self):
-        source = (ROOT / 'bench/tests/SpecificationSurface.lean').read_text()
+        source = (ROOT / 'tests/lean/SpecificationSurface.lean').read_text()
         source = source.split('@[spec_rule] theorem localRule')[0]
         source += '\n#print_spec pendingConditional\n#print_spec ideal\nend SpecificationSurface\n'
         with tempfile.TemporaryDirectory() as directory:
@@ -171,7 +171,7 @@ specification headline : VeriTile.Spec.Real (op = op) := rfl
         self.assertNotIn("sorryAx", self.output)
         self.assertNotIn("DISALLOWED", self.output)
         for fixture in ("StatementAudit.lean", "ModuleHeadlineAudit.lean"):
-            result = lean(ROOT / "bench/tests" / fixture)
+            result = lean(ROOT / "tests/lean" / fixture)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_nonstandard_axiom_hidden_by_a_helper_is_reported(self):

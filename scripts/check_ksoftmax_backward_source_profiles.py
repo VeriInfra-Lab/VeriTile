@@ -20,8 +20,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from bench import audit_source as source
-from bench.source_control_materializations import _brace_body
+from scripts.bench import audit_source as source
+from scripts.bench.source_control_materializations import _brace_body
 
 PORT = ROOT / 'bench/tritonbench_g/ksoftmax_triton'
 ENTRY = PORT / 'Proofs/BackwardSource.lean'
@@ -83,8 +83,8 @@ def main():
     args = parser.parse_args()
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
-    inputs = {ENTRY, PYTHON, Path(__file__).resolve(), ROOT / 'bench/audit_source.py',
-              ROOT / 'bench/source_control_materializations.py'}
+    inputs = {ENTRY, PYTHON, Path(__file__).resolve(), ROOT / 'scripts/bench/audit_source.py',
+              ROOT / 'scripts/bench/source_control_materializations.py'}
     captured = {p: p.read_bytes() for p in sorted(inputs)}
     for path, data in captured.items():
         target = output / 'sources' / path.relative_to(ROOT)

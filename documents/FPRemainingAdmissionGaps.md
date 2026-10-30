@@ -7,7 +7,7 @@ the split is 10 with experimental rules and 11 without them; HyperConnectionsWid
 has one strict scalar specification and one experimental matrix specification.
 See the [example index](../bench/examples/README.md) for the individual entries.
 
-The [task ledger](../bench/tritonbench_g/task_progress.json) tracks 183 tasks:
+The [task ledger](../validation/task_progress.json) tracks 183 tasks:
 **183 accepted actual kernel pairs: 182 completed and 1 completed with deferred
 numerical evidence**. Of those 183 pairs, 178 use strict-model/structural proofs,
 4 use the existing FP32 DIV-MUL-RCP admission (`apply_penalty`,
@@ -16,10 +16,10 @@ depends on one deferred local dot/add-to-dotAcc rule. The deferred rule is `MATM
 `matmul_leakyrelu.fp32.tf32.k32.live_acc.all_words.v1`. Both gates are `NOT_RUN`,
 with no evidence artifact; the complete program proof explicitly depends on
 future local evidence/admission. See its
-[precision, applicability domain and experiment plan](../bench/repairs/tritonbench_g/matmul_leakyrelu/KernelOnly/NUMERICAL_VALIDATION.md).
+[precision, applicability domain and experiment plan](../validation/tasks/matmul_leakyrelu/NUMERICAL_VALIDATION.md).
 The current auxiliary experiment queue is empty. Program-proof gaps cannot be
 reclassified as numerical deferrals. Per-task formulas, domains, actual program pairs and proof scope are recorded in
-the [final contract review](../bench/validation/contracts.json). Current build
+the [final contract review](../validation/contracts.json). Current build
 and replay results are checked independently by CI.
 
 ## Available catalogue and actual use

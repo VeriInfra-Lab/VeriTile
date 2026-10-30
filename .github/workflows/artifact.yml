@@ -61,7 +61,7 @@ jobs:
         uses: leanprover/lean-action@v1
         with:
           build: true
-          build-args: "VeriTile VeriTileFull bench.examples.VectorAdd.Kernels bench.tritonbench_g.softmax_triton1.Kernels"
+          build-args: "VeriTile VeriTileFull bench.examples.VectorAdd.Kernels bench.tritonbench_g.softmax_triton1.Proofs.Mathematical_Kernels"
           test: false
           lint: false
           use-mathlib-cache: auto
@@ -74,37 +74,37 @@ jobs:
 
       - name: Check audit and documentation regressions
         run: |
-          lake build bench.tests.StatementAudit
-          lake build bench.tests.KernelIOProjection
-          lake build bench.tests.DTypeResolution
-          lake build bench.tests.FloatNegativeScalar
-          lake build bench.tests.Float32FiniteDecode
-          lake build bench.tests.PhiloxRandom
-          lake build bench.tests.PhiloxRandOp
-          lake build bench.tests.RandomFrontend
-          lake build bench.tests.DirectRandomFrontend
-          lake build bench.tests.ConditionalCast
-          lake build bench.tests.BuiltinFloatZero
-          lake build bench.tests.RegisterDTypeWhere
-          lake build bench.tests.PointerElementCast
-          lake build bench.tests.ReverseRange
-          lake build bench.tests.UnsignedIntegerCast
-          lake build bench.tests.SignedBitwise
-          lake build bench.tests.FloatRuntimeScalar
-          lake build bench.tests.FloatDivisionPromotion
-          lake build bench.tests.SignedRangeAddressInference
-          lake build bench.tests.SignedLoadCast
-          lake build bench.tests.LibdevicePowi
-          lake build bench.tests.LibdevicePowiDynamic
-          lake build bench.tests.KldivRuntimeEpsilon
-          lake build bench.tests.ModuleSpecAudit
-          lake build bench.tests.ModuleHeadlineAudit
+          lake build tests.lean.StatementAudit
+          lake build tests.lean.KernelIOProjection
+          lake build tests.lean.DTypeResolution
+          lake build tests.lean.FloatNegativeScalar
+          lake build tests.lean.Float32FiniteDecode
+          lake build tests.lean.PhiloxRandom
+          lake build tests.lean.PhiloxRandOp
+          lake build tests.lean.RandomFrontend
+          lake build tests.lean.DirectRandomFrontend
+          lake build tests.lean.ConditionalCast
+          lake build tests.lean.BuiltinFloatZero
+          lake build tests.lean.RegisterDTypeWhere
+          lake build tests.lean.PointerElementCast
+          lake build tests.lean.ReverseRange
+          lake build tests.lean.UnsignedIntegerCast
+          lake build tests.lean.SignedBitwise
+          lake build tests.lean.FloatRuntimeScalar
+          lake build tests.lean.FloatDivisionPromotion
+          lake build tests.lean.SignedRangeAddressInference
+          lake build tests.lean.SignedLoadCast
+          lake build tests.lean.LibdevicePowi
+          lake build tests.lean.LibdevicePowiDynamic
+          lake build tests.lean.KldivRuntimeEpsilon
+          lake build tests.lean.ModuleSpecAudit
+          lake build tests.lean.ModuleHeadlineAudit
           python3 -m unittest discover -s scripts -p 'test_audit_gates.py'
           python3 -m unittest discover -s scripts -p 'test_doc_api.py'
           python3 -m unittest discover -s scripts -p 'test_coverage_review.py'
-          python3 bench/coverage_review.py
+          python3 scripts/bench/coverage_review.py
           python3 scripts/test_check_comparator.py
 
       # The complete selected corpus is independently replayed by Bench audit.
       - name: Check final corpus membership and scope
-        run: python3 -B bench/final_inventory.py --check
+        run: python3 -B scripts/bench/final_inventory.py --check

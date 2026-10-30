@@ -148,7 +148,7 @@ uses explicit fp32 computation. Each checks both actual operand tiles after
 the common prefix and uses only `mul_commute`. `equiv_decompose` locates the
 changed assignment and `fp_prove` applies the corresponding contextual lemma,
 preserving loads, casts, subsequent scans, stores and execution failures.
-`bench/tests/FPBroadcastMultiplication.lean` checks both precision paths with
+`tests/lean/FPBroadcastMultiplication.lean` checks both precision paths with
 mixed input storage and unchanged cumulative scan/writeback.
 
 The `vector_addition_custom/FPEquiv.lean` benchmark keeps its addition directly
@@ -210,7 +210,7 @@ The in-progress `attention_fwd_triton1/Proofs/FP.lean` uses this path for its
 complete fp32 sources, with arbitrary dimensions and both branch flags. Its
 only numerical atom is `mul_commute` at the loaded query/scale multiplication.
 The explicit fp32 cast remains opaque on both sides; removing it or changing
-the compute precision is not covered. `bench/tests/FPRangeRewrite.lean` checks
+the compute precision is not covered. `tests/lean/FPRangeRewrite.lean` checks
 these failure boundaries, nested loops, common inserted statements and an
 execution whose first operands are finite but whose next operands are not.
 

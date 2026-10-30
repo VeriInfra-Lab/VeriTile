@@ -273,7 +273,7 @@ bundled as `strippedBackward_tile_bridges_complete`,
 - 113 `.lean` files under `VeriTile/` (~58.6k lines); 145 `.lean` files including `bench/` (~63.2k lines)
 - Whole library 0 sorry
 - `lake build` clean
-- `bench/check_ports.sh` 32/32 ok
+- `scripts/bench/check_ports.sh` 32/32 ok
 
 ## In progress
 
@@ -557,5 +557,5 @@ To make the close-rate metric reproducible:
 
 Active execution is tracked in pinned roadmap issue #1 (layered) and the
 linked per-task issues. Long-form design documents that survive an
-implementation phase are filed under [`documents/`](./documents); closed-phase
-design notes live in [`documents/archive/`](./documents/archive/).
+implementation phase are filed under [`documents/`](documents); closed-phase
+design notes live in [`documents/archive/`](documents/archive).

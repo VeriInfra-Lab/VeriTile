@@ -1,92 +1,122 @@
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
-import Mathlib.Algebra.BigOperators.Fin
-import Mathlib.Algebra.Order.Floor.Div
-import VeriTile.Meta.StatementAudit
+import bench.tritonbench_g.kldiv_triton.Proofs.Mathematical_Math
 
-namespace VeriTile.Bench.TritonBenchG.KldivTriton.FullMath
+namespace VeriTile.Bench.Repairs.KldivTriton.Math
 open scoped BigOperators
+set_option autoImplicit false
 noncomputable section
 
-/-- Independent source formula: this kernel has no epsilon clamp. -/
+inductive Mode where
+  | none | sum | mean | batchmean
+  deriving DecidableEq
+
+/-- Independent logical KL term. The probability-zero extension is explicit;
+the Real formula is total and makes no assertion about native NaN arithmetic. -/
 def loss (logTarget : Bool) (prediction target : ℝ) : ℝ :=
   if logTarget then Real.exp target * (target - prediction)
-  else target * (Real.log target - prediction)
+  else if target = 0 then 0 else target * (Real.log target - prediction)
 
-/-- The backward kernel precedes the wrapper's optional gradient scaling. -/
 def gradient (logTarget : Bool) (target : ℝ) : ℝ :=
   if logTarget then -Real.exp target else -target
 
-/-- Real padding vanishes; this theorem makes no claim about IEEE 0*log(0). -/
-theorem loss_zero (logTarget : Bool) : loss logTarget 0 0 = 0 := by
-  cases logTarget <;> simp [loss]
+def total (rows cols : Nat) (flag : Bool) (prediction target : Nat → Nat → ℝ) : ℝ :=
+  ∑ r : Fin rows, ∑ c : Fin cols, loss flag (prediction r.val c.val) (target r.val c.val)
 
-def paddedLoss (logTarget : Bool) (prediction target : Nat → ℝ) (N k : Nat) : ℝ :=
-  loss logTarget (if k < N then prediction k else 0) (if k < N then target k else 0)
+def reduced (mode : Mode) (rows cols : Nat) (flag : Bool)
+    (prediction target : Nat → Nat → ℝ) : ℝ :=
+  let value := total rows cols flag prediction target
+  match mode with
+  | .none | .sum => value
+  | .mean => value / (rows * cols : Nat)
+  | .batchmean => value / rows
 
-theorem paddedLoss_eq (logTarget : Bool) (prediction target : Nat → ℝ) (N k : Nat) :
-    paddedLoss logTarget prediction target N k =
-      if k < N then loss logTarget (prediction k) (target k) else 0 := by
-  by_cases h : k < N <;> simp [paddedLoss, h, loss_zero]
+theorem loss_original (flag : Bool) (prediction target : ℝ) :
+    loss flag prediction target =
+      VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.loss flag prediction target := by
+  cases flag <;> by_cases zero : target = 0 <;>
+    simp [loss, VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.loss, zero]
 
-/-- Each nonzero-reduction store contains this block's sum, not a whole-row sum. -/
-def chunkLoss (logTarget : Bool) (prediction target : Nat → ℝ) (N B chunk : Nat) : ℝ :=
-  ∑ lane : Fin B, paddedLoss logTarget prediction target N (chunk * B + lane.val)
+theorem gradient_original (flag : Bool) (target : ℝ) :
+    gradient flag target = VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.gradient flag target := rfl
 
-/-- Actual number of positive-stride loop iterations. -/
-def rounds (N B : Nat) : Nat := (N + B - 1) / B
+theorem raw_zero (prediction : ℝ) : loss Bool.false prediction 0 = 0 := by simp [loss]
 
-theorem rounds_cover (N B : Nat) (hB : 0 < B) : N ≤ rounds N B * B := by
-  have h := (ceilDiv_le_iff_le_mul (a := B) (b := N) hB).mp
-    (show N ⌈/⌉ B ≤ N ⌈/⌉ B from le_rfl)
-  simpa only [rounds, Nat.ceilDiv_eq_add_pred_div, Nat.mul_comm] using h
+theorem empty_total (cols : Nat) (flag : Bool) (prediction target : Nat → Nat → ℝ) :
+    total 0 cols flag prediction target = 0 := by simp [total]
 
-theorem rounds_le_iff (N B c : Nat) (hB : 0 < B) :
-    rounds N B ≤ c ↔ N ≤ c * B := by
-  simpa only [rounds, Nat.ceilDiv_eq_add_pred_div, Nat.mul_comm] using
-    (ceilDiv_le_iff_le_mul (a := B) (b := N) (c := c) hB)
+theorem empty_columns (rows : Nat) (flag : Bool) (prediction target : Nat → Nat → ℝ) :
+    total rows 0 flag prediction target = 0 := by simp [total]
 
-theorem lt_rounds_iff (N B c : Nat) (hB : 0 < B) :
-    c < rounds N B ↔ c * B < N := by
-  have h := rounds_le_iff N B c hB
-  omega
+theorem sum_ranges_mul (chunks block : Nat) (f : Nat → ℝ) :
+    (∑ k ∈ Finset.range chunks, ∑ j ∈ Finset.range block, f (k * block + j)) =
+      ∑ i ∈ Finset.range (chunks * block), f i := by
+  induction chunks with
+  | zero => simp
+  | succ k ih =>
+    rw [Finset.sum_range_succ, ih, Nat.succ_mul, Finset.sum_range_add]
 
-@[simp] theorem rounds_zero (B : Nat) : rounds 0 B = 0 := by
-  cases B with
-  | zero => simp [rounds]
-  | succ b => simp [rounds, Nat.div_eq_of_lt (Nat.lt_succ_self b)]
+theorem padded_sum (cols capacity : Nat) (h : cols ≤ capacity) (f : Nat → ℝ) :
+    (∑ j ∈ Finset.range capacity, if j < cols then f j else 0) =
+      ∑ j ∈ Finset.range cols, f j := by
+  rw [show capacity = cols + (capacity - cols) by omega, Finset.sum_range_add]
+  have first : (∑ j ∈ Finset.range cols, if j < cols then f j else 0) =
+      ∑ j ∈ Finset.range cols, f j := by
+    apply Finset.sum_congr rfl
+    intro j hj
+    exact if_pos (Finset.mem_range.mp hj)
+  have tail : (∑ j ∈ Finset.range (capacity - cols),
+      if cols + j < cols then f (cols + j) else 0) = 0 := by
+    apply Finset.sum_eq_zero
+    intro j _
+    exact if_neg (by omega)
+  rw [first, tail, add_zero]
 
-/-- Actual forward footprint length. An empty reduced row has no final scalar store. -/
-def outputCount (N B reduction : Nat) : Nat := if reduction = 0 then N else rounds N B
+/-- Summing the actual per-chunk outputs covers every logical column once.
+This is a Real theorem; native sums retain their separate addition schedules. -/
+theorem chunks_total (cols block : Nat) (hBlock : 0 < block) (flag : Bool)
+    (prediction target : Nat → ℝ) :
+    (∑ k : Fin (VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.rounds cols block),
+      VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.chunkLoss
+        flag prediction target cols block k.val) =
+      ∑ c : Fin cols, loss flag (prediction c.val) (target c.val) := by
+  simp only [VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.chunkLoss,
+    VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.paddedLoss_eq,
+    ← loss_original]
+  rw [Fin.sum_univ_eq_sum_range (fun k => ∑ j : Fin block,
+    if k * block + j.val < cols then
+      loss flag (prediction (k * block + j.val)) (target (k * block + j.val)) else 0)]
+  have inner (k : Nat) : (∑ j : Fin block, if k * block + j.val < cols then
+      loss flag (prediction (k * block + j.val)) (target (k * block + j.val)) else 0) =
+      ∑ j ∈ Finset.range block, if k * block + j < cols then
+        loss flag (prediction (k * block + j)) (target (k * block + j)) else 0 :=
+    Fin.sum_univ_eq_sum_range (fun j => if k * block + j < cols then
+      loss flag (prediction (k * block + j)) (target (k * block + j)) else 0) block
+  simp only [inner]
+  rw [sum_ranges_mul _ block (fun c => if c < cols then loss flag (prediction c) (target c) else 0)]
+  rw [Fin.sum_univ_eq_sum_range (fun c => loss flag (prediction c) (target c))]
+  exact padded_sum cols _
+    (VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.rounds_cover cols block hBlock) _
 
-@[simp] theorem outputCount_zero (B reduction : Nat) : outputCount 0 B reduction = 0 := by
-  simp [outputCount]
+theorem row_chunks_total (rows cols block : Nat) (hBlock : 0 < block) (flag : Bool)
+    (prediction target : Nat → Nat → ℝ) :
+    (∑ r : Fin rows,
+      ∑ k : Fin (VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.rounds cols block),
+        VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.chunkLoss
+          flag (prediction r.val) (target r.val) cols block k.val) =
+      total rows cols flag prediction target := by
+  unfold total
+  apply Finset.sum_congr rfl
+  intro r _
+  exact chunks_total cols block hBlock flag _ _
 
-/-- The independently specified output sequence, before any host post-reduction. -/
-def forwardOutput (logTarget : Bool) (prediction target : Nat → ℝ)
-    (N B reduction index : Nat) : ℝ :=
-  if reduction = 0 then loss logTarget (prediction index) (target index)
-  else chunkLoss logTarget prediction target N B index
-
-/-- Two reduced chunks occupy two different cells even though the wrapper allocates
-only one scalar per row. This concrete arithmetic fact guards against row-sum substitution. -/
-theorem multiblock_footprint : outputCount 3 2 1 = 2 := by decide
-
-/-- With one row and 16385 columns, the wrapper selects its capped block width
-16384 but allocates one reduced-output cell. The kernel writes two cells, so
-the second write cannot satisfy that allocation's bound. This is a source
-counterexample, not a claim that the wrapper is safe under the full contract. -/
-theorem wrapper_single_row_allocation_insufficient :
-    outputCount 16385 16384 1 = 2 ∧
-    ¬ (∀ k : Fin (outputCount 16385 16384 1), k.val < 1) := by
-  decide
-
-/-- Zero-padding produces different per-chunk results in this nonempty example. -/
-theorem multiblock_values :
-    forwardOutput Bool.true (fun _ ↦ 2) (fun _ ↦ 0) 3 2 1 0 = -4 ∧
-    forwardOutput Bool.true (fun _ ↦ 2) (fun _ ↦ 0) 3 2 1 1 = -2 := by
-  norm_num [forwardOutput, chunkLoss, paddedLoss, loss, Fin.sum_univ_succ]
-
-end
+#specNonCircular loss avoiding [VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.loss]
+#axiomsClean loss_original
+#axiomsClean gradient_original
+#axiomsClean raw_zero
+#axiomsClean empty_total
+#axiomsClean empty_columns
+#axiomsClean chunks_total
+#axiomsClean row_chunks_total
 #guard_msgs (drop info) in
 #auditModuleAxioms
-end VeriTile.Bench.TritonBenchG.KldivTriton.FullMath
+end
+end VeriTile.Bench.Repairs.KldivTriton.Math

@@ -1,3 +1,4 @@
+"""Guarded source-selected FP32 SwiGLU; original benchmark is preserved."""
 
 import torch
 import triton
@@ -32,7 +33,23 @@ def _swiglu_fwd_kernel(
     tl.store(OUT + cols, out, mask=cols < ncols)
 
 # Function to invoke the forward kernel
-def _swiglu_fwd(xy, out=None):
+def _check_payload(tensor):
+    if not isinstance(tensor, torch.Tensor):
+        raise TypeError("expected a tensor")
+    if tensor.layout != torch.strided or tensor.dtype != torch.float32:
+        raise TypeError("expected strided FP32 storage")
+    if not tensor.is_cuda:
+        raise ValueError("expected CUDA storage")
+    if tensor.is_neg():
+        raise ValueError("negative views are unsupported")
+
+
+def swiglu_fwd_checked(xy, out=None):
+    _check_payload(xy)
+    if out is not None:
+        _check_payload(out)
+    if xy.ndim == 0 or xy.shape[-1] == 0 or xy.shape[-1] % 2 != 0:
+        raise ValueError("expected a positive even final dimension")
     if xy.stride(-1) != 1:
         xy = xy.contiguous()
     batch_shape = xy.shape[:-1]
@@ -45,48 +62,25 @@ def _swiglu_fwd(xy, out=None):
         assert out.shape == x.shape
     assert out.stride(-1) == 1
     M, N = x.shape
+    sx, so = x.stride(0), out.stride(0)
+    if out.device != x.device:
+        raise ValueError("input and output must be on the same device")
+    if not (M < 2**31 and sx < 2**31 and so < 2**31 and
+            M * sx + N + 1024 < 2**31 and M * so + N + 1024 < 2**31):
+        raise ValueError("signed int32 launch metadata bound exceeded")
+    if M > 1 and so < N:
+        raise ValueError("output rows overlap")
+    if M > 0:
+        if x.data_ptr() % 4 != 0 or out.data_ptr() % 4 != 0:
+            raise ValueError("active FP32 pointers must be 4-byte aligned")
+        x_begin, out_begin = x.data_ptr(), out.data_ptr()
+        x_end = x_begin + 4 * ((M - 1) * sx + 2 * N)
+        out_end = out_begin + 4 * ((M - 1) * so + N)
+        if not (out_end <= x_begin or x_end <= out_begin):
+            raise ValueError("output span overlaps the live input span")
     grid = lambda META: (M, triton.cdiv(N, META['BLOCK_N']))
     with torch.cuda.device(x.device.index):
         _swiglu_fwd_kernel[grid](x, y, out, x.stride(0), y.stride(0), out.stride(0), N)
     return out.reshape(*batch_shape, out.shape[-1])
 
 
-
-##################################################################################################################################################
-
-
-# Test the forward function with different configurations
-def test_swiglu_fwd():
-    results = {}
-    # Test case 1
-    batch_size = 4
-    ncols = 128
-    xy = torch.randn(batch_size, 2 * ncols, device='cuda', dtype=torch.float32)
-    out = _swiglu_fwd(xy)
-    results['test_case_1'] = out.detach().cpu()
-
-    # Test case 2
-    batch_size = 8
-    ncols = 256
-    xy = torch.randn(batch_size, 2 * ncols, device='cuda', dtype=torch.float32)
-    out = _swiglu_fwd(xy)
-    results['test_case_2'] = out.detach().cpu()
-
-    # Test case 3
-    batch_size = 16
-    ncols = 512
-    xy = torch.randn(batch_size, 2 * ncols, device='cuda', dtype=torch.float32)
-    out = _swiglu_fwd(xy)
-    results['test_case_3'] = out.detach().cpu()
-
-    # Test case 4
-    batch_size = 32
-    ncols = 1024
-    xy = torch.randn(batch_size, 2 * ncols, device='cuda', dtype=torch.float32)
-    out = _swiglu_fwd(xy)
-    results['test_case_4'] = out.detach().cpu()
-
-    return results
-
-# Run the tests
-result_gold = test_swiglu_fwd()

@@ -1,3 +1,13 @@
 # matmul_leakyrelu_fp8
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [matmul_leakyrelu_fp8_scalar_cast](../../repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/README.md).
+Current repaired Python implementation: [matmul_leakyrelu_fp8.py](matmul_leakyrelu_fp8.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Source and mathematical adapters](Sources/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

@@ -2,10 +2,12 @@ import VeriTile.Triton.DSL
 
 /-! Complete masked in-place fp32 source from fused_activation.py and a candidate
 commuting its final bias addition. Both sigmoid and ReLU branches are retained.
-The source has no explicit casts; FPEquiv selects the fp32 arithmetic profile.
+The original source has no explicit dtype overrides; this selected version
+uses typed FP32 regions. The inner multiply/add contraction is retained in
+the separate native graph interpretation, never assumed equal to split rounding.
 The host launch is outside these per-program contracts. -/
 
-namespace VeriTile.Bench.TritonBenchG.FusedActivation
+namespace VeriTile.Bench.Repairs.FusedActivation
 open VeriTile.Triton
 
 /-- Faithful transcription of `fused_activation.py`'s
@@ -16,11 +18,15 @@ Allowed mechanical Lean-syntax-only changes:
   Lean parameters.
 - Python `activation == "sigmoid"` / `elif activation == "relu"` -> Lean
   Boolean `activation`; `true` selects sigmoid and `false` selects ReLU. -/
-def fused_add_mul_activation_kernel
-    (x_ptr bias_ptr in_ptr : RegionName)
+def kernel
+    (X B I : RegionName)
     (num_weights xnumel BLOCK_SIZE : Nat)
     (multiplier : ℝ) (activation : Bool) :
-    ComputeKernel := triton {
+    ComputeKernel :=
+  let x_ptr : Region .fp32 := X.cast
+  let bias_ptr : Region .fp32 := B.cast
+  let in_ptr : Region .fp32 := I.cast
+  triton {
   xoffset = tl.program_id(0) * $(BLOCK_SIZE)
   index = xoffset + tl.arange(0, $(BLOCK_SIZE))[:]
   mask = index < $(xnumel)
@@ -38,11 +44,15 @@ def fused_add_mul_activation_kernel
 }
 
 /-- Commute the combined input and the loaded bias, retaining all memory operations. -/
-def fused_add_mul_activation_commuted_kernel
-    (x_ptr bias_ptr in_ptr : RegionName)
+def commutedKernel
+    (X B I : RegionName)
     (num_weights xnumel BLOCK_SIZE : Nat)
     (multiplier : ℝ) (activation : Bool) :
-    ComputeKernel := triton {
+    ComputeKernel :=
+  let x_ptr : Region .fp32 := X.cast
+  let bias_ptr : Region .fp32 := B.cast
+  let in_ptr : Region .fp32 := I.cast
+  triton {
   xoffset = tl.program_id(0) * $(BLOCK_SIZE)
   index = xoffset + tl.arange(0, $(BLOCK_SIZE))[:]
   mask = index < $(xnumel)
@@ -59,4 +69,4 @@ def fused_add_mul_activation_commuted_kernel
   tl.store(x_ptr + index, ma_result, mask)
 }
 
-end VeriTile.Bench.TritonBenchG.FusedActivation
+end VeriTile.Bench.Repairs.FusedActivation

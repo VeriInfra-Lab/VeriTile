@@ -10,8 +10,8 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'bench'))
-from adapter_common import LIBRARIES, hash_file, module_name, registered, write_json
+sys.path.insert(0, str(ROOT))
+from scripts.bench.adapter_common import LIBRARIES, hash_file, module_name, registered, write_json
 
 
 class AuditAggregateTests(unittest.TestCase):
@@ -21,10 +21,10 @@ class AuditAggregateTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         ports = self.root / 'bench/tritonbench_g'
         ports.mkdir(parents=True)
-        (self.root / 'scripts').mkdir()
-        shutil.copyfile(ROOT / 'bench/audit_tritonbench_g.sh', self.root / 'bench/audit_tritonbench_g.sh')
-        (self.root / 'bench/check_body_corpus.py').write_text('')
-        (self.root / 'bench/check_imported_kernel_review.py').write_text('')
+        (self.root / 'scripts' / 'bench').mkdir(parents=True)
+        shutil.copy2(ROOT / 'scripts/bench/audit_tritonbench_g.sh', self.root / 'scripts/bench/audit_tritonbench_g.sh')
+        (self.root / 'scripts/bench/check_body_corpus.py').write_text('')
+        (self.root / 'scripts/bench/check_imported_kernel_review.py').write_text('')
         tools = self.root / 'bin'
         tools.mkdir()
         lake = tools / 'lake'
@@ -33,13 +33,13 @@ class AuditAggregateTests(unittest.TestCase):
         # Empty source fixtures exercise the actual structural rule dispatch.
         # Replace the manifest and proof executors to inject independent failures.
         for path, label, failure in [
-            ('bench/final_inventory.py', 'structural', 'FAIL_STATIC'),
+            ('scripts/bench/final_inventory.py', 'structural', 'FAIL_STATIC'),
             ('scripts/check_comparator.py', 'library', 'FAIL_LIBRARY')]:
             (self.root / path).write_text(
                 'import os\nfrom pathlib import Path\n'
                 f'with Path("calls").open("a") as log: log.write("{label}\\n")\n'
                 f'raise SystemExit(int(os.environ.get("{failure}", "0")))\n')
-        trust = self.root / 'bench/audit_trust.sh'
+        trust = self.root / 'scripts/bench/audit_trust.sh'
         trust.write_text('#!/bin/bash\nprintf "corpus\\n" >> calls\nexit "${FAIL_CORPUS:-0}"\n')
         trust.chmod(0o755)
         self.env = {key: value for key, value in os.environ.items()
@@ -49,7 +49,7 @@ class AuditAggregateTests(unittest.TestCase):
     def run_aggregate(self, args=(), env=None):
         calls = self.root / 'calls'
         calls.unlink(missing_ok=True)
-        result = subprocess.run(['bash', 'bench/audit_tritonbench_g.sh', *args],
+        result = subprocess.run([str(self.root / 'scripts/bench/audit_tritonbench_g.sh'), *args],
                                 cwd=self.root, env={**self.env, **(env or {})},
                                 text=True, capture_output=True, timeout=20)
         return result, calls.read_text().splitlines() if calls.exists() else []
@@ -117,9 +117,9 @@ class AuditShardTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         (self.root / 'bench').mkdir()
-        (self.root / 'scripts').mkdir()
+        (self.root / 'scripts' / 'bench').mkdir(parents=True)
         for name in ['audit_trust.sh', 'check_worker_results.py', 'select_audit_shard.py', 'port_layout.py']:
-            shutil.copyfile(ROOT / 'bench' / name, self.root / 'bench' / name)
+            shutil.copyfile(ROOT / 'scripts' / 'bench' / name, self.root / 'scripts' / 'bench' / name)
         self.targets = [f'bench/tritonbench_g/{name}/Port.lean' for name in ['alpha', 'beta', 'gamma']]
         self.targets += [f'bench/tritonbench_g/split/{name}.lean'
                          for name in ['Kernels', 'Correct', 'FPEquiv', 'Proofs/Real']]
@@ -127,20 +127,20 @@ class AuditShardTests(unittest.TestCase):
                          'bench/examples/LogExp/Kernels.lean',
                          'bench/examples/LogExp/Correct.lean',
                          'bench/examples/LogExp/FPEquiv.lean',
-                         'bench/tests/One.lean', 'bench/tests/Two.lean']
+                         'tests/lean/One.lean', 'tests/lean/Two.lean']
         for target in self.targets:
             path = self.root / target
             path.parent.mkdir(parents=True, exist_ok=True)
             path.touch()
-        (self.root / 'bench/validation').mkdir()
-        (self.root / 'bench/validation/source.json').write_text(json.dumps({
+        (self.root / 'validation').mkdir()
+        (self.root / 'validation/source.json').write_text(json.dumps({
             target: hashlib.sha256(b'').hexdigest() for target in self.targets}))
         # The inventory's semantic/source checks have their own adversarial
         # tests. This small fixture exposes its target-and-drift CLI contract.
-        (self.root / 'bench/final_inventory.py').write_text('''
+        (self.root / 'scripts/bench/final_inventory.py').write_text('''
 import hashlib, json, sys
 from pathlib import Path
-data = json.loads(Path('bench/validation/source.json').read_text())
+data = json.loads(Path('validation/source.json').read_text())
 for path, expected in sorted(data.items()):
     assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected
     if '--ci-targets' not in sys.argv or '/Proofs/' not in path:
@@ -179,7 +179,7 @@ raise SystemExit(1 if a.file == os.environ.get('FAIL_TARGET') else 0)
     def run_audit(self, env=None, args=()):
         calls = self.root / 'calls'
         calls.unlink(missing_ok=True)
-        result = subprocess.run(['bash', 'bench/audit_trust.sh', *args],
+        result = subprocess.run(['bash', 'scripts/bench/audit_trust.sh', *args],
                                 cwd=self.root, env={**self.env, **(env or {})},
                                 text=True, capture_output=True, timeout=20)
         actual = calls.read_text().splitlines() if calls.exists() else []
@@ -215,7 +215,7 @@ raise SystemExit(1 if a.file == os.environ.get('FAIL_TARGET') else 0)
                                             'AUDIT_TRUST_SHARD_INDEX': str(index)}, ['--ci-targets'])
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             combined.extend(calls)
-        inventory = json.loads((self.root / 'bench/validation/source.json').read_text())
+        inventory = json.loads((self.root / 'validation/source.json').read_text())
         self.assertCountEqual(combined, [p for p in inventory if '/Proofs/' not in p])
         self.assertEqual(len(combined), len(set(combined)))
 
@@ -274,8 +274,8 @@ class CatalogAuditShardTests(AuditShardTests):
         super().setUp()
         self.env['MUTATE_CATALOG_PATH'] = self.CATALOG_NAME
         for name in ('current_source_catalog.py', 'adapter_common.py'):
-            shutil.copyfile(ROOT / 'bench' / name, self.root / 'bench' / name)
-        for name in ('bench/lean_import_scan.py', 'scripts/spec_sheet.py'):
+            shutil.copyfile(ROOT / 'scripts' / 'bench' / name, self.root / 'scripts' / 'bench' / name)
+        for name in ('scripts/bench/lean_import_scan.py', 'scripts/spec_sheet.py'):
             target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, target)

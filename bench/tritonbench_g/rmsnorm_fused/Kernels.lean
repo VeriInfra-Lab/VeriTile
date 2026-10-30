@@ -1,96 +1,37 @@
-/-
-Source-audit target: rms_norm_fwd_fused
-Source-audit Lean: rmsFusedTyped%
-Source-audit params: BLOCK_SIZE=B
-Source-audit args: weight=tl.float32, output=tl.float32
-Selected lexical source view only; this metadata is not all-profile certification.
-Original two-loop quotation; input dtype symbolic, fp32 weight/output resolve the store branch.
-Other floating/nonfloating profiles and the later address candidate are not certified.
--/
+import bench.tritonbench_g.rmsnorm_fused.Sources.Mathematical_Kernels
+import VeriTile.Triton.Float.Structural
 
-import VeriTile.Triton
-
-/-!
-# `rmsnorm_fused` — strict per-kernel correctness
-
-`rms_norm_fwd_fused` is a fused RMSNorm forward: each program `row` normalizes
-one row of `X` by its root-mean-square, scales by per-column weights `W`, and
-writes `Y[row] = (x / sqrt(mean(x²) + eps)) * w`.
-
-## Scope
-
-This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
-body, for one program (one row). The host launch
-(`rms_norm_fwd_fused[(M,)](...)`, the grid over rows `M`, the host-side
-`BLOCK_SIZE` choice, scheduling, and how the runtime composes per-row writes
-into one buffer) is the *trusted boundary*, not a proof obligation here. Because
-`row = tl.program_id(0)` is universally quantified (via `s.pid`), the per-program
-statement covers every row of the grid.
-
-## Proof architecture
-
-```
-rms_norm_fwd_fused_output_summary             ← TOP THEOREM
-  ├─ (toAlgorithm? = Except.ok _)             surface lowers to the algorithm layer
-  └─ rms_norm_fwd_fused_compute_correct       ← ComputeCorrect over the masked store
-       └─ rms_norm_fwd_fused_correct          ← algorithm-layer readback per lane
-            └─ rmsnormCarrierSpec_eq_rmsnormSpec
-                 └─ rmsVarCarrier_eq_rmsMeanSq (uses VeriTile.Triton.Math.RMSNorm /
-                                                TiledL2Norm reduction lemmas)
-```
-
-The row spec is `TiledRMSNorm.rmsAffine` from `VeriTile.Triton.Math.RMSNorm`
-(reusing `TiledRMSNorm.rmsMeanSq` / `TiledL2Norm` reduction lemmas rather than
-inlining the reduction math).
-
-## Modeling boundary
-
-Arithmetic is over `ℝ` (not bit-accurate IEEE float); the `.to(tl.float32)`
-casts reduce to identity at the algorithm layer (post-erasure all dtypes unify
-to `ℝ`). The reduction `tl.sum(_var) / N` sums over the *padded* `BLOCK_SIZE`
-block, but out-of-range lanes are masked to `0` (load `other=0.0` plus the
-explicit `tl.where`), so the sum equals the logical row length `N`. The
-reciprocal std is `rstd = 1 / sqrt(meanSq + eps)`; the affine step is
-`x_hat * w`. The Python wrapper picks `BLOCK_SIZE ≥ N` (raising otherwise), so
-correctness is stated under the `0 < N ≤ BLOCK_SIZE` precondition, where both
-`range(0, N, BLOCK_SIZE)` loops execute exactly the `off = 0` iteration (single
-block).
--/
-
-namespace VeriTile.Bench.TritonBenchG.RmsnormFused
-
+namespace VeriTile.Bench.Repairs.RmsnormFused
 open VeriTile.Triton
 
-set_option maxHeartbeats 5000000
-set_option linter.unusedSimpArgs false
+/-- The complete original FP32 typed body. The repaired Python promotes the PID
+to int64 before the same address arithmetic; Geometry binds the bounded native
+indices to these naturals. Both loops and every numerical operation are retained. -/
+def kernel (X Y W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
+  VeriTile.Bench.TritonBenchG.RmsnormFused.originalTyped .fp32 .fp32 .fp32 X Y W N N B eps
 
-/-- Faithful `forRange` transcription of `rmsnorm_fused.py`'s
-`rms_norm_fwd_fused`.
-
-The Python wrapper chooses `BLOCK_SIZE >= N` and raises otherwise, so the
-correctness theorem below proves the full loop-shaped kernel under that
-runtime precondition. Under the precondition both `range(0, N, BLOCK_SIZE)`
-loops execute exactly the `off = 0` iteration.
-
-Allowed mechanical Lean-syntax-only changes:
-- Python `N` / `BLOCK_SIZE: tl.constexpr` -> Lean `Nat` parameters. -/
-def rms_norm_fwd_fused
-    (X Y W : RegionName) (stride N BLOCK_SIZE : Nat) (eps : ℝ) :
-    ComputeKernel := triton {
-  row = tl.program_id(0)
-  Y += row * $(stride)
-  X += row * $(stride)
-  _var = tl.zeros([$(BLOCK_SIZE)], dtype=tl.float32)
-  for off in range(0, $(N), $(BLOCK_SIZE)) {
-    cols = off + tl.arange(0, $(BLOCK_SIZE))
+/-- Complete repaired runtime-epsilon source. The FP32 scalar is supplied by
+`Runtime.bind` and the IO invocation; its declaration emits no statement.
+The int64 PID conversion, both loops and undefined inactive W are retained. -/
+def source (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
+  triton {
+  tl.ports inputs=[X,W], outputs=[Y]
+  tl.region X = tl.float32, W = tl.float32, Y = tl.float32
+  tl.param eps : tl.float32
+  row = tl.program_id(0).to(tl.int64)
+  Y += row * $(N)
+  X += row * $(N)
+  _var = tl.zeros([$(B)], dtype=tl.float32)
+  for off in range(0, $(N), $(B)) {
+    cols = off + tl.arange(0, $(B))
     x = tl.load(X + cols, mask=cols < $(N), other=0.0).to(tl.float32)
     x = tl.where(cols < $(N), x, 0.0)
     _var += x * x
   }
   var = tl.sum(_var, axis=0) / $(N)
-  rstd = 1 / tl.sqrt(var + $(eps))
-  for off in range(0, $(N), $(BLOCK_SIZE)) {
-    cols = off + tl.arange(0, $(BLOCK_SIZE))
+  rstd = 1 / tl.sqrt(var + eps)
+  for off in range(0, $(N), $(B)) {
+    cols = off + tl.arange(0, $(B))
     mask = cols < $(N)
     w = tl.load(W + cols, mask=mask)
     x = tl.load(X + cols, mask=mask, other=0.0).to(tl.float32)
@@ -100,27 +41,20 @@ def rms_norm_fwd_fused
   }
 }
 
-open Lean
-syntax "rmsFusedTyped%" "[" tritonDType "," tritonDType "," tritonDType "]" : term
-set_option hygiene false in
-macro_rules
-  | `(rmsFusedTyped%[$input:tritonDType, $weight:tritonDType, $output:tritonDType]) => do
-    let wide := match weight with
-      | `(tritonDType| tl.float64) => Bool.true
-      | _ => Bool.false
-    let same := match output with
-      | `(tritonDType| tl.float64) => wide
-      | `(tritonDType| tl.float32) => !wide
-      | _ => Bool.false
-    let store : TSyntax `tritonStmt ← if same then
-      `(tritonStmt| tl.store(Y + cols, y, mask=mask))
-      else `(tritonStmt| tl.store(Y + cols, y.to($output), mask=mask))
-    `(fun (X Y W : RegionName) (stride N B : Nat) (eps : ℝ) =>
-      ComputeKernel.mk [X, W] [Y] (triton {
-  tl.region X = $input, W = $weight, Y = $output
-  row = tl.program_id(0)
-  Y += row * $(stride)
-  X += row * $(stride)
+/-- Compatibility name for the complete readable runtime source. -/
+abbrev template (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
+  source X Y W N B
+
+/-- The existing output-address candidate, with only `row*N` changed to
+`N*row`. Both complete numerical loops and the runtime FP32 scalar remain. -/
+def addressCommutedSource (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
+  triton {
+  tl.ports inputs=[X,W], outputs=[Y]
+  tl.region X = tl.float32, W = tl.float32, Y = tl.float32
+  tl.param eps : tl.float32
+  row = tl.program_id(0).to(tl.int64)
+  Y += $(N) * row
+  X += row * $(N)
   _var = tl.zeros([$(B)], dtype=tl.float32)
   for off in range(0, $(N), $(B)) {
     cols = off + tl.arange(0, $(B))
@@ -129,7 +63,7 @@ macro_rules
     _var += x * x
   }
   var = tl.sum(_var, axis=0) / $(N)
-  rstd = 1 / tl.sqrt(var + $(eps))
+  rstd = 1 / tl.sqrt(var + eps)
   for off in range(0, $(N), $(B)) {
     cols = off + tl.arange(0, $(B))
     mask = cols < $(N)
@@ -137,248 +71,22 @@ macro_rules
     x = tl.load(X + cols, mask=mask, other=0.0).to(tl.float32)
     x_hat = x * rstd
     y = x_hat * w
-    $store
+    tl.store(Y + cols, y, mask=mask)
   }
-}).surfaceBody)
+}
 
-/-- Floating storage varies independently; the wrapper correlates output=input. -/
-inductive Storage where
-  | fp32 | fp64 | fp16 | bf16 | f8e4 | f8e5
-  deriving DecidableEq, Repr
+structure Shape where
+  leading : List Nat
+  width : Nat
+  block : Nat
 
-abbrev Source := RegionName → RegionName → RegionName → Nat → Nat → Nat → ℝ → ComputeKernel
-set_option maxHeartbeats 16000000
-set_option maxRecDepth 16000
+def Shape.rows (s : Shape) : Nat := s.leading.prod
+def Shape.dims (s : Shape) : List Nat := s.leading ++ [s.width]
+def Shape.Valid (s : Shape) : Prop :=
+  0 < s.width ∧ s.width ≤ s.block ∧ s.block ≤ 16384 ∧
+  s.rows * s.width ≤ (2^63-1)/4
 
-/-- Complete source body, retaining both loops, the extra variance mask and both
-fp32 input conversions. The final cast represents implicit destination conversion. -/
-def originalTyped (input weight output : Storage) : Source :=
-  match input, weight, output with
-  | .fp32, .fp32, .fp32 => rmsFusedTyped%[tl.float32, tl.float32, tl.float32]
-  | .fp32, .fp32, .fp64 => rmsFusedTyped%[tl.float32, tl.float32, tl.float64]
-  | .fp32, .fp32, .fp16 => rmsFusedTyped%[tl.float32, tl.float32, tl.float16]
-  | .fp32, .fp32, .bf16 => rmsFusedTyped%[tl.float32, tl.float32, tl.bfloat16]
-  | .fp32, .fp32, .f8e4 => rmsFusedTyped%[tl.float32, tl.float32, tl.float8e4nv]
-  | .fp32, .fp32, .f8e5 => rmsFusedTyped%[tl.float32, tl.float32, tl.float8e5]
-  | .fp32, .fp64, .fp32 => rmsFusedTyped%[tl.float32, tl.float64, tl.float32]
-  | .fp32, .fp64, .fp64 => rmsFusedTyped%[tl.float32, tl.float64, tl.float64]
-  | .fp32, .fp64, .fp16 => rmsFusedTyped%[tl.float32, tl.float64, tl.float16]
-  | .fp32, .fp64, .bf16 => rmsFusedTyped%[tl.float32, tl.float64, tl.bfloat16]
-  | .fp32, .fp64, .f8e4 => rmsFusedTyped%[tl.float32, tl.float64, tl.float8e4nv]
-  | .fp32, .fp64, .f8e5 => rmsFusedTyped%[tl.float32, tl.float64, tl.float8e5]
-  | .fp32, .fp16, .fp32 => rmsFusedTyped%[tl.float32, tl.float16, tl.float32]
-  | .fp32, .fp16, .fp64 => rmsFusedTyped%[tl.float32, tl.float16, tl.float64]
-  | .fp32, .fp16, .fp16 => rmsFusedTyped%[tl.float32, tl.float16, tl.float16]
-  | .fp32, .fp16, .bf16 => rmsFusedTyped%[tl.float32, tl.float16, tl.bfloat16]
-  | .fp32, .fp16, .f8e4 => rmsFusedTyped%[tl.float32, tl.float16, tl.float8e4nv]
-  | .fp32, .fp16, .f8e5 => rmsFusedTyped%[tl.float32, tl.float16, tl.float8e5]
-  | .fp32, .bf16, .fp32 => rmsFusedTyped%[tl.float32, tl.bfloat16, tl.float32]
-  | .fp32, .bf16, .fp64 => rmsFusedTyped%[tl.float32, tl.bfloat16, tl.float64]
-  | .fp32, .bf16, .fp16 => rmsFusedTyped%[tl.float32, tl.bfloat16, tl.float16]
-  | .fp32, .bf16, .bf16 => rmsFusedTyped%[tl.float32, tl.bfloat16, tl.bfloat16]
-  | .fp32, .bf16, .f8e4 => rmsFusedTyped%[tl.float32, tl.bfloat16, tl.float8e4nv]
-  | .fp32, .bf16, .f8e5 => rmsFusedTyped%[tl.float32, tl.bfloat16, tl.float8e5]
-  | .fp32, .f8e4, .fp32 => rmsFusedTyped%[tl.float32, tl.float8e4nv, tl.float32]
-  | .fp32, .f8e4, .fp64 => rmsFusedTyped%[tl.float32, tl.float8e4nv, tl.float64]
-  | .fp32, .f8e4, .fp16 => rmsFusedTyped%[tl.float32, tl.float8e4nv, tl.float16]
-  | .fp32, .f8e4, .bf16 => rmsFusedTyped%[tl.float32, tl.float8e4nv, tl.bfloat16]
-  | .fp32, .f8e4, .f8e4 => rmsFusedTyped%[tl.float32, tl.float8e4nv, tl.float8e4nv]
-  | .fp32, .f8e4, .f8e5 => rmsFusedTyped%[tl.float32, tl.float8e4nv, tl.float8e5]
-  | .fp32, .f8e5, .fp32 => rmsFusedTyped%[tl.float32, tl.float8e5, tl.float32]
-  | .fp32, .f8e5, .fp64 => rmsFusedTyped%[tl.float32, tl.float8e5, tl.float64]
-  | .fp32, .f8e5, .fp16 => rmsFusedTyped%[tl.float32, tl.float8e5, tl.float16]
-  | .fp32, .f8e5, .bf16 => rmsFusedTyped%[tl.float32, tl.float8e5, tl.bfloat16]
-  | .fp32, .f8e5, .f8e4 => rmsFusedTyped%[tl.float32, tl.float8e5, tl.float8e4nv]
-  | .fp32, .f8e5, .f8e5 => rmsFusedTyped%[tl.float32, tl.float8e5, tl.float8e5]
-  | .fp64, .fp32, .fp32 => rmsFusedTyped%[tl.float64, tl.float32, tl.float32]
-  | .fp64, .fp32, .fp64 => rmsFusedTyped%[tl.float64, tl.float32, tl.float64]
-  | .fp64, .fp32, .fp16 => rmsFusedTyped%[tl.float64, tl.float32, tl.float16]
-  | .fp64, .fp32, .bf16 => rmsFusedTyped%[tl.float64, tl.float32, tl.bfloat16]
-  | .fp64, .fp32, .f8e4 => rmsFusedTyped%[tl.float64, tl.float32, tl.float8e4nv]
-  | .fp64, .fp32, .f8e5 => rmsFusedTyped%[tl.float64, tl.float32, tl.float8e5]
-  | .fp64, .fp64, .fp32 => rmsFusedTyped%[tl.float64, tl.float64, tl.float32]
-  | .fp64, .fp64, .fp64 => rmsFusedTyped%[tl.float64, tl.float64, tl.float64]
-  | .fp64, .fp64, .fp16 => rmsFusedTyped%[tl.float64, tl.float64, tl.float16]
-  | .fp64, .fp64, .bf16 => rmsFusedTyped%[tl.float64, tl.float64, tl.bfloat16]
-  | .fp64, .fp64, .f8e4 => rmsFusedTyped%[tl.float64, tl.float64, tl.float8e4nv]
-  | .fp64, .fp64, .f8e5 => rmsFusedTyped%[tl.float64, tl.float64, tl.float8e5]
-  | .fp64, .fp16, .fp32 => rmsFusedTyped%[tl.float64, tl.float16, tl.float32]
-  | .fp64, .fp16, .fp64 => rmsFusedTyped%[tl.float64, tl.float16, tl.float64]
-  | .fp64, .fp16, .fp16 => rmsFusedTyped%[tl.float64, tl.float16, tl.float16]
-  | .fp64, .fp16, .bf16 => rmsFusedTyped%[tl.float64, tl.float16, tl.bfloat16]
-  | .fp64, .fp16, .f8e4 => rmsFusedTyped%[tl.float64, tl.float16, tl.float8e4nv]
-  | .fp64, .fp16, .f8e5 => rmsFusedTyped%[tl.float64, tl.float16, tl.float8e5]
-  | .fp64, .bf16, .fp32 => rmsFusedTyped%[tl.float64, tl.bfloat16, tl.float32]
-  | .fp64, .bf16, .fp64 => rmsFusedTyped%[tl.float64, tl.bfloat16, tl.float64]
-  | .fp64, .bf16, .fp16 => rmsFusedTyped%[tl.float64, tl.bfloat16, tl.float16]
-  | .fp64, .bf16, .bf16 => rmsFusedTyped%[tl.float64, tl.bfloat16, tl.bfloat16]
-  | .fp64, .bf16, .f8e4 => rmsFusedTyped%[tl.float64, tl.bfloat16, tl.float8e4nv]
-  | .fp64, .bf16, .f8e5 => rmsFusedTyped%[tl.float64, tl.bfloat16, tl.float8e5]
-  | .fp64, .f8e4, .fp32 => rmsFusedTyped%[tl.float64, tl.float8e4nv, tl.float32]
-  | .fp64, .f8e4, .fp64 => rmsFusedTyped%[tl.float64, tl.float8e4nv, tl.float64]
-  | .fp64, .f8e4, .fp16 => rmsFusedTyped%[tl.float64, tl.float8e4nv, tl.float16]
-  | .fp64, .f8e4, .bf16 => rmsFusedTyped%[tl.float64, tl.float8e4nv, tl.bfloat16]
-  | .fp64, .f8e4, .f8e4 => rmsFusedTyped%[tl.float64, tl.float8e4nv, tl.float8e4nv]
-  | .fp64, .f8e4, .f8e5 => rmsFusedTyped%[tl.float64, tl.float8e4nv, tl.float8e5]
-  | .fp64, .f8e5, .fp32 => rmsFusedTyped%[tl.float64, tl.float8e5, tl.float32]
-  | .fp64, .f8e5, .fp64 => rmsFusedTyped%[tl.float64, tl.float8e5, tl.float64]
-  | .fp64, .f8e5, .fp16 => rmsFusedTyped%[tl.float64, tl.float8e5, tl.float16]
-  | .fp64, .f8e5, .bf16 => rmsFusedTyped%[tl.float64, tl.float8e5, tl.bfloat16]
-  | .fp64, .f8e5, .f8e4 => rmsFusedTyped%[tl.float64, tl.float8e5, tl.float8e4nv]
-  | .fp64, .f8e5, .f8e5 => rmsFusedTyped%[tl.float64, tl.float8e5, tl.float8e5]
-  | .fp16, .fp32, .fp32 => rmsFusedTyped%[tl.float16, tl.float32, tl.float32]
-  | .fp16, .fp32, .fp64 => rmsFusedTyped%[tl.float16, tl.float32, tl.float64]
-  | .fp16, .fp32, .fp16 => rmsFusedTyped%[tl.float16, tl.float32, tl.float16]
-  | .fp16, .fp32, .bf16 => rmsFusedTyped%[tl.float16, tl.float32, tl.bfloat16]
-  | .fp16, .fp32, .f8e4 => rmsFusedTyped%[tl.float16, tl.float32, tl.float8e4nv]
-  | .fp16, .fp32, .f8e5 => rmsFusedTyped%[tl.float16, tl.float32, tl.float8e5]
-  | .fp16, .fp64, .fp32 => rmsFusedTyped%[tl.float16, tl.float64, tl.float32]
-  | .fp16, .fp64, .fp64 => rmsFusedTyped%[tl.float16, tl.float64, tl.float64]
-  | .fp16, .fp64, .fp16 => rmsFusedTyped%[tl.float16, tl.float64, tl.float16]
-  | .fp16, .fp64, .bf16 => rmsFusedTyped%[tl.float16, tl.float64, tl.bfloat16]
-  | .fp16, .fp64, .f8e4 => rmsFusedTyped%[tl.float16, tl.float64, tl.float8e4nv]
-  | .fp16, .fp64, .f8e5 => rmsFusedTyped%[tl.float16, tl.float64, tl.float8e5]
-  | .fp16, .fp16, .fp32 => rmsFusedTyped%[tl.float16, tl.float16, tl.float32]
-  | .fp16, .fp16, .fp64 => rmsFusedTyped%[tl.float16, tl.float16, tl.float64]
-  | .fp16, .fp16, .fp16 => rmsFusedTyped%[tl.float16, tl.float16, tl.float16]
-  | .fp16, .fp16, .bf16 => rmsFusedTyped%[tl.float16, tl.float16, tl.bfloat16]
-  | .fp16, .fp16, .f8e4 => rmsFusedTyped%[tl.float16, tl.float16, tl.float8e4nv]
-  | .fp16, .fp16, .f8e5 => rmsFusedTyped%[tl.float16, tl.float16, tl.float8e5]
-  | .fp16, .bf16, .fp32 => rmsFusedTyped%[tl.float16, tl.bfloat16, tl.float32]
-  | .fp16, .bf16, .fp64 => rmsFusedTyped%[tl.float16, tl.bfloat16, tl.float64]
-  | .fp16, .bf16, .fp16 => rmsFusedTyped%[tl.float16, tl.bfloat16, tl.float16]
-  | .fp16, .bf16, .bf16 => rmsFusedTyped%[tl.float16, tl.bfloat16, tl.bfloat16]
-  | .fp16, .bf16, .f8e4 => rmsFusedTyped%[tl.float16, tl.bfloat16, tl.float8e4nv]
-  | .fp16, .bf16, .f8e5 => rmsFusedTyped%[tl.float16, tl.bfloat16, tl.float8e5]
-  | .fp16, .f8e4, .fp32 => rmsFusedTyped%[tl.float16, tl.float8e4nv, tl.float32]
-  | .fp16, .f8e4, .fp64 => rmsFusedTyped%[tl.float16, tl.float8e4nv, tl.float64]
-  | .fp16, .f8e4, .fp16 => rmsFusedTyped%[tl.float16, tl.float8e4nv, tl.float16]
-  | .fp16, .f8e4, .bf16 => rmsFusedTyped%[tl.float16, tl.float8e4nv, tl.bfloat16]
-  | .fp16, .f8e4, .f8e4 => rmsFusedTyped%[tl.float16, tl.float8e4nv, tl.float8e4nv]
-  | .fp16, .f8e4, .f8e5 => rmsFusedTyped%[tl.float16, tl.float8e4nv, tl.float8e5]
-  | .fp16, .f8e5, .fp32 => rmsFusedTyped%[tl.float16, tl.float8e5, tl.float32]
-  | .fp16, .f8e5, .fp64 => rmsFusedTyped%[tl.float16, tl.float8e5, tl.float64]
-  | .fp16, .f8e5, .fp16 => rmsFusedTyped%[tl.float16, tl.float8e5, tl.float16]
-  | .fp16, .f8e5, .bf16 => rmsFusedTyped%[tl.float16, tl.float8e5, tl.bfloat16]
-  | .fp16, .f8e5, .f8e4 => rmsFusedTyped%[tl.float16, tl.float8e5, tl.float8e4nv]
-  | .fp16, .f8e5, .f8e5 => rmsFusedTyped%[tl.float16, tl.float8e5, tl.float8e5]
-  | .bf16, .fp32, .fp32 => rmsFusedTyped%[tl.bfloat16, tl.float32, tl.float32]
-  | .bf16, .fp32, .fp64 => rmsFusedTyped%[tl.bfloat16, tl.float32, tl.float64]
-  | .bf16, .fp32, .fp16 => rmsFusedTyped%[tl.bfloat16, tl.float32, tl.float16]
-  | .bf16, .fp32, .bf16 => rmsFusedTyped%[tl.bfloat16, tl.float32, tl.bfloat16]
-  | .bf16, .fp32, .f8e4 => rmsFusedTyped%[tl.bfloat16, tl.float32, tl.float8e4nv]
-  | .bf16, .fp32, .f8e5 => rmsFusedTyped%[tl.bfloat16, tl.float32, tl.float8e5]
-  | .bf16, .fp64, .fp32 => rmsFusedTyped%[tl.bfloat16, tl.float64, tl.float32]
-  | .bf16, .fp64, .fp64 => rmsFusedTyped%[tl.bfloat16, tl.float64, tl.float64]
-  | .bf16, .fp64, .fp16 => rmsFusedTyped%[tl.bfloat16, tl.float64, tl.float16]
-  | .bf16, .fp64, .bf16 => rmsFusedTyped%[tl.bfloat16, tl.float64, tl.bfloat16]
-  | .bf16, .fp64, .f8e4 => rmsFusedTyped%[tl.bfloat16, tl.float64, tl.float8e4nv]
-  | .bf16, .fp64, .f8e5 => rmsFusedTyped%[tl.bfloat16, tl.float64, tl.float8e5]
-  | .bf16, .fp16, .fp32 => rmsFusedTyped%[tl.bfloat16, tl.float16, tl.float32]
-  | .bf16, .fp16, .fp64 => rmsFusedTyped%[tl.bfloat16, tl.float16, tl.float64]
-  | .bf16, .fp16, .fp16 => rmsFusedTyped%[tl.bfloat16, tl.float16, tl.float16]
-  | .bf16, .fp16, .bf16 => rmsFusedTyped%[tl.bfloat16, tl.float16, tl.bfloat16]
-  | .bf16, .fp16, .f8e4 => rmsFusedTyped%[tl.bfloat16, tl.float16, tl.float8e4nv]
-  | .bf16, .fp16, .f8e5 => rmsFusedTyped%[tl.bfloat16, tl.float16, tl.float8e5]
-  | .bf16, .bf16, .fp32 => rmsFusedTyped%[tl.bfloat16, tl.bfloat16, tl.float32]
-  | .bf16, .bf16, .fp64 => rmsFusedTyped%[tl.bfloat16, tl.bfloat16, tl.float64]
-  | .bf16, .bf16, .fp16 => rmsFusedTyped%[tl.bfloat16, tl.bfloat16, tl.float16]
-  | .bf16, .bf16, .bf16 => rmsFusedTyped%[tl.bfloat16, tl.bfloat16, tl.bfloat16]
-  | .bf16, .bf16, .f8e4 => rmsFusedTyped%[tl.bfloat16, tl.bfloat16, tl.float8e4nv]
-  | .bf16, .bf16, .f8e5 => rmsFusedTyped%[tl.bfloat16, tl.bfloat16, tl.float8e5]
-  | .bf16, .f8e4, .fp32 => rmsFusedTyped%[tl.bfloat16, tl.float8e4nv, tl.float32]
-  | .bf16, .f8e4, .fp64 => rmsFusedTyped%[tl.bfloat16, tl.float8e4nv, tl.float64]
-  | .bf16, .f8e4, .fp16 => rmsFusedTyped%[tl.bfloat16, tl.float8e4nv, tl.float16]
-  | .bf16, .f8e4, .bf16 => rmsFusedTyped%[tl.bfloat16, tl.float8e4nv, tl.bfloat16]
-  | .bf16, .f8e4, .f8e4 => rmsFusedTyped%[tl.bfloat16, tl.float8e4nv, tl.float8e4nv]
-  | .bf16, .f8e4, .f8e5 => rmsFusedTyped%[tl.bfloat16, tl.float8e4nv, tl.float8e5]
-  | .bf16, .f8e5, .fp32 => rmsFusedTyped%[tl.bfloat16, tl.float8e5, tl.float32]
-  | .bf16, .f8e5, .fp64 => rmsFusedTyped%[tl.bfloat16, tl.float8e5, tl.float64]
-  | .bf16, .f8e5, .fp16 => rmsFusedTyped%[tl.bfloat16, tl.float8e5, tl.float16]
-  | .bf16, .f8e5, .bf16 => rmsFusedTyped%[tl.bfloat16, tl.float8e5, tl.bfloat16]
-  | .bf16, .f8e5, .f8e4 => rmsFusedTyped%[tl.bfloat16, tl.float8e5, tl.float8e4nv]
-  | .bf16, .f8e5, .f8e5 => rmsFusedTyped%[tl.bfloat16, tl.float8e5, tl.float8e5]
-  | .f8e4, .fp32, .fp32 => rmsFusedTyped%[tl.float8e4nv, tl.float32, tl.float32]
-  | .f8e4, .fp32, .fp64 => rmsFusedTyped%[tl.float8e4nv, tl.float32, tl.float64]
-  | .f8e4, .fp32, .fp16 => rmsFusedTyped%[tl.float8e4nv, tl.float32, tl.float16]
-  | .f8e4, .fp32, .bf16 => rmsFusedTyped%[tl.float8e4nv, tl.float32, tl.bfloat16]
-  | .f8e4, .fp32, .f8e4 => rmsFusedTyped%[tl.float8e4nv, tl.float32, tl.float8e4nv]
-  | .f8e4, .fp32, .f8e5 => rmsFusedTyped%[tl.float8e4nv, tl.float32, tl.float8e5]
-  | .f8e4, .fp64, .fp32 => rmsFusedTyped%[tl.float8e4nv, tl.float64, tl.float32]
-  | .f8e4, .fp64, .fp64 => rmsFusedTyped%[tl.float8e4nv, tl.float64, tl.float64]
-  | .f8e4, .fp64, .fp16 => rmsFusedTyped%[tl.float8e4nv, tl.float64, tl.float16]
-  | .f8e4, .fp64, .bf16 => rmsFusedTyped%[tl.float8e4nv, tl.float64, tl.bfloat16]
-  | .f8e4, .fp64, .f8e4 => rmsFusedTyped%[tl.float8e4nv, tl.float64, tl.float8e4nv]
-  | .f8e4, .fp64, .f8e5 => rmsFusedTyped%[tl.float8e4nv, tl.float64, tl.float8e5]
-  | .f8e4, .fp16, .fp32 => rmsFusedTyped%[tl.float8e4nv, tl.float16, tl.float32]
-  | .f8e4, .fp16, .fp64 => rmsFusedTyped%[tl.float8e4nv, tl.float16, tl.float64]
-  | .f8e4, .fp16, .fp16 => rmsFusedTyped%[tl.float8e4nv, tl.float16, tl.float16]
-  | .f8e4, .fp16, .bf16 => rmsFusedTyped%[tl.float8e4nv, tl.float16, tl.bfloat16]
-  | .f8e4, .fp16, .f8e4 => rmsFusedTyped%[tl.float8e4nv, tl.float16, tl.float8e4nv]
-  | .f8e4, .fp16, .f8e5 => rmsFusedTyped%[tl.float8e4nv, tl.float16, tl.float8e5]
-  | .f8e4, .bf16, .fp32 => rmsFusedTyped%[tl.float8e4nv, tl.bfloat16, tl.float32]
-  | .f8e4, .bf16, .fp64 => rmsFusedTyped%[tl.float8e4nv, tl.bfloat16, tl.float64]
-  | .f8e4, .bf16, .fp16 => rmsFusedTyped%[tl.float8e4nv, tl.bfloat16, tl.float16]
-  | .f8e4, .bf16, .bf16 => rmsFusedTyped%[tl.float8e4nv, tl.bfloat16, tl.bfloat16]
-  | .f8e4, .bf16, .f8e4 => rmsFusedTyped%[tl.float8e4nv, tl.bfloat16, tl.float8e4nv]
-  | .f8e4, .bf16, .f8e5 => rmsFusedTyped%[tl.float8e4nv, tl.bfloat16, tl.float8e5]
-  | .f8e4, .f8e4, .fp32 => rmsFusedTyped%[tl.float8e4nv, tl.float8e4nv, tl.float32]
-  | .f8e4, .f8e4, .fp64 => rmsFusedTyped%[tl.float8e4nv, tl.float8e4nv, tl.float64]
-  | .f8e4, .f8e4, .fp16 => rmsFusedTyped%[tl.float8e4nv, tl.float8e4nv, tl.float16]
-  | .f8e4, .f8e4, .bf16 => rmsFusedTyped%[tl.float8e4nv, tl.float8e4nv, tl.bfloat16]
-  | .f8e4, .f8e4, .f8e4 => rmsFusedTyped%[tl.float8e4nv, tl.float8e4nv, tl.float8e4nv]
-  | .f8e4, .f8e4, .f8e5 => rmsFusedTyped%[tl.float8e4nv, tl.float8e4nv, tl.float8e5]
-  | .f8e4, .f8e5, .fp32 => rmsFusedTyped%[tl.float8e4nv, tl.float8e5, tl.float32]
-  | .f8e4, .f8e5, .fp64 => rmsFusedTyped%[tl.float8e4nv, tl.float8e5, tl.float64]
-  | .f8e4, .f8e5, .fp16 => rmsFusedTyped%[tl.float8e4nv, tl.float8e5, tl.float16]
-  | .f8e4, .f8e5, .bf16 => rmsFusedTyped%[tl.float8e4nv, tl.float8e5, tl.bfloat16]
-  | .f8e4, .f8e5, .f8e4 => rmsFusedTyped%[tl.float8e4nv, tl.float8e5, tl.float8e4nv]
-  | .f8e4, .f8e5, .f8e5 => rmsFusedTyped%[tl.float8e4nv, tl.float8e5, tl.float8e5]
-  | .f8e5, .fp32, .fp32 => rmsFusedTyped%[tl.float8e5, tl.float32, tl.float32]
-  | .f8e5, .fp32, .fp64 => rmsFusedTyped%[tl.float8e5, tl.float32, tl.float64]
-  | .f8e5, .fp32, .fp16 => rmsFusedTyped%[tl.float8e5, tl.float32, tl.float16]
-  | .f8e5, .fp32, .bf16 => rmsFusedTyped%[tl.float8e5, tl.float32, tl.bfloat16]
-  | .f8e5, .fp32, .f8e4 => rmsFusedTyped%[tl.float8e5, tl.float32, tl.float8e4nv]
-  | .f8e5, .fp32, .f8e5 => rmsFusedTyped%[tl.float8e5, tl.float32, tl.float8e5]
-  | .f8e5, .fp64, .fp32 => rmsFusedTyped%[tl.float8e5, tl.float64, tl.float32]
-  | .f8e5, .fp64, .fp64 => rmsFusedTyped%[tl.float8e5, tl.float64, tl.float64]
-  | .f8e5, .fp64, .fp16 => rmsFusedTyped%[tl.float8e5, tl.float64, tl.float16]
-  | .f8e5, .fp64, .bf16 => rmsFusedTyped%[tl.float8e5, tl.float64, tl.bfloat16]
-  | .f8e5, .fp64, .f8e4 => rmsFusedTyped%[tl.float8e5, tl.float64, tl.float8e4nv]
-  | .f8e5, .fp64, .f8e5 => rmsFusedTyped%[tl.float8e5, tl.float64, tl.float8e5]
-  | .f8e5, .fp16, .fp32 => rmsFusedTyped%[tl.float8e5, tl.float16, tl.float32]
-  | .f8e5, .fp16, .fp64 => rmsFusedTyped%[tl.float8e5, tl.float16, tl.float64]
-  | .f8e5, .fp16, .fp16 => rmsFusedTyped%[tl.float8e5, tl.float16, tl.float16]
-  | .f8e5, .fp16, .bf16 => rmsFusedTyped%[tl.float8e5, tl.float16, tl.bfloat16]
-  | .f8e5, .fp16, .f8e4 => rmsFusedTyped%[tl.float8e5, tl.float16, tl.float8e4nv]
-  | .f8e5, .fp16, .f8e5 => rmsFusedTyped%[tl.float8e5, tl.float16, tl.float8e5]
-  | .f8e5, .bf16, .fp32 => rmsFusedTyped%[tl.float8e5, tl.bfloat16, tl.float32]
-  | .f8e5, .bf16, .fp64 => rmsFusedTyped%[tl.float8e5, tl.bfloat16, tl.float64]
-  | .f8e5, .bf16, .fp16 => rmsFusedTyped%[tl.float8e5, tl.bfloat16, tl.float16]
-  | .f8e5, .bf16, .bf16 => rmsFusedTyped%[tl.float8e5, tl.bfloat16, tl.bfloat16]
-  | .f8e5, .bf16, .f8e4 => rmsFusedTyped%[tl.float8e5, tl.bfloat16, tl.float8e4nv]
-  | .f8e5, .bf16, .f8e5 => rmsFusedTyped%[tl.float8e5, tl.bfloat16, tl.float8e5]
-  | .f8e5, .f8e4, .fp32 => rmsFusedTyped%[tl.float8e5, tl.float8e4nv, tl.float32]
-  | .f8e5, .f8e4, .fp64 => rmsFusedTyped%[tl.float8e5, tl.float8e4nv, tl.float64]
-  | .f8e5, .f8e4, .fp16 => rmsFusedTyped%[tl.float8e5, tl.float8e4nv, tl.float16]
-  | .f8e5, .f8e4, .bf16 => rmsFusedTyped%[tl.float8e5, tl.float8e4nv, tl.bfloat16]
-  | .f8e5, .f8e4, .f8e4 => rmsFusedTyped%[tl.float8e5, tl.float8e4nv, tl.float8e4nv]
-  | .f8e5, .f8e4, .f8e5 => rmsFusedTyped%[tl.float8e5, tl.float8e4nv, tl.float8e5]
-  | .f8e5, .f8e5, .fp32 => rmsFusedTyped%[tl.float8e5, tl.float8e5, tl.float32]
-  | .f8e5, .f8e5, .fp64 => rmsFusedTyped%[tl.float8e5, tl.float8e5, tl.float64]
-  | .f8e5, .f8e5, .fp16 => rmsFusedTyped%[tl.float8e5, tl.float8e5, tl.float16]
-  | .f8e5, .f8e5, .bf16 => rmsFusedTyped%[tl.float8e5, tl.float8e5, tl.bfloat16]
-  | .f8e5, .f8e5, .f8e4 => rmsFusedTyped%[tl.float8e5, tl.float8e5, tl.float8e4nv]
-  | .f8e5, .f8e5, .f8e5 => rmsFusedTyped%[tl.float8e5, tl.float8e5, tl.float8e5]
+def Shape.offset (s : Shape) (row col : Nat) : Nat := row*s.width+col
+def Shape.grid (s : Shape) : List Nat := List.range s.rows
 
-/-- Only the natural multiplication in the output row-pointer update commutes. -/
-def typedKernel (input weight output : Storage) (v : Bool)
-    (X Y W : RegionName) (stride N B : Nat) (eps : ℝ) : ComputeKernel :=
-  let source := originalTyped input weight output X Y W stride N B eps
-  if v then ComputeKernel.mk source.inputs source.outputs
-    (source.surfaceBody.take 1 ++
-      [.assign .ptr [] "Y" (.alg (.ptrAdd .nil (.ptrBase Y)
-        (.mul .nat .nil (.constNat stride) (.ref .nat [] "row"))))] ++ source.surfaceBody.drop 2)
-  else source
-
-end VeriTile.Bench.TritonBenchG.RmsnormFused
+end VeriTile.Bench.Repairs.RmsnormFused

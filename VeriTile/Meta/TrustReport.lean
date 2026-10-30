@@ -14,7 +14,7 @@ or a non-standard axiom (footprint outside {propext, Classical.choice,
 Quot.sound}) — a real soundness finding, NOT something to paper over.
 
 Coverage: 118 library theorems across 8 modules.
-Standalone bench ports + bench/examples are audited by bench/audit_trust.sh.
+Standalone bench ports + bench/examples are audited by scripts/bench/audit_trust.sh.
 -/
 import VeriTile.Meta.StatementAudit
 import VeriTile.Examples.ApproxGeLU

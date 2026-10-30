@@ -4,6 +4,96 @@ import triton
 import triton.language as tl
 
 
+
+def _ordinary(t, dtype, shape=None):
+    if (type(t) is not torch.Tensor or t.dtype != dtype or not t.is_cuda or
+            t.ndim != 2 or t.layout != torch.strided):
+        raise ValueError("expected ordinary rank-two CUDA Tensor with selected dtype")
+    if shape is not None and tuple(t.shape) != tuple(shape):
+        raise ValueError("incompatible shape")
+    rows, columns = t.shape
+    sr, sc = t.stride()
+    if (min(t.shape) <= 0 or
+            not (sr == columns or rows == 1 and sr == 1) or
+            not (sc == 1 or columns == 1 and sc == rows)):
+        raise ValueError("positive row-major geometry with source singleton strides is required")
+    if t.storage_offset() != 0 or t.is_conj() or t.is_neg() or t.requires_grad:
+        raise ValueError("materialized storage without lazy flags or autograd is required")
+    if not t.is_contiguous():
+        raise ValueError("contiguous storage is required")
+    storage = t.untyped_storage()
+    if (storage.nbytes() < t.element_size() * rows * columns or
+            storage.data_ptr() + storage.nbytes() >= 2**64 or
+            t.data_ptr() % t.element_size() or t.data_ptr() + 2**33 >= 2**64):
+        raise ValueError("storage capacity, alignment or formed pointer domain is invalid")
+
+
+def _independent(*tensors):
+    if len({t.device for t in tensors}) != 1:
+        raise ValueError("all tensors must share one CUDA device")
+    intervals = [(t.untyped_storage().data_ptr(), t.untyped_storage().nbytes()) for t in tensors]
+    for index, (base, size) in enumerate(intervals):
+        for other, extent in intervals[:index]:
+            if base < other + extent and other < base + size:
+                raise ValueError("independent nonoverlapping storage allocations are required")
+
+
+def _packed(b, scales, zeros, group_size, dtype):
+    if dtype not in (torch.float16, torch.float32):
+        raise ValueError("selected profiles require FP16 or FP32")
+    _ordinary(b, torch.int32)
+    K, N = b.shape[0] * 8, b.shape[1]
+    if type(group_size) is not int or group_size <= 0 or K % group_size or N % 8:
+        raise ValueError("packed dimensions and complete positive groups are required")
+    _ordinary(scales, dtype, (K // group_size, N))
+    _ordinary(zeros, torch.int32, (K // group_size, N // 8))
+    _independent(b, scales, zeros)
+    # Every standalone configuration has BK,BN <= 64. Include masked addresses.
+    kp, np = ((K + 63) // 64) * 64, ((N + 63) // 64) * 64
+    formed = [kp * N + np,
+              (kp // 8 + 1) * b.stride(0) + np * b.stride(1),
+              (kp // group_size + 1) * scales.stride(0) + np * scales.stride(1),
+              (kp // group_size + 1) * zeros.stride(0) + (np // 8) * zeros.stride(1),
+              K * N, kp * np, K, N, group_size]
+    if max(formed) >= 2 ** 31:
+        raise ValueError("formed source indices exceed signed32 domain")
+    if (N + 31) // 32 > 65535:
+        raise ValueError("dequantization grid y exceeds the CUDA limit 65535")
+    return K, N
+
+
+def _dequant_inputs(b, scales, zeros, device, dtype, group_size):
+    _packed(b, scales, zeros, group_size, dtype)
+    target = torch.device(device)
+    if target.type != 'cuda' or target.index is None or target != b.device:
+        raise ValueError("device must explicitly resolve to the input CUDA device")
+
+
+def _matmul_inputs(a, b, scales, zeros, group_size, out):
+    _ordinary(a, torch.float16)
+    K, N = _packed(b, scales, zeros, group_size, torch.float16)
+    M = a.shape[0]
+    if a.shape[1] != K or max(M * K, M * N) >= 2 ** 31:
+        raise ValueError("incompatible matrix or signed32 dimensions")
+    tensors = [a, b, scales, zeros]
+    if out is not None:
+        _ordinary(out, torch.float16, (M, N))
+        tensors.append(out)
+    _independent(*tensors)
+
+
+def _quantize_inputs(weight, group_size, tp_rank):
+    if type(weight) is not torch.Tensor or weight.dtype not in (torch.float16, torch.float32):
+        raise ValueError("selected quantizer profiles require FP16 or FP32")
+    _ordinary(weight, weight.dtype)
+    K, N = weight.shape
+    if type(group_size) is not int or group_size <= 0 or K % group_size or K % 8 or N % 8:
+        raise ValueError("packed dimensions and complete positive groups are required")
+    if type(tp_rank) is not int or tp_rank != weight.device.index:
+        raise ValueError("tp_rank must name the input CUDA device")
+    if K * N >= 2 ** 31 or not bool(torch.isfinite(weight).all()):
+        raise ValueError("finite weights and signed32 helper indices are required")
+
 @triton.autotune(
 	configs=[
         triton.Config({'BLOCK_SIZE_M': 64, 'BLOCK_SIZE_N': 256, 'BLOCK_SIZE_K': 32, 'GROUP_SIZE_M': 8}, num_stages=4, num_warps=4),
@@ -171,21 +261,24 @@ def dequantize_kernel(
 
 
 def dequantize_int4(b, b_scale, b_zero_point, device, dtype, group_size):
+    _dequant_inputs(b, b_scale, b_zero_point, device, dtype, group_size)
     Kw, N = b.shape
     K = Kw * 8
     fp_b = torch.ones((K, N), device=device, dtype=dtype)
+    _ordinary(fp_b, dtype, (K, N))
     grid = lambda META: (
         triton.cdiv(K, META['BLOCK_SIZE_K']),
         triton.cdiv(N, META['BLOCK_SIZE_N']), 
     )
-    dequantize_kernel[grid](
-        b, b_scale, b_zero_point, fp_b,
-        K, N, group_size,
-        b.stride(0), b.stride(1),
-        b_scale.stride(0), b_scale.stride(1),
-        b_zero_point.stride(0), b_zero_point.stride(1),
-        fp_b.stride(0), fp_b.stride(1)
-    )
+    with torch.cuda.device(b.device):
+        dequantize_kernel[grid](
+            b, b_scale, b_zero_point, fp_b,
+            K, N, group_size,
+            b.stride(0), b.stride(1),
+            b_scale.stride(0), b_scale.stride(1),
+            b_zero_point.stride(0), b_zero_point.stride(1),
+            fp_b.stride(0), fp_b.stride(1)
+        )
     return fp_b
 
 
@@ -195,6 +288,7 @@ def matmul_dequantize_int4_s1(a, b, b_scale, b_zero_point, group_size=128, out=N
     this is for `prefill` stage, since weight size is fixed so is dequantize overhead,
     perfill stage have more tokens to amortize dequant cost.
     """
+    _matmul_inputs(a, b, b_scale, b_zero_point, group_size, out)
     assert a.is_contiguous(), "Matrix A must be contiguous"
     # assert b.is_contiguous(), "Matrix B must be contiguous"
     M, K = a.shape
@@ -202,9 +296,11 @@ def matmul_dequantize_int4_s1(a, b, b_scale, b_zero_point, group_size=128, out=N
     if out is None:
         # Allocates output.
         out = torch.empty((M, N), device=a.device, dtype=a.dtype)
-    fp_b = dequantize_int4(b, b_scale, b_zero_point, a.device, a.dtype, group_size)
-    torch.mm(a, fp_b, out=out)
-    fp_b = None
+        _ordinary(out, torch.float16, (M, N))
+    with torch.cuda.device(a.device):
+        fp_b = dequantize_int4(b, b_scale, b_zero_point, a.device, a.dtype, group_size)
+        torch.mm(a, fp_b, out=out)
+        fp_b = None
     return out
 
 
@@ -213,6 +309,7 @@ def quantize_int4(weight, group_size=128, tp_rank=0):
     # Scale shape: [H1 // group_size, H2]
     # zero_pint shape: [H1 // group_size, H2 // 8]
 
+    _quantize_inputs(weight, group_size, tp_rank)
     weight = weight.transpose(1, 0)
     h1, h2 = weight.shape
     assert h1 % 8 == 0 and h2 % 8 == 0, "H1 {} H2 {}".format(h1, h2)
@@ -224,9 +321,11 @@ def quantize_int4(weight, group_size=128, tp_rank=0):
     weight_min = torch.where(weight_min > 0, 0, weight_min)
     weight_range = weight_max - weight_min 
     scale = weight_range / (2 ** 4 - 1)
+    if not bool(torch.isfinite(scale).all()) or not bool((scale > 0).all()):
+        raise ValueError("quantization requires finite positive computed scales")
     zero_point = (-weight_min / scale).round().clamp(0, 15).to(torch.int32)
     weight = (weight / scale + zero_point).round().clamp(0, 15).to(torch.int32).view(h1, h2)
-    int_weight = torch.empty(h1, h2 // 8).to(torch.int32).to(weight.device)
+    int_weight = torch.zeros((h1, h2 // 8), dtype=torch.int32, device=weight.device)
     int_zero_point = torch.zeros(h1 // 8, h2 // group_size).to(torch.int32).to(weight.device)
     zero_point = zero_point.view(h1, -1)
     scale = scale.view(h1, -1)
@@ -257,46 +356,3 @@ def quantize_int4(weight, group_size=128, tp_rank=0):
     '''
     weight = None
     return int_weight.transpose(1, 0).contiguous(), scale.transpose(1, 0).contiguous(), int_zero_point.transpose(1, 0).contiguous(), group_size
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_correct_int4_s1(M=32, K=4096, N=4096):
-    group_size = 128
-    a = torch.randn((M, K), device='cuda', dtype=torch.float16)
-    b = torch.randn((K, N), device='cuda', dtype=torch.float16)
-    int_b, b_scale, b_zero_point, _ = quantize_int4(b, group_size=group_size)
-    results = {}
-    
-    # Test case 1
-    triton_output_1 = matmul_dequantize_int4_s1(a, int_b, b_scale, b_zero_point, group_size)
-    results['test_case_1'] = triton_output_1
-    
-    # Test case 2
-    a = torch.randn((M, K), device='cuda', dtype=torch.float16)
-    b = torch.randn((K, N), device='cuda', dtype=torch.float16)
-    int_b, b_scale, b_zero_point, _ = quantize_int4(b, group_size=256)
-    triton_output_2 = matmul_dequantize_int4_s1(a, int_b, b_scale, b_zero_point, 256)
-    results['test_case_2'] = triton_output_2
-    
-    # Test case 3
-    a = torch.randn((M, K), device='cuda', dtype=torch.float16)
-    b = torch.randn((K, N), device='cuda', dtype=torch.float16)
-    int_b, b_scale, b_zero_point, _ = quantize_int4(b, group_size=64)
-    triton_output_3 = matmul_dequantize_int4_s1(a, int_b, b_scale, b_zero_point, 64)
-    results['test_case_3'] = triton_output_3
-    
-    # Test case 4
-    a = torch.randn((M, K), device='cuda', dtype=torch.float16)
-    b = torch.randn((K, N), device='cuda', dtype=torch.float16)
-    int_b, b_scale, b_zero_point, _ = quantize_int4(b, group_size=32)
-    triton_output_4 = matmul_dequantize_int4_s1(a, int_b, b_scale, b_zero_point, 32)
-    results['test_case_4'] = triton_output_4
-    
-    return results
-
-result_gold = test_correct_int4_s1()

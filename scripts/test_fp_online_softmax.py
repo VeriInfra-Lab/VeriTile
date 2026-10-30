@@ -63,7 +63,7 @@ run_cmd do
 ''')
 
     def test_iterations_outputs_observations_domains_and_memory(self):
-        self.check_lean((ROOT / 'bench/tests/FPOnlineSoftmax.lean').read_text())
+        self.check_lean((ROOT / 'tests/lean/FPOnlineSoftmax.lean').read_text())
 
     def test_public_output_spec_uses_only_admitted_scalar_atoms(self):
         output = self.check_lean('''

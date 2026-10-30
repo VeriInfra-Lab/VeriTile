@@ -19,10 +19,10 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from bench import audit_source as source
-from bench import source_materializations as material
-from bench import source_uniform_materializations as uniform
-from bench.port_layout import source_text
+from scripts.bench import audit_source as source
+from scripts.bench import source_materializations as material
+from scripts.bench import source_uniform_materializations as uniform
+from scripts.bench.port_layout import source_text
 
 FIXTURES = ROOT / 'scripts/fixtures/source_uniform_materializations'
 PYTHON = (FIXTURES / 'uniform_sampling.py.txt').read_text()

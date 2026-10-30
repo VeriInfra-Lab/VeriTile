@@ -101,7 +101,7 @@ class ExamplePairTests(unittest.TestCase):
 
     def test_optimized_real_specs_bind_sources_formulas_and_full_scope(self):
         self.assertEqual(self.lean(
-            (ROOT / "bench/tests/OptimizedRealExamples.lean").read_text()), "")
+            (ROOT / "tests/lean/OptimizedRealExamples.lean").read_text()), "")
 
     def test_public_scheduled_contracts_match_proved_execution_contracts(self):
         families = ("SoftmaxStable", "StableLogSumExp", "OnlineSoftmax", "Welford", "FusedLayerNorm")

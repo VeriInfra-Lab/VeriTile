@@ -1,41 +1,62 @@
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 
-/-! Source: chunk_cumsum_kernel.py, chunk_global_cumsum_scalar_kernel.
-Complete typed chunked cumulative sum. The candidate only reverses the
-fp32 carry update; every scan, reduction, mask, cast and store is retained.
-Python's output dtype attribute is resolved explicitly to OUT_DTYPE. -/
-namespace VeriTile.Bench.TritonBenchG.ChunkCumsumKernel.TypedSource
-open Lean VeriTile.Triton
-syntax "chunkCumsumSource%" ident : term
-set_option hygiene false in
-macro_rules
-  | `(chunkCumsumSource% $version:ident) => do
-    unless version.getId == `original || version.getId == `sumLeft do
-      Macro.throwError "expected original or sumLeft"
-    let update : TSyntax `tritonStmt ←
-      if version.getId == `sumLeft then `(tritonStmt| b_z = b_zz + b_z)
-      else `(tritonStmt| b_z += b_zz)
-    `(fun (dtype out_dtype : FloatDType) (s o : RegionName) (T BT : Nat) =>
-      ComputeKernel.mk [s] [o] (triton {
-        tl.region s = DTYPE, o = OUT_DTYPE
-        i_bh = tl.program_id(0)
-        b_z = tl.zeros([], dtype=tl.float32)
-        for i_t in range($(0), tl.cdiv($(T), $(BT)), $(1)) {
-          p_s = tl.make_block_ptr(base=s+i_bh*$(T), shape=($(T)), strides=($(1)),
-            offsets=(i_t*$(BT)), block_shape=($(BT)), order=(0))
-          p_o = tl.make_block_ptr(base=o+i_bh*$(T), shape=($(T)), strides=($(1)),
-            offsets=(i_t*$(BT)), block_shape=($(BT)), order=(0))
-          b_s = tl.load(p_s, boundary_check=([0] : List Nat)).to(tl.float32)
-          b_o = tl.cumsum(b_s, axis=0) + b_z[None]
-          b_zz = tl.sum(b_s, axis=0)
-          $update
-          tl.store(p_o, (b_o).to(OUT_DTYPE), boundary_check=([0] : List Nat))
-        }
-      }).surfaceBody)
+namespace VeriTile.Bench.Repairs.ChunkCumsumKernel
+open VeriTile.Triton
 
-def original := chunkCumsumSource% original
+/-- Actual minimal index repair. The loop is explicitly signed64 in Python;
+the DSL retains its signed loop and casts. Explicit masked pointers avoid the
+native block-pointer offset's int32 restriction. Unspecified padding stays
+unspecified, with the same logical inactive address and original FP operations. -/
+def repairedKernel (dtype out_dtype : FloatDType) (s o : RegionName) (T BT : Nat) : ComputeKernel :=
+  triton {
+  tl.ports inputs=[s], outputs=[o]
+    tl.region s = DTYPE, o = OUT_DTYPE
+    i_bh = tl.program_id(0)
+    b_z = tl.zeros([], dtype=tl.float32)
+    for i_t in range($((0 : Int)), $((Int.ofNat ((T+BT-1)/BT) : Int)), $(1)) {
+      times = i_t * $(BT) + tl.arange(0, BT).to(tl.int64)
+      p_s = s+i_bh.to(tl.int64)*$(T)+times
+      p_o = o+i_bh.to(tl.int64)*$(T)+times
+      b_s = tl.load(p_s, mask=times<$(T)).to(tl.float32)
+      b_o = tl.cumsum(b_s, axis=0) + b_z[None]
+      b_zz = tl.sum(b_s, axis=0)
+      b_z += b_zz
+      tl.store(p_o, b_o.to(OUT_DTYPE), mask=times<$(T))
+    }
+  }
 
-def sumLeft := chunkCumsumSource% sumLeft
+/-- The intended candidate changes only the FP32 carry-add operand order. -/
+def sumLeftKernel (dtype out_dtype : FloatDType) (s o : RegionName) (T BT : Nat) : ComputeKernel :=
+  triton {
+  tl.ports inputs=[s], outputs=[o]
+    tl.region s = DTYPE, o = OUT_DTYPE
+    i_bh = tl.program_id(0)
+    b_z = tl.zeros([], dtype=tl.float32)
+    for i_t in range($((0 : Int)), $((Int.ofNat ((T+BT-1)/BT) : Int)), $(1)) {
+      times = i_t * $(BT) + tl.arange(0, BT).to(tl.int64)
+      p_s = s+i_bh.to(tl.int64)*$(T)+times
+      p_o = o+i_bh.to(tl.int64)*$(T)+times
+      b_s = tl.load(p_s, mask=times<$(T)).to(tl.float32)
+      b_o = tl.cumsum(b_s, axis=0) + b_z[None]
+      b_zz = tl.sum(b_s, axis=0)
+      b_z = b_zz + b_z
+      tl.store(p_o, b_o.to(OUT_DTYPE), mask=times<$(T))
+    }
+  }
 
-end VeriTile.Bench.TritonBenchG.ChunkCumsumKernel.TypedSource
+inductive Config where
+  | bt16w2 | bt32w4 | bt32w2 | bt64w8 | bt64w4
+  deriving DecidableEq
+
+def Config.block : Config → Nat
+  | .bt16w2 => 16 | .bt32w4 | .bt32w2 => 32 | .bt64w8 | .bt64w4 => 64
+
+def Config.warps : Config → Nat
+  | .bt16w2 | .bt32w2 => 2 | .bt32w4 | .bt64w4 => 4 | .bt64w8 => 8
+
+
+def configs : List Config := [.bt16w2,.bt32w4,.bt32w2,.bt64w8,.bt64w4]
+
+
+end VeriTile.Bench.Repairs.ChunkCumsumKernel

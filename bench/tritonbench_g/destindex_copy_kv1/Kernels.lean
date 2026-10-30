@@ -1,72 +1,94 @@
-import VeriTile.Triton.DSL
-import VeriTile.Triton.Source
-/-! Source: destindex_copy_kv1.py, _fwd_kernel_destindex_copy_kv
+import bench.tritonbench_g.destindex_copy_kv1.Sources.Mathematical_Kernels
+import Mathlib.Data.Nat.Log
+namespace VeriTile.Bench.Repairs.DestindexCopyKv1
+open VeriTile.Triton
+open VeriTile.Bench.TritonBenchG.DestindexCopyKv1
+structure Layout where
+  K : RegionName
+  Dest_loc : Region .int
+  Out : RegionName
+  stride_k_bs : Nat
+  stride_k_h : Nat
+  stride_k_d : Nat
+  stride_o_bs : Nat
+  stride_o_h : Nat
+  stride_o_d : Nat
+  head_num : Nat
+  head_dim : Nat
+  BLOCK_DMODEL : Nat
+  BLOCK_HEAD : Nat
 
-Complete masked multi-head destination-indexed copy. Metadata uses signed
-integers; input and output independently support fp16/bf16/fp32. The explicit
-output cast records the Python store's implicit destination conversion.
-The original scalar metadata load is unmasked. Both payload dimensions are
-masked, including head and width padding, with other=0.0 on the input load.
-The candidate commutes only the exact natural-number source-row product.
-Integer widths, host launch composition and races are outside the model. -/
-namespace VeriTile.Bench.TritonBenchG.DestindexCopyKv1.TypedSource
-open Lean VeriTile.Triton
-syntax "destindexCopyKv1Source%" "[" tritonDType "," tritonDType "," ident "]" : term
-set_option hygiene false in
-macro_rules
-  | `(destindexCopyKv1Source%[$inType:tritonDType, $outType:tritonDType, $version:ident]) => do
-    unless version.getId == `original || version.getId == `indexCommuted do
-      Macro.throwError "expected original or indexCommuted"
-    let sourcePointer : TSyntax `tritonStmt ←
-      if version.getId == `indexCommuted then
-        `(tritonStmt| k_ptrs = K + $(stride_k_bs) * cur_index + $(stride_k_h) * offs_h[:, None] + $(stride_k_d) * offs_d[None, :])
-      else
-        `(tritonStmt| k_ptrs = K + cur_index * $(stride_k_bs) + $(stride_k_h) * offs_h[:, None] + $(stride_k_d) * offs_d[None, :])
-    `(fun (K : RegionName) (Dest_loc : Region .int) (Out : RegionName)
-    (stride_k_bs stride_k_h stride_k_d stride_o_bs stride_o_h stride_o_d
-      head_num head_dim BLOCK_DMODEL BLOCK_HEAD : Nat) =>
-      ComputeKernel.mk [K,Dest_loc.cast] [Out] (triton {
-  tl.region K = $inType, Out = $outType
-  cur_index = tl.program_id(0)
-  offs_h = tl.arange(0, $(BLOCK_HEAD))
-  offs_d = tl.arange(0, $(BLOCK_DMODEL))
-  dest_index = tl.load(Dest_loc + cur_index)
-  $sourcePointer
-  o_ptrs = Out + dest_index * $(stride_o_bs) +
-    $(stride_o_h) * offs_h[:, None] + $(stride_o_d) * offs_d[None, :]
-  k = tl.load(k_ptrs,
-    mask=(offs_h[:, None] < $(head_num)) & (offs_d[None, :] < $(head_dim)),
-    other=0.0)
-  tl.store(o_ptrs, (k).to($outType:tritonDType),
-    mask=(offs_h[:, None] < $(head_num)) & (offs_d[None, :] < $(head_dim)))
-}).surfaceBody)
+def Layout.source (p : Layout) (input output : TypedSource.Storage) (swapped : Bool) : ComputeKernel :=
+  TypedSource.kernel input output swapped p.K p.Dest_loc p.Out p.stride_k_bs p.stride_k_h p.stride_k_d p.stride_o_bs p.stride_o_h p.stride_o_d p.head_num p.head_dim p.BLOCK_DMODEL p.BLOCK_HEAD
 
-inductive Storage where
-  | fp32 | fp16 | bf16
-  deriving DecidableEq
+/- Preserved source definitions for the existing precision-polymorphic API. -/
+namespace Legacy
+def kernel (p : Layout) : ComputeKernel := p.source .fp32 .fp32 Bool.false
+def indexCommutedKernel (p : Layout) : ComputeKernel := p.source .fp32 .fp32 Bool.true
+end Legacy
 
-abbrev Source := RegionName → Region .int → RegionName →
-  Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → ComputeKernel
+/-- Complete selected FP32 source. The scalar destination load is unmasked;
+both payload dimensions retain their original masks. -/
+def kernel (p : Layout) : ComputeKernel :=
+  let K := p.K
+  let Dest_loc := p.Dest_loc
+  let Out := p.Out
+  triton {
+    tl.ports inputs=[K, Dest_loc.cast], outputs=[Out]
+    tl.region K = tl.float32, Out = tl.float32
+    cur_index = tl.program_id(0)
+    offs_h = tl.arange(0, $(p.BLOCK_HEAD))
+    offs_d = tl.arange(0, $(p.BLOCK_DMODEL))
+    dest_index = tl.load(Dest_loc + cur_index)
+    k_ptrs = K + cur_index * $(p.stride_k_bs) +
+      $(p.stride_k_h) * offs_h[:, None] + $(p.stride_k_d) * offs_d[None, :]
+    o_ptrs = Out + dest_index * $(p.stride_o_bs) +
+      $(p.stride_o_h) * offs_h[:, None] + $(p.stride_o_d) * offs_d[None, :]
+    k = tl.load(k_ptrs,
+      mask=(offs_h[:, None] < $(p.head_num)) & (offs_d[None, :] < $(p.head_dim)),
+      other=0.0)
+    tl.store(o_ptrs, k.to(tl.float32),
+      mask=(offs_h[:, None] < $(p.head_num)) & (offs_d[None, :] < $(p.head_dim)))
+  }
 
-def kernel (input output : Storage) (swapped : Bool) : Source :=
-  match input, output, swapped with
-  | .fp32, .fp32, Bool.false => destindexCopyKv1Source%[tl.float32, tl.float32, original]
-  | .fp32, .fp32, Bool.true => destindexCopyKv1Source%[tl.float32, tl.float32, indexCommuted]
-  | .fp32, .fp16, Bool.false => destindexCopyKv1Source%[tl.float32, tl.float16, original]
-  | .fp32, .fp16, Bool.true => destindexCopyKv1Source%[tl.float32, tl.float16, indexCommuted]
-  | .fp32, .bf16, Bool.false => destindexCopyKv1Source%[tl.float32, tl.bfloat16, original]
-  | .fp32, .bf16, Bool.true => destindexCopyKv1Source%[tl.float32, tl.bfloat16, indexCommuted]
-  | .fp16, .fp32, Bool.false => destindexCopyKv1Source%[tl.float16, tl.float32, original]
-  | .fp16, .fp32, Bool.true => destindexCopyKv1Source%[tl.float16, tl.float32, indexCommuted]
-  | .fp16, .fp16, Bool.false => destindexCopyKv1Source%[tl.float16, tl.float16, original]
-  | .fp16, .fp16, Bool.true => destindexCopyKv1Source%[tl.float16, tl.float16, indexCommuted]
-  | .fp16, .bf16, Bool.false => destindexCopyKv1Source%[tl.float16, tl.bfloat16, original]
-  | .fp16, .bf16, Bool.true => destindexCopyKv1Source%[tl.float16, tl.bfloat16, indexCommuted]
-  | .bf16, .fp32, Bool.false => destindexCopyKv1Source%[tl.bfloat16, tl.float32, original]
-  | .bf16, .fp32, Bool.true => destindexCopyKv1Source%[tl.bfloat16, tl.float32, indexCommuted]
-  | .bf16, .fp16, Bool.false => destindexCopyKv1Source%[tl.bfloat16, tl.float16, original]
-  | .bf16, .fp16, Bool.true => destindexCopyKv1Source%[tl.bfloat16, tl.float16, indexCommuted]
-  | .bf16, .bf16, Bool.false => destindexCopyKv1Source%[tl.bfloat16, tl.bfloat16, original]
-  | .bf16, .bf16, Bool.true => destindexCopyKv1Source%[tl.bfloat16, tl.bfloat16, indexCommuted]
+def block (n : Nat) : Nat := 2 ^ Nat.clog 2 n
+structure Config where
+  count : Nat
+  sourceRows : Nat
+  rows : Nat
+  heads : Nat
+  dims : Nat
 
-end VeriTile.Bench.TritonBenchG.DestindexCopyKv1.TypedSource
+def inputRegion : RegionName := ⟨"K"⟩
+def metadataRegion : Region .int := ⟨"Dest_loc"⟩
+def outputRegion : RegionName := ⟨"Out"⟩
+def layout (c : Config) : Layout :=
+  ⟨inputRegion, metadataRegion, outputRegion, c.heads*c.dims, c.dims, 1,
+    c.heads*c.dims, c.dims, 1, c.heads, c.dims, block c.dims, block c.heads⟩
+def flat (c : Config) (row head dim : Nat) : Nat := row*(c.heads*c.dims)+head*c.dims+dim
+
+
+/-- Existing variant: commute only the exact source-row index product. -/
+def indexCommutedKernel (p : Layout) : ComputeKernel :=
+  let K := p.K
+  let Dest_loc := p.Dest_loc
+  let Out := p.Out
+  triton {
+    tl.ports inputs=[K, Dest_loc.cast], outputs=[Out]
+    tl.region K = tl.float32, Out = tl.float32
+    cur_index = tl.program_id(0)
+    offs_h = tl.arange(0, $(p.BLOCK_HEAD))
+    offs_d = tl.arange(0, $(p.BLOCK_DMODEL))
+    dest_index = tl.load(Dest_loc + cur_index)
+    k_ptrs = K + $(p.stride_k_bs) * cur_index +
+      $(p.stride_k_h) * offs_h[:, None] + $(p.stride_k_d) * offs_d[None, :]
+    o_ptrs = Out + dest_index * $(p.stride_o_bs) +
+      $(p.stride_o_h) * offs_h[:, None] + $(p.stride_o_d) * offs_d[None, :]
+    k = tl.load(k_ptrs,
+      mask=(offs_h[:, None] < $(p.head_num)) & (offs_d[None, :] < $(p.head_dim)),
+      other=0.0)
+    tl.store(o_ptrs, k.to(tl.float32),
+      mask=(offs_h[:, None] < $(p.head_num)) & (offs_d[None, :] < $(p.head_dim)))
+  }
+
+end VeriTile.Bench.Repairs.DestindexCopyKv1

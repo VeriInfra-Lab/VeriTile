@@ -1,118 +1,114 @@
-import bench.tritonbench_g.reversed_cumsum.Proofs.RealBody
-import bench.tritonbench_g.reversed_cumsum.Proofs.RealInit
-import bench.tritonbench_g.reversed_cumsum.Proofs.SignedRange
-import bench.tritonbench_g.reversed_cumsum_scalar.Proofs.SignedIndex
+import bench.tritonbench_g.reversed_cumsum.Proofs.RealBridge
+import bench.tritonbench_g.reversed_cumsum.Proofs.Mathematical_Formula
 
-/-! Complete source execution, including the empty time dimension. Original
-and candidate initialization are each executed, then every actual reverse
-iteration establishes the same independent padded suffix and tagged frame. -/
-namespace VeriTile.Bench.TritonBenchG.ReversedCumsum.RealExecution
-open VeriTile.Triton RealProgram RealStep RealLoop
+namespace VeriTile.Bench.Repairs.ReversedCumsum.RealExecution
+open VeriTile.Triton RealProgram RealBridge IndexProgram
 open VeriTile.Bench.TritonBenchG.ReversedCumsumScalar
 noncomputable section
-set_option maxHeartbeats 2000000
-set_option maxRecDepth 12000
+set_option maxHeartbeats 3600000
+set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
-theorem mirror_invariant (initial : BlockState) (p : Layout) (l : Launch)
-    (s o : RegionName) (a : Nat → ℝ) (c : Nat) (u : BlockState)
-    (h : Holds initial p l s o a c u) (j : Int) :
-    Holds initial p l s o a c (u.setReg "__rev_i_t" .int [] (Tile.scalar j)) := by
-  refine ⟨h.undef, h.count_le, ?_, ?_, ?_, ?_, h.input, h.output, h.frame⟩
-  · simpa using h.feature
-  · simpa using h.head
-  · simpa using h.triangular
-  · simpa using h.accumulated
-
-theorem mirror_assign (j : Int) (u : BlockState) :
-    stepStmt (.assign .int [] "i_t"
-      (.sub .int .nil (.constInt 0) (.ref .int [] "__rev_i_t")))
-      (u.setReg "__rev_i_t" .int [] (Tile.scalar j)) =
-    some ((u.setReg "__rev_i_t" .int [] (Tile.scalar j)).setReg "i_t" .int [] (Tile.scalar (-j))) := by
-  simp only [stepStmt, evalOp, BlockState.setReg_same, Option.bind_some,
-    Option.bind_eq_bind, Option.pure_def]
-  apply congrArg some
-  apply congrArg (fun tile : Tile .int [] =>
-    (u.setReg "__rev_i_t" .int [] (Tile.scalar j)).setReg "i_t" .int [] tile)
-  apply Tile.ext
-  intro i
-  change 0 - j = -j
-  omega
-
-theorem iteration (initial : BlockState) (p : Layout) (l : Launch) (s o : RegionName)
-    (a : Nat → ℝ) (hSO : s ≠ o) (hBT : 0 < p.BT) (hinj : NoCollision p l)
-    (j : Int) (u : BlockState) (hj : j < 1)
-    (h : Holds initial p l s o a (SignedIndex.remaining j) u) :
-    ∃ v, stepStmts (iterationBody p s o)
-        (u.setReg "__rev_i_t" .int [] (Tile.scalar j)) = some v ∧
-      Holds initial p l s o a (SignedIndex.remaining (j + 1)) v := by
-  have hc : (-j).toNat < numChunks p := by
-    have hn := h.count_le
+theorem iteration (initial : BlockState) (h : Call) (c : Config) (row : Nat)
+    (f : Geometry.FeatureBlock h) (a : Nat → ℝ) (distinct : h.input≠h.output)
+    (positive : 0<c.BT) (j : Int) (u : BlockState) (hj : j<1)
+    (inv : Holds initial h c row f.val a (SignedIndex.remaining j) u) :
+    ∃ v, stepStmts (loopBody h c) (u.setReg "__rev_i_t" .int [] (Tile.scalar j))=some v ∧
+      Holds initial h c row f.val a (SignedIndex.remaining (j+1)) v := by
+  have count : (-j).toNat<Geometry.chunks h c := by
+    have hn := inv.count_le
     rw [SignedIndex.current_chunk j hj] at hn
+    change (-j).toNat+1≤Geometry.chunks h c at hn
     omega
-  have hm := mirror_invariant initial p l s o a (SignedIndex.remaining j) u h j
-  rw [SignedIndex.current_chunk j hj] at hm
-  obtain ⟨v, he, hv⟩ := RealLoop.iteration initial p l s o a hSO hBT hinj
-    (-j).toNat (u.setReg "__rev_i_t" .int [] (Tile.scalar j)) hc hm
-  refine ⟨v, ?_, ?_⟩
-  · rw [iterationBody, stepStmts.cons_some (mirror_assign j u)]
+  have hm : Holds initial h c row f.val a ((-j).toNat+1)
+      (u.setReg "__rev_i_t" .int [] (Tile.scalar j)) := by
+    rw [←SignedIndex.current_chunk j hj]
+    exact VeriTile.Bench.TritonBenchG.ReversedCumsum.RealExecution.mirror_invariant
+      (zeroUndef initial) (layout h c) (launch row f.val) h.input h.output a
+      (SignedIndex.remaining j) (zeroUndef u) inv j
+  obtain ⟨v,he,hv⟩ := RealBridge.iteration initial h c row f a distinct positive (-j).toNat
+    (u.setReg "__rev_i_t" .int [] (Tile.scalar j)) count hm
+  refine ⟨v,?_,?_⟩
+  · change stepStmts (.assign .int [] "i_t" indexOp :: RealStep.chunkCode h c)
+      (u.setReg "__rev_i_t" .int [] (Tile.scalar j))=some v
+    unfold indexOp
+    rw [stepStmts.cons_some (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealExecution.mirror_assign j u)]
     simpa only [SignedIndex.int_index_of_nat j hj] using he
   · simpa only [SignedIndex.after_step] using hv
 
-theorem start_eval (p : Layout) (u : BlockState) :
-    evalOp (reverseStart p) u = some (Tile.scalar (1 - (numChunks p : Int))) := by
-  simp only [reverseStart, stopOp, evalOp, Option.bind_some,
-    Option.bind_eq_bind, Option.pure_def]
-  apply congrArg some
-  apply Tile.ext
-  intro i
-  change 0 - ((((p.T + p.BT - 1) / p.BT : Nat) : Int) - 1) = 1 - (numChunks p : Int)
-  unfold numChunks
-  omega
+theorem start_eval (h : Call) (c : Config) (u : BlockState) :
+    evalOp (reverseStart h c) u=some (Tile.scalar (1-(Geometry.chunks h c:Int))) :=
+  VeriTile.Bench.TritonBenchG.ReversedCumsum.RealExecution.start_eval (layout h c) u
 
-theorem statement_eval (p : Layout) (s o : RegionName) (u : BlockState) :
-    stepStmt (statement p s o) u =
-      stepForRangeIntAux "__rev_i_t" (1 - (numChunks p : Int)) 1 1
-        (iterationBody p s o) u := by
-  rw [statement, stepForRangeIntAux.forRangeInt_unfold, start_eval]
-  simp only [evalOp, Option.bind_some, Option.bind_eq_bind, Tile.scalar]
+theorem statement_eval (h : Call) (c : Config) (u : BlockState) :
+    stepStmt (statement h c) u=stepForRangeIntAux "__rev_i_t" (1-(Geometry.chunks h c:Int)) 1 1 (loopBody h c) u := by
+  rw [statement,stepForRangeIntAux.forRangeInt_unfold,start_eval]
+  simp only [evalOp,Option.bind_some,Option.bind_eq_bind,Tile.scalar]
 
-theorem loop_executes (initial : BlockState) (p : Layout) (l : Launch) (s o : RegionName)
-    (a : Nat → ℝ) (hSO : s ≠ o) (hBT : 0 < p.BT) (hinj : NoCollision p l)
-    (u : BlockState) (h : Holds initial p l s o a (numChunks p) u) :
-    ∃ v, stepStmt (statement p s o) u = some v ∧ Holds initial p l s o a 0 v := by
-  obtain ⟨final, v, he, hf, hv⟩ := SignedRange.executes "__rev_i_t" 1 1
-    (iterationBody p s o) (fun j v => Holds initial p l s o a (SignedIndex.remaining j) v)
-    (by decide)
-    (fun j v hj hv => iteration initial p l s o a hSO hBT hinj j v hj hv)
-    (1 - (numChunks p : Int)) u (by simpa only [SignedIndex.at_start] using h)
-  refine ⟨v, (statement_eval p s o u).trans he, ?_⟩
-  simpa only [SignedIndex.at_or_after_end final hf] using hv
+theorem loop_executes (initial : BlockState) (h : Call) (c : Config) (row : Nat)
+    (f : Geometry.FeatureBlock h) (a : Nat → ℝ) (distinct : h.input≠h.output)
+    (positive : 0<c.BT) (u : BlockState) (inv : Holds initial h c row f.val a (Geometry.chunks h c) u) :
+    ∃ v, stepStmt (statement h c) u=some v ∧ Holds initial h c row f.val a 0 v := by
+  obtain ⟨final,v,he,hf,hv⟩ := VeriTile.Bench.TritonBenchG.ReversedCumsum.SignedRange.executes "__rev_i_t" 1 1
+    (loopBody h c) (fun j v => Holds initial h c row f.val a (SignedIndex.remaining j) v)
+    (by decide) (fun j v hj hv => iteration initial h c row f a distinct positive j v hj hv)
+    (1-(Geometry.chunks h c:Int)) u (by simpa only [SignedIndex.at_start] using inv)
+  exact ⟨v,(statement_eval h c u).trans he,by simpa only [SignedIndex.at_or_after_end final hf] using hv⟩
 
-def Post (p : Layout) (s o : RegionName) (initial final : BlockState) : Prop :=
-  (∀ (t : Nat) (j : Fin p.BS), active p (RealInit.launch initial) t j.val →
-    final.mem o (address p (RealInit.launch initial) t j.val) =
-      MemCell.real (expected p (RealInit.launch initial) (initial.readMem s) (initial.undef s) t j)) ∧
-  BlockState.WriteWithin (footprint p (RealInit.launch initial) o) initial final
+def footprint (h : Call) (row f : Nat) : WriteFootprint :=
+  VeriTile.Bench.TritonBenchG.ReversedCumsum.RealLoop.footprint (layout h ⟨1,1⟩) (launch row f) h.output
 
-theorem source_correct (swapped : Bool) (p : Layout) (s o : RegionName)
-    (dtype out_dtype : FloatDType) (initial : BlockState)
-    (hSO : s ≠ o) (hBT : 0 < p.BT) (hinj : NoCollision p (RealInit.launch initial)) :
-    ∃ final, exec (RealSource.source swapped dtype out_dtype s o
-      p.headStride p.timeStride p.channelStride p.T p.S p.BT p.BS).eraseDType.toAlgKernel initial =
-        some final ∧ Post p s o initial final := by
-  obtain ⟨final, he, h⟩ := loop_executes initial p (RealInit.launch initial) s o
-    (initial.readMem s) hSO hBT hinj (RealInit.initial p initial)
-    (RealInit.invariant p initial s o (initial.readMem s) (fun _ => rfl) hBT)
-  refine ⟨final, ?_, ?_, h.frame⟩
-  · rw [exec, source_body, body, ProgramRewrite.append, RealInit.executes]
-    change stepStmts [statement p s o] (RealInit.initial p initial) = some final
-    rw [stepStmts.cons_some he, stepStmts.nil]
-  · intro t j ha
-    exact h.output t j ha (by simp)
+/-- Independent suffix specification, over the logical input before execution. -/
+def suffix (h : Call) (a : Nat → ℝ) (row t s : Nat) : ℝ :=
+  VeriTile.Bench.TritonBenchG.ReversedCumsum.RealMath.suffixValue
+    (fun k => a (Geometry.address h row k s)) h.T t
 
-#axiomsClean iteration
-#axiomsClean loop_executes
-#axiomsClean source_correct
+theorem expected_suffix (h : Call) (c : Config) (row f : Nat) (a : Nat → ℝ)
+    (positive : 0<c.BT) (t : Nat) (j : Fin BS) (ht : t<h.T) (hs : f*BS+j.val<h.S) :
+    VeriTile.Bench.TritonBenchG.ReversedCumsum.RealLoop.expected (layout h c) (launch row f) a (fun _ => 0) t j=
+      suffix h a row t (f*BS+j.val) := by
+  unfold VeriTile.Bench.TritonBenchG.ReversedCumsum.RealLoop.expected suffix
+  have val : VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.value (layout h c) (launch row f) a (fun _ => 0) =
+      fun k j => if k<h.T ∧ f*BS+j.val<h.S then a (Geometry.address h row k (f*BS+j.val)) else 0 := by
+    funext k j
+    simp [VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.value,
+      VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.active,
+      VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.address,layout,launch,Geometry.address]
+  simp only [val,hs,and_true]
+  exact VeriTile.Bench.TritonBenchG.ReversedCumsum.Formula.zero_padding _ (fun _ => 0) h.T _ t
+    (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.chunks_cover (layout h c) positive)
+    (Nat.le_of_lt ht) (by intros; rfl)
+
+theorem source_correct (h : Call) (c : Config) (row : Nat) (f : Geometry.FeatureBlock h)
+    (initial : BlockState) (distinct : h.input≠h.output) (positive : 0<c.BT)
+    (pid0 : initial.pids 0=f.val) (pid1 : initial.pids 1=row) :
+    ∃ final, exec (Kernels.source h c).eraseDType.toAlgKernel initial=some final ∧
+      (∀ (t : Nat) (j : Fin BS), t<h.T → f.val*BS+j.val<h.S →
+        final.mem h.output (Geometry.address h row t (f.val*BS+j.val))=
+          MemCell.real (suffix h (initial.readMem h.input) row t (f.val*BS+j.val))) ∧
+      BlockState.WriteWithin (footprint h row f.val) initial final := by
+  have inv : Holds initial h c row f.val (initial.readMem h.input) (Geometry.chunks h c)
+      (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.initial (layout h c) initial) := by
+    have v := VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.invariant (layout h c)
+      (zeroUndef initial) h.input h.output (initial.readMem h.input) (fun _ => rfl) positive
+    have launches : VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.launch (zeroUndef initial)=launch row f.val := by
+      simp [VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.launch,zeroUndef,launch,pid0,pid1]
+    rw [launches] at v
+    exact v
+  obtain ⟨final,he,hv⟩ := loop_executes initial h c row f (initial.readMem h.input) distinct positive _ inv
+  refine ⟨final,?_,?_,hv.frame⟩
+  · rw [exec,source_body,body,ProgramRewrite.append]
+    rw [show stepStmts (initCode h c) initial=some
+      (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.initial (layout h c) initial) from
+      VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.executes (layout h c) Bool.false initial]
+    change stepStmts [statement h c] _=some final
+    rw [stepStmts.cons_some he,stepStmts.nil]
+  · intro t j ht hs
+    have read := hv.output t j ⟨ht,hs⟩ (by simp)
+    rw [show (zeroUndef initial).undef h.input=(fun _ => 0) from rfl,
+      expected_suffix h c row f.val (initial.readMem h.input) positive t j ht hs] at read
+    simpa [zeroUndef,VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.address,layout,launch,Geometry.address] using read
+
+#print axioms source_correct
 end
-end VeriTile.Bench.TritonBenchG.ReversedCumsum.RealExecution
+end VeriTile.Bench.Repairs.ReversedCumsum.RealExecution

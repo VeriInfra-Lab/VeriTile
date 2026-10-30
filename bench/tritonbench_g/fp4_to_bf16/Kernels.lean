@@ -1,55 +1,33 @@
-import VeriTile.Triton
+import bench.tritonbench_g.fp4_to_bf16.Sources.Mathematical_Kernels
 
-namespace VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue
-open VeriTile.Triton
-/-- Pinned unscaled FP4 kernel with its single helper inlined and format
-constexprs specialized to the wrapper's e2m1 values. Masked input has no other.
-The upstream variable x_low_bits actually selects the high nibble. -/
-def unscaled (X Y : RegionName) (n block : Nat) : ComputeKernel := triton {
-  tl.region X = tl.uint8, Y = tl.bfloat16
-  pid = tl.program_id(axis=0)
-  n_elements_out = $(n) * $(2)
-  block_start_in = pid * $(block)
-  offsets_in = block_start_in + tl.arange(0, $(block))
-  mask_in = offsets_in < $(n)
-  x_packed = tl.load(X + offsets_in, mask=mask_in)
-  x_low_bits = x_packed >> $(4)
-  x_high_bits = x_packed & $(15)
-  x = tl.interleave(x_low_bits, x_high_bits)
-  sign_f4 = x & $(8)
-  x_pos = x ^ sign_f4
-  zero_mask = x_pos == $(0)
-  denormal_mask = x_pos == $(1)
-  exp_biased_f4 = x_pos >> $(1)
-  exp_biased_f32 = (exp_biased_f4.to(tl.int32) - $((1 : Int))).to(tl.uint8)
-  exp_biased_f32 = (exp_biased_f32 + $(127)).to(tl.uint8)
-  exp_biased_f32 = exp_biased_f32.to(tl.int32) << $(23)
-  mantissa_f4 = x_pos & $(1)
-  mantissa_f32 = mantissa_f4.to(tl.int32) << $(22)
-  output = mantissa_f32
-  result = exp_biased_f32 | mantissa_f32
-  result = tl.where(zero_mask, $((0 : Int)).to(tl.int32), result)
-  result = tl.where(denormal_mask, $((1056964608 : Int)).to(tl.int32), result)
-  sign_f32 = sign_f4.to(tl.int32) << $(28)
-  result = result | sign_f32
-  output = result.to(tl.float32, bitcast=True)
-  output = output.to(tl.bfloat16)
-  block_start_out = pid * $(block * 2)
-  offsets_out = block_start_out + tl.arange(0, $(block * 2))
-  mask_out = offsets_out < n_elements_out
-  tl.store(Y + offsets_out, output, mask=mask_out)
-}
-
-
-structure Parameters where
-  input : RegionName
-  output : RegionName
-  count : Nat
-  block : Nat
-
-def source (p : Parameters) := unscaled p.input p.output p.count p.block
-end VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue
-
-namespace VeriTile.Bench.TritonBenchG.Fp4ToBf16.Kernels
-abbrev original := FPValue.unscaled
-end VeriTile.Bench.TritonBenchG.Fp4ToBf16.Kernels
+/-! Separate repair of the pinned Python (SHA256
+8571cb56ce932af6a7dd68e4047ee0863984812ac303d0d2959fc544a65e9958).
+The conversion body is unchanged. Indices/counts are widened before arithmetic;
+`Proofs.Finite` proves their refinement to the reused mathematical-index body.
+The uint8 input denotes packed bytes at the passed data pointer, high nibble
+first. Precision is signed32 payload → FP32 bitcast → BF16, including signed 0.
+This is a source/primitive-semantics model, not a compiler-correctness theorem. -/
+namespace VeriTile.Bench.Repairs.Fp4ToBf16
+open VeriTile.Bench.TritonBenchG.Fp4ToBf16
+namespace Kernels
+abbrev body := FPValue.unscaled
+/-- The shared readable typed conversion source, with mathematical indices.
+`Finite` proves each widened native count/index/mask/address operation exact;
+`Launch` binds the actual native count and program-id ABI to this source.
+The conversion body, masks, stores and 512-byte launch are unchanged. -/
+def source (p : FPValue.Parameters) := body p.input p.output p.count p.block
+abbrev index := BitVec 64
+/-- The cast precedes the multiply; both i32 and u32 count specializations
+therefore denote the same nonnegative mathematical count after widening. -/
+def count (n : Nat) : index := BitVec.ofNat 64 n
+def outputCount (n : Nat) : index := count n * BitVec.ofNat 64 2
+def inputIndex (pid lane : Nat) : index :=
+  BitVec.ofNat 64 pid * BitVec.ofNat 64 512 + BitVec.ofNat 64 lane
+def outputIndex (pid lane : Nat) : index :=
+  BitVec.ofNat 64 pid * BitVec.ofNat 64 1024 + BitVec.ofNat 64 lane
+def inputMask (n pid lane : Nat) : Bool := (inputIndex pid lane).slt (count n)
+def outputMask (n pid lane : Nat) : Bool := (outputIndex pid lane).slt (outputCount n)
+def pointer (base stride : Nat) (offset : index) : BitVec 64 :=
+  BitVec.ofNat 64 base + BitVec.ofNat 64 stride * offset
+end Kernels
+end VeriTile.Bench.Repairs.Fp4ToBf16

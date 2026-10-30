@@ -1,3 +1,13 @@
 # quantize_copy_kv
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [quantize_copy_kv](../../repairs/tritonbench_g/quantize_copy_kv/README.md).
+Current repaired Python implementation: [quantize_copy_kv.py](quantize_copy_kv.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+kernel_correct
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

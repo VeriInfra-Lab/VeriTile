@@ -4,6 +4,84 @@ import triton
 import triton.language as tl
 import math
 
+
+
+def _check_tensor(tensor, shape, strides, name):
+    if not isinstance(tensor, torch.Tensor):
+        raise TypeError(f"{name} must be a tensor")
+    if tensor.layout != torch.strided or tensor.dtype != torch.float32:
+        raise ValueError(f"{name} must be strided FP32")
+    if not tensor.is_cuda or tensor.device.index != 0:
+        raise ValueError(f"{name} must be on CUDA device 0")
+    if tensor.shape != shape or tensor.stride() != strides:
+        raise ValueError(f"{name} must have the declared shape and canonical strides")
+    if tensor.storage_offset() != 0 or tensor.is_neg():
+        raise ValueError(f"{name} must have zero storage offset and no negative view flag")
+    if tensor.numel() > 0 and tensor.data_ptr() % 4 != 0:
+        raise ValueError(f"{name} requires 4-byte aligned nonempty storage")
+
+
+def _check_common(x, weight, bias, eps, is_rms_norm):
+    if not isinstance(x, torch.Tensor):
+        raise TypeError("x must be a tensor")
+    if x.ndim != 2:
+        raise ValueError("x must have shape (M, N)")
+    M, N = x.shape
+    if not 1 <= N <= 16384:
+        raise ValueError("N must lie in [1, 16384]")
+    _check_tensor(x, (M, N), (N, 1), "x")
+    _check_tensor(weight, (N,), (1,), "weight")
+    if bias is not None:
+        _check_tensor(bias, (N,), (1,), "bias")
+    if torch.cuda.current_device() != 0:
+        raise ValueError("the current CUDA device must be 0")
+    if type(eps) is not float or not math.isfinite(eps) or eps <= 0.0:
+        raise ValueError("eps must be a finite positive Python float")
+    if type(is_rms_norm) is not bool:
+        raise TypeError("is_rms_norm must be a bool")
+    block = min(16384, triton.next_power_of_2(N))
+    if M * N + block >= 2**31:
+        raise ValueError("forward padded source indices must fit signed int32")
+    return M, N, block
+
+
+def _check_forward(x, weight, bias, eps, residual, out_dtype, residual_dtype, is_rms_norm):
+    M, N, _ = _check_common(x, weight, bias, eps, is_rms_norm)
+    if out_dtype is not None and out_dtype != torch.float32:
+        raise ValueError("out_dtype must be None or FP32")
+    if residual is not None:
+        _check_tensor(residual, (M, N), (N, 1), "residual")
+    elif residual_dtype is not None and residual_dtype != torch.float32:
+        raise ValueError("residual_dtype must be None or FP32 when no residual overrides it")
+
+
+def _check_backward(dy, x, weight, bias, eps, mean, rstd, dresidual,
+                    has_residual, is_rms_norm, x_dtype, recompute_output):
+    M, N, block = _check_common(x, weight, bias, eps, is_rms_norm)
+    _check_tensor(dy, (M, N), (N, 1), "dy")
+    if dresidual is not None:
+        _check_tensor(dresidual, (M, N), (N, 1), "dresidual")
+    if is_rms_norm:
+        if mean is not None:
+            raise ValueError("RMS mode uses no Mean tensor")
+    else:
+        _check_tensor(mean, (M,), (1,), "mean")
+    _check_tensor(rstd, (M,), (1,), "rstd")
+    if x_dtype is not None and x_dtype != torch.float32:
+        raise ValueError("x_dtype must be None or FP32")
+    if type(has_residual) is not bool or type(recompute_output) is not bool:
+        raise TypeError("has_residual and recompute_output must be bools")
+    sm_count = torch.cuda.get_device_properties(x.device).multi_processor_count
+    if sm_count <= 0:
+        raise ValueError("the source launch requires a positive SM count")
+    rows_per_program = math.ceil(M / sm_count)
+    if rows_per_program != (M + sm_count - 1) // sm_count:
+        raise ValueError("the source row grouping must equal integer ceiling division")
+    if sm_count * rows_per_program * N + block >= 2**31 or sm_count * N + block >= 2**31:
+        raise ValueError("backward padded source indices must fit signed int32")
+    return sm_count
+
+
 @triton.autotune(
     configs=[
         triton.Config({}, num_warps=1),
@@ -59,6 +137,7 @@ def _layer_norm_fwd(
     x, weight, bias, eps, residual=None, out_dtype=None, 
     residual_dtype=None, is_rms_norm=False
 ):
+    _check_forward(x, weight, bias, eps, residual, out_dtype, residual_dtype, is_rms_norm)
     if residual is not None:
         residual_dtype = residual.dtype
     M, N = x.shape
@@ -112,7 +191,7 @@ def _layer_norm_fwd(
 def _layer_norm_bwd_kernel(
     X, W, B, Y, DY, DX, DW, DB, DRESIDUAL, DRESIDUAL_IN, 
     Mean, Rstd, stride_x_row, stride_y_row, stride_dy_row, 
-    stride_dx_row, stride_dres_row, stride_dres_in_row, M, 
+    stride_dx_row, stride_dres_row, stride_dres_in_row, stride_mean, stride_rstd, M, 
     N, eps, rows_per_program, IS_RMS_NORM: tl.constexpr, 
     BLOCK_N: tl.constexpr, HAS_DRESIDUAL: tl.constexpr, 
     STORE_DRESIDUAL: tl.constexpr, HAS_BIAS: tl.constexpr, 
@@ -131,7 +210,7 @@ def _layer_norm_bwd_kernel(
     DX += row_start * stride_dx_row
     if RECOMPUTE_OUTPUT:
         Y += row_start * stride_y_row
-    w = tl.load(W + cols, mask=mask).to(tl.float32)
+    w = tl.load(W + cols, mask=mask, other=0.0).to(tl.float32)
     if RECOMPUTE_OUTPUT and HAS_BIAS:
         b = tl.load(B + cols, mask=mask, other=0.0).to(tl.float32)
     dw = tl.zeros((BLOCK_N,), dtype=tl.float32)
@@ -142,8 +221,8 @@ def _layer_norm_bwd_kernel(
         x = tl.load(X + cols, mask=mask, other=0).to(tl.float32)
         dy = tl.load(DY + cols, mask=mask, other=0).to(tl.float32)
         if not IS_RMS_NORM:
-            mean = tl.load(Mean + row) if Mean is not None else 0.0  # Use zero when Mean is absent.
-        rstd = tl.load(Rstd + row)
+            mean = tl.load(Mean + row * stride_mean) if Mean is not None else 0.0  # Use zero when Mean is absent.
+        rstd = tl.load(Rstd + row * stride_rstd)
         xhat = (x - mean) * rstd if not IS_RMS_NORM else x * rstd
         xhat = tl.where(mask, xhat, 0.0)
         if RECOMPUTE_OUTPUT:
@@ -184,6 +263,8 @@ def _layer_norm_bwd(
     dy, x, weight, bias, eps, mean, rstd, dresidual=None, 
     has_residual=False, is_rms_norm=False, x_dtype=None, recompute_output=False
 ):
+    sm_count = _check_backward(dy, x, weight, bias, eps, mean, rstd, dresidual,
+                               has_residual, is_rms_norm, x_dtype, recompute_output)
     M, N = x.shape
     assert x.stride(-1) == 1
     assert dy.stride(-1) == 1
@@ -207,7 +288,6 @@ def _layer_norm_bwd(
     BLOCK_N = min(MAX_FUSED_SIZE, triton.next_power_of_2(N))
     if N > BLOCK_N:
         raise RuntimeError("This layer norm doesn't support feature dim >= 64KB.")
-    sm_count = torch.cuda.get_device_properties(x.device).multi_processor_count
     _dw = torch.empty((sm_count, N), dtype=torch.float32, device=weight.device)
     _db = (
         torch.empty((sm_count, N), dtype=torch.float32, device=bias.device)
@@ -223,6 +303,7 @@ def _layer_norm_bwd(
             0 if not recompute_output else y.stride(0), dy.stride(0), 
             dx.stride(0), dresidual.stride(0) if dresidual is not None else 0, 
             dresidual_in.stride(0) if dresidual_in is not None else 0, 
+            mean.stride(0) if mean is not None else 0, rstd.stride(0),
             M, N, eps, rows_per_program, is_rms_norm, BLOCK_N, 
             dresidual is not None, dresidual_in is not None, bias is not None
         )
@@ -231,63 +312,3 @@ def _layer_norm_bwd(
     if has_residual and dx.dtype == x.dtype:
         dresidual_in = dx
     return (dx, dw, db, dresidual_in) if not recompute_output else (dx, dw, db, dresidual_in, y)
-
-
-
-
-##################################################################################################################################################
-
-
-def test_layer_norm_fwd_bwd():
-    # Set the basic test parameters.
-    M, N = 64, 1024  # 64x1024 matrix
-    x = torch.randn(M, N, dtype=torch.float32, device='cuda')
-    weight = torch.randn(N, dtype=torch.float32, device='cuda')
-    bias = torch.randn(N, dtype=torch.float32, device='cuda')
-    eps = 1e-6
-
-    results = {}
-
-    # Test without RMS norm, residuals, or output recomputation.
-    y, mean, rstd, residual_out = _layer_norm_fwd(x, weight, bias, eps, residual=None, is_rms_norm=False)
-    results['test_case_1'] = (y, mean, rstd, residual_out)
-
-    dy = torch.randn_like(y)
-    dx, dw, db, dresidual_in = _layer_norm_bwd(dy, x, weight, bias, eps, mean, rstd)
-    results['test_case_2'] = (dx, dw, db, dresidual_in)
-
-    # Test with RMS norm, without residuals or output recomputation.
-    y, mean, rstd, residual_out = _layer_norm_fwd(x, weight, bias, eps, residual=None, is_rms_norm=True)
-    results['test_case_3'] = (y, mean, rstd, residual_out)
-
-    dy = torch.randn_like(y)
-    dx, dw, db, dresidual_in = _layer_norm_bwd(dy, x, weight, bias, eps, mean, rstd, is_rms_norm=True)
-    results['test_case_4'] = (dx, dw, db, dresidual_in)
-
-    # Test with residuals and without output recomputation.
-    residual = torch.randn_like(x)
-    y, mean, rstd, residual_out = _layer_norm_fwd(x, weight, bias, eps, residual=residual, is_rms_norm=False)
-    results['test_case_5'] = (y, mean, rstd, residual_out)
-
-    dy = torch.randn_like(y)
-    dx, dw, db, dresidual_in = _layer_norm_bwd(dy, x, weight, bias, eps, mean, rstd, dresidual=residual, is_rms_norm=False)
-    results['test_case_6'] = (dx, dw, db, dresidual_in)
-
-    # Test output recomputation (recompute_output=True).
-    y, mean, rstd, residual_out = _layer_norm_fwd(x, weight, bias, eps, residual=None, is_rms_norm=False)
-    dy = torch.randn_like(y)
-    dx, dw, db, dresidual_in, recomputed_y = _layer_norm_bwd(dy, x, weight, bias, eps, mean, rstd, recompute_output=True)
-    results['test_case_7'] = (dx, dw, db, dresidual_in, recomputed_y)
-
-    # Test with residuals and output recomputation.
-    residual = torch.randn_like(x)
-    y, mean, rstd, residual_out = _layer_norm_fwd(x, weight, bias, eps, residual=residual, is_rms_norm=False)
-    dy = torch.randn_like(y)
-    dx, dw, db, dresidual_in, recomputed_y = _layer_norm_bwd(dy, x, weight, bias, eps, mean, rstd, dresidual=residual, recompute_output=True)
-    results['test_case_8'] = (dx, dw, db, dresidual_in, recomputed_y)
-
-    return results
-
-result_gold = test_layer_norm_fwd_bwd()
-
-print(result_gold)

@@ -35,6 +35,24 @@ def matmul_tma_load_store(
 
 
 def warpper_tma_load_store(M, N, K, NUM_CTAS, NUM_WARPS, TRANS_A, TRANS_B, OUTPUT_F16):
+    # Necessary static source constraints; architecture/resources stay separate.
+    if M <= 0 or M & (M - 1):
+        raise ValueError("M must be a positive power of two")
+    if N <= 0 or N & (N - 1):
+        raise ValueError("N must be a positive power of two")
+    if K < 16 or K & (K - 1):
+        raise ValueError("K must be a power of two and at least 16")
+    if NUM_WARPS <= 0 or NUM_WARPS & (NUM_WARPS - 1):
+        raise ValueError("NUM_WARPS must be a positive power of two")
+    if NUM_CTAS <= 0 or NUM_CTAS & (NUM_CTAS - 1):
+        raise ValueError("NUM_CTAS must be a positive power of two")
+    # Triton validates every complete block tensor before lowering.
+    if M * K > 1048576:
+        raise ValueError("A block tile must contain at most 1048576 elements")
+    if K * N > 1048576:
+        raise ValueError("B block tile must contain at most 1048576 elements")
+    if M * N > 1048576:
+        raise ValueError("C block tile must contain at most 1048576 elements")
     # Prepare input matrices
     if (TRANS_A):
         a = torch.randn((K, M), device='cuda', dtype=torch.float16).T

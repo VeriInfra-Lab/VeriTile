@@ -5,7 +5,7 @@ import demoRecord from './vector-add-record.json';
 
 // The documented dev script and CI build both run from site/.
 const repositoryRoot = resolve(process.cwd(), '..');
-const selection = JSON.parse(readFileSync(resolve(repositoryRoot, 'bench/tritonbench_g/task_progress.json'), 'utf8'));
+const selection = JSON.parse(readFileSync(resolve(repositoryRoot, 'validation/task_progress.json'), 'utf8'));
 const ports = selection.tasks.map((task: { kernel_revision: { source?: string; kernel_source: string } }) => ({
   python: Boolean(task.kernel_revision.source), lean: Boolean(task.kernel_revision.kernel_source),
 }));
@@ -49,7 +49,7 @@ export const vectorAddBodies = {
   }),
 };
 
-const review = JSON.parse(readFileSync(resolve(repositoryRoot, 'bench/validation/contracts.json'), 'utf8'));
+const review = JSON.parse(readFileSync(resolve(repositoryRoot, 'validation/contracts.json'), 'utf8'));
 export const proofInventory = {
   statements: new Set(review.tasks.flatMap((task: { readers: { path: string; specifications: { name: string }[] }[] }) =>
     task.readers.flatMap((reader) => reader.specifications.map((spec) => `${reader.path}:${spec.name}`)))).size,

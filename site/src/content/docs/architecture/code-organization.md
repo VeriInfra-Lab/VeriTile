@@ -11,9 +11,10 @@ lemmas, and new kernel transcriptions.
 | Directory | Responsibility |
 | --- | --- |
 | `VeriTile/` | Shared Lean semantics, source DSL, model definitions and proof interfaces |
-| `bench/tritonbench_g/`, `bench/repairs/`, `bench/examples/` | Imported sources, explicitly selected revisions and worked examples |
-| `bench/tests/` | Lean and Python regressions |
-| `bench/validation/` | Current source inventory and reviewed public contract bindings |
+| `bench/tritonbench_g/`, `bench/examples/` | Current repaired tasks and worked examples |
+| `tests/lean/`, `tests/python/` | Lean and Python regressions |
+| `scripts/bench/`, `validation/` | Benchmark tools and current validation records |
+| `validation/` | Current source inventory and reviewed public contract bindings |
 | `bench/bug_detection/`, `bench/pretrain_kernels/` | Imported challenges with separately recorded open proof/backend goals |
 | `scripts/` | Shared verification and development commands |
 | `experiments/floating_point/` | Numerical rule evidence and experiment tooling |
@@ -22,11 +23,11 @@ lemmas, and new kernel transcriptions.
 | `verso/` | Independent presentation project and toolchain |
 | `Logs/` | Ignored generated output, including current specification cards |
 
-Use [the benchmark index](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/README.md) for task selection and source,
-library and corpus validation commands. `bench/lean_import_scan.py` owns the
+Use [the benchmark index](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/bench/README.md) for task selection and source,
+library and corpus validation commands. `scripts/bench/lean_import_scan.py` owns the
 shared lexical import mask, while `scripts/spec_sheet.py` owns declaration
 extraction. The final inventory and source adapters import those same helpers.
-Legacy filename discovery in `bench/port_layout.py` is not the current revision
+Legacy filename discovery in `scripts/bench/port_layout.py` is not the current revision
 selection mechanism.
 
 ## The three layers
@@ -155,7 +156,7 @@ launch orchestration and returned-Tensor identity are not per-task proof or
 acceptance requirements. Existing host proofs may remain optional helpers,
 under `Misc/`, outside the current public kernel entries. This organization
 does not add FP32-correctness or host-proof acceptance requirements.
-See [`bench/TODO.md`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/TODO.md).
+See [`documents/bench/TODO.md`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/bench/TODO.md).
 
 **Belongs here**:
 - The `triton { ... }` kernel transcription
@@ -166,18 +167,19 @@ See [`bench/TODO.md`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/
 `Triton.TiledX.operator (load_xs ...) ...`" by binding kernel layout to
 math operators through the bridge lemmas in `Semantics/`.
 
-### Shared Torch interfaces and repair candidates
+### Shared Torch interfaces and current repaired tasks
 
 `VeriTile/Torch/` owns kernel-independent Tensor metadata and its memory/value
 binding. It may depend on the shared Triton value types and memory vocabulary,
 but never on benchmark modules. A particular kernel's supported shapes, dtypes,
 layout checks and launch configuration remain in that kernel's contract.
 
-`bench/repairs/tritonbench_g/<kernel>/` holds a source revision whose contract or
-implementation differs from the imported original. It uses the same public
-entry/helper split and may reuse the original source or applicable proof helpers.
-Keeping a revision there does not certify the original program or change its
-acceptance status. Integration and historical cleanup are separate decisions.
+`bench/tritonbench_g/<kernel>/` holds the single selected repaired Python program,
+`Kernels.lean`, and its canonical `Contract.lean`, `Correct.lean` and `FPEquiv.lean`
+entries. Required mathematical and source adapters remain helpers; they are not
+separately selected implementations. Prior Python programs and implementation
+slots live in Git history. `validation/task_progress.json` selects current entries;
+source correspondence and native execution remain independently tracked.
 
 Generic-looking code in an existing task helper need not be promoted before
 finishing that task. Extract shared mechanisms when there is a concrete reuse
@@ -190,9 +192,9 @@ need; keep source lowering and kernel-specific host composition local.
 | Shared semantics, normative references and trusted-boundary explanations | An existing relevant document under `documents/`, indexed by `documents/README.md`; physical memory requirements belong in `GpuMemoryModel.md`. |
 | Meaning and assumptions of a particular definition | Its Lean module/definition documentation, with direct references or links to the shared explanation. |
 | Task contract, public theorem entry points and validation status | The task's `README.md`. |
-| A kernel's compiler observations, version/target details and reproduction instructions | A task-local audit document, linked from its README and the relevant shared reference. |
-| Task-specific check scripts | Beside the task they check; the two small add_example scripts do not require a separate test hierarchy. Shared test infrastructure belongs under `scripts/` or `bench/tests/`. |
-| Cross-task scope decisions and deferred work | `bench/TODO.md`; it is not a semantic specification or an acceptance ledger. |
+| A kernel's compiler observations and target details | `validation/tasks/<kernel>/`, with the source commit and original evidence scope retained. |
+| Benchmark check tools and regressions | `scripts/bench/`, `tests/python/` and `tests/lean/`. Retired validators remain with their original source snapshots in Git. |
+| Cross-task scope decisions and deferred work | `documents/bench/TODO.md`; it is not a semantic specification or an acceptance ledger. |
 
 Reusable rules should not acquire their only documentation inside one task's
 audit. Task-specific compilation results should not become unconditional claims
@@ -300,7 +302,7 @@ from syntax. Both `tl.full` and `tl.zeros` use the same exact-name decoder;
 `OUT_DTYPE`, `dtype`, or `element_ty` does not declare a dtype. Attribute casts
 inspect their target separately from the expression being cast.
 
-`bench/tests/DTypeResolution.lean` covers accepted spellings, rejected lookalikes,
+`tests/lean/DTypeResolution.lean` covers accepted spellings, rejected lookalikes,
 constructor keyword order, and preservation of the fp32 compute projection.
 
 ### Dependency direction

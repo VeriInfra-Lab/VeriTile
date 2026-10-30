@@ -3,7 +3,7 @@
 65 independent Lean problems: 30 negative controls, 20 algebraic rewrites and
 15 parameter variants. [Browse the problems](TASKS.md).
 
-The [collection audit](../IMPORTED_KERNEL_AUDIT.md) records confirmed conversion
+The [collection audit](../../documents/bench/IMPORTED_KERNEL_AUDIT.md) records confirmed conversion
 defects and remaining proof obligations separately from compilation.
 
 Each problem keeps its own complete source and interface:

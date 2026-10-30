@@ -47,97 +47,96 @@ def _fwd_kernel_token_att1(
         tl.store(Att_Out + off_o, att_value, mask=offs_n_new < cur_batch_end_index)
     return
 
+def _checked_arguments(q, k, att_out, B_Loc, B_Start_Loc, B_Seqlen, max_input_len):
+    tensors = (q, k, att_out, B_Loc, B_Start_Loc, B_Seqlen)
+    if any(not isinstance(t, torch.Tensor) for t in tensors):
+        raise TypeError("all buffers must be tensors")
+    if q.ndim != 3 or k.ndim != 3 or att_out.ndim != 2 or B_Loc.ndim != 2:
+        raise ValueError("expected Q[B,Hq,D], K[cache,Hkv,D], Out[Hq,T], Loc[B,M]")
+    if B_Start_Loc.ndim != 1 or B_Seqlen.ndim != 1:
+        raise ValueError("Start and Length must be vectors")
+    batch, heads, dim = q.shape
+    pages, kvheads, kdim = k.shape
+    if dim != kdim or dim not in (16, 32, 64, 128):
+        raise ValueError("matching D in {16,32,64,128} required")
+    if heads <= 0 or kvheads <= 0 or heads % kvheads:
+        raise ValueError("positive Hq divisible by positive Hkv required")
+    if type(max_input_len) is not int or max_input_len < 0:
+        raise ValueError("maximum length must be a nonnegative Python integer")
+    if B_Loc.shape != (batch, max_input_len) or B_Start_Loc.shape != (batch,) or B_Seqlen.shape != (batch,):
+        raise ValueError("metadata shapes must match Q batch and maximum length")
+    if att_out.shape[0] != heads:
+        raise ValueError("Out must have one row per query head")
+    if any(t.dtype != torch.float32 for t in (q, k, att_out)):
+        raise TypeError("FP32 Q, K and Out required")
+    if any(t.dtype != torch.int32 for t in (B_Loc, B_Start_Loc, B_Seqlen)):
+        raise TypeError("signed-int32 metadata required")
+    if not q.is_cuda or any(t.device != q.device for t in tensors):
+        raise ValueError("all buffers must share one CUDA device")
+    if any(t.is_neg() or not t.is_contiguous() for t in tensors):
+        raise ValueError("contiguous tensors without lazy-negative views required")
+    tokens = att_out.shape[1]
+    expected = ((heads*dim, dim, 1), (kvheads*dim, dim, 1), (tokens, 1), (max_input_len, 1), (1,), (1,))
+    # Empty calls form no addresses. Their standard Torch strides may differ.
+    if batch and max_input_len and any(t.stride() != st for t, st in zip(tensors, expected)):
+        raise ValueError("canonical dense tensor strides required for nonempty launch")
+    qbs, qh, qd = q.stride(); kbs, kh, kd = k.stride()
+    lb, ls = B_Loc.stride(); oh, os = att_out.stride()
+    envelope = (batch + heads + kvheads + dim + max_input_len + 32 + pages + tokens
+                + q.numel() + k.numel() + B_Loc.numel() + att_out.numel()
+                + batch*qbs + heads*qh + dim*qd + pages*kbs + kvheads*kh + dim*kd
+                + lb*batch + ls*(max_input_len+32) + heads*oh + (tokens+32)*os)
+    if envelope >= 2**31:
+        raise ValueError("shape/stride envelope exceeds signed-int32 source arithmetic")
+    # Only integer metadata is inspected; floating payloads remain caller-owned.
+    starts, lengths = B_Start_Loc.tolist(), B_Seqlen.tolist()
+    segments = []
+    for b, (start, length) in enumerate(zip(starts, lengths)):
+        if not 0 <= length <= max_input_len or not 0 <= start <= tokens-length:
+            raise ValueError("invalid sequence length or output segment")
+        if length:
+            active = B_Loc[b, max_input_len-length:max_input_len]
+            if active.min().item() < 0 or active.max().item() >= pages:
+                raise ValueError("active cache locations must be in bounds")
+            segments.append((start, start+length))
+    if any(a[0] < b[1] and b[0] < a[1]
+           for i, a in enumerate(segments) for b in segments[i+1:]):
+        raise ValueError("active output segments must not overlap")
+    if batch == 0 or max_input_len == 0:
+        return False
+    if heads > 65535 or triton.cdiv(max_input_len, 32) > 65535:
+        raise ValueError("CUDA grid y/z exceeds the per-axis limit")
+    # A shared typed storage cell has one dtype; same-dtype read aliases remain valid.
+    for floating in (q, k):
+        for integer in (B_Loc, B_Start_Loc, B_Seqlen):
+            if (floating.numel() and integer.numel()
+                and floating.data_ptr() < integer.data_ptr()+4*integer.numel()
+                and integer.data_ptr() < floating.data_ptr()+4*floating.numel()):
+                raise ValueError("FP32 and int32 input views must not overlap")
+    for t in tensors:
+        if t.data_ptr()+4*t.numel() > 2**64:
+            raise ValueError("buffer exceeds the native pointer address space")
+        if t.numel() and t.data_ptr() % 4:
+            raise ValueError("nonempty buffers require four-byte alignment")
+    out_begin, out_end = att_out.data_ptr(), att_out.data_ptr()+att_out.numel()*4
+    if att_out.numel():
+        for t in (q, k, B_Loc, B_Start_Loc, B_Seqlen):
+            begin, end = t.data_ptr(), t.data_ptr()+t.numel()*4
+            if t.numel() and begin < out_end and out_begin < end:
+                raise ValueError("Out must not overlap any input buffer")
+    return True
+
+
 @torch.no_grad()
 def token_att_fwd(q, k, att_out, B_Loc, B_Start_Loc, B_Seqlen, max_input_len):
-    BLOCK = 32
-    # shape constraints
-    Lq, Lk = q.shape[-1], k.shape[-1]
-    assert Lq == Lk
-    assert Lk in {16, 32, 64, 128}
-    sm_scale = 1.0 / (Lk ** 0.5)
-
-    batch, head_num = B_Loc.shape[0], q.shape[1]
-
-    grid = (batch, head_num, triton.cdiv(max_input_len, BLOCK))
-    kv_group_num = q.shape[1] // k.shape[1]
-
-    num_warps = 4 if Lk <= 64 else 8
-    num_warps = 2
-
-    _fwd_kernel_token_att1[grid](
-        q, k, sm_scale, B_Loc, B_Start_Loc, B_Seqlen, max_input_len,
-        att_out,
-        B_Loc.stride(0), B_Loc.stride(1),
-        q.stride(0), q.stride(1), q.stride(2),
-        k.stride(0), k.stride(1), k.stride(2),
-        att_out.stride(0), att_out.stride(1),
-        kv_group_num=kv_group_num,
-        BLOCK_DMODEL=Lk,
-        BLOCK_N=BLOCK,
-        num_warps=num_warps,
-        num_stages=1,
-    )
-    return
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-def test_token_att_fwd():
-    # Define the input parameters
-    batch_size = 2
-    head_num = 4
-    max_input_len = 64
-    d_model = 32  # This should be one of {16, 32, 64, 128}
-
-    # Create random input tensors
-    q = torch.randn((batch_size, head_num, max_input_len, d_model), dtype=torch.float32, device='cuda')
-    k = torch.randn((batch_size, head_num, max_input_len, d_model), dtype=torch.float32, device='cuda')
-    att_out = torch.zeros((batch_size, head_num, max_input_len), dtype=torch.float32, device='cuda')
-
-    # Create B_Loc, B_Start_Loc, B_Seqlen
-    B_Loc = torch.randint(0, max_input_len, (batch_size, max_input_len), dtype=torch.int32, device='cuda')
-    B_Start_Loc = torch.randint(0, max_input_len, (batch_size,), dtype=torch.int32, device='cuda')
-    B_Seqlen = torch.randint(1, max_input_len + 1, (batch_size,), dtype=torch.int32, device='cuda')
-
-    # Dictionary to store results for each test case
-    results = {}
-
-    # Test case 1
-    token_att_fwd(q, k, att_out, B_Loc, B_Start_Loc, B_Seqlen, max_input_len)
-    results['test_case_1'] = att_out.clone()
-
-    # Additional test cases to cover more branches
-    # Test case 2: Different max_input_len
-    max_input_len_2 = 32
-    att_out_2 = torch.zeros((batch_size, head_num, max_input_len_2), dtype=torch.float32, device='cuda')
-    token_att_fwd(q, k, att_out_2, B_Loc, B_Start_Loc, B_Seqlen, max_input_len_2)
-    results['test_case_2'] = att_out_2.clone()
-
-    # Test case 3: Different d_model
-    d_model_3 = 64
-    q_3 = torch.randn((batch_size, head_num, max_input_len, d_model_3), dtype=torch.float32, device='cuda')
-    k_3 = torch.randn((batch_size, head_num, max_input_len, d_model_3), dtype=torch.float32, device='cuda')
-    att_out_3 = torch.zeros((batch_size, head_num, max_input_len), dtype=torch.float32, device='cuda')
-    token_att_fwd(q_3, k_3, att_out_3, B_Loc, B_Start_Loc, B_Seqlen, max_input_len)
-    results['test_case_3'] = att_out_3.clone()
-
-    # Test case 4: Different batch size
-    batch_size_4 = 4
-    q_4 = torch.randn((batch_size_4, head_num, max_input_len, d_model), dtype=torch.float32, device='cuda')
-    k_4 = torch.randn((batch_size_4, head_num, max_input_len, d_model), dtype=torch.float32, device='cuda')
-    att_out_4 = torch.zeros((batch_size_4, head_num, max_input_len), dtype=torch.float32, device='cuda')
-    B_Loc_4 = torch.randint(0, max_input_len, (batch_size_4, max_input_len), dtype=torch.int32, device='cuda')
-    B_Start_Loc_4 = torch.randint(0, max_input_len, (batch_size_4,), dtype=torch.int32, device='cuda')
-    B_Seqlen_4 = torch.randint(1, max_input_len + 1, (batch_size_4,), dtype=torch.int32, device='cuda')
-    token_att_fwd(q_4, k_4, att_out_4, B_Loc_4, B_Start_Loc_4, B_Seqlen_4, max_input_len)
-    results['test_case_4'] = att_out_4.clone()
-
-    return results
-
-# Execute the test function
-result_gold = test_token_att_fwd()
+    """Checked FP32 gathered QK score stage; mutates att_out and returns None."""
+    if not _checked_arguments(q, k, att_out, B_Loc, B_Start_Loc, B_Seqlen, max_input_len):
+        return
+    dim = q.shape[-1]
+    with torch.cuda.device(q.device):
+        _fwd_kernel_token_att1[(q.shape[0], q.shape[1], triton.cdiv(max_input_len, 32))](
+            q, k, 1.0/(dim**0.5), B_Loc, B_Start_Loc, B_Seqlen, max_input_len,
+            att_out, *B_Loc.stride(), *q.stride(), *k.stride(), *att_out.stride(),
+            kv_group_num=q.shape[1]//k.shape[1],
+            BLOCK_DMODEL=dim, BLOCK_N=32, num_warps=2, num_stages=1,
+        )

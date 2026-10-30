@@ -1,6 +1,6 @@
 import bench.examples.TritonBenchVectorAddition.Kernels
 import bench.examples.TritonBenchVectorAddition.Proofs.Real
-import bench.tritonbench_g.vector_addition.Correct
+import bench.tritonbench_g.vector_addition.Proofs.Mathematical_Correct
 import VeriTile.Meta.StatementAudit
 
 /-! Real correctness of the sources in Kernels.lean.

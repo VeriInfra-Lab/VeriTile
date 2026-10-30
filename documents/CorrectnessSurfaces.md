@@ -17,7 +17,7 @@ independent logical formula. `IO.lean` may hold shared source, argument, channel
 window, mask and schedule data; `Correct.lean` and `FPEquiv.lean` remain independent
 short reader entries. Operational assembly and optional flat/Tensor corollaries
 belong in supporting files. The current format rollout is separately counted in
-the [task checklist](../bench/tritonbench_g/README.md).
+the [task checklist](../documents/bench/tritonbench_g.md).
 
 For the selected main readers, display the actual independent mathematical
 formula in `Correct.lean`: simple formulas directly in
@@ -40,7 +40,7 @@ The logical interface must carry actual named tensor axes/channels, rather than
 only rename raw storage accessors. For noninjective layouts, retain complete
 backing data and the mathematical-view connection as a bijective graph. The
 full old/new judgment equivalence preserves its domains, masks, schedules,
-observations and frame. See `bench/MAIN_THEOREM_CONVENTIONS.md` for the precise
+observations and frame. See `documents/bench/MAIN_THEOREM_CONVENTIONS.md` for the precise
 reader rule and the existing-logical-row exception.
 
 At task level, the memory descriptor and its mathematical input/output view live
@@ -58,7 +58,7 @@ remove a required domain. Specialized cell/reset, integer observation, output
 relation, scheduled, 3D and backend-parameterized judgments can retain their
 accurate explicit method names with visible mathematics and premises. These
 notation choices do not change memory binding, execution, safety or frame.
-See [the detailed main-entry rules](../bench/MAIN_THEOREM_CONVENTIONS.md).
+See [the detailed main-entry rules](../documents/bench/MAIN_THEOREM_CONVENTIONS.md).
 
 The shared [regional Algorithm IO](../VeriTile/Triton/Memory/RegionalKernelIO.lean)
 and [Structural ProgramIO](../VeriTile/Triton/Float/ProgramIO.lean) retain input
@@ -73,7 +73,7 @@ provide flat-pointer relocation, allocation separation or byte-level transport.
 explicit predicate on logical input values to the regional judgment. It keeps
 the same source-safety, execution, output and frame conclusions; the domain
 cannot supply an execution-state predicate or replace those proof obligations.
-The signed-length [copy interface](../bench/repairs/tritonbench_g/var_len_copy/Correct.lean)
+The signed-length [copy interface](../bench/tritonbench_g/var_len_copy/Correct.lean)
 uses this to constrain starts only when the input length is positive.
 
 [ProgramEquivalence](../VeriTile/Triton/Float/ProgramEquivalence.lean) compares two
@@ -83,7 +83,7 @@ decoded-result windows separate from writable windows; untouched result cells
 remain in the raw frame. [InputBindingIO](../VeriTile/Triton/Float/InputBindingIO.lean)
 provides explicit exact-cell input bindings when that is the originally proved
 domain. These choices preserve existing input/observation scope; they do not
-introduce numerical assumptions. See [Lion](../bench/repairs/tritonbench_g/adam_update_triton/Correct.lean)
+introduce numerical assumptions. See [Lion](../bench/tritonbench_g/adam_update_triton/Correct.lean)
 for runtime scalars and two in-place outputs.
 
 [AddressedInputsIO](../VeriTile/Triton/Float/AddressedInputsIO.lean) retains source
@@ -153,7 +153,7 @@ and the raw frame are unconditional on capacity witnesses. The
 `FPReductionProgramIO.lean` regressions check snapshot and output aliases,
 source predecessors, exact storage tags, empty stages, bounds and source failure.
 
-Semantic regression checks live in `bench/tests/FP*ProgramIO.lean`,
+Semantic regression checks live in `tests/lean/FP*ProgramIO.lean`,
 `FPStructuralSafety.lean`, `FPInputBindingIO.lean`, `FPAddressedInputsIO.lean`,
 `FPObservedProgramEquivalence.lean`, `FPIntegerStageIO.lean`,
 `FPIntegerOutputIO.lean`, `AlgorithmScheduledIO.lean` and `AlgorithmProgramIO.lean`, registered in the
@@ -185,7 +185,7 @@ that omitted events preserve the selected cell. This interface provides no
 general concurrent GPU semantics; each consumer must connect it to its existing
 source and linearization proof. Tests are in `FPPerAddressProgramIO.lean`.
 
-The existing TritonBench [vector addition correctness theorem](../bench/tritonbench_g/vector_addition/Correct.lean)
+The existing TritonBench [vector addition correctness theorem](../bench/tritonbench_g/vector_addition/Proofs/Mathematical_Correct.lean)
 uses the real `addIO … ⊨ fun xs ys i => xs i + ys i` surface. The separate
 [correctness example](../bench/examples/TritonBenchVectorAddition/Correct.lean)
 defines its fp32 kernel and real-valued IO specification:
@@ -236,7 +236,7 @@ failure to find a derivation is reported rather than filled by a new assumption.
 The distribution defines the atom test environment. The theorem is conditional
 on `R`, not a claim that arbitrary intermediate operands follow that distribution
 or that the whole kernel passed the gates. This automation remains to be connected;
-see the workflow in [FloatingPointPrimitives.md, section 7.1](./FloatingPointPrimitives.md#71-用户流程配置--检查原语--生成规则集--自动证明).
+see the workflow in [FloatingPointPrimitives.md, section 7.1](FloatingPointPrimitives.md#71-用户流程配置--检查原语--生成规则集--自动证明).
 
 The table contains one `ADD-COMMUTE` atom: the actual differing assignment
 fragments. Lean checks the syntax decomposition and lifts that atom through
@@ -331,7 +331,7 @@ surface that the bench corpus actually states its headlines on is the **KernelIO
 `⊨` triple**, defined in
 [`VeriTile/Triton/Memory/KernelSpec.lean`](../VeriTile/Triton/Memory/KernelSpec.lean). The signature variants cover different input/output arities, masks,
 indices, and streaming windows. Consult the
-[final contract review](../bench/validation/contracts.json) for
+[final contract review](../validation/contracts.json) for
 per-port coverage.
 
 ### What a `KernelIO` is
@@ -698,7 +698,7 @@ gap := .require contract
 ```
 
 or add a dedicated helper for that theorem family. See
-[`EraseDType.md`](./EraseDType.md) for the compute-to-algorithm projection
+[`EraseDType.md`](EraseDType.md) for the compute-to-algorithm projection
 policy.
 
 ## Naming
@@ -714,4 +714,4 @@ equalities. Selected benchmark public entries compose those helpers through
 the shared IO or implementation-equivalence judgments described above;
 `ComputeCorrect.*` and `ComputeRefine.*` remain supporting library surfaces.
 Naming details:
-[`TheoremSurfaces.md`](./TheoremSurfaces.md).
+[`TheoremSurfaces.md`](TheoremSurfaces.md).

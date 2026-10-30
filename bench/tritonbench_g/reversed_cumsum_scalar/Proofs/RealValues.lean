@@ -1,127 +1,98 @@
-import bench.tritonbench_g.reversed_cumsum_scalar.Proofs.Scan
-import VeriTile.Triton.Semantics.BlockPadding
+import bench.tritonbench_g.reversed_cumsum_scalar.Proofs.RealProgram
 
-/-! Real evaluation of the load, reduction, inclusive scan and output formula
-of one source chunk. The incoming carry is arbitrary and the boundary load
-uses the state's unspecified-value oracle exactly as the source requests. -/
-namespace VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues
-open VeriTile.Triton
+namespace VeriTile.Bench.Repairs.ReversedCumsumScalar.RealValues
+open VeriTile.Triton RealProgram
 open scoped BigOperators
 noncomputable section
-set_option maxHeartbeats 1800000
-set_option maxRecDepth 16000
+set_option maxHeartbeats 2400000
+set_option maxRecDepth 20000
 set_option linter.unusedSimpArgs false
 
-def address (T row t : Nat) : Nat := row * T + t
+abbrev inputTile := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues.inputTile
+abbrev chunkSum := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues.chunkSum
+abbrev chunkPrefix := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues.chunkPrefix
+abbrev outputTile := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues.outputTile
+abbrev sum_eval := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues.sum_eval
+abbrev carry_eval := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues.carry_eval
+abbrev output_eval := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues.output_eval
 
-def value (T row : Nat) (input padding : Nat → ℝ) (t : Nat) : ℝ :=
-  if t < T then input (address T row t) else padding (address T row t)
+def value (h : Call) (input : Nat → ℝ) (t : Nat) := if t<h.T then input t else 0
+def lanes (c : Config) : Tile .nat [c.BT] := ⟨fun i => i.1.val⟩
+def mask (h : Call) (c : Config) (q : Nat) : Tile .bool [c.BT] :=
+  ⟨fun i => decide (Geometry.active h c q i.1)⟩
+def times (h : Call) (c : Config) (q : Nat) : Tile .int [c.BT] :=
+  ⟨fun i => (Geometry.time h c q i.1 : Int)⟩
+def pointer (h : Call) (c : Config) (row q : Nat) (r : RegionName) (strides : Strides) : Tile .ptr [c.BT] :=
+  ⟨fun i => (r,strides.address h.H row (Geometry.time h c q i.1))⟩
 
-def pointer (T BT row : Nat) (r : RegionName) (c : Nat) : Tile .blockPtr [BT] :=
-  ⟨fun _ =>
-    { region := r, baseOffset := row * T, parentShape := [T],
-      blockShape := [BT], strides := [1], offsets := [c * BT] }⟩
+theorem start_eval (c : Config) (q : Nat) (u : BlockState)
+    (hi : u.regs .int [] "i_t"=some (Tile.scalar (q:Int))) :
+    evalOp (startOp c) u=some (Tile.scalar (q*c.BT:Int)) := by
+  simp [-Tile.scalar_eta,startOp,evalOp,hi,Tile.bop,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.mul]
 
-def inputTile (BT c : Nat) (f : Nat → ℝ) : Tile .real [BT] :=
-  Tile.vec fun i => some (f (c * BT + i.val))
-
-def chunkSum (BT c : Nat) (f : Nat → ℝ) : ℝ := ∑ i : Fin BT, f (c * BT + i.val)
-
-def chunkPrefix (BT c : Nat) (f : Nat → ℝ) (i : Fin BT) : ℝ :=
-  ∑ k ∈ Finset.univ.filter (fun k : Fin BT => k.val ≤ i.val), f (c * BT + k.val)
-
-def outputTile (BT c : Nat) (f : Nat → ℝ) (updatedCarry : ℝ) : Tile .real [BT] :=
-  Tile.vec fun i => some (f (c * BT + i.val) - chunkPrefix BT c f i + updatedCarry)
-
-def outputOp (BT : Nat) : Op .real [BT] :=
-  .add .real (.consR .nil)
-    (.sub .real (.consSame .nil) (.ref .real [BT] "b_s")
-      (.scan .sum ⟨0, by simp⟩ .forward (.ref .real [BT] "b_s")))
-    (.expandDim ⟨0, by simp⟩ (.ref .real [] "b_z"))
-
-theorem load_eval (T BT row : Nat) (r : RegionName) (c : Nat)
-    (input padding : Nat → ℝ) (u : BlockState)
-    (hp : u.regs .blockPtr [BT] "p_s" = some (pointer T BT row r c))
-    (hm : ∀ off, u.readMem r off = input off)
-    (hu : ∀ off, u.undef r off = padding off) :
-    evalOp (.load .real (.blockPtr (.ref .blockPtr [BT] "p_s") [0]) .none .unspecified) u =
-      some (inputTile BT c (value T row input padding)) := by
-  simp only [evalOp, evalOp_ref, hp]
+theorem active_eval (h : Call) (c : Config) (q : Nat) (u : BlockState)
+    (hq : q*c.BT<h.T)
+    (hs : u.regs .int [] "start_t"=some (Tile.scalar (q*c.BT:Int)))
+    (hl : u.regs .nat [c.BT] "lanes"=some (lanes c)) :
+    evalOp (activeOp h c) u=some (mask h c q) := by
+  simp only [activeOp,evalOp,hs,hl]
   apply congrArg some
   apply Tile.ext
   rintro ⟨i,⟨⟩⟩
-  simp only [pointer, inputTile, Tile.vec, value, address,
-    TileShape.indexToList, BlockPtr.inBounds_1d, BlockPtr.address_1d,
-    BlockState.readMemValue_real, Nat.mul_one, decide_eq_true_eq]
-  by_cases hi : c * BT + i.val < T <;>
-    simp only [hi, hm, ite_true, ite_false, BlockState.paddingValue,
-      BlockState.unspecifiedValue, pointer, hu]
+  simp [-Tile.scalar_eta,lanes,mask,Geometry.active,Tile.bop,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,
+    NumericDType.sub,ComparableDType.lt,Int.natCast_sub (Nat.le_of_lt hq)]
+  rw [←Int.natCast_mul,←Int.natCast_sub (Nat.le_of_lt hq)]
+  change ((i.val:Int)<((h.T-q*c.BT:Nat):Int)) ↔ i.val<h.T-q*c.BT
+  omega
 
-theorem scan_value (BT c : Nat) (f : Nat → ℝ) (i : Fin BT) :
-    (Tile.scan .sum ⟨0, by simp⟩ .forward (inputTile BT c f)).data (i, PUnit.unit) =
-      some (chunkPrefix BT c f i) :=
-  Scan.inclusive_sum BT (fun k => f (c * BT + k.val)) i
-
-theorem sum_value (BT c : Nat) (f : Nat → ℝ) :
-    (Tile.reduceSum (⟨0, by simp⟩ : Fin [BT].length) Bool.false (inputTile BT c f)).data PUnit.unit =
-      some (chunkSum BT c f) := by
-  rw [Tile.reduceSum_false, Tile.reduceSumDrop_data]
-  change (∑ k : Fin BT, ((f (c * BT + k.val) : ℝ) : WithBot ℝ)) = _
-  rw [← WithBot.coe_sum]
-  rfl
-
-theorem sum_eval (BT c : Nat) (f : Nat → ℝ) (u : BlockState)
-    (hb : u.regs .real [BT] "b_s" = some (inputTile BT c f)) :
-    evalOp (.reduceSum ⟨0, by simp⟩ Bool.false (.ref .real [BT] "b_s")) u =
-      some (Tile.scalar (some (chunkSum BT c f))) := by
-  rw [evalOp_reduceSum, evalOp_ref, hb]
-  simp only [Option.bind_some, Option.bind_eq_bind]
-  apply congrArg some
-  apply Tile.ext
-  rintro ⟨⟩
-  exact sum_value BT c f
-
-theorem carry_eval (BT c : Nat) (f : Nat → ℝ) (acc : ℝ) (u : BlockState)
-    (ha : u.regs .real [] "b_z" = some (Tile.scalar (some acc)))
-    (hb : u.regs .real [] "b_zz" = some (Tile.scalar (some (chunkSum BT c f)))) :
-    evalOp (.add .real .nil (.ref .real [] "b_z") (.ref .real [] "b_zz")) u =
-      some (Tile.scalar (some (acc + chunkSum BT c f))) := by
-  rw [evalOp_add, evalOp_ref, ha, evalOp_ref, hb]
-  rfl
-
-theorem output_eval (BT c : Nat) (f : Nat → ℝ) (acc : ℝ) (u : BlockState)
-    (ha : u.regs .real [] "b_z" = some (Tile.scalar (some acc)))
-    (hb : u.regs .real [BT] "b_s" = some (inputTile BT c f)) :
-    evalOp (outputOp BT) u = some (outputTile BT c f acc) := by
-  have hs : evalOp (.scan .sum ⟨0, by simp⟩ .forward (.ref .real [BT] "b_s")) u =
-      some (Tile.scan .sum ⟨0, by simp⟩ .forward (inputTile BT c f)) := by
-    simp only [evalOp, hb]
-    rfl
-  rw [outputOp, evalOp_add, evalOp_sub, evalOp_ref, hb, hs]
-  erw [evalOp_expandDim, evalOp_ref, ha]
-  simp only [Option.bind_some, Option.bind_eq_bind]
+theorem time_eval (h : Call) (c : Config) (q : Nat) (u : BlockState)
+    (hs : u.regs .int [] "start_t"=some (Tile.scalar (q*c.BT:Int)))
+    (hl : u.regs .nat [c.BT] "lanes"=some (lanes c))
+    (hm : u.regs .bool [c.BT] "active"=some (mask h c q)) :
+    evalOp (timeOp c) u=some (times h c q) := by
+  simp only [timeOp,evalOp,hs,hl,hm]
   apply congrArg some
   apply Tile.ext
   rintro ⟨i,⟨⟩⟩
-  simp only [Tile.bop_data, Broadcast.leftIndex, Broadcast.rightIndex, Tile.expandDim,
-    TileShape.dropInsertedIndex, Tile.scalar_data, Tile.vec, NumericDType.add,
-    NumericDType.sub, outputTile, inputTile, Option.map₂_some_some]
-  erw [scan_value BT c f i]
-  rfl
+  simp [-Tile.scalar_eta,lanes,mask,times,Geometry.time,Tile.bop,Tile.scalar,
+    Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.add]
 
-/-- The actual source expression connects to the independent padded suffix
-once the reverse-loop invariant supplies the updated carry. -/
-theorem output_formula (BT chunks c : Nat) (f : Nat → ℝ) :
-    outputTile BT c f (Formula.carry f BT chunks c) =
-      Tile.vec (fun i => some (Formula.suffix f (chunks * BT) (c * BT + i.val))) := by
+theorem pointer_eval (h : Call) (c : Config) (row q : Nat) (r : RegionName)
+    (strides : Strides) (u : BlockState)
+    (hr : u.regs .nat [] "i_bh"=some (Tile.scalar row))
+    (ht : u.regs .int [c.BT] "times"=some (times h c q)) :
+    evalOp (pointerOp h c r strides) u=some (pointer h c row q r strides) := by
+  simp only [pointerOp,baseOp,evalOp,hr,ht]
+  apply congrArg some
   apply Tile.ext
   rintro ⟨i,⟨⟩⟩
-  exact congrArg some (Formula.scalar_from_chunk f BT chunks c i)
+  simp [-Tile.scalar_eta,pointer,times,Strides.address,Strides.base,Tile.bop,Tile.scalar,
+    Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.add,NumericDType.mul,
+    IntegralDType.floorDiv,IntegralDType.mod]
+  rw [←Int.natCast_ediv,←Int.natCast_emod,←Int.natCast_mul,←Int.natCast_mul,
+    ←Int.natCast_add,←Int.natCast_mul,←Int.natCast_add]
+  rfl
 
-#axiomsClean load_eval
-#axiomsClean sum_eval
-#axiomsClean carry_eval
-#axiomsClean output_eval
-#axiomsClean output_formula
+theorem load_eval (h : Call) (c : Config) (row q : Nat) (input : Nat → ℝ) (u : BlockState)
+    (hq : q*c.BT<h.T)
+    (hp : u.regs .ptr [c.BT] "p_s"=some (pointer h c row q h.input h.inputStrides))
+    (hm : u.regs .bool [c.BT] "active"=some (mask h c q))
+    (read : ∀ t, t<h.T → u.readMem h.input (h.inputStrides.address h.H row t)=input t) :
+    evalOp (loadOp c) u=some (inputTile c.BT q (value h input)) := by
+  simp only [loadOp,evalOp,hp,hm]
+  apply congrArg some
+  apply Tile.ext
+  rintro ⟨i,⟨⟩⟩
+  by_cases ha : Geometry.active h c q i
+  · have ht := (Geometry.active_iff h c q i hq).mp ha
+    simp [pointer,mask,ha,Geometry.active_time h c q i ha,BlockState.readMemValue_real,read _ ht,
+      inputTile,VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues.inputTile,
+      value,ht,Tile.vec]
+  · have ht : ¬q*c.BT+i.val<h.T := (Geometry.active_iff h c q i hq).not.mp ha
+    simp [pointer,mask,ha,inputTile,VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues.inputTile,
+      value,ht,Tile.vec]
+
+#print axioms pointer_eval
+#print axioms load_eval
 end
-end VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues
+end VeriTile.Bench.Repairs.ReversedCumsumScalar.RealValues

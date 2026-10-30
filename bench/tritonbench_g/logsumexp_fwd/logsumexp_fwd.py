@@ -1,3 +1,4 @@
+import math
 import torch
 import triton
 import triton.language as tl
@@ -34,81 +35,47 @@ def logsumexp_fwd_kernel(
     b_x = tl.load(x + i_n * D + o_d, mask=m_d, other=-float('inf'))
     if HAS_SCALE:
         b_x = b_x * scale
+    b_x = tl.where(m_d, b_x, -float('inf'))
     b_m = tl.max(b_x, 0)
+    positive_inf = float('inf')
+    b_m = tl.where((b_m == positive_inf) | (b_m == -float('inf')), 0.0, b_m)
     b_z = tl.log(tl.sum(tl.exp(b_x - b_m), 0)) + b_m
     tl.store(z + i_n * tl.cdiv(D, B) + i_d, b_z)
 
-def logsumexp_fwd(
-    x,
-    scale: Optional[float] = None,
-    dtype: Optional[torch.dtype] = None
-):
-    r"""
-    Compute the logsumexp of the input tensor over the last dimension.
-
-    Args:
-        x (Tensor):
-            The input tensor of any shape.
-        scale (Optional[float]):
-            The scale applied to the input tensor. Default: `None`.
-        dtype (Optional[torch.dtype]):
-            The data type of the output tensor. Default: `None`.
-    Returns:
-        Tensor: The logsumexp of the input tensor.
-    """
-
+def logsumexp_fwd(x, scale: Optional[float] = None, dtype: Optional[torch.dtype] = None):
+    if not isinstance(x, torch.Tensor):
+        raise TypeError("input must be a tensor")
+    if x.layout != torch.strided or x.dtype != torch.float32 or not x.is_cuda:
+        raise ValueError("input must be a strided FP32 CUDA tensor")
+    if x.ndim == 0:
+        raise ValueError("input must have a last dimension")
+    if not x.is_contiguous() or x.is_neg():
+        raise ValueError("input must be contiguous with no unresolved negative view")
+    if x.numel() >= 2**31:
+        raise ValueError("input must contain fewer than 2**31 elements")
+    if x.numel() and x.data_ptr() % 4:
+        raise ValueError("nonempty FP32 input must be 4-byte aligned")
+    if scale is not None and not isinstance(scale, float):
+        raise TypeError("scale must be a Python float or None")
+    if dtype not in (None, torch.float32, torch.float64):
+        raise ValueError("output dtype must be FP32 or FP64")
     shape = x.shape
-    x = x.view(-1, shape[-1])
-    N, D = x.shape
-    B = min(triton.next_power_of_2(D), 64 * 1024)
-    ND = triton.cdiv(D, B)
-
-    z = x.new_empty(N, ND, dtype=torch.float)
-    logsumexp_fwd_kernel[(N, ND)](
-        x=x,
-        z=z,
-        scale=scale,
-        D=D,
-        B=B
-    )
-    z = z.logsumexp(-1).view(*shape[:-1])
-    if dtype is not None and dtype != torch.float:
-        z = z.to(dtype)
+    D = shape[-1]
+    N = math.prod(shape[:-1])
+    if N >= 2**31:
+        raise ValueError("output must contain fewer than 2**31 elements")
+    # Preserve the original view operation; explicit extents also handle D=0.
+    x = x.view(N, D)
+    with torch.cuda.device(x.device):
+        if D == 0:
+            z = x.new_full(shape[:-1], -float('inf'), dtype=torch.float32)
+        else:
+            B = min(triton.next_power_of_2(D), 64 * 1024)
+            ND = triton.cdiv(D, B)
+            z = x.new_empty(N, ND, dtype=torch.float32)
+            if N:
+                logsumexp_fwd_kernel[(N, ND)](x=x, z=z, scale=scale, D=D, B=B)
+            z = z.logsumexp(-1).view(shape[:-1])
+        if dtype is not None and dtype != torch.float32:
+            z = z.to(dtype)
     return z
-
-
-
-
-##################################################################################################################################################
-
-
-def test_logsumexp_fwd():
-    batch_size = 4
-    seq_len = 64  # Length of the last dimension
-    scale = 0.5  # Scale factor
-
-    # Test 1: Basic Random Input
-    x = torch.randn((batch_size, seq_len), device='cuda', dtype=torch.float32)
-    z1 = logsumexp_fwd(x)
-
-    # Test 2: Input with Scale
-    x = torch.randn((batch_size, seq_len), device='cuda', dtype=torch.float32)
-    z2 = logsumexp_fwd(x, scale=scale)
-
-    # Test 3: Higher Dimensional Input
-    x = torch.randn((batch_size, 16, seq_len), device='cuda', dtype=torch.float32)
-    z3 = logsumexp_fwd(x)
-
-    # Test 4: Input with Different Data Type
-    x = torch.randn((batch_size, seq_len), device='cuda', dtype=torch.float32)
-    z4 = logsumexp_fwd(x, dtype=torch.float64)
-
-    results = {
-        "test_case_1": z1,
-        "test_case_2": z2,
-        "test_case_3": z3,
-        "test_case_4": z4
-    }
-    return results
-
-result_gold = test_logsumexp_fwd()

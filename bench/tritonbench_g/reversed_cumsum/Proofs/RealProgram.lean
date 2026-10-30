@@ -1,77 +1,58 @@
-import bench.tritonbench_g.reversed_cumsum.Proofs.Source
-import bench.tritonbench_g.reversed_cumsum.Proofs.RealMath
+import bench.tritonbench_g.reversed_cumsum.Proofs.IndexProgram
+import bench.tritonbench_g.reversed_cumsum.Proofs.Mathematical_RealExecution
 
-/-! Exact per-iteration expressions and initialization, exposed for staged
-proofs. The complete reverse-loop source connection is proved separately;
-these fragments are never a replacement public kernel. -/
-namespace VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram
-open VeriTile.Triton
-set_option maxRecDepth 12000
-set_option maxHeartbeats 2000000
-set_option linter.unusedSimpArgs false
-structure Layout where
-  headStride : Nat
-  timeStride : Nat
-  channelStride : Nat
-  T : Nat
-  S : Nat
-  BT : Nat
-  BS : Nat
+namespace VeriTile.Bench.Repairs.ReversedCumsum.RealProgram
+open VeriTile.Triton IndexProgram
+set_option maxHeartbeats 3600000
+set_option maxRecDepth 24000
 
-structure Launch where
-  feature : Nat
-  head : Nat
+def layout (h : Call) (c : Config) : VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.Layout :=
+  ⟨h.T*h.S,h.S,1,h.T,h.S,c.BT,BS⟩
+def launch (row feature : Nat) : VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.Launch := ⟨feature,row⟩
+def initCode (h : Call) (c : Config) : List Stmt :=
+  VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.initCode (layout h c) Bool.false
 
-def numChunks (p : Layout) : Nat := (p.T + p.BT - 1) / p.BT
+def loadOp (c : Config) : Op .real [c.BT,BS] :=
+  .load .real (.ptr (.ref .ptr [c.BT,BS] "p_s"))
+    (.maskOther (.ref .bool [c.BT,BS] "active") (.broadcast (.const 0) [c.BT,BS]))
+def outputOp (c : Config) : Op .real [c.BT,BS] :=
+  .add .real (.consL (.consSame .nil)) (.expandDim ⟨0,by simp⟩ (.ref .real [BS] "b_z"))
+    (.dot (batch:=[]) (.ref .real [c.BT,c.BT] "m_s") (.ref .real [c.BT,BS] "b_s") {allowTF32:=some Bool.false})
+def carryOp (c : Config) : Op .real [BS] :=
+  .add .real (.consSame .nil) (.ref .real [BS] "b_z") (.reduceSum ⟨0,by simp⟩ Bool.false (.ref .real [c.BT,BS] "b_s"))
 
-def stopOp (p : Layout) : Op .nat [] :=
-  .div .nat .nil (.sub .nat .nil (.add .nat .nil (.constNat p.T) (.constNat p.BT))
-    (.constNat 1)) (.constNat p.BT)
+def loopBody (h : Call) (c : Config) : List Stmt :=
+  [.assign .int [] "i_t" indexOp,
+   .assign .int [] "start_t" (startTOp c),
+   .assign .nat [] "start_s" startSOp,
+   .assign .nat [c.BT] "lane_t" (.arange c.BT),
+   .assign .nat [BS] "lane_s" (.arange BS),
+   .assign .bool [c.BT] "active_t" (activeTOp h c),
+   .assign .bool [BS] "active_s" (activeSOp h),
+   .assign .int [c.BT] "times" (timeOp c),
+   .assign .nat [BS] "features" featureOp,
+   .assign .bool [c.BT,BS] "active" (maskOp c),
+   .assign .ptr [c.BT,BS] "p_s" (pointerOp h c h.input),
+   .assign .ptr [c.BT,BS] "p_z" (pointerOp h c h.output),
+   .assign .real [c.BT,BS] "b_s" (loadOp c),
+   .assign .real [c.BT,BS] "b_c" (outputOp c),
+   .store .real [c.BT,BS] (.ptr (.ref .ptr [c.BT,BS] "p_z")) (.ref .real [c.BT,BS] "b_c") (.mask (.ref .bool [c.BT,BS] "active")),
+   .ifThen nonnegativeOp [.assign .real [BS] "b_z" (carryOp c)]]
+def statement (h : Call) (c : Config) : Stmt :=
+  .forRangeInt "__rev_i_t" (reverseStart h c) (.constInt 1) (.constNat 1) (loopBody h c)
+def body (h : Call) (c : Config) := initCode h c ++ [statement h c]
 
-def pointerOp (p : Layout) (r : RegionName) : Op .blockPtr [p.BT, p.BS] :=
-  .makeBlockPtrDynOffsets r (.mul .nat .nil (.ref .nat [] "i_bh") (.constNat p.headStride))
-    [p.T, p.S] [p.BT, p.BS] [p.timeStride, p.channelStride]
-    [.castIntToNat (.mul .int .nil (.ref .int [] "i_t") (.constInt (p.BT : Int))),
-     .mul .nat .nil (.ref .nat [] "i_s") (.constNat p.BS)]
+theorem source_body (h : Call) (c : Config) :
+    (Kernels.source h c).eraseDType.toAlgKernel.body=body h c := by
+  simp only [Kernels.source,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeDType.eraseDType,List.map_cons,List.map_nil,Kernel.eraseDType,Stmt.eraseDTypeList,
+    Stmt.eraseDType,Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
+    Except.bind,bind,VeriTile.Triton.eraseDType_float]
+  simp only [Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType]
+  cases h.inputDType <;> cases h.outputDType <;> rfl
 
-def carryOp (p : Layout) : Op .real [p.BS] :=
-  let a := Op.ref .real [p.BS] "b_z"
-  let b := Op.reduceSum ⟨0, by simp⟩ Bool.false (.ref .real [p.BT, p.BS] "b_s")
-  .add .real (.consSame .nil) a b
-
-def loopBody (p : Layout) (s o : RegionName) : List Stmt :=
-  [.assign .blockPtr [p.BT, p.BS] "p_s" (pointerOp p s),
-   .assign .blockPtr [p.BT, p.BS] "p_z" (pointerOp p o),
-   .assign .real [p.BT, p.BS] "b_s"
-     (.load .real (.blockPtr (.ref .blockPtr [p.BT, p.BS] "p_s") [0, 1]) .none .unspecified),
-   .assign .real [p.BT, p.BS] "b_c"
-     (.add .real (.consL (.consSame .nil))
-       (.expandDim ⟨0, by simp⟩ (.ref .real [p.BS] "b_z"))
-       (.dot (batch := []) (.ref .real [p.BT, p.BT] "m_s") (.ref .real [p.BT, p.BS] "b_s")
-         {allowTF32 := some Bool.false})),
-   .store .real [p.BT, p.BS] (.blockPtr (.ref .blockPtr [p.BT, p.BS] "p_z") [0, 1])
-     (.ref .real [p.BT, p.BS] "b_c") .none,
-   .ifThen (.ge .int .nil (.ref .int [] "i_t") (.castNatToInt (.constNat 0)))
-     [.assign .real [p.BS] "b_z" (carryOp p)]]
-
-def maskOp (p : Layout) (swapped : Bool) : Op .bool [p.BT,p.BT] :=
-  if swapped then
-    .ge .nat (.consL (.consR .nil))
-      (.expandDim ⟨0, by simp⟩ (.ref .nat [p.BT] "o_i"))
-      (.expandDim ⟨1, by simp⟩ (.ref .nat [p.BT] "o_i"))
-  else
-    .le .nat (.consR (.consL .nil))
-      (.expandDim ⟨1, by simp⟩ (.ref .nat [p.BT] "o_i"))
-      (.expandDim ⟨0, by simp⟩ (.ref .nat [p.BT] "o_i"))
-
-def initCode (p : Layout) (swapped : Bool) : List Stmt :=
-  [.assign .nat [] "i_s" (.programId 0), .assign .nat [] "i_bh" (.programId 1),
-   .assign .nat [p.BT] "o_i" (.arange p.BT),
-   .assign .real [p.BT, p.BT] "m_s"
-     (.where (maskOp p swapped)
-       (.broadcast (.const 1.0) [p.BT, p.BT]) (.broadcast (.const 0.0) [p.BT, p.BT])),
-   .assign .real [p.BS] "b_z" (.full [p.BS] (.const 0))]
-
-#guard_msgs (drop info) in
-#auditModuleAxioms
-end VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram
+#axiomsClean source_body
+end VeriTile.Bench.Repairs.ReversedCumsum.RealProgram

@@ -5,7 +5,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-FIXTURE = ROOT / "bench/tests/FPGuardedExamples.lean"
+FIXTURE = ROOT / "tests/lean/FPGuardedExamples.lean"
 
 
 class GuardedExampleTests(unittest.TestCase):

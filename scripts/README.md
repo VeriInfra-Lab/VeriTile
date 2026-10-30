@@ -101,7 +101,7 @@ when reporting benchmark results. The previous benchmark setup used version
 
 ## Source and documentation tools
 
-`bash bench/audit_tritonbench_g.sh --source-only` is the shared source-check
+`bash scripts/bench/audit_tritonbench_g.sh --source-only` is the shared source-check
 entry for local work and CI. It checks the final inventory, Python/Lean body
 correspondence and imported-challenge review without building or replaying
 proofs. The full and library-only proof gates are described below.
@@ -118,7 +118,7 @@ nested/repaired revisions. Generated cards are presentation aids; their lexical
 flags do not establish specification independence or proof acceptance.
 
 The declaration parser lives in `scripts/spec_sheet.py`; the standalone lexical
-mask lives in `bench/lean_import_scan.py`. Source adapters and final inventory
+mask lives in `scripts/bench/lean_import_scan.py`. Source adapters and final inventory
 checks share those implementations rather than keeping separate copies.
 
 ## Artifact checker
@@ -142,7 +142,7 @@ scripts/check-artifact.sh
 
 ## Shared comparator gate
 
-The artifact checker, `bench/check_ports.sh`, and `bench/audit_trust.sh` all
+The artifact checker, `scripts/bench/check_ports.sh`, and `scripts/bench/audit_trust.sh` all
 require the official comparator and the sandbox tools installed above. Missing
 tools, export failures, and comparator rejections fail the gate. CI installs
 the same pinned tools through `.github/actions/setup-comparator`.
@@ -163,22 +163,22 @@ pass does not claim an exhaustive per-module audit. Separate concurrency groups
 prevent PR or main pushes from cancelling a daily run. Before merging proof
 changes, run the complete applicable proof checks locally.
 
-Local `bench/audit_tritonbench_g.sh` runs still cover all gates and the whole
+Local `scripts/bench/audit_tritonbench_g.sh` runs still cover all gates and the whole
 corpus by default. To reproduce the CI stages separately:
 
 ```bash
-bench/audit_tritonbench_g.sh --global-only
+scripts/bench/audit_tritonbench_g.sh --global-only
 # Daily full scope (run indices 0–63):
-AUDIT_TRUST_SHARD_COUNT=64 AUDIT_TRUST_SHARD_INDEX=0 bench/audit_trust.sh --final-inventory
+AUDIT_TRUST_SHARD_COUNT=64 AUDIT_TRUST_SHARD_INDEX=0 scripts/bench/audit_trust.sh --final-inventory
 # Optional public-entry audit (run indices 0–15):
-AUDIT_TRUST_SHARD_COUNT=16 AUDIT_TRUST_SHARD_INDEX=0 bench/audit_trust.sh --ci-targets
+AUDIT_TRUST_SHARD_COUNT=16 AUDIT_TRUST_SHARD_INDEX=0 scripts/bench/audit_trust.sh --ci-targets
 ```
 
 Run every index for the selected shard count for a complete corpus audit. Both shard
 variables are required, and sharding cannot be combined with named targets or
 `--global-only`. A global-only result or a single shard is not a completed
 audit. The existing sharded aggregate command also remains available: setting
-the two variables on `bench/audit_tritonbench_g.sh` runs the global gates and
+the two variables on `scripts/bench/audit_tritonbench_g.sh` runs the global gates and
 the selected shard together.
 
 ```bash
@@ -208,7 +208,7 @@ trust pass. Batch workers share one independent snapshot, with separate output
 modules, and concurrency accounts for export/replay memory. Raw `lake build`
 remains the build step; use these gates for proof acceptance.
 
-The final aggregate checks `bench/final_inventory.py`, source correspondence
+The final aggregate checks `scripts/bench/final_inventory.py`, source correspondence
 and the imported benchmark review before the build and proof gates. Generic
 source-parser regressions remain in `scripts/test_source_*.py`; they test
 extraction and rejection behavior without supplying archived corpus evidence.

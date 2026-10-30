@@ -1,16 +1,36 @@
 """Split ports must not lose sources, FP entries or nested proof audit targets."""
+# Make the repository packages available for direct invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+
 from pathlib import Path
 import tempfile
 import unittest
 
-from bench.port_layout import (
+from scripts.bench.port_layout import (
     source_file, source_files, proof_files, specification_files,
     source_import_files, source_text,
 )
-from bench.audit_source import lean_first_triton_body
+from scripts.bench.audit_source import lean_first_triton_body
 
 
 class PortLayoutTests(unittest.TestCase):
+    def test_current_task_helpers_do_not_become_alternate_sources(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            task = Path(tmp) / 'add'
+            (task / 'Sources').mkdir(parents=True)
+            for name in ('add.py', 'Kernels.lean', 'Contract.lean', 'Correct.lean',
+                         'FPEquiv.lean', 'IO.lean', 'Sources/Mathematical.lean'):
+                (task / name).touch()
+            self.assertEqual(source_file(task), task / 'Kernels.lean')
+            self.assertIn(task / 'Sources/Mathematical.lean', proof_files(task))
+            self.assertEqual(specification_files(task.parent),
+                             [task / 'Correct.lean', task / 'FPEquiv.lean'])
+            (task / 'FPEquiv.lean').unlink()
+            with self.assertRaisesRegex(ValueError, 'Missing split-port entry'):
+                source_file(task)
+
     def test_supplemental_fp_entry_preserves_source_and_discovers_helpers(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

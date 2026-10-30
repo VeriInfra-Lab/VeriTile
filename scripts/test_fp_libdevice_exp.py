@@ -26,7 +26,7 @@ class LibdeviceExpTests(unittest.TestCase):
         return result.stdout
 
     def test_nested_identity_precision_and_distinct_interpretations(self):
-        self.check((ROOT / 'bench/tests/FPLibdeviceExp.lean').read_text())
+        self.check((ROOT / 'tests/lean/FPLibdeviceExp.lean').read_text())
 
     def test_public_spec_uses_only_admitted_atoms(self):
         output = self.check('''

@@ -14,8 +14,8 @@ import CorpusStats from '../../components/CorpusStats.astro';
 Use the [searchable proof coverage table](/VeriTile/proofs/coverage/) to inspect
 each kernel's theorem, source functions, numeric model, assumptions, and gaps.
 
-The [final validation guide](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/current_source_acceptance.md)
-provides the current commands. The [contract review](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/validation/contracts.json)
+The [final validation guide](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/bench/current_source_acceptance.md)
+provides the current commands. The [contract review](https://github.com/VeriInfra-Lab/VeriTile/blob/main/validation/contracts.json)
 records each selected entry's formula, assumptions, numerical dependencies and
 scope. Source counts alone do not establish proof completion or native execution.
 
@@ -29,7 +29,7 @@ From the repository root:
 ```bash
 lake build
 scripts/check-artifact.sh
-bench/audit_tritonbench_g.sh
+scripts/bench/audit_tritonbench_g.sh
 ```
 
 The artifact gate checks proof placeholders, allowed axioms, the kernel

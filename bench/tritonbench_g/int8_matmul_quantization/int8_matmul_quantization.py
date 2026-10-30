@@ -5,6 +5,89 @@ import triton
 import triton.language as tl
 
 
+_GEMM_TILES = [(128, 256, 64, 1, 8), (64, 256, 32, 1, 8), (128, 128, 32, 1, 8), (128, 64, 32, 1, 8), (64, 128, 32, 1, 8), (128, 32, 32, 1, 8), (64, 32, 32, 1, 8), (32, 64, 32, 1, 8), (64, 64, 32, 1, 8), (64, 64, 64, 1, 8), (32, 32, 128, 1, 8), (64, 64, 32, 1, 16), (64, 64, 64, 1, 16), (32, 32, 128, 1, 16), (64, 64, 64, 1, 16), (64, 64, 128, 1, 16), (32, 32, 256, 1, 16), (128, 256, 64, 2, 8), (64, 256, 32, 2, 8), (128, 128, 32, 2, 8), (128, 64, 32, 2, 8), (64, 128, 32, 2, 8), (128, 32, 32, 2, 8), (64, 32, 32, 2, 8), (32, 64, 32, 2, 8), (64, 64, 32, 2, 8), (64, 64, 64, 2, 8), (32, 32, 128, 2, 8), (64, 64, 32, 2, 16), (64, 64, 64, 2, 16), (32, 32, 128, 2, 16), (64, 64, 64, 2, 16), (64, 64, 128, 2, 16), (32, 32, 256, 2, 16)]
+
+def _tensor(t, dtype, rank, column_major=False):
+    if not isinstance(t, torch.Tensor):
+        raise TypeError("tensor argument required")
+    if t.layout != torch.strided or t.ndim != rank:
+        raise ValueError("unsupported tensor layout or rank")
+    allowed = dtype if isinstance(dtype, tuple) else (dtype,)
+    if t.dtype not in allowed:
+        raise TypeError("unsupported storage dtype")
+    if not t.is_cuda:
+        raise ValueError("CUDA tensor required")
+    if t.is_neg():
+        raise ValueError("unresolved negative views are unsupported")
+    if not t.is_contiguous() and not (column_major and t.t().is_contiguous()):
+        raise ValueError("contiguous row-major or selected column-major layout required")
+    if t.numel() and t.data_ptr() % t.element_size():
+        raise ValueError("unaligned element pointer")
+
+
+def _check_row(fpa):
+    _tensor(fpa, torch.float32, 2)
+    M, K = fpa.shape
+    if M:
+        if K <= 0 or K > 2**20 or M > 2**31-1:
+            raise ValueError("row quantization grid or tile exceeds supported range")
+        BK = triton.next_power_of_2(K)
+        if 4*(fpa.storage_offset()+M*max(K,1)+2*BK) >= 2**63:
+            raise ValueError("formed producer byte offsets exceed native range")
+
+
+def _check_gemm(a, a_scale, b, b_scale, out, composed=False):
+    _tensor(a, torch.float32 if composed else torch.int8, 2)
+    _tensor(b, torch.int8, 2, column_major=True)
+    _tensor(b_scale, torch.float32, 1)
+    if not composed:
+        _tensor(a_scale, (torch.float16, torch.float32), 1)
+    M, K = a.shape
+    _, N = b.shape
+    if b.shape[0] != K or b_scale.shape != (N,) or (not composed and a_scale.shape != (M,)):
+        raise ValueError("incompatible dimensions")
+    tensors = (a,b,b_scale) if composed else (a,a_scale,b,b_scale)
+    if any(t.device != a.device for t in tensors):
+        raise ValueError("inputs must use one CUDA device")
+    if any(u.dtype != v.dtype and torch._C._overlaps(u,v) for j,u in enumerate(tensors) for v in tensors[j+1:]):
+        raise ValueError("different dtypes must not share raw storage")
+    if out is not None:
+        _tensor(out, (torch.float16, torch.float32), 2)
+        if out.shape != (M,N) or out.device != a.device:
+            raise ValueError("out must match shape and device")
+        if any(torch._C._overlaps(out,t) for t in tensors):
+            raise ValueError("out must not share raw input storage")
+    if M and N:
+        if K > 131071:
+            raise ValueError("active GEMM K exceeds signed INT32 accumulation range")
+        ao = 0 if composed else a.storage_offset()
+        aso = 0 if composed else a_scale.storage_offset()
+        oo = 0 if out is None else out.storage_offset()
+        output_bytes = 2 if out is None else out.element_size()
+        col = not b.is_contiguous()
+        sr, sc = (1,max(K,1)) if col else (max(N,1),1)
+        for BM,BN,BK,S,G in _GEMM_TILES:
+            gm,gn = triton.cdiv(M,BM),triton.cdiv(N,BN)
+            pm,pn = gm*BM,gn*BN
+            fk = (triton.cdiv(K,BK*S)+1)*(BK*S)
+            if (M+BM >= 2**63 or N+BN >= 2**63 or K+BK*S >= 2**63 or
+                pm >= 2**63 or pn >= 2**63 or fk >= 2**63 or G*gn >= 2**63 or
+                gm*gn > 2**31-1 or S > 65535 or
+                ao+M*max(K,1)+fk >= 2**63 or
+                b.storage_offset()+fk*sr+N*sc >= 2**63 or
+                output_bytes*(oo+pm*max(N,1)+pn) >= 2**63 or
+                4*(aso+M) >= 2**63 or 4*(b_scale.storage_offset()+N) >= 2**63):
+                raise ValueError("formed GEMM addresses or autotune grid exceed native range")
+
+
+def _check_helper(weight, axis):
+    _tensor(weight, torch.float32, 2)
+    if not isinstance(axis,int) or isinstance(axis,bool) or axis not in (-2,-1,0,1):
+        raise ValueError("axis must be one of -2, -1, 0, 1")
+    if weight.shape[axis] == 0:
+        raise ValueError("amax requires a nonempty reduced dimension")
+
+
 @triton.autotune(
     configs=[
         triton.Config({}, num_stages=2, num_warps=8),
@@ -24,7 +107,15 @@ def quantize_int8_perrow_kernel(
     # Meta-parameters
     BLOCK_SIZE_M: tl.constexpr, BLOCK_SIZE_K: tl.constexpr,
 ):
-    pid_m = tl.program_id(axis=0)
+    # Widen before products, padded addresses and the final unused increment.
+    M = tl.cast(M, tl.int64)
+    K = tl.cast(K, tl.int64)
+    stride_fpam = tl.cast(stride_fpam, tl.int64)
+    stride_fpak = tl.cast(stride_fpak, tl.int64)
+    stride_am = tl.cast(stride_am, tl.int64)
+    stride_ak = tl.cast(stride_ak, tl.int64)
+    stride_asm = tl.cast(stride_asm, tl.int64)
+    pid_m = tl.program_id(axis=0).to(tl.int64)
     offs_k = tl.arange(0, BLOCK_SIZE_K)
     offs_am = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)) % M
 
@@ -48,20 +139,24 @@ def quantize_int8_perrow_kernel(
 
 
 def quantize_int8_perrow(fpa):
+    _check_row(fpa)
     a = torch.empty(fpa.shape, device=fpa.device, dtype=torch.int8)
     a_scale = torch.empty(fpa.shape[0], device=fpa.device, dtype=torch.float16)
     M, K = fpa.shape
     BLOCK_SIZE_M = 1
     BLOCK_SIZE_K = triton.next_power_of_2(K)
     grid = (M // BLOCK_SIZE_M,)
-    quantize_int8_perrow_kernel[grid](
-        fpa, a, a_scale,
-        M, K,
-        fpa.stride(0), fpa.stride(1),
-        a.stride(0), a.stride(1),
-        a_scale.stride(0),
-        BLOCK_SIZE_M, BLOCK_SIZE_K,
-    )
+    if M == 0:
+        return a, a_scale
+    with torch.cuda.device(fpa.device):
+        quantize_int8_perrow_kernel[grid](
+            fpa, a, a_scale,
+            M, K,
+            max(K,1), 1,
+            max(K,1), 1,
+            1,
+            BLOCK_SIZE_M, BLOCK_SIZE_K,
+        )
     return a, a_scale
 
 
@@ -130,8 +225,20 @@ def matmul_kernel(
     # Map program ids `pid` to the block of C it should compute.
     # This is done in a grouped ordering to promote L2 data reuse.
     # See above `L2 Cache Optimizations` section for details.
-    pid = tl.program_id(axis=0)
-    pid_sp_k = tl.program_id(axis=1)
+    # Tensor offsets remain exact beyond signed32 element indices.
+    M = tl.cast(M, tl.int64)
+    N = tl.cast(N, tl.int64)
+    K = tl.cast(K, tl.int64)
+    stride_am = tl.cast(stride_am, tl.int64)
+    stride_ak = tl.cast(stride_ak, tl.int64)
+    stride_asm = tl.cast(stride_asm, tl.int64)
+    stride_bk = tl.cast(stride_bk, tl.int64)
+    stride_bn = tl.cast(stride_bn, tl.int64)
+    stride_bsn = tl.cast(stride_bsn, tl.int64)
+    stride_cm = tl.cast(stride_cm, tl.int64)
+    stride_cn = tl.cast(stride_cn, tl.int64)
+    pid = tl.program_id(axis=0).to(tl.int64)
+    pid_sp_k = tl.program_id(axis=1).to(tl.int64)
     num_pid_m = tl.cdiv(M, BLOCK_SIZE_M)
     num_pid_n = tl.cdiv(N, BLOCK_SIZE_N)
     num_pid_in_group = GROUP_SIZE_M * num_pid_n
@@ -189,18 +296,19 @@ def matmul_kernel(
 
 
 def matmul_quantize_int8(fpa, b, b_scale, out=None):
+    _check_row(fpa)
+    _check_gemm(fpa, None, b, b_scale, out, composed=True)
     a, a_scale = quantize_int8_perrow(fpa)
     # a, a_scale = quantize_int8(fpa, axis=1)
     return matmul_int8(a, a_scale, b, b_scale, out)
 
 
 def matmul_int8(a, a_scale, b, b_scale, out=None):
-    # Check constraints.
-    assert a.shape[1] == b.shape[0], "Incompatible dimensions"
+    _check_gemm(a, a_scale, b, b_scale, out)
     M, K = a.shape
     K, N = b.shape
     # Allocates output.
-    if out == None:
+    if out is None:
         c = torch.zeros((M, N), device=a.device, dtype=torch.float16)
     else:
         c = out.fill_(0.)
@@ -208,19 +316,23 @@ def matmul_int8(a, a_scale, b, b_scale, out=None):
         triton.cdiv(M, META['BLOCK_SIZE_M']) * triton.cdiv(N, META['BLOCK_SIZE_N']),
         META['SPLIT_K'],
     )
-    matmul_kernel[grid](
-        a, a_scale, b, b_scale, c,
-        M, N, K,
-        a.stride(0), a.stride(1),
-        a_scale.stride(0),
-        b.stride(0), b.stride(1),
-        b_scale.stride(0),
-        c.stride(0), c.stride(1),
-    )
+    if M == 0 or N == 0:
+        return c
+    with torch.cuda.device(a.device):
+        matmul_kernel[grid](
+            a, a_scale, b, b_scale, c,
+            M, N, K,
+            max(K,1), 1,
+            1,
+            max(N,1) if b.is_contiguous() else 1, 1 if b.is_contiguous() else max(K,1),
+            1,
+            max(N,1), 1,
+        )
     return c
 
 
 def quantize_int8(weight, axis=0):
+    _check_helper(weight, axis)
     # Weight shape: [H1, H2]
     # Scale shape: [H2]
     scale = weight.abs().amax(axis, keepdim=True) / 127.
@@ -230,38 +342,3 @@ def quantize_int8(weight, axis=0):
         weight = weight.t().contiguous().t()
     scale = scale.squeeze(axis)
     return weight, scale, None
-
-
-
-
-##################################################################################################################################################
-
-
-# Test case for quantize_int8 and matmul_quantize_int8
-def test_quantize_and_matmul():
-    # Initialize test results dictionary
-    test_results = {}
-
-    # Generate random float matrix A (fpa) and B
-    M, K, N = 128, 64, 128  # Example sizes for A, B, and C
-    device = 'cuda'  # Ensure this runs on GPU
-
-    # Test case 1
-    fpa = torch.randn((M, K), device=device, dtype=torch.float32)
-    b = torch.randn((K, N), device=device, dtype=torch.float32)
-    b, b_scale, _ = quantize_int8(b)
-    c_quantized = matmul_quantize_int8(fpa, b, b_scale)
-    test_results['test_case_1'] = c_quantized
-
-    # Test case 2
-    M, K, N = 32, 16, 32
-    fpa = torch.randn((M, K), device=device, dtype=torch.float32)
-    b = torch.randn((K, N), device=device, dtype=torch.float32)
-    b, b_scale, _ = quantize_int8(b)
-    c_quantized = matmul_quantize_int8(fpa, b, b_scale)
-    test_results['test_case_2'] = c_quantized
-
-    return test_results
-
-# Run the test case
-result_gold = test_quantize_and_matmul()

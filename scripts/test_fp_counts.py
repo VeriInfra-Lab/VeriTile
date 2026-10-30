@@ -27,7 +27,7 @@ class FPCountTests(unittest.TestCase):
         return result.stdout
 
     def test_count_boundaries_and_independence_from_correct(self):
-        self.check((ROOT / 'bench/tests/FPCountConversion.lean').read_text())
+        self.check((ROOT / 'tests/lean/FPCountConversion.lean').read_text())
 
     def test_original_public_transforms_and_used_atoms_at_default_print_settings(self):
         expected = {'add_zero', 'cancel', 'add_assoc', 'mul_distrib', 'mul_assoc',

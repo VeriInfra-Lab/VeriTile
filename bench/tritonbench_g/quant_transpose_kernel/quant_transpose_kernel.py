@@ -78,42 +78,36 @@ def quantize_global_transpose(input):
     )
     return out, absmax
 
+_unchecked_quantize_global_transpose = quantize_global_transpose
 
 
-
-##################################################################################################################################################
-
-
-import torch
-
-# Test for quantize_global_transpose
-def test_quantize_global_transpose():
-    results = {}
-    
-    # Create a random 2D tensor on CUDA for first test case
-    input_tensor_1 = torch.randn(128, 256, device='cuda', dtype=torch.float32)
-    # Call the quantize_global_transpose function for the first test case
-    output_1, absmax_1 = quantize_global_transpose(input_tensor_1)
-    results["test_case_1"] = (output_1, absmax_1)
-
-    # Create a random 2D tensor on CUDA for second test case
-    input_tensor_2 = torch.randn(256, 128, device='cuda', dtype=torch.float32)
-    # Call the quantize_global_transpose function for the second test case
-    output_2, absmax_2 = quantize_global_transpose(input_tensor_2)
-    results["test_case_2"] = (output_2, absmax_2)
-
-    # Create a random 2D tensor on CUDA for third test case
-    input_tensor_3 = torch.randn(512, 256, device='cuda', dtype=torch.float32)
-    # Call the quantize_global_transpose function for the third test case
-    output_3, absmax_3 = quantize_global_transpose(input_tensor_3)
-    results["test_case_3"] = (output_3, absmax_3)
-
-    # Create a random 2D tensor on CUDA for fourth test case
-    input_tensor_4 = torch.randn(256, 512, device='cuda', dtype=torch.float32)
-    # Call the quantize_global_transpose function for the fourth test case
-    output_4, absmax_4 = quantize_global_transpose(input_tensor_4)
-    results["test_case_4"] = (output_4, absmax_4)
-    
-    return results
-
-result_gold = test_quantize_global_transpose()
+def quantize_global_transpose(input):
+    """FP32 resolved-view contract with checked source integer envelopes."""
+    if not isinstance(input, torch.Tensor):
+        raise TypeError("input must be a tensor")
+    if input.layout != torch.strided:
+        raise ValueError("input must have strided layout")
+    if input.ndim != 2:
+        raise ValueError("input must have rank two")
+    if input.dtype != torch.float32:
+        raise TypeError("input must be FP32")
+    if not input.is_cuda or input.device.index != torch.cuda.current_device():
+        raise ValueError("input must be on the current CUDA device")
+    if input.is_neg():
+        raise ValueError("unresolved negative views are unsupported")
+    if input.numel() and input.data_ptr() % 4:
+        raise ValueError("nonempty FP32 input must have a four-byte aligned data pointer")
+    m, n = input.shape
+    sam, san = input.stride()
+    if sam < 0 or san < 0:
+        raise ValueError("negative strides are unsupported")
+    if sam != 1 and san != 1:
+        raise ValueError("one input stride must be one")
+    gm, gn = triton.cdiv(m, 128), triton.cdiv(n, 128)
+    limit = 2**31
+    if (m <= 0 or n <= 0 or m + 128 >= limit or n + 128 >= limit
+            or sam >= limit or san >= limit or gm * gn >= limit or 8 * gn >= limit
+            or gm * 128 * sam + gn * 128 * san >= limit
+            or gm * 128 + gn * 128 * m >= limit):
+        raise ValueError("formed indices exceed the source int32 domain")
+    return _unchecked_quantize_global_transpose(input)

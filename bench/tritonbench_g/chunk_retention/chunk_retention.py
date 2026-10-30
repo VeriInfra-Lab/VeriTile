@@ -5,12 +5,19 @@ import triton.language as tl
 from torch.amp import custom_bwd, custom_fwd
 import functools
 
+
 def contiguous(fn):
+    def copy_argument(value):
+        if isinstance(value, torch.Tensor):
+            if type(value) is not torch.Tensor:
+                raise TypeError("checked contiguous inputs must be ordinary tensors")
+            return value.contiguous()
+        return value
     @functools.wraps(fn)
     def wrapper(ctx, *args, **kwargs):
         return fn(ctx,
-                  *(i if not isinstance(i, torch.Tensor) else i.contiguous() for i in args),
-                  **{k: (v if not isinstance(v, torch.Tensor) else v.contiguous()) for k, v in kwargs.items()})
+                  *(copy_argument(i) for i in args),
+                  **{k: copy_argument(v) for k, v in kwargs.items()})
     return wrapper
 
 @triton.jit
@@ -39,7 +46,7 @@ def chunk_retention_fwd_kernel_h(
     USE_INITIAL_STATE: tl.constexpr,
     STORE_FINAL_STATE: tl.constexpr
 ):
-    i_k, i_v, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)
+    i_k, i_v, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2).to(tl.int64)
     i_h = i_bh % H
     b_b = tl.math.log2(1 - tl.math.exp2(-5 - i_h * 1.0))
 
@@ -50,7 +57,7 @@ def chunk_retention_fwd_kernel_h(
 
     if USE_INITIAL_STATE:
         p_h0 = tl.make_block_ptr(initial_state + i_bh * K * V, (K, V), (V, 1), (i_k * BK, i_v * BV), (BK, BV), (1, 0))
-        b_h = tl.load(p_h0, boundary_check=(0, 1)).to(tl.float32)
+        b_h = tl.load(p_h0, boundary_check=(0, 1), padding_option="zero").to(tl.float32)
 
     for i_t in range(NT):
         p_k = tl.make_block_ptr(k + i_bh * s_qk_h, (K, T), (s_qk_d, s_qk_t), (i_k * BK, i_t * BT), (BK, BT), (0, 1))
@@ -59,9 +66,9 @@ def chunk_retention_fwd_kernel_h(
 
         tl.store(p_h, b_h.to(p_h.dtype.element_ty), boundary_check=(0, 1))
         # [BK, BT]
-        b_k = tl.load(p_k, boundary_check=(0, 1))
+        b_k = tl.load(p_k, boundary_check=(0, 1), padding_option="zero")
         # [BT, BV]
-        b_v = tl.load(p_v, boundary_check=(0, 1))
+        b_v = tl.load(p_v, boundary_check=(0, 1), padding_option="zero")
         # [BK, BV]
         if i_t == NT - 1 and (T % BT) != 0:
             d_b = tl.math.exp2((T % BT) * b_b)
@@ -97,7 +104,7 @@ def chunk_retention_fwd_kernel_o(
     BK: tl.constexpr,
     BV: tl.constexpr
 ):
-    i_v, i_t, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)
+    i_v, i_t, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2).to(tl.int64)
     i_h = i_bh % H
     b_b = tl.math.log2(1 - tl.math.exp2(-5 - i_h * 1.0))
 
@@ -113,17 +120,17 @@ def chunk_retention_fwd_kernel_o(
         p_k = tl.make_block_ptr(k + i_bh * s_qk_h, (K, T), (s_qk_d, s_qk_t), (i_k * BK, i_t * BT), (BK, BT), (0, 1))
         p_h = tl.make_block_ptr(h + i_bh * s_h_h + i_t * K * V, (K, V), (s_h_t, 1), (i_k * BK, i_v * BV), (BK, BV), (1, 0))
         # [BT, BK]
-        b_q = tl.load(p_q, boundary_check=(0, 1))
+        b_q = tl.load(p_q, boundary_check=(0, 1), padding_option="zero")
         # [BK, BT]
-        b_k = tl.load(p_k, boundary_check=(0, 1))
+        b_k = tl.load(p_k, boundary_check=(0, 1), padding_option="zero")
         # [BK, BV]
-        b_h = tl.load(p_h, boundary_check=(0, 1))
+        b_h = tl.load(p_h, boundary_check=(0, 1), padding_option="zero")
         b_o += tl.dot((b_q * d_i[:, None]).to(b_q.dtype), b_h, allow_tf32=False)
         b_s += tl.dot(b_q, b_k, allow_tf32=False)
 
     b_s *= d_s
     p_v = tl.make_block_ptr(v + i_bh * s_vo_h, (T, V), (s_vo_t, s_vo_d), (i_t * BT, i_v * BV), (BT, BV), (1, 0))
-    b_v = tl.load(p_v, boundary_check=(0, 1))
+    b_v = tl.load(p_v, boundary_check=(0, 1), padding_option="zero")
     b_o = (b_o + tl.dot(b_s.to(b_v.dtype), b_v, allow_tf32=False)) * scale
     p_o = tl.make_block_ptr(o + i_bh * s_vo_h, (T, V), (s_vo_t, s_vo_d), (i_t * BT, i_v * BV), (BT, BV), (1, 0))
     tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0, 1))
@@ -134,7 +141,7 @@ def chunk_retention_bwd_kernel_dh(
     q,
     do,
     dh,
-    v,
+    d_ht,
     s_qk_h,
     s_qk_t,
     s_qk_d,
@@ -151,9 +158,10 @@ def chunk_retention_bwd_kernel_dh(
     BT: tl.constexpr,
     BK: tl.constexpr,
     BV: tl.constexpr,
-    NT: tl.constexpr
+    NT: tl.constexpr,
+    USE_FINAL_GRAD: tl.constexpr
 ):
-    i_k, i_v, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)
+    i_k, i_v, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2).to(tl.int64)
     i_h = i_bh % H
     b_b = tl.math.log2(1 - tl.math.exp2(-5 - i_h * 1.0))
 
@@ -161,21 +169,24 @@ def chunk_retention_bwd_kernel_dh(
     d_b, d_i = tl.math.exp2(BT * b_b), tl.math.exp2((o_i + 1) * b_b)
     # [BK, BV]
     b_dh = tl.zeros([BK, BV], dtype=tl.float32)
+    if USE_FINAL_GRAD:
+        p_dht = tl.make_block_ptr(d_ht + i_bh * K * V, (K, V), (V, 1), (i_k * BK, i_v * BV), (BK, BV), (1, 0))
+        b_dh = tl.load(p_dht, boundary_check=(0, 1), padding_option="zero").to(tl.float32)
     for i_t in range(NT - 1, -1, -1):
         p_o = tl.make_block_ptr(do + i_bh * s_vo_h, (T, V), (s_vo_t, s_vo_d), (i_t * BT, i_v * BV), (BT, BV), (1, 0))
-        p_v = tl.make_block_ptr(v + i_bh * s_vo_h, (T, V), (s_vo_t, s_vo_d), (i_t * BT, i_v * BV), (BT, BV), (1, 0))
+        p_q = tl.make_block_ptr(q + i_bh * s_qk_h, (K, T), (s_qk_d, s_qk_t), (i_k * BK, i_t * BT), (BK, BT), (0, 1))
         p_h = tl.make_block_ptr(dh + i_bh * s_h_h + i_t * K * V, (K, V), (s_h_t, 1), (i_k * BK, i_v * BV), (BK, BV), (1, 0))
 
+        # Save the adjoint after this chunk before propagating to its start.
+        tl.store(p_h, b_dh.to(p_h.dtype.element_ty), boundary_check=(0, 1))
         # [BT, BV]
-        b_o = tl.load(p_o, boundary_check=(0, 1))
-        b_v = tl.load(p_v, boundary_check=(0, 1))
-        b_h = tl.load(p_h, boundary_check=(0, 1))
-
-        b_dh += tl.dot((b_o * d_i[:, None]).to(b_o.dtype), b_v, allow_tf32=False)
-
-    b_dh *= d_b
-    p_dh = tl.make_block_ptr(dh + i_bh * s_h_h + i_k * K * V, (K, V), (s_h_t, 1), (i_v * BV, i_t * BT), (BK, BV), (1, 0))
-    tl.store(p_dh, b_dh.to(p_dh.dtype.element_ty), boundary_check=(0, 1))
+        b_o = tl.load(p_o, boundary_check=(0, 1), padding_option="zero")
+        b_q = tl.load(p_q, boundary_check=(0, 1), padding_option="zero")
+        if i_t == NT - 1 and (T % BT) != 0:
+            d_b = tl.math.exp2((T % BT) * b_b)
+        else:
+            d_b = tl.math.exp2(BT * b_b)
+        b_dh = d_b * b_dh + tl.dot(b_q, (b_o * d_i[:, None] * scale).to(b_o.dtype), allow_tf32=False)
 
 
 @triton.jit
@@ -207,13 +218,15 @@ def chunk_retention_bwd_kernel_dqkv(
     BV: tl.constexpr,
     NT: tl.constexpr
 ):
-    i_k, i_t, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)
+    i_k, i_t, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2).to(tl.int64)
     i_h = i_bh % H
-    n_bh = tl.num_programs(2)
+    n_bh = tl.num_programs(2).to(tl.int64)
     b_b = tl.math.log2(1 - tl.math.exp2(-5 - i_h * 1.0))
 
     o_i = tl.arange(0, BT)
     d_q, d_k = tl.math.exp2((o_i + 1) * b_b), tl.math.exp2((BT - o_i - 1) * b_b)
+    if i_t == NT - 1 and (T % BT) != 0:
+        d_k = tl.math.exp2(((T % BT) - o_i - 1) * b_b)
     d_q = (d_q * scale).to(d_q.dtype)
     m_s = o_i[:, None] >= o_i[None, :]
     d_s = tl.where(m_s, tl.math.exp2((o_i[:, None] - o_i[None, :]) * b_b), 0) * scale
@@ -221,8 +234,8 @@ def chunk_retention_bwd_kernel_dqkv(
     p_q = tl.make_block_ptr(q + i_bh * s_qk_h, (K, T), (s_qk_d, s_qk_t), (i_k * BK, i_t * BT), (BK, BT), (0, 1))
     p_k = tl.make_block_ptr(k + i_bh * s_qk_h, (T, K), (s_qk_t, s_qk_d), (i_t * BT, i_k * BK), (BT, BK), (1, 0))
 
-    b_q = tl.load(p_q, boundary_check=(0, 1))
-    b_k = tl.load(p_k, boundary_check=(0, 1))
+    b_q = tl.load(p_q, boundary_check=(0, 1), padding_option="zero")
+    b_k = tl.load(p_k, boundary_check=(0, 1), padding_option="zero")
     b_s = tl.dot(b_k, b_q, allow_tf32=False) * tl.trans(d_s)
 
     b_dq = tl.zeros([BT, BK], dtype=tl.float32)
@@ -230,17 +243,17 @@ def chunk_retention_bwd_kernel_dqkv(
     b_ds = tl.zeros([BT, BT], dtype=tl.float32)
     for i_v in range(tl.cdiv(V, BV)):
         p_v = tl.make_block_ptr(v + i_bh * s_vo_h, (T, V), (s_vo_t, s_vo_d), (i_t * BT, i_v * BV), (BT, BV), (1, 0))
-        p_h = tl.make_block_ptr(h + i_bh * s_h_h, (V, NT * K), (1, s_h_t), (i_v * BV, i_t * K + i_k * BK), (BV, BK), (0, 1))
+        p_h = tl.make_block_ptr(h + i_bh * s_h_h + i_t * K * V, (V, K), (1, s_h_t), (i_v * BV, i_k * BK), (BV, BK), (0, 1))
         p_do = tl.make_block_ptr(do + i_bh * s_vo_h, (T, V), (s_vo_t, s_vo_d), (i_t * BT, i_v * BV), (BT, BV), (1, 0))
-        p_dh = tl.make_block_ptr(dh + i_bh * s_h_h, (NT * K, V), (s_h_t, 1), (i_t * K + i_k * BK, i_v * BV), (BK, BV), (1, 0))
+        p_dh = tl.make_block_ptr(dh + i_bh * s_h_h + i_t * K * V, (K, V), (s_h_t, 1), (i_k * BK, i_v * BV), (BK, BV), (1, 0))
         p_dv = tl.make_block_ptr(dv + (i_k * n_bh + i_bh) * s_vo_h, (T, V), (s_vo_t, s_vo_d), (i_t * BT, i_v * BV), (BT, BV), (1, 0))
         # [BT, BV]
-        b_v = tl.load(p_v, boundary_check=(0, 1))
-        b_do = tl.load(p_do, boundary_check=(0, 1))
+        b_v = tl.load(p_v, boundary_check=(0, 1), padding_option="zero")
+        b_do = tl.load(p_do, boundary_check=(0, 1), padding_option="zero")
         # [BV, BK]
-        b_h = tl.load(p_h, boundary_check=(0, 1))
+        b_h = tl.load(p_h, boundary_check=(0, 1), padding_option="zero")
         # [BK, BV]
-        b_dh = tl.load(p_dh, boundary_check=(0, 1))
+        b_dh = tl.load(p_dh, boundary_check=(0, 1), padding_option="zero")
 
         # [BT, BT]
         b_ds += tl.dot(b_do, tl.trans(b_v), allow_tf32=False)
@@ -262,51 +275,105 @@ def chunk_retention_bwd_kernel_dqkv(
     tl.store(p_dk, b_dk.to(p_dk.dtype.element_ty), boundary_check=(0, 1))
 
 
+def _dense_fp32(name, tensor, shape=None, device=None):
+    if type(tensor) is not torch.Tensor:
+        raise TypeError(name + " must be a tensor")
+    if tensor.dtype != torch.float32 or not tensor.is_cuda:
+        raise ValueError(name + " must be CUDA FP32")
+    if tensor.layout != torch.strided or not tensor.is_contiguous():
+        raise ValueError(name + " must have a contiguous dense layout")
+    if tensor.is_conj() or tensor.is_neg():
+        raise ValueError(name + " must have resolved lazy bits")
+    if shape is not None and tuple(tensor.shape) != tuple(shape):
+        raise ValueError(name + " has an incompatible shape")
+    if device is not None and tensor.device != device:
+        raise ValueError(name + " is on a different device")
+
+
+def _plan(B, H, T, K, V):
+    if min(B, H, T) < 0 or K <= 0 or V <= 0:
+        raise ValueError("invalid dimensions")
+    BT = 64
+    BK = max(16, min(64, triton.next_power_of_2(K)))
+    BV = max(16, min(64, triton.next_power_of_2(V)))
+    NT, NK, NV = triton.cdiv(T, BT), triton.cdiv(K, BK), triton.cdiv(V, BV)
+    BH, PT, PK, PV = B * H, NT * BT, NK * BK, NV * BV
+    if BH and max(BH, NT, NV) > 65535:
+        raise OverflowError("CUDA grid y/z axis exceeds 65535")
+    metadata = (B, H, T, K, V, BT, BK, BV, NT, NK, NV, BH, PT, PK, PV,
+                T * K, T * V, NT * K, NT * K * V)
+    if any(x > 2**31 - 1 for x in metadata):
+        raise OverflowError("source metadata or padded coordinates exceed signed32")
+    # Extents cover all block-pointer lanes, including inactive padding.
+    q_extent = (BH - 1) * T * K + (PT - 1) * K + PK if BH and NT else 0
+    v_extent = (BH - 1) * T * V + (PT - 1) * V + PV if BH and NT else 0
+    h_extent = (BH - 1) * NT * K * V + (NT - 1) * K * V + (PK - 1) * V + PV if BH and NT else 0
+    state_extent = (BH - 1) * K * V + (PK - 1) * V + PV if BH else 0
+    dv_extent = (NK * BH - 1) * T * V + (PT - 1) * V + PV if BH and NT else 0
+    extents = (q_extent, v_extent, h_extent, state_extent, dv_extent)
+    if any(x < 0 or 4 * x > 2**63 - 1 for x in extents):
+        raise OverflowError("formed byte displacement exceeds signed64")
+    return BT, BK, BV, NT, NK, NV, extents
+
+
+def _addresses(*items):
+    for tensor, extent in items:
+        if tensor is None:
+            continue
+        base = tensor.data_ptr()
+        if tensor.element_size() != 4 or tensor.storage_offset() < 0 or 4 * (tensor.storage_offset() + tensor.numel()) > tensor.untyped_storage().nbytes():
+            raise OverflowError("FP32 tensor extent is not backed by its actual storage")
+        if base < 0 or base % 4 or base + 4 * max(extent, tensor.numel()) >= 2**64:
+            raise OverflowError("formed FP32 pointer exceeds aligned unsigned64")
+
+
 class ChunkRetentionFunction(torch.autograd.Function):
 
     @staticmethod
     @custom_fwd(device_type='cuda')
     @contiguous
     def forward(ctx, q, k, v, initial_state, output_final_state):
-        B, H, T, K, V = *q.shape, v.shape[-1]
-        BT = 64
-        BK, BV = min(64, triton.next_power_of_2(K)), min(64, triton.next_power_of_2(V))
-        NT, NK, NV = triton.cdiv(T, BT), triton.cdiv(K, BK), triton.cdiv(V, BV)
+        _dense_fp32("q", q)
+        if q.ndim != 4:
+            raise ValueError("q must have rank four")
+        B, H, T, K = q.shape
+        _dense_fp32("k", k, q.shape, q.device)
+        _dense_fp32("v", v, device=q.device)
+        if v.ndim != 4 or tuple(v.shape[:3]) != (B, H, T):
+            raise ValueError("v must share the batch, head and time dimensions")
+        V = v.shape[-1]
+        if type(output_final_state) is not bool:
+            raise TypeError("output_final_state must be boolean")
+        if initial_state is not None:
+            _dense_fp32("initial_state", initial_state, (B, H, K, V), q.device)
+        BT, BK, BV, NT, NK, NV, extents = _plan(B, H, T, K, V)
+        q_extent, v_extent, h_extent, state_extent, _ = extents
         num_stages = 1
         num_warps = 4 if BK == 64 else 2
         scale = K ** -0.5
-
-        final_state = None
-        if output_final_state:
-            final_state = q.new_empty(B, H, K, V, dtype=torch.float32, requires_grad=False)
-
+        final_state = q.new_empty(B, H, K, V, dtype=torch.float32, requires_grad=False) if output_final_state else None
         h = q.new_empty(B, H, NT * K, V)
-        grid = (NK, NV, B * H)
-        chunk_retention_fwd_kernel_h[grid](
-            k, v, h, initial_state, final_state,
-            q.stride(1), q.stride(2), q.stride(3),
-            v.stride(1), v.stride(2), v.stride(3),
-            h.stride(1), h.stride(2),
-            H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV, NT=NT,
-            USE_INITIAL_STATE=initial_state is not None,
-            STORE_FINAL_STATE=output_final_state,
-            num_warps=num_warps,
-            num_stages=num_stages
-        )
-        grid = (NV, NT, B * H)
         o = torch.empty_like(v)
-        chunk_retention_fwd_kernel_o[grid](
-            q, k, v, h, o,
-            q.stride(1), q.stride(2), q.stride(3),
-            v.stride(1), v.stride(2), v.stride(3),
-            h.stride(1), h.stride(2),
-            scale,
-            H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV,
-            num_warps=num_warps,
-            num_stages=num_stages
-        )
-
+        _addresses((q, q_extent), (k, q_extent), (v, v_extent), (h, h_extent),
+                   (o, v_extent), (initial_state, state_extent), (final_state, state_extent))
+        # Canonical strides also cover dense singleton tensors with unusual reported strides.
+        qk_strides, vo_strides, h_strides = (T * K, K, 1), (T * V, V, 1), (NT * K * V, V)
+        if B * H:
+            with torch.cuda.device(q.device):
+                chunk_retention_fwd_kernel_h[(NK, NV, B * H)](
+                    k, v, h, initial_state, final_state,
+                    *qk_strides, *vo_strides, *h_strides,
+                    H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV, NT=NT,
+                    USE_INITIAL_STATE=initial_state is not None,
+                    STORE_FINAL_STATE=output_final_state,
+                    num_warps=num_warps, num_stages=num_stages)
+                if NT:
+                    chunk_retention_fwd_kernel_o[(NV, NT, B * H)](
+                        q, k, v, h, o, *qk_strides, *vo_strides, *h_strides, scale,
+                        H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV,
+                        num_warps=num_warps, num_stages=num_stages)
         ctx.save_for_backward(q, k, v, h)
+        ctx.output_final_state = output_final_state
         return o.to(q.dtype), final_state
 
     @staticmethod
@@ -314,46 +381,43 @@ class ChunkRetentionFunction(torch.autograd.Function):
     @contiguous
     def backward(ctx, do, d_ht=None):
         q, k, v, h = ctx.saved_tensors
-
-        B, H, T, K, V = *q.shape, v.shape[-1]
-        BT = 64
-        BK, BV = min(64, triton.next_power_of_2(K)), min(64, triton.next_power_of_2(V))
-        NT, NK, NV = triton.cdiv(T, BT), triton.cdiv(K, BK), triton.cdiv(V, BV)
+        B, H, T, K = q.shape
+        V = v.shape[-1]
+        if do is None:
+            do = torch.zeros_like(v)
+        _dense_fp32("do", do, v.shape, q.device)
+        if d_ht is not None:
+            if not ctx.output_final_state:
+                raise ValueError("final-state gradient requires a returned final state")
+            _dense_fp32("d_ht", d_ht, (B, H, K, V), q.device)
+        BT, BK, BV, NT, NK, NV, extents = _plan(B, H, T, K, V)
+        q_extent, v_extent, h_extent, state_extent, dv_extent = extents
         num_stages = 1
         num_warps = 4 if BK == 64 else 2
         scale = K ** -0.5
-
         dh = q.new_empty(B, H, NT * K, V)
-        grid = (NK, NV, B * H)
-        chunk_retention_bwd_kernel_dh[grid](
-            q, do, dh, v,
-            q.stride(1), q.stride(2), q.stride(3),
-            v.stride(1), v.stride(2), v.stride(3),
-            dh.stride(1), dh.stride(2),
-            scale,
-            H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV, NT=NT,
-            num_warps=num_warps,
-            num_stages=num_stages
-        )
-
-        grid = (NK, NT, B * H)
-        dq = torch.empty_like(q)
-        dk = torch.empty_like(k)
+        dq, dk = torch.empty_like(q), torch.empty_like(k)
         dv = v.new_empty(NK, *v.shape)
-        num_stages = 1
-        num_warps = 4 if BK == 64 else 2
-        chunk_retention_bwd_kernel_dqkv[grid](
-            q, k, v, h, do, dh, dq, dk, dv,
-            q.stride(1), q.stride(2), q.stride(3),
-            v.stride(1), v.stride(2), v.stride(3),
-            dh.stride(1), dh.stride(2),
-            scale,
-            H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV, NT=NT,
-            num_warps=num_warps,
-            num_stages=num_stages
-        )
+        _addresses((q, q_extent), (k, q_extent), (v, v_extent), (h, h_extent),
+                   (do, v_extent), (d_ht, state_extent), (dh, h_extent),
+                   (dq, q_extent), (dk, q_extent), (dv, dv_extent))
+        qk_strides, vo_strides, h_strides = (T * K, K, 1), (T * V, V, 1), (NT * K * V, V)
+        if B * H and NT:
+            with torch.cuda.device(q.device):
+                chunk_retention_bwd_kernel_dh[(NK, NV, B * H)](
+                    q, do, dh, d_ht, *qk_strides, *vo_strides, *h_strides, scale,
+                    H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV, NT=NT,
+                    USE_FINAL_GRAD=d_ht is not None,
+                    num_warps=num_warps, num_stages=num_stages)
+                chunk_retention_bwd_kernel_dqkv[(NK, NT, B * H)](
+                    q, k, v, h, do, dh, dq, dk, dv,
+                    *qk_strides, *vo_strides, *h_strides, scale,
+                    H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV, NT=NT,
+                    num_warps=num_warps, num_stages=num_stages)
         dv = dv.sum(0)
+        _addresses((dv, v_extent))
         return dq.to(q.dtype), dk.to(k.dtype), dv.to(v.dtype), None, None
+
 
 def chunk_retention(
     q: torch.Tensor,
@@ -363,89 +427,7 @@ def chunk_retention(
     output_final_state: bool = False
 ) -> Tuple[torch.Tensor, torch.Tensor]:
     if initial_state is not None:
+        if type(initial_state) is not torch.Tensor:
+            raise TypeError("initial_state must be an ordinary tensor")
         initial_state = initial_state.detach()
-    o, final_state = ChunkRetentionFunction.apply(q, k, v, initial_state, output_final_state)
-    return o, final_state
-
-
-
-##################################################################################################################################################
-
-
-def test_chunk_retention():
-    # Define the dimensions for the test
-    B, H, T, K, V = 2, 4, 128, 64, 64
-
-    # Create random input tensors with requires_grad=True for gradient test
-    q = torch.randn(B, H, T, K, dtype=torch.float32, device='cuda', requires_grad=True)
-    k = torch.randn(B, H, K, T, dtype=torch.float32, device='cuda', requires_grad=True)
-    v = torch.randn(B, H, T, V, dtype=torch.float32, device='cuda', requires_grad=True)
-
-    # Initial state if needed
-    initial_state = torch.randn(B, H, K, V, dtype=torch.float32, device='cuda', requires_grad=True)
-
-    results = {}
-
-    # ========== Test Case 1 ==========
-    # Without initial state, without final state output
-    q1, k1, v1 = q.detach().clone().requires_grad_(True), k.detach().clone().requires_grad_(True), v.detach().clone().requires_grad_(True)
-
-    o, final_state = chunk_retention(q1, k1, v1, initial_state=None, output_final_state=False)
-    assert final_state is None, "Final state should be None when output_final_state=False"
-    # Backward test
-    loss = o.sum()
-    loss.backward()
-    # Check gradients
-    assert q1.grad is not None, "Gradient not calculated for q in Test Case 1"
-    assert k1.grad is not None, "Gradient not calculated for k in Test Case 1"
-    assert v1.grad is not None, "Gradient not calculated for v in Test Case 1"
-    results['test_case_1'] = o.detach().cpu()
-
-    # ========== Test Case 2 ==========
-    # Without initial state, with final state output
-    q2, k2, v2 = q.detach().clone().requires_grad_(True), k.detach().clone().requires_grad_(True), v.detach().clone().requires_grad_(True)
-
-    o, final_state = chunk_retention(q2, k2, v2, initial_state=None, output_final_state=True)
-    assert final_state is not None, "Final state should not be None when output_final_state=True"
-    # Backward test
-    loss = o.sum()
-    loss.backward()
-    # Check gradients
-    assert q2.grad is not None, "Gradient not calculated for q in Test Case 2"
-    assert k2.grad is not None, "Gradient not calculated for k in Test Case 2"
-    assert v2.grad is not None, "Gradient not calculated for v in Test Case 2"
-    results['test_case_2'] = o.detach().cpu()
-
-    # ========== Test Case 3 ==========
-    # With initial state, without final state output
-    q3, k3, v3, is3 = q.detach().clone().requires_grad_(True), k.detach().clone().requires_grad_(True), v.detach().clone().requires_grad_(True), initial_state.detach().clone().requires_grad_(True)
-
-    o, final_state = chunk_retention(q3, k3, v3, initial_state=is3, output_final_state=False)
-    assert final_state is None, "Final state should be None when output_final_state=False and we have initial state"
-    # Backward test
-    loss = o.sum()
-    loss.backward()
-    # Check gradients
-    assert q3.grad is not None, "Gradient not calculated for q in Test Case 3"
-    assert k3.grad is not None, "Gradient not calculated for k in Test Case 3"
-    assert v3.grad is not None, "Gradient not calculated for v in Test Case 3"
-    results['test_case_3'] = o.detach().cpu()
-
-    # ========== Test Case 4 ==========
-    # With initial state, with final state output
-    q4, k4, v4, is4 = q.detach().clone().requires_grad_(True), k.detach().clone().requires_grad_(True), v.detach().clone().requires_grad_(True), initial_state.detach().clone().requires_grad_(True)
-
-    o, final_state = chunk_retention(q4, k4, v4, initial_state=is4, output_final_state=True)
-    assert final_state is not None, "Final state should not be None when output_final_state=True"
-    # Backward test
-    loss = o.sum()
-    loss.backward()
-    # Check gradients
-    assert q4.grad is not None, "Gradient not calculated for q in Test Case 4"
-    assert k4.grad is not None, "Gradient not calculated for k in Test Case 4"
-    assert v4.grad is not None, "Gradient not calculated for v in Test Case 4"
-    results['test_case_4'] = o.detach().cpu()
-
-    return results
-
-result_gold = test_chunk_retention()
+    return ChunkRetentionFunction.apply(q, k, v, initial_state, output_final_state)

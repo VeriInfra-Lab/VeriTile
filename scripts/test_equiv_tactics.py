@@ -43,159 +43,159 @@ class EquivalenceTacticTests(unittest.TestCase):
             )
 
     def test_composition_metadata_precision_and_admission_boundaries(self):
-        result = self.lean((ROOT / "bench/tests/EquivTactics.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/EquivTactics.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_semantic_decomposition_and_reduction_boundaries(self):
-        result = self.lean((ROOT / "bench/tests/ReductionTactics.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/ReductionTactics.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_contextual_rewrites_keep_domains_and_precision(self):
-        result = self.lean((ROOT / "bench/tests/ProfiledRewriteTactics.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/ProfiledRewriteTactics.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_nested_expression_rewrites_preserve_branches_and_execution(self):
-        result = self.lean((ROOT / "bench/tests/FPExpressionRewrite.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPExpressionRewrite.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
         self.assertIn("div_mul_rcp", result.stdout)
 
     def test_signed_minmax_hints_and_views_preserve_negative_values(self):
-        result = self.lean((ROOT / "bench/tests/SignedMinMaxViews.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/SignedMinMaxViews.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_positive_infinite_clamp_preserves_fp_operation_and_precision(self):
-        result = self.lean((ROOT / "bench/tests/PositiveInfinityClamp.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/PositiveInfinityClamp.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_integral_address_arithmetic_preserves_reference_conventions(self):
-        result = self.lean((ROOT / "bench/tests/FPIntegralExecution.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPIntegralExecution.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_runtime_signed_division_matches_truncation_and_preserves_failure(self):
-        result = self.lean((ROOT / "bench/tests/RuntimeIntegerDivision.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/RuntimeIntegerDivision.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_block_pointers_preserve_boundaries_types_and_failure(self):
-        result = self.lean((ROOT / "bench/tests/FPBlockPointer.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPBlockPointer.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_index_remapping_preserves_dtype_precision_and_failure(self):
-        result = self.lean((ROOT / "bench/tests/FPRemap.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPRemap.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_dynamic_block_advance_preserves_signed_coordinates(self):
-        result = self.lean((ROOT / "bench/tests/DynamicBlockAdvance.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/DynamicBlockAdvance.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_signed_ranges_preserve_indices_bounds_and_failure(self):
-        result = self.lean((ROOT / "bench/tests/SignedRange.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/SignedRange.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_range_rewrites_check_reachable_intermediate_operands(self):
-        result = self.lean((ROOT / "bench/tests/FPRangeRewrite.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPRangeRewrite.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_branch_rewrites_check_only_the_selected_arm(self):
-        result = self.lean((ROOT / "bench/tests/FPBranchRewrite.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPBranchRewrite.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_signed_range_rewrites_keep_negative_visits_and_reachable_guards(self):
-        result = self.lean((ROOT / "bench/tests/FPIntRangeRewrite.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPIntRangeRewrite.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_casted_csr_loads_keep_signed_storage_and_loop_bounds(self):
-        result = self.lean((ROOT / "bench/tests/PointerSignedCast.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/PointerSignedCast.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_static_pointer_sums_keep_negative_addends_until_address_conversion(self):
-        result = self.lean((ROOT / "bench/tests/PointerSignedOffset.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/PointerSignedOffset.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_compile_time_print_has_no_runtime_failure(self):
-        result = self.lean((ROOT / "bench/tests/StaticPrintExecution.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/StaticPrintExecution.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_block_sparse_source_retains_signed_csr_casts_and_intrinsics(self):
-        result = self.lean((ROOT / "bench/tests/FPBlockSparseSource.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPBlockSparseSource.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_offsetted_pointer_loads_keep_current_storage_precision(self):
-        result = self.lean((ROOT / "bench/tests/PointerOffsetPrecision.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/PointerOffsetPrecision.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_atomic_execution_preserves_storage_masks_and_read_modify_write(self):
-        result = self.lean((ROOT / "bench/tests/FPAtomicExecution.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPAtomicExecution.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_bgmv_shrink_keeps_typed_store_and_atomic_tails(self):
-        result = self.lean((ROOT / "bench/tests/FPBgmvShrinkSource.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPBgmvShrinkSource.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_bgmv_storage_cast_and_output_loop_specializations(self):
-        result = self.lean((ROOT / "bench/tests/FPBgmvExpandSliceSource.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPBgmvExpandSliceSource.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_dot_precision_survives_lowering_and_backend_dispatch(self):
-        result = self.lean((ROOT / "bench/tests/FPDotOptions.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPDotOptions.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_broadcast_division_keeps_actual_domain_and_compute_precision(self):
-        result = self.lean((ROOT / "bench/tests/FPBroadcastRewrite.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPBroadcastRewrite.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_broadcast_multiplication_keeps_load_cast_scan_and_store(self):
-        result = self.lean((ROOT / "bench/tests/FPBroadcastMultiplication.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPBroadcastMultiplication.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
         self.assertIn("mul_commute", result.stdout)
 
     def test_attention_preserves_output_cast_store_and_mask(self):
-        result = self.lean((ROOT / "bench/tests/FPAttentionSource.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPAttentionSource.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_attention_bf16_output_keeps_explicit_value_cast(self):
-        result = self.lean((ROOT / "bench/tests/FPAttentionFwdTriton2Source.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPAttentionFwdTriton2Source.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_attention_signed_window_and_conditional_normalization(self):
-        result = self.lean((ROOT / "bench/tests/FPAttentionFwdTriton3Source.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPAttentionFwdTriton3Source.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_attention_bias_keeps_storage_precision_and_default_dot_output(self):
-        result = self.lean((ROOT / "bench/tests/FPAttentionKernelSource.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/FPAttentionKernelSource.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
     def test_pointer_erasure_preserves_addresses_and_block_descriptors(self):
-        result = self.lean((ROOT / "bench/tests/PointerDTypeErasure.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/PointerDTypeErasure.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 
@@ -220,7 +220,7 @@ def invalidDot : ComputeKernel := triton {
                 self.assertIn(diagnostic, result.stdout)
 
     def test_explicit_precision_rewrites_locate_repeated_assignments(self):
-        result = self.lean((ROOT / "bench/tests/GuardedRewriteTactics.lean").read_text())
+        result = self.lean((ROOT / "tests/lean/GuardedRewriteTactics.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
 

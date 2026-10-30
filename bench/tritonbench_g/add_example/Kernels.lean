@@ -1,41 +1,47 @@
-import VeriTile.Triton
+import VeriTile.Triton.DSL
 
-/-! `add_kernel` from add_example. The original preserves the complete per-program body
-from add_example.py. The candidate changes only the operand order of addition;
-this is a rewrite example, with no performance claim. The host launch is outside
-the proofs. Element count and block size remain symbolic. -/
-
-namespace VeriTile.Bench.TritonBenchG.AddExample
+/-! The readable FP32 source is shared by Real correctness and FP equivalence.
+The candidate commutes only the addition; masks, loads and stores are unchanged. -/
+namespace VeriTile.Bench.Repairs.AddExample.Contiguous
 open VeriTile.Triton
 
-/-- Faithful transcription of `add_example.py`'s `add_kernel`. -/
-def add_kernel
-    (in_ptr0 in_ptr1 out_ptr : RegionName)
-    (n_elements BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
-  mask = offsets < $(n_elements)
-  x = tl.load(in_ptr0 + offsets, mask=mask)
-  y = tl.load(in_ptr1 + offsets, mask=mask)
-  output = x + y
-  tl.store(out_ptr + offsets, output, mask=mask)
-}
+def blockSize : Nat := 4
+def gridCount (n : Nat) : Nat := (n + 3) / 4
 
-/-- Candidate with the same loads, mask and store, adding y to x. -/
-def add_commuted_kernel
-    (in_ptr0 in_ptr1 out_ptr : RegionName)
-    (n_elements BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
-  mask = offsets < $(n_elements)
-  x = tl.load(in_ptr0 + offsets, mask=mask)
-  y = tl.load(in_ptr1 + offsets, mask=mask)
-  output = y + x
-  tl.store(out_ptr + offsets, output, mask=mask)
-}
+/-- Authoritative original source with explicit FP32 memory and arithmetic tags. -/
+def add_kernel (X Y O : RegionName) (n_elements BLOCK_SIZE : Nat) : ComputeKernel :=
+  let x_ptr : Region .fp32 := X.cast
+  let y_ptr : Region .fp32 := Y.cast
+  let output_ptr : Region .fp32 := O.cast
+  triton {
+    pid = tl.program_id(axis=0)
+    block_start = pid * $(BLOCK_SIZE)
+    offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
+    mask = offsets < $(n_elements)
+    x = tl.load(x_ptr + offsets, mask=mask)
+    y = tl.load(y_ptr + offsets, mask=mask)
+    output = x + y
+    tl.store(output_ptr + offsets, output, mask=mask)
+  }
 
-end VeriTile.Bench.TritonBenchG.AddExample
+/-- Existing ADD-COMMUTE candidate, retaining the original statement placement. -/
+def add_commuted_kernel (X Y O : RegionName) (n_elements BLOCK_SIZE : Nat) : ComputeKernel :=
+  let x_ptr : Region .fp32 := X.cast
+  let y_ptr : Region .fp32 := Y.cast
+  let output_ptr : Region .fp32 := O.cast
+  triton {
+    pid = tl.program_id(axis=0)
+    block_start = pid * $(BLOCK_SIZE)
+    offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
+    mask = offsets < $(n_elements)
+    x = tl.load(x_ptr + offsets, mask=mask)
+    y = tl.load(y_ptr + offsets, mask=mask)
+    output = y + x
+    tl.store(output_ptr + offsets, output, mask=mask)
+  }
+
+def originalKernel (n : Nat) : ComputeKernel := add_kernel "x" "y" "out" n blockSize
+
+def commutedKernel (n : Nat) : ComputeKernel := add_commuted_kernel "x" "y" "out" n blockSize
+
+end VeriTile.Bench.Repairs.AddExample.Contiguous

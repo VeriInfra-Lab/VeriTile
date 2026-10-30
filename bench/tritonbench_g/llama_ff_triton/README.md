@@ -1,3 +1,11 @@
 # llama_ff_triton
 
-Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [llama_ff_triton_scalar_cast](../../repairs/tritonbench_g/llama_ff_triton_scalar_cast/README.md).
+Current repaired Python implementation: [llama_ff_triton.py](llama_ff_triton.py).
+
+[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+
+The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+
+[Proof helpers](Proofs/)
+
+[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

@@ -56,8 +56,9 @@ def _fwd_kernel(
             k = k.to(tl.float16)
         qk = tl.zeros([BLOCK_M, BLOCK_N], dtype=tl.float32)
         qk += tl.dot(q, tl.trans(k))
-        qk = tl.where(offs_n[None, :] < N_CTX, qk, float("-inf"))  # <- ADDED
         qk *= sm_scale
+        # The score mask uses the same global key coordinate as the K/V loads.
+        qk = tl.where(block_n_offs[None, :] < N_CTX, qk, float("-inf"))
         if IS_CAUSAL:  # <- ADDED
             qk = tl.where(offs_m[:, None] >= (block_n_offs[None, :] + start_position), qk, float("-inf"))
             
@@ -96,7 +97,63 @@ def _fwd_kernel(
     tl.store(out_ptrs, acc, offs_m[:, None] < H)
 
 
+def _input_contract(q, k, v, sm_scale, is_causal, start_position):
+    tensors = (q, k, v)
+    if any(type(t) is not torch.Tensor for t in tensors):
+        raise TypeError("ordinary Q/K/V tensors required")
+    if any(t.layout != torch.strided or not t.is_cuda or t.device != q.device
+           or t.is_neg() or t.is_conj() for t in tensors):
+        raise ValueError("resolved strided CUDA inputs on one device required")
+    if q.dtype != torch.float16 or k.dtype != v.dtype or k.dtype not in (torch.float16, torch.int8):
+        raise ValueError("Q must be FP16; matching K/V must be FP16 or signed E5M2 bytes")
+    if q.ndim != 4 or k.ndim != 4 or v.shape != k.shape:
+        raise ValueError("rank-four Q and matching K/V required")
+    if q.shape[:2] != k.shape[:2] or q.shape[3] != k.shape[3] or q.shape[3] not in (16,32,64,128):
+        raise ValueError("matching batch/head/dimension metadata required")
+    if k.shape[2] <= 0:
+        raise ValueError("the supported mathematical domain requires a nonempty key sequence")
+    if type(is_causal) is not bool or type(start_position) is not int or not 0 <= start_position < 2**31:
+        raise ValueError("causal must be bool and start_position a nonnegative signed32 integer")
+    if is_causal and start_position != 0:
+        raise ValueError("full-grid causal attention uses the source convention start_position=0")
+    if type(sm_scale) not in (int, float):
+        raise ValueError("scale must be an ordinary real scalar")
+    try:
+        finite_scale = math.isfinite(sm_scale)
+    except OverflowError:
+        finite_scale = False
+    if not finite_scale:
+        raise ValueError("scale must be finite; zero and negative scales are supported")
+    if any(any(stride < 0 for stride in t.stride()) for t in tensors):
+        raise ValueError("source strides must be nonnegative")
+    # This observes the actual signed-byte contents. It changes no input view.
+    # E5M2 exponent 31 has no finite Real decoding. Address safety below is
+    # independent of this numerical-domain check.
+    if k.dtype == torch.int8:
+        for t in (k, v):
+            if t.numel() and bool(((t & 0x7c) == 0x7c).any().item()):
+                raise ValueError("E5M2 K/V encodings must have finite exponent fields")
+
+
+def _launch_contract(q, k, v, o, is_causal, start_position):
+    batch, heads, rows, dim = q.shape
+    keys = k.shape[2]
+    key_rows = ((rows + 63) // 64) * 64 + 128 if is_causal else keys + 128
+    envelope = batch + heads + rows + keys + dim + start_position + 256 + batch * heads
+    for t, formed_rows in ((q, rows + 128), (k, key_rows), (v, key_rows), (o, rows + 128)):
+        sz, sh, sr, sd = t.stride()
+        envelope += batch*sz + heads*sh + formed_rows*sr + dim*sd + 1
+    if envelope >= 2**31 or batch*heads > 65535:
+        raise ValueError("formed source offsets and launch axes must fit their integer ABI")
+    for t in (q,k,v,o):
+        base, width = t.data_ptr(), t.element_size()
+        if base < 0 or base % width or base + width*envelope >= 2**64:
+            raise ValueError("naturally aligned formed addresses must fit unsigned64")
+    return envelope
+
+
 def triton_fa(q, k, v, sm_scale, is_causal, start_position):
+    _input_contract(q, k, v, sm_scale, is_causal, start_position)
     assert q.dtype == torch.float16
     assert k.dtype == v.dtype and k.dtype in [torch.float16, torch.int8]
 
@@ -106,68 +163,32 @@ def triton_fa(q, k, v, sm_scale, is_causal, start_position):
     assert Lq == Lk and Lk == Lv
     assert Lk in {16, 32, 64, 128}
     o = torch.empty_like(q)
+    _launch_contract(q, k, v, o, is_causal, start_position)
+    if not q.numel():
+        return o
+    if type(sm_scale) is int and not -(2**63) <= sm_scale < 2**64:
+        raise ValueError("launch scale integer must fit the Triton scalar ABI")
     num_warps = 4 if Lk <= 64 else 8
     batch, head_size, m_size, dhead = q.size()
     grid = (triton.cdiv(m_size, BLOCK), head_size * batch)
     n_size = k.size(2)
-    _fwd_kernel[grid](
-        q, k, v, sm_scale,
-        o,
-        q.stride(0), q.stride(1), q.stride(2), q.stride(3),
-        k.stride(0), k.stride(1), k.stride(2), k.stride(3),
-        v.stride(0), v.stride(1), v.stride(2), v.stride(3),
-        o.stride(0), o.stride(1), o.stride(2), o.stride(3),
-        head_size, m_size, n_size,
-        start_position=start_position,
-        IS_CAUSAL=is_causal,
-        BLOCK_M=BLOCK,
-        BLOCK_N=BLOCK,
-        BLOCK_DMODEL=Lk,
-        USE_FP8=k.dtype == torch.int8,  # USE_FP8
-        num_warps=num_warps,
-        num_stages=2,
-    )
+    with torch.cuda.device(q.device):
+        _fwd_kernel[grid](
+            q, k, v, sm_scale,
+            o,
+            q.stride(0), q.stride(1), q.stride(2), q.stride(3),
+            k.stride(0), k.stride(1), k.stride(2), k.stride(3),
+            v.stride(0), v.stride(1), v.stride(2), v.stride(3),
+            o.stride(0), o.stride(1), o.stride(2), o.stride(3),
+            head_size, m_size, n_size,
+            start_position=start_position,
+            IS_CAUSAL=is_causal,
+            BLOCK_M=BLOCK,
+            BLOCK_N=BLOCK,
+            BLOCK_DMODEL=Lk,
+            USE_FP8=k.dtype == torch.int8,  # USE_FP8
+            num_warps=num_warps,
+            num_stages=2,
+        )
 
     return o
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-import math
-
-def test_triton_fa():
-    # Test case 1: Non-causal, float16
-    xq = torch.randn([1, 16, 32, 128], dtype=torch.float16, device="cuda")
-    keys = torch.randn([1, 16, 32, 128], dtype=torch.float16, device="cuda")
-    values = torch.randn([1, 16, 32, 128], dtype=torch.float16, device="cuda")
-
-    xq = xq.transpose(1, 2)
-    keys = keys.transpose(1, 2)
-    values = values.transpose(1, 2)
-
-    scale = 1 / math.sqrt(128)
-    output_t1 = triton_fa(xq, keys, values, scale, False, 0)
-
-    # Test case 2: Causal, float16
-    output_t2 = triton_fa(xq, keys, values, scale, True, 0)
-
-    # Test case 3: Non-causal, int8
-    keys_int8 = keys.to(torch.int8)
-    values_int8 = values.to(torch.int8)
-    output_t3 = triton_fa(xq, keys_int8, values_int8, scale, False, 0)
-
-    # Test case 4: Causal, int8
-    output_t4 = triton_fa(xq, keys_int8, values_int8, scale, True, 0)
-
-    return {
-        "test_case_1": output_t1,
-        "test_case_2": output_t2,
-        "test_case_3": output_t3,
-        "test_case_4": output_t4
-    }
-
-result_gold = test_triton_fa()

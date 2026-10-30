@@ -1,165 +1,74 @@
+"""Direct FP32 cache gather; prompt concatenation and decode length-minus-one."""
 import torch
 import triton
 import triton.language as tl
 
 
 @triton.jit
-def prefill_cache_kernel(
-    cos_cache,
-    sin_cache,
-    cumsum_lengths,
-    cos_output,
-    sin_output,
-    cache_stride,
-    hidden_stride,
-    total_length,
-    HIDDEN_DIM: tl.constexpr,
-    N_ELEMENTS: tl.constexpr,
-    BLOCK_SIZE: tl.constexpr,
-):
-    idx0 = tl.program_id(axis=0)
-    idx1 = tl.program_id(axis=1)
-    idx = idx0 * BLOCK_SIZE + idx1
-
-    # original seq_idx and pos
-    cumsum_lens = tl.load(cumsum_lengths + tl.arange(0, N_ELEMENTS))
-    ori_seq_idx = idx - tl.max(tl.where(cumsum_lens <= idx, cumsum_lens, 0))
-    cos_cache_part = tl.load(
-        cos_cache + ori_seq_idx * cache_stride + tl.arange(0, HIDDEN_DIM) * hidden_stride, mask=idx < total_length
-    )
-    sin_cache_part = tl.load(
-        sin_cache + ori_seq_idx * cache_stride + tl.arange(0, HIDDEN_DIM) * hidden_stride, mask=idx < total_length
-    )
-    tl.store(
-        cos_output + idx * cache_stride + tl.arange(0, HIDDEN_DIM) * hidden_stride,
-        cos_cache_part,
-        mask=idx < total_length,
-    )
-    tl.store(
-        sin_output + idx * cache_stride + tl.arange(0, HIDDEN_DIM) * hidden_stride,
-        sin_cache_part,
-        mask=idx < total_length,
-    )
+def gather_cache_bytes(Cache, Rows, Output, COUNT: tl.constexpr,
+                       ROW_BYTES: tl.constexpr, START: tl.constexpr,
+                       BLOCK: tl.constexpr):
+    idx = tl.program_id(0).to(tl.uint64) * BLOCK + tl.arange(0, BLOCK).to(tl.uint64) + START
+    active = idx < COUNT
+    safe = tl.where(active, idx, 0)
+    row = tl.load(Rows + safe // ROW_BYTES).to(tl.uint64)
+    offset = row * ROW_BYTES + safe % ROW_BYTES
+    value = tl.load(Cache + offset, mask=active, other=0)
+    tl.store(Output + safe, value, mask=active)
 
 
-@triton.jit
-def decoding_cache_kernel(
-    cos_cache,
-    sin_cache,
-    lengths,
-    cos_output,
-    sin_output,
-    cache_stride,
-    hidden_stride,
-    HIDDEN_DIM: tl.constexpr,
-    NUM_SEQS: tl.constexpr,
-    BLOCK_SIZE: tl.constexpr,
-):
-    idx = tl.program_id(0) * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
-    ori_seq_idx = tl.load(lengths + idx, mask=(idx < NUM_SEQS), other=None)  # [BLOCK_SIZE,]
-    cos_cache_part = tl.load(
-        cos_cache + ori_seq_idx[:, None] * cache_stride + tl.arange(0, HIDDEN_DIM)[None, :] * hidden_stride,
-        mask=idx[:, None] < NUM_SEQS,
-    )
-    sin_cache_part = tl.load(
-        sin_cache + ori_seq_idx[:, None] * cache_stride + tl.arange(0, HIDDEN_DIM)[None, :] * hidden_stride,
-        mask=idx[:, None] < NUM_SEQS,
-    )
-    tl.store(
-        cos_output + (idx[:, None] * cache_stride + tl.arange(0, HIDDEN_DIM)[None, :] * hidden_stride),
-        cos_cache_part,
-        mask=idx[:, None] < NUM_SEQS,
-    )
-    tl.store(
-        sin_output + (idx[:, None] * cache_stride + tl.arange(0, HIDDEN_DIM)[None, :] * hidden_stride),
-        sin_cache_part,
-        mask=idx[:, None] < NUM_SEQS,
-    )
+def _gather(cache, rows):
+    output = torch.empty((len(rows), cache.shape[1]), dtype=torch.float32, device=cache.device)
+    count = output.numel()*4
+    if count:
+        table = torch.tensor(rows, dtype=torch.int64, device=cache.device)
+        # A flat physical view also handles irrelevant singleton-dimension strides.
+        cache_bytes = cache.as_strided((cache.numel(),), (1,)).view(torch.uint8)
+        output_bytes = output.view(torch.uint8).reshape(-1)
+        gather_cache_bytes[(triton.cdiv(count,256),)](
+            cache_bytes, table, output_bytes, COUNT=count,
+            ROW_BYTES=cache.shape[1]*4, START=0, BLOCK=256, num_warps=4)
+    return output
 
 
-def get_xine_cache(lengths: torch.Tensor, cos_cache: torch.Tensor, sin_cache: torch.Tensor, is_prompts: bool = False):
-    assert cos_cache.shape[1] == sin_cache.shape[1]
-    _, hidden_dim = cos_cache.shape
-    num_seqs = lengths.numel()
+def get_xine_cache(lengths: torch.Tensor, cos_cache: torch.Tensor,
+                   sin_cache: torch.Tensor, is_prompts: bool = False):
+    """Return two fresh contiguous FP32 CUDA tensors; caller inputs are read-only.
 
-    if hidden_dim >= 256:
-        num_warps = 16
-    elif hidden_dim >= 128:
-        num_warps = 8
-    else:
-        num_warps = 4
-
-    cache_stride = cos_cache.stride(0)
-    hidden_stride = cos_cache.stride(1)
-
-    if is_prompts:
-        BLOCK_SIZE = 16
-        total_length = lengths.sum().item()
-        cumsum_lens = torch.cumsum(lengths, dim=0)
-        cos_output = torch.empty((total_length, hidden_dim), dtype=cos_cache.dtype, device=cos_cache.device)
-        sin_output = torch.empty((total_length, hidden_dim), dtype=sin_cache.dtype, device=sin_cache.device)
-        grid = (triton.cdiv(total_length, BLOCK_SIZE), BLOCK_SIZE)
-        prefill_cache_kernel[grid](
-            cos_cache,
-            sin_cache,
-            cumsum_lens,
-            cos_output,
-            sin_output,
-            cache_stride,
-            hidden_stride,
-            total_length,
-            HIDDEN_DIM=hidden_dim,
-            N_ELEMENTS=triton.next_power_of_2(num_seqs),
-            BLOCK_SIZE=BLOCK_SIZE,
-            num_warps=num_warps,
-        )
-    else:
-        BLOCK_SIZE = 4
-        nlengths = torch.as_tensor(lengths) - 1
-        cos_output = torch.empty((num_seqs, hidden_dim), dtype=cos_cache.dtype, device=cos_cache.device)
-        sin_output = torch.empty((num_seqs, hidden_dim), dtype=sin_cache.dtype, device=sin_cache.device)
-        grid = (triton.cdiv(num_seqs, BLOCK_SIZE),)
-        decoding_cache_kernel[grid](
-            cos_cache,
-            sin_cache,
-            nlengths,
-            cos_output,
-            sin_output,
-            cache_stride,
-            hidden_stride,
-            HIDDEN_DIM=hidden_dim,
-            NUM_SEQS=num_seqs,
-            BLOCK_SIZE=BLOCK_SIZE,
-            num_warps=num_warps,
-        )
-
-    return cos_output, sin_output
-
-
-
-
-##################################################################################################################################################
-
-
-def test_get_xine_cache():
-    # Test parameters
-    num_seqs = 8            # Number of sequences
-    seq_len = 10            # Length of each sequence
-    hidden_dim = 64         # Hidden dimension
-    max_length = 20         # Maximum sequence length
-    is_prompts_list = [True, False]
-
-    # Create the input tensors.
-    lengths = torch.randint(1, max_length, (num_seqs,), dtype=torch.int32, device='cuda')
-    cos_cache = torch.randn((max_length, hidden_dim), dtype=torch.float32, device='cuda')
-    sin_cache = torch.randn((max_length, hidden_dim), dtype=torch.float32, device='cuda')
-
-    results = {}
-    
-    for i, is_prompts in enumerate(is_prompts_list, start=1):
-        cos_output, sin_output = get_xine_cache(lengths, cos_cache, sin_cache, is_prompts=is_prompts)
-        results[f"test_case_{i}"] = (cos_output.shape, sin_output.shape)
-
-    return results
-
-result_gold = test_get_xine_cache()
+    Lengths use int32 on the same CUDA device. Caches are rank-two native
+    contiguous FP32 tensors, with equal hidden width and independent row counts.
+    Prompt lengths may be zero; decode lengths must be positive. Empty work
+    returns correctly shaped empty tensors without launching a kernel.
+    """
+    if type(is_prompts) is not bool:
+        raise TypeError("is_prompts must be bool")
+    if any(not isinstance(t,torch.Tensor) for t in (lengths,cos_cache,sin_cache)):
+        raise TypeError("lengths and both caches must be tensors")
+    if any(t.layout != torch.strided for t in (lengths,cos_cache,sin_cache)):
+        raise ValueError("inputs must have strided layout")
+    if lengths.ndim != 1 or lengths.dtype != torch.int32:
+        raise ValueError("lengths must be rank-one int32")
+    if not cos_cache.is_cuda or any(t.device != cos_cache.device for t in (lengths,sin_cache)):
+        raise ValueError("inputs must share one CUDA device")
+    for cache in (cos_cache,sin_cache):
+        if cache.ndim != 2 or cache.dtype != torch.float32:
+            raise ValueError("caches must be rank-two FP32")
+        if not cache.is_contiguous() or cache.is_neg() or cache.is_conj():
+            raise ValueError("caches must be native contiguous tensors")
+        if cache.numel()*4 >= 2**63:
+            raise ValueError("cache byte extents must fit signed int64")
+    if cos_cache.shape[1] != sin_cache.shape[1]:
+        raise ValueError("cache hidden widths differ")
+    values = lengths.cpu().tolist()
+    minimum = 0 if is_prompts else 1
+    if any(v < minimum or v > cos_cache.shape[0] or v > sin_cache.shape[0] for v in values):
+        raise ValueError("lengths are outside the cache row bounds")
+    row_count = sum(values) if is_prompts else len(values)
+    count = row_count*cos_cache.shape[1]*4
+    if count >= 2**63 or triton.cdiv(count,256) >= 2**31:
+        raise ValueError("output byte extent or launch grid is too large")
+    if count and row_count*8 >= 2**63:
+        raise ValueError("row-table byte extent must fit signed int64")
+    rows = [r for v in values for r in range(v)] if is_prompts else [v-1 for v in values]
+    with torch.cuda.device(cos_cache.device):
+        return _gather(cos_cache,rows), _gather(sin_cache,rows)

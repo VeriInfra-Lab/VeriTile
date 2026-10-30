@@ -5,7 +5,7 @@ on:
     paths:
       - 'VeriTile/Spec.lean'
       - 'VeriTile/Triton/Float/GuardedProgramIO.lean'
-      - 'bench/tests/FPGuardedProgramIO.lean'
+      - 'tests/lean/FPGuardedProgramIO.lean'
       - 'scripts/check_comparator.py'
       - 'scripts/comparator_common.py'
       - 'scripts/setup-comparator.sh'
@@ -29,7 +29,7 @@ jobs:
       - uses: leanprover/lean-action@v1
         with:
           build: true
-          build-args: 'VeriTile.Triton.Float.GuardedProgramIO bench.tests.FPGuardedProgramIO'
+          build-args: 'VeriTile.Triton.Float.GuardedProgramIO tests.lean.FPGuardedProgramIO'
           test: false
           lint: false
           use-mathlib-cache: auto
@@ -40,7 +40,7 @@ jobs:
             --file VeriTile/Triton/Float/GuardedProgramIO.lean --trust \
             --workspace "$RUNNER_TEMP/guarded-program-comparator"
           python3 scripts/check_comparator.py \
-            --file bench/tests/FPGuardedProgramIO.lean --trust \
+            --file tests/lean/FPGuardedProgramIO.lean --trust \
             --workspace "$RUNNER_TEMP/guarded-program-comparator"
       - uses: actions/upload-artifact@v4
         if: always()

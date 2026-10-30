@@ -1,127 +1,87 @@
-
+"""Separate FP32 repair candidate; the original benchmark is unchanged."""
+import math
 import torch
 import triton
 import triton.language as tl
 
-@triton.jit
-def q_kernel_per_block_int8(X, X_int8, BLK: tl.constexpr, Scale, L, C: tl.constexpr, scale_stride):
-    # Triton kernel for processing block of query matrix in int8
-    off_b = tl.program_id(1) 
-    off_blk = tl.program_id(0)
-    x_offset = off_b * L * C 
-    offs_m = off_blk*BLK + tl.arange(0, BLK)
-    offs_k = tl.arange(0, C)
-
-    x_ptrs = X + x_offset + offs_m[:, None] * C + offs_k[None, :]
-    x_int8_ptrs = X_int8 + x_offset + offs_m[:, None] * C + offs_k[None, :]
-    scale_ptrs = Scale + off_b * scale_stride + off_blk  
-
-    x = tl.load(x_ptrs, mask=offs_m[:, None] < L)
-    x *= (C**-0.5 * 1.44269504)
-    scale = tl.max(tl.abs(x)) / 127.
-    x_int8 = x / scale
-    x_int8 += 0.5 * tl.where(x_int8 >= 0, 1, -1)
-    x_int8 = x_int8.to(tl.int8)
-    tl.store(x_int8_ptrs, x_int8, mask=offs_m[:, None] < L)
-    tl.store(scale_ptrs, scale)
 
 @triton.jit
-def k_kernel_per_block_int8(X, X_int8, BLK: tl.constexpr, Scale, L, C: tl.constexpr, scale_stride):
-    # Triton kernel for processing block of key matrix in int8
-    off_b = tl.program_id(1) 
-    off_blk = tl.program_id(0)
-    x_offset = off_b * L * C 
-    offs_m = off_blk*BLK + tl.arange(0, BLK)
-    offs_k = tl.arange(0, C)
+def _per_block_int8_repaired(
+    X, X_int8, Scale, L: tl.constexpr, C: tl.constexpr,
+    BLK: tl.constexpr, BLOCKS: tl.constexpr, BASE: tl.constexpr,
+    WIDTH: tl.constexpr, IS_Q: tl.constexpr,
+):
+    block = tl.program_id(0).to(tl.int64) + BASE
+    batch = block // BLOCKS
+    local_block = block % BLOCKS
+    lane = tl.arange(0, WIDTH).to(tl.int64)
+    row = local_block * BLK + lane // C
+    offset = batch * L * C + local_block * BLK * C + lane
+    active = (lane < BLK * C) & (row < L)
+    x = tl.load(X + offset, mask=active, other=0.0)
+    if IS_Q:
+        x = x * (C**-0.5 * 1.44269504)
+    finite = tl.abs(x) <= 3.4028234663852886e38
+    bad = tl.max(tl.where(finite, 0, 1), 0)
+    x = tl.where(finite, x, 0.0)
+    maximum = tl.max(tl.abs(x), 0)
+    scale = maximum / 127.0
+    usable = (bad == 0) & (scale > 0.0)
+    denominator = tl.where(usable, scale, 1.0)
+    normalized = x / denominator
+    normalized = tl.where(usable, normalized, 0.0)
+    normalized = tl.minimum(tl.maximum(normalized, -127.0), 127.0)
+    biased = normalized + 0.5 * tl.where(normalized >= 0.0, 1.0, -1.0)
+    quantized = biased.to(tl.int8)
+    tl.store(X_int8 + offset, quantized, mask=active)
+    tl.store(Scale + block, tl.where(bad == 0, scale, 0.0))
 
-    x_ptrs = X + x_offset + offs_m[:, None] * C + offs_k[None, :]
-    x_int8_ptrs = X_int8 + x_offset + offs_m[:, None] * C + offs_k[None, :]
-    scale_ptrs = Scale + off_b * scale_stride + off_blk  
 
-    x = tl.load(x_ptrs, mask=offs_m[:, None] < L)
-    scale = tl.max(tl.abs(x)) / 127.
-    x_int8 = x / scale
-    x_int8 += 0.5 * tl.where(x_int8 >= 0, 1, -1)
-    x_int8 = x_int8.to(tl.int8)
-    tl.store(x_int8_ptrs, x_int8, mask=offs_m[:, None] < L)
-    tl.store(scale_ptrs, scale)
+def _quantize_one(x, block, is_q):
+    if not isinstance(x, torch.Tensor):
+        raise TypeError("q and k must be torch tensors")
+    if x.dim() not in (3, 4):
+        raise ValueError("q and k must independently have rank 3 or 4")
+    if x.layout != torch.strided or x.dtype != torch.float32:
+        raise TypeError("this candidate implements the benchmark FP32 input route")
+    if not x.is_cuda:
+        raise ValueError("q and k must be CUDA tensors")
+    if not x.is_contiguous() or x.is_neg():
+        raise ValueError("inputs must be contiguous with no unresolved negative bit")
+    if not isinstance(block, int) or isinstance(block, bool) or block <= 0:
+        raise ValueError("block sizes must be positive integers")
+    length, channels = x.shape[-2:]
+    blocks = triton.cdiv(length, block)
+    batches = math.prod(x.shape[:-2])
+    if block * channels > 2**20:
+        raise ValueError("block times channels exceeds the Triton tile limit")
+    if x.numel() >= 2**61 or batches * blocks >= 2**61:
+        raise ValueError("input and scale byte extents must fit signed int64")
+    if x.numel() > 0 and x.data_ptr() % 4 != 0:
+        raise ValueError("input data pointer must be FP32 aligned")
+    with torch.cuda.device(x.device):
+        output = torch.empty(x.shape, device=x.device, dtype=torch.int8)
+        scales = torch.empty((*x.shape[:-2], blocks, 1), device=x.device,
+                             dtype=torch.float32)
+        if batches == 0 or length == 0:
+            return output, scales
+        if channels == 0:
+            scales.zero_()
+            return output, scales
+        prepared = x
+        width = triton.next_power_of_2(block * channels)
+        # Chunk only the launch grid; all pointer arithmetic is widened first.
+        programs = batches * blocks
+        for base in range(0, programs, 2147483647):
+            count = min(programs - base, 2147483647)
+            _per_block_int8_repaired[(count,)](
+                prepared, output, scales, L=length, C=channels, BLK=block,
+                BLOCKS=blocks, BASE=base, WIDTH=width, IS_Q=is_q,
+                num_warps=4, enable_fp_fusion=False)
+        return output, scales
 
 
-def per_block_int8(q, k, BLKQ=128, BLKK=64):
-    # Function to initialize and launch Triton kernels for processing q and k
-    q_int8 = torch.empty_like(q, dtype=torch.int8)
-    k_int8 = q_int8.clone()
-
-    if q.dim() == 3:
-        q_scale = torch.empty((q.shape[-3], (q.shape[-2] + BLKQ - 1) // BLKQ, 1), device=q.device, dtype=torch.float32)
-        k_scale = torch.empty((k.shape[-3], (k.shape[-2] + BLKK - 1) // BLKK, 1), device=q.device, dtype=torch.float32)
-    elif q.dim() == 4:
-        q_scale = torch.empty((q.shape[-4], q.shape[-3], (q.shape[-2] + BLKQ - 1) // BLKQ, 1), device=q.device, dtype=torch.float32)
-        k_scale = torch.empty((k.shape[-4], k.shape[-3], (k.shape[-2] + BLKK - 1) // BLKK, 1), device=q.device, dtype=torch.float32)
-
-    q = q.view(-1, q.shape[-2], q.shape[-1])
-    k = k.view(-1, k.shape[-2], k.shape[-1])
-
-    B, L, C = q.shape
-    grid = ((L+BLKQ-1)//BLKQ, B, )
-    q_kernel_per_block_int8[grid](
-        q, 
-        q_int8,
-        BLKQ,
-        q_scale,
-        L, C, q_scale.stride(0) if q_scale.dim() == 3 else q_scale.stride(1),
-    )
-
-    grid = ((L+BLKK-1)//BLKK, B, )
-    k_kernel_per_block_int8[grid](
-        k, 
-        k_int8,
-        BLKK,
-        k_scale,
-        L, C, k_scale.stride(0) if k_scale.dim() == 3 else k_scale.stride(1),
-    )
-
+def per_block_int8_repaired(q, k, BLKQ=128, BLKK=64):
+    q_int8, q_scale = _quantize_one(q, BLKQ, True)
+    k_int8, k_scale = _quantize_one(k, BLKK, False)
     return q_int8, q_scale, k_int8, k_scale
-
-
-
-
-##################################################################################################################################################
-
-
-import torch
-
-# Test function for per_block_int8
-def test_per_block_int8():
-    # Define the dimensions for the test
-    B = 2  # Batch size
-    L = 256  # Sequence length
-    C = 64  # Feature dimension
-
-    # Create random input tensors for q and k
-    q = torch.randn((B, L, C), dtype=torch.float32, device='cuda')
-    k = torch.randn((B, L, C), dtype=torch.float32, device='cuda')
-
-    # Call the per_block_int8 function
-    q_int8, q_scale, k_int8, k_scale = per_block_int8(q, k)
-
-    # Store the results in a dictionary
-    results = {
-        "test_case_1": (q_int8.clone(), q_scale.clone(), k_int8.clone(), k_scale.clone()),
-    }
-
-    # Additional test cases with varied input dimensions
-    B_new = 1
-    L_new = 512
-    C_new = 128
-
-    q_new = torch.randn((B_new, L_new, C_new), dtype=torch.float32, device='cuda')
-    k_new = torch.randn((B_new, L_new, C_new), dtype=torch.float32, device='cuda')
-
-    q_int8_new, q_scale_new, k_int8_new, k_scale_new = per_block_int8(q_new, k_new)
-    results["test_case_2"] = (q_int8_new.clone(), q_scale_new.clone(), k_int8_new.clone(), k_scale_new.clone())
-
-    return results
-
-# Run the test
-result_gold = test_per_block_int8()

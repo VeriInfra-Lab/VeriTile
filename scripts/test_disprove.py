@@ -30,7 +30,7 @@ class DisproveTests(unittest.TestCase):
         self.assertNotIn("warning:", result.stdout)
 
     def test_refutation_declarations_search_registration_and_bounds(self):
-        self.succeeds((ROOT / "bench/tests/Disprove.lean").read_text())
+        self.succeeds((ROOT / "tests/lean/Disprove.lean").read_text())
 
     def test_refutation_cannot_prove_or_export_the_positive_claim(self):
         for source in (
@@ -46,7 +46,7 @@ example : (1 : Nat) = 2 := result''',
                 self.assertNotIn("maximum number of heartbeats", result.stdout)
 
     def test_independent_kernels_domains_casts_and_comparisons(self):
-        self.succeeds((ROOT / "bench/tests/FPDisprove.lean").read_text())
+        self.succeeds((ROOT / "tests/lean/FPDisprove.lean").read_text())
 
     def test_core_does_not_import_numerical_semantics(self):
         self.succeeds('''
