@@ -44,26 +44,6 @@ The earlier `bench/llm_eval/` LLM-proof-drafting eval was retired on
 2026-05-05; LLM-assist evaluation is no longer a benchmark axis of the
 project.
 
-## Bug-detection implementation pairs
-
-[`bug_detection/`](./bug_detection/README.md) contains 65 Lean equivalence problems:
-30 negative controls, 20 algebraic rewrites and 15 parameter variants. Each has
-readable Triton lowerings, named tensor IO, an independent Real formula, and
-Real/FP equivalence or counterexample goals. Every problem contains its own
-algorithms, configuration and IO, with no cross-problem imports. The source
-retains precision, conversions, masks and routing. The goals are unsolved;
-translation and native backend connections remain pending. Compilation and
-interface checks are recorded separately from those proof obligations;
-this collection does not change the completed TritonBench-G counts.
-
-## Pretraining equivalence problems
-
-[`pretrain_kernels/`](./pretrain_kernels/README.md) contains 269 independent Lean
-problem drafts (261 LOCAL and 8 TE). Each has its own literal Triton programs,
-typed IO, mathematical contract, and Real/FP goals. The equivalence proofs and
-native backend connections remain unsolved; these drafts do not change the
-completed TritonBench-G counts.
-
 ## Historical TritonBench-G v1 porting baseline
 
 The following inventory records the earlier 173-port snapshot, not current
