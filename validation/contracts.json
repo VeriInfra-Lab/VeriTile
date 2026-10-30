@@ -12038,7 +12038,8 @@
             "method": "declarationType% reads actual full declaration types, then forall_congr retains every parameter and premise; task headline_iff proves equality/iff of the complete underlying judgment."
           }
         },
-        "statement_scope_unchanged": true
+        "statement_scope_unchanged": true,
+        "python_source_representation": "Kernels.pythonBody retains every original standalone-dot/add statement and uint64 cast, with only brace/zero-shape spelling adaptations checked by jit-correspondence.json. pythonSource binds the original runtime arguments separately. The retained Correct/FPEquiv statements concern the selected compiler accumulator-dot graph; no FP source-to-compiler connection is proved by the two representations."
       },
       "fp_program_pair": {
         "fp_pair": "original versus maskHoisted: complete actual source grids, caching loop-invariant row/column comparisons.",
@@ -12055,13 +12056,13 @@
       ],
       "source_sha256": {
         "bench/tritonbench_g/matmul_triton1/Contract.lean": "b18af6d01e46f57de039da6e521f0280db2f8a74322623d0f482a7f53609b8bd",
-        "bench/tritonbench_g/matmul_triton1/Correct.lean": "59380d16e00bb4617925428befbd6b7f4c123940b1b76ff96b433acf17ad1d69",
-        "bench/tritonbench_g/matmul_triton1/FPEquiv.lean": "9c452d75495103c68f3ae7c0e126a8b6e6fc6b1d996053e0330fdf5e117ffb65",
+        "bench/tritonbench_g/matmul_triton1/Correct.lean": "30b384955a55c4a21618cc11fbbcbe76f36436d35a72b9625f04116ca06390ff",
+        "bench/tritonbench_g/matmul_triton1/FPEquiv.lean": "14e395f4843f79093399a959093c4428f341ef73e58b1ede3bfe64528e965867",
         "bench/tritonbench_g/matmul_triton1/IO.lean": "9abc48b5d2a3466dc4790259cd1e5396794ab3eb9d4f22f46d7d1672b1e02248",
         "bench/tritonbench_g/matmul_triton1/Proofs/IOCorrect.lean": "134b3dbed4078e37f1cb78e91d580e2de78c053c4019b02babecf044bc612d03",
         "bench/tritonbench_g/matmul_triton1/Proofs/LogicalIO.lean": "61af8336884a6a7014f14187dada757c4a6d1b71daac11ea49844527986c8d75",
         "bench/tritonbench_g/matmul_triton1/Proofs/Pair.lean": "b5768e4c090705929ed850f8f8e7201a55dd58be72349486a07c72c1138882a6",
-        "bench/tritonbench_g/matmul_triton1/Kernels.lean": "b20f3512b3d2d40bbe3aff47417003989031d210ae28716c7ff3cd8696bc3c57",
+        "bench/tritonbench_g/matmul_triton1/Kernels.lean": "b15fcf42aa67a3d742ab1376abcebdcf8b354b4ee8d6063f6f4672aab663313f",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
         "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
@@ -12069,23 +12070,23 @@
       "readers": [
         {
           "path": "bench/tritonbench_g/matmul_triton1/Correct.lean",
-          "sha256": "59380d16e00bb4617925428befbd6b7f4c123940b1b76ff96b433acf17ad1d69",
+          "sha256": "30b384955a55c4a21618cc11fbbcbe76f36436d35a72b9625f04116ca06390ff",
           "specifications": [
             {
               "kind": "specification",
               "name": "matmul_triton1_real",
-              "line": 12
+              "line": 17
             }
           ]
         },
         {
           "path": "bench/tritonbench_g/matmul_triton1/FPEquiv.lean",
-          "sha256": "9c452d75495103c68f3ae7c0e126a8b6e6fc6b1d996053e0330fdf5e117ffb65",
+          "sha256": "14e395f4843f79093399a959093c4428f341ef73e58b1ede3bfe64528e965867",
           "specifications": [
             {
               "kind": "specification",
               "name": "source_pair_equiv",
-              "line": 20
+              "line": 25
             }
           ]
         }
@@ -12126,7 +12127,8 @@
             "method": "declarationType% reads actual full declaration types, then forall_congr retains every parameter and premise; task headline_iff proves equality/iff of the complete underlying judgment."
           }
         },
-        "statement_scope_unchanged": true
+        "statement_scope_unchanged": true,
+        "python_source_representation": "Kernels.pythonBody retains every original standalone-dot/add statement and uint64 cast, with only brace/zero-shape spelling adaptations checked by jit-correspondence.json. pythonSource binds the original runtime arguments separately. The retained Correct/FPEquiv statements concern the selected compiler accumulator-dot graph; no FP source-to-compiler connection is proved by the two representations."
       },
       "fp_program_pair": {
         "fp_pair": "original versus existing maskHoisted complete grouped source grids.",
@@ -12143,12 +12145,12 @@
       ],
       "source_sha256": {
         "bench/tritonbench_g/matmul_triton2/Contract.lean": "fa4086b1002366fdeecb7d18a858deb3c71a5a17d873dee4efd2c56f964574e8",
-        "bench/tritonbench_g/matmul_triton2/Correct.lean": "1a24c434e0f1e1e1a5e571c05e7f6214aa4b2b4b542b48271040c7ebd35922d4",
-        "bench/tritonbench_g/matmul_triton2/FPEquiv.lean": "970a5551e94d5f69de3af34f17d6e2f628243a2bf5724e7b1929065448b80224",
+        "bench/tritonbench_g/matmul_triton2/Correct.lean": "ab2f30e00604434c26fce83801df29546ba6d7c08c0daa14b120543c1646ecd0",
+        "bench/tritonbench_g/matmul_triton2/FPEquiv.lean": "77aacd324c6e086a94164cfa684db75688c8b38d0ddecd5bacc885520987e20e",
         "bench/tritonbench_g/matmul_triton2/IO.lean": "eddc24f03d63dbb5c8e2be126100c68b8c3e4af75ffc7cfba80d9828c15e8160",
         "bench/tritonbench_g/matmul_triton2/Proofs/LogicalIO.lean": "f766fd7352f57d6cf424befbbead4771b9932a68db0d551ed6ffd68c48a01cea",
         "bench/tritonbench_g/matmul_triton2/Proofs/PublicIO.lean": "4187e04d82258d39bc37c39f329e643618917873c159859a2d414dd9e18939b2",
-        "bench/tritonbench_g/matmul_triton2/Kernels.lean": "c5a1394c85772c32b1ccb4c0ce9485d93e78be0a84d22fb08e312613a6d51623",
+        "bench/tritonbench_g/matmul_triton2/Kernels.lean": "4fc6b611a712e215163782a9ba74f10f212d2c17216e510de4ce00f0c497a160",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
         "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
@@ -12159,23 +12161,23 @@
       "readers": [
         {
           "path": "bench/tritonbench_g/matmul_triton2/Correct.lean",
-          "sha256": "1a24c434e0f1e1e1a5e571c05e7f6214aa4b2b4b542b48271040c7ebd35922d4",
+          "sha256": "ab2f30e00604434c26fce83801df29546ba6d7c08c0daa14b120543c1646ecd0",
           "specifications": [
             {
               "kind": "specification",
               "name": "kernel_real",
-              "line": 11
+              "line": 16
             }
           ]
         },
         {
           "path": "bench/tritonbench_g/matmul_triton2/FPEquiv.lean",
-          "sha256": "970a5551e94d5f69de3af34f17d6e2f628243a2bf5724e7b1929065448b80224",
+          "sha256": "77aacd324c6e086a94164cfa684db75688c8b38d0ddecd5bacc885520987e20e",
           "specifications": [
             {
               "kind": "specification",
               "name": "source_pair_equiv",
-              "line": 20
+              "line": 25
             }
           ]
         }

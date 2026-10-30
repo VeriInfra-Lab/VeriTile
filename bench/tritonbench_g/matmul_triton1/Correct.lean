@@ -1,5 +1,10 @@
 import bench.tritonbench_g.matmul_triton1.Proofs.LogicalIO
 
+/-! This entry proves the selected compiler graph. The separate
+`pythonBody` / `pythonSource` constructors in Kernels.lean retain the original
+standalone dot followed by addition; no source-to-compiler FP equivalence is
+asserted by this result. -/
+
 namespace VeriTile.Bench.Repairs.MatmulTriton1
 open VeriTile.Triton FP.Structural Revision001
 open VeriTile.Bench.Repairs.IntScaledMatmul.Revision001

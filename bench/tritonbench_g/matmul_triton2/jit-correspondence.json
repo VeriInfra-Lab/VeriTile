@@ -1,0 +1,8 @@
+[
+  {
+    "python": "bench/tritonbench_g/matmul_triton2/matmul_triton2.py",
+    "lean": "bench/tritonbench_g/matmul_triton2/Kernels.lean",
+    "python_function": "matmul_kernel",
+    "lean_definition": "pythonBody"
+  }
+]
