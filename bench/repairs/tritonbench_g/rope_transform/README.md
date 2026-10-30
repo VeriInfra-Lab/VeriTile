@@ -4,8 +4,12 @@ The selected canonical source is `rope_transform_repaired.py`, SHA256
 `daddf5be173d6b04740e71f405f4ed46a8efdce54b2fd75f882c7dc878c7d9eb`.
 This proof update leaves Python and its guards unchanged. `Kernels.lean` quotes
 the complete original JIT, with both branches, all four Q/K loads, coefficient
-loads, casts and stores. `KernelContract.source_binding` identifies it with the
-retained successful typed-source proof by definitional equality. The selected
+loads, casts and stores. The storage families, five runtime integer bindings
+and nine constexpr roles are outside each raw quotation. The existing
+index-sharing candidate has an explicitly authored Python counterpart checked
+by `jit-correspondence.json`. `Proofs/ActualSource.lean` proves execution and
+the unchanged independent masked memory formula directly for the copied
+source; `PublicIO.source_identity` binds the IO to that implementation. The selected
 Python entry passes `BACKWARD_PASS=False`; that forward branch is the public
 kernel theorem's scope.
 
@@ -122,3 +126,10 @@ The optional native, Tensor, audit and application entries for this selected rev
 - `Misc/TensorBridge.lean`
 
 The primary Contract/Correct/FPEquiv entries and their required IO, source and Proofs dependencies keep their existing statements and scope. This layout change adds no mathematical or numerical claims.
+
+The historical typed source and algorithm-erasure AST audit remain unchanged
+in the original proof library. `historical_erased_source_shape` explicitly
+refers to that historical model. Current Real/FP correctness uses direct
+complete source execution, memory and access proofs, preserving the explicit
+typed casts and static constexpr quotient evaluation of the copied source.
+No floating identity or new input requirement replaces the former AST link.

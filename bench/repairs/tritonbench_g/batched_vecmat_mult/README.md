@@ -20,10 +20,21 @@ reduction, live carry and stores are FP32. Real means the mathematical
 interpretation of the source graph; it does not claim exact native rounding.
 `K=0` writes zero to every output, and zero M or N gives an empty grid.
 
-`Kernels.lean` reuses the shared readable `TypedSource.original` source.
-Its natural-index DSL is linked to the selected Python repair by the existing
-finite-int64 interpreter and complete source-execution refinement. There is no
-new hand-maintained floating AST or invented floating optimization.
+`Kernels.lean` contains the complete selected Python function body, including
+both dimension casts and both program-ID INT64 casts. The original and existing
+block-first candidate each retain every load, broadcast, reduction, transpose,
+carry update and store. Pointer types, runtime dimension bindings and constexpr
+block sizes are outside the pasted bodies. `candidate_kernels.py` is explicitly
+authored from the pre-existing carry-addition candidate; the selected original
+Python and its wrapper are unchanged.
+
+The shared `SourceGraph.source` directly references this actual source.
+Constructive signed-register prologue, loop and tail proofs establish its
+unchanged independent FP32 operation graph, complete memory result and exterior
+frame. The finite-int64 interpreter then refines this same source under the
+existing integer-agreement conditions. The optional `Misc/HistoricalCorrect`
+stream contract is explicitly bound to its historical cast-free source; current
+Real, FP, grid, native and Tensor results use the selected source.
 
 ## Input checks and launch facts
 
@@ -55,7 +66,7 @@ new i32-safe dimension cap or grid-product compatibility condition is added.
 
 `IO.lean` explicitly declares A[M,K], B[M,N,K], output[M,N], their row-major
 addresses, no scratch, and the complete floor-divided two-dimensional launch
-schedule. Each invocation runs the unchanged typed source with fresh registers
+schedule. Each invocation runs the complete selected source with fresh registers
 and its actual program/grid IDs. The Structural `.real` channels carry FP32
 operation expressions; they do not change the source's FP32 precision.
 
@@ -138,8 +149,8 @@ independent cold rebuild are reported separately; neither is claimed here.
 Public-entry review (2026-10-21): `batched_vecmat_grid_native` is retained with its
 original name as an ordinary theorem in `Misc/NativeCorrect.lean`.
 `FPEquiv.lean` now proves `Equivalence.block_first_strict`, the complete actual
-`original ≡[[]] blockFirst` pair. `Kernels.lean` transparently reuses the existing
-ordinary quotations: only `vecmat + reducedBlock` becomes
+`original ≡[[]] blockFirst` pair. `Kernels.lean` retains the existing candidate as a complete raw body:
+only `vecmat + reducedBlock` becomes
 `reducedBlock + vecmat`. All loads, broadcasts, reduction trees, transpose,
 iteration order, stores and floor-grid invocations remain explicit.
 

@@ -28,7 +28,7 @@ theorem fp_equiv (h : Call) (plans : Native.Plans)
 #axiomsClean fp_equiv
 #stmtSurfaceSubset fp_equiv ⊆
   [nativeIO, ProgramIO.ImplementsOn, PublicIO.Valid, PublicNative.formula, Call, Native.Plans, Native.Instructions, Native.LocalConformance, Native.Expr, Native.instInhabitedExpr]
-#specNonCircular PublicNative.formula avoiding [Signed.Grid.run,FP.Structural.exec,FPGrid.fold,Surface.source]
+#specNonCircular PublicNative.formula avoiding [Signed.Grid.run,FP.Structural.exec,SourceGrid.fold,Surface.source]
 #specNonCircular Native.LocalConformance avoiding [PublicNative.formula,Native.Expr.eval]
 end
 end VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked

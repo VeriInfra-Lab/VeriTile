@@ -43,8 +43,8 @@ theorem pointers_safe [Inhabited α] (c : Shape)
     | (intro off member
        simp only [List.mem_cons,List.not_mem_nil,or_false] at member
        rcases member with rfl|rfl
-       all_goals simp only [Program.times,Safety.safeOp_unfold,and_self])
-    | simp only [Program.times,Safety.safeOp_unfold,and_self]
+       all_goals simp only [Program.times,Program.headTimes,Safety.safeOp_unfold,and_self])
+    | simp only [Program.times,Program.headTimes,Safety.safeOp_unfold,and_self]
 
 theorem store_safe [Inhabited α] (m n : Nat) (pointer value : String) (ptr : BlockPtr)
     (axes : List Nat) (bounds : RegionName → Nat) (s : State (Term α))

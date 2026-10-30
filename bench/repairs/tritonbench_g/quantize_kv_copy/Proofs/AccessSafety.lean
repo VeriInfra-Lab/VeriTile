@@ -24,6 +24,9 @@ theorem source_safe [Inhabited α] (op : Ops α) (p : Parameters)
   have hzero : (0.0 : ℝ) = 0 := by norm_num
   have hone : (1.0 : ℝ) = 1 := by norm_num
   have hlevels : (127.0 : ℝ) = 127 := by norm_num
+  have address (base group lane : Nat) :
+      Int.toNat ((base : Int) + (group : Int) * 8 + (lane : Int)) =
+        base + group * 8 + lane := by omega
   simp (maxSteps := 1600000) [FP.Structural.TraceSafe, kernel, KernelSyntax.source,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
@@ -36,9 +39,9 @@ theorem source_safe [Inhabited α] (op : Ops α) (p : Parameters)
     ← Int.natCast_mul, ← Int.natCast_add, Int.ofNat_lt, Int.toNat_natCast]
   refine ⟨hD, ?_, ?_, ?_⟩
   · intro g c hg
-    simpa only [inputOffset, Nat.add_mul, Nat.mul_assoc, Nat.add_assoc] using hK g.val c.val hg c.isLt
+    simpa only [address, inputOffset, Nat.add_mul, Nat.mul_assoc, Nat.add_assoc] using hK g.val c.val hg c.isLt
   · intro g c hg
-    simpa only [codeOffset, Nat.add_mul, Nat.mul_assoc, Nat.add_assoc] using hO g.val c.val hg c.isLt
+    simpa only [address, codeOffset, Nat.add_mul, Nat.mul_assoc, Nat.add_assoc] using hO g.val c.val hg c.isLt
   · intro g hg
     simpa only [scaleOffset, Nat.add_mul, Nat.mul_assoc, Nat.add_assoc] using hS g.val hg
 

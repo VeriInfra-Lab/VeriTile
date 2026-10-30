@@ -50,10 +50,11 @@ theorem whole_real (r : Request) (call : Host.Preparation ℝ r) :
   change scalar algebra _ _ _ _ _=rotation _ _ _ _ _
   exact scalar_rotation .. 
 
-/-- Reuse the audited exact source-shape bridge. This statement is only about
-address/control erasure and makes no native numerical-equivalence claim. -/
-theorem erased_source_shape (r : Request) :
-    (kernel r).eraseDType.surfaceBody=
+/-- Historical typed/algorithm source-shape audit. Current source correctness
+is proved directly by ActualSource.execution_memory and whole_real; the raw
+source retains explicit typed casts and is not asserted to have this old AST. -/
+theorem historical_erased_source_shape (r : Request) :
+    (VeriTile.Bench.TritonBenchG.RopeTransform.Typed.kernel .fp32 .fp32 r.parameters).eraseDType.surfaceBody=
       (VeriTile.Bench.TritonBenchG.RopeTransform.triton_rope_surface
         "Q" "K" "C" "S" (r.stride Bool.false) (r.stride Bool.true) r.half r.half r.sequence 0
         r.qHeads r.kHeads r.dimension (r.paddedHeads Bool.false) (r.paddedHeads Bool.true)
@@ -62,7 +63,7 @@ theorem erased_source_shape (r : Request) :
 
 #axiomsClean scalar_rotation
 #axiomsClean whole_real
-#axiomsClean erased_source_shape
+#axiomsClean historical_erased_source_shape
 #specNonCircular expected avoiding [Host.invoke,Grid.run,Grid.sourceRun,FP.Structural.exec,value,T.laneResult,Host.expected]
 end
 end VeriTile.Bench.Repairs.RopeTransform.Math

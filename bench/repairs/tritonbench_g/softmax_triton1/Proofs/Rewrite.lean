@@ -61,7 +61,7 @@ numerical law. This transformation domain is not a Python input guard. -/
 def divisionSite (out inp : RegionName) (ib ob ir ic orow oc n B : Nat) : DivisionSite where
   before := sourcePrefix out inp ib ob ir ic orow oc n B
   lanes := B
-  active := .lt .int .scalarR (.castNatToInt (.ref .nat [B] "col_offsets")) (.constInt n)
+  active := .lt .int .scalarR (.ref .int [B] "col_offsets") (.constInt n)
   numerator := .ref .real [B] "numerator"
   denominator := .ref .real [] "denominator"
 

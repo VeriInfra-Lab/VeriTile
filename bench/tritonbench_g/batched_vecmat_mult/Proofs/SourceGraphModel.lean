@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.batched_vecmat_mult.Kernels
 import bench.tritonbench_g.batched_vecmat_mult.Proofs.SourceGraph
 import VeriTile.Triton.Float.ScalarOps
 import VeriTile.Triton.Float.TermModel
@@ -18,7 +19,8 @@ abbrev PlanSelector := ∀ n, (Fin n → Expr) → ReductionPlan n
 
 def fixedPlans (plans : ∀ n, ReductionPlan n) : PlanSelector := fun n _ => plans n
 
-def source (p : Parameters) := TypedSource.original p.A p.B p.output p.M p.N p.K p.BM p.BN p.BK
+/-- Complete selected Python body, including dimension and PID INT64 casts. -/
+def source (p : Parameters) := VeriTile.Bench.Repairs.BatchedVecmatMult.source p
 
 /-- Capture every source product, reduction seed and addition as syntax. -/
 def treeValue (xs : Fin n → Word) : ReductionTree n → Word
@@ -35,7 +37,7 @@ def sumValues (plans : PlanSelector)
   · exact fun out => let args := fun i => xs (TileShape.replaceAxisIndex shape ax out i)
       treeValue args (plans _ args).tree
 
-/-- Execute the unchanged typed source in an expression-capturing algebra.
+/-- Execute the complete selected typed source in an expression-capturing algebra.
 This algebra records operations; native word evaluation occurs only after the
 explicit contraction pass in SourceGraph. -/
 def engine (rest : Algebra Word) (plans : PlanSelector) : Algebra Word :=
@@ -81,12 +83,15 @@ def Outside (p : Parameters) (s : State Word) (r : RegionName) (o : Nat) : Prop 
 
 structure Invariant (plans : PlanSelector)
     (p : Parameters) (initial : State Word) (c : Nat) (current : State Word) : Prop where
-  mi : current.regs .nat [] "m_index" = some (fun _ => initial.pids 0)
-  ni : current.regs .nat [] "n_index" = some (fun _ => initial.pids 1)
-  offsets : current.regs .nat [p.BM,p.BN] "output_tile" = some (outputOffset p initial)
+  dimn : current.regs .int [] "dim_n" = some (fun _ => (p.N : Int))
+  dimk : current.regs .int [] "dim_k" = some (fun _ => (p.K : Int))
+  mi : current.regs .int [] "m_index" = some (fun _ => (initial.pids 0 : Int))
+  ni : current.regs .int [] "n_index" = some (fun _ => (initial.pids 1 : Int))
+  offsets : current.regs .int [p.BM,p.BN] "output_tile" = some (fun i => (outputOffset p initial i : Int))
   carry : current.regs .real [p.BM,p.BN] "vecmat" = some (accumulated plans p initial c)
-  blocks : current.regs .nat [] "k_blocks" = some (fun _ => p.K / p.BK)
+  blocks : current.regs .int [] "k_blocks" = some (fun _ => ((p.K / p.BK : Nat) : Int))
   memory : current.mem = initial.mem
+
 
 theorem source_admitted (p : Parameters) :
     (source p).toAlgorithm? = .ok (source p).toAlgKernel := by rfl

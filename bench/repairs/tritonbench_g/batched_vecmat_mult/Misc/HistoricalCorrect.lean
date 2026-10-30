@@ -17,10 +17,11 @@ noncomputable section
 local instance : Inhabited SourceGraph.Expr := ⟨SourceGraph.Expr.zero⟩
 local instance : Inhabited ValueProofs.Word := ⟨FP.Value.zero .fp32⟩
 
-/-- Complete original IO windows and flat-memory frame, specialized to the
-repair's cast-erased kernel. -/
+/-- Historical cast-free source contract, retained with its original complete
+windows and flat-memory frame. The selected INT64 body's full-grid theorem is
+`Correctness.batched_vecmat_grid_real`, through the actual SourceGraph source. -/
 def io (A B out : RegionName) (M N BM BN BK T : Nat) : StreamMasked2DKernelIO₂ where
-  kernel := (kernel A B out M N (BK*T) BM BN BK).eraseDType
+  kernel := (TypedSource.original A B out M N (BK*T) BM BN BK).eraseDType
   projection := RealSource.projection A B out M N (BK*T) BM BN BK Bool.false
   inp1 := A
   inp2 := B

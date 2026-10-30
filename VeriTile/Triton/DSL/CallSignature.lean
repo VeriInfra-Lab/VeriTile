@@ -451,6 +451,18 @@ private partial def checkFP32CallPrecision (expression : Expr) (fp32 : Bool := B
   | .mdata _ value | .proj _ _ value => checkFP32CallPrecision value fp32
   | _ => pure ()
 
+/-- Rank-one pointer lowering consumes its checked singleton axes first.
+Remaining singleton tuples belong to ordinary block pointers; preserve their
+axis as a static Nat list for the shared load/store compiler. -/
+private partial def normalizeBoundaryTuples (raw : Syntax) : MacroM Syntax := do
+  if let `(tritonMemKwarg| boundary_check=($axisIndex:tritonExpr,)) := raw then
+    let axisTerm ← natDimTerm "boundary_check" axisIndex
+    let axes ← `(term| ([$axisTerm] : List Nat))
+    return (← `(tritonMemKwarg| boundary_check=$axes:term)).raw
+  match raw with
+  | .node info kind args => return .node info kind (← args.mapM normalizeBoundaryTuples)
+  | _ => return raw
+
 /-- A verification call specializes immutable runtime size values supplied by
 the caller. Their source ABI remains in `scalars`, never in `constexpr`.
 Nat/Int carriers use the existing mathematical index projection;
@@ -655,6 +667,8 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         | _ => none
       let stmts ← bindCallStatements integerArguments values stmts
       let stmts ← RankOneBlockPtr.lower stmts
+      let stmts ← liftMacroM <| stmts.mapM fun st => do
+        return (⟨← normalizeBoundaryTuples st.raw⟩ : TSyntax `tritonStmt)
       let metadata ← liftMacroM <| stmts.toList.mapM fun st => do
         return (⟨← sourcePortView st.raw⟩ : TSyntax `tritonStmt)
       let (reads, writes) := Metadata.blockRegions metadata

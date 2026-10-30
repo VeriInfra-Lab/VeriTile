@@ -10,8 +10,8 @@ set_option maxHeartbeats 200000
 set_option maxRecDepth 32000
 
 def body (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) : List ComputeStmt :=
-  match ((kernel c scale storeFlag ifcond).surfaceBody[2]? : Option ComputeStmt) with
-  | some (.forRangeDyn _ _ _ _ b) => b
+  match ((kernel c scale storeFlag ifcond).surfaceBody[3]? : Option ComputeStmt) with
+  | some (.forRange _ _ _ _ b) => b
   | _ => []
 
 def pointers (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :=
@@ -36,7 +36,7 @@ theorem pointer_run {α : Type} [Inhabited α] (M : Algebra α)
     run M (Program.pointers c) s = run M (pointers c scale storeFlag ifcond) s := by
   simp only [pointers,body,kernel,shiftedSource,ComputeKernel.surfaceBody,
     List.getElem?_cons_zero,List.getElem?_cons_succ,List.take_succ_cons,List.take_zero]
-  simp only [Program.pointers,Program.pointer,Program.times,run,step,evalExpr,evalOp_unfold]
+  simp only [Program.pointers,Program.pointer,Program.times,Program.headTimes,run,step,evalExpr,evalOp_unfold]
   simp only [evalOffsets]
   simp only [offset_eval,Program.times]
 
@@ -78,7 +78,7 @@ theorem pointer_safe {α : Type} [Inhabited α] (M : Algebra α)
     simp only [Program.pointers,List.mem_cons,List.not_mem_nil,or_false] at member
     rcases member with rfl|rfl|rfl|rfl|rfl
     all_goals apply safe_pointer
-    all_goals simp only [Program.times,Safety.safeOp_unfold,true_and,and_true]
+    all_goals simp only [Program.times,Program.headTimes,Safety.safeOp_unfold,true_and,and_true]
   · apply pure_list_safe
     intro st member t
     simp only [pointers,body,kernel,shiftedSource,ComputeKernel.surfaceBody,
@@ -139,22 +139,42 @@ def codePrefix (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :=
 theorem original_quoted (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :
     Program.kernel c scale storeFlag ifcond =
       .mk ["q","k","v","h","o"] [] (codePrefix c scale storeFlag ifcond ++
-        [.forRangeDyn "i" (.constNat 0) (.constNat c.chunks) (.constNat 1)
+        [.forRange "i" 0 c.chunks 1
           (Program.body c scale storeFlag ifcond)]) := rfl
 
 theorem candidate_quoted (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :
     kernel c scale storeFlag ifcond =
-      .mk ["q","k","v","h","o"] [] (codePrefix c scale storeFlag ifcond ++
-        [.forRangeDyn "i" (.constNat 0) (.constNat c.chunks) (.constNat 1)
+      .mk ["q","k","v","h","o"] [] (.ifThen (.constBool Bool.false) [] :: codePrefix c scale storeFlag ifcond ++
+        [.forRange "i" 0 c.chunks 1
           (body c scale storeFlag ifcond)]) := rfl
+
+/-- BT is bound to 32 outside the raw candidate. Its retained static
+assertion has no runtime effect, including failure and safety observations. -/
+theorem assertion_run {α : Type} [Inhabited α] (M : Algebra α)
+    (code : List ComputeStmt) (s : State α) :
+    run M (.ifThen (.constBool Bool.false) [] :: code) s = run M code s := by
+  rw [run]
+  simp only [step,evalOp_unfold,bind,Bool.false_eq_true,↓reduceIte,Option.bind_some]
+
+theorem assertion_safe {α : Type} [Inhabited α] (M : Algebra α)
+    (bounds : RegionName → Nat) (code : List ComputeStmt) (s : State α) :
+    Safety.traceSafeList M bounds (.ifThen (.constBool Bool.false) [] :: code) s ↔
+      Safety.traceSafeList M bounds code s := by
+  simp [Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeOp_unfold,
+    step,evalOp_unfold]
 
 theorem kernel_run {α : Type} [Inhabited α] (M : Algebra α)
     (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) (s : State α) :
     exec M (Program.kernel c scale storeFlag ifcond) s =
       exec M (kernel c scale storeFlag ifcond) s := by
   rw [original_quoted,candidate_quoted]
-  change run M (_ ++ _) s = run M (_ ++ _) s
-  rw [run_append,run_append]
+  change run M (_ ++ _) s = run M (.ifThen (.constBool Bool.false) [] :: _) s
+  rw [assertion_run]
+  change run M (codePrefix c scale storeFlag ifcond ++
+    [.forRange "i" 0 c.chunks 1 (Program.body c scale storeFlag ifcond)]) s =
+    run M (codePrefix c scale storeFlag ifcond ++
+      [.forRange "i" 0 c.chunks 1 (body c scale storeFlag ifcond)]) s
+  simp only [run_append]
   apply congrArg (fun f => (run M (codePrefix c scale storeFlag ifcond) s).bind f)
   funext t
   simp only [run,step,evalOp_unfold,bind,Option.bind_some]
@@ -166,8 +186,14 @@ theorem kernel_safe {α : Type} [Inhabited α] (M : Algebra α)
     TraceSafe M bounds (Program.kernel c scale storeFlag ifcond) s ↔
       TraceSafe M bounds (kernel c scale storeFlag ifcond) s := by
   rw [original_quoted,candidate_quoted]
-  change Safety.traceSafeList M bounds (_ ++ _) s ↔ Safety.traceSafeList M bounds (_ ++ _) s
-  rw [Safety.traceSafeList_append,Safety.traceSafeList_append]
+  change Safety.traceSafeList M bounds (_ ++ _) s ↔
+    Safety.traceSafeList M bounds (.ifThen (.constBool Bool.false) [] :: _) s
+  rw [assertion_safe]
+  change Safety.traceSafeList M bounds (codePrefix c scale storeFlag ifcond ++
+    [.forRange "i" 0 c.chunks 1 (Program.body c scale storeFlag ifcond)]) s ↔
+    Safety.traceSafeList M bounds (codePrefix c scale storeFlag ifcond ++
+      [.forRange "i" 0 c.chunks 1 (body c scale storeFlag ifcond)]) s
+  simp only [Safety.traceSafeList_append]
   apply and_congr_right
   intro _
   apply forall_congr'

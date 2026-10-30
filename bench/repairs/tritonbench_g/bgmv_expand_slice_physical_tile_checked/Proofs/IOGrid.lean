@@ -12,7 +12,7 @@ variable {A : Type} [Inhabited A]
 def StepMemory (M : Algebra A) (R : Reduction A) (h : Call) (p : Geometry.Program h)
     (s : State A) : RegionName → Nat → Cell A :=
   if (data s).indices p.batch=-1 then s.mem else
-    (s.write "Y" (FPGrid.address h p) (.mk .real (FPGrid.value M R h p (data s)))).mem
+    (s.write "Y" (SourceGrid.address h p) (.mk .real (SourceGrid.value M R h p (data s)))).mem
 
 theorem step_indices (M : Algebra A) (R : Reduction A) (h : Call) (p : Geometry.Program h)
     (s t : State A) (same : t.mem=StepMemory M R h p s) :
@@ -22,14 +22,14 @@ theorem step_indices (M : Algebra A) (R : Reduction A) (h : Call) (p : Geometry.
 
 theorem step_other_value (M : Algebra A) (R : Reduction A) (h : Call)
     (p q : Geometry.Program h) (s t : State A) (same : t.mem=StepMemory M R h p s)
-    (different : FPGrid.address h q≠FPGrid.address h p) :
-    FPGrid.value M R h q (data t)=FPGrid.value M R h q (data s) := by
-  have output : (t.mem "Y" (FPGrid.address h q)).read .real=
-      (s.mem "Y" (FPGrid.address h q)).read .real := by
+    (different : SourceGrid.address h q≠SourceGrid.address h p) :
+    SourceGrid.value M R h q (data t)=SourceGrid.value M R h q (data s) := by
+  have output : (t.mem "Y" (SourceGrid.address h q)).read .real=
+      (s.mem "Y" (SourceGrid.address h q)).read .real := by
     have differentBase : q.batch*h.columns+q.row≠p.batch*h.columns+p.row := by
       intro equal
       apply different
-      simp only [FPGrid.address,equal]
+      simp only [SourceGrid.address,Direct.FPGrid.address,equal]
     simp [same,StepMemory,State.write,differentBase,ite_apply]
   have inputs : (data t).input=(data s).input := by
     funext b
@@ -42,24 +42,24 @@ theorem step_other_value (M : Algebra A) (R : Reduction A) (h : Call)
       Direct.FPValues.products M h q.batch ((data s).indices q.batch).toNat q.row (data s) := by
     unfold Direct.FPValues.products Direct.FPValues.loaded Direct.FPValues.weight
     rw [inputs,weights]
-  simp only [FPGrid.value,Direct.FPValues.result,Direct.FPValues.sums,Direct.FPValues.old,indices,
+  simp only [SourceGrid.value,SourceValues.result,Direct.FPValues.sums,Direct.FPValues.old,indices,
     Fin.val_zero,Nat.zero_lt_one,↓reduceIte,Nat.add_zero,productsEq]
   rw [show (data t).output (q.batch*h.columns+q.row+h.slice)=
       (data s).output (q.batch*h.columns+q.row+h.slice) from output]
 
 def Outside (h : Call) (s : State A) (jobs : List (Geometry.Program h))
     (name : RegionName) (offset : Nat) : Prop :=
-  name≠"Y" ∨ ∀ p∈jobs,(data s).indices p.batch≠-1 → offset≠FPGrid.address h p
+  name≠"Y" ∨ ∀ p∈jobs,(data s).indices p.batch≠-1 → offset≠SourceGrid.address h p
 
 /-- Whole source schedule with exact single-store frames. Its existing job
 uniqueness ensures optional Y input-add always reads the initial value. -/
 theorem grid_execution (M : Algebra A) (R : Reduction A) (h : Call)
     (jobs : List (Geometry.Program h)) (s : State A)
     (valid : ∀ b,b<h.batches → (data s).indices b=-1 ∨ 0≤(data s).indices b)
-    (unique : jobs.Pairwise (fun p q => FPGrid.address h p≠FPGrid.address h q)) :
+    (unique : jobs.Pairwise (fun p q => SourceGrid.address h p≠SourceGrid.address h q)) :
     ∃ final,runSchedule (jobs.map (PublicIO.invocation M R h)) s=some final ∧
       (∀ p∈jobs,(data s).indices p.batch≠-1 →
-        final.mem "Y" (FPGrid.address h p)=.mk .real (FPGrid.value M R h p (data s))) ∧
+        final.mem "Y" (SourceGrid.address h p)=.mk .real (SourceGrid.value M R h p (data s))) ∧
       (∀ name offset,Outside h s jobs name offset → final.mem name offset=s.mem name offset) := by
   induction jobs generalizing s with
   | nil => exact ⟨s,rfl,by simp,fun _ _ _ => rfl⟩
@@ -78,7 +78,7 @@ theorem grid_execution (M : Algebra A) (R : Reduction A) (h : Call)
     · intro q member active
       rcases List.mem_cons.mp member with same | later
       · subst q
-        rw [frame "Y" (FPGrid.address h p) (Or.inr (fun q hq _ => different q hq))]
+        rw [frame "Y" (SourceGrid.address h p) (Or.inr (fun q hq _ => different q hq))]
         simp [hm,StepMemory,active,State.write]
       · rw [values q later (by rwa [indices])]
         exact congrArg (Cell.mk .real)

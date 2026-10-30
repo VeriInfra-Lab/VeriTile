@@ -13,7 +13,7 @@ theorem prelude_safe (M : Algebra A) (R : Reduction A) (h : Call)
     (batch row : Nat) (s : State A) (bounds : RegionName → Nat)
     (metadata : batch<bounds "Indices") :
     Safety.traceSafeList (machine M R) bounds (prelude h) (entry h batch row s) := by
-  simpa [prelude,code,Surface.source,ComputeKernel.surfaceBody,entry,
+  simpa [prelude,code,Surface.source,SourceView.code,SourceView.rawCode,SourceView.active,SourceView.rawActive,SourceView.selected,Kernels.source,ComputeKernel.surfaceBody,entry,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -28,7 +28,7 @@ theorem setup_safe (M : Algebra A) (R : Reduction A) (h : Call)
   rcases h with ⟨batches,adapters,N,K,columns,slice,BK,positive,covered,inside,ev,evExact,adds,ity,wty,oty⟩
   cases ev
   all_goals
-    simp (maxSteps := 500000) [setup,active,code,Surface.source,ComputeKernel.surfaceBody,
+    simp (maxSteps := 500000) [setup,active,code,Surface.source,SourceView.code,SourceView.rawCode,SourceView.active,SourceView.rawActive,SourceView.selected,Kernels.source,ComputeKernel.surfaceBody,
       Source.conditional?,Source.intRange?,preguard,entry,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
@@ -56,9 +56,12 @@ theorem body_safe (M : Algebra A) (R : Reduction A) (h : Call)
   have nonzero : N≠0 := by change 0<N at positiveN;omega
   have length_cast : ((↑(N+N):Int)-1)/(N:Int)=1 := by simpa only [Int.natCast_add] using length
   have positive_sum : ¬((N:Int)+N<1) := by change 0<N at positiveN;omega
+  have positive_source : ¬((N:Int)+(N-1)<0) := by change 0<N at positiveN;omega
+  have source_length : ((N:Int)+(N-1))/N=1 := by
+    convert length using 1 <;> congr 1 <;> omega
   cases ev <;> cases adds
   all_goals
-    simp (maxSteps := 1000000) [body,active,code,Surface.source,ComputeKernel.surfaceBody,
+    simp (maxSteps := 1000000) [body,active,code,Surface.source,SourceView.code,SourceView.rawCode,SourceView.active,SourceView.rawActive,SourceView.selected,Kernels.source,ComputeKernel.surfaceBody,
       Source.conditional?,Source.intRange?,firstEntry,preloop,preguard,entry,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
@@ -67,7 +70,7 @@ theorem body_safe (M : Algebra A) (R : Reduction A) (h : Call)
       machine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,numericLt,numericLe,numericEq,natLt,bop,
       State.setReg,ofFloat,toFloat,Region.cast,FP.Structural.store,
-      ←Int.natCast_ediv,length,length_cast,nonzero,positive_sum,metaRead,
+      ←Int.natCast_ediv,length,length_cast,nonzero,positive_sum,positive_source,source_length,metaRead,
       ←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
   all_goals repeat' constructor
   all_goals intros

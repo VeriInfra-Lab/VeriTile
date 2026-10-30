@@ -27,8 +27,8 @@ theorem finished_carry [Inhabited α] (c : Shape) (scale : ℝ) (head chunk : Na
 
 theorem finished_head [Inhabited α] (c : Shape) (scale : ℝ) (head chunk : Nat)
     (storeFlag ifcond : Bool) (carry : Matrix α c.D c.D) (s : State (Term α)) :
-    (finished c scale head chunk storeFlag ifcond carry s).regs .nat [] "i_bh"=
-      s.regs .nat [] "i_bh" := by
+    (finished c scale head chunk storeFlag ifcond carry s).regs .int [] "i_bh"=
+      s.regs .int [] "i_bh" := by
   cases ifcond <;> by_cases first : chunk=0 <;>
     simp [finished,updated,prepared,saved_regs,pointers,first]
 

@@ -27,26 +27,15 @@ assert any(isinstance(n, ast.If) and ast.unparse(n.test) == 'tokens == 0' for n 
 del wrapper.body[at]
 assert ast.dump(old) == ast.dump(new)
 kernel = next(n for n in new.body if isinstance(n, ast.FunctionDef) and n.name == 'decoding_fused_rotary_embedding_kernel')
-quote = (TASK / 'Kernels.lean').read_text().split('  triton {\n', 1)[1].split('\n  }\n', 1)[0]
-quote = re.sub(r'\$\(\(p\.(\w+) : Int\)\)', r'\1', quote)
-quote = re.sub(r'\$\(p\.(\w+)\)', r'\1', quote)
-quote = re.sub(r'\$\(\((\d+) : Int\)\)', r'\1', quote)
-lines, level = [], 1
-for raw in quote.splitlines():
-    line = raw.strip()
-    if line.startswith('tl.region'):
-        continue
-    if line == '}':
-        level -= 1
-    elif line.endswith(' {'):
-        lines.append('    ' * level + line[:-2] + ':')
-        level += 1
-    else:
-        lines.append('    ' * level + line)
-assert level == 1
-quoted = ast.parse('def source():\n' + '\n'.join(lines) + '\n').body[0]
+# The function-body frontend retains Python syntax directly. Reuse the
+# checked source/ABI/call comparison rather than stripping historical Lean
+# directives, antiquotes and brace control flow from the old quotation.
+sys.path.insert(0, str(ROOT))
+from bench.jit_correspondence import check_manifest
+source_pairs = check_manifest(ROOT, TASK / 'jit-correspondence.json')
+assert [(p['mode'], p['statements']) for p in source_pairs] == [
+    ('pasted_body', 21), ('pasted_body', 21)]
 kernel_ast = ast.dump(ast.Module(body=kernel.body, type_ignores=[]))
-assert kernel_ast == ast.dump(ast.Module(body=quoted.body, type_ignores=[]))
 
 # Reuse the saved harness definitions without rerunning its old control suite.
 harness = ast.parse((OLD / 'check_contract.py').read_text())

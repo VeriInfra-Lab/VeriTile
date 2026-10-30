@@ -28,6 +28,8 @@ theorem source_safe (rest : Algebra α) (ops : Ops α) (p : Parameters)
     (s : State α) (bounds : RegionName → Nat) (h : AccessBounds p s bounds) :
     TraceSafe (algebra rest ops) bounds (kernel p) s := by
   have headNonneg : ¬(s.pids 0 : Int)<0 := by omega
+  have dimsNonneg (n : Nat) : ¬(n : Int)<0 := by omega
+  have halfCast : (p.HEAD_DIM : Int)/2 = ((p.HEAD_DIM/2 : Nat) : Int) := rfl
   have signedLeader :
       ((s.pids 0 : Int)-(p.KV_GROUP_NUM : Int)*((s.pids 0 : Int)/(p.KV_GROUP_NUM : Int))=0) ↔
         s.pids 0%p.KV_GROUP_NUM=0 := by
@@ -36,7 +38,7 @@ theorem source_safe (rest : Algebra α) (ops : Ops α) (p : Parameters)
   have hq1 := fun i : Fin p.BLOCK_HALF => h.q Bool.true (i,PUnit.unit)
   have hc := fun i : Fin p.BLOCK_HALF => h.coeff Bool.false (i,PUnit.unit)
   have hs := fun i : Fin p.BLOCK_HALF => h.coeff Bool.true (i,PUnit.unit)
-  simp only [active,dataOffset,coefficientOffset,cacheOffset,valueOffset,valueCacheOffset,past,block,slot,head,dimension,quot,rem,headNonneg,Bool.false_eq_true,ite_true,ite_false,Int.add_zero] at hq0 hq1 hc hs
+  simp only [active,dataOffset,coefficientOffset,cacheOffset,valueOffset,valueCacheOffset,past,block,slot,head,dimension,quot,rem,headNonneg,dimsNonneg,halfCast,Nat.cast_lt,Bool.false_eq_true,ite_true,ite_false,Int.add_zero] at hq0 hq1 hc hs
   by_cases leader : s.pids 0%p.KV_GROUP_NUM=0
   · have hk0 := fun i : Fin p.BLOCK_HALF => h.k leader Bool.false (i,PUnit.unit)
     have hk1 := fun i : Fin p.BLOCK_HALF => h.k leader Bool.true (i,PUnit.unit)
@@ -46,7 +48,7 @@ theorem source_safe (rest : Algebra α) (ops : Ops α) (p : Parameters)
     have hkc1 := fun i : Fin p.BLOCK_HALF => h.kcache leader Bool.true (i,PUnit.unit)
     have hv := fun i : Fin p.BLOCK_DIM => h.v leader (i,PUnit.unit)
     have hvc := fun i : Fin p.BLOCK_DIM => h.vcache leader (i,PUnit.unit)
-    simp only [active,dataOffset,coefficientOffset,cacheOffset,valueOffset,valueCacheOffset,past,block,slot,head,dimension,quot,rem,headNonneg,Bool.false_eq_true,ite_true,ite_false,Int.add_zero] at hk0 hk1 hl ht hkc0 hkc1 hv hvc
+    simp only [active,dataOffset,coefficientOffset,cacheOffset,valueOffset,valueCacheOffset,past,block,slot,head,dimension,quot,rem,headNonneg,dimsNonneg,halfCast,Nat.cast_lt,Bool.false_eq_true,ite_true,ite_false,Int.add_zero] at hk0 hk1 hl ht hkc0 hkc1 hv hvc
     simp at ht hkc0 hkc1 hv hvc
     simp (maxSteps := 1000000) [TraceSafe,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
@@ -55,7 +57,7 @@ theorem source_safe (rest : Algebra α) (ops : Ops α) (p : Parameters)
       kernel,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,evalDeltas,Option.bind,algebra,numericLt,natLt,numericEq,bop,numeric,
       store,VeriTile.Triton.Region.cast,ComputeDType.eraseDType,ofFloat,toFloat,
-      integralFloorDiv,integralMod,headNonneg,signedLeader,leader,hq0,hq1,hc,hs,hk0,hk1,hl,ht,hkc0,hkc1,hv,hvc]
+      integralFloorDiv,integralMod,-Int.natCast_ediv,halfCast,Nat.cast_lt,dimsNonneg,headNonneg,signedLeader,leader,hq0,hq1,hc,hs,hk0,hk1,hl,ht,hkc0,hkc1,hv,hvc]
     repeat' apply And.intro
     all_goals first | exact hq0 | exact hq1 | exact hc | exact hs | exact hk0 | exact hk1 | exact ht | exact hkc0 | exact hkc1 | exact hv | exact hvc
   · simp (maxSteps := 1000000) [TraceSafe,
@@ -65,7 +67,7 @@ theorem source_safe (rest : Algebra α) (ops : Ops α) (p : Parameters)
       kernel,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,evalDeltas,Option.bind,algebra,numericLt,natLt,numericEq,bop,numeric,
       store,VeriTile.Triton.Region.cast,ComputeDType.eraseDType,ofFloat,toFloat,
-      integralFloorDiv,integralMod,headNonneg,signedLeader,leader,hq0,hq1,hc,hs]
+      integralFloorDiv,integralMod,-Int.natCast_ediv,halfCast,Nat.cast_lt,dimsNonneg,headNonneg,signedLeader,leader,hq0,hq1,hc,hs]
     exact ⟨hq0,hq1,hc,hs,hq0,hq1⟩
 
 #axiomsClean source_safe

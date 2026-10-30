@@ -18,6 +18,7 @@ theorem kernel_run [Inhabited α] (op : Ops α) (p : Parameters) (s : State α) 
     ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
     FP.Structural.evalExpr, FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
     FP.Structural.store, FP.Structural.numeric, FP.Structural.bop, FP.Structural.natLt,
+    FP.Structural.numericLt,
     FP.Structural.numericEq, backend, ComputeDType.eraseDType, FP.Structural.ofFloat,
     FP.Structural.toFloat, Region.cast, Option.bind, TileShape.axisDim]
   congr 2

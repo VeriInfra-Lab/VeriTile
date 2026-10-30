@@ -1,7 +1,16 @@
 """Check the exact optimization delta without importing Torch or running a GPU."""
 import ast
 import copy
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[4]
+sys.path.insert(0, str(ROOT))
+from bench.jit_correspondence import check_manifest
+
+pairs = check_manifest(ROOT, Path(__file__).with_name('jit-correspondence.json'))
+assert [(p['mode'], p['statements']) for p in pairs] == [('pasted_body', 3), ('pasted_body', 4)]
+print('PASS: complete original/candidate raw bodies and external call profiles')
 
 source = Path(__file__).with_name('attention_fwd_triton1_tile_checked.py')
 module = ast.parse(source.read_text())

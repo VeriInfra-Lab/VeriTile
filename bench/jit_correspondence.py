@@ -20,6 +20,32 @@ import tokenize
 from bench.audit_source import lean_code_mask, strip_lean_comments
 
 
+def scalar_binding_term(text: str) -> str:
+    """Compare caller arithmetic syntactically, without evaluating Lean as Python.
+
+    Preserve the existing identifier/projection/literal spellings. A bounded
+    arithmetic AST additionally admits readable canonical stride products;
+    function calls, indexing and statement-like syntax remain unsupported.
+    """
+    if not isinstance(text, str):
+        raise ValueError("unsupported per-call scalar binding")
+    text = text.strip()
+    if re.fullmatch(r"[\w.]+", text):
+        return text
+    try:
+        tree = ast.parse(text, mode="eval")
+    except SyntaxError as error:
+        raise ValueError("unsupported per-call scalar binding") from error
+    allowed = (ast.Expression, ast.Name, ast.Attribute, ast.Load, ast.Constant,
+               ast.BinOp, ast.UnaryOp, ast.Add, ast.Sub, ast.Mult, ast.Div,
+               ast.FloorDiv, ast.Mod, ast.USub, ast.UAdd)
+    if any(not isinstance(node, allowed) or
+           (isinstance(node, ast.Constant) and type(node.value) is not int)
+           for node in ast.walk(tree)):
+        raise ValueError("unsupported per-call scalar binding")
+    return ast.unparse(tree.body)
+
+
 def quotation(text: str, definition: str) -> tuple[str, str]:
     mask = lean_code_mask(text)
     start = re.search(r"\bdef\s+" + re.escape(definition) + r"\b", mask)
@@ -321,11 +347,13 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 raise ValueError("quotation does not use the declared call signature")
             call_bindings = {}
             for binding in call[1].split(",") if call[1].strip() else []:
-                match = re.fullmatch(r"\s*(\w+)\s*:=\s*([\w.]+)\s*", binding)
+                match = re.fullmatch(r"\s*(\w+)\s*:=\s*(.+?)\s*", binding, re.S)
                 if not match or match[1] in call_bindings:
                     raise ValueError("unsupported or duplicate per-call scalar binding")
-                call_bindings[match[1]] = match[2]
-            if expected_call_bindings is None or call_bindings != expected_call_bindings:
+                call_bindings[match[1]] = scalar_binding_term(match[2])
+            reviewed_bindings = ({k: scalar_binding_term(v) for k, v in expected_call_bindings.items()}
+                                 if expected_call_bindings is not None else None)
+            if reviewed_bindings is None or call_bindings != reviewed_bindings:
                 raise ValueError("per-call scalar bindings differ from the reviewed invocation")
             if call[2] is not None:
                 pointer_offsets = {}

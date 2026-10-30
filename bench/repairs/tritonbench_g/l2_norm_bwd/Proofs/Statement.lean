@@ -71,7 +71,7 @@ def state4 {α : Type} [Inhabited α] (c : Invocation α) : State α :=
   (state3 c).setReg "DY" .ptr [] (fun _ => ("DY",c.row*c.layout.dyRow))
 
 def state5 {α : Type} [Inhabited α] (c : Invocation α) : State α :=
-  (state4 c).setReg "cols" .nat [c.B] (fun i => i.1.val)
+  (state4 c).setReg "cols" .int [c.B] (fun i => (i.1.val : Int))
 
 def state6 {α : Type} [Inhabited α] (c : Invocation α) : State α :=
   (state5 c).setReg "x" .real [c.B] (fun i => loaded c.alg c.N c.B c.xs i.1)

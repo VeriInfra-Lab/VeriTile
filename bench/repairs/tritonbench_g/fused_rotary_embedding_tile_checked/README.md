@@ -6,7 +6,12 @@ The original `tokens == 0` return precedes this guard, pointer checks, metadata
 copies and launch. The full Python module AST is unchanged after removing this
 single guard. Both K-cache layouts and the entire JIT body are preserved.
 
-`Kernels.lean` contains the complete readable shared quotation. `Proofs/Execution`
+`Kernels.lean` contains the complete original and candidate raw Python function
+bodies. Nine pointer dtypes, 27 runtime integer arguments and four constexpr
+arguments are declared and bound outside each body. The selected original JIT
+and wrapper are unchanged; `candidate_kernels.py` is newly authored from the
+existing shared-Q-offset Lean candidate, with explicit provenance.
+`jit-correspondence.json` checks both complete bodies, casts, branches and calls. `Proofs/Execution`
 constructs successful execution without an execution-success premise.
 `Proofs/Program`, `Natural`, `Scatter`, and `Connection` derive its exact masked
 Q/K/V stores and connect each program to the original proved source model.
@@ -53,13 +58,14 @@ Q-half address:
 
 ```
 off_q1 = off_q + dim_range1 * q_dim_stride
-→ off_q1 = off_q0 + constexpr((HEAD_DIM / 2) * q_dim_stride)
+→ off_q1 = off_q0 + (HEAD_DIM // 2) * q_dim_stride
 ```
 
 Since `off_q0 = off_q + dim_range0*q_dim_stride` and
 `dim_range1 = dim_range0 + HEAD_DIM/2`, the signed-integer identity is exact.
-The displacement is computed at specialization time, removing one per-lane
-stride multiplication from each source program. No measured speedup is claimed.
+The half dimension is constexpr; `q_dim_stride` remains a runtime integer
+argument. Reusing the first-half address removes the second per-lane stride
+multiplication. No measured speedup is claimed.
 `Proofs/SourcePair.lean` checks the complete initial statement block and identical
 suffix, proving full execution equality and source-safety preservation for
 arbitrary structural Algebra. It requires no floating arithmetic law.

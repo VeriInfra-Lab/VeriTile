@@ -24,24 +24,24 @@ theorem split (shared : Bool) (H S D Q BD : Nat) :
 
 theorem address_exec {α : Type} [Inhabited α] (A : Algebra α) (H S D Q BD : Nat) (s : State α) :
     run A (addressBlock Bool.false H S D Q BD) s = run A (addressBlock Bool.true H S D Q BD) s := by
-  cases hb : s.regs .nat [] "cur_batch" <;>
-    cases hh : s.regs .nat [] "cur_head" <;>
+  cases hb : s.regs .int [] "cur_batch" <;>
+    cases hh : s.regs .int [] "cur_head" <;>
     cases hd : s.regs .nat [BD] "offs_d" <;>
-    simp [addressBlock,source,llama,Candidates.llamaSharedBase,ComputeKernel.surfaceBody,
+    simp [addressBlock,source,llama,Candidates.llamaSharedBase,FlashDecode2.llamaSharedBase,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,State.setReg,numeric,bop,
       Broadcast.leftIndex,Broadcast.rightIndex,hb,hh,hd]
   funext dtype shape name
-  split_ifs <;> simp_all [Nat.add_mul,Nat.mul_assoc]
+  split_ifs <;> simp_all [Int.add_mul,Int.mul_assoc]
   subst dtype
   subst shape
   funext k
-  simp [bop,Broadcast.leftIndex,Broadcast.rightIndex,Nat.add_mul,Nat.mul_assoc]
+  simp [bop,Broadcast.leftIndex,Broadcast.rightIndex,Int.add_mul,Int.mul_assoc]
 
 theorem address_safe {α : Type} [Inhabited α] (A : Algebra α) (H S D Q BD : Nat)
     (shared : Bool) (s : State α) (bounds : RegionName → Nat) :
     Safety.traceSafeList A bounds (addressBlock shared H S D Q BD) s := by
   cases shared <;>
-    simp [addressBlock,source,llama,Candidates.llamaSharedBase,ComputeKernel.surfaceBody,
+    simp [addressBlock,source,llama,Candidates.llamaSharedBase,FlashDecode2.llamaSharedBase,ComputeKernel.surfaceBody,
       Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeOp_unfold]
 
 theorem source_exec {α : Type} [Inhabited α] (A : Algebra α) (H S D Q BD : Nat) (s : State α) :

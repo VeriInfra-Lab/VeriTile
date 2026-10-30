@@ -17,7 +17,7 @@ abbrev carry_eval := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues
 abbrev output_eval := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues.output_eval
 
 def value (h : Call) (input : Nat → ℝ) (t : Nat) := if t<h.T then input t else 0
-def lanes (c : Config) : Tile .nat [c.BT] := ⟨fun i => i.1.val⟩
+def lanes (c : Config) : Tile .int [c.BT] := ⟨fun i => (i.1.val : Int)⟩
 def mask (h : Call) (c : Config) (q : Nat) : Tile .bool [c.BT] :=
   ⟨fun i => decide (Geometry.active h c q i.1)⟩
 def times (h : Call) (c : Config) (q : Nat) : Tile .int [c.BT] :=
@@ -33,7 +33,7 @@ theorem start_eval (c : Config) (q : Nat) (u : BlockState)
 theorem active_eval (h : Call) (c : Config) (q : Nat) (u : BlockState)
     (hq : q*c.BT<h.T)
     (hs : u.regs .int [] "start_t"=some (Tile.scalar (q*c.BT:Int)))
-    (hl : u.regs .nat [c.BT] "lanes"=some (lanes c)) :
+    (hl : u.regs .int [c.BT] "lanes"=some (lanes c)) :
     evalOp (activeOp h c) u=some (mask h c q) := by
   simp only [activeOp,evalOp,hs,hl]
   apply congrArg some
@@ -47,7 +47,7 @@ theorem active_eval (h : Call) (c : Config) (q : Nat) (u : BlockState)
 
 theorem time_eval (h : Call) (c : Config) (q : Nat) (u : BlockState)
     (hs : u.regs .int [] "start_t"=some (Tile.scalar (q*c.BT:Int)))
-    (hl : u.regs .nat [c.BT] "lanes"=some (lanes c))
+    (hl : u.regs .int [c.BT] "lanes"=some (lanes c))
     (hm : u.regs .bool [c.BT] "active"=some (mask h c q)) :
     evalOp (timeOp c) u=some (times h c q) := by
   simp only [timeOp,evalOp,hs,hl,hm]

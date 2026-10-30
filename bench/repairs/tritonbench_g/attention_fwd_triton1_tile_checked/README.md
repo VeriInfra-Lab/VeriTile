@@ -58,8 +58,20 @@ scalar FMA interpretation. It does not assert FP32 equality to ideal Reals.
 
 ## Connection to the source and actual storage
 
-`source` aliases the entire unchanged canonical typed quote. `Program.quoted`
-is a definitional equality to all of its statements. `SharedStep.body_run`
+`Kernels.lean` contains the complete original and existing shifted-offset
+Python function bodies in `triton { ... }`. FP32 pointer/scalar types, actual
+runtime stride/size bindings and constexpr tile/flag values are supplied by
+`callSignature` outside the quotation. Positional block-pointer calls, dtype
+attributes, all explicit casts, singleton boundary tuples and the candidate's
+`tl.static_assert(BT == 32)` are retained verbatim.
+
+`Program.quoted` connects the complete original quote to its proof-only
+statement decomposition. Its PID register is signed, its complete block-pointer
+base displacement is converted only at the memory boundary, and the caller's
+constant range endpoints preserve the actual loop. The shifted candidate
+retains its static assertion marker; `Pair.assertion_run` and
+`Pair.assertion_safe` connect that marker to complete execution/failure and
+safety. The actual specialization binds BT to 32. `SharedStep.body_run`
 and `SharedLoop.kernel_run` prove successful execution in the shared
 `FP.Structural` interpreter, including pointer formation, zero-filled tails,
 pre-update H stores, all branches, six source FP32 casts, dots with TF32
@@ -108,12 +120,21 @@ device context and the final launcher replaced. Boundary D=1024 is an
 admission/binder check, not a resource-capacity compilation claim. No GPU or
 kernel interpreter executes, and no numerical experiment is claimed.
 
-Evidence, build receipts, resolved import closure, reproduction scripts and
-the frozen candidate delivery are under
-`.veritile-cache/kernel-evidence/attention_fwd_triton1_tile_checked/`. Builds
-use `workspace_lean_local_first_v2.py` with normal escalation. Existing
-repository and external cached dependencies are pinned separately from fresh
-task module builds; the packet does not claim a cold rebuild of the library.
+The preceding binder/offline results are historical observations from the
+original admission packet, formerly stored under
+`.veritile-cache/kernel-evidence/attention_fwd_triton1_tile_checked/`. They are
+not new validation results and that cache is not a Lean source dependency.
+Current Lean sources and proof helpers are tracked in Git. The raw-source pass
+uses ordinary `lake build` and separate proof/audit replays; its current
+receipts live under `bench/review-checkpoints/`.
+
+`jit-correspondence.json` pairs both complete raw bodies with their Python
+functions and checks the external call bindings. `check_pair_source.py` runs
+this comparison and checks the exact four-shift candidate delta and the
+otherwise identical wrapper. Targeted mutation checks reject lost casts,
+changed block geometry, boundary axes, padding, TF32 options, branches, runtime
+bindings and assertion/shift changes. These syntax checks do not themselves
+prove execution or numerical conformance.
 
 ## Separate kernel interfaces
 
