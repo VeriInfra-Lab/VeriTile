@@ -26,13 +26,18 @@ collections have no registered independent Python references for this comparison
 their declared backend goals do not certify native correspondence.
 
 There are 328 literal JIT functions in the selected primary Python files and
-412 across the inventoried Python files. Seven pairs are checked: six argmax
-pairs in legacy AST mode and the dequantize body in body-copy mode. Of the
-selected primary functions, 324 remain uncovered; across the complete Python
-inventory, 405 remain uncovered. The shifted argmax file's unchanged stage-2
+412 across the inventoried Python files. Nine pairs are checked: six argmax pairs and two complete matmul bodies in
+legacy AST mode, plus the dequantize body in body-copy mode. Of the
+selected primary functions, 322 remain uncovered; across the complete Python
+inventory, 403 remain uncovered. The shifted argmax file's unchanged stage-2
 function is explicitly paired with the shared original Lean stage. Both Python
 bodies are checked independently. Argmax has complete legacy AST coverage;
 it still does not have body-copy completion.
+The matmul entries retain the complete standalone-dot/add bodies and uint64
+casts separately from the existing compiler-selected accumulator-dot graphs.
+Their public proof entries explicitly retain the compiler-graph scope; the
+source comparison does not establish FP equivalence between those graphs.
+
 These numbers describe source-check coverage, not the number of incorrect
 algorithms or invalid Lean theorems.
 
