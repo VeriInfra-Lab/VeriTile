@@ -1,0 +1,34 @@
+{
+  "source_interpreter_cases": 84,
+  "autograd_cases": 16,
+  "guard_rejections": 18,
+  "saved_coordinate_version_check": true,
+  "upstream_layouts": [
+    "dense",
+    "transpose",
+    "sliced",
+    "zero"
+  ],
+  "gpu_execution": false,
+  "large_launch_metadata_admissions": [
+    [
+      2147483647,
+      11,
+      1,
+      0
+    ],
+    [
+      2199023254528,
+      11,
+      1024,
+      0
+    ],
+    [
+      0,
+      11,
+      64,
+      0
+    ]
+  ],
+  "cpu_adapter": "CUDA residency and device context only; no kernel/launcher changes"
+}

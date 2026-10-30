@@ -1,0 +1,57 @@
+{
+  "source": "bench/tritonbench_g/rotary_emb/rotary_emb.py",
+  "source_sha256": "39c3c038e58b0430b903d52d3209e0d537fef1e0d71de2f703e08226aeb5391b",
+  "triton_version": "3.7.1",
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "constexprs": {
+    "BLOCK_HEAD": 4,
+    "BLOCK_SEQ": 16,
+    "BLOCK_DMODEL": 64
+  },
+  "options": {
+    "num_warps": 4,
+    "num_stages": 1
+  },
+  "runtime_scalar_signature": "i32",
+  "scope": "Homogeneous Q/K/Cos/Sin storage only; compile only; no GPU execution or numerical checks.",
+  "results": [
+    {
+      "storage": "fp32",
+      "status": "compiled",
+      "ptx_bytes": 46990
+    },
+    {
+      "storage": "fp64",
+      "status": "compiled",
+      "ptx_bytes": 51656
+    },
+    {
+      "storage": "fp16",
+      "status": "compiled",
+      "ptx_bytes": 50049
+    },
+    {
+      "storage": "bf16",
+      "status": "compiled",
+      "ptx_bytes": 50209
+    },
+    {
+      "storage": "fp8e4nv",
+      "status": "compile_failure",
+      "error_type": "RuntimeError",
+      "error": "PassManager::run failed",
+      "diagnostic_excerpt": "/tmp/veritile-rotary-source-hxy3af8u/rotary_source.py:22:16: error: 'llvm.fmul' op operand #0 must be floating point LLVM type or LLVM dialect-compatible vector of floating point LLVM type, but got 'i8'\n    out0 = q0 * cos0 - q1 * sin0\n               ^"
+    },
+    {
+      "storage": "fp8e5",
+      "status": "compile_failure",
+      "error_type": "RuntimeError",
+      "error": "PassManager::run failed",
+      "diagnostic_excerpt": "/tmp/veritile-rotary-source-4rkv0b02/rotary_source.py:22:16: error: 'llvm.fmul' op operand #0 must be floating point LLVM type or LLVM dialect-compatible vector of floating point LLVM type, but got 'i8'\n    out0 = q0 * cos0 - q1 * sin0\n               ^"
+    }
+  ]
+}

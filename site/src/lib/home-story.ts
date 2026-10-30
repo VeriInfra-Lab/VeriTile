@@ -34,7 +34,7 @@ export const homeStory = {
       formulaLabel: 'Output equals the logarithm of the sum of exponentials over active lanes',
       exampleCaption: 'The formula shown omits input scaling and sums over the active lanes of one block.',
       scope: 'Arithmetic is modeled over real numbers. For admissible block widths and row lengths, the kernel terminates with the specified value at its output address and leaves every other memory cell unchanged. Active reads and the output store must be in bounds.',
-      source: 'bench/tritonbench_g/logsumexp_fwd/LogsumexpFwd.lean',
+      source: 'bench/repairs/tritonbench_g/logsumexp_fwd/Correct.lean',
     },
     {
       id: 'equivalence', label: 'KERNEL ↔ KERNEL', title: 'Equivalence',
@@ -48,7 +48,7 @@ export const homeStory = {
       formulaLabel: 'Direct log-sum-exp equals the maximum-shifted log-sum-exp',
       exampleCaption: 'The stable form subtracts m, the maximum input value in a nonempty block.',
       scope: 'Intermediate arithmetic is modeled over real numbers. Both kernels round only at the final bf16 store, using the same model R. For a nonempty block with input and output windows in bounds, both terminate from the same state, agree at y[pid], and leave every other memory cell unchanged.',
-      source: 'bench/examples/StableLogSumExpEquiv.lean',
+      source: 'bench/examples/StableLogSumExp/Proofs/LegacyRealEquiv.lean',
     },
   ],
   tryLabel: 'VectorAdd example', tryText: 'Compare the original kernel and a subtraction variant using recorded Lean checks.',

@@ -1,0 +1,73 @@
+{
+  "kernel": "mixed_sparse_attention",
+  "selected": {
+    "memory": "fp32",
+    "compute": "fp16",
+    "BLOCK_M": 64,
+    "BLOCK_N": 64,
+    "D": [
+      16,
+      32,
+      64,
+      128
+    ],
+    "num_warps": 4,
+    "num_stages": 2,
+    "offline_target": "SM80"
+  },
+  "entrypoints": {
+    "real": "Checked.Real.checked_call",
+    "fp": "Checked.FP.checked_call",
+    "tensor": "Checked.FP.checked_tensor_call"
+  },
+  "source_execution": "Complete parsed typed AST through Physical.invoke; initial cells constructed from current raw words; exact returned-cell projection.",
+  "ordinary_realization": [
+    "Python/PyTorch descriptor observations and signed metadata",
+    "FP32 scalar marshalling into Request.scaleWord",
+    "fresh zero allocation and raw typed memory ABI",
+    "selected compiler backend scalar/fragment/control/cast/store correspondence",
+    "physical owner and sequential-local/XOR2/XOR1 reduction routes",
+    "Shared Torch.FP32.TensorLaws and exact returned object/header/backing observations"
+  ],
+  "local_numerical_ports": [
+    "raw word and literal interpretation",
+    "exp2.approx.ftz.f32",
+    "FP16 narrowing and widening",
+    "FP32 arithmetic, division, maximum and fused operations",
+    "one coordinate of fixed mma.sync.m16n8k16",
+    "local scalar equality"
+  ],
+  "excluded_result_ports": [
+    "whole dot",
+    "whole reduction",
+    "whole softmax step",
+    "whole loop",
+    "final output equality"
+  ],
+  "additional_algebraic_laws": [],
+  "floating_input_domain": "all FP32 payload words; no finite-only input assumption",
+  "validation": {
+    "cpu_interpreter_and_guards": 62,
+    "separate_source_ast_pin": 1,
+    "offline_sm80_profiles": 8,
+    "gpu_execution": false,
+    "approximate_comparison": {
+      "atol": 0.005,
+      "rtol": 0.005,
+      "meaning": "diagnostic only"
+    },
+    "targeted_layout_guards": 2
+  },
+  "limitations": [
+    "Runtime/compiler realization remains external to Lean.",
+    "Eight offline profiles do not prove all compiler specializations.",
+    "Shared launcher grid-product overflow is tracked separately in bench/TODO.md."
+  ],
+  "implementation_pair_review_20261021": {
+    "status": "missing_pair_target",
+    "native_results": "Ordinary single-source theorems retained in NativeCorrect.lean with original full names, contracts and proofs.",
+    "blocker": "The complete selected sparse-attention source has no specified second implementation or optimization schedule.",
+    "additional_numerical_experiments": 0,
+    "classification": "Missing program target, not an unadmitted numerical rewrite."
+  }
+}

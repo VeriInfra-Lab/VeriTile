@@ -1,0 +1,65 @@
+{
+  "task": "kldiv_triton",
+  "entries": [
+    "VeriTile.Bench.Repairs.KldivTriton.Kernel.FPEquiv.forward",
+    "VeriTile.Bench.Repairs.KldivTriton.Kernel.FPEquiv.backward"
+  ],
+  "status": "complete source-ordered structural native equivalence; no deferred numerical experiments",
+  "selected_source": "bench/repairs/tritonbench_g/kldiv_triton/kldiv_triton_repaired.py",
+  "selected_source_sha256": "ea1be2fd98aadf2f294964417898b348da5cd9d99d18632a96d7fe966625340d",
+  "profile": "Selected FP32 loads, log/exp/subtraction/multiplication/comparison/selection, per-chunk reduction and stores; original operand order. Backward multiply by literal -1 or exp followed by unary negation.",
+  "kernel_outputs": "Element matrix for none; matrix of unnormalized per-chunk sums for sum/mean/batchmean; unscaled backward derivative in supplied destination. Python reductions/cotangent handling excluded.",
+  "admission": "Exact selected guards; no new caps, copies, value restrictions or alias restrictions. Forward read aliases and all empty axes retained; backward existing nonempty whole-storage separation retained.",
+  "ordinary_primitive_parameters": [
+    "add",
+    "subtract",
+    "multiply",
+    "logarithm",
+    "exponential",
+    "negate",
+    "equal"
+  ],
+  "reduction_structure": "Concrete ordered binary addition trees with structural ReductionPlan coverage. No whole-sum numerical port.",
+  "numerical_assumptions": [],
+  "deferred_experiments": [],
+  "transformations": [],
+  "proved_structural": [
+    "complete successful typed DSL execution at evolving physical memory",
+    "interpreter row frames and full physical raw/observation complements",
+    "all logical outputs and all four native output bytes",
+    "actual Tensor/View-to-shared-physical-memory binding",
+    "actual PID sign extension, signed stride products and source pointers",
+    "active alignment/backing/native64 bounds, tail offsets/masks and terminating increments",
+    "arbitrary complete row-grid permutations"
+  ],
+  "ordinary_boundaries": [
+    "Tensor metadata, pointer and backing laws and existing fresh forward allocation",
+    "successful native dispatch has representable program IDs; stride metadata is ordinary signed64",
+    "local physical read/write/frame laws",
+    "little-endian native FP32 byte codec; no arbitrary-Real-to-byte codec",
+    "same source primitive interpretations and concrete addition plans in source and independent native reference"
+  ],
+  "historical_host_obligations": "numerical-obligations.host.json",
+  "shared_native_helper": "Proofs/Native.lean source/interface unchanged; historical pinned lowering and conformance interfaces remain separate",
+  "gpu_execution": "not_run; not needed for structural graph equivalence",
+  "cpu_validation": {
+    "rejections": 33,
+    "ordinary_failure_prefixes": 5,
+    "actual_source_reference_frame_cases": 134,
+    "original_counterexamples": 4
+  },
+  "retained_lowering_boundary_audit": {
+    "receipt": ".veritile-cache/kldiv-triton-no-cross-reduction-fma.json",
+    "compiler": "Triton 3.7.1",
+    "target": "CUDA arch90, PTX sm_90a",
+    "enable_fp_fusion": true,
+    "scope": "All 15 selected block/warp profiles, both target flags, every reduced mode; selected JIT FunctionDef ASTs including decorators equal the retained compiled conditional source.",
+    "profiles": 90,
+    "explicit_loss_mul_instructions": 564,
+    "separate_reduction_add_instructions": 972,
+    "cross_reduction_fma_count": 0,
+    "log_intrinsic_fma_instructions": 3384,
+    "method": "Read-only hash-matched retained PTX audit; no new compile, GPU execution, compiler proof or numerical experiment.",
+    "limit": "Evidence applies to this compiler/architecture profile. FMA inside the logarithm stays within its local primitive interpretation; no split-multiply-add equals FMA law is assumed."
+  }
+}

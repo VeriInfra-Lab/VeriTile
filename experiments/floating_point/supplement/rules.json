@@ -1,0 +1,392 @@
+{
+  "schema_version": 1,
+  "semantics": "Q rounds each node to compute precision; both entire expressions are finally cast to output precision; / is ordinary Triton division, never tl.div_rn",
+  "rules": [
+    {
+      "id": "LOG-MUL-LOG1P",
+      "reference": "p=fp32(a*b); if 0.5 <= p <= 1.5 then libdevice.log1p(fp32_fma(a,b,-1)) else libdevice.log(p)",
+      "candidate": "fp32(libdevice.log(a) + libdevice.log(b))",
+      "domain": "finite positive fp32 a,b; branch selects implementation without filtering inputs",
+      "operands": [
+        "a",
+        "b"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "libdevice.log",
+        "log1p": "libdevice.log1p"
+      }
+    },
+    {
+      "id": "LOG-MUL-GUARDED",
+      "reference": "p=fp32(a*b); libdevice.log(p)",
+      "candidate": "p=fp32(a*b); if 0.5 <= p <= 2 then libdevice.log(p) else fp32(libdevice.log(a) + libdevice.log(b))",
+      "domain": "finite positive fp32 a,b; conditional rewrite retains log of rounded product near one",
+      "operands": [
+        "a",
+        "b"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "libdevice.log"
+      }
+    },
+    {
+      "id": "LOG-EXP-GUARDED",
+      "reference": "fp32(libdevice.log(fp32(libdevice.exp(a))))",
+      "candidate": "if 0.5 < abs(a) <= 80 then a else fp32(libdevice.log(fp32(libdevice.exp(a))))",
+      "domain": "finite fp32 a; branch threshold is an implementation choice, not an input filter",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "libdevice.log",
+        "exp": "libdevice.exp"
+      }
+    },
+    {
+      "id": "LOG-MUL-LIBDEVICE",
+      "reference": "Q(libdevice.log(Q(a * b)))",
+      "candidate": "Q(Q(libdevice.log(a)) + Q(libdevice.log(b)))",
+      "domain": "finite a,b; a > 0 and b > 0",
+      "operands": [
+        "a",
+        "b"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "libdevice.log"
+      }
+    },
+    {
+      "id": "LOG-EXP-FULL-LIBDEVICE",
+      "reference": "Q(libdevice.log(Q(libdevice.exp(a))))",
+      "candidate": "a",
+      "domain": "finite a",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "libdevice.log",
+        "exp": "libdevice.exp"
+      }
+    },
+    {
+      "id": "EXP-SUB-INTRINSIC",
+      "reference": "Q(tl.exp(Q(a - b)))",
+      "candidate": "Q(Q(tl.exp(a)) / Q(tl.exp(b)))",
+      "domain": "finite a,b",
+      "operands": [
+        "a",
+        "b"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "exp": "tl.exp"
+      }
+    },
+    {
+      "id": "COUNT-ZERO",
+      "reference": "fromNat_fp32(0)",
+      "candidate": "literal_fp32(0)",
+      "domain": "constant integer zero",
+      "operands": [],
+      "category": "two_gates_candidate"
+    },
+    {
+      "id": "COUNT-SUCCESSOR",
+      "reference": "fromNat_fp32(a + 1)",
+      "candidate": "fp32(fromNat_fp32(a) + 1)",
+      "domain": "nonnegative int32 a in the frozen integer sampling interval; a+1 cannot overflow",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate"
+    },
+    {
+      "id": "ADD-ZERO",
+      "reference": "Q(a + 0)",
+      "candidate": "a",
+      "domain": "finite a",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate"
+    },
+    {
+      "id": "MUL-ONE",
+      "reference": "Q(a * 1)",
+      "candidate": "a",
+      "domain": "finite a",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate"
+    },
+    {
+      "id": "DIV-ONE",
+      "reference": "Q(a / 1)",
+      "candidate": "a",
+      "domain": "finite a",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate"
+    },
+    {
+      "id": "DIV-MUL-RCP",
+      "reference": "Q(a / b)",
+      "candidate": "Q(a * Q(1 / b))",
+      "domain": "finite a,b; b != 0",
+      "operands": [
+        "a",
+        "b"
+      ],
+      "category": "two_gates_candidate"
+    },
+    {
+      "id": "MUL-RCP-CANCEL",
+      "reference": "Q(a * Q(1 / a))",
+      "candidate": "1",
+      "domain": "finite a; a != 0",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate"
+    },
+    {
+      "id": "EXP-SUB",
+      "reference": "Q(exp(Q(a - b)))",
+      "candidate": "Q(Q(exp(a)) / Q(exp(b)))",
+      "domain": "finite a,b",
+      "operands": [
+        "a",
+        "b"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "exp": "libdevice.exp"
+      }
+    },
+    {
+      "id": "EXP-ZERO",
+      "reference": "Q(exp(0))",
+      "candidate": "1",
+      "domain": "no variable operands",
+      "operands": [],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "exp": "tl.exp"
+      }
+    },
+    {
+      "id": "LOG-MUL",
+      "reference": "Q(log(Q(a * b)))",
+      "candidate": "Q(Q(log(a)) + Q(log(b)))",
+      "domain": "finite a,b; a > 0 and b > 0",
+      "operands": [
+        "a",
+        "b"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "tl.log"
+      }
+    },
+    {
+      "id": "LOG-EXP",
+      "reference": "Q(log(Q(exp(a))))",
+      "candidate": "a",
+      "domain": "finite a",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "tl.log",
+        "exp": "tl.exp"
+      }
+    },
+    {
+      "id": "LOG-EXP-LIBDEVICE",
+      "reference": "Q(tl.log(Q(libdevice.exp(a))))",
+      "candidate": "a",
+      "domain": "finite a",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "tl.log",
+        "exp": "libdevice.exp"
+      }
+    },
+    {
+      "id": "MAX-COMMUTE",
+      "reference": "max(a, b)",
+      "candidate": "max(b, a)",
+      "domain": "finite a,b",
+      "operands": [
+        "a",
+        "b"
+      ],
+      "category": "two_gates_candidate"
+    },
+    {
+      "id": "MAX-ASSOC",
+      "reference": "max(max(a, b), c)",
+      "candidate": "max(a, max(b, c))",
+      "domain": "finite a,b,c",
+      "operands": [
+        "a",
+        "b",
+        "c"
+      ],
+      "category": "two_gates_candidate"
+    },
+    {
+      "id": "MAX-IDEM",
+      "reference": "max(a, a)",
+      "candidate": "a",
+      "domain": "finite a",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate"
+    },
+    {
+      "id": "MAX-NEG-INF",
+      "reference": "max(-inf, a)",
+      "candidate": "a",
+      "domain": "finite a; -inf is a literal, not a sampled operand",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate"
+    },
+    {
+      "id": "EXP-NEG-INF-SUB",
+      "reference": "Q(exp(Q(-inf - a)))",
+      "candidate": "0",
+      "domain": "finite a; -inf is a literal, not a sampled operand",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "exp": "tl.exp"
+      }
+    },
+    {
+      "id": "LOG-MUL-LOG1P-INTRINSIC",
+      "reference": "p=fp32(a*b); if 0.5 <= p <= 1.5 then libdevice.log1p(fp32_fma(a,b,-1)) else tl.log(p)",
+      "candidate": "fp32(tl.log(a) + tl.log(b))",
+      "domain": "finite positive fp32 a,b; branch selects implementation without filtering inputs",
+      "operands": [
+        "a",
+        "b"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "tl.log",
+        "log1p": "libdevice.log1p"
+      }
+    },
+    {
+      "id": "LOG-MUL-GUARDED-INTRINSIC",
+      "reference": "p=fp32(a*b); tl.log(p)",
+      "candidate": "p=fp32(a*b); if 0.5 <= p <= 2 then tl.log(p) else fp32(tl.log(a) + tl.log(b))",
+      "domain": "finite positive fp32 a,b; conditional rewrite retains log of rounded product near one",
+      "operands": [
+        "a",
+        "b"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "tl.log"
+      }
+    },
+    {
+      "id": "LOG-EXP-GUARDED-INTRINSIC",
+      "reference": "fp32(tl.log(fp32(libdevice.exp(a))))",
+      "candidate": "if 0.5 < abs(a) <= 80 then a else fp32(tl.log(fp32(libdevice.exp(a))))",
+      "domain": "finite fp32 a; branch threshold is an implementation choice, not an input filter",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "tl.log",
+        "exp": "libdevice.exp"
+      }
+    },
+    {
+      "id": "LOG-EXP-LOG-LIBDEVICE",
+      "reference": "Q(libdevice.log(Q(tl.exp(a))))",
+      "candidate": "a",
+      "domain": "finite a",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "libdevice.log",
+        "exp": "tl.exp"
+      }
+    },
+    {
+      "id": "LOG-EXP-GUARDED-FULL-INTRINSIC",
+      "reference": "fp32(tl.log(fp32(tl.exp(a))))",
+      "candidate": "if 0.5 < abs(a) <= 80 then a else fp32(tl.log(fp32(tl.exp(a))))",
+      "domain": "finite fp32 a; branch threshold is an implementation choice, not an input filter",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "tl.log",
+        "exp": "tl.exp"
+      }
+    },
+    {
+      "id": "LOG-EXP-GUARDED-EXP-INTRINSIC",
+      "reference": "fp32(libdevice.log(fp32(tl.exp(a))))",
+      "candidate": "if 0.5 < abs(a) <= 80 then a else fp32(libdevice.log(fp32(tl.exp(a))))",
+      "domain": "finite fp32 a; branch threshold is an implementation choice, not an input filter",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "log": "libdevice.log",
+        "exp": "tl.exp"
+      }
+    },
+    {
+      "id": "EXP-ZERO-LIBDEVICE",
+      "reference": "Q(libdevice.exp(0))",
+      "candidate": "1",
+      "domain": "no variable operands",
+      "operands": [],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "exp": "libdevice.exp"
+      }
+    },
+    {
+      "id": "EXP-NEG-INF-SUB-LIBDEVICE",
+      "reference": "Q(libdevice.exp(Q(-inf - a)))",
+      "candidate": "0",
+      "domain": "finite a; -inf is a literal, not a sampled operand",
+      "operands": [
+        "a"
+      ],
+      "category": "two_gates_candidate",
+      "intrinsics": {
+        "exp": "libdevice.exp"
+      }
+    }
+  ]
+}

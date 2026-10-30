@@ -1,7 +1,3 @@
 # rbe_triton_transform
 
-- Source file: `rbe_triton_transform.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
-
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [rbe_triton_transform_checked_launch](../../repairs/tritonbench_g/rbe_triton_transform_checked_launch/README.md).

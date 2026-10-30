@@ -1,0 +1,169 @@
+{
+  "schema_version": 3,
+  "id": "moe__s16",
+  "suite": "positive_variant",
+  "family": "moe",
+  "description": "reference MoE versus expert-major execution with probability applied before fc2",
+  "lean": {
+    "namespace": "VeriTile.Bench.BugDetection.moe__s16",
+    "inputs": "tasks/moe__s16/IO.lean",
+    "programs": "tasks/moe__s16/Kernels.lean",
+    "contract": "tasks/moe__s16/Contract.lean",
+    "real_problem": "tasks/moe__s16/Correct.lean",
+    "problem": "tasks/moe__s16/FPEquiv.lean",
+    "backend_connection": "tasks/moe__s16/Proofs/Backend.lean",
+    "validation": "tasks/moe__s16/Misc/Validation.lean",
+    "correctness_goal": "correctnessProblem",
+    "equivalence_goal": "equivalenceProblem",
+    "inequivalence_goal": "inequivalenceProblem",
+    "counterexample_goal": "counterexampleProblem"
+  },
+  "configuration": {
+    "values": {
+      "inputScaleNum": 1,
+      "inputScaleDen": 1,
+      "generatorScale": 1,
+      "shiftNum": 1,
+      "shiftDen": 10,
+      "dtype": "bf16",
+      "n": 16,
+      "hidden": 2048,
+      "intermediate": 6144,
+      "expertIntermediate": 640,
+      "sharedIntermediate": 512,
+      "experts": 128,
+      "topK": 6,
+      "heads": 16,
+      "kvHeads": 16,
+      "seq": 16,
+      "headDim": 128,
+      "vocab": 1024,
+      "chunks": 8,
+      "block": 16
+    },
+    "scope": "fixed_complete_problem"
+  },
+  "problem_kind": "backend_rewrite",
+  "real_expectation": "equivalent_expected_under_domain",
+  "status": "LEAN_CHALLENGE",
+  "proof_status": "UNSOLVED",
+  "backend_binding_status": "PENDING",
+  "numerical_admission": "NONE",
+  "self_contained": true,
+  "interface": {
+    "inputs": [
+      {
+        "name": "x",
+        "shape": [
+          16,
+          2048
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "router",
+        "shape": [
+          128,
+          2048
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "gate",
+        "shape": [
+          128,
+          640,
+          2048
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "up",
+        "shape": [
+          128,
+          640,
+          2048
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "down",
+        "shape": [
+          128,
+          2048,
+          640
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "shared_gate",
+        "shape": [
+          512,
+          2048
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "shared_up",
+        "shape": [
+          512,
+          2048
+        ],
+        "dtype": "bf16"
+      },
+      {
+        "name": "shared_down",
+        "shape": [
+          2048,
+          512
+        ],
+        "dtype": "bf16"
+      }
+    ],
+    "output_shape": [
+      16,
+      2048
+    ],
+    "output_precision": [
+      "bf16",
+      "bf16"
+    ],
+    "scratch": [
+      {
+        "name": "route_index",
+        "shape": [
+          16,
+          6
+        ]
+      },
+      {
+        "name": "route_score",
+        "shape": [
+          16,
+          6
+        ]
+      },
+      {
+        "name": "route_prob",
+        "shape": [
+          16,
+          6
+        ]
+      },
+      {
+        "name": "packed_token",
+        "shape": [
+          16
+        ]
+      },
+      {
+        "name": "packed_weight",
+        "shape": [
+          16
+        ]
+      }
+    ]
+  },
+  "source_translation_status": "PENDING",
+  "source_layer": "standard_triton_lowering"
+}

@@ -19,7 +19,7 @@ from comparator_common import comparator_command, require_tools, snapshot_projec
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'bench'))
-from audit_trust_prep import prepare_source
+from audit_trust_prep import add_import, prepare_source
 
 # Alias actual Lean names instead of trying to parse private, quoted, or
 # hygienic names through comparator's dotted-string config format.
@@ -27,10 +27,14 @@ INVENTORY = r'''
 open Lean Elab Command in
 run_cmd do
   let env ← getEnv
+  -- Enumerate and look up in the same completed kernel environment. The
+  -- elaborator's prefix-based lookup can miss realized private match equations
+  -- even though they are already present in `env.constants`.
+  let kernelEnv := env.toKernelEnv
   let selected : Array Name := __SELECTED__
   let mut names : Array Name := #[]
   if selected.isEmpty then
-    for (name, info) in env.constants.toList do
+    for (name, info) in kernelEnv.constants.toList do
       if (env.getModuleIdxFor? name).isSome then continue
       if let .thmInfo _ := info then names := names.push name
   else
@@ -39,7 +43,7 @@ run_cmd do
   let mut aliases : Array String := #[]
   for i in [:names.size] do
     let name := names[i]!
-    let some (.thmInfo info) := env.find? name
+    let some (.thmInfo info) := kernelEnv.find? name
       | throwError "Comparator target is not a theorem: {name}"
     let wrapperName := Name.mkSimple s!"veritile_comparator_target_{i}"
     if env.contains wrapperName then throwError "Reserved comparator target name: {wrapperName}"
@@ -141,7 +145,7 @@ def check(workspace, source=None, trust=False, library=False):
     selection = '#[' + ', '.join(f'{json.dumps(n)}.toName' for n in selected) + ']'
     footer = INVENTORY.replace('__SELECTED__', selection).replace(
         '__REPORT__', json.dumps(str(metadata)))
-    program = 'import Lean\n' + text + '\n' + footer
+    program = add_import(text, 'Lean') + '\n' + footer
     (judge / 'VeriTileComparator' / (tag + '.lean')).write_text(program)
     (job_logs / 'Source.lean').write_text(program)
     # These are trusted repository sources, not an untrusted agent submission.

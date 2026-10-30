@@ -23,6 +23,20 @@ for repo in comparator landrun; do
 done
 git -C "${DEST}/comparator" checkout --detach "${COMPARATOR_REV}"
 git -C "${DEST}/landrun" checkout --detach "${LANDRUN_REV}"
+# Materialize the locked dependencies before applying the upstream replay fix.
+(cd "${DEST}/comparator" && lake env lean --version)
+# Backport leanprover/lean4@94e0a0e4f6f4c3fa207aa7738fdd198067b4b3de
+# to the Lean 4.29 checker. Both primitive definitions still go through the
+# kernel; only their replay order changes. Reject unexpected checker sources.
+checker_source="${DEST}/comparator/.lake/packages/Lean4Checker/Lean4Checker/Replay.lean"
+checker_sha="$(sha256sum "${checker_source}" | cut -d ' ' -f 1)"
+case "${checker_sha}" in
+  7decb4f442215ffa9866d0801fc4eb8d21ba584334b5d662829bc595a848e60c)
+    git -C "${DEST}/comparator" apply "${ROOT}/scripts/comparator-string-literals.patch" ;;
+  b8a9cabc29f2fdd1cd34e626df072b3d84cffdab7efa704ec27a17aaa8ea988d) ;;
+  *) echo 'Unexpected Lean4Checker replay source; review the backport before building.' >&2; exit 1 ;;
+esac
+printf '%s  %s\n' b8a9cabc29f2fdd1cd34e626df072b3d84cffdab7efa704ec27a17aaa8ea988d "${checker_source}" | sha256sum --check
 (cd "${DEST}/comparator" && lake build comparator lean4export)
 (cd "${DEST}/landrun" && go build -o "${DEST}/bin/landrun" ./cmd/landrun)
 cp "${DEST}/comparator/.lake/build/bin/comparator" "${DEST}/bin/"

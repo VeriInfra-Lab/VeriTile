@@ -1,0 +1,74 @@
+{
+  "source_sha256": "3cf92301a18073573c84be1bf775440e9f7b234dba9dd7c37f9d94eb15eb8fe4",
+  "compiler": "3.7.1",
+  "profile_count": 16,
+  "profiles": [
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-tiny-scaled-forward/receipt.json",
+      "sha256": "5eb9b9fdbfe459bb175e95055465c5cd6d99ed4658b1cd5b92208608c8d2ad0e"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-tiny-scaled-backward/receipt.json",
+      "sha256": "1d3900e6961cef932af7e424d56e95790a9d58fd275923a7123d225688b4d358"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-tiny-noscale-forward/receipt.json",
+      "sha256": "10761ba6d01774d6148f6a33d7c8bb5fea2b51c93107fe65e34840f21bd02a3f"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-tiny-noscale-backward/receipt.json",
+      "sha256": "cb1b2df5b9980ae6d29164c2c66391292e4e388a42cafb9458f6edba844e7b04"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-ragged-scaled-forward/receipt.json",
+      "sha256": "0bafeee96dd87ae3282c0b5b0508db0c899d8cc59162eaa441d797f75463cc90"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-ragged-scaled-backward/receipt.json",
+      "sha256": "259cb12c406e6eba38db00188b828b5d8c9c7cbce566e7ab9bdf986428d45f98"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-ragged-noscale-forward/receipt.json",
+      "sha256": "8a44a297364f0412b83fc91604eb152997fa596f3656a060d55a542e1ee0a871"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-ragged-noscale-backward/receipt.json",
+      "sha256": "43dcd24d424b5107d0da234418cbb4ef523cb1cdee2df752e5d946e55ded54ba"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-ordinary-scaled-forward/receipt.json",
+      "sha256": "6cba6c9d653602e38b00df70c6c66862740fb0f955f50db5b6b061ff5fcea974"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-ordinary-scaled-backward/receipt.json",
+      "sha256": "98b0e61f85e702ad7b39fd0c0d5210163bc45ad5192ba224e8d6cbfa62930923"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-ordinary-noscale-forward/receipt.json",
+      "sha256": "e5d897af857c4e54227e692586be0e057292136d95b813ed0bddfa6c69ce0748"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-ordinary-noscale-backward/receipt.json",
+      "sha256": "07f860bb55483eb27e4d91a122f85ae3489f23b339989a35f8be221cdeeadc71"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-sharded-scaled-forward/receipt.json",
+      "sha256": "e397c650fedd000a1d3905ac868ae0675e7dda91abeab6a9933e939233156b43"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-sharded-scaled-backward/receipt.json",
+      "sha256": "94e34e26e041db89ec5c5ef31f4f31f8f62cc4500cbb98c8be030828add38019"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-sharded-noscale-forward/receipt.json",
+      "sha256": "c91757a2425b575dfb3fb64a11090c7f16f53d8e3c0e766ae5c8bedb60efd30c"
+    },
+    {
+      "path": "/tmp/parallel-attention-lowering/actual-binder-sharded-noscale-backward/receipt.json",
+      "sha256": "a386f9ec0330e044a5fb7429010f2309ee5a060f1c76edb8a3b1c3ec8cea703b"
+    }
+  ],
+  "actual_argument_binder": true,
+  "GPU_execution": false,
+  "native_numerical_conformance": false
+}

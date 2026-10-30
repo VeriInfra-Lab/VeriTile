@@ -1,0 +1,287 @@
+{
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/parallel_attention/parallel_attention_repaired.py",
+  "source_sha256": "3cf92301a18073573c84be1bf775440e9f7b234dba9dd7c37f9d94eb15eb8fe4",
+  "original_sha256": "a38eb94742c262088ad9107b8eeb64f551476964f93eee2ed612d0890e449f31",
+  "AST_sha256": "87059a5f917421c6c5da6b5abcf9449642f81652ed0ee13df9000e47b0448338",
+  "functions": [
+    {
+      "name": "parallel_rebased_fwd_kernel",
+      "line": 7,
+      "end_line": 96,
+      "AST_sha256": "bb106e933e89c684f2b83940007782c606867fea60bdd6a04d6c0e9fbc9cbf50"
+    },
+    {
+      "name": "_parallel_rebased_bwd_dq",
+      "line": 99,
+      "end_line": 192,
+      "AST_sha256": "233ad33049fc160211333ca481e2b07cae3efac4fc4a458320269ce9c23ffcec"
+    },
+    {
+      "name": "_parallel_rebased_bwd_dkv",
+      "line": 195,
+      "end_line": 281,
+      "AST_sha256": "b825a9b52dc18c0c2489dc5ba6c5f452dede62cb98d92f68d114989f9c957c97"
+    },
+    {
+      "name": "parallel_rebased_bwd_kernel",
+      "line": 284,
+      "end_line": 328,
+      "AST_sha256": "c1fe343bf3cc8a4c1ec8bed743e1be900be9df28f12a140b30df04e67e20c40b"
+    },
+    {
+      "name": "_check_dense_fp32_inputs",
+      "line": 330,
+      "end_line": 379,
+      "AST_sha256": "21e387fb1778bcdbb6ff642c4dc17fb8e7cd21f8f3e8eced047e26babbbdfbb6"
+    },
+    {
+      "name": "_check_cotangent_storage",
+      "line": 382,
+      "end_line": 393,
+      "AST_sha256": "3e6e6da709bc37bd3e57631fb986512c77ad0569cd2dd55c16c1ee2c57b8bba4"
+    },
+    {
+      "name": "_check_backward_inputs",
+      "line": 396,
+      "end_line": 410,
+      "AST_sha256": "e2f1dd2f7a89cff2176fd304f4bf44da7b804cd1c45a797f526fdad61f86e242"
+    },
+    {
+      "name": "_check_prepared_cotangents",
+      "line": 413,
+      "end_line": 429,
+      "AST_sha256": "84e128aca3f7dc248a065b175b06aca6fb7ed70ffce9d3b061064fe6b98de9fa"
+    },
+    {
+      "name": "ParallelBasedFunction",
+      "line": 432,
+      "end_line": 515,
+      "AST_sha256": "b6b595cf0edbb686d4c06f44ab46b3e8ea6fce063b564afecbce4e677fba3df6"
+    },
+    {
+      "name": "parallel_rebased",
+      "line": 519,
+      "end_line": 543,
+      "AST_sha256": "390eb6a5203e1f19d5fe23dcb675b8bce5bc50fa371a90d9d3f96898f6ae24b3"
+    }
+  ],
+  "checks": {
+    "loads": 20,
+    "dots": 18,
+    "stores": 5,
+    "zero_padding": true,
+    "canonical_dense_strides": true,
+    "unique_z_writer": true,
+    "future_masks": true,
+    "wrapper_branches": [
+      "use_scale",
+      "return_both",
+      "use_normalize"
+    ],
+    "signed_i32_guard": true,
+    "empty_no_launch": true,
+    "backward_inputs_checked_before_empty_and_copy": true,
+    "prepared_actual_storage_checked_before_launch": true
+  },
+  "negative_controls": [
+    {
+      "name": "missing_native_guard",
+      "rejected": true,
+      "reason": "native width guard",
+      "mutant_sha256": "5c1666bcd79e03c6f0198c029cd830383491dff442ec97a0c52d563361f85dda"
+    },
+    {
+      "name": "missing_empty_branch",
+      "rejected": true,
+      "reason": "empty no-launch branch",
+      "mutant_sha256": "10beaa025deeb4efe3bdd17e355ec977bb9d932f208d00cf87b8e751d0c7b5bd"
+    },
+    {
+      "name": "missing_padding",
+      "rejected": true,
+      "reason": "zero padding",
+      "mutant_sha256": "f7d01bfe77403c4fefc2de8f2266730a1b7b87fad95b5aa979be22965e6436ea"
+    },
+    {
+      "name": "duplicate_z_writer",
+      "rejected": true,
+      "reason": "unique normalizer owner",
+      "mutant_sha256": "4a914c5b4835c3fe71e7d3705f8b01a320a594302a4d1799b083fa8de78ec243"
+    },
+    {
+      "name": "borrowed_q_stride",
+      "rejected": true,
+      "reason": "canonical dense strides",
+      "mutant_sha256": "61cd7437777f7b08b7f0681f2e3d0bbeda0e065a0689159f9430df82dead5cdb"
+    },
+    {
+      "name": "implicit_dtype",
+      "rejected": true,
+      "reason": "explicit FP32 scratch",
+      "mutant_sha256": "6a19ba87e41e75e0cf195fd6d5a66e9dc50f448d336a86ef0a7544073d0a3625"
+    },
+    {
+      "name": "missing_future_mask",
+      "rejected": true,
+      "reason": "future valid-query mask",
+      "mutant_sha256": "e824feafa9f17155194816d5878f16f8104a4efcc3aeba6771cc10b7ac750ba7"
+    },
+    {
+      "name": "wrong_priority",
+      "rejected": true,
+      "reason": "wrapper branch priority",
+      "mutant_sha256": "9ee41e7b532531f860081c21940e8aa80c8844b6da48e0e409d917e803236b70"
+    },
+    {
+      "name": "wrong_device",
+      "rejected": true,
+      "reason": "owning CUDA device context",
+      "mutant_sha256": "b6bf75e8f388157c0a1559b51cde757f34021ec284dcb6aea1d473095f8105c4"
+    },
+    {
+      "name": "missing_storage",
+      "rejected": true,
+      "reason": "",
+      "mutant_sha256": "507df20276388ba1f0373831f7540788bef6625ce71324c878c9637b0c35df1e"
+    },
+    {
+      "name": "wrong_stride",
+      "rejected": true,
+      "reason": "",
+      "mutant_sha256": "4409d1575a1b38355ec75c47869bd3c515b048ccf2cdc9314fad07d3174a87d8"
+    },
+    {
+      "name": "missing_backward_lazy_guard",
+      "rejected": true,
+      "reason": "backward input guard: x.is_neg() or x.is_conj()",
+      "mutant_sha256": "6b746bdec301d353a0f8546522a5024ab6fae2a08618bdaf4941ee81e7d6225e"
+    },
+    {
+      "name": "wrong_backward_dtype",
+      "rejected": true,
+      "reason": "backward input guard: x.layout != torch.strided or not x.is_cuda or x.dtype != torch.float32",
+      "mutant_sha256": "2ff2957fa930d5a609aa9172c61ee01f56dd0252d35f650b48b84f5a5794a92d"
+    },
+    {
+      "name": "wrong_backward_device",
+      "rejected": true,
+      "reason": "backward input guard: do.device != q.device or dz.device != q.device",
+      "mutant_sha256": "d64963541940eb173c2d1be76ed21472ddcf59116dfc99977d9e041276ec014f"
+    },
+    {
+      "name": "wrong_backward_shape",
+      "rejected": true,
+      "reason": "backward input guard: do.shape != v.shape or dz.shape != q.shape[:3]",
+      "mutant_sha256": "21a224d30c74f901adafbad44652bda8938df2dc7a0bd20ed0150b8bc3e9289f"
+    },
+    {
+      "name": "missing_cotangent_span",
+      "rejected": true,
+      "reason": "cotangent storage guard: pointer + 4 * (top + 1) > base + capacity",
+      "mutant_sha256": "c7a290f0ab9d1c5954e70a2cf9c873b8d5d6e20fba50ba69a001a5003e8bf1d5"
+    },
+    {
+      "name": "missing_prepared_guard",
+      "rejected": true,
+      "reason": "backward validation ordering",
+      "mutant_sha256": "51eddd3f0c7da39cafe4de1b8f74a4b8cd435aa5941d1b0010a6493634666f05"
+    },
+    {
+      "name": "missing_backward_guard",
+      "rejected": true,
+      "reason": "backward validation ordering",
+      "mutant_sha256": "3b03b131115b841e3c473993d32b7063407df8c8468c426ef0abab76f5c96472"
+    }
+  ],
+  "scope": "Exact candidate binding plus structural repair invariants; no native scalar conformance assertion",
+  "script_sha256": "9052b60b3b132f7ad29ad646e210659493d2a48dc7b6e091be5004b72a52ea73",
+  "lean_files": {
+    "Contract.lean": "312667651268cb10efad0386afc992bf806e68c4c03c4fbaed67115e2f8c5d41",
+    "Correct.lean": "4ff1ff915e05dc2998bea95ce29572cce46431f529abe7458e88cf7c012eaa1a",
+    "FPEquiv.lean": "a8e966f85f4099b1b7675f91a8da466e3e842755773cf91afecb9d03eb8827b1",
+    "Kernels.lean": "2f4a43943cf43540f2597a38017df764b70399c0983db157fc665e0592d2b80b",
+    "Proofs/Arithmetic.lean": "1ee8cb777044a0a36f4ba1e5ad20a69cc51b82633b5ed534842eeb27293ccd1e",
+    "Proofs/BackwardContract.lean": "758def16df7713e0e46cbfd818c711ef5622cc2f993c53be7d74a70348ddc37f",
+    "Proofs/CallContract.lean": "0a987b3a4ffccbe42bbef2797b1ae2416e5452b3247849b83c9ac8dab35de72f",
+    "Proofs/Combined.lean": "af924f169ebeb177b8d2e1bc0530a2b34dd42142508ea7587c1a0c60fe80b29a",
+    "Proofs/Contract.lean": "cffd77d744f3fd332c9d29120cea5cae819d8fead169dac1f22ccf268206c009",
+    "Proofs/Differential.lean": "6a2b655f57831134df2c9c2a70f0c496cf830410925d5a0de4f0cb8ac0fe2995",
+    "Proofs/Execution.lean": "7f5330ed767daa6661164f9c44840ce8f8d23f516e9cd4edd98a6d35dc23fc21",
+    "Proofs/FPReference.lean": "2ab56373757b42917caa32322bd86a59a274443c8d94e5d38582e1c4583ff250",
+    "Proofs/ForwardReal.lean": "57a3bf1c7b1b5cb2cbc52f0582341bc4338812ce77625a32a6e26d2543816a8f",
+    "Proofs/Geometry.lean": "56c47a6461e19d1b2537ff19e6f24cf4c19f10fb49a9bf319e1172a619421196",
+    "Proofs/Graph.lean": "4b7fca5465d3ee8c30763e248feaa7db2397377e13dde68b2dfa65cf949d7b59",
+    "Proofs/GraphReal.lean": "04fe71b33f5eacee6d818ce0e40582df0d75f9aa37dc7b3fa6617a3e6e14ea58",
+    "Proofs/Grid.lean": "40ca54e998dce27ca7fd2b5746f4d1b5f5af90695f269b7b4784796bffef5d76",
+    "Proofs/GridEnumeration.lean": "02aadc2955a7d4ff91df7b3a11e84800b242118784cf26d6cbf6574c03a65f77",
+    "Proofs/HistoricalCorrect.lean": "fa0fa4e262c4d65e2ead8d348e0299d4ffe603c4452d5ea8722e3a48d3f0d0da",
+    "Proofs/HistoricalFPEquiv.lean": "e61672401cdb47af9dd8e604965b7541768c76141805b4c9320d9dbf51226e12",
+    "Proofs/HostAPI.lean": "33cdabd60f4eff6257d987982f60dc8de7c10e825f58181928278e1f7dee016c",
+    "Proofs/HostAPIReal.lean": "6eb502cab77b655c9322e5c72f0bdd8d209924ccf8cf543987cb3a30a46afe5d",
+    "Proofs/HostMemory.lean": "3119aa5bacd8bf3bfe3d5d6a832d29ad2d62ce27b439ff86b6f24f2674a03423",
+    "Proofs/HostNative.lean": "df77930d479e0a09b0080d520b4194edb01ec98ddf3ef3380110693019d25579",
+    "Proofs/HostNativeReal.lean": "5026f44ba1658da92aca841488ccffc75cb6314507eebabe96996957b32adcbe",
+    "Proofs/HostNormalize.lean": "1c5b61cefa9eb28631bc1bab68dc71fdb3e3387f8a0c2d79e015e608a045b47a",
+    "Proofs/HostPlans.lean": "3106f278ed4610a6a1bb2d5181e2651f2f0261f7b0fafaf1b91a4ae053e43259",
+    "Proofs/HostPropagation.lean": "9a2e66c6736c5f5a30007216659b565f30533cde12cf76523dce079ce3fd7ef0",
+    "Proofs/HostReal.lean": "f5feae26572dfc67bea52c31db91d672ad289b734ba81348a4fc14dd6c796411",
+    "Proofs/HostReduction.lean": "be9beba36ee551dc0acb49e0509df7cf681bb85c4c68ec9cdb2a138780760052",
+    "Proofs/HostScratchBounds.lean": "40c60d04d9fd167902426bb0b7fffc8df9ba78884abd313117bac32e282785c0",
+    "Proofs/KeyValueReal.lean": "01378b207d50d72f1142ce34949cc0b883a2ecafa46e9f6a429d13765723c828",
+    "Proofs/Lowering.lean": "b7b7b1e745bf97af4de299ccc0005d9fcef1d608122dfb5f4a514f663d2216bd",
+    "Proofs/LoweringReal.lean": "b5a76c82ff71c2ee09e39de4028ba4a8831becd8db1057961838c34a67d6baa2",
+    "Proofs/MachineBounds.lean": "23003c3aa8ac0b50aa148e3a3eaab538cb12170bbffc7be80449f0f3814b34cc",
+    "Proofs/MachineClosure.lean": "d84ffff1e9456328f6d223e3beb1b38d9529ce7d7cd1801412aea9b8ceb4ebc2",
+    "Proofs/MachineSource.lean": "9c694a9a434d779dfa4fe9b7cdd003e5454e5b59371016243a49443fbe332dfb",
+    "Proofs/Materialize.lean": "82898f8b928685c50015d31ae209088872dc14bbe1f2e24796e95dbbbc5c8827",
+    "Proofs/Memory.lean": "7ae05fcaf8f448e99707dd824f0a92b2211a433dd7130930171b508362c85030",
+    "Proofs/NativeExecution.lean": "1680d8bd7b4e9f3fbab251f131379b2004bc783eaea6d94bbe3ffb53a370c748",
+    "Proofs/NativeExecutionReal.lean": "b7a1a398d4664be15c536bd729b4f8a1287c81585d44add2654bbca592e06ef5",
+    "Proofs/NativeGraph.lean": "e5b972bec6ef9a66515e5e16d4778229dc83c036b63939a4a2a0efb55d70fc0c",
+    "Proofs/NativePlans.lean": "2a06ab6b257b6057f92c5370e86999dc5996cd13407022d6f13f0d9bee2c5f98",
+    "Proofs/NativeReal.lean": "b9dcebb0cb4556c247105d8964080aa2d666e287a8d9dd76d6083764324e968e",
+    "Proofs/Normalize.lean": "b9ccb1175de37f7fe33833220c576a1e2610edb9a2774f5b267a9cb0ec51ed56",
+    "Proofs/Packing.lean": "e2f048451590601dd0fed6c2c48f680987daae4cbb4209395095b1a62bd11482",
+    "Proofs/Physical.lean": "b32daf8778d5d3443baa02348c21640a3ab5ffec22317193385e29af0af76e74",
+    "Proofs/Pointer.lean": "d1df39cb302179b5ed7438a77d404f3a67c4d8c873c1859f53161dfc5941f27d",
+    "Proofs/Public.lean": "dcce4a29cae4fa164a236d3e55d5273f209053855865d8f836439ad97e701a10",
+    "Proofs/PublicReal.lean": "2af86398d9d5482c943d2d2e119481ab691649a1b9563c502d93c9b061457b29",
+    "Proofs/QueryReal.lean": "be727726af4274a7d200610d452cd57e30ccd3ccc2a48fab1b713272c9d452d0",
+    "Proofs/Reader.lean": "6a7c9163c563b507e014d01e57a22f539bd7dd8b18a4e0b987da7a20bf500444",
+    "Proofs/RealContract.lean": "1c6e2362c2399c3c71024311f1d52dba6bf76d6ffe81a115e3703771ec02e325",
+    "Proofs/ReverseReal.lean": "aa8dac0390f979e8e017764d876c9e05d1d9f02ed9480f5aa8a571a23a3dd221",
+    "Proofs/ShardReal.lean": "c239c19531447f1ade7d6d9b3b839b8b62a649bd46ec87b0ba87f73096a686e9",
+    "Proofs/Software.lean": "6ffa9877e824d7e9097eba807db7ef308c715769d9df14a263c873ed8b58df3b",
+    "Proofs/SourceCorrect.lean": "cc00be42e4a53ff6f2f80584e3245448dbc88053159c1ed6d07e0d40c5d8be46",
+    "Proofs/Specification.lean": "aec54a51093a1561b8c8dca6469f104c340d1b1581be8b55d4c555c4fb97cc9e",
+    "Proofs/Torch.lean": "8ba38b342bc656c8c6aed1a49f9dc660a9cf7f7e167c7205af7c764aa5b228f3",
+    "Proofs/TorchReal.lean": "32478320823f1c61fc1a2625de3427f746e8fed1fa354ede47dfa27c9b660256",
+    "Proofs/Types.lean": "1aedd5badacc275e943f2d6215a02f957731e06fd74d887db35c0550bdd534d2",
+    "Proofs/Wrapper.lean": "8730a8a48b98c2a56f19df81130413fb0d912e04c6668095b1d5924607148a05",
+    "Proofs/WrapperReal.lean": "6336c6831e42305c2712ab606c0c751cf7ef07323490377d39133dd04de6a336",
+    "Spec.lean": "3acf9616b7945f1330abf78a6940a74f699974adfc41f5fbacec35ddb5e1abee",
+    "Proofs/Source.lean": "2cc1a6b1bb663508751c3cce7a63789cbc748e8ba0425fc6605567a3054e3fb8"
+  },
+  "preserved_original_declarations": [
+    {
+      "name": "pa_fwd_surface",
+      "body_sha256": "5d65f0daabb850a8307ecac77deee267b7a3a8120601fceff357359cc31d3fc0",
+      "identical_body": true
+    },
+    {
+      "name": "pa_bwd_dkv_surface",
+      "body_sha256": "8cad28e726c587513ded3d91d4fce51136ca4bb89b713a24dda13109a1a4a259",
+      "identical_body": true
+    },
+    {
+      "name": "forwardSource",
+      "body_sha256": "eb22b4067b7c5f5bc5d62014365a58d6dfe3e7849b9f16f05274ec839107031e",
+      "identical_body": true
+    },
+    {
+      "name": "backwardSource",
+      "body_sha256": "d998eccafdc2fe1b91acc41ce745f09d8d83075bbee10bd9754d9b9f5aa19726",
+      "identical_body": true
+    }
+  ]
+}

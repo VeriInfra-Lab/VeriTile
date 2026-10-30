@@ -1,0 +1,14 @@
+diff --git a/.lake/packages/Lean4Checker/Lean4Checker/Replay.lean b/.lake/packages/Lean4Checker/Lean4Checker/Replay.lean
+--- a/.lake/packages/Lean4Checker/Lean4Checker/Replay.lean
++++ b/.lake/packages/Lean4Checker/Lean4Checker/Replay.lean
+@@ -184,6 +184,10 @@ def replay' (newConstants : Std.HashMap Name ConstantInfo) (env : Environment) : IO
+       remaining := remaining.insert n
+   let (_, s) ← StateRefT'.run (s := { env := env.toKernelEnv, remaining }) do
+     ReaderT.run (r := { newConstants }) do
++      -- String literals have implicit reduction dependencies absent from
++      -- getUsedConstantsAsSet. Replay their definitions before other constants.
++      replayConstant ``String.ofList
++      replayConstant ``Char.ofNat
+       for n in remaining do
+         replayConstant n
+       checkPostponedConstructors

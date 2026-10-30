@@ -1,0 +1,83 @@
+{
+  "upstream_commit": "603e28a",
+  "source_sha256": "2fd4f4e6aff35d5720156b9cf046f2d112173a431d886106a6441382f63ab570",
+  "kernel": "_seeded_dropout",
+  "runtime_scalars": [
+    "n_elements",
+    "p",
+    "seed"
+  ],
+  "wrapper_block_size": 1024,
+  "existing_native_block_size": 32,
+  "wrapper_block_size_native_receipt": {
+    "receipt": "/tmp/veritile-seeded-dropout-native-b1024/compile_receipt.json",
+    "sha256": "e111860701d33c99acc1d9330c16e3a7459e2be9a971f0bec580127abbb6d235",
+    "block_size": 1024,
+    "accepted_profiles": 24,
+    "rejected_profiles": 0,
+    "kernel_launched": false
+  },
+  "port_candidate_only": true,
+  "source_adapters": {
+    "seed_arg": "Explicit direct external Int/Nat scalar binding before source ABI metadata. Same original runtime seed value.",
+    "BLOCK_SIZE_arg": "Identity i32ArangeSize adapter with the symbolic legal arange proof. Same original source constexpr B.",
+    "destination_cast": "Explicit representation of native destination storage conversion; final mask is retained."
+  },
+  "source_preserved": [
+    "program_id axis 0",
+    "block_start multiply",
+    "arange from 0 to B",
+    "offsets < n_elements mask",
+    "load without other",
+    "canonical tl.rand runtime seed and original offsets",
+    "strict random > p comparison",
+    "eager x / (1 - p) branch expression",
+    "tl.where zero branch",
+    "masked final store"
+  ],
+  "not_claimed": [
+    "GPU launch",
+    "IEEE source correctness",
+    "corpus port acceptance"
+  ],
+  "checked_real_checkpoint": {
+    "receipt": "/tmp/veritile-seeded-dropout-port/builds/20261013T101426151772Z/receipt.json",
+    "sha256": "776a0c01ea3130914170a48d209fcdd94f14ebb015db772ba4a953b604715ce7",
+    "modules": 14,
+    "axiom_outputs": 61,
+    "diagnostics": 0,
+    "scope": "Complete source real execution, whole-state writeback, actual safety, finite flat IO, candidate real equivalence"
+  },
+  "checked_structural_checkpoint": {
+    "receipt": "/tmp/veritile-seeded-dropout-port/builds/20261013T101734307809Z/receipt.json",
+    "sha256": "b25cb48778c80c6ec23ba2ed781d9e1aee95bf63bf18c9b5c0dc1b2878c047e9",
+    "scope": "Typed complete-state/failure equivalence for all formal source profiles; public wrapper and print audit compiled separately"
+  },
+  "checked_public_checkpoint": {
+    "receipt": "/tmp/veritile-seeded-dropout-port/builds/20261013T104914818899Z/receipt.json",
+    "sha256": "2d9a1e4b7d566c3516813119a3c2d6aa4ce2b5bc2ece6f9b4aef5d5f2d73004e",
+    "modules": 19,
+    "axiom_outputs": 82,
+    "diagnostics": 0,
+    "scope": "Standard exact MemCell RealizesFrame + successful finite-flat IO; typed complete-state/failure equivalence; concrete nonempty typed execution pair; empty FP assumptions"
+  },
+  "checked_public18_checkpoint": {
+    "receipt": "/tmp/veritile-seeded-dropout-port/builds/20261013T103438586291Z/receipt.json",
+    "sha256": "c7e7908b5fb936af12e88eaadb2736283523a68d435c2176e411b8afdb03ff12",
+    "modules": 18,
+    "axiom_outputs": 73,
+    "diagnostics": 0,
+    "scope": "Standard exact MemCell RealizesFrame + successful finite-flat IO; typed full-state/failure equivalence; empty FP assumptions"
+  },
+  "typed_execution_witness": {
+    "block_size": 1,
+    "n_elements": 1,
+    "pid": 0,
+    "initial_registers": "empty",
+    "storage_profiles": 6,
+    "seed_profiles": 4,
+    "runtime_seed_and_p": "arbitrary within selected seed ABI",
+    "backend": "Structural.Algebra real consistency model through standard default-fp32 ProfiledRewrite.engine",
+    "ieee_acceptance": false
+  }
+}

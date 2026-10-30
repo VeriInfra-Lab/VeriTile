@@ -16,20 +16,21 @@ export PATH="/tmp/veritile-proof-tools/bin:$PATH"
 python3 scripts/check_comparator.py --library
 
 # audit bench ports, showcases, and infrastructure tests
-bash bench/audit_trust.sh                    # whole corpus
-bash bench/audit_trust.sh swiglu_fwd         # just named kernels
+bash bench/audit_trust.sh --final-inventory  # whole retained corpus
+python3 scripts/check_comparator.py --file bench/examples/VectorAdd/Correct.lean --trust
 
 # both, plus the port-completion checks, in one local command
 bash bench/audit_tritonbench_g.sh
 ```
 
-CI runs `bench/audit_tritonbench_g.sh --global-only` once for the structural
-and library gates, then four dependent `bench/audit_trust.sh` corpus shards.
-The final completion check requires the global job and all four shards to
-succeed, including their official comparator checks. A global-only result
-does not claim that the standalone corpus passed. Local runs without options
-still execute every gate. See the [CI stage commands](../scripts/README.md#shared-comparator-gate)
-to reproduce the split locally.
+CI checks the final inventory and library once, builds all 334 draft interfaces,
+and builds/replays the retained corpus in 64 independent shards. Each shard
+builds its selected modules and their complete dependencies before creating
+its isolated comparator workspace. The final gate requires every job to pass;
+a global-only result does not establish corpus acceptance. See the
+[CI stage commands](../scripts/README.md#shared-comparator-gate).
+
+Independent mathematical reference modules can use `@[standalone_spec]` without a kernel in scope. The audit still rejects any reachable kernel dependency, including one outside the selected source modules. Core-only Lean `module` helpers retain their module headers and private imports; their complete theorem dependencies are checked against the standard axiom base and replayed by the official comparator.
 
 Each exits `0` only after every selected file reports a result and all checks
 pass. Invalid concurrency, a launcher failure, and missing/duplicate results
@@ -64,6 +65,11 @@ mathematical correctness target. The per-file inventory reports kernel, spec,
 and denotation counts; zero independent specs means no independence check was
 performed for that file. Discovered specs without any kernel are an error.
 
+For a split example, the external audit uses
+`#auditModuleSpecs from [bench.examples.ExampleName.Kernels]` to include kernels
+from the explicitly imported source module. It still checks only the current
+file's specifications, against both local and shared kernels.
+
 ## Audit one theorem yourself
 
 `import VeriTile.Meta.StatementAudit`, then:
@@ -82,12 +88,14 @@ The commands:
 | `#stmtSurfaceSubset T ⊆ [a, b, …]` | `T`'s statement mentions no project constant outside the list |
 | `#specNonCircular s avoiding [k, …]` | spec `s`'s definition never references a kernel `k` |
 | `#auditStmt T` | inspection — lists the project constants in `T`'s statement |
+| `#print_spec T` | inspection — public kind, assumptions, transitive primitive/rule dependencies, model fields, numerical configuration/evidence, and axioms |
+| `#print_spec T full` | the same report plus all reached project declarations and trusted-library boundaries |
 | `#auditModuleSpecs` | discover current-module kernels/specs in Lean, check transitive independence, and report coverage |
 
 ## Add a self-audit to a file
 
 Put the checks at the end of the file (see the SwiGLU pilot,
-[`bench/examples/FusedSwigluEquiv.lean`](../bench/examples/FusedSwigluEquiv.lean),
+[`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](../bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean),
 for the full pattern). They run at compile time, so the file stops compiling if
 any gate is violated:
 
@@ -109,6 +117,33 @@ any gate is violated:
 which pulls the heavy analysis chain), so a routine lite `lake build` stays fast.
 
 ## Audit boundary
+
+`#print_spec` follows elaborated declaration types **and** proof/definition
+bodies through project helpers. Raw structure projections are included, so a
+model law such as `RoundingModel.round_idem` cannot vanish just because Lean
+represents its use as `Expr.proj`. Top-level parameters/hypotheses and reachable
+proposition-valued structure/class fields are reported separately from axioms:
+`#print axioms` alone does not list a theorem's explicit assumptions.
+
+The dependency report is conservative and syntactic. A reachable generic
+evaluator can mention operations on unexecuted branches. Declared hypotheses
+may be unused. Tagged rules/primitives come from the elaborated dependency
+graph, not a manually supplied per-theorem list; the tags identify categories,
+not semantic validity. Untagged project declarations are available in `full`
+output. It stops at trusted library declarations, whose names are also listed
+in `full` output; it does not claim a minimal proof slice or a GPU trace.
+
+For `lhs ≡[R] rhs` in the `VeriTile.Spec` scope (underlying `Spec.FloatingPoint`),
+the report expands the rule model `R`, showing both implementations and the declared
+atom table, including each atom's configuration, NOT_RUN status and missing
+artifacts (symbolic fields remain symbolic). The table is a conservative scope,
+not an exact used-atom trace. `AcceptedAtom`, `AcceptedAssumptions` and their
+`EvidenceValidated` premises remain obligations. Evidence is attached to each
+atom; the public theorem is a derivation, not a whole-kernel gate receipt. This
+command does not run two-gates, import trusted receipts, infer population
+guarantees, or convert a conditional theorem into an unconditional result.
+Nonstandard transitive axioms are explicitly reported; `#axiomsClean` remains
+the failing gate. The standard-base whitelist is unchanged.
 
 The statement surface excludes declarations originating in the trusted `Init`,
 `Std`, `Lean`, and `Mathlib` modules. Origin comes from Lean's environment,

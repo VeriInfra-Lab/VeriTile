@@ -351,12 +351,23 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
       let _ ← ctx.checkRegRef name dtype shape
       .ok ()
   | .arange _ => .ok ()
+  | .philox4x32 _ _ _ seed c0 c1 c2 c3 =>
+      seed.check ctx *> c0.check ctx *> c1.check ctx *> c2.check ctx *> c3.check ctx
+  | .uniform32 word => word.check ctx
+  | .rand _ seed offsets => seed.check ctx *> offsets.check ctx
+  | .randTensor _ seed offsets => seed.check ctx *> offsets.check ctx
   | .broadcast e _ => e.check ctx
   | .full _ e => e.check ctx
+  | .withPrecision _ _ e => e.check ctx
   | .castFloat _ _ e => e.check ctx
   | .castNatToInt e => e.check ctx
+  | .negFloat _ e => e.check ctx
+  | .absFloat _ e => e.check ctx
+  | .floatToInt _ _ _ e => e.check ctx
+  | .floatToNat _ _ _ e => e.check ctx
   | .castIntToNat e => e.check ctx
   | .castRealToInt8 e => e.check ctx
+  | .decodeFloat8E5 _ e => e.check ctx
   | .add _ _ a b => a.check ctx *> b.check ctx
   | .sub _ _ a b => a.check ctx *> b.check ctx
   | .mul _ _ a b => a.check ctx *> b.check ctx
@@ -369,6 +380,11 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .shiftLeft _ a b => a.check ctx *> b.check ctx
   | .shiftRight _ a b => a.check ctx *> b.check ctx
   | .exp a => a.check ctx
+  | .libdeviceExp a => a.check ctx
+  | .libdeviceLog a => a.check ctx
+  | .libdeviceExpm1 a => a.check ctx
+  | .libdeviceTanh a => a.check ctx
+  | .libdeviceLog1p a => a.check ctx
   | .exp2 a => a.check ctx
   | .log a => a.check ctx
   | .log2 a => a.check ctx
@@ -383,6 +399,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .cosh a => a.check ctx
   | .sinh a => a.check ctx
   | .erf a => a.check ctx
+  | .minPosInf a => a.check ctx
   | .lt _ _ a b => a.check ctx *> b.check ctx
   | .le _ _ a b => a.check ctx *> b.check ctx
   | .eq _ _ a b => a.check ctx *> b.check ctx
@@ -393,18 +410,31 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .boolOr _ a b => a.check ctx *> b.check ctx
   | .boolNot a => a.check ctx
   | .max2 _ a b => a.check ctx *> b.check ctx
+  | .maximumFloat _ _ a b => a.check ctx *> b.check ctx
+  | .minimumFloat _ _ a b => a.check ctx *> b.check ctx
   | .pow _ a b => a.check ctx *> b.check ctx
+  | .libdevicePowi _ a b => a.check ctx *> b.check ctx
   | .where c a b => c.check ctx *> a.check ctx *> b.check ctx
   | .ite c a b => c.check ctx *> a.check ctx *> b.check ctx
+  | .reduceMin _ _ a => a.check ctx
   | .reduceMax _ _ a => a.check ctx
   | .reduceMaxNat _ _ a => a.check ctx
+  | .reduceMaxInt _ _ a => a.check ctx
   | .reduceSum _ _ a => a.check ctx
+  | .reduceSumBool _ _ a => a.check ctx
+  | .reduceSumTyped _ _ _ a => a.check ctx
+  | .reduceMaxTyped _ _ _ a => a.check ctx
   | .scan _ _ _ a => a.check ctx
   | .argMax _ a => a.check ctx
+  | .argMaxInt _ a => a.check ctx
+  | .argMaxTyped _ _ a _ => a.check ctx
+  | .indexedMaxValue _ _ a => a.check ctx
   | .argMin _ a => a.check ctx
   | .sort _ a => a.check ctx
-  | .dot a b => a.check ctx *> b.check ctx
-  | .dotInt a b => a.check ctx *> b.check ctx
+  | .dot a b _ => a.check ctx *> b.check ctx
+  | .dotAcc _ _ _ a b acc _ => a.check ctx *> b.check ctx *> acc.check ctx
+  | .dotTyped _ _ _ a b _ => a.check ctx *> b.check ctx
+  | .dotInt a b _ => a.check ctx *> b.check ctx
   | .transpose a => a.check ctx
   | .reshape _ a => a.check ctx
   | .remap _ _ a => a.check ctx
@@ -424,7 +454,11 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .advanceBlockPtr ptr deltas => do
       ptr.check ctx
       .ok ()
-  | .load dtype mem mask => mem.check ctx dtype *> mask.check ctx
+  | .advanceBlockPtrDyn ptr deltas => do
+      ptr.check ctx
+      let _ ← deltas.mapM (fun d => d.check ctx)
+      .ok ()
+  | .load dtype mem mask padding => mem.check ctx dtype *> mask.check ctx
   | .natToReal a => a.check ctx
   | .intToReal a => a.check ctx
 termination_by op => sizeOf op
@@ -432,6 +466,9 @@ decreasing_by
   all_goals
     simp_wf
     try omega
+    try
+      have hs := List.sizeOf_lt_of_mem (by assumption)
+      omega
 
 def Op.ptrProvenance (ctx : CheckCtx) : Op dtype shape → Except CheckError RegionName
   | .ptrBase region => .ok (Region.cast region)
@@ -483,6 +520,13 @@ def Op.blockPtrSummary (ctx : CheckCtx) :
   | .advanceBlockPtr ptr deltas => do
       let summary ← ptr.blockPtrSummary ctx
       summary.checkedAdvance deltas
+  | .advanceBlockPtrDyn ptr deltas => do
+      let _ ← deltas.mapM (fun d => d.check ctx)
+      let summary ← ptr.blockPtrSummary ctx
+      match summary.parentRank with
+      | some rank => checkBlockPtrMetadataRanks rank rank deltas.length rank
+      | none => .ok ()
+      .ok { summary with offsets := none }
   | .broadcast ptr _ => ptr.blockPtrSummary ctx
   | .full _ ptr => ptr.blockPtrSummary ctx
   | .where c a b => do
@@ -504,7 +548,13 @@ def Op.blockPtrSummary (ctx : CheckCtx) :
       | none => .error (.missingBlockPointerProvenance name)
   | _ => .error .unsupportedBlockPointerProvenance
 termination_by op => sizeOf op
-decreasing_by all_goals (simp_wf; try omega)
+decreasing_by
+  all_goals
+    simp_wf
+    try omega
+    try
+      have hs := List.sizeOf_lt_of_mem (by assumption)
+      omega
 
 def Op.blockPtrProvenance (ctx : CheckCtx) :
     Op dtype shape → Except CheckError RegionName := fun op => do
@@ -599,6 +649,12 @@ def Stmt.check (ctx : CheckCtx) : Stmt → Except CheckError CheckCtx
       stop.check ctx
       step.check ctx
       let ctx' ← ctx.setReg idx (pointerEntry .nat [] none)
+      StmtList.check ctx' body
+  | .forRangeInt idx start stop step body => do
+      start.check ctx
+      stop.check ctx
+      step.check ctx
+      let ctx' ← ctx.setReg idx (pointerEntry .int [] none)
       StmtList.check ctx' body
   | .ifThen cond body => do
       cond.check ctx

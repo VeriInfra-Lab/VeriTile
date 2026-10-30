@@ -54,7 +54,8 @@ def resolveDTypeTerm? (term : TSyntax `term) : MacroM (Option DTypeTermSource) :
   if let some dtype ← dtypeSyntaxOfName? name then
     return some (.explicit dtype)
   match name with
-  | .str (.str pointer "dtype") "element_ty" =>
+  | .str (.str pointer "dtype") "element_ty"
+  | .str (.str pointer "type") "element_ty" =>
       if pointer.isAnonymous then return none
       return some (.pointerElement pointer)
   | _ => return none
@@ -84,6 +85,16 @@ def methodCastTargetDType? (stx : TSyntax `tritonExpr) : MacroM (Option DInfo) :
   let some name := methodCastTargetName? stx | return none
   let some dtype ← dtypeSyntaxOfName? name | return none
   return some (← expandDType dtype)
+
+/-- A tensor's `.dtype` is its current source type, including the fp32/fp64
+distinction carried separately from the shared real register representation. -/
+def methodCastRegisterDType? (env : Env) (stx : TSyntax `tritonExpr) : Option DInfo := do
+  let .str tensorName "dtype" ← methodCastTargetName? stx | none
+  let (_, dtype, _, precision) ← env.find? (fun entry => entry.1 == tensorName.toString)
+  match dtype with
+  | .real => some (if precision == some .real then .real else .fp32)
+  | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => some dtype
+  | _ => none
 
 def expandFullDTypeTerm (expandExpr : ExprExpander) (env : Env)
     (dims : Array (TSyntax `tritonExpr)) (value : TSyntax `tritonExpr)

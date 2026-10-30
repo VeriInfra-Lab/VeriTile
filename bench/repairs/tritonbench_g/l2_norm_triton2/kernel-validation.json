@@ -1,0 +1,301 @@
+{
+  "task": "l2_norm_triton2",
+  "observed_at_utc": "2026-10-19T14:41:47.510795+00:00",
+  "execution": "actual unmodified original/candidate JIT function ASTs under Triton CPU interpreter",
+  "triton_version": "3.7.1",
+  "torch_version": "2.13.0+cu130",
+  "sources": [
+    {
+      "path": "bench/repairs/tritonbench_g/l2_norm_triton2/l2_norm_triton2_repaired.py",
+      "sha256": "b512d51cc46384b9cf4a7b61e3ec6abea98a6cc4a627917902c92bc4b156fc23"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/l2_norm_triton2/l2_norm_triton2_candidate.py",
+      "sha256": "59ee2057c3a01f1632703d379b0a070121892ec57feb2ff6271bbcd6bbfdc7a0"
+    }
+  ],
+  "candidate_change": "Only X/Y/DY/DX integer row-base products row*N commute to N*row.",
+  "kernel_pairs": 22,
+  "actual_kernel_executions": 44,
+  "observations": [
+    {
+      "kernel": "_l2_norm_fwd_1pass_kernel_repaired",
+      "rows": 2,
+      "columns": 1,
+      "block": 1,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_bwd_kernel_repaired",
+      "rows": 2,
+      "columns": 1,
+      "block": 1,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_fwd_1pass_kernel_repaired",
+      "rows": 2,
+      "columns": 3,
+      "block": 4,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_bwd_kernel_repaired",
+      "rows": 2,
+      "columns": 3,
+      "block": 4,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_fwd_1pass_kernel_repaired",
+      "rows": 2,
+      "columns": 16,
+      "block": 16,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_bwd_kernel_repaired",
+      "rows": 2,
+      "columns": 16,
+      "block": 16,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_fwd_1pass_kernel_repaired",
+      "rows": 2,
+      "columns": 32,
+      "block": 32,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_bwd_kernel_repaired",
+      "rows": 2,
+      "columns": 32,
+      "block": 32,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_fwd_1pass_kernel_repaired",
+      "rows": 2,
+      "columns": 129,
+      "block": 256,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_bwd_kernel_repaired",
+      "rows": 2,
+      "columns": 129,
+      "block": 256,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_fwd_1pass_kernel_repaired",
+      "rows": 2,
+      "columns": 1025,
+      "block": 2048,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_bwd_kernel_repaired",
+      "rows": 2,
+      "columns": 1025,
+      "block": 2048,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_fwd_1pass_kernel_repaired",
+      "rows": 2,
+      "columns": 16384,
+      "block": 16384,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_bwd_kernel_repaired",
+      "rows": 2,
+      "columns": 16384,
+      "block": 16384,
+      "profile": "finite",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": true
+    },
+    {
+      "kernel": "_l2_norm_fwd_1pass_kernel_repaired",
+      "rows": 1,
+      "columns": 3,
+      "block": 4,
+      "profile": "zero",
+      "epsilon": 0.0,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": false
+    },
+    {
+      "kernel": "_l2_norm_bwd_kernel_repaired",
+      "rows": 1,
+      "columns": 3,
+      "block": 4,
+      "profile": "zero",
+      "epsilon": 0.0,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": false
+    },
+    {
+      "kernel": "_l2_norm_fwd_1pass_kernel_repaired",
+      "rows": 1,
+      "columns": 3,
+      "block": 4,
+      "profile": "exceptional",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": false
+    },
+    {
+      "kernel": "_l2_norm_bwd_kernel_repaired",
+      "rows": 1,
+      "columns": 3,
+      "block": 4,
+      "profile": "exceptional",
+      "epsilon": 1e-06,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": false
+    },
+    {
+      "kernel": "_l2_norm_fwd_1pass_kernel_repaired",
+      "rows": 2,
+      "columns": 3,
+      "block": 4,
+      "profile": "finite",
+      "epsilon": "NaN",
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": false
+    },
+    {
+      "kernel": "_l2_norm_bwd_kernel_repaired",
+      "rows": 2,
+      "columns": 3,
+      "block": 4,
+      "profile": "finite",
+      "epsilon": "NaN",
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": false
+    },
+    {
+      "kernel": "_l2_norm_fwd_1pass_kernel_repaired",
+      "rows": 1,
+      "columns": 3,
+      "block": 4,
+      "profile": "finite",
+      "epsilon": -1.0,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": false
+    },
+    {
+      "kernel": "_l2_norm_bwd_kernel_repaired",
+      "rows": 1,
+      "columns": 3,
+      "block": 4,
+      "profile": "finite",
+      "epsilon": -1.0,
+      "candidate_bit_identical": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true,
+      "independent_formula_control": false
+    }
+  ],
+  "numerical_deferrals": [],
+  "gpu_executed": false,
+  "independent_proof_replay": false,
+  "lean_validation": {
+    "public_entries": [
+      "Correct",
+      "FPEquiv"
+    ],
+    "status": "passed",
+    "public_build_log": "/tmp/l2-norm-kernel-build.log",
+    "legacy_build_log": "/tmp/l2-norm-legacy-build.log",
+    "legacy_entries_preserved_and_built": true,
+    "fp_assumption_audit": "none",
+    "standard_axiom_checks": "passed"
+  }
+}

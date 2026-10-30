@@ -12,7 +12,12 @@ def select(targets, count, index):
     if not 0 <= index < count <= len(targets):
         raise ValueError('Shard index must be below shard count, and shard count '
                          'must not exceed the number of audit targets.')
-    return targets[index::count]
+    # Keep neighboring modules together so proof helpers and their readers
+    # share a build cache. Interleaving every task across every worker forces
+    # each isolated judge to copy most of the complete corpus.
+    start = len(targets) * index // count
+    stop = len(targets) * (index + 1) // count
+    return targets[start:stop]
 
 
 if __name__ == '__main__':

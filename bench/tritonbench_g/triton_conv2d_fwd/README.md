@@ -1,7 +1,3 @@
 # triton_conv2d_fwd
 
-- Source file: `triton_conv2d_fwd.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
-
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [triton_conv2d_fwd](../../repairs/tritonbench_g/triton_conv2d_fwd/README.md).

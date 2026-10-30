@@ -1,0 +1,50 @@
+name: Guarded program IO
+
+on:
+  pull_request:
+    paths:
+      - 'VeriTile/Spec.lean'
+      - 'VeriTile/Triton/Float/GuardedProgramIO.lean'
+      - 'bench/tests/FPGuardedProgramIO.lean'
+      - 'scripts/check_comparator.py'
+      - 'scripts/comparator_common.py'
+      - 'scripts/setup-comparator.sh'
+      - 'scripts/comparator-string-literals.patch'
+      - '.github/actions/setup-comparator/**'
+      - '.github/workflows/guarded-program-io.yml'
+      - 'lakefile.toml'
+      - 'lean-toolchain'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Guarded FP execution and proof replay
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          build: true
+          build-args: 'VeriTile.Triton.Float.GuardedProgramIO bench.tests.FPGuardedProgramIO'
+          test: false
+          lint: false
+          use-mathlib-cache: auto
+      - uses: ./.github/actions/setup-comparator
+      - name: Replay the interface and regression proofs
+        run: |
+          python3 scripts/check_comparator.py \
+            --file VeriTile/Triton/Float/GuardedProgramIO.lean --trust \
+            --workspace "$RUNNER_TEMP/guarded-program-comparator"
+          python3 scripts/check_comparator.py \
+            --file bench/tests/FPGuardedProgramIO.lean --trust \
+            --workspace "$RUNNER_TEMP/guarded-program-comparator"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guarded-program-proof-replay
+          path: Logs/comparator-check-*/
+          if-no-files-found: ignore

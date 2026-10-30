@@ -1,7 +1,3 @@
 # l2_norm_bwd
 
-- Source file: `l2_norm_bwd.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
-
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [l2_norm_bwd](../../repairs/tritonbench_g/l2_norm_bwd/README.md).

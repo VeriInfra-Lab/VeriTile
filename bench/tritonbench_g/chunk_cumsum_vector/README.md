@@ -1,7 +1,3 @@
 # chunk_cumsum_vector
 
-- Source file: `chunk_cumsum_vector.py`
-- Corpus: TritonBench-G v1
-- Status: DSL port compiles; see `../completion_audit.md` and `../proof_blockers.md` for audit and proof status.
-
-This directory is the per-kernel workspace for the TritonBench-G full-formalization roadmap.
+Original Python reference and shared proof dependencies. The final selected implementation and public contracts are in [chunk_cumsum_vector](../../repairs/tritonbench_g/chunk_cumsum_vector/README.md).

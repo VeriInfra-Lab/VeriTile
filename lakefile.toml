@@ -14,13 +14,18 @@ name = "VeriTile"
 globs = [
   "VeriTile.Triton",
   "VeriTile.Triton.+",
+  "VeriTile.Torch.+",
   # Statement-audit commands only (lightweight, imports just `Lean`). The
   # TrustReport driver lives in VeriTileFull because it audits ApproxGeLU,
   # which pulls the heavy analysis chain the lite target deliberately skips.
   "VeriTile.Meta.Specification",
   "VeriTile.Meta.StatementAudit",
-  # Worked-example KERNELS live in bench/examples/ (one self-contained .lean
-  # per kernel correctness/refinement story). The library keeps only shared
+  "VeriTile.Meta.EquivDecompose",
+  "VeriTile.Meta.FPProve",
+  "VeriTile.Meta.Disprove",
+  "VeriTile.Spec",
+  # Worked-example KERNELS live in bench/examples/ (self-contained example
+  # directories can separate kernels and their proofs). The library keeps shared
   # vocabulary (Common), pure-math spec files (AttentionForwardClosedForm,
   # FlashAttention2), and the multi-file FlashAttention1 stack (relocation
   # pending).
@@ -38,6 +43,109 @@ globs = [
 name = "VeriTileMath"
 globs = ["VeriTile.Math.+"]
 
+# Typed execution and source-provenance regressions used by the public ports.
+[[lean_lib]]
+name = "FPFrontendRegressions"
+globs = [
+  "bench.tests.FPDebugBarrier",
+  "bench.tests.ConditionalCast",
+  "bench.tests.RegisterDTypeLoad",
+  "bench.tests.FPExpandDimsPrecision",
+  "bench.tests.FPDotRebinding",
+  "bench.tests.FPNarrowScope",
+  "bench.tests.IntegerDotSource",
+  "bench.tests.SignedBitwiseSource",
+  "bench.tests.SourceDType",
+  "bench.tests.CallSignature",
+  "bench.tests.FPIntegerConversionNeg",
+  "bench.tests.FPFmaSource",
+  "bench.tests.StaticConditions",
+  "bench.tests.IntScaledMatmulPadding",
+  "bench.tests.TypedFP32Mul",
+  "bench.tests.EquivTactics",
+  "bench.tests.FPContextAttnFwdSource",
+  "bench.tests.FPContextAttnLlamaSource",
+  "bench.tests.FPDecayCumsumSource",
+  "bench.tests.SignedIntegerCast",
+  "bench.tests.SignedIntegerCastContexts",
+  "bench.tests.SignedLoadOther",
+  "bench.tests.FPEmbeddingTritonSource",
+  "bench.tests.SignedIntegerCastRNG",
+  "bench.tests.MultinomialRoundedBoundary",
+  "bench.tests.FPMultinomialSource",
+  "bench.tests.FPStructural",
+  "bench.tests.FPStructuralSafety",
+  "bench.tests.FPProgramIO",
+  "bench.tests.FPGuardedProgramIO",
+  "bench.tests.FPInputBindingIO",
+  "bench.tests.FPAddressedInputsIO",
+  "bench.tests.FPObservedProgramIO",
+  "bench.tests.FPObservedInputCellsIO",
+  "bench.tests.FPObservedProgramEquivalence",
+  "bench.tests.FPIntegerStageIO",
+  "bench.tests.AlgorithmScheduledIO",
+  "bench.tests.AlgorithmProgramIO",
+  "bench.tests.ParameterizedAlgorithmProgramIO",
+  "bench.tests.PreparedAlgorithmProgramIO",
+  "bench.tests.FPUndefProgramIO",
+  "bench.tests.FPMultinomialUndef",
+  "bench.tests.FPReductionProgramIO",
+  "bench.tests.FillProgramIO",
+  "bench.tests.FPArrayProgramIO",
+  "bench.tests.FPOrdinaryProgramIO",
+  "bench.tests.FPMaterializedProgramIO",
+  "bench.tests.TypedFMA",
+  "bench.tests.ConcurrentEventIO",
+  "bench.tests.FPIntegerDotIO",
+  "bench.tests.FPRelationalProgramIO",
+  "bench.tests.FPIntegerOutputIO",
+  "bench.tests.BackendMemory",
+  "bench.tests.FPPerAddressProgramIO",
+  "bench.tests.FPWhereContext",
+  "bench.tests.FPConstantBranchContexts",
+  "bench.tests.FPBranchRewrite",
+  "bench.tests.FPRangeRewrite",
+  "bench.tests.FPStaticRangeRewrite",
+  "bench.tests.FPIntRangeRewrite",
+  "bench.tests.FPComputeAddition",
+  "bench.tests.FPDualOutput",
+  "bench.tests.FPControl",
+  "bench.tests.TritonSmoke",
+  "bench.tests.FPSoftmaxForwardPointer",
+  "bench.tests.FPSoftmaxForwardPointerReject",
+  # Reviewed value contracts and helpers; registration does not imply native admission.
+  "bench.tests.FP4Source",
+  "bench.tests.FP8Bitcast",
+  "bench.tests.FPInterleaveBitcast",
+  "bench.tests.FPMaximumPrimitive",
+  "bench.tests.FPMinimumReduction",
+  "bench.tests.FloatMinMaxPromotion",
+  "bench.tests.SignedInteger16Cast",
+  "bench.tests.SignedInteger16Contexts",
+]
+
+# Independent real-correctness and FP-equivalence specification examples.
+[[lean_lib]]
+name = "TritonBenchSpecExamples"
+globs = ["bench.examples.+"]
+roots = [
+  "bench.examples.TritonBenchVectorAddition.Correct",
+  "bench.examples.TritonBenchVectorAddition.FPEquiv",
+]
+
+# Independent Triton lowerings and unsolved Real/FP/counterexample challenges.
+[[lean_lib]]
+name = "BugDetection"
+globs = ["bench.bug_detection.+"]
+roots = ["bench.bug_detection.All", "bench.bug_detection.Validation"]
+
+# Independent pretraining equivalence problems; proof/backend goals are unsolved.
+[[lean_lib]]
+name = "PretrainKernels"
+globs = ["bench.pretrain_kernels.+"]
+roots = ["bench.pretrain_kernels.All", "bench.pretrain_kernels.Validation"]
+weakLeanArgs = ["--tstack=65536"]
+
 # Full target: Lite + Math + ApproxGeLU. Build this when working on the
 # GeLU error bound or before any release tagging.
 #
@@ -53,3 +161,13 @@ globs = [
   "VeriTile.Examples.ApproxGeLU.+",
   "VeriTile.Meta.TrustReport",
 ]
+
+# Final selected tasks and their complete retained proof dependency closure.
+# Selection and numerical scope are checked by bench/final_inventory.py.
+[[lean_lib]]
+name = "TritonBenchGFinal"
+globs = ["bench.tritonbench_g.+", "bench.repairs.+"]
+
+[[lean_lib]]
+name = "FinalRegressions"
+globs = ["bench.tests.+"]

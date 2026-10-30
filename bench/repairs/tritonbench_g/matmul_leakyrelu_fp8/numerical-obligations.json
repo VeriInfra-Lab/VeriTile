@@ -1,0 +1,56 @@
+{
+  "task": "matmul_leakyrelu_fp8",
+  "entries": [
+    "VeriTile.Bench.Repairs.MatmulLeakyreluFp8.Checked.fp_equiv",
+    "VeriTile.Bench.Repairs.MatmulLeakyreluFp8.Checked.native_words"
+  ],
+  "status": "local numerical conformance deferred",
+  "profile": "Pinned FP32 CUDA inputs and supplied FP32 accumulator; explicit FP16 output; BM128/BN256/BK64/GROUP8/stages2/warps8 with source default arithmetic. No FP8 or AMP route.",
+  "admission": "All FP32 caller words including signed zeros, subnormals, infinities and NaNs; no numerical-value guard. Contiguous A and nonnegative strided B retain offsets, broadcasts and read-only A/B aliasing.",
+  "local_predicates": [
+    "VeriTile.Bench.Repairs.MatmulLeakyreluFp8.Checked.LocalPorts"
+  ],
+  "operations": [
+    {
+      "name": "cast",
+      "arity": 1,
+      "domain": "FP32 word",
+      "required_evidence": "Actual nearest-even FP32-to-FP16 scalar cast/store, including exceptional words, agrees with the software half codec."
+    },
+    {
+      "name": "comparison",
+      "arity": 1,
+      "domain": "FP32 word compared against positive zero",
+      "required_evidence": "Actual ordered x >= 0 behavior, false for NaNs and true for either signed zero."
+    },
+    {
+      "name": "slope",
+      "arity": 1,
+      "domain": "FP32 word with fixed left operand 0x3c23d70a",
+      "required_evidence": "Actual source 0.01 * x FP32 lowering agrees with the IEEE software multiplication, including operand order, rounding, NaNs, signed zeros and FTZ."
+    },
+    {
+      "name": "mma",
+      "arity": "2 fixed Fin8 operand vectors + scalar seed",
+      "domain": "FP32-container operands and one result lane",
+      "required_evidence": "Actual selected fixed K8 ISA lane agrees with the named instruction profile, including TF32 handling and exceptional words. No arbitrary-K dot or whole-result law."
+    }
+  ],
+  "structural_not_deferred": [
+    "accepted-domain checker equivalence and unsupported raw-class rejection",
+    "actual output allocation arguments, return descriptor/object identity and consumed launch owner state",
+    "all source K blocks, active masks, grouped grid stores and finite autotune replay",
+    "independent caller-coordinate FP recurrence and independent dense Real formula",
+    "empty output and literal-zero K0 branches",
+    "signed64 formed element arithmetic and unsigned64 active byte pointers",
+    "independent raw FP16 output bytes and complete caller-backing byte frame on all ordinary outcomes"
+  ],
+  "interpretation_boundaries": [
+    "manual pinned Python/Triton-to-event correspondence",
+    "raw Python argument and descriptor extraction; grouped metadata checks do not specify exact exception-label ordering",
+    "ordinary per-event word/byte memory and one-cell codec laws",
+    "ordinary Tensor metadata, storage bounds and object identity; allocator freshness, capacity and caller-byte frame",
+    "ordinary runtime completion, finite interrupted prefixes and owner-context operations"
+  ],
+  "validation": "38 task Lean modules compiled and standard-base axiom audits passed. 43 actual repaired-source CPU reference/frame cases; 12 rejections; 5 ordinary failure prefixes; 1 original logical-view counterexample. 10 actual CUDA FakeTensor metadata/owner/identity cases and 1 cross-device rejection. Historical four stages2 offline SM90 profiles preserved. CPU execution is not TF32/WGMMA evidence. No GPU numerical run."
+}
