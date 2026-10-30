@@ -1,12 +1,18 @@
 # triton_argmax guarded repair
 
+Current selected public entries: [Contract.lean](../triton_argmax_nan_first/Contract.lean), [Correct.lean](../triton_argmax_nan_first/Correct.lean), [FPEquiv.lean](../triton_argmax_nan_first/FPEquiv.lean). The [contract review](../../../validation/contracts.json) records their current scope and assumptions.
+
+## Historical implementation and audit notes
+
+The notes below describe earlier revisions and their recorded boundaries. Their old file lists, receipts and completion counts are historical; they do not establish the current selected contract.
+
 **Current kernel-only acceptance status: source defect pending repair.**
 The dimension kernel returns `0` for the admitted FP32 input `[1, NaN]`, while
 the independent first-NaN argmax target and `torch.argmax` give `1`. This affects
 both the original source and the selected repair. See
 [source-defects.md](source-defects.md), the actual Triton CPU-interpreter receipt
 [source-defect-validation.json](source-defect-validation.json), and
-[Proofs/Counterexamples.lean](Proofs/Counterexamples.lean). No `nonNaN` input
+[Proofs/Counterexamples.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/repairs/tritonbench_g/triton_argmax/Proofs/Counterexamples.lean). No `nonNaN` input
 guard or numerical deferral is introduced. This task is not counted as complete
 under the current standard.
 

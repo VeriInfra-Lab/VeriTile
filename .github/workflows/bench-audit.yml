@@ -63,9 +63,7 @@ jobs:
           python3 -B -m unittest discover -s scripts -p 'test_audit_source.py'
           python3 -B -m unittest discover -s scripts -p 'test_audit_shards.py'
           python3 -B -m unittest discover -s scripts -p 'test_comparator_preflight.py'
-          python3 -B bench/final_inventory.py --check
-          python3 -B -m bench.check_body_corpus --check
-          python3 -B bench/check_imported_kernel_review.py
+          bash bench/audit_tritonbench_g.sh --source-only
       - uses: leanprover/lean-action@v1
         with:
           build: true

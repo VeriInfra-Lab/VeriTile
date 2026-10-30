@@ -1,5 +1,11 @@
 # rotary_transform: checked original preparation
 
+Current selected public entries: [Contract.lean](../rotary_transform_tile_checked/Contract.lean), [Correct.lean](../rotary_transform_tile_checked/Correct.lean), [FPEquiv.lean](../rotary_transform_tile_checked/FPEquiv.lean). The [contract review](../../../validation/contracts.json) records their current scope and assumptions.
+
+## Historical implementation and audit notes
+
+The notes below describe earlier revisions and their recorded boundaries. Their old file lists, receipts and completion counts are historical; they do not establish the current selected contract.
+
 The current kernel review found an admitted source-domain defect. The selected
 source admits nonempty interleaved rotary width 262146 and split rotary width
 524290, but its first matrix pointer has 2097152 elements in both cases.
@@ -9,7 +15,7 @@ JIT binder; width-514 controls compile in both branches with default settings.
 
 See [SOURCE_DEFECT.md](SOURCE_DEFECT.md), the replay in
 [source-defect-replay.md](source-defect-replay.md), and the checked witness in
-[Proofs/BlockSizeDefect.lean](Proofs/BlockSizeDefect.lean). The Python source,
+[Proofs/BlockSizeDefect.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/repairs/tritonbench_g/rotary_transform/Proofs/BlockSizeDefect.lean). The Python source,
 guards and existing public theorems are unchanged. This finding prevents a
 complete source-success claim over the current admitted domain. The remaining
 description records the retained historical interpretation proofs; those proofs

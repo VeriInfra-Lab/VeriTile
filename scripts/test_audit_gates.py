@@ -24,6 +24,19 @@ sheets = load('spec_sheets', 'scripts/spec_sheet.py')
 
 
 class AuditGateTests(unittest.TestCase):
+    def test_default_port_entry_forwards_scope_concurrency_and_exit_status(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / 'bench').mkdir()
+            shutil.copyfile(ROOT / 'bench/check_ports.sh', root / 'bench/check_ports.sh')
+            entry = root / 'bench/audit_trust.sh'
+            entry.write_text('printf "%s|%s\\n" "$*" "$AUDIT_TRUST_JOBS"\nexit 17\n')
+            result = subprocess.run(['bash', 'bench/check_ports.sh'], cwd=root,
+                                    env={**os.environ, 'CHECK_PORTS_JOBS': '2'},
+                                    text=True, capture_output=True)
+            self.assertEqual(result.stdout.strip(), '--final-inventory|2')
+            self.assertEqual(result.returncode, 17)
+
     def setUp(self):
         self.fixture = tempfile.TemporaryDirectory()
         self.addCleanup(self.fixture.cleanup)
