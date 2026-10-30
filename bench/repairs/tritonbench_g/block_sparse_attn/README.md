@@ -1,9 +1,15 @@
 # Checked block_sparse_attn
 
+Current selected public entries: [Contract.lean](KernelOnly/Contract.lean), [Correct.lean](KernelOnly/Correct.lean), [FPEquiv.lean](KernelOnly/FPEquiv.lean). The [contract review](../../../validation/contracts.json) records their current scope and assumptions.
+
+## Historical implementation and audit notes
+
+The notes below describe earlier revisions and their recorded boundaries. Their old file lists, receipts and completion counts are historical; they do not establish the current selected contract.
+
 Reference responsibilities (2026-10-23): The ordered source reference and its main-proof helpers are in `KernelOnly/Proofs/Reference.lean`; `KernelOnly/Reference.lean` is an import-only compatibility entry. These declarations remain necessary to the complete source/native execution connection used by the FP pair proof.
 
 The selected [KernelOnly/Correct.lean](KernelOnly/Correct.lean) and
-[KernelOnly/Misc/NativeCorrect.lean](KernelOnly/Misc/NativeCorrect.lean) retain shared
+[KernelOnly/Misc/NativeCorrect.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/repairs/tritonbench_g/block_sparse_attn/KernelOnly/Misc/NativeCorrect.lean) retain shared
 `ProgramIO.ImplementsOn` judgments for the complete three-axis source grid.
 [KernelOnly/IO.lean](KernelOnly/IO.lean) exposes finite CSR/Q/K/V channels,
 actual strided addresses, load masks, output coverage, runtime FP32 scale and
@@ -16,7 +22,7 @@ The supporting [KernelOnly/Proofs](KernelOnly/Proofs) modules reuse the
 existing complete source execution proofs and prove finite input transport,
 actual load/store safety and full grid composition. Tensor coordinate,
 input-frame and byte-readback applications remain in
-[KernelOnly/Misc/TensorBridge.lean](KernelOnly/Misc/TensorBridge.lean); their complete
+[KernelOnly/Misc/TensorBridge.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/d67b1d0444c2e0fb8066414c2041129b53bf2931/bench/repairs/tritonbench_g/block_sparse_attn/KernelOnly/Misc/TensorBridge.lean); their complete
 original statements and the supporting `PhysicalKernel` theorems are preserved.
 
 The repair folds every channel block into QK and gives the third grid axis

@@ -1,60 +1,18 @@
-# Spec sheets — per-kernel specification review cards
+# Historical specification cards
 
-These files are a **review aid for the *specification*** of each `tritonbench_g`
-kernel, not the proof. The trustworthiness of a verified kernel rests entirely
-on whether its `expected` closed form actually says what the kernel is supposed
-to compute — and that closed form is otherwise scattered across a 1000+ line
-proof file. Each sheet here collapses one kernel into a single self-contained
-card so a human can audit the spec without spelunking.
+The 347 cards and their index are retained in the
+[fixed source snapshot](https://github.com/VeriInfra-Lab/VeriTile/tree/b1aaccc3ef23290fca80fe544fddb0844c036fd8/bench/tritonbench_g/_spec-sheets).
+They describe earlier source revisions. Current public entries and reviewed
+conditions are recorded in [the final contract review](../../validation/contracts.json).
 
-## What a sheet contains
+Generate cards from the current reviewed public readers with:
 
-- **Python source** link — the kernel being specified.
-- **Public theorem statement(s)** — verbatim, with the docstring. These are the
-  headline `*_output_summary` / `*_compute_correct` / `*_closed_form_correct`
-  theorems (the public spec), preferring the dimension-general `*_general`
-  variant when one exists.
-- **Assumptions / layout contracts** — the theorem's hypotheses (contiguity,
-  shape, `≠` aliasing side-conditions) pulled into one bullet list.
-- **Closed-form spec defs (transitive)** — the `expected` value's full
-  definition closure, *plus* the kernel's DSL `surface` port, so the spec and
-  the kernel sit side-by-side for cross-checking.
-- **Self-ref audit flags** — a ⚠ fires if any def in the spec's trust path
-  references `exec` / `produced*Value` / `*SurfaceValue` / executed-state
-  `readMem`, i.e. the "closed form" would be defined in terms of the executed
-  kernel output (tautological / fake). **A clean sheet has no such flag.**
+```sh
+python3 scripts/spec_sheet.py
+```
 
-## INDEX.md
-
-Ranks all kernels by a **review-cost proxy**
-
-    score = 3·(transitive spec defs) + (flat-offset reads) + (statement lines) + (hypotheses)
-
-hardest-to-audit first. The `flat-offset reads` column counts
-`readMem R (… * … + …)` patterns — the main readability tax (flat offset
-arithmetic the reviewer must decode against the kernel strides).
-
-## Regenerating
-
-These sheets are **generated artifacts**; do not hand-edit them. After changing
-any kernel spec, regenerate:
-
-    python3 scripts/spec_sheet.py            # → bench/tritonbench_g/_spec-sheets/
-
-Filenames include the port-directory slug (`<port>__<LeanFile>.md`). The
-generator checks for case-insensitive collisions before writing any sheet,
-so both RMSNorm ports remain distinct on macOS as well as Linux.
-
-To print a single kernel's sheet to stdout (e.g. while reviewing a diff):
-
-    python3 scripts/spec_sheet.py bench/tritonbench_g/<kernel>/<File>.lean
-
-## Scope evidence
-
-These generated cards reproduce declarations; they do not certify that a
-headline covers the original Python kernel. Use the explicit, fingerprinted
-[`coverage_review.json`](../coverage_review.json) records and the
-[browsable theorem table](https://veriinfra-lab.github.io/VeriTile/proofs/coverage/)
-for each headline's reviewed scope, numeric model, and excluded operations.
-The extractor preserves named arguments, default parameters, and `let`
-expressions in the statement rather than treating their `:=` as its proof.
+The default output is `Logs/spec-sheets/`, which Git ignores. Use `--out DIR`
+to choose another directory, or give explicit Lean files to print their cards.
+Cards reproduce statements and local definitions; lexical flags do not certify
+specification independence, proof correctness or native execution. The Lean
+trust gates and official comparator remain separate checks.

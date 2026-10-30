@@ -15,10 +15,9 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'scripts'))
-sys.path.insert(0, str(ROOT / 'bench/current_catalog_vendor'))
-from lean_import_scan import lean_code_mask
-from spec_sheet import split_decls, split_statement
+sys.path.insert(0, str(ROOT))
+from bench.lean_import_scan import lean_code_mask
+from scripts.spec_sheet import split_decls, split_statement
 
 DIRECTORIES = ('VeriTile', 'bench/tritonbench_g', 'bench/repairs', 'bench/examples',
                'bench/tests', 'bench/bug_detection', 'bench/pretrain_kernels')
@@ -148,8 +147,8 @@ def collect(root=ROOT):
             raise ValueError(name + ': missing project imports: ' + repr(missing))
         imports[name] = dependencies
     inputs = set(paths) | {REVIEW, LEDGER, 'lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
-                           'bench/final_inventory.py', 'bench/current_catalog_vendor/lean_import_scan.py',
-                           'bench/current_catalog_vendor/spec_sheet.py',
+                           'bench/final_inventory.py', 'bench/lean_import_scan.py',
+                           'scripts/spec_sheet.py',
                            'bench/audit_trust.sh', 'bench/audit_trust_prep.py', 'bench/audit_tritonbench_g.sh',
                            'bench/select_audit_shard.py', 'bench/check_worker_results.py',
                            'scripts/check_comparator.py', 'scripts/comparator_common.py',

@@ -77,3 +77,6 @@ Closed-phase notes are preserved in [`archive/`](./archive/):
   `Value`. Resolved: bifurcated `Value`.
 - `Proposal.md` — initial project proposal. The
   technical content has evolved beyond it; kept for historical context.
+- `plans/` and `specs/` — dated implementation plans and designs moved from
+  the former `docs/superpowers/` tree; their paths and completion notes describe
+  the source revisions at the time they were written.
