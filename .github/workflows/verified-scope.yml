@@ -23,6 +23,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install source-audit tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ripgrep
       - run: python3 bench/verified_scope.py
       - run: python3 -B -m bench.check_body_corpus --check
       - run: python3 -B bench/check_main_formula_review.py
