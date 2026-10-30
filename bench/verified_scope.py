@@ -7,6 +7,7 @@ from collections import Counter
 import gzip
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -104,7 +105,8 @@ def regressions(data):
     loader = unittest.TestLoader()
     for name in data['selected_python_tests']:
         suite.addTests(loader.discover(str(ROOT / 'bench/tests'), pattern=name))
-    suite.addTests(loader.discover(str(ROOT / 'scripts'), pattern='test_restore_historical_evidence.py'))
+    suite.addTests(unittest.TestLoader().discover(
+        str(ROOT / 'scripts'), pattern='test_restore_historical_evidence.py'))
     result = unittest.TextTestRunner(verbosity=1).run(suite)
     print('Historical tests still pending:', json.dumps(data['pending_python_tests']))
     return result.wasSuccessful()
@@ -115,21 +117,25 @@ def proof_audit(roots):
     # selected module. Share the axiom traversal cache, checking its union after
     # each theorem. The imported environment must contain checked declarations.
     imports = ''.join(f'import {module}\n' for module in roots)
-    modules = '#[' + ','.join('`' + module for module in roots) + ']'
+    # Parse the inventory at runtime: a literal array with thousands of Name
+    # expressions exceeds Lean's code-generator recursion limit.
+    modules = json.dumps('\n'.join(roots))
     body = r'''
 open Lean Elab Command
 set_option maxHeartbeats 0 in
 run_cmd do
   let env ← getEnv
-  let modules : Array Name := __MODULES__
+  let modules : Array Name := (__MODULES__.splitOn "\n").toArray.map String.toName
+  let selected : NameSet := modules.foldl (fun found name => found.insert name) {}
+  let imported : NameSet := env.header.modules.foldl (fun found m => found.insert m.module) {}
   for m in modules do
-    unless env.header.modules.any (·.module == m) do
+    unless imported.contains m do
       throwError "Audit root not imported: {m}"
   let mut names : Array Name := #[]
   for (name, info) in env.constants.toList do
     let .thmInfo _ := info | continue
     let some idx := env.getModuleIdxFor? name | continue
-    if modules.contains env.header.modules[idx.toNat]!.module then
+    if selected.contains env.header.modules[idx.toNat]!.module then
       names := names.push name
   unless names.size > 0 do throwError "Empty selected theorem inventory"
   names := names.qsort (·.toString < ·.toString)
@@ -149,11 +155,38 @@ run_cmd do
     return imports + body.replace('__MODULES__', modules)
 
 
+def audit_self_test():
+    lean = subprocess.check_output(['lake', 'env', 'which', 'lean'], cwd=ROOT, text=True).strip()
+    search = subprocess.check_output(['lake', 'env', 'printenv', 'LEAN_PATH'], cwd=ROOT, text=True).strip()
+    with tempfile.TemporaryDirectory(prefix='veritile-scope-audit-controls-') as tmp:
+        directory = Path(tmp)
+        env = {**os.environ, 'LEAN_PATH': str(directory) + ':' + search}
+        for name, source, accepted in [
+            ('ScopePositive', 'private theorem helper : True := True.intro\ntheorem publicProof : True := helper\n', True),
+            ('ScopeNegative', 'axiom injected : False\nprivate theorem helper : False := injected\ntheorem publicProof : False := helper\n', False),
+        ]:
+            path = directory / (name + '.lean')
+            path.write_text('import Lean\n' + source)
+            subprocess.run([lean, '-o', str(path.with_suffix('.olean')), str(path)],
+                           cwd=directory, env=env, check=True)
+            driver = directory / 'Audit.lean'
+            driver.write_text(proof_audit([name]))
+            result = subprocess.run([lean, str(driver)], cwd=directory, env=env,
+                                    text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            if accepted:
+                if result.returncode or 'checked theorems: 2' not in result.stdout:
+                    raise ValueError('Positive/private-theorem audit control failed: ' + result.stdout)
+            elif result.returncode == 0 or 'DISALLOWED axiom dependency' not in result.stdout:
+                raise ValueError('Injected-axiom control was not rejected by the audit: ' + result.stdout)
+    print('Lean audit controls passed: both public/private theorems inspected; injected axiom rejected.')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--json', action='store_true')
     parser.add_argument('--regressions', action='store_true')
     parser.add_argument('--build', action='store_true')
+    parser.add_argument('--audit-self-test', action='store_true')
     args = parser.parse_args()
     data, roots = read_scope()
     if args.json:
@@ -161,6 +194,8 @@ def main():
         return 0
     if args.regressions and not regressions(data):
         return 1
+    if args.audit_self_test:
+        audit_self_test()
     if args.build:
         subprocess.run(['lake', 'build', *roots], cwd=ROOT, check=True)
         with tempfile.TemporaryDirectory(prefix='veritile-selected-proof-audit-') as tmp:

@@ -45,6 +45,7 @@ jobs:
       - name: Build every selected root and audit all its theorem dependencies
         run: |
           set -o pipefail
+          python3 bench/verified_scope.py --audit-self-test
           python3 bench/verified_scope.py --build 2>&1 | tee "$RUNNER_TEMP/verified-scope.log"
       - uses: actions/upload-artifact@v4
         if: always()

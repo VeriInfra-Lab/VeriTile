@@ -20,6 +20,7 @@ scope. The normal body/formula/IO/reader guards remain separate required checks.
 python3 bench/verified_scope.py               # source and disposition checks
 python3 bench/verified_scope.py --json        # website/readable inventory
 python3 bench/verified_scope.py --regressions # selected tests; pending test named
+python3 bench/verified_scope.py --audit-self-test # accept proofs; reject an injected axiom
 python3 bench/verified_scope.py --build       # build, joint import, axiom audit
 ```
 
