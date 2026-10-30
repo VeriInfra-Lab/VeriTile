@@ -88,6 +88,28 @@ def stores [Inhabited A] (O : RegionName) (M N K BM C : Nat)
     if active M N K BM (s.pids 0) (s.pids 1) i then
       t.write O (address M N K BM (s.pids 0) (s.pids 1) i) (.mk .real (v i)) else t) s
 
+/-- Exact source signed clamping agrees with the former Nat clamp on positive
+dimensions. Zero dimensions remain covered separately by the original masks. -/
+
+theorem signed_index_eq {M N K : Nat}
+    (hm : 0 < M) (hn : 0 < N) (hk : 0 < K) (a b c : Nat) :
+    Int.toNat
+      (((if (a : Int) < (M : Int) - 1 then ((a*N*K : Nat) : Int)
+         else ((M : Int)-1)*N*K) +
+        (if (b : Int) < (N : Int)-1 then ((b*K : Nat) : Int)
+         else ((N : Int)-1)*K)) +
+        (if (c : Int) < (K : Int)-1 then (c : Int) else (K : Int)-1)) =
+      ((if a < M-1 then a*N*K else (M-1)*N*K) +
+        (if b < N-1 then b*K else (N-1)*K)) +
+        (if c < K-1 then c else K-1) := by
+  have hM : (M : Int)-1 = ((M-1 : Nat) : Int) := by omega
+  have hN : (N : Int)-1 = ((N-1 : Nat) : Int) := by omega
+  have hK : (K : Int)-1 = ((K-1 : Nat) : Int) := by omega
+  simp only [hM,hN,hK,← Int.natCast_mul,Int.ofNat_lt]
+  split_ifs <;> simp only [← Int.natCast_add,Int.toNat_natCast]
+
+#axiomsClean signed_index_eq
+
 /-- Basic source primitives are total slots. Success is constructive even for
 arbitrary FP32 words, casts, special-value policies and unchanged reducers. -/
 theorem forward_total [Inhabited A] (algebra : Algebra A) (O X : RegionName)
@@ -116,6 +138,15 @@ theorem forward_exec [Inhabited A] (e : Engine A C) (O X : RegionName)
     TileShape.eraseAxis,TileShape.dropInsertedIndex,
     toFloat,ofFloat,hc,Nat.ne_of_gt hc,State.setReg,min_def_lt,and_assoc,
     VeriTile.Bench.Repairs.MaxReduction.Source.masked_mem]
+  simp only [← Int.natCast_mul, ← Int.natCast_add, Int.ofNat_lt]
+  by_cases hM : M = 0
+  · subst M; simp
+  by_cases hN : N = 0
+  · subst N; simp
+  by_cases hK : K = 0
+  · subst K; simp
+  simp only [signed_index_eq (Nat.pos_of_ne_zero hM)
+    (Nat.pos_of_ne_zero hN) (Nat.pos_of_ne_zero hK)]
 
 theorem backward_exec [Inhabited A] (e : Engine A C) (Y G O : RegionName)
     (M N K BM : Nat) (s : State A) :
@@ -128,6 +159,15 @@ theorem backward_exec [Inhabited A] (e : Engine A C) (Y G O : RegionName)
     TileShape.eraseAxis,TileShape.dropInsertedIndex,
     toFloat,ofFloat,State.setReg,min_def_lt,and_assoc,
     VeriTile.Bench.Repairs.MaxReduction.Source.masked_mem]
+  simp only [← Int.natCast_mul, ← Int.natCast_add, Int.ofNat_lt]
+  by_cases hM : M = 0
+  · subst M; simp
+  by_cases hN : N = 0
+  · subst N; simp
+  by_cases hK : K = 0
+  · subst K; simp
+  simp only [signed_index_eq (Nat.pos_of_ne_zero hM)
+    (Nat.pos_of_ne_zero hN) (Nat.pos_of_ne_zero hK)]
 
 /-- Exterior memory is preserved for arbitrary source floating semantics. -/
 theorem forward_frame [Inhabited A] (algebra : Algebra A) (O X : RegionName)
@@ -138,6 +178,7 @@ theorem forward_frame [Inhabited A] (algebra : Algebra A) (O X : RegionName)
   simp [Source.forward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,TileShape.axisDim,State.setReg,hc,Nat.ne_of_gt hc,and_assoc] at ran
+  simp only [← Int.natCast_mul, ← Int.natCast_add, Int.ofNat_lt] at ran
   subst final
   apply State.masked_scatter_frame
   rcases outside with outside | outside
@@ -153,6 +194,10 @@ theorem forward_frame [Inhabited A] (algebra : Algebra A) (O X : RegionName)
         (if i.2.1.val<N-1 then i.2.1.val else N-1)*K+
         (if s.pids 1<K-1 then s.pids 1 else K-1))<M*N*K := by
       simpa only [Address.offset,Address.safe,min_def_lt] using bound
+    have source_index := signed_index_eq
+      (show 0 < M by omega) (show 0 < N by omega) (show 0 < K by omega)
+      (s.pids 0 * BM + i.1.val) i.2.1.val (s.pids 1)
+    rw [source_index] at same
     simp only [ite_mul] at bound'
     omega
 
@@ -165,6 +210,7 @@ theorem backward_frame [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
   simp [Source.backward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,TileShape.axisDim,State.setReg,and_assoc] at ran
+  simp only [← Int.natCast_mul, ← Int.natCast_add, Int.ofNat_lt] at ran
   subst final
   apply State.masked_scatter_frame
   rcases outside with outside | outside
@@ -180,6 +226,10 @@ theorem backward_frame [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
         (if i.2.1.val<N-1 then i.2.1.val else N-1)*K+
         (if s.pids 1<K-1 then s.pids 1 else K-1))<M*N*K := by
       simpa only [Address.offset,Address.safe,min_def_lt] using bound
+    have source_index := signed_index_eq
+      (show 0 < M by omega) (show 0 < N by omega) (show 0 < K by omega)
+      (s.pids 0 * BM + i.1.val) i.2.1.val (s.pids 1)
+    rw [source_index] at same
     simp only [ite_mul] at bound'
     omega
 

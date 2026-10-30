@@ -209,6 +209,7 @@ def flattenOp (A : FlatAlloc) :
   | _, _, .sub nd bc a b => .sub nd bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .mul nd bc a b => .mul nd bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .div nd bc a b => .div nd bc (A.flattenOp a) (A.flattenOp b)
+  | _, _, .divRN bc a b => .divRN bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .floorDiv id bc a b => .floorDiv id bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .mod id bc a b => .mod id bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .bitAnd bc a b => .bitAnd bc (A.flattenOp a) (A.flattenOp b)
@@ -533,6 +534,7 @@ def Op.FlattenOk : Op dtype shape → Prop
   | .sub _ _ a b => a.FlattenOk ∧ b.FlattenOk
   | .mul _ _ a b => a.FlattenOk ∧ b.FlattenOk
   | .div _ _ a b => a.FlattenOk ∧ b.FlattenOk
+  | .divRN _ a b => a.FlattenOk ∧ b.FlattenOk
   | .floorDiv _ _ a b => a.FlattenOk ∧ b.FlattenOk
   | .mod _ _ a b => a.FlattenOk ∧ b.FlattenOk
   | .bitAnd _ a b => a.FlattenOk ∧ b.FlattenOk
@@ -667,6 +669,7 @@ def Op.FlattenOkR : Op dtype shape → Prop
   | .sub _ _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .mul _ _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .div _ _ a b => a.FlattenOkR ∧ b.FlattenOkR
+  | .divRN _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .floorDiv _ _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .mod _ _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .bitAnd _ a b => a.FlattenOkR ∧ b.FlattenOkR
@@ -952,6 +955,7 @@ def Op.SafeAt (bounds : RegionBounds) (s : BlockState) : Op dtype shape → Prop
   | .sub _ _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .mul _ _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .div _ _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
+  | .divRN _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .floorDiv _ _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .mod _ _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .bitAnd _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
@@ -1207,6 +1211,15 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
         evalOp_flatten A hd hcov a s hma hka hu,
         evalOp_flatten A hd hcov b s hmb hkb hu,
         A.trTileFun_data nd.ne_ptr nd.ne_blockPtr, Option.map_id, id_eq]
+  | _, _, .divRN bc a b, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      obtain ⟨hma, hmb⟩ := hms
+      obtain ⟨hka, hkb⟩ := hok
+      simp only [flattenOp, evalOp,
+        evalOp_flatten A hd hcov a s hma hka hu,
+        evalOp_flatten A hd hcov b s hmb hkb hu,
+        A.trTileFun_data (d := .real) (by decide) (by decide), Option.map_id, id_eq]
   | _, _, .floorDiv nd bc a b, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms
       simp only [Op.FlattenOk] at hok

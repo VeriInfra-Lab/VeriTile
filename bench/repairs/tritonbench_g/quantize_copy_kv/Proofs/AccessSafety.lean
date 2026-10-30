@@ -24,7 +24,7 @@ theorem source_traceSafe {A : Type} [Inhabited A] (M : Algebra A) (convert : A â
       KernelResult.scaleOffset p dest h.val < bounds "scale") :
     FP.Structural.TraceSafe (backend M convert equal) bounds (kernel version p) s := by
   cases version
-  all_goals simp (maxSteps := 2200000) [FP.Structural.TraceSafe, kernel, ComputeKernel.surfaceBody,
+  all_goals simp (maxSteps := 2200000) [FP.Structural.TraceSafe, kernel, originalSource, commutedSource, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,

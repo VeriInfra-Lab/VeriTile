@@ -1,0 +1,145 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/token_attn_mistral_grid_y_checked.py",
+    "python_function": "_fwd_kernel_token_att2",
+    "lean": "bench/repairs/tritonbench_g/token_attn_mistral/Source.lean",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Prob",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ],
+        [
+          "Req_to_tokens",
+          "i32"
+        ],
+        [
+          "B_req_idx",
+          "i32"
+        ],
+        [
+          "B_Start_Loc",
+          "i32"
+        ],
+        [
+          "B_Seqlen",
+          "i32"
+        ],
+        [
+          "B_Att_Start_Loc",
+          "i32"
+        ],
+        [
+          "B_Att_Seqlen",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_b_req_idx",
+          "integer"
+        ],
+        [
+          "stride_b_seq_len",
+          "integer"
+        ],
+        [
+          "stride_b_att_start",
+          "integer"
+        ],
+        [
+          "stride_b_att_len",
+          "integer"
+        ],
+        [
+          "stride_req_to_tokens_b",
+          "integer"
+        ],
+        [
+          "stride_req_to_tokens_s",
+          "integer"
+        ],
+        [
+          "stride_ph",
+          "integer"
+        ],
+        [
+          "stride_pbs",
+          "integer"
+        ],
+        [
+          "stride_vbs",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vd",
+          "integer"
+        ],
+        [
+          "stride_obs",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_od",
+          "integer"
+        ],
+        [
+          "kv_group_num",
+          "integer"
+        ],
+        [
+          "sliding_window",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_DMODEL",
+        "BLOCK_N"
+      ],
+      "naturalIntegerPointers": [
+        "Req_to_tokens",
+        "B_req_idx",
+        "B_Seqlen",
+        "B_Att_Start_Loc",
+        "B_Att_Seqlen"
+      ],
+      "typedFP32Storage": true
+    },
+    "expected_call_bindings": {
+      "stride_b_req_idx": "stride_b_req_idx",
+      "stride_b_seq_len": "stride_b_seq_len",
+      "stride_b_att_start": "stride_b_att_start",
+      "stride_b_att_len": "stride_b_att_len",
+      "stride_req_to_tokens_b": "stride_req_to_tokens_b",
+      "stride_req_to_tokens_s": "stride_req_to_tokens_s",
+      "stride_ph": "stride_ph",
+      "stride_pbs": "stride_pbs",
+      "stride_vbs": "stride_vbs",
+      "stride_vh": "stride_vh",
+      "stride_vd": "stride_vd",
+      "stride_obs": "stride_obs",
+      "stride_oh": "stride_oh",
+      "stride_od": "stride_od",
+      "kv_group_num": "kv_group_num",
+      "sliding_window": "sliding_window"
+    }
+  }
+]

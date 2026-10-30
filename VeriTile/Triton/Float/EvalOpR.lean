@@ -109,6 +109,10 @@ noncomputable def evalOpR (R : RoundingModel) :
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
       some (Tile.bop h.div bc va vb)
+  | .divRN bc a b, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      some (Tile.bop NumericDType.real.div bc va vb)
   | .floorDiv h bc a b, s => do
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
@@ -392,6 +396,8 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
   | _, _, .mul _ _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .div _ _ a b, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .divRN _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .floorDiv _ _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]

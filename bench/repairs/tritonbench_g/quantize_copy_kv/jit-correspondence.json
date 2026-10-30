@@ -1,0 +1,172 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/quantize_copy_kv/quantize_copy_kv_repaired.py",
+    "python_function": "_fwd_kernel_destindex_copy_quantize_kv",
+    "lean": "bench/repairs/tritonbench_g/quantize_copy_kv/Kernels.lean",
+    "lean_definition": "originalSource",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "Dest_loc",
+          "i64"
+        ],
+        [
+          "Out",
+          "i8"
+        ],
+        [
+          "Out_scale",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_k_bs",
+          "integer"
+        ],
+        [
+          "stride_k_h",
+          "integer"
+        ],
+        [
+          "stride_k_d",
+          "integer"
+        ],
+        [
+          "stride_dest",
+          "integer"
+        ],
+        [
+          "stride_o_bs",
+          "integer"
+        ],
+        [
+          "stride_o_h",
+          "integer"
+        ],
+        [
+          "stride_o_d",
+          "integer"
+        ],
+        [
+          "stride_os_bs",
+          "integer"
+        ],
+        [
+          "stride_os_h",
+          "integer"
+        ],
+        [
+          "head_num",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_DMODEL",
+        "BLOCK_HEAD"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_k_bs": "denseStride",
+      "stride_k_h": "p.width",
+      "stride_k_d": "1",
+      "stride_dest": "1",
+      "stride_o_bs": "denseStride",
+      "stride_o_h": "p.width",
+      "stride_o_d": "1",
+      "stride_os_bs": "p.heads",
+      "stride_os_h": "1",
+      "head_num": "p.heads"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/quantize_copy_kv/candidate_kernels.py",
+    "python_function": "_fwd_kernel_destindex_copy_quantize_kv_commuted",
+    "lean": "bench/repairs/tritonbench_g/quantize_copy_kv/Kernels.lean",
+    "lean_definition": "commutedSource",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "Dest_loc",
+          "i64"
+        ],
+        [
+          "Out",
+          "i8"
+        ],
+        [
+          "Out_scale",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_k_bs",
+          "integer"
+        ],
+        [
+          "stride_k_h",
+          "integer"
+        ],
+        [
+          "stride_k_d",
+          "integer"
+        ],
+        [
+          "stride_dest",
+          "integer"
+        ],
+        [
+          "stride_o_bs",
+          "integer"
+        ],
+        [
+          "stride_o_h",
+          "integer"
+        ],
+        [
+          "stride_o_d",
+          "integer"
+        ],
+        [
+          "stride_os_bs",
+          "integer"
+        ],
+        [
+          "stride_os_h",
+          "integer"
+        ],
+        [
+          "head_num",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_DMODEL",
+        "BLOCK_HEAD"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_k_bs": "denseStride",
+      "stride_k_h": "p.width",
+      "stride_k_d": "1",
+      "stride_dest": "1",
+      "stride_o_bs": "denseStride",
+      "stride_o_h": "p.width",
+      "stride_o_d": "1",
+      "stride_os_bs": "p.heads",
+      "stride_os_h": "1",
+      "head_num": "p.heads"
+    }
+  }
+]

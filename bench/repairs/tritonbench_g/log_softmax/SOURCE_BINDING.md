@@ -4,13 +4,13 @@
 `log_softmax_repaired.py` forward/backward kernels. It preserves all FP32 loads,
 identity casts, padding, reductions and stores. Its second source in each pair
 retains the pre-existing candidate that exchanges `pid_m * BLOCK_M` with
-`BLOCK_M * pid_m`. No new Python implementation or performance claim is made.
+`BLOCK_M * pid_m`. The selected original Python is unchanged. candidate_kernels.py explicitly labels its authored counterparts of those existing Lean candidates; no performance claim is made.
 
 | Python operation or boundary | Lean source and connection |
 | --- | --- |
 | All four BM configs and warp-count branches | `Grid.RetainedBlock`, `Grid.warps`; public theorems quantify every retained BM |
 | `next_power_of_2(N)` | `Grid.blockColumns`; `block_positive`, `block_covers` |
-| Widened program IDs, aranges and runtime sizes | Exact Nat source indices; `Address.raw_row_exact`, `Machine.native_masks` establish signed64 correspondence on invoked shapes |
+| Widened program IDs, aranges and runtime sizes | Actual source INT64 casts and three-value tuple assignment; Kernel.signed_index_eq proves strict Nat/Int clamp equality without dropping zero-dimension coverage; `Address.raw_row_exact`, `Machine.native_masks` establish signed64 correspondence on invoked shapes |
 | `minimum(raw, size - 1)` before products | Literal `tl.minimum` statements; `KernelGrid.address_active`, `Address.inactive_intermediates` |
 | Full row-major offset and 3-part mask | Canonical `offset`/`mask`; `Kernel.active`, `Kernel.address` |
 | FP32 masked loads and identity casts | Actual source execution in `Kernel.forward_exec`, `Kernel.backward_exec` |

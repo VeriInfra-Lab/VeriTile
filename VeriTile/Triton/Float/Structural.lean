@@ -192,6 +192,11 @@ structure Algebra (α : Type) where
   minimum : Option ComputeDType → FloatDType → Option (α → α → α) :=
     fun _ _ => none
 
+  /-- Source `tl.div_rn`: a separate precise FP32 division primitive.
+  No ordinary division or reciprocal fallback is supplied. Missing support
+  fails even for an empty result tile. -/
+  divRN : Option (α → α → α) := none
+
 /-- Interpret explicit zero padding in the access channel.
 Floating zero is interpreted by the algebra, never by the carrier's arbitrary
 `Inhabited` default. This does not impose a numerical identity on that value. -/
@@ -707,6 +712,11 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
         M.reduceMaxTyped p dtype axis keepDims v
       else none
   | .castRealToInt8 .., _ => none
+  | .divRN bc a b, s => do
+      let va ← evalOp M p a s
+      let vb ← evalOp M p b s
+      let f ← M.divRN
+      pure (bop f bc va vb)
   | .floorDiv h bc a b, s =>
       return bop (integralFloorDiv h) bc (← evalOp M p a s) (← evalOp M p b s)
   | .mod h bc a b, s =>

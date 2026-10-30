@@ -9,12 +9,16 @@ import importlib.util
 import inspect
 import math
 import operator
+import sys
 from pathlib import Path
 from types import SimpleNamespace
 import numpy as np
 import torch as cpu_torch
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[3]
+sys.path.insert(0, str(ROOT))
+from bench.jit_correspondence import check_manifest
 SOURCE = HERE / "log_softmax_repaired.py"
 spec = importlib.util.spec_from_file_location("softmax_test_memory", HERE.parent / "max_reduction/check_contract.py")
 shared = importlib.util.module_from_spec(spec)
@@ -105,6 +109,7 @@ def load_wrapper():
 
 
 def main():
+    assert len(check_manifest(ROOT, HERE / "jit-correspondence.json")) == 4
     env, block, calls, allocations = load_wrapper()
     wrapper = env["log_softmax_repaired"]
     backward = env["LogSoftmaxRepaired"].backward

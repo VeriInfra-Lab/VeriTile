@@ -28,6 +28,9 @@ syntax (name := tritonInlineAsm) "tl.inline_asm_elementwise(" str
 -- Expressions
 syntax num : tritonExpr
 syntax scientific : tritonExpr
+-- Source-origin metadata only: inserted after checking a pasted Python body.
+-- The expression compiler erases this wrapper after applying Python promotion.
+syntax (name := tritonPythonWeakLiteral) "tl.__python_literal(" tritonExpr ")" : tritonExpr
 syntax "true" : tritonExpr
 syntax "false" : tritonExpr
 syntax "None" : tritonExpr
@@ -56,6 +59,7 @@ syntax (name := tritonUnsignedAddProfiled) "tl.__unsigned_add_profiled(" num ", 
 syntax (name := tritonUnsignedMulProfiled) "tl.__unsigned_mul_profiled(" num ", " term ", " term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax (name := tritonSignedAnd64Profiled) "tl.__signed_and64_profiled(" term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax (name := tritonSignedShift64Profiled) "tl.__signed_shift64_profiled(" tritonExpr ", " num ")" : tritonExpr
+syntax "tl.div_rn(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.exp(" tritonExpr ")" : tritonExpr
 syntax "libdevice.exp(" tritonExpr ")" : tritonExpr
 syntax "tl.extra.cuda.libdevice.exp(" tritonExpr ")" : tritonExpr
@@ -236,6 +240,13 @@ syntax "tl.make_block_ptr(" ident "=" tritonExpr ", " ident "=" "(" tritonExpr,*
 syntax "tl.make_block_ptr(" ident "=" tritonExpr ", " ident "=" "(" tritonExpr,*
   ")" ", " ident "=" "(" tritonExpr,* ")" ", " ident "=" "(" tritonExpr,* ")"
   ", " ident "=" "(" tritonExpr,* ")" ")" : tritonExpr
+-- The positional singleton tuples emitted by strided pointwise Triton writers.
+syntax (name := tritonRankOneBlockPtr) "tl.make_block_ptr(" tritonExpr "," "(" tritonExpr "," ")"
+  "," "(" tritonExpr "," ")" "," "(" tritonExpr "," ")" "," "(" tritonExpr "," ")"
+  "," ident "=" "(" tritonExpr "," ")" ")" : tritonExpr
+syntax (name := tritonRankOneBoundary) (priority := high)
+  "boundary_check=(" tritonExpr "," ")" : tritonMemKwarg
+
 syntax "tl.advance(" tritonExpr ", " "[" tritonExpr,* "]" ")" : tritonExpr
 syntax "tl.advance(" tritonExpr ", " "(" tritonExpr,* ")" ")" : tritonExpr
 syntax "tl.advance(" tritonExpr ", " ident "=" "(" tritonExpr,* ")" ")" : tritonExpr

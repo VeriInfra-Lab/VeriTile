@@ -26,6 +26,8 @@ theorem kernel_correct (a : Arithmetic) (rest : Algebra Word) (p : Launch) (sche
   refine ⟨final, run, ?_, ?_, hf⟩
   · intro r c hr hc
     rw [hq r c hr hc]
+    change narrow8 (KernelExecution.signedByte _) = _
+    rw [KernelExecution.narrow_signedByte]
     rfl
   · intro r hr
     rw [hm r hr]

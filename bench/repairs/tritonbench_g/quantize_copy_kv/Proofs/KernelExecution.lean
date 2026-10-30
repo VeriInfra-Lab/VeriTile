@@ -26,7 +26,7 @@ def execution {α : Type} [Inhabited α] (rest : Algebra α) (convert : α → I
     {t : State α // exec (backend rest convert equal) (originalKernel p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [originalKernel, kernel, FP.Structural.exec, ComputeKernel.surfaceBody,
+  simp [originalKernel, originalSource, commutedSource, kernel, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
     FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold, FP.Structural.store,
     FP.Structural.numeric, FP.Structural.numericLt, FP.Structural.numericEq,
@@ -37,7 +37,7 @@ def execution {α : Type} [Inhabited α] (rest : Algebra α) (convert : α → I
 
 theorem same_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     exec M (originalKernel p) s = exec M (commutedKernel p) s := by
-  simp [originalKernel, commutedKernel, kernel, FP.Structural.exec, ComputeKernel.surfaceBody,
+  simp [originalKernel, originalSource, commutedSource, commutedKernel, kernel, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
     FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
     FP.Structural.numeric, FP.Structural.numericLt, FP.Structural.bop,

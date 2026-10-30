@@ -1,4 +1,6 @@
 import bench.repairs.tritonbench_g.relu_strided_buffer.IO
+import bench.repairs.tritonbench_g.relu_strided_buffer.Proofs.KernelRealResult
+import bench.repairs.tritonbench_g.relu_strided_buffer.Proofs.KernelNativeResult
 import bench.repairs.tritonbench_g.relu_strided_buffer.Proofs.SourceSafety
 
 namespace VeriTile.Bench.Repairs.ReluStridedBuffer.ReluIO
@@ -55,7 +57,7 @@ theorem schedule_safe {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → 
 are enough; no stricter cell-tag assumption or missing loop proof is assumed. -/
 theorem implements {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → α → Bool)
     (compare : M.compareLt none .fp32=some cmp) (f : α → α)
-    (formula : ∀ z,StructuralTile.scalarResult M cmp z=f z) (folded : Bool)
+    (formula : ∀ z,scalarResult M cmp z=f z) (folded : Bool)
     (x y : SignedView.View) (n inputCapacity outputCapacity : Nat) (positive : 0<n)
     (input : x.Valid n inputCapacity) (output : y.Valid n outputCapacity) (stride : y.stride≠0)
     (separate : SignedGrid.FootprintsDisjoint x y n) :
@@ -93,13 +95,13 @@ theorem real_implements (rest : Algebra ℝ) (x y : SignedView.View)
     (separate : SignedGrid.FootprintsDisjoint x y n) :
     (kernelIO (realBackend rest) Bool.false x y n).Implements (mathematical x y n) :=
   implements (realBackend rest) (fun a b => decide (a<b)) (real_compare rest)
-    (fun z => max 0 z) (real_scalar rest) Bool.false x y n inputCapacity outputCapacity
+    (fun z => max 0 z) (KernelRealResult.source_scalar rest) Bool.false x y n inputCapacity outputCapacity
     positive input output stride separate
 
 theorem native_scalar (rest : Algebra (FP.Value .fp32)) (z : FP.Value .fp32) :
-    StructuralTile.scalarResult (fp32Backend rest) WordTile.orderedLt z=nativeRelu z := by
-  simpa only [fp32Backend,fp32_result_classification,nativeRelu] using
-    WordTile.scalarResult_word (zeroLiterals rest) .ieeeValue (zero_literal_exact rest) z
+    scalarResult (fp32Backend rest) WordTile.orderedLt z=nativeRelu z := by
+  simpa only [fp32_result_classification,nativeRelu] using
+    KernelNativeResult.source_scalar_word rest z
 
 theorem native_implements (rest : Algebra (FP.Value .fp32)) (folded : Bool) (x y : SignedView.View)
     (n inputCapacity outputCapacity : Nat) (positive : 0<n)

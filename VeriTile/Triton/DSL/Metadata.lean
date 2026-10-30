@@ -114,6 +114,8 @@ private partial def exprRegions (assigned : RegionBindings) :
   | `(tritonExpr| tl.extra.cuda.libdevice.log1p($e:tritonExpr)) => exprRegions assigned e
   | `(tritonExpr| tl.exp2($e:tritonExpr))        => exprRegions assigned e
   | `(tritonExpr| tl.math.exp2($e:tritonExpr))   => exprRegions assigned e
+  | `(tritonExpr| tl.div_rn($a:tritonExpr, $b:tritonExpr)) =>
+      exprRegions assigned a ++ exprRegions assigned b
   | `(tritonExpr| tl.extra.cuda.libdevice.pow($a:tritonExpr, $b:tritonExpr)) =>
       exprRegions assigned a ++ exprRegions assigned b
   | `(tritonExpr| tl.log($e:tritonExpr))         => exprRegions assigned e

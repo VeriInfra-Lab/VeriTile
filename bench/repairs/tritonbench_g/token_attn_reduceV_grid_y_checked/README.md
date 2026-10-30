@@ -86,3 +86,25 @@ Python, Kernels and Contract pins are unchanged. Current format verification is
 limited to exact changed/new Lean targets, the unchanged Tensor bridge and the
 task-root audit. Historical evidence is retained; no GPU, independent numerical
 replay or new experiment is performed in this pass.
+
+
+The complete original and existing affine candidate bodies now share the raw
+source entry in the underlying task's `Source.lean`. `Kernels.lean` explicitly
+forwards to that shared entry; it emits no replacement program or generated
+body. The selected checked Python and existing affine Python remain unchanged,
+and this directory's `jit-correspondence.json` checks both complete bodies.
+Types, runtime call bindings and constexpr metadata stay outside the bodies.
+The terminal `return`, all strides, gathers, masks, padding, reduction order,
+FP32 arithmetic and output conversion remain. The existing FP32 input profile
+and signed-int32 native metadata bounds are retained; unused generic dtype
+helper parameters are removed without restricting any public theorem.
+
+Both full executable statement lists are proved identical to their preceding
+selected FP32 programs in `Proofs/SourceIdentity.lean` of the shared task.
+Revalidation includes this directory's complete Real and FP specifications,
+whole-state/failure and trace-safety affine equivalence, full-grid execution,
+all physical frames and retained Tensor/native applications, together with the
+underlying execution/host/native proof layers. No numerical assumption, input
+restriction, new candidate or GPU experiment is introduced. Earlier checks
+above remain historical; the current frozen-source receipts and unavailable
+tool attempts are recorded separately in the task ledger.

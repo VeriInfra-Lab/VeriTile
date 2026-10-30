@@ -73,6 +73,12 @@ def sourceBlock.formatter : PrettyPrinter.Formatter := PrettyPrinter.Formatter.v
 declare_syntax_cat tritonPythonBody
 syntax sourceBlock : tritonPythonBody
 
+/-- Python permits parentheses around a tuple assignment RHS. Normalize only
+this spelling to the existing simultaneous-assignment compiler; the raw source
+and operand/target order are retained. -/
+syntax (name := tritonPythonParenthesizedAssignment)
+  ident ", " ident (", " ident)* " = " "(" tritonExpr ", " tritonExpr (", " tritonExpr)* ")" : tritonStmt
+
 private structure Line where
   indent : Nat
   text : String
@@ -226,6 +232,10 @@ private partial def normalizeAttributeCasts (raw : Syntax) : MacroM Syntax := do
   let rebuilt := match raw with
     | .node info kind _ => Syntax.node info kind children
     | _ => raw
+  if let `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
+      ($x:tritonExpr, $y:tritonExpr $[, $values:tritonExpr]*)) := rebuilt then
+    return (← `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
+      $x:tritonExpr, $y:tritonExpr $[, $values:tritonExpr]*)).raw
   unless rebuilt.getKind == ``tritonSourceHelperCall do return rebuilt
   let some callee := children[0]? | return rebuilt
   unless callee.isIdent do return rebuilt
@@ -264,5 +274,54 @@ def statements (environment : Environment) (body : TSyntax `tritonPythonBody) : 
   if let some last := stmts.back? then
     if let `(tritonStmt| return) := last then return stmts.pop
   return stmts
+
+private partial def numericLiteral (value : TSyntax `tritonExpr) : Bool :=
+  match value with
+  | `(tritonExpr| $_:num) | `(tritonExpr| $_:scientific) => Bool.true
+  | `(tritonExpr| ($inner:tritonExpr)) | `(tritonExpr| -$inner:tritonExpr) => numericLiteral inner
+  | _ => Bool.false
+
+/-- Mark weak numeric operands only in copied source comparisons/selects.
+The legacy DSL keeps its original Real literal convention. This marker is
+compiler metadata, not another source statement or floating operation. -/
+partial def markWeakLiterals (raw : Syntax) : MacroM Syntax := do
+  let args ← raw.getArgs.mapM markWeakLiterals
+  let rebuilt := match raw with
+    | .node info kind _ => Syntax.node info kind args
+    | _ => raw
+  let mark (value : TSyntax `tritonExpr) : MacroM (TSyntax `tritonExpr) := do
+    if numericLiteral value then `(tritonExpr| tl.__python_literal($value:tritonExpr))
+    else pure value
+  let expression : TSyntax `tritonExpr := ⟨rebuilt⟩
+  match expression with
+  | `(tritonExpr| tl.where($condition:tritonExpr, $yes:tritonExpr, $no:tritonExpr)) =>
+      let yes ← mark yes
+      let no ← mark no
+      return (← `(tritonExpr| tl.where($condition:tritonExpr, $yes:tritonExpr, $no:tritonExpr))).raw
+  | `(tritonExpr| $a:tritonExpr < $b:tritonExpr) =>
+      let a ← mark a
+      let b ← mark b
+      return (← `(tritonExpr| $a:tritonExpr < $b:tritonExpr)).raw
+  | `(tritonExpr| $a:tritonExpr <= $b:tritonExpr) =>
+      let a ← mark a
+      let b ← mark b
+      return (← `(tritonExpr| $a:tritonExpr <= $b:tritonExpr)).raw
+  | `(tritonExpr| $a:tritonExpr > $b:tritonExpr) =>
+      let a ← mark a
+      let b ← mark b
+      return (← `(tritonExpr| $a:tritonExpr > $b:tritonExpr)).raw
+  | `(tritonExpr| $a:tritonExpr >= $b:tritonExpr) =>
+      let a ← mark a
+      let b ← mark b
+      return (← `(tritonExpr| $a:tritonExpr >= $b:tritonExpr)).raw
+  | `(tritonExpr| $a:tritonExpr == $b:tritonExpr) =>
+      let a ← mark a
+      let b ← mark b
+      return (← `(tritonExpr| $a:tritonExpr == $b:tritonExpr)).raw
+  | `(tritonExpr| $a:tritonExpr != $b:tritonExpr) =>
+      let a ← mark a
+      let b ← mark b
+      return (← `(tritonExpr| $a:tritonExpr != $b:tritonExpr)).raw
+  | _ => return rebuilt
 
 end VeriTile.Triton.DSL.PythonBody
