@@ -76,7 +76,8 @@ Their CUDA construction/execution has not been tested.
   to Real semantics.
 - `FPEquiv.original` and `commuted` package the shared source pair and its
   actual `additionSite`. `add_value_commuted_equiv` states
-  `original n ≡[[]] commuted n`, applying strict FP32 addition commutation.
+  `original n ≡[[]] commuted n`, applying the strict integer-literal
+  conversion certificate followed by FP32 addition commutation.
   Its finite-operand condition uses the actual mask after the original load
   prefix: only lanes with `mask = true` require finite operands. Values in
   masked-off lanes are unrestricted because their results are not stored.
@@ -84,11 +85,18 @@ Their CUDA construction/execution has not been tested.
 - The rewrite theorem executes the source's explicit FP32 load and compute
   operations through the FP32 engine and `FP.ProfiledMemory` view. Its `.real` type is the opaque
   data carrier; the retained instruction tags select FP32 semantics, including
-  `M.fp32Load`. `FPEquiv.original_source` is a literal kernel identity.
+  `M.fp32Load`. Both program views refer to the current `Kernels.lean`.
   `Proofs/Rewrite.lean` executes both displayed sources successfully and
   proves equality of their complete typed memories. It uses the shared
-  `FP.ScalarArithmetic.add_comm_strict` theorem at the actual load prefix. The local
-  constant assignment is handled by execution, with no extra numerical law.
+  `FP.IntegerLiteral.from_int_literal` certificate and the shared
+  `FP.ScalarArithmetic.add_comm_strict` theorem at the actual load prefix.
+  The ordinary assignment `y = 10` produces an int32 tensor, whose conversion
+  to FP32 remains visible in execution. The named strict software profile
+  fixes integer-valued literals and integer conversions to the same
+  nearest-even rounder. This updates the model interpretation explicitly; it
+  adds neither an empirical assumption nor a Python input restriction. The
+  historical floating-literal candidate is retained only as a proof snapshot,
+  with no false AST equality to the corrected source.
 - `Proofs/MaskedDomain.lean` checks independence from all unspecified inactive
   load values, the empty domain, a one-element tail's complete memory
   equivalence, and rejection of a nonfinite operand when its lane is active.

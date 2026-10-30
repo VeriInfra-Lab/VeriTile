@@ -200,7 +200,7 @@ info:   none
 ---
 info: Strict model certificates used by imported_fp_rule:
 ---
-info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+info:   model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
     certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions imported_fp_rule
@@ -211,7 +211,7 @@ info:   none
 ---
 info: Strict model certificates used by two_fp_sites:
 ---
-info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+info:   model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
     certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.mulCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions two_fp_sites

@@ -37,7 +37,7 @@ info:   none
 ---
 info: Strict model certificates used by reduce_then_add:
 ---
-info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+info:   model: VeriTile.Software.strictFP32/ieeeValue/integer-literals/maxnum/documented-exp-special-values
     certificate: List.Forall₂.cons (ScalarArithmetic.strict_certificate ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions reduce_then_add

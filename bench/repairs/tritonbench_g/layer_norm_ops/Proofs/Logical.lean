@@ -25,6 +25,8 @@ def dx (n : Nat) (rms extra : Bool) (x w dy dres : Nat → ℝ) (mu inv : ℝ) (
 
 def algebra (rest : Algebra ℝ) : Algebra ℝ :=
   { LayerNormLiger.Logical.algebra rest with
+    fromNat := fun _ n => (n : ℝ)
+    fromInt := fun _ n => (n : ℝ)
     unary := fun pr op x => match op with
       | .sqrt => Real.sqrt x
       | _ => (LayerNormLiger.Logical.algebra rest).unary pr op x }

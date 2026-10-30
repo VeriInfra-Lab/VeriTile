@@ -13,10 +13,11 @@ structure Acc (α : Type) (p : Parameters) where
 def zero {α} (M : Algebra α) := M.literal (some .fp32) .real 0
 def padding {α} (M : Algebra α) := M.cast none .real .fp32 (M.literal none .real 0)
 def cast {α} (M : Algebra α) (v : α) := M.cast (some .fp32) .fp32 .real v
-def stored {α} (M : Algebra α) (v : α) : Cell α := .mk .fp32 (M.cast none .real .fp32 v)
+def stored {α} (M : Algebra α) (v : α) : Cell α :=
+  .mk .fp32 (M.cast none .real .fp32 (M.cast (some .fp32) .real .real v))
 def binary {α} (M : Algebra α) (op : Binary) (x y : α) := M.binary (some .fp32) .real op x y
 def denom {α} (M : Algebra α) (p : Parameters) :=
-  M.cast (some .fp32) .real .real (M.literal (some .fp32) .real (p.columns : ℝ))
+  M.fromInt (some .fp32) (p.columns : Int)
 def load {α} [Inhabited α] (M : Algebra α) (p : Parameters) (a : Acc α p)
     (r : RegionName) (offset : Nat) (i : TileIndex [p.block]) :=
   if i.1.val < p.columns then (a.state.mem r (offset+i.1.val)).read .fp32 else padding M
@@ -24,11 +25,15 @@ def mean {α} [Inhabited α] (p : Parameters) (a : Acc α p) (row : Nat) :=
   (a.state.mem p.mean row).read .fp32
 def rstd {α} [Inhabited α] (p : Parameters) (a : Acc α p) (row : Nat) :=
   (a.state.mem p.rstd row).read .fp32
-def xhat {α} [Inhabited α] (M : Algebra α) (p : Parameters) (a : Acc α p)
+def xhatTyped {α} [Inhabited α] (M : Algebra α) (p : Parameters) (a : Acc α p)
     (row : Nat) (i : TileIndex [p.block]) :=
-  if i.1.val < p.columns then cast M (M.binary (some .fp32) .fp32 .mul
-    (M.binary (some .fp32) .fp32 .sub (load M p a p.x (row*p.xStride) i) (mean p a row))
-    (rstd p a row)) else M.literal none .real 0
+  if i.1.val < p.columns then M.binary none .fp32 .mul
+    (M.binary none .fp32 .sub (load M p a p.x (row*p.xStride) i) (mean p a row))
+    (rstd p a row) else M.literal none .fp32 0
+
+def xhat {α} [Inhabited α] (M : Algebra α) (p : Parameters) (a : Acc α p)
+    (row : Nat) (i : TileIndex [p.block]) : α := cast M (xhatTyped M p a row i)
+
 def wdy {α} [Inhabited α] (M : Algebra α) (p : Parameters) (a : Acc α p)
     (row : Nat) (i : TileIndex [p.block]) :=
   M.binary none .fp32 .mul (load M p a p.weight 0 i) (load M p a p.dy (row*p.dyStride) i)
@@ -47,7 +52,8 @@ def update {α} [Inhabited α] (M : Algebra α) (R : SumPrimitive α) (p : Param
   state := (TileShape.allIndices [p.block]).foldl (fun s i =>
     if i.1.val < p.columns then s.write p.dx (row*p.dxStride+i.1.val) (stored M (dxValue M R p a row i)) else s) a.state
   dw := fun i => binary M .add (a.dw i)
-    (binary M .mul (cast M (load M p a p.dy (row*p.dyStride) i)) (xhat M p a row i))
+    (cast M (M.binary (some .fp32) .fp32 .mul
+      (load M p a p.dy (row*p.dyStride) i) (xhatTyped M p a row i)))
   db := fun i => binary M .add (a.db i) (cast M (load M p a p.dy (row*p.dyStride) i))
 def initial {α} (M : Algebra α) (p : Parameters) (s : State α) : Acc α p :=
   ⟨s, fun _ => zero M, fun _ => zero M⟩

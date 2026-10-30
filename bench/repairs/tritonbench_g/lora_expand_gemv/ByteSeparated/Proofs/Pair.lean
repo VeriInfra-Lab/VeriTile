@@ -3,6 +3,8 @@ import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.PairIO
 import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.CandidateKernels
 import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IOCorrect
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
+import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IntegerCandidateSafety
+import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.LocalObservation
 
 namespace VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Pair
 open VeriTile.Triton FP.Structural FPValue LoraIO
@@ -25,106 +27,37 @@ body. Native width/range obligations are still carried by the caller. -/
 theorem candidate_index_profiles (p : Branches.Parameters) :
     unitSplitSourceInt32 p=unitSplitSource p := rfl
 
-def active (k : ComputeKernel) : List ComputeStmt :=
-  match (k.surfaceBody[3]? : Option ComputeStmt) with
-  | some (ComputeStmt.ifThen _ body) => body
-  | _ => []
-def before (g : Geometry) := (active (fullSource g.parameters)).take 3
-def originalSite (g : Geometry) : ComputeStmt :=
-  ((active (fullSource g.parameters))[3]? : Option ComputeStmt).getD (.effectMarker "unreachable")
-def candidateSite (g : Geometry) : ComputeStmt :=
-  ((active (unitSplitSource g.parameters))[3]? : Option ComputeStmt).getD (.effectMarker "unreachable")
-def after (g : Geometry) := (active (fullSource g.parameters)).drop 4
+open IntegerCandidate (forgetLocals)
 
-theorem original_split (g : Geometry) :
-    active (fullSource g.parameters)=before g++originalSite g::after g := rfl
-theorem candidate_split (g : Geometry) :
-    active (unitSplitSource g.parameters)=before g++candidateSite g::after g := rfl
+/-- Local integer carriers may differ. Every other state component, including
+memory and undefined-load behavior, agrees after actual source execution. -/
+theorem kernel_run (rest : Algebra Word) (plans : ∀ n, ReductionPlan n) (g : Geometry) (positive : 0<g.N) (s : State Word) :
+    (exec (Branches.engine rest .ieeeValue plans) (fullSource g.parameters) s).map forgetLocals=
+      (exec (Branches.engine rest .ieeeValue plans) (unitSplitSource g.parameters) s).map forgetLocals :=
+  IntegerCandidate.observed_run rest plans g positive s
 
-theorem site_run (A : Algebra Word) (g : Geometry) (positive : 0<g.N) (s : State Word) :
-    step A (originalSite g) s=step A (candidateSite g) s := by
-  have one := length_one g positive
-  change (g.N+g.N-1)/g.N=1 at one
-  simp [originalSite,candidateSite,active,fullSource,unitSplitSource,
-    Geometry.parameters,ComputeKernel.surfaceBody,step,evalExpr,evalComputeOp,
-    evalOp_unfold,Option.bind,numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,one]
-  unfold bop
-  simp [Broadcast.leftIndex,Broadcast.rightIndex,one]
-
-theorem site_safe (A : Algebra Word) (g : Geometry) (bounds : RegionName → Nat) (s : State Word) :
-    Safety.stepSafe A bounds (originalSite g) s ↔ Safety.stepSafe A bounds (candidateSite g) s := by
-  simp [originalSite,candidateSite,active,fullSource,unitSplitSource,
-    Geometry.parameters,ComputeKernel.surfaceBody,Safety.stepSafe_unfold,
-    Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
-
-
-theorem run_cons (A : Algebra Word) (st : ComputeStmt) (rest : List ComputeStmt) (s : State Word) :
-    run A (st::rest) s=(step A st s).bind (run A rest) := by rw [run]; rfl
-
-theorem active_run (A : Algebra Word) (g : Geometry) (positive : 0<g.N) (s : State Word) :
-    run A (active (fullSource g.parameters)) s=run A (active (unitSplitSource g.parameters)) s := by
-  rw [original_split,candidate_split,run_append,run_append]
-  apply congrArg (fun f => (run A (before g) s).bind f)
-  funext t
-  rw [run_cons,run_cons,site_run A g positive]
-
-theorem active_safe (A : Algebra Word) (g : Geometry) (positive : 0<g.N)
+theorem kernel_safe (rest : Algebra Word) (plans : ∀ n, ReductionPlan n) (g : Geometry) (positive : 0<g.N)
     (bounds : RegionName → Nat) (s : State Word) :
-    Safety.traceSafeList A bounds (active (fullSource g.parameters)) s ↔
-      Safety.traceSafeList A bounds (active (unitSplitSource g.parameters)) s := by
-  rw [original_split,candidate_split,Safety.traceSafeList_append,Safety.traceSafeList_append]
-  apply and_congr_right
-  intro _
-  apply forall_congr'
-  intro t
-  apply imp_congr_right
-  intro _
-  rw [Safety.traceSafeList_cons,Safety.traceSafeList_cons,site_run A g positive,
-    site_safe A g bounds t]
+    TraceSafe (Branches.engine rest .ieeeValue plans) bounds (fullSource g.parameters) s ↔ TraceSafe (Branches.engine rest .ieeeValue plans) bounds (unitSplitSource g.parameters) s :=
+  IntegerCandidate.safe_iff rest plans g positive bounds s
 
-def header (g : Geometry) := (fullSource g.parameters).surfaceBody.take 3
-def condition (g : Geometry) : Op .bool [] :=
-  match ((fullSource g.parameters).surfaceBody[3]? : Option ComputeStmt) with
-  | some (ComputeStmt.ifThen cond _) => cond
-  | _ => Op.constBool Bool.false
-
-theorem original_code (g : Geometry) : (fullSource g.parameters).surfaceBody=
-    header g++[.ifThen (condition g) (active (fullSource g.parameters))] := rfl
-theorem candidate_code (g : Geometry) : (unitSplitSource g.parameters).surfaceBody=
-    header g++[.ifThen (condition g) (active (unitSplitSource g.parameters))] := rfl
-
-theorem kernel_run (A : Algebra Word) (g : Geometry) (positive : 0<g.N) (s : State Word) :
-    exec A (fullSource g.parameters) s=exec A (unitSplitSource g.parameters) s := by
-  change run A (fullSource g.parameters).surfaceBody s=run A (unitSplitSource g.parameters).surfaceBody s
-  rw [original_code,candidate_code,run_append,run_append]
-  apply congrArg (fun f => (run A (header g) s).bind f)
-  funext t
-  simp only [run_cons,step,active_run A g positive]
-
-theorem kernel_safe (A : Algebra Word) (g : Geometry) (positive : 0<g.N)
-    (bounds : RegionName → Nat) (s : State Word) :
-    TraceSafe A bounds (fullSource g.parameters) s ↔ TraceSafe A bounds (unitSplitSource g.parameters) s := by
-  unfold TraceSafe
-  rw [original_code,candidate_code,Safety.traceSafeList_append,Safety.traceSafeList_append]
-  apply and_congr_right
-  intro _
-  apply forall_congr'
-  intro t
-  apply imp_congr_right
-  intro _
-  simp only [Safety.traceSafeList_cons,Safety.traceSafeList_nil,and_true]
-  simp [Safety.stepSafe_unfold,active_safe A g positive bounds]
-
+private theorem matched_result {a b : Option (State Word)}
+    (same : a.map forgetLocals=b.map forgetLocals) {s : State Word} (ran : a=some s) :
+    ∃ t,b=some t ∧ forgetLocals s=forgetLocals t := by
+  have hb : b.map forgetLocals=some (forgetLocals s) := by rw [←same,ran];rfl
+  obtain ⟨t,ht,hs⟩ := Option.map_eq_some_iff.mp hb
+  exact ⟨t,ht,hs.symm⟩
 
 theorem invocation_run (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
     (g : Geometry) (q : Nat) (bounded : q<g.count) (s : State Word) :
-    (launch rest plans g q).run s=(invocation rest plans g q).run s := by
+    ((launch rest plans g q).run s).map forgetLocals=
+      ((invocation rest plans g q).run s).map forgetLocals := by
   have positive : 0<g.N := by have := (coordinates g q bounded).1; omega
-  change exec (Branches.engine rest .ieeeValue plans) (fullSource g.parameters)
-    ((launch rest plans g q).initial s)=
-      exec (Branches.engine rest .ieeeValue plans) (unitSplitSource g.parameters)
-        ((launch rest plans g q).initial s)
-  exact kernel_run _ g positive _
+  change (exec (Branches.engine rest .ieeeValue plans) (fullSource g.parameters)
+    ((launch rest plans g q).initial s)).map forgetLocals=
+      (exec (Branches.engine rest .ieeeValue plans) (unitSplitSource g.parameters)
+        ((launch rest plans g q).initial s)).map forgetLocals
+  exact kernel_run rest plans g positive _
 
 theorem invocation_safe (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
     (g : Geometry) (q : Nat) (bounded : q<g.count) (bounds : RegionName → Nat) (s : State Word) :
@@ -134,19 +67,43 @@ theorem invocation_safe (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
     ((launch rest plans g q).initial s) ↔
       TraceSafe (Branches.engine rest .ieeeValue plans) bounds (unitSplitSource g.parameters)
         ((launch rest plans g q).initial s)
-  exact kernel_safe _ g positive bounds _
+  exact kernel_safe rest plans g positive bounds _
+
+private theorem clear_original (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
+    (g : Geometry) (work : List Nat) :
+    ∀ job∈work.map (launch rest plans g),job.clearRegisters=Bool.true := by
+  intro job member
+  obtain ⟨q,_,rfl⟩ := List.mem_map.mp member
+  rfl
+
+private theorem clear_candidate (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
+    (g : Geometry) (work : List Nat) :
+    ∀ job∈work.map (invocation rest plans g),job.clearRegisters=Bool.true := by
+  intro job member
+  obtain ⟨q,_,rfl⟩ := List.mem_map.mp member
+  rfl
 
 theorem schedule_run (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
     (g : Geometry) (work : List Nat) (bounded : ∀ q∈work,q<g.count) (s : State Word) :
-    runSchedule (work.map (launch rest plans g)) s=
-      runSchedule (work.map (invocation rest plans g)) s := by
+    (runSchedule (work.map (launch rest plans g)) s).map forgetLocals=
+      (runSchedule (work.map (invocation rest plans g)) s).map forgetLocals := by
   induction work generalizing s with
   | nil => rfl
   | cons q qs ih =>
-    simp only [List.map_cons,runSchedule,←invocation_run rest plans g q (bounded q (by simp))]
-    cases he : (launch rest plans g q).run s with
-    | none => rfl
-    | some t => exact ih (fun p hp => bounded p (by simp [hp])) t
+    have heads := invocation_run rest plans g q (bounded q (by simp)) s
+    have tail : ∀ p∈qs,p<g.count := fun p hp => bounded p (by simp [hp])
+    simp only [List.map_cons,runSchedule]
+    cases left : (launch rest plans g q).run s with
+    | none =>
+      have right : (invocation rest plans g q).run s=none := by
+        apply Option.map_eq_none_iff.mp
+        rw [←heads,left];rfl
+      simp [left,right]
+    | some a =>
+      obtain ⟨b,right,same⟩ := matched_result heads left
+      simp only [left,right,Option.bind_some]
+      exact (ih tail a).trans (IntegerCandidate.schedule_run_congr _
+        (clear_candidate rest plans g qs) a b same)
 
 theorem schedule_safe (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
     (g : Geometry) (work : List Nat) (bounded : ∀ q∈work,q<g.count)
@@ -156,11 +113,25 @@ theorem schedule_safe (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
   induction work generalizing s with
   | nil => rfl
   | cons q qs ih =>
-    simp only [List.map_cons,ScheduleSafe,
-      ←invocation_safe rest plans g q (bounded q (by simp)),
-      ←invocation_run rest plans g q (bounded q (by simp))]
-    exact and_congr Iff.rfl (forall_congr' fun t => imp_congr_right fun _ =>
-      ih (fun p hp => bounded p (by simp [hp])) t)
+    have tail : ∀ p∈qs,p<g.count := fun p hp => bounded p (by simp [hp])
+    have heads := invocation_run rest plans g q (bounded q (by simp)) s
+    have safe := invocation_safe rest plans g q (bounded q (by simp)) bounds s
+    simp only [List.map_cons,ScheduleSafe]
+    constructor
+    · rintro ⟨first,restSafe⟩
+      refine ⟨safe.mp first,?_⟩
+      intro b right
+      obtain ⟨a,left,same⟩ := matched_result heads.symm right
+      have next := (ih tail a).mp (restSafe a left)
+      exact (IntegerCandidate.schedule_safe_congr _ (clear_candidate rest plans g qs)
+        bounds a b same.symm).mp next
+    · rintro ⟨first,restSafe⟩
+      refine ⟨safe.mpr first,?_⟩
+      intro a left
+      obtain ⟨b,right,same⟩ := matched_result heads left
+      have next := (ih tail b).mpr (restSafe b right)
+      exact (IntegerCandidate.schedule_safe_congr _ (clear_original rest plans g qs)
+        bounds b a same.symm).mp next
 
 /-- Both concrete complete grids are safe and successful, all output cells
 agree, and both exterior frames hold. Even empty grids retain their full scope. -/
@@ -173,13 +144,18 @@ theorem equivalent (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
     IOCorrect.graph rest plans g raw valid order coverage vals hd bounds hb initial hin
   have bounded : ∀ q∈order,q<g.count :=
     fun q hq => List.mem_range.mp (coverage.mem_iff.mp hq)
+  obtain ⟨other,otherRun,same⟩ := matched_result
+    (schedule_run rest plans g order bounded initial) ran
+  have memory : final.mem=other.mem := by
+    simpa only [IntegerCandidate.forgetLocals] using
+      congrArg (fun t : State Word => t.mem) same
   refine ⟨safe,(schedule_safe rest plans g order bounded bounds initial).mp safe,
-    final,final,ran,?_,?_,frame,frame⟩
-  · change runSchedule (order.map (invocation rest plans g)) initial=some final
-    rw [←schedule_run rest plans g order bounded]
-    exact ran
+    final,other,ran,otherRun,?_,frame,?_⟩
   · intro o j _
+    change mapCell _ (final.mem _ _) = mapCell _ (other.mem _ _)
+    rw [memory]
     rfl
+  · simpa only [ProgramIO.Frame,←memory] using frame
 
 
 /-- Existing memory projection of the actual candidate kernel, with the same
@@ -205,11 +181,24 @@ theorem execute_same (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
       (program g (q/g.N) (q%g.N) mem)).bind _ =
         (exec (Branches.engine rest .ieeeValue plans) (Branches.source .singleHalf .single g.parameters)
           (program g (q/g.N) (q%g.N) mem)).bind _
-    rw [←SourceConnection.run_eq, kernel_run _ g positive]
-    apply congrArg (fun f => (exec (Branches.engine rest .ieeeValue plans)
-      (unitSplitSource g.parameters) (program g (q/g.N) (q%g.N) mem)).bind f)
-    funext next
-    exact ih (fun p hp => bounded p (by simp [hp])) next.mem
+    rw [←SourceConnection.run_eq]
+    have same := kernel_run rest plans g positive (program g (q/g.N) (q%g.N) mem)
+    cases left : exec (Branches.engine rest .ieeeValue plans) (fullSource g.parameters)
+        (program g (q/g.N) (q%g.N) mem) with
+    | none =>
+      have right : exec (Branches.engine rest .ieeeValue plans) (unitSplitSource g.parameters)
+          (program g (q/g.N) (q%g.N) mem)=none := by
+        apply Option.map_eq_none_iff.mp
+        rw [←same,left];rfl
+      simp [left,right]
+    | some a =>
+      obtain ⟨b,right,observed⟩ := matched_result same left
+      simp only [left,right,Option.bind_some]
+      have memory : a.mem=b.mem := by
+        simpa only [IntegerCandidate.forgetLocals] using
+          congrArg (fun t : State Word => t.mem) observed
+      rw [←memory]
+      exact ih (fun p hp => bounded p (by simp [hp])) a.mem
 
 #axiomsClean candidate_index_profiles
 #axiomsClean original_source

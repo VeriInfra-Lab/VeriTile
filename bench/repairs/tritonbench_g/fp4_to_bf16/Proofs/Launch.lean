@@ -1,4 +1,5 @@
 import bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.Finite
+import bench.repairs.tritonbench_g.fp4_to_bf16.Proofs.SourceContract
 
 /-! Finite-ABI binding of the complete reused source. Count and pid enter
 through their actual widened bitvectors. The instruction-level arithmetic,
@@ -39,37 +40,97 @@ theorem pid_exact (h : Input) (pid : Nat) (gridSafe : grid h≤2147483647) (hp :
   norm_num
   omega
 
-theorem program_refinement (rest : Algebra Word) (h : Input) (s : Finite.Storage h.shape.count)
+/-- Native count and pid decoding bind the actual pasted body. The historical
+proof implementation is connected separately through its memory observation. -/
+theorem program_source (rest : Algebra Word) (h : Input) (s : Finite.Storage h.shape.count)
     (pid : Nat) (initial : State Word) (gridSafe : grid h≤2147483647) (hp : pid<grid h) :
     program rest h pid initial =
-      FP.Structural.exec (backend rest) (source (Host.parameters h)) (programState h pid initial) := by
+      FP.Structural.exec (backend rest) (Kernels.source (Host.parameters h))
+        (programState h pid initial) := by
   unfold program parameters
-  rw [count_exact h s, pid_exact h pid gridSafe hp]
+  rw [count_exact h s,pid_exact h pid gridSafe hp]
   rfl
+
+/-- The active output mask excludes every inactive parent load. Thus different
+private registers and undef environments do not restrict schedule composition. -/
+theorem program_memory_congr (rest : Algebra Word) (h : Input) (s : Finite.Storage h.shape.count)
+    (pid : Nat) (a b : State Word) (memory : a.mem=b.mem)
+    (gridSafe : grid h≤2147483647) (hp : pid<grid h) :
+    (program rest h pid a).map (fun t => t.mem) =
+      (FP.Structural.exec (backend rest) (source (Host.parameters h))
+        (programState h pid b)).map (fun t => t.mem) := by
+  rw [program_source rest h s pid a gridSafe hp,
+    (Source.execution rest (Host.parameters h) (programState h pid a)).property,
+    (FPValue.execution rest (Host.parameters h) (programState h pid b)).property]
+  simp only [Option.map_some]
+  rw [Source.raw_execution_memory,FPValue.raw_execution_memory]
+  exact congrArg some (Source.rawWritten_memory_congr _ _ _ memory rfl)
+
+theorem program_refinement (rest : Algebra Word) (h : Input) (s : Finite.Storage h.shape.count)
+    (pid : Nat) (initial : State Word) (gridSafe : grid h≤2147483647) (hp : pid<grid h) :
+    (program rest h pid initial).map (fun t => t.mem) =
+      (FP.Structural.exec (backend rest) (source (Host.parameters h))
+        (programState h pid initial)).map (fun t => t.mem) :=
+  program_memory_congr rest h s pid initial initial rfl gridSafe hp
+
+theorem schedule_memory_congr (rest : Algebra Word) (h : Input) (s : Finite.Storage h.shape.count)
+    (jobs : List Nat) (a b : State Word) (memory : a.mem=b.mem)
+    (gridSafe : grid h≤2147483647) (valid : ∀ pid∈jobs,pid<grid h) :
+    (run rest h jobs a).map (fun t => t.mem) =
+      (runSchedule rest h jobs b).map (fun t => t.mem) := by
+  induction jobs generalizing a b with
+  | nil => exact congrArg some memory
+  | cons pid jobs ih =>
+    have hp := valid pid (by simp)
+    have hv : ∀ p∈jobs,p<grid h := fun p member => valid p (by simp [member])
+    let nextA := (Source.execution rest (Host.parameters h) (programState h pid a)).val
+    let nextB := (FPValue.execution rest (Host.parameters h) (programState h pid b)).val
+    have ra : program rest h pid a = some nextA := by
+      rw [program_source rest h s pid a gridSafe hp]
+      exact (Source.execution rest (Host.parameters h) (programState h pid a)).property
+    have rb : exec (backend rest) (source (Host.parameters h)) (programState h pid b) = some nextB :=
+      (FPValue.execution rest (Host.parameters h) (programState h pid b)).property
+    have nextMemory : nextA.mem=nextB.mem := by
+      have obs := program_memory_congr rest h s pid a b memory gridSafe hp
+      simpa only [ra,rb,Option.map_some,Option.some.injEq] using obs
+    simp only [run,runSchedule,ra,rb,Option.bind_some]
+    exact ih nextA nextB nextMemory hv
 
 theorem schedule_refinement (rest : Algebra Word) (h : Input) (s : Finite.Storage h.shape.count)
     (jobs : List Nat) (initial : State Word) (gridSafe : grid h≤2147483647)
     (valid : ∀ pid∈jobs,pid<grid h) :
-    run rest h jobs initial = runSchedule rest h jobs initial := by
-  induction jobs generalizing initial with
-  | nil => rfl
-  | cons pid jobs ih =>
-    have hp := valid pid (by simp)
-    have hv : ∀ p∈jobs,p<grid h := fun p member => valid p (by simp [member])
-    simp only [run, runSchedule, program_refinement rest h s pid initial gridSafe hp]
-    congr 1
-    funext previous
-    exact ih previous hv
+    (run rest h jobs initial).map (fun t => t.mem) =
+      (runSchedule rest h jobs initial).map (fun t => t.mem) :=
+  schedule_memory_congr rest h s jobs initial initial rfl gridSafe valid
 
 theorem complete_refinement (rest : Algebra Word) (h : Input) (s : Finite.Storage h.shape.count)
     (jobs : List Nat) (initial : State Word) (gridSafe : grid h≤2147483647)
     (order : jobs.Perm (List.range (grid h))) :
-    run rest h jobs initial = runSchedule rest h jobs initial := by
+    (run rest h jobs initial).map (fun t => t.mem) =
+      (runSchedule rest h jobs initial).map (fun t => t.mem) := by
   apply schedule_refinement rest h s jobs initial gridSafe
   intro pid member
   exact List.mem_range.mp (order.mem_iff.mp member)
 
+/-- Transfer successful execution and the entire memory, leaving the different
+private register files of the two implementations unconstrained. -/
+theorem complete_transfer (rest : Algebra Word) (h : Input) (s : Finite.Storage h.shape.count)
+    (jobs : List Nat) (initial previous : State Word) (gridSafe : grid h≤2147483647)
+    (order : jobs.Perm (List.range (grid h)))
+    (executed : runSchedule rest h jobs initial = some previous) :
+    ∃ final,run rest h jobs initial=some final ∧ final.mem=previous.mem := by
+  have observation := complete_refinement rest h s jobs initial gridSafe order
+  cases actual : run rest h jobs initial with
+  | none => simp only [actual,executed,Option.map_none,Option.map_some,reduceCtorEq] at observation
+  | some final =>
+    refine ⟨final,rfl,?_⟩
+    simpa only [actual,executed,Option.map_some,Option.some.injEq] using observation
+
+#axiomsClean program_source
+#axiomsClean program_memory_congr
 #axiomsClean program_refinement
+#axiomsClean schedule_memory_congr
 #axiomsClean complete_refinement
+#axiomsClean complete_transfer
 end
 end VeriTile.Bench.Repairs.Fp4ToBf16.Launch

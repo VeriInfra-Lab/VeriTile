@@ -60,7 +60,7 @@ theorem body_safe (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
   · intro i d hi
     have eq : gatherOffset p s i.val+n*p.requestTokenStride = gatherOffset p s (n+i.val) := by
       unfold gatherOffset; ring
-    simpa only [hi,if_true,eq] using hb.values nonzero (n+i.val) hi d
+    simpa only [hi,if_true,gather_index_toNat,eq] using hb.values nonzero (n+i.val) hi d
 
 theorem postlude_safe (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
     (s t : State A) (a : TileIndex [p.width] → A) (ready : Ready p s t a)

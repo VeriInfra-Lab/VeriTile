@@ -1,6 +1,4 @@
-import bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.LegacyStoreView
 import bench.repairs.tritonbench_g.fast_rope_embedding.Kernels
-import bench.tritonbench_g.fast_rope_embedding.Kernels
 import VeriTile.Triton.Float.ProgramIO
 
 namespace VeriTile.Bench.Repairs.FastRopeEmbedding.SourcePair
@@ -9,25 +7,15 @@ open scoped VeriTile.Spec
 set_option maxHeartbeats 5000000
 noncomputable section
 
-namespace Old
-abbrev source := VeriTile.Bench.TritonBenchG.FastRopeEmbedding.TypedSource.rope
-end Old
-
-theorem original_source (Q C S : RegionName) (QR CR SR seq H heads B : Nat) (backwards : Bool) :
-    Kernels.rope Q C S QR CR SR seq H heads B backwards =
-      LegacyStoreView.current (Old.source .fp32 .fp32 .fp32 Bool.false Q C S QR CR SR seq H heads B backwards) := by
-  cases backwards <;> rfl
-
-theorem candidate_source (Q C S : RegionName) (QR CR SR seq H heads B : Nat) (backwards : Bool) :
-    Kernels.ropeIndexCommuted Q C S QR CR SR seq H heads B backwards =
-      LegacyStoreView.current (Old.source .fp32 .fp32 .fp32 Bool.true Q C S QR CR SR seq H heads B backwards) := by
-  cases backwards <;> rfl
+/- The historical plain DSL source used a natural carrier for the local 4.
+Ordinary Python assignment now creates the signed integer tensor. The public
+pair is proved directly below; no equality to that old AST is asserted. -/
 
 /-- Proof-only decomposition of the one changed integer assignment. -/
 def headStep (candidate : Bool) : ComputeStmt :=
-  let a : Op .nat [] := .ref .nat [] "group_head_position"
-  let b : Op .nat [] := .ref .nat [] "ROPE_GROUP_SIZE"
-  .assign .nat [] "head_start" (.alg (if candidate then .mul .nat .nil b a else .mul .nat .nil a b))
+  let a : Op .int [] := .castNatToInt (.ref .nat [] "group_head_position")
+  let b : Op .int [] := .ref .int [] "ROPE_GROUP_SIZE"
+  .assign .int [] "head_start" (.alg (if candidate then .mul .int .nil b a else .mul .int .nil a b))
 
 def source (candidate : Bool) (Q C S : RegionName) (QR CR SR seq H heads B : Nat) (backwards : Bool) :=
   if candidate then Kernels.ropeIndexCommuted Q C S QR CR SR seq H heads B backwards
@@ -45,10 +33,10 @@ theorem head_step {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
     step M (headStep Bool.false) s = step M (headStep Bool.true) s := by
   simp only [headStep, Bool.false_eq_true, ↓reduceIte, step, evalExpr, evalOp]
   cases ha : s.regs .nat [] "group_head_position" <;>
-    cases hb : s.regs .nat [] "ROPE_GROUP_SIZE" <;> simp_all [numeric]
-  apply congrArg (fun v => s.setReg "head_start" .nat [] v)
+    cases hb : s.regs .int [] "ROPE_GROUP_SIZE" <;> simp_all [numeric]
+  apply congrArg (fun v => s.setReg "head_start" .int [] v)
   funext i
-  exact Nat.mul_comm _ _
+  exact Int.mul_comm _ _
 
 theorem head_run {α : Type} [Inhabited α] (M : Algebra α) :
     run M [headStep Bool.false] = run M [headStep Bool.true] := by

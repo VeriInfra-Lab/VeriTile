@@ -14,7 +14,7 @@ def epilogueExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
   simp only [HasAcc] at ha
   refine ⟨?_, ?_⟩
   swap
-  simp [epilogue, source, typed, ComputeKernel.surfaceBody,
+  simp [epilogue, source, halfBody, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, FP.Structural.store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,

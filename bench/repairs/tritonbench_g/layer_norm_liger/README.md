@@ -17,12 +17,16 @@ remain ordinary theorems in `Misc/NativeCorrect.lean`.
 
 The selected Python source is `layer_norm_liger_repaired.py`, SHA-256
 `6ba82f8c92986e02bca37469e5c17f2e1471137f939191d7fef4b48bd7266a28`.
-The selected original Python and both original Lean source functions remain
-unchanged; the additional candidate changes no numerical operation or reduction
-order and needs no numerical experiment assumption.
+Both selected Python files remain unchanged. `Kernels.lean` pastes all four
+function bodies literally, preserving integer casts, the scalar `one` loop step,
+source dtype conversions and every masked access. The existing candidate
+changes no reduction order and requires no experimental numerical rule.
 
-`Kernels.lean` contains readable typed forward/backward source quotations and
-parameters. Splitting/execution helpers live in `Proofs/`. `Contract.lean`,
+`Kernels.lean` contains complete original and candidate Python function bodies
+inside `triton { ... }`. Caller signatures, scalar bindings, FP32 storage and
+the backward FP32 `dtype` constexpr stay outside the quotations.
+`jit-correspondence.json` checks the four mappings (22/24 original statements,
+23/25 candidate statements) and their invocation metadata. Splitting/execution helpers live in `Proofs/`. `Contract.lean`,
 `Correct.lean`, and `FPEquiv.lean` describe the actual kernels. `IO.lean`
 exposes typed channels, regions, masks, row strides, scalar statistics and the
 exact executed backward row interval. `Correct.lean` uses shared `ProgramIO`
@@ -56,7 +60,10 @@ law. Output stride identities come from the actual `torch.empty` allocations;
 no input-stride guard is added. Contiguous singleton rows may have zero or huge
 strides: they are not replaced with the column count.
 
-The DSL uses natural index carriers. `KernelStrides` models the actual prelude
+The copied code retains its signed index casts and signed row loop.
+Execution proofs connect those registers to the nonnegative mathematical row
+indices without clipping negative values or adding input restrictions.
+`KernelStrides` models the actual prelude
 product and every loop-carried pointer increment modulo 64 bits. It proves that
 every active native address equals the logical Tensor address and composes
 these facts into both retained Tensor Real and FP theorems. Empty groups have no input
@@ -151,3 +158,17 @@ public readers. `Misc/KernelAudit.lean` is the public/Tensor/retained-host audit
 `Misc/KernelProofAudit.lean` audits only the supporting foundation. This format
 revision reruns scoped Lean checks only; historical CPU checks above are not
 claimed as newly rerun, and independent replay/GPU status is unchanged.
+
+The implicit integer-to-FP32 denominator conversion is retained in execution,
+including the selected compute precision. The optional software interpretation
+uses the nearest-even FP32 integer converter, rather than an arbitrary real
+literal callback, for this denominator. Explicit source output conversions
+remain separate from the typed storage conversion; no cast identity is assumed
+in the opaque structural proof.
+
+`Proofs/SourceShape.lean` connects actual execution to the complete memory
+reference. Its previous AST comparison against a shortened natural-index
+transcription is replaced by this execution statement: literal source casts,
+assignments and loop bindings are retained. The optional reader aliases are
+named `source_forward_execution` and `source_backward_execution`; the main
+independent Real formulas and complete FP pair judgments retain their domains.

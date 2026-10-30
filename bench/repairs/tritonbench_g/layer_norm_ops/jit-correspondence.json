@@ -1,0 +1,508 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/layer_norm_ops/layer_norm_ops_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean",
+    "python_function": "_layer_norm_fwd_1pass_kernel",
+    "lean_definition": "forwardSource",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "typedFP32Storage": true,
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "RESIDUAL",
+          "fp32"
+        ],
+        [
+          "RESIDUAL_OUT",
+          "fp32"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ],
+        [
+          "Rstd",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i32"
+        ],
+        [
+          "stride_y_row",
+          "i32"
+        ],
+        [
+          "stride_res_row",
+          "i32"
+        ],
+        [
+          "stride_res_out_row",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "IS_RMS_NORM",
+        "HAS_RESIDUAL",
+        "STORE_RESIDUAL_OUT",
+        "HAS_BIAS"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "B",
+        "RESIDUAL"
+      ],
+      "writePorts": [
+        "Y",
+        "RESIDUAL_OUT",
+        "Mean",
+        "Rstd"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "N": "N",
+      "eps": "eps"
+    },
+    "mode": "pasted_body"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/layer_norm_ops/layer_norm_ops_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean",
+    "python_function": "_layer_norm_bwd_kernel",
+    "lean_definition": "backwardSource",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "typedFP32Storage": true,
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "DY",
+          "fp32"
+        ],
+        [
+          "DX",
+          "fp32"
+        ],
+        [
+          "DW",
+          "fp32"
+        ],
+        [
+          "DB",
+          "fp32"
+        ],
+        [
+          "DRESIDUAL",
+          "fp32"
+        ],
+        [
+          "DRESIDUAL_IN",
+          "fp32"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ],
+        [
+          "Rstd",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i32"
+        ],
+        [
+          "stride_y_row",
+          "i32"
+        ],
+        [
+          "stride_dy_row",
+          "i32"
+        ],
+        [
+          "stride_dx_row",
+          "i32"
+        ],
+        [
+          "stride_dres_row",
+          "i32"
+        ],
+        [
+          "stride_dres_in_row",
+          "i32"
+        ],
+        [
+          "stride_mean",
+          "i32"
+        ],
+        [
+          "stride_rstd",
+          "i32"
+        ],
+        [
+          "M",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "rows_per_program",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "IS_RMS_NORM",
+        "HAS_DRESIDUAL",
+        "STORE_DRESIDUAL",
+        "HAS_BIAS",
+        "RECOMPUTE_OUTPUT"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "B",
+        "DY",
+        "DRESIDUAL",
+        "Mean",
+        "Rstd"
+      ],
+      "writePorts": [
+        "Y",
+        "DX",
+        "DW",
+        "DB",
+        "DRESIDUAL_IN"
+      ],
+      "optionalPointers": [
+        "Mean"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_dy_row": "stride_dy_row",
+      "stride_dx_row": "stride_dx_row",
+      "stride_dres_row": "stride_dres_row",
+      "stride_dres_in_row": "stride_dres_in_row",
+      "stride_mean": "stride_mean",
+      "stride_rstd": "stride_rstd",
+      "M": "M",
+      "N": "N",
+      "rows_per_program": "rows_per_program",
+      "eps": "eps"
+    },
+    "expected_pointer_presence": {
+      "Mean": "meanPresent"
+    },
+    "mode": "pasted_body"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/layer_norm_ops/layer_norm_ops_candidates.py",
+    "lean": "bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean",
+    "python_function": "_layer_norm_fwd_1pass_kernel_mask_reused",
+    "lean_definition": "forwardMaskReusedSource",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "typedFP32Storage": true,
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "RESIDUAL",
+          "fp32"
+        ],
+        [
+          "RESIDUAL_OUT",
+          "fp32"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ],
+        [
+          "Rstd",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i32"
+        ],
+        [
+          "stride_y_row",
+          "i32"
+        ],
+        [
+          "stride_res_row",
+          "i32"
+        ],
+        [
+          "stride_res_out_row",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "IS_RMS_NORM",
+        "HAS_RESIDUAL",
+        "STORE_RESIDUAL_OUT",
+        "HAS_BIAS"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "B",
+        "RESIDUAL"
+      ],
+      "writePorts": [
+        "Y",
+        "RESIDUAL_OUT",
+        "Mean",
+        "Rstd"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "N": "N",
+      "eps": "eps"
+    },
+    "mode": "pasted_body"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/layer_norm_ops/layer_norm_ops_candidates.py",
+    "lean": "bench/repairs/tritonbench_g/layer_norm_ops/Kernels.lean",
+    "python_function": "_layer_norm_bwd_kernel_row_start_reused",
+    "lean_definition": "backwardRowStartReusedSource",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "typedFP32Storage": true,
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "DY",
+          "fp32"
+        ],
+        [
+          "DX",
+          "fp32"
+        ],
+        [
+          "DW",
+          "fp32"
+        ],
+        [
+          "DB",
+          "fp32"
+        ],
+        [
+          "DRESIDUAL",
+          "fp32"
+        ],
+        [
+          "DRESIDUAL_IN",
+          "fp32"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ],
+        [
+          "Rstd",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "i32"
+        ],
+        [
+          "stride_y_row",
+          "i32"
+        ],
+        [
+          "stride_dy_row",
+          "i32"
+        ],
+        [
+          "stride_dx_row",
+          "i32"
+        ],
+        [
+          "stride_dres_row",
+          "i32"
+        ],
+        [
+          "stride_dres_in_row",
+          "i32"
+        ],
+        [
+          "stride_mean",
+          "i32"
+        ],
+        [
+          "stride_rstd",
+          "i32"
+        ],
+        [
+          "M",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "rows_per_program",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "IS_RMS_NORM",
+        "HAS_DRESIDUAL",
+        "STORE_DRESIDUAL",
+        "HAS_BIAS",
+        "RECOMPUTE_OUTPUT"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "B",
+        "DY",
+        "DRESIDUAL",
+        "Mean",
+        "Rstd"
+      ],
+      "writePorts": [
+        "Y",
+        "DX",
+        "DW",
+        "DB",
+        "DRESIDUAL_IN"
+      ],
+      "optionalPointers": [
+        "Mean"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_dy_row": "stride_dy_row",
+      "stride_dx_row": "stride_dx_row",
+      "stride_dres_row": "stride_dres_row",
+      "stride_dres_in_row": "stride_dres_in_row",
+      "stride_mean": "stride_mean",
+      "stride_rstd": "stride_rstd",
+      "M": "M",
+      "N": "N",
+      "rows_per_program": "rows_per_program",
+      "eps": "eps"
+    },
+    "expected_pointer_presence": {
+      "Mean": "meanPresent"
+    },
+    "mode": "pasted_body"
+  }
+]

@@ -2,6 +2,7 @@ import VeriTile.Triton.DSL.CallSignature
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Tests.LoopBody
+set_option linter.unusedVariables false
 open VeriTile.Triton
 
 def signature : CallSignature where
@@ -54,7 +55,7 @@ original N must never be substituted into this loop. -/
 theorem overwritten_bound (X : RegionName) (N : Nat) :
     overwrittenBound X N = (triton {
       tl.region X = tl.float32
-      N = 1
+      N = tl.full([], $((1 : Int)), tl.int32)
       for i in range((0), N, 1) {
         tl.store(X + i, (0.0).to(tl.float32))
       }
@@ -94,7 +95,7 @@ def source (N : Nat) : ComputeKernel :=
 /-- Immutable call-time endpoints choose a static natural loop. The original
 underscore is both the written counter and the value read in the body. -/
 theorem complete_program (N : Nat) : source N = triton {
-    total = 0
+    total = tl.full([], $((0 : Int)), tl.int32)
     for «_» in range($(0), $(N), $(1)) {
       total += «_»
     }
@@ -108,7 +109,7 @@ def overwritten (N : Nat) : ComputeKernel :=
   }
 /-- Reassignment prevents caller N from becoming the actual loop endpoint. -/
 theorem local_endpoint (N : Nat) : overwritten N = triton {
-    N = 1
+    N = tl.full([], $((1 : Int)), tl.int32)
     for «_» in range((0), N, 1) {
       total = «_»
     }
@@ -148,20 +149,28 @@ def source (K B : Nat) : ComputeKernel :=
 /-- The immutable caller endpoint uses exactly ceil division, including the
 K=0 case. Its native nonzero-block requirement stays in the caller contract. -/
 theorem complete_program (K B : Nat) : source K B = triton {
-    total = 0
+    total = tl.full([], $((0 : Int)), tl.int32)
     for i in range($(0), $(((K+B-1)/B : Nat)), $(1)) {
       total += i
     }
   } := rfl
 
-/-- error: tl.cdiv lhs: dtype mismatch -/
-#guard_msgs in
 def mutated (N B : Nat) : ComputeKernel :=
   with_triton_signature ({constexpr := ["N", "B"]} : CallSignature) in triton {
     N = 1
     for i in range(0, tl.cdiv(N, B)):
         total = i
   }
+
+/-- Reassigning N makes it a runtime integer tensor. The cdiv endpoint reads
+that new register, rather than specializing the caller's original N. -/
+theorem rebound_division (N B : Nat) : mutated N B = triton {
+    N = tl.full([], $((1 : Int)), tl.int32)
+    for i in range((0), tl.cdiv(N, $((B : Nat)))) {
+      total = i
+    }
+  } := rfl
+#axiomsClean rebound_division
 
 /-- error: tl.cdiv rhs: dtype mismatch -/
 #guard_msgs in

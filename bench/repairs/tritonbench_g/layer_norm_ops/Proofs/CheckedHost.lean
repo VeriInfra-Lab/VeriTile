@@ -6,7 +6,7 @@ open VeriTile.Triton FP.Structural Admission
 open VeriTile.Bench.Repairs.LayerNormLiger
 noncomputable section
 
-def epsilonValue : ScalarArgument → ℝ
+def epsilonValue : Admission.ScalarArgument → ℝ
   | .float (some value) => value
   | _ => 0
 

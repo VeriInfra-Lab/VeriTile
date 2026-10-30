@@ -24,16 +24,18 @@ def explicitLoads (X Y : RegionName) (N : Nat) : ComputeKernel :=
     p = X + 0
     __veritile_source_load_0 = tl.load(Y)
     for i in range(0, N):
-        __veritile_source_load_1 = tl.load(p)
-        x = __veritile_source_load_1.to(tl.float32) * scale
-        __veritile_source_load_2 = tl.load(Y)
-        y = __veritile_source_load_2 + x
+        __veritile_source_load_2 = tl.load(p)
+        x = __veritile_source_load_2.to(tl.float32) * scale
+        __veritile_source_load_1 = tl.load(Y)
+        y = __veritile_source_load_1 + x
         tl.store(Y, y)
         p += 1
   }
 
 /-- Preserve the FP16 read before the explicit FP32 cast, followed by the
-second FP32 read; do not capture the user's existing temporary-shaped name. -/
+second FP32 read. The outer pointer pass reserves the Y temporary before
+the typed alias pass names the earlier p load; statement order is unchanged.
+Do not capture the user's existing temporary-shaped name. -/
 theorem complete (X Y : RegionName) (N : Nat) :
     source X Y N = explicitLoads X Y N := rfl
 

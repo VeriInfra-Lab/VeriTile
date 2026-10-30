@@ -27,9 +27,10 @@ theorem postlude_run {α : Type} [Inhabited α] (M : Algebra α)
     (h : Ready p s t row a) :
     ∃ u, run M (postlude p) t = some u ∧
       u.mem = (finish M p (s.pids 0) a).mem := by
-  cases hb : p.hasBias
+  cases hr : p.rms <;> cases hd : p.hasDres <;> cases hs : p.storeDres <;>
+    cases hy : p.recompute <;> cases hb : p.hasBias
   all_goals
-    simp [postlude, backwardKernel, backwardSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+    simp [postlude, isRowLoop, hr,hd,hs,hy, backwardKernel, backwardSource, ComputeKernel.surfaceBody, run, step, evalExpr,
       evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
       FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
       numeric, FP.Structural.bop, numericLt, natLt, Region.cast, hb,

@@ -1,17 +1,14 @@
-import bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.LegacyStoreView
-import bench.tritonbench_g.fast_rope_embedding.Kernels
 import bench.repairs.tritonbench_g.fast_rope_embedding.Contract
 import bench.repairs.tritonbench_g.rope_embedding.Proofs.SourceBinding
 
 namespace VeriTile.Bench.Repairs.FastRopeEmbedding.KernelContract
 open VeriTile.Bench.Repairs.RopeEmbedding
 
-/-- Exact historical syntax connection after removing its two fabricated
-same-FP32 store casts. Actual execution is proved from the raw quotation. -/
+/-- The caller selects the complete pasted function body with its actual
+arguments. Historical plain-DSL integer carriers are not an AST reference. -/
 theorem original_typed_source (c : Call) :
-    c.source=LegacyStoreView.current (VeriTile.Bench.TritonBenchG.FastRopeEmbedding.TypedSource.rope
-      .fp32 .fp32 .fp32 Bool.false "Q" "C" "S" c.qStride c.cosineStride c.sineStride
-      c.geometry.sequence c.geometry.dimension c.geometry.heads c.geometry.block c.backward) := rfl
+    c.source=Kernels.rope "Q" "C" "S" c.qStride c.cosineStride c.sineStride
+      c.geometry.sequence c.geometry.dimension c.geometry.heads c.geometry.block c.backward := rfl
 
 theorem nonunit_not_inverse :
     let forward := Spec.pair Bool.false 1 2 2 0

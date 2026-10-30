@@ -19,7 +19,7 @@ theorem body_safe {A : Type} [Inhabited A] (M : Algebra A) (p : Source.Parameter
     (access : ∀ side (i : Source.Lane p), Source.active p i →
       Source.offset p row head side i < bounds p.input) :
     Safety.traceSafeList M bounds (Source.body p backward)
-      (s.setReg "k" .nat [] (fun _ => head)) := by
+      (s.setReg "k" .int [] (fun _ => (head : Int))) := by
   cases backward
   all_goals simp (maxSteps := 1600000) [Source.body, Source.source,
     Kernels.rope, ComputeKernel.surfaceBody,
@@ -28,7 +28,7 @@ theorem body_safe {A : Type} [Inhabited A] (M : Algebra A) (p : Source.Parameter
     Safety.maskActive, run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
     store, Option.bind, ComputeDType.eraseDType, numeric, bop, natLt, numericLt,
     numericEq, Region.cast, State.setReg, h.row, h.columns, h.half, h.mask, h.cosine, h.sine,
-    Source.active]
+    Source.active,-Nat.cast_mul,-Nat.cast_add,←Int.natCast_mul,←Int.natCast_add,←Int.natCast_ediv]
   all_goals refine ⟨?_, ?_, ?_, ?_⟩
   all_goals intro i active
   all_goals first
@@ -42,24 +42,22 @@ theorem loop_safe {A : Type} [Inhabited A] (M : Algebra A) (p : Source.Parameter
     (access : ∀ head, start ≤ head → head < start + count →
       ∀ side (i : Source.Lane p), Source.active p i →
         Source.offset p row head side i < bounds p.input) :
-    Safety.rangeSafe M bounds "k" start (start + count) 1 (Source.body p backward) s := by
+    Safety.rangeIntSafe M bounds "k" (start : Int) ((start + count : Nat) : Int) 1 (Source.body p backward) s := by
   induction count generalizing start s with
-  | zero => simp [Safety.rangeSafe]
+  | zero => simp [Safety.rangeIntSafe]
   | succ count ih =>
     let v := (Source.oneHead M p backward row start cs ss s h).val
     have ran : run M (Source.body p backward)
-        (s.setReg "k" .nat [] (fun _ => start)) = some v :=
-      (congrArg (fun body => run M body (s.setReg "k" .nat [] (fun _ => start)))
-        (Source.body_shared p backward)).trans
-          (Source.oneHead M p backward row start cs ss s h).property
+        (s.setReg "k" .int [] (fun _ => (start : Int))) = some v :=
+      (Source.oneHead M p backward row start cs ss s h).property
     have context := (Source.oneHead_facts M p backward row start cs ss s h).1
-    rw [Safety.rangeSafe]
-    simp only [show (1 : Nat) ≠ 0 by decide, ↓reduceIte, show start < start + (count + 1) by omega]
+    rw [Safety.rangeIntSafe]
+    simp only [show (1 : Nat) ≠ 0 by decide, ↓reduceIte, show (start : Int) < ((start + (count + 1) : Nat) : Int) by omega]
     refine ⟨body_safe M p backward row start cs ss s h bounds
       (access start (by omega) (by omega)), ?_⟩
     rw [ran]
     have next := ih (start + 1) v context (fun head hlo hhi => access head (by omega) (by omega))
-    simpa only [Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using next
+    simpa only [Int.natCast_add, Int.natCast_one, Int.add_assoc, Int.add_left_comm, Int.add_comm] using next
 
 theorem prelude_safe {A : Type} [Inhabited A] (M : Algebra A) (p : Source.Parameters)
     (backward : Bool) (s : State A) (bounds : RegionName → Nat)

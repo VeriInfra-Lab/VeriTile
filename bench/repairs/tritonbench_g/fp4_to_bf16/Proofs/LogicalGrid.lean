@@ -52,9 +52,11 @@ theorem complete_result (rest : Algebra Word) (h : Input) (values : Inputs A h)
     (jobs : List Nat) (s : State Word) (fresh : h.input≠h.output) (reads : Reads h values s)
     (gridSafe : grid h≤2147483647) (order : jobs.Perm (List.range (grid h))) :
     ∃ final,Launch.run rest h jobs s=some final ∧ final.mem=targetMemory h values s := by
-  obtain ⟨final,ran,memory⟩ := schedule_result rest h values domain jobs s fresh reads
-  refine ⟨final,(Launch.complete_refinement rest h storage jobs s gridSafe order).trans ran,?_⟩
-  rw [memory]
+  obtain ⟨previous,ran,memory⟩ := schedule_result rest h values domain jobs s fresh reads
+  obtain ⟨final,actual,same⟩ :=
+    Launch.complete_transfer rest h storage jobs s previous gridSafe order ran
+  refine ⟨final,actual,?_⟩
+  rw [same,memory]
   funext r offset
   have cover := grid_covers h
   by_cases hr : r=h.output <;> by_cases hn : offset<h.shape.count*2

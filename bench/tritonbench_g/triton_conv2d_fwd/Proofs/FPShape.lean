@@ -1,5 +1,5 @@
 import bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPTypedSource
-import bench.tritonbench_g.triton_conv2d_fwd.TritonConv2dFwd
+import bench.tritonbench_g.triton_conv2d_fwd.Kernels
 namespace VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue
 open VeriTile.Triton
 noncomputable section

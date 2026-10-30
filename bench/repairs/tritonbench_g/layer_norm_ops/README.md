@@ -6,6 +6,31 @@ The original benchmark Python is unchanged. Kernel repairs are limited to
 independent Mean/Rstd strides in backward and zero-filled backward W padding.
 The new host checks make the selected input domain explicit.
 
+## Pasted Python function bodies
+
+`Kernels.lean` contains four literal function bodies: the selected repaired
+forward and backward kernels in `layer_norm_ops_repaired.py`, followed by the
+existing column-mask and row-start reuse candidates in
+`layer_norm_ops_candidates.py`. The candidate Python is an authored counterpart
+of those existing two rewrites; it is not an upstream source. The repaired
+Python bodies and the historical benchmark file remain unchanged.
+
+All `.to(...)` operations, pointer updates, conditional loads, row-loop bounds,
+masked stores and statement order remain inside `triton { ... }`.
+`forwardSignature` and `backwardSignature` provide the selected FP32 storage,
+int32 runtime arguments, FP32 epsilon and constexpr flags outside each body.
+Backward caller metadata makes Mean present in plain LayerNorm and absent in
+RMSNorm, matching the existing host contract. The Python expression
+`tl.load(Mean + row * stride_mean) if Mean is not None else 0.0` stays intact.
+The frontend selects that conditional arm from the caller's pointer presence;
+it does not evaluate the absent load or require an allocation for it.
+
+The source checker records all four mappings in `jit-correspondence.json`.
+Mutation checks detect dropped casts, altered loop bounds and masks, changed
+storage/presence bindings and extra candidate rewrites. The source-ordered
+scalar model retains the actual FP32 count conversions, intermediate casts and
+operations. The independent mathematical formulas below are unchanged.
+
 ## Mathematical target and precision
 
 Let `z = x + residual` when residual is supplied, otherwise `z = x`. For each

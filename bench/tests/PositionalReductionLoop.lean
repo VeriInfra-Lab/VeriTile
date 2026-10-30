@@ -60,7 +60,8 @@ theorem all_executions {α : Type} [Inhabited α] (M : Algebra α)
 #axiomsClean complete_source
 #axiomsClean all_executions
 /-- Copies retain storage provenance; floating arithmetic replaces it even
-when the source dtype is still FP32. The second max must not gain a cast. -/
+when the source dtype is still FP32. Mixing a stored FP32 value with a real
+scalar projects that operand; the second max must not gain another cast. -/
 def aliases (X Copy Y : RegionName) (N B : Nat) : ComputeKernel :=
   with_triton_signature signature in triton {
     offsets = tl.arange(0, B)
@@ -83,7 +84,7 @@ def aliasesExpanded (X Copy Y : RegionName) (N B : Nat) : ComputeKernel :=
     x = tl.load(read_ptr)
     copied = x
     peak = tl.maximum(tl.max((copied).to(tl.float32), axis=0), float("-inf"))
-    x = x + 0.0
+    x = (x).to(tl.float32) + 0.0
     second = tl.maximum(tl.max(x, 0), peak)
     tl.store(Y, second)
   }
