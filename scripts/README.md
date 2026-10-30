@@ -99,6 +99,28 @@ Proof search still depends on the installed `lean4` plugin version; record it
 when reporting benchmark results. The previous benchmark setup used version
 4.4.9 of the plugin.
 
+## Source and documentation tools
+
+`bash bench/audit_tritonbench_g.sh --source-only` is the shared source-check
+entry for local work and CI. It checks the final inventory, Python/Lean body
+correspondence and imported-challenge review without building or replaying
+proofs. The full and library-only proof gates are described below.
+
+`python3 scripts/check_docs.py` checks local file links in all tracked Markdown
+documents and verifies generated reference pages. It does not fetch external
+URLs. Edit references under `documents/`, then run
+`python3 site/scripts/sync-docs.py` to regenerate the website copies.
+
+`python3 scripts/spec_sheet.py` exports the current reviewed public readers to
+ignored `Logs/spec-sheets/`. Use `--out DIR` to change the output location or
+pass Lean files to print individual cards. Full source paths distinguish
+nested/repaired revisions. Generated cards are presentation aids; their lexical
+flags do not establish specification independence or proof acceptance.
+
+The declaration parser lives in `scripts/spec_sheet.py`; the standalone lexical
+mask lives in `bench/lean_import_scan.py`. Source adapters and final inventory
+checks share those implementations rather than keeping separate copies.
+
 ## Artifact checker
 
 `scripts/check-artifact.sh` is the local release/CI gate for the Lean artifact.

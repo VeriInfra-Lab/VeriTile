@@ -4,6 +4,29 @@ VeriTile separates three concerns into three layers. Knowing which layer
 something belongs in saves churn when adding new operators, new bridge
 lemmas, and new kernel transcriptions.
 
+## Repository entry points
+
+| Directory | Responsibility |
+| --- | --- |
+| `VeriTile/` | Shared Lean semantics, source DSL, model definitions and proof interfaces |
+| `bench/tritonbench_g/`, `bench/repairs/`, `bench/examples/` | Imported sources, explicitly selected revisions and worked examples |
+| `bench/tests/` | Lean and Python regressions |
+| `bench/validation/` | Current source inventory and reviewed public contract bindings |
+| `bench/bug_detection/`, `bench/pretrain_kernels/` | Imported challenges with separately recorded open proof/backend goals |
+| `scripts/` | Shared verification and development commands |
+| `experiments/floating_point/` | Numerical rule evidence and experiment tooling |
+| `documents/`, `site/` | Maintained references and their generated website presentation |
+| `documents/archive/` | Past design and implementation plans |
+| `verso/` | Independent presentation project and toolchain |
+| `Logs/` | Ignored generated output, including current specification cards |
+
+Use [the benchmark index](../bench/README.md) for task selection and source,
+library and corpus validation commands. `bench/lean_import_scan.py` owns the
+shared lexical import mask, while `scripts/spec_sheet.py` owns declaration
+extraction. The final inventory and source adapters import those same helpers.
+Legacy filename discovery in `bench/port_layout.py` is not the current revision
+selection mechanism.
+
 ## The three layers
 
 ```

@@ -1,6 +1,12 @@
 # Local implementation and audit
 
-Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+Current selected public entries: [Contract.lean](../../repairs/tritonbench_g/rms_matmul_rbe_scalar_domain/Contract.lean), [Correct.lean](../../repairs/tritonbench_g/rms_matmul_rbe_scalar_domain/Correct.lean), [FPEquiv.lean](../../repairs/tritonbench_g/rms_matmul_rbe_scalar_domain/FPEquiv.lean). The [contract review](../../validation/contracts.json) records their current scope and assumptions.
+
+## Historical implementation and audit notes
+
+The notes below describe earlier revisions and their recorded boundaries. Their old file lists, receipts and completion counts are historical; they do not establish the current selected contract.
+
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](../../repairs/tritonbench_g/rms_matmul_rbe_scalar_domain/Correct.lean) and [FPEquiv.lean](../../repairs/tritonbench_g/rms_matmul_rbe_scalar_domain/FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
 
 The typed source represents both Python JITs and both weight branches. The
 candidate changes only the final natural output-row product. Q output storage

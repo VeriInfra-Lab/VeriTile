@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
     paths:
+      - '**/*.md'
+      - '**/*.mdx'
+      - 'scripts/check_docs.py'
+      - 'scripts/test_check_docs.py'
+      - 'scripts/test_spec_sheets.py'
       - 'site/**'
       - 'documents/**'
       - 'lean-toolchain'
@@ -21,6 +26,11 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - '**/*.md'
+      - '**/*.mdx'
+      - 'scripts/check_docs.py'
+      - 'scripts/test_check_docs.py'
+      - 'scripts/test_spec_sheets.py'
       - 'site/**'
       - 'documents/**'
       - 'lean-toolchain'
@@ -69,8 +79,11 @@ jobs:
       - name: Audit locked dependencies
         run: bun audit
 
-      - name: Check documentation copies
-        run: python3 scripts/sync-docs.py --check
+      - name: Check repository documentation and tool regressions
+        run: |
+          python3 ../scripts/check_docs.py
+          python3 -m unittest discover -s ../scripts -p 'test_check_docs.py'
+          python3 -m unittest discover -s ../scripts -p 'test_spec_sheets.py'
 
       - name: Check coverage review regressions
         run: python3 -m unittest discover -s ../scripts -p 'test_coverage_review.py'

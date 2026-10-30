@@ -58810,8 +58810,6 @@
     "bench/bug_detection/tasks/swiglu__scale3/Misc/Validation.lean": "29f5d7fd25ee24ef3011399a795d27bac2f42d5ede7a2788668f76d76fcfea17",
     "bench/bug_detection/tasks/swiglu__scale3/Proofs/Backend.lean": "81f3854c3aebdc7fc063ba0cb484ddd72a0ad8780f8f28662a5dcdd92229d6f1",
     "bench/check_worker_results.py": "5850c9640ea90d7cae3569c822933babc9fef673e1aef4091faf9d8209502935",
-    "bench/current_catalog_vendor/lean_import_scan.py": "5aa5a5454187f0adf8281d38df96848494b0404273936336e1fb0668e5e560f7",
-    "bench/current_catalog_vendor/spec_sheet.py": "70e65de2801f1f1cb76f5cfebf3e97020d7b0f63cc0510229ebaf56282e1dcf3",
     "bench/examples/AdamUpdateGridLaunch/Correct.lean": "3eb03378282208c1b8e272b03bbf1b8f1dd28bcf299aa4ec1638e015aa4b19fb",
     "bench/examples/AdamUpdateGridLaunch/FPEquiv.lean": "e30b62f82ed70a5a2a500c7f7155747a7601f6cf65dbc014af56afe5a711b4a5",
     "bench/examples/AdamUpdateGridLaunch/Kernels.lean": "075f1d04fbf4b8a4c320ca28a088e5f738834fb6cbef0e7087ff56fe3af56277",
@@ -58911,7 +58909,8 @@
     "bench/examples/Welford/Proofs/FP.lean": "33d19573a6eec3a7e820cd59d6d53065259a4e8b4c6cffb015d895de2baa9fb1",
     "bench/examples/Welford/Proofs/LegacyRealEquiv.lean": "102c3e1ec4d4ddd042dc2ba9192a145a0f1029bfbc787a02a5777b5f5a7ca728",
     "bench/examples/Welford/Proofs/Real.lean": "cad4f557caa912e59d9e29eac1bcf1fa776e18d8c74a0ab35655eb2244ed681e",
-    "bench/final_inventory.py": "63ff5cd7188cdf80e449cd0f23b5aeaa3c23c88af0a1416f1b6feb7803aa6e3a",
+    "bench/final_inventory.py": "8eae45f7b1f7110b6af712c00dc6af68d477cd61be700920b81ac400f11699da",
+    "bench/lean_import_scan.py": "5aa5a5454187f0adf8281d38df96848494b0404273936336e1fb0668e5e560f7",
     "bench/pretrain_kernels/All.lean": "4a8cc395a432d03ce154bfad4128057a0c14783f174b2a9d90e345039d2f486b",
     "bench/pretrain_kernels/Validation.lean": "5ee4038d2189480c830e90d49615feb631d53dcf2f0b12ba51abd51374d250d3",
     "bench/pretrain_kernels/tasks/local_adamw_multi_foreach_vs_loop/Contract.lean": "474e0c47a5bea091633f9b8df3e2c65d0e9db0c9a52a5f060fd76b4d43fd222c",
@@ -69319,7 +69318,8 @@
     "scripts/comparator-string-literals.patch": "794dde266e32a66077e944e55d471803068e5d449dbaafd5bf987adcded85080",
     "scripts/comparator_common.py": "f149a75de2c4fe9e3558c5b4e6ad66bbe7ba392a6a331c7af4d64c539bff0509",
     "scripts/kernel-manifest.tsv": "2acb91d7ef16ea8a2cd1869c8ae4767315f60b3d3dc49fb91886bd5099ac0dc2",
-    "scripts/setup-comparator.sh": "7a2bf23339f32019c5f51ff05dd7e525855a116c9fa9e5056b03c548d7be528b"
+    "scripts/setup-comparator.sh": "7a2bf23339f32019c5f51ff05dd7e525855a116c9fa9e5056b03c548d7be528b",
+    "scripts/spec_sheet.py": "6967d390117617ffe6718578c529d3051f1244f71e4330c5ab84e71882ebb1e9"
   },
   "validation_boundary": "Membership and reviewed scope only; requires Lean build, axiom/spec gates and official replay. Imported benchmark proof goals and Python/native correspondence gaps remain separate."
 }

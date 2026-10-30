@@ -10,9 +10,9 @@ import tomllib
 import zlib
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE / 'current_catalog_vendor'))
-from lean_import_scan import lean_code_mask
-from spec_sheet import split_decls, split_statement
+sys.path.insert(0, str(HERE.parent))
+from bench.lean_import_scan import lean_code_mask
+from scripts.spec_sheet import split_decls, split_statement
 
 BASE = 'bench/tritonbench_g/'
 LIBRARIES = ('VeriTile', 'VeriTileMath', 'VeriTileFull', 'TritonBenchGVerified',
