@@ -1,4 +1,4 @@
-import bench.tritonbench_g.streamk_matmul.Kernels
+import bench.tritonbench_g.streamk_matmul.Proofs.SourceEntry
 
 namespace VeriTile.Bench.Repairs.StreamK.TileChecked.Reader
 open Whole001 Source

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inventory body-copy readiness for every selected task and worked example.
+"""Inventory source correspondence for every task directory under bench.
 
 This is a source gate, not a Lean proof or a compiler-correctness certificate.
 `--check` checks the recorded inventory, including pending entries, for drift.
@@ -115,9 +115,11 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str) -> 
         if not isinstance(records, list) or not records:
             raise ValueError(f"empty or invalid correspondence manifest: {manifest_name}")
         keys = [(r["python"], r["python_function"]) for r in records]
-        lean_keys = [(r["lean"], r["lean_definition"]) for r in records]
-        if len(keys) != len(set(keys)) or len(lean_keys) != len(set(lean_keys)):
-            raise ValueError(f"reused Python or Lean correspondence entry: {manifest_name}")
+        if len(keys) != len(set(keys)):
+            raise ValueError(f"reused Python correspondence entry: {manifest_name}")
+        # Distinct original/candidate files may legitimately share an unchanged
+        # stage. Check every Python body against that Lean definition instead
+        # of forcing a duplicate Lean implementation just to register it.
         for record in records:
             for key in ("python", "lean"):
                 path = local(root, record[key])
@@ -128,18 +130,39 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str) -> 
         for record, result in zip(records, results, strict=True):
             pairs.append({**result, "python": record["python"], "lean": record["lean"]})
 
+    # Inventory all retained task-local Python sources, including dynamically
+    # loaded bodies and unregistered candidates. Merely checking the selected
+    # wrapper or the files already named by a manifest can miss entire stages.
+    sources = {p.relative_to(root).as_posix() for p in lean_path.parent.rglob("*.py")
+               if "__pycache__" not in p.parts}
+    if python is not None:
+        sources.add(python)
+    sources.update(record["python"] for record in records)
+    row["python_sources"] = []
+    for name in sorted(sources):
+        path = local(root, name)
+        functions = jit_functions(path)
+        names = [fn["function"] for fn in functions]
+        if len(names) != len(set(names)):
+            raise ValueError(f"ambiguous Python JIT names: {name}")
+        hashes[name] = digest(path)
+        row["python_sources"].append({"path": name, "jits": functions})
+    expected = [(source["path"], fn["function"])
+                for source in row["python_sources"] for fn in source["jits"]]
+
     matched = {(p["python"], p["python_function"]): p for p in pairs}
     missing = [{"python": p, "function": fn} for p, fn in expected if (p, fn) not in matched]
     row["checked_pairs"] = pairs
-    row["uncovered_selected_jits"] = missing
+    row["uncovered_python_jits"] = missing
+    row["uncovered_selected_jits"] = [entry for entry in missing if entry["python"] == python]
     python_casts = any(fn["explicit_int64_casts"] for fn in row["python_jits"])
     lean_casts = bool(re.search(r"\.to\s*\(\s*tl\.int64\b|tl\.cast\([^\n]*,\s*tl\.int64\b", code))
     row["int64_screen"] = ("cast_not_visible_in_primary_quotation" if python_casts
                             and row["lean_screen"]["quotations"] and not lean_casts else "inconclusive")
-    row["body_copy_scope"] = "selected Python file and every explicitly declared correspondence pair"
+    row["body_copy_scope"] = "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification"
     if python is None:
         row["status"] = "no_independent_python_reference"
-    elif not expected:
+    elif not row["python_jits"]:
         row["status"] = "no_selected_jit_resolved"
     elif missing:
         row["status"] = "uncovered_jit_functions"
@@ -151,42 +174,95 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str) -> 
     return row
 
 
+def task_directories(root: Path) -> list[tuple[str, Path]]:
+    """Discover tasks from disk, never from the selected-proof ledger.
+
+    Collections use either <collection>/<task> or <collection>/tasks/<task>.
+    Keep incomplete directories visible: a missing Kernels.lean is an error,
+    rather than a reason to silently remove that problem from the inventory.
+    """
+    bench = root / "bench"
+    if not bench.is_dir():
+        raise ValueError("missing bench directory")
+    result = []
+    for collection in sorted(bench.iterdir()):
+        if not collection.is_dir() or collection.name.startswith((".", "_")):
+            continue
+        base = collection / "tasks" if (collection / "tasks").is_dir() else collection
+        for directory in sorted(base.iterdir()):
+            if directory.is_dir() and not directory.name.startswith((".", "_")):
+                result.append((collection.name, directory))
+    return result
+
+
 def scan(root: Path = ROOT) -> dict:
     root = root.resolve()
-    ledger = json.loads((root / "validation/task_progress.json").read_text())
-    tasks = []
-    names = set()
+    ledger_path = root / "validation/task_progress.json"
+    ledger = json.loads(ledger_path.read_text()) if ledger_path.is_file() else {"tasks": []}
+    selected = {}
     for entry in ledger["tasks"]:
-        if entry["task"] in names:
+        if entry["task"] in selected:
             raise ValueError(f"duplicate selected task: {entry['task']}")
-        names.add(entry["task"])
-        revision = entry["kernel_revision"]
-        tasks.append(inspect(root, entry["task"], revision["source"], revision["kernel_source"], "task"))
-    examples = []
-    references_path = root / "bench/examples/source-references.json"
-    references = json.loads(references_path.read_text()) if references_path.is_file() else {}
-    groups = {p.parent.name for p in (root / "bench/examples").glob("*/Kernels.lean")}
-    if not isinstance(references, dict) or references.keys() - groups:
-        raise ValueError("invalid or unknown worked-example source reference")
-    for kernel in sorted((root / "bench/examples").glob("*/Kernels.lean")):
-        python = references.get(kernel.parent.name)
-        if python is not None and not isinstance(python, str):
-            raise ValueError("worked-example source reference must name a reviewed Python file")
-        examples.append(inspect(root, kernel.parent.name, python, kernel.relative_to(root).as_posix(), "example"))
-    counts = {"tasks": len(tasks), "examples": len(examples)}
+        selected[entry["task"]] = entry["kernel_revision"]
+    directories = task_directories(root)
+    references = {}
+    for collection in sorted({name for name, _ in directories}):
+        path = root / "bench" / collection / "source-references.json"
+        mapping = json.loads(path.read_text()) if path.is_file() else {}
+        known = {p.name for name, p in directories if name == collection}
+        if not isinstance(mapping, dict) or mapping.keys() - known:
+            raise ValueError(f"invalid or unknown {collection} source reference")
+        if any(not isinstance(value, str) for value in mapping.values()):
+            raise ValueError("source reference must name a reviewed Python file")
+        references[collection] = mapping
+    tasks, examples = [], []
+    discovered_selected = set()
+    for collection, directory in directories:
+        kernel = directory / "Kernels.lean"
+        python = references[collection].get(directory.name)
+        if collection == "tritonbench_g" and directory.name in selected:
+            revision = selected[directory.name]
+            discovered_selected.add(directory.name)
+            if local(root, revision["kernel_source"]) != kernel:
+                raise ValueError(f"selected kernel is not the task entry: {directory.name}")
+            if python is None:
+                python = revision["source"]
+        elif python is None and (directory / (directory.name + ".py")).is_file():
+            python = (directory / (directory.name + ".py")).relative_to(root).as_posix()
+        kind = "example" if collection == "examples" else "task"
+        row = inspect(root, directory.name, python, kernel.relative_to(root).as_posix(), kind)
+        row.update(collection=collection, id=directory.relative_to(root).as_posix())
+        metadata = directory / "task.json"
+        if metadata.is_file():
+            row["source_sha256"][metadata.relative_to(root).as_posix()] = digest(metadata)
+        (examples if kind == "example" else tasks).append(row)
+    if set(selected) - discovered_selected:
+        raise ValueError(f"selected tasks missing from bench: {sorted(set(selected) - discovered_selected)}")
+    all_rows = tasks + examples
+    counts = {"total": len(all_rows), "tasks": len(tasks), "examples": len(examples),
+              "collections": dict(sorted(Counter(r["collection"] for r in all_rows).items()))}
     for kind, rows in (("task_status", tasks), ("example_status", examples)):
         counts[kind] = dict(sorted(Counter(r["status"] for r in rows).items()))
     counts["selected_jit_functions"] = sum(len(r["python_jits"]) for r in tasks)
     counts["uncovered_selected_jit_functions"] = sum(len(r["uncovered_selected_jits"]) for r in tasks)
+    counts["inventoried_jit_functions"] = sum(len(source["jits"]) for row in all_rows
+                                             for source in row["python_sources"])
+    counts["uncovered_inventoried_jit_functions"] = sum(len(r["uncovered_python_jits"]) for r in all_rows)
+    counts["checked_pair_modes"] = dict(sorted(Counter(pair["mode"] for row in all_rows
+                                                       for pair in row["checked_pairs"]).items()))
+    counts["collection_status"] = {
+        collection: dict(sorted(Counter(r["status"] for r in all_rows
+                                       if r["collection"] == collection).items()))
+        for collection in counts["collections"]}
     counts["primary_files_with_int64_screen_warning"] = sum(
         r["int64_screen"] == "cast_not_visible_in_primary_quotation" for r in tasks)
     counts["primary_lean_file_features"] = {
         kind: {feature: sum(bool(r["lean_screen"][feature]) for r in rows)
                for feature in ("in_body_type_directives", "antiquotes", "dsl_loop", "dsl_numeric_helpers")}
         for kind, rows in (("tasks", tasks), ("examples", examples))}
-    return {"schema": 1,
-            "scope": "All task_progress selected Python files and all bench/examples/*/Kernels.lean. Source correspondence only; Lean proof replay, proof reachability, hardware semantics and undeclared candidate Python files are not certified by this gate.",
-            "complete": all(r["status"] == "selected_body_copy_checked" for r in tasks + examples),
+    return {"schema": 2,
+            "scope": "Every bench task directory, including imported challenges; selected references, all task-local Python files and manifest pairs. Missing references remain pending. No Lean proof, semantic-connection or hardware certification.",
+            "complete": bool(all_rows) and all(r["status"] == "selected_body_copy_checked" for r in all_rows),
             "counts": counts, "tasks": tasks, "examples": examples}
 
 

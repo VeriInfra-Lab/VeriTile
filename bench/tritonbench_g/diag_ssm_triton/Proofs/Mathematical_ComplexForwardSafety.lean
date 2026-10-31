@@ -31,13 +31,13 @@ theorem body_safe (bounds : RegionBounds) (x y : RegionName) (batch dim B t : Na
     (hy : ∀ j, mask j=Bool.true → ComplexForwardStep.offset batch dim t col j*2+1 < bounds y) :
     Stmt.TraceSafeList bounds (ComplexForwardSource.body x y batch dim B) u := by
   simp only [ComplexForwardSource.body,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
-    ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Except.bind,bind,Bool.false_eq_true,↓reduceIte,List.drop]
   simp only [Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,
     MemAccess.SafeAt,MaskOpt.SafeAt,MemAccess.ActiveAddressSafe,memAccessActiveAddressSafe,MaskOpt.Active,
@@ -115,13 +115,13 @@ theorem trace_safe (p : Layout) (u : BlockState) (length : Nat) (bounds : Region
 theorem flatten_ok (p : Layout) (length : Nat) :
     (Erasure.complexForward Bool.false p.s p.x p.y p.l length p.batch p.dim p.B).toAlgKernel.FlattenOk := by
   simp only [Kernel.FlattenOk,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
-    ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Except.bind,bind,Bool.false_eq_true,↓reduceIte]
   simp [StmtList.FlattenOk,Stmt.FlattenOk,Op.FlattenOk.eq_def]
 

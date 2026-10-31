@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rotary_transform_ops.KernelSource
+import bench.tritonbench_g.rotary_transform_ops.Proofs.SourceEntry
 import bench.tritonbench_g.rotary_transform_ops.Kernels
 import bench.tritonbench_g.rotary_transform_ops.Proofs.ProgramModel
 import bench.tritonbench_g.isfinite_kernel.Proofs.Mathematical_MemoryProjection

@@ -1,7 +1,7 @@
 """Compare complete Python JIT bodies with their Lean source quotations.
 
 Only syntax adaptations are allowed: braces/indentation, parameter antiquotes,
-and tuple/list shape spelling in tl.full. Casts, calls, branches, operands and
+and tuple/list shape spelling in tl.full/tl.zeros. Casts, calls, branches, operands and
 statement order are compared as ASTs. Unsupported syntax fails closed.
 This checks source correspondence; it does not prove compiler correctness.
 """
@@ -167,10 +167,10 @@ def source_statements(body: str, constants: set[str]) -> tuple[list[ast.stmt], d
 class ShapeSpelling(ast.NodeTransformer):
     def visit_Call(self, node):
         node = self.generic_visit(node)
-        if ast.unparse(node.func) == "tl.full":
+        if ast.unparse(node.func) in {"tl.full", "tl.zeros"}:
             if node.args and isinstance(node.args[0], ast.Tuple):
                 node.args[0] = ast.List(node.args[0].elts, ast.Load())
-            if len(node.args) == 3:
+            if ast.unparse(node.func) == "tl.full" and len(node.args) == 3:
                 if any(k.arg == "dtype" for k in node.keywords):
                     raise ValueError("duplicate full dtype")
                 node.keywords.append(ast.keyword("dtype", node.args.pop()))

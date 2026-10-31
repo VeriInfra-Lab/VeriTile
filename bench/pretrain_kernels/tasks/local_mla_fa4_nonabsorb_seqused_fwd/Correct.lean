@@ -56,7 +56,7 @@ def correctnessProblem : Prop :=
     let veq : Fin 1 → Fin 1 → Fin 288 → Fin 288 → Bool := fun i0 i1 i2 i3 => decide (vcumsum_1 ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ i2 = vcumsum_1 ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ i3)
     let vtril : Fin 288 → Fin 288 → Bool := fun i0 i1 => (if i1.val ≤ i0.val + 0 then Bool.true else Bool.false)
     let vbitwise_and : Fin 1 → Fin 1 → Fin 288 → Fin 288 → Bool := fun i0 i1 i2 i3 => (veq ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ i2 i3 && vtril i2 i3)
-    let vwhere : Fin 1 → Fin 1 → Fin 288 → Fin 288 → ℝ := fun i0 i1 i2 i3 => (if vbitwise_and ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ i2 i3 then 0 else (-338953138925153550000000000000000000000 : ℝ))
+    let vwhere : Fin 1 → Fin 1 → Fin 288 → Fin 288 → ℝ := fun i0 i1 i2 i3 => (if vbitwise_and ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ i2 i3 then 0 else (-338953138925153547590470800371487866880 : ℝ))
     let vcat_4 : Fin 96 → Int := fun i0 => (if i0.val < 32 then (64 + ((i0.val - 0) : Int) * 1) else (if i0.val < 64 then (128 + ((i0.val - 32) : Int) * 1) else (192 + ((i0.val - 64) : Int) * 1)))
     let vmm : Fin 288 → Fin 256 → ℝ := fun i0 i1 => (∑ lane : Fin 512, input0 ⟨(0) % 1, Nat.mod_lt _ (by decide)⟩ i0 lane * vto_copy i1 lane)
     let vto_copy_18 : Fin 1 → Fin 288 → Fin 256 → ℝ := fun i0 i1 i2 => vmm i1 i2

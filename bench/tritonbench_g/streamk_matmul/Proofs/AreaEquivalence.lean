@@ -13,14 +13,14 @@ theorem candidate_compiles : Reader.compile areaKernels = some areaPlan := rfl
 
 theorem mac_slots (e : Reader.Env) (l : Reader.Lanes) :
     sourcePlan.mac.slots.eval e l = areaPlan.mac.slots.eval e l := by
-  change (e "program" * e "BLOCK_M") * e "BLOCK_N" + _ + _ =
-    e "program" * (e "BLOCK_M" * e "BLOCK_N") + _ + _
+  change (e "program" * e "BLOCK_M") * e "BLOCK_N" + l.m * e "BLOCK_N" + l.n =
+    e "program" * (e "BLOCK_M" * e "BLOCK_N") + l.m * e "BLOCK_N" + l.n
   rw [Nat.mul_assoc]
 
 theorem reduce_slots (e : Reader.Env) (l : Reader.Lanes) :
     sourcePlan.reduce.slots.eval e l = areaPlan.reduce.slots.eval e l := by
-  change (e "pid" * e "BLOCK_M") * e "BLOCK_N" + _ + _ =
-    e "pid" * (e "BLOCK_M" * e "BLOCK_N") + _ + _
+  change (e "pid" * e "BLOCK_M") * e "BLOCK_N" + l.m * e "BLOCK_N" + l.n =
+    e "pid" * (e "BLOCK_M" * e "BLOCK_N") + l.m * e "BLOCK_N" + l.n
   rw [Nat.mul_assoc]
 
 theorem mac_events (p : Parameters) (ops : Instructions α) (pid : Fin p.h.programs)
