@@ -1,0 +1,72 @@
+[
+  {
+    "python": "bench/examples/Welford/native_kernels.py",
+    "python_function": "twopassWelfordKernel",
+    "lean": "bench/examples/Welford/Kernels.lean",
+    "lean_definition": "twopassWelfordKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "meanReg",
+          "bf16"
+        ],
+        [
+          "varReg",
+          "bf16"
+        ]
+      ],
+      "scalars": [
+        [
+          "rowStride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "blockSize"
+      ]
+    },
+    "expected_call_bindings": {
+      "rowStride": "rowStride"
+    }
+  },
+  {
+    "python": "bench/examples/Welford/native_kernels.py",
+    "python_function": "onlineWelfordKernel",
+    "lean": "bench/examples/Welford/Kernels.lean",
+    "lean_definition": "onlineWelfordKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "meanReg",
+          "bf16"
+        ],
+        [
+          "varReg",
+          "bf16"
+        ]
+      ],
+      "scalars": [
+        [
+          "rowStride",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "blockSize"
+      ]
+    },
+    "expected_call_bindings": {
+      "rowStride": "rowStride"
+    }
+  }
+]

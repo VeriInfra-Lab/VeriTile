@@ -24,6 +24,7 @@ theorem stage (e : Source.Engine α) (second candidate : Bool) (inp out : Region
       ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,Region.cast,
       Source.Engine.algebra,Source.reduceWith,TileShape.axisDim,hb,State.setReg,
       Nat.mul_comm,Nat.not_le,stageStart,stageOutput] at *
+  all_goals try simp only [← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast, Int.ofNat_lt, Nat.mul_comm] at *
   all_goals exact ⟨hi,ho⟩
 
 theorem dimension (e : Source.Engine α) (candidate : Bool) (inp ov oi : RegionName)
@@ -43,6 +44,7 @@ theorem dimension (e : Source.Engine α) (candidate : Bool) (inp ov oi : RegionN
       ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,Region.cast,
       Source.Engine.algebra,Source.reduceWith,Source.indexedWith,TileShape.axisDim,
       TileShape.insertAxisIndex,toFloat,ofFloat,hn,Nat.ne_of_gt hn,State.setReg,Nat.mul_comm] at *
+  all_goals try simp only [← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast, Int.ofNat_lt, Nat.mul_comm] at *
   all_goals exact ⟨hi,hv,hx⟩
 
 #axiomsClean stage

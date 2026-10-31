@@ -10,21 +10,39 @@ theorem forward_profiled [Inhabited A] (algebra : Algebra A) (O X : RegionName)
     (M N K BM C : Nat) (s : State A) :
     FP.Structural.exec (engine algebra) (Source.forward O X M N K BM C) s =
       FP.Structural.exec (engine algebra) (Source.forwardCommuted O X M N K BM C) s := by
-  change run (engine algebra)
-    (FPProof.sourcePrefix Bool.false BM ++ (Source.forward O X M N K BM C).surfaceBody.drop 3) s =
-      run (engine algebra)
-        (FPProof.sourcePrefix Bool.true BM ++ (Source.forward O X M N K BM C).surfaceBody.drop 3) s
-  exact FPProof.prefix_run algebra s BM _
+  have firstSteps : run (engine algebra) ((Source.forward O X M N K BM C).surfaceBody.take 3) s =
+      run (engine algebra) ((Source.forwardCommuted O X M N K BM C).surfaceBody.take 3) s := by
+    simp [Source.forward,Source.forwardCommuted,ComputeKernel.surfaceBody,run,step,
+      evalExpr,evalOp_unfold,numeric,ComputeDType.eraseDType,Option.bind]
+    congr 1
+    funext i
+    simp [bop,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm,Int.mul_comm]
+  change run (engine algebra) (Source.forward O X M N K BM C).surfaceBody s =
+    run (engine algebra) (Source.forwardCommuted O X M N K BM C).surfaceBody s
+  rw [←List.take_append_drop 3 (Source.forward O X M N K BM C).surfaceBody,
+    ←List.take_append_drop 3 (Source.forwardCommuted O X M N K BM C).surfaceBody]
+  rw [run_append,run_append,firstSteps]
+  rfl
+
 
 theorem backward_profiled [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
     (M N K BM C : Nat) (s : State A) :
     FP.Structural.exec (engine algebra) (Source.backward Y G O M N K BM C) s =
       FP.Structural.exec (engine algebra) (Source.backwardCommuted Y G O M N K BM C) s := by
-  change run (engine algebra)
-    (FPProof.sourcePrefix Bool.false BM ++ (Source.backward Y G O M N K BM C).surfaceBody.drop 3) s =
-      run (engine algebra)
-        (FPProof.sourcePrefix Bool.true BM ++ (Source.backward Y G O M N K BM C).surfaceBody.drop 3) s
-  exact FPProof.prefix_run algebra s BM _
+  have firstSteps : run (engine algebra) ((Source.backward Y G O M N K BM C).surfaceBody.take 3) s =
+      run (engine algebra) ((Source.backwardCommuted Y G O M N K BM C).surfaceBody.take 3) s := by
+    simp [Source.backward,Source.backwardCommuted,ComputeKernel.surfaceBody,run,step,
+      evalExpr,evalOp_unfold,numeric,ComputeDType.eraseDType,Option.bind]
+    congr 1
+    funext i
+    simp [bop,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm,Int.mul_comm]
+  change run (engine algebra) (Source.backward Y G O M N K BM C).surfaceBody s =
+    run (engine algebra) (Source.backwardCommuted Y G O M N K BM C).surfaceBody s
+  rw [←List.take_append_drop 3 (Source.backward Y G O M N K BM C).surfaceBody,
+    ←List.take_append_drop 3 (Source.backwardCommuted Y G O M N K BM C).surfaceBody]
+  rw [run_append,run_append,firstSteps]
+  rfl
+
 
 theorem engine_default (e : Kernel.Engine A C) : engine e.algebra=e.algebra := rfl
 

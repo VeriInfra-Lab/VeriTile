@@ -45,9 +45,9 @@ def Layout.source (c : Layout) (B : Nat) (R : Bool) : ComputeKernel :=
 /-- Source FP32 graph. Three explicit input casts and left-associated products
 are retained; the independent mathematical specification lives in Math. -/
 def scalar (M : Algebra α) (ch : Channel) (x y d : α) : α :=
-  let x := M.cast (some .fp32) .real .real x
-  let y := M.cast (some .fp32) .real .real y
-  let d := M.cast (some .fp32) .real .real d
+  let x := M.cast (some .fp32) .real .real (M.fp32Load x)
+  let y := M.cast (some .fp32) .real .real (M.fp32Load y)
+  let d := M.cast (some .fp32) .real .real (M.fp32Load d)
   let sig := M.unary (some .fp32) .sigmoid x
   let one := M.literal (some .fp32) .real 1
   let mul := M.binary (some .fp32) .real .mul

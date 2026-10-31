@@ -13,7 +13,17 @@ import VeriTile.Triton.Math.SinkhornMemory
 /-! Real execution, arithmetic and memory lemmas for HyperConnectionsWidth.
 The public IO contracts and mathematical specifications are in ../Correct.lean. -/
 
+attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
+  VeriTile.Triton.ComputeOp.toAlgorithm? VeriTile.Triton.ComputeDType.eraseDType
+  VeriTile.Triton.ComputeKernel.toAlgorithm? VeriTile.Triton.ComputeStmt.toAlgorithm?
+  VeriTile.Triton.ComputeStmt.listToAlgorithm?
+
+@[simp] private theorem source_except_ok_bind {α β ε : Type _} (a : α)
+    (f : α → Except ε β) :
+    (Except.ok a : Except ε α) >>= f = f a := rfl
 namespace VeriTile.Bench.Examples.HyperConnectionsWidth.Memory
+
+
 open VeriTile Triton TraceProofs Kernels
 
 set_option maxHeartbeats 6400000
@@ -202,7 +212,7 @@ private theorem mhcWidth_exec_view (tau : ℝ) (s : BlockState) :
       = some
         (Real.exp (s.readMem ⟨"h_res"⟩ 0 / tau) * s.readMem ⟨"res"⟩ s.pid,
          Real.exp (s.readMem ⟨"h_pre"⟩ 0 / tau) * s.readMem ⟨"res"⟩ s.pid) := by
-  simp [mhcWidthConnectionKernel, exec, stepStmts,
+  simp [scalarKernel, mhcWidthConnectionKernel, exec, stepStmts,
     stepStmt, NumericDType.mul, NumericDType.div,
     WithBot.realMul, WithBot.realDiv, BlockState.writeMem, BlockState.readMem]
 
@@ -215,7 +225,7 @@ private theorem mhcWidth_frame (tau : ℝ) (s s1 : BlockState)
     (h1 : ¬(r = ⟨"res_mix"⟩ ∧ o = s.pid))
     (h2 : ¬(r = ⟨"branch_in"⟩ ∧ o = s.pid)) :
     s1.mem r o = s.mem r o := by
-  simp [exec, mhcWidthConnectionKernel,
+  simp [exec, scalarKernel, mhcWidthConnectionKernel,
     ComputeKernel.toAlgKernel, stepStmts, stepStmt,
     NumericDType.mul, NumericDType.div] at hExec
   subst hExec
@@ -386,7 +396,7 @@ theorem mhcWidth_flattenOk (tau : ℝ) :
     ((mhcWidthConnectionKernel ⟨"res"⟩ ⟨"h_res"⟩ ⟨"h_pre"⟩ ⟨"res_mix"⟩
       ⟨"branch_in"⟩ 1 1 1 0 tau).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [mhcWidthConnectionKernel,
+  simp [scalarKernel, mhcWidthConnectionKernel,
     ComputeKernel.toAlgKernel, StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
 
@@ -399,7 +409,7 @@ attribute [local simp] ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? ComputeDT
 theorem optimized_exec (tau : ℝ) (s : BlockState) :
     exec (optimizedKernel tau).toAlgKernel s =
       exec (mhcWidthConnectionKernel "res" "h_res" "h_pre" "res_mix" "branch_in" 1 1 1 0 tau).toAlgKernel s := by
-  simp [optimizedKernel, mhcWidthConnectionKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [optimizedKernel, scalarKernel, mhcWidthConnectionKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Region.cast, Tile.bop, Tile.uop, NumericDType.mul, NumericDType.div, mul_comm]
 
 end Optimized

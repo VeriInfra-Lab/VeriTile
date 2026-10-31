@@ -1,0 +1,60 @@
+[
+  {
+    "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+    "python_function": "stableSoftmaxKernel",
+    "lean": "bench/examples/OnlineSoftmax/Kernels.lean",
+    "lean_definition": "stableSoftmaxKernel",
+    "signature_definition": "batchSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "blockSize"
+      ],
+      "readPorts": [
+        "xReg"
+      ],
+      "writePorts": [
+        "yReg"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+    "python_function": "onlineSoftmaxKernel",
+    "lean": "bench/examples/OnlineSoftmax/Kernels.lean",
+    "lean_definition": "onlineSoftmaxKernel",
+    "signature_definition": "onlineSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "N"
+      ],
+      "readPorts": [
+        "xReg"
+      ],
+      "writePorts": [
+        "yReg"
+      ]
+    }
+  }
+]

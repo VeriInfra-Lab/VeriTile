@@ -52,9 +52,9 @@ def Context {α : Type} (X Mean : RegionName) (M N pid : Nat) (memory : RegionNa
 def chunk {α : Type} [Inhabited α] (A : Algebra α) (X : RegionName) (M N pid off : Nat)
     (memory : RegionName → Nat → Cell α) : Acc α :=
   fun i => A.cast (some .fp32) .real .real
-    (if pid*8+i.1.val<M ∧ off+i.2.1.val<N then
+    (A.fp32Load (if pid*8+i.1.val<M ∧ off+i.2.1.val<N then
       (memory X ((pid*8+i.1.val)*N+(off+i.2.1.val))).read .real
-     else A.literal (some .fp32) .real 0)
+     else A.literal (some .fp32) .real 0))
 
 def nextAcc {α : Type} [Inhabited α] (A : Algebra α) (X : RegionName)
     (M N pid off : Nat) (memory : RegionName → Nat → Cell α) (acc : Acc α) : Acc α :=
@@ -67,6 +67,10 @@ def bodyState {α : Type} [Inhabited α] (A : Algebra α) (X : RegionName)
   let s := s.setReg "col_mask" .bool [1,8] (fun i => decide (off+i.2.1.val<N))
   let s := s.setReg "mask" .bool [8,8]
     (fun i => decide (pid*8+i.1.val<M) && decide (off+i.2.1.val<N))
+  let s := s.setReg "__veritile_load_0" .real [8,8] (fun i => A.fp32Load
+    (if pid*8+i.1.val<M ∧ off+i.2.1.val<N then
+      (memory X ((pid*8+i.1.val)*N+(off+i.2.1.val))).read .real
+     else A.literal (some .fp32) .real 0))
   let s := s.setReg "a" .real [8,8] (chunk A X M N pid off memory)
   s.setReg "_mean" .real [8,8] (nextAcc A X M N pid off memory acc)
 

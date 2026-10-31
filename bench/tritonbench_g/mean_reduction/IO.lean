@@ -32,12 +32,12 @@ theorem rowMajor_bound {row col M N : Nat} (hr : row<M) (hc : col<N) : row*N+col
 abbrev Accumulator (α : Type) := Values α .real [8,8]
 
 /-- Independent logical FP32 chunk: inactive rows/columns use the source zero
-fallback, then undergo the same explicit FP32 conversion as loaded values. -/
+fallback. The source FP32 load operation precedes its explicit FP32 conversion. -/
 def chunk (A : Algebra α) (M N pid off : Nat) (values : Inputs α M N) : Accumulator α :=
   fun i => A.cast (some .fp32) .real .real
-    (if live : pid*8+i.1.val<M ∧ off+i.2.1.val<N then
+    (A.fp32Load (if live : pid*8+i.1.val<M ∧ off+i.2.1.val<N then
       element values ⟨(pid*8+i.1.val)*N+(off+i.2.1.val), rowMajor_bound live.1 live.2⟩
-    else A.literal (some .fp32) .real 0)
+    else A.literal (some .fp32) .real 0))
 
 /-- Source-order streaming additions, expressed on logical arrays. The
 backend retains the chosen reduction tree; no reassociation law is assumed. -/

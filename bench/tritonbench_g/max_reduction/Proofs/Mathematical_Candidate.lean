@@ -14,7 +14,7 @@ theorem stage1_prefix_flat (A : FlatAlloc) (inp out : RegionName) (M B : Nat)
     ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, FlatAlloc.flattenStmts,
     FlatAlloc.flattenStmt, FlatAlloc.flattenOp.eq_def, stepStmts, stepStmt,
-    evalOp.eq_def, Tile.bop, NumericDType.mul, Nat.mul_comm]
+    evalOp.eq_def, Tile.bop, NumericDType.mul, Nat.mul_comm,Int.mul_comm]
 
 theorem stage2_prefix_flat (A : FlatAlloc) (inp out : RegionName) (M B : Nat)
     (s : BlockState) :
@@ -30,7 +30,7 @@ theorem stage2_prefix_flat (A : FlatAlloc) (inp out : RegionName) (M B : Nat)
     FlatAlloc.flattenStmt, FlatAlloc.flattenOp.eq_def, stepStmts, stepStmt,
     evalOp.eq_def, Tile.bop, Tile.cop, Tile.uop, ComparableDType.lt, ComparableDType.le,
     hc]
-  rfl
+  all_goals rfl
 
 theorem stage1_flat_exec (A : FlatAlloc) (v : Bool)
     (inp out : RegionName) (M B : Nat) (s : BlockState) :
@@ -80,7 +80,7 @@ theorem dimension_prefix_flat (A : FlatAlloc) (inp ov oi : RegionName)
     ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind,
     FlatAlloc.flattenStmts, FlatAlloc.flattenStmt, FlatAlloc.flattenOp.eq_def,
-    stepStmts, stepStmt, evalOp.eq_def, Tile.bop, NumericDType.mul, Nat.mul_comm]
+    stepStmts, stepStmt, evalOp.eq_def, Tile.bop, NumericDType.mul, Nat.mul_comm,Int.mul_comm]
 
 theorem dimension_flat_exec (A : FlatAlloc) (v : Bool)
     (inp ov oi : RegionName) (M N K BM BN : Nat) (s : BlockState) :

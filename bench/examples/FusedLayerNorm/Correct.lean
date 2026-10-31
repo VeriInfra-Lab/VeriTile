@@ -18,7 +18,7 @@ open scoped VeriTile.Triton.KernelIO₃
 /-- The real interpretation retains the original row and feature-array layout. -/
 def twoPassIO (N stride : Nat) (ε : ℝ) : KernelIO₃ where
   kernel := (twoPassLayerNormKernel "x" "gamma" "beta" "y" N stride ε).eraseDType
-  projection := by simp [ComputeKernel.toAlgKernel, twoPass_projection]
+  projection := twoPass_projection ..
   in1 := "x"
   in2 := "gamma"
   in3 := "beta"
@@ -32,14 +32,14 @@ def twoPassIO (N stride : Nat) (ε : ℝ) : KernelIO₃ where
   read3 := fun _ => 0
   write := fun pid => pid * stride
 
-specification two_pass_layernorm_correct (N stride : Nat) (ε : ℝ) :
+specification two_pass_layernorm_correct (N stride : Nat) (hWord : N < 2^64) (ε : ℝ) :
     Spec.Real (twoPassIO N stride ε ⊨ fun xs gs bs i =>
       let μ := (∑ j, xs j) / N
       let variance := (∑ j, (xs j - μ) ^ 2) / N
       (xs i - μ) / Real.sqrt (variance + ε) * gs i + bs i) := by
   have halg : (twoPassIO N stride ε).kernel.toAlgKernel =
       (twoPassMathKernel "x" "gamma" "beta" "y" N stride ε).toAlgKernel := by
-    simp [twoPassIO, ComputeKernel.toAlgKernel, twoPass_projection]
+    rfl
   refine KernelIO₃.Implements.intro _ ?_ ?_ ?_
   · rw [halg]; exact twoPass_flattenOk "x" "gamma" "beta" "y" N stride ε
   · intro bounds s hx hg hb hy _
@@ -49,14 +49,14 @@ specification two_pass_layernorm_correct (N stride : Nat) (ε : ℝ) :
   · intro s xs gs bs hx hg hb
     rw [halg]
     simp only [twoPassIO, Nat.zero_add] at hg hb
-    obtain ⟨t, he, hv, hf⟩ := twoPass_region_run N stride ε s xs gs bs hx hg hb
+    obtain ⟨t, he, hv, hf⟩ := twoPass_region_run N stride hWord ε s xs gs bs hx hg hb
     refine ⟨t, he, ?_, ?_⟩
     · simpa [twoPassMean, twoPassS] using hv
     · intro r o hmiss _; exact hf r o hmiss
 
 def fusedIO (N stride : Nat) (ε : ℝ) : KernelIO₃ where
   kernel := (fusedLayerNormKernel "x" "gamma" "beta" "y" N stride ε).eraseDType
-  projection := by simp [ComputeKernel.toAlgKernel, fused_projection]
+  projection := fused_projection ..
   in1 := "x"
   in2 := "gamma"
   in3 := "beta"
@@ -70,14 +70,14 @@ def fusedIO (N stride : Nat) (ε : ℝ) : KernelIO₃ where
   read3 := fun _ => 0
   write := fun pid => pid * stride
 
-specification fused_layernorm_correct (N stride : Nat) (ε : ℝ) :
+specification fused_layernorm_correct (N stride : Nat) (hWord : N < 2^64) (ε : ℝ) :
     Spec.Real (fusedIO N stride ε ⊨ fun xs gs bs i =>
       let μ := (∑ j, xs j) / N
       let variance := (∑ j, (xs j - μ) ^ 2) / N
       (xs i - μ) / Real.sqrt (variance + ε) * gs i + bs i) := by
   have halg : (fusedIO N stride ε).kernel.toAlgKernel =
       (fusedMathKernel "x" "gamma" "beta" "y" N stride ε).toAlgKernel := by
-    simp [fusedIO, ComputeKernel.toAlgKernel, fused_projection]
+    rfl
   refine KernelIO₃.Implements.intro _ ?_ ?_ ?_
   · rw [halg]; exact fused_flattenOk "x" "gamma" "beta" "y" N stride ε
   · intro bounds s hx hg hb hy _
@@ -87,7 +87,7 @@ specification fused_layernorm_correct (N stride : Nat) (ε : ℝ) :
   · intro s xs gs bs hx hg hb
     rw [halg]
     simp only [fusedIO, Nat.zero_add] at hg hb
-    obtain ⟨t, he, hv, hf⟩ := fused_region_run N stride ε s xs gs bs hx hg hb
+    obtain ⟨t, he, hv, hf⟩ := fused_region_run N stride hWord ε s xs gs bs hx hg hb
     refine ⟨t, he, ?_, ?_⟩
     · simpa [twoPassMean, twoPassS] using hv
     · intro r o hmiss _; exact hf r o hmiss

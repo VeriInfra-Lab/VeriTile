@@ -13,6 +13,10 @@ open VeriTile.Examples (InputRowLoadedAt onlineWelfordLoopBody)
 open WelfordCorrect (stepStmt_assign_inv welfordLoop_traceSafe welfordBody_pid_preserved)
 open scoped VeriTile.Triton.KernelIO₃
 
+set_option maxRecDepth 6000
+
+section SourceDecomposition
+
 /- Only the current shared source is executable. Mathematical views below are
 its dtype erasure; these local reductions expose that view to execution proofs. -/
 attribute [local simp] ComputeKernel.eraseDType ComputeKernel.toAlgorithm?
@@ -21,7 +25,7 @@ attribute [local simp] ComputeKernel.eraseDType ComputeKernel.toAlgorithm?
   Kernel.eraseDType Stmt.eraseDTypeList Stmt.eraseDType Op.eraseDType.eq_def
   MemAccess.eraseDType.eq_def MaskOpt.eraseDType.eq_def
   VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
-  IntegralDType.eraseDType ComputeDType.eraseDType
+  IntegralDType.eraseDType ComputeDType.eraseDType FloatDType.toTileDType
 attribute [local simp] twoPassLayerNormKernel fusedLayerNormKernel
 
 @[simp] private theorem except_ok_bind {α β ε : Type _} (a : α)
@@ -39,17 +43,76 @@ def fusedMathKernel
     ComputeKernel :=
   (fusedLayerNormKernel xReg γReg βReg yReg N rowStride ε).eraseDType
 
-theorem twoPass_projection (xReg γReg βReg yReg : RegionName) (N stride : Nat) (ε : ℝ) :
-    (twoPassLayerNormKernel xReg γReg βReg yReg N stride ε).eraseDType.toAlgorithm? =
-      Except.ok (twoPassMathKernel xReg γReg βReg yReg N stride ε).toAlgKernel := by
-  simp [twoPassMathKernel, fusedMathKernel]
+/-- Proof decomposition of the entire erased source. The equalities below
+connect both lists to the current pasted Python bodies, including count casts. -/
+def affineTail (x g b y : RegionName) (N stride : Nat) (eps : ℝ) : List Stmt :=
+ [.assign .real [N] "γ" (.load .real (.region g (.arange N)) .none),
+  .assign .real [N] "β" (.load .real (.region b (.arange N)) .none),
+  .assign .real [] "σ_inv" (.div .real .nil (.const 1)
+    (.sqrt (.add .real .nil (.ref .real [] "v") (.const eps)))),
+  .assign .real [N] "y" (.add .real (.consSame .nil)
+    (.mul .real (.consSame .nil)
+      (.mul .real .scalarR (.sub .real .scalarR (.ref .real [N] "x") (.ref .real [] "μ"))
+        (.ref .real [] "σ_inv")) (.ref .real [N] "γ")) (.ref .real [N] "β")),
+  .store .real [N] (.region y (.ref .nat [N] "offs")) (.ref .real [N] "y") .none]
 
-theorem fused_projection (xReg γReg βReg yReg : RegionName) (N stride : Nat) (ε : ℝ) :
-    (fusedLayerNormKernel xReg γReg βReg yReg N stride ε).eraseDType.toAlgorithm? =
-      Except.ok (fusedMathKernel xReg γReg βReg yReg N stride ε).toAlgKernel := by
-  simp [twoPassMathKernel, fusedMathKernel]
+def twoPassStatements (x g b y : RegionName) (N stride : Nat) (eps : ℝ) : List Stmt :=
+  (WelfordCorrect.twoPassStatements x y y N stride).take 9 ++ affineTail x g b y N stride eps
 
-theorem twoPass_region_run (N stride : Nat) (ε : ℝ) (s : BlockState)
+def fusedStatements (x g b y : RegionName) (N stride : Nat) (eps : ℝ) : List Stmt :=
+  (WelfordCorrect.onlineStatements x y y N stride).take 4 ++
+  [.assign .real [] "μ" (.ref .real [] "M"),
+   .assign .real [] "count" (.natToReal (.full []
+     (.mod .nat (IntegerExpr.sameShape []) (.constNat N) (.full [] (.constNat (2^64)))))),
+   .assign .real [] "v" (.div .real .nil (.ref .real [] "S") (.ref .real [] "count")),
+   .assign .real [] "σ_inv" (.div .real .nil (.const 1)
+     (.sqrt (.add .real .nil (.ref .real [] "v") (.const eps)))),
+   .assign .nat [N] "offs" (.add .nat .scalarL
+     (.mul .nat .nil (.ref .nat [] "pid") (.constNat stride)) (.arange N)),
+   .assign .real [N] "x" (.load .real (.region x (.ref .nat [N] "offs")) .none)] ++
+  (affineTail x g b y N stride eps).take 2 ++ (affineTail x g b y N stride eps).drop 3
+
+private theorem erased_algorithm (source : ComputeKernel) (alg : Kernel)
+    (h : source.toAlgorithm? = .ok alg) : source.eraseDType.toAlgKernel = alg.eraseDType := by
+  simp only [ComputeKernel.eraseDType,h,ComputeKernel.toAlgKernel_fromKernelBody]
+
+@[simp] theorem twoPass_algorithm (x g b y : RegionName) (N stride : Nat) (eps : ℝ) :
+    (twoPassMathKernel x g b y N stride eps).toAlgKernel =
+      {inputs := [x,g,b], outputs := [y], body := twoPassStatements x g b y N stride eps} := by
+  have h : (twoPassLayerNormKernel x g b y N stride eps).toAlgorithm? =
+      .ok (twoPassLayerNormKernel x g b y N stride eps).toAlgKernel := rfl
+  rw [show (twoPassMathKernel x g b y N stride eps).toAlgKernel =
+      (twoPassLayerNormKernel x g b y N stride eps).toAlgKernel.eraseDType from erased_algorithm _ _ h]
+  simp [twoPassStatements,affineTail,WelfordCorrect.twoPassStatements]
+
+@[simp] theorem fused_algorithm (x g b y : RegionName) (N stride : Nat) (eps : ℝ) :
+    (fusedMathKernel x g b y N stride eps).toAlgKernel =
+      {inputs := [x,g,b], outputs := [y], body := fusedStatements x g b y N stride eps} := by
+  have h : (fusedLayerNormKernel x g b y N stride eps).toAlgorithm? =
+      .ok (fusedLayerNormKernel x g b y N stride eps).toAlgKernel := rfl
+  rw [show (fusedMathKernel x g b y N stride eps).toAlgKernel =
+      (fusedLayerNormKernel x g b y N stride eps).toAlgKernel.eraseDType from erased_algorithm _ _ h]
+  simp [fusedStatements,affineTail,WelfordCorrect.onlineStatements,onlineWelfordLoopBody]
+
+end SourceDecomposition
+
+private theorem project_erasure (ck : ComputeKernel) (alg : Kernel)
+    (h : ck.toAlgorithm? = .ok alg) :
+    ck.eraseDType.toAlgorithm? = .ok ck.eraseDType.toAlgKernel := by
+  simp only [ComputeKernel.eraseDType,h,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody]
+
+theorem twoPass_projection (x g b y : RegionName) (N stride : Nat) (eps : ℝ) :
+    (twoPassLayerNormKernel x g b y N stride eps).eraseDType.toAlgorithm? =
+      .ok (twoPassMathKernel x g b y N stride eps).toAlgKernel :=
+  project_erasure (twoPassLayerNormKernel x g b y N stride eps) _ rfl
+
+theorem fused_projection (x g b y : RegionName) (N stride : Nat) (eps : ℝ) :
+    (fusedLayerNormKernel x g b y N stride eps).eraseDType.toAlgorithm? =
+      .ok (fusedMathKernel x g b y N stride eps).toAlgKernel :=
+  project_erasure (fusedLayerNormKernel x g b y N stride eps) _ rfl
+
+theorem twoPass_region_run (N stride : Nat) (hWord : N < 2^64) (ε : ℝ) (s : BlockState)
     (xs gs bs : Fin N → ℝ)
     (hx : InputRowLoadedAt s "x" stride N xs)
     (hg : ∀ i : Fin N, s.readMem "gamma" i.val = gs i)
@@ -59,14 +122,16 @@ theorem twoPass_region_run (N stride : Nat) (ε : ℝ) (s : BlockState)
         (xs i - twoPassMean xs) / Real.sqrt (twoPassS xs / N + ε) * gs i + bs i) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ ∀ i : Fin N, o ≠ s.pid * stride + i.val) →
         t.mem r o = s.mem r o) := by
+  rw [twoPass_algorithm]
+  have hmod : N % 18446744073709551616 = N := Nat.mod_eq_of_lt hWord
   have hinj : Function.Injective (fun i : TileIndex [N] => s.pids 0 * stride + i.1.val) := by
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
   unfold InputRowLoadedAt at hx
   simp only [BlockState.pid_eq] at hx ⊢
-  simp [twoPassMathKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.uop, Tile.natToReal, NumericDType.add, NumericDType.mul, NumericDType.sub,
+  simp [twoPass_algorithm, twoPassStatements, affineTail, WelfordCorrect.twoPassStatements, exec, stepStmts, stepStmt, evalOp.eq_def,
+    hmod, Tile.bop, Tile.uop, Tile.natToReal, NumericDType.add, NumericDType.mul, NumericDType.sub,
     NumericDType.div, Tile.reduceSumDrop,
     TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
@@ -81,7 +146,7 @@ theorem twoPass_region_run (N stride : Nat) (ε : ℝ) (s : BlockState)
           (fun k _ => Ne.symm (ho k.1)) _).trans rfl
       · exact (BlockState.foldl_writeMem_mem_preserve_other_region _ _ _ r hr o _).trans rfl
 
-theorem fused_region_run (N stride : Nat) (ε : ℝ) (s : BlockState)
+theorem fused_region_run (N stride : Nat) (hWord : N < 2^64) (ε : ℝ) (s : BlockState)
     (xs gs bs : Fin N → ℝ)
     (hx : InputRowLoadedAt s "x" stride N xs)
     (hg : ∀ i : Fin N, s.readMem "gamma" i.val = gs i)
@@ -91,6 +156,8 @@ theorem fused_region_run (N stride : Nat) (ε : ℝ) (s : BlockState)
         (xs i - twoPassMean xs) / Real.sqrt (twoPassS xs / N + ε) * gs i + bs i) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ ∀ i : Fin N, o ≠ s.pid * stride + i.val) →
         t.mem r o = s.mem r o) := by
+  rw [fused_algorithm]
+  have hmod : N % 18446744073709551616 = N := Nat.mod_eq_of_lt hWord
   obtain ⟨t, he, hM, hS, hp, _, hmem⟩ := WelfordCorrect.welford_loop_run N stride "x" s xs hx
   have hxt : ∀ i : Fin N, t.readMem "x" (s.pid * stride + i.val) = xs i := by
     intro i
@@ -106,9 +173,11 @@ theorem fused_region_run (N stride : Nat) (ε : ℝ) (s : BlockState)
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
   simp only [BlockState.pid_eq] at hp hxt ⊢
-  simp [fusedMathKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.uop, Tile.natToReal]
-  simp only [WelfordCorrect.loopInitial, onlineWelfordLoopBody] at he
+  simp [fused_algorithm, fusedStatements, affineTail, WelfordCorrect.onlineStatements, exec, stepStmts, stepStmt, evalOp.eq_def,
+    hmod, Tile.bop, Tile.uop, Tile.natToReal]
+  have hzero : (0.0 : ℝ) = 0 := by norm_num
+  simp only [hzero]
+  simp only [WelfordCorrect.loopInitial] at he
   rw [he]
   simp [hM, hS, hp, NumericDType.add, NumericDType.mul,
     NumericDType.sub, NumericDType.div]
@@ -165,6 +234,8 @@ theorem twoPass_traceSafe (bounds : RegionBounds)
       ((twoPassMathKernel xReg γReg βReg yReg N rowStride ε).toAlgKernel)
       s := by
   unfold Kernel.TraceSafe
+  rw [twoPass_algorithm]
+  simp only [twoPassStatements, affineTail, WelfordCorrect.twoPassStatements, List.take, List.cons_append, List.nil_append]
   try simp only [twoPassMathKernel, fusedMathKernel, twoPassLayerNormKernel, fusedLayerNormKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
   intro s1 hs1
@@ -193,6 +264,9 @@ theorem twoPass_traceSafe (bounds : RegionBounds)
     (by simp [Stmt.TraceSafe, Op.SafeAt.eq_def]) ?_
   intro s4 hs4
   obtain ⟨v4, hv4, rfl⟩ := stepStmt_assign_inv hs4
+  refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt.eq_def]) ?_
+  intro sc hsc
+  obtain ⟨vc, hvc, rfl⟩ := stepStmt_assign_inv hsc
   refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
   intro s5 hs5
   obtain ⟨v5, hv5, rfl⟩ := stepStmt_assign_inv hs5
@@ -233,7 +307,8 @@ theorem twoPass_flattenOk :
     ((twoPassMathKernel xReg γReg βReg yReg N rowStride ε
       ).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [twoPassMathKernel, ComputeKernel.toAlgKernel, StmtList.FlattenOk,
+  rw [twoPass_algorithm]
+  simp [twoPassStatements, affineTail, WelfordCorrect.twoPassStatements, StmtList.FlattenOk,
     Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 private theorem welfordLoop_pid_preserved (xReg : RegionName) (rowStride : Nat)
@@ -275,6 +350,8 @@ theorem fused_traceSafe (bounds : RegionBounds)
       ((fusedMathKernel xReg γReg βReg yReg N rowStride ε).toAlgKernel)
       s := by
   unfold Kernel.TraceSafe
+  rw [fused_algorithm]
+  simp only [fusedStatements, affineTail, WelfordCorrect.onlineStatements, List.take, List.drop, List.cons_append, List.nil_append]
   try simp only [twoPassMathKernel, fusedMathKernel, twoPassLayerNormKernel, fusedLayerNormKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
   intro s1 hs1
@@ -300,6 +377,9 @@ theorem fused_traceSafe (bounds : RegionBounds)
   refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
   intro s5 hs5
   obtain ⟨v5, hv5, rfl⟩ := stepStmt_assign_inv hs5
+  refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt.eq_def]) ?_
+  intro sc hsc
+  obtain ⟨vc, hvc, rfl⟩ := stepStmt_assign_inv hsc
   refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
   intro s6 hs6
   obtain ⟨v6, hv6, rfl⟩ := stepStmt_assign_inv hs6
@@ -312,7 +392,7 @@ theorem fused_traceSafe (bounds : RegionBounds)
   rw [show evalOp  (Op.add .nat .scalarL
       (Op.mul .nat .nil (Op.ref .nat [] "pid") (Op.constNat rowStride))
       (Op.arange N))
-      (((s4.setReg "μ" .real [] v5).setReg "v" .real [] v6).setReg
+      ((((s4.setReg "μ" .real [] v5).setReg "count" .real [] vc).setReg "v" .real [] v6).setReg
         "σ_inv" .real [] v7)
       = some ⟨fun i => s.pids 0 * rowStride + i.1.val⟩ from by
     simp [evalOp.eq_def, Tile.bop, NumericDType.nat_add, NumericDType.nat_mul,
@@ -349,7 +429,8 @@ theorem fused_flattenOk :
     ((fusedMathKernel xReg γReg βReg yReg N rowStride ε
       ).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [fusedMathKernel, ComputeKernel.toAlgKernel, StmtList.FlattenOk,
+  rw [fused_algorithm]
+  simp [fusedStatements, affineTail, WelfordCorrect.onlineStatements, onlineWelfordLoopBody, StmtList.FlattenOk,
     Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 end Safety

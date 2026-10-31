@@ -400,3 +400,61 @@ class RuntimeCallBindingTests(unittest.TestCase):
             with self.subTest(case=case):
                 results = check_manifest(ROOT, ROOT / 'bench/tritonbench_g' / case / 'jit-correspondence.json')
                 self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))
+
+
+class ReductionBodyCopyTests(unittest.TestCase):
+    def compare(self, case, lean):
+        directory = ROOT / 'bench/tritonbench_g' / case
+        record = json.loads((directory / 'jit-correspondence.json').read_text())[0]
+        return check((ROOT / record['python']).read_text(), lean,
+                     record['python_function'], record['lean_definition'],
+                     record['signature_definition'], record['expected_signature'],
+                     record.get('expected_call_bindings'))
+
+    def test_all_selected_and_candidate_reduction_bodies(self):
+        for case in ('triton_mul2', 'log_softmax', 'mean_reduction', 'max_reduction'):
+            with self.subTest(case=case):
+                results = check_manifest(ROOT, ROOT / 'bench/tritonbench_g' / case / 'jit-correspondence.json')
+                self.assertTrue(all(x['mode'] == 'pasted_body' for x in results))
+
+    def test_logsoftmax_retains_tuple_and_explicit_index_casts(self):
+        case = 'log_softmax'
+        source = (ROOT / 'bench/tritonbench_g' / case / 'Kernels.lean').read_text()
+        for before, after in [('.to(tl.int64)', ''),
+                              ('tl.cast(M, tl.int64)', 'M'),
+                              ('safe_m[:, None] * n64 * k64', 'safe_m[:, None] * k64 * n64')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(case, source.replace(before, after, 1))
+
+    def test_mean_positional_mask_and_native_conjunction_remain(self):
+        source = (ROOT / 'bench/tritonbench_g/mean_reduction/Kernels.lean').read_text()
+        for before, after in [('mask = row_mask and col_mask', 'mask = row_mask or col_mask'),
+                              ('tl.store(Mean, mean, row_mask)', 'tl.store(Mean, mean)'),
+                              ('.to(tl.float32)', '')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare('mean_reduction', source.replace(before, after, 1))
+
+
+class FloatingCallBindingTests(unittest.TestCase):
+    def test_all_full_matrix_and_layernorm_bodies_are_copied(self):
+        from scripts.bench.jit_correspondence import check_manifest
+        for name in ('AdamUpdateGridLaunch', 'FusedLayerNorm',
+                     'HyperConnectionsDepth', 'HyperConnectionsWidth'):
+            with self.subTest(example=name):
+                results = check_manifest(ROOT, Path('bench/examples') / name / 'jit-correspondence.json')
+                self.assertTrue(results)
+                self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))
+
+    def test_runtime_fp32_binding_value_and_abi_remain_reviewed(self):
+        from scripts.bench.jit_correspondence import check
+        import json
+        records = json.loads((ROOT / 'bench/examples/HyperConnectionsDepth/jit-correspondence.json').read_text())
+        record = records[0]
+        py = (ROOT / record['python']).read_text()
+        lean = (ROOT / record['lean']).read_text()
+        for changed in (lean.replace('tau := tau', 'tau := 0', 1),
+                        lean.replace('("tau",.fp32)', '("tau",.fp64)', 1)):
+            with self.assertRaises(ValueError):
+                check(py, changed, record['python_function'], record['lean_definition'],
+                      record['signature_definition'], record['expected_signature'],
+                      record['expected_call_bindings'])

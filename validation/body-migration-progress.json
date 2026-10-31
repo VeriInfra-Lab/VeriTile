@@ -5,18 +5,18 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 0,
-  "staged_count": 29,
+  "staged_count": 43,
   "pending_count": 196,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
-    "staged_and_regression_retained_modules": 734,
-    "official_comparator": "PENDING: official replay is required on this source snapshot. The first 17-case job tests e1311565752967543fc4706f628afee0b4b44263; it cannot certify subsequent shared-frontend changes. Local systemd restrictions and Landlock ABI v4 prevent official isolation here.",
-    "python_tests": 293,
+    "staged_and_regression_retained_modules": 946,
+    "official_comparator": "PENDING on this source snapshot. Run 41225931977 is still replaying commit 1dc5b6b28600402c2b5e866537e933d9f333c3d5; it cannot certify the later shared frontend and proof changes. Official isolation remains unavailable locally because of systemd restrictions and Landlock ABI v4.",
+    "python_tests": 298,
     "offline_example_compilations": {
-      "cases": 13,
-      "checks": 58,
-      "passed": 58,
+      "cases": 19,
+      "checks": 94,
+      "passed": 94,
       "gpu_execution": false,
       "completion_certificate": false
     }
@@ -254,8 +254,11 @@
     },
     {
       "path": "bench/tritonbench_g/dequantize_matmul",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/tritonbench_g/destindex_copy",
@@ -387,8 +390,11 @@
     },
     {
       "path": "bench/tritonbench_g/index_select_cat",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/tritonbench_g/int4_matmul",
@@ -483,8 +489,11 @@
     },
     {
       "path": "bench/tritonbench_g/l2_norm_triton2",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/tritonbench_g/layer_norm_fwd",
@@ -528,8 +537,11 @@
     },
     {
       "path": "bench/tritonbench_g/log_softmax",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/tritonbench_g/logsumexp_fwd",
@@ -611,13 +623,19 @@
     },
     {
       "path": "bench/tritonbench_g/max_reduction",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/tritonbench_g/mean_reduction",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/tritonbench_g/mixed_sparse_attention",
@@ -855,8 +873,11 @@
     },
     {
       "path": "bench/tritonbench_g/swiglu_backward",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/tritonbench_g/swiglu_fwd",
@@ -918,8 +939,11 @@
     },
     {
       "path": "bench/tritonbench_g/triton_mul2",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/tritonbench_g/triton_softmax",
@@ -957,8 +981,11 @@
     },
     {
       "path": "bench/examples/AdamUpdateGridLaunch",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/examples/FlatVectorAdd",
@@ -986,8 +1013,11 @@
     },
     {
       "path": "bench/examples/FusedLayerNorm",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/examples/FusedSiLU",
@@ -1007,13 +1037,19 @@
     },
     {
       "path": "bench/examples/HyperConnectionsDepth",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/examples/HyperConnectionsWidth",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/examples/LogExp",
@@ -1025,8 +1061,11 @@
     },
     {
       "path": "bench/examples/OnlineSoftmax",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     },
     {
       "path": "bench/examples/RowWiseMax",
@@ -1086,8 +1125,11 @@
     },
     {
       "path": "bench/examples/Welford",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS"
     }
   ]
 }
