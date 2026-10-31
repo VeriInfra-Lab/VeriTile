@@ -8,7 +8,8 @@ noncomputable section
 /-- Complete selected FP32 program in the existing mathematical index projection.
 The previous adapter erased only nonnegative INT64 widenings, retained signed
 Int token arithmetic and made implicit pointer-element FP32 stores explicit.
-The full source identity is checked in Misc/SourcePreservation.lean. -/
+All execution and safety proofs use this shared definition directly.
+Raw Python-body correspondence for this index projection remains pending. -/
 def typed (dtype : FloatDType)
     (x_ptr out_ptr : RegionName)
     (M K stride_x_batch stride_x_m stride_x_n

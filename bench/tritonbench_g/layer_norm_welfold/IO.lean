@@ -15,7 +15,7 @@ abbrev outputs (Y Mean Rstd : RegionName) (S D : Nat) : List IOChannel :=
 
 def invocation (M : Algebra α) (Y Mean Rstd : RegionName) (S D B : Nat)
     (tree : ReductionTree B) (row : Nat) : Invocation α where
-  kernel := Source.rowKernel "X" "W" "Bias" Y Mean Rstd S D B (SourceBinding.tree tree)
+  kernel := SourceCode.rowKernel "X" "W" "Bias" Y Mean Rstd S D B (SourceBinding.tree tree)
   backend := withEquality M (fun _ _ => Bool.false)
   pids := fun ax => if ax=0 then row else 0
 
@@ -68,9 +68,7 @@ namespace VeriTile.Bench.Repairs.LayerNormWelfold.Readable
 open VeriTile.Triton FP.Structural Reuse
 noncomputable section
 
-def tree {B : Nat} : ReductionTree B → SourceCode.ReductionTree B
-  | .leaf i => .leaf i
-  | .node l r => .node (tree l) (tree r)
+abbrev tree {B : Nat} : ReductionTree B → SourceCode.ReductionTree B := SourceBinding.tree
 
 end
 end VeriTile.Bench.Repairs.LayerNormWelfold.Readable

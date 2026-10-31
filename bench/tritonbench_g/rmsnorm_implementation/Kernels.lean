@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_implementation.Sources.Mathematical_WholeSource
+import bench.tritonbench_g.rmsnorm_implementation.Sources.Parameters
 
 /-! Canonical selected FP32 source and the retained integer address-order
 candidate. Both complete passes, epsilon, casts, reduction, sqrt and final

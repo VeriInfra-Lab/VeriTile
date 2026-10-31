@@ -103,19 +103,10 @@ theorem complement_mask_global_key (BM BN startM startN : Nat) (offset size : In
   rw [distance_global_key BM BN startM startN offset row key]
   simp
 
-def maskChoice (BM BN complement : Nat) (size : Int) : ComputeStmt :=
-  .ifThenElse (.ne .nat .nil (.constNat complement) (.constNat 0))
-    [.assign .bool [BM, BN] "mask" (.alg (complementMaskExpr BM BN size))]
-    [.assign .bool [BM, BN] "mask" (.alg (regularMaskExpr BM BN size))]
-
 def maskStmt (BM BN complement : Nat) (size : Int) : Stmt :=
   .ifThenElse (.ne .nat .nil (.constNat complement) (.constNat 0))
     [.assign .bool [BM, BN] "mask" (complementMaskExpr BM BN size)]
     [.assign .bool [BM, BN] "mask" (regularMaskExpr BM BN size)]
-
-theorem mask_choice_projection (BM BN complement : Nat) (size : Int) :
-    (maskChoice BM BN complement size).toAlgorithm? =
-      .ok (maskStmt BM BN complement size) := rfl
 
 def selectedMask {BM BN : Nat} (d : Tile .int [BM, BN]) (complement : Nat) (size : Int) :
     Tile .bool [BM, BN] :=
@@ -226,24 +217,6 @@ theorem candidate_distance_source :
       sliding_window_offset sliding_window_size).surfaceBody =
       some (.assign .int [BLOCK_M, BLOCK_N] "dist"
         (.alg (distanceExpr BLOCK_M BLOCK_N sliding_window_offset))) := rfl
-
-theorem original_mask_source :
-    assignmentChoice? 128 "mask" (TypedSource.original Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).surfaceBody =
-      some (maskChoice BLOCK_M BLOCK_N COMPLEMENT_SLIDING_WINDOW sliding_window_size) := rfl
-
-theorem candidate_mask_source :
-    assignmentChoice? 128 "mask" (TypedSource.reciprocal Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).surfaceBody =
-      some (maskChoice BLOCK_M BLOCK_N COMPLEMENT_SLIDING_WINDOW sliding_window_size) := rfl
 
 end
 

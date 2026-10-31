@@ -1,4 +1,6 @@
-import bench.tritonbench_g.matmul_persistent_triton.Sources.Mathematical_Source
+import VeriTile.Triton.DSL
+import VeriTile.Triton.Source
+import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.MatmulPersistentTriton
 open VeriTile.Triton
@@ -23,9 +25,5 @@ structure Parameters where
   BK : Nat
   GM : Nat
   SMS : Nat
-
-def Parameters.source (p : Parameters) (storage : TypedSource.Storage) (candidate : Bool) :=
-  TypedSource.kernel storage candidate p.A p.B p.C p.M p.N p.K
-    p.sam p.sak p.sbk p.sbn p.scm p.scn p.BM p.BN p.BK p.GM p.SMS
 
 end VeriTile.Bench.TritonBenchG.MatmulPersistentTriton

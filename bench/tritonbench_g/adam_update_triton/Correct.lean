@@ -32,8 +32,8 @@ specification lion_kernel_correctness (params : Scalars ℝ) (total n B pid : Na
       momentum := fun j => momentumFormula params (xs.gradient j) (xs.momentum j) }) :=
   LogicalReader.correct params total n B pid _ rfl
 
-#specNonCircular parameterFormula avoiding [source, mathematicalSource, Tile.scalar, Tile.sourceRun]
-#specNonCircular momentumFormula avoiding [source, mathematicalSource, Tile.scalar, Tile.sourceRun]
+#specNonCircular parameterFormula avoiding [source, Tile.scalar, Tile.sourceRun]
+#specNonCircular momentumFormula avoiding [source, Tile.scalar, Tile.sourceRun]
 #axiomsClean lion_kernel_correctness
 #guard_msgs (drop info) in
 #auditModuleAxioms

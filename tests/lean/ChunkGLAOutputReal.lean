@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealOutputFlat
+import bench.tritonbench_g.chunk_gla_fwd.Proofs.OutputFlat
 
 /-! Nonempty finite allocations and complete real execution with two K blocks,
 partial time/K/V tiles and nonzero head/chunk/value IDs. The valid output is
@@ -6,6 +6,7 @@ three inter-chunk products plus one causal intra-chunk product; a neighboring
 cell keeps its original non-real tag. Both source orders are covered. -/
 namespace VeriTile.Tests.ChunkGLAOutputReal
 open VeriTile.Triton VeriTile.Bench.TritonBenchG.ChunkGlaFwd RealOutput
+open VeriTile.Bench.Repairs.ChunkGlaFwd
 noncomputable section
 set_option maxHeartbeats 3000000
 set_option maxRecDepth 10000
@@ -61,21 +62,37 @@ private theorem formula : cgfOutput initial "q" "v" "g" "h" "A"
     hq,hg,hh,ha,hv]
   norm_num [tIndex,kIndex,vIndex,initial]
 
+private abbrev layout : RealOutputIO.Layout := ⟨9,3,9,3,18,3,3,3,3,2,2,2⟩
+private abbrev regions : RealOutputIO.Regions := ⟨"q","v","g","h","o","A"⟩
+
 theorem both_complete_flat (swapped : Bool) : ∃ sf,
-    exec (alloc.flattenKernel (TypedOutput.source .fp16 .bf16 .bf16 swapped .bf16 .fp16
-      "q" "v" "g" "h" "o" "A" 9 3 9 3 18 3 1 3 3 3 2 2 2).eraseDType.toAlgKernel)
+    exec (alloc.flattenKernel (OutputFlat.program layout regions 1 swapped))
       (alloc.flattenState initial) = some sf ∧
     sf.readMem "flat" 417 = 4 ∧ sf.mem "flat" 416 = MemCell.of .nat 99 := by
-  obtain ⟨sf,he,ho,hf⟩ := RealOutputFlat.source_executes .fp16 .bf16 .bf16 .bf16 .fp16
-    "q" "v" "g" "h" "o" "A" 9 3 9 3 18 3 1 3 3 3 2 2 2
-    alloc disjoint covered swapped initial rfl injective bounds
-  refine ⟨sf,he,(ho (0,0,PUnit.unit) (by decide)).trans formula,?_⟩
+  classical
+  obtain ⟨sf,he,ho,hf⟩ := OutputFlat.source_executes layout regions 1 alloc disjoint covered
+    swapped initial rfl (fun i j _ _ same => injective (by
+      simpa [RealOutputIO.outputAddress,RealOutputIO.launch,outOffset,tIndex,vIndex,Nat.mul_one] using same)) bounds
+  have value := ho (0,0,PUnit.unit) (by norm_num [RealOutputIO.active,RealOutputIO.launch,initial])
+  have output_formula : RealOutputIO.formula layout 1 (RealOutputIO.launch initial)
+      (LocalReal.outputInputs regions initial) (0,0,PUnit.unit) = 4 := by
+    have hq (off : Nat) : initial.readMem "q" off = 1 := rfl
+    have hg (off : Nat) : initial.readMem "g" off = 0 := rfl
+    have hh (off : Nat) : initial.readMem "h" off = 1 := rfl
+    have ha (off : Nat) : initial.readMem "A" off = 1 := rfl
+    have hv (off : Nat) : initial.readMem "v" off = 1 := rfl
+    simp only [RealOutputIO.formula,LocalReal.outputInputs,regions,layout,RealOutputIO.launch,
+      hq,hg,hh,ha,hv]
+    change (∑ kb : Fin 2,∑ e : Fin 2, _) + (∑ j : Fin 2,_) = 4
+    norm_num [Fin.sum_univ_two,initial]
+
+  refine ⟨sf,he,value.trans output_formula,?_⟩
   rw [← hf "flat" 416]
   · change (alloc.flattenState initial).mem alloc.flat (alloc.addr "o" 16) = _
     rw [alloc.flattenState_mem_addr disjoint initial (by simp [alloc]) (by decide)]
     rfl
   · rintro ⟨_,idx,ha,heq⟩
-    dsimp [alloc,outOffset,tIndex,vIndex,initial,FlatAlloc.addr] at heq ha
+    dsimp [alloc,regions,layout,outOffset,tIndex,vIndex,initial,FlatAlloc.addr] at heq ha
     norm_num at heq
     omega
 

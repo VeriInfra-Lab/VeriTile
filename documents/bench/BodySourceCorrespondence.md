@@ -14,19 +14,25 @@ selected Python file, uncovered functions, checked pairs and source hashes.
 Files loaded indirectly remain unresolved until explicitly anchored; this is
 visible for `cross_entropy_ops` and `fast_ce_loss`.
 
-At this snapshot there are 183 tasks, 19 worked-example groups and 328 literal
-JIT functions in the selected Python files. Four of those functions have
-checked pairs: three argmax stages in legacy AST mode and the dequantize body
-in body-copy mode. Argmax also checks two candidate functions in a separate
-file. The other 324 selected functions are uncovered by pair manifests.
-These numbers describe source-check coverage, not the number of incorrect
-algorithms or invalid Lean theorems.
+The current inventory contains 183 selected tasks, 19 worked-example groups
+and 328 selected Python JIT functions. Six tasks have complete checked body-copy
+manifests: dequantize_rowwise, matrix_vector_multip, matmul_triton1,
+matmul_triton2, chunk_gated_attention and triton_matmul. Together with the three
+argmax stages checked in legacy AST mode, 11 selected JIT functions have checked
+pairs; 317 remain uncovered. Argmax also checks its separately supplied candidates.
+Two selected files have no resolved JIT function. These counts describe source
+check coverage rather than incorrect algorithms or invalid Lean theorems.
 
-The file-level screen finds type directives in 141 task files and antiquotes
-in 161 task files and all 19 example groups. In 44 primary files, Python has
-explicit int64 casts that are not visible in a direct Lean quotation. This
-last count is a warning screen: imported source, specialization and semantic
-connections require review. Unflagged files are not certified.
+The primary-file screen finds type directives in 139 task files and antiquotes
+in 159 task files and all 19 example groups. In 44 primary files, Python int64
+casts are not visible in a direct Lean quotation. This is a warning screen:
+imported sources and semantic refinements require separate review. Unflagged
+files are not certified. All 19 worked-example Python references remain pending.
+
+The newly checked recurrent, cumulative, while and grouped-matmul bodies are
+connected to their public proofs through checked source views and actual
+execution lemmas. Their previous complete Lean quotations are removed. This
+source cleanup does not turn other uncovered functions into body-copy passes.
 
 ## Checking and completion
 

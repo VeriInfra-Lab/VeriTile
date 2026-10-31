@@ -50,7 +50,7 @@ theorem rate_eq (c : Shape) (head : Nat) :
     KernelModel.rate algebra c head=logRate realOps c head := by
   simp only [KernelModel.rate,algebra,logRate,realOps,mul_one]
   norm_cast
-  simp only [Int.cast_sub,Int.cast_natCast]
+  try simp only [Int.cast_sub,Int.cast_natCast]
 
 theorem decay_eq (c : Shape) (head : Nat) (n : Int) :
     KernelModel.decay algebra c head n=Whole001.decay realOps c head n := by

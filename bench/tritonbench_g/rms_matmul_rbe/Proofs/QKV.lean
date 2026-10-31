@@ -80,14 +80,7 @@ theorem qkv_complete {α : Type} [Inhabited α] (a : Arithmetic α) (z : ZeroLaw
       fp8 fp8 v s ks epsilon theta (ki 2) kp)).trans
       (calleeWrite_memory a native (selectedRotaryPlan 2) fp8 fp8 v s ks kw epsilon theta km))
 
-theorem qkv_readable (p : Fin 3 → Arguments) (fp8 : Bool) :
-    qkvCode Bool.false fp8 p=
-      (TypedSource.qkv fp8 {(p 0) with BM:=16,BN:=64,BK:=64}
-        {(p 1) with BM:=16,BN:=64,BK:=64} {(p 2) with BM:=16,BN:=64,BK:=64}).surfaceBody := by
-  rfl
-
 #axiomsClean qkv_complete
-#axiomsClean qkv_readable
 #specNonCircular qkvWrite avoiding [qkvCode,qkv_complete,run,sourceTileValues,nativeTileValues]
 end
 end VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain

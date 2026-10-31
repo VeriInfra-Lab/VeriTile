@@ -10,21 +10,6 @@ noncomputable section
 set_option maxHeartbeats 1800000
 set_option maxRecDepth 16000
 
-def pointerStmt (swapped : Bool) (r : RegionName) (T BT : Nat)
-    (offset : Op .nat []) : ComputeStmt :=
-  .assign .blockPtr [BT] "p_s" (.alg (.makeBlockPtrDynOffsets r
-    (if swapped then .mul .nat .nil (.constNat T) (.ref .nat [] "i_bh")
-      else .mul .nat .nil (.ref .nat [] "i_bh") (.constNat T))
-    [T] [BT] [1] [offset]))
-
-theorem pointer_step (r : RegionName) (T BT : Nat) (offset : Op .nat [])
-    {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
-    step M (pointerStmt Bool.false r T BT offset) s =
-      step M (pointerStmt Bool.true r T BT offset) s := by
-  cases h : s.regs .nat [] "i_bh" <;>
-    simp [pointerStmt, step, FP.Structural.evalExpr, evalOp_unfold, h, numeric,
-      bop, Nat.mul_comm]
-
 theorem run_insert {α : Type} [Inhabited α] (M : Algebra α)
     (before after : List ComputeStmt) (a b : ComputeStmt)
     (h : ∀ s, step M a s = step M b s) (s : State α) :
@@ -54,7 +39,6 @@ theorem signed_loop {α : Type} [Inhabited α] (M : Algebra α)
         intro cur t _ _ _
         exact hbody _
 
-#axiomsClean pointer_step
 #axiomsClean run_insert
 #axiomsClean signed_loop
 end

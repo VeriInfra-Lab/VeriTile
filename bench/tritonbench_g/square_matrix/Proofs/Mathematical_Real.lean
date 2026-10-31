@@ -75,7 +75,7 @@ theorem square_kernel_correct
             n_cols BLOCK_SIZE) s).map (·.readMem output_ptr outAddr)
         = some (if i.val < n_cols then xs i * xs i else s.readMem output_ptr outAddr) := by
   intro i
-  simp [exec, square_kernel, stepStmts, stepStmt, evalOp.eq_def,
+  simp [exec, square_kernel, typedKernel, VeriTile.Bench.Repairs.SquareMatrix.fp32Kernel, VeriTile.Bench.Repairs.SquareMatrix.indexCommutedKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, stepStmts, stepStmt, evalOp.eq_def,
         Tile.bop, Tile.cop, Tile.ptrAdd, NumericDType.mul,
         ComparableDType.lt]
   unfold InputRowLoadedAt at h_x
@@ -99,7 +99,7 @@ private theorem square_kernel_frame
     (hmiss : ∀ i : Fin BLOCK_SIZE, i.val < n_cols →
       ¬(output_ptr = r ∧ s.pid * output_row_stride + i.val = o)) :
     s1.mem r o = s.mem r o := by
-  simp [exec, square_kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
+  simp [exec, square_kernel, typedKernel, VeriTile.Bench.Repairs.SquareMatrix.fp32Kernel, VeriTile.Bench.Repairs.SquareMatrix.indexCommutedKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
         evalOp.eq_def, Tile.bop, Tile.cop, Tile.ptrAdd,
         NumericDType.mul, ComparableDType.lt] at hExec
   subst hExec
@@ -141,7 +141,7 @@ theorem square_kernel_region_run
       output_row_stride n_cols BLOCK_SIZE).toAlgKernel) s₀ with
   | none =>
       exact absurd hsrc (by
-        simp [exec, square_kernel, ComputeKernel.toAlgKernel, stepStmts,
+        simp [exec, square_kernel, typedKernel, VeriTile.Bench.Repairs.SquareMatrix.fp32Kernel, VeriTile.Bench.Repairs.SquareMatrix.indexCommutedKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, ComputeKernel.toAlgKernel, stepStmts,
           stepStmt, evalOp.eq_def, Tile.bop, Tile.cop, Tile.ptrAdd,
           NumericDType.mul, ComparableDType.lt])
   | some s1 =>
@@ -178,7 +178,7 @@ theorem square_kernel_traceSafe
   -- Computational unroll: walks all nine statements, discharging every
   -- load-free `SafeAt` and reducing the two masked accesses' lane-wise
   -- address obligations to the bounds hypotheses below.
-  simp [square_kernel, ComputeKernel.toAlgKernel,
+  simp [square_kernel, typedKernel, VeriTile.Bench.Repairs.SquareMatrix.fp32Kernel, VeriTile.Bench.Repairs.SquareMatrix.indexCommutedKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, ComputeKernel.toAlgKernel,
     Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
@@ -196,8 +196,7 @@ theorem square_kernel_flattenOk
     ((square_kernel output_ptr input_ptr input_row_stride output_row_stride
       n_cols BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [square_kernel, ComputeKernel.toAlgKernel,
+  simp [square_kernel, typedKernel, VeriTile.Bench.Repairs.SquareMatrix.fp32Kernel, VeriTile.Bench.Repairs.SquareMatrix.indexCommutedKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, ComputeKernel.toAlgKernel,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
-
 
 end VeriTile.Bench.TritonBenchG.SquareMatrix

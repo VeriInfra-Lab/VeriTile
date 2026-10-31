@@ -39,6 +39,13 @@ def written (M : Algebra α) (p : Parameters) (s : State α) (a : Acc α) : Stat
   (TileShape.allIndices [128,128]).foldl (fun t i =>
     if active p s i then t.write p.Out (address p s i) (.mk .bf16 (outputValue M a i)) else t) s
 
+private theorem row_guard (pm lane stop : Nat) :
+    ((pm:Int)*128+(lane:Int)<(stop:Int)) ↔ lane+pm*128<stop := by omega
+
+private theorem matrix_eta (i : TileIndex [128,128]) : (i.1,i.2.1,PUnit.unit)=i := by
+  rcases i with ⟨r,c,⟨⟩⟩
+  rfl
+
 theorem post_memory (M : Algebra α) (dot : Dot α) (p : Parameters)
     (initial current : State α) (row : Nat) (a : Acc α)
     (ctx : Context M p initial row a current) :
@@ -46,6 +53,7 @@ theorem post_memory (M : Algebra α) (dot : Dot α) (p : Parameters)
   simp [postExec,written,masked_scatter_memory,ctx.memory,active,address,outputValue,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
     Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
+  simp only [row_guard,matrix_eta]
 
 /-- Entire actual typed source, including initialization, every key block,
 normalization, final BF16 cast and masked stores, executes from current memory. -/

@@ -153,10 +153,6 @@ theorem noCollision (c : Shape) (l : Launch) : NoCollision (layout c) l := by
   intro i j hi hj he
   exact (address_injective c l l i j hi hj he).2
 
-theorem source_binding (c : Shape) (scale : ℝ) (swapped : Bool) :
-    program (layout c) regions .fp32 .fp32 .fp32 .fp32 scale swapped = kernel c scale swapped := by
-  cases swapped <;> rfl
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

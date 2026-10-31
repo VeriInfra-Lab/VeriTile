@@ -1,4 +1,5 @@
-import bench.tritonbench_g.softmax_optimize.Proofs.Mathematical_Source
+import bench.tritonbench_g.softmax_optimize.Proofs.Mathematical_Kernels
+import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.SoftmaxOptimize.FullSource
 open VeriTile.Triton
@@ -35,25 +36,9 @@ theorem previousExpression_eval (N B : Nat) (hB : 0<B) (s : BlockState) :
     else (((N : Int)+B-1)+0)/(0+B)) * B - B) = prevMultipleInt N B
   simp [hn, prevMultipleInt]
 
-/-- Both helper assignments retain the signed expression, including N=0. -/
-theorem previous_assignments (input : Storage) (output : Accumulation) (v : Bool)
-    (Y X : RegionName) (M N B : Nat) :
-    (kernel input output v Y X M N B).surfaceBody[3]? =
-      some (.assign .int [] "prev_multiple" (.alg (previousExpression N B))) ∧
-    (kernel input output v Y X M N B).surfaceBody[9]? =
-      some (.assign .int [] "prev_multiple" (.alg (previousExpression N B))) := by
-  cases input <;> cases output <;> cases v <;> constructor <;> rfl
-
 def isSignedLoop : ComputeStmt → Bool
   | .forRangeInt _ _ _ _ _ => Bool.true
   | _ => Bool.false
-
-/-- The source contains exactly the four signed source loops, with no branch
-that silently replaces the zero-column behavior. -/
-theorem four_signed_loops (input : Storage) (output : Accumulation) (v : Bool)
-    (Y X : RegionName) (M N B : Nat) :
-    ((kernel input output v Y X M N B).surfaceBody.filter isSignedLoop).length = 4 := by
-  cases input <;> cases output <;> cases v <;> rfl
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

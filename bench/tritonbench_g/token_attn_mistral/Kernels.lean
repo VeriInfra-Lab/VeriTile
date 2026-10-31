@@ -2,7 +2,7 @@ import bench.tritonbench_g.token_attn_mistral.Sources.Source
 
 namespace VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked
 open VeriTile.Triton TokenAttnMistral
-abbrev source := TokenAttnMistral.source
+
 abbrev kernel := TokenAttnMistral.kernel
 
 /-- Existing complete gathered-attention source with its uniform probability

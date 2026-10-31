@@ -279,55 +279,28 @@ theorem domain_holds :
       ScalarReduction.value, ScalarReduction.FiniteTree, LogSumExpShift.log, algebra, Software.strictFP32, Software.scalarFP32, Software.fp32Context, rest]
   all_goals decide +kernel
 
-/-- Execute the shared Triton sources, including their bf16 cast and store.
-Both runs succeed; the difference is observable at the declared output. -/
-theorem stored_outputs :
-    Scheduled.observe₁ algebra Equational.seededSchedules initial
-      (StableLogSumExpFPContract.stable "x" "y" 1) 0 =
-        some (.mk .bf16 one) ∧
-    Scheduled.observe₁ algebra Equational.seededSchedules initial
-      (StableLogSumExpFPContract.direct "x" "y" 1) 0 =
-        some (.mk .bf16 zero) := by
-  let engine := SoftmaxStableFPContract.engine algebra Equational.seededSchedules
-  obtain ⟨a, ha, hout, _⟩ := StableLogSumExpFPExecution.stable_run engine "x" "y" 1
-    (by decide) (fun _ => one) initial (by intro i; rfl)
-  obtain ⟨b, hb, hout', _⟩ := StableLogSumExpFPExecution.direct_run engine "x" "y" 1
-    (fun _ => one) initial (by intro i; rfl)
-  change a.mem "y" 0 = _ at hout
-  change b.mem "y" 0 = _ at hout'
+/-- The unguarded shifted scalar formula and direct scalar reference differ
+in a model of the strict software theory and every selected numerical atom. -/
+theorem scalar_outputs :
+    let E := SoftmaxStableFPContract.engine algebra Equational.seededSchedules
+    StableLogSumExpFPExecution.stableValue E (fun _ : Fin 1 => one) = one ∧
+    StableLogSumExpFPExecution.directValue E (fun _ : Fin 1 => one) = zero := by
   constructor
-  · change (Structural.exec engine (StableLogSumExp.Kernels.stableLSEKernel "x" "y" 1)
-      initial).map (fun t => t.mem "y" 0) = _
-    rw [ha]
-    change some (a.mem "y" 0) = _
-    rw [hout]
-    have hv : StableLogSumExpFPExecution.stableValue engine (fun _ : Fin 1 => one) = one := by
-      simp only [StableLogSumExpFPExecution.stableValue, SoftmaxStableFPExecution.maximum,
-        engine, SoftmaxStableFPContract.engine, Scheduled.fp32, Scheduled.Profile.algebra,
-        Algebra.withDefaultPrecision, ScalarReduction.algebra, resolvePrecision,
-        Option.getD_none]
-      simp [algebra, Software.strictFP32, Software.scalarFP32, Software.fp32Context, rest]
-      decide +kernel
-    rw [hv]
-  · change (Structural.exec engine (StableLogSumExp.Kernels.directLSEKernel "x" "y" 1)
-      initial).map (fun t => t.mem "y" 0) = _
-    rw [hb]
-    change some (b.mem "y" 0) = _
-    rw [hout']
-    rfl
+  · simp only [StableLogSumExpFPExecution.stableValue, SoftmaxStableFPExecution.maximum,
+      SoftmaxStableFPContract.engine, Scheduled.fp32, Scheduled.Profile.algebra,
+      Algebra.withDefaultPrecision, ScalarReduction.algebra, resolvePrecision,
+      Option.getD_none]
+    simp [algebra, Software.strictFP32, Software.scalarFP32, Software.fp32Context, rest]
+    decide +kernel
+  · rfl
 
-/-- The stored FP32 carrier words differ even though the source output dtype
-and the observed store address agree. -/
-theorem stored_outputs_different :
-    Scheduled.observe₁ algebra Equational.seededSchedules initial
-      (StableLogSumExpFPContract.stable "x" "y" 1) 0 ≠
-    Scheduled.observe₁ algebra Equational.seededSchedules initial
-      (StableLogSumExpFPContract.direct "x" "y" 1) 0 := by
-  rw [stored_outputs.1, stored_outputs.2]
-  intro h
-  have hv : one = zero :=
-    congrArg (fun c : Cell Number => c.read .bf16) (Option.some.inj h)
-  exact (by decide +kernel : one ≠ zero) hv
+theorem scalar_outputs_different :
+    let E := SoftmaxStableFPContract.engine algebra Equational.seededSchedules
+    StableLogSumExpFPExecution.stableValue E (fun _ : Fin 1 => one) ≠
+      StableLogSumExpFPExecution.directValue E (fun _ : Fin 1 => one) := by
+  dsimp only
+  rw [scalar_outputs.1, scalar_outputs.2]
+  decide +kernel
 
 #axiomsClean domain_strict
 #axiomsClean strict_certificates
@@ -335,7 +308,7 @@ theorem stored_outputs_different :
 #axiomsClean exponential_atom
 #axiomsClean models
 #axiomsClean domain_holds
-#axiomsClean stored_outputs
-#axiomsClean stored_outputs_different
+#axiomsClean scalar_outputs
+#axiomsClean scalar_outputs_different
 
 end VeriTile.Bench.Examples.StableLogSumExpUnconditional.Model

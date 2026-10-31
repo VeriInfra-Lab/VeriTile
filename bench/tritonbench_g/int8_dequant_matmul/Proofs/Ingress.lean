@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int8_dequant_matmul.Proofs.Bound
+import bench.tritonbench_g.int8_dequant_matmul.Proofs.Native
 
 namespace VeriTile.Bench.Repairs.Int8DequantMatmul
 noncomputable section

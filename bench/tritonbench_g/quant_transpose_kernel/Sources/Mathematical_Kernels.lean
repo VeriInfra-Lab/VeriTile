@@ -6,106 +6,16 @@ the output allocation explicitly uses int8. Duplicate autotune entries and the
 source's pid % group_size schedule are preserved. -/
 namespace VeriTile.Bench.TritonBenchG.QuantTransposeKernel
 open VeriTile.Triton
-/-- Real-valued surface of `quant_transpose_kernel.py`'s
-`_quantize_global_transpose`.
-
-This preserves the grouped one-dimensional program-id schedule, masked load,
-global scale, CUDA `llrint` surface operation, transposed store addressing, and
-masked writeback. The algorithm carrier records the pre-cast real value. -/
-def quantize_global_transpose_real_surface
-    (A AbsmaxInv B : RegionName)
-    (stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N GROUP_M : Nat) :
-    ComputeKernel := triton {
-  pid = tl.program_id(0)
-  grid_m = ($((M : Nat)) + $((BLOCK_M : Nat)) - $((1 : Nat))) // $((BLOCK_M : Nat))
-  grid_n = ($((N : Nat)) + $((BLOCK_N : Nat)) - $((1 : Nat))) // $((BLOCK_N : Nat))
-  width = $(GROUP_M) * grid_n
-  group_id = pid // width
-  group_size = min(grid_m - group_id * $(GROUP_M), $(GROUP_M))
-  pid_m = group_id * $(GROUP_M) + (pid % group_size)
-  pid_n = (pid % width) // group_size
-  rm = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
-  rn = pid_n * $(BLOCK_N) + tl.arange(0, $(BLOCK_N))
-  A = A + (rm[:, None] * $(stride_am) + rn[None, :] * $(stride_an))
-  mask = (rm < $(M))[:, None] & (rn < $(N))[None, :]
-  a = tl.load(A, mask=mask)
-  absmax_inv = tl.load(AbsmaxInv)
-  rm = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
-  rn = pid_n * $(BLOCK_N) + tl.arange(0, $(BLOCK_N))
-  B = B + (rm[:, None] * $(stride_bm) + rn[None, :] * $(stride_bn))
-  mask = (rm < $(M))[:, None] & (rn < $(N))[None, :]
-  output = tl.extra.cuda.libdevice.llrint(127.0 * (a * absmax_inv))
-  tl.store(B, output, mask=mask)
-}
-
-/-- Proof-oriented scaled-store tile slice of `quant_transpose_kernel.py`'s
-`_quantize_global_transpose`.
-
-The full Triton kernel uses a one-dimensional grouped program-id schedule to
-derive `pid_m` and `pid_n`. This slice starts after that scheduling choice, uses
-program axes 0/1 for the tile coordinates, loads the `BLOCK_M × BLOCK_N` tile
-from `A`, applies the global `absmax_inv` scale, and proves the masked writeback
-into `B`. CUDA `llrint` and int8 casting are outside VeriTile's current real-tile
-arithmetic layer, matching the other quantization ports. -/
-def quantize_global_transpose_scaled_store_slice
-    (A AbsmaxInv B : RegionName)
-    (stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N : Nat)
-    (scale127 : ℝ) :
-    ComputeKernel := triton {
-  pid_m = tl.program_id(0)
-  pid_n = tl.program_id(1)
-  rm = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
-  rn = pid_n * $(BLOCK_N) + tl.arange(0, $(BLOCK_N))
-  mask = (rm[:, None] < $(M)) & (rn[None, :] < $(N))
-  a = tl.load(A + rm[:, None] * $(stride_am) + rn[None, :] * $(stride_an),
-    mask=mask)
-  absmax_inv = tl.load(AbsmaxInv)
-  output = $(scale127) * (a * absmax_inv)
-  tl.store(B + rm[:, None] * $(stride_bm) + rn[None, :] * $(stride_bn),
-    output, mask=mask)
-}
 
 end VeriTile.Bench.TritonBenchG.QuantTransposeKernel
 
 namespace VeriTile.Bench.TritonBenchG.QuantTransposeKernel
 open VeriTile.Triton
-/-- The already accepted pre-llrint scaled-store stage, with actual fp32 storage
-and compute precision. This does not implement the final integer quantization. -/
-def TypedScaled.source (A AbsmaxInv B : RegionName)
-    (sam san sbn sbm M N BM BN : Nat) : ComputeKernel := triton {
-  tl.region A = tl.float32, AbsmaxInv = tl.float32, B = tl.float32
-  pid_m = tl.program_id(0)
-  pid_n = tl.program_id(1)
-  rm = pid_m * $(BM) + tl.arange(0, $(BM))
-  rn = pid_n * $(BN) + tl.arange(0, $(BN))
-  mask = (rm[:, None] < $(M)) & (rn[None, :] < $(N))
-  a = tl.load(A + rm[:, None] * $(sam) + rn[None, :] * $(san), mask=mask).to(tl.float32)
-  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)
-  output = 127.0 * (a * absmax_inv)
-  tl.store(B + rm[:, None] * $(sbm) + rn[None, :] * $(sbn), output, mask=mask)
-}
 
 end VeriTile.Bench.TritonBenchG.QuantTransposeKernel
 
 namespace QuantizeIntegerStage
 open VeriTile.Triton
-/-- Complete quantization/store stage at supplied tile coordinates, with fp32
-input/scale and int8 output. Grouped pid mapping and the host/grid wrapper
-remain separate obligations. The source load, multiply order, llrint and
-transposed masked store are executed. -/
-def Transpose.source (A AbsmaxInv B : RegionName)
-    (sam san sbn sbm M N BM BN : Nat) : ComputeKernel := triton {
-  tl.region A = tl.float32, AbsmaxInv = tl.float32, B = tl.int8
-  pid_m = tl.program_id(0)
-  pid_n = tl.program_id(1)
-  rm = pid_m * $(BM) + tl.arange(0, $(BM))
-  rn = pid_n * $(BN) + tl.arange(0, $(BN))
-  mask = (rm[:, None] < $(M)) & (rn[None, :] < $(N))
-  a = tl.load(A + rm[:, None] * $(sam) + rn[None, :] * $(san), mask=mask)
-  absmax_inv = tl.load(AbsmaxInv)
-  output = tl.extra.cuda.libdevice.llrint(127.0 * (a * absmax_inv))
-  tl.store(B + rm[:, None] * $(sbm) + rn[None, :] * $(sbn), output, mask=mask)
-}
 
 end QuantizeIntegerStage
 
@@ -191,7 +101,6 @@ def MetadataDomain (a : Input) : Prop :=
   a.M<2^63 ∧ a.N<2^63 ∧ a.sam<2^63 ∧ a.san<2^63 ∧ a.numel<2^63
 
 def Input.outputShape (a : Input) := [a.N,a.M]
-
 
 def viewOffsets : List Nat → List Nat → List Nat
   | [],[] => [0]

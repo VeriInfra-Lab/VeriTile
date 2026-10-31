@@ -61,59 +61,6 @@ def legacyReference {α : Type} [Inhabited α] (M : Algebra α)
     (mem : Memory α) : Memory α :=
   fun r o => if r = y ∧ o < B ∧ o < N then legacyValue M cmp x mem o else mem r o
 
-theorem original_pid_memory {α : Type} [Inhabited α] (M : Algebra α)
-    (cmp : α → α → Bool) (hc : M.compareLe none .real = some cmp)
-    (x y : RegionName) (N B : Nat) (s : State α) (pid : Nat) :
-    ∃ t, FP.Structural.exec M (relu_kernel x y N B) (atPid s pid) = some t ∧
-      t.mem = if pid = 0 then legacyReference M cmp x y N B s.mem else s.mem := by
-  obtain ⟨t, ht, hm⟩ := FPProofs.original_run M cmp hc x y N B (atPid s pid)
-  refine ⟨t, ht, ?_⟩
-  rw [hm]
-  by_cases hp : pid = 0
-  · subst pid
-    simp only [atPid, FPProofs.outputState, ↓reduceIte, Nat.zero_mul, Nat.zero_add]
-    funext r o
-    by_cases h : r = y ∧ o < B ∧ o < N
-    · have ho : o < B := h.2.1
-      let i : TileIndex [B] := (⟨o, ho⟩, PUnit.unit)
-      have hr : r = y := h.1
-      subst r
-      rw [show o = i.1.val from rfl]
-      rw [State.masked_scatter_readback]
-      · simp [legacyReference, legacyValue, i, h.2.1, h.2.2]
-      · exact h.2.2
-      · intro a b hab
-        rcases a with ⟨a, ⟨⟩⟩
-        rcases b with ⟨b, ⟨⟩⟩
-        have : a = b := Fin.ext hab
-        subst b
-        rfl
-    · rw [show legacyReference M cmp x y N B s.mem r o = s.mem r o by
-        simp only [legacyReference, h, ↓reduceIte]]
-      apply State.masked_scatter_frame
-      by_cases hr : r = y
-      · right
-        intro i _ hi heq
-        exact h ⟨hr, heq ▸ i.1.isLt, heq ▸ hi⟩
-      · exact Or.inl hr
-  · simp [atPid, FPProofs.outputState, hp]
-
-theorem original_prefix_correct {α : Type} [Inhabited α] (M : Algebra α)
-    (cmp : α → α → Bool) (hc : M.compareLe none .real = some cmp)
-    (x y : RegionName) (N B : Nat) (initial : State α) (count : Nat) :
-    ∃ final, runPrefix M (relu_kernel x y N B) initial count = some final ∧
-      final.mem = if count = 0 then initial.mem
-        else legacyReference M cmp x y N B initial.mem :=
-  prefix_of_first_only M _ _ (original_pid_memory M cmp hc x y N B) initial count
-
-theorem original_grid_correct {α : Type} [Inhabited α] (M : Algebra α)
-    (cmp : α → α → Bool) (hc : M.compareLe none .real = some cmp)
-    (x y : RegionName) (N B : Nat) (initial : State α) :
-    ∃ final, runGrid M (relu_kernel x y N B) N B initial = some final ∧
-      final.mem = if gridCount N B = 0 then initial.mem
-        else legacyReference M cmp x y N B initial.mem :=
-  original_prefix_correct M cmp hc x y N B initial (gridCount N B)
-
 theorem legacy_reference_frame {α : Type} [Inhabited α] (M : Algebra α)
     (cmp : α → α → Bool) (x y : RegionName) (N B : Nat)
     (mem : Memory α) (r : RegionName) (o : Nat)
@@ -138,11 +85,8 @@ theorem positive_grid_count (N B : Nat) (hn : 0 < N) (hb : 0 < B) :
   unfold gridCount
   exact Nat.div_pos (by omega) hb
 
-#specNonCircular legacyReference avoiding [relu_kernel, runPrefix, runGrid, FP.Structural.exec]
+#specNonCircular legacyReference avoiding [ runPrefix, runGrid, FP.Structural.exec]
 #axiomsClean prefix_of_first_only
-#axiomsClean original_pid_memory
-#axiomsClean original_prefix_correct
-#axiomsClean original_grid_correct
 #axiomsClean legacy_reference_frame
 #axiomsClean empty_grid_count
 #axiomsClean positive_grid_count

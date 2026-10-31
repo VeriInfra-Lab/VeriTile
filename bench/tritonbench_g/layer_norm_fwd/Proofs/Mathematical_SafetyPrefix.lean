@@ -1,5 +1,5 @@
 import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_SafetyStreams
-import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Candidate
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Real
 
 /-! Both actual pointer-building prefixes are safe. The sole memory access is
 the original masked X load; inactive columns impose no backing-memory bound. -/
@@ -23,23 +23,6 @@ theorem loadPrefix_safe (f : Flags) (r : Regions) (stride : Strides) (N block : 
       stepStmts, stepStmt, evalOp, Tile.bop, Tile.cop, Tile.ptrAdd,
       NumericDType.mul, ComparableDType.lt]
   all_goals exact fun j hj => hb j.val hj
-
-theorem candidate_loadPrefix_safe (f : Flags) (r : Regions) (stride : Strides) (N block : Nat)
-    (s : BlockState) (bounds : RegionBounds)
-    (hb : ∀ col, col < N → s.pid*stride.x+col < bounds r.x) :
-    Stmt.TraceSafeList bounds (CandidateExecution.loadPrefix f r stride N block) s := by
-  rcases f with ⟨rms, residual, residualOut, bias, dropout, dropoutMask, rowscale, x1, w1, b1⟩
-  cases residual <;> cases residualOut <;> cases x1 <;> cases w1
-  all_goals
-    simp [CandidateExecution.loadPrefix, CandidateExecution.baseStmt,
-      Execution.loadPrefix, Execution.baseStmt, Stmt.TraceSafeList, Stmt.TraceSafe,
-      Op.SafeAt, MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
-      Op.PointerAddressesSafeOn, Op.MemorySafe, MaskOpt.Active,
-      stepStmts, stepStmt, evalOp, Tile.bop, Tile.cop, Tile.ptrAdd,
-      NumericDType.mul, ComparableDType.lt, Nat.mul_comm]
-  all_goals
-    intro j hj
-    simpa only [BlockState.pid, Nat.mul_comm] using hb j.val hj
 
 end
 end VeriTile.Bench.TritonBenchG.LayerNormFwd.Safety

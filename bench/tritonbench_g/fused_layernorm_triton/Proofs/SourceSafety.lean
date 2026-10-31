@@ -13,35 +13,6 @@ set_option maxRecDepth 32000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
-theorem prefix_safe (M : Algebra α) (eq32 : α → α → Bool)
-    (s : State α) (X : RegionName) (S D B : Nat) (bounds : RegionName → Nat)
-    (hx : ∀ j,j<D → j+D*s.pids 0<bounds X) :
-    Safety.traceSafeList (withEquality M eq32) bounds (welfordPrefix X S D B) s := by
-  simp [welfordPrefix,ComputeKernel.surfaceBody,
-    Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
-    Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
-    Safety.addressSafe,Safety.maskActive,
-    FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
-    Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
-    withEquality,Region.cast,ofFloat,toFloat]
-  exact fun j => hx j.val
-
-
-theorem chunk_safe (M : Algebra α) (eq32 : α → α → Bool)
-    (s t : State α) (X : RegionName) (D B k : Nat)
-    (previous : Fin B → WelfordTriple α) (h : WelfordLanesReady s t previous)
-    (bounds : RegionName → Nat) (hx : ∀ j,j<D → j+D*s.pids 0<bounds X) :
-    Safety.traceSafeList (withEquality M eq32) bounds (Whole.nextChunk X D B k) t := by
-  simp [Whole.nextChunk,ComputeKernel.surfaceBody,
-    Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
-    Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
-    Safety.addressSafe,Safety.maskActive,
-    FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
-    Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
-    withEquality,Region.cast,ofFloat,toFloat,h.mean,h.m2,h.weight,h.row,h.mem]
-  exact fun j => hx (k*B+j.val)
-
-
 theorem normalize_safe (M : Algebra α) (eq32 : α → α → Bool)
     (s : State α) (X W Bias Y : RegionName) (D B k row : Nat) (mean inverse : α)
     (hm : s.regs .real [1,1] "tmp3"=some (fun _ => mean))
@@ -114,7 +85,6 @@ theorem suffix_safe (M : Algebra α) (eq32 : α → α → Bool)
     withEquality,Region.cast,ofFloat,toFloat,h.mean,h.m2,h.weight,h.row,
     TileShape.allIndices,List.finRange_succ,Fin.eq_zero,bm,br]
 
-
 private theorem append_safe (M : Algebra α) (bounds : RegionName → Nat)
     (a b : List ComputeStmt) (s t : State α)
     (ha : Safety.traceSafeList M bounds a s) (ran : run M a s=some t)
@@ -125,33 +95,6 @@ private theorem append_safe (M : Algebra α) (bounds : RegionName → Nat)
   intro u hu
   have eq : t=u := Option.some.inj (ran.symm.trans hu)
   simpa only [←eq] using hb
-
-theorem chunks_safe (M : Algebra α) (eq32 : α → α → Bool)
-    (s t : State α) (X : RegionName) (D B start count : Nat)
-    (previous : Fin B → WelfordTriple α) (h : WelfordLanesReady s t previous)
-    (bounds : RegionName → Nat) (hx : ∀ j,j<D → j+D*s.pids 0<bounds X) :
-    Safety.traceSafeList (withEquality M eq32) bounds (Whole.chunkCode X D B start count) t := by
-  induction count generalizing start t previous with
-  | zero => simp [Whole.chunkCode]
-  | succ count ih =>
-    obtain ⟨u,hu,hr⟩ := next_chunk_run M eq32 s t X D B start previous h
-    exact append_safe _ _ _ _ _ _ (chunk_safe M eq32 s t X D B start previous h bounds hx)
-      hu (ih u (start+1) _ hr)
-
-theorem statistics_safe (M : Algebra α) (eq32 : α → α → Bool)
-    (s : State α) (X Mean Rstd : RegionName) (S D B : Nat) (tree : ReductionTree B)
-    (bounds : RegionName → Nat) (hx : ∀ j,j<D → j+D*s.pids 0<bounds X)
-    (bm : s.pids 0<bounds Mean) (br : s.pids 0<bounds Rstd) :
-    TraceSafe (withEquality M eq32) bounds (statisticsKernel X Mean Rstd S D B tree) s := by
-  obtain ⟨p,hp,hpr⟩ := welford_prefix_run M eq32 s X S D B
-  obtain ⟨q,hq,hqr⟩ := chunks_run M eq32 s p X D B 1 (blockCount D B-1) _ hpr
-  obtain ⟨u,hu,hur⟩ := welford_tuple_run M eq32 s q _ hqr tree
-  unfold TraceSafe statisticsKernel
-  simp only [ComputeKernel.surfaceBody,List.append_assoc]
-  exact append_safe _ _ _ _ _ _ (prefix_safe M eq32 s X S D B bounds hx) hp
-    (append_safe _ _ _ _ _ _ (chunks_safe M eq32 s p X D B 1 (blockCount D B-1) _ hpr bounds hx) hq
-      (append_safe _ _ _ _ _ _ (tuple_safe (withEquality M eq32) bounds q tree) hu
-        (suffix_safe M eq32 s u Mean Rstd D _ hur bounds bm br)))
 
 theorem normalize_loop_safe (M : Algebra α) (eq32 : α → α → Bool)
     (s : State α) (X W Bias Y : RegionName) (D B start count row : Nat) (mean inverse : α)
@@ -184,7 +127,6 @@ theorem source_safe (M : Algebra α) (eq32 : α → α → Bool)
     TraceSafe (withEquality M eq32) bounds (Contract.source X W Bias Y Mean Rstd S D c) s := by
   exact ReadableSafety.source_safe_for Bool.false M eq32 s X W Bias Y Mean Rstd S D c.block c.tree
     c.positive bounds bx bw bb byOut bm br
-
 
 #axiomsClean source_safe
 

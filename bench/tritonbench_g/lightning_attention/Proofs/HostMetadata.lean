@@ -1,3 +1,4 @@
+import bench.tritonbench_g.lightning_attention.Kernels
 import bench.tritonbench_g.lightning_attention.Proofs.Model
 namespace VeriTile.Bench.Repairs.LightningAttention.Host
 open VeriTile Triton
@@ -93,5 +94,5 @@ theorem launch_axes (d : Dimensions) (h : Contract d) (stage : Stage) :
 #axiomsClean bm_legal
 #axiomsClean bm_divides
 #axiomsClean launch_axes
-#specNonCircular Contract avoiding [forward,intra,inter]
+#specNonCircular Contract avoiding [KernelOnly.forward,KernelOnly.intra,KernelOnly.inter]
 end VeriTile.Bench.Repairs.LightningAttention.Host

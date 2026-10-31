@@ -7,10 +7,8 @@ open VeriTile.Triton
 set_option maxHeartbeats 2000000
 set_option maxRecDepth 16000
 
-def mathKernel (commuted : Bool) : Source :=
-  if commuted then transposeSource%[tl.float64, indexCommuted]
-  else fun M Out sx sy ox oy m d =>
-    ComputeKernel.mk [M] [Out] (kernel M Out sx sy ox oy m d).surfaceBody
+noncomputable def mathKernel (commuted : Bool) : Source :=
+  fun M Out sx sy ox oy m d => (typedKernel commuted M Out sx sy ox oy m d).eraseDType
 
 theorem typed_projects (v : Bool) (M Out : RegionName)
     (sx sy ox oy m d : Nat) :
@@ -21,21 +19,7 @@ theorem typed_projects (v : Bool) (M Out : RegionName)
 theorem typed_projection (v : Bool) (M Out : RegionName)
     (sx sy ox oy m d : Nat) :
     (typedKernel v M Out sx sy ox oy m d).eraseDType.toAlgKernel =
-      (mathKernel v M Out sx sy ox oy m d).toAlgKernel := by
-  simp only [ComputeKernel.eraseDType, typed_projects, ComputeKernel.toAlgKernel_fromKernelBody]
-  cases v
-  all_goals simp only [typedKernel, mathKernel, Bool.false_eq_true, ↓reduceIte, kernel,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Except.bind, bind,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
-    VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
-    FloatDType.toTileDType, ComputeDType.eraseDType]
-  all_goals try simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
-    MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    FloatDType.toTileDType, ComputeDType.eraseDType]
-  all_goals rfl
+      (mathKernel v M Out sx sy ox oy m d).toAlgKernel := rfl
 
 theorem typed_supported (v : Bool) (M Out : RegionName)
     (sx sy ox oy m d : Nat) :
@@ -43,7 +27,6 @@ theorem typed_supported (v : Bool) (M Out : RegionName)
       .ok (typedKernel v M Out sx sy ox oy m d).eraseDType.toAlgKernel := by
   simp only [ComputeKernel.eraseDType, typed_projects,
     ComputeKernel.toAlgorithm?_fromKernelBody, ComputeKernel.toAlgKernel_fromKernelBody]
-
 
 /-- Pointer aliases carry exactly the wrapper's fp16 memory reads. -/
 theorem load_precision (v : Bool) (M Out : RegionName) (sx sy ox oy m d : Nat) :

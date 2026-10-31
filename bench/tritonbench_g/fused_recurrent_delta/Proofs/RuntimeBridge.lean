@@ -30,9 +30,8 @@ variable {α : Type} [Inhabited α]
     conv_lhs => rw [Safety.safeOp_unfold]
     conv_rhs => rw [Safety.safeOp_unfold]
 
-
-/-- The complete runtime source differs from the historical literal reference
-only at the three actual scale reads. All loop/branch bodies are checked. -/
+/-- The derived scalar view and actual runtime source differ only at the
+three scale reads. All loop/branch bodies and the access-safety link are checked. -/
  theorem literal_pair (M : Algebra α) (kind : Kind) (s : Shape) (f : Flags) (scale : ℝ) :
     Pair (FP.ProfiledRewrite.engine M) (RuntimeIO.scaleValue M scale)
       (KernelProgram.source kind s f scale).surfaceBody (RuntimeIO.source kind Bool.false s f).surfaceBody := by

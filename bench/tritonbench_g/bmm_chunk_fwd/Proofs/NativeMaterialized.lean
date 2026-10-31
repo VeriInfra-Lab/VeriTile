@@ -40,7 +40,7 @@ theorem setup_materialized (rest : Algebra Expr) (h : Host.Call) (c : Host.Confi
   obtain ⟨v4,h4⟩ := Option.isSome_iff_exists.mp h4
   cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,
+    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
       ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
@@ -68,7 +68,7 @@ theorem body_materialized (rest : Algebra Expr) (h : Host.Call) (c : Host.Config
   obtain ⟨v10,h10⟩ := Option.isSome_iff_exists.mp h10
   obtain ⟨v11,h11,hv11⟩ := acc
   have good := memory_real s hm
-  simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,
+  simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
     ha,hb,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,

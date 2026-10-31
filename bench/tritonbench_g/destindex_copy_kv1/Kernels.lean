@@ -1,8 +1,7 @@
-import bench.tritonbench_g.destindex_copy_kv1.Sources.Mathematical_Kernels
+import VeriTile.Triton.DSL
 import Mathlib.Data.Nat.Log
 namespace VeriTile.Bench.Repairs.DestindexCopyKv1
 open VeriTile.Triton
-open VeriTile.Bench.TritonBenchG.DestindexCopyKv1
 structure Layout where
   K : RegionName
   Dest_loc : Region .int
@@ -17,15 +16,6 @@ structure Layout where
   head_dim : Nat
   BLOCK_DMODEL : Nat
   BLOCK_HEAD : Nat
-
-def Layout.source (p : Layout) (input output : TypedSource.Storage) (swapped : Bool) : ComputeKernel :=
-  TypedSource.kernel input output swapped p.K p.Dest_loc p.Out p.stride_k_bs p.stride_k_h p.stride_k_d p.stride_o_bs p.stride_o_h p.stride_o_d p.head_num p.head_dim p.BLOCK_DMODEL p.BLOCK_HEAD
-
-/- Preserved source definitions for the existing precision-polymorphic API. -/
-namespace Legacy
-def kernel (p : Layout) : ComputeKernel := p.source .fp32 .fp32 Bool.false
-def indexCommutedKernel (p : Layout) : ComputeKernel := p.source .fp32 .fp32 Bool.true
-end Legacy
 
 /-- Complete selected FP32 source. The scalar destination load is unmasked;
 both payload dimensions retain their original masks. -/
@@ -66,7 +56,6 @@ def layout (c : Config) : Layout :=
   ⟨inputRegion, metadataRegion, outputRegion, c.heads*c.dims, c.dims, 1,
     c.heads*c.dims, c.dims, 1, c.heads, c.dims, block c.dims, block c.heads⟩
 def flat (c : Config) (row head dim : Nat) : Nat := row*(c.heads*c.dims)+head*c.dims+dim
-
 
 /-- Existing variant: commute only the exact source-row index product. -/
 def indexCommutedKernel (p : Layout) : ComputeKernel :=

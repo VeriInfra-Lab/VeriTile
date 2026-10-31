@@ -32,7 +32,7 @@ theorem prologue_safe (M : Algebra α) (bounds : RegionName → Nat)
   intro st member before
   cases schedule
   all_goals
-    simp [prologueWithPointers,initialPointers,prologue,FPValue.source,typed,
+    simp [prologueWithPointers,initialPointers,prologue,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,
       ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,
       List.mem_append,List.mem_cons,List.not_mem_nil,or_false] at member
   all_goals repeat' first | (rcases member with rfl | member) | subst st
@@ -65,7 +65,7 @@ theorem after_loads_safe (M : Algebra α) (bounds : RegionName → Nat)
   intro st member before
   cases schedule <;> cases g
   all_goals
-    simp [FPValue.body,FPValue.source,typed,fusedTyped,ComputeKernel.surfaceBody,
+    simp [FPValue.body,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,
       afterDot,List.drop_succ_cons,List.drop_zero,List.mem_append,List.mem_cons,
       List.not_mem_nil,or_false] at member
   all_goals repeat' first | (rcases member with rfl | member) | subst st
@@ -97,7 +97,7 @@ theorem body_safe (M : Algebra α) (bounds : RegionName → Nat)
   cases schedule <;> cases g <;> simp only [Pointers] at hp
   all_goals
     simp [beforeLoads,copyPointer,aAt,bAt,pointer,strideOffset,iteration,
-      FPValue.body,FPValue.source,typed,fusedTyped,ComputeKernel.surfaceBody,
+      FPValue.body,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -116,7 +116,7 @@ theorem suffix_safe (M : Algebra α) (bounds : RegionName → Nat) (p : Paramete
       pm*p.blockRows+i.val<p.rows → pn*p.blockColumns+j.val<p.columns →
       p.outputRowStride*(pm*p.blockRows+i.val)+p.outputColumnStride*(pn*p.blockColumns+j.val)<bounds p.output) :
     Safety.traceSafeList M bounds (FPValue.suffix p) t := by
-  simp [suffix,FPValue.source,typed,ComputeKernel.surfaceBody,
+  simp [suffix,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

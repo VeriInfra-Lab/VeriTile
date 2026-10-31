@@ -37,7 +37,10 @@ def preludeExecution (rest : Algebra ℝ) (p : Parameters) (s : State ℝ) :
     {t : State ℝ // run (backend rest) (prelude p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [prelude, Revision001.ScaledWord.prelude, original, Revision001.ScaledWord.original, typedScaled, Revision001.ScaledWord.typedScaled, ComputeKernel.surfaceBody,
+  simp [prelude, Revision001.ScaledWord.prelude, original, Revision001.ScaledWord.original, typedScaled, Revision001.ScaledWord.typedScaled, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType, Region.cast, Option.bind,
@@ -71,7 +74,10 @@ def bodyExecution (rest : Algebra ℝ) (p : Parameters)
       (current.setReg "j" .nat [] (fun _ => k)) = some t} := by
   refine ⟨bodyResult p initial current k, ?_⟩
   cases he : p.even <;>
-    simp [body, Revision001.ScaledWord.body, originalBody, Revision001.ScaledWord.originalBody, original, Revision001.ScaledWord.original, typedScaled, Revision001.ScaledWord.typedScaled, widths, Revision001.ScaledWord.widths, widthAssignment, Revision001.ScaledWord.widthAssignment, ComputeKernel.surfaceBody,
+    simp [body, Revision001.ScaledWord.body, originalBody, Revision001.ScaledWord.originalBody, original, Revision001.ScaledWord.original, typedScaled, Revision001.ScaledWord.typedScaled, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
       bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
       FloatDType.numericDType, FloatDType.toTileDType, Region.cast, Option.bind,

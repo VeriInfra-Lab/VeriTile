@@ -45,7 +45,7 @@ theorem loop_safe (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α
   have hmask := live.2.2.2.2.2.2.2.2.2.2.2.2.2
   have safe := range_safe p r scale o hBN initialState s _ live memory 0 (by omega) ⟨0,by simp⟩ bounds hb
   simpa (config := {maxSteps := 500000}) [FPSymbolic.parts,Program.parts,Program.mathematical,Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,Source.intRange?,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,Source.intRange?,ComputeKernel.surfaceBody,
     Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,
     evalOp_unfold,Option.bind,numeric,bop,State.setReg,hblock,hmask] using safe

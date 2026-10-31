@@ -25,8 +25,7 @@ theorem factors_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic)
   apply traceSafe_invariant M arithmetic context bounds (factors s c hasBias)
     (fun state => state.regs .int [c.BM] "ram"=some ram ∧ state.regs .int [c.BN] "rbn"=some rbn)
   · intro st member current hregs
-    simp [factors,prelude,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-      ComputeKernel.surfaceBody] at member
+    simp [factors,prelude,source,TypedSource.kernel,ComputeKernel.surfaceBody] at member
     rcases member with rfl|rfl|rfl
     all_goals
       simp only [IntegerDot.stepSafe_unfold,Safety.stepSafe_unfold,
@@ -35,8 +34,7 @@ theorem factors_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic)
         hregs.1,hregs.2,hram,hrbn,hx,hw,bop,Broadcast.leftIndex,Broadcast.rightIndex]
     all_goals first | exact fun a b => hw (a,b) | exact fun a b => hx (a,b)
   · intro st member current next hregs executed
-    simp [factors,prelude,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-      ComputeKernel.surfaceBody] at member
+    simp [factors,prelude,source,TypedSource.kernel,ComputeKernel.surfaceBody] at member
     rcases member with rfl|rfl|rfl
     all_goals
       simp only [IntegerDot.step,IntegerDot.arithmeticStep,FP.Structural.step] at executed

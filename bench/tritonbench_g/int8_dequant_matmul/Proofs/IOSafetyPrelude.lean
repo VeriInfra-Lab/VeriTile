@@ -31,8 +31,7 @@ theorem preFactors_safe (M : Algebra α) (a : IntegerDot.Arithmetic)
     (state : State α) (bounds : RegionName → Nat) :
     IntegerDot.traceSafeList M a context bounds (preFactors s c hasBias) state := by
   apply traceSafe_of_pointwise
-  simp [preFactors,prelude,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-    ComputeKernel.surfaceBody]
+  simp [preFactors,prelude,source,TypedSource.kernel,ComputeKernel.surfaceBody]
   all_goals simp only [IntegerDot.stepSafe_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   all_goals simp [Safety.safeOp_unfold]
@@ -42,8 +41,7 @@ def preFactorsExecution (M : Algebra α) (q : IntegerModel I F H)
     {final : State α // Quote.run M q s.M s.N (preFactors s c hasBias) initial=some final} := by
   refine ⟨?_,?_⟩
   swap
-  simp [preFactors,prelude,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-    ComputeKernel.surfaceBody,Quote.run,Quote.step,arithmeticStep,addExpression,
+  simp [preFactors,prelude,source,TypedSource.kernel,ComputeKernel.surfaceBody,Quote.run,Quote.step,arithmeticStep,addExpression,
     FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,
     numeric,bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
     FloatDType.numericDType,FloatDType.toTileDType,VeriTile.Triton.Region.cast,

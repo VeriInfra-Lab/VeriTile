@@ -7,16 +7,12 @@ open VeriTile Triton FP.ProfiledRewrite Strided
 open scoped VeriTile.Spec
 noncomputable section
 
-/-- The actual Llama source is the quoted program already shared by Bloom. -/
-theorem source_is_shared : Strided.source=TokenSoftmaxBloom.source := rfl
-
 /-- No new guard, contiguity restriction, or metadata pin is introduced. -/
 theorem domain_is_shared : Checked.InputContract=TokenSoftmaxBloom.Checked.InputContract := rfl
 
 /- Candidate source and invocation retain their names in Kernels.lean. -/
 
 theorem candidate_is_shared : indexCommutedSource=TokenSoftmaxBloom.indexCommutedSource := rfl
-
 
 abbrev program := TokenSoftmaxBloom.KernelRewrite.program
 
@@ -46,7 +42,6 @@ theorem grid_execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra
     Grid.run (engine algebra) p work m=candidateRun (engine algebra) p work m :=
   TokenSoftmaxBloom.KernelRewrite.grid_execution algebra p work m
 
-#axiomsClean source_is_shared
 #axiomsClean domain_is_shared
 #axiomsClean candidate_is_shared
 #axiomsClean equivalent

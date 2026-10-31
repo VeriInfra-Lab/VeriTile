@@ -68,9 +68,9 @@ def finishExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed fin
     simp [parts,kernel,Kernels.forwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
-      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,numericEq,
+      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,
       natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
-      ctx.ik,ctx.iv,ctx.bh,ha,FP.Structural.store]
+      ctx.ik,ctx.iv,ctx.bh,Int.toNat_mul,Int.toNat_natCast,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ha,FP.Structural.store]
     rfl
 
 theorem finishMemory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed final : Bool)
@@ -80,9 +80,12 @@ theorem finishMemory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed fi
     (hm : current.mem=(accumulated M D c seed initial).2.mem) :
     (finishExecution M D c seed final initial current n (accumulated M D c seed initial).1 ctx ha).val.mem=
       (written M D c seed final initial).mem := by
+  have base : ((initial.pids 2:Int)*(c.K:Int)*(c.V:Int)).toNat = initial.pids 2*c.K*c.V := by
+    norm_cast
   cases final <;>
     simp [finishExecution,written,finalStored,masked_scatter_memory,active,stateAddress,feature,column,
-      bop,BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,hm]
+      bop,BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,hm,Int.toNat_mul,Int.toNat_natCast,Value]
+  all_goals rw [base]
 
 theorem source_parts (c : Shape) (seed final : Bool) : (kernel c seed final).surfaceBody =
     (parts c seed final).before ++

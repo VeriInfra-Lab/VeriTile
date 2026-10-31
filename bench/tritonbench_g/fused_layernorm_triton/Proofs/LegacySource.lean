@@ -122,15 +122,5 @@ def tupleCode (mean m2 weight : Op .real []) : List ComputeStmt :=
 
 def blockCount (D B : Nat) : Nat := (D + B - 1) / B
 
-/-- Complete source row: both loops, ordered statistics stores and BF16 Y.
-Natural indices are connected to the source's explicit int64 arithmetic by
-Proofs.NativeIndex; no FP cast is erased here. -/
-def fusedKernel (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
-    (mean m2 weight : Op .real []) : ComputeKernel :=
-  .mk [X,W,Bias] [Y,Mean,Rstd]
-    ((welfordPrefix X S D B ++ chunkCode X D B 1 (blockCount D B - 1) ++
-      tupleCode mean m2 weight ++ welfordSuffix Rstd Mean D) ++
-      normalizeCode X W Bias Y D B 0 (blockCount D B))
-
 end
 end VeriTile.Bench.Repairs.FusedLayernormTriton.LegacySource

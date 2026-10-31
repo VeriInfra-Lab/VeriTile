@@ -45,7 +45,7 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,
     Safety.addressSafe_unfold, Safety.maskActive_unfold, Safety.safeAlg_unfold,
     source, VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource.kernel,
-    VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource.kernel_fp32_fp32,
+    VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource.kernel_fp32_fp32,VeriTile.Bench.Repairs.KldivCompute.SelectedSource.original,VeriTile.Bench.Repairs.KldivCompute.SelectedSource.commuted,
     ComputeKernel.surfaceBody, run, step, FP.Structural.evalExpr, evalComputeOp,
     evalOp_unfold, Option.bind, Algebra.withDefaultPrecision, resolvePrecision,
     ComputeDType.eraseDType, State.setReg, numeric, numericLt, natLt, bop, store, Region.cast]

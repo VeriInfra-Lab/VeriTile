@@ -108,19 +108,19 @@ theorem prefix_place_count (r : Admission.Prefix) (p : PrefixPlace r) : p.tensor
 /-- Local copy/read laws are consumed by the exact DSL input views. -/
 theorem key_load (r : Admission.Inner) (before : Memory) (p : InnerPrepared r before)
     (scratch : State NativeGraph.Expr) (i : Nat) (hi : i<keyCapacity r) :
-    ((HostData.innerInput r before scratch).mem "k" i).read .real=
+    ((HostData.innerInput r before scratch).mem "k" i).read .fp32=
       .leaf (read p.memory (p.key.byteBase+4*i)) := by
   rw [p.keyRead i hi]
   simp [HostData.innerInput,Cell.read_same]
 theorem value_load (r : Admission.Inner) (before : Memory) (p : InnerPrepared r before)
     (scratch : State NativeGraph.Expr) (i : Nat) (hi : i<valueCapacity r) :
-    ((HostData.innerInput r before scratch).mem "v" i).read .real=
+    ((HostData.innerInput r before scratch).mem "v" i).read .fp32=
       .leaf (read p.memory (p.value.byteBase+4*i)) := by
   rw [p.valueRead i hi]
   simp [HostData.innerInput,Cell.read_same]
 theorem gate_load (r : Admission.Inner) (before : Memory) (p : InnerPrepared r before)
     (scratch : State NativeGraph.Expr) (i : Nat) (hi : i<gateCapacity r) :
-    ((HostData.innerInput r before scratch).mem "g" i).read .real=
+    ((HostData.innerInput r before scratch).mem "g" i).read .fp32=
       .leaf (read p.memory (p.gate.byteBase+4*i)) := by
   rw [p.gateRead i hi]
   simp [HostData.innerInput,Cell.read_same]

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.triton_matmul.Sources.Mathematical_Kernels
-import bench.tritonbench_g.triton_matmul.Proofs.Mathematical_FPComplete
+import bench.tritonbench_g.triton_matmul.Proofs.Mathematical_FPReference
 
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.SourceScope
 open VeriTile.Triton FP.Structural FPValue

@@ -17,27 +17,7 @@ abbrev count := RealFormula.tripCount
 theorem source_of_flat (BM BN BD D : Nat) (second firstDiagonal : Bool) (s t : BlockState)
     (h : stepStmts (flatIteration BM BN BD D second (second || firstDiagonal)) s = some t) :
     stepStmts (sourceIteration BM BN BD D second firstDiagonal) s = some t := by
-  cases second
-  · have he : flatIteration BM BN BD D Bool.false firstDiagonal =
-        (loadPrefix BD BN D Bool.false ++ [RealBody.score BM BN BD]) ++
-        ((if firstDiagonal then guard BM BN Bool.false Bool.true ++ RealBody.center BM BN
-          else guard BM BN Bool.false Bool.false ++ RealBody.center BM BN) ++
-          suffix BM BN BD D Bool.false) := by
-      cases firstDiagonal <;> simp [flatIteration,List.append_assoc]
-    simp only [Bool.false_or] at h
-    rw [he] at h
-    obtain ⟨u,hu,hrest⟩ := stepStmts.append_some_iff.mp h
-    obtain ⟨v,hv,ht⟩ := stepStmts.append_some_iff.mp hrest
-    have hb : stepStmt (.ifThenElse (.constBool firstDiagonal)
-        (guard BM BN Bool.false Bool.true ++ RealBody.center BM BN)
-        (guard BM BN Bool.false Bool.false ++ RealBody.center BM BN)) u = some v := by
-      conv_lhs => unfold stepStmt
-      cases firstDiagonal <;> simpa only [evalOp.eq_def,bind,Option.bind,Tile.scalar,
-        Bool.false_eq_true,Bool.true_eq,↓reduceIte] using hv
-    have htail := (stepStmts.cons_some hb).trans ht
-    simpa only [sourceIteration,Bool.false_eq_true,↓reduceIte,List.append_assoc,List.cons_append,List.nil_append] using
-      (stepStmts.append_some hu).trans htail
-  · simpa only [sourceIteration,Bool.true_eq,↓reduceIte,Bool.true_or] using h
+  exact h
 
 def after (mem : BlockState) (c : Config) (BM BN BD lower : Nat) (second firstDiagonal : Bool)
     (seed : Carry BM BD) (n : Nat) : Carry BM BD :=
@@ -56,10 +36,10 @@ theorem invariant_step (mem s : BlockState) (c : Config) (BM BN BD lower : Nat)
     (hr : Registers mem s c BM BN BD (cursor lower BN i) second
       (after mem c BM BN BD lower second firstDiagonal seed i)) :
     ∃ t, stepStmts (sourceIteration BM BN BD c.p.headDim second firstDiagonal)
-        (s.setReg "start_n" .nat [] (Tile.scalar (cursor lower BN i))) = some t ∧
+        (s.setReg "start_n" .int [] (Tile.scalar (cursor lower BN i))) = some t ∧
       Registers mem t c BM BN BD (cursor lower BN (i+1)) second
         (after mem c BM BN BD lower second firstDiagonal seed (i+1)) ∧ Frame (writes second) s t := by
-  let si := s.setReg "start_n" .nat [] (Tile.scalar (cursor lower BN i))
+  let si := s.setReg "start_n" .int [] (Tile.scalar (cursor lower BN i))
   have hf0 : Frame (writes second) s si := Frame.setReg _ _ _ _ _ _ (by simp [writes,prefixWrites])
   have hc : Carries si (after mem c BM BN BD lower second firstDiagonal seed i) :=
     ⟨by simpa [si] using hr.carry.center,by simpa [si] using hr.carry.denominator,
@@ -81,7 +61,7 @@ theorem loop_from (mem s : BlockState) (c : Config) (BM BN BD lower upper : Nat)
     (i : Nat) (hi : i ≤ count lower upper BN)
     (hr : Registers mem s c BM BN BD (cursor lower BN i) second
       (after mem c BM BN BD lower second firstDiagonal seed i)) :
-    ∃ t, stepForRangeAux "start_n" (cursor lower BN i) upper BN
+    ∃ t, stepForRangeIntAux "start_n" ((cursor lower BN i : Nat) : Int) (upper : Int) BN
         (sourceIteration BM BN BD c.p.headDim second firstDiagonal) s = some t ∧
       Registers mem t c BM BN BD (cursor lower BN (count lower upper BN)) second
         (after mem c BM BN BD lower second firstDiagonal seed (count lower upper BN)) ∧ Frame (writes second) s t := by
@@ -90,11 +70,11 @@ theorem loop_from (mem s : BlockState) (c : Config) (BM BN BD lower upper : Nat)
     obtain ⟨t,ht,hfinal,hframe⟩ := loop_from mem sm c BM BN BD lower upper second firstDiagonal seed hN
       (i+1) (by omega) hnext
     refine ⟨t,?_,hfinal,hf.trans hframe⟩
-    rw [stepForRangeAux.step_lt (by omega) ((RealLoop.cursor_lt lower upper BN i hN).mpr h),hs,Option.bind_some]
+    rw [ControlView.algorithm_nat_step "start_n" (cursor lower BN i) upper BN _ s (by omega) ((RealLoop.cursor_lt lower upper BN i hN).mpr h),hs,Option.bind_some]
     simpa only [RealLoop.cursor_succ] using ht
   · have he : i = count lower upper BN := by omega
     subst i
-    exact ⟨s,stepForRangeAux.step_ge (by omega) (by
+    exact ⟨s,ControlView.algorithm_nat_done "start_n" (cursor lower BN (count lower upper BN)) upper BN _ s (by
       have ht : cursor lower BN (count lower upper BN) < upper ↔ count lower upper BN < count lower upper BN :=
         RealLoop.cursor_lt lower upper BN (count lower upper BN) hN
       omega),hr,Frame.refl _ _⟩
@@ -103,7 +83,7 @@ termination_by count lower upper BN-i
 theorem executes (mem s : BlockState) (c : Config) (BM BN BD lower upper : Nat)
     (second firstDiagonal : Bool) (seed : Carry BM BD) (hN : 0 < BN)
     (hr : Registers mem s c BM BN BD lower second seed) :
-    ∃ t, stepForRangeAux "start_n" lower upper BN
+    ∃ t, stepForRangeIntAux "start_n" (lower : Int) (upper : Int) BN
         (sourceIteration BM BN BD c.p.headDim second firstDiagonal) s = some t ∧
       Registers mem t c BM BN BD (cursor lower BN (count lower upper BN)) second
         (after mem c BM BN BD lower second firstDiagonal seed (count lower upper BN)) ∧ Frame (writes second) s t := by

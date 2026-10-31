@@ -40,7 +40,7 @@ theorem matches_source (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parame
   cases swapped
   all_goals
     simp [code, limitOp, indexLoad, filtered, RealProgram.realPart, RealProgram.parts,
-      RealProgram.branch, RealProgram.source, TypedSource.specialize,
+      RealProgram.branch, RealProgram.source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
       Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
       ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,

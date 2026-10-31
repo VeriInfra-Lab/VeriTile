@@ -17,7 +17,7 @@ theorem body_run [Inhabited Word] (rest : Algebra Word) (cfg : FP.Config) (D : D
   cases schedule <;> cases g <;>
     simp only [Pointers] at hp
   all_goals simp [Kernels.body,beforeLoads,afterDot,copyPointer,aAt,bAt,pointer,strideOffset,iteration,
-      FPValue.body,FPValue.source,typed,fusedTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+      FPValue.body,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
       integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,
       h.mem,h.pids,h.undef,h.pm,h.pn,h.offk,h.aptr,h.bptr,h.acc,hp,backend,

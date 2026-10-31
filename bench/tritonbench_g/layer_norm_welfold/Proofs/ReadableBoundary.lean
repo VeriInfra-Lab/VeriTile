@@ -90,16 +90,17 @@ theorem complete (M : Algebra α) (reuse : Bool) (s : State α)
     c.block c.tree reuse c.positive sep (List.range S)
   exact ⟨t,(schedule_eq M reuse Y Mean Rstd S D c.block c.tree (List.range S) s).trans ht,he⟩
 
-/-- Explicit whole-grid semantic preservation from the historical complete
-source to either readable program. Equality covers all cells, including the frame. -/
+/-- Complete memory equality of the actual repair source and its current
+row-offset candidate. Every cell, including the exterior frame, is retained. -/
 theorem preserve (M : Algebra α) (reuse : Bool) (s : State α)
     (Y Mean Rstd : RegionName) (S D : Nat) (c : Configuration)
     (sep : Separation "X" "W" "Bias" Y Mean Rstd) :
     ∃ old final,
-      Source.launch (withEquality M (fun _ _ => Bool.false)) s Y Mean Rstd S D c.block (SourceBinding.tree c.tree)=some old ∧
+      SourceCode.launch (withEquality M (fun _ _ => Bool.false)) Bool.false s Y Mean Rstd S D c.block (SourceBinding.tree c.tree)=some old ∧
       SourceCode.launch (withEquality M (fun _ _ => Bool.false)) reuse s Y Mean Rstd S D c.block (tree c.tree)=some final ∧
       old.mem=final.mem := by
-  obtain ⟨old,ho,he⟩ := KernelBoundary.complete M (fun _ _ => Bool.false) s Y Mean Rstd S D c sep
+  obtain ⟨old,ho,he⟩ := whole_grid M (fun _ _ => Bool.false) s "X" "W" "Bias" Y Mean Rstd S D
+    c.block c.tree Bool.false c.positive sep (List.range S)
   obtain ⟨final,hf,hg⟩ := whole_grid M (fun _ _ => Bool.false) s "X" "W" "Bias" Y Mean Rstd S D
     c.block c.tree reuse c.positive sep (List.range S)
   exact ⟨old,final,ho,hf,memory_unique M s old final _ _ _ _ _ _ D c.block c.tree _ he hg⟩

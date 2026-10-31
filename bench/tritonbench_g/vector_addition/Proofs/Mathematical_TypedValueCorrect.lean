@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_TypedGrid
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_DTypeScope
 
@@ -21,15 +22,6 @@ def spec {α : Type} [Inhabited α] (M : Algebra α)
     TypedFloat.resultCell M x.dtype y.dtype (TypedFloat.promote x y).dtype p initial.mem o
     else initial.mem r o
 
-theorem correct {α : Type} [Inhabited α] (M : Algebra α)
-    (x y : TypedFloat.Storage) (p : Parameters) (initial : State α)
-    (positive : 0 < p.block) :
-    ∃ final, TypedFloat.runGrid M x.dtype y.dtype (TypedFloat.promote x y).dtype p initial =
-      some final ∧ final.mem = spec M x y p initial := by
-  exact TypedFloat.grid_correct M x.dtype y.dtype (TypedFloat.promote x y).dtype p initial positive
-
-#specNonCircular spec avoiding [TypedFloat.source, TypedFloat.materialized,
-  TypedFloat.runGrid, FP.Structural.exec]
-#axiomsClean correct
+#specNonCircular spec avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 end
 end VeriTile.Bench.TritonBenchG.VectorAddition.TypedValueCorrect

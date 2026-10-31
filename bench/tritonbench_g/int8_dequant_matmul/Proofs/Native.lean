@@ -66,40 +66,6 @@ theorem nativeWrapper_refines (abi : LocalEventABI I F H σ a) (hook : ZeroHookA
   · rfl
   · simp only [DequantizeMatmul.deviceCall,nativeInvoke_refines,nativeTrials_refines]
 
-/-- This binds the same production AST and typed JIT to the actual compiler's
-selected local-event program. It is explicitly an ordinary frontend/compiler
-implementation boundary, not a theorem that this repository verifies Triton.
-The right-hand side is fixed from source loop coordinates, exact prior seed,
-operand loads, selected fixed-instruction plans, epilogue, and commit order.
-No final output, memory equality, numeric property, or frame is a field. -/
-structure CompilerBinding {I H : Type} (s : Shape) (v : Invocation s) (b : Buffers)
-    (da : Dense2 s.M s.K) (db : Dense2 s.K s.N) (dc : Dense2 s.M s.N)
-    (divisor : F) (hasBias : Bool) where
-  parsedProduction : String
-  productionIdentity : parsedProduction=Source.productionAST
-  jit : VeriTile.Triton.ComputeKernel
-  jitIdentity : jit=Source.typedJIT s v.config da db dc hasBias
-  admitted : Source.Admitted v.config
-  addressABI : IndexABI s v.config b da db dc
-  gridABI : GridABI s v.config
-  dispatch : v.schedule.events.Perm (allCommits s v.config)
-  lowered : Code I F H Unit
-  sourceLowering : lowered=gridCode s v.config b v.selected divisor hasBias v.schedule.events
-
-theorem CompilerBinding.schedule_complete
-    (binding : CompilerBinding (I:=I) (H:=H) s v b da db dc divisor hasBias) (x : MatrixCell s) :
-    (projection x v.schedule.events).Perm (List.finRange v.config.S) :=
-  (Schedule.ofPermutation s v.config v.schedule.events binding.dispatch).complete x
-
-theorem boundCompiler_grid (abi : LocalEventABI I F H σ a) (s : Shape) (v : Invocation s) (b : Buffers)
-    (da : Dense2 s.M s.K) (db : Dense2 s.K s.N) (dc : Dense2 s.M s.N) (divisor : F) (hasBias : Bool)
-    (binding : CompilerBinding (I:=I) (H:=H) s v b da db dc divisor hasBias) (state : σ) :
-    abi.observe (binding.lowered.native abi state).2=
-      gridRun a s v.config b v.selected divisor hasBias v.schedule.events (abi.observe state) := by
-  rw [binding.sourceLowering]
-  have h := congrArg Prod.snd ((gridCode s v.config b v.selected divisor hasBias v.schedule.events).native_refines abi state)
-  simpa only [Prod.snd,eval_gridCode] using h
-
 def DType.bytes : DType → Nat
   | .int8 => 1
   | .fp32 => 4
@@ -130,8 +96,6 @@ theorem RawByteABI.frame (abi : LocalEventABI (BitVec 32) Word32 Word16 σ a)
 #axiomsClean nativeInvoke_refines
 #axiomsClean nativeTrials_refines
 #axiomsClean nativeWrapper_refines
-#axiomsClean boundCompiler_grid
-#axiomsClean CompilerBinding.schedule_complete
 #axiomsClean RawByteABI.frame
 end
 end VeriTile.Bench.Repairs.Int8DequantMatmul

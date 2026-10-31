@@ -17,72 +17,16 @@ end QuantizationSource
 
 namespace VeriTile.Bench.TritonBenchG.QuantizeGlobal
 open VeriTile.Triton
-def quantize_global_surface
-    (x_ptr absmax_inv_ptr output_ptr : RegionName)
-    (n_elements BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
-  mask = offsets < $(n_elements)
-  x = tl.load(x_ptr + offsets, mask=mask)
-  absmax_inv = tl.load(absmax_inv_ptr)
-  output = tl.extra.cuda.libdevice.llrint(127.0 * (x * absmax_inv))
-  tl.store(output_ptr + offsets, output, mask=mask)
-}
-
-/-- Proof-oriented arithmetic store slice of `quantize_global.py`'s
-`_quantize_global`.
-
-This slice proves the masked vector addressing and scaled value before the
-backend-specific rounding/cast step. -/
-def quantize_global_scaled_store_slice
-    (x_ptr absmax_inv_ptr output_ptr : RegionName)
-    (n_elements BLOCK_SIZE : Nat) (scale127 : ℝ) :
-    ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
-  mask = offsets < $(n_elements)
-  x = tl.load(x_ptr + offsets, mask=mask)
-  absmax_inv = tl.load(absmax_inv_ptr)
-  output = $(scale127) * (x * absmax_inv)
-  tl.store(output_ptr + offsets, output, mask=mask)
-}
 
 end VeriTile.Bench.TritonBenchG.QuantizeGlobal
 
 namespace VeriTile.Bench.TritonBenchG.QuantizeGlobal
 open VeriTile.Triton
-/-- Legacy pre-rounding FP32 slice, retained only for its existing theorem. -/
-def TypedScaled.source (X AbsmaxInv Out : RegionName) (N B : Nat) : ComputeKernel := triton {
-  tl.region X = tl.float32, AbsmaxInv = tl.float32, Out = tl.float32
-  pid = tl.program_id(0)
-  block_start = pid * $(B)
-  offsets = block_start + tl.arange(0, $(B))
-  mask = offsets < $(N)
-  x = tl.load(X + offsets, mask=mask).to(tl.float32)
-  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)
-  output = 127.0 * (x * absmax_inv)
-  tl.store(Out + offsets, output, mask=mask)
-}
 
 end VeriTile.Bench.TritonBenchG.QuantizeGlobal
 
 namespace QuantizeIntegerStage
 open VeriTile.Triton
-/-- Exact original kernel with selected FP32 input/scale and explicit int8 output. -/
-def Global.source (X AbsmaxInv Out : RegionName) (N B : Nat) : ComputeKernel := triton {
-  tl.region X = tl.float32, AbsmaxInv = tl.float32, Out = tl.int8
-  pid = tl.program_id(0)
-  block_start = pid * $(B)
-  offsets = block_start + tl.arange(0, $(B))
-  mask = offsets < $(N)
-  x = tl.load(X + offsets, mask=mask)
-  absmax_inv = tl.load(AbsmaxInv)
-  output = tl.extra.cuda.libdevice.llrint(127.0 * (x * absmax_inv))
-  tl.store(Out + offsets, output, mask=mask)
-}
 
 end QuantizeIntegerStage
 

@@ -11,25 +11,6 @@ open VeriTile.Triton TypedSource
 set_option maxHeartbeats 5000000
 set_option maxRecDepth 20000
 
-theorem projection_ok (storage : Storage) (swapped : Bool) (y : RegionName)
-    (N : Nat) (seed offset : Int) (lower upper : ℝ) (B : Nat)
-    (hB : SourceDomain.LegalBlock B) :
-    (source storage swapped y N seed offset lower upper B hB).toAlgorithm? =
-      .ok (source storage swapped y N seed offset lower upper B hB).toAlgKernel := by
-  cases storage <;> cases swapped <;> rfl
-
-/-- Three direct materializations plus all twenty original source statements.
-The tuple statement contains its five captures and all four result writes. -/
-theorem full_statement_count (storage : Storage) (swapped : Bool) (y : RegionName)
-    (N : Nat) (seed offset : Int) (lower upper : ℝ) (B : Nat)
-    (hB : SourceDomain.LegalBlock B) :
-    (source storage swapped y N seed offset lower upper B hB).surfaceBody.length = 23 := by
-  cases storage <;> cases swapped <;> rfl
-
-def reference (swapped : Bool) (y : RegionName) (N : Nat) (seed offset : Int)
-    (lower upper : ℝ) (B : Nat) (hB : SourceDomain.LegalBlock B) : Kernel :=
-  (source .fp64 swapped y N seed offset lower upper B hB).toAlgKernel.eraseDType
-
 def erasedBody (body : List ComputeStmt) : Except EraseDTypeError (List Stmt) := do
   return Stmt.eraseDTypeList (← ComputeStmt.listToAlgorithm? body)
 
@@ -68,62 +49,5 @@ theorem erased_projection_of_ok (ck : ComputeKernel) (k : Kernel)
     (h : ck.toAlgorithm? = .ok k) :
     ck.eraseDType.toAlgorithm? = .ok k.eraseDType := by
   simp only [ComputeKernel.eraseDType, h, ComputeKernel.toAlgorithm?_fromKernelBody]
-
-theorem source_erased_body (storage : Storage) (swapped : Bool) (y : RegionName)
-    (N : Nat) (seed offset : Int) (lower upper : ℝ) (B : Nat)
-    (hB : SourceDomain.LegalBlock B) :
-    (source storage swapped y N seed offset lower upper B hB).eraseDType.toAlgorithm? = (do
-      return Kernel.mk [] [y]
-        (← erasedBody (source storage swapped y N seed offset lower upper B hB).surfaceBody)) := by
-  cases storage <;> cases swapped
-  all_goals exact erased_projection_mk [] [y] _
-
-/-- All source operations preceding the stores are identical across storage
-profiles. In particular the complete four-field random/affine prefix stays
-opaque while proving the final storage erasure. -/
-theorem prefix_same (storage : Storage) (swapped : Bool) (y : RegionName)
-    (N : Nat) (seed offset : Int) (lower upper : ℝ) (B : Nat)
-    (hB : SourceDomain.LegalBlock B) :
-    (source storage swapped y N seed offset lower upper B hB).surfaceBody.take 19 =
-      (source .fp64 swapped y N seed offset lower upper B hB).surfaceBody.take 19 := by
-  cases storage <;> cases swapped <;> rfl
-
-theorem store_suffix_same (storage : Storage) (swapped : Bool) (y : RegionName)
-    (N : Nat) (seed offset : Int) (lower upper : ℝ) (B : Nat)
-    (hB : SourceDomain.LegalBlock B) :
-    erasedBody ((source storage swapped y N seed offset lower upper B hB).surfaceBody.drop 19) =
-      erasedBody ((source .fp64 swapped y N seed offset lower upper B hB).surfaceBody.drop 19) := by
-  cases storage <;> cases swapped
-  all_goals simp only [source, ComputeKernel.surfaceBody, List.drop_succ_cons, List.drop_zero,
-    erasedBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
-    ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
-    Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,
-    MaskOpt.eraseDType, ComparableDType.eraseDType, Except.bind, bind, pure]
-  all_goals simp only [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, FloatDType.toTileDType]
-  all_goals rfl
-
-theorem source_erased_body_same (storage : Storage) (swapped : Bool) (y : RegionName)
-    (N : Nat) (seed offset : Int) (lower upper : ℝ) (B : Nat)
-    (hB : SourceDomain.LegalBlock B) :
-    erasedBody (source storage swapped y N seed offset lower upper B hB).surfaceBody =
-      erasedBody (source .fp64 swapped y N seed offset lower upper B hB).surfaceBody :=
-  erasedBody_eq_of_parts _ _ 19
-    (prefix_same storage swapped y N seed offset lower upper B hB)
-    (store_suffix_same storage swapped y N seed offset lower upper B hB)
-
-theorem complete_projection (storage : Storage) (swapped : Bool) (y : RegionName)
-    (N : Nat) (seed offset : Int) (lower upper : ℝ) (B : Nat)
-    (hB : SourceDomain.LegalBlock B) :
-    (source storage swapped y N seed offset lower upper B hB).eraseDType.toAlgorithm? =
-      .ok (reference swapped y N seed offset lower upper B hB) := by
-  rw [source_erased_body, source_erased_body_same]
-  rw [← source_erased_body .fp64]
-  exact erased_projection_of_ok _ _ (projection_ok .fp64 swapped y N seed offset lower upper B hB)
-
-#axiomsClean projection_ok
-#axiomsClean full_statement_count
-#axiomsClean prefix_same
-#axiomsClean store_suffix_same
-#axiomsClean complete_projection
 
 end VeriTile.Bench.TritonBenchG.UniformSampling.Erasure

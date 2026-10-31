@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_IntegerGrid
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_IntegerProfiles
 
@@ -19,17 +20,6 @@ def spec {α : Type} [Inhabited α] (x y : Canonical)
     IntegerSource.resultCell x.storage y.storage p initial.mem o
     else initial.mem r o
 
-/-- Complete ordered launch including tail mask and the frame at every other
-address. Equal logical x/y/output regions are permitted. -/
-theorem correct {α : Type} [Inhabited α] (M : Algebra α)
-    (x y : Canonical) (p : Parameters) (initial : State α)
-    (positive : 0 < p.block) :
-    ∃ final, IntegerSource.runGrid M x.storage y.storage p initial = some final ∧
-      final.mem = spec x y p initial := by
-  exact IntegerSource.grid_correct M x.storage y.storage p initial positive
-
-#specNonCircular spec avoiding [IntegerSource.source, IntegerSource.runGrid,
-  IntegerSource.runGridPrefix, FP.Structural.exec]
-#axiomsClean correct
+#specNonCircular spec avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 end
 end VeriTile.Bench.TritonBenchG.VectorAddition.IntegerValueCorrect

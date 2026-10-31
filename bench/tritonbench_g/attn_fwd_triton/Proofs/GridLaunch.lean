@@ -10,6 +10,7 @@ open VeriTile.Triton Memory Relocation GridCoordinates GridFootprint
 noncomputable section
 open scoped Classical
 set_option maxHeartbeats 1500000
+set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false
 
 def kernel (A : FlatAlloc) (p : Parameters) (BD : Nat) (reciprocal : Bool) : Kernel where

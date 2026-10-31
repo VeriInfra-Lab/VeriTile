@@ -41,15 +41,15 @@ structure Pointers (s : BlockState) (c : Config) (BN BD start : Nat) (second : B
 
 theorem loads_execute (s : BlockState) (c : Config) (BN BD start : Nat) (second : Bool)
     (hp : Pointers s c BN BD start second)
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar start))
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context)) :
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar start))
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context)) :
     ∃ t, stepStmts (loadPrefix BD BN c.p.headDim second) s = some t ∧
       t.regs .real [BD,BN] "k" = some (finite (kvalue s c BD BN start)) ∧
       t.regs .real [] "k_scale" = some (Tile.scalar (some (s.readMem c.p.KS (ksbase c BN+start/BN)))) ∧
-      t.regs .nat [] "start_n" = some (Tile.scalar start) ∧
+      t.regs .int [] "start_n" = some (Tile.scalar start) ∧
       Frame ["start_n","k_mask","k","k_scale"] s t := by
-  let sn := s.setReg "start_n" .nat [] (Tile.scalar start)
+  let sn := s.setReg "start_n" .int [] (Tile.scalar start)
   let sm := sn.setReg "k_mask" .bool [BD,BN] (keyMaskTile BD BN c.p.context c.p.headDim start)
   have hm := eval_key_mask sn BD BN c.p.context c.p.headDim start
     (by simpa [sn] using hn) (by simp [sn]) (by simpa [sn] using hctx)
@@ -62,7 +62,7 @@ theorem loads_execute (s : BlockState) (c : Config) (BN BD start : Nat) (second 
   change evalOp (.load .real (.ptr (.ref .ptr [] (scaleName second))) .none) sk =
     some (Tile.scalar (some (s.readMem c.p.KS (ksbase c BN+start/BN)))) at hscale
   simp only [loadPrefix]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.ref .nat [] "start_n") s =
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.ref .int [] "start_n") s =
     some (Tile.scalar start) from by simpa using hs)),
     stepStmts.cons_some (stepStmt_assign_eq_some hm),
     stepStmts.cons_some (stepStmt_assign_eq_some hk),
@@ -74,9 +74,9 @@ theorem loads_execute (s : BlockState) (c : Config) (BN BD start : Nat) (second 
 
 theorem value_executes (s : BlockState) (c : Config) (BN BD start : Nat) (second : Bool)
     (hp : s.regs .ptr [BN,BD] (valueName second) = some (valuePointer c BN BD start))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar start))
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context)) :
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar start))
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context)) :
     ∃ t, stepStmt (valueLoad BN BD c.p.headDim second) s = some t ∧
       t.regs .real [BN,BD] "v" = some (finite (vvalue s c BN BD start)) ∧ Frame ["v"] s t := by
   refine ⟨_, stepStmt_assign_eq_some (value_load s c BN BD start (valueName second) hp hn hs hctx), by simp, ?_⟩
@@ -84,8 +84,8 @@ theorem value_executes (s : BlockState) (c : Config) (BN BD start : Nat) (second
 
 theorem advances_execute (s : BlockState) (c : Config) (BN BD start : Nat) (hN : 0 < BN) (second : Bool)
     (hp : Pointers s c BN BD start second)
-    (hkr : s.regs .nat [] "stride_kn64" = some (Tile.scalar c.p.keyRow))
-    (hvr : s.regs .nat [] "stride_vk64" = some (Tile.scalar c.p.valueRow)) :
+    (hkr : s.regs .int [] "stride_kn64" = some (Tile.scalar c.p.keyRow))
+    (hvr : s.regs .int [] "stride_vk64" = some (Tile.scalar c.p.valueRow)) :
     ∃ t, stepStmts (advance BN BD second) s = some t ∧
       Pointers t c BN BD (start+BN) second ∧ Frame [keyName second,scaleName second,valueName second] s t := by
   have hsk : scaleName second ≠ keyName second := by cases second <;> decide

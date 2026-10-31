@@ -94,6 +94,18 @@ theorem bias_addr (i z h row block bm strideB strideH strideR heads : Nat) :
     i*strideR+(h/heads*strideB+(h%heads*strideH+(row/block+z*bm*strideR)))=
       row/block+(i*strideR+(z*bm*strideR+(h/heads*strideB+h%heads*strideH))) := by omega
 
+private theorem bias_projection (ph heads batch head pm bm lane stride row bn : Nat) :
+    ((ph:Int)/(heads:Int)*(batch:Int)+(ph:Int)%(heads:Int)*(head:Int)+
+      ((pm:Int)*(bm:Int)+(lane:Int))*(stride:Int)+(row:Int)/(bn:Int)).toNat =
+      row/bn+(lane*stride+(pm*bm*stride+(ph/heads*batch+ph%heads*head))) := by
+  simp only [←Int.natCast_ediv,←Int.natCast_emod,←Int.natCast_mul,←Int.natCast_add,
+    Int.toNat_natCast]
+  simp [Nat.add_mul,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
+
+private theorem bias_guard (pm bm lane stop : Nat) :
+    ((pm:Int)*(bm:Int)+(lane:Int)<(stop:Int)) ↔ pm*bm+lane<stop := by
+  norm_cast
+
 theorem body_context (M : Algebra α) (dot : Dot α) (p : Parameters)
     (initial current : State α) (row : Nat) (a : Acc p α)
     (hbn : 0<p.bn) (ctx : Context M p initial row a current) :
@@ -125,7 +137,8 @@ theorem body_context (M : Algebra α) (dot : Dot α) (p : Parameters)
   all_goals try simp [Nat.add_mul,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
   all_goals try rfl
   all_goals try rw [lane1Eta i]
-  all_goals simp only [bias_addr]
+  all_goals try simp only [bias_addr]
+  all_goals try simp [bias_projection,bias_guard,Value,Nat.add_mul,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
   all_goals try rfl
 
 #specNonCircular update avoiding [run,FP.Structural.exec,bodyExec]

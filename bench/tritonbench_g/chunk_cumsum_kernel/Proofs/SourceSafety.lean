@@ -23,7 +23,7 @@ private theorem body_safe {α : Type} [Inhabited α] (ops : FPRow.Ops α) (v : B
   obtain ⟨hp,hz⟩ := ready
   obtain ⟨carry,hz⟩ := Option.isSome_iff_exists.mp hz
   cases v <;>
-    simp (config := {maxSteps := 300000}) [body,FPIndexBridge.parts,Rewrite.candidateParts,
+    simp (config := {maxSteps := 300000}) [body,FPIndexBridge.parts,FPRow.parts,Rewrite.candidateParts,
       repairedKernel,sumLeftKernel,ComputeKernel.surfaceBody,Source.intRange?,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
@@ -88,11 +88,11 @@ theorem trace_safe {α : Type} [Inhabited α] (ops : FPRow.Ops α) (v : Bool)
   unfold TraceSafe
   rw [hsplit,Safety.traceSafeList_append]
   constructor
-  · simp [FPIndexBridge.parts,repairedKernel,ComputeKernel.surfaceBody,Source.intRange?,
+  · simp [FPIndexBridge.parts,FPRow.parts,repairedKernel,ComputeKernel.surfaceBody,Source.intRange?,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind]
   · intro t ht
-    obtain ⟨first,pre,ready,_⟩ := FPRow.prelude ops .fp32 .fp32 input output T BT s
+    obtain ⟨first,pre,ready,_⟩ := FPRow.prelude ops input output T BT s
     rw [FPIndexBridge.before] at ht
     have eq := Option.some.inj (pre.symm.trans ht)
     subst t

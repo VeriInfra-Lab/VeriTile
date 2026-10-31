@@ -125,10 +125,9 @@ def source (fp8 : Bool) (p : Arguments) : ComputeKernel :=
       tl.store(out_ptrs, accumulator.to(tl.float8e5), mask=out_mask)
     }
 
-/-- Historical alias retained for unchanged proof clients. The complete source
-above is connected to it by SourcePair.readable_preserves. -/
+/-- All execution interfaces use the shared repaired source above. -/
 def kernel (fp8 : Bool) (p : Arguments) :=
-  VeriTile.Bench.Repairs.RmsMatmulRbe.TypedSource.kernel fp8 fp8 p
+  source fp8 p
 
 /-- Reuse the original-family output-row address candidate on the complete
 repaired source. Only the final pid_m*BM becomes BM*pid_m. -/
@@ -250,5 +249,4 @@ def indexCommutedKernel (fp8 : Bool) (p : Arguments) : ComputeKernel :=
       tl.store(out_ptrs, accumulator.to(tl.float8e5), mask=out_mask)
     }
 
-abbrev rawRotary := VeriTile.Bench.Repairs.RbeTritonTransform.kernel
 end VeriTile.Bench.Repairs.RmsRbeMatmul.TypedSource

@@ -123,7 +123,7 @@ theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α) 
     ∃ t,run (engine o.algebra) (parts p r scale).before s=some t ∧
       Matches p r o.algebra (inputs r s) (initial p o.algebra) t ∧ t.mem=s.mem := by
   simp (config := {maxSteps := 500000}) [FPSymbolic.parts,Program.parts,Program.mathematical,Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,engine,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,
@@ -140,7 +140,7 @@ theorem body (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
       t.mem=initialState.mem := by
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13⟩
   simp (config := {maxSteps := 1400000}) [FPSymbolic.parts,Program.parts,Program.mathematical,Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,engine,FPBackend.Ops.algebra,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,

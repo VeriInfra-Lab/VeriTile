@@ -6,19 +6,21 @@ noncomputable section
 
 /-- Execution is constructed independently of all four numerical ports. -/
 theorem grid_executes {α : Type} [Inhabited α] (M : Algebra α) (D : FPValue.DotAcc α)
-    (r : Request) (ids : List Nat) (s : State α) :
+    (r : Request) (ids : List Nat) (s : State α) (legal : ∀ pid∈ids,pid<programs r) :
     ∃ final, runPrograms M D r ids s=some final := by
   induction ids generalizing s with
   | nil => exact ⟨s,rfl⟩
   | cons pid ids ih =>
     obtain ⟨next,he,_⟩ := Source.execution_memory M D r.parameters r.storage (instanceState r pid s)
-    obtain ⟨final,hf⟩ := ih next
+      (SourceLaunch.request_m r) (SourceLaunch.request_n r)
+      (SourceLaunch.request_first r pid s (legal pid (by simp))) (SourceLaunch.request_count r)
+    obtain ⟨final,hf⟩ := ih next (fun q hq=>legal q (by simp [hq]))
     exact ⟨final,by simpa only [runPrograms,kernel,he,Option.bind_some] using hf⟩
 
 theorem host_executes {α : Type} [Inhabited α] (M : Algebra α) (D : FPValue.DotAcc α)
     (r : Request) (s : State α) (hd : r.inner=r.innerB) (ht : r.storage=r.storageB) :
     ∃ final, host M D r s=.ok (r.C,final) := by
-  obtain ⟨final,he⟩ := grid_executes M D r (List.range (programs r)) s
+  obtain ⟨final,he⟩ := grid_executes M D r (List.range (programs r)) s (fun _ h=>List.mem_range.mp h)
   exact ⟨final,by simp [host,hd,ht,he]⟩
 
 theorem resolved_host {α : Type} [Inhabited α]

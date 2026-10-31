@@ -19,12 +19,12 @@ theorem append (A : FlatAlloc) (a b : List Stmt) :
 
 theorem coordinates (A : FlatAlloc) (p : Parameters) (BM BN : Nat) :
     A.flattenStmts (Coordinates.code p BM BN) = Coordinates.code p BM BN := by
-  simp only [Coordinates.code,Coordinates.ceilExpr,FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,FlatAlloc.flattenOp,FlatCongruence.vec0,FlatCongruence.vec1,FlatCongruence.dot2,FlatCongruence.sum1,FlatCongruence.max1]
+  simp only [Coordinates.code,Coordinates.ceilExpr,FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,FlatAlloc.flattenOp,wide,maskExpr,Setup.upperBoundExpr,FlatCongruence.vec0,FlatCongruence.vec1,FlatCongruence.dot2,FlatCongruence.sum1,FlatCongruence.max1]
 
 theorem initialization (A : FlatAlloc) (BM BD D : Nat) :
     A.flattenStmts (Initialization.code BM BD D) = Initialization.code BM BD D := by
   simp [Initialization.code,RealInit.code,queryMask,FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,
-    FlatAlloc.flattenOp,FlatCongruence.vec0,FlatCongruence.vec1,FlatCongruence.dot2,FlatCongruence.sum1,FlatCongruence.max1,FlatAlloc.flattenAccess,FlatAlloc.flattenMask]
+    FlatAlloc.flattenOp,wide,maskExpr,Setup.upperBoundExpr,FlatCongruence.vec0,FlatCongruence.vec1,FlatCongruence.dot2,FlatCongruence.sum1,FlatCongruence.max1,FlatAlloc.flattenAccess,FlatAlloc.flattenMask]
   all_goals repeat' apply And.intro
   all_goals erw [FlatAlloc.flattenOp]; simp only [FlatAlloc.flattenOp]
 
@@ -35,14 +35,14 @@ theorem loops (A : FlatAlloc) (BM BN BD D : Nat) (diagonal : Bool) :
     loop,sourceIteration,flatIteration,loadPrefix,keyMask,valueMask,tail,guard,
     RealBody.score,RealBody.scoreExpr,RealBody.center,RealBody.centerExpr,RealBody.probability,
     suffix,RealBody.rescale,valueLoad,RealBody.accumulate,advance,RealExpressions.maskExpr,
-    FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,FlatAlloc.flattenOp,FlatCongruence.vec0,FlatCongruence.vec1,FlatCongruence.dot2,FlatCongruence.sum1,FlatCongruence.max1,FlatAlloc.flattenAccess,FlatAlloc.flattenMask]
+    FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,FlatAlloc.flattenOp,wide,maskExpr,Setup.upperBoundExpr,FlatCongruence.vec0,FlatCongruence.vec1,FlatCongruence.dot2,FlatCongruence.sum1,FlatCongruence.max1,FlatAlloc.flattenAccess,FlatAlloc.flattenMask]
   all_goals repeat' apply And.intro
   all_goals erw [FlatAlloc.flattenOp]; simp only [FlatAlloc.flattenOp]
 
 theorem epilogue (A : FlatAlloc) (BM BD D : Nat) (reciprocal : Bool) :
     A.flattenStmts (Verified.epilogue BM BD D reciprocal) = Verified.epilogue BM BD D reciprocal := by
   cases reciprocal <;> simp [Verified.epilogue,RealSource.normalization,queryMask,
-    FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,FlatAlloc.flattenOp,FlatCongruence.vec0,FlatCongruence.vec1,FlatCongruence.dot2,FlatCongruence.sum1,FlatCongruence.max1,FlatAlloc.flattenAccess,FlatAlloc.flattenMask]
+    FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,FlatAlloc.flattenOp,wide,maskExpr,Setup.upperBoundExpr,FlatCongruence.vec0,FlatCongruence.vec1,FlatCongruence.dot2,FlatCongruence.sum1,FlatCongruence.max1,FlatAlloc.flattenAccess,FlatAlloc.flattenMask]
   all_goals repeat' apply And.intro
   all_goals erw [FlatAlloc.flattenOp]; simp only [FlatAlloc.flattenOp]
 

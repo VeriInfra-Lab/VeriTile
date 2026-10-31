@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gla_simple.Sources.Mathematical_RealFlat
+import bench.tritonbench_g.chunk_gla_simple.Proofs.RealFlat
 
 /-! Two K blocks, checked time/key/value tails, nonzero program IDs, complete
 flat execution and preservation of a neighboring non-real memory tag. -/
@@ -54,11 +54,11 @@ private theorem formula : expected p (launch initial) (inputs regions initial) 2
   norm_num [query,key,history,value,gate,active,row,column,keyAddress,historyAddress,outputAddress,gateAddress,
     Finset.sum_range_succ,Finset.sum_range_zero,Fin.sum_univ_two]
 
-theorem both_complete_flat (swapped : Bool) : ∃ sf,
-    exec (alloc.flattenKernel (program p regions .fp16 .bf16 .bf16 .fp16 2 swapped).eraseDType.toAlgKernel)
+theorem repair_complete_flat : ∃ sf,
+    exec (alloc.flattenKernel (VeriTile.Bench.Repairs.ChunkGlaSimple.Program.typed p regions 2).eraseDType.toAlgKernel)
       (alloc.flattenState initial) = some sf ∧
     sf.readMem "flat" 517 = 12 ∧ sf.mem "flat" 516 = MemCell.of .nat 99 := by
-  obtain ⟨sf,he,ho,hf⟩ := Flat.source_executes p regions .fp16 .bf16 .bf16 .fp16 2 swapped
+  obtain ⟨sf,he,ho,hf⟩ := VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.RealFlat.source_executes p regions 2
     alloc disjoint covered initial rfl injective bounds
   refine ⟨sf,he,(ho (⟨0,by decide⟩,⟨0,by decide⟩,PUnit.unit) (by decide)).trans formula,?_⟩
   rw [← hf "flat" 516]

@@ -16,31 +16,6 @@ open VeriTile.Triton FP.Structural SignedView SignedGrid HostPlan WordTile
 noncomputable section
 local instance : Inhabited (FP.Value .fp32) := ⟨FP.Value.zero .fp32⟩
 
-/-- Outputs for every raw input word, including NaNs, signed zero, subnormals
-and infinities, refer to entry memory. No finite-value premise is required. -/
-theorem rank_one_words (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config)
-    (zeroLaw : ZeroLiteralLaw rest) (input output : Buffer)
-    {n inputCapacity outputCapacity : Nat} (hn : 0 < n) (sx sy : Int)
-    (hshapeIn : input.shape = [n]) (hshapeOut : output.shape = [n])
-    (hstrideIn : input.strides = [sx]) (hstrideOut : output.strides = [sy])
-    (hin : (input.view sx).Valid n inputCapacity)
-    (hout : (output.view sy).Valid n outputCapacity) (hstride : sy ≠ 0)
-    (hsep : FootprintsDisjoint (input.view sx) (output.view sy) n)
-    (s : State (FP.Value .fp32)) :
-    ∃ final, StructuralHost.execute (backend rest cfg) input output Bool.true s =
-        .returned output final ∧
-      (∀ i, i < n → final.mem output.region ((output.view sy).address i) =
-        Cell.mk .fp32 (wordRelu ((s.mem input.region ((input.view sx).address i)).read .fp32))) ∧
-      (∀ i, i < n → final.mem input.region ((input.view sx).address i) =
-        s.mem input.region ((input.view sx).address i)) ∧
-      (∀ r a, (r ≠ output.region ∨ ∀ i, i < n → a ≠ (output.view sy).address i) →
-        final.mem r a = s.mem r a) ∧
-      (∀ i, i < n → (input.view sx).address i < inputCapacity ∧
-        (output.view sy).address i < outputCapacity) := by
-  simpa only [scalarResult_word rest cfg zeroLaw] using
-    StructuralHost.rank_one_success (backend rest cfg) orderedLt (backend_compare rest cfg)
-      input output hn sx sy hshapeIn hshapeOut hstrideIn hstrideOut hin hout hstride hsep s
-
 /-- Both source branches use these same prepared arguments. Signed-i32 index
 and mask equality covers inactive lanes too; byte equality is required only
 where the source actually loads or stores. -/

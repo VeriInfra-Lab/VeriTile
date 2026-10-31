@@ -38,7 +38,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : 
   refine ⟨?_, ?_⟩
   swap
   simp [source, VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource.kernel,
-    VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource.kernel_fp32_fp32,
+    VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource.kernel_fp32_fp32,VeriTile.Bench.Repairs.KldivCompute.SelectedSource.original,VeriTile.Bench.Repairs.KldivCompute.SelectedSource.commuted,
     FP.Structural.exec, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, Algebra.withDefaultPrecision,
     resolvePrecision, ComputeDType.eraseDType, State.setReg, numeric, numericLt, natLt, bop, store, Region.cast]

@@ -1,5 +1,6 @@
 import bench.tritonbench_g.kldiv_compute.Proofs.Host
-import bench.tritonbench_g.kldiv_compute.Proofs.Mathematical_Contracts
+import bench.tritonbench_g.kldiv_compute.Proofs.Mathematical_Source
+import VeriTile.Triton.Semantics.ProgramRewrite
 
 namespace VeriTile.Bench.Repairs.KldivCompute.Math
 open VeriTile.Triton FP.Structural Host
@@ -25,18 +26,6 @@ def algebra : Algebra ℝ where
   reduceSum := fun _ {_} _ _ _ _ => 0
 
 theorem scalar_formula (x y : ℝ) : Program.scalar algebra x y=formula x y := rfl
-
-/-- Reuse the original independent Real interpreter and flat-memory bridge;
-this includes actual successful execution, active output values, and all-cell
-frame for every valid disjoint flat placement, arbitrary N/B and input values. -/
-theorem original_flat_real (X Y O : RegionName) (N B : Nat) :
-    VeriTile.Spec.Real
-      (VeriTile.Triton.MaskedKernelIO₂.Implements
-        (VeriTile.Bench.TritonBenchG.KldivCompute.typedIO
-          .fp32 .fp32 .fp32 Bool.false X Y O N B)
-        (fun xs ys i => formula (xs i) (ys i))) := by
-  exact VeriTile.Bench.TritonBenchG.KldivCompute.typed_real_correct_bridge
-    .fp32 .fp32 .fp32 Bool.false X Y O N B
 
 abbrev RealWorld := World ℝ Unit
 
@@ -145,7 +134,6 @@ theorem same_call {α σ : Type} [Inhabited α] (neg : α → α) (M : Algebra �
 
 #specNonCircular formula avoiding [Program.scalar,Program.grid,Host.run]
 #specNonCircular Shadow avoiding [Program.scalar,Program.grid,Host.run,formula]
-#axiomsClean original_flat_real
 #axiomsClean same_call
 #guard_msgs (drop info) in
 #auditModuleAxioms

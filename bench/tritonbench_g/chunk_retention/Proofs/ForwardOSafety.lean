@@ -39,10 +39,10 @@ private theorem body_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,integralFloorDiv,integralMod,numericEq,natLe,numericLe,numericLt,natLt,bop,
+      numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,natLe,numericLe,numericLt,natLt,bop,
       ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,
-      Broadcast.leftIndex,Broadcast.rightIndex,ctx.memory,ctx.iv,ctx.it,ctx.bh,ctx.di,ctx.ds,ha.1,ha.2]
+      Broadcast.leftIndex,Broadcast.rightIndex,ctx.memory,ctx.iv,ctx.it,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.di,ctx.ds,ha.1,ha.2]
   refine ⟨?_,?_,?_⟩
   · intro t e ht he
     exact hq _ _ ht he
@@ -65,10 +65,10 @@ private theorem finish_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,integralFloorDiv,integralMod,numericEq,natLe,numericLe,numericLt,natLt,bop,
+      numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,natLe,numericLe,numericLt,natLt,bop,
       ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,
-      Broadcast.leftIndex,Broadcast.rightIndex,ctx.memory,ctx.iv,ctx.it,ctx.bh,ctx.di,ctx.ds,ha.1,ha.2,FP.Structural.store]
+      Broadcast.leftIndex,Broadcast.rightIndex,ctx.memory,ctx.iv,ctx.it,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.di,ctx.ds,ha.1,ha.2,FP.Structural.store]
   constructor
   · intro t j ht hj
     exact hv (t,j,PUnit.unit) ⟨ht,hj⟩

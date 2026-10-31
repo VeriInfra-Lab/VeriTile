@@ -61,12 +61,13 @@ theorem all_bounds (c : Shape) (z : Fin c.Z) (h : Fin c.H) (block : Fin c.progra
 
 /-- Every active load and store of every actual dense-grid program lies in
 the finite host allocation. Inactive M lanes need no allocated cells. -/
-theorem source_safe (c : Shape) (s : BlockState) (z : Fin c.Z) (h : Fin c.H)
+theorem source_safe (c : Shape) (keyRange : c.programs*c.B<2147483648) (s : BlockState) (z : Fin c.Z) (h : Fin c.H)
     (block : Fin c.programs) (offset size : Int) (scale : ℝ) (window complement : Bool) :
     (DenseSource.kernel c offset size scale window complement).eraseDType.toAlgKernel.TraceSafe
       (bounds c) (programState c s block.val z.val h.val) := by
   apply RealSource.safe (bounds c) (programState c s block.val z.val h.val) c.B c.D
     (parameters c offset size scale window complement) Bool.false (supported_positive c.B c.block)
+    (by simpa [programState] using lt_of_le_of_lt (Nat.mul_le_mul_right c.B (Nat.le_of_lt block.isLt)) keyRange)
   rw [config_eq]
   change RealSafety.Bounds _ _ c.N "out"
     (RealSource.outputBase (parameters c offset size scale window complement) (z.val*c.H+h.val))

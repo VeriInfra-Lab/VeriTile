@@ -20,9 +20,9 @@ structure Layout where
   so : Nat
 
 def Layout.source (c : Layout) (B : Nat) : ComputeKernel :=
-  typedKernel .fp32 .fp32 .fp32 Bool.false c.X c.Y c.OUT c.sx c.sy c.so c.cols B
+  VeriTile.Bench.Repairs.SwigluFwd.kernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B
 
-/-- FP32 is represented by the existing typed source's real carrier plus the
+/-- FP32 is represented by the repaired source's real carrier plus the
 explicit some fp32 computation tag. Neither load cast is eliminated. -/
 def scalar (M : Algebra α) (x y : α) : α :=
   let x := M.cast (some .fp32) .real .real x
@@ -47,7 +47,7 @@ def sourceRun {α : Type} [Inhabited α] (M : Algebra α) (c : Layout)
     { t : State α // run M (c.source B).surfaceBody (tileState M c B r b s) = some t } := by
   refine ⟨?_, ?_⟩
   swap
-  simp (maxSteps := 500000) [Layout.source, typedKernel, typed_fp32_fp32,
+  simp (maxSteps := 500000) [Layout.source, VeriTile.Bench.Repairs.SwigluFwd.kernel,
     ComputeKernel.surfaceBody, run, step, FP.Structural.evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas, store,
     Option.bind, ComputeDType.eraseDType, numeric, bop, natLt,

@@ -10,72 +10,41 @@ set_option maxRecDepth 16000
 set_option maxHeartbeats 1000000
 set_option linter.unusedSimpArgs false
 
-def prelude (Q K M : RegionName) (sm_scale : ℝ)
+/-- Prelude projected from the sole repaired source. The irrelevant output,
+window and query-tail arguments do not occur before its query loop. -/
+def rawBefore (Q K M : RegionName) (sm_scale : ℝ)
     (H H_KV N_CTX ROUND_CTX NKV_CTX BN BD
       stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk : Nat) (evenN : Bool) :
     List Stmt :=
-  [Stmt.assign TileDType.nat [] "start_n" (Op.programId 0),
-    Stmt.assign TileDType.nat [] "off_hz" (Op.programId 1),
-    Stmt.assign TileDType.nat [] "off_z"
-      (Op.floorDiv IntegralDType.nat Broadcast.nil (Op.ref TileDType.nat [] "off_hz") (Op.constNat H)),
-    Stmt.assign TileDType.nat [] "off_h"
-      (Op.mod IntegralDType.nat Broadcast.nil (Op.ref TileDType.nat [] "off_hz") (Op.constNat H)),
-    Stmt.assign TileDType.nat [] "off_hkv"
-      (Op.floorDiv IntegralDType.nat Broadcast.nil (Op.ref TileDType.nat [] "off_h")
-        (Op.floorDiv IntegralDType.nat Broadcast.nil (Op.constNat H) (Op.constNat H_KV))),
-    Stmt.assign TileDType.nat [] "q_offset"
-      (Op.add NumericDType.nat Broadcast.nil
-        (Op.mul NumericDType.nat Broadcast.nil (Op.ref TileDType.nat [] "off_z") (Op.constNat stride_qz))
-        (Op.mul NumericDType.nat Broadcast.nil (Op.ref TileDType.nat [] "off_h") (Op.constNat stride_qh))),
-    Stmt.assign TileDType.nat [] "k_offset"
-      (Op.add NumericDType.nat Broadcast.nil
-        (Op.mul NumericDType.nat Broadcast.nil (Op.ref TileDType.nat [] "off_z") (Op.constNat stride_kz))
-        (Op.mul NumericDType.nat Broadcast.nil (Op.ref TileDType.nat [] "off_hkv") (Op.constNat stride_kh))),
-    Stmt.assign TileDType.ptr [BN] "m_ptrs"
-      (Op.ptrAdd Broadcast.scalarL (Op.ptrBase M)
-        (Op.add NumericDType.nat Broadcast.scalarL
-          (Op.mul NumericDType.nat Broadcast.nil (Op.ref TileDType.nat [] "off_hz") (Op.constNat ROUND_CTX))
-          (Op.arange BN))),
-    Stmt.assign TileDType.real [BN] "o" (Op.full [BN] (Op.const 0)),
-    Stmt.assign TileDType.blockPtr [BN, BD] "Q_block_ptr"
-      (Op.makeBlockPtrDyn Q (Op.ref TileDType.nat [] "q_offset") [N_CTX, BD] [BN, BD]
-        [stride_qm, stride_qk] [0, 0]),
-    Stmt.assign TileDType.blockPtr [BD, BN] "K_block_ptr"
-      (Op.makeBlockPtrDynOffsets K (Op.ref TileDType.nat [] "k_offset") [BD, NKV_CTX] [BD, BN]
-        [stride_kk, stride_kn]
-        [Op.constNat 0,
-          Op.mul NumericDType.nat Broadcast.nil (Op.ref TileDType.nat [] "start_n") (Op.constNat BN)]),
-    RealBody.loadKey BN BD evenN,
-    Stmt.assign TileDType.nat [] "lo" (Op.constNat 0),
-    Stmt.assign TileDType.nat [] "hi" (Op.constNat N_CTX),
-    Stmt.assign TileDType.real [] "qk_scale" (Op.const sm_scale),
-    Stmt.assign TileDType.real [] "qk_scale"
-      (Op.mul NumericDType.real Broadcast.nil (Op.ref TileDType.real [] "qk_scale")
-        (Op.const 1.4426950408889634))]
+  (TypedSource.original Q K M "unused"
+    stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk 0 0 0
+    0 H H_KV N_CTX ROUND_CTX NKV_CTX BN BD BN 0 0 sm_scale
+    Bool.false Bool.false Bool.false evenN rfl).toAlgKernel.body.take 16
 
-def postlude (Out : RegionName) (BN NKV_CTX stride_oz stride_oh : Nat) : List Stmt :=
-  [Stmt.assign TileDType.nat [] "o_offset"
-      (Op.add NumericDType.nat Broadcast.nil
-        (Op.mul NumericDType.nat Broadcast.nil (Op.ref TileDType.nat [] "off_z") (Op.constNat stride_oz))
-        (Op.mul NumericDType.nat Broadcast.nil (Op.ref TileDType.nat [] "off_h") (Op.constNat stride_oh))),
-    Stmt.assign TileDType.nat [BN] "o_range"
-      (Op.add NumericDType.nat Broadcast.scalarR (Op.arange BN)
-        (Op.mul NumericDType.nat Broadcast.nil (Op.ref TileDType.nat [] "start_n") (Op.constNat BN))),
-    Stmt.assign TileDType.ptr [BN] "o_ptrs"
-      (Op.ptrAdd Broadcast.scalarL (Op.ptrBase Out)
-        (Op.add NumericDType.nat Broadcast.scalarL (Op.ref TileDType.nat [] "o_offset")
-          (Op.ref TileDType.nat [BN] "o_range"))),
-    Stmt.store TileDType.real [BN] (MemAccess.ptr (Op.ref TileDType.ptr [BN] "o_ptrs"))
-      (Op.ref TileDType.real [BN] "o")
-      (MaskOpt.mask
-        (Op.lt ComparableDType.nat Broadcast.scalarR (Op.ref TileDType.nat [BN] "o_range")
-          (Op.constNat NKV_CTX)))]
+/-- The output fragment is also extracted from the repaired source. -/
+def rawAfter (Out : RegionName) (BN NKV_CTX stride_oz stride_oh : Nat) : List Stmt :=
+  (TypedSource.original "q" "k" "m" Out
+    0 0 0 0 0 0 0 0 stride_oz stride_oh 0 0 0 0 0 0 NKV_CTX BN 0 BN
+    0 0 0 Bool.false Bool.false Bool.false Bool.false rfl).toAlgKernel.body.drop 17
+
+def prelude (Q K M : RegionName) (scale : ℝ)
+    (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat) (evenN : Bool) : List Stmt :=
+  Stmt.eraseDTypeList (rawBefore Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN)
+
+def postlude (Out : RegionName) (B NK soz soh : Nat) : List Stmt :=
+  Stmt.eraseDTypeList (rawAfter Out B NK soz soh)
+
+private theorem erased_append (a b : List Stmt) :
+    Stmt.eraseDTypeList (a++b) = Stmt.eraseDTypeList a ++ Stmt.eraseDTypeList b := by
+  induction a with
+  | nil => simp [Stmt.eraseDTypeList]
+  | cons st rest ih => simp [Stmt.eraseDTypeList,ih]
 
 def program (Q K M Out : RegionName)
     (sqz sqh sqm sqk skz skh skn skk soz soh H HK N RN NK B D : Nat)
     (offset size : Int) (scale : ℝ) (window complement evenM evenN candidate : Bool) : List Stmt :=
   prelude Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN ++
-    [.forRangeDyn "start_m" (.ref .nat [] "lo") (.ref .nat [] "hi") (.constNat B)
+    [.forRangeInt "start_m" (.castNatToInt (.ref .nat [] "lo")) (.ref .int [] "hi") (.constNat B)
       (RealBody.body B D N offset size window complement evenM evenN candidate)] ++
     postlude Out B NK soz soh
 
@@ -92,20 +61,30 @@ theorem original_source :
       program Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh H HK N RN NK BN BD
         offset size scale window complement evenM evenN Bool.false := by
   subst BM
-  simp only [TypedSource.original, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Kernel.eraseDType,
-    Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,
-    MaskOpt.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind,
-    List.map_cons, List.map_nil]
-  simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, List.map_cons, List.map_nil]
-  simp only [program, prelude, postlude, RealBody.body, RealBody.loadPrefix,
-    RealBody.suffix, RealBody.loadQuery, RealBody.loadKey, RealArithmetic.body,
-    Bool.false_eq_true, ↓reduceIte]
+  let actual := TypedSource.original Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BN BD BN offset size scale window complement evenM evenN rfl
+  have split : actual.toAlgKernel.body =
+      rawBefore Q K M scale H HK N RN NK BN BD sqz sqh sqm sqk skz skh skn skk evenN ++
+      [.forRangeInt "start_m" (.castNatToInt (.ref .nat [] "lo")) (.ref .int [] "hi") (.constNat BN)
+        ((RealArithmetic.loopBody? actual.toAlgKernel.body).getD [])] ++
+      rawAfter Out BN NK soz soh := by
+    simp only [actual,rawBefore,rawAfter,TypedSource.original,TypedSource.original,
+      ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
+      ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
+      List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,
+      RealArithmetic.loopBody?,Option.getD]
+    rfl
+  have loop := RealBody.original_loop Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BN BD BN offset size scale window complement evenM evenN rfl
+  rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_,rfl⟩),
+    RealArithmetic.loopBody_erased] at loop
+  obtain ⟨raw,found,erased⟩ := Option.map_eq_some_iff.mp loop
+  have gate : Stmt.eraseDTypeList ((RealArithmetic.loopBody? actual.toAlgKernel.body).getD []) =
+      RealBody.body BN BD N offset size window complement evenM evenN Bool.false := by
+    simpa only [actual,found,Option.getD_some] using erased
+  rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_,rfl⟩)]
+  change Stmt.eraseDTypeList actual.toAlgKernel.body = _
+  rw [split,erased_append,erased_append]
+  simp only [Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,Op.eraseDType.eq_def]
+  rw [gate]
   rfl
 
 theorem candidate_source :
@@ -115,20 +94,30 @@ theorem candidate_source :
       program Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh H HK N RN NK BN BD
         offset size scale window complement evenM evenN Bool.true := by
   subst BM
-  simp only [TypedSource.scalarLeft, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Kernel.eraseDType,
-    Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,
-    MaskOpt.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind,
-    List.map_cons, List.map_nil]
-  simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, List.map_cons, List.map_nil]
-  simp only [program, prelude, postlude, RealBody.body, RealBody.loadPrefix,
-    RealBody.suffix, RealBody.loadQuery, RealBody.loadKey, RealArithmetic.body,
-    ↓reduceIte]
+  let actual := TypedSource.scalarLeft Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BN BD BN offset size scale window complement evenM evenN rfl
+  have split : actual.toAlgKernel.body =
+      rawBefore Q K M scale H HK N RN NK BN BD sqz sqh sqm sqk skz skh skn skk evenN ++
+      [.forRangeInt "start_m" (.castNatToInt (.ref .nat [] "lo")) (.ref .int [] "hi") (.constNat BN)
+        ((RealArithmetic.loopBody? actual.toAlgKernel.body).getD [])] ++
+      rawAfter Out BN NK soz soh := by
+    simp only [actual,rawBefore,rawAfter,TypedSource.scalarLeft,TypedSource.original,
+      ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
+      ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
+      List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,
+      RealArithmetic.loopBody?,Option.getD]
+    rfl
+  have loop := RealBody.candidate_loop Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BN BD BN offset size scale window complement evenM evenN rfl
+  rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_,rfl⟩),
+    RealArithmetic.loopBody_erased] at loop
+  obtain ⟨raw,found,erased⟩ := Option.map_eq_some_iff.mp loop
+  have gate : Stmt.eraseDTypeList ((RealArithmetic.loopBody? actual.toAlgKernel.body).getD []) =
+      RealBody.body BN BD N offset size window complement evenM evenN Bool.true := by
+    simpa only [actual,found,Option.getD_some] using erased
+  rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_,rfl⟩)]
+  change Stmt.eraseDTypeList actual.toAlgKernel.body = _
+  rw [split,erased_append,erased_append]
+  simp only [Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,Op.eraseDType.eq_def]
+  rw [gate]
   rfl
 
 end
@@ -143,7 +132,9 @@ theorem prelude_code (Q K M : RegionName) (scale : ℝ)
     (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat) (evenN : Bool) :
     RealFrame.Code writes (prelude Q K M scale H HK N RN NK B D
       sqz sqh sqm sqk skz skh skn skk evenN) := by
-  unfold prelude RealBody.loadKey
+  simp only [prelude,rawBefore,TypedSource.original,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Except.bind,bind,List.take_succ_cons,List.take_zero,Stmt.eraseDTypeList,Stmt.eraseDType.eq_def]
   repeat' first
     | apply RealFrame.Code.assign
     | apply RealFrame.Code.ifThenElse

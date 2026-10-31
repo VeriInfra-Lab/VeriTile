@@ -14,7 +14,6 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Layout) (s : Stat
   refine ⟨?_, ?_⟩
   swap
   simp [kernel,
-    VeriTile.Bench.TritonBenchG.DestindexCopyKv2.TypedSource.kernel,
     ComputeKernel.surfaceBody, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, evalOffsets, evalDeltas, Option.bind, natLt,
     ComputeDType.eraseDType, numeric, bop, ofFloat, toFloat, Region.cast,
@@ -34,7 +33,6 @@ theorem exec_eq {α : Type} [Inhabited α] (M : Algebra α) (p : Layout) (s : St
     funext i
     exact Nat.mul_comm _ _
   simp [kernel, indexCommutedKernel,
-    VeriTile.Bench.TritonBenchG.DestindexCopyKv2.TypedSource.kernel,
     ComputeKernel.surfaceBody, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, evalOffsets, evalDeltas, Option.bind, natLt,
     ComputeDType.eraseDType, numeric, bop, ofFloat, toFloat, Region.cast,

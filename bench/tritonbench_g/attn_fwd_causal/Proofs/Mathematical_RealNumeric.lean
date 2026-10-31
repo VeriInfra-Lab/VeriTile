@@ -42,27 +42,6 @@ theorem score_executes (s : BlockState) (BM BN BD : Nat)
   refine ⟨_, stepStmt_assign_eq_some (eval_score s BM BN BD q k qs ks hq hk hqs hks), by simp, ?_⟩
   exact Frame.setReg _ s "qk" _ _ _ (by simp)
 
-theorem diagonal_executes (s : BlockState) (BM BN startM startN : Nat)
-    (label : RegName) (hl : label ≠ "qk") (score : Fin BM → Fin BN → ℝ)
-    (hqk : s.regs .real [BM,BN] "qk" = some (finite (fun i : TileIndex [BM,BN] => score i.1 i.2.1)))
-    (hm : s.regs .nat [BM] "offs_m" = some ⟨fun i => startM*BM+i.1.val⟩)
-    (hn : s.regs .nat [BN] "offs_n" = some ⟨fun i => i.1.val⟩)
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar startN)) :
-    ∃ t, stepStmts (RealBody.diagonal BM BN label) s = some t ∧
-      t.regs .real [BM,BN] "qk" = some (finite (fun i : TileIndex [BM,BN] =>
-        score i.1 i.2.1 + RealFormula.penalty Bool.true (startM*BM+i.1.val) (startN+i.2.1.val))) ∧
-      Frame [label,"qk"] s t := by
-  let mask := RealExpressions.maskTile BM BN startM startN
-  let sm := s.setReg label .bool [BM,BN] mask
-  have hmask := RealExpressions.eval_mask s BM BN startM startN hm hn hs
-  have hp := RealExpressions.eval_penalty sm BM BN startM startN label score
-    (by simpa [sm, Ne.symm hl] using hqk) (by simp [sm, mask])
-  simp only [RealBody.diagonal]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some hmask),
-    stepStmts.cons_some (stepStmt_assign_eq_some hp), stepStmts.nil]
-  refine ⟨_, rfl, by simp [RealExpressions.scoreTile, finite], ?_⟩
-  exact (Frame.setReg _ s label _ _ _ (by simp)).trans (Frame.setReg _ sm "qk" _ _ _ (by simp))
-
 theorem probabilities_execute (s : BlockState) (BM BN : Nat) (hN : 0 < BN)
     (score : Fin BM → Fin BN → ℝ) (old : Fin BM → WithBot ℝ)
     (hm : s.regs .real [BM] "m_i" = some (⟨fun i => old i.1⟩ : Tile .real [BM]))

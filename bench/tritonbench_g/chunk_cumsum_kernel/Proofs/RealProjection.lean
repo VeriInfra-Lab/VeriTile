@@ -1,4 +1,6 @@
-import bench.tritonbench_g.chunk_cumsum_kernel.Proofs.RealRow
+import VeriTile.Meta.StatementAudit
+import bench.tritonbench_g.chunk_cumsum_kernel.Kernels
+import bench.tritonbench_g.chunk_cumsum_kernel.Proofs.ChunkMath
 
 namespace VeriTile.Bench.Repairs.ChunkCumsumKernel.RealIndexBridge
 open VeriTile.Triton
@@ -11,8 +13,6 @@ set_option linter.unusedSimpArgs false
 def actual (input output : RegionName) (T BT : Nat) : Kernel :=
   (repairedKernel .fp32 .fp32 input output T BT).eraseDType.toAlgKernel
 
-def reference (input output : RegionName) (T BT : Nat) : Kernel :=
-  (kernel .fp32 .fp32 input output T BT).eraseDType.toAlgKernel
 
 def mask (T BT : Nat) : MaskOpt .real [BT] :=
   .mask (.lt .int .scalarR (.ref .int [BT] "times") (.castNatToInt (.constNat T)))
@@ -23,8 +23,8 @@ def pointer (region : RegionName) (T BT : Nat) : Op .ptr [BT] :=
       (.castNatToInt (.mul .nat .nil (.ref .nat [] "i_bh") (.constNat T)))
       (.ref .int [BT] "times")))
 
-/-- Projection helper; the numerical statements are reused verbatim from the
-legacy source. The theorem below checks it against the actual typed AST. -/
+/-- Projection helper; the numerical statements reuse the checked per-chunk
+mathematical fragment. The theorem below checks the complete typed AST. -/
 def actualBody (input output : RegionName) (T BT : Nat) : List Stmt :=
   [ .assign .int [BT] "times" (.add .int .scalarL
       (.mul .int .nil (.ref .int [] "i_t") (.constInt BT)) (.castNatToInt (.arange BT))),
@@ -53,18 +53,7 @@ theorem actual_body (input output : RegionName) (T BT : Nat) :
     VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComparableDType.eraseDType]
   rfl
 
-theorem reference_body (input output : RegionName) (T BT : Nat) :
-    (reference input output T BT).body=prelude ++
-      [.forRangeDyn "i_t" (.constNat 0) (ccStopOp T BT) (.constNat 1) (ccLoopBody input output T BT)] := by
-  rw [show (reference input output T BT).body=(chunk_cumsum_scalar_surface input output T BT).toAlgKernel.body
-    from RealSource.original_body .fp32 .fp32 input output T BT]
-  simp only [chunk_cumsum_scalar_surface,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
-    ComputeDType.eraseDType,Except.bind,bind,prelude,ccLoopBody,ccStopOp]
-  rfl
-
 #axiomsClean actual_body
-#axiomsClean reference_body
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

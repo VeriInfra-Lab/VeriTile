@@ -31,6 +31,16 @@ its offsets, layout and evaluation failure. This supplies no floating law. -/
   rw [h t ht]
 
 /-- Lift expression equality through an unchanged assignment and source suffix. -/
+@[spec_rule] theorem blockPtr_dynamicMetadata_base {α : Type} [Inhabited α]
+    (M : Algebra α) (s : State α) (before : List ComputeStmt)
+    (region : RegionName) (a b : Op .nat []) (parent block : TileShape)
+    (strides offsets : List (Op .nat [])) (h : OpEquivalent M s before a b) :
+    OpEquivalent M s before (.makeBlockPtrDynMetadata region a parent block strides offsets)
+      (.makeBlockPtrDynMetadata region b parent block strides offsets) := by
+  intro t ran
+  simp only [Structural.evalOp]
+  rw [h t ran]
+
 @[spec_rule] theorem contextual_assign_op {α : Type} [Inhabited α] (M : Algebra α)
     (s : State α) (before after : List ComputeStmt) (out : RegName)
     (a b : Op dtype shape) (h : OpEquivalent M s before a b) :

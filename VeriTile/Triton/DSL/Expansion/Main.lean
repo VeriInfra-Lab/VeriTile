@@ -293,6 +293,9 @@ private def machineIntegerCast? (dst : TSyntax `tritonDType) (src : EOut) :
     | .int32 => return some src
     | .int8 => return some { src with dtype := .int32 }
     | _ => return none
+  if let `(tritonDType| tl.int64) := dst then
+    if src.dtype == .bool then
+      return some ⟨← `(Op.boolToInt $src.term),.int,src.shape,none,none⟩
   let some width := unsignedCastWidth? dst | return none
   let bits : TSyntax `term := ⟨Syntax.mkNumLit (toString width)⟩
   let term ← match src.dtype with
@@ -305,6 +308,26 @@ private def signedMachineCast (dt : TSyntax `tritonDType) : Bool :=
   match dt with
   | `(tritonDType| tl.int8) | `(tritonDType| tl.int16) | `(tritonDType| tl.int32) => Bool.true
   | _ => Bool.false
+
+/-- A source literal may arrive through a typed antiquotation. Ignore only
+parentheses and its type annotation; never evaluate a runtime expression. -/
+private partial def rangeStepNumeral? (raw : Syntax) : Option Nat :=
+  let term : TSyntax `term := ⟨raw⟩
+  match term with
+  | `($n:num) => some n.getNat
+  | `(($value:term)) => rangeStepNumeral? value.raw
+  | `(($value:term : $_type:term)) => rangeStepNumeral? value.raw
+  | _ => none
+
+/-- Control-flow classification must also see a direct cast of a constexpr
+bound; no assigned register is available for the ordinary signed-name scan. -/
+private partial def signedRangeBound (pins : List String) (value : TSyntax `tritonExpr) : Bool :=
+  match value with
+  | `(tritonExpr| ($inner:tritonExpr)) => signedRangeBound pins inner
+  | `(tritonExpr| tl.cast($_:tritonExpr, $dtype:tritonDType)) =>
+      (signedCastWidth? dtype).isSome
+  | _ => Inference.isSignedExpr pins value ||
+      (methodCast? value).any (fun cast => (signedCastWidth? cast.2).isSome)
 
 /-- Facts about immutable, external constexpr parameters on the current path.
 The optional string identifies a string-equality atom; `none` is a Bool atom.
@@ -721,6 +744,8 @@ partial def expandWhereFromCond (env : Env) (c' : EOut)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let b' ← literalInIntegerContext a'.dtype b b'
+  let a' ← literalInIntegerContext b'.dtype a a'
   let (a', b') := if a'.dtype == b'.dtype then (a', b')
     else (a'.forgetStorageWidth, b'.forgetStorageWidth)
   -- Triton 3.5.1 casts integer conditions to int1 with `value != 0`.
@@ -784,6 +809,8 @@ partial def expandIteFromCond (env : Env) (c' : EOut)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let b' ← literalInIntegerContext a'.dtype b b'
+  let a' ← literalInIntegerContext b'.dtype a a'
   let (a', b') := if a'.dtype == b'.dtype then (a', b')
     else (a'.forgetStorageWidth, b'.forgetStorageWidth)
   ensureDType .bool c'.dtype "conditional expression condition"
@@ -1754,12 +1781,15 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
             ensureShape SInfo.scalar outShape "tl.make_block_ptr base"
             `(Op.add NumericDType.nat $bc $ptrBase $base'.term)
       let (parentShape, _) ← natListTerm "tl.make_block_ptr shape" parentDims
-      let (strides, _) ← natListTerm "tl.make_block_ptr strides" strideDims
+      let (strides,strideOps,hasDynamicStrides) ←
+        natBlockPtrOffsets env "tl.make_block_ptr strides" strideDims
       let (offsets, offsetOps, hasDynamicOffsets) ←
         natBlockPtrOffsets env "tl.make_block_ptr" offsetDims
       let (blockShape, blockShapeInfo) ← natListTerm "tl.make_block_ptr block_shape" blockDims
       let term ←
-        if hasDynamicOffsets then
+        if hasDynamicStrides then
+          `(Op.makeBlockPtrDynMetadata $region $baseTerm $parentShape $blockShape $strideOps $offsetOps)
+        else if hasDynamicOffsets then
           `(Op.makeBlockPtrDynOffsets $region $baseTerm $parentShape $blockShape $strides $offsetOps)
         else
           `(Op.makeBlockPtrDyn $region $baseTerm $parentShape $blockShape $strides $offsets)
@@ -1781,12 +1811,15 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         | none => Macro.throwError "tl.make_block_ptr: `base=` must start from a region expression"
       ensureShape SInfo.scalar baseShape "tl.make_block_ptr base"
       let (parentShape, _) ← natListTerm "tl.make_block_ptr shape" parentDims
-      let (strides, _) ← natListTerm "tl.make_block_ptr strides" strideDims
+      let (strides,strideOps,hasDynamicStrides) ←
+        natBlockPtrOffsets env "tl.make_block_ptr strides" strideDims
       let (offsets, offsetOps, hasDynamicOffsets) ←
         natBlockPtrOffsets env "tl.make_block_ptr" offsetDims
       let (blockShape, blockShapeInfo) ← natListTerm "tl.make_block_ptr block_shape" blockDims
       let term ←
-        if hasDynamicOffsets then
+        if hasDynamicStrides then
+          `(Op.makeBlockPtrDynMetadata $region $baseTerm $parentShape $blockShape $strideOps $offsetOps)
+        else if hasDynamicOffsets then
           `(Op.makeBlockPtrDynOffsets $region $baseTerm $parentShape $blockShape $strides $offsetOps)
         else
           `(Op.makeBlockPtrDyn $region $baseTerm $parentShape $blockShape $strides $offsets)
@@ -1806,12 +1839,15 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         | none => Macro.throwError "tl.make_block_ptr: `base=` must start from a region expression"
       ensureShape SInfo.scalar baseShape "tl.make_block_ptr base"
       let (parentShape, _) ← natListTerm "tl.make_block_ptr shape" parentDims
-      let (strides, _) ← natListTerm "tl.make_block_ptr strides" strideDims
+      let (strides,strideOps,hasDynamicStrides) ←
+        natBlockPtrOffsets env "tl.make_block_ptr strides" strideDims
       let (offsets, offsetOps, hasDynamicOffsets) ←
         natBlockPtrOffsets env "tl.make_block_ptr" offsetDims
       let (blockShape, blockShapeInfo) ← natListTerm "tl.make_block_ptr block_shape" blockDims
       let term ←
-        if hasDynamicOffsets then
+        if hasDynamicStrides then
+          `(Op.makeBlockPtrDynMetadata $region $baseTerm $parentShape $blockShape $strideOps $offsetOps)
+        else if hasDynamicOffsets then
           `(Op.makeBlockPtrDynOffsets $region $baseTerm $parentShape $blockShape $strides $offsetOps)
         else
           `(Op.makeBlockPtrDyn $region $baseTerm $parentShape $blockShape $strides $offsets)
@@ -2233,6 +2269,9 @@ partial def annotateFloatingLoadStorage (regions : Inference.RegionDTypes)
           if unsignedCast then `(tritonDType| tl.uint64) else return none
       | some (.floatVar "dtype") => `(tritonDType| DTYPE)
       | some (.floatVar "out_dtype") => `(tritonDType| OUT_DTYPE)
+      | some (.floatVar name) => do
+          let name := mkIdent (Name.mkSimple name)
+          `(tritonDType| storage_dtype($name:ident))
       | _ => return none
     let kwName : Ident := mkIdent `dtype
     return some (← `(tritonMemKwarg| $kwName:ident = $dtype:tritonDType))
@@ -2402,6 +2441,9 @@ private partial def annotatePointerElementCasts (regions : Inference.RegionDType
     | some .f8e5 => `(tritonDType| tl.float8e5)
     | some (.floatVar "dtype") => `(tritonDType| DTYPE)
     | some (.floatVar "out_dtype") => `(tritonDType| OUT_DTYPE)
+    | some (.floatVar name) => do
+        let name := mkIdent (Name.mkSimple name)
+        `(tritonDType| storage_dtype($name:ident))
     | some .bool => `(tritonDType| tl.int1)
     | _ =>
         if field == "type" && !legacyPointerCasts then
@@ -2579,18 +2621,37 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     withRef e <| expandNatExpectedExpr env (← annotate e)
   let expandIntExpectedExpr (env : Env) (e : TSyntax `tritonExpr) : MacroM EOut := do
     expandIntExpectedExpr env (← annotate e)
-  let signedNames := intPinned ++ env.filterMap (fun entry =>
+  -- An earlier signed ABI binding must not override a later unsigned cast.
+  -- Consult the most recent register binding before the flow-insensitive pins
+  -- or older shadowed entries select a signed loop counter.
+  let signedNames := (intPinned ++ env.filterMap (fun entry =>
     if entry.2.1 == DInfo.int || entry.2.1 == DInfo.int8 ||
-        entry.2.1 == DInfo.int32 then some entry.1 else none)
+        entry.2.1 == DInfo.int32 then some entry.1 else none)).filter fun name =>
+      match env.find? (fun entry => entry.1 == name) with
+      | some current => current.2.1 != DInfo.nat
+      | none => Bool.true
   let signedBounds (start stop : TSyntax `tritonExpr) : Bool :=
-    Inference.isSignedExpr signedNames start || Inference.isSignedExpr signedNames stop
+    signedRangeBound signedNames start || signedRangeBound signedNames stop
   let expandSignedRange (i : Ident) (start stop stride : TSyntax `tritonExpr)
       (stmts : TSyntaxArray `tritonStmt) :
       MacroM (TSyntax `term × TSyntax `term × Env × Bool) := do
     let nameLit ← identAsStr i
     let start' ← expandIntExpectedExpr env start
     let stop' ← expandIntExpectedExpr env stop
-    let stride' ← expandNatExpectedExpr env stride
+    let stride' ← match stride with
+      | `(tritonExpr| tl.cast($value:tritonExpr, $dtype:tritonDType)) => do
+        let number := match value with
+          | `(tritonExpr| $n:num) => some n.getNat
+          | `(tritonExpr| $($value:term)) => rangeStepNumeral? value.raw
+          | _ => none
+        match signedCastWidth? dtype,number with
+        | some width,some n =>
+          unless 0 < n && n < 2^(width-1) do
+            Macro.throwErrorAt stride "signed range requires a positive representable constant step"
+          let integer ← expandIntExpectedExpr env stride
+          pure ⟨← `(Op.castIntToNat $integer.term),.nat,integer.shape,none,none⟩
+        | _,_ => expandNatExpectedExpr env stride
+      | _ => expandNatExpectedExpr env stride
     ensureShape SInfo.scalar start'.shape "signed range start"
     ensureShape SInfo.scalar stop'.shape "signed range stop"
     ensureShape SInfo.scalar stride'.shape "signed range stride"
@@ -2806,8 +2867,8 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     -- A machine cast establishes the signed result before address-use
     -- inference. Keep its negative values until the final address projection.
     let signedCast := match e with
-      | `(tritonExpr| tl.cast($_:tritonExpr, $dt:tritonDType)) => signedMachineCast dt
-      | _ => (methodCast? e).any (fun pair => signedMachineCast pair.2)
+      | `(tritonExpr| tl.cast($_:tritonExpr, $dt:tritonDType)) => (signedCastWidth? dt).isSome
+      | _ => (methodCast? e).any (fun pair => (signedCastWidth? pair.2).isSome)
     if signedCast then
       let inferred ← expandExpr env e
       if inferred.dtype == .int32 || inferred.dtype == .int then return inferred
@@ -2840,8 +2901,8 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     -- A machine cast establishes the signed result before address-use
     -- inference. Keep its negative values until the final address projection.
     let signedCast := match e with
-      | `(tritonExpr| tl.cast($_:tritonExpr, $dt:tritonDType)) => signedMachineCast dt
-      | _ => (methodCast? e).any (fun pair => signedMachineCast pair.2)
+      | `(tritonExpr| tl.cast($_:tritonExpr, $dt:tritonDType)) => (signedCastWidth? dt).isSome
+      | _ => (methodCast? e).any (fun pair => (signedCastWidth? pair.2).isSome)
     if signedCast then
       let inferred ← expandExpr env e
       if inferred.dtype == .int32 || inferred.dtype == .int then return inferred

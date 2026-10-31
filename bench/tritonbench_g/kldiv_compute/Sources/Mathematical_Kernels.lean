@@ -1,3 +1,4 @@
+import bench.tritonbench_g.kldiv_compute.Sources.Selected
 /-
 Source-audit target: kldivergence_kernel
 Source-audit Lean: kldivSource%
@@ -69,27 +70,7 @@ open VeriTile.Triton VeriTile.Examples
 open VeriTile.Triton.TiledLoss
 open scoped VeriTile.Triton.MaskedKernelIO₂
 
-/-- Faithful 1:1 transcription of `kldiv_compute.py`'s
-`kldivergence_kernel`.
-
-Allowed mechanical Lean-syntax-only changes:
-- Python `BLOCK_SIZE: tl.constexpr` → Lean `Nat` parameter. -/
-def kldivergence_kernel
-    (x_ptr y_ptr output_ptr : RegionName)
-    (n_elements BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
-  mask = offsets < $(n_elements)
-  x = tl.load(x_ptr + offsets, mask=mask)
-  y = tl.load(y_ptr + offsets, mask=mask)
-  output = x * tl.log(x / y)
-  tl.store(output_ptr + offsets, output, mask=mask)
-}
-
 end VeriTile.Bench.TritonBenchG.KldivCompute
-
 
 namespace VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource
 open Lean VeriTile.Triton
@@ -149,8 +130,8 @@ abbrev Source := RegionName → RegionName → RegionName → Nat → Nat → Co
 
 def kernel_fp32_fp32 (output : Storage) (v : Bool) : Source :=
   match output, v with
-  | .fp32, Bool.false => kldivSource%[tl.float32, tl.float32, tl.float32, original]
-  | .fp32, Bool.true => kldivSource%[tl.float32, tl.float32, tl.float32, commuted]
+  | .fp32, Bool.false => VeriTile.Bench.Repairs.KldivCompute.SelectedSource.original
+  | .fp32, Bool.true => VeriTile.Bench.Repairs.KldivCompute.SelectedSource.commuted
   | .fp16, Bool.false => kldivSource%[tl.float32, tl.float32, tl.float16, original]
   | .fp16, Bool.true => kldivSource%[tl.float32, tl.float32, tl.float16, commuted]
   | .bf16, Bool.false => kldivSource%[tl.float32, tl.float32, tl.bfloat16, original]

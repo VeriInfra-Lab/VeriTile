@@ -15,7 +15,7 @@ private theorem prefix_safe (isa : Instructions) (plan : Reduction.ProductPlan 1
       traceSafeList (engine (candidateAlgebra isa plan swap)) bounds (before kind c s seed) u := by
   cases kind <;> cases seed
   all_goals
-    simp only [before,parts,source,Kernels.forward,Kernels.backward,ComputeKernel.surfaceBody,
+    simp only [before,parts,source,Kernels.forward,Kernels.backward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
       Source.dynamicRange?,Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
     simp (config := {maxSteps:=250000}) [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
       safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -26,7 +26,7 @@ private theorem tail_before_safe (isa : Instructions) (plan : Reduction.ProductP
     (c : Shape) (s : SeedStrides) (seed : Bool) (bounds : RegionName → Nat) (u : State Node) :
     traceSafeList (engine (algebra isa plan swap)) bounds (tailBefore c s seed) u ↔
       traceSafeList (engine (candidateAlgebra isa plan swap)) bounds (tailBefore c s seed) u := by
-  simp only [tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,
+  simp only [tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
     Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -37,7 +37,7 @@ private theorem tail_after_safe (isa : Instructions) (plan : Reduction.ProductPl
     (c : Shape) (s : SeedStrides) (seed : Bool) (bounds : RegionName → Nat) (u : State Node) :
     traceSafeList (engine (algebra isa plan swap)) bounds (tailAfter c s seed) u ↔
       traceSafeList (engine (candidateAlgebra isa plan swap)) bounds (tailAfter c s seed) u := by
-  simp only [tailAfter,tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,
+  simp only [tailAfter,tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
     Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,

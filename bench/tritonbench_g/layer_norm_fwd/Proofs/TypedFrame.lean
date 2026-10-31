@@ -50,7 +50,7 @@ theorem prefix_frame {α : Type} [Inhabited α] (A : Algebra α)
     t.mem=s.mem := by
   rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
   cases res <;> cases resout <;> cases x1 <;> cases w1
-  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,bop,natLt,
     numericLt,Cell.read,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,
@@ -75,7 +75,7 @@ theorem firstStream_frame {α : Type} [Inhabited α] (A : Algebra α) (cmp : Com
       ¬ (region=r.dropoutMask ∧ Contract.inRow (row*N) N offset) := by
     intro hd hm h; exact hw (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨hd,hm,h⟩))))))
   cases hsc : f.rowscale <;> cases hd : f.dropout <;> cases hmask : f.dropoutMask
-  all_goals simp [firstStream,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp [firstStream,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,FP.Structural.bop,natLt,
     numericLt,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,

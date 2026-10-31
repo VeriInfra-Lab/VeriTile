@@ -1,4 +1,6 @@
-import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealBackwardNonInnerIO
+import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealBackwardNonInnerInitialize
+import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealProjection
+import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealCandidate
 
 namespace VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.RealBackwardNonInner
 open VeriTile Triton

@@ -1,4 +1,3 @@
-import bench.tritonbench_g.chunk_gated_attention.Sources.RebasedProgram
 import bench.tritonbench_g.chunk_gated_attention.Sources.Address
 import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealHAlgebra
 import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealHStore
@@ -39,71 +38,6 @@ def historyPointer (p : Layout) (l : Launch) (r : RegionName) (c : Nat) :=
 def endpointPointer (p : Layout) (l : Launch) (r : RegionName)
     (c head time stride block index : Nat) :=
   vector r (l.head*head+(c*p.BT+p.BT-1)*time+index*block*stride) block stride
-
-theorem local2_eval (u : BlockState) (r : RegionName) (base : Op .nat [])
-    (nr nc sr sc b : Nat) (hb : evalOp base u = some (Tile.scalar b)) :
-    evalOp (RebasedProgram.local2 r base nr nc sr sc) u = some (matrix r b nr nc sr sc) := by
-  simp only [RebasedProgram.local2,evalOp,hb,Option.bind_eq_bind,Option.bind_some]
-  rfl
-
-theorem local1_eval (u : BlockState) (r : RegionName) (base : Op .nat [])
-    (n stride b : Nat) (hb : evalOp base u = some (Tile.scalar b)) :
-    evalOp (RebasedProgram.local1 r base n stride) u = some (vector r b n stride) := by
-  simp only [RebasedProgram.local1,evalOp,hb,Option.bind_eq_bind,Option.bind_some]
-  rfl
-
-theorem key_eval (p : Layout) (l : Launch) (r : RegionName) (c : Nat) (u : BlockState)
-    (hh : u.regs .nat [] "i_bh" = some (Tile.scalar l.head))
-    (hk : u.regs .nat [] "i_k" = some (Tile.scalar l.key))
-    (hc : u.regs .nat [] "i_t" = some (Tile.scalar c)) :
-    evalOp (RebasedProgram.keyPtr p r) u = some (keyPointer p l r c) := by
-  apply local2_eval
-  simp only [RebasedProgram.plus,RebasedProgram.mul,RealHProgram.times,
-    evalOp_add,evalOp_mul,evalOp_ref,evalOp_constNat,hh,hk,hc,Option.bind_eq_bind,Option.bind_some]
-  rfl
-
-theorem value_eval (p : Layout) (l : Launch) (r : RegionName) (c : Nat) (u : BlockState)
-    (hh : u.regs .nat [] "i_bh" = some (Tile.scalar l.head))
-    (hv : u.regs .nat [] "i_v" = some (Tile.scalar l.value))
-    (hc : u.regs .nat [] "i_t" = some (Tile.scalar c)) :
-    evalOp (RebasedProgram.valuePtr p r) u = some (valuePointer p l r c) := by
-  apply local2_eval
-  simp only [RebasedProgram.plus,RebasedProgram.mul,RealHProgram.times,
-    evalOp_add,evalOp_mul,evalOp_ref,evalOp_constNat,hh,hv,hc,Option.bind_eq_bind,Option.bind_some]
-  rfl
-
-theorem state_eval (p : Layout) (l : Launch) (r : RegionName) (u : BlockState)
-    (hh : u.regs .nat [] "i_bh" = some (Tile.scalar l.head))
-    (hk : u.regs .nat [] "i_k" = some (Tile.scalar l.key))
-    (hv : u.regs .nat [] "i_v" = some (Tile.scalar l.value)) :
-    evalOp (RebasedProgram.statePtr p r) u = some (statePointer p l r) := by
-  apply local2_eval
-  simp only [RebasedProgram.plus,RebasedProgram.mul,RealHProgram.times,RealHProgram.stateBase,
-    evalOp_add,evalOp_mul,evalOp_ref,evalOp_constNat,hh,hk,hv,Option.bind_eq_bind,Option.bind_some]
-  rfl
-
-theorem history_eval (p : Layout) (l : Launch) (r : RegionName) (c : Nat) (u : BlockState)
-    (hh : u.regs .nat [] "i_bh" = some (Tile.scalar l.head))
-    (hk : u.regs .nat [] "i_k" = some (Tile.scalar l.key))
-    (hv : u.regs .nat [] "i_v" = some (Tile.scalar l.value))
-    (hc : u.regs .nat [] "i_t" = some (Tile.scalar c)) :
-    evalOp (RebasedProgram.historyPtr p r) u = some (historyPointer p l r c) := by
-  apply local2_eval
-  simp only [RebasedProgram.plus,RebasedProgram.mul,RealHProgram.times,
-    evalOp_add,evalOp_mul,evalOp_ref,evalOp_constNat,hh,hk,hv,hc,Option.bind_eq_bind,Option.bind_some]
-  rfl
-
-theorem endpoint_eval (p : Layout) (l : Launch) (r : RegionName)
-    (c head time stride block indexValue : Nat) (index : RegName) (u : BlockState)
-    (hh : u.regs .nat [] "i_bh" = some (Tile.scalar l.head))
-    (hc : u.regs .nat [] "i_t" = some (Tile.scalar c))
-    (hi : u.regs .nat [] index = some (Tile.scalar indexValue)) :
-    evalOp (RebasedProgram.endpointPtr p r head time stride block index) u =
-      some (endpointPointer p l r c head time stride block indexValue) := by
-  apply local1_eval
-  simp only [RebasedProgram.plus,RebasedProgram.mul,RealHProgram.times,
-    evalOp_add,evalOp_mul,evalOp_sub,evalOp_ref,evalOp_constNat,hh,hc,hi,Option.bind_eq_bind,Option.bind_some]
-  rfl
 
 /-- Direct physical reads of staged tensors; no unspecified-lane oracle. -/
 def loaded (p : Layout) (l : Launch) (a : Inputs) (c : Nat) : Loaded p where

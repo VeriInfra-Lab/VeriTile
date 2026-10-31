@@ -107,12 +107,6 @@ def chunkGlaFront (q k v h g o : RegionName)
         [Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_t") (Op.constNat BT),
           Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_v") (Op.constNat BV)]) ]
 
-/-- The final block-pointer store statement. -/
-def chunkGlaStoreStmt (o : RegionName) (BT BV : Nat) : Stmt :=
-  Stmt.store .real [BT, BV] (.blockPtr (Op.ref .blockPtr [BT, BV] "p_o") [0, 1])
-    (Op.ref .real [BT, BV] "b_o") .none
-
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.ChunkGlaSimple.Real
@@ -127,50 +121,6 @@ variable (swapped : Bool) (query value gate : Storage)
     (out_dtype : FloatDType) (q k v h g o : RegionName)
     (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat)
     (scale : ℝ) (T K V BT BK BV : Nat)
-
-theorem projects :
-    (source query value gate swapped out_dtype q k v h g o
-      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV).toAlgorithm? =
-    .ok (source query value gate swapped out_dtype q k v h g o
-      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV).toAlgKernel := by
-  cases swapped <;> cases query <;> cases value <;> cases gate <;> rfl
-
-theorem storage_erasure :
-    (source query value gate swapped out_dtype q k v h g o
-      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV).eraseDType.toAlgKernel.body =
-    (source .fp32 .fp32 .fp32 swapped .real q k v h g o
-      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV).eraseDType.toAlgKernel.body := by
-  cases swapped <;> cases query <;> cases value <;> cases gate
-  all_goals simp only [source, Bool.false_eq_true, ↓reduceIte,
-    ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
-    ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList,
-    Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
-    NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType,
-    Except.bind, bind, List.map_cons, List.map_nil, eraseDType_float]
-  all_goals simp only [VeriTile.Triton.eraseDType]
-  all_goals simp [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
-    MaskOpt.eraseDType.eq_def, eraseDType_float]
-  all_goals cases out_dtype <;>
-    simp [VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType]
-
-theorem body_split :
-    (source .fp32 .fp32 .fp32 Bool.false .real q k v h g o
-      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV).eraseDType.toAlgKernel.body =
-    Real.chunkGlaFront q k v h g o s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t T K V BT BK BV scale ++
-      [Real.chunkGlaStoreStmt o BT BV] := by
-  simp only [source, Bool.false_eq_true, ↓reduceIte, Real.chunkGlaFront, Real.chunkGlaLoopBody,
-    Real.chunkGlaStoreStmt, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
-    ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList,
-    Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
-    NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType,
-    Except.bind, bind, List.map_cons, List.map_nil, eraseDType_float]
-  simp [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
-    MaskOpt.eraseDType.eq_def, eraseDType_float,VeriTile.Triton.eraseDType,
-    FloatDType.toTileDType,NumericDType.eraseDType]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

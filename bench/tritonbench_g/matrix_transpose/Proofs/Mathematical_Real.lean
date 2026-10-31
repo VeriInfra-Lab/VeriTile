@@ -96,7 +96,7 @@ theorem kernel_correct
       s'.readMem Out (outAddr out_stridex out_stridey idx)
         = s.readMem M (matrixAddr matrix_stridex matrix_stridey idx) := by
   intro idx
-  simp [exec, kernel, stepStmts, stepStmt, evalOp.eq_def,
+  simp [exec, kernel, typedKernel, VeriTile.Bench.Repairs.MatrixTranspose.source, VeriTile.Bench.Repairs.MatrixTranspose.indexCommutedSource, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, stepStmts, stepStmt, evalOp.eq_def,
         Tile.bop, Tile.ptrAdd, Tile.expandDim, Tile.transpose,
         NumericDType.add, NumericDType.mul,
         TileShape.insertAxis, TileShape.dropInsertedIndex] at hExec
@@ -139,7 +139,7 @@ private theorem kernel_frame
     (hmiss : ∀ idx : TileIndex [D_HEAD, SIZE_M],
       ¬(Out = r ∧ outAddr out_stridex out_stridey idx = o)) :
     s1.mem r o = s.mem r o := by
-  simp [exec, kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt, evalOp.eq_def,
+  simp [exec, kernel, typedKernel, VeriTile.Bench.Repairs.MatrixTranspose.source, VeriTile.Bench.Repairs.MatrixTranspose.indexCommutedSource, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, ComputeKernel.toAlgKernel, stepStmts, stepStmt, evalOp.eq_def,
         Tile.bop, Tile.ptrAdd, Tile.expandDim, Tile.transpose,
         NumericDType.add, NumericDType.mul,
         TileShape.insertAxis, TileShape.dropInsertedIndex] at hExec
@@ -157,7 +157,7 @@ private theorem kernel_exec_isSome
     (s : BlockState) :
     ∃ s1, exec ((kernel M Out matrix_stridex matrix_stridey out_stridex
         out_stridey SIZE_M D_HEAD).toAlgKernel) s = some s1 := by
-  simp [exec, kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt, evalOp.eq_def,
+  simp [exec, kernel, typedKernel, VeriTile.Bench.Repairs.MatrixTranspose.source, VeriTile.Bench.Repairs.MatrixTranspose.indexCommutedSource, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, ComputeKernel.toAlgKernel, stepStmts, stepStmt, evalOp.eq_def,
         Tile.bop, Tile.ptrAdd, Tile.expandDim, Tile.transpose,
         NumericDType.add, NumericDType.mul,
         TileShape.insertAxis, TileShape.dropInsertedIndex]
@@ -171,7 +171,7 @@ theorem kernel_flattenOk
     ((kernel M Out matrix_stridex matrix_stridey out_stridex out_stridey
       SIZE_M D_HEAD).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [kernel, typedKernel, VeriTile.Bench.Repairs.MatrixTranspose.source, VeriTile.Bench.Repairs.MatrixTranspose.indexCommutedSource, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
 
@@ -205,7 +205,7 @@ theorem kernel_traceSafe
     have := h2 (Lane2D.encode (a, b, PUnit.unit))
     simpa [outAddr] using this
   unfold Kernel.TraceSafe
-  simp [kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [kernel, typedKernel, VeriTile.Bench.Repairs.MatrixTranspose.source, VeriTile.Bench.Repairs.MatrixTranspose.indexCommutedSource, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     Stmt.TraceSafeList, Stmt.TraceSafe,
     Op.SafeAt.eq_def, Op.PointerAddressesSafeOn, Op.MemorySafe, MaskOpt.SafeAt,
     MemAccess.SafeAt, stepStmt, evalOp.eq_def, MemAccess.ActiveAddressSafe,

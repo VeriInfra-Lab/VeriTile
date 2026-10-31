@@ -1,11 +1,10 @@
-import bench.tritonbench_g.swiglu_backward.Sources.Mathematical_Kernels
+import VeriTile.Triton
 
 /-! Complete ordinary FP32 source for the checked kernel and its retained
 integer-address candidate. Both constexpr recomputation branches stay symbolic;
-the generic canonical source remains available through `sourceKernel`. -/
+both proofs execute these same complete sources. -/
 namespace VeriTile.Bench.Repairs.SwigluBackward
 open VeriTile.Triton
-abbrev sourceKernel := VeriTile.Bench.TritonBenchG.SwigluBackward.typedKernel
 
 /-- Original casts, sigmoid, multiplication order and three ordered masked stores. -/
 def kernel (X Y DOUT OUT DX DY : RegionName)

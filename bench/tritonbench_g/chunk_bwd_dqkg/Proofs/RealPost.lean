@@ -138,7 +138,7 @@ theorem original_executes (qk valueStorage hist dhist : TypedSource.Storage)
     (by simpa only [cbdDqTile, dq_acc s p q k v h g dout dh] using hdq)
     (by simpa only [cbdDkTile, dk_acc s p q k v h g dout dh] using hdk)
   refine ⟨sf, ?_, ?_, ?_, ?_⟩
-  · rw [exec, RealSource.real_body_matches, cbd_body_eq]
+  · rw [exec, RealSource.real_body_matches]
     change stepStmts
       ((cbdPreLoop g p.T p.BT p.BK ++ [RealLoop.statement p regions]) ++
         cbdPostLoop q k dqOut dkOut dgOut p.s_k_h p.s_k_t p.scale p.T p.K p.BT p.BK) s = _

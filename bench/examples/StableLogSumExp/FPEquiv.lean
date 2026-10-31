@@ -14,9 +14,8 @@ by the scalar derivation, an arbitrary shared reduction schedule, and support
 for fp32 comparisons. Branch outcomes are unrestricted. The row length is
 symbolic. The specification includes successful execution and a memory frame.
 
-The older stableLSEKernel omits both fallbacks. Its unconditional log_mul and
-log_exp candidates are not admitted. Proofs/Unconditional.lean refutes the old
-general FP specification with a logical countermodel of the selected atoms.
+Proofs/Unconditional.lean retains a scalar countermodel showing why the
+fallback branches cannot be removed under the admitted numerical rules.
 -/
 
 noncomputable section

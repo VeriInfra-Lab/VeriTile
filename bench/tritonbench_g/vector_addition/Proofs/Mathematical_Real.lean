@@ -156,32 +156,6 @@ theorem optional_add_comm (a b : Option ℝ) :
     Option.map₂ (fun x y => x + y) a b = Option.map₂ (fun x y => x + y) b a :=
   Option.map₂_comm add_comm
 
-/-- Execution equality here uses only real arithmetic; the FP layer is separate. -/
-theorem commuted_exec (x_ptr y_ptr output_ptr : RegionName) (n B : Nat) (s : BlockState) :
-    exec (add_commuted_kernel x_ptr y_ptr output_ptr n B).toAlgKernel s =
-      exec (add_kernel x_ptr y_ptr output_ptr n B).toAlgKernel s := by
-  simp [add_commuted_kernel, add_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,
-    ComparableDType.lt, add_comm, optional_add_comm]
-
-theorem commuted_flattenOk (x_ptr y_ptr output_ptr : RegionName) (n B : Nat) :
-    (add_commuted_kernel x_ptr y_ptr output_ptr n B).toAlgKernel.FlattenOk := by
-  simp [add_commuted_kernel, Kernel.FlattenOk,
-    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
-
-theorem commuted_traceSafe (x_ptr y_ptr output_ptr : RegionName) (n B : Nat)
-    (bounds : RegionBounds) (s : BlockState)
-    (hx : ∀ j : Fin B, s.pid * B + j.val < n → s.pid * B + j.val < bounds x_ptr)
-    (hy : ∀ j : Fin B, s.pid * B + j.val < n → s.pid * B + j.val < bounds y_ptr)
-    (hout : ∀ j : Fin B, s.pid * B + j.val < n → s.pid * B + j.val < bounds output_ptr) :
-    Kernel.TraceSafe bounds (add_commuted_kernel x_ptr y_ptr output_ptr n B).toAlgKernel s := by
-  simpa [Kernel.TraceSafe, add_commuted_kernel, add_kernel,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
-    MemAccess.SafeAt, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,
-    ComparableDType.lt, add_comm, optional_add_comm]
-    using add_kernel_traceSafe x_ptr y_ptr output_ptr n B bounds s hx hy hout
-
 end Commuted
 
 end VeriTile.Bench.TritonBenchG.VectorAddition

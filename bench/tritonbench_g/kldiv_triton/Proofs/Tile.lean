@@ -69,7 +69,7 @@ def forwardInitial {α : Type} (s : State α) (sy st so B : Nat) : State α :=
     "y_ptr" .ptr [] (fun _ => ("y_ptr", s.pids 0 * sy))).setReg
     "gt_ptr" .ptr [] (fun _ => ("gt_ptr", s.pids 0 * st))).setReg
     "loss_ptr" .ptr [] (fun _ => ("loss_ptr", s.pids 0 * so))).setReg
-    "base_offsets" .nat [B] (fun j => j.1.val)
+    "base_offsets" .int [B] (fun j => (j.1.val : Int))
 
 def f1 {α : Type} (s : State α) (B current : Nat) : State α :=
   s.setReg "offsets" .int [B] (fun j => ((current + j.1.val : Nat) : Int))

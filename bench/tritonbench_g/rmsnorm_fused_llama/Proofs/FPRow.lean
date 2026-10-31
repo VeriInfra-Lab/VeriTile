@@ -52,7 +52,8 @@ theorem complete (A : Algebra α) (s : State α) (X Y W : RegionName)
       t.mem=(block A s X Y W (s.pids 0) N B eps).mem := by
   have hB : B≠0 := by omega
   have hz : (0.0 : ℝ)=0 := by norm_num
-  simp [kernel,VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.originalTyped,
+  simp [kernel,runtimeKernel,
+    ComputeKernel.withScalarArguments, ScalarArgument.statement, ScalarArgument.fp32,
     FP.Structural.exec,FP.Structural.run,FP.Structural.step,FP.Structural.range,evalExpr,evalComputeOp,evalOp_unfold,store,
     numeric,numericLt,numericLe,natLt,natLe,bop,ofFloat,toFloat,Region.cast,
     ComputeKernel.surfaceBody,ComputeDType.eraseDType,State.setReg,Option.bind,hN,hB,hz,Nat.not_lt.mpr hNB,

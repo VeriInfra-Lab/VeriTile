@@ -34,19 +34,5 @@ theorem original_correct (f : Flags) (r : Regions) (stride : Strides)
   · rw [hf, he, Option.map_some]
   · exact FlatContract.frame A f r stride M N eps p initial (A.flattenState final) hpost
 
-theorem candidate_correct (f : Flags) (r : Regions) (stride : Strides)
-    (M N : Nat) (eps p : ℝ) (block : Nat) (hBlock : Random.ArangeSizeDomain block) :
-    Implements (CandidateExecution.source f r stride M N eps p block hBlock) f r stride M N eps p block := by
-  intro A hd hc initial hpid hN hsep hu hb
-  obtain ⟨final, he, hp⟩ := CandidateExecution.source_correct f r stride M N eps p block hBlock initial hN hsep
-  have hs := Safety.candidate_safe f r stride M N eps p block hBlock initial hN hsep A.extent
-    (FlatDomain.Extents.rowBounds f r stride M N initial.pid A.extent hb hpid)
-  have hf := A.exec_flatten hd hc (CandidateExecution.source f r stride M N eps p block hBlock)
-    initial hs (Safety.candidate_flatten_ok f r stride M N eps p block hBlock) hu
-  have hpost := FlatContract.flatten_post A f r stride M N eps p initial final hp
-  refine ⟨A.flattenState final, ?_, hpost, ?_⟩
-  · rw [hf, he, Option.map_some]
-  · exact FlatContract.frame A f r stride M N eps p initial (A.flattenState final) hpost
-
 end
 end VeriTile.Bench.TritonBenchG.LayerNormFwd.RealIO

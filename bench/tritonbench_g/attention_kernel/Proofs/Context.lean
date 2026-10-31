@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.IntegerIndex
 import bench.tritonbench_g.attention_kernel.Proofs.Entry
 namespace VeriTile.Bench.Repairs.AttentionKernel.Whole001.Source
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
@@ -52,9 +53,9 @@ structure Context (M : Algebra α) (p : Parameters) (initial : State α)
   memory : current.mem=initial.mem
   aligned : row%p.bn=0
   startM : current.regs .nat [] "start_m"=some (fun _=>initial.pids 0)
-  rows : current.regs .nat [p.bm] "b_ptr_offsets_m"=some (fun i=>i.1.val)
-  biasOffset : current.regs .nat [] "b_offset"=some (fun _=>base p initial p.bias)
-  outputOffset : current.regs .nat [] "o_offset"=some (fun _=>base p initial p.o)
+  rows : current.regs .int [p.bm] "b_ptr_offsets_m"=some (fun i=>(i.1.val : Int))
+  biasOffset : current.regs .int [] "b_offset"=some (fun _=>(base p initial p.bias : Int))
+  outputOffset : current.regs .int [] "o_offset"=some (fun _=>(base p initial p.o : Int))
   biasStatic : current.regs p.storage.tile [p.bm,p.bn] "b1"=
     some (fun i=>ofFloat p.storage.float (Source.biasStatic M p initial i))
   query : current.regs p.storage.tile [p.bm,p.dim] "q"=
@@ -64,6 +65,11 @@ structure Context (M : Algebra α) (p : Parameters) (initial : State α)
   maximum : current.regs .real [p.bm] "m_i"=some (fun i=>a.maximum i.1)
   normalizer : current.regs .real [p.bm] "l_i"=some (fun i=>a.normalizer i.1)
   value : current.regs .real [p.bm,p.dim] "acc"=some a.value
+
+private theorem projected_mod (x b : Nat) :
+    (x : Int)-((b*(x/b) : Nat) : Int)=((x%b : Nat) : Int) := by
+  have h := Nat.mod_add_div x b
+  omega
 
 theorem entry_context (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State α) :
     Context M p s 0 (initialAcc M p) (entry M dot p s).val := by
@@ -77,7 +83,14 @@ theorem entry_context (M : Algebra α) (dot : Dot α) (p : Parameters) (s : Stat
   all_goals try simp [query,biasStatic,base,zero,initialAcc,qptr,kptr,vptr,
     TypedSource.Storage.float,TypedSource.Storage.tile,ofFloat,toFloat,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def]
+  all_goals try simp only [IntegerIndex.nat_div,IntegerIndex.nat_mod,IntegerIndex.nat_cdiv,
+    ←Int.natCast_ediv,←Int.natCast_emod,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,
+    Int.ofNat_lt]
   all_goals try norm_num
+  all_goals try norm_cast
+  all_goals try (left; push_cast; omega)
+  all_goals try (have h := Nat.mod_add_div (s.pids 1) heads; omega)
+  all_goals try exact Or.inl (projected_mod (s.pids 1) heads)
   all_goals rfl
 
 #guard_msgs (drop info) in

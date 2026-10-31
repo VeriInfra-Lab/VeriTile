@@ -17,9 +17,9 @@ theorem preludeContext {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc �
   all_goals constructor
   all_goals try constructor
   all_goals simp [preludeExecution,hm,hn,hk,backend,rows,columns,trips,group,perGroup,firstM,
-    groupSize,pidM,pidN,row,col,qDiv,qMod,min_form,HasAcc,bop,Broadcast.leftIndex,Broadcast.rightIndex]
+    groupSize,pidM,pidN,row,col,qDiv,qMod,min_form,HasAcc,State.setReg,IntegerExpr.sameShape,bop,Broadcast.leftIndex,Broadcast.rightIndex]
   all_goals try rfl
-  all_goals funext i
+  all_goals try funext i
   all_goals try simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
 
 #guard_msgs (drop info) in

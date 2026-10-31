@@ -52,8 +52,8 @@ structure Context {α : Type} (p : Problem) (initial current : State α) : Prop 
   memory : current.mem = initial.mem
   pm : current.regs .int [] "pid_m" = some (fun _ => pidM p initial)
   pn : current.regs .int [] "pid_n" = some (fun _ => pidN p initial)
-  lm : current.regs .nat [128] "lanes_m" = some (fun i => i.1.val)
-  ln : current.regs .nat [256] "lanes_n" = some (fun i => i.1.val)
+  lm : current.regs .int [128] "lanes_m" = some (fun i => (i.1.val : Int))
+  ln : current.regs .int [256] "lanes_n" = some (fun i => (i.1.val : Int))
   lk : current.regs .int [64] "lanes_k" = some (fun i => (i.1.val : Int))
   am : current.regs .int [128] "offs_am" = some (fun i => qMod (row p initial i.1) (p.M : Int))
   bn : current.regs .int [256] "offs_bn" = some (fun i => qMod (col p initial i.1) (p.N : Int))

@@ -67,7 +67,7 @@ theorem flatten_ok (swapped : Bool) (BM BN BCS : Nat) (p : RealProgram.Parameter
     (RealProgram.kernel swapped BM BN BCS p).toAlgKernel.FlattenOk := by
   cases swapped
   all_goals
-    simp [RealProgram.kernel, RealProgram.source, TypedSource.specialize,
+    simp [RealProgram.kernel, RealProgram.source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.quotedOriginal,
       ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?_map_alg, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType,

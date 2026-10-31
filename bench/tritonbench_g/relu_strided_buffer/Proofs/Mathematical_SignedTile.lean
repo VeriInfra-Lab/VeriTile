@@ -31,16 +31,6 @@ def reluOp (B : Nat) : Op .fp32 [B] :=
   .where (.gt .fp32 .scalarR (.ref .fp32 [B] "in0") zero32)
     (.ref .fp32 [B] "in0") (zero32.broadcast [B])
 
-def tileStore (output : View) (n start B : Nat) : Stmt :=
-  .store .fp32 [B] (.region output.region (addressOp output start B))
-    (.castFloat .fp32 .fp32 (.ref .fp32 [B] "out0"))
-    (.mask (maskOp n start B))
-
-def tileBody (input output : View) (n start B : Nat) : List Stmt :=
-  [.assign .fp32 [B] "in0" (.castFloat .fp32 .fp32 (load32 input n start B)),
-   .assign .fp32 [B] "out0" (reluOp B),
-   tileStore output n start B]
-
 noncomputable def loadedTile (input : View) (n start B : Nat)
     (s : BlockState) : Tile .fp32 [B] :=
   ⟨fun i => if start + i.1.val < n then
@@ -101,46 +91,6 @@ theorem value_step (input : View) (n start B : Nat) (s : BlockState) :
       some (loadedTile input n start B s) := by simp [afterLoad]
   simp only [stepStmt, reluOp_eval B _ _ hin, bind, Option.bind]
   rfl
-
-/-- Both explicit casts remain in the source body. Identity is proved in the
-selected mathematical FP32 evaluator, rather than erased from the body. -/
-theorem store_step (output : View) (n start B : Nat) (s : BlockState) :
-    stepStmt (tileStore output n start B) s =
-      stepStmt (store32 output n start B "out0") s := by
-  simp only [tileStore, store32, stepStmt]
-  congr 1
-  exact cast32_identity (.ref .fp32 [B] "out0") s
-
-theorem tile_exec (input output : View) (n start B : Nat) (s : BlockState) :
-    stepStmts (tileBody input output n start B) s =
-      some (finalState input output n start B s) := by
-  have hout : (afterValue input n start B s).regs .fp32 [B] "out0" =
-      some (resultTile input n start B s) := by simp [afterValue]
-  simp only [tileBody, stepStmts, load_step, value_step,
-    store_step, store32_step output n start B "out0" _ _ hout]
-  rfl
-
-/-- The composable tile contract derives output from the same call's initial
-input cells. No output-value callback or complete-output premise occurs. -/
-theorem tile_success (input output : View) {n capacity start B : Nat}
-    (hout : output.Valid n capacity) (hstride : output.stride ≠ 0) (s : BlockState) :
-    ∃ final, stepStmts (tileBody input output n start B) s = some final ∧
-      (∀ i : TileIndex [B], start + i.1.val < n →
-        final.mem output.region (output.address (start + i.1.val)) =
-          storedCell32 (relu32 (s.readMemValue .fp32 input.region
-            (input.address (start + i.1.val))))) ∧
-      (∀ r a, (r ≠ output.region ∨ ∀ i : TileIndex [B],
-        start + i.1.val < n → a ≠ output.address (start + i.1.val)) →
-        final.mem r a = s.mem r a) := by
-  refine ⟨finalState input output n start B s, tile_exec input output n start B s, ?_, ?_⟩
-  · intro i hi
-    have h := scatter32_readback output hout hstride (resultTile input n start B s)
-      (afterValue input n start B s) i hi
-    simpa [finalState, resultTile, loadedTile, hi] using h
-  · intro r a ha
-    have h := scatter32_frame output n start B (resultTile input n start B s)
-      (afterValue input n start B s) r a ha
-    simpa [finalState, afterValue, afterLoad] using h
 
 /-- Bounds of every active load and store use ordinary signed-view validity.
 They are independent of numerical values and introduce no artificial size cap. -/

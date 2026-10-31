@@ -28,7 +28,7 @@ private theorem prefix_safe {α : Type} [Inhabited α] (A : Algebra α)
     Safety.traceSafeList A bounds (codePrefix X Mean M N) s := by
   apply pure_list_safe
   intro st member t
-  simp only [codePrefix,source,typedKernel,ComputeKernel.surfaceBody,List.take,
+  simp [codePrefix,source,typedKernel, Bool.false_eq_true, ↓reduceIte, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero,
     List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl|rfl|rfl
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,
@@ -41,7 +41,7 @@ theorem body_safe {α : Type} [Inhabited α] (A : Algebra α) (X Mean : RegionNa
     (bounds : RegionName → Nat) (input : M*N ≤ bounds X) :
     Safety.traceSafeList A bounds (body N) (s.setReg "off" .nat [] (fun _ => off)) := by
   rcases ctx with ⟨hX,hMean,hRow,hAcc,hMem⟩
-  simp [body,source,typedKernel,ComputeKernel.surfaceBody,
+  simp [body,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -61,7 +61,7 @@ theorem suffix_safe {α : Type} [Inhabited α] (A : Algebra α) (X Mean : Region
     (bounds : RegionName → Nat) (output : M ≤ bounds Mean) :
     Safety.traceSafeList A bounds (suffix N) s := by
   rcases ctx with ⟨hX,hMean,hRow,hAcc,hMem⟩
-  simp [suffix,source,typedKernel,ComputeKernel.surfaceBody,
+  simp [suffix,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -113,14 +113,14 @@ theorem candidate_safe {α : Type} [Inhabited α] (A : Algebra α)
   rw [←List.take_append_drop 1 (indexCommutedKernel M N).surfaceBody,
     Safety.traceSafeList_append]
   constructor
-  · simp [indexCommutedKernel,indexCommutedSource,typedKernel,ComputeKernel.surfaceBody,
+  · simp [indexCommutedKernel,indexCommutedSource,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.surfaceBody,
       List.take,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,step,evalExpr,evalOp_unfold,numeric,
       Option.bind,FP.Structural.bop]
   · intro t ht
     have prefixEq : run A ((indexCommutedKernel M N).surfaceBody.take 1) s=
         run A ((source "X" "Mean" M N).surfaceBody.take 1) s := by
-      simp [indexCommutedKernel,indexCommutedSource,source,typedKernel,ComputeKernel.surfaceBody,
+      simp [indexCommutedKernel,indexCommutedSource,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.surfaceBody,
         List.take,run,step,evalExpr,evalOp_unfold,numeric,Option.bind]
       congr 1
       funext i

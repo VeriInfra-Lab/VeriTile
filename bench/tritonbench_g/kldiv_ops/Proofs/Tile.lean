@@ -27,7 +27,7 @@ structure Registers {α : Type} (p : Parameters) (red row : Nat) (eps carry : α
   y : s.regs .ptr [] "Y"=some (fun _ => (p.Y,row*p.cols))
   t : s.regs .ptr [] "T"=some (fun _ => (p.T,row*p.cols))
   o : s.regs .ptr [] "O"=some (fun _ => (p.O,row*(if red=0 then p.cols else 1)))
-  base : s.regs .nat [p.block] "base_offsets"=some (fun j => j.1.val)
+  base : s.regs .int [p.block] "base_offsets"=some (fun j => (j.1.val : Int))
   epsilon : s.regs .real [] "eps"=some (fun _ => eps)
   sum : s.regs .real [] "loss_sum"=some (fun _ => carry)
 

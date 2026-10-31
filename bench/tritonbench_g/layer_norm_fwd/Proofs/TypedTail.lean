@@ -27,7 +27,7 @@ theorem normalization_success {α : Type} [Inhabited α] (A : Algebra α)
       NormalizedReady f r stride block row t := by
   rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,x,hx⟩
   cases hrms : f.rms
-  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
     numericLt,Region.cast,Random.i32ArangeSize,TileShape.axisDim,
@@ -47,12 +47,12 @@ theorem affine_success {α : Type} [Inhabited α] (A : Algebra α)
   cases hrms : f.rms
   · obtain ⟨mean,hmean⟩ := hm hrms
     cases hbias : f.bias <;> cases hw1 : f.w1 <;> cases hb1 : f.b1
-    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,
+    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
       run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
       numericLt,Region.cast,Random.i32ArangeSize,hcols,hy,hy1,hx,hstd,hmean,hrms,hbias,hw1,hb1]
   · cases hbias : f.bias <;> cases hw1 : f.w1 <;> cases hb1 : f.b1
-    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,
+    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
       run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
       numericLt,Region.cast,Random.i32ArangeSize,hcols,hy,hy1,hx,hstd,hrms,hbias,hw1,hb1]

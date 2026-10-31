@@ -77,7 +77,7 @@ theorem run_eq (M : Algebra α) (dot : FPEngine.Dot α) (c : Shape) (offset size
   induction order generalizing s with
   | nil => rfl
   | cons job rest ih =>
-      simp only [run,FPGrid.run,invoke,FPGrid.invoke,kernel_eq,DenseSource.kernel,FPEngine.kernel,ih]
+      simp only [run,FPGrid.run,invoke,FPGrid.invoke,kernel_eq,DenseSource.kernel,FPEngine.kernel,RealSource.source,Bool.false_eq_true,ite_false,ih]
 
 def hostRun (M : Algebra α) (dot : FPEngine.Dot α) (c : Shape) (s : State α) (offset size : Int)
     (scale : ℝ) (window complement : Bool) : Option (State α) :=

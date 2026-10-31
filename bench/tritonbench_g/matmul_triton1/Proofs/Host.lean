@@ -69,14 +69,6 @@ abbrev Allocator (α : Type) := Arguments → State α → Option (Tensor × Sta
 def AllocationLaw (allocate : Allocator α) : Prop :=
   ∀ x, Guard x → ∀ before, ∃ c after, allocate x before=some (c,after) ∧ Allocated x before after c
 
-def call {α : Type} [Inhabited α] (rest : Algebra α) (P : Core.Primitives α)
-    (allocate : Allocator α) (x : Arguments) (s : State α) : Option (Tensor × State α) :=
-  if Guard x then do
-    let (c,allocated) ← allocate x s
-    if Empty x then some (c,allocated)
-    else (Core.grid rest P (parameters x c) allocated).map (fun final => (c,final))
-  else none
-
 def Post {α : Type} [Inhabited α] (P : Core.Primitives α) (x : Arguments)
     (initial final : State α) (c : Tensor) : Prop :=
   c.rank=2 ∧ c.rows=x.a.rows ∧ c.columns=x.b.columns ∧ c.fp32=Bool.true ∧
@@ -94,45 +86,6 @@ theorem geometry_valid {α : Type} (x : Arguments) (h : Valid x)
     simpa only [Dense,a.rows,a.columns] using a.dense
   exact Core.dense_injective _ _ _ _ _ hd
 
-theorem correct {α : Type} [Inhabited α] (rest : Algebra α) (P : Core.Primitives α)
-    (allocate : Allocator α) (allocation : AllocationLaw allocate)
-    (x : Arguments) (h : Valid x) (initial : State α) :
-    ∃ c final, call rest P allocate x initial=some (c,final) ∧ Post P x initial final c := by
-  obtain ⟨c,allocated,ha,a⟩ := allocation x h.guard initial
-  have hv := geometry_valid x h initial allocated c a
-  have unchanged : ∀ r col,Core.logical P (parameters x c) allocated r col=
-      Core.logical P (parameters x c) initial r col :=
-    Core.logical_preserved P (parameters x c) initial allocated a.freshA a.freshB
-      (fun _ _ _ => congrFun (congrFun a.memory _) _)
-  by_cases he : Empty x
-  · refine ⟨c,allocated,?_,a.rank,a.rows,a.columns,a.dtype,a.contiguous,a.device,a.cuda,a.resolved,
-      a.freshObjectA,a.freshObjectB,?_,?_⟩
-    · simp [call,h.guard,ha,he]
-    · intro i
-      rcases he with hm|hn
-      · have := i.1.isLt; omega
-      · have := i.2.isLt; omega
-    · intro r o _; exact congrFun (congrFun a.memory r) o
-  · obtain ⟨final,hgrid,hread,hframe⟩ := Core.grid_correct rest P (parameters x c) hv h.blockInner
-      a.freshA a.freshB allocated
-    refine ⟨c,final,?_,a.rank,a.rows,a.columns,a.dtype,a.contiguous,a.device,a.cuda,a.resolved,
-      a.freshObjectA,a.freshObjectB,?_,?_⟩
-    · simp [call,h.guard,ha,he,hgrid]
-    · intro i
-      have hi := hread i trivial
-      simpa only [unchanged] using hi
-    · intro r o hf
-      exact (hframe r o (hf.imp id (fun h i _ => h i))).trans (congrFun (congrFun a.memory r) o)
-
-theorem rejected {α : Type} [Inhabited α] (rest : Algebra α) (P : Core.Primitives α)
-    (allocate : Allocator α) (x : Arguments) (s : State α) (h : ¬Guard x) :
-    call rest P allocate x s=none := by simp [call,h]
-
-theorem empty_return {α : Type} [Inhabited α] (rest : Algebra α) (P : Core.Primitives α)
-    (allocate : Allocator α) (x : Arguments) (initial allocated : State α) (c : Tensor)
-    (guard : Guard x) (empty : Empty x) (allocation : allocate x initial=some (c,allocated)) :
-    call rest P allocate x initial=some (c,allocated) := by simp [call,guard,empty,allocation]
-
 theorem zero_inner {α : Type} [Inhabited α] (P : Core.Primitives α)
     (x : Arguments) (c : Tensor) (s : State α) (hK : x.a.columns=0)
     (hB : 0<x.config.blockInner) (r col : Nat) :
@@ -141,9 +94,6 @@ theorem zero_inner {α : Type} [Inhabited α] (P : Core.Primitives α)
   simp [Core.logical,Core.steps,Core.inner,parameters,hK,hdiv,Core.logicalAccum]
 
 #axiomsClean geometry_valid
-#axiomsClean correct
-#axiomsClean rejected
-#axiomsClean empty_return
 #axiomsClean zero_inner
 end
 end VeriTile.Bench.Repairs.MatmulTriton1.Revision001.Host

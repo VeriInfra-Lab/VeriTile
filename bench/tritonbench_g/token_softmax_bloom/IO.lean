@@ -118,7 +118,7 @@ def target {α β : Type} (M : Algebra β) (encode : α → β) (p : Parameters)
   subst port
   exact fun i => f (length p work vals i.1) (fun c => vals (2 : Fin 3) (i.1,c,())) i.2.1
 
-def realDomain (p : Parameters) (work : List Grid.PID) (vals : (realIO p work).Inputs) : Prop :=
+def realDomain (p : Parameters) (work : List Grid.PID) (vals : channels ℝ p work) : Prop :=
   Unique p work vals ∧ Cover p work vals
 
 end
@@ -135,14 +135,14 @@ structure Inputs (p : Parameters) (work : List Grid.PID) where
   values : Fin work.length → Fin p.width → ℝ
 
 def inputs (p : Parameters) (work : List Grid.PID) :
-    (SoftmaxIO.realIO p work).Inputs ≃ Inputs p work where
+    SoftmaxIO.channels ℝ p work ≃ Inputs p work where
   toFun := fun values => ⟨SoftmaxIO.start p work values, SoftmaxIO.length p work values,
-    fun job col => values ⟨2, by simp [SoftmaxIO.realIO,SoftmaxIO.io,SoftmaxIO.ports]⟩ (job,col,())⟩
+    fun job col => values (2 : Fin 3) (job,col,())⟩
   invFun := fun xs port => match port with
     | ⟨0,_⟩ => fun j => xs.start j.1
     | ⟨1,_⟩ => fun j => xs.length j.1
     | ⟨2,_⟩ => fun j => xs.values j.1 j.2.1
-    | ⟨n+3,h⟩ => False.elim (by simp [SoftmaxIO.realIO,SoftmaxIO.io,SoftmaxIO.ports] at h)
+    | ⟨n+3,h⟩ => False.elim (by simp [SoftmaxIO.channels] at h)
   left_inv := by
     intro values
     funext port

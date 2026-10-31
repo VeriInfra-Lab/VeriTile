@@ -110,3 +110,184 @@ class PastedBodyTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PastedLoopBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/matrix_vector_multip'
+        self.python = (self.directory / 'matrix_vector_multip.py').read_text()
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+
+    def compare(self, lean):
+        return check(self.python, lean, self.record['python_function'], self.record['lean_definition'],
+                     self.record['signature_definition'], self.record['expected_signature'])
+
+    def test_both_complete_python_while_bodies(self):
+        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([18, 18], [r['statements'] for r in results])
+        self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))
+
+    def test_cast_increment_and_arithmetic_changes_are_rejected(self):
+        for before, after in [('.to(tl.uint64)', ''), ('        m += BLOCK_M', ''),
+                              ('acc += a * b', 'acc += b * a')]:
+            with self.subTest(before=before):
+                self.assertIn(before, self.lean)
+                with self.assertRaises(ValueError):
+                    self.compare(self.lean.replace(before, after, 1))
+
+    def test_braces_in_python_comments_and_strings_do_not_close_body(self):
+        lean = '''def body := with_triton_signature profile in triton {
+    marker = 'False#} {'
+    # } This comment contains a delimiter.
+    result = marker
+}
+noncomputable def following := 0
+'''
+        body = quotation(lean, 'body', raw_python=True)[1]
+        parsed = ast.parse(textwrap.dedent(body))
+        self.assertEqual(len(parsed.body), 2)
+        self.assertEqual(parsed.body[0].value.value, 'False#} {')
+        self.assertNotIn('following', body)
+
+    def test_noncomputable_next_declaration_is_not_part_of_kernel(self):
+        quoted = quotation(self.lean, 'fmaBody', raw_python=True)[1]
+        self.assertEqual(len(ast.parse(textwrap.dedent(quoted)).body), 18)
+        self.assertNotIn('arguments', quoted)
+
+    def test_executable_suffix_after_quote_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'unexpected code after quotation'):
+            quotation('def body := triton {\n x = 1\n} + extra\nnoncomputable def next := 0\n',
+                      'body', raw_python=True)
+
+
+class PolymorphicPastedBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.python = '''@triton.jit
+def copy(s, o, N: tl.constexpr):
+    x = tl.load(s)
+    tl.store(o, x.to(o.dtype.element_ty))
+'''
+        self.lean = '''def signature (dtype out_dtype : FloatDType) : CallSignature where
+  floatingPointers := [("s",dtype),("o",out_dtype)]
+  scalars := []
+  constexpr := ["N"]
+
+def body (dtype out_dtype : FloatDType) (N : Nat) :=
+  with_triton_signature (signature dtype out_dtype) in triton {
+    x = tl.load(s)
+    tl.store(o, x.to(o.dtype.element_ty))
+  }
+'''
+        self.profile = {"pointers": [], "scalars": [], "constexpr": ["N"],
+                        "floatingPointers": [["s", "dtype"], ["o", "out_dtype"]],
+                        "dtype_parameters": ["dtype", "out_dtype"]}
+
+    def compare(self, lean):
+        return check(self.python, lean, "copy", "body", "signature", self.profile)
+
+    def test_external_dtype_parameters_and_exact_cast(self):
+        self.assertEqual(self.compare(self.lean)["mode"], "pasted_body")
+
+    def test_dtype_arguments_storage_mapping_and_cast_mutations_are_rejected(self):
+        for before, after in [
+            ("signature dtype out_dtype", "signature out_dtype dtype"),
+            ('("o",out_dtype)', '("o",dtype)'),
+            ('("o",out_dtype)', '("o",unknown)'),
+            ("x.to(o.dtype.element_ty)", "x"),
+            ("(dtype out_dtype : FloatDType)", "(dtype out_dtype : Nat)"),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after, 1))
+
+    def test_duplicate_polymorphic_pointer_is_rejected(self):
+        with self.assertRaises(ValueError):
+            self.compare(self.lean.replace('("o",out_dtype)', '("s",out_dtype)'))
+
+
+class GatedCumulativeBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/tritonbench_g/chunk_gated_attention"
+        self.python = (self.directory / "chunk_gated_attention.py").read_text()
+        self.lean = (self.directory / "Sources/Kernels.lean").read_text()
+        self.record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+
+    def compare(self, lean):
+        return check(self.python, lean, self.record["python_function"], self.record["lean_definition"],
+                     self.record["signature_definition"], self.record["expected_signature"])
+
+    def test_complete_repaired_body_with_runtime_strides_and_dtype_queries(self):
+        self.assertEqual(self.compare(self.lean)["mode"], "pasted_body")
+
+    def test_signed_cast_layout_dot_and_store_cast_changes_are_rejected(self):
+        for before, after in [
+            ("tl.cast(tl.program_id(0), tl.int64)", "tl.program_id(0)"),
+            ("i_t * BT * s_s_t", "i_t * BT"),
+            ("tl.dot(m_s, b_s,", "tl.dot(b_s, m_s,"),
+            ("b_o.to(p_o.dtype.element_ty)", "b_o"),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                self.compare(self.lean.replace(before, after, 1))
+
+
+class GatedRecurrentBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/tritonbench_g/chunk_gated_attention"
+        self.python = (self.directory / "chunk_gated_attention.py").read_text()
+        self.lean = (self.directory / "Sources/Kernels.lean").read_text()
+        self.record = json.loads((self.directory / "jit-correspondence.json").read_text())[1]
+
+    def compare(self, lean):
+        return check(self.python, lean, self.record["python_function"], self.record["lean_definition"],
+                     self.record["signature_definition"], self.record["expected_signature"])
+
+    def test_complete_repaired_recurrence(self):
+        result = self.compare(self.lean)
+        self.assertEqual(result["mode"], "pasted_body")
+        self.assertEqual(result["statements"], 10)
+
+    def test_seed_signed_loop_endpoint_and_dtype_casts_are_checked(self):
+        body = quotation(self.lean, "hBody", raw_python=True)[1]
+        for before, after in [
+            ("b_h += tl.load(p_h", "b_h = tl.load(p_h"),
+            ("range(tl.cast(0, tl.int64), tl.cast(NT, tl.int64), tl.cast(1, tl.int64))", "range(NT)"),
+            ("i_t * BT + BT - 1", "i_t * BT + BT + 1"),
+            ("b_h.to(p_h.dtype.element_ty)", "b_h"),
+            (".to(b_k.dtype)", ""),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, body)
+                self.compare(self.lean.replace(body, body.replace(before, after, 1), 1))
+
+class PastedGroupedMatmulTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/triton_matmul'
+        self.python = (self.directory / 'triton_matmul.py').read_text()
+        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.lean = (ROOT / self.record['lean']).read_text()
+
+    def compare(self, python=None, lean=None):
+        return check(self.python if python is None else python,
+                     self.lean if lean is None else lean,
+                     self.record['python_function'], self.record['lean_definition'],
+                     self.record['signature_definition'], self.record['expected_signature'])
+
+    def test_real_jit_configuration_and_bare_jit(self):
+        self.assertEqual(self.compare()['status'], 'PASS')
+        self.assertEqual(self.compare(python=self.python.replace(
+            '@triton.jit(launch_metadata=_matmul_launch_metadata)', '@triton.jit'))['status'], 'PASS')
+        with self.assertRaisesRegex(ValueError, 'explicitly selected'):
+            self.compare(python=self.python.replace('@triton.jit(', '@triton.other('))
+
+    def test_signed_counts_loop_clamps_and_dtype_branch_are_preserved(self):
+        for before, after in [('.to(tl.int64)', ''),
+                              ('(K % BLOCK_SIZE_K != 0).to(tl.int64)', '0'),
+                              ('for k in range(0, blocks_k):', 'for k in range(0, 1):'),
+                              ('tl.where(mask_k, base_k, 0)', 'base_k'),
+                              ('c_ptr.dtype.element_ty == tl.float8e4nv', 'False'),
+                              ('accumulator.to(tl.float16)', 'accumulator.to(tl.float32)')]:
+            with self.subTest(before=before):
+                self.assertIn(before, self.lean)
+                with self.assertRaises(ValueError):
+                    self.compare(lean=self.lean.replace(before, after, 1))

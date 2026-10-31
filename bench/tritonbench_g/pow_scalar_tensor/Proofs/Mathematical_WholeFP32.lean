@@ -14,54 +14,6 @@ theorem fp32_scalar (rest : Algebra Float32Bits) (baseWord : Float32Bits)
       rest.binary (some .fp32) .real .pow baseWord exponent := by
   rfl
 
-theorem fp32_complete (rest : Algebra Float32Bits) (baseWord : Float32Bits) (base : ℝ) (candidate : Bool) (input output : Buffer)
-    {n inputCapacity outputCapacity : Nat} (positive : 0 < n) (sx sy : Int)
-    (hshapeIn : input.shape = [n]) (hshapeOut : output.shape = [n])
-    (hstrideIn : input.strides = [sx]) (hstrideOut : output.strides = [sy])
-    (hin : (input.view sx).Valid n inputCapacity)
-    (hout : (output.view sy).Valid n outputCapacity) (hstride : sy ≠ 0)
-    (hsep : FootprintsDisjoint (input.view sx) (output.view sy) n)
-    (s : State Float32Bits) (xs : Nat → Float32Bits)
-    (values : ∀ i, i < n → s.mem input.region ((input.view sx).address i) = .mk .fp32 (xs i)) :
-    ∃ final, runHost (fp32Backend rest baseWord) base candidate input output Bool.true s = .returned output final ∧
-      (∀ i, i < n → final.mem output.region ((output.view sy).address i) =
-        Cell.mk .fp32 (rest.binary (some .fp32) .real .pow baseWord (xs i))) ∧
-      (∀ i, i < n → final.mem input.region ((input.view sx).address i) =
-        s.mem input.region ((input.view sx).address i)) ∧
-      (∀ r a, (r ≠ output.region ∨ ∀ i, i < n → a ≠ (output.view sy).address i) →
-        final.mem r a = s.mem r a) ∧
-      (∀ i, i < n → (input.view sx).address i < inputCapacity ∧
-        (output.view sy).address i < outputCapacity) := by
-  obtain ⟨final, run, outputValues, inputValues, frame, bounds⟩ :=
-    WholeHost.rank_one_success (fp32Backend rest baseWord) base candidate input output positive sx sy hshapeIn hshapeOut hstrideIn hstrideOut
-      hin hout hstride hsep s
-  refine ⟨final, run, ?_, inputValues, frame, bounds⟩
-  intro i hi
-  rw [outputValues i hi, values i hi]
-  simp [Cell.read, fp32_scalar]
-
-theorem python_fp32_complete (rest : Algebra Float32Bits) (abi : ScalarABI) (host : PythonFloat) (candidate : Bool) (input output : Buffer)
-    {n inputCapacity outputCapacity : Nat} (positive : 0 < n) (sx sy : Int)
-    (hshapeIn : input.shape = [n]) (hshapeOut : output.shape = [n])
-    (hstrideIn : input.strides = [sx]) (hstrideOut : output.strides = [sy])
-    (hin : (input.view sx).Valid n inputCapacity)
-    (hout : (output.view sy).Valid n outputCapacity) (hstride : sy ≠ 0)
-    (hsep : FootprintsDisjoint (input.view sx) (output.view sy) n)
-    (s : State Float32Bits) (xs : Nat → Float32Bits)
-    (values : ∀ i, i < n → s.mem input.region ((input.view sx).address i) = .mk .fp32 (xs i)) :
-    ∃ final, runPythonHost rest abi host candidate input output Bool.true s = .returned output final ∧
-      (∀ i, i < n → final.mem output.region ((output.view sy).address i) =
-        Cell.mk .fp32 (rest.binary (some .fp32) .real .pow (abi.extractFP32 host.payload) (xs i))) ∧
-      (∀ i, i < n → final.mem input.region ((input.view sx).address i) =
-        s.mem input.region ((input.view sx).address i)) ∧
-      (∀ r a, (r ≠ output.region ∨ ∀ i, i < n → a ≠ (output.view sy).address i) →
-        final.mem r a = s.mem r a) ∧
-      (∀ i, i < n → (input.view sx).address i < inputCapacity ∧
-        (output.view sy).address i < outputCapacity) := by
-  rw [python_run_eq]
-  exact fp32_complete rest (abi.extractFP32 host.payload) sourceSlot candidate input output positive sx sy
-    hshapeIn hshapeOut hstrideIn hstrideOut hin hout hstride hsep s xs values
-
 /-- Concrete little-endian byte observation of an FP32 word. -/
 def wordByte (word : Float32Bits) (byte : Nat) : Nat :=
   (word.bits.toNat / 2 ^ (8 * byte)) % 256

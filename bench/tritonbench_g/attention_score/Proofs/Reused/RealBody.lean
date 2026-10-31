@@ -22,9 +22,9 @@ def loadKey (B D : Nat) (evenN : Bool) : Stmt :=
     [.assign .real [D,B] "k" (.load .real (.blockPtr (.ref .blockPtr [D,B] "K_block_ptr") [0,1]) .none)]
 
 def loadPrefix (B D N : Nat) (evenM : Bool) : List Stmt :=
-  [.assign .nat [] "start_m" (.ref .nat [] "start_m"), loadQuery B D evenM,
+  [.assign .int [] "start_m" (.ref .int [] "start_m"), loadQuery B D evenM,
     .assign .real [B] "m" (.load .real (.ptr (.ref .ptr [B] "m_ptrs"))
-      (.maskOther (.lt .nat .scalarR (.add .nat .scalarL (.ref .nat [] "start_m") (.arange B)) (.constNat N)) (.broadcast (.const 0) [B])) .zero)]
+      (.maskOther (.lt .int .scalarR (.add .int .scalarL (.ref .int [] "start_m") (.castNatToInt (.arange B))) (.castNatToInt (.constNat N))) (.broadcast (.const 0) [B])) .zero)]
 
 def suffix (B D : Nat) : List Stmt :=
   [.assign .blockPtr [B,D] "Q_block_ptr" (.advanceBlockPtr (.ref .blockPtr [B,D] "Q_block_ptr") [B,0]),
@@ -45,19 +45,16 @@ theorem original_loop :
       offset size scale window complement evenM evenN hBlock).eraseDType.toAlgKernel.body) =
       some (body BN BD N offset size window complement evenM evenN Bool.false) := by
   subst BM
-  simp only [TypedSource.original, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Kernel.eraseDType,
-    Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,
-    MaskOpt.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind,
-    List.map_cons, List.map_nil]
-  simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, List.map_cons, List.map_nil]
-  simp only [RealArithmetic.loopBody?, body, loadPrefix, suffix, loadQuery,
-    RealArithmetic.body, Bool.false_eq_true, ↓reduceIte]
+  rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_, rfl⟩)]
+  rw [RealArithmetic.loopBody_erased]
+  simp only [TypedSource.original,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
+    RealArithmetic.loopBody?,Option.map]
+  simp only [Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,
+    MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,FloatDType.toTileDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,body,loadPrefix,suffix,loadQuery,
+    RealArithmetic.body,Bool.false_eq_true,↓reduceIte]
   rfl
 
 theorem candidate_loop :
@@ -66,19 +63,16 @@ theorem candidate_loop :
       offset size scale window complement evenM evenN hBlock).eraseDType.toAlgKernel.body) =
       some (body BN BD N offset size window complement evenM evenN Bool.true) := by
   subst BM
-  simp only [TypedSource.scalarLeft, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Kernel.eraseDType,
-    Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,
-    MaskOpt.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind,
-    List.map_cons, List.map_nil]
-  simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, List.map_cons, List.map_nil]
-  simp only [RealArithmetic.loopBody?, body, loadPrefix, suffix, loadQuery,
-    RealArithmetic.body, Bool.false_eq_true, ↓reduceIte]
+  rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_, rfl⟩)]
+  rw [RealArithmetic.loopBody_erased]
+  simp only [TypedSource.scalarLeft,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
+    RealArithmetic.loopBody?,Option.map]
+  simp only [Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,
+    MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,FloatDType.toTileDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,body,loadPrefix,suffix,loadQuery,
+    RealArithmetic.body,Bool.false_eq_true,↓reduceIte]
   rfl
 
 end

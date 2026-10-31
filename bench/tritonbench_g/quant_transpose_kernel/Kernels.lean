@@ -3,7 +3,7 @@ import bench.tritonbench_g.quant_transpose_kernel.Sources.Mathematical_Kernels
 /-! The checked revision preserves the original scalar, grouped schedule,
 strided load/store graph, two configurations and wrapper metadata. -/
 namespace VeriTile.Bench.Repairs.QuantTransposeKernel
-abbrev source := VeriTile.Bench.TritonBenchG.QuantTransposeKernel.quantize_global_transpose_real_surface
+
 abbrev scalar := @QuantizationSource.scalar
 abbrev schedule := QuantTransposeFinite.tileRow
 end VeriTile.Bench.Repairs.QuantTransposeKernel
@@ -76,6 +76,4 @@ def kernel (version : Bool) : Parameters → ComputeKernel :=
   | Bool.false => quotedOriginal
   | Bool.true => quotedCommuted
 
-def originalKernel := kernel Bool.false
-def commutedKernel := kernel Bool.true
 end VeriTile.Bench.Repairs.QuantTransposeKernel.KernelSource

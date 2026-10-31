@@ -64,7 +64,7 @@ theorem load_prefix_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
   apply trace_load_regs a bounds p s cur _ ?_ ?_ t h
   · intro st member u ready
     cases fp8 <;>
-      simp only [loadPrefix,KernelSource.loop,kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,arguments,
+      simp only [loadPrefix,KernelSource.loop,kernel,TypedSource.kernel,TypedSource.source,arguments,
         ComputeKernel.surfaceBody,Bool.false_eq_true,if_true,if_false,List.take,List.take_succ_cons,List.take_zero,List.drop,List.getElem?_cons_zero,List.getElem?_cons_succ,
         List.mem_cons,List.not_mem_nil,or_false] at member
     all_goals repeat' first | (rcases member with rfl | member) | (rcases member with rfl)
@@ -79,7 +79,7 @@ theorem load_prefix_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
       | exact fun i j b hi => backed.weight cur (i,j,b) hi
   · intro st member u v ready ran
     cases fp8 <;>
-      simp only [loadPrefix,KernelSource.loop,kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,arguments,
+      simp only [loadPrefix,KernelSource.loop,kernel,TypedSource.kernel,TypedSource.source,arguments,
         ComputeKernel.surfaceBody,Bool.false_eq_true,if_true,if_false,List.take,List.take_succ_cons,List.take_zero,List.drop,List.getElem?_cons_zero,List.getElem?_cons_succ,
         List.mem_cons,List.not_mem_nil,or_false] at member
     all_goals repeat' first | (rcases member with rfl | member) | (rcases member with rfl)
@@ -89,7 +89,7 @@ theorem pointer_tail_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
     (bounds : RegionName → Nat) (t : State α) :
     Safety.traceSafeList (engine a) bounds (pointerTail fp8 p) t := by
   cases fp8 <;>
-    simp [pointerTail,KernelSource.loop,kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,
+    simp [pointerTail,KernelSource.loop,kernel,TypedSource.kernel,TypedSource.source,
       arguments,ComputeKernel.surfaceBody,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
 

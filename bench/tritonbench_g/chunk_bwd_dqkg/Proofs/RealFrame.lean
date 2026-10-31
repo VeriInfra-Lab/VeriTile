@@ -240,7 +240,7 @@ theorem original_frame (s sf : BlockState) (p : Layout)
     ((hi.fixed .nat [] "i_t" (by decide)).trans hit),
     ((hi.fixed .nat [] "i_bh" (by decide)).trans hib),
     ((hi.fixed .nat [] "n_bh" (by decide)).trans hnb)⟩
-  rw [exec, RealSource.real_body_matches, cbd_body_eq] at hrun
+  rw [exec, RealSource.real_body_matches] at hrun
   change stepStmts
     ((cbdPreLoop g p.T p.BT p.BK ++ [RealLoop.statement p regions]) ++
       cbdPostLoop q k dqOut dkOut dgOut p.s_k_h p.s_k_t p.scale p.T p.K p.BT p.BK) s = _ at hrun

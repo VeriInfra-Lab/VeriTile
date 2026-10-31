@@ -12,7 +12,7 @@ noncomputable section
 listing the selected shared source and all active input/output fields. -/
 def stage1Real (inp out : RegionName) (N B : Nat) : MaskedTileKernelIO₁ where
   kernel := (stage1 inp out N B).eraseDType
-  projection := VeriTile.Bench.TritonBenchG.MaxReduction.stage1_supported .fp32 Bool.false inp out N B
+  projection := VeriTile.Bench.TritonBenchG.MaxReduction.stage1_supported Bool.false inp out N B
   inp := inp
   out := out
   shape := [B]
@@ -23,7 +23,7 @@ def stage1Real (inp out : RegionName) (N B : Nat) : MaskedTileKernelIO₁ where
 
 def stage2Real (inp out : RegionName) (N B : Nat) : MaskedTileKernelIO₁ where
   kernel := (stage2 inp out N B).eraseDType
-  projection := VeriTile.Bench.TritonBenchG.MaxReduction.stage2_supported .fp32 Bool.false inp out N B
+  projection := VeriTile.Bench.TritonBenchG.MaxReduction.stage2_supported Bool.false inp out N B
   inp := inp
   out := out
   shape := [B]

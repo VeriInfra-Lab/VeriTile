@@ -39,7 +39,20 @@ theorem uncast_run (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat)
       [.forRange "block_n_strart_ptr" 0 N B (uncastVarBody X sxk N B)] ++
       rmsStdPostLoop N B eps ++
       [.forRange "block_n_strart_ptr" 0 N B (rmsOutLoopBody X W O sxk sw sob som sok N B)] := by
-    simp [uncastMathKernel, rmsVarPreLoop, uncastVarBody, rmsVarLoopBody,
+    simp [uncastMathKernel, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
+    RealCastView.ofKernel,RealCastView.castBindings,RealCastView.castBinding,
+    ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody,ComputeStmt.listToAlgorithm?_map_alg,
+    ComputeKernel.surfaceBody,ComputeKernel.fromKernelBody,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComputeDType.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Except.bind,bind, rmsVarPreLoop, uncastVarBody, rmsVarLoopBody,
       rmsStdPostLoop, rmsOutLoopBody, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
     repeat' constructor
   have loop : ∀ t : BlockState,
@@ -68,7 +81,7 @@ theorem commuted_run (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat)
   rw [← List.take_append_drop 3 (mathKernel Bool.true X W O sxb sxm sxk sw sob som sok N B eps).body,
     ← List.take_append_drop 3 (mathKernel Bool.false X W O sxb sxm sxk sw sob som sok N B eps).body]
   have tail : (mathKernel Bool.true X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 =
-      (mathKernel Bool.false X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 := rfl
+      (mathKernel Bool.false X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 := source_tail ..
   simp [ProgramRewrite.append, prefix_source, tail, indexPrefix,
     stepStmts, stepStmt, evalOp.eq_def, Tile.bop, NumericDType.mul, Nat.mul_comm]
 

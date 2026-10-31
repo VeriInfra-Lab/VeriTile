@@ -1,8 +1,9 @@
-import bench.tritonbench_g.fast_rms_layernorm.Proofs.Mathematical_Erasure
+import bench.tritonbench_g.fast_rms_layernorm.Kernels
+import VeriTile.Triton.Float.Erasure
 import VeriTile.Triton
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.FastRmsLayernorm.RealExecution
-open VeriTile.Triton TypedSource
+open VeriTile.Triton
 noncomputable section
 set_option maxHeartbeats 6000000
 set_option maxRecDepth 25000
@@ -10,16 +11,16 @@ set_option linter.unusedSimpArgs false
 set_option linter.unusedVariables false
 
 def rms_layernorm_forward (Y X W r : RegionName) (YR XR WR RR N : Nat) (eps : ℝ) (B : Nat) : ComputeKernel :=
-  (forward .fp32 .fp32 Bool.false Y X W r YR XR WR RR N B eps).eraseDType
+  (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource Y X W r YR XR WR RR N B eps).eraseDType
 
 def gemma_rms_layernorm_forward (Y X W r : RegionName) (YR XR RR N : Nat) (eps : ℝ) (B : Nat) : ComputeKernel :=
-  (gemma .fp32 .fp32 Bool.false Y X W r YR XR 0 RR N B eps).eraseDType
+  (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource Y X W r YR XR 0 RR N B eps).eraseDType
 
 def rms_layernorm_backward (Y X W r dW : RegionName) (YR XR WR RR DWR N : Nat) (eps : ℝ) (B : Nat) : ComputeKernel :=
-  (backward .fp32 .fp32 Bool.false Y X W r dW YR XR WR RR DWR N B eps Bool.false).eraseDType
+  (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource Y X W r dW YR XR WR RR DWR N B eps Bool.false).eraseDType
 
 def gemma_rms_layernorm_backward (Y X W r dW : RegionName) (YR XR WR RR DWR N : Nat) (eps : ℝ) (B : Nat) : ComputeKernel :=
-  (backward .fp32 .fp32 Bool.false Y X W r dW YR XR WR RR DWR N B eps Bool.true).eraseDType
+  (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource Y X W r dW YR XR WR RR DWR N B eps Bool.true).eraseDType
 
 /-- Element `j` of **this program's row** of a row-major matrix region `R`
 (row = `pid`, row stride `row_stride`): `R[pid·row_stride + j]`. The `X` and
@@ -187,7 +188,9 @@ theorem rms_layernorm_forward_y_correct
         else s.readMem Y (yOutOffset s Y_row_stride i) := by
   intro i
   by_cases hB : 0 < BLOCK_SIZE
-  · simp [exec, rms_layernorm_forward,forward,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  · simp [exec, rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -231,7 +234,9 @@ theorem gemma_rms_layernorm_forward_y_correct
         else s.readMem Y (yOutOffset s Y_row_stride i) := by
   intro i
   by_cases hB : 0 < BLOCK_SIZE
-  · simp [exec, gemma_rms_layernorm_forward,gemma,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  · simp [exec, gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -276,7 +281,9 @@ theorem rms_layernorm_backward_dy_correct
         else s.readMem dY (dyOutOffset s dY_row_stride i) := by
   intro i
   by_cases hB : 0 < BLOCK_SIZE
-  · simp [exec, rms_layernorm_backward,backward,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  · simp [exec, rms_layernorm_backward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -319,7 +326,9 @@ theorem gemma_rms_layernorm_backward_dy_correct
         else s.readMem dY (dyOutOffset s dY_row_stride i) := by
   intro i
   by_cases hB : 0 < BLOCK_SIZE
-  · simp [exec, gemma_rms_layernorm_backward,backward,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  · simp [exec, gemma_rms_layernorm_backward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -357,7 +366,9 @@ theorem rms_layernorm_forward_inv_var_correct
     s'.readMem r (rOutOffset s r_row_stride) =
       rmsInvVarSpec s X X_row_stride n_cols BLOCK_SIZE eps := by
   by_cases hB : 0 < BLOCK_SIZE
-  · simp [exec, rms_layernorm_forward,forward,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  · simp [exec, rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -378,7 +389,9 @@ theorem rms_layernorm_forward_inv_var_correct
           TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
           WithBot.realRsqrt, NumericDType.mul]
     rfl
-  · simp [exec, rms_layernorm_forward,forward,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  · simp [exec, rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -412,7 +425,9 @@ theorem gemma_rms_layernorm_forward_inv_var_correct
     s'.readMem r (rOutOffset s r_row_stride) =
       rmsInvVarSpec s X X_row_stride n_cols BLOCK_SIZE eps := by
   by_cases hB : 0 < BLOCK_SIZE
-  · simp [exec, gemma_rms_layernorm_forward,gemma,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  · simp [exec, gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -433,7 +448,9 @@ theorem gemma_rms_layernorm_forward_inv_var_correct
           TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
           WithBot.realRsqrt, NumericDType.mul]
     rfl
-  · simp [exec, gemma_rms_layernorm_forward,gemma,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  · simp [exec, gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -457,7 +474,7 @@ theorem gemma_rms_layernorm_forward_inv_var_correct
 
 /-! ### The `⊨` specifications
 
-The headlines below restate the two forward kernels' correctness on the
+The headlines below restate the two VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource kernels' correctness on the
 flat-memory `Masked2DKernelIO₂ₓ₂` surface. The specs are **pure** functions of
 the loaded row `xs` and weights `ws` (`rmsFwd*` below); the bridges
 `rms*Spec_eq_of_loaded` connect them to the `BlockState`-reading carriers the
@@ -493,7 +510,7 @@ noncomputable def rmsFwdInvVarSpec (n_cols BLOCK_SIZE : Nat) (eps : ℝ)
     (xs : Fin BLOCK_SIZE → ℝ) : ℝ :=
   WithBot.unbotD 0 (rmsFwdInvVarCarrier n_cols BLOCK_SIZE eps xs)
 
-/-- Pure per-lane `Y` value of the plain forward: `(x · inv_var) · w`. -/
+/-- Pure per-lane `Y` value of the plain VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource: `(x · inv_var) · w`. -/
 noncomputable def rmsFwdYSpec (n_cols BLOCK_SIZE : Nat) (eps : ℝ)
     (xs ws : Fin BLOCK_SIZE → ℝ) (i : Fin BLOCK_SIZE) : ℝ :=
   WithBot.unbotD 0
@@ -503,7 +520,7 @@ noncomputable def rmsFwdYSpec (n_cols BLOCK_SIZE : Nat) (eps : ℝ)
         (rmsFwdInvVarCarrier n_cols BLOCK_SIZE eps xs))
       (some (ws i)))
 
-/-- Pure per-lane `Y` value of the Gemma forward: `(x · inv_var) · (w + 1)`. -/
+/-- Pure per-lane `Y` value of the Gemma VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource: `(x · inv_var) · (w + 1)`. -/
 noncomputable def gemmaRmsFwdYSpec (n_cols BLOCK_SIZE : Nat) (eps : ℝ)
     (xs ws : Fin BLOCK_SIZE → ℝ) (i : Fin BLOCK_SIZE) : ℝ :=
   WithBot.unbotD 0
@@ -577,7 +594,7 @@ theorem gemmaRmsLayernormYSpec_eq_of_loaded
   rw [rmsInputTile_eq_of_loaded s X X_row_stride n_cols BLOCK_SIZE xs hx,
       hx i hi, hw i hi]
 
-/-- Termination: the plain forward executes to completion from any state —
+/-- Termination: the plain VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource executes to completion from any state —
 including `BLOCK_SIZE = 0`, since its reductions (`sum`, `rsqrt`) are total, so
 no `0 < BLOCK_SIZE` side condition is needed here. -/
 theorem rms_layernorm_forward_exec_isSome
@@ -587,7 +604,9 @@ theorem rms_layernorm_forward_exec_isSome
     ∃ s1, exec ((rms_layernorm_forward Y X W r Y_row_stride X_row_stride
         W_row_stride r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel) s
       = some s1 := by
-  simp [exec, rms_layernorm_forward,forward,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [exec, rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -602,14 +621,16 @@ theorem rms_layernorm_forward_exec_isSome
         FloatDType.ofWithBot, FloatDType.toWithBot,
         ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
-/-- Termination for the Gemma forward (same shape as the plain one). -/
+/-- Termination for the Gemma VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource (same shape as the plain one). -/
 theorem gemma_rms_layernorm_forward_exec_isSome
     (Y X W r : RegionName)
     (Y_row_stride X_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
     (eps : ℝ) (s : BlockState) :
     ∃ s1, exec ((gemma_rms_layernorm_forward Y X W r Y_row_stride X_row_stride
         r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel) s = some s1 := by
-  simp [exec, gemma_rms_layernorm_forward,gemma,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [exec, gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -646,7 +667,7 @@ theorem foldl_store_preserve_cell {α : Type} {region : RegionName}
       · rw [if_neg hP]
         exact ih _ (fun k hk => hnot k (List.mem_cons_of_mem hd hk))
 
-/-- Frame half for the plain forward: every memory cell not actively written —
+/-- Frame half for the plain VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource: every memory cell not actively written —
 every cell outside the active `Y` lanes and off the scalar `r` store cell — is
 preserved by the run. -/
 theorem rms_layernorm_forward_frame
@@ -661,7 +682,9 @@ theorem rms_layernorm_forward_frame
       ¬(Y = ρ ∧ s.pid * Y_row_stride + i.val = o))
     (hmissR : ¬(r = ρ ∧ s.pid * r_row_stride = o)) :
     s1.mem ρ o = s.mem ρ o := by
-  simp [exec, rms_layernorm_forward,forward,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [exec, rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -682,7 +705,7 @@ theorem rms_layernorm_forward_frame
   · simp only [BlockState.setReg_mem, BlockState.writeMem_mem]
     exact if_neg fun hc => hmissR ⟨hc.1.symm, hc.2.symm⟩
 
-/-- Frame half for the Gemma forward (same footprint as the plain one). -/
+/-- Frame half for the Gemma VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource (same footprint as the plain one). -/
 theorem gemma_rms_layernorm_forward_frame
     (Y X W r : RegionName)
     (Y_row_stride X_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
@@ -695,7 +718,9 @@ theorem gemma_rms_layernorm_forward_frame
       ¬(Y = ρ ∧ s.pid * Y_row_stride + i.val = o))
     (hmissR : ¬(r = ρ ∧ s.pid * r_row_stride = o)) :
     s1.mem ρ o = s.mem ρ o := by
-  simp [exec, gemma_rms_layernorm_forward,gemma,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [exec, gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -716,7 +741,7 @@ theorem gemma_rms_layernorm_forward_frame
   · simp only [BlockState.setReg_mem, BlockState.writeMem_mem]
     exact if_neg fun hc => hmissR ⟨hc.1.symm, hc.2.symm⟩
 
-/-- The plain forward sits inside the flat-memory bridge's covered fragment
+/-- The plain VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource sits inside the flat-memory bridge's covered fragment
 (pointer arithmetic, masked loads with `other`, dtype casts, sum reduction,
 `rsqrt`, scalar store, masked store). -/
 theorem rms_layernorm_forward_flattenOk
@@ -726,7 +751,9 @@ theorem rms_layernorm_forward_flattenOk
     ((rms_layernorm_forward Y X W r Y_row_stride X_row_stride W_row_stride
         r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [rms_layernorm_forward,forward,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -736,7 +763,7 @@ theorem rms_layernorm_forward_flattenOk
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
-/-- The Gemma forward sits inside the flat-memory bridge's covered fragment. -/
+/-- The Gemma VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource sits inside the flat-memory bridge's covered fragment. -/
 theorem gemma_rms_layernorm_forward_flattenOk
     (Y X W r : RegionName)
     (Y_row_stride X_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
@@ -744,7 +771,9 @@ theorem gemma_rms_layernorm_forward_flattenOk
     ((gemma_rms_layernorm_forward Y X W r Y_row_stride X_row_stride
         r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [gemma_rms_layernorm_forward,gemma,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -754,7 +783,7 @@ theorem gemma_rms_layernorm_forward_flattenOk
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
-/-- Per-execution safety walk for the plain forward: the masked `X`/`W` loads
+/-- Per-execution safety walk for the plain VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource: the masked `X`/`W` loads
 and the masked `Y` store reduce to **lane-wise** bounds at the active lanes;
 the **unmasked** scalar `r` store reduces to the single-cell bound
 `row_idx · r_row_stride < bounds r`. -/
@@ -773,7 +802,9 @@ theorem rms_layernorm_forward_traceSafe
       ((rms_layernorm_forward Y X W r Y_row_stride X_row_stride W_row_stride
         r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel) s := by
   unfold Kernel.TraceSafe
-  simp [rms_layernorm_forward,forward,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -795,7 +826,7 @@ theorem rms_layernorm_forward_traceSafe
   exact ⟨fun a ha => hin1 a ha, fun a ha => hin2 a ha, hout2,
     fun a ha => hout1 a ha⟩
 
-/-- Per-execution safety walk for the Gemma forward (contiguous `W` window). -/
+/-- Per-execution safety walk for the Gemma VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource (contiguous `W` window). -/
 theorem gemma_rms_layernorm_forward_traceSafe
     (Y X W r : RegionName)
     (Y_row_stride X_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
@@ -810,7 +841,9 @@ theorem gemma_rms_layernorm_forward_traceSafe
       ((gemma_rms_layernorm_forward Y X W r Y_row_stride X_row_stride
         r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel) s := by
   unfold Kernel.TraceSafe
-  simp [gemma_rms_layernorm_forward,gemma,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -832,7 +865,7 @@ theorem gemma_rms_layernorm_forward_traceSafe
   exact ⟨fun a ha => hin1 a ha, fun a ha => hin2 a ha, hout2,
     fun a ha => hout1 a ha⟩
 
-/-- **The region-model masked Hoare triple** for the plain forward —
+/-- **The region-model masked Hoare triple** for the plain VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource —
 termination, active-lane `Y` values, the scalar `r` (rstd) value, and frame off
 the active `Y` lanes and the `r` cell, from any launch state whose active input
 lanes hold `xs` (the `X` row) and `ws` (the weights). This is the `hrun`
@@ -891,7 +924,7 @@ theorem rms_layernorm_forward_region_run
       · exact hne hc.1.symm
       · exact hno hc.2.symm
 
-/-- **The region-model masked Hoare triple** for the Gemma forward (contiguous
+/-- **The region-model masked Hoare triple** for the Gemma VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource (contiguous
 `W` window, `(w + 1)` scaling; otherwise as the plain one). -/
 theorem gemma_rms_layernorm_forward_region_run
     (Y X W r : RegionName)

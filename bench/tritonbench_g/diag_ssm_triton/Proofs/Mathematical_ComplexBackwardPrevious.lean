@@ -27,7 +27,12 @@ theorem step (s y : RegionName) (batch dim B t : Nat) (u : BlockState)
     (ho : u.regs .nat [B] "offsets"=some ⟨fun j => offset batch dim t col j*2⟩)
     (hm : u.regs .bool [B] "mask"=some ⟨mask⟩) :
     stepStmts (source s y batch dim B) u = some (result u s y batch dim t col mask) := by
-  simp only [source,ComplexBackwardSource.body,Erasure.complexBackward,
+  simp only [source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
+    IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,

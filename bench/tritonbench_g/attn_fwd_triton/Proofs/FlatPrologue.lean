@@ -25,19 +25,19 @@ theorem executes (A : FlatAlloc) (s : BlockState) (p : Parameters) (BM BN BD : N
   let c := Coordinates.configuration s p
   let rc := config A c
   obtain ⟨sc,hcs,hcv,hcf⟩ := Coordinates.executes s p BM BN
-  have hm : sc.regs .nat [] "start_m" = some (Tile.scalar c.startM) := hcv.row
-  have hqb : sc.regs .nat [] "qvk_offset" = some (Tile.scalar (qbase c)) := hcv.queryBase
-  have hkb : sc.regs .nat [] "k_offset" = some (Tile.scalar (kbase c)) := hcv.keyBase
-  have hvb : sc.regs .nat [] "v_offset" = some (Tile.scalar (vbase c)) := hcv.valueBase
-  have hob : sc.regs .nat [] "o_offset" = some (Tile.scalar (obase c)) := hcv.outputBase
-  have hqsb : sc.regs .nat [] "q_scale_offset" = some (Tile.scalar (qsbase c BM)) := by
-    change sc.regs .nat [] "q_scale_offset" = some (Tile.scalar
-      ((c.z*p.heads+c.h)*((p.context+BM-1)/BM)))
+  have hm : sc.regs .int [] "start_m" = some (Tile.scalar c.startM) := hcv.row
+  have hqb : sc.regs .int [] "qvk_offset" = some (Tile.scalar (qbase c)) := hcv.queryBase
+  have hkb : sc.regs .int [] "k_offset" = some (Tile.scalar (kbase c)) := hcv.keyBase
+  have hvb : sc.regs .int [] "v_offset" = some (Tile.scalar (vbase c)) := hcv.valueBase
+  have hob : sc.regs .int [] "o_offset" = some (Tile.scalar (obase c)) := hcv.outputBase
+  have hqsb : sc.regs .int [] "q_scale_offset" = some (Tile.scalar (qsbase c BM)) := by
+    change sc.regs .int [] "q_scale_offset" = some (Tile.scalar
+      ((((c.z*p.heads+c.h)*((p.context+BM-1)/BM)) : Nat) : Int))
     rw [show c.z*p.heads+c.h = s.pids 1 from Coordinates.packed_head s p]
     exact hcv.queryScaleBase
-  have hksb : sc.regs .nat [] "k_scale_offset" = some (Tile.scalar (ksbase c BN)) := by
-    change sc.regs .nat [] "k_scale_offset" = some (Tile.scalar
-      ((c.z*p.heads+c.h)*((p.context+BN-1)/BN)))
+  have hksb : sc.regs .int [] "k_scale_offset" = some (Tile.scalar (ksbase c BN)) := by
+    change sc.regs .int [] "k_scale_offset" = some (Tile.scalar
+      ((((c.z*p.heads+c.h)*((p.context+BN-1)/BN)) : Nat) : Int))
     rw [show c.z*p.heads+c.h = s.pids 1 from Coordinates.packed_head s p]
     exact hcv.keyScaleBase
   obtain ⟨sp,hps,hpv,hpf⟩ := FlatPointers.executes A sc c BM BN BD hm hqb hkb hvb hob hqsb hksb hcv.keyStride hcv.valueStride

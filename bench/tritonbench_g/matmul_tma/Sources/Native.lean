@@ -103,7 +103,7 @@ theorem instructions_eq (I : Instructions) (R : Reference) (law : Correspondence
   exact ⟨funext (fun p => funext (fun a => funext (law.first p a))),
     funext (fun p => funext (fun a => funext (fun b => funext (law.carry p a b)))),funext law.castHalf⟩
 
-#specNonCircular expected avoiding [kernel,source,FP.Structural.exec,scatter]
+#specNonCircular expected avoiding [source,FP.Structural.exec,scatter]
 #axiomsClean output_expected
 #axiomsClean instruction_lane
 #axiomsClean partition

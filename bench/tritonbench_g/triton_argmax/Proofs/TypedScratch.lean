@@ -16,22 +16,6 @@ def channel : Kind → FloatDType
   | .bf16 => .bf16
   | .fp32 | .fp64 => .real
 
-def firstKernel : Kind → RegionName → RegionName → Region .int → Nat → Nat → Nat → Bool → ComputeKernel
-  | .fp32 => TypedSource.stage1FP32
-  | .fp16 => TypedSource.stage1FP16
-  | .bf16 => TypedSource.stage1BF16
-  | .fp64 => TypedSource.stage1FP64
-
-def secondKernel : Kind → RegionName → Region .int → Region .int → Nat → Nat → ComputeKernel
-  | .fp32 => TypedSource.stage2FP32
-  | .fp16 => TypedSource.stage2FP16
-  | .bf16 => TypedSource.stage2BF16
-  | .fp64 => TypedSource.stage2FP64
-
-/-- Carrier words represent the FP32-exact decoded value of a floating storage
-cell. All requested floating scratch values originate from FP32, so this also
-represents FP64 scratch losslessly for comparisons. Rounding into FP16/BF16 is
-an explicit scalar operation; this is not a forced FP32 scratch allocation. -/
 structure Rounding where
   fp16 : Word → Word
   bf16 : Word → Word
@@ -69,21 +53,6 @@ def firstWritten (kind : Kind) (r : Rounding) (s : State Word) (X V : RegionName
       (ofFloat (channel kind) (r.cast kind ((s.mem X selected).read .real))))).write
     (Region.cast I) (s.pids 0+base) (.mk .int (Int.ofNat selected))
 
-theorem stage1_run (kind : Kind) (r : Rounding) (rest : Algebra Word) (s : State Word)
-    (X V : RegionName) (I : Region .int) (size block base : Nat) (index64 : Bool) (positive : 0<block) :
-    ∃ t, FP.Structural.exec (backend r rest) (firstKernel kind X V I size block base index64) s=some t ∧
-      t.mem=(firstWritten kind r s X V I size block base positive).mem := by
-  cases kind <;> cases index64 <;>
-    simp [firstKernel,TypedSource.stage1FP32,TypedSource.stage1FP16,TypedSource.stage1BF16,TypedSource.stage1FP64,
-      ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-      ComputeDType.eraseDType,backend,Typed.backend,State.setReg,indexed,
-      TileShape.axisDim,positive,Nat.ne_of_gt positive,TileShape.insertAxisIndex,TileShape.eraseAxis,
-      ofFloat,toFloat,bop,numeric,numericLt,numericEq,natLt,TileShape.discreteMaximum,
-      TileShape.discreteIntArgMax,TypedReduction.self_equal,TypedReduction.presence,
-      TypedReduction.selected,flag,clean,Typed.globalLoaded,Typed.firstIndex,firstWritten,Option.bind,
-      store,TileShape.allIndices,Region.cast,channel,Rounding.cast]
-  all_goals rfl
-
 def secondIndex (kind : Kind) (s : State Word) (V : RegionName)
     (size block : Nat) (positive : 0<block) : Nat :=
   TypedReduction.selected positive (fun lane : Fin block =>
@@ -95,25 +64,5 @@ def secondWritten (kind : Kind) (s : State Word) (V : RegionName) (I O : Region 
   s.write (Region.cast O) 0
     (.mk .int ((s.mem (Region.cast I) (secondIndex kind s V size block positive)).read .int))
 
-theorem stage2_run (kind : Kind) (r : Rounding) (rest : Algebra Word) (s : State Word)
-    (V : RegionName) (I O : Region .int) (size block : Nat) (positive : 0<block) :
-    ∃ t, FP.Structural.exec (backend r rest) (secondKernel kind V I O size block) s=some t ∧
-      t.mem=(secondWritten kind s V I O size block positive).mem := by
-  have pad16 : r.fp16 (4286578688#32) = (4286578688#32) := r.fp16Padding
-  have padbf : r.bf16 (4286578688#32) = (4286578688#32) := r.bf16Padding
-  cases kind <;>
-    simp [secondKernel,TypedSource.stage2FP32,TypedSource.stage2FP16,TypedSource.stage2BF16,TypedSource.stage2FP64,
-      ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-      ComputeDType.eraseDType,backend,Typed.backend,State.setReg,indexed,
-      TileShape.axisDim,positive,Nat.ne_of_gt positive,TileShape.insertAxisIndex,TileShape.eraseAxis,
-      ofFloat,toFloat,bop,numeric,numericLt,numericEq,natLt,TileShape.discreteMaximum,
-      TileShape.discreteIntArgMax,TypedReduction.self_equal,TypedReduction.presence,
-      TypedReduction.selected,flag,clean,secondIndex,secondWritten,Option.bind,
-      store,TileShape.allIndices,Region.cast,channel,r.fp16Padding,r.bf16Padding]
-  all_goals try simp only [pad16,padbf]
-  all_goals rfl
-
-#axiomsClean stage1_run
-#axiomsClean stage2_run
 end
 end VeriTile.Bench.Repairs.TritonArgmaxNanFirst.TypedScratch

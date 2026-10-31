@@ -47,22 +47,6 @@ theorem separate (h : Call) (a b : Fin h.rows) (ne : a≠b) (addr : Address)
   · intro hr
     rcases ha with ⟨j,rfl⟩|rfl <;> simp [reads] at hr
 
-theorem step_complete (M : Algebra α) (h : Call) (row : Fin h.rows) (heap : Heap α) :
-    ∃ final,execute M h row heap=some final ∧
-      (∀ i,final (address h row i)=expected M h heap row i) ∧
-      (∀ addr,¬writes h row addr → final addr=heap addr) := by
-  obtain ⟨v,he,hy,hr,hf⟩ := FPMemory.forward_complete M h (entry heap row.val h.rows)
-  refine ⟨fun a => v.mem a.1 a.2,by simp [execute,he],?_,?_⟩
-  · intro i
-    cases i with
-    | inl j => exact hy j
-    | inr _ => exact hr
-  · rintro ⟨q,o⟩ outside
-    apply hf
-    rintro (⟨same,j,eq⟩|⟨same,eq⟩)
-    · exact outside (Or.inl ⟨j,Prod.ext same eq⟩)
-    · exact outside (Or.inr (Prod.ext same eq))
-
 theorem expected_stable (M : Algebra α) (h : Call) (row : Fin h.rows) (a b : Heap α)
     (stable : ∀ addr,reads h row addr → a addr=b addr) (i : Output h) :
     expected M h a row i=expected M h b row i := by
@@ -78,16 +62,5 @@ theorem expected_stable (M : Algebra α) (h : Call) (row : Fin h.rows) (a b : He
 
 def run (M : Algebra α) (h : Call) := GridRun.run (execute M h) (List.finRange h.rows)
 
-theorem complete (M : Algebra α) (h : Call) (heap : Heap α) :
-    ∃ final,run M h heap=some final ∧
-      (∀ row : Fin h.rows,∀ i,final (address h row i)=expected M h heap row i) ∧
-      (∀ addr,(∀ row : Fin h.rows,¬writes h row addr) → final addr=heap addr) := by
-  obtain ⟨final,he,ho,hf⟩ := GridRun.complete (execute M h) (fun _ => Output h) (address h) id
-    (expected M h) (reads h) (writes h) (inside h) (List.finRange h.rows) (List.nodup_finRange _)
-    (fun a _ b _ => separate h a b) (fun w _ => step_complete M h w)
-    (fun w _ => expected_stable M h w) heap
-  exact ⟨final,he,fun row => ho row (List.mem_finRange row),fun addr out => hf addr (fun row _ => out row)⟩
-
-#axiomsClean complete
 end
 end VeriTile.Bench.Repairs.FastRmsLayernorm.FPGridForward

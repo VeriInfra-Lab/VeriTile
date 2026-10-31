@@ -56,36 +56,5 @@ theorem statistics_frame {α : Type} (s : State α) (Mean Rstd : RegionName)
     ((s.write Mean (s.pids 0) (.mk .real mean)).write Rstd (s.pids 0) (.mk .real inverse)).mem q off=s.mem q off := by
   rw [State.write_other _ _ _ _ _ _ hr,State.write_other _ _ _ _ _ _ hm]
 
-theorem whole_row {α : Type} [Inhabited α] (M : Algebra α) (eq : α→α→Bool)
-    (s : State α) (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
-    (tree : ReductionTree B) (hB : 0<B) (sep : Separation X W Bias Y Mean Rstd) :
-    ∃ final, FP.Structural.exec (withEquality M eq) (rowKernel X W Bias Y Mean Rstd S D B tree) s=some final ∧
-      RowEffect M s final X W Bias Y Mean Rstd D B tree := by
-  obtain ⟨u,hu,hs⟩ := whole_statistics (withEquality M eq) s X Mean Rstd S D B tree (sep.inputs X (.inl rfl)).1
-  rw [mean_equality,inverse_equality] at hs
-  obtain ⟨t,ht,hreg,hout,hframe⟩ := normalize_whole_row M eq u X W Bias Y D B (s.pids 0)
-    _ _ hB (sep.inputs X (.inl rfl)).2.2 (sep.inputs W (.inr (.inl rfl))).2.2
-    (sep.inputs Bias (.inr (.inr rfl))).2.2 hs.mean hs.inverse hs.row
-  have hinput : ∀ q, q=X ∨ q=W ∨ q=Bias → u.mem q=s.mem q := by
-    intro q hq
-    funext off
-    rw [hs.mem]
-    exact statistics_frame s Mean Rstd _ _ q off (.inl (sep.inputs q hq).1) (.inl (sep.inputs q hq).2.1)
-  refine ⟨t,?_,?_⟩
-  · simp only [FP.Structural.exec,ComputeKernel.surfaceBody] at hu
-    simpa only [rowKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run_append,hu,Option.bind,ht]
-  · refine ⟨hreg.pids.trans hs.pids,hreg.undef.trans hs.undef,?_,?_,?_,?_⟩
-    · rw [hframe Mean (s.pids 0) (.inl sep.mean_y),hs.mem]
-      simp [State.write,sep.mean_rstd]
-    · rw [hframe Rstd (s.pids 0) (.inl sep.rstd_y),hs.mem]
-      simp [State.write]
-    · intro col hc
-      simpa only [normalizeValue,hinput X (.inl rfl),hinput W (.inr (.inl rfl)),
-        hinput Bias (.inr (.inr rfl))] using hout col hc
-    · intro q off hm
-      rw [hframe q off hm.2.2,hs.mem]
-      exact statistics_frame s Mean Rstd _ _ q off hm.1 hm.2.1
-
-#axiomsClean whole_row
 end
 end VeriTile.Bench.Repairs.LayerNormWelfold

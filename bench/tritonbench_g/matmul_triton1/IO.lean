@@ -1,7 +1,9 @@
+import bench.tritonbench_g.matmul_triton1.Proofs.RealSum
 import VeriTile.Triton.Float.LogicalProgramIO
 import VeriTile.Triton.Float.ProgramEquivalence
 import bench.tritonbench_g.matmul_triton1.Kernels
-import bench.tritonbench_g.matmul_triton1.Proofs.KernelInterface
+import bench.tritonbench_g.matmul_triton1.Sources.DotProfile
+import bench.tritonbench_g.matmul_triton1.Proofs.Grid
 import VeriTile.Triton.Float.ProgramIO
 
 /-! Logical matrices, exact source layout and complete row-major launch schedule.
@@ -32,17 +34,17 @@ def memoryIO (α : Type) (p : Core.Parameters) : MemoryIO α where
   scratchMask := by intro i; exact Fin.elim0 i
 
 def launch {α : Type} (rest : Algebra α) (P : Core.Primitives α)
-    (p : Core.Parameters) (pid : Nat) : Invocation α where
+    (p : Core.Parameters) (pid : Nat) : Invocation (DotProfile.Value α) where
   kernel := Kernel.source p
-  backend := Core.backend rest P
+  backend := DotProfile.algebra rest P
   pids := fun ax => if ax=0 then pid else 0
 
 def io {α : Type} (rest : Algebra α) (P : Core.Primitives α)
-    (p : Core.Parameters) : ProgramIO α α where
+    (p : Core.Parameters) : ProgramIO α (DotProfile.Value α) where
   toMemoryIO := memoryIO α p
   schedule := fun _ => (List.range (Geometry.count (Core.geometry p))).map (launch rest P p)
-  encode := id
-  observe := fun _ _ => id
+  encode := DotProfile.Value.input
+  observe := fun _ _ => DotProfile.observe P
 
 /-- Logical K padding is explicit: native dots retain every padded zero lane. -/
 def left {α : Type} (p : Core.Parameters) (xs : ChannelValues α (inputs p))
@@ -84,10 +86,10 @@ open VeriTile.Bench.Repairs.IntScaledMatmul.Revision001
 noncomputable section
 variable {α : Type} [Inhabited α]
 
-def launch (rest : Algebra α) (P : Core.Primitives α) (p : Core.Parameters) (pid : Nat) : Invocation α :=
+def launch (rest : Algebra α) (P : Core.Primitives α) (p : Core.Parameters) (pid : Nat) : Invocation (DotProfile.Value α) :=
   { MatmulIO.launch rest P p pid with kernel := Kernel.maskHoisted p }
 
-def candidateIO (rest : Algebra α) (P : Core.Primitives α) (p : Core.Parameters) : ProgramIO α α :=
+def candidateIO (rest : Algebra α) (P : Core.Primitives α) (p : Core.Parameters) : ProgramIO α (DotProfile.Value α) :=
   { MatmulIO.io rest P p with schedule := fun _ =>
       (List.range (Geometry.count (Core.geometry p))).map (launch rest P p) }
 
@@ -143,7 +145,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 
 /-- A bijective logical view of the unchanged complete source IO. -/
-def logicalIO (rest : Algebra ℝ) (P : Revision001.Core.Primitives ℝ) (p : Revision001.Core.Parameters) : LogicalProgramIO ℝ ℝ
+def logicalIO (rest : Algebra ℝ) (P : Revision001.Core.Primitives ℝ) (p : Revision001.Core.Parameters) : LogicalProgramIO ℝ (DotProfile.Value ℝ)
     ((Fin p.rows → Fin p.innerSize → ℝ) × (Fin p.innerSize → Fin p.columns → ℝ)) (Fin p.rows → Fin p.columns → ℝ) where
   core := io rest P p
   inputs := matrixInputs p

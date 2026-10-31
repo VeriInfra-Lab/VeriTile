@@ -28,7 +28,7 @@ private theorem index_run {α : Type} [Inhabited α] (M : Algebra α)
     cases hn : s.regs .int [] "cur_batch_seq_len" <;>
     cases hp : s.regs .int [] "prompt_cache_len"
   all_goals simp (config := {maxSteps := 1000000}) [indexCode,position,source,
-    originalFP32,blockEndFactoredFP32,ComputeKernel.surfaceBody,List.drop,List.take,
+    originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,blockEndFactoredFP32,ComputeKernel.surfaceBody,List.drop,List.take,
     run,step,evalExpr,evalOp_unfold,Option.bind,numeric,numericLt,bop,
     Broadcast.leftIndex,Broadcast.rightIndex,hb,hn,hp]
   all_goals try (congr 1; funext i; simp [bop,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -38,7 +38,7 @@ private theorem index_safe {α : Type} [Inhabited α] (M : Algebra α)
     (bounds : RegionName → Nat) (candidate : Bool) (p : Layout) (r : Regions) (scale : ℝ) (s : State α) :
     Safety.traceSafeList M bounds (indexCode candidate p r scale) s := by
   cases candidate
-  all_goals simp [indexCode,position,source,originalFP32,blockEndFactoredFP32,
+  all_goals simp [indexCode,position,source,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,blockEndFactoredFP32,
     ComputeKernel.surfaceBody,List.drop,List.take,Safety.traceSafeList,Safety.stepSafe,
     Safety.safeExpr,Safety.safeAlg,Safety.safeOp,Safety.safeOp_unfold]
   all_goals split <;> trivial

@@ -4,11 +4,6 @@ namespace VeriTile.Bench.Repairs.AdamUpdateTriton
 theorem source_body_length (total chunk block : Nat) :
     (source total chunk block).surfaceBody.length = 19 := by rfl
 
-theorem original_math_projection (params : Scalars ℝ) (total chunk block : Nat) :
-    (mathematicalSource params total chunk block).toAlgKernel =
-      (VeriTile.Bench.TritonBenchG.AdamUpdateTriton.update_fn_kernel "P" "G" "M"
-        params.lr params.wd params.beta1 params.beta2 chunk block).toAlgKernel := by rfl
-
 end VeriTile.Bench.Repairs.AdamUpdateTriton
 
 namespace VeriTile.Bench.Repairs.AdamUpdateTriton.Scalar

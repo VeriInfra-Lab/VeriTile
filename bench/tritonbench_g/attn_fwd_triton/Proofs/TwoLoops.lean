@@ -52,19 +52,19 @@ def code (BM BN BD D : Nat) (diagonal : Bool) : List Stmt :=
     Setup.code BM BN BD Bool.true ++ [loop BM BN BD D Bool.true diagonal]
 
 theorem statement (BM BN BD D lower upper : Nat) (second diagonal : Bool) (s t : BlockState)
-    (hl : s.regs .nat [] (Setup.lowerName second) = some (Tile.scalar lower))
-    (hh : s.regs .nat [] (Setup.upperName second) = some (Tile.scalar upper))
-    (hloop : stepForRangeAux "start_n" lower upper BN (sourceIteration BM BN BD D second diagonal) s = some t) :
+    (hl : if second || diagonal then
+      s.regs .int [] (Setup.lowerName second) = some (Tile.scalar (lower : Int))
+      else s.regs .nat [] (Setup.lowerName second) = some (Tile.scalar lower))
+    (hh : s.regs .int [] (Setup.upperName second) = some (Tile.scalar (upper : Int)))
+    (hloop : stepForRangeIntAux "start_n" (lower : Int) (upper : Int) BN
+      (sourceIteration BM BN BD D second diagonal) s = some t) :
     stepStmt (loop BM BN BD D second diagonal) s = some t := by
-  unfold loop
-  conv_lhs => unfold stepStmt
-  change (do
-    let lo ← evalOp (.ref .nat [] (Setup.lowerName second)) s
-    let hi ← evalOp (.ref .nat [] (Setup.upperName second)) s
-    let st ← evalOp (.constNat BN) s
-    stepForRangeAux "start_n" (lo.data PUnit.unit) (hi.data PUnit.unit) (st.data PUnit.unit)
-      (sourceIteration BM BN BD D second diagonal) s) = some t
-  simpa only [evalOp_ref,evalOp_constNat,hl,hh,bind,Option.bind,Tile.scalar] using hloop
+  cases second <;> cases diagonal
+  all_goals simp only [Setup.lowerName,Setup.upperName,RealSetup.lowerName,RealSetup.upperName,
+    Bool.false_or,Bool.true_or,Bool.false_eq_true,Bool.true_eq,↓reduceIte] at hl hh
+  all_goals simpa only [loop,Setup.lowerName,Setup.upperName,RealSetup.lowerName,RealSetup.upperName,
+    Bool.false_or,Bool.true_or,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
+    stepStmt,evalOp.eq_def,hl,hh,bind,Option.bind,Tile.scalar] using hloop
 
 theorem executes (mem s : BlockState) (c : Config) (BM BN BD : Nat) (diagonal : Bool) (seed : Carry BM BD)
     (hN : 0 < BN) (f : Iteration.Fixed mem s c BM BN BD) (hc : Iteration.Carries s seed)
@@ -76,7 +76,7 @@ theorem executes (mem s : BlockState) (c : Config) (BM BN BD : Nat) (diagonal : 
   obtain ⟨sb,hbloop,hbr,hbf⟩ := Loop.executes mem sa c BM BN BD
     (FirstSetup.firstLower c.startM BM diagonal) (FirstSetup.firstUpper c.startM BM c.p.context diagonal)
     Bool.false diagonal seed hN ⟨fa,carry_setup hc haf,haptr⟩
-  have hbstep := statement BM BN BD c.p.headDim _ _ Bool.false diagonal sa sb halo hahi hbloop
+  have hbstep := statement BM BN BD c.p.headDim _ _ Bool.false diagonal sa sb (by simpa using halo) hahi hbloop
   have hbframe : Frame writes s sb := (haf.mono (by intro name hn; simp only [writes,List.mem_append]; tauto)).trans (hbf.mono (by intro name hn; simp only [writes,List.mem_append]; tauto))
   have cb := caller_frame caller hbframe
   obtain ⟨sc,hcstep,hclo,hchi,hcptr,hcf⟩ := Setup.executes sb c BM BN BD Bool.true
@@ -84,7 +84,7 @@ theorem executes (mem s : BlockState) (c : Config) (BM BN BD : Nat) (diagonal : 
   have fc := fixed_setup hbr.fixed hcf
   obtain ⟨t,htloop,htr,htf⟩ := Loop.executes mem sc c BM BN BD (c.startM*BM) (min ((c.startM+1)*BM) c.p.context)
     Bool.true diagonal (firstResult mem c BM BN BD diagonal seed) hN ⟨fc,carry_setup hbr.carry hcf,hcptr⟩
-  have htstep := statement BM BN BD c.p.headDim _ _ Bool.true diagonal sc t hclo hchi htloop
+  have htstep := statement BM BN BD c.p.headDim _ _ Bool.true diagonal sc t (by simpa using hclo) hchi htloop
   refine ⟨t,?_,htr.fixed,htr.carry,
     ((hbframe.trans (hcf.mono (by intro name hn; simp only [writes,List.mem_append]; tauto))).trans (htf.mono (by intro name hn; simp only [writes,List.mem_append]; tauto)))⟩
   have hb : stepStmts [loop BM BN BD c.p.headDim Bool.false diagonal] sa = some sb := by

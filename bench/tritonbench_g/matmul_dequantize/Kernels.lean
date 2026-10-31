@@ -9,18 +9,6 @@ open VeriTile.Triton
 open VeriTile.Bench.Repairs.MatmulDequantizeWhole001
 noncomputable section
 
-/-- Both checked GPTQ configurations use FP16 operands/storage and FP32 dot
-accumulation. The quotation makes the implicit FP16 store conversion explicit. -/
-abbrev gptq := FPTyped.matmul4Typed .fp16
-
-/-- Canonical repaired SPLIT_K=1 body: FP32 A/scales, all four K-tail masks,
-FP16 dot operands, FP32 accumulation and FP16 output. -/
-abbrev s2 := FPTyped.matmulTyped .fp32
-
-/-- The same full source body is selected at its requested FP16/FP32 precision.
-The FP16 route is also the Triton part of s1; torch.mm is an external consumer. -/
-abbrev dequant16 := FPTyped.dequantTyped .fp16
-abbrev dequant32 := FPTyped.dequantTyped .fp32
 /-- Complete concrete candidates; precomputed scalar origins reduce runtime
 integer address arithmetic without changing floating computation. -/
 def groupedGPTQ (dtype : FloatDType)
@@ -86,7 +74,6 @@ def groupedGPTQ (dtype : FloatDType)
   c_mask = (offs_cm[:, None] < $(M)) & (offs_cn[None, :] < $(N))
   tl.store(c_ptrs, accumulator.to(DTYPE), mask=c_mask)
 }
-
 
 def groupedS2 (dtype : FloatDType)
     (a_ptr c_ptr bs_ptr : RegionName) (b_ptr bzp_ptr : RegionName)

@@ -27,7 +27,7 @@ theorem firstStream_mask_readback {α : Type} [Inhabited α] (A : Algebra α) (c
   have hu := hv.1
   simp at hu
   cases hsc : f.rowscale
-  all_goals simp [firstStream,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp [firstStream,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,FP.Structural.bop,natLt,
     numericLt,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
@@ -57,7 +57,7 @@ theorem secondInput_mask_readback {α : Type} [Inhabited α] (A : Algebra α) (c
   have hu := hv.1
   simp at hu
   cases hsc : f.rowscale
-  all_goals simp [secondInput,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp [secondInput,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,FP.Structural.bop,natLt,
     numericLt,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
@@ -81,7 +81,7 @@ theorem residual_readback {α : Type} [Inhabited α] (A : Algebra α)
       (cast A (residualCombined A f r stride s N row v j)) := by
   rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
   cases hrflag : f.residual
-  all_goals simp [residual,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp [residual,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
     numericLt,Region.cast,Random.i32ArangeSize,

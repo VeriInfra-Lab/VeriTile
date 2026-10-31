@@ -56,7 +56,7 @@ theorem stage1_exec [Inhabited A] (e : Engine A) (inp mid : RegionName)
     ∃ final,FP.Structural.exec e.algebra (stage1 inp mid N B) s=some final ∧
       final.mem=(s.write mid (s.pids 0) (.mk .real
         (scalarValue e (fun i => (s.mem inp i).read .real) N B (s.pids 0*B)))).mem := by
-  simp [stage1,VeriTile.Bench.TritonBenchG.MaxReduction.stage1,FP.Structural.exec,
+  simp [stage1, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted, FP.Structural.exec,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,
     reduceWith,scalarValue,TileShape.allIndices,TileShape.axisDim,hb,State.write,State.setReg]
@@ -67,7 +67,7 @@ theorem stage2_exec [Inhabited A] (e : Engine A) (mid out : RegionName)
     ∃ final,FP.Structural.exec e.algebra (stage2 mid out N B) s=some final ∧
       final.mem=(s.write out 0 (.mk .real
         (scalarValue e (fun i => (s.mem mid i).read .real) N B 0))).mem := by
-  simp [stage2,VeriTile.Bench.TritonBenchG.MaxReduction.stage2,FP.Structural.exec,
+  simp [stage2, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted, FP.Structural.exec,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,
     reduceWith,scalarValue,TileShape.allIndices,TileShape.axisDim,hb,State.write,State.setReg]
@@ -109,7 +109,7 @@ theorem dimension_exec [Inhabited A] (e : Engine A) (inp ov oi : RegionName)
     (M N K BM BN : Nat) (s : State A) (hn : 0<BN) :
     ∃ final,FP.Structural.exec e.algebra (dimension inp ov oi M N K BM BN) s=some final ∧
       final.mem=(dimensionStores e inp ov oi M N K BM BN s).mem := by
-  simp [dimension,VeriTile.Bench.TritonBenchG.MaxReduction.dimensionSource,FP.Structural.exec,
+  simp [dimension, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted, FP.Structural.exec,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,
     indexedWith,rowValue,dimensionStores,TileShape.allIndices,TileShape.axisDim,TileShape.insertAxisIndex,toFloat,ofFloat,hn,Nat.ne_of_gt hn,

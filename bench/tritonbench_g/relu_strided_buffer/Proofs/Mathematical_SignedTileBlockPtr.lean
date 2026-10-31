@@ -33,49 +33,6 @@ theorem natBlockLoad_eq (region : RegionName) (base stride n start B : Nat) (s :
   rcases i with ⟨i, u⟩
   simp [TileShape.indexToList, BlockPtr.inBounds_1d, BlockPtr.address_1d, nat_address]
 
-def natBlockStore (region : RegionName) (base stride n start B : Nat) : Stmt :=
-  .store .fp32 [B] (.blockPtr (natBlockPtr region base stride n start B) [0])
-    (.castFloat .fp32 .fp32 (.ref .fp32 [B] "out0")) .none
-
-theorem natBlockStore_eq (region : RegionName) (base stride n start B : Nat) (s : BlockState) :
-    stepStmt (natBlockStore region base stride n start B) s =
-      stepStmt (tileStore ⟨region, base, stride⟩ n start B) s := by
-  simp only [natBlockStore, tileStore, stepStmt, natBlockPtr_eval,
-    addressOp_eval, maskOp_eval, bind, Option.bind, Option.map]
-  congr 1
-  funext values
-  refine congrArg some ?_
-  apply List.foldl_ext
-  intro acc i _
-  rcases i with ⟨i, u⟩
-  simp [TileShape.indexToList, BlockPtr.inBounds_1d, BlockPtr.address_1d, nat_address]
-
-def natBlockBody (input output : RegionName)
-    (inputBase outputBase inputStride outputStride n start B : Nat) : List Stmt :=
-  [.assign .fp32 [B] "in0" (.castFloat .fp32 .fp32
-    (natBlockLoad input inputBase inputStride n start B)),
-   .assign .fp32 [B] "out0" (reluOp B),
-   natBlockStore output outputBase outputStride n start B]
-
-/-- Entire three-statement typed tile body agrees with the block-pointer body
-on natural strides, including padding, both casts, exact state and failures. -/
-theorem natBlockBody_eq (input output : RegionName)
-    (inputBase outputBase inputStride outputStride n start B : Nat) (s : BlockState) :
-    stepStmts (natBlockBody input output inputBase outputBase inputStride outputStride n start B) s =
-      stepStmts (tileBody ⟨input, inputBase, inputStride⟩
-        ⟨output, outputBase, outputStride⟩ n start B) s := by
-  have hl : stepStmt (.assign .fp32 [B] "in0" (.castFloat .fp32 .fp32
-      (natBlockLoad input inputBase inputStride n start B))) s =
-      stepStmt (.assign .fp32 [B] "in0" (.castFloat .fp32 .fp32
-        (load32 ⟨input, inputBase, inputStride⟩ n start B))) s := by
-    have he := (cast32_identity (natBlockLoad input inputBase inputStride n start B) s).trans
-      ((natBlockLoad_eq input inputBase inputStride n start B s).trans
-        (cast32_identity (load32 ⟨input, inputBase, inputStride⟩ n start B) s).symm)
-    simp only [stepStmt]
-    exact congrArg (fun value : Option (Tile .fp32 [B]) =>
-      value.bind (fun value => some (s.setReg "in0" .fp32 [B] value))) he
-  simp only [natBlockBody, tileBody, stepStmts, hl, natBlockStore_eq]
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.ReluStridedBuffer.SignedTile

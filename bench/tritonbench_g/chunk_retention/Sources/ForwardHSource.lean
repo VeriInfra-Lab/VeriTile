@@ -48,7 +48,7 @@ structure Context (M : Algebra α) (c : Shape) (initial current : State α) (n :
   val : current.mem "v"=initial.mem "v"
   ik : current.regs .nat [] "i_k"=some (fun _ => initial.pids 0)
   iv : current.regs .nat [] "i_v"=some (fun _ => initial.pids 1)
-  bh : current.regs .nat [] "i_bh"=some (fun _ => initial.pids 2)
+  bh : current.regs .int [] "i_bh"=some (fun _ => (initial.pids 2 : Int))
   bb : current.regs .real [] "b_b"=some (fun _ => rate M c (initial.pids 2))
   oi : current.regs .int [64] "o_i"=some (fun i => (i.1.val:Int))
   db : n<c.chunks → current.regs .real [] "d_b"=some (fun _ => blockDecay M c initial 64)
@@ -63,7 +63,7 @@ def entryExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed fina
     simp [parts,kernel,Kernels.forwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
-      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,
+      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,
       natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg]
     rfl
 
@@ -108,9 +108,9 @@ def preludeExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed fi
   simp [prelude,parts,kernel,Kernels.forwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
-    resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,
+    resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,
     natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
-    ctx.ik,ctx.iv,ctx.bh,ha,FP.Structural.store]
+    ctx.ik,ctx.iv,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ha,FP.Structural.store]
   rfl
 
 theorem preludeMemory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed final : Bool)

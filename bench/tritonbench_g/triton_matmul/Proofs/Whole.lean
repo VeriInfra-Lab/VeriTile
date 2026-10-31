@@ -1,3 +1,4 @@
+import bench.tritonbench_g.triton_matmul.Proofs.SourceLaunch
 import bench.tritonbench_g.triton_matmul.Proofs.Execution
 import bench.tritonbench_g.triton_matmul.Proofs.Geometry
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.Repair
@@ -6,19 +7,21 @@ noncomputable section
 set_option maxHeartbeats 4000000
 set_option maxRecDepth 24000
 
-/-- Transfer the existing complete per-program readback/frame theorem using
-the newly proved actual candidate execution. No successful-run input. -/
+/-- The actual repaired source satisfies the independent per-tile readback and frame. -/
 theorem candidate_correctness {α : Type} [Inhabited α] (M : Algebra α) (D : FPValue.DotAcc α)
     (p : FPValue.Parameters) (st : FPValue.Storage) (initial : State α)
+    (hm : 0<FPValue.BM p) (hn : 0<FPValue.BN p)
+    (hf : SourceControl.first p initial≤SourceControl.rows p)
+    (hk : Source.ceilCount p.K (FPValue.BK p)=p.numKBlocks)
     (hw : ∀ i j, FPValue.active p initial i → FPValue.active p initial j →
       FPValue.cOffset p initial i=FPValue.cOffset p initial j → i=j) :
     ∃ final, FP.Structural.exec (FPValue.backend M D) (Source.typed p st) initial=some final ∧
       FPValue.Post p st initial final (FPValue.outputValue M D p st initial) := by
-  obtain ⟨reference,_,hm,hvalue,hframe⟩ := FPValue.correctness M D p st initial hw
-  obtain ⟨final,he,hf⟩ := Source.execution_memory M D p st initial
+  obtain ⟨final,he,mem⟩:=Source.execution_memory M D p st initial hm hn hf hk
+  have post:=FPValue.written_post M D p st initial hw
   refine ⟨final,he,?_,?_⟩
-  · simpa only [hf,←hm] using hvalue
-  · simpa only [hf,←hm] using hframe
+  · simpa only [mem] using post.1
+  · simpa only [mem] using post.2
 
 theorem source_block {α : Type} [Inhabited α]
     (M : Algebra α) (D : FPValue.DotAcc α) (Q : Numerics α) (r : Request) (law : PrimitiveLaws M D Q r.storage) (initial current : State α)
@@ -115,7 +118,7 @@ theorem source_offset {α : Type} (r : Request) (s : State α) (i : FPValue.CInd
 
 theorem program_correct {α : Type} [Inhabited α]
     (M : Algebra α) (D : FPValue.DotAcc α) (Q : Numerics α) (r : Request) (law : PrimitiveLaws M D Q r.storage) (initial current : State α) (pid : Nat)
-    (hCA : r.C≠r.A) (hCB : r.C≠r.B)
+    (hp : pid<programs r) (hCA : r.C≠r.A) (hCB : r.C≠r.B)
     (hA : ∀ o, current.mem r.A o=initial.mem r.A o)
     (hB : ∀ o, current.mem r.B o=initial.mem r.B o) :
     ∃ next, FP.Structural.exec (FPValue.backend M D) (kernel r) (instanceState r pid current)=some next ∧
@@ -126,7 +129,8 @@ theorem program_correct {α : Type} [Inhabited α]
       (∀ row<r.rows, ∀ col<r.columns, Covered r initial [pid] row col → Good Q r initial next row col) := by
   let start := instanceState r pid current
   obtain ⟨next,he,hv,hf⟩ := candidate_correctness M D r.parameters r.storage start
-    (active_injective r start)
+    (SourceLaunch.request_m r) (SourceLaunch.request_n r) (SourceLaunch.request_first r pid current hp)
+    (SourceLaunch.request_count r) (active_injective r start)
   have value (i : FPValue.CIndex r.parameters) (hi : FPValue.active r.parameters start i) :
       Good Q r initial next (FPValue.row r.parameters start i.1) (FPValue.col r.parameters start i.2.1) := by
     have h := hv i hi
@@ -169,6 +173,7 @@ theorem program_correct {α : Type} [Inhabited α]
 
 theorem programs_correct {α : Type} [Inhabited α]
     (M : Algebra α) (D : FPValue.DotAcc α) (Q : Numerics α) (r : Request) (law : PrimitiveLaws M D Q r.storage) (initial current : State α) (ids : List Nat)
+    (legal : ∀ pid∈ids,pid<programs r)
     (hCA : r.C≠r.A) (hCB : r.C≠r.B)
     (hA : ∀ o, current.mem r.A o=initial.mem r.A o)
     (hB : ∀ o, current.mem r.B o=initial.mem r.B o) :
@@ -185,8 +190,8 @@ theorem programs_correct {α : Type} [Inhabited α]
     obtain ⟨p,hp,_⟩ := hcov
     simp at hp
   | cons pid ids ih =>
-    obtain ⟨next,he,ha,hb,hframe,hkeep,hvalue⟩ := program_correct M D Q r law initial current pid hCA hCB hA hB
-    obtain ⟨final,hfin,ha',hb',hframe',hkeep',hvalue'⟩ := ih next ha hb
+    obtain ⟨next,he,ha,hb,hframe,hkeep,hvalue⟩ := program_correct M D Q r law initial current pid (legal pid (by simp)) hCA hCB hA hB
+    obtain ⟨final,hfin,ha',hb',hframe',hkeep',hvalue'⟩ := ih next (fun q hq=>legal q (by simp [hq])) ha hb
     refine ⟨final,?_,ha',hb',?_,?_,?_⟩
     · simp only [runPrograms,he,Option.bind_some,hfin]
     · intro region offset hn
@@ -204,7 +209,7 @@ theorem grid_correct {α : Type} [Inhabited α]
     (M : Algebra α) (D : FPValue.DotAcc α) (Q : Numerics α) (r : Request) (law : PrimitiveLaws M D Q r.storage) (initial : State α) (hCA : r.C≠r.A) (hCB : r.C≠r.B) :
     ∃ final, runPrograms M D r (List.range (programs r)) initial=some final ∧ Result Q r initial final := by
   obtain ⟨final,he,_,_,hf,_,hv⟩ := programs_correct M D Q r law initial initial
-    (List.range (programs r)) hCA hCB (fun _ => rfl) (fun _ => rfl)
+    (List.range (programs r)) (fun _ h=>List.mem_range.mp h) hCA hCB (fun _ => rfl) (fun _ => rfl)
   refine ⟨final,he,?_,hf⟩
   intro row hr col hc
   obtain ⟨pid,hp,i,hi,hj⟩ := cell_covered r initial row col hr hc
@@ -218,7 +223,7 @@ theorem grid_order_correct {α : Type} [Inhabited α]
     (order : ids.Perm (List.range (programs r))) (hCA : r.C≠r.A) (hCB : r.C≠r.B) :
     ∃ final, runPrograms M D r ids initial=some final ∧ Result Q r initial final := by
   obtain ⟨final,he,_,_,hf,_,hv⟩ := programs_correct M D Q r law initial initial
-    ids hCA hCB (fun _ => rfl) (fun _ => rfl)
+    ids (fun _ h=>List.mem_range.mp (order.mem_iff.mp h)) hCA hCB (fun _ => rfl) (fun _ => rfl)
   refine ⟨final,he,?_,hf⟩
   intro row hr col hc
   obtain ⟨pid,hp,i,hi,hj⟩ := cell_covered r initial row col hr hc

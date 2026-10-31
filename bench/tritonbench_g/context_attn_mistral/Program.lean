@@ -50,7 +50,7 @@ theorem loop (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
       some (fun _ => stop p (inputs p r initialState)) := by
     rcases live with ⟨_,hb,_,_,_,_,_,_,_,_,_,_,_,hm⟩
     simp [parts,program,VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,Source.intRange?,ComputeKernel.surfaceBody,
+      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,Source.intRange?,ComputeKernel.surfaceBody,
       evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,FPBackend.Ops.algebra,
       resolvePrecision,numeric,bop,hb,hm,stop]
     rfl
@@ -101,7 +101,7 @@ theorem epilogue (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
       t.mem=(scatter p r initialState s (finish p o acc)).mem := by
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13⟩
   simp [parts,program,VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,ComputeKernel.surfaceBody,Source.intRange?]
+    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,ComputeKernel.surfaceBody,Source.intRange?]
   simp (config := {maxSteps := 100000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,engine,Algebra.withDefaultPrecision,FPBackend.Ops.algebra,
     resolvePrecision,numeric,numericLt,natLt,ofFloat,toFloat,Region.cast,

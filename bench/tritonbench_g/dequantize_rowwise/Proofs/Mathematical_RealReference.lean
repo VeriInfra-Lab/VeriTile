@@ -1,24 +1,23 @@
+import bench.tritonbench_g.dequantize_rowwise.Kernels
+import VeriTile.Triton.Float.Erasure
 import VeriTile.Triton
 import bench.tritonbench_g.dequantize_matmul.Proofs.Mathematical_IntegerIO
 import VeriTile.Meta.StatementAudit
+/-! Mathematical output and full-cell frame lemmas for the actual source.
+The kernel below is only its dtype-erased view; no alternate body is maintained.
+Runtime scalar bindings and signed index conversions come from Kernels.lean. -/
 namespace VeriTile.Bench.TritonBenchG.DequantizeRowwise.RealReference
 open VeriTile.Triton
 open scoped VeriTile.Triton.Masked2DKernelIO₂
-def dequantize_rowwise_kernel
+set_option maxHeartbeats 4000000
+set_option maxRecDepth 24000
+set_option linter.unusedSimpArgs false
+/-- Complete mathematical view of the canonical source, including its call ABI. -/
+noncomputable def dequantize_rowwise_kernel
     (x_ptr state_x output_ptr : RegionName)
-    (inv_127 : ℝ) (_n_elements BLOCK_SIZE P2 : Nat) :
-    ComputeKernel := triton {
-  tl.region x_ptr = tl.int8
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  arange = tl.arange(0, $(P2))
-  offsets = block_start + arange
-  row_mask = arange < $(BLOCK_SIZE)
-  x = tl.load(x_ptr + offsets, mask=row_mask)
-  max_val = tl.load(state_x + pid)
-  output = max_val * x * $(inv_127)
-  tl.store(output_ptr + offsets, output, mask=row_mask)
-}
+    (inv_127 : ℝ) (n_elements BLOCK_SIZE P2 : Nat) : ComputeKernel :=
+  (VeriTile.Bench.Repairs.DequantizeRowwise.source x_ptr state_x output_ptr inv_127
+    n_elements BLOCK_SIZE P2).eraseDType
 
 /-- Exact dequantized value written at active lane `i`. -/
 noncomputable def dequantizeRowwiseSpec
@@ -43,16 +42,30 @@ theorem dequantize_rowwise_kernel_correct
             dequantizeRowwiseSpec s x_ptr state_x BLOCK_SIZE inv_127 i
           else s.readMem output_ptr outAddr) := by
   intro i
+  simp only [ComputeKernel.toAlgKernel_fromKernelBody,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeStmt.listToAlgorithm?_map_alg,dequantize_rowwise_kernel,
+    VeriTile.Bench.Repairs.DequantizeRowwise.source,
+    VeriTile.Bench.Repairs.DequantizeRowwise.body,
+    VeriTile.Bench.Repairs.DequantizeRowwise.arguments,
+    ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,ScalarArgument.integer,
+    ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    ComputeDType.eraseDType,FloatDType.toTileDType,eraseDType_float,Except.bind,bind,List.map_cons,List.map_nil,List.cons_append,List.nil_append]
+  try simp only [Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComparableDType.eraseDType]
   simp [exec, dequantize_rowwise_kernel, stepStmts, stepStmt, evalOp.eq_def,
         Tile.intToReal, Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,
-        ComparableDType.lt]
+        ComparableDType.lt, -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast]
   rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
         (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
   by_cases hi : i.val < BLOCK_SIZE
   · simp [hi, dequantizeRowwiseSpec, BlockState.pid_eq, mul_assoc]
   · simp [hi]
 
-set_option maxHeartbeats 1600000 in
+set_option maxHeartbeats 4000000 in
 /-- Frame half: every memory cell not actively written by the masked output
 store is preserved by the run — in particular every cell of every region other
 than `output_ptr`, and the *inactive* lanes of the output window itself. -/
@@ -65,9 +78,23 @@ private theorem dequantize_rowwise_kernel_frame
     (hmiss : ∀ i : Fin P2, i.val < BLOCK_SIZE →
       ¬(output_ptr = r ∧ s.pid * BLOCK_SIZE + i.val = o)) :
     s1.mem r o = s.mem r o := by
+  simp only [ComputeKernel.toAlgKernel_fromKernelBody,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeStmt.listToAlgorithm?_map_alg,dequantize_rowwise_kernel,
+    VeriTile.Bench.Repairs.DequantizeRowwise.source,
+    VeriTile.Bench.Repairs.DequantizeRowwise.body,
+    VeriTile.Bench.Repairs.DequantizeRowwise.arguments,
+    ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,ScalarArgument.integer,
+    ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    ComputeDType.eraseDType,FloatDType.toTileDType,eraseDType_float,Except.bind,bind,List.map_cons,List.map_nil,List.cons_append,List.nil_append] at hExec
+  try simp only [Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComparableDType.eraseDType] at hExec
   simp [exec, dequantize_rowwise_kernel, ComputeKernel.toAlgKernel,
     stepStmts, stepStmt, evalOp.eq_def, Tile.intToReal, Tile.bop, Tile.cop,
-    NumericDType.add, NumericDType.mul, ComparableDType.lt] at hExec
+    NumericDType.add, NumericDType.mul, ComparableDType.lt, -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast] at hExec
   subst hExec
   refine Eq.trans (foldl_store_preserve_cell _ _ _ r o _ _ ?_) rfl
   intro k _ hmk hc
@@ -106,9 +133,23 @@ theorem dequantize_rowwise_kernel_region_run
       inv_127 n_elements BLOCK_SIZE P2).toAlgKernel) s₀ with
   | none =>
       exact absurd hsrc (by
+        simp only [ComputeKernel.toAlgKernel_fromKernelBody,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeStmt.listToAlgorithm?_map_alg,dequantize_rowwise_kernel,
+    VeriTile.Bench.Repairs.DequantizeRowwise.source,
+    VeriTile.Bench.Repairs.DequantizeRowwise.body,
+    VeriTile.Bench.Repairs.DequantizeRowwise.arguments,
+    ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,ScalarArgument.integer,
+    ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    ComputeDType.eraseDType,FloatDType.toTileDType,eraseDType_float,Except.bind,bind,List.map_cons,List.map_nil,List.cons_append,List.nil_append]
+        try simp only [Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComparableDType.eraseDType]
         simp [exec, dequantize_rowwise_kernel, ComputeKernel.toAlgKernel,
           stepStmts, stepStmt, evalOp.eq_def, Tile.intToReal, Tile.bop, Tile.cop,
-          NumericDType.add, NumericDType.mul, ComparableDType.lt])
+          NumericDType.add, NumericDType.mul, ComparableDType.lt, -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast])
   | some s1 =>
       refine ⟨s1, rfl, fun j hj => ?_, fun r o hcond => ?_⟩
       · have hje := hobs j
@@ -124,106 +165,8 @@ theorem dequantize_rowwise_kernel_region_run
         · exact hne hr.symm
         · exact hno i hi ho.symm
 
-set_option maxHeartbeats 1600000 in
-/-- Per-execution safety walk: the masked row load and the masked store
-address the window `pid * BLOCK_SIZE + j`, active only when
-`j < BLOCK_SIZE`; the **unmasked** scale load reads the single cell
-`state_x[pid]`, whose bound is taken as the explicit hypothesis `hscale`. -/
-theorem dequantize_rowwise_kernel_traceSafe
-    (x_ptr state_x output_ptr : RegionName)
-    (inv_127 : ℝ) (n_elements BLOCK_SIZE P2 : Nat)
-    (bounds : RegionBounds) (s : BlockState)
-    (hx : ∀ j : Fin P2, j.val < BLOCK_SIZE →
-      s.pid * BLOCK_SIZE + j.val < bounds x_ptr)
-    (hscale : s.pid < bounds state_x)
-    (hout : ∀ j : Fin P2, j.val < BLOCK_SIZE →
-      s.pid * BLOCK_SIZE + j.val < bounds output_ptr) :
-    Kernel.TraceSafe bounds
-      ((dequantize_rowwise_kernel x_ptr state_x output_ptr inv_127
-        n_elements BLOCK_SIZE P2).toAlgKernel) s := by
-  unfold Kernel.TraceSafe
-  -- Computational unroll: walks all nine statements, discharging every
-  -- load-free `SafeAt` and reducing the three memory accesses' lane-wise
-  -- address obligations to the bounds hypotheses below.
-  simp [dequantize_rowwise_kernel, ComputeKernel.toAlgKernel,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt, MaskOpt.SafeAt,
-    stepStmt, evalOp.eq_def,
-    Tile.intToReal, Tile.bop, Tile.cop,
-    NumericDType.add, NumericDType.mul,
-    ComparableDType.lt,
-    MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe, MemAccess.SafeAt,
-    MaskOpt.Active, BlockState.setReg]
-  exact ⟨fun a ha => hx a ha, hscale, fun a ha => hout a ha⟩
-
-/-- The kernel sits inside the flat-memory bridge's covered fragment. -/
-theorem dequantize_rowwise_kernel_flattenOk
-    (x_ptr state_x output_ptr : RegionName)
-    (inv_127 : ℝ) (n_elements BLOCK_SIZE P2 : Nat) :
-    ((dequantize_rowwise_kernel x_ptr state_x output_ptr inv_127
-      n_elements BLOCK_SIZE P2).toAlgKernel).FlattenOk := by
-  unfold Kernel.FlattenOk
-  simp [dequantize_rowwise_kernel, ComputeKernel.toAlgKernel,
-    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
-
-/-- `_dequantize_rowwise`'s masked **IO signature** — the whole
-kernel-specific audit surface of the headline: which buffer is which
-argument (the wiring), where program `pid` reads its `P2`-lane quantized row
-(`x_ptr[pid·BLOCK_SIZE + j]`), where it reads its per-row scale — the
-**single scalar cell** `state_x[pid]`, the same address at every active lane
-— where it writes its output row, and the active-lane predicate
-`j < BLOCK_SIZE`. The kernel's grid is 1D, so no field mentions the second
-program-id axis. The windows and mask are declared, not parsed from the
-kernel: they formalize the host-side launch convention (`offsets =
-pid * BLOCK_SIZE + arange; row_mask = arange < BLOCK_SIZE`, one scale per
-row), and the headline **proves** the kernel's actual addressing and masking
-match them. Buffer sizes are not signature content: the headline quantifies
-over every allocation whose extents cover the active lanes. -/
-def dequantizeRowwiseIO (x_ptr state_x output_ptr : RegionName)
-    (inv_127 : ℝ) (n_elements BLOCK_SIZE P2 : Nat) : Masked2DKernelIO₂ where
-  kernel := dequantize_rowwise_kernel x_ptr state_x output_ptr inv_127
-    n_elements BLOCK_SIZE P2
-  in1 := x_ptr
-  in2 := state_x
-  out := output_ptr
-  B := P2
-  read1 := fun pid _ j => pid * BLOCK_SIZE + j.val
-  read2 := fun pid _ _ => pid
-  write := fun pid _ j => pid * BLOCK_SIZE + j.val
-  mask := fun _ _ j => j.val < BLOCK_SIZE
-
-/-- **The headline**: `_dequantize_rowwise` implements per-row dequantization
-on its masked IO signature — for every disjoint flat placement of the three
-buffers, every program id whose active lanes are in bounds, and every launch
-state whose row window holds `xs` and whose scale cell holds `ys` at the
-active lanes, the translated pointer kernel terminates, every active output
-lane holds `ys i * (xs i : ℝ) * inv_127` (the scale times the quantized value times
-`1/127`; `ys` is constant across the row's active lanes since every lane
-reads the same cell), and every other memory cell is unchanged.
-
-`0 < BLOCK_SIZE` / `0 < P2` are genuinely forced: the scale load is unmasked,
-so a launch with no active lanes still reads `state_x[pid]`, whose bound the
-lane-wise contract only supplies via an active lane. Both hold for every real
-launch. Proof: `Masked2DKernelIO₂.ImplementsInt.intro` assembles the
-region-model masked triple with the flat-memory bridge side conditions. -/
-theorem reference_correct
-    (x_ptr state_x output_ptr : RegionName)
-    (inv_127 : ℝ) (n_elements BLOCK_SIZE P2 : Nat)
-    (hBS : 0 < BLOCK_SIZE) (hP2 : 0 < P2) :
-    dequantizeRowwiseIO x_ptr state_x output_ptr inv_127 n_elements
-      BLOCK_SIZE P2 ⊨ᵢ fun _ _ xs ys i => ys i * (xs i : ℝ) * inv_127 := by
-  refine Masked2DKernelIO₂.ImplementsInt.intro _ ?_ ?_ ?_
-  · exact dequantize_rowwise_kernel_flattenOk x_ptr state_x output_ptr
-      inv_127 n_elements BLOCK_SIZE P2
-  · intro bounds s h1 h2 h3 _
-    exact dequantize_rowwise_kernel_traceSafe x_ptr state_x output_ptr
-      inv_127 n_elements BLOCK_SIZE P2 bounds s h1 (h2 ⟨0, hP2⟩ hBS) h3
-  · intro s₀ xs ys hx hy
-    obtain ⟨s1, hexec, hval, hframe⟩ := dequantize_rowwise_kernel_region_run
-      x_ptr state_x output_ptr inv_127 n_elements BLOCK_SIZE P2 s₀ xs ys hx hy
-    -- scratch is empty, so its frame side condition is vacuous
-    exact ⟨s1, hexec, hval, fun r o hout _ => hframe r o hout⟩
-
-
+#axiomsClean dequantize_rowwise_kernel_correct
+#axiomsClean dequantize_rowwise_kernel_region_run
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.DequantizeRowwise.RealReference

@@ -5,7 +5,7 @@ open VeriTile.Triton FP.Structural
 open FPValue (Word OutputFormat)
 open FP.Equational (ReductionPlan)
 noncomputable section
-attribute [local simp] VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.length VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.inputFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.weightFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.effectiveFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.promote VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.productFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.resultFormat
+attribute [local simp] VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.length VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.inputFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.weightFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.effectiveFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.promote VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.productFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.resultFormat
 set_option maxRecDepth 40000
 set_option maxHeartbeats 40000000
 set_option linter.unusedSimpArgs false
@@ -49,7 +49,7 @@ theorem runActive (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, Reduct
     inputBatchStride, inputInnerStride, loraStride, weightRowStride, weightInnerStride,
     outputBatchStride, outputStride, blockRows, blockInner, evenK, addInputs, castType⟩
   cases castType <;> cases profile <;> cases out
-  all_goals simp [active, setup, castBranch, loopStmt, body, source, ComputeKernel.surfaceBody,
+  all_goals simp [active, setup, castBranch, loopStmt, body, source, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,
     run_append, run, stepConstIf, stepConstIfElse, Option.bind_assoc]
 
 theorem guardEval (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
@@ -58,7 +58,7 @@ theorem guardEval (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, Reduct
       (headerExecution rest cfg plans profile out p s).val =
       some (fun _ => decide (selected p s ≠ -1)) := by
   cases profile <;> cases out
-  all_goals simp [guard, source, ComputeKernel.surfaceBody, headerExecution,
+  all_goals simp [guard, source, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource, headerExecution,
     evalOp_unfold, numericEq, selected, ofFloat, toFloat, bop, Region.cast,
     Broadcast.leftIndex, Broadcast.rightIndex]
   all_goals funext i

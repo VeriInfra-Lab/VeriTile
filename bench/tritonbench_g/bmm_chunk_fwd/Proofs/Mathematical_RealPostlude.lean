@@ -33,7 +33,7 @@ theorem matches_source (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parame
       outputCode, RealStore.code, RealStore.basePointer, RealStore.pointers, RealStore.mask,
       RealSequence.code, RealSequence.indexLoad, RealSequence.limitOp, RealSequence.filtered,
       RealProgram.realPart, RealProgram.parts, RealProgram.branch, RealProgram.source,
-      TypedSource.specialize, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
+      TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
       ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
       Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,

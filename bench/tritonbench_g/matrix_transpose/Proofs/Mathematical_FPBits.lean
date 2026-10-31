@@ -59,7 +59,7 @@ theorem execute {α : Type} [Inhabited α] (M : Algebra α)
     (v : Bool) (p : Parameters) (s : State α) :
     exec M (source v p) s = some (execution p s) := by
   cases v <;>
-    simp [source, typedKernel, ComputeKernel.surfaceBody, exec, run, step, evalExpr, evalOp, store,
+    simp [source, typedKernel, VeriTile.Bench.Repairs.MatrixTranspose.source, VeriTile.Bench.Repairs.MatrixTranspose.indexCommutedSource, ComputeKernel.surfaceBody, exec, run, step, evalExpr, evalOp, store,
       execution, inputOffset, outputOffset, outputValue, State.setReg, bop, numeric,
       transposeValues, Broadcast.leftIndex, Broadcast.rightIndex,
       TileShape.insertAxis, TileShape.dropInsertedIndex, Region.cast, Nat.mul_comm]

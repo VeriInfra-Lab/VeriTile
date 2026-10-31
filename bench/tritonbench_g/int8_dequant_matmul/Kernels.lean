@@ -1,4 +1,3 @@
-import bench.tritonbench_g.int8_dequant_matmul.Sources.Kernels
 import VeriTile.Triton.Source
 import VeriTile.Triton.DSL
 
@@ -8,7 +7,7 @@ open Lean VeriTile.Triton
 /-- Complete scalar-cast candidate JIT: all SPLIT_K, EVEN_K and bias branches retained.
 Index expressions use the exact natural descriptor specialization after the
 explicit casts; Machine.RuntimeIndex.exact and IndexABI.formed justify that
-normalization (the DSL cdiv node only accepts naturals). The fixed output dtype is the original host's FP16; public scale/bias inputs
+normalization. Signed cdiv is also supported by the shared frontend. The fixed output dtype is the original host's FP16; public scale/bias inputs
 use FP32. Raw runtime scalar representation is retained by the host ABI. -/
 def kernel (a_ptr b_ptr c_ptr bias_ptr state_x_ptr state_w_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
@@ -146,19 +145,7 @@ def reuseIndicesKernel (a_ptr b_ptr c_ptr bias_ptr state_x_ptr state_w_ptr : Reg
   }
 }
 
-/-- Compatibility names for the predecessor proof decompositions. The
-actual selected kernel above is quoted directly and does not call them. -/
-abbrev skeleton := Int8DequantMatmul.TypedSource.skeleton
-abbrev runtimeScaled := Int8DequantMatmul.TypedSource.runtimeScaled
-abbrev bindRuntime := Int8DequantMatmul.TypedSource.bindRuntime
-
-/-- `tl.cast` accepts both scalar constexpr and tensor arguments. Its shared
-DSL expansion is the same explicit signed-64 conversion as tensor `.to`.
-This theorem does not identify their Python/frontend availability. -/
-theorem typed_kernel_preserved (a b c bias x w : RegionName)
-    (M N K sam sak sbk sbn scm scn BM BN BK G S steps : Nat)
-    (even hasBias : Bool) :
-    kernel a b c bias x w M N K sam sak sbk sbn scm scn BM BN BK G S steps even hasBias =
-      Int8DequantMatmul.TypedSource.kernel a b c bias x w M N K sam sak sbk sbn scm scn BM BN BK G S steps even hasBias := by rfl
+/- The unused predecessor skeleton has been retired; both complete
+programs above use the repaired runtime scalar interface. -/
 
 end VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.TypedSource

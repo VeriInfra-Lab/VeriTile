@@ -20,25 +20,6 @@ def output (p : Layout) (l : Launch) (r : Regions) (storeFinal : Bool)
 def footprint (p : Layout) (l : Launch) (r : Regions) (storeFinal : Bool) : WriteFootprint :=
   fun cell => storeFinal = Bool.true ∧ RealHStore.footprint p l r.final (base p l) p.V 1 cell
 
-theorem executes (p : Layout) (l : Launch) (r : Regions) (storeFinal : Bool)
-    (f : StateValue p) (u : BlockState)
-    (hik : u.regs .nat [] "i_k" = some (Tile.scalar l.key))
-    (hiv : u.regs .nat [] "i_v" = some (Tile.scalar l.value))
-    (hih : u.regs .nat [] "i_bh" = some (Tile.scalar l.head))
-    (hh : u.regs .real [p.BK,p.BV] "b_h" = some (stateTile p f)) :
-    stepStmts (finalization p r storeFinal) u = some (output p l r storeFinal f u) := by
-  unfold finalization
-  cases storeFinal
-  · rw [stepStmts.cons_some (RealHInit.if_false _ _),stepStmts.nil]
-    rfl
-  · rw [stepStmts.cons_some (st := .ifThen (.constBool Bool.true) _) (by
-      rw [RealHInit.if_true]
-      rw [stepStmts.cons_some (stepStmt_assign_eq_some (state_eval p l r.final u hih hik hiv))]
-      erw [stepStmts.cons_some (RealHStore.store_eval p l r.final (base p l) p.V 1 f "p_h" _
-        (by simp [hh]) (by simp; rfl)),stepStmts.nil])]
-    rw [stepStmts.nil]
-    rfl
-
 theorem readback (p : Layout) (l : Launch) (r : Regions) (f : StateValue p) (u : BlockState)
     (hinj : RealHStore.NoCollision p l (base p l) p.V 1)
     (e : Fin p.BK) (j : Fin p.BV) (ha : RealHStore.active p l e.val j.val) :

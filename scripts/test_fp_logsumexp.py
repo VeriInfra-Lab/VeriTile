@@ -14,7 +14,7 @@ class LogSumExpFPTests(unittest.TestCase):
             ['lake', 'build', 'bench.examples.StableLogSumExp.FPEquiv',
              'bench.examples.StableLogSumExp.Correct',
              'bench.examples.StableLogSumExp.Proofs.Unconditional',
-             'bench.examples.StableLogSumExp.Proofs.LegacyCorrect', 'VeriTile.Meta.StatementAudit',
+             'VeriTile.Meta.StatementAudit',
              'bench.examples.LogExp.Correct', 'bench.examples.LogExp.FPEquiv',
              'VeriTile.Triton.Float.LogExpCounterexample'],
             cwd=ROOT, text=True, capture_output=True, timeout=300)
@@ -35,7 +35,6 @@ class LogSumExpFPTests(unittest.TestCase):
         output = self.check_lean('''
 import bench.examples.StableLogSumExp.Proofs.FP
 import bench.examples.StableLogSumExp.Correct
-import bench.examples.StableLogSumExp.Proofs.LegacyCorrect
 open VeriTile Triton VeriTile.Bench.Examples
 example (B : Nat) :
     (StableLogSumExpCorrect.directIO B).kernel =
@@ -43,10 +42,10 @@ example (B : Nat) :
 example (x y : RegionName) (B : Nat) :
     (StableLogSumExpFPExecution.directIO x y B).kernel = StableLogSumExp.Kernels.directLSEKernel x y B := rfl
 example (B : Nat) :
-    (StableLogSumExpCorrect.stableIO B).kernel =
-      (StableLogSumExpFPExecution.stableIO "x" "y" B).kernel.eraseDType := rfl
+    (StableLogSumExpCorrect.optimizedIO B).kernel =
+      (StableLogSumExpFPExecution.optimizedIO "x" "y" B).kernel.eraseDType := rfl
 example (x y : RegionName) (B : Nat) :
-    (StableLogSumExpFPExecution.stableIO x y B).kernel = StableLogSumExp.Kernels.stableLSEKernel x y B := rfl
+    (StableLogSumExpFPExecution.optimizedIO x y B).kernel = StableLogSumExp.Kernels.optimizedLSEKernel x y B := rfl
 ''')
         self.assertEqual(output, '')
         self.check_lean('''
@@ -84,18 +83,16 @@ run_cmd do
                      'FP assumptions used by exp_sub_holds:\n  none\n')
         self.assertEqual(output[output.index('FP assumptions used by'):], expected)
 
-    def test_unconditional_spec_is_refuted_by_a_model_of_all_selected_atoms(self):
+    def test_unguarded_scalar_rewrite_is_refuted_by_a_model_of_all_selected_atoms(self):
         self.check_lean('''
 import bench.examples.StableLogSumExp.Proofs.Unconditional
 open VeriTile Triton Bench.Examples StableLogSumExpFPContract
 open StableLogSumExpUnconditional
 open scoped VeriTile.Spec
--- Refute the public notation, not merely its numerical constructor.
-example (R : FP.Exponential.Rules) : ¬ (∀ B, equivalenceGoal B R) := by
-  intro h
-  exact unconditional_disproved R (h 1)
-example (R : FP.LogSumExp.Rules) :
-    ¬ (stable "x" "y" 1 ≡[R] direct "x" "y" 1) :=
+-- The unsupported scalar rewrite is refuted without retaining a retired kernel.
+example (R : FP.Exponential.Rules) : ¬ scalarGoal R.assumptions :=
+  unconditional_disproved R
+example (R : FP.LogSumExp.Rules) : ¬ scalarGoal R.assumptions :=
   unconditional_disproved_with_log_rules R
 -- Check the positive premises too: all atoms hold and the domain is inhabited.
 example (R : FP.LogSumExp.Rules) : FP.Guarded.Models R.assumptions Model.algebra Model.domain :=
@@ -104,7 +101,7 @@ example : (requirements "x" 1 FP.Equational.seededSchedules).Holds
     Model.algebra Model.domain Model.initial := Model.domain_holds
 #axiomsClean Model.models
 #axiomsClean Model.domain_holds
-#axiomsClean Model.stored_outputs
+#axiomsClean Model.scalar_outputs
 #axiomsClean FP.models_of_atoms
 #axiomsClean FP.Scheduled.observe₁_eq_of_equiv
 #axiomsClean unconditional_disproved

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.LegacyReal
+import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.RealFragments
 import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.RealMath
 
 /-! One real value-block iteration at an arbitrary loop index and with four

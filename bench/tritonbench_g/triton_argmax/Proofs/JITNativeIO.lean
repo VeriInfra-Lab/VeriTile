@@ -34,7 +34,7 @@ theorem first_execution (s : State Word) (index64 : Bool) (positive : 0 < c.bloc
     obtain ⟨t,ran,mem⟩ := JITInteger.source_run k (casts.integer k) rest s
       BoundSource.X BoundSource.V BoundSource.I c.size c.block 0 index64 positive
     refine ⟨t,ran,mem.trans ?_⟩
-    rw [JITInteger.written,TypedNative.first_index s BoundSource.X c g 0 positive]
+    rw [JITInteger.written,JITNative.first_index s BoundSource.X c g 0 positive]
     cases k <;> rfl
 
 theorem first_index_congr (input other : Nat → Word)

@@ -249,50 +249,6 @@ def Call.writes (c : Call) (A : FlatAlloc) : WriteFootprint :=
   VeriTile.Bench.TritonBenchG.ContextAttnLlama.HostComposition.footprint
     c.grid A c.active c.regions.out c.offset
 
-/-- Both source/candidate launch every grid program. The result is a single
-finite memory with each active logical output, including ragged last tiles,
-and a full-cell frame. The prompt cache, page gather and rounded finite-sentinel target
-are inherited without alteration from the original formula. -/
-theorem whole_grid (c : Call) (A : FlatAlloc) (s : BlockState)
-    (v : Valid c A s) (ha : A.Disjoint) (hc : ∀ rg, rg ∉ A.regions → A.extent rg = 0)
-    (swapped : Bool) :
-    ∃ final, Nonempty (Kernel.GridLaunchedOrdinary
-      (A.flattenKernel (kernel c.layout c.regions .fp32 swapped (scale c.layout.D)).eraseDType.toAlgKernel)
-      c.grid (A.flattenState s) final) ∧
-      (∀ idx i, c.active idx i → final.readMem A.flat (A.addr c.regions.out (c.offset idx i)) =
-        RealIO.closedExpected c.layout (scale c.layout.D) (c.launchAt idx) (inputs s c.regions) i) ∧
-      BlockState.WriteWithin (c.writes A) (A.flattenState s) final := by
-  apply Composition.finite_grid
-  · intro idx
-    have hv : RealIO.valid c.layout (launch (s.withGridIndex idx))
-        (inputs (s.withGridIndex idx) c.regions) := by
-      intro i j hi hj he
-      rw [offset_eq c A s v idx i,offset_eq c A s v idx j] at he
-      exact (writer_unique c A s v idx idx i j
-        ((active_eq c A s v idx i).mp hi) ((active_eq c A s v idx j).mp hj) he).2
-    obtain ⟨t,he,ho,hf⟩ := RealIO.implements_closed c.layout c.regions .fp32 swapped
-      (scale c.layout.D) (by rw [c.blockN]; exact bm_positive c) A ha hc (s.withGridIndex idx)
-      hv (program_bounds c A s v idx)
-    dsimp only [RealIO.sourceIO] at he ho hf
-    refine ⟨t,he,?_,?_⟩
-    · intro i hi
-      have hx := ho i ((active_eq c A s v idx i).mpr hi)
-      change t.readMem A.flat (A.addr c.regions.out (RealIO.write _ _ _ i)) = _ at hx
-      rw [offset_eq c A s v idx i] at hx
-      exact hx
-    · intro rg off hn
-      apply hf rg off
-      rintro ⟨hr,rr,oo,⟨i,hi,hrr,hoo⟩,heq⟩
-      apply hn
-      simp only [Prod.fst,Prod.snd] at hrr hoo
-      subst rr
-      subst oo
-      exact ⟨hr,i,(active_eq c A s v idx i).mp hi,by
-        rw [←offset_eq c A s v idx i]
-        exact heq⟩
-  · intro idx jdx i j hi hj he
-    exact (writer_unique c A s v idx jdx i j hi hj he).1
-
 /-- The Python wrapper updates the caller's `o` and returns no tensor. -/
 def returned : Option Unit := none
 theorem returns_none : returned = none := rfl

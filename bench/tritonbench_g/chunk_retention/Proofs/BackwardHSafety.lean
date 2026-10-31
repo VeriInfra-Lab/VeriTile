@@ -23,7 +23,7 @@ private theorem entry_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,
+      numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,natLe,numericLe,numericLt,natLt,bop,
       ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList]
   intro e j he hj
@@ -47,10 +47,10 @@ private theorem body_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,integralFloorDiv,integralMod,numericEq,natLe,numericLe,numericLt,natLt,bop,
+      numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,natLe,numericLe,numericLt,natLt,bop,
       ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,
-      Broadcast.leftIndex,Broadcast.rightIndex,ctx.ik,ctx.iv,ctx.bh,ctx.bb,ctx.di,ha,atEnd,rem,FP.Structural.store]
+      Broadcast.leftIndex,Broadcast.rightIndex,ctx.ik,ctx.iv,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.bb,ctx.di,ha,atEnd,rem,FP.Structural.store]
   all_goals
     refine ⟨?_,?_,?_⟩
     · intro e j he hj

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_FiniteMemory
 
 namespace VeriTile.Bench.TritonBenchG.VectorAddition.Finite
@@ -110,7 +111,7 @@ theorem physical_schedule_output {M σ : Type} (b : Numerics) (r : Route)
   rw [loaded_output,if_pos ((complete i).2 hi),(inputs i hi).1,(inputs i hi).2]
   exact (sourceCell_scalar b r p s i).symm
 
-#specNonCircular sourceCell avoiding [execute,runLive,runLoaded]
+#specNonCircular sourceCell avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel,runLive,runLoaded]
 #axiomsClean sourceCell_scalar
 #axiomsClean output_cell_of_project
 #axiomsClean physical_output_matches

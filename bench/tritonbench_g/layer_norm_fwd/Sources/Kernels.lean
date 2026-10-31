@@ -1,10 +1,9 @@
-import bench.tritonbench_g.layer_norm_fwd.Sources.Mathematical_Kernels
+import bench.tritonbench_g.layer_norm_fwd.Sources.Selected
 
-/-! Complete source-only, width-erased repaired kernel. The imported macro is
-also source-only and retains every cast, branch, Philox round and masked store.
+/-! Complete source-only, width-erased repaired kernel. The shared ordinary quotation retains every cast, branch, Philox round and masked store.
 The Python repair widens program_id to signed64 before pointer products; exact
 machine-width addressing is connected in Proofs.NativeAccess and NativeABI.
-Destination dtype specialization remains explicit in layerNormFwdSource%.
+Only the selected FP32 specialization is an implemented source here.
 -/
 namespace VeriTile.Bench.Repairs.LayerNormFwd.Source
 open VeriTile.Triton
@@ -52,8 +51,7 @@ abbrev sourceType := Flags → Regions → Strides → Nat → Nat → ℝ → �
 
 def kernel : sourceType :=
   fun f r stride M N eps p block hBlock =>
-    (layerNormFwdSource%[tl.float32, tl.float32, tl.float32, tl.float32,
-      tl.float32, tl.float32, tl.float32, tl.float32, tl.float32, tl.float32, original])
+    VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal
     r.x r.y r.weight r.bias r.residual r.x1 r.weight1 r.bias1 r.y1
     r.residualOut r.rowscale r.seeds.cast r.dropoutMask.cast r.mean r.rstd
     stride.x stride.y stride.residual stride.residualOut stride.x1 stride.y1

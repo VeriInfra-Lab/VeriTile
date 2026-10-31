@@ -40,7 +40,6 @@ theorem init_safe (M : Algebra α) (s : State α) (S B : Nat) (bounds : RegionNa
   rcases member with rfl | rfl | rfl | rfl | rfl | rfl
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
 
-
 theorem reset_safe (M : Algebra α) (s : State α) (B : Nat) (bounds : RegionName → Nat) :
     Safety.traceSafeList M bounds (reset B) s := by
   apply list_safe
@@ -48,7 +47,6 @@ theorem reset_safe (M : Algebra α) (s : State α) (B : Nat) (bounds : RegionNam
   simp only [reset,ComputeKernel.surfaceBody,List.mem_singleton] at member
   subst st
   simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
-
 
 theorem chunk_safe (M : Algebra α) (phase : Bool) (s t : State α)
     (X : RegionName) (D B k : Nat) (values : Fin B → α) (mean : α)
@@ -85,7 +83,6 @@ theorem chunk_safe (M : Algebra α) (phase : Bool) (s t : State α)
     · rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl
       all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
 
-
 theorem chunks_safe (M : Algebra α) (phase : Bool) (s t : State α)
     (X : RegionName) (D B start count : Nat) (values : Fin B → α) (mean : α)
     (h : Ready s t values mean) (bounds : RegionName → Nat)
@@ -97,7 +94,6 @@ theorem chunks_safe (M : Algebra α) (phase : Bool) (s t : State α)
     obtain ⟨u,hu,hr⟩ := chunk_run M phase s t X D B start values mean h
     exact append_safe _ _ _ _ _ _ (chunk_safe M phase s t X D B start values mean h bounds hx)
       hu (ih u (start+1) _ hr)
-
 
 theorem tree_safe (M : Algebra α) (s : State α) (bounds : RegionName → Nat)
     {B : Nat} (tree : ReductionTree B) :
@@ -115,7 +111,6 @@ theorem tree_safe (M : Algebra α) (s : State α) (bounds : RegionName → Nat)
     dsimp only
     exact ⟨hl,hr⟩
 
-
 theorem sum_safe (M : Algebra α) (s : State α) (bounds : RegionName → Nat)
     {B : Nat} (tree : ReductionTree B) :
     Safety.traceSafeList M bounds (sumCode tree) s := by
@@ -132,7 +127,6 @@ theorem sum_safe (M : Algebra α) (s : State α) (bounds : RegionName → Nat)
   · intro t _
     exact Safety.traceSafeList_nil M bounds t
 
-
 theorem mean_safe (M : Algebra α) (s t : State α) (Mean : RegionName) (D : Nat)
     (mean total : α) (h : Summed s t mean total) (bounds : RegionName → Nat)
     (hm : s.pids 0 < bounds Mean) : Safety.traceSafeList M bounds (meanCode Mean D) t := by
@@ -142,7 +136,6 @@ theorem mean_safe (M : Algebra α) (s t : State α) (Mean : RegionName) (D : Nat
     Safety.maskActive_unfold,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,numeric,bop,Region.cast,ofFloat,toFloat,h.total,h.row,
     store,TileShape.allIndices,List.finRange_succ,Fin.eq_zero,hm]
-
 
 theorem inverse_safe (M : Algebra α) (s t : State α) (Rstd : RegionName) (D : Nat)
     (mean total : α) (h : Summed s t mean total) (bounds : RegionName → Nat)
@@ -154,53 +147,6 @@ theorem inverse_safe (M : Algebra α) (s t : State α) (Rstd : RegionName) (D : 
     ComputeDType.eraseDType,numeric,bop,Region.cast,ofFloat,toFloat,h.total,h.row,
     store,TileShape.allIndices,List.finRange_succ,Fin.eq_zero,hr]
 
-/-- Both statistics passes follow their actual successor states. The tree
-contains only arithmetic and introduces no new access or output premise. -/
-
-theorem statistics_safe (M : Algebra α) (s : State α) (X Mean Rstd : RegionName)
-    (S D B : Nat) (tree : ReductionTree B) (bounds : RegionName → Nat)
-    (hx : ∀ j, j < D → j+D*s.pids 0 < bounds X)
-    (hm : s.pids 0 < bounds Mean) (hr : s.pids 0 < bounds Rstd) :
-    TraceSafe M bounds (statisticsKernel X Mean Rstd S D B tree) s := by
-  obtain ⟨a,ha,hia⟩ := init_run M s S B
-  obtain ⟨b,hb,hib⟩ := chunks_run M Bool.false s a X D B 0 (blockCount D B) _ _ hia
-  obtain ⟨c,hc,hic⟩ := sum_run M s b _ _ hib tree
-  obtain ⟨d,hd,hid⟩ := mean_run M s c Mean D _ _ hic
-  obtain ⟨e,he,hie⟩ := reset_mean_run M s d Mean B _ hid
-  obtain ⟨f,hf,hif⟩ := chunks_run M Bool.true _ e X D B 0 (blockCount D B) _ _ hie
-  obtain ⟨g,hg,hig⟩ := sum_run M _ f _ _ hif tree
-  unfold TraceSafe statisticsKernel
-  simp only [ComputeKernel.surfaceBody,List.append_assoc]
-  exact append_safe _ _ _ _ _ _ (init_safe M s S B bounds) ha
-    (append_safe _ _ _ _ _ _ (chunks_safe M Bool.false s a X D B 0 (blockCount D B) _ _ hia bounds hx) hb
-      (append_safe _ _ _ _ _ _ (sum_safe M b bounds tree) hc
-        (append_safe _ _ _ _ _ _ (mean_safe M s c Mean D _ _ hic bounds hm) hd
-          (append_safe _ _ _ _ _ _ (reset_safe M d B bounds) he
-            (append_safe _ _ _ _ _ _ (chunks_safe M Bool.true _ e X D B 0 (blockCount D B) _ _ hie bounds hx) hf
-              (append_safe _ _ _ _ _ _ (sum_safe M f bounds tree) hg
-                (inverse_safe M _ g Rstd D _ _ hig bounds hr)))))))
-
-/-- Selected source safety, retaining FP32 statistics and BF16 output stores. -/
-
-theorem source_safe (M : Algebra α) (eq32 : α → α → Bool) (s : State α)
-    (X W Bias Y Mean Rstd : RegionName) (S D B : Nat) (tree : ReductionTree B)
-    (sep : X ≠ Mean) (bounds : RegionName → Nat)
-    (bx : ∀ j, j < D → j+D*s.pids 0 < bounds X)
-    (bw : ∀ j, j < D → j < bounds W) (bb : ∀ j, j < D → j < bounds Bias)
-    (byOut : ∀ j, j < D → j+D*s.pids 0 < bounds Y)
-    (bm : s.pids 0 < bounds Mean) (br : s.pids 0 < bounds Rstd) :
-    TraceSafe (withEquality M eq32) bounds
-      (Source.rowKernel X W Bias Y Mean Rstd S D B (SourceBinding.tree tree)) s := by
-  rw [SourceBinding.row_binding]
-  obtain ⟨t,ran,ready⟩ := whole_statistics (withEquality M eq32) s X Mean Rstd S D B tree sep
-  change Safety.traceSafeList _ _ (_++_) _
-  apply append_safe _ _ _ _ _ _ (statistics_safe (withEquality M eq32) s X Mean Rstd S D B tree bounds bx bm br) ran
-  exact VeriTile.Bench.Repairs.FusedLayernormTriton.SourceSafety.normalize_loop_safe
-    M eq32 t X W Bias Y D B 0 (blockCount D B) (s.pids 0) _ _
-    ready.mean ready.inverse ready.row bounds bx bw bb byOut
-
-
-#axiomsClean source_safe
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

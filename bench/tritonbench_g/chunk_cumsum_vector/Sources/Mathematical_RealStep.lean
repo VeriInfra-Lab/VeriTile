@@ -171,45 +171,6 @@ theorem store_eval (p : Layout) (l : Launch) (o : RegionName) (a padding : Nat �
     BlockPtr.address_2d_offsets, decide_eq_true_eq]
   rfl
 
-/-- Every statement of a chunk succeeds for arbitrary loaded input and incoming
-carry. The final store remains before the source's nonnegative-index branch. -/
-theorem executes (p : Layout) (l : Launch) (s o : RegionName) (a padding : Nat → ℝ)
-    (c : Nat) (acc : Fin p.BS → ℝ) (u : BlockState) (hu : ∀ off, u.undef s off = padding off)
-    (his : u.regs .nat [] "i_s" = some (Tile.scalar l.feature))
-    (hih : u.regs .nat [] "i_bh" = some (Tile.scalar l.head))
-    (hit : u.regs .nat [] "i_t" = some (Tile.scalar c))
-    (hm : ∀ off, u.readMem s off = a off)
-    (htri : u.regs .real [p.BT, p.BT] "m_s" = some (lowerTriTile p.BT))
-    (hacc : u.regs .real [p.BS] "b_z" = some (Tile.vec fun j => some (acc j))) :
-    stepStmts (loopBody p s o Bool.false) u = some (result p l s o a padding c acc u) := by
-  unfold loopBody
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (pointer_eval p l s c u his hih hit))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (pointer_eval p l o c _
-    (by simp [his]) (by simp [hih]) (by simp [hit])))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_eval p l s a padding c _ (by simpa using hu)
-    (by intro off; simp [hm]) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (add_dot_eval p l a padding c acc _
-    (by simp [hacc]) (by simp [htri]) (by simp)))]
-  rw [stepStmts.cons_some (store_eval p l o a padding c acc _ (by simp) (by simp))]
-  change stepStmts [.ifThen _ _] (scatter p l o a padding c acc (beforeStore p l s o a padding c acc u)) = _
-  have hc : evalOp (.ge .nat .nil (.ref .nat [] "i_t") (.constNat 0))
-      (scatter p l o a padding c acc (beforeStore p l s o a padding c acc u)) = some (Tile.scalar Bool.true) := by
-    have hr : (scatter p l o a padding c acc (beforeStore p l s o a padding c acc u)).regs .nat [] "i_t" =
-        some (Tile.scalar c) := by simp [scatter, beforeStore, hit]
-    rw [evalOp]
-    simp only [evalOp_ref, hr, evalOp_constNat, Option.bind_some, Option.bind_eq_bind]
-    apply congrArg some
-    apply Tile.ext
-    intro i
-    change decide (0 ≤ c) = Bool.true
-    simp
-  rw [stepStmts, stepStmt, hc]
-  simp only [Option.bind_some, Option.bind_eq_bind, Tile.scalar_data, ↓reduceIte]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (carry_eval p l a padding c acc _
-    (by simp [scatter, beforeStore, hacc]) (by simp [scatter, beforeStore])))]
-  simp only [stepStmts.nil]
-  rfl
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

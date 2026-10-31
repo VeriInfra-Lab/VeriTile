@@ -194,53 +194,7 @@ def conversionOperand (f : FloatStorage) : Op .fp32 shape :=
   | .fp16 => .castFloat .fp16 .fp32 (.ref .fp16 shape "output")
   | .bf16 => .ref .fp32 shape "output"
 
-def storeInteger (f : FloatStorage) (d : Storage) (p : Parameters) : ComputeStmt :=
-  let off := Op.ref .nat [p.block] "offsets"
-  let mask := Op.ref .bool [p.block] "mask"
-  let value : Op .fp32 [p.block] := conversionOperand f
-  match d with
-  | .boolean => .store .int [p.block] (.region p.output off)
-      (.alg (.floatToInt none .fp32 8 value)) (.mask mask)
-  | .signed width => .store .int [p.block] (.region p.output off)
-      (.alg (.floatToInt none .fp32 width value)) (.mask mask)
-  | .unsigned width => .store .nat [p.block] (.region p.output off)
-      (.alg (.floatToNat none .fp32 width value)) (.mask mask)
-
-def storeFloat (f : FloatStorage) (p : Parameters) : ComputeStmt :=
-  let off := Op.ref .nat [p.block] "offsets"
-  let mask := Op.ref .bool [p.block] "mask"
-  match f with
-  | .fp16 => .store .fp16 [p.block] (.region p.output off)
-      (.alg (.ref .fp16 [p.block] "output")) (.mask mask)
-  | .bf16 => .store .bf16 [p.block] (.region p.output off)
-      (.alg (.castFloat .fp32 .bf16 (.ref .fp32 [p.block] "output"))) (.mask mask)
-
 abbrev convertedCell := MixedFP32.convertedCell
-
-/-- All eight statements, both operand orders, and the original x output dtype. -/
-def source (f : FloatStorage) (integerFirst : Bool) (d : Storage) (p : Parameters) : ComputeKernel :=
-  let off := Op.ref .nat [p.block] "offsets"
-  let mask := Op.ref .bool [p.block] "mask"
-  let integerLoad name region := ComputeStmt.assign .int [p.block] name
-    (.alg (IntegerSource.loadOp d region off mask))
-  let floatLoad name region := ComputeStmt.assign f.dtype.toTileDType [p.block] name
-    (.alg (.load f.dtype.toTileDType (.region region off) (.mask mask)))
-  let x := if integerFirst then integerToFloat f d (.ref .int [p.block] "x")
-    else floatOperand f "x"
-  let y := if integerFirst then floatOperand f "y"
-    else integerToFloat f d (.ref .int [p.block] "y")
-  .mk [p.x,p.y] [p.output] [
-    .assign .nat [] "pid" (.alg (.programId 0)),
-    .assign .nat [] "block_start" (.alg (.mul .nat .nil
-      (.ref .nat [] "pid") (.constNat p.block))),
-    .assign .nat [p.block] "offsets" (.alg (.add .nat .scalarL
-      (.ref .nat [] "block_start") (.arange p.block))),
-    .assign .bool [p.block] "mask" (.alg (.lt .nat .scalarR off (.constNat p.n))),
-    if integerFirst then integerLoad "x" p.x else floatLoad "x" p.x,
-    if integerFirst then floatLoad "y" p.y else integerLoad "y" p.y,
-    .assign f.compute.toTileDType [p.block] "output"
-      (.alg (.add f.numeric (.consSame .nil) x y)),
-    if integerFirst then storeInteger f d p else storeFloat f p ]
 
 def sumValue (cfg : FP.Config) (f : FloatStorage) (integerFirst : Bool) (d : Storage)
     (p : Parameters) (mem : RegionName → Nat → Cell Word) (o : Nat) : Word :=

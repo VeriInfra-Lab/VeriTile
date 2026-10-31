@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_welfold.Proofs.Grid
+import bench.tritonbench_g.layer_norm_welfold.Proofs.ReadableGrid
 
 namespace VeriTile.Bench.Repairs.LayerNormWelfold
 open VeriTile.Triton FP.Structural Reuse
@@ -21,7 +21,7 @@ def runTrials {α : Type} [Inhabited α] (M : Algebra α) (eq32 : α → α → 
     (X W Bias Y Mean Rstd : RegionName) (S D : Nat) : List Configuration → State α → Option (State α)
   | [], s => some s
   | c :: rest, s => do
-      let t ← runRows (withEquality M eq32) (rowKernel X W Bias Y Mean Rstd S D c.block c.tree) (List.range S) s
+      let t ← SourceCode.runRows (withEquality M eq32) (SourceCode.rowKernel X W Bias Y Mean Rstd S D c.block (Readable.tree c.tree)) (List.range S) s
       runTrials M eq32 X W Bias Y Mean Rstd S D rest t
 
 theorem trials_frame {α : Type} [Inhabited α] (M : Algebra α)
@@ -32,8 +32,9 @@ theorem trials_frame {α : Type} [Inhabited α] (M : Algebra α)
   induction trials generalizing s with
   | nil => exact ⟨s, rfl, fun _ _ _ => rfl⟩
   | cons c cs ih =>
-    obtain ⟨u, hu, he⟩ := whole_grid M eq32 s X W Bias Y Mean Rstd S D c.block c.tree c.positive sep (List.range S)
+    obtain ⟨u, hu, he⟩ := Readable.whole_grid M eq32 s X W Bias Y Mean Rstd S D c.block c.tree Bool.false c.positive sep (List.range S)
     obtain ⟨t, ht, hf⟩ := ih u
+    simp only [SourceCode.selected, Bool.false_eq_true, ↓reduceIte] at hu
     refine ⟨t, by simp [runTrials, hu, ht], ?_⟩
     intro q off hm
     rw [hf q off hm]
@@ -45,10 +46,10 @@ theorem selected_after_trials {α : Type} [Inhabited α] (M : Algebra α)
     (eq32 : α → α → Bool) (s : State α) (X W Bias Y Mean Rstd : RegionName)
     (S D : Nat) (sep : Separation X W Bias Y Mean Rstd) (trials : List Configuration) (last : Configuration) :
     ∃ u t, runTrials M eq32 X W Bias Y Mean Rstd S D trials s = some u ∧
-      runRows (withEquality M eq32) (rowKernel X W Bias Y Mean Rstd S D last.block last.tree) (List.range S) u = some t ∧
+      SourceCode.runRows (withEquality M eq32) (SourceCode.rowKernel X W Bias Y Mean Rstd S D last.block (Readable.tree last.tree)) (List.range S) u = some t ∧
       GridEffect M s t X W Bias Y Mean Rstd D last.block last.tree (List.range S) := by
   obtain ⟨u, hu, hf⟩ := trials_frame M eq32 s X W Bias Y Mean Rstd S D sep trials
-  obtain ⟨t, ht, he⟩ := whole_grid M eq32 u X W Bias Y Mean Rstd S D last.block last.tree last.positive sep (List.range S)
+  obtain ⟨t, ht, he⟩ := Readable.whole_grid M eq32 u X W Bias Y Mean Rstd S D last.block last.tree Bool.false last.positive sep (List.range S)
   have hinput : ∀ q, q = X ∨ q = W ∨ q = Bias → u.mem q = s.mem q := by
     intro q hq
     funext off

@@ -34,7 +34,10 @@ theorem before (p : Config) (BD : Nat) (stage : p.stage=3) (s : State Expr) :
   rw [mm3] at b4
   refine ⟨s4,?_,b4,m4.trans mm3⟩
   have assembled : (code p BD).take 41=(code p BD).take 27 ++ setupCode p BD Bool.false ++
-      loopCode p BD Bool.false ++ setupCode p BD Bool.true ++ loopCode p BD Bool.true := rfl
+      loopCode p BD Bool.false ++ setupCode p BD Bool.true ++ loopCode p BD Bool.true := by
+    by_cases hd : p.stage=2
+    all_goals simp [code,source,AttnFwdTriton.TypedSource.repaired,ComputeKernel.surfaceBody,
+      AttnFwdTriton.ControlView.compute,setupCode,loopCode,body,lowerOp,lowerName,upperName,hd]
   rw [assembled]
   simp only [run_append,h0,h1,h2,h3,h4,Option.bind_some]
 
@@ -52,7 +55,7 @@ theorem program (p : Config) (BD : Nat) (stage : p.stage=3) (hn : NonOverlapping
   obtain ⟨t,ht⟩ := tail_success backend p BD Bool.false u (bound_ready _ _ _ hbu')
   have hex : FP.Structural.exec (engine backend) (source p BD Bool.false) s=some t := by
     change run (engine backend) (source p BD Bool.false).surfaceBody s=some t
-    rw [←List.take_append_drop 41 (source p BD Bool.false).surfaceBody,run_append]
+    rw [←code_run backend p BD Bool.false s,←List.take_append_drop 41 (code p BD),run_append]
     change (run (engine backend) ((code p BD).take 41) s).bind
       (run (engine backend) (tail p BD Bool.false))=some t
     rw [hu]

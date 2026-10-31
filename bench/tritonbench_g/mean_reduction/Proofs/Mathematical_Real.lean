@@ -7,7 +7,6 @@ import VeriTile.Examples.Common
 theorems. Only the retained `specification` entries below are public source contracts.
 The helpers retain their statements and proofs for downstream reuse. -/
 
-
 /-!
 # `mean_reduction` — strict per-kernel correctness
 
@@ -53,7 +52,6 @@ is injective). The only side condition is `BLOCK_N ≠ 0` (a nonempty inner chun
 namespace VeriTile.Bench.TritonBenchG.MeanReduction
 
 open VeriTile.Triton VeriTile.Examples
-
 
 def meanOutOffset (s : BlockState) (BLOCK_M : Nat) (i : Fin BLOCK_M) : Nat :=
   s.pids 0 * BLOCK_M + i.val
@@ -811,7 +809,7 @@ theorem mean_dim_kernel_toAlg_body
     (X Mean : RegionName) (M N BLOCK_M BLOCK_N : Nat) :
     (mean_dim_kernel X Mean M N BLOCK_M BLOCK_N).toAlgKernel.body =
       meanProjectedBody X Mean M N BLOCK_M BLOCK_N := by
-  rfl
+  simp [mean_dim_kernel,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,meanProjectedBody,meanPreLoop,meanLoopBody,meanPostLoop, TileShape.eraseAxis, TileShape.axisDim, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody, ComputeKernel.surfaceBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType]
 
 theorem mean_dim_kernel_alg_post_of_exec
     (X Mean : RegionName)
@@ -830,7 +828,8 @@ theorem mean_dim_kernel_compute_correct_of_algorithm
     mean_dim_kernel_correct_target X Mean M N BLOCK_M BLOCK_N s := by
   unfold mean_dim_kernel_correct_target
   rw [ComputeCorrect.realizes_writeIf_iff]
-  apply ComputeKernel.computeCorrect_of_toAlgKernel rfl
+  apply ComputeKernel.computeCorrect_of_toAlgKernel (by
+    simp only [mean_dim_kernel,ComputeKernel.toAlgorithm?_fromKernelBody, ComputeKernel.toAlgKernel_fromKernelBody])
   intro s0 s' hExec hs0
   subst s0
   intro i hi
@@ -852,7 +851,6 @@ theorem mean_dim_kernel_compute_correct
     (hStepNe : BLOCK_N ≠ 0) :
     mean_dim_kernel_correct_target X Mean M N BLOCK_M BLOCK_N s :=
   mean_dim_kernel_compute_correct_of_algorithm X Mean M N BLOCK_M BLOCK_N s hStepNe
-
 
 /-! ## The `⊨[R]` streaming headline (wave-5 S1 fold genre, single stream)
 
@@ -947,9 +945,10 @@ grid (the kernel's store is untyped/`.real`, so the default
 `outDType := .real` applies and the readback is exact). The windows
 transcribe the kernel's pointer arithmetic and masks exactly (pid axis 0;
 lanes row-major over `[BLOCK_M, BLOCK_N]` via `Lane2D`). -/
-def meanKernelIO (X Mean : RegionName) (M N BLOCK_M BLOCK_N : Nat) :
+noncomputable def meanKernelIO (X Mean : RegionName) (M N BLOCK_M BLOCK_N : Nat) :
     StreamMasked2DKernelIO₁ where
   kernel := mean_dim_kernel X Mean M N BLOCK_M BLOCK_N
+  projection := by simp only [mean_dim_kernel,ComputeKernel.toAlgorithm?_fromKernelBody, ComputeKernel.toAlgKernel_fromKernelBody]
   inp1 := X
   out := Mean
   T := meanNumSteps N BLOCK_N
@@ -1462,25 +1461,25 @@ specification mean_dim_kernel_io_correctness (R : RoundingModel)
 
 /-- Checked real projection of the complete typed stream, with the original
 input windows and all active row stores. -/
-def typedIO (input output : Storage) (commuted : Bool) (X Mean : RegionName)
+noncomputable def typedIO (commuted : Bool) (X Mean : RegionName)
     (M N BM BN : Nat) : StreamMasked2DKernelIO₁ :=
   { meanKernelIO X Mean M N BM BN with
-    kernel := (typedKernel input output commuted X Mean M N BM BN).eraseDType
-    projection := typed_supported input output commuted X Mean M N BM BN }
+    kernel := (typedKernel commuted X Mean M N BM BN).eraseDType
+    projection := typed_supported commuted X Mean M N BM BN }
 
 /-- Both complete typed programs implement the independent streamed row mean
 under real semantics. Success, active bounds and the complete flat-memory frame
 are retained. Positive dimensions describe legal nonempty reduction launches. -/
-specification mean_typed_real_correct (input output : Storage) (commuted : Bool)
+specification mean_typed_real_correct (commuted : Bool)
     (X Mean : RegionName) (M N BM BN : Nat) (_hN : 0 < N) (_hM : 0 < BM)
     (hB : 0 < BN) :
-    VeriTile.Spec.Real (typedIO input output commuted X Mean M N BM BN
+    VeriTile.Spec.Real (typedIO commuted X Mean M N BM BN
       ⊨[RoundingModel.triv] fun _ _ xs i => meanStreamSpec N BM BN xs i) := by
   intro A hd hr hc p₀ p₁ xs s hp₀ hp₁ hu hin hout hx
   obtain ⟨t, he, hv, hf⟩ := mean_dim_kernel_io_correctness RoundingModel.triv
     X Mean M N BM BN (Nat.ne_of_gt hB) A hd hr hc p₀ p₁ xs s hp₀ hp₁ hu hin hout hx
   refine ⟨t, ?_, hv, hf⟩
-  exact (typed_flat_exec_triv A input output commuted X Mean M N BM BN
+  exact (typed_flat_exec_triv A commuted X Mean M N BM BN
     (A.flattenState s)).trans he
 
 #guard_msgs (drop info) in
@@ -1495,14 +1494,14 @@ open VeriTile.Triton
 /-- Reusable execution/frame fact for the actual default-FP32 source. The
 mathematical erasure preserves every accumulation/load/cast/reduction/store. -/
 theorem default_source_tile_run (X Mean : RegionName) (M N : Nat) (s : BlockState) :
-    ∃ t, exec (typedKernel .fp32 .fp32 Bool.false X Mean M N 8 8).eraseDType.toAlgKernel s = some t ∧
+    ∃ t, exec (typedKernel Bool.false X Mean M N 8 8).eraseDType.toAlgKernel s = some t ∧
       (∀ i : Fin 8, meanRowActive s M 8 i →
         t.readMem Mean (meanOutOffset s 8 i) = meanSpec s X N 8 i) ∧
       (∀ r o, (r ≠ Mean ∨ ∀ i : Fin 8, meanRowActive s M 8 i →
         o ≠ meanOutOffset s 8 i) → t.mem r o = s.mem r o) := by
   have h := mean_kernel_runR RoundingModel.triv X Mean M N 8 8 (by decide) s
   rw [execR_triv] at h
-  simpa only [typed_projection, mathKernel, indexStmt] using h
+  simpa only [typed_projection, mathKernel_false] using h
 
 /-- The complete source trace's active addresses are exactly the original
 streamed read and masked store windows. Bounds cover every loop iteration. -/
@@ -1513,11 +1512,11 @@ theorem default_source_tile_safe (bounds : RegionBounds) (X Mean : RegionName)
         meanReadAddr N 8 8 (s.pids 0) t.val l < bounds X)
     (ho : ∀ i : Fin 8, meanWriteActive M 8 (s.pids 0) i →
         meanWriteAddr 8 (s.pids 0) i < bounds Mean) :
-    (typedKernel .fp32 .fp32 Bool.false X Mean M N 8 8).eraseDType.toAlgKernel.TraceSafeR
+    (typedKernel Bool.false X Mean M N 8 8).eraseDType.toAlgKernel.TraceSafeR
       RoundingModel.triv bounds s := by
   have h := mean_kernel_traceSafeR RoundingModel.triv bounds X Mean M N 8 8
     (by decide) s hi ho
-  simpa only [typed_projection, mathKernel, indexStmt] using h
+  simpa only [typed_projection, mathKernel_false] using h
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

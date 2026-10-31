@@ -27,8 +27,7 @@ def preludeExecution {α : Type} [Inhabited α] (M : Algebra α) (q : IntegerMod
     {final : State α // run M q s.M s.N (prelude s c bias) initial=some final} := by
   refine ⟨?_,?_⟩
   swap
-  simp [prelude,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-    ComputeKernel.surfaceBody,run,step,arithmeticStep,addExpression,
+  simp [prelude,source,TypedSource.kernel,ComputeKernel.surfaceBody,run,step,arithmeticStep,addExpression,
     FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,
     numeric,bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
     FloatDType.numericDType,FloatDType.toTileDType,VeriTile.Triton.Region.cast,

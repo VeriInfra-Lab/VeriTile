@@ -1,4 +1,4 @@
-import bench.tritonbench_g.ksoftmax_triton.Proofs.Mathematical_BackwardSource
+import bench.tritonbench_g.ksoftmax_triton.Sources.Kernels
 import VeriTile.Triton.Float.ExpressionRewrite
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
@@ -36,25 +36,6 @@ set_option maxRecDepth 16000
 
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
 
-def program (storage : Typed.Storage) (commuted : Bool) (GradIn GradOut Out : RegionName)
-    (bm bn gm gn om on K D : Nat) (log causal fp16 : Bool) : Program where
-  kernel := Typed.homogeneousKernel storage commuted GradIn GradOut Out
-    bm bn gm gn om on K D log causal fp16
-  domain := []
-
-/-- The complete typed programs have identical execution for every abstract
-FP algebra, including failure and the entire final state. Only integer
-address multiplication is commuted; no floating operation is reassociated.
-Successful executions are a separate obligation, not implied by this equality. -/
-specification backward_index_equiv (storage : Typed.Storage) (GradIn GradOut Out : RegionName)
-    (bm bn gm gn om on K D : Nat) (log causal fp16 : Bool) :
-    program storage Bool.false GradIn GradOut Out bm bn gm gn om on K D log causal fp16
-      ≡[assumptions]
-    program storage Bool.true GradIn GradOut Out bm bn gm gn om on K D log causal fp16 := by
-  cases storage <;> equiv_decompose <;> fp_prove
-
-#print_fp_assumptions backward_index_equiv
 #axiomsClean index_product_commutes
 #axiomsClean pointer_add_congr
-#axiomsClean backward_index_equiv
 end VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Backward.Floating

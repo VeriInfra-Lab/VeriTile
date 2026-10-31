@@ -92,6 +92,25 @@ private def scalarLiteralAt (dtype : DInfo) (e : EOut) : MacroM EOut := do
       return { e with term := ← `(Op.constFloat $proof $value), dtype := dtype }
   | _ => return e
 
+/-- Integer source literals inherit an integer operand's carrier. Scientific
+literals and explicitly converted values keep their own floating dispatch. -/
+partial def literalInIntegerContext (other : DInfo) (literalSyntax : TSyntax `tritonExpr)
+    (fallback : EOut) : MacroM EOut := do
+  let signed := other == .int || other == .int8 || other == .int32
+  unless fallback.dtype == .real && (signed || other == .nat) do return fallback
+  match literalSyntax with
+  | `(tritonExpr| ($inner:tritonExpr)) => literalInIntegerContext other inner fallback
+  | `(tritonExpr| $n:num) =>
+    if signed then
+      unless n.getNat < 2^63 do Macro.throwErrorAt literalSyntax "integer arithmetic literal exceeds signed-64 range"
+      return ⟨← `(Op.constInt $n),.int,SInfo.scalar,none,none⟩
+    return ⟨← `(Op.constNat $n),.nat,SInfo.scalar,none,none⟩
+  | `(tritonExpr| -$n:num) =>
+    unless signed do return fallback
+    unless n.getNat ≤ 2^63 do Macro.throwErrorAt literalSyntax "integer arithmetic literal exceeds signed-64 range"
+    return ⟨← `(Op.constInt (-($n : Int))),.int,SInfo.scalar,none,none⟩
+  | _ => return fallback
+
 partial def expandArith (expandExpr : ExprExpander) (env : Env) (ctx : String) (op : TSyntax `term)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
@@ -112,6 +131,10 @@ partial def expandArith (expandExpr : ExprExpander) (env : Env) (ctx : String) (
       | none => pure b'
     else
       pure b'
+  -- Antiquotes initially use the natural fallback. Resolve a floating
+  -- antiquote before letting an integer literal inherit that fallback.
+  let b' ← literalInIntegerContext a'.dtype b b'
+  let a' ← literalInIntegerContext b'.dtype a a'
   let isDivision := match op with | `(Op.div) => Bool.true | _ => Bool.false
   let (a', b') ← if isDivision then pure (a', b') else do
     let aa ← scalarLiteralAt b'.dtype a'
@@ -327,6 +350,27 @@ partial def expandCdiv (expandExpr : ExprExpander) (env : Env)
   let b' ← expandExpr env b
   ensureAlgorithmOnly "tl.cdiv" a'
   ensureAlgorithmOnly "tl.cdiv" b'
+  let b' ← literalInIntegerContext a'.dtype b b'
+  let a' ← literalInIntegerContext b'.dtype a a'
+  if a'.dtype == .int || b'.dtype == .int then
+    let a' ← if a'.dtype == .nat then
+      pure { a' with term := ← `(Op.castNatToInt $a'.term), dtype := .int }
+      else pure a'
+    let b' ← if b'.dtype == .nat then
+      pure { b' with term := ← `(Op.castNatToInt $b'.term), dtype := .int }
+      else pure b'
+    ensureDType .int a'.dtype "tl.cdiv signed lhs"
+    ensureDType .int b'.dtype "tl.cdiv signed rhs"
+    let (subBc, subShape) ← broadcastTerm b'.shape SInfo.scalar "tl.cdiv"
+    ensureShape b'.shape subShape "tl.cdiv"
+    let (addBc, outShape) ← broadcastTerm a'.shape b'.shape "tl.cdiv"
+    let (divBc, divShape) ← broadcastTerm outShape b'.shape "tl.cdiv"
+    ensureShape outShape divShape "tl.cdiv"
+    -- Triton's standard-library body is (x + (div - 1)) // div.
+    let adjusted ← `(Op.sub NumericDType.int $subBc $b'.term (Op.constInt 1))
+    let numerator ← `(Op.add NumericDType.int $addBc $a'.term $adjusted)
+    return ⟨← `(Op.tritonDiv IntegralDType.int $divBc $numerator $b'.term),
+      .int, outShape, none, none⟩
   ensureDType .nat a'.dtype "tl.cdiv lhs"
   ensureDType .nat b'.dtype "tl.cdiv rhs"
   let (addBc, outShape) ← broadcastTerm a'.shape b'.shape "tl.cdiv"
@@ -448,10 +492,30 @@ partial def expandBoolNot (expandExpr : ExprExpander) (env : Env) (ctx : String)
   ensureDType .bool a'.dtype ctx
   pure ⟨← `(Op.boolNot $a'.term), .bool, a'.shape, none, none⟩
 
+/-- A Python integer literal compared with a signed integer keeps that
+integer interpretation. Floating literals remain floating; unsupported wider
+literals fail rather than silently truncating to the retained source width. -/
+private partial def comparisonIntegerLiteral (dtype : DInfo)
+    (literalSyntax : TSyntax `tritonExpr) (fallback : EOut) : MacroM EOut := do
+  let width := match dtype with
+    | .int => 64 | .int32 => 32 | .int8 => 8 | _ => 0
+  if width==0 || fallback.dtype != .real then return fallback
+  match literalSyntax with
+  | `(tritonExpr| ($inner:tritonExpr)) => comparisonIntegerLiteral dtype inner fallback
+  | `(tritonExpr| $n:num) =>
+      unless n.getNat<2^(width-1) do Macro.throwError "comparison literal exceeds retained signed width"
+      return ⟨← `(Op.constInt $n),dtype,SInfo.scalar,none,none⟩
+  | `(tritonExpr| -$n:num) =>
+      unless n.getNat≤2^(width-1) do Macro.throwError "comparison literal exceeds retained signed width"
+      return ⟨← `(Op.constInt (-($n : Int))),dtype,SInfo.scalar,none,none⟩
+  | _ => return fallback
+
 partial def expandCmp (expandExpr : ExprExpander) (env : Env) (ctx : String) (op : TSyntax `term)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let b' ← comparisonIntegerLiteral a'.dtype b b'
+  let a' ← comparisonIntegerLiteral b'.dtype a a'
   let b' ←
     if a'.dtype == .nat && b'.dtype == .real then
       match b with

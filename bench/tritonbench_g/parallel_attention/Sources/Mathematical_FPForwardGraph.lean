@@ -1,4 +1,5 @@
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPSources
+import VeriTile.Triton
+import VeriTile.Triton.Float.Structural
 
 namespace VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages
 open VeriTile.Triton FP.Structural

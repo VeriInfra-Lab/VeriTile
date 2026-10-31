@@ -14,7 +14,7 @@ theorem matrix_binding {α β : Type} [Inhabited α] [Inhabited β]
     (vals : Inputs α N M) (s : State β)
     (pins : (io A N M BN BM pid encode observe).InputBinding vals s)
     (i j : Nat) (hi : i < N) (hj : j < M) :
-    (s.mem "A" (i * M + j)).read .fp32 = encode (matrixValues vals i j) := by
+    (s.mem "A" (i * M + j)).read .real = encode (matrixValues vals i j) := by
   simpa [ProgramIO.InputBinding, io, matrixValues, hi, hj, mapValue] using
     pins (0 : Fin 2) (⟨i, hi⟩, ⟨j, hj⟩, PUnit.unit) trivial
 
@@ -23,18 +23,20 @@ theorem vector_binding {α β : Type} [Inhabited α] [Inhabited β]
     (vals : Inputs α N M) (s : State β)
     (pins : (io A N M BN BM pid encode observe).InputBinding vals s)
     (j : Nat) (hj : j < M) :
-    (s.mem "B" j).read .fp32 = encode (vectorValues vals j) := by
+    (s.mem "B" j).read .real = encode (vectorValues vals j) := by
   simpa [ProgramIO.InputBinding, io, vectorValues, hj, mapValue] using
     pins (1 : Fin 2) (⟨j, hj⟩, PUnit.unit) trivial
 
 theorem safe {α β : Type} [Inhabited β] (A : Algebra β) (N M BN BM pid : Nat)
-    (width : 0 < BM) (encode : α → β) (observe : β → α)
+    (width : 0 < BM) (scope : SourceBounds N M BN BM) (pidSmall : pid<2^64)
+    (castId : ∀ precision src dst value, A.cast precision src dst value=value)
+    (loadId : ∀ value, A.fp32Load value=value) (encode : α → β) (observe : β → α)
     (vals : Inputs α N M) (bounds : RegionName → Nat)
     (covered : (io A N M BN BM pid encode observe).InBounds bounds vals) (s : State β) :
     ScheduleSafe bounds ((io A N M BN BM pid encode observe).schedule vals) s := by
   let entry := (invocation A N M BN BM pid).initial s
   have actual : FP.Structural.TraceSafe A bounds (Kernels.source N M BN BM) entry := by
-    apply AccessSafety.source_safe A (parameters N M BN BM) width bounds entry
+    apply AccessSafety.source_safe A N M BN BM width scope castId loadId bounds entry (by exact pidSmall)
     · intro i j hi hj
       simpa [parameters] using covered.2.1 (0 : Fin 2) (⟨i, hi⟩, ⟨j, hj⟩, PUnit.unit) trivial
     · intro j hj
@@ -54,22 +56,25 @@ theorem safe {α β : Type} [Inhabited β] (A : Algebra β) (N M BN BM pid : Nat
 execution/output/frame lemma, never a field or assumption of the public IO. -/
 theorem implements {α β : Type} [Inhabited α] [Inhabited β]
     (A : Algebra β) (N M BN BM pid : Nat) (width : 0 < BM)
+    (scope : SourceBounds N M BN BM) (pidSmall : pid<2^64)
+    (castId : ∀ precision src dst value, A.cast precision src dst value=value)
+    (loadId : ∀ value, A.fp32Load value=value)
     (encode : α → β) (observe : β → α)
     (f : (Nat → Nat → α) → (Nat → α) → Fin BN → α)
     (result : ∀ (s : State β) (matrix : Nat → Nat → α) (vector : Nat → α),
       (∀ i j, i < N → j < M →
-        (s.mem "A" (i * M + j)).read .fp32 = encode (matrix i j)) →
-      (∀ j, j < M → (s.mem "B" j).read .fp32 = encode (vector j)) →
+        (s.mem "A" (i * M + j)).read .real = encode (matrix i j)) →
+      (∀ j, j < M → (s.mem "B" j).read .real = encode (vector j)) →
       s.pids 0 = pid →
       ∃ t, FP.Structural.exec A (Kernels.source N M BN BM) s = some t ∧
         (∀ i : Fin BN, pid * BN + i.val < N →
-          mapCell observe (t.mem "C" (pid * BN + i.val)) = .mk .fp32 (f matrix vector i)) ∧
+          mapCell observe (t.mem "C" (pid * BN + i.val)) = .mk .real (f matrix vector i)) ∧
         (∀ r o, Outside N BN pid r o → t.mem r o = s.mem r o)) :
     (io A N M BN BM pid encode observe).Implements
       (fun vals => outputValues (f (matrixValues vals) (vectorValues vals))) := by
   apply ProgramIO.Implements.intro
   · intro vals bounds covered initial _
-    exact safe A N M BN BM pid width encode observe vals bounds covered initial
+    exact safe A N M BN BM pid width scope pidSmall castId loadId encode observe vals bounds covered initial
   · intro vals initial pins
     let entry := (invocation A N M BN BM pid).initial initial
     obtain ⟨final, ran, outputs, frame⟩ := result entry (matrixValues vals) (vectorValues vals)
