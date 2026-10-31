@@ -10,7 +10,7 @@ set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false
 
 def prefixBody (os ol ns : Region .int) (src dst : RegionName) (B : Nat) : List Stmt :=
-  (source os ol ns src dst B).body.take 6
+  (source os ol ns src dst B).body.take 9
 
  theorem source_decomposition (os ol ns : Region .int) (src dst : RegionName) (B : Nat) :
     (source os ol ns src dst B).body = prefixBody os ol ns src dst B ++

@@ -53,8 +53,9 @@ def suffix (p : Parameters) (s o : RegionName) : List Stmt :=
 
 theorem suffix_ast (p : Parameters) (s o : RegionName) :
     suffix p s o=
-      [.assign .real [p.BT,p.BS] "b_s"
+      [.assign .real [p.BT,p.BS] "__veritile_load_0"
         (.load .real (.blockPtr (.ref .blockPtr [p.BT,p.BS] "p_s") [0,1]) .none .unspecified),
+       .assign .real [p.BT,p.BS] "b_s" (.ref .real [p.BT,p.BS] "__veritile_load_0"),
        .assign .real [p.BT,p.BS] "b_o"
         (.dot (batch:=[]) (.ref .real [p.BT,p.BT] "m_s") (.ref .real [p.BT,p.BS] "b_s")
           {allowTF32:=some Bool.false}),

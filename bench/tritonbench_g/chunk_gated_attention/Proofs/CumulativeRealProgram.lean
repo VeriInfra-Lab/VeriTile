@@ -48,7 +48,7 @@ theorem decomposition (p : Parameters) (s o : RegionName) :
     rfl
 
 theorem active_length (p : Parameters) (s o : RegionName) :
-    (activeBody p s o).length=11 := by
+    (activeBody p s o).length=12 := by
   by_cases h:p.swapped
   all_goals
     unfold activeBody guardStatement

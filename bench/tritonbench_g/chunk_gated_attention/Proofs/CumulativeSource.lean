@@ -47,7 +47,7 @@ theorem decomposition (p : Parameters) (dtype out_dtype : FloatDType) (s o : Reg
     ScalarArgument.statement,prelude,guardStatement,activeBody]
 
 theorem active_length (p : Parameters) (dtype out_dtype : FloatDType) (s o : RegionName) :
-    (activeBody p dtype out_dtype s o).length=11 := by
+    (activeBody p dtype out_dtype s o).length=12 := by
   cases h:p.swapped <;> simp [kernel,h,NativeSource.cumIndexFirst,NativeSource.cumIndexFirstBody,NativeSource.cumOriginal,NativeSource.cumBody,
     ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,
     ScalarArgument.statement,prelude,guardStatement,activeBody]

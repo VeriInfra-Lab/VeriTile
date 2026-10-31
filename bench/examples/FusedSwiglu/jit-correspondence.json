@@ -1,0 +1,82 @@
+[
+  {
+    "python": "bench/examples/FusedSwiglu/native_kernels.py",
+    "python_function": "swiglu_fused",
+    "lean": "bench/examples/FusedSwiglu/Kernels.lean",
+    "lean_definition": "swiglu_fused",
+    "signature_definition": "swiglu_fusedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "OUT",
+          "bf16"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "ncols",
+        "BLOCK_N"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/FusedSwiglu/native_kernels.py",
+    "python_function": "silu_step",
+    "lean": "bench/examples/FusedSwiglu/Kernels.lean",
+    "lean_definition": "silu_step",
+    "signature_definition": "silu_stepSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "S",
+          "bf16"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "ncols",
+        "BLOCK_N"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/FusedSwiglu/native_kernels.py",
+    "python_function": "mul_step",
+    "lean": "bench/examples/FusedSwiglu/Kernels.lean",
+    "lean_definition": "mul_step",
+    "signature_definition": "mul_stepSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "S",
+          "bf16"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "OUT",
+          "bf16"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "ncols",
+        "BLOCK_N"
+      ]
+    }
+  }
+]

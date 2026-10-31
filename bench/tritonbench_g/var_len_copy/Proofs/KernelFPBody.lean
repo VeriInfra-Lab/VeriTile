@@ -11,7 +11,7 @@ set_option maxRecDepth 16000
 
 def body (v : Bool) (os ol ns : Region .int)
     (src dst : RegionName) (B : Nat) : List ComputeStmt :=
-  match ((kernel v os ol ns src dst B).surfaceBody[6]? : Option ComputeStmt) with
+  match ((kernel v os ol ns src dst B).surfaceBody[9]? : Option ComputeStmt) with
   | some (.forRangeInt _ _ _ _ body) => body
   | _ => []
 
