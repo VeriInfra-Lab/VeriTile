@@ -30,7 +30,8 @@ def actualBody (input output : RegionName) (T BT : Nat) : List Stmt :=
       (.mul .int .nil (.ref .int [] "i_t") (.castNatToInt (.constNat BT))) (.castNatToInt (.arange BT))),
     .assign .ptr [BT] "p_s" (pointer input T BT),
     .assign .ptr [BT] "p_o" (pointer output T BT),
-    .assign .real [BT] "b_s" (.load .real (.ptr (.ref .ptr [BT] "p_s")) (mask T BT)) ] ++
+    .assign .real [BT] "__veritile_load_0" (.load .real (.ptr (.ref .ptr [BT] "p_s")) (mask T BT)),
+    .assign .real [BT] "b_s" (.ref .real [BT] "__veritile_load_0") ] ++
   ((ccLoopBody input output T BT).drop 3).take 3 ++
   [.store .real [BT] (.ptr (.ref .ptr [BT] "p_o")) (.ref .real [BT] "b_o") (mask T BT)]
 

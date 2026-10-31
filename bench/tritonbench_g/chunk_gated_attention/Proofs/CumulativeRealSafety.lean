@@ -59,6 +59,9 @@ theorem suffix_safe (p : Parameters) (s o : RegionName) (bounds : RegionBounds) 
   intro bs
   apply TraceProofs.assign_cons
   · simp [Op.SafeAt,Op.SafeAt.eq_def]
+  intro bsCopy
+  apply TraceProofs.assign_cons
+  · simp [Op.SafeAt,Op.SafeAt.eq_def]
   intro bo
   apply Stmt.TraceSafeList.cons_intro
     (RealHAccessSafety.store2_safe o (tileBase p initial) p.BT p.BS p.BT p.BS

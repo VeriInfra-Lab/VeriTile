@@ -16,7 +16,7 @@ namespace VeriTile.Triton
 /-- Scalar carrier/precision supplied by the invocation. `integer` is the
 mathematical integer channel, not a claim about an unannotated Python ABI width. -/
 inductive ScalarType where
-  | fp32 | fp64 | integer
+  | fp32 | fp64 | integer | i32 | i64
 
 structure CallSignature where
   pointers : List (String × SourceDType) := []
@@ -25,6 +25,9 @@ structure CallSignature where
   floatingPointers : List (String × FloatDType) := []
   scalars : List (String × ScalarType) := []
   constexpr : List String := []
+  /-- Explicit invocation port order for kernels whose first access order differs. -/
+  readPorts : List String := []
+  writePorts : List String := []
 
 namespace DSL.CallSignature
 open Lean Elab Term Meta
@@ -59,6 +62,12 @@ private partial def loadOperand (value : TSyntax `tritonExpr) : Bool :=
 private partial def normalizeRawBody (parserEnv : Environment) (raw : Syntax) : MacroM Syntax := do
   let raw := raw.setArgs (← raw.getArgs.mapM (normalizeRawBody parserEnv))
   match raw with
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) => do
+      if integerDType dt then return raw
+      return (← `(tritonExpr| (tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dt:tritonDType))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) => do
+      if integerDType dt then return raw
+      return (← `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dt:tritonDType))).raw
   | `(tritonExpr| tl.cast($value:tritonExpr, $dtype:tritonDType)) => do
       unless integerDType dtype do return raw
       let some n := pythonIntegerLiteral? value
@@ -104,6 +113,11 @@ private partial def normalizeRawBody (parserEnv : Environment) (raw : Syntax) : 
       return (← `(tritonStmt| for $i:ident in range($(0), $stop:tritonExpr, $step:tritonExpr) { $body* })).raw
   | _ => return raw
 
+declare_syntax_cat tritonCallBinding
+syntax ident " := " term : tritonCallBinding
+syntax (name:=withCall) "with_triton_call " term " call_args " "[" tritonCallBinding,* "]" " in "
+  "triton " RawSourceText.body : term
+
 syntax (name:=withSignature) "with_triton_signature " term " in " "triton " RawSourceText.body : term
 
 private partial def listValues (value : Expr) : TermElabM (List Expr) := do
@@ -137,7 +151,9 @@ private def scalarTypeValue (value : Expr) : TermElabM ScalarType := do
   if value.isConstOf ``ScalarType.fp32 then return .fp32
   if value.isConstOf ``ScalarType.fp64 then return .fp64
   if value.isConstOf ``ScalarType.integer then return .integer
-  throwError "runtime scalar type must be FP32, FP64 or integer"
+  if value.isConstOf ``ScalarType.i32 then return .i32
+  if value.isConstOf ``ScalarType.i64 then return .i64
+  throwError "runtime scalar type must be FP32, FP64 or an integer ABI"
 
 private def bindings {α : Type} (decode : Expr → TermElabM α) (value : Expr) :
     TermElabM (List (String × α)) := do
@@ -162,9 +178,48 @@ private partial def storeValues (raw : Syntax) : List Syntax :=
   | `(tritonStmt| tl.store($_:tritonExpr, $value:tritonExpr, $_:tritonMemKwarg $[, $_:tritonMemKwarg]*)) => [value.raw]
   | _ => raw.getArgs.toList.flatMap storeValues
 
-@[term_elab withSignature] def elaborateSignature : TermElab := fun stx expected => do
-      let profile : TSyntax `term := ⟨stx[1]⟩
-      let raw := stx.getArgs.back!
+/-- Immutable runtime integers are supplied by the invocation, not promoted to
+Python constexprs. This specializes the mathematical index projection; native
+ABI-width bounds remain the caller's explicit contract obligation. -/
+private partial def bindSourceValues (values : List (Name × TSyntax `tritonExpr)) (raw : Syntax) :
+    MacroM Syntax := do
+  if raw.isIdent then
+    if let some (_, value) := values.find? (fun p => p.1 == raw.getId.eraseMacroScopes) then
+      return value.raw
+  if let `(tritonExpr| $id:ident) := raw then
+    if let some (_, value) := values.find? (fun p => p.1 == id.getId.eraseMacroScopes) then
+      return value.raw
+  let expression : TSyntax `tritonExpr := ⟨raw⟩
+  if let some (receiver, dtype) := methodCast? expression then
+    let next ← bindSourceValues values receiver.raw
+    if next != receiver.raw then
+      let receiver : TSyntax `tritonExpr := ⟨next⟩
+      return (← `(tritonExpr| ($receiver).to($dtype:tritonDType))).raw
+  match raw with
+  | .node info kind args => return .node info kind (← args.mapM (bindSourceValues values))
+  | _ => return raw
+
+private partial def rejectArgumentMutation (names : List Name) (raw : Syntax) : TermElabM Unit := do
+  let reject (id : Ident) : TermElabM Unit := do
+    if names.contains id.getId.eraseMacroScopes then
+      throwErrorAt raw "per-call specialization does not yet support reassigned scalar arguments"
+  if let `(tritonStmt| $id:ident = $_:tritonExpr) := raw then reject id
+  if let `(tritonStmt| $id:ident += $_:tritonExpr) := raw then reject id
+  if let `(tritonStmt| $id:ident -= $_:tritonExpr) := raw then reject id
+  if let `(tritonStmt| $id:ident *= $_:tritonExpr) := raw then reject id
+  if let `(tritonStmt| $id:ident /= $_:tritonExpr) := raw then reject id
+  if let `(tritonStmt| $a:ident, $b:ident $[, $more:ident]* = $_:tritonExpr, $_:tritonExpr $[, $_:tritonExpr]*) := raw then
+    reject a
+    reject b
+    for id in more do reject id
+  if let `(tritonStmt| $id:ident : tl.constexpr = $_:tritonExpr) := raw then reject id
+  if raw.getNumArgs > 1 && raw[0].isAtom && raw[1].isIdent &&
+      ["for", "tl.for"].contains raw[0].getAtomVal.trimAscii.toString then
+    reject ⟨raw[1]⟩
+  for arg in raw.getArgs do rejectArgumentMutation names arg
+
+private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
+    (callValues : Option (Array (TSyntax `tritonCallBinding))) (expected : Option Expr) : TermElabM Expr := do
       let source ← match RawSourceText.normalize raw.getAtomVal with
         | .ok body => pure body
         | .error message => throwErrorAt raw "{message}"
@@ -194,9 +249,40 @@ private partial def storeValues (raw : Syntax) : List Syntax :=
         floatingPointers := floatingPointers ++ [(name,id)]
       let scalars ← bindings scalarTypeValue (← mkAppM ``Triton.CallSignature.scalars #[profile])
       let constants ← (← listValues (← mkAppM ``Triton.CallSignature.constexpr #[profile])).mapM stringValue
+      let readPorts ← (← listValues (← mkAppM ``Triton.CallSignature.readPorts #[profile])).mapM stringValue
+      let writePorts ← (← listValues (← mkAppM ``Triton.CallSignature.writePorts #[profile])).mapM stringValue
+      for ports in [readPorts,writePorts] do
+        unless ports.eraseDups.length == ports.length && ports.all (fun name =>
+            (pointers.map Prod.fst ++ floatingPointers.map Prod.fst).contains name) do
+          throwError "memory ports must be distinct pointer parameter names"
       let names := pointers.map Prod.fst ++ floatingPointers.map Prod.fst ++ scalars.map Prod.fst ++ constants
       unless names.eraseDups.length == names.length do throwError "duplicate name in call signature"
       for stmt in stmts do rejectBodyMetadata stmt.raw
+      let mut values : List (Name × TSyntax `tritonExpr) := []
+      if let some args := callValues then
+        for arg in args do
+          let `(tritonCallBinding| $id:ident := $value:term) := arg
+            | throwErrorAt arg "invalid call argument binding"
+          let name := id.getId.eraseMacroScopes
+          if values.any (fun p => p.1 == name) then throwErrorAt arg "duplicate call argument binding"
+          let some (_, kind) := scalars.find? (fun p => p.1 == name.toString)
+            | throwErrorAt arg "binding is not a runtime scalar parameter"
+          unless kind matches .i32 | .i64 | .integer do
+            throwErrorAt arg "per-call specialization requires an integer source argument"
+          let argument ← elabTerm value none
+          let dtype ← inferType argument
+          let expression ← if ← isDefEq dtype (mkConst ``Nat) then
+              liftMacroM `(tritonExpr| $(($value:term : Nat)))
+            else if ← isDefEq dtype (mkConst ``Int) then
+              liftMacroM `(tritonExpr| $(($value:term : Int)))
+            else throwErrorAt value "per-call integer value must have a Nat or Int carrier"
+          values := values ++ [(name, expression)]
+        unless scalars.all (fun (name,kind) =>
+            (kind matches .fp32 | .fp64) || values.any (fun p => p.1.toString == name)) do
+          throwError "every integer runtime scalar needs an explicit call binding"
+        for stmt in stmts do rejectArgumentMutation (values.map Prod.fst) stmt.raw
+      let stmts ← liftMacroM <| stmts.mapM fun st => do
+        return (⟨← bindSourceValues values st.raw⟩ : TSyntax `tritonStmt)
       let (constantBindings,prepared) ← liftMacroM <|
         RawBodyConstants.prepare (constants.map Name.mkSimple) [] stmts.toList
       let stmts := prepared.toArray
@@ -209,8 +295,20 @@ private partial def storeValues (raw : Syntax) : List Syntax :=
           | throwErrorAt region "call signature requires named external pointer parameters"
         unless (pointers.map Prod.fst ++ floatingPointers.map Prod.fst).contains id.getId.eraseMacroScopes.toString do
           throwErrorAt region "pointer parameter {id} is missing from the call signature"
+      for (regions,ports) in [(reads,readPorts),(writes,writePorts)] do
+        unless ports.isEmpty do
+          for region in regions do
+            let `(term| $id:ident) := region | throwErrorAt region "expected a pointer parameter"
+            unless ports.contains id.getId.eraseMacroScopes.toString do
+              throwErrorAt region "observed memory access is missing from the declared call ports"
       let term ← liftMacroM do
         let mut declarations : Array (TSyntax `tritonStmt) := #[← `(tritonStmt| tl.call_signature)]
+        unless readPorts.isEmpty && writePorts.isEmpty do
+          let explicitPorts (names : List String) : Array (TSyntax `term) :=
+            (names.map (fun name => (⟨mkIdent (Name.mkSimple name)⟩ : TSyntax `term))).toArray
+          let inputs := if readPorts.isEmpty then reads.toArray else explicitPorts readPorts
+          let outputs := if writePorts.isEmpty then writes.toArray else explicitPorts writePorts
+          declarations := declarations.push (← `(tritonStmt| tl.ports inputs=[$inputs,*], outputs=[$outputs,*]))
         let mut dtypeBindings : List (String × TSyntax `term) := []
         for (name, kind) in pointers do
           let id := mkIdent (Name.mkSimple name)
@@ -229,9 +327,13 @@ private partial def storeValues (raw : Syntax) : List Syntax :=
           declarations := declarations.push (← `(tritonStmt| tl.region $id:ident = storage_dtype($dtype:ident)))
           dtypeBindings := dtypeBindings ++ [(name,⟨dtype.raw⟩)]
         for (name, kind) in scalars do
+          if values.any (fun p => p.1.toString == name) then continue
+          if kind matches .i32 then
+            Macro.throwError "int32 runtime arguments require an explicit call_args binding"
           let id := mkIdent (Name.mkSimple name)
           let dtName := match kind with
-            | .fp32 => `tl.float32 | .fp64 => `tl.float64 | .integer => `tl.int64
+            | .fp32 => `tl.float32 | .fp64 => `tl.float64 | .integer | .i64 => `tl.int64
+            | .i32 => `tl.int32
           let some dt ← dtypeSyntaxOfName? dtName
             | Macro.throwError "unsupported scalar dtype"
           declarations := declarations.push (← `(tritonStmt| tl.param $id:ident : $dt:tritonDType))
@@ -262,6 +364,13 @@ private partial def storeValues (raw : Syntax) : List Syntax :=
       let term ← liftMacroM <| storageBindings.reverse.foldlM (init:=term) fun body (name,value) =>
         `(let $name:ident : FloatDType := $value:term; $body:term)
       elabTerm term expected
+
+@[term_elab withSignature] def elaborateSignature : TermElab := fun stx expected =>
+  elaborateCall ⟨stx[1]⟩ stx.getArgs.back! none expected
+
+@[term_elab withCall] def elaborateInvocation : TermElab := fun stx expected => do
+  let args := stx[4].getSepArgs.map (fun arg => (⟨arg⟩ : TSyntax `tritonCallBinding))
+  elaborateCall ⟨stx[1]⟩ stx.getArgs.back! (some args) expected
 
 end DSL.CallSignature
 

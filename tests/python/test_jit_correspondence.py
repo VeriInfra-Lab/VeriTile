@@ -346,3 +346,57 @@ class PastedGroupedMatmulTests(unittest.TestCase):
                 self.assertIn(before, self.lean)
                 with self.assertRaises(ValueError):
                     self.compare(lean=self.lean.replace(before, after, 1))
+
+
+class RuntimeCallBindingTests(unittest.TestCase):
+    def setUp(self):
+        directory = ROOT / 'bench/tritonbench_g/add_example'
+        self.python = (directory / 'add_example.py').read_text()
+        self.lean = (directory / 'Kernels.lean').read_text()
+        self.record = json.loads((directory / 'jit-correspondence.json').read_text())[0]
+
+    def compare(self, lean, record=None):
+        record = self.record if record is None else record
+        return check(self.python, lean, record['python_function'], record['lean_definition'],
+                     record['signature_definition'], record['expected_signature'],
+                     record.get('expected_call_bindings'))
+
+    def test_runtime_int32_stays_runtime_in_exact_body(self):
+        result = self.compare(self.lean)
+        self.assertEqual(result['runtime_parameters'], {'n_elements': 'i32'})
+        self.assertEqual(result['constexpr_parameters'], ['BLOCK_SIZE'])
+        self.assertEqual(result['mode'], 'pasted_body')
+
+    def test_changed_missing_or_computed_call_binding_rejected(self):
+        for replacement in ('n_elements := BLOCK_SIZE', '', 'n_elements := n_elements + 1',
+                            'n_elements := n_elements, n_elements := n_elements'):
+            with self.subTest(replacement=replacement), self.assertRaises(ValueError):
+                self.compare(self.lean.replace('n_elements := n_elements', replacement, 1))
+
+    def test_unreviewed_call_cannot_pass_as_plain_signature(self):
+        record = dict(self.record)
+        del record['expected_call_bindings']
+        with self.assertRaises(ValueError):
+            self.compare(self.lean, record)
+
+    def test_width_change_rejected_even_if_manifest_is_altered(self):
+        record = json.loads(json.dumps(self.record))
+        record['expected_signature']['scalars'] = [['n_elements', 'i64']]
+        with self.assertRaisesRegex(ValueError, 'runtime scalar annotation'):
+            self.compare(self.lean.replace('("n_elements",.i32)', '("n_elements",.i64)', 1), record)
+
+    def test_body_changes_remain_rejected(self):
+        for before, after in [('offsets < n_elements', 'offsets <= n_elements'),
+                              ('output = x + y', 'output = y + x'),
+                              ('mask=mask)', 'mask=mask, other=0.0)')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after, 1))
+
+    def test_all_staged_call_sources_preserve_python_ast(self):
+        cases = ('add_example add_value cosine_compute index_select_bwd kldiv_compute '
+                 'l2_norm_triton1 matrix_transpose sin_computation sin_kernel square_matrix '
+                 'swiglu_fwd vector_addition vector_addition_custom').split()
+        for case in cases:
+            with self.subTest(case=case):
+                results = check_manifest(ROOT, ROOT / 'bench/tritonbench_g' / case / 'jit-correspondence.json')
+                self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))

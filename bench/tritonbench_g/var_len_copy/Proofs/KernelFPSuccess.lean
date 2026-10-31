@@ -88,8 +88,11 @@ theorem loop_success (M : Algebra α) (os ol ns : Region .int) (src dst : Region
 
 def prefixState (B : Nat) (os ol ns : Region .int) (s : State α) : State α :=
   let t := s.setReg "a_id" .int [] (fun _ => s.pids 0)
+  let t := t.setReg "__veritile_load_0" .int [] (fun _ => (s.mem ol.cast (s.pids 0)).read .int)
   let t := t.setReg "length" .int [] (fun _ => (s.mem ol.cast (s.pids 0)).read .int)
+  let t := t.setReg "__veritile_load_1" .int [] (fun _ => (s.mem os.cast (s.pids 0)).read .int)
   let t := t.setReg "old_start" .int [] (fun _ => (s.mem os.cast (s.pids 0)).read .int)
+  let t := t.setReg "__veritile_load_2" .int [] (fun _ => (s.mem ns.cast (s.pids 0)).read .int)
   let t := t.setReg "new_start" .int [] (fun _ => (s.mem ns.cast (s.pids 0)).read .int)
   let t := t.setReg "old_offset" .int [B] (fun i => (i.1.val : Int))
   t.setReg "new_offset" .int [B] (fun i => (i.1.val : Int))

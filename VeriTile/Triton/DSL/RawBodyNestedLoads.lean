@@ -1,9 +1,9 @@
 import VeriTile.Triton.DSL.SourceDType
 import Lean
 
-/-! Preserve typed load operations inside store expressions. The statement IR
+/-! Preserve typed load operations inside compound expressions. The statement IR
 represents a typed load as a ComputeExpr, so a load nested in an Op reduction
-must first receive a private register. This is frontend lowering of the pasted
+must first receive a private register, including a load nested under a cast. This is frontend lowering of the pasted
 source, not another task implementation. Branches and iterations keep their
 loads inside their original control-flow scope. -/
 namespace VeriTile.Triton.DSL.RawBodyNestedLoads
@@ -20,7 +20,8 @@ private partial def containsLoad (raw : Syntax) : Bool :=
     | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*)) => Bool.true
     | _ => Bool.false) || raw.getArgs.any containsLoad
 
-private partial def value (used : List Name) (next : Nat) (raw : Syntax) :
+private partial def value (used : List Name) (next : Nat) (raw : Syntax)
+    (keepRootLoad : Bool := Bool.false) :
     MacroM (List (TSyntax `tritonStmt) × Syntax × Nat) := do
   let expression : TSyntax `tritonExpr := ⟨raw⟩
   let conditional := match expression with
@@ -44,7 +45,7 @@ private partial def value (used : List Name) (next : Nat) (raw : Syntax) :
     | `(tritonExpr| tl.load($_:tritonExpr $[, $_:tritonMemKwarg]*)) => Bool.true
     | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*)) => Bool.true
     | _ => Bool.false
-  unless loaded do return (prelude,raw,next)
+  unless loaded && !keepRootLoad do return (prelude,raw,next)
   let mut name := Name.mkSimple ("__veritile_load_" ++ toString next)
   while used.contains name do
     next := next+1
@@ -61,6 +62,12 @@ private partial def body (used : List Name) (next : Nat) (stmts : List (TSyntax 
   for stmt in stmts do
     let mut prelude := []
     let stmt ← match stmt with
+      | `(tritonStmt| $id:ident = $v:tritonExpr) => do
+          let (before,v,after) ← value used next v.raw Bool.true
+          prelude := before
+          next := after
+          let v : TSyntax `tritonExpr := ⟨v⟩
+          `(tritonStmt| $id:ident = $v:tritonExpr)
       | `(tritonStmt| tl.store($p:tritonExpr, $v:tritonExpr)) => do
           let (before,v,after) ← value used next v.raw
           prelude := before

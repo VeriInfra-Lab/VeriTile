@@ -73,7 +73,8 @@ already-FP32 load introduces no additional numerical callback. -/
 theorem integer_load_and_identity_store (metadata X Y : RegionName) :
     copyAfterCast metadata X Y = (triton {
       tl.region metadata = tl.int32, X = tl.float32, Y = tl.float32
-      index = tl.load(metadata).to(tl.int64)
+      __veritile_load_0 = tl.load(metadata)
+      index = __veritile_load_0.to(tl.int64)
       value = tl.load(X + index)
       tl.store(Y + index, value)
     }) := rfl

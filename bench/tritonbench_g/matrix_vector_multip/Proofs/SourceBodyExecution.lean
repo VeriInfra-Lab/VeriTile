@@ -13,8 +13,12 @@ def bodyResult (A : Algebra α) (p : Parameters) (initial current : State α)
     (off : Nat) (acc : WholeSource.Acc α p) : State α :=
   let s := current.setReg "m_mask" .bool [1,p.blockColumns]
     (fun i => decide (off+i.2.1.val<p.columns))
+  let s := s.setReg "__veritile_load_0" .real [p.blockRows,p.blockColumns]
+    (WholeSource.aChunk A p (initial.pids 0) off (viewMemory initial.mem))
   let s := s.setReg "a" .real [p.blockRows,p.blockColumns]
     (WholeSource.aChunk A p (initial.pids 0) off (viewMemory initial.mem))
+  let s := s.setReg "__veritile_load_1" .real [1,p.blockColumns]
+    (WholeSource.bChunk A p off (viewMemory initial.mem))
   let s := s.setReg "b" .real [1,p.blockColumns]
     (WholeSource.bChunk A p off (viewMemory initial.mem))
   let s := s.setReg "acc" .real [p.blockRows,p.blockColumns]

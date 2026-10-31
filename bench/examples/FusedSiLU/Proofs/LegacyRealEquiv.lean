@@ -68,6 +68,9 @@ that bridge requires successful projection and register-closedness of every
 stage. This file's headline is about the concatenated kernel.
 -/
 
+attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm? VeriTile.Triton.ComputeOp.toAlgorithm?
+  VeriTile.Triton.ComputeDType.eraseDType
+
 namespace VeriTile.Bench.Examples.FusedSiLUEquiv
 open VeriTile.Bench.Examples.FusedSiLU.Kernels
 open VeriTile.Triton VeriTile.Examples
