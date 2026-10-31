@@ -198,7 +198,7 @@ syntax "return_indices=False" : tritonReduceKwarg
 syntax "reverse=True" : tritonReduceKwarg
 syntax "reverse=False" : tritonReduceKwarg
 syntax "out_dtype=" tritonDType : tritonReduceKwarg
-syntax ident "=" tritonDType : tritonReduceKwarg
+syntax (priority := high) ident "=" tritonDType : tritonReduceKwarg
 syntax "input_precision=" str : tritonReduceKwarg
 syntax ident "=" tritonExpr : tritonReduceKwarg
 

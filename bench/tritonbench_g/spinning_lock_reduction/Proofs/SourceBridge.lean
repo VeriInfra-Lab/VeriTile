@@ -1,4 +1,4 @@
-import bench.tritonbench_g.spinning_lock_reduction.Kernels
+import bench.tritonbench_g.spinning_lock_reduction.Proofs.SourceEntry
 import Mathlib.Tactic.SplitIfs
 
 /-! Compilation and execution connection for the readable current source.

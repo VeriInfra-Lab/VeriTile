@@ -297,7 +297,7 @@
     "bench/bug_detection/tasks/gemma_one_plus_w_bf16/Correct.lean": "f3c1ff7f8845ac6ab6da46c0bacfbc573d960be7fa41c19e2e057e6289d31c07",
     "bench/bug_detection/tasks/gemma_one_plus_w_bf16/FPEquiv.lean": "d529931bf1d8adb0bed595383fc43da85ac69f4d8ddef256aaf459cd601732d4",
     "bench/bug_detection/tasks/gemma_one_plus_w_bf16/IO.lean": "ed83436cbefade5968998e065d14342fea30dc05a6f13e44ae48df2a06e97da8",
-    "bench/bug_detection/tasks/gemma_one_plus_w_bf16/Kernels.lean": "7b9c2d33025bf42164b36cba5a1093f13f347b7429fbe0a0796715f2dc7376bf",
+    "bench/bug_detection/tasks/gemma_one_plus_w_bf16/Kernels.lean": "c00c72d7a963b5597e6e0512d1f3da0bc631d76be7f2e24edf34d95661f5788f",
     "bench/bug_detection/tasks/gemma_one_plus_w_bf16/Misc/Validation.lean": "5483a8297443c2aa7fefea5d5c8295c98c739394826a3ec6cf38472ebd11960a",
     "bench/bug_detection/tasks/gemma_one_plus_w_bf16/Proofs/Backend.lean": "4b65315a1fc58e1387c8e7c6e5656852dc02808f92aa196e8aa4504e61216e97",
     "bench/bug_detection/tasks/gemma_one_plus_w_bf16/task.json": "1f0e405ccdf98c575f94cb1bea7d2bcdec8f02e37d5bf6ec405754ff31f53541",
@@ -441,7 +441,7 @@
     "bench/bug_detection/tasks/rmsnorm_w_fp16_roundtrip/Correct.lean": "9d5dcc1609dabbca96868b481b8f4e3d0d77dd2fbe3ed1baa825de3e04d03034",
     "bench/bug_detection/tasks/rmsnorm_w_fp16_roundtrip/FPEquiv.lean": "8278bce16bc17150b8e3c6177df7caf5ce7b545adbb6b5dea39a350de2fb084c",
     "bench/bug_detection/tasks/rmsnorm_w_fp16_roundtrip/IO.lean": "c5455a466561b7273e81131ddec8185b22d0364781fc6030cb7a482c23d3d749",
-    "bench/bug_detection/tasks/rmsnorm_w_fp16_roundtrip/Kernels.lean": "0594d6b6db7fbf855d9fb880dd851f46afbce9212ca1a193709e970e49dc525b",
+    "bench/bug_detection/tasks/rmsnorm_w_fp16_roundtrip/Kernels.lean": "24b7a22d2a7c7917880fb7270084879b3f2db56f5a149db0b7505053178e5497",
     "bench/bug_detection/tasks/rmsnorm_w_fp16_roundtrip/Misc/Validation.lean": "b8ad3a3fa792b8f9154de4e2bd63de199922c9fc659f9cb4709485f3ef6c5c83",
     "bench/bug_detection/tasks/rmsnorm_w_fp16_roundtrip/Proofs/Backend.lean": "6d76877cdcda32b8ea19528ce38a8c9319e5ce55c371dbef7179770385c13cc4",
     "bench/bug_detection/tasks/rmsnorm_w_fp16_roundtrip/task.json": "da2c1718c30cba9a6e5e64f59e3cc463490daec247deac6f1c55917260fc7503",
@@ -543,16 +543,5 @@
     "bench/bug_detection/tasks/swiglu__scale3/task.json": "31567131be39e2b4c800e290cef10d85f908cc53a9add90e8e196d6e3ef224db",
     "VeriTile/Triton/Float/GuardedProgramIO.lean": "d49d97865627028acef594b848a4627e83e139849ce8f882c8901d75e11d6046",
     "VeriTile/Triton/Memory/LogicalScheduledKernelIO.lean": "63fc2fd56a16d72f476294a9bd175483cc1d188e5760f18d0c40ba59d9764e2b"
-  },
-  "layout_transport": {
-    "base_commit": "4edf710ba663205d9bbc16ed1efe12ea1a72a803",
-    "changed_document_bindings": {
-      "bench/bug_detection/README.md": {
-        "before_sha256": "287398342108bd6596566fbb3f96bc42c10b7595b08340cd15d3fb66eea15ce3",
-        "after_sha256": "5321a3e8ee73a202649436498d8304244047be7782cc79709cf77274fede5a0c"
-      }
-    },
-    "lean_sources_unchanged": true,
-    "new_independent_compilation_claim": false
   }
 }

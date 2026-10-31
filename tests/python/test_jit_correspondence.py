@@ -16,7 +16,7 @@ class JITCorrespondenceTests(unittest.TestCase):
         self.lean = (DIRECTORY / "Kernels.lean").read_text()
 
     def test_all_original_and_candidate_bodies(self):
-        self.assertEqual(len(check_manifest(ROOT, DIRECTORY / "jit-correspondence.json")), 5)
+        self.assertEqual(len(check_manifest(ROOT, DIRECTORY / "jit-correspondence.json")), 6)
 
     def test_cast_nan_clamp_store_and_parameter_changes_are_rejected(self):
         mutations = [
@@ -106,6 +106,54 @@ class PastedBodyTests(unittest.TestCase):
     def test_unreviewed_signature_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "reviewed call signature"):
             check(self.python, self.lean, self.record["python_function"], "body", "callSignature")
+
+
+class MatmulSourceTests(unittest.TestCase):
+    def test_complete_standalone_dot_sources_are_checked(self):
+        for task in ("matmul_triton1", "matmul_triton2"):
+            directory = ROOT / "bench/tritonbench_g" / task
+            with self.subTest(task=task):
+                result = check_manifest(ROOT, directory / "jit-correspondence.json")
+                self.assertEqual(result[0]["mode"], "pasted_body")
+                self.assertEqual(result[0]["status"], "PASS")
+
+    def test_compiler_fusion_and_removed_uint64_cast_are_rejected(self):
+        cases = {
+            "matmul_triton1": ("z += tl.dot(x_sub, y_sub, allow_tf32=False)",
+                               "z = tl.dot(x_sub, y_sub, z, allow_tf32=False)"),
+            "matmul_triton2": ("accumulator += tl.dot(a, b)",
+                               "accumulator = tl.dot(a, b, accumulator)")}
+        for task, (before, after) in cases.items():
+            directory = ROOT / "bench/tritonbench_g" / task
+            python = (directory / (task + ".py")).read_text()
+            lean = (directory / "Kernels.lean").read_text()
+            record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+            declaration = "def " + record["lean_definition"]
+            prefix, body = lean.split(declaration, 1)
+            for original, changed in ((before, after), (".to(tl.uint64)", "")):
+                with self.subTest(task=task, mutation=original):
+                    self.assertIn(original, body)
+                    with self.assertRaises(ValueError):
+                        check(python, prefix + declaration + body.replace(original, changed, 1),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"])
+
+    def test_zero_shape_dtype_and_spelling_are_retained(self):
+        directory = ROOT / "bench/tritonbench_g/matmul_triton1"
+        python = (directory / "matmul_triton1.py").read_text()
+        lean = (directory / "Kernels.lean").read_text()
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        declaration = "def " + record["lean_definition"]
+        prefix, body = lean.split(declaration, 1)
+        for before, after in (("(m_block_size, n_block_size)", "(n_block_size, m_block_size)"),
+                              ("(m_block_size, n_block_size)", "[m_block_size, n_block_size]"),
+                              ("dtype=tl.float32", "dtype=tl.float16")):
+            with self.subTest(mutation=before):
+                self.assertIn(before, body)
+                with self.assertRaises(ValueError):
+                    check(python, prefix + declaration + body.replace(before, after, 1),
+                          record["python_function"], record["lean_definition"],
+                          record["signature_definition"], record["expected_signature"])
 
 
 if __name__ == "__main__":

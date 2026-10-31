@@ -6,28 +6,31 @@ proof results. An old proof, a successful build, or an unchanged inventory
 does not establish correspondence with a Python JIT body.
 
 The current machine-readable inventory is
-[`validation/source-correspondence.json`](../../validation/source-correspondence.json). It covers every
-selected revision in `validation/task_progress.json` and every
-`examples/*/Kernels.lean`, including entries without a source correspondence
-manifest. Each task lists every literal `@triton.jit` function found in its
-selected Python file, uncovered functions, checked pairs and source hashes.
-Files loaded indirectly remain unresolved until explicitly anchored; this is
-visible for `cross_entropy_ops` and `fast_ce_loss`.
+[`validation/source-correspondence.json`](../../validation/source-correspondence.json). It covers all 517 current tasks and 19 worked-example groups: 183 TritonBench
+repairs, 65 bug-detection tasks, 269 pretrain tasks and 19 examples. Each entry
+lists its selected Python reference, every discovered JIT function, registered
+pairs and source hashes. The 334 imported tasks and all 19 examples still lack
+independent registered Python references. Indirectly loaded selected functions
+remain unresolved until explicitly anchored, including cross_entropy_ops and
+fast_ce_loss.
 
-The current inventory contains 183 selected tasks, 19 worked-example groups
-and 328 selected Python JIT functions. Six tasks have complete checked body-copy
-manifests: dequantize_rowwise, matrix_vector_multip, matmul_triton1,
-matmul_triton2, chunk_gated_attention and triton_matmul. Together with the three
-argmax stages checked in legacy AST mode, 11 selected JIT functions have checked
-pairs; 317 remain uncovered. Argmax also checks its separately supplied candidates.
-Two selected files have no resolved JIT function. These counts describe source
-check coverage rather than incorrect algorithms or invalid Lean theorems.
+The 183 TritonBench tasks contain 328 selected Python JIT functions. Six tasks
+have complete checked body-copy manifests: dequantize_rowwise,
+matrix_vector_multip, matmul_triton1, matmul_triton2, chunk_gated_attention and
+triton_matmul. Their bodies preserve standalone dot/add operations and integer
+casts, and their public proofs use those actual bodies. Together with the
+three argmax stages checked in legacy AST mode, 11 selected JIT functions have
+checked pairs; 317 remain uncovered. Argmax also checks its separately supplied
+candidates. Across every referenced Python file, 14 of 412 inventoried functions
+have checked pairs and 398 remain uncovered. These counts describe mechanical
+source coverage rather than incorrect algorithms or invalid Lean theorems.
 
-The primary-file screen finds type directives in 139 task files and antiquotes
-in 159 task files and all 19 example groups. In 44 primary files, Python int64
-casts are not visible in a direct Lean quotation. This is a warning screen:
-imported sources and semantic refinements require separate review. Unflagged
-files are not certified. All 19 worked-example Python references remain pending.
+The TritonBench primary-file screen finds type directives in 130 files and
+antiquotes in 150. In 40 primary files, explicit Python int64 casts are not
+visible in a direct Lean quotation. This is a warning screen: imported sources,
+specialization and semantic refinements require separate review. Unflagged
+files are not certified. The inventory records per-collection findings without
+converting missing references or unregistered bodies into passes.
 
 The newly checked recurrent, cumulative, while and grouped-matmul bodies are
 connected to their public proofs through checked source views and actual
@@ -96,7 +99,7 @@ complete. Several also use Lean-specific `:=`, `tl.for`, `tl.toReal`,
 and semantic differences, not removed by a blind text substitution.
 
 When a real source is identified, register the path in the optional
-`examples/source-references.json` mapping, for example
+`bench/examples/source-references.json` mapping, for example
 `{"ExampleName": "path/to/actual_source.py"}`, and add the example's pair
 manifest. A source newly authored for an example should disclose its
 provenance; it must not be presented as an independent historical original.
@@ -107,3 +110,17 @@ Python control flow and unresolved store aliases must be implemented in the
 shared frontend and checked against its semantics before those kernels are
 marked migrated. Retaining a pending entry is preferable to omitting a cast,
 changing a branch, or claiming Python syntax support that is not implemented.
+
+## Shared control-flow sources
+
+Spinning and StreamK use the shared `source_program triton` frontend for their
+complete control flow. Expressions retain tokens, syntax kinds and operands;
+loops, calls, branches, casts and atomic expressions remain explicit. The typed
+adapter must decode each entire source body successfully. `Proofs/SourceEntry.lean`
+connects the original and candidate source bodies directly to their executable
+programs through those checked decoding witnesses. StreamK retains all eight
+helper/stage bodies, helper argument bindings and explicit FP16 conversion.
+The previous complete quotation fixtures are retained in Git history. The
+existing SC, capacity, execution, frame and numerical scopes remain explicit.
+This connection is separate from Python body-copy coverage and CUDA/compiler
+refinement. Unsupported syntax continues to fail closed.
