@@ -30,10 +30,16 @@ on:
       - 'documents/**'
       - 'README.md'
   workflow_dispatch:
+    inputs:
+      body_migration_only:
+        description: Replay only the explicit body-migration batch; not a corpus completion gate
+        type: boolean
+        default: false
 
 jobs:
   check:
     name: Lean artifact checks
+    if: github.event_name != 'workflow_dispatch' || !inputs.body_migration_only
     runs-on: ubuntu-latest
 
     steps:
@@ -131,3 +137,38 @@ jobs:
       # The complete selected corpus is independently replayed by Bench audit.
       - name: Check final corpus membership and scope
         run: python3 -B scripts/bench/final_inventory.py --check
+
+  body-migration:
+    name: Staged function-body proofs and independent replay
+    if: github.event_name == 'workflow_dispatch' && inputs.body_migration_only
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate every staged original and candidate function body
+        run: python3 scripts/bench/replay_body_migrations.py --check
+      - uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: auto
+      - name: Build all retained modules in the staged cases
+        run: python3 scripts/bench/replay_body_migrations.py --build
+      - uses: ./.github/actions/setup-comparator
+      - name: Audit and independently replay the staged proofs
+        run: |
+          python3 scripts/bench/replay_body_migrations.py --replay \
+            --workspace "$RUNNER_TEMP/body-migration-judge" \
+            --report "$RUNNER_TEMP/body-migration-replay.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: body-migration-proof-replay
+          path: |
+            ${{ runner.temp }}/body-migration-replay.json
+            Logs/comparator-check-*/**/result.json
+            Logs/comparator-check-*/**/targets.json
+          if-no-files-found: warn

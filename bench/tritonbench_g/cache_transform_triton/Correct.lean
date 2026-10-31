@@ -7,7 +7,9 @@ noncomputable section
 
 /-- Whole-grid row gather of the complete byte stream, using signed row
 metadata and named cache row/byte axes. Exact input tags, the empty-launch
-domain, actual source safety and complete exterior frame are retained. -/
+domain, actual source safety and complete exterior frame are retained.
+The public logicalDomain requires each uint8 payload to be below 256; the
+source's implicit byte-store conversion is retained in execution. -/
 specification kernel_real (M : Algebra ℝ) (p : Parameters) (n capacity : Nat)
     (start : p.start=0) (block : p.block=256) (grid : blocks p.count ≤ gridLimit) :
     Spec.Real (logicalIO M p n capacity ⊨{logicalDomain M p n capacity} fun xs byte =>

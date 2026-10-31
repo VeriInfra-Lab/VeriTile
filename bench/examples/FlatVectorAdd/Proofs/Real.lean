@@ -281,7 +281,7 @@ theorem optional_add_comm (a b : Option ℝ) :
 theorem optimized_exec (B n : Nat) (s : BlockState) :
     exec (optimizedKernel n B).toAlgKernel s =
       exec (addKernelMasked "x" "y" "out" B n).toAlgKernel s := by
-  simp [optimizedKernel, addKernelMasked, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [optimizedKernel,commutedKernel, addKernelMasked, exec, stepStmts, stepStmt, evalOp.eq_def,
     Region.cast, Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,
       ComparableDType.lt, add_comm, optional_add_comm]
 

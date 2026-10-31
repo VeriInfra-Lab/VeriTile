@@ -1,0 +1,50 @@
+[
+  {
+    "python": "bench/examples/RowWiseMax/row_wise_max.py",
+    "lean": "bench/examples/RowWiseMax/Kernels.lean",
+    "python_function": "row_wise_max",
+    "lean_definition": "rowWiseMaxKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "nCol",
+        "blockSize"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/RowWiseMax/row_wise_max.py",
+    "lean": "bench/examples/RowWiseMax/Kernels.lean",
+    "python_function": "row_wise_max_inlined",
+    "lean_definition": "inlinedKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "nCol",
+        "blockSize"
+      ]
+    }
+  }
+]

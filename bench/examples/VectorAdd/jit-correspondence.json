@@ -1,0 +1,56 @@
+[
+  {
+    "python": "bench/examples/VectorAdd/vector_add.py",
+    "lean": "bench/examples/VectorAdd/Kernels.lean",
+    "python_function": "add_kernel",
+    "lean_definition": "addKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/VectorAdd/vector_add.py",
+    "lean": "bench/examples/VectorAdd/Kernels.lean",
+    "python_function": "add_commuted_kernel",
+    "lean_definition": "commutedKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  }
+]

@@ -1,0 +1,998 @@
+{
+  "schema": 1,
+  "scope": "177 remaining TritonBench-G tasks and all 19 worked examples",
+  "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
+  "complete": false,
+  "target_count": 196,
+  "completed_count": 0,
+  "staged_count": 11,
+  "pending_count": 196,
+  "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
+  "local_validation": {
+    "staged_public_proofs": "PASS",
+    "staged_and_regression_retained_modules": 471,
+    "official_comparator": "PENDING: local systemd restrictions and Landlock ABI v4; official tool requires v5. Use the manual Artifact body_migration_only job."
+  },
+  "targets": [
+    {
+      "path": "bench/tritonbench_g/adam_update_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/add_example",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/add_value",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/apply_penalty",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/attention_forward_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton1",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton3",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/attention_kernel",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/attention_kernel_aligned",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/attention_llama",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/attention_score",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/attn_fwd_causal",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/attn_fwd_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/batched_vecmat_mult",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/bgmv_expand_slice",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/bgmv_shrink_kernel",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/block_sparse_attn",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/bmm_chunk_bwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/bmm_chunk_fwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/bmm_optimized",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/cache_transform_triton",
+      "status": "proof_replay_pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_bwd_dqkg",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_cumsum_kernel",
+      "status": "proof_replay_pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_cumsum_vector",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_delta_fwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_gate_recurrence",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_gla_fwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_gla_simple",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_linear_attn",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_retention",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_retention_ops",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/chunked_cumsum_fwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/context_attn_bloom",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/context_attn_fwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/context_attn_llama",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/context_attn_mistral",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/context_attn_nopad",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/cosine_compute",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/cross_entropy1",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/cross_entropy2",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/cross_entropy_ops",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/decay_cumsum",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/dequantize_matmul",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/destindex_copy",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/destindex_copy_kv1",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/destindex_copy_kv2",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/diag_ssm_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/dropout_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/embedding_triton_kernel",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/f8_conversion_utils",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fast_ce_loss",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fast_layernorm",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fast_rms_layernorm",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fast_rope_embedding",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fifth_order_sph_harmonics",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/flash_attn",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/flash_decode2_llama",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/flash_decode2_phi",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fp4_to_bf16",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fused_activation",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fused_layernorm_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fused_recurrent_delta",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fused_recurrent_hgrn",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fused_recurrent_retention",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fused_rotary_embedding",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/fused_rwkv6_kernel",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/geglu_tanh_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/index_select_bwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/index_select_cat",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/int4_matmul",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/int8_dequant_matmul",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/int8_matmul_kernel",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/int8_matmul_quantization",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/int8_quantization",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/int_scaled_matmul",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/isfinite_kernel",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/iv_dependent_matmul",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/kcache_copy_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/kldiv_compute",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/kldiv_ops",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/kldiv_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/ksoftmax_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/kv_cache_copy",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/kv_cache_filling",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/l2_norm_bwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/l2_norm_triton1",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/l2_norm_triton2",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_fwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_liger",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_ops",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_welfold",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/layernorm_fwd_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/lightning_attention",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/llama_ff_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/log_softmax",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/logsumexp_fwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/lora_expand_gemv",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/masked_add_cuda",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/masked_select",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_dequant_int4",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_dequantize",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_dequantize_int4",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_kernel",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_leakyrelu",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_leakyrelu_fp8",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_persistent_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_tma",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_triton_autotune",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_transpose",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/max_reduction",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/mean_reduction",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/mixed_sparse_attention",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/mul_exponent_compensator",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/multinomial_sampling",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/nested_loops_processing",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/parallel_attention",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/parallel_retention_attention",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/pow_scalar_tensor",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/quant_transpose_kernel",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/quantize_copy_kv",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/quantize_global",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/quantize_kv_copy",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/quantize_kv_transform",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rbe_triton_transform",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/relu_strided_buffer",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/relu_triton_kernel",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/reversed_cumsum",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/reversed_cumsum_scalar",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rms_matmul_rbe",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rms_norm_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rms_rbe_matmul",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rmsnorm_fused",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rmsnorm_fused_llama",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rmsnorm_implementation",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rmsnorm_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rope_backward_transform",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rope_embedding",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rope_transform",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rotary_emb",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rotary_emb_nopad",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rotary_transform",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rotary_transform_ops",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/rowwise_quantization_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/seeded_dropout",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/sgmv_expand_slice",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/sin_computation",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/sin_kernel",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_flaggems",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_optimize",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_triton1",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_triton2",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_triton3",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/spinning_lock_reduction",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/square_matrix",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/streamk_matmul",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/swiglu_backward",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/swiglu_fwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/swiglu_triton",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/token_attn_llama2",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/token_attn_mistral",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/token_attn_reduceV",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/token_softmax_bloom",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/token_softmax_llama",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/triton_argmax",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/triton_conv2d_fwd",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/triton_mul2",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/triton_softmax",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/uniform_sampling",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/var_len_copy",
+      "status": "proof_replay_pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/vector_addition",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/tritonbench_g/vector_addition_custom",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/AdamUpdateGridLaunch",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/FlatVectorAdd",
+      "status": "proof_replay_pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/FloatDTypeAdd",
+      "status": "proof_replay_pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/FloatDTypeSoftmax",
+      "status": "proof_replay_pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/FusedLayerNorm",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/FusedSiLU",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/FusedSwiglu",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/HyperConnectionsDepth",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/HyperConnectionsWidth",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/LogExp",
+      "status": "proof_replay_pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/OnlineSoftmax",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/RowWiseMax",
+      "status": "proof_replay_pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/RowWiseSum",
+      "status": "proof_replay_pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/SoftmaxReciprocal",
+      "status": "proof_replay_pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/SoftmaxStable",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/StableLogSumExp",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/TritonBenchVectorAddition",
+      "status": "pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/VectorAdd",
+      "status": "proof_replay_pending",
+      "complete": false
+    },
+    {
+      "path": "bench/examples/Welford",
+      "status": "pending",
+      "complete": false
+    }
+  ]
+}

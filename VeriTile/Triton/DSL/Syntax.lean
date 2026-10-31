@@ -16,6 +16,9 @@ declare_syntax_cat tritonReduceKwarg
 declare_syntax_cat tritonScanOp
 declare_syntax_cat tritonDType
 
+-- Emitted by the external call interface; no runtime instruction.
+syntax (name := tritonCallSignature) "tl.call_signature" : tritonStmt
+
 -- Expressions
 syntax num : tritonExpr
 syntax scientific : tritonExpr
@@ -107,6 +110,9 @@ syntax "tl.where(" tritonExpr ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "(" tritonExpr " if " tritonExpr " else " tritonExpr ")" : tritonExpr
 syntax "tl.toReal(" tritonExpr ")" : tritonExpr
 syntax "tl.cast(" tritonExpr ", " tritonDType ")" : tritonExpr
+-- Internal call-signature lowering of the destination conversion. Unlike an
+-- explicit source cast, storing a value already in that dtype is an identity.
+syntax "tl.implicit_store_cast(" tritonExpr ", " tritonDType ")" : tritonExpr
 syntax "tl.bitcast(" tritonExpr ", " tritonDType ")" : tritonExpr
 syntax:max (name := tritonMethodBitcast) tritonExpr:max noWs "." "to" "(" tritonDType "," "bitcast=True" ")" : tritonExpr
 syntax:max (name := tritonIdentMethodBitcast) ident noWs "." "to" "(" tritonDType "," "bitcast=True" ")" : tritonExpr

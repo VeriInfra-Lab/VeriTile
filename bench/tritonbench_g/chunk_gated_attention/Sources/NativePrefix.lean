@@ -37,8 +37,8 @@ def triangle (c : Shape) (i : TileIndex [c.BT,c.BT]) : NativeGraph.Expr :=
 def input (c : Shape) (base : Nat) (s : State NativeGraph.Expr) (i : Index c) : NativeGraph.Expr :=
   .cast (some .fp32) .fp32 .real ((s.mem "s" (offset c base s i)).read .fp32)
 def value (c : Shape) (base : Nat) (s : State NativeGraph.Expr) (i : Index c) : NativeGraph.Expr :=
-  .cast (some .fp32) .fp32 .fp32 (.cast (some .fp32) .real .fp32 (.pendingDot (some .fp32) NativeGraph.options [] c.BT c.BT c.BS
-    (triangle c) (input c base s) i))
+  .cast (some .fp32) .real .fp32 (.pendingDot (some .fp32) NativeGraph.options [] c.BT c.BT c.BS
+    (triangle c) (input c base s) i)
 
 def written (c : Shape) (base : Nat) (s : State NativeGraph.Expr) : State NativeGraph.Expr :=
   if enabled c base s then (TileShape.allIndices [c.BT,c.BS]).foldl

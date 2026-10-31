@@ -1,0 +1,50 @@
+[
+  {
+    "python": "bench/examples/RowWiseSum/row_wise_sum.py",
+    "lean": "bench/examples/RowWiseSum/Kernels.lean",
+    "python_function": "row_wise_sum",
+    "lean_definition": "rowWiseSumKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "nCol",
+        "blockSize"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/RowWiseSum/row_wise_sum.py",
+    "lean": "bench/examples/RowWiseSum/Kernels.lean",
+    "python_function": "row_wise_sum_reversed",
+    "lean_definition": "reversedKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "nCol",
+        "blockSize"
+      ]
+    }
+  }
+]
