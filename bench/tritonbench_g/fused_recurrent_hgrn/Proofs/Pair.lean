@@ -10,13 +10,13 @@ set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
 private theorem suffix_eq (T D BD : Nat) (U S : Bool) :
-    (forwardStrideFolded T D BD U S).surfaceBody.drop 7 =
-      (forward T D BD U S).surfaceBody.drop 7 := by rfl
+    (forwardStrideFolded T D BD U S).surfaceBody.drop 6 =
+      (forward T D BD U S).surfaceBody.drop 6 := by rfl
 
 private theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α)
     (T D BD : Nat) (U S : Bool) (s : State α) :
-    run M ((forwardStrideFolded T D BD U S).surfaceBody.take 7) s =
-      run M ((forward T D BD U S).surfaceBody.take 7) s := by
+    run M ((forwardStrideFolded T D BD U S).surfaceBody.take 6) s =
+      run M ((forward T D BD U S).surfaceBody.take 6) s := by
   have folded : bop (fun a b : Nat => a*b) Broadcast.nil
       (bop (fun a b : Nat => a*b) Broadcast.nil (fun _ : TileIndex [] => s.pids 1) (fun _ => T))
       (fun _ => D) =
@@ -27,11 +27,12 @@ private theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α)
     evalExpr, evalComputeOp, evalOp_unfold, numeric, bop, natLt, numericEq,
     Region.cast, Option.bind, Nat.mul_assoc]
   rw [folded]
+  rfl
 
 private theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
     (T D BD : Nat) (U S : Bool) (bounds : RegionName → Nat) (s : State α) :
-    Safety.traceSafeList M bounds ((forwardStrideFolded T D BD U S).surfaceBody.take 7) s ↔
-      Safety.traceSafeList M bounds ((forward T D BD U S).surfaceBody.take 7) s := by
+    Safety.traceSafeList M bounds ((forwardStrideFolded T D BD U S).surfaceBody.take 6) s ↔
+      Safety.traceSafeList M bounds ((forward T D BD U S).surfaceBody.take 6) s := by
   simp [forwardStrideFolded, forward, ComputeKernel.surfaceBody, Safety.traceSafeList_unfold,
     Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeCompute_unfold,
     Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,
@@ -44,19 +45,19 @@ theorem forward_run {α : Type} [Inhabited α] (M : Algebra α)
     run M (forwardStrideFolded T D BD U S).surfaceBody s =
       run M (forward T D BD U S).surfaceBody s := by
   calc
-    _ = (run M ((forwardStrideFolded T D BD U S).surfaceBody.take 7) s).bind
-        (run M ((forwardStrideFolded T D BD U S).surfaceBody.drop 7)) := by
+    _ = (run M ((forwardStrideFolded T D BD U S).surfaceBody.take 6) s).bind
+        (run M ((forwardStrideFolded T D BD U S).surfaceBody.drop 6)) := by
       rw [← run_append, List.take_append_drop]
-    _ = (run M ((forward T D BD U S).surfaceBody.take 7) s).bind
-        (run M ((forward T D BD U S).surfaceBody.drop 7)) := by rw [prefix_run,suffix_eq]
+    _ = (run M ((forward T D BD U S).surfaceBody.take 6) s).bind
+        (run M ((forward T D BD U S).surfaceBody.drop 6)) := by rw [prefix_run,suffix_eq]
     _ = _ := by rw [← run_append, List.take_append_drop]
 
 theorem forward_safe {α : Type} [Inhabited α] (M : Algebra α)
     (T D BD : Nat) (U S : Bool) (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList M bounds (forwardStrideFolded T D BD U S).surfaceBody s ↔
       Safety.traceSafeList M bounds (forward T D BD U S).surfaceBody s := by
-  conv_lhs => rw [← List.take_append_drop 7 (forwardStrideFolded T D BD U S).surfaceBody]
-  conv_rhs => rw [← List.take_append_drop 7 (forward T D BD U S).surfaceBody]
+  conv_lhs => rw [← List.take_append_drop 6 (forwardStrideFolded T D BD U S).surfaceBody]
+  conv_rhs => rw [← List.take_append_drop 6 (forward T D BD U S).surfaceBody]
   rw [Safety.traceSafeList_append,Safety.traceSafeList_append]
   rw [prefix_safe,prefix_run,suffix_eq]
 

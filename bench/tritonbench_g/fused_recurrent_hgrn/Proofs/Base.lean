@@ -5,22 +5,22 @@ namespace VeriTile.Bench.Repairs.FusedRecurrentHgrn
 open VeriTile.Triton FP.Structural
 noncomputable section
 
-def forwardPrologue (T D BD : Nat) (U : Bool) := (forward T D BD U Bool.false).surfaceBody.take 9
+def forwardPrologue (T D BD : Nat) (U : Bool) := (forward T D BD U Bool.false).surfaceBody.take 8
 def forwardBody (D BD : Nat) : List ComputeStmt :=
-  match (forward 1 D BD Bool.false Bool.false).surfaceBody.getD 9 (.effectMarker "absent") with
+  match (forward 1 D BD Bool.false Bool.false).surfaceBody.getD 8 (.effectMarker "absent") with
   | ComputeStmt.forRange _ _ _ _ body => body
   | _ => []
-def forwardEpilogue (T D BD : Nat) (S : Bool) := (forward T D BD Bool.false S).surfaceBody.drop 10
+def forwardEpilogue (T D BD : Nat) (S : Bool) := (forward T D BD Bool.false S).surfaceBody.drop 9
 
-def backwardPrologue (T D BD : Nat) (V : Bool) := (backward T D BD Bool.false V).surfaceBody.take 6
+def backwardPrologue (T D BD : Nat) (V : Bool) := (backward T D BD Bool.false V).surfaceBody.take 5
 def backwardBody (T D BD : Nat) (U : Bool) : List ComputeStmt :=
-  match (backward T D BD U Bool.false).surfaceBody.getD 6 (.effectMarker "absent") with
+  match (backward T D BD U Bool.false).surfaceBody.getD 5 (.effectMarker "absent") with
   | ComputeStmt.forRange _ _ _ _ body => body
   | _ => []
 
 theorem forward_split (T D BD : Nat) (U S : Bool) :
     (forward T D BD U S).surfaceBody = forwardPrologue T D BD U ++
-      [.forRange "_i" 0 T 1 (forwardBody D BD)] ++ forwardEpilogue T D BD S := by rfl
+      [.forRange "_" 0 T 1 (forwardBody D BD)] ++ forwardEpilogue T D BD S := by rfl
 
 theorem backward_split (T D BD : Nat) (U V : Bool) :
     (backward T D BD U V).surfaceBody = backwardPrologue T D BD V ++

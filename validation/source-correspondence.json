@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 36,
-      "uncovered_jit_functions": 144
+      "selected_body_copy_checked": 40,
+      "uncovered_jit_functions": 140
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 342,
-    "uncovered_selected_jit_functions": 264,
+    "uncovered_selected_jit_functions": 257,
     "inventoried_jit_functions": 472,
-    "uncovered_inventoried_jit_functions": 339,
+    "uncovered_inventoried_jit_functions": 329,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 127
+      "pasted_body": 137
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 2,
-        "selected_body_copy_checked": 36,
-        "uncovered_jit_functions": 144
+        "selected_body_copy_checked": 40,
+        "uncovered_jit_functions": 140
       }
     },
-    "primary_files_with_int64_screen_warning": 36,
+    "primary_files_with_int64_screen_warning": 35,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 109,
-        "antiquotes": 455,
+        "in_body_type_directives": 106,
+        "antiquotes": 451,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -16558,9 +16558,9 @@
       "lean": "bench/tritonbench_g/embedding_triton_kernel/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 32,
-        "dsl_assignment": 7,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 30,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -16666,33 +16666,61 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "embedding_kernel_repaired",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 4,
+          "runtime_parameters": {
+            "vob_start_id": "i64",
+            "vob_end_id": "i64",
+            "stride_weight_seq": "i64",
+            "stride_out_seq": "i64",
+            "n_ctx": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N",
+            "BLOCK_NN",
+            "hiden_size"
+          ],
           "python": "bench/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel.py",
-          "function": "embedding_kernel_repaired"
+          "lean": "bench/tritonbench_g/embedding_triton_kernel/Kernels.lean"
         },
         {
+          "python_function": "embedding_kernel_index_commuted",
+          "lean_definition": "indexCommutedSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 4,
+          "runtime_parameters": {
+            "vob_start_id": "i64",
+            "vob_end_id": "i64",
+            "stride_weight_seq": "i64",
+            "stride_out_seq": "i64",
+            "n_ctx": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N",
+            "BLOCK_NN",
+            "hiden_size"
+          ],
           "python": "bench/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel.py",
-          "function": "embedding_kernel_index_commuted"
+          "lean": "bench/tritonbench_g/embedding_triton_kernel/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel.py",
-          "function": "embedding_kernel_repaired"
-        },
-        {
-          "python": "bench/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel.py",
-          "function": "embedding_kernel_index_commuted"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/embedding_triton_kernel/Kernels.lean": "2e9e9011e3fee1e0bbfa62bf42b8b9597c4c0beded51190b15263fd48c59a19f",
-        "bench/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel.py": "39f241a85d2343ab45b475357620c58f1c7dcd383398f94563ac763554998dd5"
+        "bench/tritonbench_g/embedding_triton_kernel/Kernels.lean": "9e99615f5db55766b5ad55398a2028252f4e8fe1933a5f4e75ce5dbc7ad80c68",
+        "bench/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel.py": "39f241a85d2343ab45b475357620c58f1c7dcd383398f94563ac763554998dd5",
+        "bench/tritonbench_g/embedding_triton_kernel/jit-correspondence.json": "a85d17719ac0a7acaa1358200452095ee9d6a71f7041472c59bbe80adff12fc6"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/embedding_triton_kernel"
@@ -18298,9 +18326,9 @@
       "lean": "bench/tritonbench_g/fused_recurrent_hgrn/Kernels.lean",
       "lean_screen": {
         "quotations": 3,
-        "in_body_type_directives": 3,
-        "antiquotes": 57,
-        "dsl_assignment": 20,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 30,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 4
@@ -18355,42 +18383,86 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "fused_recurrent_hgrn_fwd_kernel",
+          "lean_definition": "forward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BD",
+            "D",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE"
+          ],
           "python": "bench/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn.py",
-          "function": "fused_recurrent_hgrn_fwd_kernel"
+          "lean": "bench/tritonbench_g/fused_recurrent_hgrn/Kernels.lean"
         },
         {
+          "python_function": "fused_recurrent_hgrn_bwd_kernel",
+          "lean_definition": "backward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BD",
+            "D",
+            "T",
+            "USE_FINAL_GRAD",
+            "USE_INITIAL_STATE"
+          ],
           "python": "bench/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn.py",
-          "function": "fused_recurrent_hgrn_bwd_kernel"
+          "lean": "bench/tritonbench_g/fused_recurrent_hgrn/Kernels.lean"
         },
         {
+          "python_function": "fused_recurrent_hgrn_fwd_kernel",
+          "lean_definition": "forwardStrideFolded",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BD",
+            "D",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE"
+          ],
           "python": "bench/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn_stride_folded.py",
-          "function": "fused_recurrent_hgrn_fwd_kernel"
+          "lean": "bench/tritonbench_g/fused_recurrent_hgrn/Kernels.lean"
         },
         {
+          "python_function": "fused_recurrent_hgrn_bwd_kernel",
+          "lean_definition": "backward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BD",
+            "D",
+            "T",
+            "USE_FINAL_GRAD",
+            "USE_INITIAL_STATE"
+          ],
           "python": "bench/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn_stride_folded.py",
-          "function": "fused_recurrent_hgrn_bwd_kernel"
+          "lean": "bench/tritonbench_g/fused_recurrent_hgrn/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn.py",
-          "function": "fused_recurrent_hgrn_fwd_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn.py",
-          "function": "fused_recurrent_hgrn_bwd_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/fused_recurrent_hgrn/Kernels.lean": "fb4f3cca82a8ff2cc56b44479bc62688f76cd4458458a64268dcf0ba7d4e84a3",
+        "bench/tritonbench_g/fused_recurrent_hgrn/Kernels.lean": "2df640a4a5033cb4bf7eaa96dd8f74fe47e2bc6d68178134130074612dbaa08e",
         "bench/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn.py": "f920993bd8b61bc71450ab7a1775ab8dc4c350435e81b83728834df1af922cde",
-        "bench/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn_stride_folded.py": "e902fc9f6872c5a8a500851272ac1b431eb7533be3689695d94c60e4eba5d012"
+        "bench/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn_stride_folded.py": "e902fc9f6872c5a8a500851272ac1b431eb7533be3689695d94c60e4eba5d012",
+        "bench/tritonbench_g/fused_recurrent_hgrn/jit-correspondence.json": "06b0ac14d56bf80893b72a250c663a19b49818461b35d9c9d94f9379b3f31773"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/fused_recurrent_hgrn"
@@ -20387,9 +20459,9 @@
       "lean": "bench/tritonbench_g/kcache_copy_triton/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 34,
-        "dsl_assignment": 10,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 48,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -20543,32 +20615,70 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_copy_to_kcache_seqlen_n_kernel_repaired",
+          "lean_definition": "quotedOriginal",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "stride_kt": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_kcb": "integer",
+            "stride_kch": "integer",
+            "stride_kcsplit_x": "integer",
+            "stride_kcs": "integer",
+            "stride_kcx": "integer",
+            "stride_bts": "integer",
+            "stride_btb": "integer",
+            "block_size": "integer",
+            "n_tokens": "integer"
+          },
+          "constexpr_parameters": [
+            "HEAD_DIM",
+            "KCACHE_X"
+          ],
           "python": "bench/tritonbench_g/kcache_copy_triton/kcache_copy_triton.py",
-          "function": "_copy_to_kcache_seqlen_n_kernel_repaired"
+          "lean": "bench/tritonbench_g/kcache_copy_triton/Kernels.lean"
         },
         {
+          "python_function": "_copy_to_kcache_seqlen_n_kernel_commuted",
+          "lean_definition": "quotedCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "stride_kt": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_kcb": "integer",
+            "stride_kch": "integer",
+            "stride_kcsplit_x": "integer",
+            "stride_kcs": "integer",
+            "stride_kcx": "integer",
+            "stride_bts": "integer",
+            "stride_btb": "integer",
+            "block_size": "integer",
+            "n_tokens": "integer"
+          },
+          "constexpr_parameters": [
+            "HEAD_DIM",
+            "KCACHE_X"
+          ],
           "python": "bench/tritonbench_g/kcache_copy_triton/kcache_copy_triton.py",
-          "function": "_copy_to_kcache_seqlen_n_kernel_commuted"
+          "lean": "bench/tritonbench_g/kcache_copy_triton/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/kcache_copy_triton/kcache_copy_triton.py",
-          "function": "_copy_to_kcache_seqlen_n_kernel_repaired"
-        },
-        {
-          "python": "bench/tritonbench_g/kcache_copy_triton/kcache_copy_triton.py",
-          "function": "_copy_to_kcache_seqlen_n_kernel_commuted"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/kcache_copy_triton/Kernels.lean": "fa599ce6a405881c31474d905b0feb295fe538df8a4b6606aac3fdd4c19a0d34",
+        "bench/tritonbench_g/kcache_copy_triton/Kernels.lean": "8936a3f721ffb474805d5b9151edf4bd4739b6a6c2587352ff5d793501d409e8",
+        "bench/tritonbench_g/kcache_copy_triton/jit-correspondence.json": "5daacd08351c694b1270025358c43c77d71e9610a63411ea71137769e86c016b",
         "bench/tritonbench_g/kcache_copy_triton/kcache_copy_triton.py": "ba8fda41d87c2d01e1a65235835392d6c961e939bc4296ae81d6f0c850d534a6"
       },
       "collection": "tritonbench_g",
@@ -24291,8 +24401,8 @@
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 64,
-        "dsl_assignment": 10,
+        "antiquotes": 0,
+        "dsl_assignment": 39,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -24329,28 +24439,66 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "typed",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 14,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N"
+          ],
           "python": "bench/tritonbench_g/matmul_kernel/matmul_kernel.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/matmul_kernel/Kernels.lean"
         },
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "typedRemaining",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 14,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N"
+          ],
           "python": "bench/tritonbench_g/matmul_kernel/matmul_kernel_remaining_k.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/matmul_kernel/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/matmul_kernel/matmul_kernel.py",
-          "function": "matmul_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_kernel/Kernels.lean": "4fada35bb6982e93694ce3591804287be59ead6bc90af7dbd1e29611271e85d9",
+        "bench/tritonbench_g/matmul_kernel/Kernels.lean": "b16edc77377838f8830b355a683409e1e962ab694d6100edda20d63819c8c199",
+        "bench/tritonbench_g/matmul_kernel/jit-correspondence.json": "118a4f8a43a7bdbc3f5627c01999ff0ba8a84a91e877369601fc03fe17e3b9d1",
         "bench/tritonbench_g/matmul_kernel/matmul_kernel.py": "10892032b7d88b46f0bc43e0bc94176c704c6e7d7b3cb6f92cf7229ca4926a55",
         "bench/tritonbench_g/matmul_kernel/matmul_kernel_remaining_k.py": "215cdd82b35904a0670b54c045d1752002bc06550523fcfed5b5c90ef038397e"
       },

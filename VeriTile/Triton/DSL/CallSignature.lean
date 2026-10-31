@@ -197,6 +197,10 @@ private partial def staticNatBound (constants assigned : List Name)
       let term : TSyntax `term := ⟨id.raw⟩
       let value ← elabTerm term none
       if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none
+  | `(tritonExpr| tl.cdiv($a:tritonExpr, $b:tritonExpr)) => do
+      let some a ← staticNatBound constants assigned a | return none
+      let some b ← staticNatBound constants assigned b | return none
+      return some (← `(term| ((($a:term + $b:term - 1) / $b:term) : Nat)))
   | _ => return none
 
 /-- A per-call size has already been supplied before executing the body.
@@ -208,6 +212,10 @@ private partial def specializeRanges (constants assigned : List Name) (raw : Syn
   if let `(tritonStmt| for $i:ident in range($n:tritonExpr) { $body:tritonStmt* }) := next then
     if let some n ← staticNatBound constants assigned n then
       return (← liftMacroM `(tritonStmt| tl.for $i in $($n) { $body* })).raw
+  if let `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr) { $body:tritonStmt* }) := next then
+    if let some a ← staticNatBound constants assigned a then
+      if let some b ← staticNatBound constants assigned b then
+        return (← liftMacroM `(tritonStmt| for $i in range($($a), $($b), $(1)) { $body* })).raw
   if let `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $c:tritonExpr) { $body:tritonStmt* }) := next then
     if let some a ← staticNatBound constants assigned a then
       if let some b ← staticNatBound constants assigned b then
@@ -309,6 +317,14 @@ private partial def checkFP32CallPrecision (expression : Expr) (fp32 : Bool := B
   | .mdata _ value | .proj _ _ value => checkFP32CallPrecision value fp32
   | _ => pure ()
 
+/-- A bare function-terminal return falls through the same function end.
+Nested and nonterminal returns retain the ordinary control-flow checks. -/
+private def withoutTerminalReturn (stmts : Array (TSyntax `tritonStmt)) :
+    Array (TSyntax `tritonStmt) :=
+  match stmts.back? with
+  | some st => if st.raw.getKind == ``tritonReturn then stmts.pop else stmts
+  | none => stmts
+
 private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
     (callValues : Option (Array (TSyntax `tritonCallBinding))) (expected : Option Expr) : TermElabM Expr := do
       let source ← match RawSourceText.normalize raw.getAtomVal with
@@ -319,6 +335,7 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
         | .error message => throwErrorAt raw "{message}"
       let `(triton { $stmts:tritonStmt* }) := parsed
         | throwErrorAt raw "expected a complete Triton function body"
+      let stmts := withoutTerminalReturn stmts
       let profile ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
       let pointers ← bindings dtypeValue (← mkAppM ``Triton.CallSignature.pointers #[profile])
       let floating ← bindings pure (← mkAppM ``Triton.CallSignature.floatingPointers #[profile])

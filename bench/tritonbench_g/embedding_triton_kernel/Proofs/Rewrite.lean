@@ -36,7 +36,7 @@ theorem execution_eq {α : Type} [Inhabited α] (M : FP.Structural.Algebra α)
       ComputeDType.eraseDType,Option.bind]
     congr 1
     funext i
-    exact Nat.mul_comm _ _
+    exact Int.mul_comm _ _
   change FP.Structural.run M (source .int32 p).surfaceBody s =
     FP.Structural.run M (indexCommutedSource .int32 p).surfaceBody s
   rw [←List.take_append_drop 1 (source .int32 p).surfaceBody,

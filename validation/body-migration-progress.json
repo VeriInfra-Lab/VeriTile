@@ -11,7 +11,7 @@
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 1134,
-    "official_comparator": "PENDING for this source. Run 41225931977 accepted 1dc5b6b28600402c2b5e866537e933d9f333c3d5; run 41235941378 validates 88ed2788b8fb8e638f3e03e049f171dbd0ab53e8. Neither certifies the later precise-division and shared frontend changes. A fresh 55-case replay is required. Local isolation remains unavailable (systemd restrictions and Landlock ABI v4).",
+    "official_comparator": "PENDING: run 41240551147 independently validates the 55-case snapshot at 86e28e55844365ebc6362f9d8abaf60e916c1dcd (same source/proof content as fe0f514959f0fba559e07e321fca06636334024c). Later working-tree changes are not certified. Run 41225931977 accepted the earlier 1dc5b6b snapshot; run 41235941378 validates 88ed2788. Local official isolation remains unavailable (systemd restrictions and Landlock ABI v4).",
     "python_tests": 308,
     "offline_example_compilations": {
       "cases": 19,
@@ -21,8 +21,9 @@
       "completion_certificate": false
     },
     "validated_source_commit": "fe0f514959f0fba559e07e321fca06636334024c",
-    "working_tree": "The local source/proof results apply to the immutable commit above. Only this progress record was subsequently updated; official replay remains pending for the current source closure.",
-    "official_replay_sources": 282
+    "working_tree": "Further parser work and task migrations are in progress. Recorded local PASS results apply only to fe0f514959f0fba559e07e321fca06636334024c; the later shared frontend edits require revalidation.",
+    "official_replay_sources": 282,
+    "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41240551147"
   },
   "targets": [
     {
