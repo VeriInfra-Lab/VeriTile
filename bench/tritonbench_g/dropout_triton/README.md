@@ -6,6 +6,8 @@ Current repaired Python implementation: [dropout_triton.py](dropout_triton.py).
 
 If keep[j]≠0, xs[j]/(1-p); otherwise zero, under total Real division.
 
+The two raw quotations retain the complete Python original and existing candidate. Caller metadata selects all three floating storage types and both keep-buffer representations; all twelve original/candidate configurations share those bodies.
+
 The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
 
 [Proof helpers](Proofs/)
