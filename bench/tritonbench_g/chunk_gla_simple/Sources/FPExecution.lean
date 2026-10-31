@@ -21,51 +21,6 @@ structure Context {α : Type} (c : Shape) (initial current : State α) : Prop wh
 def HasAcc {α : Type} (c : Shape) (acc : Acc α c) (s : State α) : Prop :=
   s.regs .real [c.BT,c.BV] "b_o"=some acc.1 ∧ s.regs .real [c.BT,c.BT] "b_s"=some acc.2
 
-def entryExecution {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ) (s : State α) :
-    {t : State α // run (engine M) (Typed.parts c scale).before s=some t} := by
-  refine ⟨?_,?_⟩
-  swap
-  simp [Typed.parts,kernel,ChunkGlaSimple.source,ComputeKernel.surfaceBody,Source.dynamicRange?,
-    run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
-    Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-    numeric,natLe,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg]
-  rfl
-
-theorem entryContext {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ) (s : State α) :
-    Context c s (entryExecution M c scale s).val ∧
-      HasAcc c (fun _ => zero M,fun _ => zero M) (entryExecution M c scale s).val := by
-  constructor
-  · constructor <;> simp [entryExecution,row,column,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex] <;> rfl
-  · simp [HasAcc,entryExecution,zero]
-
-def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ)
-    (d : Typed.Dots M c) (initial current : State α) (block : Nat) (acc : Acc α c)
-    (ctx : Context c initial current) (ha : HasAcc c acc current) :
-    {t : State α // run (engine M) (Typed.parts c scale).body
-      (current.setReg "i_k" .nat [] (fun _ => block))=some t} := by
-  have ho := ha.1
-  have hs := ha.2
-  refine ⟨?_,?_⟩
-  swap
-  simp [Typed.parts,kernel,ChunkGlaSimple.source,ComputeKernel.surfaceBody,Source.dynamicRange?,
-    run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
-    Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-    numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
-    ctx.bh,ctx.it,ctx.rows,ctx.cols,ctx.mask,ctx.memory,ho,hs,d.qh_eq,d.qk_eq]
-  rfl
-
-theorem bodyContext {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ)
-    (d : Typed.Dots M c) (initial current : State α) (block : Nat) (acc : Acc α c)
-    (ctx : Context c initial current) (ha : HasAcc c acc current) :
-    let t := (bodyExecution M c scale d initial current block acc ctx ha).val
-    Context c initial t ∧ HasAcc c (update M c d initial block acc) t := by
-  dsimp only
-  constructor
-  · constructor <;> simp [bodyExecution,ctx.memory,ctx.bh,ctx.it,ctx.rows,ctx.cols,ctx.mask]
-  · simp [HasAcc,bodyExecution,update,qValue,kValue,hValue,qOffset,kOffset,hOffset,key,row,column,zero,
-      FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
-    constructor <;> rfl
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

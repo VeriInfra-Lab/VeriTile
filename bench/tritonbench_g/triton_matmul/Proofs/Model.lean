@@ -47,7 +47,7 @@ structure PrimitiveLaws {α : Type} (M : Algebra α) (D : DotAcc α)
       (acc : TileIndex [m,n] → α) (i : TileIndex [m,n]),
     D.apply (some .fp32) (dtype st) (dtype st) .real {} (batch := []) a b acc i=
       Q.dotAcc k (fun j => a (i.1,j,PUnit.unit)) (fun j => b (j,i.2.1,PUnit.unit)) (acc i)
-  outputCast : ∀ x, M.cast none .real (dtype st) x=Q.castOutput x
+  outputCast : ∀ x, M.cast none (dtype st) (dtype st) (M.cast none .real (dtype st) x)=Q.castOutput x
 
 def inputA {α : Type} [Inhabited α] (r : Request) (s : State α) (row k : Nat) :=
   FPValue.read r.storage (s.mem r.A (row*r.strideAM+k*r.strideAK))

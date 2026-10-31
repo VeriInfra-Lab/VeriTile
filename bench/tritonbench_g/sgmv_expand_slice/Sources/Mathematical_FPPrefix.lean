@@ -31,16 +31,5 @@ structure Ready [Inhabited Word] (p : Parameters) (s t : State Word) (cur : Nat)
   bptr : t.regs .ptr [p.blockInner,p.blockColumns] "b_ptr"=some (bPointer p s cur)
   acc : t.regs .real [p.blockRows,p.blockColumns] "accumulator"=some acc
 
-theorem prelude_run [Inhabited Word] (rest : Algebra Word) (cfg : FP.Config) (D : Dot)
-    (fmt : Storage) (out : Output) (p : Parameters) (s : State Word) :
-    ∃ final, run (backend rest cfg D) (prelude fmt out p) s=some final ∧ Ready p s final 0 (initial p) := by
-  cases fmt <;>
-    simp [prelude,source,halfTyped,bfloatTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
-      evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
-      integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,backend,LoraExpandGemv.FPValue.backend]
-  all_goals constructor <;> simp [State.setReg,seqLen,seqStart,adapter,row,col,aPointer,bPointer,
-    aOffset,bOffset,initial,bop,Region.cast]
-  all_goals first | rfl | (funext i; simp [bop,aPointer,bPointer,aOffset,bOffset,seqLen,seqStart,adapter,row,col,Region.cast])
-#axiomsClean prelude_run
 end
 end VeriTile.Bench.TritonBenchG.SgmvExpandSlice.FPValue

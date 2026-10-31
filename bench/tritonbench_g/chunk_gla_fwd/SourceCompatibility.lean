@@ -1,9 +1,9 @@
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 
-/-! Historical generic source macros, retained only for compatibility with
-nonselected mixed-storage profiles. The selected FP32 original/candidate sources
-are complete ordinary quotations in Kernels.lean. -/
+/-! Shared syntax for other storage profiles of the current repair.
+The selected FP32 source and current candidate are complete ordinary quotations
+in Kernels.lean. These profiles use the same repaired padding and layout. -/
 
 namespace VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter
 open Lean VeriTile.Triton

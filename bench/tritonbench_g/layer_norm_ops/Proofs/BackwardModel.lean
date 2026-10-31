@@ -1,5 +1,6 @@
 import bench.tritonbench_g.layer_norm_ops.Proofs.ForwardModel
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPSources
+import VeriTile.Triton
+import VeriTile.Triton.Float.Structural
 
 namespace VeriTile.Bench.Repairs.LayerNormOps.Backward
 open VeriTile.Triton FP.Structural

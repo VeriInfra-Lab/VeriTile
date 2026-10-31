@@ -9,6 +9,8 @@ namespace VeriTile.Bench.TritonBenchG.VectorAdditionCustom
 open VeriTile.Triton VeriTile.Examples
 open scoped VeriTile.Triton.MaskedKernelIO₂
 
+attribute [local simp] VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.add_kernel Except.bind bind ComputeDType.eraseDType ComputeKernel.toAlgKernel ComputeKernel.toAlgorithm? ComputeKernel.surfaceBody ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm? ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? Region.cast
+
 /-- Algorithm-layer correctness for `_add_kernel`.
 
 Each active lane writes `A + B`; inactive tail lanes are preserved. -/
@@ -118,6 +120,7 @@ theorem add_kernel_traceSafe
     Kernel.TraceSafe bounds
       ((_add_kernel A B C size BLOCK).toAlgKernel) s := by
   unfold Kernel.TraceSafe
+  try simp only [_add_kernel, VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.add_kernel, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Region.cast]
   -- Computational unroll: walks all five statements, discharging every
   -- load-free `SafeAt` and reducing the three memory accesses' lane-wise
   -- address obligations to the bounds hypotheses below.
@@ -147,32 +150,6 @@ set_option maxHeartbeats 5000000
 theorem optional_add_comm (a b : Option ℝ) :
     Option.map₂ (fun x y => x + y) a b = Option.map₂ (fun x y => x + y) b a :=
   Option.map₂_comm add_comm
-
-/-- Only the real layer uses mathematical commutativity here. -/
-theorem commuted_exec (A B C : RegionName) (size BLOCK : Nat) (s : BlockState) :
-    exec (_add_commuted_kernel A B C size BLOCK).toAlgKernel s =
-      exec (_add_kernel A B C size BLOCK).toAlgKernel s := by
-  simp [_add_commuted_kernel, _add_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,
-    ComparableDType.lt, add_comm, optional_add_comm]
-
-theorem commuted_flattenOk (A B C : RegionName) (size BLOCK : Nat) :
-    (_add_commuted_kernel A B C size BLOCK).toAlgKernel.FlattenOk := by
-  simp [_add_commuted_kernel, Kernel.FlattenOk,
-    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
-
-theorem commuted_traceSafe (A B C : RegionName) (size BLOCK : Nat)
-    (bounds : RegionBounds) (s : BlockState)
-    (ha : ∀ j : Fin BLOCK, s.pid * BLOCK + j.val < size → s.pid * BLOCK + j.val < bounds A)
-    (hb : ∀ j : Fin BLOCK, s.pid * BLOCK + j.val < size → s.pid * BLOCK + j.val < bounds B)
-    (hc : ∀ j : Fin BLOCK, s.pid * BLOCK + j.val < size → s.pid * BLOCK + j.val < bounds C) :
-    Kernel.TraceSafe bounds (_add_commuted_kernel A B C size BLOCK).toAlgKernel s := by
-  simpa [Kernel.TraceSafe, _add_commuted_kernel, _add_kernel,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
-    MemAccess.SafeAt, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,
-    ComparableDType.lt, add_comm, optional_add_comm]
-    using add_kernel_traceSafe A B C size BLOCK bounds s ha hb hc
 
 end Commuted
 

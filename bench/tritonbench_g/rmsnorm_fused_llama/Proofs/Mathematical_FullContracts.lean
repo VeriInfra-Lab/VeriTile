@@ -46,10 +46,10 @@ theorem flatten_frame (A : FlatAlloc) (s0 s : BlockState) (Y : RegionName)
       · exact Or.inl hp
   · simp [hr]
 
-theorem typed_full_io (input weight output : Storage) (v : Bool)
+theorem typed_full_io (v : Bool)
     (X Y W : RegionName) (stride N B : Nat) (eps : ℝ)
     (hB : 0 < B) (hXY : X ≠ Y) (hWY : W ≠ Y) :
-    FullExactIO (typedKernel input weight output v X Y W stride N B eps).eraseDType
+    FullExactIO (typedKernel v X Y W stride N B eps).eraseDType
       X Y W stride N eps := by
   intro A s0 hd hr hc hu hbx hbw hby
   obtain ⟨t, he, hv, hf⟩ := real_execution s0 X Y W stride N B eps hB hXY hWY
@@ -59,7 +59,7 @@ theorem typed_full_io (input weight output : Storage) (v : Bool)
     (mathSource_flattenOk X Y W stride N B eps) hu
   simp only [execR_triv, he, Option.map_some] at hflat
   refine ⟨A.flattenState t, ?_, ?_, flatten_frame A s0 t Y stride N hf⟩
-  · exact (typed_flat_exec A input weight output v X Y W stride N B eps
+  · exact (typed_flat_exec A v X Y W stride N B eps
       (A.flattenState s0)).trans hflat
   · intro k
     have hY : Y ∈ A.regions := by rw [hr]; simp
@@ -70,14 +70,14 @@ theorem typed_full_io (input weight output : Storage) (v : Bool)
       exact Option.some.inj hh
     exact hm.trans (hv k)
 
-theorem typed_full_trace_safe (input weight output : Storage) (v : Bool)
+theorem typed_full_trace_safe (v : Bool)
     (bounds : RegionBounds) (s0 : BlockState) (X Y W : RegionName)
     (stride N B : Nat) (eps : ℝ) (hB : 0 < B) (hXY : X ≠ Y) (hWY : W ≠ Y)
     (hbx : ∀ k : Fin N, s0.pids 0 * stride + k.val < bounds X)
     (hbw : ∀ k : Fin N, k.val < bounds W)
     (hby : ∀ k : Fin N, s0.pids 0 * stride + k.val < bounds Y) :
-    (typedKernel input weight output v X Y W stride N B eps).eraseDType.toAlgKernel.TraceSafeR .triv bounds s0 :=
-  (Safety.typed_safe_iff bounds input weight output v X Y W stride N B eps s0).mpr
+    (typedKernel v X Y W stride N B eps).eraseDType.toAlgKernel.TraceSafeR .triv bounds s0 :=
+  (Safety.typed_safe_iff bounds v X Y W stride N B eps s0).mpr
     (real_trace_safe bounds s0 X Y W stride N B eps hB hXY hWY hbx hbw hby)
 
 #guard_msgs (drop info) in

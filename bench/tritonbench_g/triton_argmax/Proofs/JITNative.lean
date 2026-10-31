@@ -34,6 +34,25 @@ theorem first_float (kind : TypedScratch.Kind) (round : TypedScratch.Rounding)
   simp only [TypedScratch.firstWritten,first_index s X c g base positive,
     Native.firstValue,floatingScratch,codec.castValue]
 
+/-- Actual first quotation, including each requested integer storage channel. -/
+theorem first_integer (kind : Formats.IntegerKind) (p : ScalarBinding.IntegerPrimitives kind)
+    (rest : Algebra Word) (s : State Word) (X V : RegionName) (I : Region .int)
+    (c : GlobalConfig) (g : Native.GlobalPrograms c) (base : Nat) (index64 : Bool) (positive : 0<c.block) :
+    ∃ t, FP.Structural.exec (JITInteger.backend kind p rest)
+      (JITSource.stage1 X V I (JITInteger.sourceType kind) c.block index64)
+      (JITStage1.arguments s c.size base)=some t ∧
+      t.mem=((s.write V (s.pids 0+base) (JITInteger.cell kind
+        ((Native.firstValue (integerScratch kind p) g (fun i=>(s.mem X i).read .real)
+          (s.pids 0+base)).cast (Formats.format_width kind).symm))).write
+        (Region.cast I) (s.pids 0+base) (.mk .int (Int.ofNat
+          (Native.firstIndex g (fun i=>(s.mem X i).read .real) (s.pids 0+base))))).mem := by
+  obtain ⟨t,run,mem⟩:=JITInteger.source_run kind p rest s X V I c.size c.block base index64 positive
+  refine ⟨t,run,mem.trans ?_⟩
+  rw [JITInteger.written,first_index s X c g base positive]
+  cases kind <;> rfl
+
+#axiomsClean first_integer
+
 /-- Actual current scratch loads and the selected-index gather connect the
 complete shared second quotation to the live native second program. -/
 theorem second_float (kind : TypedScratch.Kind) (round : TypedScratch.Rounding)

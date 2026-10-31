@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_RealExecution
+import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_RealEpilogue
 
 /-! The output formula depends only on inputs actually read by the source.
 Q/K/V pins apply only to active masked lanes; key/value/scale pins range over

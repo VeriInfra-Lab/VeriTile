@@ -1,3 +1,4 @@
+import bench.tritonbench_g.fast_rope_embedding.Kernels
 /-
 Source-audit target: _rope_embedding
 Source-audit Lean: fastRope%
@@ -80,6 +81,6 @@ def rope (input cosine sine : Storage) (swapped : Bool) := match input,cosine,si
   | .fp32,.bf16,.fp32 => if swapped then fastRope%[tl.float32,tl.bfloat16,tl.float32,indexCommuted] else fastRope%[tl.float32,tl.bfloat16,tl.float32,original]
   | .fp32,.fp32,.fp16 => if swapped then fastRope%[tl.float32,tl.float32,tl.float16,indexCommuted] else fastRope%[tl.float32,tl.float32,tl.float16,original]
   | .fp32,.fp32,.bf16 => if swapped then fastRope%[tl.float32,tl.float32,tl.bfloat16,indexCommuted] else fastRope%[tl.float32,tl.float32,tl.bfloat16,original]
-  | .fp32,.fp32,.fp32 => if swapped then fastRope%[tl.float32,tl.float32,tl.float32,indexCommuted] else fastRope%[tl.float32,tl.float32,tl.float32,original]
+  | .fp32,.fp32,.fp32 => if swapped then VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.ropeIndexCommuted else VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.rope
 
 end VeriTile.Bench.TritonBenchG.FastRopeEmbedding.TypedSource

@@ -10,9 +10,6 @@ noncomputable section
 arguments remain universally quantified through this equality. -/
 theorem original_preserves : kernel=original Storage.fp32 := rfl
 
-theorem scaleFirst_preserves : scaleFirst=
-    VeriTile.Bench.TritonBenchG.ContextAttnBloom.scaleFirst Storage.fp32 := rfl
-
 abbrev SourceFunction := RegionName → RegionName → RegionName → ℝ → RegionName → RegionName → RegionName → RegionName → RegionName → RegionName → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → ComputeKernel
 
 def atLayout (source : SourceFunction) (p : Math.Layout) (r : Program.Regions) (scale : ℝ) : ComputeKernel :=
@@ -24,7 +21,6 @@ theorem selected_binding (p : Math.Layout) (r : Program.Regions) (scale : ℝ) :
     VeriTile.Bench.Repairs.ContextAttnBloomWhole001.kernel p r scale=atLayout kernel p r scale := rfl
 
 #axiomsClean original_preserves
-#axiomsClean scaleFirst_preserves
 #axiomsClean selected_binding
 end
 end VeriTile.Bench.Repairs.ContextAttnBloomSource

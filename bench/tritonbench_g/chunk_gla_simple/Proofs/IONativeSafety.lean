@@ -1,3 +1,4 @@
+import bench.tritonbench_g.chunk_gla_simple.Proofs.Layout
 import bench.tritonbench_g.chunk_gla_simple.Proofs.FPComplete
 import VeriTile.Triton.Float.StructuralSafety
 
@@ -15,7 +16,7 @@ def position (s : State A) : Math.Launch := ⟨s.pids 0,s.pids 1,s.pids 2⟩
 theorem entry_safe (M : Algebra A) (c : Shape) (scale : ℝ) (s : State A)
     (bounds : RegionName → Nat) :
     Safety.traceSafeList (engine M) bounds (Typed.parts c scale).before s := by
-  simp [Typed.parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,ComputeKernel.surfaceBody,
+  simp [Typed.parts,kernel,fp32Original,ComputeKernel.surfaceBody,
     Source.dynamicRange?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -31,7 +32,7 @@ theorem body_safe (M : Algebra A) (c : Shape) (scale : ℝ) (d : Typed.Dots M c)
       (current.setReg "i_k" .nat [] (fun _ => block)) := by
   have ho := ha.1
   have hs := ha.2
-  simp (maxSteps := 500000) [Typed.parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,
+  simp (maxSteps := 500000) [Typed.parts,kernel,fp32Original,
     ComputeKernel.surfaceBody,Source.dynamicRange?,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
@@ -56,7 +57,7 @@ theorem finish_safe (M : Algebra A) (c : Shape) (scale : ℝ) (d : Typed.Dots M 
     Safety.traceSafeList (engine M) bounds (Typed.parts c scale).after current := by
   have ho := ha.1
   have hs := ha.2
-  simp (maxSteps := 500000) [Typed.parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,
+  simp (maxSteps := 500000) [Typed.parts,kernel,fp32Original,
     ComputeKernel.surfaceBody,Source.dynamicRange?,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
@@ -97,7 +98,7 @@ decreasing_by omega
 theorem source_safe (M : Algebra A) (c : Shape) (scale : ℝ) (d : Typed.Dots M c)
     (initial : State A) (bounds : RegionName → Nat)
     (hb : Safe.Bounds (layout c) (position initial) regions bounds) :
-    FP.Structural.TraceSafe (engine M) bounds (kernel c .fp32 .fp32 .fp32 .fp32 scale) initial := by
+    FP.Structural.TraceSafe (engine M) bounds (kernel c scale) initial := by
   change Safety.traceSafeList (engine M) bounds _ initial
   rw [Typed.source_parts]
   simp only [List.append_assoc, List.singleton_append]

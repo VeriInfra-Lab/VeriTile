@@ -35,7 +35,7 @@ def code (p : Layout) (swapped : Bool) (scale : ℝ) : List Stmt :=
 theorem source (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
     scores p r swapped scale = code p swapped scale := by
   cases swapped
-  all_goals simp only [scores,scorePrefix,lower,parts,mathematical,ComputeKernel.surfaceBody,
+  all_goals simp only [scores,scorePrefix,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,ComputeKernel.surfaceBody,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
     Source.intRange?,Source.prefixBefore,List.length_cons,List.length_nil,
     List.drop_succ_cons,List.drop_zero,

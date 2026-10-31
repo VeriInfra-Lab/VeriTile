@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 import VeriTile.Triton.Semantics.MaskedReduction
 import bench.tritonbench_g.softmax_triton2.Proofs.Mathematical_Real
 
@@ -22,7 +23,7 @@ noncomputable def softmaxMaskTile (n_cols BLOCK_SIZE : Nat)
 pure function of the active row prefix `xs j`, `j < n_cols`, and the optional
 additive-mask row `mask?` (`some ms` ↔ the `HAS_MASK` branch; masked input
 lanes enter the reductions as `⊥`, masked mask lanes as `0`). -/
-noncomputable def softmaxSpec (n_cols BLOCK_SIZE : Nat)
+@[standalone_spec] noncomputable def softmaxSpec (n_cols BLOCK_SIZE : Nat)
     (mask? : Option (Fin BLOCK_SIZE → ℝ)) (xs : Fin BLOCK_SIZE → ℝ)
     (idx : Fin BLOCK_SIZE) : ℝ :=
   let row := softmaxInputTile n_cols BLOCK_SIZE xs

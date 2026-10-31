@@ -1,4 +1,5 @@
-import bench.tritonbench_g.fast_rms_layernorm.Sources.Mathematical_Kernels
+import VeriTile.Triton
+import VeriTile.Triton.DSL.CallSignature
 import VeriTile.Meta.StatementAudit
 
 /-! Complete readable FP32 sources. Runtime epsilon is an explicit scalar ABI
@@ -6,11 +7,6 @@ parameter. The preserved candidate commutes the integer X row-stride product;
 all floating operations, casts, branches and stores retain their order. -/
 namespace VeriTile.Bench.Repairs.FastRmsLayernorm
 open VeriTile.Triton
-namespace Original
-abbrev forward := VeriTile.Bench.TritonBenchG.FastRmsLayernorm.TypedSource.forward
-abbrev gemma := VeriTile.Bench.TritonBenchG.FastRmsLayernorm.TypedSource.gemma
-abbrev backward := VeriTile.Bench.TritonBenchG.FastRmsLayernorm.TypedSource.backward
-end Original
 
 structure Call where
   rows : Nat
@@ -25,97 +21,6 @@ structure Call where
 def Call.cells (h : Call) : Nat := h.rows*h.cols
 namespace Kernels
 noncomputable section
-
-
-def regularSource (Y X W r : RegionName)
-    (Y_row_stride X_row_stride W_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
-    (eps : ℝ) : ComputeKernel :=
-  triton {
-  tl.ports inputs=[X,W], outputs=[Y,r]
-  tl.region Y = tl.float32, X = tl.float32, W = tl.float32, r = tl.float32
-  row_idx = tl.program_id(0)
-  col_offsets = tl.arange(0, $(BLOCK_SIZE))
-  mask = col_offsets < $(n_cols)
-  Y += row_idx * $(Y_row_stride)
-  X += row_idx * $(X_row_stride)
-  r += row_idx * $(r_row_stride)
-  X_row = tl.load(X + col_offsets, mask=mask, other=0).to(tl.float32)
-  W_row = tl.load(W + col_offsets * $(W_row_stride), mask=mask, other=0)
-  row_var = tl.sum(X_row * X_row, axis=0) / $(n_cols)
-  inv_var = tl.math.rsqrt(row_var + $((eps : ℝ)))
-  tl.store(r, inv_var.to(tl.float32))
-  normed = X_row * inv_var
-  normed = normed.to(tl.float32)
-  output = normed * W_row
-  tl.store(Y + col_offsets, output.to(tl.float32), mask=mask)
-}
-
-def gemmaSource (Y X W r : RegionName)
-    (Y_row_stride X_row_stride W_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
-    (eps : ℝ) : ComputeKernel :=
-  triton {
-  tl.ports inputs=[X,W], outputs=[Y,r]
-  tl.region Y = tl.float32, X = tl.float32, W = tl.float32, r = tl.float32
-  row_idx = tl.program_id(0)
-  col_offsets = tl.arange(0, $(BLOCK_SIZE))
-  mask = col_offsets < $(n_cols)
-  Y += row_idx * $(Y_row_stride)
-  X += row_idx * $(X_row_stride)
-  r += row_idx * $(r_row_stride)
-  X_row = tl.load(X + col_offsets, mask=mask, other=0).to(tl.float32)
-  W_row = tl.load(W + col_offsets, mask=mask, other=0).to(tl.float32)
-  row_var = tl.sum(X_row * X_row, axis=0) / $(n_cols)
-  inv_var = tl.math.rsqrt(row_var + $((eps : ℝ)))
-  tl.store(r, inv_var.to(tl.float32))
-  normed = X_row * inv_var
-  output = normed * (W_row + 1.0)
-  tl.store(Y + col_offsets, output.to(tl.float32), mask=mask)
-}
-
-def regularSourceIndexCommuted (Y X W r : RegionName)
-    (Y_row_stride X_row_stride W_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
-    (eps : ℝ) : ComputeKernel :=
-  triton {
-  tl.ports inputs=[X,W], outputs=[Y,r]
-  tl.region Y = tl.float32, X = tl.float32, W = tl.float32, r = tl.float32
-  row_idx = tl.program_id(0)
-  col_offsets = tl.arange(0, $(BLOCK_SIZE))
-  mask = col_offsets < $(n_cols)
-  Y += row_idx * $(Y_row_stride)
-  X += $(X_row_stride) * row_idx
-  r += row_idx * $(r_row_stride)
-  X_row = tl.load(X + col_offsets, mask=mask, other=0).to(tl.float32)
-  W_row = tl.load(W + col_offsets * $(W_row_stride), mask=mask, other=0)
-  row_var = tl.sum(X_row * X_row, axis=0) / $(n_cols)
-  inv_var = tl.math.rsqrt(row_var + $((eps : ℝ)))
-  tl.store(r, inv_var.to(tl.float32))
-  normed = X_row * inv_var
-  normed = normed.to(tl.float32)
-  output = normed * W_row
-  tl.store(Y + col_offsets, output.to(tl.float32), mask=mask)
-}
-
-def gemmaSourceIndexCommuted (Y X W r : RegionName)
-    (Y_row_stride X_row_stride W_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
-    (eps : ℝ) : ComputeKernel :=
-  triton {
-  tl.ports inputs=[X,W], outputs=[Y,r]
-  tl.region Y = tl.float32, X = tl.float32, W = tl.float32, r = tl.float32
-  row_idx = tl.program_id(0)
-  col_offsets = tl.arange(0, $(BLOCK_SIZE))
-  mask = col_offsets < $(n_cols)
-  Y += row_idx * $(Y_row_stride)
-  X += $(X_row_stride) * row_idx
-  r += row_idx * $(r_row_stride)
-  X_row = tl.load(X + col_offsets, mask=mask, other=0).to(tl.float32)
-  W_row = tl.load(W + col_offsets, mask=mask, other=0).to(tl.float32)
-  row_var = tl.sum(X_row * X_row, axis=0) / $(n_cols)
-  inv_var = tl.math.rsqrt(row_var + $((eps : ℝ)))
-  tl.store(r, inv_var.to(tl.float32))
-  normed = X_row * inv_var
-  output = normed * (W_row + 1.0)
-  tl.store(Y + col_offsets, output.to(tl.float32), mask=mask)
-}
 
 def regularRuntimeSource (Y X W r : RegionName)
     (Y_row_stride X_row_stride W_row_stride r_row_stride n_cols BLOCK_SIZE : Nat) : ComputeKernel :=
@@ -207,6 +112,19 @@ def gemmaRuntimeSourceIndexCommuted (Y X W r : RegionName)
   tl.store(Y + col_offsets, output.to(tl.float32), mask=mask)
 }
 
+/-- Explicit call binding for the runtime source used by the Real judgment.
+The assignment supplies the caller's scalar argument before the unchanged JIT body. -/
+def regularSource (Y X W r : RegionName)
+    (YR XR WR RR N B : Nat) (eps : ℝ) : ComputeKernel :=
+  (regularRuntimeSource Y X W r YR XR WR RR N B).withScalarArguments
+    [ScalarArgument.fp32 "eps" eps]
+
+/-- The same runtime ABI binding for the Gemma constexpr branch. -/
+def gemmaSource (Y X W r : RegionName)
+    (YR XR WR RR N B : Nat) (eps : ℝ) : ComputeKernel :=
+  (gemmaRuntimeSource Y X W r YR XR WR RR N B).withScalarArguments
+    [ScalarArgument.fp32 "eps" eps]
+
 def forwardRuntime (h : Call) : ComputeKernel :=
   if h.gemma then gemmaRuntimeSource "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block
   else regularRuntimeSource "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block
@@ -267,7 +185,6 @@ def weightBackward (h : Call) (K : Nat) : ComputeKernel :=
     tl.store(dW + col, acc.to(tl.float32), mask=mask)
   }
 
-
 def inputGradientSourceIndexCommuted (dY X W r dW : RegionName) (dY_row_stride X_row_stride W_row_stride r_row_stride dW_row_stride n_cols BLOCK_SIZE : Nat) (eps : ℝ) (GEMMA : Bool) : ComputeKernel :=
       triton {
   tl.ports inputs=[dY,X,W,r], outputs=[dY]
@@ -300,10 +217,6 @@ def forwardRuntimeIndexCommuted (h : Call) : ComputeKernel :=
 def backwardIndexCommuted (h : Call) : ComputeKernel :=
   inputGradientSourceIndexCommuted "dx" "x" "w" "r" "dw" h.cols h.cols 1 1 1 h.cols h.block h.eps h.gemma
 
-/-- Compatibility identities for the retained complete row proofs. -/
-theorem regular_source : regularSource=Original.forward .fp32 .fp32 Bool.false := rfl
-theorem gemma_source : gemmaSource=Original.gemma .fp32 .fp32 Bool.false := rfl
-theorem input_gradient_source : inputGradientSource=Original.backward .fp32 .fp32 Bool.false := rfl
 end
 end Kernels
 end VeriTile.Bench.Repairs.FastRmsLayernorm

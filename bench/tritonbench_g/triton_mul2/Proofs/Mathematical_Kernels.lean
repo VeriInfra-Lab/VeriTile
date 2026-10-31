@@ -1,69 +1,20 @@
+import bench.tritonbench_g.triton_mul2.Kernels
 import VeriTile.Triton
 
-/-! Masked doubling, with ordinary output and in-place output variants. Each
-candidate changes only `2 * x` to `x * 2`; the loads, masks and stores remain.
-Both sizes are symbolic. FPEquiv.lean supplies the fp32 profile for unannotated
-floating operations; Correct.lean interprets them over the reals. These are
-per-program contracts, with no host-launch or performance claim. -/
-
+/-! Mathematical views of the current repaired doubling source. These are
+ordinary algorithm projections of the shared source, with no second DSL body.
+FP equivalence continues to execute the typed source and its current candidate. -/
 namespace VeriTile.Bench.TritonBenchG.TritonMul2
 open VeriTile.Triton
 
-/-- Faithful transcription of `triton_mul2.py`'s `mul2_kernel`.
-The Python constexpr tile size is a Lean Nat parameter. -/
-def mul2_kernel
-    (in_ptr0 out_ptr : RegionName)
-    (n_elements BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
-  mask = offsets < $(n_elements)
-  x = tl.load(in_ptr0 + offsets, mask=mask)
-  output = 2 * x
-  tl.store(out_ptr + offsets, output, mask=mask)
-}
+/-- Ordinary real interpretation of the actual repaired source. -/
+def mul2_kernel (X O : RegionName) (n B : Nat) : ComputeKernel :=
+  let k := VeriTile.Bench.Repairs.TritonMul2.sourceKernel X O n B |>.toAlgKernel
+  ComputeKernel.fromKernelBody k.inputs k.outputs k.body
 
-/-- Faithful transcription of `triton_mul2.py`'s `mul2_inplace_kernel`. -/
-def mul2_inplace_kernel
-    (ptr : RegionName)
-    (n_elements BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
-  mask = offsets < $(n_elements)
-  x = tl.load(ptr + offsets, mask=mask)
-  output = 2 * x
-  tl.store(ptr + offsets, output, mask=mask)
-}
-
-/-- Commuted multiplication with a separate output argument. -/
-def mul2_commuted_kernel
-    (in_ptr0 out_ptr : RegionName)
-    (n_elements BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
-  mask = offsets < $(n_elements)
-  x = tl.load(in_ptr0 + offsets, mask=mask)
-  output = x * 2
-  tl.store(out_ptr + offsets, output, mask=mask)
-}
-
-/-- Commuted multiplication writing back to the input buffer. -/
-def mul2_inplace_commuted_kernel
-    (ptr : RegionName)
-    (n_elements BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))
-  mask = offsets < $(n_elements)
-  x = tl.load(ptr + offsets, mask=mask)
-  output = x * 2
-  tl.store(ptr + offsets, output, mask=mask)
-}
+/-- The same source projection with aliased input and output. -/
+def mul2_inplace_kernel (X : RegionName) (n B : Nat) : ComputeKernel :=
+  let k := VeriTile.Bench.Repairs.TritonMul2.inplaceSourceKernel X n B |>.toAlgKernel
+  ComputeKernel.fromKernelBody k.inputs k.outputs k.body
 
 end VeriTile.Bench.TritonBenchG.TritonMul2

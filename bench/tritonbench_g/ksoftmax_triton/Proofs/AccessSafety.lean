@@ -25,7 +25,7 @@ theorem source_safe {A : Type} [Inhabited A] (M : Algebra A) (op : Operation)
   | forward log causal mode =>
     cases mode <;> cases log <;> cases causal
     all_goals simp (maxSteps := 2200000) [FP.Structural.TraceSafe, KernelExecution.source,
-      forward, Forward.Typed.fp32Original, backward, ComputeKernel.surfaceBody,
+      forward, Forward.Typed.fp32Original,VeriTile.Bench.Repairs.Ksoftmax.forward, backward, ComputeKernel.surfaceBody,
       Forward.MaskMode.python, Forward.MaskMode.present, Operation.causal, Operation.readsRight,
       Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
       Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,

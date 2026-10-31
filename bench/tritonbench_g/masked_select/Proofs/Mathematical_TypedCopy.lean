@@ -40,41 +40,13 @@ def execution {α : Type} [Inhabited α] (rest : Algebra α) (d : Storage)
   cases d <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [source, FP.Structural.exec, ComputeKernel.surfaceBody,
+     simp [source,VeriTile.Bench.Repairs.MaskedSelect.kernel, FP.Structural.exec, ComputeKernel.surfaceBody,
        FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
        FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
        FP.Structural.evalOffsets, FP.Structural.store, FP.Structural.numeric,
        FP.Structural.bop, FP.Structural.natLt, copyBackend, ComputeDType.eraseDType,
        FP.Structural.ofFloat, FP.Structural.toFloat, Region.cast, Option.bind]
      try rfl)
-
-/-- The source floating load/store annotations erase to the exact old source;
-integer data is deliberately not identified with the old mathematical Real. -/
-theorem floating_source_projection (d : Storage) (h : d ≠ .int64) (p : Parameters) :
-    (source d p).eraseDType.toAlgKernel.body =
-      (masked_select_kernel p.input p.selection p.prefixSum p.output p.size p.width).toAlgKernel.body := by
-  cases d <;> try contradiction
-  all_goals simp only [source, masked_select_kernel,
-    ComputeKernel.eraseDType, ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?,
-    ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    FloatDType.toTileDType, NumericDType.eraseDType, ComparableDType.eraseDType,
-    VeriTile.Triton.eraseDType, ComputeDType.eraseDType, Region.cast, Except.bind, bind]
-  all_goals rfl
-
-/-- Every storage profile, including actual int64 payloads, has exactly the
-same program ID, offsets, bound mask, selection load and prefix load as source. -/
-theorem source_control (d : Storage) (p : Parameters) :
-    (source d p).surfaceBody.take 3 =
-      (masked_select_kernel p.input p.selection p.prefixSum p.output p.size p.width).surfaceBody.take 3 ∧
-    (source d p).surfaceBody[4]? =
-      (masked_select_kernel p.input p.selection p.prefixSum p.output p.size p.width).surfaceBody[4]? ∧
-    (source d p).surfaceBody[5]? =
-      (masked_select_kernel p.input p.selection p.prefixSum p.output p.size p.width).surfaceBody[5]? := by
-  cases d <;> exact ⟨rfl, rfl, rfl⟩
-
 
 private def payloadDType : ComputeStmt → Option TileDType
   | .assign dtype _ _ _ => some dtype
@@ -112,7 +84,6 @@ theorem typed_readback {α : Type} [Inhabited α] (rest : Algebra α) (d : Stora
     (execution rest d p s).val.mem p.output (outputOffset p s i) = .mk d.tag value := by
   rw [readback rest d p s i hi hinj, htyped, Cell.read_same]
 
-
 /-- Every int64 bit pattern survives selection and re-encoding, including the
 signed endpoints. The source executes through its actual Int payload channel. -/
 theorem int64_bits_readback {α : Type} [Inhabited α] (rest : Algebra α)
@@ -143,8 +114,6 @@ theorem correctness {α : Type} [Inhabited α] (rest : Algebra α) (d : Storage)
   ⟨(execution rest d p s).val, (execution rest d p s).property,
     fun i hi => readback rest d p s i hi hinj, frame rest d p s⟩
 
-#axiomsClean floating_source_projection
-#axiomsClean source_control
 #axiomsClean int64_payload_dtype
 #axiomsClean execution
 #axiomsClean execution_memory

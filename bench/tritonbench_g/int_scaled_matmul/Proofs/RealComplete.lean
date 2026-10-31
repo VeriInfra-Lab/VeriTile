@@ -41,7 +41,10 @@ def epilogueExecution (rest : Algebra ℝ)
     {t : State ℝ // run (backend rest) (epilogue p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [epilogue, Revision001.ScaledWord.epilogue, original, Revision001.ScaledWord.original, typedScaled, Revision001.ScaledWord.typedScaled, ComputeKernel.surfaceBody,
+  simp [epilogue, Revision001.ScaledWord.epilogue, original, Revision001.ScaledWord.original, typedScaled, Revision001.ScaledWord.typedScaled, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     FP.Structural.bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,

@@ -48,48 +48,7 @@ structure OutputReady {α : Type} [Inhabited α] (M : Algebra α) (p : Parameter
   mean : t.regs .real [] "mean" = some (fun _ => meanValue M p s)
   rstd : t.regs .real [] "rstd" = some (fun _ => rstdValue M p s)
 
-theorem var_post_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
-    (s t : State α)
-    (h : VarReady M p s t (foldRange (varStep M p s) 0 p.columns p.block (initial M p))) :
-    ∃ u, run M (varPost p) t = some u ∧ OutputReady M p s u s.mem := by
-  simp [varPost, kernel, source, ComputeKernel.surfaceBody, run, step, evalExpr,
-    evalComputeOp, evalOp_unfold, Option.bind, ComputeDType.eraseDType,
-    FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
-    numeric, bop, Region.cast, h.mem, h.pids, h.undef, h.x, h.y, h.w, h.accumulator]
-  constructor <;> simp [State.setReg, h.mem, h.pids, h.undef, h.x, h.y, h.w, h.mean,
-    varianceValue, rstdValue, bop, numeric]
-  all_goals try rfl
-
-theorem output_body_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
-    (s t : State α) (off : Nat) (mem : RegionName → Nat → Cell α)
-    (hx : p.x ≠ p.y) (hw : p.weight ≠ p.y) (h : OutputReady M p s t mem) :
-    ∃ u, run M (loopBody p 12) (t.setReg "off" .nat [] (fun _ => off)) = some u ∧
-      OutputReady M p s u (outputStep M p s off mem) := by
-  simp [loopBody, kernel, source, ComputeKernel.surfaceBody, run, step, evalExpr,
-    evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
-    FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
-    numeric, bop, numericLt, natLt, Region.cast,
-    h.readX, h.readW, h.pids, h.undef, h.x, h.y, h.w, h.mean, h.rstd]
-  constructor
-  · simp only [fold_writes_mem, State.setReg_mem, h.memory]
-    rfl
-  · funext o
-    rw [State.masked_scatter_frame _ _ _ _ _ _ _ (Or.inl hx)]
-    simp [h.readX]
-  · funext o
-    rw [State.masked_scatter_frame _ _ _ _ _ _ _ (Or.inl hw)]
-    simp [h.readW]
-  · simp [h.pids]
-  · simp only [fold_writes_undef, State.setReg_undef, h.undef]
-  · simp [fold_writes_regs, h.x]
-  · simp [fold_writes_regs, h.y]
-  · simp [fold_writes_regs, h.w]
-  · simp [fold_writes_regs, h.mean]
-  · simp [fold_writes_regs, h.rstd]
-
 #axiomsClean scatter_memory
 #axiomsClean outputStep_frame
-#axiomsClean var_post_run
-#axiomsClean output_body_run
 end
 end VeriTile.Bench.TritonBenchG.LayernormFwdTriton.FPStages

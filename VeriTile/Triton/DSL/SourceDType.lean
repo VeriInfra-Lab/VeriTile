@@ -181,7 +181,7 @@ private partial def rejectBranchAliases (aliases : List Name) (raw : Syntax) : M
       Macro.throwErrorAt raw "dtype pointer aliases cannot be rebound under runtime control flow"
   for arg in raw.getArgs do rejectBranchAliases aliases arg
 
-private def storeValue (dtype : Triton.SourceDType) (value : TSyntax `tritonExpr) :
+def storeValue (dtype : Triton.SourceDType) (value : TSyntax `tritonExpr) :
     MacroM (TSyntax `tritonExpr) := do
   let some dt ← dtypeSyntaxOfName? (dtypeName dtype)
     | Macro.throwError "unsupported implicit store dtype"

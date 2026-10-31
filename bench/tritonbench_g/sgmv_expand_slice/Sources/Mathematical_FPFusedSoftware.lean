@@ -1,4 +1,4 @@
-import bench.tritonbench_g.sgmv_expand_slice.Sources.Mathematical_FPFusedExecution
+import bench.tritonbench_g.sgmv_expand_slice.Sources.Mathematical_FPFusedSource
 import bench.tritonbench_g.sgmv_expand_slice.Sources.Mathematical_FPWitness
 namespace VeriTile.Bench.TritonBenchG.SgmvExpandSlice.FPValue
 open VeriTile.Triton FP.Structural
@@ -52,37 +52,7 @@ theorem fused_witness_value (fmt : Storage) (out : Output) :
       resultWord out := by
   cases fmt <;> cases out <;> decide +kernel
 
-theorem fused_two_block_bit_success (rest : Algebra Word) (fmt : Storage) (out : Output) :
-    ∃ final, FP.Structural.exec (fusedBackend rest .ieeeValue (softwareDotAcc .ieeeValue))
-      (fusedSource fmt out witnessParameters) (witnessInitial fmt)=some final ∧
-      final.mem "Y" 77=outputCell out (resultWord out) ∧
-      final.mem "Y" 78=(witnessInitial fmt).mem "Y" 78 ∧
-      final.mem "Y" 87=(witnessInitial fmt).mem "Y" 87 ∧
-      final.mem "X" 42=(witnessInitial fmt).mem "X" 42 := by
-  obtain ⟨final,he,hp⟩ := fused_correctness rest .ieeeValue (softwareDotAcc .ieeeValue) fmt out
-    witnessParameters (witnessInitial fmt) (witness_layout fmt)
-  refine ⟨final,he,?_,?_,?_,hp.2 "X" 42 (Or.inl (by decide))⟩
-  · have ha : active witnessParameters (witnessInitial fmt) lane00=Bool.true := by
-      simp [active,row,col,seqLen,witnessParameters,witnessInitial,lane00]
-    have hv := hp.1 lane00 ha
-    change final.mem "Y" 77=_ at hv
-    exact hv.trans (congrArg (outputCell out) (fused_witness_value fmt out))
-  · apply hp.2 "Y" 78
-    right
-    intro i hi
-    simp [active,row,col,seqLen,outputOffset,seqStart,witnessParameters,witnessInitial] at hi ⊢
-    have hrow : i.1.val=0 := by omega
-    have hcol : i.2.1.val=0 := by omega
-    simp [hrow,hcol]
-  · apply hp.2 "Y" 87
-    right
-    intro i hi
-    simp [active,row,col,seqLen,outputOffset,seqStart,witnessParameters,witnessInitial] at hi ⊢
-    have hrow : i.1.val=0 := by omega
-    have hcol : i.2.1.val=0 := by omega
-    simp [hrow,hcol]
 #axiomsClean no_unconditional_dot_add_dotacc_law
 #axiomsClean fused_witness_value
-#axiomsClean fused_two_block_bit_success
 end
 end VeriTile.Bench.TritonBenchG.SgmvExpandSlice.FPValue

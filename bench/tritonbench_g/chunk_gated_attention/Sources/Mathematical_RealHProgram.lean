@@ -1,4 +1,6 @@
-import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealHSource
+import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_Kernels
+import VeriTile.Triton.Float.Erasure
+import VeriTile.Meta.StatementAudit
 import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealHMath
 import VeriTile.Triton.Memory.TraceRewrite
 
@@ -53,14 +55,6 @@ def dot (p : Layout) : Op .real [p.BK,p.BV] :=
   .dot (batch := []) (.ref .real [p.BK,p.BT] "b_k") (.ref .real [p.BT,p.BV] "b_v")
     {allowTF32 := some Bool.false}
 
-def initialization (p : Layout) (r : Regions) (hasSeed : Bool) : List Stmt :=
-  [.assign .nat [] "i_v" (.programId 0), .assign .nat [] "i_k" (.programId 1),
-   .assign .nat [] "i_bh" (.programId 2), .assign .real [p.BK,p.BV] "b_h" (.full [p.BK,p.BV] (.const 0)),
-   .ifThen (.constBool hasSeed)
-     [.assign .blockPtr [p.BK,p.BV] "p_h" (statePtr p r.seed),
-      .assign .real [p.BK,p.BV] "b_h"
-        (.add .real (.consSame (.consSame .nil)) (carry p) (load2 p.BK p.BV "p_h"))]]
-
 def gateKey (p : Layout) (r : Regions) : List Stmt :=
   [.assign .blockPtr [p.BK,p.BT] "p_g" (keyPtr p r.gate),
    .assign .blockPtr [p.BK] "p_gn" (endpointPtr p r.gate p.keyHead p.keyFeature p.K p.BK "i_k"),
@@ -103,17 +97,6 @@ def updateStmt (p : Layout) (swapped : Bool) : Stmt :=
     (if swapped then .add .real (.consSame (.consSame .nil)) (dot p) (carry p)
      else .add .real (.consSame (.consSame .nil)) (carry p) (dot p))
 
-/-- The actual source keeps the continuation inside both typed gate arms. -/
-def iteration (p : Layout) (r : Regions) (gateK swapped : Bool) : List Stmt :=
-  iterationPrelude p r ++
-    [.ifThenElse (.constBool gateK)
-      (gateKey p r ++ [updateStmt p swapped]) (gateValue p r ++ [updateStmt p swapped])]
-
-/-- Factored mathematical execution used by the existing step and safety proofs. -/
-def iterationFlat (p : Layout) (r : Regions) (gateK swapped : Bool) : List Stmt :=
-  iterationPrelude p r ++
-    [.ifThenElse (.constBool gateK) (gateKey p r) (gateValue p r), updateStmt p swapped]
-
 private theorem branch_continuation_exec (c : Bool) (yes no after : List Stmt) (u : BlockState) :
     stepStmts [.ifThenElse (.constBool c) (yes ++ after) (no ++ after)] u =
       stepStmts (.ifThenElse (.constBool c) yes no :: after) u := by
@@ -129,48 +112,6 @@ private theorem branch_continuation_safe (bounds : RegionBounds) (c : Bool)
     cases hay : stepStmts (yes ++ after) u <;> cases han : stepStmts (no ++ after) u <;>
     simp [Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,evalOp,stepStmt,
       TraceRewrite.append_iff,hy,hn,hay,han]
-
-theorem iteration_exec (p : Layout) (r : Regions) (gateK swapped : Bool) (u : BlockState) :
-    stepStmts (iteration p r gateK swapped) u = stepStmts (iterationFlat p r gateK swapped) u := by
-  simp only [iteration,iterationFlat,ProgramRewrite.append,branch_continuation_exec]
-
-theorem iteration_safe_iff (bounds : RegionBounds) (p : Layout) (r : Regions)
-    (gateK swapped : Bool) (u : BlockState) :
-    Stmt.TraceSafeList bounds (iteration p r gateK swapped) u ↔
-      Stmt.TraceSafeList bounds (iterationFlat p r gateK swapped) u := by
-  simp only [iteration,iterationFlat,TraceRewrite.append_iff,branch_continuation_safe]
-
-def finalization (p : Layout) (r : Regions) (storeFinal : Bool) : List Stmt :=
-  [.ifThen (.constBool storeFinal)
-    [.assign .blockPtr [p.BK,p.BV] "p_h" (statePtr p r.final),storeCarry p]]
-
-def body (p : Layout) (r : Regions) (gateK hasSeed storeFinal swapped : Bool) : List Stmt :=
-  initialization p r hasSeed ++ [.forRange "i_t" 0 p.NT 1 (iteration p r gateK swapped)] ++ finalization p r storeFinal
-
-def source (p : Layout) (r : Regions) (dot gate history : TypedSource.Storage)
-    (seed final : FloatDType) (gateK hasSeed storeFinal swapped : Bool) :=
-  RealHSource.source swapped dot gate history seed final r.key r.value r.gate r.history r.seed r.final
-    p.keyHead p.keyTime p.keyFeature p.valueHead p.valueTime p.valueFeature
-    p.historyHead p.historyKey p.historyValue p.T p.K p.V p.BT p.BK p.BV p.NT gateK hasSeed storeFinal
-
-theorem source_body (p : Layout) (r : Regions) (dot gate history : TypedSource.Storage)
-    (seed final : FloatDType) (gateK hasSeed storeFinal swapped : Bool) :
-    (source p r dot gate history seed final gateK hasSeed storeFinal swapped).eraseDType.toAlgKernel.body =
-      body p r gateK hasSeed storeFinal swapped := by
-  unfold source
-  rw [RealHSource.storage_erasure]
-  cases swapped
-  all_goals simp only [RealHSource.source, Bool.false_eq_true, ↓reduceIte,
-    TypedSource.hOriginal, TypedSource.hSumLeft, TypedSource.hSource,
-    ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
-    ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
-    ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
-    List.map_cons, List.map_nil, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType, NumericDType.eraseDType,
-    Except.bind, bind, eraseDType_float]
-  all_goals simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType, FloatDType.toTileDType]
-  all_goals rfl
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

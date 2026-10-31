@@ -35,7 +35,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float32, dh = tl.float32,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -116,7 +116,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float32, dh = tl.float32,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -197,7 +197,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float32, dh = tl.float16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -278,7 +278,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float32, dh = tl.float16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -359,7 +359,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float32, dh = tl.bfloat16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -440,7 +440,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float32, dh = tl.bfloat16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -521,7 +521,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float16, dh = tl.float32,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -602,7 +602,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float16, dh = tl.float32,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -683,7 +683,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float16, dh = tl.float16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -764,7 +764,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float16, dh = tl.float16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -845,7 +845,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float16, dh = tl.bfloat16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -926,7 +926,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float16, dh = tl.bfloat16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -1007,7 +1007,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.bfloat16, dh = tl.float32,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -1088,7 +1088,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.bfloat16, dh = tl.float32,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -1169,7 +1169,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.bfloat16, dh = tl.float16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -1250,7 +1250,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.bfloat16, dh = tl.float16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -1331,7 +1331,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.bfloat16, dh = tl.bfloat16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -1412,7 +1412,7 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
       tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
         v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.bfloat16, dh = tl.bfloat16,
         g = tl.float32, dg = tl.float32
-    
+
       i_k = tl.program_id(0)
       i_t = tl.program_id(1)
       i_bh = tl.program_id(2)
@@ -1486,8 +1486,6 @@ def specialize (qk value h dh : Storage) (swapped : Bool) :=
 
 def original (qk value h dh : Storage) := specialize qk value h dh Bool.false
 
-def dotLeft (qk value h dh : Storage) := specialize qk value h dh Bool.true
-
 /-- Selected FP32 candidate exposes the same absolute chunk end already
 computed for last_idx, permitting reuse in the final gate mask. All floating
 operations and their provenance remain unchanged. -/
@@ -1502,7 +1500,7 @@ def tailBoundCSE :=
     tl.region q = DTYPE, k = DTYPE, dq = DTYPE, dk = DTYPE,
       v = OUT_DTYPE, do_ = OUT_DTYPE, h = tl.float32, dh = tl.float32,
       g = tl.float32, dg = tl.float32
-  
+
     i_k = tl.program_id(0)
     i_t = tl.program_id(1)
     i_bh = tl.program_id(2)

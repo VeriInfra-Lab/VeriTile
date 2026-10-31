@@ -46,7 +46,13 @@ theorem gradientBody_memory (M : Algebra α) (D : DotPrimitive α) (p : Paramete
   unfold VeriTile.Bench.Repairs.ChunkLinearAttn.load VeriTile.Bench.Repairs.ChunkLinearAttn.rawLoad
   have hb : Int.toNat (((pid.x:Int)*heads+pid.z)*((p.T:Int)*p.V))=
       (pid.x*heads+pid.z)*(p.T*p.V) := by norm_cast
-  simp [zero,hb]
+  have historyBase : ((pid.z:Int)*((p.NT:Int)*p.K*p.V)+(pid.y:Int)*p.K*p.V).toNat =
+      pid.z*(p.NT*p.K*p.V)+pid.y*p.K*p.V := by norm_cast
+  have incomingBase : ((pid.z:Int)*((p.T:Int)*(p.V:Int))).toNat = pid.z*(p.T*p.V) := by norm_cast
+  have matrix_eta {a b : Nat} (i : TileIndex [a,b]) : (i.1,i.2.1,PUnit.unit)=i := by
+    rcases i with ⟨r,c,⟨⟩⟩
+    rfl
+  simp [zero,hb,historyBase,incomingBase,matrix_eta]
 
 theorem gradientBody_values (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : ℝ)
     (pid : PID) (heads : Nat) (input : Memory α) (s : State α) (vb : Nat) (a : GradAcc p α)
@@ -71,16 +77,20 @@ theorem gradientBody_values (M : Algebra α) (D : DotPrimitive α) (p : Paramete
     · simpa [gradientBody] using fixed.query
     · simpa [gradientBody] using fixed.key
     · simpa [gradientBody] using fixed.score
-  · constructor <;>
+  · have historyBase : ((pid.z:Int)*((p.NT:Int)*p.K*p.V)+(pid.y:Int)*p.K*p.V).toNat =
+        pid.z*(p.NT*p.K*p.V)+pid.y*p.K*p.V := by norm_cast
+    have stateBase : ((pid.z:Int)*((p.NT:Int)*p.K*p.V)+((pid.y:Int)+1)*p.K*p.V).toNat =
+        pid.z*(p.NT*p.K*p.V)+(pid.y+1)*p.K*p.V := by norm_cast
+    constructor <;>
       simp [gradientBody,gradNext,gradHistory,gradHistoryGradient,valueTile,transpose,load,rawLoad,
-        zero,VeriTile.Bench.Repairs.ChunkLinearAttn.cast,add,VeriTile.Bench.Repairs.ChunkLinearAttn.mul,scalar,dot,transposeValues,
+        zero,historyBase,stateBase,VeriTile.Bench.Repairs.ChunkLinearAttn.cast,add,VeriTile.Bench.Repairs.ChunkLinearAttn.mul,scalar,dot,transposeValues,
         FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
     all_goals
       funext i
       unfold VeriTile.Bench.Repairs.ChunkLinearAttn.load VeriTile.Bench.Repairs.ChunkLinearAttn.rawLoad
       simp [zero,transpose,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
     all_goals
-      unfold VeriTile.Bench.Repairs.ChunkLinearAttn.transpose
+      try unfold VeriTile.Bench.Repairs.ChunkLinearAttn.transpose
       rfl
 
 #axiomsClean gradientBody_memory

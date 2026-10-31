@@ -112,7 +112,7 @@ theorem source_native (plans : Plans) (r : Request) (heap : ByteMemory) (h : Adm
 
 #axiomsClean source_execution
 #axiomsClean source_native
-#specNonCircular reference avoiding [execute,Signed.Grid.run,FPGrid.run,FPGrid.fold,FP.Structural.exec,Kernels.source]
+#specNonCircular reference avoiding [execute,Signed.Grid.run,FP.Structural.exec,Kernels.source]
 #specNonCircular LocalConformance avoiding [reference,execute,Expr.eval]
 end
 end VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Native

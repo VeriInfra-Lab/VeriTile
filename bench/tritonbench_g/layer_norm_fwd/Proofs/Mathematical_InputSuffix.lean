@@ -88,7 +88,7 @@ theorem source_phase (f : Flags) (r : Regions) (stride : Strides)
   simp only [original, phase, secondBody, rowLoadOp, scalePhase, secondRowOp,
     dropoutPhase, secondKeepOp, secondRandomOp, dropoutValueOp, maskStmt,
     addStmt, residualStmt, residualOutStmt,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType,

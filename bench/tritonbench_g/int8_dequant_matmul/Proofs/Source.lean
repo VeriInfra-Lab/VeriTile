@@ -456,12 +456,6 @@ def Admitted (c : Config) : Prop := ∃ raw∈configurations,
 
 theorem divisor_round : runtimeDivisor=FP.round .fp32 .ieeeValue (1/16129 : Rat) := by decide +kernel
 
-def typedJIT (s : Shape) (c : Config) (da : Dense2 s.M s.K) (db : Dense2 s.K s.N)
-    (dc : Dense2 s.M s.N) (bias : Bool) : ComputeKernel :=
-  TypedSource.kernel "A" "B" "C" "bias" "state_x" "state_w" s.M s.N s.K
-    da.rowStride da.colStride db.rowStride db.colStride dc.rowStride dc.colStride
-    c.BM c.BN c.BK 8 c.S (steps s c) (s.K%(c.BK*c.S)==0) bias
-
 #axiomsClean configurations_count
 #axiomsClean configurations_structure
 #axiomsClean divisor_round

@@ -27,10 +27,10 @@ theorem finish_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,integralFloorDiv,integralMod,numericEq,natLe,numericLe,numericLt,natLt,bop,
+      numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,natLe,numericLe,numericLt,natLt,bop,
       ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,
-      Broadcast.leftIndex,Broadcast.rightIndex,ctx.ik,ctx.iv,ctx.bh,ha,FP.Structural.store]
+      Broadcast.leftIndex,Broadcast.rightIndex,ctx.ik,ctx.iv,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ha,FP.Structural.store]
   intro e j he hj
   exact ht rfl (e,j,PUnit.unit) ⟨he,hj⟩
 

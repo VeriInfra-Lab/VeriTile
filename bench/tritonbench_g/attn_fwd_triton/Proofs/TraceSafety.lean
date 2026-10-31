@@ -13,8 +13,8 @@ set_option linter.unusedSimpArgs false
 
 theorem epilogue_safe (bounds : RegionBounds) (s : BlockState) (c : Config) (BM BD : Nat) (reciprocal : Bool)
     (hp : s.regs .ptr [BM,BD] "O_block_ptr" = some (outputPointer c BM BD))
-    (hr : s.regs .nat [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context))
+    (hr : s.regs .int [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context))
     (hb : AccessSafety.OutputBound bounds c BM BD) :
     Stmt.TraceSafeList bounds (epilogue BM BD c.p.headDim reciprocal) s := by
   cases reciprocal

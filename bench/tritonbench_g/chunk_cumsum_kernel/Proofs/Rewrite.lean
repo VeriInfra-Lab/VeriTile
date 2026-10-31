@@ -56,7 +56,7 @@ theorem final_body {α : Type} [Inhabited α] (ops : FPRow.Ops α)
         (s.setReg "i_t" .int [] (fun _ => (index:Int)))=some b ∧ a.mem=b.mem := by
   obtain ⟨hp,hz⟩ := ready
   obtain ⟨carry,hz⟩ := Option.isSome_iff_exists.mp hz
-  simp (config := {maxSteps := 400000}) [parts,FPIndexBridge.parts,candidateParts,repairedKernel,sumLeftKernel,
+  simp (config := {maxSteps := 400000}) [parts,FPIndexBridge.parts,FPRow.parts,candidateParts,repairedKernel,sumLeftKernel,
     ComputeKernel.surfaceBody,Source.intRange?,run,step,FP.Structural.evalExpr,
     evalComputeOp,evalOp_unfold,evalOffsets,FP.Structural.store,Option.bind,engine,Algebra.withDefaultPrecision,
     resolvePrecision,FPRow.Ops.algebra,ComputeDType.eraseDType,numeric,numericLt,bop,ofFloat,toFloat,
@@ -68,11 +68,8 @@ theorem final_body {α : Type} [Inhabited α] (ops : FPRow.Ops α)
     (input output : RegionName) (T BT pid index : Nat) (s : State α) (ready : FPRow.Ready pid s) :
     ∃ a, run (engine ops.algebra) (parts input output T BT).body
         (s.setReg "i_t" .int [] (fun _ => (index:Int)))=some a ∧ FPRow.Ready pid a := by
-  obtain ⟨a,b,ha,_,related,hb⟩ := FPIndexBridge.body ops input output T BT pid index s s
-    ⟨rfl,rfl,rfl,rfl,rfl,rfl⟩ ready
-  refine ⟨a,ha,related.2.2.2.2.1.trans hb.1,?_⟩
-  rw [related.2.2.2.2.2]
-  exact hb.2
+  obtain ⟨a,ran,ready,_⟩ := FPRow.body ops input output T BT pid s ready index
+  exact ⟨a,ran,ready⟩
 
 @[spec_rule] theorem loop {α : Type} [Inhabited α]
     (ops : FPRow.Ops α) (D : FP.Guarded.Domain α)
@@ -140,7 +137,7 @@ theorem candidate_split (input output : RegionName) (T BT : Nat) :
     ∃ a b, FP.Structural.exec (engine ops.algebra) (repairedKernel .fp32 .fp32 input output T BT) u=some a ∧
       FP.Structural.exec (engine ops.algebra) (sumLeftKernel .fp32 .fp32 input output T BT) u=some b ∧
       a.mem=b.mem ∧ FPRow.Frame output (u.pids 0) T u a ∧ FPRow.Frame output (u.pids 0) T u b := by
-  obtain ⟨first,hpre,ready,_⟩ := FPRow.prelude ops .fp32 .fp32 input output T BT u
+  obtain ⟨first,hpre,ready,_⟩ := FPRow.prelude ops input output T BT u
   have prelude : run (engine ops.algebra) (parts input output T BT).before u=some first := by
     rw [FPIndexBridge.before]; exact hpre
   obtain ⟨a,b,ha,hb,mem⟩ := loop ops D model input output T BT (u.pids 0) u first prelude finite

@@ -20,7 +20,7 @@ theorem normalization_mean_readback {α : Type} [Inhabited α] (A : Algebra α)
     (ht : run (engine A) (normalization f r stride M N eps p block hb) s=some t) :
     t.mem r.mean row=Cell.mk .real (cast A (meanValue A N v)) := by
   rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
-  simp [normalization,repaired,original,ComputeKernel.surfaceBody,
+  simp [normalization,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
     numericLt,Region.cast,Random.i32ArangeSize,TileShape.axisDim,
@@ -40,7 +40,7 @@ theorem normalization_preserves {α : Type} [Inhabited α] (A : Algebra α)
     t.mem region offset=s.mem region offset := by
   rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,x,hx⟩
   cases hrms : f.rms
-  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
     numericLt,Region.cast,Random.i32ArangeSize,TileShape.axisDim,
@@ -62,7 +62,7 @@ theorem affine_preserves {α : Type} [Inhabited α] (A : Algebra α)
   cases hrms : f.rms
   · obtain ⟨mean,hmean⟩ := hm hrms
     cases hbias : f.bias <;> cases hw1 : f.w1 <;> cases hb1 : f.b1
-    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,
+    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
       run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
       numericLt,Region.cast,Random.i32ArangeSize,hcols,hy,hy1,hx,hstd,hmean,hrms,hbias,hw1,hb1] at ht
@@ -73,7 +73,7 @@ theorem affine_preserves {α : Type} [Inhabited α] (A : Algebra α)
         simp only [State.setReg_mem]
         exact vector_frame _ _ _ _ _ _ _ _ (by simp [hysep])
   · cases hbias : f.bias <;> cases hw1 : f.w1 <;> cases hb1 : f.b1
-    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,
+    all_goals simp [affine,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
       run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
       numericLt,Region.cast,Random.i32ArangeSize,hcols,hy,hy1,hx,hstd,hrms,hbias,hw1,hb1] at ht

@@ -26,12 +26,5 @@ def Shape.grid (c : Shape) : List Nat := [c.NV, c.NT, c.heads]
 def Shape.historyShape (c : Shape) : List Nat := [c.B, c.H, c.NT*c.K, c.V]
 def Shape.returnShape (c : Shape) : List Nat := [c.B, c.H, c.T, c.V]
 
-/-- Default source precision is FP32. `empty_like(v)` returns the FP32 output
-region with V's contiguous strides. The six stride arguments are exactly
-`q.stride(1/2), v.stride(1/2), h.stride(1/2)`. -/
-def kernel (c : Shape) (scale : ℝ) (swapped : Bool) : ComputeKernel :=
-  source .fp32 .fp32 .fp32 swapped .fp32 "q" "k" "v" "h" "g" "o"
-    (c.T*c.K) c.K (c.T*c.V) c.V (c.NT*c.K*c.V) c.V
-    scale c.T c.K c.V c.BT c.BK c.BV
 end Host
 end VeriTile.Bench.TritonBenchG.ChunkGlaSimple

@@ -1,11 +1,7 @@
 import bench.tritonbench_g.bgmv_expand_slice.Sources.Mathematical_Kernels
 
-/-! The checked wrapper launches `directSource` on original contiguous storage.
-The historical padded `source` is retained for archived proof credit only.
-Both quote the same numerical kernel. Explicit i64 widening is justified by
-the direct wrapper's derived bounds. Selected precision: FP32 input cast to
-FP16; FP16 products/reduction; FP32 output addition and store.
--/
+/-! Pure call geometry and storage tags for the checked direct wrapper.
+The complete signed source is shared through SurfaceSource. -/
 namespace VeriTile.Bench.Repairs.BgmvExpandSlice
 open VeriTile.Triton
 namespace Original
@@ -34,22 +30,8 @@ structure Call where
   outputType : FloatDType := .fp32
 
 namespace Kernels
-abbrev original := VeriTile.Bench.TritonBenchG.BgmvExpandSlice.TypedSource.original
+
 abbrev hostCast := VeriTile.Bench.TritonBenchG.BgmvExpandSlice.TypedSource.hostCast
-
-
-def source (h : Call) : ComputeKernel :=
-  original h.inputType h.weightType (hostCast h.inputType) h.outputType
-    "X" "W" "Y" h.N h.K ⟨"Indices"⟩ h.BK 1 ((h.N+255)*h.BK) h.BK 1
-    (h.columns+255) 1 h.slice 256 h.BK h.N h.even h.add
-
-
-/-- Checked direct contiguous source: original backing storage and canonical
-active row strides, with no snapshots, padding allocations or copyback. -/
-def directSource (h : Call) : ComputeKernel :=
-  original h.inputType h.weightType (hostCast h.inputType) h.outputType
-    "X" "W" "Y" h.N h.K ⟨"Indices"⟩ h.K 1 (h.N*h.K) h.K 1
-    h.columns 1 h.slice 256 h.BK h.N h.even h.add
 
 def Primary (h : Call) : Prop :=
   h.inputType=.fp32 ∧ h.weightType=.fp16 ∧ h.outputType=.fp32

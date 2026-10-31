@@ -31,8 +31,16 @@ def rate (M : Algebra α) (c : Shape) (head : Nat) : α :=
       (M.unary (some .fp32) .exp2
         (M.binary (some .fp32) .real .sub (M.literal (some .fp32) .real (-5))
           (M.binary (some .fp32) .real .mul
-            (M.fromNat (some .fp32) (head % c.H))
+            (M.fromInt (some .fp32) ((head % c.H : Nat) : Int))
             (M.literal (some .fp32) .real 1)))))
+/-- Signed Triton remainder agrees with the independent nonnegative head index,
+including zero metadata divisors. No floating primitive law is needed. -/
+@[simp] theorem signed_head_mod (head H : Nat) :
+    (head : Int)-(if (head : Int)<0 then -((H : Int)*(-(head : Int)/(H : Int)))
+      else (H : Int)*((head : Int)/(H : Int)))=((head%H : Nat) : Int) := by
+  simp only [not_lt.mpr (Int.natCast_nonneg head),↓reduceIte]
+  rw [←Int.emod_def,←Int.natCast_emod]
+
 def decay (M : Algebra α) (c : Shape) (head : Nat) (n : Int) : α :=
   M.unary (some .fp32) .exp2
     (M.binary (some .fp32) .real .mul (M.fromInt (some .fp32) n) (rate M c head))

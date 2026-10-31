@@ -25,20 +25,6 @@ private def pointers (p : Parameters) (s : BlockState) (batch : Nat) (g : Fin p.
 def prepared (p : Parameters) (s : BlockState) (batch : Nat) (g : Fin p.BN → ℝ) : BlockState :=
   (pointers p s batch g).setReg "c_mask" .bool [p.BN] ⟨fun i => decide (i.1.val < p.N)⟩
 
-private theorem scale_exec (p : Parameters) (swapped : Bool) (s : BlockState) (g : Fin p.BN → ℝ)
-    (hg : s.regs .real [p.BN] "accumulator" = some ⟨fun i => some (g i.1)⟩) :
-    stepStmt (p.scale swapped) s = some (scaled p s g) := by
-  cases swapped
-  · exact stepStmt_assign_eq_some (scale_eval p.BN p.scaling g s hg)
-  · apply stepStmt_assign_eq_some
-    simp only [if_true, evalOp_mul, evalOp_ref, evalOp_const, hg, Option.bind_some, bind,
-      Option.bind_eq_bind]
-    apply congrArg some
-    apply Tile.ext
-    intro i
-    simp only [Tile.bop, Tile.scalar, Broadcast.leftIndex, Broadcast.rightIndex,
-      NumericDType.mul, WithBot.realMul, Option.map₂, Option.bind, Option.map, mul_comm]
-
 def scatter (p : Parameters) (s : BlockState) (batch : Nat) (v : Fin p.BN → ℝ) : BlockState :=
   (TileShape.allIndices [p.BN]).foldl (fun acc i =>
     if decide (i.1.val < p.N) then
@@ -48,53 +34,6 @@ def scatter (p : Parameters) (s : BlockState) (batch : Nat) (v : Fin p.BN → �
 
 def result (p : Parameters) (s : BlockState) (batch : Nat) (g : Fin p.BN → ℝ) : BlockState :=
   scatter p (prepared p s batch g) batch (fun n => g n * p.scaling)
-
-/-- Both implementations prepare exactly the same real output values and
-take the output branch selected by the actual split count. -/
-theorem tail_exec (p : Parameters) (swapped : Bool) (s : BlockState)
-    (batch : Nat) (g : Fin p.BN → ℝ)
-    (hcb : s.regs .nat [] "cur_batch" = some (Tile.scalar batch))
-    (hg : s.regs .real [p.BN] "accumulator" = some ⟨fun i => some (g i.1)⟩) :
-    stepStmts (p.tail swapped) s = some (result p s batch g) := by
-  unfold Parameters.tail shrinkTailCommon
-  simp only [List.drop_succ_cons, List.drop_zero, List.cons_append, List.nil_append]
-  rw [stepStmts.cons_some (scale_exec p swapped s g hg)]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (by simp :
-    evalOp (Op.arange p.BN) (scaled p s g) = some (Tile.vec (fun i => i.val))))]
-  change stepStmts _ (offsets p s g) = _
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (cptr_tail_eval p.output p.outputBatchStride p.outputStride p.BN batch _
-      (by simpa [offsets, scaled] using hcb) (by simp [offsets])))]
-  change stepStmts _ (pointers p s batch g) = _
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (cmask_eval p.N p.BN _ (by simp [pointers, offsets])))]
-  change stepStmts _ (prepared p s batch g) = _
-  have hp : (prepared p s batch g).regs .ptr [p.BN] "c_ptr" =
-      some ⟨fun i => (p.output, offset p batch i.1.val)⟩ := by simp [prepared, pointers]
-  have hm : (prepared p s batch g).regs .bool [p.BN] "c_mask" =
-      some ⟨fun i => decide (i.1.val < p.N)⟩ := by simp [prepared]
-  have hv : (prepared p s batch g).regs .real [p.BN] "accumulator" =
-      some ⟨fun i => some (g i.1 * p.scaling)⟩ := by simp [prepared, pointers, offsets, scaled]
-  have hc : evalOp (Op.eq .nat .nil (.constNat p.splits) (.constNat 1)) (prepared p s batch g) =
-      some (Tile.scalar (decide (p.splits = 1))) := by
-    simp only [evalOp, Tile.cop, Tile.scalar_data, Broadcast.leftIndex, Broadcast.rightIndex]
-    rfl
-  have hb : stepStmt (.ifThenElse (.eq .nat .nil (.constNat p.splits) (.constNat 1))
-      [shrinkStoreStmt p.BN] [shrinkAtomicStmt p.BN]) (prepared p s batch g) =
-      some (result p s batch g) := by
-    simp only [stepStmt, hc, Option.bind_some, Tile.scalar_data]
-    by_cases hs : p.splits = 1
-    · simp only [hs, decide_true, if_true]
-      rw [stepStmts.cons_some (store_tail_step p.output p.N p.BN (fun n => offset p batch n.val)
-        (fun n => g n * p.scaling) _ hp hm hv), stepStmts.nil]
-      simp only [result, scatter, hs, if_true]
-      rfl
-    · simp only [hs, decide_false, Bool.false_eq_true, if_false]
-      rw [stepStmts.cons_some (atomic_tail_step p.output p.N p.BN (fun n => offset p batch n.val)
-        (fun n => g n * p.scaling) _ hp hm hv), stepStmts.nil]
-      simp only [result, scatter, hs, if_false]
-      rfl
-  rw [stepStmts.cons_some hb, stepStmts.nil]
 
 theorem scatter_active (p : Parameters) (s : BlockState) (batch : Nat) (v : Fin p.BN → ℝ)
     (hstride : 0 < p.outputStride) (n : Fin p.BN) (hn : n.val < p.N) :

@@ -49,9 +49,9 @@ theorem epilogue_success (p : Layout) (r : Regions) (scale : ℝ)
   rcases hc with ⟨hs,hh,hm,hd,hl⟩
   refine ⟨(fun i => M.cast (some .fp32) .real .real
     (M.binary (some .fp32) .real .div (a i) (l (i.1,PUnit.unit)))),?_⟩
-  simp [parts,kernel,originalFP32,
+  simp [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,ComputeKernel.surfaceBody,
     Source.intRange?]
   simp (config := {maxSteps := 100000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,

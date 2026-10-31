@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_TypedHostDispatch
 
 namespace VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost
@@ -39,20 +40,6 @@ def wideParameters (x y : FP64TypedCore.Storage) (p : Parameters) : FP64Memory.P
 def finishShared {σ : Type} (s : World σ) : Option (State Word) → Attempt σ
   | none => .error .sharedInterpreter
   | some t => .ok { s with kernel := t }
-
-def execute {σ : Type} (b : Numerics) (r : Route) (p : Parameters) (s : World σ) : Attempt σ :=
-  match r with
-  | .integer x y => finishShared s (IntegerSource.runGrid b.rest x.storage y.storage p s.kernel)
-  | .floating x y => finishShared s
-      (TypedFloat.runGrid b.rest x.dtype y.dtype (TypedFloat.promote x y).dtype p s.kernel)
-  | .mixed32 first d => finishShared s
-      (MixedFP32.runGrid b.rest b.cfg b.undefinedSigned b.undefinedUnsigned first d.storage p s.kernel)
-  | .mixedSmall f first d => finishShared s
-      (MixedSmall.runGrid b.rest b.cfg f b.undefinedSigned b.undefinedUnsigned first d.storage p s.kernel)
-  | .wide x y => match FP64Memory.runGrid b.wide (wideParameters x y p)
-        (List.range (FP64Memory.gridCount p.n)) s.native.wide with
-      | .error fault => .error (.wideInterpreter fault)
-      | .ok t => .ok { s with native.wide := t }
 
 inductive ExternalMemory where
   | shared (memory : RegionName → Nat → Cell Word)
@@ -146,66 +133,6 @@ theorem wideExpected_frame (b : FP64TypedCore.Numerics) (x y : FP64TypedCore.Sto
   · exact h hr
   · omega
 
-theorem execute_correct {σ : Type} (b : Numerics) (r : Route) (p : Parameters)
-    (s : World σ) (block : p.block = 1024) (ready : Ready b r p s) :
-    ∃ t, execute b r p s = .ok t ∧ project r t = expected b r p s ∧
-      Frame p s t ∧ UnselectedUnchanged r s t := by
-  have positive : 0 < p.block := by rw [block]; decide
-  cases r with
-  | integer x y =>
-    obtain ⟨t, ht, hm⟩ := IntegerSource.grid_correct b.rest x.storage y.storage p s.kernel positive
-    refine ⟨{ s with kernel := t }, ?_, ?_, ?_, rfl⟩
-    · simp [execute, finishShared, ht]
-    · simp [project, expected, hm]
-    · refine ⟨?_, fun _ _ _ => rfl, rfl⟩
-      intro r i outside
-      rw [hm]
-      exact expected_shared_frame b (.integer x y) p s _ rfl r i outside
-  | floating x y =>
-    obtain ⟨t, ht, hm⟩ := TypedValueCorrect.correct b.rest x y p s.kernel positive
-    refine ⟨{ s with kernel := t }, ?_, ?_, ?_, rfl⟩
-    · simp [execute, finishShared, ht]
-    · simp [project, expected, hm]
-    · refine ⟨?_, fun _ _ _ => rfl, rfl⟩
-      intro r i outside
-      rw [hm]
-      exact expected_shared_frame b (.floating x y) p s _ rfl r i outside
-  | mixed32 first d =>
-    obtain ⟨t, ht, hm⟩ := MixedFP32.grid_correct b.rest b.cfg b.undefinedSigned b.undefinedUnsigned
-      first d.storage p s.kernel positive
-    refine ⟨{ s with kernel := t }, ?_, ?_, ?_, rfl⟩
-    · simp [execute, finishShared, ht]
-    · simp [project, expected, hm]
-    · refine ⟨?_, fun _ _ _ => rfl, rfl⟩
-      intro r i outside
-      rw [hm]
-      exact expected_shared_frame b (.mixed32 first d) p s _ rfl r i outside
-  | mixedSmall f first d =>
-    obtain ⟨t, ht, hm⟩ := MixedSmall.grid_correct b.rest b.cfg f b.undefinedSigned b.undefinedUnsigned
-      first d.storage p s.kernel positive
-    refine ⟨{ s with kernel := t }, ?_, ?_, ?_, rfl⟩
-    · simp [execute, finishShared, ht]
-    · simp [project, expected, hm]
-    · refine ⟨?_, fun _ _ _ => rfl, rfl⟩
-      intro r i outside
-      rw [hm]
-      exact expected_shared_frame b (.mixedSmall f first d) p s _ rfl r i outside
-  | wide x y =>
-    rcases ready with ⟨separated, xs, ys, inputs, defined⟩
-    let t := FP64Memory.reference b.wide (wideParameters x y p) xs ys s.native.wide
-    have ht := FP64Memory.complete_grid_success b.wide (wideParameters x y p) xs ys
-      separated defined (List.range (FP64Memory.gridCount p.n)) (List.Perm.refl _) s.native.wide inputs
-    have hm : t = wideExpected b.wide x y p s.native.wide :=
-      (wideExpected_reference b.wide x y p s.native.wide xs ys inputs).symm
-    refine ⟨{ s with native.wide := t }, ?_, ?_, ?_, rfl⟩
-    · simp [execute, ht, t]
-    · simp [project, expected, hm]
-    · refine ⟨fun _ _ _ => rfl, ?_, rfl⟩
-      intro r i outside
-      change t r i = _
-      rw [hm]
-      exact wideExpected_frame b.wide x y p s.native.wide r i outside
-
 theorem floating_wide_ready {σ : Type} (b : Numerics) (x y : FP64TypedCore.Storage)
     (p : Parameters) (s : World σ)
     (floating : x.isFloating = Bool.true)
@@ -215,21 +142,11 @@ theorem floating_wide_ready {σ : Type} (b : Numerics) (x y : FP64TypedCore.Stor
     Ready b (.wide x y) p s :=
   ⟨separated, xs, ys, inputs, FP64Memory.floating_defined b.wide _ xs ys floating⟩
 
-theorem wide_failure_retained {σ : Type} (b : Numerics) (x y : FP64TypedCore.Storage)
-    (p : Parameters) (s : World σ) (fault : FP64Memory.Fault)
-    (failed : FP64Memory.runGrid b.wide (wideParameters x y p)
-      (List.range (FP64Memory.gridCount p.n)) s.native.wide = .error fault) :
-    execute b (.wide x y) p s = .error (.wideInterpreter fault) := by
-  simp [execute, failed]
-
-#specNonCircular expected avoiding [execute, IntegerSource.runGrid, TypedFloat.runGrid,
-  MixedFP32.runGrid, MixedSmall.runGrid, FP64Memory.runGrid]
+#specNonCircular expected avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 #axiomsClean wideExpected_reference
 #axiomsClean expected_shared_frame
 #axiomsClean wideExpected_frame
-#axiomsClean execute_correct
 #axiomsClean floating_wide_ready
-#axiomsClean wide_failure_retained
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

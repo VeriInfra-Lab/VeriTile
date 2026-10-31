@@ -13,7 +13,7 @@ Execution, intermediate-value domains and their composition are kept together. -
 /- Use libdevice.exp for exp-sub rewrites: the measured fp32 tl.exp relation
 has B = 0.1608954387 ULP > 0.05 under the configured Normal(1,1) probe.
 That intrinsic relation failed admission; the libdevice EXP-SUB instance passed. -/
-/- Original direct and stable logsumexp execution under opaque FP operations.
+/- Current logsumexp execution under opaque FP operations.
 The source's scalar output address and bf16 conversion remain explicit. -/
 
 namespace VeriTile.Bench.Examples.StableLogSumExpFPExecution
@@ -23,10 +23,10 @@ open SoftmaxStableFPExecution (maximum exponentials shifted rowSum)
 
 set_option maxHeartbeats 1600000
 
-
 def directValue {α : Type} (M : Algebra α) (xs : Fin B → α) : α :=
   M.cast none .real .bf16 (M.unary none .log (rowSum M (exponentials M xs)))
 
+/-- Shifted scalar reference used to refute an unsupported rewrite; no kernel. -/
 def stableValue {α : Type} (M : Algebra α) (xs : Fin B → α) : α :=
   M.cast none .real .bf16 (M.binary none .real .add (maximum M xs)
     (M.unary none .log (rowSum M (shifted M xs))))
@@ -44,20 +44,6 @@ theorem direct_run {α : Type} [Inhabited α] (M : Algebra α)
   intro r o hmiss hr ho
   exact (hmiss.elim (fun h => h hr) (fun h => h ho)).elim
 
-theorem stable_run {α : Type} [Inhabited α] (M : Algebra α)
-    (x y : RegionName) (B : Nat) (hB : 0 < B) (xs : Fin B → α) (s : State α)
-    (hx : ∀ i : Fin B, (s.mem x (s.pids 0 * B + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (stableLSEKernel x y B) s = some t ∧
-      t.mem y (s.pids 0) = .mk .bf16 (stableValue M xs) ∧
-      (∀ r o, (r ≠ y ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
-  simp [stableLSEKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
-    numeric, FP.Structural.bop, store, State.write, TileShape.allIndices,
-    TileShape.axisDim, TileShape.eraseAxis, hB, Region.cast, ofFloat, toFloat,
-    hx, stableValue, shifted, maximum, rowSum]
-  refine ⟨rfl, ?_⟩
-  intro r o hmiss hr ho
-  exact (hmiss.elim (fun h => h hr) (fun h => h ho)).elim
-
 def directIO (x y : RegionName) (B : Nat) : KernelIO₁ where
   kernel := directLSEKernel x y B
   projection := by rfl
@@ -67,12 +53,6 @@ def directIO (x y : RegionName) (B : Nat) : KernelIO₁ where
   Bout := 1
   read := fun pid => pid * B
   write := fun pid => pid
-
-def stableIO (x y : RegionName) (B : Nat) : KernelIO₁ :=
-  { directIO x y B with kernel := stableLSEKernel x y B, projection := by rfl }
-
-theorem same_signature (x y : RegionName) (B : Nat) :
-    io₁Signature (directIO x y B) = io₁Signature (stableIO x y B) := rfl
 
 /- Execution of the conditional candidate under the same fp32 reduction
 profile. Comparison support is explicit; neither branch outcome is assumed. -/
@@ -127,7 +107,7 @@ end Candidate
 end VeriTile.Bench.Examples.StableLogSumExpFPExecution
 
 /- Logsumexp source contracts and scalar-derived sum recovery.
-The conditional optimized is proved from admitted tl.log rewrites. The older
+The conditional optimized is proved from admitted tl.log rewrites. The independent scalar countermodel
 unconditional shift retains explicit, unadmitted primitive log premises below;
 those lemmas do not certify the unconditional transformation. -/
 
@@ -153,14 +133,8 @@ theorem requirements_holds {α : Type} [Inhabited α] (M : Algebra α) (D : Doma
   simp only [FP.LogSumExpShift.map_checks, SoftmaxStableFPContract.eval_center,
     SoftmaxStableFPContract.eval_row, FP.LogSumExpShift.checks_holds]
 
-def stable (x y : RegionName) (B : Nat) : FP.Scheduled.IO₁ :=
-  ⟨stableIO x y B, FP.Scheduled.fp32, requirements x B⟩
-
 def direct (x y : RegionName) (B : Nat) : FP.Scheduled.IO₁ :=
   ⟨directIO x y B, FP.Scheduled.fp32, requirements x B⟩
-
-theorem same_signature (x y : RegionName) (B : Nat) :
-    Spec.ProgramSyntax.signature (stable x y B) = Spec.ProgramSyntax.signature (direct x y B) := rfl
 
 theorem original_values {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α) (plans : Schedules)
@@ -174,37 +148,6 @@ theorem original_values {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
   exact congrArg (M.cast (some .fp32) .real .bf16)
     (FP.LogSumExpShift.shifted_result R M D hM s hExp hMul hLogExp xs
       (center M xs) (rowPlan plans B).tree hd)
-
-/-- Both original kernels succeed and agree at the original scalar bf16
-output, preserving all other cells. Only primitive log obligations remain;
-this conditional theorem is not a completed admitted FP specification. -/
-theorem original_runs_under_log {α : Type} [Inhabited α] (R : FP.Exponential.Rules) (M : Algebra α)
-    (D : Domain α) (hM : Models R.assumptions M D) (s : State α) (plans : Schedules)
-    (x y : RegionName) (B : Nat) (hB : 0 < B)
-    (hMul : FP.LogSumExpShift.IntrinsicLogMul M D) (hLogExp : FP.LogSumExpShift.LogLibdeviceExp M D)
-    (hd : (requirements x B plans).Holds M D s) :
-    IO₁PrivateScratch (stable x y B).io ∧ IO₁PrivateScratch (direct x y B).io ∧
-    ∃ a b,
-      FP.Structural.exec ((stable x y B).profile.algebra M plans) (stable x y B).io.kernel s = some a ∧
-      FP.Structural.exec ((direct x y B).profile.algebra M plans) (direct x y B).io.kernel s = some b ∧
-      a.mem y (s.pids 0) = b.mem y (s.pids 0) ∧
-      IO₁Frame (stable x y B).io s a ∧ IO₁Frame (direct x y B).io s b := by
-  let xs := rowValues s x B
-  have hd' := (requirements_holds M D s x B plans).mp hd
-  obtain ⟨a, ha, hva, hfa⟩ := stable_run (engine M plans) x y B hB xs s (fun _ => rfl)
-  obtain ⟨b, hb, hvb, hfb⟩ := direct_run (engine M plans) x y B xs s (fun _ => rfl)
-  refine ⟨by simp [stable, IO₁PrivateScratch, stableIO, directIO],
-    by simp [direct, IO₁PrivateScratch, directIO], a, b, ha, hb, ?_, ?_, ?_⟩
-  · exact hva.trans ((congrArg (Cell.mk .bf16)
-      (original_values R.arithmetic M D (FP.Exponential.arithmetic_models R M D hM) s plans
-        (FP.Exponential.exp_sub R M D hM s) hMul hLogExp xs hd')).trans hvb.symm)
-  · intro r o ho _
-    apply hfa r o
-    simpa only [stable, stableIO, directIO, Fin.forall_fin_one, Fin.val_zero, Nat.add_zero] using ho
-  · intro r o ho _
-    apply hfb r o
-    simpa only [direct, directIO, Fin.forall_fin_one, Fin.val_zero, Nat.add_zero] using ho
-
 
 noncomputable section Candidate
 

@@ -1,9 +1,5 @@
+import bench.tritonbench_g.matmul_triton2.Proofs.SourceArguments
 import bench.tritonbench_g.matmul_triton2.Proofs.LogicalIO
-
-/-! This entry proves the selected compiler graph. The separate
-`pythonBody` / `pythonSource` constructors in Kernels.lean retain the original
-standalone dot followed by addition; no source-to-compiler FP equivalence is
-asserted by this result. -/
 
 namespace VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly
 open VeriTile.Triton FP.Structural Revision001
@@ -14,14 +10,15 @@ noncomputable section
 /-- Complete grouped grid and original strided FP32 source, in logical coordinates. -/
 def realIO (rest : Algebra ℝ) (p : Core.Parameters) := IO.logicalIO rest Core.realPrimitives p
 specification kernel_real (rest : Algebra ℝ) (p : Core.Parameters)
+    (scope : SourceRuntime.SourceBounds p)
     (geometry : Geometry.Valid (Core.geometry p)) (inner : 0<p.blockInner)
     (input : p.input≠p.output) (weight : p.weight≠p.output) :
     Spec.Real (realIO rest p ⊨ fun ⟨a,b⟩ row col =>
       ∑ k : Fin p.innerSize, a row k * b k col) :=
-  LogicalIOProof.implements rest p geometry inner input weight
+  LogicalIOProof.implements rest p scope inner geometry input weight
 
 #axiomsClean kernel_real
-#specNonCircular LogicalIOProof.target avoiding [Core.grid,Core.source,FP.Structural.exec]
+#specNonCircular LogicalIOProof.target avoiding [SourceRuntime.grid,Core.source,FP.Structural.exec]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

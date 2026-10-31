@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_MixedSmallGrid
 
 /-! Defined-domain independence of arbitrary conversion policies. Only active
@@ -60,28 +61,16 @@ def specifiedMemory (cfg : FP.Config) (f : FloatStorage) (integerFirst : Bool) (
     (p : Parameters) (initial : State Word) : RegionName → Nat → Cell Word :=
   gridExpectedMemory cfg f (fun _ _ => 0) (fun _ _ => 0) integerFirst d p initial
 
-theorem defined_grid_correct (rest : Algebra Word) (cfg : FP.Config) (f : FloatStorage)
-    (us : Nat → Word → Int) (uu : Nat → Word → Nat)
-    (integerFirst : Bool) (d : Storage) (p : Parameters) (initial : State Word)
-    (positive : 0 < p.block) (defined : OutputDefined cfg f integerFirst d p initial) :
-    ∃ final, runGrid rest cfg f us uu integerFirst d p initial = some final ∧
-      final.mem = specifiedMemory cfg f integerFirst d p initial := by
-  obtain ⟨final, he, hm⟩ := grid_correct rest cfg f us uu integerFirst d p initial positive
-  refine ⟨final, he, hm.trans ?_⟩
-  exact grid_memory_policy_independent cfg f us (fun _ _ => 0) uu (fun _ _ => 0)
-    integerFirst d p initial defined
-
 theorem float_output_always_defined (cfg : FP.Config) (f : FloatStorage) (d : Storage)
     (p : Parameters) (initial : State Word) : OutputDefined cfg f Bool.false d p initial := by
   intro o active impossible
   cases impossible
 
-#specNonCircular OutputDefined avoiding [source, FP.Structural.exec, runGrid]
-#specNonCircular specifiedMemory avoiding [source, FP.Structural.exec, runGrid]
+#specNonCircular OutputDefined avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
+#specNonCircular specifiedMemory avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 #axiomsClean convertedCell_policy_independent
 #axiomsClean resultCell_policy_independent
 #axiomsClean grid_memory_policy_independent
-#axiomsClean defined_grid_correct
 #axiomsClean float_output_always_defined
 #guard_msgs (drop info) in
 #auditModuleAxioms

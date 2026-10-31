@@ -18,12 +18,13 @@ theorem typed {α : Type} [Inhabited α] (A : Algebra α) (X Y W : RegionName)
       FP.Structural.exec A (kernel X Y W N B eps) s := by
   let original := (kernel X Y W N B eps).surfaceBody
   let candidate := (indexCommutedKernel X Y W N B eps).surfaceBody
-  have pref : run A (candidate.take 2) s=run A (original.take 2) s := by
-    simp [candidate,original,indexCommutedKernel,indexCommuted,kernel,ComputeKernel.surfaceBody,
+  have pref : run A (candidate.take 3) s=run A (original.take 3) s := by
+    simp [candidate,original,indexCommutedKernel,runtimeCandidate,kernel,runtimeKernel,
+      ComputeKernel.withScalarArguments, ScalarArgument.statement, ScalarArgument.fp32,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,bop,State.setReg,Option.bind]
     delta bop
     simp [Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm]
-  change run A (candidate.take 2 ++ original.drop 2) s=run A (original.take 2 ++ original.drop 2) s
+  change run A (candidate.take 3 ++ original.drop 3) s=run A (original.take 3 ++ original.drop 3) s
   rw [run_append,run_append,pref]
 
 def grid {α : Type} [Inhabited α] (A : Algebra α) (X Y W : RegionName)
@@ -43,17 +44,16 @@ open VeriTile.Bench.TritonBenchG.RmsnormFusedLlama in
 theorem real (X Y W : RegionName) (N B : Nat) (eps : ℝ) (s : BlockState) :
     Triton.exec (indexCommutedKernel X Y W N B eps).eraseDType.toAlgKernel s=
       Triton.exec (kernel X Y W N B eps).eraseDType.toAlgKernel s := by
-  rw [candidate_eq,source_eq]
-  change Triton.exec (typedKernel .fp32 .fp32 .fp32 Bool.true X Y W N N B eps).eraseDType.toAlgKernel s=
-    Triton.exec (typedKernel .fp32 .fp32 .fp32 Bool.false X Y W N N B eps).eraseDType.toAlgKernel s
+  change Triton.exec (typedKernel Bool.true X Y W N N B eps).eraseDType.toAlgKernel s=
+    Triton.exec (typedKernel Bool.false X Y W N N B eps).eraseDType.toAlgKernel s
   rw [typed_projection,typed_projection]
-  have pref : stepStmts (pointerPrefix Bool.true Y N) s=stepStmts (pointerPrefix Bool.false Y N) s := by
+  have pref : stepStmts (pointerPrefix Bool.true Y N eps) s=stepStmts (pointerPrefix Bool.false Y N eps) s := by
     simp [pointerPrefix,stepStmts,stepStmt,evalOp.eq_def,Tile.bop,NumericDType.mul,Nat.mul_comm]
   unfold Triton.exec
-  rw [←List.take_append_drop 2 (mathKernel Bool.true X Y W N N B eps).body,
-    ←List.take_append_drop 2 (mathKernel Bool.false X Y W N N B eps).body]
-  have tail : (mathKernel Bool.true X Y W N N B eps).body.drop 2=
-    (mathKernel Bool.false X Y W N N B eps).body.drop 2 := rfl
+  rw [←List.take_append_drop 3 (mathKernel Bool.true X Y W N N B eps).body,
+    ←List.take_append_drop 3 (mathKernel Bool.false X Y W N N B eps).body]
+  have tail : (mathKernel Bool.true X Y W N N B eps).body.drop 3=
+    (mathKernel Bool.false X Y W N N B eps).body.drop 3 := tail_source X Y W N N B eps
   rw [prefix_source,prefix_source,ProgramRewrite.append,ProgramRewrite.append,pref,tail]
 
 def realGrid (X Y W : RegionName) (rows N B : Nat) (eps : ℝ) (initial : BlockState) : Nat → Option BlockState

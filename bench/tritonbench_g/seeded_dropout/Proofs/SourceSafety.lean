@@ -15,7 +15,7 @@ private theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α) (c : Who
     (input : ∀ j : Fin c.B,pid*c.B+j.val<c.n → pid*c.B+j.val<bounds c.X) :
     Safety.traceSafeList M bounds ((c.source kind p seed).surfaceBody.take 7) (tileState pid s) := by
   cases kind
-  all_goals simp [Whole.Layout.source,TypedSource.source,ComputeKernel.surfaceBody,
+  all_goals simp [Whole.Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -35,7 +35,7 @@ private theorem suffix_safe {α : Type} [Inhabited α] (M : Algebra α) (lt : α
   have random := prefix_rand M c kind seed pid s hn hp hs
   cases kind
   all_goals
-    simp only [Whole.Layout.source,TypedSource.source,ComputeKernel.surfaceBody,
+    simp only [Whole.Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily,ComputeKernel.surfaceBody,
       List.drop_succ_cons,List.drop_zero,Random.i32ArangeSize,
       TypedExecution.seedOp,RandomDomain.profile] at random ⊢
     simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
@@ -78,7 +78,7 @@ private theorem candidate_prefix_safe {α : Type} [Inhabited α] (M : Algebra α
     (input : ∀ j : Fin c.B,pid*c.B+j.val<c.n → pid*c.B+j.val<bounds c.X) :
     Safety.traceSafeList M bounds ((candidate c kind p seed).surfaceBody.take 7) (tileState pid s) := by
   cases kind
-  all_goals simp [candidate,TypedSource.source,ComputeKernel.surfaceBody,
+  all_goals simp [candidate,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -97,7 +97,7 @@ private theorem candidate_prefix_executes {α : Type} [Inhabited α] (M : Algebr
     funext i
     exact Nat.mul_comm c.B pid
   cases kind
-  all_goals simp [candidate,TypedSource.source,ComputeKernel.surfaceBody,run,step,evalExpr,
+  all_goals simp [candidate,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,numeric,natLt,numericLt,bop,
     Region.cast,Random.i32ArangeSize,prefixState,seedState,tileState,Nat.mul_comm]
   all_goals simp only [commuted]

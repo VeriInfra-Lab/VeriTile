@@ -18,7 +18,7 @@ abbrev launch := @HostFP.atProgram
 def run (M : Algebra α) (c : Shape) (scale : ℝ) : List (Pid c) → State α → Option (State α)
   | [],s => some s
   | q::rest,s => do
-    let t ← FP.Structural.exec (engine M) (kernel c .fp32 .fp32 .fp32 .fp32 scale) (launch c s q)
+    let t ← FP.Structural.exec (engine M) (kernel c scale) (launch c s q)
     run M c scale rest t
 
 /-- Independent recurrence of masked stores, with no interpreter in its definition. -/

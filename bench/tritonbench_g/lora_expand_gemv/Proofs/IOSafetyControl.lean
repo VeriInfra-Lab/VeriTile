@@ -44,7 +44,7 @@ theorem active_safe_iff (rest : Algebra Word) (plans : ∀ n, ReductionPlan n)
   intro _
   simp [Branches.active,Branches.castBranch,Branches.loopStmt,Branches.body,
     Branches.source,VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,
-    ComputeKernel.surfaceBody,Geometry.parameters,constIfElse,constIf]
+    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,Geometry.parameters,constIfElse,constIf]
   rw [← Safety.traceSafeList_append]
   rfl
 

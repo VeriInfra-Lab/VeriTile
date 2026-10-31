@@ -45,20 +45,6 @@ theorem prepared_state {α : Type} (types : RegionName → FloatDType) (s : Stat
     (p : Logical.PreparedInputs a) : bind types s p.read = bind types s a.read := by
   rw [Logical.prepared_read a p]
 
-/-- Every optional full execution state agrees after materialization. This is
-an exact logical-input equality theorem for the actual candidate, for every
-retained production precision. It assumes no numerical identity or successful
-execution; both success and failure are preserved. -/
-theorem execution_on_logical_values {α : Type} [Inhabited α] (M : Algebra α)
-    (c : Shape) (dot value gate : Storage) (out : FloatDType) (scale : ℝ)
-    (s : State α) (a : Logical.Inputs α) (p : Logical.PreparedInputs a)
-    (idx : GridIndex (grid c)) :
-    FP.Structural.exec (FP.ProfiledRewrite.engine M) (kernel c dot value gate out scale)
-      (HostFP.atProgram c (bind (inputType dot value gate) s p.read) idx) =
-    FP.Structural.exec (FP.ProfiledRewrite.engine M) (kernel c dot value gate out scale)
-      (HostFP.atProgram c (bind (inputType dot value gate) s a.read) idx) := by
-  rw [prepared_state (inputType dot value gate) s a p]
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.Repairs.ChunkGlaSimple.FPProof

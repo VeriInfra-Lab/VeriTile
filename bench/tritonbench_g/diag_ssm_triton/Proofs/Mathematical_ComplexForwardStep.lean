@@ -54,9 +54,14 @@ theorem body_step (x y : RegionName) (batch dim B t : Nat) (u : BlockState)
     (hli : u.regs .real [B] "lambda_imag" = some (imagTile transition)) :
     stepStmts (ComplexForwardSource.body x y batch dim B) u =
       some (result u x y (offset batch dim t col) mask state transition) := by
-  simp only [ComplexForwardSource.body,Erasure.complexForward,
+  simp only [ComplexForwardSource.body,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
+    IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Except.bind,bind,Bool.false_eq_true,↓reduceIte,List.drop]
   simp only [stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
     Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,

@@ -24,12 +24,12 @@ theorem stage2_headline_iff (mid out : RegionName) (N B : Nat) :
 theorem stage1_implements (inp mid : RegionName) (N B : Nat) (hB : 0<B) :
     (PublicIO.logicalStage1IO inp mid N B ⊨ fun ⟨pid,xs⟩ _ => blockMaximum N B pid xs) :=
   (stage1_headline_iff inp mid N B).2
-    (VeriTile.Bench.TritonBenchG.MaxReduction.StageIOProof.stage1_real_correct .fp32 Bool.false inp mid N B hB)
+    (VeriTile.Bench.TritonBenchG.MaxReduction.StageIOProof.stage1_real_correct Bool.false inp mid N B hB)
 
 theorem stage2_implements (mid out : RegionName) (N B : Nat) (hB : 0<B) :
     (PublicIO.logicalStage2IO mid out N B ⊨ fun ⟨_,xs⟩ _ => blockMaximum N B 0 xs) :=
   (stage2_headline_iff mid out N B).2
-    (VeriTile.Bench.TritonBenchG.MaxReduction.StageIOProof.stage2_real_correct .fp32 Bool.false mid out N B hB)
+    (VeriTile.Bench.TritonBenchG.MaxReduction.StageIOProof.stage2_real_correct Bool.false mid out N B hB)
 
 theorem dimension_headline_iff (inp ov oi : RegionName) (M N K BM p k : Nat)
     (plan : ReductionPlan (nextPower N))

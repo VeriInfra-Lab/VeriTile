@@ -1,13 +1,13 @@
 import bench.tritonbench_g.fast_rms_layernorm.Proofs.Mathematical_MathBridge
 namespace VeriTile.Bench.TritonBenchG.FastRmsLayernorm.ForwardRun
-open VeriTile.Triton TypedSource RealExecution
+open VeriTile.Triton RealExecution
 noncomputable section
 set_option maxHeartbeats 2000000
 set_option maxRecDepth 20000
 
 def original (isGemma : Bool) (Y X W r : RegionName) (YR XR WR RR N B : Nat) (eps : ℝ) : Kernel :=
-  (if isGemma then gemma .fp32 .fp32 Bool.false Y X W r YR XR WR RR N B eps
-   else forward .fp32 .fp32 Bool.false Y X W r YR XR WR RR N B eps).eraseDType.toAlgKernel
+  (if isGemma then VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource Y X W r YR XR WR RR N B eps
+   else VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource Y X W r YR XR WR RR N B eps).eraseDType.toAlgKernel
 
 def weightOffset (isGemma : Bool) (WR j : Nat) := if isGemma then j else j*WR
 

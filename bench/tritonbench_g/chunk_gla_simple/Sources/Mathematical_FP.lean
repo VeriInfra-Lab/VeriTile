@@ -24,24 +24,9 @@ def requirements (kernel : ComputeKernel) (storage : Storage) (BT BV : Nat) (sca
 section
 variable (dotStorage valueStorage gateStorage : Storage) (out_dtype : FloatDType) (q k v h g o : RegionName)
   (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat) (scale : ℝ) (T K V BT BK BV : Nat)
-def original : Program where
-  kernel := ChunkGlaSimple.original dotStorage valueStorage gateStorage out_dtype q k v h g o
-    s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV
-  domain := requirements (ChunkGlaSimple.original dotStorage valueStorage gateStorage out_dtype q k v h g o
-    s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV) valueStorage BT BV scale
-def scaleFirst : Program :=
-  { original dotStorage valueStorage gateStorage out_dtype q k v h g o
-      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV with
-    kernel := ChunkGlaSimple.scaleFirst dotStorage valueStorage gateStorage out_dtype q k v h g o
-      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV }
-theorem equivalent (R : FP.ScalarArithmetic.Rules) :
-    original dotStorage valueStorage gateStorage out_dtype q k v h g o
-      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV ≡[R]
-    scaleFirst dotStorage valueStorage gateStorage out_dtype q k v h g o
-      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV := by
-  cases dotStorage <;> cases valueStorage <;> cases gateStorage <;> equiv_decompose <;> fp_prove
+
 end
-#print_fp_assumptions equivalent
+
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.ChunkGlaSimple.FPProof

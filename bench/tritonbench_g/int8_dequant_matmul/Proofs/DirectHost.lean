@@ -1,5 +1,5 @@
 import bench.tritonbench_g.int8_dequant_matmul.Proofs.Int8DequantMatmul_Direct_Contract
-import bench.tritonbench_g.int8_dequant_matmul.Proofs.Bound
+import bench.tritonbench_g.int8_dequant_matmul.Proofs.Native
 namespace VeriTile.Bench.Repairs.Int8DequantMatmul.Direct
 noncomputable section
 set_option maxHeartbeats 1200000

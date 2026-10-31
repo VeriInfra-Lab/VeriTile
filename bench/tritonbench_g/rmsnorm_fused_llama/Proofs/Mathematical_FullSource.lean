@@ -3,8 +3,9 @@ import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.Mathematical_FullMath
 namespace VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.General
 open VeriTile.Triton
 
-def pre (X Y : RegionName) (stride B : Nat) : List Stmt :=
-  [ Stmt.assign .nat [] "row" (Op.programId 0),
+def pre (X Y : RegionName) (stride B : Nat) (eps : ℝ) : List Stmt :=
+  [ Stmt.assign .real [] "eps_arg" (Op.const eps),
+    Stmt.assign .nat [] "row" (Op.programId 0),
     Stmt.assign .ptr [] "Y"
       (Op.ptrAdd Broadcast.nil (Op.ptrBase Y)
         (Op.mul .nat Broadcast.nil (Op.ref .nat [] "row") (Op.constNat stride))),
@@ -38,7 +39,7 @@ def post (N B : Nat) (eps : ℝ) : List Stmt :=
         (Op.const (N : ℝ))),
     Stmt.assign .real [] "rstd"
       (Op.div .real Broadcast.nil (Op.const 1)
-        (Op.sqrt (Op.add .real Broadcast.nil (Op.ref .real [] "var") (Op.const eps)))) ]
+        (Op.sqrt (Op.add .real Broadcast.nil (Op.ref .real [] "var") (Op.ref .real [] "eps_arg")))) ]
 
 /-- Pass 2's body — the **emit** body: two masked loads, the affine scaling,
 and the in-loop masked `.real` store into `Y`. -/
@@ -69,11 +70,19 @@ def writeBody (W : RegionName) (N B : Nat) : List Stmt :=
 /-- The lowered body is `prologue ++ pass 1 ++ tail ++ pass 2`, definitionally. -/
 theorem body_decomp (X Y W : RegionName) (stride N B : Nat) (eps : ℝ) :
     (mathSource X Y W stride N B eps).toAlgKernel.body
-      = pre X Y stride B
+      = pre X Y stride B eps
         ++ [Stmt.forRange "off" 0 N B (varBody N B)]
         ++ post N B eps
-        ++ [Stmt.forRange "off" 0 N B (writeBody W N B)] := rfl
-
+        ++ [Stmt.forRange "off" 0 N B (writeBody W N B)] := by
+  simp [mathSource, typedKernel, VeriTile.Bench.Repairs.RmsnormFusedLlama.runtimeKernel,
+    ComputeKernel.withScalarArguments, ScalarArgument.statement, ScalarArgument.fp32,
+    ComputeKernel.eraseDType, ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel,
+    ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
+    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+    ComputeDType.eraseDType, Except.bind, bind, Kernel.eraseDType,
+    Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+    MemAccess.eraseDType, MaskOpt.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
+    eraseDType, Region.cast, pre, varBody, post, writeBody]
 
 theorem mathSource_flattenOk (X Y W : RegionName) (stride N B : Nat) (eps : ℝ) :
     (mathSource X Y W stride N B eps).toAlgKernel.FlattenOk := by

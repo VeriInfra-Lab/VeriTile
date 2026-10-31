@@ -19,7 +19,7 @@ theorem source_split (fp8 : Bool) (p : Parameters) :
 theorem loopCode_run (a : Operations α) (fp8 : Bool) (p : Parameters) (s : State α) :
     run (engine a) (loopCode fp8 p) s=
       range (engine a) "step" 0 (steps p) 1 (loop fp8 p) s := by
-  cases fp8 <;> simp [loopCode,loop,kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,
+  cases fp8 <;> simp [loopCode,loop,kernel,TypedSource.kernel,TypedSource.source,
     arguments,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,numeric,bop,integralFloorDiv,integralMod,steps,
     Broadcast.leftIndex,Broadcast.rightIndex]

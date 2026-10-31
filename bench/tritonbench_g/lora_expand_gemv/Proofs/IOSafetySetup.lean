@@ -20,11 +20,11 @@ theorem setup_safe (rest : Algebra Word) (plans : ∀ n, ReductionPlan n)
       (Branches.setup .singleHalf .single g.parameters)
       (Branches.headerExecution rest .ieeeValue plans .singleHalf .single g.parameters s).val := by
   dsimp only [Branches.setup,Branches.active,Branches.castBranch,Branches.source,
-    VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,
     Geometry.parameters]
   cases he : g.even <;>
     simp (config := {maxSteps := 500000}) [Branches.setup,Branches.active,Branches.castBranch,
-      Branches.source,VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,ComputeKernel.surfaceBody,
+      Branches.source,VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,
       Geometry.parameters,he,Branches.headerExecution,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,

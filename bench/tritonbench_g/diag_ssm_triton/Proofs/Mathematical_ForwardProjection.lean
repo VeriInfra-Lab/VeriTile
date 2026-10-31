@@ -26,7 +26,8 @@ def loopBody (x y : RegionName) (batch dim block : Nat) : List Stmt :=
 theorem real_source_body (s x l y : RegionName) (length batch dim block : Nat) :
     (Erasure.forward Bool.false s x l y length batch dim block).toAlgKernel.body =
       prelude s l batch dim block ++ [.forLoop "t" length (loopBody x y batch dim block)] := by
-  rfl
+  simp only [prelude,loopBody,RealReference.diagSsmForwardPreLoop,RealReference.diagSsmForwardLoopBody,Erasure.forward,TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,Except.bind,bind]
+  try rfl
 
 theorem index_product (batch dim : Nat) (u : BlockState) :
     evalOp (.mul .nat .nil (.mul .nat .nil (.ref .nat [] "t") (.constNat batch)) (.constNat dim)) u =

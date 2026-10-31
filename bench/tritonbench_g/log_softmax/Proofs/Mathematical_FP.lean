@@ -1,4 +1,4 @@
-import bench.tritonbench_g.log_softmax.Proofs.Mathematical_Kernels
+import bench.tritonbench_g.log_softmax.Kernels
 import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
 
 namespace VeriTile.Bench.TritonBenchG.LogSoftmax.FPProof

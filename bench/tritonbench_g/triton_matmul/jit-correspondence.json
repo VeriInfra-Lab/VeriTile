@@ -1,0 +1,73 @@
+[
+  {
+    "python": "bench/tritonbench_g/triton_matmul/triton_matmul.py",
+    "lean": "bench/tritonbench_g/triton_matmul/Sources/Kernels.lean",
+    "python_function": "matmul_kernel_repaired",
+    "lean_definition": "rawBody",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [],
+      "floatingPointers": [
+        [
+          "a_ptr",
+          "dtype"
+        ],
+        [
+          "b_ptr",
+          "dtype"
+        ],
+        [
+          "c_ptr",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M"
+      ]
+    }
+  }
+]

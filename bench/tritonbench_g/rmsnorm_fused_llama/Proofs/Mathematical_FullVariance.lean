@@ -6,7 +6,8 @@ set_option maxHeartbeats 3000000
 set_option maxRecDepth 12000
 
 structure VarInv (s0 : BlockState) (X Y : RegionName)
-    (stride N B c : Nat) (s : BlockState) : Prop where
+    (stride N B c : Nat) (eps : ℝ) (s : BlockState) : Prop where
+  epsilon : s.regs .real [] "eps_arg" = some (Tile.scalar (some eps))
   mem : s.mem = s0.mem
   pids : s.pids = s0.pids
   xptr : s.regs .ptr [] "X" = some (Tile.scalar (X, s0.pids 0 * stride))
@@ -14,19 +15,19 @@ structure VarInv (s0 : BlockState) (X Y : RegionName)
   acc : s.regs .real [B] "_var" =
     some ⟨fun i => some (accumulator s0 X stride N B c i.1)⟩
 
-noncomputable def preState (s : BlockState) (X Y : RegionName) (stride B : Nat) : BlockState :=
-  (((s.setReg "row" .nat [] (Tile.scalar (s.pids 0))).setReg "Y" .ptr []
+noncomputable def preState (s : BlockState) (X Y : RegionName) (stride B : Nat) (eps : ℝ) : BlockState :=
+  ((((s.setReg "eps_arg" .real [] (Tile.scalar (some eps))).setReg "row" .nat [] (Tile.scalar (s.pids 0))).setReg "Y" .ptr []
     (Tile.scalar (Y, s.pids 0 * stride))).setReg "X" .ptr []
     (Tile.scalar (X, s.pids 0 * stride))).setReg "_var" .real [B]
       ⟨fun _ => some 0⟩
 
-theorem pre_exec (s : BlockState) (X Y : RegionName) (stride B : Nat) :
-    stepStmts (pre X Y stride B) s = some (preState s X Y stride B) := by
+theorem pre_exec (s : BlockState) (X Y : RegionName) (stride B : Nat) (eps : ℝ) :
+    stepStmts (pre X Y stride B eps) s = some (preState s X Y stride B eps) := by
   simp [pre, preState, stepStmts, stepStmt, evalOp.eq_def, Tile.ptrAdd,
     Tile.bop, NumericDType.mul, Tile.scalar, -Tile.scalar_eta, Function.comp_def, Region.cast]
 
-theorem pre_inv (s : BlockState) (X Y : RegionName) (stride N B : Nat) :
-    VarInv s X Y stride N B 0 (preState s X Y stride B) := by
+theorem pre_inv (s : BlockState) (X Y : RegionName) (stride N B : Nat) (eps : ℝ) :
+    VarInv s X Y stride N B 0 eps (preState s X Y stride B eps) := by
   constructor <;> simp [preState, accumulator] <;> rfl
 
 theorem accumulator_succ (s : BlockState) (X : RegionName)
@@ -49,7 +50,7 @@ noncomputable def varState (s0 s : BlockState) (X : RegionName)
     ⟨fun i => some (accumulator s0 X stride N B (c+1) i.1)⟩
 
 theorem var_exec (s0 s : BlockState) (X Y : RegionName)
-    (stride N B c : Nat) (h : VarInv s0 X Y stride N B c s) :
+    (stride N B c : Nat) (eps : ℝ) (h : VarInv s0 X Y stride N B c eps s) :
     stepStmts (varBody N B) (s.setReg "off" .nat [] (Tile.scalar (c * B))) =
       some (varState s0 s X stride N B c) := by
   have hm : s.readMem = s0.readMem := by
@@ -63,9 +64,10 @@ theorem var_exec (s0 s : BlockState) (X Y : RegionName)
   rfl
 
 theorem var_inv (s0 s : BlockState) (X Y : RegionName)
-    (stride N B c : Nat) (h : VarInv s0 X Y stride N B c s) :
-    VarInv s0 X Y stride N B (c+1) (varState s0 s X stride N B c) := by
+    (stride N B c : Nat) (eps : ℝ) (h : VarInv s0 X Y stride N B c eps s) :
+    VarInv s0 X Y stride N B (c+1) eps (varState s0 s X stride N B c) := by
   constructor
+  · simpa [varState] using h.epsilon
   · simpa [varState] using h.mem
   · simpa [varState] using h.pids
   · simpa [varState] using h.xptr
@@ -73,19 +75,19 @@ theorem var_inv (s0 s : BlockState) (X Y : RegionName)
   · simp [varState]
 
 theorem var_loop (s0 s : BlockState) (X Y : RegionName)
-    (stride N B : Nat) (hB : 0 < B) (h : VarInv s0 X Y stride N B 0 s) :
+    (stride N B : Nat) (eps : ℝ) (hB : 0 < B) (h : VarInv s0 X Y stride N B 0 eps s) :
     ∃ c t, stepStmt (.forRange "off" 0 N B (varBody N B)) s = some t ∧
-      N ≤ c * B ∧ VarInv s0 X Y stride N B c t := by
-  have hinit : ∃ c, 0 = c * B ∧ VarInv s0 X Y stride N B c s := ⟨0, by simp, h⟩
+      N ≤ c * B ∧ VarInv s0 X Y stride N B c eps t := by
+  have hinit : ∃ c, 0 = c * B ∧ VarInv s0 X Y stride N B c eps s := ⟨0, by simp, h⟩
   obtain ⟨final, t, he, hn, c, hc, hi⟩ :=
     forRange_inv (idx := "off") (start := 0) (stop := N) (step := B)
       (body := varBody N B)
-      (P := fun off st => ∃ c, off = c * B ∧ VarInv s0 X Y stride N B c st)
+      (P := fun off st => ∃ c, off = c * B ∧ VarInv s0 X Y stride N B c eps st)
       (Nat.ne_of_gt hB) hinit (by
         intro off st _ hst
         rcases hst with ⟨c, rfl, hst⟩
-        refine ⟨varState s0 st X stride N B c, var_exec s0 st X Y stride N B c hst,
-          c+1, ?_, var_inv s0 st X Y stride N B c hst⟩
+        refine ⟨varState s0 st X stride N B c, var_exec s0 st X Y stride N B c eps hst,
+          c+1, ?_, var_inv s0 st X Y stride N B c eps hst⟩
         simp [Nat.add_mul])
   exact ⟨c, t, he, hc ▸ hn, hi⟩
 

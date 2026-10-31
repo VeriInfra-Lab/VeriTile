@@ -802,6 +802,11 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
       let base ← evalOp M p base s
       let offsets ← evalOffsets M p offsets s
       return fun _ => ⟨region, base PUnit.unit, parent, block, strides, offsets⟩
+  | .makeBlockPtrDynMetadata region base parent block strides offsets, s => do
+      let base ← evalOp M p base s
+      let strides ← evalOffsets M p strides s
+      let offsets ← evalOffsets M p offsets s
+      return fun _ => ⟨region,base PUnit.unit,parent,block,strides,offsets⟩
   | .advanceBlockPtr ptr deltas, s => do
       let ptrs ← evalOp M p ptr s
       return fun i => (ptrs i).advance deltas

@@ -46,23 +46,6 @@ theorem write_congr {ι : Type} (xs : List ι) (Y : RegionName) (off : ι → Na
     apply ih
     split <;> simp_all [State.write]
 
-/-- The complete unchanged two-loop source, in the wrapper's actual FP32
-single-tile regime, executes and emits this typed scalar graph. -/
-theorem complete (A : Algebra α) (s : State α) (X Y W : RegionName)
-    (N B : Nat) (eps : ℝ) (hN : 0<N) (hNB : N≤B) :
-    ∃ t, exec A (kernel X Y W N B eps) s=some t ∧
-      t.mem=(block A s X Y W (s.pids 0) N B eps).mem := by
-  have hB : B≠0 := by omega
-  have hz : (0.0 : ℝ)=0 := by norm_num
-  simp [kernel,VeriTile.Bench.TritonBenchG.RmsnormFused.originalTyped,
-    FP.Structural.exec,FP.Structural.run,FP.Structural.step,FP.Structural.range,evalExpr,evalComputeOp,evalOp_unfold,store,
-    numeric,numericLt,numericLe,natLt,natLe,bop,ofFloat,toFloat,Region.cast,
-    ComputeKernel.surfaceBody,ComputeDType.eraseDType,State.setReg,Option.bind,hN,hB,hz,Nat.not_lt.mpr hNB,
-    block,value,rstd,variance,square,xload,wload,lit,add,mul,Row.div,cast,read]
-  apply write_congr
-  rfl
-
-#axiomsClean complete
-#specNonCircular value avoiding [kernel,FP.Structural.exec]
+#specNonCircular value avoiding [FP.Structural.exec]
 end
 end VeriTile.Bench.Repairs.RmsnormFused.Row

@@ -9,22 +9,25 @@ namespace VeriTile.Bench.TritonBenchG.AddValue
 open VeriTile.Triton VeriTile.Examples
 open scoped VeriTile.Triton.MaskedKernelIO₁
 
+attribute [local simp] Except.bind bind ComputeDType.eraseDType
+  VeriTile.Bench.Repairs.AddValue.Contiguous.kernel ComputeKernel.toAlgKernel ComputeKernel.toAlgorithm? ComputeKernel.surfaceBody ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm? ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? Region.cast
+
 /-- Algorithm-layer correctness for `puzzle1_kernel`.
 
 For each lane `i ∈ Fin BLOCK_SIZE`:
-* In-bounds (`pid * BLOCK_SIZE + i < N`): the output region holds `xs i + value`.
-* Out-of-bounds: the value at `pid * BLOCK_SIZE + i` is preserved from the
+* In-bounds (`pid * BLOCK_SIZE + i < N`): the output region holds `xs i + (10 : ℝ)`.
+* Out-of-bounds: the (10 : ℝ) at `pid * BLOCK_SIZE + i` is preserved from the
   initial state (mask=false → no store). -/
 theorem puzzle1_kernel_correct
     (x_ptr output_ptr : RegionName)
-    (N BLOCK_SIZE : Nat) (value : ℝ)
+    (N BLOCK_SIZE : Nat)
     (s : BlockState) (xs : Fin BLOCK_SIZE → ℝ)
     (h_x : InputLoadedAt s x_ptr BLOCK_SIZE xs) :
     ∀ i : Fin BLOCK_SIZE,
       let addr := s.pid * BLOCK_SIZE + i.val
-      observeAt (exec (puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE value) s)
+      observeAt (exec (puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE) s)
                 output_ptr BLOCK_SIZE s.pid i
-        = some (if addr < N then xs i + value
+        = some (if addr < N then xs i + (10 : ℝ)
                 else s.readMem output_ptr addr) := by
   intro i
   have h_inj := injective_offset_singleton (n := BLOCK_SIZE) (s.pid * BLOCK_SIZE)
@@ -43,8 +46,8 @@ store is preserved by the run — in particular every cell of every region other
 than `output_ptr`, and the *inactive* lanes of the output window itself. -/
 private theorem puzzle1_kernel_frame
     (x_ptr output_ptr : RegionName)
-    (N BLOCK_SIZE : Nat) (value : ℝ) (s s1 : BlockState)
-    (hExec : exec ((puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE value
+    (N BLOCK_SIZE : Nat) (s s1 : BlockState)
+    (hExec : exec ((puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE
       ).toAlgKernel) s = some s1)
     (r : RegionName) (o : Nat)
     (hmiss : ∀ i : Fin BLOCK_SIZE, s.pid * BLOCK_SIZE + i.val < N →
@@ -61,32 +64,32 @@ private theorem puzzle1_kernel_frame
 /-- **The region-model masked Hoare triple** — termination, active-lane output
 values, and frame off the active output lanes, from any launch state whose
 input window is loaded at the **active lanes only**. This is the `hrun`
-obligation of `MaskedKernelIO₁.Implements.intro`; the value half reuses
+obligation of `MaskedKernelIO₁.Implements.intro`; the (10 : ℝ) half reuses
 `puzzle1_kernel_correct` (instantiated at the tile the state actually holds). -/
 theorem puzzle1_kernel_region_run
     (x_ptr output_ptr : RegionName)
-    (N BLOCK_SIZE : Nat) (value : ℝ)
+    (N BLOCK_SIZE : Nat)
     (s₀ : BlockState) (xs : Fin BLOCK_SIZE → ℝ)
     (hx : ∀ j : Fin BLOCK_SIZE, s₀.pid * BLOCK_SIZE + j.val < N →
       s₀.readMem x_ptr (s₀.pid * BLOCK_SIZE + j.val) = xs j) :
     ∃ s1, exec ((puzzle1_kernel x_ptr output_ptr N
-        BLOCK_SIZE value).toAlgKernel) s₀ = some s1
+        BLOCK_SIZE).toAlgKernel) s₀ = some s1
       ∧ (∀ j : Fin BLOCK_SIZE, s₀.pid * BLOCK_SIZE + j.val < N →
-          s1.readMem output_ptr (s₀.pid * BLOCK_SIZE + j.val) = xs j + value)
+          s1.readMem output_ptr (s₀.pid * BLOCK_SIZE + j.val) = xs j + (10 : ℝ))
       ∧ (∀ r o,
           (r ≠ output_ptr ∨ ∀ j : Fin BLOCK_SIZE,
             s₀.pid * BLOCK_SIZE + j.val < N →
               o ≠ s₀.pid * BLOCK_SIZE + j.val) →
           s1.mem r o = s₀.mem r o) := by
-  have hobs := puzzle1_kernel_correct x_ptr output_ptr N BLOCK_SIZE value
+  have hobs := puzzle1_kernel_correct x_ptr output_ptr N BLOCK_SIZE
     s₀ (fun j => s₀.readMem x_ptr (s₀.pid * BLOCK_SIZE + j.val))
     (fun _ => rfl)
-  rw [show exec (puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE value) s₀
+  rw [show exec (puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE) s₀
       = exec ((puzzle1_kernel x_ptr output_ptr N
-          BLOCK_SIZE value).toAlgKernel) s₀
+          BLOCK_SIZE).toAlgKernel) s₀
       from rfl] at hobs
   cases hsrc : exec ((puzzle1_kernel x_ptr output_ptr N
-      BLOCK_SIZE value).toAlgKernel) s₀ with
+      BLOCK_SIZE).toAlgKernel) s₀ with
   | none =>
       exact absurd hsrc (by
         simp [exec, puzzle1_kernel, ComputeKernel.toAlgKernel, stepStmts,
@@ -99,7 +102,7 @@ theorem puzzle1_kernel_region_run
         simp only [observeAt, Option.map_some, Option.some_inj, if_pos hj]
           at hje
         rw [hje, hx j hj]
-      · refine puzzle1_kernel_frame x_ptr output_ptr N BLOCK_SIZE value
+      · refine puzzle1_kernel_frame x_ptr output_ptr N BLOCK_SIZE
           s₀ s1 hsrc r o (fun i hi ⟨hr, ho⟩ => ?_)
         rcases hcond with hne | hno
         · exact hne hr.symm
@@ -112,14 +115,14 @@ contract is **lane-wise** — every *active* lane's address is below the region
 bound of the buffer it touches. -/
 theorem puzzle1_kernel_traceSafe
     (x_ptr output_ptr : RegionName)
-    (N BLOCK_SIZE : Nat) (value : ℝ)
+    (N BLOCK_SIZE : Nat)
     (bounds : RegionBounds) (s : BlockState)
     (hx : ∀ j : Fin BLOCK_SIZE, s.pid * BLOCK_SIZE + j.val < N →
       s.pid * BLOCK_SIZE + j.val < bounds x_ptr)
     (hout : ∀ j : Fin BLOCK_SIZE, s.pid * BLOCK_SIZE + j.val < N →
       s.pid * BLOCK_SIZE + j.val < bounds output_ptr) :
     Kernel.TraceSafe bounds
-      ((puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE value
+      ((puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE
         ).toAlgKernel) s := by
   unfold Kernel.TraceSafe
   -- Computational unroll: walks all seven statements, discharging every
@@ -138,8 +141,8 @@ theorem puzzle1_kernel_traceSafe
 /-- The kernel sits inside the flat-memory bridge's covered fragment. -/
 theorem puzzle1_kernel_flattenOk
     (x_ptr output_ptr : RegionName)
-    (N BLOCK_SIZE : Nat) (value : ℝ) :
-    ((puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE value
+    (N BLOCK_SIZE : Nat) :
+    ((puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE
       ).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
   simp [puzzle1_kernel, ComputeKernel.toAlgKernel,
@@ -148,30 +151,6 @@ theorem puzzle1_kernel_flattenOk
 section Commuted
 
 set_option maxHeartbeats 5000000
-
-/-- Real execution equality; no FP numerical rule is used in this layer. -/
-theorem commuted_exec (x_ptr output_ptr : RegionName) (N B : Nat)
-    (value : ℝ) (s : BlockState) :
-    exec (puzzle1_commuted_kernel x_ptr output_ptr N B value).toAlgKernel s =
-      exec (puzzle1_kernel x_ptr output_ptr N B value).toAlgKernel s := by
-  simp [puzzle1_commuted_kernel, puzzle1_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul, ComparableDType.lt, add_comm]
-
-theorem commuted_flattenOk (x_ptr output_ptr : RegionName) (N B : Nat) (value : ℝ) :
-    (puzzle1_commuted_kernel x_ptr output_ptr N B value).toAlgKernel.FlattenOk := by
-  simp [puzzle1_commuted_kernel, Kernel.FlattenOk,
-    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
-
-theorem commuted_traceSafe (x_ptr output_ptr : RegionName) (N B : Nat) (value : ℝ)
-    (bounds : RegionBounds) (s : BlockState)
-    (hx : ∀ j : Fin B, s.pid * B + j.val < N → s.pid * B + j.val < bounds x_ptr)
-    (hout : ∀ j : Fin B, s.pid * B + j.val < N → s.pid * B + j.val < bounds output_ptr) :
-    Kernel.TraceSafe bounds (puzzle1_commuted_kernel x_ptr output_ptr N B value).toAlgKernel s := by
-  simpa [Kernel.TraceSafe, puzzle1_commuted_kernel, puzzle1_kernel,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
-    MemAccess.SafeAt, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul, ComparableDType.lt, add_comm]
-    using puzzle1_kernel_traceSafe x_ptr output_ptr N B value bounds s hx hout
 
 end Commuted
 

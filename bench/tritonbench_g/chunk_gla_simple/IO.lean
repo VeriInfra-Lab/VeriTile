@@ -35,12 +35,12 @@ def realSchedule (c : Shape) : List AlgorithmLaunch :=
 uses FP32 storage/computation; dtype erasure selects its mathematical Real
 interpretation. There is no private memory scratch or in-place output. -/
 def realIO (c : Shape) (scale : ℝ) : UKernelIO where
-  kernel := (kernel c .fp32 .fp32 .fp32 .fp32 scale).eraseDType
+  kernel := (kernel c scale).eraseDType
   projection := by
-    cases hp : (kernel c .fp32 .fp32 .fp32 .fp32 scale).toAlgorithm? with
+    cases hp : (kernel c scale).toAlgorithm? with
     | ok k => simp [ComputeKernel.eraseDType, hp]
     | error e =>
-      simp only [kernel, ChunkGlaSimpleMinDotTile.source, Bool.false_eq_true, ↓reduceIte,
+      simp only [kernel,  Bool.false_eq_true, ↓reduceIte,
         ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
         ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
         Except.bind, bind] at hp
@@ -71,7 +71,7 @@ def nativeInputs (c : Shape) : List IOChannel :=
    ⟨.real,[c.heads*c.T],"g"⟩]
 
 def nativeLaunch (c : Shape) (q : GridIndex (grid c)) : Invocation NativeGraph.Expr where
-  kernel := kernel c .fp32 .fp32 .fp32 .fp32 ScalarGraph.scaleTag
+  kernel := kernel c ScalarGraph.scaleTag
   backend := FP.ProfiledRewrite.engine ScalarGraph.algebra
   pids := q.toPids
   numPids := some (grid c).toNumPids

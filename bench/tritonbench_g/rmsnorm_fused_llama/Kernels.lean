@@ -1,47 +1,24 @@
-import bench.tritonbench_g.rmsnorm_fused_llama.Sources.Mathematical_Kernels
-import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.IndexTransform
+import VeriTile.Triton
+import VeriTile.Triton.Source
+import VeriTile.Triton.DSL.CallSignature
+import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
 
-/-! Complete ordinary quotations for the literal/runtime original source and
-its existing integer pointer-product candidate. Runtime epsilon is explicitly
-declared without a dummy value or custom source frontend. -/
+/-! Repaired two-pass Python source with runtime epsilon. The candidate changes
+only the integer output-pointer product. Real calls bind the same runtime
+argument before erasing precision; no separate literal implementation is kept. -/
 namespace VeriTile.Bench.Repairs.RmsnormFusedLlama
+noncomputable section
 open VeriTile Triton FP.Structural
 
-def kernel (X Y W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
-  triton {
-  tl.ports inputs=[X,W], outputs=[Y]
-  tl.region X = tl.float32, W = tl.float32, Y = tl.float32
-  row = tl.program_id(0)
-  Y += row * $(N)
-  X += row * $(N)
-  _var = tl.zeros([$(B)], dtype=tl.float32)
-  for off in range(0, $(N), $(B)) {
-    cols = off + tl.arange(0, $(B))
-    x = tl.load(X + cols, mask=cols < $(N), other=0.0).to(tl.float32)
-    _var += x * x
-  }
-  var = tl.sum(_var, axis=0) / $(N)
-  rstd = 1 / tl.sqrt(var + $(eps))
-  for off in range(0, $(N), $(B)) {
-    cols = off + tl.arange(0, $(B))
-    mask = cols < $(N)
-    w = tl.load(W + cols, mask=mask).to(tl.float32)
-    x = tl.load(X + cols, mask=mask, other=0.0).to(tl.float32)
-    x_hat = x * rstd
-    y = x_hat * w
-    tl.store(Y + cols, (y.to(tl.float16)).to(tl.float32), mask=mask)
-  }
-  }
-
-def runtimeKernel (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
+def runtimeKernel (X Y W : RegionName) (N B : Nat) (stride : Nat := N) : ComputeKernel :=
   triton {
   tl.ports inputs=[X,W], outputs=[Y]
   tl.region X = tl.float32, W = tl.float32, Y = tl.float32
   tl.param eps_arg : tl.float32
   row = tl.program_id(0)
-  Y += row * $(N)
-  X += row * $(N)
+  Y += row * $(stride)
+  X += row * $(stride)
   _var = tl.zeros([$(B)], dtype=tl.float32)
   for off in range(0, $(N), $(B)) {
     cols = off + tl.arange(0, $(B))
@@ -60,65 +37,39 @@ def runtimeKernel (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
     tl.store(Y + cols, (y.to(tl.float16)).to(tl.float32), mask=mask)
   }
   }
+
+def runtimeCandidate (X Y W : RegionName) (N B : Nat) (stride : Nat := N) : ComputeKernel :=
+  triton {
+  tl.ports inputs=[X,W], outputs=[Y]
+  tl.region X = tl.float32, W = tl.float32, Y = tl.float32
+  tl.param eps_arg : tl.float32
+  row = tl.program_id(0)
+  Y += $(stride) * row
+  X += row * $(stride)
+  _var = tl.zeros([$(B)], dtype=tl.float32)
+  for off in range(0, $(N), $(B)) {
+    cols = off + tl.arange(0, $(B))
+    x = tl.load(X + cols, mask=cols < $(N), other=0.0).to(tl.float32)
+    _var += x * x
+  }
+  var = tl.sum(_var, axis=0) / $(N)
+  rstd = 1 / tl.sqrt(var + eps_arg)
+  for off in range(0, $(N), $(B)) {
+    cols = off + tl.arange(0, $(B))
+    mask = cols < $(N)
+    w = tl.load(W + cols, mask=mask).to(tl.float32)
+    x = tl.load(X + cols, mask=mask, other=0.0).to(tl.float32)
+    x_hat = x * rstd
+    y = x_hat * w
+    tl.store(Y + cols, (y.to(tl.float16)).to(tl.float32), mask=mask)
+  }
+  }
+
+def kernel (X Y W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
+  (runtimeKernel X Y W N B).withScalarArguments [ScalarArgument.fp32 "eps_arg" eps]
 
 def indexCommutedKernel (X Y W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
-  triton {
-  tl.ports inputs=[X,W], outputs=[Y]
-  tl.region X = tl.float32, W = tl.float32, Y = tl.float32
-  row = tl.program_id(0)
-  Y += $(N) * row
-  X += row * $(N)
-  _var = tl.zeros([$(B)], dtype=tl.float32)
-  for off in range(0, $(N), $(B)) {
-    cols = off + tl.arange(0, $(B))
-    x = tl.load(X + cols, mask=cols < $(N), other=0.0).to(tl.float32)
-    _var += x * x
-  }
-  var = tl.sum(_var, axis=0) / $(N)
-  rstd = 1 / tl.sqrt(var + $(eps))
-  for off in range(0, $(N), $(B)) {
-    cols = off + tl.arange(0, $(B))
-    mask = cols < $(N)
-    w = tl.load(W + cols, mask=mask).to(tl.float32)
-    x = tl.load(X + cols, mask=mask, other=0.0).to(tl.float32)
-    x_hat = x * rstd
-    y = x_hat * w
-    tl.store(Y + cols, (y.to(tl.float16)).to(tl.float32), mask=mask)
-  }
-  }
+  (runtimeCandidate X Y W N B).withScalarArguments [ScalarArgument.fp32 "eps_arg" eps]
 
-def runtimeCandidate (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
-  triton {
-  tl.ports inputs=[X,W], outputs=[Y]
-  tl.region X = tl.float32, W = tl.float32, Y = tl.float32
-  tl.param eps_arg : tl.float32
-  row = tl.program_id(0)
-  Y += $(N) * row
-  X += row * $(N)
-  _var = tl.zeros([$(B)], dtype=tl.float32)
-  for off in range(0, $(N), $(B)) {
-    cols = off + tl.arange(0, $(B))
-    x = tl.load(X + cols, mask=cols < $(N), other=0.0).to(tl.float32)
-    _var += x * x
-  }
-  var = tl.sum(_var, axis=0) / $(N)
-  rstd = 1 / tl.sqrt(var + eps_arg)
-  for off in range(0, $(N), $(B)) {
-    cols = off + tl.arange(0, $(B))
-    mask = cols < $(N)
-    w = tl.load(W + cols, mask=mask).to(tl.float32)
-    x = tl.load(X + cols, mask=mask, other=0.0).to(tl.float32)
-    x_hat = x * rstd
-    y = x_hat * w
-    tl.store(Y + cols, (y.to(tl.float16)).to(tl.float32), mask=mask)
-  }
-  }
-
-theorem source_eq (X Y W : RegionName) (N B : Nat) (eps : ℝ) :
-    kernel X Y W N B eps=
-      VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.originalTyped .fp32 .fp32 .fp32 X Y W N N B eps := rfl
-
-theorem candidate_eq (X Y W : RegionName) (N B : Nat) (eps : ℝ) :
-    indexCommutedKernel X Y W N B eps=
-      VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.typedKernel .fp32 .fp32 .fp32 Bool.true X Y W N N B eps := rfl
+end
 end VeriTile.Bench.Repairs.RmsnormFusedLlama

@@ -11,10 +11,12 @@ noncomputable section
 
 theorem source_projection (n B : Nat) :
     (fp32Kernel n B).eraseDType.toAlgKernel.body =
-      (sourceKernel "out" "x" n n n B).toAlgKernel.body := by
-  change (typedKernel .fp32 Bool.false "out" "x" n n n B).eraseDType.toAlgKernel.body = _
+      (VeriTile.Bench.TritonBenchG.SquareMatrix.square_kernel "out" "x" n n n B).toAlgKernel.body := by
+  change (typedKernel Bool.false "out" "x" n n n B).eraseDType.toAlgKernel.body = _
   rw [typed_projection]
-  rfl
+  simp only [mathKernel, VeriTile.Bench.TritonBenchG.SquareMatrix.square_kernel,
+    ComputeKernel.toAlgorithm?_fromKernelBody, ComputeKernel.toAlgKernel_fromKernelBody]
+  all_goals rfl
 
 /-- One program owns one contiguous row, with padding excluded by both masks.
 This IO uses the same canonical FP32 source as the equivalence proof. -/

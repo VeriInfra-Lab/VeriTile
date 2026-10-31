@@ -31,7 +31,7 @@ theorem prelude_safe (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops
     (bounds : RegionName → Nat) (hb : Bounds p r (s.pids 0) (FPReference.inputs r s) bounds) :
     Safety.traceSafeList (engine o.algebra) bounds (FPSymbolic.parts p r scale).before s := by
   simp (config := {maxSteps := 700000}) [FPSymbolic.parts,Program.parts,Program.mathematical,Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,ComputeKernel.surfaceBody,Source.intRange?,
+    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,ComputeKernel.surfaceBody,Source.intRange?,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -51,7 +51,7 @@ theorem body_safe (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α
       (s.setReg "start_n" .int [] (fun _ => cur)) := by
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13⟩
   simp (config := {maxSteps := 1600000}) [FPSymbolic.parts,Program.parts,Program.mathematical,Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,ComputeKernel.surfaceBody,Source.intRange?,
+    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,ComputeKernel.surfaceBody,Source.intRange?,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -67,7 +67,7 @@ theorem epilogue_safe (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Op
     Safety.traceSafeList (engine o.algebra) bounds (FPSymbolic.parts p r scale).after s := by
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13⟩
   simp (config := {maxSteps := 700000}) [FPSymbolic.parts,Program.parts,Program.mathematical,Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,ComputeKernel.surfaceBody,Source.intRange?,
+    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,ComputeKernel.surfaceBody,Source.intRange?,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,

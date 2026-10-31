@@ -26,7 +26,7 @@ theorem offset_eval {α : Type} [Inhabited α] (M : Algebra α)
     evalOp M p (.shiftLeft .nil (.ref .nat [] "i") (.constNat 5)) s =
       evalOp M p (Program.times "i" 32) s := by
   cases hi : s.regs .nat [] "i"
-  all_goals simp [Program.times,evalOp_unfold,hi,numeric,FP.Structural.bop,Nat.shiftLeft_eq,
+  all_goals simp [Program.times,Program.headTimes,evalOp_unfold,hi,numeric,FP.Structural.bop,Nat.shiftLeft_eq,
     Broadcast.leftIndex,Broadcast.rightIndex]
   all_goals unfold FP.Structural.bop
   all_goals simp [Broadcast.leftIndex,Broadcast.rightIndex,Nat.shiftLeft_eq]
@@ -36,7 +36,7 @@ theorem pointer_run {α : Type} [Inhabited α] (M : Algebra α)
     run M (Program.pointers c) s = run M (pointers c scale storeFlag ifcond) s := by
   simp only [pointers,body,kernel,shiftedSource,ComputeKernel.surfaceBody,
     List.getElem?_cons_zero,List.getElem?_cons_succ,List.take_succ_cons,List.take_zero]
-  simp only [Program.pointers,Program.pointer,Program.times,run,step,evalExpr,evalOp_unfold]
+  simp only [Program.pointers,Program.pointer,Program.times,Program.headTimes,run,step,evalExpr,evalOp_unfold]
   simp only [evalOffsets]
   simp only [offset_eval,Program.times]
 
@@ -78,7 +78,7 @@ theorem pointer_safe {α : Type} [Inhabited α] (M : Algebra α)
     simp only [Program.pointers,List.mem_cons,List.not_mem_nil,or_false] at member
     rcases member with rfl|rfl|rfl|rfl|rfl
     all_goals apply safe_pointer
-    all_goals simp only [Program.times,Safety.safeOp_unfold,true_and,and_true]
+    all_goals simp only [Program.times,Program.headTimes,Safety.safeOp_unfold,true_and,and_true]
   · apply pure_list_safe
     intro st member t
     simp only [pointers,body,kernel,shiftedSource,ComputeKernel.surfaceBody,
@@ -138,13 +138,13 @@ def codePrefix (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :=
 
 theorem original_quoted (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :
     Program.kernel c scale storeFlag ifcond =
-      .mk ["q","k","v","h","o"] [] (codePrefix c scale storeFlag ifcond ++
+      .mk ["q","k","v"] ["h","o"] (codePrefix c scale storeFlag ifcond ++
         [.forRangeDyn "i" (.constNat 0) (.constNat c.chunks) (.constNat 1)
           (Program.body c scale storeFlag ifcond)]) := rfl
 
 theorem candidate_quoted (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :
     kernel c scale storeFlag ifcond =
-      .mk ["q","k","v","h","o"] [] (codePrefix c scale storeFlag ifcond ++
+      .mk ["q","k","v"] ["h","o"] (codePrefix c scale storeFlag ifcond ++
         [.forRangeDyn "i" (.constNat 0) (.constNat c.chunks) (.constNat 1)
           (body c scale storeFlag ifcond)]) := rfl
 

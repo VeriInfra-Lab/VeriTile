@@ -50,7 +50,7 @@ structure Context (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
   memory : InputEq current initial
   ik : current.regs .nat [] "i_k"=some (fun _ => initial.pids 0)
   it : current.regs .nat [] "i_t"=some (fun _ => initial.pids 1)
-  bh : current.regs .nat [] "i_bh"=some (fun _ => initial.pids 2)
+  bh : current.regs .int [] "i_bh"=some (fun _ => (initial.pids 2 : Int))
   nh : current.regs .int [] "n_bh"=some (fun _ => (initial.numPids 2:Int))
   dq : current.regs .real [64] "d_q"=some (queryDecay M c initial scale)
   dk : current.regs .real [64] "d_k"=some (keyDecay M c initial)
@@ -72,7 +72,7 @@ def entryExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
     simp [parts,kernel,Kernels.backwardQKV,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
-      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,numericEq,
+      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,
       natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,last]
     rfl
 

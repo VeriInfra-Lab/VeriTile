@@ -110,12 +110,6 @@ def rightSlope (A B C : RegionName)
     tl.store(c_ptrs,c,mask=c_mask)
   }
 
-/-- Semantic quotation equality does not assert Python compiler equivalence. -/
-theorem shared_cast_ast (A B C : RegionName)
-    (M N K sam sak sbk sbn scm scn : Nat) (enabled : Bool) :
-    kernel A B C M N K sam sak sbk sbn scm scn enabled =
-      MatmulLeakyreluFp8.TypedSource.kernel A B C M N K sam sak sbk sbn scm scn enabled := rfl
-
 def configuration : Nat × Nat × Nat × Nat × Nat × Nat := (128,256,64,8,2,8)
 def activationEnabled (activation : String) : Bool := activation == "leaky_relu"
 end VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.TypedSource

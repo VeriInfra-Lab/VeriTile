@@ -1,4 +1,4 @@
-import bench.tritonbench_g.adam_update_triton.Sources.Mathematical_Kernels
+import VeriTile.Triton.DSL
 import VeriTile.Triton.Float.ProfiledRewrite
 
 namespace VeriTile.Bench.Repairs.AdamUpdateTriton
@@ -8,8 +8,7 @@ open VeriTile.Triton
 `engine` fixes every otherwise unannotated floating operation to FP32; physical
 FP32 inputs and fixed native literal words are bound in Proofs/InputBinding
 and Proofs/NativeWords. Runtime parameters are declared without executable
-placeholder assignments. There is no handwritten body AST.
-`mathematicalSource` remains solely an adapter for historical grid proofs. -/
+placeholder assignments. Both public proofs use the runtime source below. -/
 
 inductive Output where
   | parameter | momentum
@@ -20,13 +19,6 @@ structure Scalars (α : Type) where
   wd : α
   beta1 : α
   beta2 : α
-
-/-- The total caller count remains the autotune key. Only the chunk length
-is used in the original bounded per-program mask; scalar expression order is
-the unchanged source's order. This specialization is the Real proof adapter. -/
-def mathematicalSource (params : Scalars ℝ) (_total chunk block : Nat) : ComputeKernel :=
-  VeriTile.Bench.TritonBenchG.AdamUpdateTriton.update_fn_kernel "P" "G" "M"
-    params.lr params.wd params.beta1 params.beta2 chunk block
 
 /-- Runtime FP32 scalar arguments use the existing real-valued carrier.
 The declarations emit no executable statements; the ABI supplies registers. -/
@@ -82,7 +74,6 @@ def commutedWithArguments (P G M : RegionName) (chunk block : Nat) : ComputeKern
   tl.store(offset_p_ptr, p, mask=mask)
   tl.store(offset_exp_avg_ptr, exp_avg, mask=mask)
 }
-
 
 /-- The actual source body with runtime (not Real-literal-encoded) scalars.
 All three FP32 payloads use the source-selected default FP32 engine.

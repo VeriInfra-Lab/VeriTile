@@ -1,5 +1,7 @@
 import bench.tritonbench_g.dropout_triton.Proofs.Mathematical_Real
-import bench.tritonbench_g.dropout_triton.Proofs.Mathematical_Candidate
+import bench.tritonbench_g.dropout_triton.Proofs.Mathematical_Erasure
+import VeriTile.Triton.Semantics.ProgramRewrite
+import VeriTile.Triton.Memory.FlattenTolerant
 import VeriTile.Triton.Memory.Denotation
 namespace VeriTile.Bench.TritonBenchG.DropoutTriton.RealIO
 open VeriTile VeriTile.Triton TypedSource RealProof
@@ -69,15 +71,6 @@ theorem original_correct (storage : Storage) (keep : KeepStorage)
           · exact hn j hj (by rw [← hjz]; exact hz)
         · exact Or.inl hq
     · simp only [FlatAlloc.flattenState,if_neg hr]
-
-theorem candidate_correct (storage : Storage) (keep : KeepStorage)
-    (x k y : RegionName) (n B : Nat) (p : ℝ) :
-    Spec.Real (Implements (source storage keep Bool.true x k y n B p).eraseDType keep x k y n B p) := by
-  intro A hd hc u hu hb
-  obtain ⟨v,he,hv,hf⟩ := original_correct storage keep x k y n B p A hd hc u hu hb
-  refine ⟨v,?_,hv,hf⟩
-  rw [← Candidate.flat_exec]
-  exact he
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

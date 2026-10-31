@@ -5,10 +5,6 @@ open VeriTile.Triton
 set_option maxHeartbeats 6000000
 set_option maxRecDepth 24000
 
-/-- The two Python forward bodies are identical. -/
-abbrev forward := L2NormTriton1.source
-abbrev forwardCommuted := L2NormTriton1.indexCommuted
-
 /-! Complete FP32 backward sources. Epsilon is a raw FP32 ABI input declared
 with `tl.param`. Both reductions and the final expression retain their source
 order; the candidate changes only the three integer row products. -/

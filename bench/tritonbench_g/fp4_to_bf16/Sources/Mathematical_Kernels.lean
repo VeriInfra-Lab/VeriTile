@@ -40,7 +40,6 @@ def unscaled (X Y : RegionName) (n block : Nat) : ComputeKernel := triton {
   tl.store(Y + offsets_out, output, mask=mask_out)
 }
 
-
 structure Parameters where
   input : RegionName
   output : RegionName
@@ -51,5 +50,5 @@ def source (p : Parameters) := unscaled p.input p.output p.count p.block
 end VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue
 
 namespace VeriTile.Bench.TritonBenchG.Fp4ToBf16.Kernels
-abbrev original := FPValue.unscaled
+
 end VeriTile.Bench.TritonBenchG.Fp4ToBf16.Kernels

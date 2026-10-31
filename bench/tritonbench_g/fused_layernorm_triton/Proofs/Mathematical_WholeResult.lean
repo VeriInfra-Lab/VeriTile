@@ -55,28 +55,6 @@ theorem row_real_output (rest : Algebra ℝ) (s : State ℝ) (X W Bias : RegionN
   rw [hm, hr]
   rfl
 
-/-- Independent mathematical face of the same complete program. Storage casts
-are interpreted ideally here; this does not assert floating-point equality. -/
-theorem whole_real_grid (rest : Algebra ℝ) (s : State ℝ) (X W Bias Y Mean Rstd : RegionName)
-    (S D B : Nat) (tree : ReductionTree B) (hD : 0 < D) (hB : 0 < B) (htree : tree.Complete)
-    (sep : Separation X W Bias Y Mean Rstd) :
-    ∃ final, runRows (withEquality (ideal rest) realEqual) (rowKernel X W Bias Y Mean Rstd S D B tree) (List.range S) s = some final ∧
-      (∀ row, row < S → final.mem Mean row = .mk .real (logicalMean s X D row)) ∧
-      (∀ row, row < S → final.mem Rstd row = .mk .real (logicalInverse s X D row)) ∧
-      (∀ row, row < S → ∀ col, col < D → final.mem Y (col + D * row) = .mk .bf16 (logicalOutput s X W Bias D row col)) ∧
-      (∀ q off, (∀ row, row < S → rowMiss Y Mean Rstd D row q off) → final.mem q off = s.mem q off) := by
-  obtain ⟨t, ht, he⟩ := whole_grid (ideal rest) realEqual s X W Bias Y Mean Rstd S D B tree hB sep (List.range S)
-  refine ⟨t, ht, ?_, ?_, ?_, ?_⟩
-  · intro row hr
-    simpa only [(row_real_mean_m2 rest s X D B row hD hB tree htree).1] using he.mean row (List.mem_range.mpr hr)
-  · intro row hr
-    simpa only [row_real_inverse rest s X D B row hD hB tree htree] using he.rstd row (List.mem_range.mpr hr)
-  · intro row hr col hc
-    simpa only [row_real_output rest s X W Bias D B row col hD hB tree htree] using he.output row (List.mem_range.mpr hr) col hc
-  · intro q off hmiss
-    exact he.frame q off (fun row hr => hmiss row (List.mem_range.mp hr))
-
 #axiomsClean row_real_output
-#axiomsClean whole_real_grid
 end
 end VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole

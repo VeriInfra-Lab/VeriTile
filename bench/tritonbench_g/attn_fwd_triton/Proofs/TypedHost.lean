@@ -145,41 +145,6 @@ theorem native_certificate {α : Type} [Inhabited α] {request : Request α} {a 
     native_key_scale_helper ret.p a ret.base ret.views ret.alloc ret.allocated,
     control_certificate ret.p (blockD ret.p.headDim)⟩
 
-/-- Complete successful public return, including ordinary setup order, actual
-source grids, initial logical-input reference, native pointers, and caller frame. -/
-theorem successful_return {α : Type} [Inhabited α] (R : FPEquivProofs.Rules)
-    (A : Algebra α) (D : FP.Guarded.Domain α) (hM : FP.Guarded.Models R.assumptions A D)
-    (request : Request α) (a : Layout) (caller : Physical α a.toLayout)
-    (ret : Prepared request a caller) (template : State α) (ok : Call → Bool)
-    (hbefore : calls ok beforeEmpty=.ok ()) (hscales : calls ok nonemptyChecks=.ok ())
-    (hcompile : ok .compileAndLaunch=Bool.true)
-    (hne : ret.p.batches*ret.p.heads*ret.p.context*ret.p.headDim≠0)
-    (hlaunch : NativeLaunch.CudaLaunchable (launchShape ret.p) (blockD ret.p.headDim))
-    (support : DotSupport A (blockD ret.p.headDim))
-    (hd : ∀ idx : ProgramIndex ret.p, ∀ site∈(program ret.p (blockD ret.p.headDim) Bool.false).domain,
-      site.Holds A D (atProgram ret.p (pull a.toLayout ret.initial template) idx)) :
-    setup ret ok=.launch ret.returnedOutput rfl hne hlaunch ∧ NativeCertificate ret ∧
-    (ret.p.context≤274877906816 ∧ ret.p.batches*ret.p.heads≤65535 ∧ blockD ret.p.headDim≤1048576) ∧
-    ∃ final, ∃ physical : Physical α a.toLayout,
-      Nonempty (GridRun A ret.p (blockD ret.p.headDim) Bool.false (pull a.toLayout ret.initial template) final) ∧
-      Nonempty (GridRun A ret.p (blockD ret.p.headDim) Bool.true (pull a.toLayout ret.initial template) final) ∧
-      pull a.toLayout physical final=final ∧
-      (∀ c : Coordinate ret.p, physical (outputCell a ret.p ret.base ret.views c)=
-        reference A ret.p (blockD ret.p.headDim) support (pull a.toLayout ret.initial template) c) ∧
-      (∀ cell : Fin a.capacity, ¬ret.preparationWrites cell →
-        (∀ k, Window ret.p k.1 k.2 → a.address k≠cell.val) → physical cell=caller cell) ∧
-      (∀ cell : Fin a.capacity, ret.original.owned cell → physical cell=caller cell) := by
-  refine ⟨by simp [setup,hbefore,hscales,hcompile,hne,hlaunch],native_certificate ret,
-    ⟨NativeLaunch.context _ _ hlaunch,hlaunch.gridY,hlaunch.arange⟩,?_⟩
-  obtain ⟨final,physical,ho,hr,hpull,hread,hframe⟩ := physical_grid_equivalence R A D hM ret.p
-    (blockD ret.p.headDim) support a ret.base ret.views ret.initial template (blockD_covers _)
-    ret.nonoverlap ret.fresh hd
-  refine ⟨final,physical,ho,hr,hpull,hread,fun cell hp hw =>
-    (hframe cell hw).trans (ret.preparationFrame cell hp),?_⟩
-  intro cell hc
-  exact (hframe cell (ret.outputFresh cell hc)).trans
-    (ret.preparationFrame cell (ret.preparationFresh cell hc))
-
 /-- Preparation's actual source readback equals the caller's initial logical
 view coordinates, including lazy sign and packed scale order. -/
 theorem initial_coordinates {α : Type} [Inhabited α] {request : Request α} {a : Layout}

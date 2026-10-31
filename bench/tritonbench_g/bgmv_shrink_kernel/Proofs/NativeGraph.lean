@@ -137,7 +137,7 @@ theorem compiled_expression (binding : CompilerBinding plans S) (I : Instruction
 
 #axiomsClean atomic_is_distinct
 #axiomsClean compiled_expression
-#specNonCircular eval avoiding [VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPValues.target,FP.Structural.exec,VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Kernels.source]
+#specNonCircular eval avoiding [VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPValues.target,FP.Structural.exec]
 #auditModuleAxioms
 end
 end VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.NativeGraph

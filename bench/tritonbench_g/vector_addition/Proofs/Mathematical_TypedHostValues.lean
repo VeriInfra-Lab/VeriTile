@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_TypedHostWrapper
 
 namespace VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost
@@ -81,8 +82,7 @@ theorem wide_output_domain_inventory :
     (routes.filter wideIntegerOutput).length = 9 ∧
     (routes.filter wideFloatingOutput).length = 20 := by decide +kernel
 
-#specNonCircular definedExpected avoiding [execute, IntegerSource.runGrid, TypedFloat.runGrid,
-  MixedFP32.runGrid, MixedSmall.runGrid, FP64Memory.runGrid]
+#specNonCircular definedExpected avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 #axiomsClean expected_policy_independent
 #axiomsClean integer_expected_words
 #axiomsClean wide_output_domain_inventory

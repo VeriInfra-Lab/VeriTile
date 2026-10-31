@@ -42,7 +42,10 @@ def epilogueExecution (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word 
     {t : State Word // run (backend rest cfg u) (epilogue p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [epilogue, original, typedScaled, ComputeKernel.surfaceBody,
+  simp [epilogue, original, typedScaled, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     FP.Structural.bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,

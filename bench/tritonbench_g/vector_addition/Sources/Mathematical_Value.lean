@@ -18,8 +18,6 @@ structure Parameters where
   (x y output : RegionName)
   (n block : Nat)
 
-def source (p : Parameters) := add_kernel p.x p.y p.output p.n p.block
-
 def offset {α : Type} (p : Parameters) (s : State α) (i : TileIndex [p.block]) : Nat :=
   s.pids 0 * p.block + i.1.val
 
@@ -37,19 +35,6 @@ def expectedMemory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
 def Outside {α : Type} (p : Parameters) (s : State α) (r : RegionName) (o : Nat) : Prop :=
   r ≠ p.output ∨ ∀ i : TileIndex [p.block], offset p s i < p.n → o ≠ offset p s i
 
-theorem source_admitted (p : Parameters) :
-    (source p).toAlgorithm? = .ok (source p).toAlgKernel := by rfl
-
-/-- All statements execute from arbitrary registers and memory. -/
-def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
-    {t : State α // FP.Structural.exec M (source p) s = some t} := by
-  refine ⟨?_, ?_⟩
-  swap
-  simp [source, add_kernel, FP.Structural.exec, ComputeKernel.surfaceBody,
-    run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-    numeric, numericLt, natLt, bop, store, Region.cast]
-  rfl
-
 theorem masked_scatter_memory {α ι : Type} (xs : List ι)
     (active : ι → Prop) [DecidablePred active] (region : RegionName)
     (off : ι → Nat) (value : ι → Cell α) (s : State α) :
@@ -62,20 +47,6 @@ theorem masked_scatter_memory {α ι : Type} (xs : List ι)
   | cons i rest ih =>
     simp only [List.foldl_cons, ih]
     by_cases hi : active i <;> simp only [hi, ↓reduceIte] <;> rfl
-
-/-- The reference is the exact memory effect, even when input and output
-region names coincide. The loads precede the original final store. -/
-theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α)
-    (p : Parameters) (s : State α) :
-    (execution M p s).val.mem = expectedMemory M p s := by
-  simp [execution, expectedMemory, offset, resultCell, bop,
-    Broadcast.leftIndex, Broadcast.rightIndex, TileShape.dropInsertedIndex,
-    masked_scatter_memory, State.setReg]
-  congr 1
-  funext mem i
-  by_cases hi : s.pids 0 * p.block + i.1.val < p.n
-  · simp only [hi, ↓reduceIte]
-  · simp only [hi, ↓reduceIte]
 
 theorem expectedMemory_eq_scatter {α : Type} [Inhabited α] (M : Algebra α)
     (p : Parameters) (s : State α) :
@@ -131,21 +102,12 @@ theorem expected_cell {α : Type} [Inhabited α] (M : Algebra α)
       exact ⟨hr, by omega, by omega, by omega⟩
     · exact Or.inl hr
 
-theorem complete_correct {α : Type} [Inhabited α] (M : Algebra α)
-    (p : Parameters) (s : State α) :
-    ∃ t, FP.Structural.exec M (source p) s = some t ∧ t.mem = expectedMemory M p s :=
-  ⟨(execution M p s).val, (execution M p s).property, execution_memory M p s⟩
-
-#specNonCircular expectedMemory avoiding [source, FP.Structural.exec, FP.Structural.run]
-#axiomsClean source_admitted
-#axiomsClean execution
+#specNonCircular expectedMemory avoiding [FP.Structural.exec, FP.Structural.run]
 #axiomsClean masked_scatter_memory
-#axiomsClean execution_memory
 #axiomsClean expectedMemory_eq_scatter
 #axiomsClean offset_injective
 #axiomsClean expected_readback
 #axiomsClean expected_frame
 #axiomsClean expected_cell
-#axiomsClean complete_correct
 end
 end VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs

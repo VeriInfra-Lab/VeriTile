@@ -10,10 +10,16 @@ set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 abbrev Carry (p : Parameters) (α : Type) := Matrix α p.BK p.BV
 
+@[simp] theorem signed_head_mod (head H : Nat) :
+    (head : Int)-(if (head : Int)<0 then -((H : Int)*(-(head : Int)/(H : Int)))
+      else (H : Int)*((head : Int)/(H : Int)))=((head%H : Nat) : Int) := by
+  simp only [not_lt.mpr (Int.natCast_nonneg head),↓reduceIte]
+  rw [←Int.emod_def,←Int.natCast_emod]
+
 def logRate (M : Algebra α) (p : Parameters) (pid : PID) : α :=
   M.unary (some .fp32) .log2 (M.binary (some .fp32) .real .sub (scalar M 1)
     (M.unary (some .fp32) .exp2 (M.binary (some .fp32) .real .sub (scalar M (-5))
-      (mul M (M.fromNat (some .fp32) (pid.z % p.H)) (scalar M 1)))))
+      (mul M (M.fromInt (some .fp32) ((pid.z % p.H : Nat) : Int)) (scalar M 1)))))
 def weight (M : Algebra α) (p : Parameters) (pid : PID) (i : Nat) : α :=
   M.unary (some .fp32) .exp2 (mul M (M.fromInt (some .fp32) ((i:Int)+1)) (logRate M p pid))
 def initialValue (M : Algebra α) (p : Parameters) (pid : PID) (input : Memory α) (terminal : Bool) : Carry p α :=
@@ -28,7 +34,7 @@ structure Ready (M : Algebra α) (p : Parameters) (pid : PID) (input : Memory α
   inputs : InputEq s.mem input
   ik : s.regs .nat [] "i_k"=some (fun _=>pid.x)
   iv : s.regs .nat [] "i_v"=some (fun _=>pid.y)
-  bh : s.regs .nat [] "i_bh"=some (fun _=>pid.z)
+  bh : s.regs .int [] "i_bh"=some (fun _=>(pid.z:Int))
   rate : s.regs .real [] "b_b"=some (fun _=>logRate M p pid)
   lane : s.regs .int [p.BT] "o_i"=some (fun i=>(i.1.val:Int))
   weights : s.regs .real [p.BT] "d_i"=some (fun i=>weight M p pid i.1.val)
@@ -58,12 +64,12 @@ theorem entry_ready (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (sca
     · cases terminal <;> simp [entry]
     · cases terminal <;> simp [entry]
     · cases terminal <;> simp [entry]
-    · cases terminal <;> simp [entry,logRate,scalar,VeriTile.Bench.Repairs.ChunkLinearAttn.mul,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,integralMod,Function.comp_def,one]
+    · cases terminal <;> simp [entry,logRate,scalar,VeriTile.Bench.Repairs.ChunkLinearAttn.mul,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,integralMod,signed_head_mod,Function.comp_def,one]
     · cases terminal <;> simp [entry]
       all_goals
         funext i
         exact signed_lane i.1.val (lt_of_lt_of_le i.1.isLt hBT)
-    · cases terminal <;> simp [entry,weight,logRate,scalar,VeriTile.Bench.Repairs.ChunkLinearAttn.mul,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,integralMod,Function.comp_def,one]
+    · cases terminal <;> simp [entry,weight,logRate,scalar,VeriTile.Bench.Repairs.ChunkLinearAttn.mul,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,integralMod,signed_head_mod,Function.comp_def,one]
       all_goals
         funext i
         rw [signed_lane i.1.val (lt_of_lt_of_le i.1.isLt hBT)]

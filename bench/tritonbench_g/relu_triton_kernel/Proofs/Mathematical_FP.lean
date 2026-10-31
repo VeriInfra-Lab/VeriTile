@@ -1,4 +1,5 @@
-import bench.tritonbench_g.relu_triton_kernel.Proofs.Mathematical_Kernels
+import VeriTile.Triton
+import VeriTile.Examples.Common
 import VeriTile.Triton.Float.Kernel
 
 namespace VeriTile.Bench.TritonBenchG.ReluTritonKernel.FPProofs
@@ -29,34 +30,6 @@ noncomputable def outputState {α : Type} [Inhabited α] (M : Algebra α)
            if cmp (M.literal none .real 0) v then v else M.literal none .real 0))
       else t) s
   else s
-
-theorem original_run {α : Type} [Inhabited α] (M : Algebra α)
-    (cmp : α → α → Bool) (hc : M.compareLe none .real = some cmp)
-    (x y : RegionName) (N B : Nat) (s : State α) :
-    ∃ t, FP.Structural.exec M (relu_kernel x y N B) s = some t ∧
-      t.mem = (outputState M cmp x y N B s).mem := by
-  by_cases hp : s.pids 0 = 0
-  all_goals simp [hp, relu_kernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
-    numeric, numericLe, numericLt, natLt, numericEq, FP.Structural.bop,
-    store, hc, outputState]
-  simp +contextual only [ite_true]
-  norm_num only
-  apply scatter_mem_congr _ (fun i : TileIndex [B] => i.1.val < N)
-  rfl
-
-theorem fused_run {α : Type} [Inhabited α] (M : Algebra α)
-    (cmp : α → α → Bool) (hc : M.compareLe none .real = some cmp)
-    (x y : RegionName) (N B : Nat) (s : State α) :
-    ∃ t, FP.Structural.exec M (relu_fused_kernel x y N B) s = some t ∧
-      t.mem = (outputState M cmp x y N B s).mem := by
-  by_cases hp : s.pids 0 = 0
-  all_goals simp [hp, relu_fused_kernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
-    numeric, numericLe, numericLt, natLt, numericEq, FP.Structural.bop,
-    store, hc, outputState]
-  simp +contextual only [ite_true]
-  norm_num only
-  apply scatter_mem_congr _ (fun i : TileIndex [B] => i.1.val < N)
-  rfl
 
 /-- Exact gated/tail frame, including inactive cells inside the output window. -/
 theorem outputState_frame {α : Type} [Inhabited α] (M : Algebra α)

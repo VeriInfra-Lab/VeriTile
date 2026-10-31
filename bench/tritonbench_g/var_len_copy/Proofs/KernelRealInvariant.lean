@@ -22,8 +22,8 @@ structure Inv (initial : BlockState) (src dst : RegionName)
   lengthReg : s.regs .int [] "length" = some (Tile.scalar length)
   oldReg : s.regs .int [] "old_start" = some (Tile.scalar (oldStart : Int))
   newReg : s.regs .int [] "new_start" = some (Tile.scalar (newStart : Int))
-  oldOffset : s.regs .nat [B] "old_offset" = some (Tile.vec fun i ↦ i.val)
-  newOffset : s.regs .nat [B] "new_offset" = some (Tile.vec fun i ↦ i.val)
+  oldOffset : s.regs .int [B] "old_offset" = some (Tile.vec fun i ↦ (i.val : Int))
+  newOffset : s.regs .int [B] "new_offset" = some (Tile.vec fun i ↦ (i.val : Int))
   values : ∀ t lane, t < c → lane < B → ((t * B + lane : Nat) : Int) < length →
     s.readMem dst (newStart + (t * B + lane)) = initial.readMem src (oldStart + (t * B + lane))
 

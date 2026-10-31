@@ -6,14 +6,9 @@ set_option maxHeartbeats 8000000
 set_option maxRecDepth 48000
 namespace Original
 abbrev Parameters := VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.Parameters
-abbrev source := VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.source
+
 abbrev kernel := VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.kernel
 end Original
-
-/-- The complete unchanged eleven-channel forward arithmetic is reused.
-Actual int64 pid/lane widening has its natural-index projection here; Native
-checks every fixed-width product, sum and active byte address separately. -/
-abbrev forwardSource := Original.source
 
 /-- Complete backward source: original operation order, 29 corrected decimal
 coefficient occurrences, three old-zero gradient loads and three stores.

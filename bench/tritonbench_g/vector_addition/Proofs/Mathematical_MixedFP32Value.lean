@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_MixedFP32Source
 
 namespace VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32
@@ -18,40 +19,6 @@ def expectedMemory (cfg : FP.Config) (us : Nat → Word → Int) (uu : Nat → W
       if r = p.output ∧ o = offset p s i then
         resultCell cfg us uu integerFirst d p s.mem (offset p s i) else mem r o
     else mem) s.mem
-
-/-- Actual totalized source execution, including arbitrary unspecified masked
-load values and undefined conversion policies. Success is constructed. -/
-def execution (rest : Algebra Word) (cfg : FP.Config)
-    (us : Nat → Word → Int) (uu : Nat → Word → Nat)
-    (integerFirst : Bool) (d : Storage) (p : Parameters) (s : State Word) :
-    {t : State Word // FP.Structural.exec (backend rest cfg us uu)
-      (source integerFirst d p) s = some t} := by
-  cases integerFirst <;> cases d
-  all_goals
-    refine ⟨?_, ?_⟩
-    swap
-    simp [source, FP.Structural.exec, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, eval_integerToFloat,
-      IntegerSource.eval_loadOp, storeInteger,
-      FP.Structural.evalOp, Option.bind, numeric, numericLt, natLt, bop,
-      store, Region.cast, backend_add, backend_signed, backend_unsigned, ofFloat, toFloat]
-    rfl
-
-theorem execution_memory (rest : Algebra Word) (cfg : FP.Config)
-    (us : Nat → Word → Int) (uu : Nat → Word → Nat)
-    (integerFirst : Bool) (d : Storage) (p : Parameters) (s : State Word) :
-    (execution rest cfg us uu integerFirst d p s).val.mem =
-      expectedMemory cfg us uu integerFirst d p s := by
-  cases integerFirst <;> cases d
-  all_goals simp [execution, expectedMemory, offset, resultCell, sumValue,
-    convertedCell, IntegerSource.loaded, IntegerSource.loadValue,
-    bop, Broadcast.leftIndex, Broadcast.rightIndex,
-    ValueProofs.masked_scatter_memory, State.setReg]
-  all_goals congr 1
-  all_goals funext mem i
-  all_goals by_cases hi : s.pids 0 * p.block + i.1.val < p.n
-  all_goals simp only [hi, ↓reduceIte]
-  all_goals rfl
 
 theorem expectedMemory_eq_scatter (cfg : FP.Config) (us : Nat → Word → Int) (uu : Nat → Word → Nat)
     (integerFirst : Bool) (d : Storage) (p : Parameters) (s : State Word) :
@@ -102,15 +69,7 @@ theorem expected_cell (cfg : FP.Config) (us : Nat → Word → Int) (uu : Nat �
       exact ⟨hr, by omega, by omega, by omega⟩
     · exact Or.inl hr
 
-theorem complete_correct (rest : Algebra Word) (cfg : FP.Config) (us : Nat → Word → Int) (uu : Nat → Word → Nat)
-    (integerFirst : Bool) (d : Storage) (p : Parameters) (s : State Word) :
-    ∃ t, FP.Structural.exec (backend rest cfg us uu) (source integerFirst d p) s = some t ∧ t.mem = expectedMemory cfg us uu integerFirst d p s :=
-  ⟨(execution rest cfg us uu integerFirst d p s).val, (execution rest cfg us uu integerFirst d p s).property, execution_memory rest cfg us uu integerFirst d p s⟩
-
-#specNonCircular expectedMemory avoiding [source, FP.Structural.exec]
-#axiomsClean execution
-#axiomsClean execution_memory
+#specNonCircular expectedMemory avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 #axiomsClean expected_cell
-#axiomsClean complete_correct
 end
 end VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32

@@ -47,7 +47,7 @@ theorem bodyContext (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
       HasAcc c (update M D c initial f a).1 (update M D c initial f a).2 t := by
   dsimp only
   constructor
-  · constructor <;> simp [bodyExecution,ctx.memory,ctx.iv,ctx.it,ctx.bh,ctx.di,ctx.ds]
+  · constructor <;> simp [bodyExecution,ctx.memory,ctx.iv,ctx.it,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.di,ctx.ds]
   · simp [HasAcc,bodyExecution,update,queryGate,featureLoad,keyLoad,historyLoad,feature,row,column,zero,
       FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList]

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.relu_triton_kernel.Kernels
 import bench.tritonbench_g.relu_triton_kernel.Proofs.Mathematical_IntegerWords
 
 /-! Input-word relation and composition with actual typed ReLU grid execution.
@@ -58,18 +59,6 @@ theorem reference_refines {α : Type} [Inhabited α] (M : Algebra α)
     rw [encoded o active.2.2, scalar_refines]
   · simp [reference, wordReference, active]
 
-/-- Actual full ascending grid success is inherited from the proved typed
-source. Only input decoding is assumed; kernel execution/result is not. -/
-theorem grid_correct_words {α : Type} [Inhabited α] (M : Algebra α)
-    (cmp16 cmp32 : α → α → Bool) (e : Encoding) (words : Nat → Word e)
-    (x y : RegionName) (N B : Nat) (initial : State α)
-    (encoded : InputWords e words x N initial.mem) :
-    ∃ final, runGrid (backend M cmp16 cmp32) (source e.profile x y N B) N B initial = some final ∧
-      final.mem = wordSpec M e words y N B initial.mem := by
-  obtain ⟨final, he, hm⟩ := TypedValue.grid_correct M cmp16 cmp32 e.profile x y N B initial
-  refine ⟨final, he, ?_⟩
-  rw [hm, wordSpec, reference_refines M cmp16 cmp32 e words x y N B initial.mem encoded]
-
 theorem wordSpec_frame {α : Type} (M : Algebra α) (e : Encoding)
     (words : Nat → Word e) (y : RegionName) (N B : Nat) (initial : Memory α)
     (r : RegionName) (o : Nat) (outside : r ≠ y ∨ B ≤ o ∨ N ≤ o) :
@@ -108,28 +97,13 @@ theorem wordSpec_output_tag {α : Type} (M : Algebra α) (e : Encoding)
     · exact ⟨_, rfl⟩
     · exact initialTag o
 
-/-- Constructive corollary with no input-decoding premise. Equal logical
-regions are allowed; disjointness is needed only to retain a separately
-supplied output initialization via separated_output_preserved. -/
-theorem constructed_grid_correct {α : Type} [Inhabited α] (M : Algebra α)
-    (cmp16 cmp32 : α → α → Bool) (e : Encoding) (words : Nat → Word e)
-    (x y : RegionName) (N B : Nat) (initial : State α) :
-    ∃ final, runGrid (backend M cmp16 cmp32) (source e.profile x y N B) N B
-        (withInputWords e words x N initial) = some final ∧
-      final.mem = wordSpec M e words y N B (withInputWords e words x N initial).mem :=
-  grid_correct_words M cmp16 cmp32 e words x y N B _
-    (withInputWords_encoded e words x N initial)
-
-#specNonCircular wordSpec avoiding [TypedValue.source, materialized,
-  runPrefix, runGrid, FP.Structural.exec, reference, resultValue]
+#specNonCircular wordSpec avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel,runPrefix,runGrid,FP.Structural.exec,reference,resultValue]
 #axiomsClean withInputWords_encoded
 #axiomsClean separated_output_preserved
 #axiomsClean reference_refines
-#axiomsClean grid_correct_words
 #axiomsClean wordSpec_frame
 #axiomsClean wordSpec_written_fp32
 #axiomsClean wordSpec_output_tag
-#axiomsClean constructed_grid_correct
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

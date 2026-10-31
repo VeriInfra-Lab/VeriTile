@@ -48,7 +48,6 @@ def execution {α : Type} [Inhabited α] (rest : Algebra α)
   refine ⟨?_,?_⟩
   swap
   simp [kernel,
-    VeriTile.Bench.TritonBenchG.DestindexCopyKv2.TypedSource.kernel,
     ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,evalOffsets,evalDeltas,Option.bind,copyBackend,rawBackend,natLt,
     ComputeDType.eraseDType,numeric,bop,ofFloat,toFloat,Region.cast,

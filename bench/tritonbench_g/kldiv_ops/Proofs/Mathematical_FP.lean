@@ -47,38 +47,6 @@ theorem backward_prefix_run {α : Type} [Inhabited α] (M : Algebra α) (s : Sta
   apply congrArg (fun (result : Option (State α)) => result.bind (run (engine M) after))
   simp only [backwardPrefix, run, rowPointer_step]
 
-theorem forward_default_decomposition (pred target output : Storage) (v : Bool)
-    (Y T O : RegionName) (sy st so N B : Nat) (eps : ℝ) (reduction : Nat) :
-    (forwardDefault pred target output v Y T O sy st so N B eps reduction).surfaceBody =
-      forwardPrefix v Y T O sy st so ++
-        (forwardDefault pred target output Bool.false Y T O sy st so N B eps reduction).surfaceBody.drop 4 := by
-  cases pred <;> cases target <;> cases output <;> cases v <;> rfl
-
-/-- Complete state and failure equality, for every numerical algebra and initial state. -/
-theorem forward_default_equivalence {α : Type} [Inhabited α] (M : Algebra α)
-    (pred target output : Storage) (Y T O : RegionName) (sy st so N B : Nat) (eps : ℝ) (reduction : Nat) (s : State α) :
-    run (engine M) (forwardDefault pred target output Bool.false Y T O sy st so N B eps reduction).surfaceBody s =
-      run (engine M) (forwardDefault pred target output Bool.true Y T O sy st so N B eps reduction).surfaceBody s := by
-  rw [forward_default_decomposition pred target output Bool.false,
-    forward_default_decomposition pred target output Bool.true]
-  exact forward_prefix_run M s Y T O sy st so _
-
-theorem forward_log_decomposition (pred : Storage) (target : MathStorage) (output : Storage) (v : Bool)
-    (Y T O : RegionName) (sy st so N B : Nat) (eps : ℝ) (reduction : Nat) :
-    (forwardLog pred target output v Y T O sy st so N B eps reduction).surfaceBody =
-      forwardPrefix v Y T O sy st so ++
-        (forwardLog pred target output Bool.false Y T O sy st so N B eps reduction).surfaceBody.drop 4 := by
-  cases pred <;> cases target <;> cases output <;> cases v <;> rfl
-
-/-- Complete state and failure equality, for every numerical algebra and initial state. -/
-theorem forward_log_equivalence {α : Type} [Inhabited α] (M : Algebra α)
-    (pred : Storage) (target : MathStorage) (output : Storage) (Y T O : RegionName) (sy st so N B : Nat) (eps : ℝ) (reduction : Nat) (s : State α) :
-    run (engine M) (forwardLog pred target output Bool.false Y T O sy st so N B eps reduction).surfaceBody s =
-      run (engine M) (forwardLog pred target output Bool.true Y T O sy st so N B eps reduction).surfaceBody s := by
-  rw [forward_log_decomposition pred target output Bool.false,
-    forward_log_decomposition pred target output Bool.true]
-  exact forward_prefix_run M s Y T O sy st so _
-
 theorem backward_default_decomposition (target output : Storage) (v : Bool)
     (T O : RegionName) (st so N B : Nat) :
     (backwardDefault target output v T O st so N B).surfaceBody =

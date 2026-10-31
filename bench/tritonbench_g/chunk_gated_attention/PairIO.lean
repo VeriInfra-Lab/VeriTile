@@ -21,8 +21,5 @@ def prefixIndexFirst (c : HostFP.Cumulative) (base : Nat) : Program :=
 
 def indexAssumptions : Spec.Assumptions FP.GuardedFragment := []
 
-theorem inner_source (c : HostFP.Inner) (base : Nat) :
-    (innerOriginal c base).kernel=NativeGrid.innerSource c base := rfl
-
 end
 end VeriTile.Bench.Repairs.ChunkGatedAttention.KernelOnly.SourcePair

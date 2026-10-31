@@ -2,8 +2,8 @@ import bench.tritonbench_g.chunk_gla_fwd.SourceCompatibility
 
 /-! Complete typed DSL bodies used by the repaired five-kernel task.
 The selected FP32 originals and existing commuting candidates have complete
-ordinary quotations. Historical mixed-storage branches retain compatibility
-macros in SourceCompatibility.lean; their public source interfaces are unchanged.
+ordinary quotations. Other storage profiles of this same repair use shared syntax
+in SourceCompatibility.lean; their public source interfaces are unchanged.
 All 14 block loads have explicit zero padding. Five value-identity compiler
 hint expressions remain in this DSL representation; the repaired Python
 removes those invalid alignment hints. checks/source_binding.py compares

@@ -126,16 +126,6 @@ theorem grid_eq (M : Algebra α) (c : Shape) (d : Typed.Dots M c) (h : Accepted 
   | nil => rfl
   | cons q rest ih => simp only [grid,NativeComplete.grid,written_eq,ih]
 
-/-- Actual ABI extension and arange lane decoding occur in the native
-recurrence before every masked input/store. They compose to the complete
-executed source and independent initial-memory result. -/
-theorem whole_grid (M : Algebra α) (c : Shape) (d : Typed.Dots M c) (h : Accepted c)
-    (scale : ℝ) (s : State α) :
-    ∃ t, FPGrid.run M c scale (FPGrid.programs c) s=some t ∧
-      t.mem=(grid M c d h scale (FPGrid.programs c) s).mem ∧ FPGrid.Result M c scale d s t := by
-  simpa only [grid_eq] using NativeComplete.whole_grid M c d h scale s
-
-#axiomsClean whole_grid
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

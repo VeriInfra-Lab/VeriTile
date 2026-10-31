@@ -45,6 +45,10 @@ theorem logRate_eq (c : Shape) (pid : PID) :
   simp [KernelBackward.logRate,algebra,VeriTile.Bench.Repairs.ChunkDeltaFwd.Real.algebra,
     parameters,VeriTile.Bench.Repairs.ChunkLinearAttn.scalar,VeriTile.Bench.Repairs.ChunkLinearAttn.mul,
     MathTarget.headRate]
+  have count : (((pid.z:Int)%(c.H:Int):Int):ℝ) = ((pid.z%c.H:Nat):ℝ) := by
+    change (((pid.z%c.H:Nat):Int):ℝ) = ((pid.z%c.H:Nat):ℝ)
+    norm_cast
+  rw [count]
 
 theorem weight_eq (c : Shape) (pid : PID) (i : Nat) :
     KernelBackward.weight algebra (parameters c) pid i=decay realOps c pid.z ((i:Int)+1) := by

@@ -25,7 +25,7 @@ def kernel (p : Layout) (r : Regions) (storage : Storage) (swapped : Bool) (scal
     p.outRow p.outHead p.outDim p.requestRow p.requestToken p.kvGroup p.headDim p.BM p.D p.BN
 
 def mathematical (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) : ComputeKernel :=
-  (if swapped then contextBloomSource%[tl.float32,scaleFirst] else contextBloomSource%[tl.float32,original])
+  (if swapped then VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32 else VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel)
     r.query r.key r.value scale r.start r.sequence r.out r.tokens r.request r.prompt
     p.qRow p.qHead p.qDim p.kRow p.kHead p.kDim p.vRow p.vHead p.vDim
     p.outRow p.outHead p.outDim p.requestRow p.requestToken p.kvGroup p.headDim p.BM p.D p.BN
@@ -38,7 +38,7 @@ theorem storage_erasure (p : Layout) (r : Regions) (storage : Storage) (swapped 
     (kernel p r storage swapped scale).eraseDType.toAlgKernel.body =
       (mathematical p r swapped scale).eraseDType.toAlgKernel.body := by
   cases swapped <;> cases storage
-  all_goals simp only [kernel,mathematical,VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.TritonBenchG.ContextAttnBloom.scaleFirst,
+  all_goals simp only [kernel,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.TritonBenchG.ContextAttnBloom.scaleFirst,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageScaleFirst,
     Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

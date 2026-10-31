@@ -21,10 +21,7 @@ theorem row_complete (s : BlockState) (X Y W : RegionName) (N B : Nat) (eps : �
   obtain ⟨t,he,hv,hf⟩ := VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.General.real_execution
     s X Y W N N B eps hB hXY hWY
   refine ⟨t,?_,hv,hf⟩
-  change Triton.exec (VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.typedKernel
-    .fp32 .fp32 .fp32 Bool.false X Y W N N B eps).eraseDType.toAlgKernel s=some t
-  rw [VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.typed_projection]
-  simpa [VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.mathKernel,Triton.exec] using he
+  exact he
 
 def setup (rows row : Nat) (s : BlockState) : BlockState :=
   {s with regs := fun _ _ _ => none

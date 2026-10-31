@@ -111,27 +111,6 @@ theorem original_correct (f : Flags) (r : Regions) (stride : Strides)
   · exact Safety.source_flatten_ok f r stride M N eps p block hBlock
   · exact hu
 
-theorem candidate_correct (f : Flags) (r : Regions) (stride : Strides)
-    (M N : Nat) (eps p : ℝ) (block : Nat) (hBlock : Random.ArangeSizeDomain block)
-    (hN : N ≤ block) (hsep : Domain.ReadWriteSeparated f r)
-    (hg : WholeGrid.Geometry r stride N) (A : FlatAlloc) (hd : A.Disjoint)
-    (hc : ∀ q, q ∉ A.regions → A.extent q = 0)
-    (hb : FlatDomain.Extents f r stride M N A.extent)
-    (initial : BlockState) (hu : initial.undef = (fun _ _ => 0)) :
-    ∃ final, Nonempty (Kernel.GridLaunchedOrdinary
-        (A.flattenKernel (CandidateExecution.source f r stride M N eps p block hBlock))
-        (WholeGrid.grid M) (A.flattenState initial) (A.flattenState final)) ∧
-      WholeGrid.Post f r stride M N eps p initial final ∧
-      HostReturn.observe f r stride M N final = HostReturn.oracle f r stride M N eps p initial := by
-  obtain ⟨final, ⟨hl⟩, hp⟩ := WholeGrid.candidate_correct f r stride M N eps p block hBlock hN hsep hg initial
-  refine ⟨final, ?_, hp, HostReturn.observe_eq_oracle f r stride M N eps p initial final hg hsep hp⟩
-  apply lift A hd hc _ _ initial final hl
-  · intro idx
-    exact Safety.candidate_safe f r stride M N eps p block hBlock _ hN hsep A.extent
-      (FlatDomain.Extents.rowBounds f r stride M N _ A.extent hb (WholeGrid.row_lt idx))
-  · exact Safety.candidate_flatten_ok f r stride M N eps p block hBlock
-  · exact hu
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

@@ -57,7 +57,7 @@ theorem body_run_reads (a : Operations α) (fp8 : Bool) (p : Parameters)
   all_goals simp only [Bool.false_eq_true, Bool.true_eq_false, false_or, true_or] at hr hw
   all_goals
     simp [-List.all_cons,-List.all_nil,-List.all_map,-List.all_flatMap,-List.all_eq_true,
-      loop,kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,arguments,
+      loop,kernel,TypedSource.kernel,TypedSource.source,arguments,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
       integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,
