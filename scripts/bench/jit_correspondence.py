@@ -34,7 +34,7 @@ def quotation(text: str, definition: str, *, raw_python: bool = False) -> tuple[
     if len(matches) != 1:
         raise ValueError(f"ambiguous Lean definition: {definition}")
     start = matches[0]
-    next_def = re.search(r"\n(?:(?:noncomputable|private|protected)\s+)*(?:def|abbrev|theorem|specification|inductive|structure|end)\b", mask[start.end():])
+    next_def = re.search(r"\n(?:(?:noncomputable|private|protected)\s+)*(?:def|abbrev|theorem|specification|inductive|structure|end|set_option)\b", mask[start.end():])
     end = start.end() + next_def.start() if next_def else len(text)
     selected, code = text[start.start():end], mask[start.start():end]
     begin = re.search(r"\btriton\b", code)
@@ -187,11 +187,16 @@ def call_signature(text: str, name: str) -> dict:
         raise ValueError("missing declarative call signature")
     match = matches[0]
     dtype_parameters = []
+    parameter_types = {}
     for group in re.findall(r"\(([^()]*)\)", match[1]):
-        parameter = re.fullmatch(r"\s*([A-Za-z_]\w*(?:\s+[A-Za-z_]\w*)*)\s*:\s*FloatDType\s*", group)
+        parameter = re.fullmatch(r"\s*([A-Za-z_]\w*(?:\s+[A-Za-z_]\w*)*)\s*:\s*([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)\s*", group)
         if not parameter:
             raise ValueError("unsupported call signature parameter")
-        dtype_parameters.extend(parameter[1].split())
+        if parameter[2] in {"Nat", "Int", "Real", "String", "Type", "Prop"}:
+            raise ValueError("call signature dtype parameters require finite enum types")
+        for name in parameter[1].split():
+            parameter_types[name] = parameter[2]
+            dtype_parameters.append(name)
     if len(dtype_parameters) != len(set(dtype_parameters)):
         raise ValueError("duplicate call signature dtype parameter")
     fields = {}
@@ -202,8 +207,53 @@ def call_signature(text: str, name: str) -> dict:
                 fields[field] = []
                 continue
             raise ValueError(f"missing call signature field: {field}")
-        source = re.sub(r"\.(fp16|bf16|fp32|fp64|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer)\b", r'"\1"', value[1])
-        fields[field] = json.loads(json.dumps(ast.literal_eval(source)))
+        source = value[1]
+        if field == "pointers":
+            source_types = {"fp16", "bf16", "fp32", "fp64", "f8e4", "f8e5", "i8", "i16", "i32", "i64",
+                            "u8", "u16", "u32", "u64", "boolean"}
+            selections = {}
+            marker = "__veritile_profile_selection_"
+            while marker in source:
+                marker += "_"
+            def finite_selection(match):
+                parameter, branches = match[1], match[2]
+                if parameter not in parameter_types:
+                    raise ValueError("finite pointer selection uses an undeclared dtype parameter")
+                cases = re.findall(r"\|\s*\.([A-Za-z_]\w*)\s*=>\s*\.([A-Za-z_]\w*)", branches)
+                if (not cases or len({constructor for constructor, _ in cases}) != len(cases)
+                        or any(dtype not in source_types for _, dtype in cases)):
+                    raise ValueError("invalid finite pointer dtype selection")
+                name = marker + str(len(selections))
+                selections[name] = {"on": parameter, "cases": [list(pair) for pair in cases]}
+                return name
+            source = re.sub(r"\bmatch\s+([A-Za-z_]\w*)\s+with"
+                            r"((?:\s*\|\s*\.[A-Za-z_]\w*\s*=>\s*\.[A-Za-z_]\w*)+)",
+                            finite_selection, source)
+            source = re.sub(r"\.(fp16|bf16|fp32|fp64|f8e4|f8e5|i8|i16|i32|i64|u8|u16|u32|u64|boolean)\b", r'"\1"', source)
+            tree = ast.parse(source, mode="eval").body
+            if not isinstance(tree, ast.List):
+                raise ValueError("unsupported pointer signature")
+            pairs = []
+            for pair in tree.elts:
+                if not (isinstance(pair, ast.Tuple) and len(pair.elts) == 2
+                        and isinstance(pair.elts[0], ast.Constant) and type(pair.elts[0].value) is str):
+                    raise ValueError("pointer signature requires named dtype pairs")
+                dtype = pair.elts[1]
+                if isinstance(dtype, ast.Name) and dtype.id in selections:
+                    selected = selections[dtype.id]
+                elif isinstance(dtype, ast.Name):
+                    if parameter_types.get(dtype.id) != "SourceDType":
+                        raise ValueError("pointer dtypes must use declared SourceDType parameters")
+                    selected = dtype.id
+                elif isinstance(dtype, ast.Constant) and dtype.value in source_types:
+                    selected = dtype.value
+                else:
+                    raise ValueError("unsupported source pointer dtype")
+                pairs.append([pair.elts[0].value, selected])
+            fields[field] = pairs
+        else:
+            source = re.sub(r"\.(fp16|bf16|fp32|fp64|f8e4|f8e5|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer)\b", r'"\1"', source)
+            fields[field] = json.loads(json.dumps(ast.literal_eval(source)))
     for field in ("readPorts", "writePorts", "sourceConstants", "unaryImports"):
         value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[2])
         if value:
@@ -213,7 +263,8 @@ def call_signature(text: str, name: str) -> dict:
                     not all(isinstance(item, str) for item in pair) for pair in fields[field]):
                 raise ValueError("module bindings require pairs of source names and literal strings")
     floating = re.search(r"\bfloatingPointers\s*:=\s*(\[[^\]]*\])", match[2])
-    if dtype_parameters or floating:
+    floating_parameters = [name for name in dtype_parameters if parameter_types[name] == "FloatDType"]
+    if floating_parameters or floating:
         if not floating:
             raise ValueError("missing polymorphic pointer signature")
         tree = ast.parse(floating[1], mode="eval").body
@@ -223,11 +274,14 @@ def call_signature(text: str, name: str) -> dict:
         for pair in tree.elts:
             if not (isinstance(pair, ast.Tuple) and len(pair.elts) == 2
                     and isinstance(pair.elts[0], ast.Constant) and type(pair.elts[0].value) is str
-                    and isinstance(pair.elts[1], ast.Name) and pair.elts[1].id in dtype_parameters):
+                    and isinstance(pair.elts[1], ast.Name) and pair.elts[1].id in floating_parameters):
                 raise ValueError("polymorphic pointers must use declared dtype parameters")
             pairs.append([pair.elts[0].value, pair.elts[1].id])
         fields["floatingPointers"] = pairs
+    if dtype_parameters:
         fields["dtype_parameters"] = dtype_parameters
+        if any(parameter_types[name] != "FloatDType" for name in dtype_parameters):
+            fields["dtype_parameter_types"] = parameter_types
     names = [n for n, _ in fields["pointers"] + fields.get("floatingPointers", []) + fields["scalars"]] + fields["constexpr"]
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")

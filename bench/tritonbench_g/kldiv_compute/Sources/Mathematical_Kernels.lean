@@ -75,10 +75,7 @@ end VeriTile.Bench.TritonBenchG.KldivCompute
 namespace VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource
 open Lean VeriTile.Triton
 
-/-- Floating storage labels; native support and discrete conversions are separate obligations. -/
-inductive Storage where
-  | fp32 | fp16 | bf16 | fp64 | f8e4 | f8e5
-  deriving DecidableEq, Repr
+
 
 /-- Pinned Triton rejects both-fp8 input pairs before the logarithm: division
 leaves fp8 or fp16, while `tl.log` accepts only fp32/fp64. This classifier does

@@ -3,24 +3,108 @@
     "python": "bench/tritonbench_g/kldiv_compute/kldiv_compute.py",
     "lean": "bench/tritonbench_g/kldiv_compute/Kernels.lean",
     "python_function": "kldivergence_kernel",
-    "lean_definition": "kernel",
+    "lean_definition": "originalFor",
     "signature_definition": "callSignature",
     "expected_call_bindings": {
-      "n_elements": "p.n"
+      "n_elements": "N"
     },
     "expected_signature": {
       "pointers": [
         [
           "x_ptr",
-          "fp32"
+          {
+            "on": "xType",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
         ],
         [
           "y_ptr",
-          "fp32"
+          {
+            "on": "yType",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
         ],
         [
           "output_ptr",
-          "fp32"
+          {
+            "on": "outType",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
         ]
       ],
       "scalars": [
@@ -31,31 +115,125 @@
       ],
       "constexpr": [
         "BLOCK_SIZE"
-      ]
+      ],
+      "dtype_parameters": [
+        "xType",
+        "yType",
+        "outType"
+      ],
+      "dtype_parameter_types": {
+        "xType": "Storage",
+        "yType": "Storage",
+        "outType": "Storage"
+      }
     }
   },
   {
     "python": "bench/tritonbench_g/kldiv_compute/kldiv_compute.py",
     "lean": "bench/tritonbench_g/kldiv_compute/Kernels.lean",
     "python_function": "kldivergence_kernel_index_commuted",
-    "lean_definition": "commutedKernel",
+    "lean_definition": "commutedFor",
     "signature_definition": "callSignature",
     "expected_call_bindings": {
-      "n_elements": "p.n"
+      "n_elements": "N"
     },
     "expected_signature": {
       "pointers": [
         [
           "x_ptr",
-          "fp32"
+          {
+            "on": "xType",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
         ],
         [
           "y_ptr",
-          "fp32"
+          {
+            "on": "yType",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
         ],
         [
           "output_ptr",
-          "fp32"
+          {
+            "on": "outType",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
         ]
       ],
       "scalars": [
@@ -66,7 +244,17 @@
       ],
       "constexpr": [
         "BLOCK_SIZE"
-      ]
+      ],
+      "dtype_parameters": [
+        "xType",
+        "yType",
+        "outType"
+      ],
+      "dtype_parameter_types": {
+        "xType": "Storage",
+        "yType": "Storage",
+        "outType": "Storage"
+      }
     }
   }
 ]

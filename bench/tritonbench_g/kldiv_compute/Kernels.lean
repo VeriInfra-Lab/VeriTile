@@ -1,25 +1,25 @@
 import VeriTile.Triton.DSL.CallSignature
 import bench.tritonbench_g.kldiv_compute.Parameters
 
+/-! All retained floating storage profiles share these two unchanged raw
+Python bodies. Invocation metadata supplies dtypes; the existing support
+classifier continues to distinguish unsupported native fp8-input pairs. -/
 namespace VeriTile.Bench.Repairs.KldivCompute.KernelDSL
 open VeriTile.Triton
+open VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource
 
-def callSignature : CallSignature where
-  pointers := [("x_ptr",.fp32),("y_ptr",.fp32),("output_ptr",.fp32)]
+def callSignature (xType yType outType : Storage) : CallSignature where
+  pointers := [("x_ptr",match xType with | .fp32 => .fp32 | .fp16 => .fp16 | .bf16 => .bf16 | .fp64 => .fp64 | .f8e4 => .f8e4 | .f8e5 => .f8e5),
+    ("y_ptr",match yType with | .fp32 => .fp32 | .fp16 => .fp16 | .bf16 => .bf16 | .fp64 => .fp64 | .f8e4 => .f8e4 | .f8e5 => .f8e5),
+    ("output_ptr",match outType with | .fp32 => .fp32 | .fp16 => .fp16 | .bf16 => .bf16 | .fp64 => .fp64 | .f8e4 => .f8e4 | .f8e5 => .f8e5)]
   scalars := [("n_elements",.integer)]
   constexpr := ["BLOCK_SIZE"]
 
-
-/-- Complete selected 1024-lane source. The unchanged source uses signed32
-PID/products/offsets/mask, proved exact under its existing numel < 2^31 guard.
-The omitted load padding remains arbitrary and cannot reach an active store.
-FP32 division, tl.log, then FP32 multiplication retain their source order. -/
-def kernel (p : Parameters) : ComputeKernel :=
-  let x_ptr : RegionName := p.x
-  let y_ptr : RegionName := p.y
-  let output_ptr : RegionName := p.output
-  let BLOCK_SIZE : Nat := p.block
-  with_triton_call callSignature call_args [n_elements := p.n] in
+-- Elaborate the finite 6×6×6 caller dtype choices for this one body.
+set_option maxHeartbeats 1000000 in
+def originalFor (xType yType outType : Storage) (x_ptr y_ptr output_ptr : RegionName)
+    (N BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_call (callSignature xType yType outType) call_args [n_elements := N] in
   triton {
     pid = tl.program_id(axis=0)
     block_start = pid * BLOCK_SIZE
@@ -31,14 +31,10 @@ def kernel (p : Parameters) : ComputeKernel :=
     tl.store(output_ptr + offsets, output, mask=mask)
   }
 
-/-- Existing address-commutation candidate from the original task. Only the
-integer block-start operands are swapped; the FP32 computation is unchanged. -/
-def commutedKernel (p : Parameters) : ComputeKernel :=
-  let x_ptr : RegionName := p.x
-  let y_ptr : RegionName := p.y
-  let output_ptr : RegionName := p.output
-  let BLOCK_SIZE : Nat := p.block
-  with_triton_call callSignature call_args [n_elements := p.n] in
+set_option maxHeartbeats 1000000 in
+def commutedFor (xType yType outType : Storage) (x_ptr y_ptr output_ptr : RegionName)
+    (N BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_call (callSignature xType yType outType) call_args [n_elements := N] in
   triton {
     pid = tl.program_id(axis=0)
     block_start = BLOCK_SIZE * pid
@@ -50,4 +46,13 @@ def commutedKernel (p : Parameters) : ComputeKernel :=
     tl.store(output_ptr + offsets, output, mask=mask)
   }
 
+def family (xType yType outType : Storage) (version : Bool) :
+    RegionName → RegionName → RegionName → Nat → Nat → ComputeKernel :=
+  if version then commutedFor xType yType outType else originalFor xType yType outType
+
+def kernel (p : Parameters) : ComputeKernel :=
+  originalFor .fp32 .fp32 .fp32 p.x p.y p.output p.n p.block
+
+def commutedKernel (p : Parameters) : ComputeKernel :=
+  commutedFor .fp32 .fp32 .fp32 p.x p.y p.output p.n p.block
 end VeriTile.Bench.Repairs.KldivCompute.KernelDSL

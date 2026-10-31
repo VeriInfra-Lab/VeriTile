@@ -940,6 +940,19 @@
           "VeriTile.Bench.Repairs.NestedLoopsProcessing.FPEquiv.kernel_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/dropout_triton",
+      "python": "bench/tritonbench_g/dropout_triton/dropout_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/dropout_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.DropoutTriton.Correct.dropout_kernel_correctness"
+        ],
+        "bench/tritonbench_g/dropout_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.DropoutTriton.FPEquiv.dropout_index_commuted_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1054,6 +1067,11 @@
     "bench/tritonbench_g/dequantize_matmul/Proofs/AccessSafety.lean",
     "bench/tritonbench_g/dequantize_matmul/Proofs/KernelEquivalence.lean",
     "bench/tritonbench_g/dequantize_matmul/Proofs/KernelExecution.lean",
+    "bench/tritonbench_g/dropout_triton/Kernels.lean",
+    "bench/tritonbench_g/dropout_triton/Proofs/Mathematical_Erasure.lean",
+    "bench/tritonbench_g/dropout_triton/Proofs/Mathematical_Real.lean",
+    "bench/tritonbench_g/dropout_triton/Proofs/Region.lean",
+    "bench/tritonbench_g/dropout_triton/Proofs/Rewrite.lean",
     "bench/tritonbench_g/embedding_triton_kernel/Kernels.lean",
     "bench/tritonbench_g/embedding_triton_kernel/Proofs/Execution.lean",
     "bench/tritonbench_g/embedding_triton_kernel/Proofs/ProgramSafety.lean",
@@ -1164,6 +1182,7 @@
     "tests/lean/CallArguments.lean",
     "tests/lean/CallScalarPrecision.lean",
     "tests/lean/CallSignature.lean",
+    "tests/lean/FiniteCallProfiles.lean",
     "tests/lean/IntegerDivisionLiterals.lean",
     "tests/lean/PreciseDivisionAndInfinity.lean",
     "tests/lean/PythonLiteralArithmetic.lean",
@@ -1171,6 +1190,7 @@
     "tests/lean/RawBodySurface.lean",
     "tests/lean/RawPythonTuplesAndStores.lean",
     "tests/lean/RawStringDispatch.lean",
+    "tests/lean/SourceDType.lean",
     "tests/lean/SourceModuleBindings.lean"
   ]
 }
