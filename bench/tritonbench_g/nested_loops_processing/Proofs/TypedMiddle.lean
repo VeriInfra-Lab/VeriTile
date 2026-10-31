@@ -12,7 +12,7 @@ def middlePrefix (count : Nat) (cols : Nat) : List ComputeStmt :=
 
 def middlePrefixState (count : Nat) (u : Unique)
     (s : State α) (a : OffsetTile) (delta : Nat) : State α :=
-  let t := s.setReg "a_offsets" .nat [2,2] (bump a delta)
+  let t := s.setReg "a_offsets" .int [2,2] (signedOffsets (bump a delta))
   t.setReg "a2" .int [2,2] (loaded count s (bump a delta))
 
 def middleState (count : Nat) (u : Unique) (s : State α)
@@ -27,24 +27,27 @@ theorem middle_decomposition (count : Nat) (cols : Nat) :
 
 theorem middle_prefix_step (M : Algebra α) (count : Nat) (u : Unique)
     (cols : Nat) (s : State α) (a : OffsetTile)
-    (ha : s.regs .nat [2,2] "a_offsets" = some a) :
+    (ha : s.regs .int [2,2] "a_offsets" = some (signedOffsets a)) :
     run M (middlePrefix count cols) s =
       some (middlePrefixState count u s a 2) := by
   all_goals simp only [middlePrefix, middle, outer, source,
-    kernel, ComputeKernel.surfaceBody, List.getElem?_cons_zero, List.getElem?_cons_succ,
+    kernel, originalKernel, quotedOriginal, ComputeKernel.surfaceBody, List.getElem?_cons_zero, List.getElem?_cons_succ,
     List.take_succ_cons, List.take_zero, Bool.false_eq_true, ↓reduceIte, run, step, evalExpr, evalComputeOp]
-  all_goals simp [ComputeDType.eraseDType, Option.bind, evalOp_unfold, numeric, natLt, natLe, ha,
-    middlePrefixState, loaded, bump, ← min_def_lt]
+  all_goals simp [ComputeDType.eraseDType, Option.bind, evalOp_unfold, numeric, natLt, natLe, numericLt, ha,
+    middlePrefixState, loaded, bump, signedOffsets, numericLt, ← min_def_lt]
   all_goals unfold FP.Structural.bop
   all_goals simp [ComputeDType.eraseDType, Option.bind, Broadcast.leftIndex, Broadcast.rightIndex, ha,
-    middlePrefixState, loaded, bump, ← min_def_lt]
-  all_goals rfl
+    middlePrefixState, loaded, bump, signedOffsets, numericLt, ← min_def_lt]
+  all_goals
+    have add_two (x : Nat) : (x : Int) + 2 = ((x+2 : Nat) : Int) := by omega
+    simp only [signedOffsets, bump, loaded, add_two, Int.ofNat_lt, signed_clamp]
+    rfl
 
 theorem middle_step (M : Algebra α) (count : Nat) (u : Unique)
     (cols : Nat) (s : State α) (a c : OffsetTile)
     (v1 : Payload)
-    (ha : s.regs .nat [2,2] "a_offsets" = some a)
-    (hc : s.regs .nat [2,2] "c_offsets" = some c)
+    (ha : s.regs .int [2,2] "a_offsets" = some (signedOffsets a))
+    (hc : s.regs .int [2,2] "c_offsets" = some (signedOffsets c))
     (h1 : s.regs .int [2,2] "a1" = some v1)
     (hu : s.regs .bool [2,2] "unique" = some u) :
     run M (middle count cols) s =
@@ -59,10 +62,10 @@ theorem middle_step (M : Algebra α) (count : Nat) (u : Unique)
 theorem middle_registers (count : Nat) (u : Unique) (s : State α)
     (a c : OffsetTile) (v1 : Payload) (delta : Nat)
     (h1 : s.regs .int [2,2] "a1" = some v1) :
-    (middleState count u s a c v1 delta).regs .nat [2,2] "a_offsets" =
-      some (bump (bump (bump a delta) delta) delta) ∧
-    (middleState count u s a c v1 delta).regs .nat [2,2] "c_offsets" =
-      some (bump (bump (bump (bump (bump (bump c delta) delta) delta) delta) delta) delta) ∧
+    (middleState count u s a c v1 delta).regs .int [2,2] "a_offsets" =
+      some (signedOffsets (bump (bump (bump a delta) delta) delta)) ∧
+    (middleState count u s a c v1 delta).regs .int [2,2] "c_offsets" =
+      some (signedOffsets (bump (bump (bump (bump (bump (bump c delta) delta) delta) delta) delta) delta)) ∧
     (middleState count u s a c v1 delta).regs .int [2,2] "a1" = some v1 := by
   simp [middleState, middlePrefixState, innerLoopState, innerState, scatter_regs, h1]
 
@@ -76,8 +79,8 @@ def middleLoopState (count : Nat) (u : Unique) (s : State α)
 theorem middle_loop (M : Algebra α) (count : Nat) (u : Unique)
     (cols : Nat) (s : State α) (a c : OffsetTile)
     (v1 : Payload)
-    (ha : s.regs .nat [2,2] "a_offsets" = some a)
-    (hc : s.regs .nat [2,2] "c_offsets" = some c)
+    (ha : s.regs .int [2,2] "a_offsets" = some (signedOffsets a))
+    (hc : s.regs .int [2,2] "c_offsets" = some (signedOffsets c))
     (h1 : s.regs .int [2,2] "a1" = some v1)
     (hu : s.regs .bool [2,2] "unique" = some u) :
     range M "j" 0 2 1 (middle count cols) s =

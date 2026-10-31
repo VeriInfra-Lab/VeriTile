@@ -380,6 +380,28 @@ partial def expandStore (expandExpr : ExprExpander)
     match v'.computeTerm with
     | some ce => pure ce
     | none => `(ComputeExpr.alg $v'.term)
+  let shapedValue (target : SInfo) (algValue : TSyntax `term) :
+      MacroM (TSyntax `term) := do
+    if v'.shape.eq target then return valueExpr
+    match v'.computeTerm with
+    | none => `(ComputeExpr.alg $algValue)
+    | some ce =>
+      match ce with
+      | `(ComputeExpr.alg $op) =>
+          let op ← coerceShape op v'.shape target "tl.store value"
+          `(ComputeExpr.alg $op)
+      | `(ComputeExpr.compute $op) =>
+          let shape ← target.term
+          if v'.shape.eq SInfo.scalar then
+            return ← `(ComputeExpr.compute (ComputeOp.full $shape $op))
+          match op with
+          | `(ComputeOp.alg $precision $value) =>
+              let value ← coerceShape value v'.shape target "tl.store value"
+              `(ComputeExpr.compute (ComputeOp.alg $precision $value))
+          | `(ComputeOp.full $_ $child) =>
+              `(ComputeExpr.compute (ComputeOp.full $shape $child))
+          | _ => Macro.throwError "tl.store: broadcasting this compute operation is unsupported"
+      | _ => Macro.throwError "tl.store: broadcasting this compute expression is unsupported"
   let storeDType := dtype?.getD v'.dtype
   unless storeDType == v'.dtype do
     Macro.throwError "tl.store: `dtype=` must match the value dtype"
@@ -391,10 +413,7 @@ partial def expandStore (expandExpr : ExprExpander)
     let vTerm ← coerceShape v'.term v'.shape p'.shape "tl.store value"
     let sh ← p'.shape.term
     let dt ← storeDType.term
-    let valueExpr' ←
-      match v'.computeTerm with
-      | some _ => pure valueExpr
-      | none => `(ComputeExpr.alg $vTerm)
+    let valueExpr' ← shapedValue p'.shape vTerm
     return (← `(Stmt.store $dt $sh (MemAccess.blockPtr $p'.term $boundaryCheck) $vTerm MaskOpt.none),
       ← `(ComputeStmt.store $dt $sh (MemAccess.blockPtr $p'.term $boundaryCheck) $valueExpr' MaskOpt.none),
       env, v'.computeTerm.isSome)
@@ -407,10 +426,7 @@ partial def expandStore (expandExpr : ExprExpander)
           let off := sp.offset
           let sh ← sp.shape.term
           let dt ← storeDType.term
-          let valueExpr' ←
-            match v'.computeTerm with
-            | some _ => pure valueExpr
-            | none => `(ComputeExpr.alg $vTerm)
+          let valueExpr' ← shapedValue sp.shape vTerm
           pure (← `(Stmt.store $dt $sh (MemAccess.region $r $off) $vTerm MaskOpt.none),
             ← `(ComputeStmt.store $dt $sh (MemAccess.region $r $off) $valueExpr' MaskOpt.none),
             env, v'.computeTerm.isSome)
@@ -420,10 +436,7 @@ partial def expandStore (expandExpr : ExprExpander)
             let vTerm ← coerceShape v'.term v'.shape p'.shape "tl.store value"
             let sh ← p'.shape.term
             let dt ← storeDType.term
-            let valueExpr' ←
-              match v'.computeTerm with
-              | some _ => pure valueExpr
-              | none => `(ComputeExpr.alg $vTerm)
+            let valueExpr' ← shapedValue p'.shape vTerm
             pure (← `(Stmt.store $dt $sh (MemAccess.blockPtr $p'.term ([] : List Nat)) $vTerm MaskOpt.none),
               ← `(ComputeStmt.store $dt $sh (MemAccess.blockPtr $p'.term ([] : List Nat)) $valueExpr' MaskOpt.none),
               env, v'.computeTerm.isSome)
@@ -432,10 +445,7 @@ partial def expandStore (expandExpr : ExprExpander)
             let vTerm ← coerceShape v'.term v'.shape p'.shape "tl.store value"
             let sh ← p'.shape.term
             let dt ← storeDType.term
-            let valueExpr' ←
-              match v'.computeTerm with
-              | some _ => pure valueExpr
-              | none => `(ComputeExpr.alg $vTerm)
+            let valueExpr' ← shapedValue p'.shape vTerm
             pure (← `(Stmt.store $dt $sh (MemAccess.ptr $p'.term) $vTerm MaskOpt.none),
               ← `(ComputeStmt.store $dt $sh (MemAccess.ptr $p'.term) $valueExpr' MaskOpt.none),
               env, v'.computeTerm.isSome)
@@ -448,10 +458,7 @@ partial def expandStore (expandExpr : ExprExpander)
           let off := sp.offset
           let sh ← sp.shape.term
           let dt ← storeDType.term
-          let valueExpr' ←
-            match v'.computeTerm with
-            | some _ => pure valueExpr
-            | none => `(ComputeExpr.alg $vTerm)
+          let valueExpr' ← shapedValue sp.shape vTerm
           pure (← `(Stmt.store $dt $sh (MemAccess.region $r $off) $vTerm (MaskOpt.mask $m')),
             ← `(ComputeStmt.store $dt $sh (MemAccess.region $r $off) $valueExpr' (MaskOpt.mask $m')),
             env, v'.computeTerm.isSome)
@@ -462,13 +469,10 @@ partial def expandStore (expandExpr : ExprExpander)
           let m' ← coerceShape m mShape p'.shape "tl.store mask"
           let sh ← p'.shape.term
           let dt ← storeDType.term
-          let valueExpr' ←
-            match v'.computeTerm with
-            | some _ => pure valueExpr
-            | none => `(ComputeExpr.alg $vTerm)
-            pure (← `(Stmt.store $dt $sh (MemAccess.ptr $p'.term) $vTerm (MaskOpt.mask $m')),
-              ← `(ComputeStmt.store $dt $sh (MemAccess.ptr $p'.term) $valueExpr' (MaskOpt.mask $m')),
-              env, v'.computeTerm.isSome)
+          let valueExpr' ← shapedValue p'.shape vTerm
+          pure (← `(Stmt.store $dt $sh (MemAccess.ptr $p'.term) $vTerm (MaskOpt.mask $m')),
+            ← `(ComputeStmt.store $dt $sh (MemAccess.ptr $p'.term) $valueExpr' (MaskOpt.mask $m')),
+            env, v'.computeTerm.isSome)
 
 partial def expandAtomicAdd (expandExpr : ExprExpander)
     (expandStaticPtrExpr : StaticPtrExpander) (env : Env)

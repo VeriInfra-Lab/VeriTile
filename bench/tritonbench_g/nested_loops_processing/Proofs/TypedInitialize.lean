@@ -9,7 +9,7 @@ set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
 def prefixBody (count cols : Nat) : List ComputeStmt :=
-  (source count cols).surfaceBody.take 7
+  (source count cols).surfaceBody.take 10
 
 def initialA (cols : Nat) : OffsetTile := fun i ↦ i.1.val * cols + i.2.1.val
 
@@ -18,23 +18,26 @@ def initialC (cols : Nat) : OffsetTile := fun i ↦ cols * i.1.val + i.2.1.val
 def unique (cols : Nat) : Unique :=
   fun i ↦ decide (i.1.val = 0) || decide (1 < cols) || decide (i.2.1.val = 1)
 
-def prefixState (s : State α) (cols : Nat) : State α :=
-  let s := s.setReg "offs_am" .nat [2] (fun i ↦ i.1.val)
-  let s := s.setReg "offs_an" .nat [2] (fun i ↦ i.1.val)
-  let s := s.setReg "a_offsets" .nat [2,2] (initialA cols)
-  let s := s.setReg "offs_cm" .nat [2] (fun i ↦ i.1.val)
-  let s := s.setReg "offs_cn" .nat [2] (fun i ↦ i.1.val)
-  let s := s.setReg "c_offsets" .nat [2,2] (initialC cols)
+def prefixState (s : State α) (count cols : Nat) : State α :=
+  let s := s.setReg "stride_m" .int [] (fun _ ↦ cols)
+  let s := s.setReg "stride_n" .int [] (fun _ ↦ 1)
+  let s := s.setReg "n_elements" .int [] (fun _ ↦ count)
+  let s := s.setReg "offs_am" .int [2] (fun i ↦ i.1.val)
+  let s := s.setReg "offs_an" .int [2] (fun i ↦ i.1.val)
+  let s := s.setReg "a_offsets" .int [2,2] (signedOffsets (initialA cols))
+  let s := s.setReg "offs_cm" .int [2] (fun i ↦ i.1.val)
+  let s := s.setReg "offs_cn" .int [2] (fun i ↦ i.1.val)
+  let s := s.setReg "c_offsets" .int [2,2] (signedOffsets (initialC cols))
   s.setReg "unique" .bool [2,2] (unique cols)
 
 theorem prefix_step (M : Algebra α) (count cols : Nat) (s : State α) :
-    run M (prefixBody count cols) s = some (prefixState s cols) := by
-  simp [ComputeDType.eraseDType, Option.bind, prefixBody, source, kernel,
+    run M (prefixBody count cols) s = some (prefixState s count cols) := by
+  simp [ComputeDType.eraseDType, Option.bind, prefixBody, source, kernel, originalKernel, quotedOriginal,
     ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
-    numeric, numericEq, numericLt, natLt, natLe, prefixState, initialA, initialC, unique]
+    numeric, numericEq, numericLt, signedOffsets, natLt, natLe, prefixState, initialA, initialC, unique, signedOffsets]
   unfold FP.Structural.bop
   simp [ComputeDType.eraseDType, Option.bind, Broadcast.leftIndex, Broadcast.rightIndex,
-    prefixState, initialA, initialC, unique]
+    prefixState, initialA, initialC, unique, signedOffsets]
   congr 1
   funext i
   rcases i with ⟨r,c,rest⟩

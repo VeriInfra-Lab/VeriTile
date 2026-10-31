@@ -40,9 +40,9 @@ private theorem range_two_safe {α : Type} [Inhabited α] (M : Algebra α)
     | some u => simp [Safety.rangeSafe_unfold]
 
 /-- Clamping supplies actual capacity even before applying the source masks. -/
-private theorem clamp_bound (count cap address : Nat) (positive : 0 < count)
-    (bounded : count ≤ cap) : min address (count-1) < cap := by
-  have := Nat.min_le_right address (count-1)
+private theorem clamp_bound (count cap : Nat) (address : Int) (positive : 0 < count)
+    (bounded : count ≤ cap) : (min address ((count : Int)-1)).toNat < cap := by
+  have := min_le_right address ((count : Int)-1)
   omega
 
 theorem inner_safe {α : Type} [Inhabited α] (M : Algebra α)
@@ -51,7 +51,7 @@ theorem inner_safe {α : Type} [Inhabited α] (M : Algebra α)
     Safety.traceSafeList M bounds (inner count cols) s := by
   apply trace_of_steps
   intro stmt member state
-  simp only [inner,middle,outer,source,kernel,ComputeKernel.surfaceBody,
+  simp only [TypedExecution.inner,middle,outer,source,kernel,originalKernel,quotedOriginal,ComputeKernel.surfaceBody,
     List.getElem?_cons_zero,List.getElem?_cons_succ,Bool.false_eq_true,↓reduceIte,
     List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
@@ -60,11 +60,11 @@ theorem inner_safe {α : Type} [Inhabited α] (M : Algebra α)
       Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
       Safety.safeAlg_unfold,true_and,and_true]
   all_goals
-    cases ha : state.regs .nat [2,2] "a_offsets" <;>
-    cases hc : state.regs .nat [2,2] "c_offsets" <;>
+    cases ha : state.regs .int [2,2] "a_offsets" <;>
+    cases hc : state.regs .int [2,2] "c_offsets" <;>
     cases hu : state.regs .bool [2,2] "unique" <;>
     simp [Safety.addressSafe_unfold,Safety.maskActive_unfold,evalOffsets,evalDeltas,
-      evalOp_unfold,FP.Structural.bop,natLt,natLe,numeric,Option.bind,
+      evalOp_unfold,FP.Structural.bop,natLt,natLe,numeric,numericLt,Option.bind,
       Broadcast.leftIndex,Broadcast.rightIndex,ha,hc,hu,← min_def_lt,
       clamp_bound count _ _ positive hin,clamp_bound count _ _ positive hout]
 
@@ -78,7 +78,7 @@ theorem middle_safe {α : Type} [Inhabited α] (M : Algebra α)
       [.forRange "k" 0 2 1 (inner count cols)] := middle_decomposition count cols
   rw [shape] at member
   rcases List.mem_append.mp member with pure | loop
-  · simp only [middlePrefix,middle,outer,source,kernel,ComputeKernel.surfaceBody,
+  · simp only [middlePrefix,middle,outer,source,kernel,originalKernel,quotedOriginal,ComputeKernel.surfaceBody,
       List.getElem?_cons_zero,List.getElem?_cons_succ,Bool.false_eq_true,↓reduceIte,
       List.take_succ_cons,List.take_zero,List.mem_cons,List.not_mem_nil,or_false] at pure
     rcases pure with rfl | rfl
@@ -87,9 +87,9 @@ theorem middle_safe {α : Type} [Inhabited α] (M : Algebra α)
         Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
         Safety.safeAlg_unfold,true_and,and_true]
     all_goals
-      cases ha : state.regs .nat [2,2] "a_offsets" <;>
+      cases ha : state.regs .int [2,2] "a_offsets" <;>
       simp [Safety.addressSafe_unfold,Safety.maskActive_unfold,evalOffsets,evalDeltas,
-        evalOp_unfold,FP.Structural.bop,natLt,natLe,numeric,Option.bind,
+        evalOp_unfold,FP.Structural.bop,natLt,natLe,numeric,numericLt,Option.bind,
         Broadcast.leftIndex,Broadcast.rightIndex,ha,← min_def_lt,
         clamp_bound count _ _ positive hin]
   · have eq := List.mem_singleton.mp loop
@@ -108,22 +108,22 @@ theorem outer_safe {α : Type} [Inhabited α] (M : Algebra α)
   rw [shape] at member
   rcases List.mem_append.mp member with head | tail
   · rcases List.mem_append.mp head with load | loop
-    · simp only [outer,source,kernel,ComputeKernel.surfaceBody,
+    · simp only [outer,source,kernel,originalKernel,quotedOriginal,ComputeKernel.surfaceBody,
         List.getElem?_cons_zero,List.getElem?_cons_succ,Bool.false_eq_true,↓reduceIte,
         List.take_succ_cons,List.take_zero,List.mem_singleton] at load
       subst stmt
       simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
         Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
         Safety.safeAlg_unfold,true_and,and_true]
-      cases ha : state.regs .nat [2,2] "a_offsets" <;>
+      cases ha : state.regs .int [2,2] "a_offsets" <;>
       simp [Safety.addressSafe_unfold,Safety.maskActive_unfold,evalOffsets,evalDeltas,
-        evalOp_unfold,FP.Structural.bop,natLt,natLe,numeric,Option.bind,
+        evalOp_unfold,FP.Structural.bop,natLt,natLe,numeric,numericLt,Option.bind,
         Broadcast.leftIndex,Broadcast.rightIndex,ha,← min_def_lt,
         clamp_bound count _ _ positive hin]
     · have eq := List.mem_singleton.mp loop
       subst stmt
       exact range_two_safe M bounds "j" _ (middle_safe M count cols positive bounds hin hout) state
-  · simp only [outer,source,kernel,ComputeKernel.surfaceBody,
+  · simp only [outer,source,kernel,originalKernel,quotedOriginal,ComputeKernel.surfaceBody,
       List.getElem?_cons_zero,List.getElem?_cons_succ,Bool.false_eq_true,↓reduceIte,
       List.drop_succ_cons,List.drop_zero,List.mem_singleton] at tail
     subst stmt
@@ -142,9 +142,9 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (candidate : Boo
   have outerLoop := range_two_safe M bounds "i" _ (outer_safe M count cols positive bounds hin hout) state
   cases candidate
   all_goals
-    simp only [kernel,ComputeKernel.surfaceBody,Bool.false_eq_true,↓reduceIte,
+    simp only [kernel,originalKernel,commutedKernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,Bool.false_eq_true,↓reduceIte,
       List.mem_cons,List.not_mem_nil,or_false] at member
-    rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
+    rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   all_goals first
     | exact outerLoop
     | simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
