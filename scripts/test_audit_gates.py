@@ -288,12 +288,12 @@ class AuditGateTests(unittest.TestCase):
 
     def test_split_benchmark_audit_checks_actual_imported_source(self):
         prep = load('split_benchmark_audit_prep', 'scripts/bench/audit_trust_prep.py')
-        prefix = ('import bench.tritonbench_g.softmax_triton1.Proofs.Mathematical_Kernels\n'
-                  'open VeriTile.Bench.TritonBenchG.SoftmaxTriton1\n')
+        prefix = ('import bench.tritonbench_g.softmax_triton1.Kernels\n'
+                  'open VeriTile.Bench.Repairs.SoftmaxTriton1\n')
         for relative in ['Correct.lean', 'Proofs/Real.lean']:
             for circular in [False, True]:
                 with self.subTest(relative=relative, circular=circular), tempfile.TemporaryDirectory() as temp:
-                    body = ('(softmax_kernel "y" "x" 4 4 4 4).toAlgKernel.inputs.length'
+                    body = ('(softmax_kernel "y" "x" 0 0 4 1 4 1 4 4).toAlgKernel.inputs.length'
                             if circular else '42')
                     path = Path(temp) / 'SplitBenchmarkAudit.lean'
                     path.write_text(prep.prepare_source(
