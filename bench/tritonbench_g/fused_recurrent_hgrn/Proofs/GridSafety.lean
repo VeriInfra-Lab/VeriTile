@@ -65,9 +65,9 @@ theorem forward_safe (p : Ops α) (s : State α) (BH T D BD : Nat)
     forward_invariant_step p s q U T D BD i h
   have safe : ∀ i, i<T → ∀ q, FwdInv p s U T D BD i q →
       Safety.traceSafeList (algebra p) bounds (forwardBody D BD)
-        (q.setReg "_i" .nat [] (fun _ => i)) := by
+        (q.setReg "_" .nat [] (fun _ => i)) := by
     intro i hi q h
-    let b := q.setReg "_i" .nat [] (fun _ => i)
+    let b := q.setReg "_" .nat [] (fun _ => i)
     have pids : b.pids=s.pids := h.pids
     have lanes : lane b BD=lane s BD := by
       funext j
@@ -84,13 +84,13 @@ theorem forward_safe (p : Ops α) (s : State α) (BH T D BD : Nat)
     · exact W.rows "x" (by simp) _ (pids ▸ hb) _ hi _ hj
     · exact W.rows "g" (by simp) _ (pids ▸ hb) _ hi _ hj
     · exact W.rows "o" (by simp) _ (pids ▸ hb) _ hi _ hj
-  have hs := range_safe (algebra p) bounds "_i" (forwardBody D BD) T
+  have hs := range_safe (algebra p) bounds "_" (forwardBody D BD) T
     (FwdInv p s U T D BD) one safe q 0 (by omega) P
-  obtain ⟨r,hr,hR⟩ := range_complete (algebra p) "_i" (forwardBody D BD) T
+  obtain ⟨r,hr,hR⟩ := range_complete (algebra p) "_" (forwardBody D BD) T
     (FwdInv p s U T D BD) one q 0 (by omega) P
-  have ran : run (algebra p) [.forRange "_i" 0 T 1 (forwardBody D BD)] q=some r := by
+  have ran : run (algebra p) [.forRange "_" 0 T 1 (forwardBody D BD)] q=some r := by
     simpa [run,step] using hr
-  have loop : Safety.traceSafeList (algebra p) bounds [.forRange "_i" 0 T 1 (forwardBody D BD)] q := by
+  have loop : Safety.traceSafeList (algebra p) bounds [.forRange "_" 0 T 1 (forwardBody D BD)] q := by
     apply Safety.traceSafeList_cons_intro
     · simpa only [Safety.stepSafe_unfold] using hs
     · intro t _;exact Safety.traceSafeList_nil _ _ _

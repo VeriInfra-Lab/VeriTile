@@ -81,9 +81,9 @@ variable {α : Type} [Inhabited α]
 
  theorem forward_invariant_step (p : Ops α) (s q : State α) (U : Bool) (T D BD i : Nat)
     (P : FwdInv p s U T D BD i q) :
-    ∃ r, run (algebra p) (forwardBody D BD) (q.setReg "_i" .nat [] (fun _ => i))=some r ∧
+    ∃ r, run (algebra p) (forwardBody D BD) (q.setReg "_" .nat [] (fun _ => i))=some r ∧
       FwdInv p s U T D BD (i+1) r := by
-  let b := q.setReg "_i" .nat [] (fun _ => i)
+  let b := q.setReg "_" .nat [] (fun _ => i)
   have hp : b.pids=s.pids := P.pids
   have hl : lane b BD=lane s BD := by
     funext j
@@ -140,7 +140,7 @@ variable {α : Type} [Inhabited α]
 
  theorem forward_loop (p : Ops α) (s : State α) (T D BD : Nat) (U : Bool) :
     ∃ q, run (algebra p) (forwardPrologue T D BD U ++
-      [.forRange "_i" 0 T 1 (forwardBody D BD)]) s=some q ∧ FwdInv p s U T D BD T q := by
+      [.forRange "_" 0 T 1 (forwardBody D BD)]) s=some q ∧ FwdInv p s U T D BD T q := by
   obtain ⟨q,he,hm,hp,hmask,hbh,hod,hx,hg,ho,hcarry⟩ := prologue p s T D BD U
   have hI : FwdInv p s U T D BD 0 q := by
     refine ⟨hp,hmask,hbh,hod,hx,hg,ho,hcarry,?_,?_⟩
@@ -148,7 +148,7 @@ variable {α : Type} [Inhabited α]
       omega
     · intro r a _
       rw [hm]
-  obtain ⟨r,hr,hR⟩ := range_complete (algebra p) "_i" (forwardBody D BD) T
+  obtain ⟨r,hr,hR⟩ := range_complete (algebra p) "_" (forwardBody D BD) T
     (FwdInv p s U T D BD) (fun i _ q h => forward_invariant_step p s q U T D BD i h)
     q 0 (by omega) hI
   refine ⟨r,?_,hR⟩

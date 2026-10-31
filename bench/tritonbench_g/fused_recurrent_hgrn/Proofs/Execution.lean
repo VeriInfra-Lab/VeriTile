@@ -67,6 +67,7 @@ theorem prologue (p : Ops α) (s : State α) (T D BD : Nat) (U : Bool) :
   all_goals rcases j with ⟨j,⟨⟩⟩
   all_goals first | rfl | simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
 
+
 @[simp] theorem masked_regs {ι : Type} (r : RegionName) (off : ι → Nat)
     (value : ι → Cell α) (active : ι → Prop) [DecidablePred active]
     (l : List ι) (s : State α) :

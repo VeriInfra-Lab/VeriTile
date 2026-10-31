@@ -15,9 +15,9 @@ explicit 177-task plus 19-example scope.
 
 The active scope and separate validation stages are recorded in
 [`validation/body-migration-progress.json`](../../validation/body-migration-progress.json).
-All 19 examples now have registered Python bodies. Thirty of the 177 target
+All 19 examples now have registered Python bodies. Thirty-four of the 177 target
 TritonBench tasks have complete body-copy manifests; six previously aligned
-TritonBench cases are retained as regressions. The remaining 147 target tasks
+TritonBench cases are retained as regressions. The remaining 143 target tasks
 still require body migration. Indirectly loaded functions remain unresolved
 until explicitly anchored, including cross_entropy_ops and fast_ce_loss;
 triton_argmax remains in legacy AST mode.

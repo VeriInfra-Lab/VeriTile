@@ -61,6 +61,12 @@ structure Line where
   text : String
   deriving Inhabited
 
+/-- These valid Python names are reserved tokens in Lean. Escaping changes
+only parser spelling; the resulting identifier still has its original name. -/
+private def cleanWord (word : String) : String :=
+  if word == "True" then "true" else if word == "False" then "false"
+  else if word == "_" || word == "do" then "«" ++ word ++ "»" else word
+
 /-- Token spelling only: Python comments and booleans, single-quoted strings,
 and trailing decimal points. No arithmetic or instruction is simplified. -/
 private def cleanLine (line : String) : Except String (String × Int) := do
@@ -91,7 +97,7 @@ private def cleanLine (line : String) : Except String (String × Int) := do
       word:=word.push ch
       i:=i+1
     else
-      let token := if word=="True" then "true" else if word=="False" then "false" else word
+      let token := cleanWord word
       out:=out++token
       let numeric := !word.isEmpty && word.toList.all Char.isDigit
       word:=""
@@ -107,7 +113,7 @@ private def cleanLine (line : String) : Except String (String × Int) := do
         if [')',']','}'].contains ch then nesting:=nesting-1
       i:=i+1
   if quote.isSome then throw "multiline strings are unsupported in Triton bodies"
-  let token := if word=="True" then "true" else if word=="False" then "false" else word
+  let token := cleanWord word
   return (out++token,nesting)
 
 private partial def quoted (q : Char) (triple : Bool) (input : List Char)

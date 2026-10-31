@@ -31,8 +31,8 @@ theorem decomposition (index : IndexType) (p : Parameters) :
   cases index <;> rfl
 
 structure Context (p : Parameters) (s : State α) : Prop where
-  rows : s.regs .nat [1] "offs_nn"=some (fun j=>s.pids 0*64+j.1.val)
-  columns : s.regs .nat [p.width] "offs_d"=some (fun j=>j.1.val)
+  rows : s.regs .int [1] "offs_nn"=some (fun j : TileIndex [1] => Int.ofNat (s.pids 0*64+j.1.val))
+  columns : s.regs .int [p.width] "offs_d"=some (fun j=>(j.1.val : Int))
 
 def row (s : State α) (start : Nat) : Nat := s.pids 0*64+start
 def token (p : Parameters) (s : State α) (start : Nat) : Int :=
@@ -84,6 +84,10 @@ theorem chunk_memory (rest : Algebra α) (zero : α) (index : IndexType) (p : Pa
     simp (config := {contextual := Bool.true}) [chunk,copied,masked_scatter_memory,
       active,offset,value,valid,token,row,bop,Broadcast.leftIndex,Broadcast.rightIndex,
       Region.cast,Fin.eq_zero,Nat.add_comm,nonnegative_offset]
+    have pid_cast : (s.pids 0 : Int) * 64 = ((s.pids 0 * 64 : Nat) : Int) := by
+      norm_cast
+    simp only [pid_cast, ← Int.natCast_add, ← Int.natCast_mul, Int.ofNat_lt,
+      Int.toNat_natCast, Nat.add_comm]
 
 theorem chunk_context (rest : Algebra α) (zero : α) (index : IndexType) (p : Parameters)
     (s : State α) (start : Nat) (context : Context p s) :

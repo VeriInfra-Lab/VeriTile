@@ -67,7 +67,7 @@ theorem decomposition (v : Bool) (p : Parameters) :
 
 theorem head_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     run M (headBody p) s=some (headState p s) := by
-  simp [headBody,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [headBody,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,numeric,numericLt,bop,Region.cast,Option.bind,
     FP.Structural.eval_truncDiv,FP.Structural.eval_truncMod,headState,sequence,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -77,29 +77,29 @@ theorem head_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s
 
 theorem metadata_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     run M (metadataBody p) (headState p s)=some (metadataState p s) := by
-  simp [metadataBody,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [metadataBody,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,numeric,numericLt,bop,Region.cast,Option.bind,
     FP.Structural.eval_truncDiv,FP.Structural.eval_truncMod,metadataState,headState,
     selectedBlock,position,sequence,Broadcast.leftIndex,Broadcast.rightIndex]
   try dsimp only [bop,Broadcast.leftIndex,Broadcast.rightIndex,IntegerExpr.sameShape]
   simp [integralFloorDiv,←IntegerExpr.tdiv_formula,Int.tmod_def,
     Broadcast.leftIndex,Broadcast.rightIndex,IntegerExpr.same_left,IntegerExpr.same_right]
-  congr 20 <;> funext <;> simp [bop,Broadcast.leftIndex,Broadcast.rightIndex]
+  congr 20 <;> funext <;> try simp [bop,Broadcast.leftIndex,Broadcast.rightIndex]
 
 theorem tail_run {α : Type} [Inhabited α] (M : Algebra α) (v : Bool)
     (p : Parameters) (s : State α) :
     run M (tailBody v p) (metadataState p s)=some (finalState M p s) := by
-  cases v <;> simp [tailBody,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,
+  cases v <;> simp [tailBody,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,store,numeric,bop,ComputeDType.eraseDType,
     Region.cast,Option.bind,finalState,preparedState,metadataState,headState,
     sourceOffset,targetOffset,Broadcast.leftIndex,Broadcast.rightIndex,
     Int.add_comm,Int.add_left_comm,Int.add_assoc]
   all_goals try dsimp only [bop,Broadcast.leftIndex,Broadcast.rightIndex]
-  all_goals simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast]
+  all_goals simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   all_goals simp [Int.add_comm,Int.add_left_comm,Int.add_assoc,Nat.add_comm,Nat.add_left_comm,Nat.add_assoc]
   all_goals congr 20
   all_goals funext
-  all_goals simp only [bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast]
+  all_goals simp only [bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   all_goals simp [Int.add_comm,Int.add_left_comm,Int.add_assoc,Nat.add_comm,Nat.add_left_comm,Nat.add_assoc]
 
   all_goals first | ring | (congr 2 <;> ring)
