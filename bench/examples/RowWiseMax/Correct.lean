@@ -20,6 +20,9 @@ open VeriTile.Bench.Examples.RowWiseMax.Kernels
 open VeriTile.Triton
 open VeriTile.Triton.KernelIO₁ (Implements)
 open scoped VeriTile.Triton.KernelIO₁
+
+attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
+  VeriTile.Triton.ComputeOp.toAlgorithm? VeriTile.Triton.ComputeDType.eraseDType
 open VeriTile.Examples
 
 /-- Read B elements from row offset pid * nCol and write one maximum at pid. -/

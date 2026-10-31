@@ -83,7 +83,9 @@ theorem trace_safe {α : Type} [Inhabited α] (ops : FPRow.Ops α) (v : Bool)
     TraceSafe (engine ops.algebra) bounds (source v input output T BT) s := by
   have hsplit : (source v input output T BT).surfaceBody =
       (FPIndexBridge.parts input output T BT).before ++
-      [.forRangeInt "i_t" (.constInt 0) (.constInt ((T+BT-1)/BT : Nat)) (.constNat 1)
+      [.forRangeInt "i_t" (.castNatToInt (.constNat 0))
+        (.castNatToInt (.div .nat .nil
+          (.sub .nat .nil (.add .nat .nil (.constNat T) (.constNat BT)) (.constNat 1)) (.constNat BT))) (.constNat 1)
         (body v input output T BT)] := by cases v <;> rfl
   unfold TraceSafe
   rw [hsplit,Safety.traceSafeList_append]
@@ -96,7 +98,7 @@ theorem trace_safe {α : Type} [Inhabited α] (ops : FPRow.Ops α) (v : Bool)
     rw [FPIndexBridge.before] at ht
     have eq := Option.some.inj (pre.symm.trans ht)
     subst t
-    simp [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold]
+    simp [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,bop,Broadcast.leftIndex,Broadcast.rightIndex,numeric]
     constructor
     · simpa using loop_safe ops v input output T BT (s.pids 0) 0 ((T+BT-1)/BT)
         bounds first ready hi ho

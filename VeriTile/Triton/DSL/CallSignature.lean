@@ -5,6 +5,7 @@ import VeriTile.Triton.DSL.RawBodyConstants
 import VeriTile.Triton.DSL.PositionalBlockPointer
 import VeriTile.Triton.DSL.RawBodyStores
 import VeriTile.Triton.DSL.RawBodyDTypeControl
+import VeriTile.Triton.DSL.RawBodyNestedLoads
 import Lean
 
 /-! Call-site typing for a pasted Triton body. The signature describes pointer
@@ -32,6 +33,7 @@ syntax "tl.zeros(" "(" tritonExpr,* ")" ")" : tritonExpr
 syntax "tl.zeros(" "(" tritonExpr,* ")" ", " tritonDType ")" : tritonExpr
 syntax "tl.zeros(" "(" tritonExpr,* ")" ", " ident "=" tritonDType ")" : tritonExpr
 syntax "for " ident " in " "range(0, " tritonExpr ")" " { " tritonStmt* " }" : tritonStmt
+syntax (priority := low) "for " ident " in " "range(" tritonExpr ", " tritonExpr ")" " { " tritonStmt* " }" : tritonStmt
 syntax (priority := low) "for " ident " in " "range(0, " tritonExpr ", " tritonExpr ")" " { " tritonStmt* " }" : tritonStmt
 private partial def pythonIntegerLiteral? (value : TSyntax `tritonExpr) : Option Int :=
   match value with
@@ -47,12 +49,22 @@ private def integerDType (dtype : TSyntax `tritonDType) : Bool :=
   | `(tritonDType| tl.uint32) | `(tritonDType| tl.uint64) => Bool.true
   | _ => Bool.false
 
+private partial def loadOperand (value : TSyntax `tritonExpr) : Bool :=
+  match value with
+  | `(tritonExpr| ($value:tritonExpr)) => loadOperand value
+  | `(tritonExpr| tl.load($_:tritonExpr $[, $_:tritonMemKwarg]*)) => Bool.true
+  | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*)) => Bool.true
+  | _ => Bool.false
+
 private partial def normalizeRawBody (parserEnv : Environment) (raw : Syntax) : MacroM Syntax := do
   let raw := raw.setArgs (← raw.getArgs.mapM (normalizeRawBody parserEnv))
   match raw with
   | `(tritonExpr| tl.cast($value:tritonExpr, $dtype:tritonDType)) => do
       unless integerDType dtype do return raw
-      let some n := pythonIntegerLiteral? value | return raw
+      let some n := pythonIntegerLiteral? value
+        | if loadOperand value then
+            return (← `(tritonExpr| ($value:tritonExpr).to($dtype:tritonDType))).raw
+          else return raw
       unless -(2^63 : Int) ≤ n && n < 2^63 do
         Macro.throwErrorAt value "integer literal cast requires a supported signed-64 source literal"
       let digits : TSyntax `num := ⟨Syntax.mkNumLit (toString n.natAbs)⟩
@@ -86,6 +98,8 @@ private partial def normalizeRawBody (parserEnv : Environment) (raw : Syntax) : 
       return (← `(tritonExpr| tl.zeros([$dims,*], $name:ident=$dt:tritonDType))).raw
   | `(tritonStmt| for $i:ident in range(0, $stop:tritonExpr) { $body:tritonStmt* }) =>
       return (← `(tritonStmt| for $i:ident in range($(0), $stop:tritonExpr, $(1)) { $body* })).raw
+  | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr) { $body:tritonStmt* }) =>
+      return (← `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, $(1)) { $body* })).raw
   | `(tritonStmt| for $i:ident in range(0, $stop:tritonExpr, $step:tritonExpr) { $body:tritonStmt* }) =>
       return (← `(tritonStmt| for $i:ident in range($(0), $stop:tritonExpr, $step:tritonExpr) { $body* })).raw
   | _ => return raw
@@ -134,6 +148,8 @@ private def bindings {α : Type} (decode : Expr → TermElabM α) (value : Expr)
     return (← stringValue args[2]!, ← decode args[3]!)
 
 private partial def rejectBodyMetadata (raw : Syntax) : TermElabM Unit := do
+  if raw.getKind == ``tritonCallSignature then
+    throwErrorAt raw "call-signature metadata belongs outside the pasted body"
   if let `(tritonStmt| tl.region $_:ident = $_:tritonDType $[, $_:ident = $_:tritonDType]*) := raw then
     throwErrorAt raw "pointer types belong in the call signature, outside the pasted body"
   if let `(tritonStmt| tl.param $_:ident : $_:tritonDType) := raw then
@@ -194,7 +210,7 @@ private partial def storeValues (raw : Syntax) : List Syntax :=
         unless (pointers.map Prod.fst ++ floatingPointers.map Prod.fst).contains id.getId.eraseMacroScopes.toString do
           throwErrorAt region "pointer parameter {id} is missing from the call signature"
       let term ← liftMacroM do
-        let mut declarations : Array (TSyntax `tritonStmt) := #[]
+        let mut declarations : Array (TSyntax `tritonStmt) := #[← `(tritonStmt| tl.call_signature)]
         let mut dtypeBindings : List (String × TSyntax `term) := []
         for (name, kind) in pointers do
           let id := mkIdent (Name.mkSimple name)
@@ -222,10 +238,15 @@ private partial def storeValues (raw : Syntax) : List Syntax :=
         RawBodyDTypeControl.emit dtypeBindings (fun selected => do
           let mut body := selected
           for (name, kind) in pointers do
-            body ← RawBodyStores.lower (SourceDType.storeValue kind) [Name.mkSimple name] body
+            body ← RawBodyStores.lower (fun value => do
+              if kind == .boolean then return ← SourceDType.storeValue kind value
+              let some dtype ← dtypeSyntaxOfName? (SourceDType.dtypeName kind)
+                | Macro.throwError "unsupported implicit store dtype"
+              `(tritonExpr| tl.implicit_store_cast($value:tritonExpr, $dtype:tritonDType)))
+              [Name.mkSimple name] body
           for (name, dtype) in floatingPointers do
             body ← RawBodyStores.lower (fun value =>
-              `(tritonExpr| ($value:tritonExpr).to(storage_dtype($dtype:ident)))) [Name.mkSimple name] body
+              `(tritonExpr| tl.implicit_store_cast($value:tritonExpr, storage_dtype($dtype:ident)))) [Name.mkSimple name] body
           let originalStores := selected.flatMap (fun st => storeValues st.raw)
           let convertedStores := body.flatMap (fun st => storeValues st.raw)
           unless originalStores.length == convertedStores.length do
@@ -233,6 +254,7 @@ private partial def storeValues (raw : Syntax) : List Syntax :=
           for (original, converted) in originalStores.zip convertedStores do
             if original == converted then
               Macro.throwErrorAt original "cannot determine tl.store destination dtype from the call signature"
+          body ← RawBodyNestedLoads.lower body
           let emitted := declarations ++ body.toArray
           `(triton { $emitted* })) stmts.toList
       let term ← liftMacroM <| constantBindings.reverse.foldlM (init:=term) fun body (name,value) =>

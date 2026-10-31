@@ -50,12 +50,14 @@ def payload {α : Type} (M : Algebra α) (p : Parameters) (n capacity : Nat)
     (xs : (cacheIO M p n capacity).Inputs) (o : Nat) : Nat :=
   if h:o<capacity*p.rowBytes then xs (1 : Fin 2) (⟨o,h⟩,PUnit.unit) else 0
 
-/-- Exactly the independent geometry and metadata range conditions formerly
-carried by GatherInput. Empty launches do not acquire a metadata requirement. -/
+/-- Independent geometry, metadata bounds and the native uint8 payload range.
+The Nat carrier alone does not imply byte bounds. Empty launches do not
+acquire a metadata or payload requirement. -/
 def Domain {α : Type} (M : Algebra α) (p : Parameters) (n capacity : Nat)
     (xs : (cacheIO M p n capacity).Inputs) : Prop :=
   0<p.count → p.count=n*p.rowBytes ∧ 0<p.rowBytes ∧
     p.cache≠p.output ∧ p.rows≠p.output ∧ capacity ≤ i64Max ∧
+    (∀ o,o<capacity*p.rowBytes → payload M p n capacity xs o<256) ∧
     ∀ q,q<n → 0≤row M p n capacity xs q ∧ (row M p n capacity xs q).toNat<capacity
 
 /-- Independent row-gather formula, preserving all bytes of every output row. -/

@@ -56,10 +56,10 @@ specification add_kernel_optimized_correctness (B : Nat) :
     Spec.Real (optimizedIO B ⊨ fun xs ys i => xs i + ys i) := by
   refine KernelIO₂.Implements.intro _
     ?_ ?_ ?_
-  · simp [optimizedIO, optimizedKernel, Kernel.FlattenOk,
+  · simp [optimizedIO, optimizedKernel,commutedKernel, Kernel.FlattenOk,
       StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
   · intro bounds s h1 h2 h3
-    simpa [optimizedIO, addIO, Kernel.TraceSafe, optimizedKernel, addKernel,
+    simpa [optimizedIO, addIO, Kernel.TraceSafe, optimizedKernel,commutedKernel, addKernel,
       Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
       MemAccess.SafeAt, stepStmt, evalOp.eq_def,
       Region.cast, Tile.bop, NumericDType.add, NumericDType.mul, add_comm]

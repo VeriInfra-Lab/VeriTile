@@ -34,7 +34,7 @@ def quotation(text: str, definition: str, *, raw_python: bool = False) -> tuple[
     if len(matches) != 1:
         raise ValueError(f"ambiguous Lean definition: {definition}")
     start = matches[0]
-    next_def = re.search(r"\n(?:(?:noncomputable|private|protected)\s+)*(?:def|abbrev|theorem|specification|end)\b", mask[start.end():])
+    next_def = re.search(r"\n(?:(?:noncomputable|private|protected)\s+)*(?:def|abbrev|theorem|specification|inductive|structure|end)\b", mask[start.end():])
     end = start.end() + next_def.start() if next_def else len(text)
     selected, code = text[start.start():end], mask[start.start():end]
     begin = re.search(r"\btriton\b", code)
@@ -249,7 +249,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     if signature_definition is not None:
         if expected_signature is None:
             raise ValueError("pasted body requires an independently reviewed call signature")
-        if re.search(r"\btl\.(region|param)\b|\$", body):
+        if re.search(r"\btl\.(region|param|call_signature)\b|\$", body):
             raise ValueError("pasted body must not contain metadata directives or Lean antiquotes")
         profile = call_signature(lean_text, signature_definition)
         dtype_arguments = profile.get("dtype_parameters", [])

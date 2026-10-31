@@ -70,7 +70,8 @@ class PastedBodyTests(unittest.TestCase):
         self.assertEqual(textwrap.dedent(python_body).strip(), textwrap.dedent(lean_body).strip())
 
     def test_no_metadata_or_antiquotes_in_pasted_body(self):
-        for statement in ["tl.region x_ptr = tl.int8", "tl.param inv_127 : tl.float32", "a = $(P2)"]:
+        for statement in ["tl.region x_ptr = tl.int8", "tl.param inv_127 : tl.float32",
+                          "tl.call_signature", "a = $(P2)"]:
             with self.subTest(statement=statement), self.assertRaises(ValueError):
                 self.compare(self.lean.replace("  pid =", "  " + statement + "\n  pid =", 1))
 
@@ -106,6 +107,12 @@ class PastedBodyTests(unittest.TestCase):
     def test_unreviewed_signature_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "reviewed call signature"):
             check(self.python, self.lean, self.record["python_function"], "body", "callSignature")
+
+    def test_following_type_declaration_is_not_part_of_the_body(self):
+        lean = self.lean[:self.lean.index("/-- Candidate:")]
+        for declaration in ("inductive Config where\n  | first\n", "structure Config where\n  block : Nat\n"):
+            with self.subTest(declaration=declaration):
+                self.assertEqual(self.compare(lean + declaration)["mode"], "pasted_body")
 
 
 class MatmulSourceTests(unittest.TestCase):

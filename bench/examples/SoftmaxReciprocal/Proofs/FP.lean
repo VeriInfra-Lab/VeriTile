@@ -36,7 +36,7 @@ theorem domain_values {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α
               ⟨"s", [], .nonzero⟩] } : Precondition).Holds M D s) :
     (∀ i, D .finite (exponentials M B xs i)) ∧
       D .finite (denominator M B xs) ∧ D .nonzero (denominator M B xs) := by
-  simp [Precondition.Holds, commonPrefix, ComputeKernel.surfaceBody,
+  simp [Precondition.Holds, commonPrefix, stableSoftmaxKernel, Source.prefixBefore, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, ComputeDType.eraseDType,
     numeric, bop, TileShape.axisDim, TileShape.eraseAxis,
     hB, hx, Function.comp_def, TileIndex] at h

@@ -1119,6 +1119,20 @@ partial def natBlockPtrOffsets (env : Env) (ctx : String)
   pure (← natListTerm staticOffsets.toList, ← opListTerm offsetOps.toList, hasDynamic)
 
 partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := do
+  if let `(tritonExpr| tl.implicit_store_cast($value:tritonExpr, $dtype:tritonDType)) := stx then
+    let value' ← expandExpr env value
+    let dst ← expandDType dtype
+    let floating := match dst with
+      | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => Bool.true
+      | _ => Bool.false
+    let same := if dst == .fp32 then
+        value'.dtype == .real && value'.computeDType? == some .fp32
+      else if dst == .real then
+        value'.dtype == .real && value'.computeDType? == some .real
+      else dst == value'.dtype
+    if floating && same then
+      return value'
+    return ← expandExpr env (← `(tritonExpr| tl.cast($value:tritonExpr, $dtype:tritonDType)))
   -- The source's explicit output-pointer cast can be Bool -> Bool. Preserve
   -- its actual operand instead of treating the register as a numeric load.
   if let some (e, dt) := methodCast? stx then
@@ -2374,6 +2388,7 @@ pointer-element cast interpretation. -/
 structure FPSourceContext where
   regions : Inference.RegionDTypes
   legacyPointerCasts : Bool
+  callSignature : Bool := Bool.false
 
 
 /-- Normalize only the syntax inspected for floating provenance. A mathematical
@@ -2544,10 +2559,10 @@ private def fpProvenanceAfterStmt (regions : Inference.RegionDTypes)
 /-- Explicit wide storage provenance supplies load compute precision, independently
 of the mathematical real carrier used by unannotated source kernels. -/
 partial def annotateWideFloatingLoadStorage (regions : Inference.RegionDTypes)
-    (pointers : FPPtrProvenance) (raw : Syntax) : MacroM Syntax := do
+    (pointers : FPPtrProvenance) (raw : Syntax) (allStorage : Bool := Bool.false) : MacroM Syntax := do
   let raw ← match raw with
     | .node info kind args => do
-        let args ← args.mapM (annotateWideFloatingLoadStorage regions pointers)
+        let args ← args.mapM (fun arg => annotateWideFloatingLoadStorage regions pointers arg allStorage)
         pure (.node info kind args)
     | other => pure other
   let keyword? (p : TSyntax `tritonExpr) (kwargs : TSyntaxArray `tritonMemKwarg) :
@@ -2561,6 +2576,22 @@ partial def annotateWideFloatingLoadStorage (regions : Inference.RegionDTypes)
     let dtype ← match ← fpPointerDType? regions pointers p with
       | some .real => `(tritonDType| tl.float64)
       | some .fp32 => `(tritonDType| tl.float32)
+      | some dtype =>
+          unless allStorage do return none
+          match dtype with
+          | .fp16 => `(tritonDType| tl.float16)
+          | .bf16 => `(tritonDType| tl.bfloat16)
+          | .f8e4 => `(tritonDType| tl.float8e4nv)
+          | .f8e5 => `(tritonDType| tl.float8e5)
+          | .int32 => `(tritonDType| tl.int32)
+          | .int8 => `(tritonDType| tl.int8)
+          | .int => `(tritonDType| tl.int64)
+          | .nat => `(tritonDType| tl.uint64)
+          | .bool => `(tritonDType| tl.int1)
+          | .floatVar name =>
+              let name := mkIdent (Name.mkSimple name)
+              `(tritonDType| storage_dtype($name:ident))
+          | _ => return none
       | _ => return none
     let kwName : Ident := mkIdent `dtype
     return some (← `(tritonMemKwarg| $kwName:ident = $dtype:tritonDType))
@@ -2612,6 +2643,9 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     MacroM (TSyntax `term × TSyntax `term × Env × Bool) := do
   let annotate (e : TSyntax `tritonExpr) : MacroM (TSyntax `tritonExpr) := do
     let raw ← annotatePointerElementCasts fpSource.regions fpSource.legacyPointerCasts fpPtrElems e.raw
+    let raw ← if fpSource.callSignature then
+        annotateWideFloatingLoadStorage fpSource.regions fpPtrElems raw Bool.true
+      else pure raw
     return ⟨← annotateMachineLoadCasts regionDTypes ptrElems raw⟩
   let expandExpr (env : Env) (e : TSyntax `tritonExpr) : MacroM EOut := do
     expandExpr env (← annotate e)
@@ -4153,7 +4187,7 @@ partial def expandStmts (env : Env) (pinned intPinned : List String)
   match stmts with
   | [] => pure (#[], #[], env, Bool.false)
   | st :: rest => do
-      if Inference.isRegionDirective st then
+      if Inference.isRegionDirective st || st.raw.getKind == ``tritonCallSignature then
         return ← expandStmts env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts rest
       if let `(tritonStmt| tl.param $name:ident : $dt:tritonDType (carrier=$carrier:tritonDType)) := st then
         let key := name.getId.toString
@@ -4386,6 +4420,7 @@ elab_rules : term
           localRegionDTypes.filter (fun entry => entry.2 != DInfo.real)
         let fpSource : FPSourceContext := {
           regions := fpRegions
+          callSignature := stmtList.any (fun st => st.raw.getKind == ``tritonCallSignature)
           legacyPointerCasts := fpRegions.isEmpty &&
             !(sourceBody.any (fun st => Inference.hasConcreteRegionStorage st.raw ||
               st.raw.getKind == ``tritonSourceFiniteAlias ||

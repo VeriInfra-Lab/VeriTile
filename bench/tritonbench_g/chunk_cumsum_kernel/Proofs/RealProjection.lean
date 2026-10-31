@@ -27,7 +27,7 @@ def pointer (region : RegionName) (T BT : Nat) : Op .ptr [BT] :=
 mathematical fragment. The theorem below checks the complete typed AST. -/
 def actualBody (input output : RegionName) (T BT : Nat) : List Stmt :=
   [ .assign .int [BT] "times" (.add .int .scalarL
-      (.mul .int .nil (.ref .int [] "i_t") (.constInt BT)) (.castNatToInt (.arange BT))),
+      (.mul .int .nil (.ref .int [] "i_t") (.castNatToInt (.constNat BT))) (.castNatToInt (.arange BT))),
     .assign .ptr [BT] "p_s" (pointer input T BT),
     .assign .ptr [BT] "p_o" (pointer output T BT),
     .assign .real [BT] "b_s" (.load .real (.ptr (.ref .ptr [BT] "p_s")) (mask T BT)) ] ++
@@ -39,7 +39,9 @@ def prelude : List Stmt :=
 
 theorem actual_body (input output : RegionName) (T BT : Nat) :
     (actual input output T BT).body=prelude ++
-      [.forRangeInt "i_t" (.constInt 0) (.constInt ((T+BT-1)/BT : Nat)) (.constNat 1)
+      [.forRangeInt "i_t" (.castNatToInt (.constNat 0))
+        (.castNatToInt (.div .nat .nil
+          (.sub .nat .nil (.add .nat .nil (.constNat T) (.constNat BT)) (.constNat 1)) (.constNat BT))) (.constNat 1)
         (actualBody input output T BT)] := by
   simp only [actual,repairedKernel,ComputeKernel.surfaceBody,
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
