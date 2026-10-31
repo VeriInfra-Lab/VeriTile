@@ -41,8 +41,8 @@ def store (BM BD D : Nat) : Stmt :=
 theorem store_executes (s : BlockState) (c : Config) (BM BD : Nat)
     (values : TileIndex [BM,BD] → ℝ)
     (hp : s.regs .ptr [BM,BD] "O_block_ptr" = some (outputPointer c BM BD))
-    (hr : s.regs .nat [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context))
+    (hr : s.regs .int [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context))
     (hv : s.regs .real [BM,BD] "acc" = some (finite values)) :
     stepStmt (store BM BD c.p.headDim) s = some (writeOutput s c BM BD values) := by
   have hm := eval_query_mask s BM BD c.p.context c.p.headDim c.startM hr hctx
@@ -58,8 +58,8 @@ theorem executes (s : BlockState) (c : Config) (BM BD : Nat) (reciprocal : Bool)
     (ha : s.regs .real [BM,BD] "acc" = some (finite a))
     (hl : s.regs .real [BM] "l_i" = some (finite (fun i : TileIndex [BM] => l i.1)))
     (hp : s.regs .ptr [BM,BD] "O_block_ptr" = some (outputPointer c BM BD))
-    (hr : s.regs .nat [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context)) :
+    (hr : s.regs .int [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context)) :
     ∃ t, stepStmts (epilogue BM BD c.p.headDim reciprocal) s = some t ∧
       (∀ i, active c BM BD i = Bool.true →
         (∀ x y, active c BM BD x = Bool.true → active c BM BD y = Bool.true →
@@ -69,11 +69,11 @@ theorem executes (s : BlockState) (c : Config) (BM BD : Nat) (reciprocal : Bool)
         t.mem region offset = s.mem region offset) := by
   let normalized := fun i : TileIndex [BM,BD] => a i/l i.1
   let sn := s.setReg "acc" .real [BM,BD] (finite normalized)
-  have hn := RealEpilogue.normalize_executes s BM BD reciprocal a l ha hl
+  have hn := RealEpilogue.normalize_executes s BM BD Bool.false a l ha hl
   have hstore := store_executes sn c BM BD normalized (by simp [sn,hp])
     (by simp [sn,hr]) (by simp [sn,hctx]) (by simp [sn])
   refine ⟨writeOutput sn c BM BD normalized,?_,?_,?_⟩
-  · change stepStmts [RealSource.normalization BM BD reciprocal,store BM BD c.p.headDim] s = _
+  · change stepStmts [RealSource.normalization BM BD Bool.false,store BM BD c.p.headDim] s = _
     rw [stepStmts.cons_some hn,stepStmts.cons_some hstore,stepStmts.nil]
   · intro i hi hinj
     exact RealEpilogue.readback sn (outputConfig c) c.p.Out BM BD normalized i hi hinj

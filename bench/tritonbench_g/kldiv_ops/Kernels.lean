@@ -1,6 +1,1556 @@
 import VeriTile.Triton.DSL
+import bench.tritonbench_g.kldiv_ops.Sources.Parameters
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
+
+namespace VeriTile.Bench.Repairs.KldivOps.BackwardSource
+open VeriTile.Triton
+open VeriTile.Bench.TritonBenchG.KldivOps.TypedSource
+
+def defaultTarget (target : Storage) (output : Storage) (swapped : Bool)
+    (T O : RegionName) (st so N B : Nat) : ComputeKernel :=
+  match target,output,swapped with
+  | .fp32, .fp32, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .fp32, .fp32, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .fp32, .fp64, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .fp32, .fp64, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .fp32, .fp16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .fp32, .fp16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .fp32, .bf16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .fp32, .bf16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .fp32, .f8e4, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .fp32, .f8e4, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .fp32, .f8e5, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .fp32, .f8e5, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .fp64, .fp32, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .fp64, .fp32, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .fp64, .fp64, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .fp64, .fp64, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .fp64, .fp16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .fp64, .fp16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .fp64, .bf16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .fp64, .bf16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .fp64, .f8e4, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .fp64, .f8e4, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .fp64, .f8e5, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .fp64, .f8e5, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .fp16, .fp32, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .fp16, .fp32, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .fp16, .fp64, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .fp16, .fp64, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .fp16, .fp16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .fp16, .fp16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .fp16, .bf16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .fp16, .bf16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .fp16, .f8e4, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .fp16, .f8e4, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .fp16, .f8e5, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .fp16, .f8e5, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float16, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .bf16, .fp32, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .bf16, .fp32, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .bf16, .fp64, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .bf16, .fp64, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .bf16, .fp16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .bf16, .fp16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .bf16, .bf16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .bf16, .bf16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .bf16, .f8e4, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .bf16, .f8e4, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .bf16, .f8e5, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .bf16, .f8e5, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.bfloat16, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .f8e4, .fp32, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .f8e4, .fp32, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .f8e4, .fp64, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .f8e4, .fp64, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .f8e4, .fp16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .f8e4, .fp16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .f8e4, .bf16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .f8e4, .bf16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .f8e4, .f8e4, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .f8e4, .f8e4, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .f8e4, .f8e5, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .f8e4, .f8e5, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e4nv, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .f8e5, .fp32, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .f8e5, .fp32, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .f8e5, .fp64, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .f8e5, .fp64, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .f8e5, .fp16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .f8e5, .fp16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .f8e5, .bf16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .f8e5, .bf16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .f8e5, .f8e4, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .f8e5, .f8e4, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .f8e5, .f8e5, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .f8e5, .f8e5, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float8e5, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = target * -1
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+
+def logarithmic (target : MathStorage) (output : Storage) (swapped : Bool)
+    (T O : RegionName) (st so N B : Nat) : ComputeKernel :=
+  match target,output,swapped with
+  | .fp32, .fp32, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .fp32, .fp32, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .fp32, .fp64, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .fp32, .fp64, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float64), mask=mask)
+    }
+  }
+  | .fp32, .fp16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .fp32, .fp16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .fp32, .bf16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .fp32, .bf16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .fp32, .f8e4, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .fp32, .f8e4, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .fp32, .f8e5, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .fp32, .f8e5, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float32, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .fp64, .fp32, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .fp64, .fp32, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float32
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float32), mask=mask)
+    }
+  }
+  | .fp64, .fp64, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .fp64, .fp64, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float64
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res, mask=mask)
+    }
+  }
+  | .fp64, .fp16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .fp64, .fp16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float16), mask=mask)
+    }
+  }
+  | .fp64, .bf16, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .fp64, .bf16, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.bfloat16
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.bfloat16), mask=mask)
+    }
+  }
+  | .fp64, .f8e4, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .fp64, .f8e4, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float8e4nv
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float8e4nv), mask=mask)
+    }
+  }
+  | .fp64, .f8e5, Bool.false => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += pid * $(so)
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+  | .fp64, .f8e5, Bool.true => triton {
+    tl.ports inputs=[T], outputs=[O]
+    tl.region T = tl.float64, O = tl.float8e5
+    pid = tl.program_id(0).to(tl.int64)
+    T += pid * $(st)
+    O += $(so) * pid
+    offsets = tl.arange(0, $(B))
+    mask = offsets < $((N : Int))
+    for i in range(0, $((N : Int)), $(B)) {
+      offsets = i + tl.arange(0, $(B))
+      mask = offsets < $((N : Int))
+      target = tl.load(T + offsets, mask=mask, other=0.0)
+      res = -tl.exp(target)
+      tl.store(O + offsets, res.to(tl.float8e5), mask=mask)
+    }
+  }
+end VeriTile.Bench.Repairs.KldivOps.BackwardSource
 
 namespace VeriTile.Bench.Repairs.KldivOps
 open VeriTile.Triton
@@ -138,84 +1688,16 @@ def forwardLogCommuted (p : Parameters) (red : Nat) : ComputeKernel :=
   }
 
 def backwardDefault (p : Parameters) : ComputeKernel :=
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[T], outputs=[O]
-    tl.region T = tl.float32, O = tl.float32
-    pid = tl.program_id(0).to(tl.int64)
-    T += pid * $(p.cols)
-    O += pid * $(p.cols)
-    offsets = tl.arange(0, $(p.block)).to(tl.int64)
-    mask = offsets < $((p.cols : Int))
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
-      mask = offsets < $((p.cols : Int))
-      target = tl.load(T + offsets, mask=mask, other=0.0)
-      res = target * -1
-      tl.store(O + offsets, res, mask=mask)
-    }
-  }
+  BackwardSource.defaultTarget .fp32 .fp32 Bool.false p.T p.O p.cols p.cols p.cols p.block
 
 def backwardLog (p : Parameters) : ComputeKernel :=
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[T], outputs=[O]
-    tl.region T = tl.float32, O = tl.float32
-    pid = tl.program_id(0).to(tl.int64)
-    T += pid * $(p.cols)
-    O += pid * $(p.cols)
-    offsets = tl.arange(0, $(p.block)).to(tl.int64)
-    mask = offsets < $((p.cols : Int))
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
-      mask = offsets < $((p.cols : Int))
-      target = tl.load(T + offsets, mask=mask, other=0.0)
-      res = -tl.exp(target)
-      tl.store(O + offsets, res, mask=mask)
-    }
-  }
+  BackwardSource.logarithmic .fp32 .fp32 Bool.false p.T p.O p.cols p.cols p.cols p.block
 
 def backwardDefaultCommuted (p : Parameters) : ComputeKernel :=
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[T], outputs=[O]
-    tl.region T = tl.float32, O = tl.float32
-    pid = tl.program_id(0).to(tl.int64)
-    T += pid * $(p.cols)
-    O += $(p.cols) * pid
-    offsets = tl.arange(0, $(p.block)).to(tl.int64)
-    mask = offsets < $((p.cols : Int))
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
-      mask = offsets < $((p.cols : Int))
-      target = tl.load(T + offsets, mask=mask, other=0.0)
-      res = target * -1
-      tl.store(O + offsets, res, mask=mask)
-    }
-  }
+  BackwardSource.defaultTarget .fp32 .fp32 Bool.true p.T p.O p.cols p.cols p.cols p.block
 
 def backwardLogCommuted (p : Parameters) : ComputeKernel :=
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[T], outputs=[O]
-    tl.region T = tl.float32, O = tl.float32
-    pid = tl.program_id(0).to(tl.int64)
-    T += pid * $(p.cols)
-    O += $(p.cols) * pid
-    offsets = tl.arange(0, $(p.block)).to(tl.int64)
-    mask = offsets < $((p.cols : Int))
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
-      mask = offsets < $((p.cols : Int))
-      target = tl.load(T + offsets, mask=mask, other=0.0)
-      res = -tl.exp(target)
-      tl.store(O + offsets, res, mask=mask)
-    }
-  }
+  BackwardSource.logarithmic .fp32 .fp32 Bool.true p.T p.O p.cols p.cols p.cols p.block
 
 /- Each complete quotation declares its original ABI before pointer rebinding. -/
 def forward (p : Parameters) (flag : Bool) (red : Nat) : ComputeKernel :=

@@ -15,18 +15,14 @@ set_option maxHeartbeats 1000000
 set_option linter.unusedSimpArgs false
 
 def middle (BM BN BD : Nat) (second diagonal : Bool) : List Stmt :=
-  [RealBody.score BM BN BD] ++
-    (if second then guard BM BN Bool.true Bool.true ++ RealBody.center BM BN
-     else [.ifThenElse (.constBool diagonal)
-       (guard BM BN Bool.false Bool.true ++ RealBody.center BM BN)
-       (guard BM BN Bool.false Bool.false ++ RealBody.center BM BN)]) ++
-    [RealBody.probability BM BN] ++ RealBody.rescale BM BN BD
+  [RealBody.score BM BN BD] ++ guard BM BN second (second || diagonal) ++
+    RealBody.center BM BN ++ [RealBody.probability BM BN] ++ RealBody.rescale BM BN BD
 
 def middleWrites : List RegName := ["qk","mask","mask_first","m_ij","p","l_ij","alpha","l_i","acc"]
 
 theorem middle_frame (BM BN BD : Nat) (second diagonal : Bool) :
     RealFrame.Code middleWrites (middle BM BN BD second diagonal) := by
-  cases second
+  cases second <;> cases diagonal
   all_goals
     dsimp [middle,guard,RealBody.score,RealBody.center,RealBody.probability,RealBody.rescale]
     repeat' first
@@ -38,28 +34,28 @@ theorem middle_frame (BM BN BD : Nat) (second diagonal : Bool) :
 theorem middle_safe (BM BN BD : Nat) (second diagonal : Bool) (bounds : RegionBounds) (s : BlockState) :
     Stmt.TraceSafeList bounds (middle BM BN BD second diagonal) s := by
   apply list_safe
-  cases second <;> simp [middle,guard,tail,RealBody.score,RealBody.scoreExpr,RealBody.center,RealBody.centerExpr,
-    RealBody.probability,RealBody.rescale,RealExpressions.maskExpr,Op.SafeAt.eq_def]
+  cases second <;> cases diagonal <;> simp [middle,guard,tail,RealBody.score,RealBody.scoreExpr,RealBody.center,RealBody.centerExpr,
+    RealBody.probability,RealBody.rescale,maskExpr,Op.SafeAt.eq_def]
 
 theorem tail_safe (BM BN BD : Nat) (second : Bool) (bounds : RegionBounds) (s : BlockState) :
     Stmt.TraceSafeList bounds (RealBody.accumulate BM BN BD ++ advance BN BD second) s := by
   apply list_safe
-  simp [RealBody.accumulate,advance,Op.SafeAt.eq_def]
+  simp [RealBody.accumulate,advance,wide,Op.SafeAt.eq_def]
 
 theorem source_split (BM BN BD D : Nat) (second diagonal : Bool) :
     sourceIteration BM BN BD D second diagonal =
       loadPrefix BD BN D second ++ middle BM BN BD second diagonal ++
       [valueLoad BN BD D second] ++ (RealBody.accumulate BM BN BD ++ advance BN BD second) := by
-  cases second <;> simp [sourceIteration,flatIteration,suffix,middle,List.append_assoc]
+  cases second <;> cases diagonal <;> simp [sourceIteration,flatIteration,suffix,middle,List.append_assoc]
 
 theorem loads_safe (bounds : RegionBounds) (s : BlockState) (c : Config) (BN BD start : Nat)
     (second : Bool) (hp : Pointers s c BN BD start second)
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar start))
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar start))
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context))
     (hbK : KeyBound bounds c BN BD start) (hbS : ksbase c BN+start/BN < bounds c.p.KS) :
     Stmt.TraceSafeList bounds (loadPrefix BD BN c.p.headDim second) s := by
-  let sn := s.setReg "start_n" .nat [] (Tile.scalar start)
+  let sn := s.setReg "start_n" .int [] (Tile.scalar start)
   let sm := sn.setReg "k_mask" .bool [BD,BN] (keyMaskTile BD BN c.p.context c.p.headDim start)
   have hm := eval_key_mask sn BD BN c.p.context c.p.headDim start (by simp [sn,hn]) (by simp [sn]) (by simp [sn,hctx])
   unfold loadPrefix
@@ -78,9 +74,9 @@ theorem loads_safe (bounds : RegionBounds) (s : BlockState) (c : Config) (BN BD 
 
 theorem iteration_safe (bounds : RegionBounds) (s : BlockState) (c : Config) (BM BN BD start : Nat)
     (second diagonal : Bool) (hp : Pointers s c BN BD start second)
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar start))
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar start))
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context))
     (hbK : KeyBound bounds c BN BD start) (hbS : ksbase c BN+start/BN < bounds c.p.KS)
     (hbV : ValueBound bounds c BN BD start) :
     Stmt.TraceSafeList bounds (sourceIteration BM BN BD c.p.headDim second diagonal) s := by
@@ -93,11 +89,11 @@ theorem iteration_safe (bounds : RegionBounds) (s : BlockState) (c : Config) (BM
   have hv : sm.regs .ptr [BN,BD] (valueName second) = some (valuePointer c BN BD start) :=
     (fm.regs _ _ _ (by cases second <;> simp [middleWrites,valueName,RealMemory.valueName])).trans
       ((fl.regs _ _ _ (by cases second <;> simp [valueName,RealMemory.valueName])).trans hp.value)
-  have hkeys : sm.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val)) :=
+  have hkeys : sm.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val)) :=
     (fm.regs _ _ _ (by simp [middleWrites])).trans ((fl.regs _ _ _ (by simp)).trans hn)
-  have hcur : sm.regs .nat [] "start_n" = some (Tile.scalar start) :=
+  have hcur : sm.regs .int [] "start_n" = some (Tile.scalar start) :=
     (fm.regs _ _ _ (by simp [middleWrites])).trans hstart
-  have hcontext : sm.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context) :=
+  have hcontext : sm.regs .int [] "n_ctx" = some (Tile.scalar c.p.context) :=
     (fm.regs _ _ _ (by simp [middleWrites])).trans ((fl.regs _ _ _ (by simp)).trans hctx)
   apply Stmt.TraceSafeList.cons_intro (value_safe bounds sm c BN BD start second hv hkeys hcur hcontext hbV)
   intro t _

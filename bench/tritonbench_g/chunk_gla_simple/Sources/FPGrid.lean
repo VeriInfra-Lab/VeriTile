@@ -14,12 +14,6 @@ set_option linter.unusedSimpArgs false
 abbrev Pid (c : Shape) := GridIndex (grid c)
 abbrev launch := @HostFP.atProgram
 
-def run (M : Algebra α) (c : Shape) (scale : ℝ) : List (Pid c) → State α → Option (State α)
-  | [],s => some s
-  | q::rest,s => do
-    let t ← FP.Structural.exec (engine M) (kernel c .fp32 .fp32 .fp32 .fp32 scale) (launch c s q)
-    run M c scale rest t
-
 /-- Independent recurrence of masked stores, with no interpreter in its definition. -/
 def reference (M : Algebra α) (c : Shape) (scale : ℝ) (d : Typed.Dots M c) :
     List (Pid c) → State α → State α
@@ -70,17 +64,6 @@ theorem reference_mem_congr (M : Algebra α) (c : Shape) (scale : ℝ) (d : Type
   induction jobs generalizing s t with
   | nil => exact hm
   | cons q rest ih => exact ih _ _ (written_mem_congr M c scale d _ _ hm rfl)
-
-theorem run_memory (M : Algebra α) (c : Shape) (scale : ℝ) (d : Typed.Dots M c)
-    (jobs : List (Pid c)) (s : State α) :
-    ∃ t, run M c scale jobs s=some t ∧ t.mem=(reference M c scale d jobs s).mem := by
-  induction jobs generalizing s with
-  | nil => exact ⟨s,rfl,rfl⟩
-  | cons q rest ih =>
-    obtain ⟨mid,he,hm⟩ := source_memory M c scale d (launch c s q)
-    obtain ⟨t,ht,hmt⟩ := ih mid
-    refine ⟨t,?_,hmt.trans (reference_mem_congr M c scale d rest _ _ hm)⟩
-    simp only [run,he,bind,Option.bind_some,ht]
 
 theorem reference_frame (M : Algebra α) (c : Shape) (scale : ℝ) (d : Typed.Dots M c)
     (jobs : List (Pid c)) (s : State α) (r : RegionName) (off : Nat)
@@ -157,24 +140,6 @@ def programs (c : Shape) : List (Pid c) := (Finset.univ : Finset (Pid c)).toList
 theorem programs_nodup (c : Shape) : (programs c).Nodup := Finset.nodup_toList _
 theorem mem_programs (c : Shape) (q : Pid c) : q∈programs c := by simp [programs]
 
-/-- Every actual program executes into one merged state; independent initial
-input readback, exact FP32 tags, and the full tagged-memory frame all compose. -/
-theorem complete (M : Algebra α) (c : Shape) (scale : ℝ) (d : Typed.Dots M c)
-    (jobs : List (Pid c)) (hn : jobs.Nodup) (hc : ∀ q, q∈jobs) (s : State α) :
-    ∃ t, run M c scale jobs s=some t ∧ Result M c scale d s t := by
-  obtain ⟨t,he,hm⟩ := run_memory M c scale d jobs s
-  refine ⟨t,he,?_,?_⟩
-  · intro q i hi
-    rw [hm]
-    exact reference_readback M c scale d jobs s hn q (hc q) i hi
-  · intro r off hh
-    rw [hm]
-    exact reference_frame M c scale d jobs s r off (hh.imp_right (fun h q _ => h q))
-
-theorem whole_grid (M : Algebra α) (c : Shape) (scale : ℝ) (d : Typed.Dots M c) (s : State α) :
-    ∃ t, run M c scale (programs c) s=some t ∧ Result M c scale d s t :=
-  complete M c scale d (programs c) (programs_nodup c) (mem_programs c) s
-
 theorem returned (M : Algebra α) (c : Shape) (ht : 0<c.BT) (scale : ℝ)
     (d : Typed.Dots M c) (s t : State α) (hr : Result M c scale d s t)
     (h : Fin c.heads) (r : Fin c.T) (v : Fin c.V) :
@@ -187,8 +152,7 @@ theorem returned (M : Algebra α) (c : Shape) (ht : 0<c.BT) (scale : ℝ)
   simpa [oOffset,FPValue.row,FPValue.column,launch,HostFP.atProgram,owner,index,
     GridIndex.toPids,grid,Shape.grid,Grid.rank,lane,Nat.div_add_mod'] using hh
 
-#specNonCircular Result avoiding [run,FP.Structural.exec]
-#axiomsClean complete
+#specNonCircular Result avoiding [VeriTile.Bench.Repairs.ChunkGlaSimple.source,VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.fp32Original,FP.Structural.exec]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

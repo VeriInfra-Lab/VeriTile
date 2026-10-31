@@ -27,6 +27,8 @@ def software (rest : Algebra Word) : Algebra Word :=
     cast := fun precision src dst x =>
       match src,dst with
       | .real,.fp16 => encode .half x
+      | .fp16,.fp16 => x
+      | .f8e4,.f8e4 => x
       | .real,.f8e4 => encode .e4m3 x
       | src,dst => (FP.Software.scalarFP32 rest .ieeeValue).cast precision src dst x}
 

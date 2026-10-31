@@ -9,7 +9,6 @@ set_option maxHeartbeats 8000000
 set_option linter.unusedSimpArgs false
 set_option linter.unusedSectionVars false
 
-abbrev Old := VeriTile.Bench.TritonBenchG.FusedRecurrentHgrn.FPStages.forward
 abbrev lane := @VeriTile.Bench.TritonBenchG.FusedRecurrentHgrn.FPStages.channel
 abbrev row := @VeriTile.Bench.TritonBenchG.FusedRecurrentHgrn.FPStages.rowOffset
 abbrev slot := @VeriTile.Bench.TritonBenchG.FusedRecurrentHgrn.FPStages.stateOffset
@@ -67,7 +66,6 @@ theorem prologue (p : Ops α) (s : State α) (T D BD : Nat) (U : Bool) :
   all_goals funext j
   all_goals rcases j with ⟨j,⟨⟩⟩
   all_goals first | rfl | simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
-
 
 @[simp] theorem masked_regs {ι : Type} (r : RegionName) (off : ι → Nat)
     (value : ι → Cell α) (active : ι → Prop) [DecidablePred active]

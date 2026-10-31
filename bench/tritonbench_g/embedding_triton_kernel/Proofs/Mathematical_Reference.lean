@@ -1,4 +1,6 @@
-import bench.tritonbench_g.embedding_triton_kernel.Proofs.Mathematical_Erasure
+import bench.tritonbench_g.embedding_triton_kernel.Proofs.Mathematical_Kernels
+import VeriTile.Triton.Float.Erasure
+import VeriTile.Meta.StatementAudit
 import VeriTile.Triton.Semantics.State
 namespace VeriTile.Bench.TritonBenchG.EmbeddingTritonKernel.Reference
 open VeriTile.Triton

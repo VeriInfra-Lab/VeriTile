@@ -18,7 +18,7 @@ theorem initial_safety (A : Algebra α) (s : State α) (X Y : RegionName)
       ∀ mid, range A "start_n" 0 (previous N B) B (rangeBody (code Y X rows N B) 5)
         (initial A s X Y N B)=some mid →
         traceSafeList A bounds ((code Y X rows N B).drop 6) mid := by
-  simp [TraceSafe,Source.forward_inner,softmax_kernel_inner,code,branch,rangeBody,
+  simp [TraceSafe,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,code,branch,rangeBody,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -37,8 +37,7 @@ theorem between_safety (A : Algebra α) (base mid : State α) (X Y : RegionName)
       ∀ t, range A "start_n" (previous N B) N B (rangeBody (code Y X rows N B) 6) mid=some t →
         traceSafeList A bounds ((code Y X rows N B).drop 7) t := by
   rcases hs with ⟨hx,hy,hprev,hm,hz,hmem⟩
-  simp [code,branch,rangeBody,Source.forward_inner,softmax_kernel_inner,
-    ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+  simp [code,branch,rangeBody,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,hprev]
   all_goals split <;> simp_all
@@ -53,8 +52,7 @@ theorem after_safety (A : Algebra α) (base mid : State α) (X Y : RegionName)
         (writeInitial A mid N B v)=some t →
         traceSafeList A bounds ((code Y X rows N B).drop 12) t := by
   rcases hs with ⟨hx,hy,hprev,hm,hz,hmem⟩
-  simp [code,branch,rangeBody,Source.forward_inner,softmax_kernel_inner,
-    ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+  simp [code,branch,rangeBody,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,
@@ -74,8 +72,7 @@ theorem last_safety (A : Algebra α) (s : State α) (X Y : RegionName)
     (rows N B : Nat) (bounds : RegionName → Nat) :
     traceSafeList A bounds ((code Y X rows N B).drop 12) s ↔
       rangeSafe A bounds "start_n" B N B (rangeBody (code Y X rows N B) 12) s := by
-  simp [code,branch,rangeBody,Source.forward_inner,softmax_kernel_inner,
-    ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+  simp [code,branch,rangeBody,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold]
   all_goals split <;> simp

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_layernorm_triton.Proofs.Source
+import bench.tritonbench_g.fused_layernorm_triton.Proofs.Mathematical_WholeHost
 import bench.tritonbench_g.fused_layernorm_triton.Proofs.Contract
 import VeriTile.Torch.FP32
 

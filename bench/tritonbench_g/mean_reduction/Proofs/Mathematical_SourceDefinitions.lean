@@ -9,12 +9,12 @@ noncomputable section
 
 namespace Whole
 def source (X Mean : RegionName) (M N : Nat) : ComputeKernel :=
-  typedKernel .fp32 .fp32 Bool.false X Mean M N 8 8
+  typedKernel Bool.false X Mean M N 8 8
 end Whole
 
 namespace WholeFPValue
 def source (X Mean : RegionName) (M N : Nat) : ComputeKernel :=
-  typedKernel .fp32 .fp32 Bool.false X Mean M N 8 8
+  typedKernel Bool.false X Mean M N 8 8
 end WholeFPValue
 
 end

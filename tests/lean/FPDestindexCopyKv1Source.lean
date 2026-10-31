@@ -1,14 +1,10 @@
-import bench.tritonbench_g.destindex_copy_kv1.Sources.Mathematical_Kernels
+import bench.tritonbench_g.destindex_copy_kv1.Kernels
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.DestindexCopyKv1.SourceTypes
-open VeriTile.Triton TypedSource
+open VeriTile.Triton
+open VeriTile.Bench.Repairs.DestindexCopyKv1
 set_option maxHeartbeats 4000000
 set_option maxRecDepth 20000
-
-def storageType : Storage → TileDType
-  | .fp32 => .real
-  | .fp16 => .fp16
-  | .bf16 => .bf16
 
 def loadInfo? {d : TileDType} {sh : TileShape} : Op d sh → Option (TileDType × String)
   | .load dt _ .none _ => some (dt,"unmasked")
@@ -43,16 +39,16 @@ def assignedSignedOffset? (code : List ComputeStmt) (name : RegName) : Bool :=
     else assignedSignedOffset? rest name
   | _ :: rest => assignedSignedOffset? rest name
 
-/-- Signed destination load, both payload masks, retained zero-default load,
-independent input/output dtype and signed destination arithmetic. -/
-theorem types_and_accesses (input output : Storage) (swapped : Bool) :
-    let code := (kernel input output swapped "input" ⟨"dest"⟩ "output"
-      16 4 1 16 4 1 3 3 4 4).surfaceBody
+/-- The repaired FP32 source and candidate retain signed unmasked metadata,
+masked zero-default payload loads and masked stores. -/
+theorem types_and_accesses (candidate : Bool) :
+    let layout : Layout := ⟨"input", ⟨"dest"⟩, "output", 16, 4, 1, 16, 4, 1, 3, 3, 4, 4⟩
+    let code := (if candidate then indexCommutedKernel layout else kernel layout).surfaceBody
     assignedLoad? code "dest_index" = some (.int,"unmasked") ∧
-    assignedLoad? code "k" = some (storageType input,"masked-other") ∧
-    storeInfo code = [(storageType output,Bool.false)] ∧
+    assignedLoad? code "k" = some (.real,"masked-other") ∧
+    storeInfo code = [(.real,Bool.false)] ∧
     assignedSignedOffset? code "o_ptrs" = Bool.true := by
-  cases input <;> cases output <;> cases swapped <;> exact ⟨rfl,rfl,rfl,rfl⟩
+  cases candidate <;> exact ⟨rfl,rfl,rfl,rfl⟩
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

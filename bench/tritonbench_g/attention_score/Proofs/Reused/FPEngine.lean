@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_score.Proofs.Reused.RealSource
+import bench.tritonbench_g.attention_score.Sources.Parameters
 import VeriTile.Triton.Float.ProfiledRewrite
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPEngine
@@ -23,11 +23,14 @@ def withDot {α : Type} (M : Algebra α) (D : Dot α) : Algebra α :=
     dotTyped := fun p l r o options {_} {_} {_} {_} a b => some (D.apply p l r o options a b)}
 
 def kernel (B D : Nat) (p : RealSource.Parameters) : ComputeKernel :=
-  RealSource.source B D p Bool.false
+  TypedSource.original p.Q p.K p.M p.Out
+    p.queryBatch p.queryHead p.queryRow p.queryDim p.keyBatch p.keyHead p.keyRow p.keyDim
+    p.outputBatch p.outputHead p.outputInner p.batches p.heads p.kvHeads p.queryContext p.roundedContext
+    p.keyContext B D B p.offset p.size p.scale p.window p.complement p.evenM p.evenN rfl
 
-def parts (B D : Nat) (p : RealSource.Parameters) : Source.DynamicRange :=
-  (Source.dynamicRange? (kernel B D p).surfaceBody "start_m").getD
-    ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
+def parts (B D : Nat) (p : RealSource.Parameters) : Source.IntRange :=
+  (Source.intRange? (kernel B D p).surfaceBody "start_m").getD
+    ⟨[],.constInt 0,.constInt 0,.constNat 0,[],[]⟩
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

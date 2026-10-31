@@ -36,7 +36,7 @@ theorem site_run (A : Algebra Word) (g : Geometry) (positive : 0<g.N) (s : State
   have one := length_one g positive
   change (g.N+g.N-1)/g.N=1 at one
   simp [originalSite,candidateSite,active,fullSource,unitSplitSource,
-    Geometry.parameters,ComputeKernel.surfaceBody,step,evalExpr,evalComputeOp,
+    Geometry.parameters,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,one]
   unfold bop
   simp [Broadcast.leftIndex,Broadcast.rightIndex,one]
@@ -44,7 +44,7 @@ theorem site_run (A : Algebra Word) (g : Geometry) (positive : 0<g.N) (s : State
 theorem site_safe (A : Algebra Word) (g : Geometry) (bounds : RegionName → Nat) (s : State Word) :
     Safety.stepSafe A bounds (originalSite g) s ↔ Safety.stepSafe A bounds (candidateSite g) s := by
   simp [originalSite,candidateSite,active,fullSource,unitSplitSource,
-    Geometry.parameters,ComputeKernel.surfaceBody,Safety.stepSafe_unfold,
+    Geometry.parameters,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
 
 

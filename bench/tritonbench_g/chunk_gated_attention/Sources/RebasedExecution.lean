@@ -1,4 +1,6 @@
-import bench.tritonbench_g.chunk_gated_attention.Sources.RebasedFinal
+import bench.tritonbench_g.chunk_gated_attention.Proofs.HRealExecution
+import bench.tritonbench_g.chunk_gated_attention.Sources.RebasedProgram
+import bench.tritonbench_g.chunk_gated_attention.Sources.RebasedInit
 import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealHExecution
 
 /-! Complete repaired typed H source, all chunks and all source storage/gate/
@@ -31,34 +33,9 @@ theorem executes (p : Layout) (r : Regions) (dot gate history : NativeSource.Sto
     ∃ v, exec (RebasedProgram.source p r dot gate history seed final base gateK hasSeed storeFinal swapped).eraseDType.toAlgKernel u = some v ∧
       Outputs p (RebasedInit.decoded p base u) r a gateK hasSeed storeFinal v ∧
       BlockState.WriteWithin (footprint p (RebasedInit.decoded p base u) r storeFinal) u v := by
-  let l := RebasedInit.decoded p base u
-  let start := RebasedInit.initial p r a.seed base hasSeed u
-  have hei := RebasedInit.executes p r a.seed base hasSeed u hkey hvalue hseed
-  obtain ⟨mid,hel,hm⟩ := RebasedLoop.executes u p l r a gateK hasSeed swapped hfull hs hhi start
-    (RebasedInit.invariant p r a base gateK hasSeed u hk hv hg)
-  let f := expected p l a gateK hasSeed p.NT
-  let v := RebasedFinal.output p l r storeFinal f mid
-  have hef := RebasedFinal.executes p l r storeFinal f mid hkey hvalue hm.key hm.value hm.head hm.carry
-  have hf := RebasedFinal.frame p l r storeFinal f mid
-  refine ⟨v,?_,⟨?_,?_⟩,?_⟩
-  · rw [exec,RebasedProgram.source_body,RebasedProgram.body,List.append_assoc,stepStmts.append_some hei]
-    change stepStmts (RebasedLoop.statement p r gateK swapped :: RebasedProgram.finalization p r storeFinal) start = some v
-    rw [stepStmts.cons_some hel]
-    exact hef
-  · intro c e j hc ha
-    have hframe := hf r.history (historyAddress p l c (keyIndex p l e.val) (valueIndex p l j.val))
-      (fun h => hfsep h.1 h.2.1)
-    unfold BlockState.readMem
-    rw [← hframe]
-    exact hm.history c e j hc ha
-  · intro hon e j ha
-    subst storeFinal
-    exact RebasedFinal.readback p l r f mid (hfi rfl) e j ha
-  · intro region off hn
-    exact (hm.frame region off (fun h => hn (Or.inl h))).trans
-      (hf region off (fun h => hn (Or.inr h)))
+  exact HSource.Real.executes (RebasedProgram.parameters p base gateK hasSeed storeFinal swapped)
+    r dot.dtype gate.dtype history.dtype seed final a u hfull hkey hvalue hs hfsep hhi hfi hk hv hg hseed
 
-#guard_msgs (drop info) in
-#auditModuleAxioms
+#axiomsClean executes
 end
 end VeriTile.Bench.Repairs.ChunkGatedAttention.RebasedExecution

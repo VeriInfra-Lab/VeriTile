@@ -16,7 +16,7 @@ theorem candidate_prefix_safe {α : Type} [Inhabited α] (A : Algebra α)
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList A bounds
       ((indexCommuted f r stride M N eps p).kernel.surfaceBody.take 2) s := by
-  simp [indexCommuted, Source.indexCommuted, ComputeKernel.surfaceBody,
+  simp [indexCommuted, Source.indexCommuted, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
     Safety.safeOp_unfold, step, evalExpr, evalOp_unfold]
 

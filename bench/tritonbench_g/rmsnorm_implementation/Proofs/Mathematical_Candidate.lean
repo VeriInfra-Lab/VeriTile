@@ -19,7 +19,20 @@ theorem prefix_source (v : Bool) (X W O : RegionName)
     (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) :
     (mathKernel v X W O sxb sxm sxk sw sob som sok N B eps).body.take 3 =
       indexPrefix v sxb sxm := by
-  cases v <;> rfl
+  cases v <;> simp [mathKernel,uncastMathKernel,commutedMathKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
+    ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody,ComputeStmt.listToAlgorithm?_map_alg,
+    ComputeKernel.surfaceBody,ComputeKernel.fromKernelBody,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComputeDType.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Except.bind,bind,indexPrefix]
 
 theorem prefix_flat (A : FlatAlloc) (X W O : RegionName)
     (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) (s : BlockState) :
@@ -28,6 +41,26 @@ theorem prefix_flat (A : FlatAlloc) (X W O : RegionName)
   rw [prefix_source, prefix_source]
   simp [indexPrefix, FlatAlloc.flattenStmts, FlatAlloc.flattenStmt, FlatAlloc.flattenOp.eq_def,
     stepStmts, stepStmt, evalOp.eq_def, Tile.bop, NumericDType.mul, Nat.mul_comm]
+
+/-- The complete suffix of the two source-derived views is identical. -/
+theorem source_tail (X W O : RegionName)
+    (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) :
+    (mathKernel Bool.true X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 =
+      (mathKernel Bool.false X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 := by
+  simp [mathKernel,uncastMathKernel,commutedMathKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
+    ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody,ComputeStmt.listToAlgorithm?_map_alg,
+    ComputeKernel.surfaceBody,ComputeKernel.fromKernelBody,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComputeDType.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Except.bind,bind]
 
 /-- Full execution transport preserves both loops, all stores and the entire state. -/
 theorem typed_flat_to_math (A : FlatAlloc) (input weight output : Storage) (v : Bool)
@@ -45,7 +78,7 @@ theorem typed_flat_to_math (A : FlatAlloc) (input weight output : Storage) (v : 
     rw [← List.take_append_drop 3 (mathKernel Bool.true X W O sxb sxm sxk sw sob som sok N B eps).body,
       ← List.take_append_drop 3 (mathKernel Bool.false X W O sxb sxm sxk sw sob som sok N B eps).body]
     have hs : (mathKernel Bool.true X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 =
-        (mathKernel Bool.false X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 := rfl
+        (mathKernel Bool.false X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 := source_tail ..
     simp only [FlatAlloc.flattenStmts_append, ProgramRewrite.append, prefix_flat, hs]
 
 def uncastVarBody (X : RegionName) (sxk N B : Nat) : List Stmt :=
@@ -81,7 +114,20 @@ theorem uncast_flat_exec (A : FlatAlloc) (X W O : RegionName)
       [.forRange "block_n_strart_ptr" 0 N B (uncastVarBody X sxk N B)] ++
       rmsStdPostLoop N B eps ++
       [.forRange "block_n_strart_ptr" 0 N B (rmsOutLoopBody X W O sxk sw sob som sok N B)] := by
-    simp [uncastMathKernel, rmsVarPreLoop, uncastVarBody, rmsVarLoopBody,
+    simp [uncastMathKernel, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
+    RealCastView.ofKernel,RealCastView.castBindings,RealCastView.castBinding,
+    ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody,ComputeStmt.listToAlgorithm?_map_alg,
+    ComputeKernel.surfaceBody,ComputeKernel.fromKernelBody,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComputeDType.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Except.bind,bind, rmsVarPreLoop, uncastVarBody, rmsVarLoopBody,
       rmsStdPostLoop, rmsOutLoopBody, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
     repeat' constructor
   have hloop : ∀ t : BlockState,

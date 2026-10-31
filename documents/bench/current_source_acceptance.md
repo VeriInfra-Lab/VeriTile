@@ -9,7 +9,7 @@ python3 -B -m unittest discover -s tests/python -p 'test_*.py'
 python3 -B scripts/bench/final_inventory.py --check
 python3 -B -m scripts.bench.check_body_corpus --check
 python3 -B scripts/bench/check_imported_kernel_review.py
-lake build VeriTile VeriTileMath VeriTileFull TritonBenchGFinal FinalRegressions TritonBenchSpecExamples BugDetection PretrainKernels
+lake build VeriTile VeriTileMath VeriTileFull TritonBenchGFinal FinalRegressions TritonBenchSpecExamples BugDetection PretrainKernels FPFrontendRegressions
 python3 scripts/check_comparator.py --library
 scripts/bench/audit_trust.sh --final-inventory
 ```
@@ -24,3 +24,15 @@ Run the complete applicable proof checks locally before merging proof changes.
 Source correspondence is tracked independently in `validation/source-correspondence.json`. Pending Python-to-Lean correspondence remains pending. The 65 bug-detection and 269 pretraining benchmark tasks are explicit unsolved challenges; their successful compilation does not complete their proof or backend obligations. Native execution and compiler conformance are not established by these checks.
 
 The repository contains the final source tree and current validation records. Superseded source versions, review checkpoints and archived proof runs are not required by this workflow.
+
+The selected source is each task's repaired implementation. Current comparison
+candidates remain only where the FP entry compares a real transformation.
+Proof modules derive checked program views from that source; retired complete
+kernel quotations are kept in Git history rather than as another executable
+implementation in the live tree. Mathematical specifications and finite-index
+refinements remain independent proof objects.
+
+The verbatim-body gate and the Lean proof gate are separate. A checked repaired
+implementation does not make an uncovered Python JIT function a body-copy pass.
+The correspondence inventory continues to report those pending functions and
+worked-example Python references explicitly.

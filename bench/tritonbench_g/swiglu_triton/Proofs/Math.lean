@@ -53,20 +53,7 @@ theorem value_derivative (a b : ℝ) : HasDerivAt (fun x => forward a x) (a*gate
     ring
   · simp
 
-theorem whole (isBackward : Bool) (rows cols block : Nat) (bounded : cols≤block)
-    (schedule : List Nat) (allRows : schedule.Perm (List.range rows)) (s : State ℝ) :
-    ∃ final,Grid.runRows algebra isBackward block cols schedule s=some final ∧
-      (∀ ch,enabled isBackward ch → ∀ row col,row<rows → col<cols →
-        final.mem (outputRegion ch) (row*block+col)=Cell.mk .real
-          (formula ch ((s.mem "A" (row*block+col)).read .real)
-            ((s.mem "B" (row*block+col)).read .real)
-            ((s.mem "DC" (row*block+col)).read .real))) ∧
-      (∀ region address,Grid.Outside isBackward rows cols block region address →
-        final.mem region address=s.mem region address) := by
-  simpa only [scalar_real] using Grid.whole algebra isBackward rows cols block bounded schedule allRows s
-
-#specNonCircular formula avoiding [Tile.scalar,Tile.sourceRun,Grid.runRows]
-#axiomsClean whole
+#specNonCircular formula avoiding [Tile.scalar]
 #axiomsClean gate_derivative
 #axiomsClean value_derivative
 #guard_msgs (drop info) in

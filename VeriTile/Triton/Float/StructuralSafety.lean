@@ -167,6 +167,9 @@ def safeOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option ComputeDType)
   | .makeBlockPtrDyn _ base _ _ _ _ => safeOp M p bounds s base
   | .makeBlockPtrDynOffsets _ base _ _ _ offsets =>
       safeOp M p bounds s base ∧ ∀ off ∈ offsets, safeOp M p bounds s off
+  | .makeBlockPtrDynMetadata _ base _ _ strides offsets =>
+      safeOp M p bounds s base ∧ (∀ stride ∈ strides,safeOp M p bounds s stride) ∧
+        ∀ off ∈ offsets,safeOp M p bounds s off
   | .advanceBlockPtr ptr _ => safeOp M p bounds s ptr
   | .advanceBlockPtrDyn ptr deltas =>
       safeOp M p bounds s ptr ∧ ∀ delta ∈ deltas, safeOp M p bounds s delta

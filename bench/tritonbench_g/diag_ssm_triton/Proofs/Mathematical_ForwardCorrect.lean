@@ -1,5 +1,7 @@
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ForwardProjection
-import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_Candidate
+import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_Erasure
+import VeriTile.Triton.Semantics.ProgramRewrite
+import VeriTile.Triton.Memory.FlattenTolerant
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_Reference
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_RealIO
 namespace VeriTile.Bench.TritonBenchG.DiagSsmTriton.ForwardCorrect
@@ -75,14 +77,6 @@ theorem original_correct (storage : Storage) (s x l y : RegionName)
   simpa only [Spec.Real,StreamEmitMasked2DKernelIO₃.Implements,originalIO,
     RealReference.diagSsmForwardKernelIO,ForwardProjection.typed_source_flat_exec,
     stream_reference,scan] using h
-
-theorem candidate_correct (storage : Storage) (s x l y : RegionName)
-    (length batch dim block : Nat) (hLength : 0<length) (hne : x≠y) :
-    Spec.Real (indexCommutedIO storage s x l y length batch dim block ⊨
-      fun _ _ ss ls xs t j => scan (ss t j) (ls t j) (fun u => xs u j) t) := by
-  have h := original_correct storage s x l y length batch dim block hLength hne
-  simpa only [Spec.Real,StreamEmitMasked2DKernelIO₃.Implements,originalIO,indexCommutedIO,
-    ← Candidate.forward_flat_exec] using h
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

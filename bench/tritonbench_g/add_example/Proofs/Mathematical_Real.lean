@@ -9,6 +9,9 @@ namespace VeriTile.Bench.TritonBenchG.AddExample
 open VeriTile.Triton VeriTile.Examples
 open scoped VeriTile.Triton.MaskedKernelIO₂
 
+attribute [local simp] Except.bind bind ComputeDType.eraseDType
+  VeriTile.Bench.Repairs.AddExample.Contiguous.add_kernel ComputeKernel.toAlgKernel ComputeKernel.toAlgorithm? ComputeKernel.surfaceBody ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm? ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? Region.cast
+
 /-- Algorithm-layer correctness for `add_kernel`.
 
 For each lane `i ∈ Fin BLOCK_SIZE`:
@@ -163,32 +166,6 @@ set_option maxHeartbeats 5000000
 theorem optional_add_comm (a b : Option ℝ) :
     Option.map₂ (fun x y => x + y) a b = Option.map₂ (fun x y => x + y) b a :=
   Option.map₂_comm add_comm
-
-/-- Execution equality here uses only real arithmetic; the FP layer is separate. -/
-theorem commuted_exec (in_ptr0 in_ptr1 out_ptr : RegionName) (n B : Nat) (s : BlockState) :
-    exec (add_commuted_kernel in_ptr0 in_ptr1 out_ptr n B).toAlgKernel s =
-      exec (add_kernel in_ptr0 in_ptr1 out_ptr n B).toAlgKernel s := by
-  simp [add_commuted_kernel, add_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,
-    ComparableDType.lt, add_comm, optional_add_comm]
-
-theorem commuted_flattenOk (in_ptr0 in_ptr1 out_ptr : RegionName) (n B : Nat) :
-    (add_commuted_kernel in_ptr0 in_ptr1 out_ptr n B).toAlgKernel.FlattenOk := by
-  simp [add_commuted_kernel, Kernel.FlattenOk,
-    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
-
-theorem commuted_traceSafe (in_ptr0 in_ptr1 out_ptr : RegionName) (n B : Nat)
-    (bounds : RegionBounds) (s : BlockState)
-    (hx : ∀ j : Fin B, s.pid * B + j.val < n → s.pid * B + j.val < bounds in_ptr0)
-    (hy : ∀ j : Fin B, s.pid * B + j.val < n → s.pid * B + j.val < bounds in_ptr1)
-    (hout : ∀ j : Fin B, s.pid * B + j.val < n → s.pid * B + j.val < bounds out_ptr) :
-    Kernel.TraceSafe bounds (add_commuted_kernel in_ptr0 in_ptr1 out_ptr n B).toAlgKernel s := by
-  simpa [Kernel.TraceSafe, add_commuted_kernel, add_kernel,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
-    MemAccess.SafeAt, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,
-    ComparableDType.lt, add_comm, optional_add_comm]
-    using add_kernel_traceSafe in_ptr0 in_ptr1 out_ptr n B bounds s hx hy hout
 
 end Commuted
 

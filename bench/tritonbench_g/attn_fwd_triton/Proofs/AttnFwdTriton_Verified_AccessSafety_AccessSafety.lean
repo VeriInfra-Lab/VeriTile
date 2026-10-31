@@ -35,8 +35,8 @@ theorem zero_load_safe {shape : TileShape} (bounds : RegionBounds) (s : BlockSta
 
 theorem query_safe (bounds : RegionBounds) (s : BlockState) (c : Config) (BM BD : Nat)
     (hp : s.regs .ptr [BM,BD] "Q_ptrs" = some (queryPointer c BM BD))
-    (hr : s.regs .nat [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context))
+    (hr : s.regs .int [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context))
     (hb : QueryBound bounds c BM BD) :
     (Op.load .real (.ptr (.ref .ptr [BM,BD] "Q_ptrs"))
       (.maskOther (queryMask BM BD c.p.headDim) (.broadcast (.const 0.0) [BM,BD]))).SafeAt bounds s := by
@@ -62,9 +62,9 @@ theorem key_safe (bounds : RegionBounds) (s : BlockState) (c : Config) (BN BD st
 
 theorem value_safe (bounds : RegionBounds) (s : BlockState) (c : Config) (BN BD start : Nat)
     (second : Bool) (hp : s.regs .ptr [BN,BD] (valueName second) = some (valuePointer c BN BD start))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar start))
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar start))
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context))
     (hb : ValueBound bounds c BN BD start) :
     Stmt.TraceSafe bounds (valueLoad BN BD c.p.headDim second) s := by
   rw [valueLoad,Stmt.TraceSafe]
@@ -82,8 +82,8 @@ theorem scale_safe (bounds : RegionBounds) (s : BlockState) (region : RegionName
 
 theorem output_safe (bounds : RegionBounds) (s : BlockState) (c : Config) (BM BD : Nat)
     (hp : s.regs .ptr [BM,BD] "O_block_ptr" = some (outputPointer c BM BD))
-    (hr : s.regs .nat [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context))
+    (hr : s.regs .int [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context))
     (hb : OutputBound bounds c BM BD) :
     Stmt.TraceSafe bounds (Output.store BM BD c.p.headDim) s := by
   rw [Output.store,Stmt.TraceSafe]

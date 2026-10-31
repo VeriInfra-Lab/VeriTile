@@ -101,6 +101,5 @@ theorem native_input_polynomial (N K m n k : Nat) :
 theorem native_output_polynomial (K m k : Nat) : nativeOutput K m k=word (outputOffset K m k) := by
   simp [nativeOutput,outputOffset,word,BitVec.ofNat_add,BitVec.ofNat_mul]
 
-
 end
 end VeriTile.Bench.Repairs.MaxReduction.Address

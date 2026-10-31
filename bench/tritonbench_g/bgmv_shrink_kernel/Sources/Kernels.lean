@@ -28,11 +28,7 @@ def paddedK (h : Call) := max 1 h.cycles * 16384
 end Call
 
 namespace Kernels
-abbrev original := VeriTile.Bench.TritonBenchG.BgmvShrinkKernel.TypedSource.original
 
-def source (h : Call) : ComputeKernel :=
-  original h.storage h.outputType "X" "W" "Y" h.N h.K ⟨"Indices"⟩ h.scaling
-    h.paddedK 1 (h.BN*h.paddedK) h.paddedK 1 h.BN 1 h.BN 256 64
 end Kernels
 end VeriTile.Bench.Repairs.BgmvShrinkKernel
 
@@ -56,10 +52,6 @@ def cycles (h : Call) := (h.K+16383)/16384
 def paddedK (h : Call) := max 1 h.cycles*16384
 end Call
 namespace Kernels
-abbrev original := VeriTile.Bench.TritonBenchG.BgmvShrinkKernel.TypedSource.original
-/-- Original typed arithmetic on the checked direct contiguous buffers. -/
-def source (h : Call) : ComputeKernel :=
-  original h.storage h.outputType "X" "W" "Y" h.N h.K ⟨"Indices"⟩ h.scaling
-    h.K 1 (h.N*h.K) h.K 1 h.columns 1 h.BN 256 64
+
 end Kernels
 end VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct

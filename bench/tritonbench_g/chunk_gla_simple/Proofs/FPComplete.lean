@@ -32,7 +32,7 @@ def finishExecution {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (sca
   have hs := ha.2
   refine ⟨?_,?_⟩
   swap
-  simp [Typed.parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [Typed.parts,kernel,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
@@ -76,7 +76,7 @@ theorem frame {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : �
 
 theorem source_memory {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ)
     (d : Typed.Dots M c) (initial : State α) :
-    ∃ final, FP.Structural.exec (engine M) (kernel c .fp32 .fp32 .fp32 .fp32 scale) initial=some final ∧
+    ∃ final, FP.Structural.exec (engine M) (kernel c scale) initial=some final ∧
       final.mem=(written M c scale d initial).mem := by
   let start := entryExecution M c scale initial
   obtain ⟨mid,hm,hc,ha⟩ := loopExecution M c scale d initial start.val
@@ -91,7 +91,7 @@ theorem source_memory {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (s
     have hd : (Typed.parts c scale).stride = .constNat 1 := rfl
     simp only [step,ha,hb,hd,evalOp_unfold,numeric,bop,Option.bind,Option.bind_some]
     exact hm
-  change run (engine M) (kernel c .fp32 .fp32 .fp32 .fp32 scale).surfaceBody initial = _
+  change run (engine M) (kernel c scale).surfaceBody initial = _
   rw [Typed.source_parts]
   simp only [List.append_assoc,run_append,start.property,Option.bind_some,List.singleton_append]
   rw [run]
@@ -101,7 +101,7 @@ theorem source_memory {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (s
 theorem correctness {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ)
     (d : Typed.Dots M c) (initial : State α)
     (hw : ∀ i j, active c initial i → active c initial j → oOffset c initial i=oOffset c initial j → i=j) :
-    ∃ final, FP.Structural.exec (engine M) (kernel c .fp32 .fp32 .fp32 .fp32 scale) initial=some final ∧
+    ∃ final, FP.Structural.exec (engine M) (kernel c scale) initial=some final ∧
       Post c initial final (outputValue M c d initial scale) := by
   obtain ⟨final,he,hm⟩ := source_memory M c scale d initial
   refine ⟨final,he,?_,?_⟩

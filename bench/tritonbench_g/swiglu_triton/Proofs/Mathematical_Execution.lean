@@ -53,7 +53,7 @@ def forward_run (v : Bool) :
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp (maxSteps := 500000) [typedFwd, ComputeKernel.surfaceBody,
+    simp (maxSteps := 500000) [typedFwd,VeriTile.Bench.Repairs.SwigluTriton.forwardKernel,VeriTile.Bench.Repairs.SwigluTriton.forwardIndexCommuted,VeriTile.Bench.Repairs.SwigluTriton.backwardKernel,VeriTile.Bench.Repairs.SwigluTriton.backwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas,
       Option.bind, engine, Algebra.withDefaultPrecision, resolvePrecision, model,
       ComputeDType.eraseDType, numeric, bop, natLt, initial, Cell.read, ofFloat, toFloat,

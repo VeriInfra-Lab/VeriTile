@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_MixedFP32Value
 
 /-! Complete ordered grid for mixed integer/bool and fp32 source materializations. Prior
@@ -9,17 +10,6 @@ open IntegerSource (Storage)
 open ValueProofs (Parameters offset gridCount programState grid_covers)
 noncomputable section
 local instance : Inhabited Word := ⟨FP.Value.zero .fp32⟩
-
-def runGridPrefix (rest : Algebra Word)
-    (cfg : FP.Config) (us : Nat → Word → Int) (uu : Nat → Word → Nat)
-    (integerFirst : Bool) (d : Storage) (p : Parameters) (initial : State Word) : Nat → Option (State Word)
-  | 0 => some initial
-  | k+1 => (runGridPrefix rest cfg us uu integerFirst d p initial k).bind fun previous =>
-      FP.Structural.exec (backend rest cfg us uu) (source integerFirst d p) (programState p initial previous.mem k)
-
-def runGrid (rest : Algebra Word) (cfg : FP.Config) (us : Nat → Word → Int) (uu : Nat → Word → Nat)
-    (integerFirst : Bool) (d : Storage) (p : Parameters) (initial : State Word) :=
-  runGridPrefix rest cfg us uu integerFirst d p initial (gridCount p)
 
 /-- Independent whole-vector prefix formula, not a fold over executions. -/
 def prefixMemory
@@ -56,20 +46,6 @@ theorem reference_step
     rw [next_tile_inputs cfg us uu integerFirst d p initial k o lower]
     simp [prefixMemory, before, lower, Nat.add_mul]
 
-theorem grid_prefix_correct (rest : Algebra Word)
-    (cfg : FP.Config) (us : Nat → Word → Int) (uu : Nat → Word → Nat)
-    (integerFirst : Bool) (d : Storage) (p : Parameters) (initial : State Word) (k : Nat) :
-    ∃ final, runGridPrefix rest cfg us uu integerFirst d p initial k = some final ∧ final.mem = prefixMemory cfg us uu integerFirst d p initial k := by
-  induction k with
-  | zero => exact ⟨initial, rfl, by funext r o; simp [prefixMemory]⟩
-  | succ k ih =>
-    obtain ⟨previous, hr, hm⟩ := ih
-    obtain ⟨final, he, hf⟩ := complete_correct rest cfg us uu integerFirst d p (programState p initial previous.mem k)
-    refine ⟨final, ?_, ?_⟩
-    · simp only [runGridPrefix, hr, Option.bind_some]
-      exact he
-    · rw [hf, hm, reference_step]
-
 theorem grid_reference_complete
     (cfg : FP.Config) (us : Nat → Word → Int) (uu : Nat → Word → Nat)
     (integerFirst : Bool) (d : Storage) (p : Parameters) (initial : State Word) (positive : 0 < p.block) :
@@ -81,18 +57,9 @@ theorem grid_reference_complete
     simp [prefixMemory, gridExpectedMemory, ho, hgrid]
   · simp [prefixMemory, gridExpectedMemory, ho]
 
-theorem grid_correct (rest : Algebra Word)
-    (cfg : FP.Config) (us : Nat → Word → Int) (uu : Nat → Word → Nat)
-    (integerFirst : Bool) (d : Storage) (p : Parameters) (initial : State Word) (positive : 0 < p.block) :
-    ∃ final, runGrid rest cfg us uu integerFirst d p initial = some final ∧ final.mem = gridExpectedMemory cfg us uu integerFirst d p initial := by
-  obtain ⟨final, he, hm⟩ := grid_prefix_correct rest cfg us uu integerFirst d p initial (gridCount p)
-  exact ⟨final, he, hm.trans (grid_reference_complete cfg us uu integerFirst d p initial positive)⟩
-
-#specNonCircular gridExpectedMemory avoiding [source, runGrid, runGridPrefix, FP.Structural.exec]
+#specNonCircular gridExpectedMemory avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 #axiomsClean next_tile_inputs
 #axiomsClean reference_step
-#axiomsClean grid_prefix_correct
 #axiomsClean grid_reference_complete
-#axiomsClean grid_correct
 end
 end VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32

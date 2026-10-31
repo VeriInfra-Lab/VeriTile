@@ -1,50 +1,34 @@
 import VeriTile.Triton.Float.LogicalProgramIO
+import VeriTile.Triton.Float.ProgramEquivalence
+import bench.tritonbench_g.matmul_triton1.IO
+import bench.tritonbench_g.matmul_triton2.Kernels
 import bench.tritonbench_g.matmul_triton2.Proofs.Grid
-import VeriTile.Triton.Float.ProgramIO
 
-/-! Shared public matrix channels and the exact selected grouped launch.
-The source fixes FP32 storage and its accumulator-fed TF32 dot graph;
-`.real` is its Structural payload channel, with Real or FP32-word carriers. -/
 namespace VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.IO
 open VeriTile.Triton FP.Structural Revision001
 open VeriTile.Bench.Repairs.IntScaledMatmul.Revision001
 noncomputable section
+abbrev inputs := VeriTile.Bench.Repairs.MatmulTriton1.MatmulIO.inputs
+abbrev outputs := VeriTile.Bench.Repairs.MatmulTriton1.MatmulIO.outputs
+abbrev left := @VeriTile.Bench.Repairs.MatmulTriton1.MatmulIO.left
+abbrev right := @VeriTile.Bench.Repairs.MatmulTriton1.MatmulIO.right
+abbrev realTarget := VeriTile.Bench.Repairs.MatmulTriton1.MatmulIO.realTarget
+abbrev precisionTarget := @VeriTile.Bench.Repairs.MatmulTriton1.MatmulIO.precisionTarget
 
-def inputs (p : Core.Parameters) : List IOChannel :=
-  [⟨.real,[p.rows,p.innerSize],p.input⟩,⟨.real,[p.innerSize,p.columns],p.weight⟩]
-def outputs (p : Core.Parameters) : List IOChannel :=
-  [⟨.real,[p.rows,p.columns],p.output⟩]
-
-def launch {α : Type} (M : Algebra α) (P : Core.Primitives α)
-    (p : Core.Parameters) (pid : Nat) : Invocation α where
-  kernel := Core.source p
-  backend := Core.backend M P
+def launch {α : Type} (rest : Algebra α) (P : Core.Primitives α)
+    (p : Core.Parameters) (pid : Nat) : Invocation (VeriTile.Bench.Repairs.MatmulTriton1.DotProfile.Value α) where
+  kernel := source p
+  backend := VeriTile.Bench.Repairs.MatmulTriton1.DotProfile.algebra rest P {}
   pids := fun ax => if ax=0 then pid else 0
 
-/-- All logical matrix coordinates are active, with the original three
-independent stride pairs. Inputs may alias each other; output separation and
-injectivity are explicit premises of the public specifications. -/
-def matmul {α : Type} (M : Algebra α) (P : Core.Primitives α)
-    (p : Core.Parameters) : ProgramIO α α where
-  inputs := inputs p
-  outputs := outputs p
-  buffers := [p.input,p.weight,p.output]
-  scratch := []
-  read := fun port _ => Fin.cases
-    (fun j => j.1.val*p.inputRow+j.2.1.val*p.inputInner)
-    (fun next => Fin.cases
-      (fun j => j.1.val*p.weightInner+j.2.1.val*p.weightColumn)
-      (fun impossible => Fin.elim0 impossible) next) port
-  inputMask := fun _ _ _ => True
-  write := fun port _ => Fin.cases
-    (fun j => j.1.val*p.outputRow+j.2.1.val*p.outputColumn)
-    (fun impossible => Fin.elim0 impossible) port
-  outputMask := fun _ _ _ => True
-  scratchWrite := fun impossible => Fin.elim0 impossible
-  scratchMask := fun impossible => Fin.elim0 impossible
-  schedule := fun _ => (List.range (Geometry.count (Core.geometry p))).map (launch M P p)
-  encode := id
-  observe := fun _ _ => id
+/-- Same three independent stride pairs, with the actual repaired source and
+its original default dot options. Integer casts have an explicit public bound. -/
+def matmul {α : Type} (rest : Algebra α) (P : Core.Primitives α)
+    (p : Core.Parameters) : ProgramIO α (VeriTile.Bench.Repairs.MatmulTriton1.DotProfile.Value α) where
+  toMemoryIO := VeriTile.Bench.Repairs.MatmulTriton1.MatmulIO.memoryIO α p
+  schedule := fun _ => (List.range (Geometry.count (Core.geometry p))).map (launch rest P p)
+  encode := VeriTile.Bench.Repairs.MatmulTriton1.DotProfile.Value.input
+  observe := fun _ _ => VeriTile.Bench.Repairs.MatmulTriton1.DotProfile.observe P
 
 /-- Irrelevant default extension outside a finite logical matrix. -/
 def matrix {α : Type} [Inhabited α] {rows columns : Nat}
@@ -105,7 +89,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 
 /-- A bijective logical view of the unchanged complete source IO. -/
-def logicalIO (rest : Algebra ℝ) (P : Revision001.Core.Primitives ℝ) (p : Revision001.Core.Parameters) : LogicalProgramIO ℝ ℝ
+def logicalIO (rest : Algebra ℝ) (P : Revision001.Core.Primitives ℝ) (p : Revision001.Core.Parameters) : LogicalProgramIO ℝ (VeriTile.Bench.Repairs.MatmulTriton1.DotProfile.Value ℝ)
     ((Fin p.rows → Fin p.innerSize → ℝ) × (Fin p.innerSize → Fin p.columns → ℝ)) (Fin p.rows → Fin p.columns → ℝ) where
   core := matmul rest P p
   inputs := matrixInputs p
@@ -113,3 +97,23 @@ def logicalIO (rest : Algebra ℝ) (P : Revision001.Core.Primitives ℝ) (p : Re
 
 end
 end VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.IO
+
+namespace VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.Pair
+open VeriTile.Triton FP.Structural Revision001
+open VeriTile.Bench.Repairs.IntScaledMatmul.Revision001
+noncomputable section
+variable {α : Type} [Inhabited α]
+
+def launch (rest : Algebra α) (P : Core.Primitives α) (p : Core.Parameters) (pid : Nat) : Invocation (VeriTile.Bench.Repairs.MatmulTriton1.DotProfile.Value α) :=
+  { IO.launch rest P p pid with kernel := maskHoisted p }
+def candidateIO (rest : Algebra α) (P : Core.Primitives α) (p : Core.Parameters) : ProgramIO α (VeriTile.Bench.Repairs.MatmulTriton1.DotProfile.Value α) :=
+  { IO.matmul rest P p with schedule := fun _ =>
+      (List.range (Geometry.count (Core.geometry p))).map (launch rest P p) }
+
+def variant (rest : Algebra α) (P : Core.Primitives α) (p : Core.Parameters) :
+    ProgramIO.Variant (IO.matmul rest P p) where
+  schedule := (candidateIO rest P p).schedule
+  observe := (IO.matmul rest P p).observe
+
+end
+end VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.Pair

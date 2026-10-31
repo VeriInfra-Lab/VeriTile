@@ -451,6 +451,11 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .makeBlockPtrDynOffsets _ base parentShape blockShape strides offsets =>
       base.check ctx *>
       checkBlockPtrMetadataRanks parentShape.length strides.length offsets.length blockShape.length
+  | .makeBlockPtrDynMetadata _ base parentShape blockShape strides offsets => do
+      base.check ctx
+      let _ ← strides.mapM (fun stride => stride.check ctx)
+      let _ ← offsets.mapM (fun off => off.check ctx)
+      checkBlockPtrMetadataRanks parentShape.length strides.length offsets.length blockShape.length
   | .advanceBlockPtr ptr deltas => do
       ptr.check ctx
       .ok ()
@@ -517,6 +522,12 @@ def Op.blockPtrSummary (ctx : CheckCtx) :
   | .makeBlockPtrDynOffsets region base parentShape blockShape strides offsets => do
       base.check ctx
       BlockPtrSummary.ofDynamicOffsetsChecked region parentShape blockShape strides offsets.length
+  | .makeBlockPtrDynMetadata region base parentShape blockShape strides offsets => do
+      base.check ctx
+      let _ ← strides.mapM (fun stride => stride.check ctx)
+      let _ ← offsets.mapM (fun off => off.check ctx)
+      checkBlockPtrMetadataRanks parentShape.length strides.length offsets.length blockShape.length
+      .ok {region:=region,parentRank:=some parentShape.length,offsets:=none}
   | .advanceBlockPtr ptr deltas => do
       let summary ← ptr.blockPtrSummary ctx
       summary.checkedAdvance deltas

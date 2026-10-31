@@ -1,3 +1,4 @@
+import bench.tritonbench_g.relu_strided_buffer.Kernels
 import bench.tritonbench_g.relu_strided_buffer.Proofs.Mathematical_StructuralTile
 import bench.tritonbench_g.relu_triton_kernel.Proofs.Mathematical_SoftwareFP32
 
@@ -60,21 +61,6 @@ theorem tileOutput_word (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config)
     tileOutput (backend rest cfg) orderedLt c T mem = wordOutput c T mem := by
   simp only [tileOutput, scalarResult_word rest cfg zeroLaw, wordOutput]
 
-/-- The existing installed signed source statements execute on FP32 words.
-Only ZeroLiteralLaw binds a still external scalar primitive; the complete
-execution, input dependence, typed stores and controls are all derived. -/
-theorem perTile_words (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config)
-    (zeroLaw : ZeroLiteralLaw rest) (c : SignedViews) (T : Nat)
-    (s : State (FP.Value .fp32)) (ht : s.regs .nat [] "tile_id" = some (fun _ => T)) :
-    ∃ final, run (backend rest cfg) (c.perTile.map ComputeStmt.alg) s = some final ∧
-      final.mem = wordOutput c T s.mem ∧ final.undef = s.undef ∧
-      final.regs .nat [] "pid" = s.regs .nat [] "pid" ∧
-      final.regs .nat [] "num_ctas" = s.regs .nat [] "num_ctas" ∧
-      final.pids = s.pids ∧ final.numPids = s.numPids := by
-  obtain ⟨final, hexec, hmem, hrest⟩ :=
-    perTile_run (backend rest cfg) orderedLt (backend_compare rest cfg) c T s ht
-  exact ⟨final, hexec, (hmem.trans (tileOutput_word rest cfg zeroLaw c T s.mem)), hrest⟩
-
 theorem nan_selects_positive_zero (x : FP.Value .fp32) (nan : x.isNaN = Bool.true) :
     wordRelu x = FP.Value.zero .fp32 := by
   simp [wordRelu, orderedLt, ReluTritonKernel.SoftwareFP32.orderedLe, nan]
@@ -98,7 +84,7 @@ theorem negative_infinity_becomes_positive_zero :
     (wordRelu (FP.Value.ofBits .fp32 0xff800000)).bits = 0 := by decide
 
 #guard_msgs (drop info) in
-#specNonCircular wordRelu avoiding [perTileSource, kernelSource, FP.Structural.exec]
+#specNonCircular wordRelu avoiding [VeriTile.Bench.Repairs.ReluStridedBuffer.kernel,FP.Structural.exec]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

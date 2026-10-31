@@ -66,21 +66,6 @@ def Call.Result (c : Call) (A : FlatAlloc) (s final : BlockState) : Prop :=
   (∀ rg, rg ∈ c.inputs → ∀ off, off < A.extent rg →
     final.mem A.flat (A.addr rg off) = (A.flattenState s).mem A.flat (A.addr rg off))
 
-theorem whole_call (c : Call) (A : FlatAlloc) (s : BlockState)
-    (v : Valid c A s) (ha : A.Disjoint) (hc : ∀ rg, rg ∉ A.regions → A.extent rg = 0)
-    (swapped : Bool) : ∃ result, c.Exec A s swapped result ∧ c.Result A s result.2 := by
-  obtain ⟨final,he,ho,hf⟩ := whole_grid c A s v ha hc swapped
-  refine ⟨(none,final),⟨rfl,he⟩,?_,hf,?_⟩
-  · intro b h row hr hg d
-    obtain ⟨idx,hl,hi,hoff⟩ := covered c b h row hr hg d
-    have hv := ho idx (c.lane row d) hi
-    rw [hoff,hl,←RealIO.expected_closed] at hv
-    exact hv
-  · intro rg hr off hb
-    apply Composition.input_stable c.grid A s c.active c.regions.out c.offset ha hc
-      (fun idx i hi => v.out _ (batch_bound c idx) _ (head_bound c idx) _ hi _ i.2.1.isLt)
-      final hf rg (v.input_separate rg hr) off hb
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

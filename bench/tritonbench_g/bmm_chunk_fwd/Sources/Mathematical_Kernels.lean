@@ -1,3 +1,4 @@
+import bench.tritonbench_g.bmm_chunk_fwd.Sources.Selected
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 import VeriTile.Meta.StatementAudit
@@ -95,7 +96,7 @@ inductive Storage where
 
 def specialize (a b : Storage) (swapped : Bool) :=
   match a, b, swapped with
-  | .fp32, .fp32, Bool.false => bmmChunkFwdSource%[tl.float32, tl.float32, tl.float32, original]
+  | .fp32, .fp32, Bool.false => VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource
   | .fp32, .fp32, Bool.true => bmmChunkFwdSource%[tl.float32, tl.float32, tl.float32, dotFirst]
   | .fp32, .fp16, Bool.false => bmmChunkFwdSource%[tl.float32, tl.float16, tl.float16, original]
   | .fp32, .fp16, Bool.true => bmmChunkFwdSource%[tl.float32, tl.float16, tl.float16, dotFirst]
@@ -113,10 +114,6 @@ def specialize (a b : Storage) (swapped : Bool) :=
   | .bf16, .fp16, Bool.true => bmmChunkFwdSource%[tl.bfloat16, tl.float16, tl.bfloat16, dotFirst]
   | .bf16, .bf16, Bool.false => bmmChunkFwdSource%[tl.bfloat16, tl.bfloat16, tl.bfloat16, original]
   | .bf16, .bf16, Bool.true => bmmChunkFwdSource%[tl.bfloat16, tl.bfloat16, tl.bfloat16, dotFirst]
-
-def original (a b : Storage) := specialize a b Bool.false
-
-def dotFirst (a b : Storage) := specialize a b Bool.true
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

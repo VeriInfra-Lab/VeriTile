@@ -40,7 +40,7 @@ structure Context (M : Algebra α) (c : Shape) (initial current : State α) : Pr
   incoming : current.mem "incoming"=initial.mem "incoming"
   ik : current.regs .nat [] "i_k"=some (fun _ => initial.pids 0)
   iv : current.regs .nat [] "i_v"=some (fun _ => initial.pids 1)
-  bh : current.regs .nat [] "i_bh"=some (fun _ => initial.pids 2)
+  bh : current.regs .int [] "i_bh"=some (fun _ => (initial.pids 2 : Int))
   bb : current.regs .real [] "b_b"=some (fun _ => rate M c (initial.pids 2))
   di : current.regs .real [64] "d_i"=some (timeDecay M c initial)
 
@@ -54,7 +54,7 @@ def entryExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     simp [parts,kernel,Kernels.backwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
-      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,
+      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,
       natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg]
     rfl
 
@@ -114,9 +114,9 @@ def bodyExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
     simp [parts,kernel,Kernels.backwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
-      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,numericEq,
+      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,
       natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
-      ctx.ik,ctx.iv,ctx.bh,ctx.bb,ctx.di,ha,atEnd,rem,chunk,FP.Structural.store]
+      ctx.ik,ctx.iv,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.bb,ctx.di,ha,atEnd,rem,chunk,FP.Structural.store]
     rfl
 
 theorem bodyMemory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (terminal : Bool)
@@ -124,10 +124,13 @@ theorem bodyMemory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
     (ctx : Context M c initial current) (ha : HasCarry c carry current) :
     (bodyExecution M D c scale terminal initial current n carry ctx ha).val.mem=
       (stored M c initial current n carry).mem := by
+  have historyBase (j : Nat) :
+      ((initial.pids 2:Int)*((c.chunks:Int)*c.K*c.V)+(j:Int)*c.K*c.V).toNat =
+        initial.pids 2*(c.chunks*c.K*c.V)+j*c.K*c.V := by norm_cast
   by_cases atEnd : c.chunks-1-n=c.chunks-1 <;> by_cases rem : c.T%64=0 <;>
     simp [bodyExecution,atEnd,rem,stored,masked_scatter_memory,active,historyAddress,feature,column,
       ForwardHSource.active,ForwardHSource.historyAddress,ForwardHSource.feature,ForwardHSource.column,
-      bop,BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,FP.Structural.store,chunk]
+      bop,BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,FP.Structural.store,chunk,historyBase]
 
 theorem bodyContext (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (terminal : Bool)
     (initial current : State α) (n : Nat) (carry : Index c → α)
@@ -147,13 +150,15 @@ theorem bodyContext (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
       exact Or.inl (by decide)
     rw [hh,ctx.incoming]
   all_goals by_cases atEnd : c.chunks-1-n=c.chunks-1 <;> by_cases rem : c.T%64=0 <;>
-    simp [bodyExecution,atEnd,rem,ctx.ik,ctx.iv,ctx.bh,ctx.bb,ctx.di]
+    simp [bodyExecution,atEnd,rem,ctx.ik,ctx.iv,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.bb,ctx.di]
 
 theorem bodyCarry (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (terminal : Bool)
     (initial current : State α) (n : Nat) (carry : Index c → α)
     (ctx : Context M c initial current) (ha : HasCarry c carry current) :
     HasCarry c (update M D c initial scale n carry)
       (bodyExecution M D c scale terminal initial current n carry ctx ha).val := by
+  have inputBase (width : Nat) : ((initial.pids 2:Int)*((c.T:Int)*(width:Int))).toNat =
+      initial.pids 2*(c.T*width) := by norm_cast
   have other {ι : Type} (l : List ι) (off : ι → Nat) (value : ι → Cell α)
       (enabled : ι → Prop) [DecidablePred enabled] (s : State α) (r : RegionName) (o : Nat)
       (hr : r≠"dh") :
@@ -165,7 +170,7 @@ theorem bodyCarry (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
       blockDecay,ForwardHSource.actualLength,ForwardHSource.blockDecay,ctx.query,ctx.incoming,
       feature,column,ForwardHSource.feature,ForwardHSource.column,zero,chunk,
       bop,Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def,
-      BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList]
+      BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,inputBase]
   all_goals funext i
   all_goals
     rcases i with ⟨ei,ji,⟨⟩⟩

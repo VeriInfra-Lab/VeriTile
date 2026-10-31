@@ -49,18 +49,6 @@ theorem dynamicMask_eval (n B start : Nat) (s : BlockState)
   simp only [dynamicMask, evalOp, dynamicIndex_eval B start s h, bind, Option.bind]
   rfl
 
-def SignedViews.perTile (c : SignedViews) : List Stmt :=
-  [.assign .nat [] "tile_id0" (.ref .nat [] "tile_id"),
-   .assign .nat [] "offset0" (.mul .nat .nil (.ref .nat [] "tile_id0") (.constNat c.B)),
-   .assign .nat [c.B] "in0_bptr" (dynamicAddress c.inputView c.B),
-   .assign .fp32 [c.B] "in0" (.castFloat .fp32 .fp32
-     (.load .fp32 (.region c.inputView.region (.ref .nat [c.B] "in0_bptr"))
-       (.mask (dynamicMask c.n c.B)) .unspecified)),
-   .assign .fp32 [c.B] "out0" (reluOp c.B),
-   .assign .nat [c.B] "out0_bptr" (dynamicAddress c.outputView c.B),
-   .store .fp32 [c.B] (.region c.outputView.region (.ref .nat [c.B] "out0_bptr"))
-     (.castFloat .fp32 .fp32 (.ref .fp32 [c.B] "out0")) (.mask (dynamicMask c.n c.B))]
-
 def SignedViews.indexState (c : SignedViews) (T : Nat) (s : BlockState) : BlockState :=
   (s.setReg "tile_id0" .nat [] (Tile.scalar T)).setReg "offset0" .nat [] (Tile.scalar (T * c.B))
 
@@ -87,66 +75,6 @@ theorem pointer_load (v : View) (n start B : Nat) (s : BlockState)
     simp only [load32, evalOp, hp, dynamicMask_eval n B start s ho,
       addressOp_eval, maskOp_eval, addressValue]
   exact he.trans (load32_eval v n start B s)
-
-theorem pointer_store (v : View) (n start B : Nat) (s : BlockState)
-    (values : Tile .fp32 [B])
-    (hp : s.regs .nat [B] "out0_bptr" = some (addressValue v start B))
-    (ho : s.regs .nat [] "offset0" = some (Tile.scalar start))
-    (hv : s.regs .fp32 [B] "out0" = some values) :
-    stepStmt (.store .fp32 [B] (.region v.region (.ref .nat [B] "out0_bptr"))
-      (.castFloat .fp32 .fp32 (.ref .fp32 [B] "out0")) (.mask (dynamicMask n B))) s =
-      some (scatter32 v n start B values s) := by
-  have he : stepStmt (.store .fp32 [B] (.region v.region (.ref .nat [B] "out0_bptr"))
-      (.castFloat .fp32 .fp32 (.ref .fp32 [B] "out0")) (.mask (dynamicMask n B))) s =
-      stepStmt (tileStore v n start B) s := by
-    simp only [tileStore, stepStmt, evalOp_ref, hp, dynamicMask_eval n B start s ho,
-      addressOp_eval, maskOp_eval, addressValue]
-  exact he.trans ((store_step v n start B s).trans (store32_step v n start B "out0" values s hv))
-
-theorem sourceTile_exec (c : SignedViews) (T : Nat) (s : BlockState)
-    (ht : s.regs .nat [] "tile_id" = some (Tile.scalar T)) :
-    stepStmts c.perTile s = some (c.sourceFinal T s) := by
-  have hindex : stepStmts
-      [.assign .nat [] "tile_id0" (.ref .nat [] "tile_id"),
-       .assign .nat [] "offset0" (.mul .nat .nil (.ref .nat [] "tile_id0") (.constNat c.B))] s =
-      some (c.indexState T s) := by
-    simp only [stepStmts, stepStmt, evalOp_ref, ht, bind, Option.bind,
-      evalOp_mul, evalOp_constNat, BlockState.setReg_same]
-    rfl
-  have hptr : stepStmt (.assign .nat [c.B] "in0_bptr" (dynamicAddress c.inputView c.B))
-      (c.indexState T s) = some (c.pointerState T s) := by
-    simp only [stepStmt]
-    rw [dynamicAddress_eval _ _ (T * c.B) _ (by simp [SignedViews.indexState])]
-    rfl
-  have hload : stepStmt (.assign .fp32 [c.B] "in0" (.castFloat .fp32 .fp32
-      (.load .fp32 (.region c.inputView.region (.ref .nat [c.B] "in0_bptr"))
-        (.mask (dynamicMask c.n c.B)) .unspecified))) (c.pointerState T s) =
-      some (afterLoad c.inputView c.n (T * c.B) c.B (c.pointerState T s)) := by
-    have he := pointer_load c.inputView c.n (T * c.B) c.B (c.pointerState T s)
-      (by simp [SignedViews.pointerState])
-      (by simp [SignedViews.pointerState, SignedViews.indexState])
-    simp only [stepStmt]
-    exact congrArg (fun value : Option (Tile .fp32 [c.B]) =>
-      value.bind (fun value => some ((c.pointerState T s).setReg "in0" .fp32 [c.B] value))) he
-  have houtptr : stepStmt (.assign .nat [c.B] "out0_bptr" (dynamicAddress c.outputView c.B))
-      (afterValue c.inputView c.n (T * c.B) c.B (c.pointerState T s)) =
-      some (c.storeState T s) := by
-    simp only [stepStmt]
-    rw [dynamicAddress_eval _ _ (T * c.B) _
-      (by simp [afterValue, afterLoad, SignedViews.pointerState, SignedViews.indexState])]
-    rfl
-  have hstore := pointer_store c.outputView c.n (T * c.B) c.B (c.storeState T s)
-    (resultTile c.inputView c.n (T * c.B) c.B (c.pointerState T s))
-    (by simp [SignedViews.storeState])
-    (by simp [SignedViews.storeState, afterValue, afterLoad, SignedViews.pointerState, SignedViews.indexState])
-    (by simp [SignedViews.storeState, afterValue])
-  rw [show c.perTile =
-      [.assign .nat [] "tile_id0" (.ref .nat [] "tile_id"),
-       .assign .nat [] "offset0" (.mul .nat .nil (.ref .nat [] "tile_id0") (.constNat c.B))] ++
-      c.perTile.drop 2 by rfl]
-  simp only [stepStmts.append_some hindex]
-  simp only [SignedViews.perTile, List.drop, stepStmts, hptr, hload, value_step, houtptr, hstore]
-  rfl
 
 theorem sourceFinal_obs (c : SignedViews) (T : Nat) (s : BlockState) :
     ObsEq (c.sourceFinal T s) (finalState c.inputView c.outputView c.n (T * c.B) c.B s) := by

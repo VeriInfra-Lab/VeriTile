@@ -51,8 +51,8 @@ def prefixBody (os ol ns : Region .int) (src dst : RegionName) (B : Nat) : List 
   · simpa using congrArg (fun n ↦ some (Tile.scalar n)) hL
   · simpa using congrArg (fun n ↦ some (Tile.scalar n)) hO
   · simpa using congrArg (fun n ↦ some (Tile.scalar n)) hN
-  · simp
-  · simp
+  · simp [Tile.vec]
+  · simp [Tile.vec]
   · intro t lane ht; omega
 
  theorem source_run (s : BlockState) (os ol ns : Region .int) (src dst : RegionName)

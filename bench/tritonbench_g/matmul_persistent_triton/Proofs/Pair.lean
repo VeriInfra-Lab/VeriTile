@@ -1,6 +1,5 @@
 import bench.tritonbench_g.matmul_persistent_triton.IO
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.IOBounds
-import bench.tritonbench_g.matmul_persistent_triton.Proofs.Kernels
 import VeriTile.Triton.Float.Loop
 import VeriTile.Triton.Float.Equivalence
 
@@ -13,13 +12,6 @@ set_option maxHeartbeats 10000000
 set_option maxRecDepth 40000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
-
-/-- Expanding the task macro into ordinary quotations preserved the complete
-selected original AST, for both storage profiles and every parameter. -/
-theorem selected_original_preserved (storage : TypedSource.Storage) :
-    TypedSource.kernel storage=
-      VeriTile.Bench.Repairs.MatmulPersistentTriton.TypedSource.kernel storage := by
-  cases storage <;> rfl
 
 /-- Proof-only extraction from the complete already-declared quotations. -/
 def candidateOuter (p : Parameters) : List ComputeStmt :=

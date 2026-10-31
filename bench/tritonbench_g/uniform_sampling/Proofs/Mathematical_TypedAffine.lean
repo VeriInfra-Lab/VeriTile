@@ -12,11 +12,6 @@ noncomputable section
 set_option maxHeartbeats 1500000
 set_option maxRecDepth 10000
 
-def affineStmt (B : Nat) (name : RegName) (lower upper : ℝ) : ComputeStmt :=
-  .assign .real [B] name (.compute (.alg .fp32 (.add .real .scalarR
-    (.mul .real .scalarR (.uniform32 (.ref .nat [B] name))
-      (.sub .real .nil (.const upper) (.const lower))) (.const lower))))
-
 def values {α : Type} (M : Algebra α) {B : Nat} (words : TileIndex [B] → Random.Word)
     (lower upper : ℝ) : Values α .real [B] :=
   fun i => M.binary (some .fp32) .real .add
@@ -54,21 +49,6 @@ theorem affine_eval {α : Type} [Inhabited α] (M : Algebra α)
   funext i
   simp [values, bop]
 
-theorem affine_step {α : Type} [Inhabited α] (M : Algebra α)
-    {B : Nat} (words : TileIndex [B] → Random.Word) (name : RegName)
-    (lower upper : ℝ) (s : State α)
-    (hw : s.regs .nat [B] name = some (fun i => (words i).toNat)) :
-    step M (affineStmt B name lower upper) s =
-      some (s.setReg name .real [B] (values M words lower upper)) := by
-  simp only [affineStmt, step, evalExpr, evalComputeOp]
-  exact congrArg (fun value : Option (Values α .real [B]) =>
-    value.bind (fun v => some (s.setReg name .real [B] v)))
-      (affine_eval M words name lower upper s hw)
-
-def body (B : Nat) (lower upper : ℝ) : List ComputeStmt :=
-  [affineStmt B "r0" lower upper, affineStmt B "r1" lower upper,
-    affineStmt B "r2" lower upper, affineStmt B "r3" lower upper]
-
 def result {α : Type} (M : Algebra α) {B : Nat}
     (words : Random.Direct.Field → TileIndex [B] → Random.Word)
     (lower upper : ℝ) (s : State α) : State α :=
@@ -84,20 +64,6 @@ theorem four_steps {α : Type} [Inhabited α] (M : Algebra α)
     run M [a, b, c, d] s0 = some s4 := by
   simp only [run, ha, hb, hc, hd, bind, Option.bind, pure]
 
-theorem affines_exec {α : Type} [Inhabited α] (M : Algebra α)
-    {B : Nat} (words : Random.Direct.Field → TileIndex [B] → Random.Word)
-    (lower upper : ℝ) (s : State α)
-    (hw : ∀ f, s.regs .nat [B] (fieldName f) = some (fun i => (words f i).toNat)) :
-    run M (body B lower upper) s = some (result M words lower upper s) := by
-  let s0 := s.setReg "r0" .real [B] (values M (words .c0) lower upper)
-  let s1 := s0.setReg "r1" .real [B] (values M (words .c1) lower upper)
-  let s2 := s1.setReg "r2" .real [B] (values M (words .c2) lower upper)
-  exact four_steps M
-    (affine_step M (words .c0) "r0" lower upper s (hw .c0))
-    (affine_step M (words .c1) "r1" lower upper s0 (by simpa [s0, fieldName] using hw .c1))
-    (affine_step M (words .c2) "r2" lower upper s1 (by simpa [s1, s0, fieldName] using hw .c2))
-    (affine_step M (words .c3) "r3" lower upper s2 (by simpa [s2, s1, s0, fieldName] using hw .c3))
-
 theorem result_register {α : Type} (M : Algebra α) {B : Nat}
     (words : Random.Direct.Field → TileIndex [B] → Random.Word)
     (lower upper : ℝ) (s : State α) (f : Random.Direct.Field) :
@@ -105,19 +71,9 @@ theorem result_register {α : Type} (M : Algebra α) {B : Nat}
       some (values M (words f) lower upper) := by
   cases f <;> simp [result, fieldName]
 
-theorem source_slice (storage : Storage) (swapped : Bool) (y : RegionName)
-    (N : Nat) (seed offset : Int) (lower upper : ℝ) (B : Nat)
-    (hB : SourceDomain.LegalBlock B) :
-    ((source storage swapped y N seed offset lower upper B hB).surfaceBody.drop 11).take 4 =
-      body B lower upper := by
-  cases storage <;> cases swapped <;> rfl
-
 #axiomsClean affine_eval
-#axiomsClean affine_step
 #axiomsClean four_steps
-#axiomsClean affines_exec
 #axiomsClean result_register
-#axiomsClean source_slice
 
 end
 end VeriTile.Bench.TritonBenchG.UniformSampling.TypedAffine

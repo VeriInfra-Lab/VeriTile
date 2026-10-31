@@ -40,19 +40,6 @@ theorem normalize_executes (s : BlockState) (BM BD : Nat) (candidate : Bool)
       TileShape.dropInsertedIndex, NumericDType.mul, NumericDType.div,
       WithBot.realMul, WithBot.realDiv, div_eq_mul_inv, -Tile.scalar_eta]
 
-theorem store_executes (s : BlockState) (c : Config) (Out : RegionName) (BM BD : Nat)
-    (values : TileIndex [BM,BD] → ℝ)
-    (hp : s.regs .ptr [BM,BD] "O_block_ptr" = some (outputPointer c Out BM BD))
-    (hr : s.regs .nat [BM] "offs_m" = some (rows BM (c.startM*BM)))
-    (hv : s.regs .real [BM,BD] "acc" = some (finite values)) :
-    stepStmt (RealSource.store BM BD c.context c.activeHead) s = some (writeOutput s c Out BM BD values) := by
-  have hm := RealInit.eval_mask s BM BD c.startM c.context c.activeHead hr
-  simp only [RealSource.store]
-  conv_lhs => unfold stepStmt
-  simp only [evalOp_ref, hp, hv, hm, bind, Option.bind, Option.map_some]
-  simp [writeOutput, active, address, outputPointer, rowPointer, RealInit.mask, finite,
-    BlockState.writeMemTyped_real, FloatDType.storeValue, FloatDType.real_toWithBot, WithBot.unbotD_some, Region.cast]
-
 theorem frame (s : BlockState) (c : Config) (Out : RegionName) (BM BD : Nat)
     (values : TileIndex [BM,BD] → ℝ) (r : RegionName) (a : Nat)
     (h : r ≠ Out ∨ ∀ i, active c BM BD i = Bool.true → a ≠ address c BM BD i) :
@@ -97,31 +84,6 @@ theorem readback (s : BlockState) (c : Config) (Out : RegionName) (BM BD : Nat)
       address c BM BD a = address c BM BD b → a = b) :
     (writeOutput s c Out BM BD values).readMem Out (address c BM BD i) = values i :=
   readback_list _ s Out _ _ _ i (TileShape.allIndices_nodup _) (TileShape.mem_allIndices _ i) hi hinj
-
-theorem executes (s : BlockState) (c : Config) (Out : RegionName) (BM BD : Nat) (candidate : Bool)
-    (a : TileIndex [BM,BD] → ℝ) (l : Fin BM → ℝ)
-    (ha : s.regs .real [BM,BD] "acc" = some (finite a))
-    (hl : s.regs .real [BM] "l_i" = some (finite (fun i : TileIndex [BM] => l i.1)))
-    (hp : s.regs .ptr [BM,BD] "O_block_ptr" = some (outputPointer c Out BM BD))
-    (hr : s.regs .nat [BM] "offs_m" = some (rows BM (c.startM*BM))) :
-    ∃ t, stepStmts (RealSource.epilogue BM BD c.context c.activeHead candidate) s = some t ∧
-      (∀ i, active c BM BD i = Bool.true →
-        (∀ a b, active c BM BD a = Bool.true → active c BM BD b = Bool.true →
-          address c BM BD a = address c BM BD b → a = b) →
-        t.readMem Out (address c BM BD i) = a i/l i.1) ∧
-      (∀ r offset, (r ≠ Out ∨ ∀ i, active c BM BD i = Bool.true → offset ≠ address c BM BD i) →
-        t.mem r offset = s.mem r offset) := by
-  let normalized := fun i : TileIndex [BM,BD] => a i/l i.1
-  let sn := s.setReg "acc" .real [BM,BD] (finite normalized)
-  have hn := normalize_executes s BM BD candidate a l ha hl
-  have hstore := store_executes sn c Out BM BD normalized (by simp [sn, hp])
-    (by simp [sn, hr]) (by simp [sn])
-  refine ⟨writeOutput sn c Out BM BD normalized, ?_, ?_, ?_⟩
-  · rw [RealSource.epilogue, stepStmts.cons_some hn, stepStmts.cons_some hstore, stepStmts.nil]
-  · intro i hi hinj
-    exact readback sn c Out BM BD normalized i hi hinj
-  · intro r offset h
-    exact frame sn c Out BM BD normalized r offset h
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

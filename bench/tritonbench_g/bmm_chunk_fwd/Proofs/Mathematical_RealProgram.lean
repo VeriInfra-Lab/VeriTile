@@ -86,7 +86,7 @@ theorem body_split (swapped : Bool) (BM BN BK : Nat) (p : Parameters) :
            realPart (parts swapped BM BN BK p).after)] := by
   cases swapped
   all_goals
-    simp [kernel, source, branch, parts, realPart, loopBound, TypedSource.specialize,
+    simp [kernel, source, branch, parts, realPart, loopBound, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
       Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
       ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?_map_alg, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,

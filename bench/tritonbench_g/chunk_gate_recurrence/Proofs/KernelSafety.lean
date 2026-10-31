@@ -107,7 +107,7 @@ theorem forward_prefix (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bo
     traceSafeList (engine M) bounds (before .forward c s seed) u := by
   cases seed
   all_goals
-    simp only [before,parts,source,Kernels.forward,ComputeKernel.surfaceBody,
+    simp only [before,parts,source,Kernels.forward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
       VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,String.reduceEq,
       beq_self_eq_true,↓reduceIte]
     simp (config := {maxSteps:=200000}) [traceSafeList_unfold,stepSafe_unfold,
@@ -130,7 +130,7 @@ theorem backward_prefix (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : B
     TritonBenchG.ChunkGateRecurrence.TypedSource.backward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.specializeBackward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
+    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp (config := {maxSteps:=200000}) [traceSafeList_unfold,stepSafe_unfold,
     safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,
@@ -151,7 +151,7 @@ theorem backward_post (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Boo
     TritonBenchG.ChunkGateRecurrence.TypedSource.backward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.specializeBackward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
+    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp (config := {maxSteps:=200000}) [traceSafeList_unfold,stepSafe_unfold,
     safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,

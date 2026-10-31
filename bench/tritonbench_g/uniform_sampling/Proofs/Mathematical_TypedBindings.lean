@@ -23,13 +23,6 @@ def body (seed offset : Int) (B : Nat) : List ComputeStmt := [
     (.intBitAnd 64 .nil (.intShiftRight .nil (.ref .int [] "philox_offset") (.constNat 32))
       (.constInt 0xffffffff))))]
 
-theorem source_prefix (storage : Storage) (swapped : Bool) (y : RegionName)
-    (N : Nat) (seed offset : Int) (lower upper : ℝ) (B : Nat)
-    (hB : SourceDomain.LegalBlock B) :
-    (source storage swapped y N seed offset lower upper B hB).surfaceBody.take 7 =
-      body seed offset B := by
-  cases storage <;> cases swapped <;> rfl
-
 def boundState {α : Type} (seed offset : Int) (B : Nat) (u : State α) : State α :=
   let s := u.setReg "philox_seed_arg" .int [] (fun _ => seed)
   let s := s.setReg "philox_offset_arg" .int [] (fun _ => offset)
@@ -98,7 +91,6 @@ theorem three_steps {α : Type} [Inhabited α] (M : Algebra α)
     run M [a, b, c] s0 = some s3 := by
   simp only [run, ha, hb, hc, bind, Option.bind, pure]
 
-#axiomsClean source_prefix
 #axiomsClean bindings_exec
 #axiomsClean low_eval
 #axiomsClean high_eval

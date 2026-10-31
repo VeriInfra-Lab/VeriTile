@@ -14,11 +14,13 @@ noncomputable section
 
 theorem source_projection (m d : Nat) :
     (source "matrix" "out" m d).eraseDType.toAlgKernel.body =
-      (kernel "matrix" "out" (max d 1) 1 (max m 1) 1 m d).toAlgKernel.body := by
+      (VeriTile.Bench.TritonBenchG.MatrixTranspose.kernel "matrix" "out" (max d 1) 1 (max m 1) 1 m d).toAlgKernel.body := by
   change (VeriTile.Bench.TritonBenchG.MatrixTranspose.typedKernel Bool.false
     "matrix" "out" (max d 1) 1 (max m 1) 1 m d).eraseDType.toAlgKernel.body = _
   rw [typed_projection]
-  rfl
+  simp only [mathKernel, VeriTile.Bench.TritonBenchG.MatrixTranspose.kernel, ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody]
+  all_goals rfl
 
 /-- The contiguous output has a distinct address for every output coordinate. -/
 theorem output_injective (m d : Nat) :

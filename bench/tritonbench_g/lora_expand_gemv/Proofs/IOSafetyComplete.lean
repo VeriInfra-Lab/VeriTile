@@ -32,7 +32,7 @@ attribute [local irreducible] Branches.headerExecution Branches.setupExecution
   rw [Safety.stepSafe_unfold]
   constructor
   · simp [Branches.guard,Branches.source,
-      VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,ComputeKernel.surfaceBody,
+      VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,
       Safety.safeOp_unfold]
   · have hg : evalOp (Branches.engine rest .ieeeValue plans) none
         (Branches.guard .singleHalf .single g.parameters)

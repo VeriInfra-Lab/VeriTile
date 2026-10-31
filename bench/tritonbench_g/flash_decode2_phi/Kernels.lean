@@ -1,6 +1,6 @@
 import bench.tritonbench_g.flash_decode2_phi.Sources.Kernels
 namespace VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked
-abbrev kernel := FlashDecode2.phi
+
 end VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked
 
 namespace VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.Candidates

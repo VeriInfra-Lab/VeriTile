@@ -152,7 +152,7 @@ theorem tail_before_run (isa : Instructions) (plan : Reduction.ProductPlan 1024)
     (c : Shape) (s : SeedStrides) (seed : Bool) (u : State Node) :
     run (engine (algebra isa plan swap)) (tailBefore c s seed) u =
       run (engine (candidateAlgebra isa plan swap)) (tailBefore c s seed) u := by
-  simp only [tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,
+  simp only [tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
     Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,String.reduceEq,
     beq_self_eq_true,↓reduceIte]
   simp [run,FP.Structural.step,FP.Structural.store,evalExpr,evalComputeOp,evalOp_unfold,
@@ -162,7 +162,7 @@ theorem tail_after_run (isa : Instructions) (plan : Reduction.ProductPlan 1024) 
     (c : Shape) (s : SeedStrides) (seed : Bool) (u : State Node) :
     run (engine (algebra isa plan swap)) (tailAfter c s seed) u =
       run (engine (candidateAlgebra isa plan swap)) (tailAfter c s seed) u := by
-  simp only [tailAfter,tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,
+  simp only [tailAfter,tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
     Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,String.reduceEq,
     beq_self_eq_true,↓reduceIte]
   simp [run,FP.Structural.step,FP.Structural.store,evalExpr,evalComputeOp,evalOp_unfold,

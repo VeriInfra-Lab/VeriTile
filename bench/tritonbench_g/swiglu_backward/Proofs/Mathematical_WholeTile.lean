@@ -39,7 +39,7 @@ def enabled (R : Bool) (ch : Channel) : Prop := ch ≠ .out ∨ R = Bool.true
 instance (R : Bool) (ch : Channel) : Decidable (enabled R ch) := inferInstanceAs (Decidable (ch ≠ .out ∨ R = Bool.true))
 
 def Layout.source (c : Layout) (B : Nat) (R : Bool) : ComputeKernel :=
-  typedKernel .fp32 .fp32 .fp32 .fp32 Bool.false c.X c.Y c.DOUT c.OUT c.DX c.DY
+  VeriTile.Bench.Repairs.SwigluBackward.kernel c.X c.Y c.DOUT c.OUT c.DX c.DY
     c.sx c.sy c.sd c.so c.sdx c.sdy c.cols B R
 
 /-- Source FP32 graph. Three explicit input casts and left-associated products
@@ -89,8 +89,8 @@ def sourceRun {α : Type} [Inhabited α] (M : Algebra α) (c : Layout)
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp (maxSteps := 900000) [Layout.source, typedKernel, template, typedLoad, typedStore,
-      loadAddress, storeAddress, recomputedValue, ComputeKernel.surfaceBody,
+    simp (maxSteps := 900000) [Layout.source, VeriTile.Bench.Repairs.SwigluBackward.kernel,
+         ComputeKernel.surfaceBody,
       run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas, store,
       Option.bind, ComputeDType.eraseDType, numeric, bop, natLt,
       tileState, ofFloat, toFloat, TileShape.axisDim, Region.cast, State.setReg]

@@ -19,6 +19,11 @@ def startCursor (f : Fixed BD) (second : Bool) : Cursor BD :=
       fun i=>((f.valueBase i).1,(f.valueBase i).2+f.valueStride*(f.startM*128))⟩
   else ⟨f.keyBase,f.scaleBase,f.valueBase⟩
 
+private theorem upper_projection (start context : Nat) :
+    (if ((start : Int)+1)*128<(context : Int) then ((start : Int)+1)*128 else (context : Int)) =
+      min (((start+1)*128 : Nat) : Int) (context : Int) := by
+  omega
+
 theorem setup_exact (p : Config) (BD : Nat) (stage : p.stage=3) (second : Bool)
     (f : Fixed BD) (old : Carry BD) (s : State Expr) (hb : Bound f old s) :
     ∃ t, run (engine backend) (setupCode p BD second) s=some t ∧
@@ -27,24 +32,23 @@ theorem setup_exact (p : Config) (BD : Nat) (stage : p.stage=3) (second : Bool)
   rcases hb with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
   cases second
   all_goals simp only [setupCode,code,source,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    AttnFwdTriton.TypedSource.repaired,ComputeKernel.surfaceBody,List.drop_succ_cons,List.drop_zero,
+    AttnFwdTriton.TypedSource.repaired,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.drop_succ_cons,List.drop_zero,
     List.take_succ_cons,List.take_zero]
   all_goals simp [stage,run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,
     natLt,natLe,numericLt,numericLe,Cell.read,ofFloat,toFloat,Region.cast,State.setReg,
     Bound,LoopBound,keyName,scaleName,valueName,lowerName,upperName,
     h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,
-    startCursor,lower,upper]
+    startCursor,lower,upper,-Nat.cast_add,-Nat.cast_mul,←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,
+    AttnFwdTriton.ControlView.signed_div,AttnFwdTriton.ControlView.signed_min]
   all_goals repeat first | constructor | funext i | rfl
-  by_cases hlt : (f.startM+1)*128<f.context
-  · rw [if_pos hlt,Nat.min_eq_left (Nat.le_of_lt hlt)]
-  · rw [if_neg hlt,Nat.min_eq_right (Nat.le_of_not_gt hlt)]
+  all_goals exact upper_projection f.startM f.context
 
 theorem fold_exec (p : Config) (BD : Nat) (stage : p.stage=3)
     (second : Bool) (f : Fixed BD) (lo hi : Nat)
     (cur : Nat) (ptr : Cursor BD) (old : Carry BD) (s : State Expr)
     (hb : Bound f old s) (hl : LoopBound second ptr lo hi s) :
-    ∃ t, range (engine backend) "start_n" cur hi 64 (body p BD second) s=some t ∧
+    ∃ t, rangeInt (engine backend) "start_n" (cur : Int) (hi : Int) 64 (body p BD second) s=some t ∧
       Bound f (fold p BD (reads s.mem) f hi second cur ptr old) t ∧ t.mem=s.mem := by
   generalize hk : hi-cur=k
   induction k using Nat.strong_induction_on generalizing cur ptr old s with
@@ -55,11 +59,11 @@ theorem fold_exec (p : Config) (BD : Nat) (stage : p.stage=3)
         (update p BD (reads s.mem) f cur ptr second old) t hb' hl' rfl
       rw [hm] at hbu
       refine ⟨u,?_,?_,hmu.trans hm⟩
-      · rw [range_step (engine backend) "start_n" cur hi 64 (body p BD second) s (by decide) hlt,ht]
+      · rw [AttnFwdTriton.ControlView.signed_nat_step (engine backend) "start_n" cur hi 64 (body p BD second) s (by decide) hlt,ht]
         exact hu
       · rw [fold,dif_pos hlt]
         exact hbu
-    · refine ⟨s,range_done (engine backend) "start_n" cur hi 64 (body p BD second) s (by omega),?_,rfl⟩
+    · refine ⟨s,AttnFwdTriton.ControlView.signed_nat_done (engine backend) "start_n" cur hi 64 (body p BD second) s (by omega),?_,rfl⟩
       rw [fold,dif_neg hlt]
       exact hb
 
@@ -74,7 +78,16 @@ theorem loop_exact (p : Config) (BD : Nat) (stage : p.stage=3)
     (lower f second) (startCursor f second) old s hb hl
   refine ⟨t,?_,hb',hm⟩
   rcases hl with ⟨_,_,_,hlo,hhi⟩
-  simpa [loopCode,run,step,evalOp_unfold,hlo,hhi] using ht
+  have loEval : evalOp (engine backend) none (lowerOp p second) s =
+      some (fun _ => (lower f second : Int)) := by
+    rw [eval_lower]
+    cases second
+    all_goals simp only [lowerName,lower,Bool.false_eq_true,Bool.true_eq,↓reduceIte] at hlo
+    all_goals simp [lowerValue,lowerName,lower,stage,hlo]
+  simp only [loopCode,run,step]
+  rw [loEval]
+  simp only [evalOp_unfold,hhi,bind,Option.bind]
+  rw [ht]
 
 #axiomsClean setup_exact
 #axiomsClean fold_exec

@@ -23,7 +23,7 @@ theorem body (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13⟩
   simp (config := {maxSteps := 1000000}) [parts,program,
     VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,engine,Algebra.withDefaultPrecision,FPBackend.Ops.algebra,
     resolvePrecision,numeric,numericLt,numericLe,numericEq,natLt,natLe,integralFloorDiv,integralMod,

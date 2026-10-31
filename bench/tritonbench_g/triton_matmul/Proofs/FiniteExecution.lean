@@ -151,7 +151,7 @@ def writeResult {α : Type} (M : Algebra α) (r : Request) (pid : Nat)
   let memory := (TileShape.allIndices [BM r.parameters,BN r.parameters]).foldl (fun mem i =>
     if Index.storeMask r pid i.1.val i.2.1.val then
       (fun region offset => if region = r.C ∧ offset = (outputOffset r pid i).toNat then
-        stored r.storage (M.cast none .real (dtype r.storage) (carry i)) else mem region offset)
+        stored r.storage (M.cast none (dtype r.storage) (dtype r.storage) (M.cast none .real (dtype r.storage) (carry i))) else mem region offset)
     else mem) s.mem
   {instanceState r pid s with mem := memory}
 
@@ -162,7 +162,7 @@ theorem writeResult_eq {α : Type} (M : Algebra α) (r : Request) (pid : Nat)
       (TileShape.allIndices [BM r.parameters,BN r.parameters]).foldl (fun current i =>
         if Index.storeMask r pid i.1.val i.2.1.val then
           current.write r.C (outputOffset r pid i).toNat
-            (stored r.storage (M.cast none .real (dtype r.storage) (carry i))) else current)
+            (stored r.storage (M.cast none (dtype r.storage) (dtype r.storage) (M.cast none .real (dtype r.storage) (carry i)))) else current)
         (instanceState r pid s) :=
   (fold_write_state r.C _ _ _ _ (instanceState r pid s)).symm
 
@@ -194,6 +194,8 @@ theorem program_source {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc �
     ∃ actual typed,program M D r pid s=some actual ∧
       FP.Structural.exec (backend M D) (kernel r) (instanceState r pid s)=some typed ∧ actual.mem=typed.mem := by
   obtain ⟨typed,he,hm⟩ := Source.execution_memory M D r.parameters r.storage (instanceState r pid s)
+    (SourceLaunch.request_m r) (SourceLaunch.request_n r)
+    (SourceLaunch.request_first r pid s hp) (SourceLaunch.request_count r)
   refine ⟨_,typed,program_eq M D r basis t s pid hp hl,he,?_⟩
   rw [Source.writtenSafe_eq,hm]
 

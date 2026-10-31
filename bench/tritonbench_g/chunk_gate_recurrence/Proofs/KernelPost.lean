@@ -32,7 +32,7 @@ theorem executes (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool) (p
     TritonBenchG.ChunkGateRecurrence.TypedSource.backward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.specializeBackward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
+    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp (config := {maxSteps:=200000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,
     engine,Algebra.withDefaultPrecision,resolvePrecision,numeric,bop,ofFloat,toFloat,Option.bind,

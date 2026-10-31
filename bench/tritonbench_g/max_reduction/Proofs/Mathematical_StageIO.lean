@@ -47,18 +47,17 @@ theorem max_kernel_1_io_correctness
     -- skin's lane-wise disjunct into the single-cell one
     · exact Or.inr (h (⟨0, hB⟩, PUnit.unit) rfl)
 
-
-def typedStage1IO (storage : Storage) (v : Bool) (inp out : RegionName) (M B : Nat) :
+noncomputable def typedStage1IO (v : Bool) (inp out : RegionName) (M B : Nat) :
     MaskedTileKernelIO₁ :=
   { maxKernel1IO inp out M B with
-    kernel := (stage1 storage v inp out M B).eraseDType
-    projection := stage1_supported storage v inp out M B }
+    kernel := (stage1 v inp out M B).eraseDType
+    projection := stage1_supported v inp out M B }
 
-def typedStage2IO (storage : Storage) (v : Bool) (inp out : RegionName) (M B : Nat) :
+noncomputable def typedStage2IO (v : Bool) (inp out : RegionName) (M B : Nat) :
     MaskedTileKernelIO₁ :=
   { stage2IO inp out M B with
-    kernel := (stage2 storage v inp out M B).eraseDType
-    projection := stage2_supported storage v inp out M B }
+    kernel := (stage2 v inp out M B).eraseDType
+    projection := stage2_supported v inp out M B }
 
 namespace StageIOProof
 
@@ -85,15 +84,15 @@ theorem stage2_math_correct (mid out : RegionName) (M B : Nat) (hB : 0 < B) :
 
 /-- Each source version independently implements the finite maximum of the
 masked original input window, terminates, and preserves every other flat cell. -/
-theorem stage1_real_correct (storage : Storage) (v : Bool)
+theorem stage1_real_correct (v : Bool)
     (inp out : RegionName) (M B : Nat) (hB : 0 < B) :
-    VeriTile.Spec.Real (typedStage1IO storage v inp out M B ⊨
+    VeriTile.Spec.Real (typedStage1IO v inp out M B ⊨
       fun pid xs _ => blockMaximum M B pid xs) := by
   intro A hd hr hc pid hin hout xs s hp hu hx
   obtain ⟨t, he, hv, hf⟩ := max_kernel_1_io_correctness inp out M B hB
     A hd hr hc pid hin hout xs s hp hu hx
   refine ⟨t, ?_, ?_, hf⟩
-  · exact (stage1_flat_exec A storage v inp out M B (A.flattenState s)).trans he
+  · exact (stage1_flat_exec A v inp out M B (A.flattenState s)).trans he
   · intro i hi
     change t.readMem A.flat (A.addr out pid) = blockMaximum M B pid xs
     rw [blockMaximum_eq_tile M B pid hB]
@@ -101,15 +100,15 @@ theorem stage1_real_correct (storage : Storage) (v : Bool)
 
 /-- Each second-stage source independently computes the finite maximum of the
 masked intermediate window, with successful execution and a full flat frame. -/
-theorem stage2_real_correct (storage : Storage) (v : Bool)
+theorem stage2_real_correct (v : Bool)
     (inp out : RegionName) (M B : Nat) (hB : 0 < B) :
-    VeriTile.Spec.Real (typedStage2IO storage v inp out M B ⊨
+    VeriTile.Spec.Real (typedStage2IO v inp out M B ⊨
       fun _ xs _ => blockMaximum M B 0 xs) := by
   intro A hd hr hc pid hin hout xs s hp hu hx
   obtain ⟨t, he, hv, hf⟩ := stage2_math_correct inp out M B hB
     A hd hr hc pid hin hout xs s hp hu hx
   refine ⟨t, ?_, hv, hf⟩
-  exact (stage2_flat_exec A storage v inp out M B (A.flattenState s)).trans he
+  exact (stage2_flat_exec A v inp out M B (A.flattenState s)).trans he
 
 #axiomsClean stage2_math_correct
 #axiomsClean stage1_real_correct

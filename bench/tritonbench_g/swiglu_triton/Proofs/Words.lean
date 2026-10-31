@@ -107,7 +107,7 @@ theorem logical_bytes {M : Type} (ops : Ops M Word Byte) (codec : Codec ops)
   simp only [logical,Negation.encode_twice] at physical
   rw [physical]
 
-#specNonCircular reference avoiding [Tile.scalar,Tile.sourceRun,Native.interpret,Native.sourceScalar]
+#specNonCircular reference avoiding [Tile.scalar,Native.interpret,Native.sourceScalar]
 #axiomsClean reference_exact
 #axiomsClean logical_bytes
 #guard_msgs (drop info) in

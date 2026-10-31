@@ -16,8 +16,8 @@ theorem body (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
     Safety.traceSafeList (M.withDefaultPrecision .fp32) bounds (parts p r scale).body
       (s.setReg "start_n" .int [] (fun _=>cur)) := by
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
-  simp [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,ComputeKernel.surfaceBody,Source.intRange?]
+  simp [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
+    VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,ComputeKernel.surfaceBody,Source.intRange?]
   simp (config := {maxSteps:=500000}) [Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,

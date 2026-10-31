@@ -1,0 +1,108 @@
+[
+  {
+    "python": "bench/tritonbench_g/matrix_vector_multip/matrix_vector_multip.py",
+    "lean": "bench/tritonbench_g/matrix_vector_multip/Kernels.lean",
+    "python_function": "mv_contiguous_kernel",
+    "lean_definition": "body",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "C",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "stride_an",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_bm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_M"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/matrix_vector_multip/matrix_vector_multip.py",
+    "lean": "bench/tritonbench_g/matrix_vector_multip/Kernels.lean",
+    "python_function": "mv_contiguous_fma_kernel",
+    "lean_definition": "fmaBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "C",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "stride_an",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_bm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_M"
+      ]
+    }
+  }
+]

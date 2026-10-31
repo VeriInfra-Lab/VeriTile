@@ -538,13 +538,6 @@ def indexCommuted (fp8 outputFP8 : Bool) : Arguments → ComputeKernel :=
   | Bool.true,Bool.false => fp8HalfIndexCommuted
   | Bool.true,Bool.true => fp8FP8IndexCommuted
 
-/-- Literal Q/K/V callee order and separate destination precision. -/
-def qkv (fp8 : Bool) (q k v : Arguments) : ComputeKernel :=
-  .mk [q.X,q.W,k.W,v.W,q.RMS] [q.OUT,k.OUT,v.OUT]
-    ((kernel fp8 Bool.false {q with rotary:=Bool.true}).surfaceBody ++
-     (kernel fp8 fp8 {k with rotary:=Bool.true}).surfaceBody ++
-     (kernel fp8 fp8 {v with rotary:=Bool.false}).surfaceBody)
-
 def qkvIndexCommuted (fp8 : Bool) (q k v : Arguments) : ComputeKernel :=
   .mk [q.X,q.W,k.W,v.W,q.RMS] [q.OUT,k.OUT,v.OUT]
     ((indexCommuted fp8 Bool.false {q with rotary:=Bool.true}).surfaceBody ++

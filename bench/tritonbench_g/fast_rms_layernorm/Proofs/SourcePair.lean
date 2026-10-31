@@ -6,12 +6,6 @@ open VeriTile Triton FP.Structural
 noncomputable section
 set_option maxHeartbeats 5000000
 
-/-- The selected mathematical sources and existing candidate agree completely
-with the preserved original FP32 profile. -/
-theorem regular_candidate : Kernels.regularSourceIndexCommuted = Original.forward .fp32 .fp32 Bool.true := rfl
-theorem gemma_candidate : Kernels.gemmaSourceIndexCommuted = Original.gemma .fp32 .fp32 Bool.true := rfl
-theorem gradient_candidate : Kernels.inputGradientSourceIndexCommuted = Original.backward .fp32 .fp32 Bool.true := rfl
-
 /-- Proof-only decomposition of the single changed address assignment. -/
 def xStep (candidate : Bool) (stride : Nat) : ComputeStmt :=
   let a : Op .nat [] := .ref .nat [] "row_idx"
@@ -39,7 +33,7 @@ theorem x_step {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (strid
   have product : evalOp M none
       (.mul .nat .nil (.ref .nat [] "row_idx") (.constNat stride)) s =
     evalOp M none (.mul .nat .nil (.constNat stride) (.ref .nat [] "row_idx")) s := by
-    simp only [evalOp]
+    simp only [FP.Structural.evalOp_unfold]
     cases hr : s.regs .nat [] "row_idx" <;> simp_all [numeric]
     funext i
     exact Nat.mul_comm _ _

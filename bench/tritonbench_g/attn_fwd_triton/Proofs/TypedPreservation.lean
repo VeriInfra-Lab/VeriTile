@@ -36,6 +36,8 @@ inductive Pure (names : List RegName) : List ComputeStmt → Prop
       Pure names (.ifThen cond body::rest)
   | range (idx lo hi stride body rest) (hn : idx∉names) (hb : Pure names body) (hr : Pure names rest) :
       Pure names (.forRangeDyn idx lo hi stride body::rest)
+  | signedRange (idx lo hi stride body rest) (hn : idx∉names) (hb : Pure names body) (hr : Pure names rest) :
+      Pure names (.forRangeInt idx lo hi stride body::rest)
 
 theorem range_keep {α : Type} [Inhabited α] (A : Algebra α) (names : List RegName)
     (idx : RegName) (body : List ComputeStmt) (hn : idx∉names)
@@ -62,10 +64,43 @@ theorem range_keep {α : Type} [Inhabited α] (A : Algebra α) (names : List Reg
           cases hx : run A body (s.setReg idx .nat [] (fun _ => cur)) with
           | none => simp [hx] at ht
           | some u =>
-            rw [hx,Option.bind_some] at ht
+            simp only [hx,bind,Option.bind] at ht
             exact (keep_setReg names s idx .nat [] (fun _ => cur) hn).trans
               ((hb _ _ hx).trans (ih (stop-(cur+stride)) (by omega) (cur+stride) rfl u t ht))
     exact main (stop-cur) cur rfl s t ht
+
+theorem signed_range_keep {α : Type} [Inhabited α] (A : Algebra α) (names : List RegName)
+    (idx : RegName) (body : List ComputeStmt) (hn : idx∉names)
+    (hb : ∀ s t, run A body s=some t → Keep names s t)
+    (cur stop : Int) (stride : Nat) (s t : State α) (ht : rangeInt A idx cur stop stride body s=some t) :
+    Keep names s t := by
+  by_cases hz : stride=0
+  · subst stride
+    rw [rangeInt] at ht
+    simp only [↓reduceIte,Option.some.injEq] at ht
+    subst t
+    exact Keep.refl names s
+  · have main : ∀ fuel cur, (stop-cur).toNat=fuel → ∀ s t,
+        rangeInt A idx cur stop stride body s=some t → Keep names s t := by
+      intro fuel
+      induction fuel using Nat.strong_induction_on with
+      | h fuel ih =>
+        intro cur hcur s t ht
+        by_cases hd : stop≤cur
+        · rw [rangeInt] at ht
+          simp only [hz,not_lt.mpr hd,↓reduceIte,Option.some.injEq] at ht
+          subst t
+          exact Keep.refl names s
+        · have hc : cur<stop := by omega
+          rw [rangeInt] at ht
+          simp only [hz,hc,↓reduceIte] at ht
+          cases hx : run A body (s.setReg idx .int [] (fun _ => cur)) with
+          | none => simp [hx] at ht
+          | some u =>
+            simp only [hx,bind,Option.bind] at ht
+            exact (keep_setReg names s idx .int [] (fun _=>cur) hn).trans
+              ((hb _ _ hx).trans (ih (stop-(cur+stride)).toNat (by omega) (cur+stride) rfl u t ht))
+    exact main (stop-cur).toNat cur rfl s t ht
 
 theorem pure_keep {α : Type} [Inhabited α] (A : Algebra α) (names : List RegName)
     (code : List ComputeStmt) (hp : Pure names code) (s t : State α)
@@ -122,6 +157,23 @@ theorem pure_keep {α : Type} [Inhabited α] (A : Algebra α) (names : List RegN
           | none => simp [hx] at ht
           | some u =>
             exact (range_keep A names idx body hn ib _ _ _ s u hx).trans
+              (ir u t (by simpa [hx] using ht))
+  | signedRange idx lo hi stride body rest hn hb hr ib ir =>
+    simp only [run,step] at ht
+    cases hl : evalOp A none lo s with
+    | none => simp [hl] at ht
+    | some lower =>
+      cases hh : evalOp A none hi s with
+      | none => simp [hl,hh] at ht
+      | some upper =>
+        cases hs : evalOp A none stride s with
+        | none => simp [hl,hh,hs] at ht
+        | some delta =>
+          simp only [hl,hh,hs,Option.bind_some] at ht
+          cases hx : rangeInt A idx (lower PUnit.unit) (upper PUnit.unit) (delta PUnit.unit) body s with
+          | none => simp [hx] at ht
+          | some u =>
+            exact (signed_range_keep A names idx body hn ib _ _ _ s u hx).trans
               (ir u t (by simpa [hx] using ht))
 
 #guard_msgs (drop info) in

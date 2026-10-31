@@ -20,7 +20,7 @@ theorem source_safe {A : Type} [Inhabited A] (M : Algebra A)
     (input : ∀ key side (i : Lane r key), Source.active (r.heads key) r.half i →
       address r (s.pids 0) key side i < bounds (region key)) :
     FP.Structural.TraceSafe M bounds (Source.kernel .fp32 .fp32 (parameters r)) s := by
-  simp (maxSteps := 3000000) [FP.Structural.TraceSafe, Source.kernel, Source.source,
+  simp (maxSteps := 3000000) [FP.Structural.TraceSafe, Source.kernel,Source.source,VeriTile.Bench.Repairs.RopeBackwardTransform.Kernels.source,
     parameters, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,

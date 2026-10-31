@@ -839,7 +839,20 @@ theorem rmsnorm_implementation_correct
     rfl
   by_cases hB : 0 < BLOCK_N_SIZE
   · have hStep : BLOCK_N_SIZE ≠ 0 := Nat.ne_of_gt hB
-    simp [exec, rmsnorm_implementation, stepStmts, stepStmt, evalOp, evalOp.eq_def,
+    simp [exec, rmsnorm_implementation, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
+    RealCastView.ofKernel,RealCastView.castBindings,RealCastView.castBinding,
+    ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody,ComputeStmt.listToAlgorithm?_map_alg,
+    ComputeKernel.surfaceBody,ComputeKernel.fromKernelBody,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComputeDType.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
           stepForRangeAux.step_lt, stepForRangeAux.step_ge,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
@@ -884,7 +897,20 @@ theorem rmsnorm_implementation_compute_correct
           stride_rms_w N_SIZE BLOCK_N_SIZE eps i) := by
   rw [ComputeCorrect.realizes_writeIf_iff]
   apply ComputeKernel.computeCorrect_of_toAlgKernel
-  · simp [rmsnorm_implementation, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  · simp [rmsnorm_implementation, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
+    RealCastView.ofKernel,RealCastView.castBindings,RealCastView.castBinding,
+    ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody,ComputeStmt.listToAlgorithm?_map_alg,
+    ComputeKernel.surfaceBody,ComputeKernel.fromKernelBody,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComputeDType.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Except.bind,bind, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
   intro s0 s' hExec hs0
   subst s0
   intro i hActive
@@ -1818,7 +1844,20 @@ theorem rmsnorm_implementation_toAlg_body
       [ .forRange "block_n_strart_ptr" 0 N_SIZE BLOCK_N_SIZE
           (rmsOutLoopBody x_ptr rms_w_ptr out_ptr stride_x_k stride_rms_w
             stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE) ] := by
-  simp [rmsnorm_implementation, rmsVarPreLoop, rmsVarLoopBody, rmsStdPostLoop,
+  simp [rmsnorm_implementation, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
+    RealCastView.ofKernel,RealCastView.castBindings,RealCastView.castBinding,
+    ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody,ComputeStmt.listToAlgorithm?_map_alg,
+    ComputeKernel.surfaceBody,ComputeKernel.fromKernelBody,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComputeDType.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Except.bind,bind, rmsVarPreLoop, rmsVarLoopBody, rmsStdPostLoop,
     rmsOutLoopBody, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
   repeat' constructor
 
@@ -1902,7 +1941,20 @@ theorem rmsnorm_implementation_compute_fullN_correct
           stride_x_k stride_rms_w N_SIZE BLOCK_N_SIZE eps i) := by
   rw [ComputeCorrect.realizes_writeIf_iff]
   apply ComputeKernel.computeCorrect_of_toAlgKernel
-  · simp [rmsnorm_implementation, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  · simp [rmsnorm_implementation, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
+    RealCastView.ofKernel,RealCastView.castBindings,RealCastView.castBinding,
+    ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody,ComputeStmt.listToAlgorithm?_map_alg,
+    ComputeKernel.surfaceBody,ComputeKernel.fromKernelBody,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComputeDType.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Except.bind,bind, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
   intro s0 s' hExec hs0
   subst s0
   intro i _hActive
@@ -1937,7 +1989,20 @@ theorem rmsnorm_implementation_output_summary_bridge
         rmsnormWeightedYFullNSpec s x_ptr rms_w_ptr stride_x_batch stride_x_m
           stride_x_k stride_rms_w N_SIZE BLOCK_N_SIZE eps i) := by
   refine ⟨?_, ?_⟩
-  · simp only [rmsnorm_implementation, ComputeExpr.toAlgorithm?,
+  · simp only [rmsnorm_implementation, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
+    RealCastView.ofKernel,RealCastView.castBindings,RealCastView.castBinding,
+    ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody,ComputeStmt.listToAlgorithm?_map_alg,
+    ComputeKernel.surfaceBody,ComputeKernel.fromKernelBody,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,ComputeDType.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Except.bind,bind, ComputeExpr.toAlgorithm?,
       ComputeOp.toAlgorithm?]
     exact ⟨_, rfl⟩
   · exact rmsnorm_implementation_compute_fullN_correct x_ptr rms_w_ptr out_ptr
@@ -2034,6 +2099,9 @@ def rmsnormImplementationKernelIO (x w o : RegionName)
     (sxb sxm sxk srw sob som sok N B : Nat) (eps : ℝ) :
     StreamEmitMasked2DKernelIO₂ where
   kernel := rmsnorm_implementation x w o sxb sxm sxk srw sob som sok N B eps
+  projection := by
+    simp only [rmsnorm_implementation,RealCastView.ofKernel,
+      ComputeKernel.toAlgorithm?_fromKernelBody,ComputeKernel.toAlgKernel_fromKernelBody]
   inp1 := x
   inp2 := w
   out := o

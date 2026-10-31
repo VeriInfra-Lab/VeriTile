@@ -32,16 +32,7 @@ def original : Program where
   kernel := TypedSource.repaired Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal
   domain := requirements Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal
 
-def carryFirst : Program :=
-  { original Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal with kernel := TypedSource.repairedCarryFirst Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal }
-
-theorem attention_carry_first_equiv (R : Rules) :
-    original Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal ≡[R] carryFirst Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal := by
-  equiv_decompose
-  all_goals fp_prove
-
 end
-#print_fp_assumptions attention_carry_first_equiv
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.Repairs.AttentionLlama.FPSourceEquiv

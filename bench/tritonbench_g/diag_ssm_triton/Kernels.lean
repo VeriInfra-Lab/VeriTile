@@ -1,15 +1,15 @@
-import bench.tritonbench_g.diag_ssm_triton.Sources.Mathematical_Kernels
+import VeriTile.Triton.DSL
+import VeriTile.Triton.Source
 
 /-! Complete selected source quotations for the four diagonal SSM kernels and
 their existing integer-index candidates. Real storage is FP32; complex64 uses
 the original interleaved FP32 components. Recurrences, reverse-time branches,
 gradient signs, masks, simultaneous complex updates and stores are unchanged.
-Proofs/ReadableSource.lean proves complete function equality to the prior source.
+The existing source-profile names refer directly to these shared quotations.
 The signed range bridge stays in Proofs/NativeBinding, outside FP semantics. -/
 set_option autoImplicit false
 namespace VeriTile.Bench.Repairs.DiagSsmTriton.Kernels
 open Lean VeriTile.Triton
-open VeriTile.Bench.TritonBenchG.DiagSsmTriton
 
 def blockSize : Nat := 128
 

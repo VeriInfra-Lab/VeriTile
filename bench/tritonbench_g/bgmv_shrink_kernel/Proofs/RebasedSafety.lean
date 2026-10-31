@@ -67,11 +67,11 @@ theorem body_safe (M : Algebra α) (P : Primitives α) (h : Call)
     constructor
     · intro e FPProgram.active
       norm_cast at FPProgram.active
-      simpa only [inputOffset,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast] using inputBounds (c*16384+(e.val+split*256)) (by change _ < K; exact Int.ofNat_lt.mp FPProgram.active)
+      simpa only [inputOffset,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast] using inputBounds (c*16384+(e.val+split*256)) (by change _ < K; simpa only [Int.ofNat_lt] using FPProgram.active)
     · intro n e hn hk
       norm_cast at hk
       simpa only [weightOffset,Nat.mul_comm,Nat.add_assoc,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast] using
-        weightBounds n.val (c*16384+(e.val+split*256)) hn (by change _ < K; exact Int.ofNat_lt.mp hk)
+        weightBounds n.val (c*16384+(e.val+split*256)) hn (by change _ < K; simpa only [Int.ofNat_lt] using hk)
 
 theorem tail_safe (M : Algebra α) (P : Primitives α) (h : Call)
     (batch split slot : Nat) (data : Data α) (a : Fin h.BN → α) (s : State α)

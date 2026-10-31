@@ -21,17 +21,5 @@ def backend (rest : Algebra Word) : Algebra Word :=
       | _,_ => rest.cast p src dst x
     indexedMax := fun _ dtype => VeriTile.Bench.TritonBenchG.TritonArgmax.DimBackend.indexed dtype }
 
-/-- Extract a quoted range's body; no hand-written AST is introduced. -/
-def rangeBody (code : List ComputeStmt) (index : Nat) : List ComputeStmt :=
-  match code[index]? with
-  | some (.forRange _ _ _ _ body) | some (.forRangeDyn _ _ _ _ body) => body
-  | _ => []
-
-def body (X : RegionName) (O : Region .int) (M N K BM BN base : Nat) (index64 : Bool) :=
-  rangeBody (TypedSource.dimension X O M N K BM BN base index64).surfaceBody 7
-
-example (X : RegionName) (O : Region .int) (M N K BM BN base : Nat) (index64 : Bool) :
-    (TypedSource.dimension X O M N K BM BN base index64).surfaceBody.length=12 := by rfl
-
 end
 end VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Typed

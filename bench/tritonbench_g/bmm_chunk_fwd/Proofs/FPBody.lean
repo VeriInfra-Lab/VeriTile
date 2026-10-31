@@ -26,7 +26,7 @@ theorem body {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.C
   obtain ⟨v11,h11⟩ := Option.isSome_iff_exists.mp h11
   cases ha : h.aStorage <;> cases hb : h.bStorage
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,
+    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
       ha,hb,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,

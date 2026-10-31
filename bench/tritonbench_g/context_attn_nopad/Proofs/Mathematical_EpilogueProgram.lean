@@ -27,7 +27,7 @@ theorem shared (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
   cases swapped <;> rfl
 
 theorem source (p : Layout) (r : Regions) : post p r = code p r := by
-  simp only [post,lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,ComputeKernel.surfaceBody,
+  simp only [post,lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,ComputeKernel.surfaceBody,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
     Source.intRange?,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType,Except.bind,bind,List.map_cons,List.map_nil,

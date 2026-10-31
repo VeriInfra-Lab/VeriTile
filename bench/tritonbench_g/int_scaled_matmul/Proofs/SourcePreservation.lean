@@ -1,9 +1,10 @@
-import bench.tritonbench_g.int_scaled_matmul.Kernels
+import bench.tritonbench_g.int_scaled_matmul.Sources.Kernels
+import VeriTile.Meta.StatementAudit
 import VeriTile.Meta.Specification
 namespace VeriTile.Bench.Repairs.IntScaledMatmul.SourcePreservation
 open Revision001
 noncomputable section
-/-- Complete direct programs equal the previously certified machine-width projection. -/
+/-- The proof decomposition names bind directly to the actual repaired programs. -/
 theorem unscaled (p : BlockWord.Parameters) : Kernels.unscaled p=BlockWord.source p := by rfl
 theorem scaled (p : ScaledWord.Parameters) : Kernels.scaled p=ScaledWord.source p := by rfl
 /-- Both optimization targets are actual distinct complete programs. -/

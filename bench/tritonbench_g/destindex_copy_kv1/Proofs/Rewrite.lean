@@ -13,8 +13,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Layout) (s : Stat
     {t : State α // FP.Structural.exec M (kernel p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [kernel, Layout.source,
-    VeriTile.Bench.TritonBenchG.DestindexCopyKv1.TypedSource.kernel,
+  simp [kernel,
     ComputeKernel.surfaceBody, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, evalOffsets, evalDeltas, Option.bind, natLt,
     ComputeDType.eraseDType, numeric, bop, ofFloat, toFloat, Region.cast,
@@ -33,8 +32,7 @@ theorem exec_eq {α : Type} [Inhabited α] (M : Algebra α) (p : Layout) (s : St
         (fun (_ : TileIndex []) => p.stride_k_bs) (fun _ => s.pids 0) := by
     funext i
     exact Nat.mul_comm _ _
-  simp [kernel, indexCommutedKernel, Layout.source,
-    VeriTile.Bench.TritonBenchG.DestindexCopyKv1.TypedSource.kernel,
+  simp [kernel, indexCommutedKernel,
     ComputeKernel.surfaceBody, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, evalOffsets, evalDeltas, Option.bind, natLt,
     ComputeDType.eraseDType, numeric, bop, ofFloat, toFloat, Region.cast,

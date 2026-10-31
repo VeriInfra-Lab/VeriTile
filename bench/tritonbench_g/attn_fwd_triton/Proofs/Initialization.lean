@@ -23,20 +23,20 @@ def code (BM BD D : Nat) : List Stmt :=
 
 theorem source (p : Parameters) (BM BN BD : Nat) : initialization BM BN BD p = code BM BD p.headDim := by
   simp only [initialization, Verified.code, Verified.source, TypedSource.repaired,
-    Bool.false_eq_true, ↓reduceIte, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
+    ControlView.algorithm,Bool.false_eq_true, ↓reduceIte, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
     ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind]
-  simp [code,RealInit.code,queryMask]
+  simp [ControlView.algorithm,code,RealInit.code,queryMask]
 
 theorem executes (s : BlockState) (c : Config) (BM BN BD : Nat)
     (hp : Pointers.Registers c BM BN BD s)
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context))
-    (hkr : s.regs .nat [] "stride_kn64" = some (Tile.scalar c.p.keyRow))
-    (hvr : s.regs .nat [] "stride_vk64" = some (Tile.scalar c.p.valueRow)) :
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context))
+    (hkr : s.regs .int [] "stride_kn64" = some (Tile.scalar c.p.keyRow))
+    (hvr : s.regs .int [] "stride_vk64" = some (Tile.scalar c.p.valueRow)) :
     ∃ t, stepStmts (code BM BD c.p.headDim) s = some t ∧
       Iteration.Fixed s t c BM BN BD ∧ Iteration.Carries t (initial BM BD) ∧ Frame writes s t := by
   let sm := s.setReg "m_i" .real [BM] (⟨fun _ => ⊥⟩ : Tile .real [BM])
@@ -58,7 +58,7 @@ theorem executes (s : BlockState) (c : Config) (BM BN BD : Nat)
     simp only [evalOp.eq_def,bind,Option.bind]
     rfl
   have hq := query_load sa c BM BD (by simp [sa,sl,sm,hp.query])
-    (by simpa [sa,sl,sm,RealPointers.rows] using hp.rows) (by simp [sa,sl,sm,hctx])
+    (by simpa [sa,sl,sm,VeriTile.Bench.Repairs.AttnFwdTriton.Verified.Memory.rows] using hp.rows) (by simp [sa,sl,sm,hctx])
   rw [Preparation.q_same_memory sa s c BM BD rfl] at hq
   have hqs := scale_load sq c.p.QS (qsbase c BM+c.startM) "Q_scale_ptr"
     (by simpa [sq,sa,sl,sm,queryScalePointer] using hp.queryScale)
@@ -73,7 +73,7 @@ theorem executes (s : BlockState) (c : Config) (BM BN BD : Nat)
     · rfl
     · simp [sq]
     · simp
-    · simpa [sq,sa,sl,sm,RealPointers.rows] using hp.rows
+    · simpa [sq,sa,sl,sm,VeriTile.Bench.Repairs.AttnFwdTriton.Verified.Memory.rows] using hp.rows
     · simp [sq,sa,sl,sm,hp.keys]
     · simp [sq,sa,sl,sm,hctx]
     · simp [sq,sa,sl,sm,hkr]

@@ -98,77 +98,14 @@ def graphState {M β : Type} (ops : Ops M Word β) (backward : Bool)
   numPids := fun _ => 0
   undef := fun dtype _ _ => defaultValue dtype
 
-theorem source_row_native {M β : Type} (ops : Ops M Word β) (instructions : InstructionSemantics)
-    (backward : Bool) (p : Layout) (valid : Valid p) (first pid : Nat)
-    (rowBound : first+pid<p.rows) (s : M) (ch : Channel) (on : enabled backward ch)
-    (col : Nat) (active : col<p.cols) :
-    let execution := Tile.sourceRun graphAlgebra backward p.block p.cols pid (graphState ops backward p first s)
-    interpret (compiledPorts instructions) ((execution.val.mem (outputRegion ch) (pid*p.block+col)).read .real)=
-      ops.read (Physical.row ops (sourceScalar (compiledPorts instructions)) backward p (first+pid) s)
-        (p.key (outputRole ch) (first+pid) col) := by
-  dsimp only
-  rw [Tile.readback graphAlgebra backward p.block p.cols pid (graphState ops backward p first s) ch on
-    (⟨⟨col,lt_of_lt_of_le active valid.cols⟩,PUnit.unit⟩) active]
-  rw [Physical.row_values ops _ backward p valid (first+pid) s rowBound ch on col active]
-  cases backward <;> cases ch <;> try simp [enabled] at on
-  all_goals simp [graphState,Source.region,Physical.value,Layout.key,Nat.add_mul,Nat.add_assoc,
-    sourceScalar,Tile.scalar,graphAlgebra,interpret,compiledPorts,sigmoidGraph]
-
 theorem graphState_read {M β : Type} (ops : Ops M Word β) (backward : Bool)
     (p : Layout) (first : Nat) (s : M) (role : Role) (offset : Nat) :
     (graphState ops backward p first s).mem (Source.region backward role) offset=
       Cell.mk .real (.input (ops.read s ((p.allocation role).key (first*p.block+offset)))) := by
   cases backward <;> cases role <;> simp [graphState,Source.region]
 
-theorem source_row_native_full {M β : Type} (ops : Ops M Word β) (instructions : InstructionSemantics)
-    (backward : Bool) (p : Layout) (valid : Valid p) (first pid : Nat)
-    (rowBound : first+pid<p.rows) (s : M) :
-    ∃ t,run graphAlgebra (source backward p.block p.cols).surfaceBody
-        (Tile.rowState pid (graphState ops backward p first s))=some t ∧
-      ∀ role offset,first*p.block+offset<(p.allocation role).words →
-        interpret (compiledPorts instructions) ((t.mem (Source.region backward role) offset).read .real)=
-          ops.read (Physical.row ops (sourceScalar (compiledPorts instructions)) backward p (first+pid) s)
-            ((p.allocation role).key (first*p.block+offset)) := by
-  refine ⟨_,(Tile.sourceRun graphAlgebra backward p.block p.cols pid (graphState ops backward p first s)).property,?_⟩
-  intro role offset backed
-  by_cases hit : ∃ ch,enabled backward ch ∧ role=outputRole ch ∧
-      ∃ col,col<p.cols ∧ offset=pid*p.block+col
-  · obtain ⟨ch,on,same,col,active,equal⟩ := hit
-    subst role offset
-    rw [Source.output_region backward ch on]
-    have keyEq : ((p.allocation (outputRole ch)).key (first*p.block+(pid*p.block+col)))=
-        p.key (outputRole ch) (first+pid) col := by simp [Layout.key,Nat.add_mul,Nat.add_assoc]
-    rw [keyEq]
-    exact source_row_native ops instructions backward p valid first pid rowBound s ch on col active
-  · have structural : Tile.Outside backward p.block p.cols pid (Source.region backward role) offset := by
-      intro ch on
-      by_cases different : Source.region backward role≠outputRegion ch
-      · exact Or.inl different
-      · right
-        intro lane active equal
-        have sameRole : role=outputRole ch := Source.region_injective backward
-          ((not_not.mp different).trans (Source.output_region backward ch on).symm)
-        exact hit ⟨ch,on,sameRole,lane.1.val,active,equal⟩
-    rw [Tile.frame graphAlgebra backward p.block p.cols pid (graphState ops backward p first s) _ _ structural,
-      graphState_read]
-    change ops.read s _=ops.read _ _
-    symm
-    apply Physical.row_frame
-    intro ch on col active
-    by_cases sameRole : role=outputRole ch
-    · subst role
-      apply Allocation.indices_disjoint
-      intro words
-      have sameOffset : offset=pid*p.block+col := by simp only [Nat.add_mul] at words; omega
-      exact hit ⟨ch,on,rfl,col,active,sameOffset⟩
-    · exact Allocation.spans_separate _ _ (valid.separate role (outputRole ch) sameRole) _ _
-        (Allocation.key_contains _ _ backed)
-        (key_backed p valid (outputRole ch) (first+pid) col rowBound (lt_of_lt_of_le active valid.cols))
-
-#specNonCircular compiledReference avoiding [interpret,sourceScalar,Tile.scalar,Tile.sourceRun]
+#specNonCircular compiledReference avoiding [interpret,sourceScalar,Tile.scalar]
 #axiomsClean primitive_bridge
-#axiomsClean source_row_native_full
-#axiomsClean source_row_native
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

@@ -64,9 +64,9 @@ def bodyExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
   simp [parts,kernel,Kernels.backwardQKV,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
-    resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,numericEq,
+    resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,
     natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
-    ctx.ik,ctx.it,ctx.bh,ctx.nh,ctx.dq,ctx.dk,ctx.ds,ctx.query,ctx.key,ctx.score,ha.1,ha.2.1,ha.2.2,
+    ctx.ik,ctx.it,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.nh,ctx.dq,ctx.dk,ctx.ds,ctx.query,ctx.key,ctx.score,ha.1,ha.2.1,ha.2.2,
     FP.Structural.store]
   rfl
 
@@ -94,7 +94,7 @@ theorem bodyContext (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
       apply State.masked_scatter_frame
       exact Or.inl hn
     rw [hm,ctx.memory r hr]
-  all_goals simp [bodyExecution,ctx.ik,ctx.it,ctx.bh,ctx.nh,ctx.dq,ctx.dk,ctx.ds,ctx.query,ctx.key,ctx.score]
+  all_goals simp [bodyExecution,ctx.ik,ctx.it,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.nh,ctx.dq,ctx.dk,ctx.ds,ctx.query,ctx.key,ctx.score]
 
 theorem bodyAcc (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ)
     (initial current : State α) (f : Nat) (a : Accum c α)

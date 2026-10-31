@@ -23,11 +23,11 @@ structure Fixed (mem s : BlockState) (c : Config) (BM BN BD : Nat) : Prop where
   memory : s.mem = mem.mem
   query : s.regs .real [BM,BD] "q" = some (finite (qvalue mem c BM BD))
   queryScale : s.regs .real [] "q_scale" = some (Tile.scalar (some (mem.readMem c.p.QS (qsbase c BM+c.startM))))
-  rows : s.regs .nat [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩
-  keys : s.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val))
-  context : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context)
-  keyStride : s.regs .nat [] "stride_kn64" = some (Tile.scalar c.p.keyRow)
-  valueStride : s.regs .nat [] "stride_vk64" = some (Tile.scalar c.p.valueRow)
+  rows : s.regs .int [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩
+  keys : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val))
+  context : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context)
+  keyStride : s.regs .int [] "stride_kn64" = some (Tile.scalar c.p.keyRow)
+  valueStride : s.regs .int [] "stride_vk64" = some (Tile.scalar c.p.valueRow)
 
 theorem Fixed.transport {mem s t : BlockState} {c : Config} {BM BN BD : Nat} {second : Bool}
     (f : Fixed mem s c BM BN BD) (hf : Frame (writes second) s t) : Fixed mem t c BM BN BD := by
@@ -61,14 +61,14 @@ def prepared (BM BN BD D : Nat) (second diagonal : Bool) : List Stmt :=
 theorem prepares (mem s : BlockState) (c : Config) (BM BN BD start : Nat) (hN : 0 < BN)
     (second diagonal : Bool) (old : Fin BM → WithBot ℝ)
     (f : Fixed mem s c BM BN BD) (hp : Pointers s c BN BD start second)
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar start))
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar start))
     (hm : s.regs .real [BM] "m_i" = some (⟨fun i => old i.1⟩ : Tile .real [BM])) :
     let sc := score mem c BM BN BD start
     let active := Masks.keep BM BN c.p.context c.startM start diagonal
     ∃ t, stepStmts (prepared BM BN BD c.p.headDim second diagonal) s = some t ∧
       t.regs .real [BM] "m_ij" = some (⟨fun i => center sc active old i.1⟩ : Tile .real [BM]) ∧
       t.regs .real [BM,BN] "p" = some (finite (fun i : TileIndex [BM,BN] => probability sc active old i.1 i.2.1)) ∧
-      t.regs .nat [] "start_n" = some (Tile.scalar start) ∧ Frame (prefixWrites second) s t := by
+      t.regs .int [] "start_n" = some (Tile.scalar start) ∧ Frame (prefixWrites second) s t := by
   dsimp only
   obtain ⟨sl,hl,hk,hks,hstart,hlf⟩ := loads_execute s c BN BD start second hp f.keys hs f.context
   rw [k_same_memory s mem c BD BN start f.memory] at hk
@@ -104,7 +104,7 @@ def updated (mem : BlockState) (c : Config) (BM BN BD start : Nat) (diagonal : B
 theorem executes (mem s : BlockState) (c : Config) (BM BN BD start : Nat) (hN : 0 < BN)
     (second diagonal : Bool) (carry : Carry BM BD)
     (f : Fixed mem s c BM BN BD) (hc : Carries s carry) (hp : Pointers s c BN BD start second)
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar start)) :
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar start)) :
     ∃ t, stepStmts (flatIteration BM BN BD c.p.headDim second diagonal) s = some t ∧
       Carries t (updated mem c BM BN BD start diagonal carry) ∧
       Pointers t c BN BD (start+BN) second ∧ Fixed mem t c BM BN BD ∧ Frame (writes second) s t := by

@@ -87,7 +87,6 @@ def kernel (p : Parameters) : ComputeKernel :=
   tl.store(O_block_ptr, out_buffer.to(tl.float16).to(tl.float32), boundary_check=([0] : List Nat))
 }
 
-
 /-- Existing integer head-offset normalization, lifted to the repaired independent strides. -/
 def indexCommuted (p : Parameters) : ComputeKernel :=
   let Q : RegionName := "Q"
@@ -156,7 +155,6 @@ def indexCommuted (p : Parameters) : ComputeKernel :=
   tl.store(O_block_ptr, out_buffer.to(tl.float16).to(tl.float32), boundary_check=([0] : List Nat))
 }
 
-
 /-- Compatibility name for existing source decomposition proofs. -/
 abbrev declared := kernel
 
@@ -165,7 +163,6 @@ end VeriTile.Bench.Repairs.FlashAttn.ActualSource
 
 namespace VeriTile.Bench.Repairs.FlashAttnScalarABIChecked
 abbrev kernel := FlashAttn.ActualSource.kernel
-abbrev indexCommuted := FlashAttn.ActualSource.indexCommuted
 
 /-- The selected scalar-ABI repair retains the complete shared attention source. -/
 theorem shared_source (p : FlashAttn.ActualSource.Parameters) :

@@ -1,21 +1,27 @@
 import bench.tritonbench_g.triton_matmul.Sources.Kernels
-
-namespace VeriTile.Bench.TritonBenchG.TritonMatmul.Repair
-open VeriTile.Triton FP.Structural FPValue
+import bench.tritonbench_g.triton_matmul.Sources.Parameters
+namespace VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source
+open VeriTile.Triton
+open VeriTile.Bench.TritonBenchG.TritonMatmul.FPValue
 noncomputable section
+set_option maxRecDepth 32000
+set_option maxHeartbeats 1200000
 
-namespace Source
-def prelude (p : Parameters) (st : Storage) := (typed p st).surfaceBody.take 19
-def body (p : Parameters) (st : Storage) : List ComputeStmt :=
-  match (typed p st).surfaceBody[19]? with
-  | some (ComputeStmt.forRange _ _ _ _ code) => code
-  | _ => []
-def epilogue (p : Parameters) (st : Storage) := (typed p st).surfaceBody.drop 20
+def prelude (p : Parameters) (st : Storage) := (typed p st).surfaceBody.take 33
+
+def iteration (p : Parameters) (st : Storage) : List ComputeStmt :=
+  match (typed p st).surfaceBody[33]? with
+  | some (ComputeStmt.forRangeInt _ _ _ _ body)=>body
+  | _=>[]
+
+def epilogue (p : Parameters) (st : Storage) := (typed p st).surfaceBody.drop 34
+
 theorem decomposition (p : Parameters) (st : Storage) :
-    (typed p st).surfaceBody=prelude p st ++
-      [.forRange "kk" 0 p.numKBlocks 1 (body p st)] ++ epilogue p st := by
+    (typed p st).surfaceBody=prelude p st++
+      [.forRangeInt "k" (.constInt 0) (.ref .int [] "blocks_k") (.constNat 1)
+        (iteration p st)]++epilogue p st := by
   cases st <;> rfl
-end Source
 
+#axiomsClean decomposition
 end
-end VeriTile.Bench.TritonBenchG.TritonMatmul.Repair
+end VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source
