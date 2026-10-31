@@ -1,25 +1,36 @@
 import VeriTile.Triton
+import VeriTile.Triton.DSL.CallSignature
 
-/-! Source-only definition: FP32 input/maximum, explicit div.rn numerical graph,
-llrint and int8 store. Native integer casts are checked in Proofs/Indices. -/
+/-! Canonical original FP32 precise-division quantizer. The quotation is the
+unchanged selected Python function body. Its runtime integer annotations and
+pointer storage types are outside the body; native bounds remain in Indices. -/
 namespace QuantizeGlobalRepair
 open VeriTile.Triton
-noncomputable def source (X Maximum Out : RegionName) (N base B : Nat) : ComputeKernel := triton {
-  tl.region X = tl.float32, Maximum = tl.float32, Out = tl.int8
-  pid = tl.program_id(0)
-  offsets = pid * $(B) + tl.arange(0, $(B)) + $(base)
-  mask = offsets < $(N)
-  safe_offsets = tl.where(mask, offsets, $((0 : Nat)))
-  x = tl.load(X + safe_offsets, mask=mask, other=0.0).to(tl.float32)
-  absmax = tl.load(Maximum).to(tl.float32)
-  denominator = tl.where(absmax == (0.0).to(tl.float32), 1.0, absmax)
-  normalized = x / denominator
-  scaled = 127.0 * normalized
-  lower_bounded = tl.where(scaled < (-127.0).to(tl.float32), -127.0, scaled)
-  bounded = tl.where(lower_bounded > (127.0).to(tl.float32), 127.0, lower_bounded)
-  output = tl.extra.cuda.libdevice.llrint(bounded)
-  tl.store(Out + safe_offsets, output, mask=mask)
-}
 
+def callSignature : CallSignature where
+  pointers := [("x_ptr",.fp32),("absmax_ptr",.fp32),("output_ptr",.i8)]
+  scalars := [("n_elements",.i64),("base",.i64)]
+  constexpr := ["BLOCK_SIZE"]
+
+noncomputable def source (X Maximum Out : RegionName) (N base B : Nat) : ComputeKernel :=
+  let x_ptr := X
+  let absmax_ptr := Maximum
+  let output_ptr := Out
+  let BLOCK_SIZE := B
+  with_triton_call callSignature call_args [n_elements := N, base := base] in triton {
+      pid = tl.program_id(axis=0).to(tl.int64)
+      offsets = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE).to(tl.int64) + base
+      mask = offsets < n_elements
+      safe_offsets = tl.where(mask, offsets, 0)
+      x = tl.load(x_ptr + safe_offsets, mask=mask, other=0.0).to(tl.float32)
+      absmax = tl.load(absmax_ptr).to(tl.float32)
+      denominator = tl.where(absmax == 0.0, 1.0, absmax)
+      normalized = tl.div_rn(x, denominator)
+      scaled = 127.0 * normalized
+      lower_bounded = tl.where(scaled < -127.0, -127.0, scaled)
+      bounded = tl.where(lower_bounded > 127.0, 127.0, lower_bounded)
+      output = tl.extra.cuda.libdevice.llrint(bounded)
+      tl.store(output_ptr + safe_offsets, output, mask=mask)
+  }
 
 end QuantizeGlobalRepair

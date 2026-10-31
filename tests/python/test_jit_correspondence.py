@@ -458,3 +458,82 @@ class FloatingCallBindingTests(unittest.TestCase):
                 check(py, changed, record['python_function'], record['lean_definition'],
                       record['signature_definition'], record['expected_signature'],
                       record['expected_call_bindings'])
+
+
+class SourceModuleBindingTests(unittest.TestCase):
+    def setUp(self):
+        self.python = '''from triton.language.extra.libdevice import tanh
+_ZERO = tl.constexpr(0)
+@triton.jit
+def k(x, y, MODE: tl.constexpr):
+    value = tl.load(x)
+    if MODE == _ZERO:
+        value = tanh(value)
+    tl.store(y, value)
+'''
+        self.lean = '''def sig : CallSignature where
+  pointers := [("x",.fp32),("y",.fp32)]
+  scalars := []
+  constexpr := ["MODE"]
+  sourceConstants := [("_ZERO","0")]
+  unaryImports := [("tanh","triton.language.extra.libdevice.tanh")]
+
+def kernel (x y : RegionName) (MODE : Nat) : ComputeKernel :=
+  with_triton_signature sig in triton {
+    value = tl.load(x)
+    if MODE == _ZERO:
+        value = tanh(value)
+    tl.store(y, value)
+  }
+'''
+        self.signature = {
+            'pointers': [['x','fp32'],['y','fp32']], 'scalars': [], 'constexpr': ['MODE'],
+            'sourceConstants': [['_ZERO','0']],
+            'unaryImports': [['tanh','triton.language.extra.libdevice.tanh']]}
+
+    def compare(self, python=None, lean=None, signature=None):
+        return check(python or self.python, lean or self.lean, 'k', 'kernel',
+                     'sig', signature or self.signature)
+
+    def test_module_values_and_imports_are_checked(self):
+        self.assertEqual(self.compare()['mode'], 'pasted_body')
+
+    def test_unchanged_body_cannot_hide_changed_module_constant(self):
+        with self.assertRaisesRegex(ValueError, 'Python module literal'):
+            self.compare(python=self.python.replace('tl.constexpr(0)', 'tl.constexpr(1)'))
+
+    def test_unchanged_body_cannot_hide_different_tanh_intrinsic(self):
+        with self.assertRaisesRegex(ValueError, 'intrinsic import'):
+            self.compare(python=self.python.replace('extra.libdevice', 'math'))
+
+    def test_duplicate_module_assignment_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'one static definition'):
+            self.compare(python=self.python + '\n_ZERO = tl.constexpr(0)\n')
+
+    def test_module_constant_expression_is_not_a_literal(self):
+        with self.assertRaisesRegex(ValueError, 'literal integer'):
+            self.compare(python=self.python.replace('tl.constexpr(0)', 'tl.constexpr(1-1)'))
+
+    def test_reviewed_manifest_does_not_override_python_import(self):
+        target = 'triton.language.extra.cuda.libdevice.tanh'
+        signature = json.loads(json.dumps(self.signature))
+        signature['unaryImports'][0][1] = target
+        with self.assertRaisesRegex(ValueError, 'intrinsic import'):
+            self.compare(lean=self.lean.replace('triton.language.extra.libdevice.tanh', target),
+                         signature=signature)
+
+    def test_alias_rebinding_after_import_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'no rebinding'):
+            self.compare(python=self.python.replace('_ZERO =', 'tanh = tl.tanh\n_ZERO =', 1))
+
+    def test_augmented_constant_rebinding_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'no rebinding'):
+            self.compare(python=self.python + '\n_ZERO += 1\n')
+
+    def test_function_cannot_replace_an_imported_intrinsic(self):
+        with self.assertRaisesRegex(ValueError, 'no rebinding'):
+            self.compare(python=self.python + '\ndef tanh(x):\n    return x\n')
+
+    def test_wildcard_import_cannot_silently_replace_a_module_binding(self):
+        with self.assertRaisesRegex(ValueError, 'wildcard imports'):
+            self.compare(python=self.python + '\nfrom another_module import *\n')

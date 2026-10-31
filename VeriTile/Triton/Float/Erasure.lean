@@ -114,6 +114,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .sub h bc a b => .sub h.eraseDType bc a.eraseDType b.eraseDType
   | .mul h bc a b => .mul h.eraseDType bc a.eraseDType b.eraseDType
   | .div h bc a b => .div h.eraseDType bc a.eraseDType b.eraseDType
+  | .divRN bc a b => .divRN bc a.eraseDType b.eraseDType
   | .floorDiv h bc a b => .floorDiv h.eraseDType bc a.eraseDType b.eraseDType
   | .mod h bc a b => .mod h.eraseDType bc a.eraseDType b.eraseDType
   | .bitAnd bc a b => .bitAnd bc a.eraseDType b.eraseDType

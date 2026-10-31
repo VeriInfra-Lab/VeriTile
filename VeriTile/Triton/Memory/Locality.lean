@@ -534,6 +534,10 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
+  | _, _, .divRN bc a b, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
   | _, _, .libdevicePowi bc a b, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,

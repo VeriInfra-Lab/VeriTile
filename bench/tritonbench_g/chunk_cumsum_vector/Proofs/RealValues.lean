@@ -12,11 +12,12 @@ abbrev lowerTriTile := VeriTile.Bench.TritonBenchG.ChunkCumsumVector.lowerTriTil
 abbrev dotLowerTri_sum_if_some := VeriTile.Bench.TritonBenchG.ChunkCumsumVector.dotLowerTri_sum_if_some
 abbrev coe_sum := @VeriTile.Bench.TritonBenchG.ChunkCumsumVector.RealStep.coe_sum
 
-def lanes (width : Nat) : Tile .nat [width] := Tile.vec fun i => i.val
+def naturalLanes (width : Nat) : Tile .nat [width] := Tile.vec fun i => i.val
+def lanes (width : Nat) : Tile .int [width] := Tile.vec fun i => (i.val:Int)
 def axisMask (length width start : Nat) : Tile .bool [width] :=
   Tile.vec fun i => decide (i.val<length-start)
-def coordinate (length width start : Nat) : Tile .nat [width] :=
-  Tile.vec fun i => start+if i.val<length-start then i.val else 0
+def coordinate (length width start : Nat) : Tile .int [width] :=
+  Tile.vec fun i => ((start+if i.val<length-start then i.val else 0 : Nat):Int)
 def mask (h : Call) (c : Config) (feature q : Nat) : Tile .bool [c.BT,BS] :=
   ⟨fun idx => decide (Geometry.active h c feature q idx.1.val idx.2.1.val)⟩
 def pointer (h : Call) (c : Config) (feature row q : Nat) (r : RegionName)
@@ -33,23 +34,57 @@ def nextCarry (c : Config) (f : Nat → Fin BS → ℝ) (q : Nat) (acc : Fin BS 
 def outputTile (c : Config) (f : Nat → Fin BS → ℝ) (q : Nat) (acc : Fin BS → ℝ) : Tile .real [c.BT,BS] :=
   Tile.mat fun i j => some (acc j+chunkPrefix c f q i j)
 
+theorem rowDiv_eval (row H : Nat) (u : BlockState)
+    (hi : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int))) :
+    evalOp (.tritonDiv .int .nil (.ref .int [] "i_bh")
+      (.castNatToInt (.constNat H))) u=some (Tile.scalar (row/H:Int)) := by
+  have nonnegative : ¬ (row:Int)<0 := by omega
+  simp [-Tile.scalar_eta,nonnegative,Tile.select,Op.tritonDiv,evalOp,hi,Tile.bop,Tile.cop,Tile.scalar,
+    NumericDType.add,NumericDType.sub,NumericDType.div,ComparableDType.lt,
+    Broadcast.leftIndex,Broadcast.rightIndex,IntegerExpr.same_left,IntegerExpr.same_right,Int.emod_def]
+
+theorem rowMod_eval (row H : Nat) (u : BlockState)
+    (hi : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int))) :
+    evalOp (.tritonMod .int .nil (.ref .int [] "i_bh")
+      (.castNatToInt (.constNat H))) u=some (Tile.scalar (row%H:Int)) := by
+  have nonnegative : ¬ (row:Int)<0 := by omega
+  simp [-Tile.scalar_eta,nonnegative,Tile.select,Op.tritonMod,Op.tritonDiv,evalOp,hi,Tile.bop,Tile.cop,Tile.scalar,
+    NumericDType.add,NumericDType.sub,NumericDType.mul,NumericDType.div,ComparableDType.lt,
+    Broadcast.leftIndex,Broadcast.rightIndex,IntegerExpr.same_left,IntegerExpr.same_right,Int.emod_def]
+
 theorem start_eval (name : RegName) (width value : Nat) (u : BlockState)
-    (hi : u.regs .nat [] name=some (Tile.scalar value)) :
-    evalOp (startOp name width) u=some (Tile.scalar (value*width)) := by
+    (hi : u.regs .int [] name=some (Tile.scalar (value:Int))) :
+    evalOp (startOp name width) u=some (Tile.scalar (value*width:Int)) := by
   simp only [startOp,evalOp,hi]
   rfl
 
-theorem active_eval (length width start : Nat) (ln sn : RegName) (u : BlockState)
-    (hs : u.regs .nat [] sn=some (Tile.scalar start))
-    (hl : u.regs .nat [width] ln=some (lanes width)) :
-    evalOp (activeOp length width ln sn) u=some (axisMask length width start) := by
-  simp only [activeOp,evalOp,hs,hl]
+theorem timeStart_eval (c : Config) (q : Nat) (u : BlockState)
+    (hi : u.regs .int [] "i_t"=some (Tile.scalar (q:Int))) :
+    evalOp (timeStartOp c) u=some (Tile.scalar (q*c.BT:Int)) := by
+  simp only [timeStartOp,evalOp,hi]
   rfl
 
+theorem active_eval (length width start : Nat) (ln sn : RegName) (u : BlockState)
+    (hs : u.regs .int [] sn=some (Tile.scalar (start:Int)))
+    (hl : u.regs .int [width] ln=some (lanes width)) :
+    evalOp (activeOp length width ln sn) u=some (axisMask length width start) := by
+  simp only [activeOp,evalOp,hs,hl]
+  apply congrArg some
+  apply Tile.ext
+  rintro ⟨i,⟨⟩⟩
+  simp [-Tile.scalar_eta,axisMask,lanes,Tile.bop,Tile.cop,Tile.vec,Tile.scalar,
+    NumericDType.sub,ComparableDType.lt,Broadcast.leftIndex,Broadcast.rightIndex]
+  change ((i.val:Int)<(length:Int)-(start:Int)) ↔ i.val<length-start
+  by_cases hs : start ≤ length
+  · rw [←Int.natCast_sub hs,Int.ofNat_lt]
+  · have hz : length-start=0 := Nat.sub_eq_zero_of_le (by omega)
+    rw [hz]
+    omega
+
 theorem coordinate_eval (length width start : Nat) (sn mn ln : RegName) (u : BlockState)
-    (hs : u.regs .nat [] sn=some (Tile.scalar start))
+    (hs : u.regs .int [] sn=some (Tile.scalar (start:Int)))
     (hm : u.regs .bool [width] mn=some (axisMask length width start))
-    (hl : u.regs .nat [width] ln=some (lanes width)) :
+    (hl : u.regs .int [width] ln=some (lanes width)) :
     evalOp (coordinateOp width sn mn ln) u=some (coordinate length width start) := by
   simp only [coordinateOp,evalOp,hs,hm,hl]
   apply congrArg some
@@ -74,10 +109,10 @@ theorem mask_eval (h : Call) (c : Config) (feature q : Nat) (u : BlockState)
 
 theorem pointer_eval (h : Call) (c : Config) (feature row q : Nat) (r : RegionName)
     (strides : Strides) (u : BlockState)
-    (hb : u.regs .nat [] "i_b"=some (Tile.scalar (row/h.H)))
-    (hh : u.regs .nat [] "i_h"=some (Tile.scalar (row%h.H)))
-    (ht : u.regs .nat [c.BT] "times"=some (coordinate h.T c.BT (q*c.BT)))
-    (hs : u.regs .nat [BS] "columns"=some (coordinate h.S BS (feature*BS))) :
+    (hb : u.regs .int [] "i_b"=some (Tile.scalar (row/h.H:Int)))
+    (hh : u.regs .int [] "i_h"=some (Tile.scalar (row%h.H:Int)))
+    (ht : u.regs .int [c.BT] "times"=some (coordinate h.T c.BT (q*c.BT)))
+    (hs : u.regs .int [BS] "columns"=some (coordinate h.S BS (feature*BS))) :
     evalOp (pointerOp c r strides) u=some (pointer h c feature row q r strides) := by
   simp only [pointerOp,evalOp,hb,hh]
   erw [evalOp_expandDim,evalOp_ref,ht,evalOp_expandDim,evalOp_ref,hs]
@@ -85,9 +120,11 @@ theorem pointer_eval (h : Call) (c : Config) (feature row q : Nat) (r : RegionNa
   apply congrArg some
   apply Tile.ext
   rintro ⟨i,j,⟨⟩⟩
-  simp [-Tile.scalar_eta,pointer,coordinate,Geometry.time,Geometry.column,Geometry.activeTime,Geometry.activeColumn,
+  simp only [pointer,coordinate,Geometry.time,Geometry.column,Geometry.activeTime,Geometry.activeColumn,
     Strides.address,Strides.base,Tile.ptrAdd,Tile.bop,Tile.vec,Tile.scalar,Tile.expandDim,
     TileShape.dropInsertedIndex,Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.add,NumericDType.mul]
+  simp only [Int.ofNat_eq_natCast,←Int.natCast_ediv,←Int.natCast_emod,←Int.natCast_mul,
+    ←Int.natCast_add,Int.toNat_natCast,Nat.zero_add,Region.cast]
 
 theorem load_eval (h : Call) (c : Config) (feature row q : Nat) (f : Nat → Fin BS → ℝ)
     (u : BlockState)

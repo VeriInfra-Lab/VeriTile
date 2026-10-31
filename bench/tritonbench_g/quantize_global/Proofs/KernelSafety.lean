@@ -31,7 +31,9 @@ theorem source_safe {α : Type} [Inhabited α] (rest : Algebra α) (a : Scalar �
      FP.Structural.step, stepAlg, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
      FP.Structural.store, backend, State.setReg, TileShape.axisDim,
      ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
-     bop, numeric, numericLt, numericEq, natLt, Option.bind, hx, hm, ho]
+     bop, numeric, numericLt, numericEq, natLt, Option.bind, hx, hm, ho,
+     -Nat.cast_mul, -Nat.cast_add, ←Int.natCast_mul, ←Int.natCast_add,
+     Int.toNat_natCast, Int.ofNat_lt]
   constructor
   · intro j active
     simpa only [if_pos active] using hx _ active

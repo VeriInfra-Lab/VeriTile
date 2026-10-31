@@ -91,6 +91,7 @@ def safeOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option ComputeDType)
   | .sub _ _ a b => safeOp M p bounds s a ∧ safeOp M p bounds s b
   | .mul _ _ a b => safeOp M p bounds s a ∧ safeOp M p bounds s b
   | .div _ _ a b => safeOp M p bounds s a ∧ safeOp M p bounds s b
+  | .divRN _ a b => safeOp M p bounds s a ∧ safeOp M p bounds s b
   | .floorDiv _ _ a b => safeOp M p bounds s a ∧ safeOp M p bounds s b
   | .mod _ _ a b => safeOp M p bounds s a ∧ safeOp M p bounds s b
   | .bitAnd _ a b => safeOp M p bounds s a ∧ safeOp M p bounds s b

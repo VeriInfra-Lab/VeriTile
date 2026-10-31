@@ -104,6 +104,10 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let va ← evalOp a s
       let vb ← evalOp b s
       some (Tile.bop h.div bc va vb)
+  | .divRN bc a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.bop NumericDType.real.div bc va vb)
   | .floorDiv h bc a b, s => do
       let va ← evalOp a s
       let vb ← evalOp b s
