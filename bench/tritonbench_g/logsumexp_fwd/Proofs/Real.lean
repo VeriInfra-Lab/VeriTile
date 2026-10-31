@@ -1,4 +1,6 @@
 import bench.tritonbench_g.logsumexp_fwd.Proofs.Engine
+import VeriTile.Triton.Semantics.TiledIndexing
+import VeriTile.Triton.Semantics.MaskedReduction
 
 namespace VeriTile.Bench.Repairs.LogsumexpFwd.RealModel
 open VeriTile.Triton TiledLogSumExp

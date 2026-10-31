@@ -87,6 +87,7 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .sub _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .mul _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .div _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
+  | .divRN _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .floorDiv _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .mod _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .bitAnd _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds

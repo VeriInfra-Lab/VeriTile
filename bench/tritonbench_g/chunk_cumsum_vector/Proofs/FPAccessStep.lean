@@ -51,6 +51,18 @@ theorem load_safe (M : Algebra α) (bounds : RegionBounds) (h : Call) (c : Confi
     Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
     evalOp_unfold, hp, hm, pointer, mask] using bounded
 
+theorem rawLoad_safe (M : Algebra α) (bounds : RegionBounds) (h : Call) (c : Config)
+    (feature row q : Nat) (u : State α)
+    (hp : u.regs .ptr [c.BT,BS] "p_s" = some (pointer h c feature row q h.input h.inputStrides))
+    (hm : u.regs .bool [c.BT,BS] "active" = some (mask h c feature q))
+    (bounded : ∀ i : TileIndex [c.BT,BS], Geometry.active h c feature q i.1.val i.2.1.val →
+      h.inputStrides.address h.H row (Geometry.time h c q i.1.val)
+        (Geometry.column h feature i.2.1.val) < bounds h.input) :
+    Safety.safeOp M none bounds u (FPProgram.rawLoadOp h c) := by
+  simpa [FPProgram.rawLoadOp, Safety.safeOp_unfold, Safety.safeAddress_unfold,
+    Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
+    evalOp_unfold, hp, hm, pointer, mask] using bounded
+
 theorem store_safe (M : Algebra α) (bounds : RegionBounds) (h : Call) (c : Config)
     (feature row q : Nat) (u : State α)
     (hp : u.regs .ptr [c.BT,BS] "p_z" = some (pointer h c feature row q h.output h.outputStrides))

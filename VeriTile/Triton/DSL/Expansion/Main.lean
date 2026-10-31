@@ -1386,6 +1386,27 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
   | `(tritonExpr| tl.rand($_:tritonExpr, $_:tritonExpr, $_:tritonExpr))
   | `(tritonExpr| tl.rand($_:tritonExpr, $_:tritonExpr, n_rounds=$_:tritonExpr)) =>
       Macro.throwError "tl.rand requires source-profile preprocessing in a triton block"
+  | `(tritonExpr| tl.div_rn($a:tritonExpr, $b:tritonExpr)) => do
+      let a' ← expandExpr env a
+      let b' ← expandExpr env b
+      for operand in [a',b'] do
+        if operand.computeDType? == some .real ||
+            [.fp16,.bf16,.f8e4,.f8e5].contains operand.dtype then
+          Macro.throwError "tl.div_rn requires FP32 operands"
+      let (a',b') ← coerceRealArithOperands "tl.div_rn" a' b'
+      ensureComputeArithComposable "tl.div_rn" a'
+      ensureComputeArithComposable "tl.div_rn" b'
+      let av ← realMathTerm "tl.div_rn numerator" a'
+      let bv ← realMathTerm "tl.div_rn denominator" b'
+      let (bc,shape) ← broadcastTerm a'.shape b'.shape "tl.div_rn"
+      let term ← `(Op.divRN $bc $av $bv)
+      -- Keep operand-local precision/conversion scopes before installing the
+      -- intrinsic's fixed FP32 arithmetic context.
+      let avScoped ← realMathTerm "tl.div_rn numerator" { a' with term := ← a'.scopedFloatingTerm }
+      let bvScoped ← realMathTerm "tl.div_rn denominator" { b' with term := ← b'.scopedFloatingTerm }
+      let fp ← `(Op.divRN $bc $avScoped $bvScoped)
+      let compute ← fp32ComputeExpr fp
+      pure ⟨term,.real,shape,some compute,some .fp32⟩
   | `(tritonExpr| tl.exp($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.exp" e'
@@ -1750,16 +1771,28 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       unless n.getNat == 0 do
         Macro.throwError "float(integer): only the exact builtin literal float(0) is supported"
       expandExpr env (← `(tritonExpr| 0.0))
-  | `(tritonExpr| - float ($arg:term)) =>
-      let argString := toString arg.raw
-      unless argString.contains "inf" do
-        Macro.throwError "float(...): only `float(\"inf\")` is supported in Triton DSL expressions"
-      pure ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
-  | `(tritonExpr| float ($arg:term)) =>
-      let argString := toString arg.raw
-      unless argString.contains "-inf" do
-        Macro.throwError "float(...): only `float(\"-inf\")` is supported in Triton DSL expressions"
-      pure ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+  | `(tritonExpr| - float ($arg:term)) => do
+      let `(term| $value:str) := arg
+        | Macro.throwError "float(...): expected a literal infinity string"
+      if value.getString == "inf" then
+        return ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+      if value.getString == "-inf" then
+        let dtype := mkIdent `dtype
+        return ← expandExpr env (← `(tritonExpr|
+          tl.bitcast(tl.full([], 2139095040, $dtype:ident=tl.uint32), tl.float32)))
+      Macro.throwError "float(...): only literal inf and -inf are supported"
+  | `(tritonExpr| float ($arg:term)) => do
+      let `(term| $value:str) := arg
+        | Macro.throwError "float(...): expected a literal infinity string"
+      if value.getString == "-inf" then
+        return ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+      if value.getString == "inf" then
+        -- Infinity has an exact binary32 encoding. Use the existing literal
+        -- backend, with no finite Real proxy or numerical identity assumption.
+        let dtype := mkIdent `dtype
+        return ← expandExpr env (← `(tritonExpr|
+          tl.bitcast(tl.full([], 2139095040, $dtype:ident=tl.uint32), tl.float32)))
+      Macro.throwError "float(...): only literal inf and -inf are supported"
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr)) => do
       expandDot expandExpr env a b
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do

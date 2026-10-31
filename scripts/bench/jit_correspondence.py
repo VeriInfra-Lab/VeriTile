@@ -204,10 +204,14 @@ def call_signature(text: str, name: str) -> dict:
             raise ValueError(f"missing call signature field: {field}")
         source = re.sub(r"\.(fp16|bf16|fp32|fp64|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer)\b", r'"\1"', value[1])
         fields[field] = json.loads(json.dumps(ast.literal_eval(source)))
-    for field in ("readPorts", "writePorts"):
+    for field in ("readPorts", "writePorts", "sourceConstants", "unaryImports"):
         value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[2])
         if value:
-            fields[field] = ast.literal_eval(value[1])
+            fields[field] = json.loads(json.dumps(ast.literal_eval(value[1])))
+            if field in {"sourceConstants", "unaryImports"} and any(
+                    not isinstance(pair, list) or len(pair) != 2 or
+                    not all(isinstance(item, str) for item in pair) for pair in fields[field]):
+                raise ValueError("module bindings require pairs of source names and literal strings")
     floating = re.search(r"\bfloatingPointers\s*:=\s*(\[[^\]]*\])", match[2])
     if dtype_parameters or floating:
         if not floating:
@@ -285,8 +289,60 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 raise ValueError("runtime call bindings must include all integer parameters and only supported scalar parameters")
         if expected_signature is not None and profile != expected_signature:
             raise ValueError("call signature differs from the reviewed launch types")
+        module = ast.parse(python_text)
+        class ModuleWrites(ast.NodeVisitor):
+            def __init__(self):
+                self.names = []
+                self.wildcard_import = False
+            def visit_Name(self, node):
+                if isinstance(node.ctx, ast.Store):
+                    self.names.append(node.id)
+            def visit_ImportFrom(self, node):
+                self.wildcard_import |= any(alias.name == "*" for alias in node.names)
+                self.names.extend(alias.asname or alias.name for alias in node.names)
+            def visit_Import(self, node):
+                self.names.extend(alias.asname or alias.name.split('.')[0] for alias in node.names)
+            def visit_FunctionDef(self, node):
+                self.names.append(node.name)
+            visit_AsyncFunctionDef = visit_FunctionDef
+            def visit_ClassDef(self, node):
+                self.names.append(node.name)
+        writes = ModuleWrites()
+        writes.visit(module)
+        module_names = [pair[0] for field in ("sourceConstants", "unaryImports")
+                        for pair in profile.get(field, [])]
+        if module_names and writes.wildcard_import:
+            raise ValueError("wildcard imports may rebind source module bindings")
+        if len(module_names) != len(set(module_names)):
+            raise ValueError("duplicate source module binding")
+        if any(writes.names.count(name) != 1 for name in module_names):
+            raise ValueError("source module binding must have one static definition and no rebinding")
+        for name, literal in profile.get("sourceConstants", []):
+            assignments = [node for node in module.body if isinstance(node, ast.Assign)
+                           and any(isinstance(target, ast.Name) and target.id == name
+                                   for target in node.targets)]
+            if len(assignments) != 1 or len(assignments[0].targets) != 1:
+                raise ValueError("source constant needs one direct module definition")
+            value = assignments[0].value
+            if not (isinstance(value, ast.Call) and ast.unparse(value.func) == "tl.constexpr"
+                    and len(value.args) == 1 and not value.keywords):
+                raise ValueError("source constant must be an original tl.constexpr literal")
+            try:
+                original_value, declared_value = ast.literal_eval(value.args[0]), ast.literal_eval(literal)
+            except (ValueError, SyntaxError) as error:
+                raise ValueError("source constant must contain a literal integer") from error
+            if type(original_value) is not int or type(declared_value) is not int or original_value != declared_value:
+                raise ValueError("source constant differs from the Python module literal")
+        for name, target in profile.get("unaryImports", []):
+            imports = [node.module + "." + alias.name for node in module.body
+                       if isinstance(node, ast.ImportFrom) and node.module and node.level == 0
+                       for alias in node.names if (alias.asname or alias.name) == name]
+            if imports != [target]:
+                raise ValueError("source intrinsic import differs from the Python module")
         pointer_bindings = profile["pointers"] + profile.get("floatingPointers", [])
         names = {n for n, _ in pointer_bindings + profile["scalars"]} | set(profile["constexpr"])
+        if set(module_names) & names:
+            raise ValueError("module bindings capture a function parameter")
         if names != {a.arg for a in function.args.args} or set(profile["constexpr"]) != constants:
             raise ValueError("Python parameters and call signature differ")
         # `integer` is intentionally unbounded; it cannot certify an explicit

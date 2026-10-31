@@ -22,10 +22,10 @@ def expected (M : Algebra α) (dot : DotBackend α) (h : Call) (c : Config) (pos
 structure Holds (M : Algebra α) (dot : DotBackend α) (initial : State α) (h : Call) (c : Config)
     (p : Geometry.Program h) (q : Nat) (u : State α) : Prop where
   count : q≤Geometry.chunks h c
-  batch : u.regs .nat [] "i_b"=some (fun _ => p.row/h.H)
-  head : u.regs .nat [] "i_h"=some (fun _ => p.row%h.H)
+  batch : u.regs .int [] "i_b"=some (fun _ => (p.row/h.H:Int))
+  head : u.regs .int [] "i_h"=some (fun _ => (p.row%h.H:Int))
   mask : u.regs .bool [BS] "active_s"=some (axisMask h.S BS (p.feature*BS))
-  columns : u.regs .nat [BS] "columns"=some (coordinate h.S BS (p.feature*BS))
+  columns : u.regs .int [BS] "columns"=some (coordinate h.S BS (p.feature*BS))
   triangular : u.regs .real [c.BT,c.BT] "m_s"=some (triangular M c)
   carryReg : u.regs .real [BS] "b_z"=some (carry M h c p.feature p.row initial q)
   reads : ∀ off, u.mem h.input off=initial.mem h.input off
@@ -39,7 +39,7 @@ structure Holds (M : Algebra α) (dot : DotBackend α) (initial : State α) (h :
 theorem iteration (M : Algebra α) (dot : DotBackend α) (initial : State α)
     (h : Call) (layout : Geometry.OutputLayout h) (c : Config) (positive : 0<c.BT)
     (p : Geometry.Program h) (q : Nat) (u : State α) (hq : q<Geometry.chunks h c)
-    (hr : u.regs .nat [] "i_t"=some (fun _ => q)) (inv : Holds M dot initial h c p q u) :
+    (hr : u.regs .int [] "i_t"=some (fun _ => (q:Int))) (inv : Holds M dot initial h c p q u) :
     ∃ v, run (machine M dot) (loopBody h c) u=some v ∧ Holds M dot initial h c p (q+1) v := by
   let acc := carry M h c p.feature p.row initial q
   let values := FPValues.output M dot c (loaded M h c p.feature p.row initial q) acc
@@ -78,47 +78,62 @@ theorem iteration (M : Algebra α) (dot : DotBackend α) (initial : State α)
     exact (inv.frame r off hn).trans (frame r off hn)
 
 def initial (M : Algebra α) (h : Call) (c : Config) (p : Geometry.Program h) (u : State α) : State α :=
-  let u1 := u.setReg "i_s" .nat [] (fun _ => p.feature)
-  let u2 := u1.setReg "i_bh" .nat [] (fun _ => p.row)
-  let u3 := u2.setReg "i_b" .nat [] (fun _ => p.row/h.H)
-  let u4 := u3.setReg "i_h" .nat [] (fun _ => p.row%h.H)
-  let u5 := u4.setReg "o_i" .nat [c.BT] (lanes c.BT)
+  let u1 := u.setReg "i_s" .int [] (fun _ => (p.feature:Int))
+  let u2 := u1.setReg "i_bh" .int [] (fun _ => (p.row:Int))
+  let u3 := u2.setReg "i_b" .int [] (fun _ => (p.row/h.H:Int))
+  let u4 := u3.setReg "i_h" .int [] (fun _ => (p.row%h.H:Int))
+  let u5 := u4.setReg "o_i" .nat [c.BT] (naturalLanes c.BT)
   let u6 := u5.setReg "m_s" .real [c.BT,c.BT] (triangular M c)
   let u7 := u6.setReg "b_z" .real [BS] (fun _ => M.literal (some .fp32) .real 0)
-  let u8 := u7.setReg "start_s" .nat [] (fun _ => p.feature*BS)
-  let u9 := u8.setReg "lanes_s" .nat [BS] (lanes BS)
+  let u8 := u7.setReg "start_s" .int [] (fun _ => (p.feature*BS:Int))
+  let u9 := u8.setReg "lanes_s" .int [BS] (lanes BS)
   let u10 := u9.setReg "active_s" .bool [BS] (axisMask h.S BS (p.feature*BS))
-  u10.setReg "columns" .nat [BS] (coordinate h.S BS (p.feature*BS))
+  u10.setReg "columns" .int [BS] (coordinate h.S BS (p.feature*BS))
 
 theorem triangular_eval (M : Algebra α) (dot : DotBackend α) (c : Config) (u : State α)
-    (ho : u.regs .nat [c.BT] "o_i"=some (lanes c.BT)) :
+    (ho : u.regs .nat [c.BT] "o_i"=some (naturalLanes c.BT)) :
     FP.Structural.evalOp (machine M dot) none (triangularOp c) u=some (triangular M c) := by
   simp only [triangularOp,FP.Structural.evalOp,ho]
   apply congrArg some
   funext i
-  simp [triangular,lanes,machine,Algebra.withDefaultPrecision,resolvePrecision,natLe,bop,
+  simp [triangular,naturalLanes,machine,Algebra.withDefaultPrecision,resolvePrecision,natLe,bop,
     TileShape.dropInsertedIndex,Broadcast.leftIndex,Broadcast.rightIndex]
+
+theorem inline_tuple (M : Algebra α) (inside after : List ComputeStmt) (u : State α) :
+    run M (.ifThen (.constBool Bool.true) inside :: after) u=run M (inside++after) u := by
+  rw [run,step]
+  simp only [FP.Structural.evalOp,Option.bind_some,Option.bind_eq_bind,if_true]
+  exact (run_append M inside after u).symm
 
 theorem init_executes (M : Algebra α) (dot : DotBackend α) (h : Call) (c : Config)
     (p : Geometry.Program h) (u : State α) (hf : u.pids 0=p.feature) (hr : u.pids 1=p.row) :
     run (machine M dot) (initCode h c) u=some (initial M h c p u) := by
   unfold initCode
-  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.programId 0) u=some (fun _ => p.feature) from by simp [FP.Structural.evalOp,hf])]
-  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.programId 1) _=some (fun _ => p.row) from by simp [FP.Structural.evalOp,hr])]
-  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.floorDiv .nat .nil (.ref .nat [] "i_bh") (.constNat h.H)) _=some (fun _ => p.row/h.H) from by simp [FP.Structural.evalOp]; rfl)]
-  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.mod .nat .nil (.ref .nat [] "i_bh") (.constNat h.H)) _=some (fun _ => p.row%h.H) from by simp [FP.Structural.evalOp]; rfl)]
-  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.arange c.BT) _=some (lanes c.BT) from rfl)]
+  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none
+    (.castNatToInt (.programId 0)) u=some (fun _ => (p.feature:Int)) from by simp [FP.Structural.evalOp,hf])]
+  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none
+    (.castNatToInt (.programId 1)) _=some (fun _ => (p.row:Int)) from by simp [FP.Structural.evalOp,hr])]
+  rw [inline_tuple]
+  simp only [List.cons_append,List.nil_append]
+  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (rowDiv_eval (machine M dot) p.row h.H _ (by simp))]
+  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (rowMod_eval (machine M dot) p.row h.H _ (by simp))]
+  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none
+    (.arange c.BT) _=some (naturalLanes c.BT) from rfl)]
   rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (triangular_eval M dot c _ (by simp))]
   rw [run,step]
   simp only [FP.Structural.evalExpr,FP.Structural.evalComputeOp,FP.Structural.evalOp,Option.bind_some]
   change run (machine M dot)
-    [.assign .nat [] "start_s" (.alg (startOp "i_s" BS)),.assign .nat [BS] "lanes_s" (.alg (.arange BS)),
+    [.assign .int [] "start_s" (.alg (startOp "i_s" BS)),
+      .assign .int [BS] "lanes_s" (.alg (.castNatToInt (.arange BS))),
       .assign .bool [BS] "active_s" (.alg (activeOp h.S BS "lanes_s" "start_s")),
-      .assign .nat [BS] "columns" (.alg (coordinateOp BS "start_s" "active_s" "lanes_s"))] _=_
+      .assign .int [BS] "columns" (.alg (coordinateOp BS "start_s" "active_s" "lanes_s"))] _=_
   rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (start_eval (machine M dot) "i_s" BS p.feature _ (by simp))]
-  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.arange BS) _=some (lanes BS) from rfl)]
-  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (active_eval (machine M dot) h.S BS (p.feature*BS) "lanes_s" "start_s" _ (by simp) (by simp))]
-  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (coordinate_eval (machine M dot) h.S BS (p.feature*BS) "start_s" "active_s" "lanes_s" _ (by simp) (by simp) (by simp))]
+  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none
+    (.castNatToInt (.arange BS)) _=some (lanes BS) from rfl)]
+  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (active_eval (machine M dot) h.S BS (p.feature*BS)
+    "lanes_s" "start_s" _ (by simp) (by simp))]
+  rw [FPStep.assign_alg _ _ _ _ _ _ _ _ (coordinate_eval (machine M dot) h.S BS (p.feature*BS)
+    "start_s" "active_s" "lanes_s" _ (by simp) (by simp) (by simp))]
   rw [run]
   rfl
 
@@ -129,32 +144,32 @@ theorem invariant (M : Algebra α) (dot : DotBackend α) (h : Call) (c : Config)
 
 theorem bind_invariant (M : Algebra α) (dot : DotBackend α) (initial : State α)
     (h : Call) (c : Config) (p : Geometry.Program h) (q : Nat) (u : State α)
-    (inv : Holds M dot initial h c p q u) : Holds M dot initial h c p q (u.setReg "i_t" .nat [] (fun _ => q)) := by
+    (inv : Holds M dot initial h c p q u) : Holds M dot initial h c p q (u.setReg "i_t" .int [] (fun _ => (q:Int))) := by
   refine ⟨inv.count,?_,?_,?_,?_,?_,?_,inv.reads,inv.undef,inv.output,inv.frame⟩
   all_goals first | simpa using inv.batch | simpa using inv.head | simpa using inv.mask | simpa using inv.columns | simpa using inv.triangular | simpa using inv.carryReg
 
 theorem loop_executes (M : Algebra α) (dot : DotBackend α) (initial : State α)
     (h : Call) (layout : Geometry.OutputLayout h) (c : Config) (positive : 0<c.BT)
     (p : Geometry.Program h) (q : Nat) (u : State α) (inv : Holds M dot initial h c p q u) :
-    ∃ v, FP.Structural.range (machine M dot) "i_t" q (Geometry.chunks h c) 1 (loopBody h c) u=some v ∧
+    ∃ v, FP.Structural.rangeInt (machine M dot) "i_t" (q:Int) (Geometry.chunks h c:Int) 1 (loopBody h c) u=some v ∧
       Holds M dot initial h c p (Geometry.chunks h c) v := by
   by_cases hq : q<Geometry.chunks h c
   · obtain ⟨v,he,hv⟩ := iteration M dot initial h layout c positive p q
-      (u.setReg "i_t" .nat [] (fun _ => q)) hq (by simp) (bind_invariant M dot initial h c p q u inv)
+      (u.setReg "i_t" .int [] (fun _ => (q:Int))) hq (by simp) (bind_invariant M dot initial h c p q u inv)
     obtain ⟨w,hw,hf⟩ := loop_executes M dot initial h layout c positive p (q+1) v hv
     refine ⟨w,?_,hf⟩
-    rw [FP.Structural.range]
-    simp only [Nat.one_ne_zero,if_false,hq,if_true,he,bind,Option.bind_some]
-    exact hw
+    rw [FP.Structural.rangeInt]
+    simp only [Nat.one_ne_zero,if_false,Int.ofNat_lt,hq,if_true,he,bind,Option.bind_some]
+    simpa only [Int.natCast_add,Int.natCast_one] using hw
   · have eq : q=Geometry.chunks h c := Nat.le_antisymm inv.count (Nat.le_of_not_gt hq)
     refine ⟨u,?_,by simpa only [eq] using inv⟩
-    rw [FP.Structural.range]
-    simp only [Nat.one_ne_zero,if_false,hq]
+    rw [FP.Structural.rangeInt]
+    simp only [Nat.one_ne_zero,if_false,Int.ofNat_lt,hq]
 termination_by Geometry.chunks h c-q
 
 theorem statement_eval (M : Algebra α) (h : Call) (c : Config) (u : State α) :
-    step M (.forRangeDyn "i_t" (.constNat 0) (countOp h c) (.constNat 1) (loopBody h c)) u=
-      FP.Structural.range M "i_t" 0 (Geometry.chunks h c) 1 (loopBody h c) u := by
+    step M (.forRangeInt "i_t" (.constInt 0) (.castNatToInt (countOp h c)) (.constNat 1) (loopBody h c)) u=
+      FP.Structural.rangeInt M "i_t" 0 (Geometry.chunks h c:Int) 1 (loopBody h c) u := by
   simp [step,countOp,FP.Structural.evalOp,numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,Geometry.chunks]
 
 theorem source_correct (M : Algebra α) (dot : DotBackend α) (h : Call) (layout : Geometry.OutputLayout h)
@@ -166,10 +181,12 @@ theorem source_correct (M : Algebra α) (dot : DotBackend α) (h : Call) (layout
           FPMemory.stored M h (expected M dot h c positive p u time j)) ∧
       FPMemory.Frame h p u v := by
   obtain ⟨v,he,inv⟩ := loop_executes M dot u h layout c positive p 0 (initial M h c p u) (invariant M dot h c p u)
+  simp only [Nat.cast_zero] at he
   refine ⟨v,?_,?_,inv.frame⟩
   · change run (machine M dot) (Kernels.source h c).surfaceBody u=some v
     rw [source_body,body,run_append,init_executes M dot h c p u hf hr]
-    simp only [Option.bind_some,run,statement_eval,he]
+    simp only [Option.bind_some,run,statement_eval]
+    rw [he]
     rfl
   · intro time j ht hj
     have cover := Geometry.coordinate_cover h.T c.BT time positive ht

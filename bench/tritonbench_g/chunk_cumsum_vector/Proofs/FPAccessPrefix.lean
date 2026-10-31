@@ -10,16 +10,16 @@ variable {α : Type} [Inhabited α]
 
 /-- The common actual-source prefix through the store. -/
 def prefixCode (h : Call) (c : Config) : List ComputeStmt :=
-  (FPProgram.loopBody h c).take 10
+  (FPProgram.loopBody h c).take 11
 
 theorem prefix_safe (M : Algebra α) (dot : DotBackend α) (bounds : RegionBounds)
     (h : Call) (c : Config) (feature row q : Nat)
     (initial : State α) (acc : Values α .real [BS]) (u : State α)
-    (ht : u.regs .nat [] "i_t"=some (fun _ => q))
-    (hb : u.regs .nat [] "i_b"=some (fun _ => row/h.H))
-    (hh : u.regs .nat [] "i_h"=some (fun _ => row%h.H))
+    (ht : u.regs .int [] "i_t"=some (fun _ => (q:Int)))
+    (hb : u.regs .int [] "i_b"=some (fun _ => (row/h.H:Int)))
+    (hh : u.regs .int [] "i_h"=some (fun _ => (row%h.H:Int)))
     (hs : u.regs .bool [BS] "active_s"=some (axisMask h.S BS (feature*BS)))
-    (hj : u.regs .nat [BS] "columns"=some (coordinate h.S BS (feature*BS)))
+    (hj : u.regs .int [BS] "columns"=some (coordinate h.S BS (feature*BS)))
     (hm : u.regs .real [c.BT,c.BT] "m_s"=some (triangular M c))
     (ha : u.regs .real [BS] "b_z"=some acc)
     (read : ∀ off, u.mem h.input off=initial.mem h.input off) (padding : u.undef=initial.undef)
@@ -32,10 +32,10 @@ theorem prefix_safe (M : Algebra α) (dot : DotBackend α) (bounds : RegionBound
     (tail : List ComputeStmt) (tailSafe : ∀ v, Safety.traceSafeList (machine M dot) bounds tail v) :
     Safety.traceSafeList (machine M dot) bounds (prefixCode h c ++ tail) u := by
   simp only [prefixCode, FPProgram.loopBody, List.take, List.cons_append, List.nil_append]
-  refine assign_alg _ bounds _ _ _ _ _ _ _ ?_ (start_eval (machine M dot) "i_t" c.BT q u ht) ?_
-  · simp [Safety.safeOp_unfold, startOp]
+  refine assign_alg _ bounds _ _ _ _ _ _ _ ?_ (timeStart_eval (machine M dot) c q u ht) ?_
+  · simp [Safety.safeOp_unfold, timeStartOp, startOp]
   refine assign_alg _ bounds _ _ _ _ _ _ _ ?_
-    (show FP.Structural.evalOp (machine M dot) none (.arange c.BT) _ = some (lanes c.BT) from rfl) ?_
+    (show FP.Structural.evalOp (machine M dot) none (.castNatToInt (.arange c.BT)) _ = some (lanes c.BT) from rfl) ?_
   · simp [Safety.safeOp_unfold]
   refine assign_alg _ bounds _ _ _ _ _ _ _ ?_
     (active_eval (machine M dot) h.T c.BT (q*c.BT) "lanes_t" "start_t" _ (by simp) (by simp)) ?_
@@ -55,10 +55,13 @@ theorem prefix_safe (M : Algebra α) (dot : DotBackend α) (bounds : RegionBound
     (pointer_eval (machine M dot) h c feature row q h.output h.outputStrides _
       (by simp [hb]) (by simp [hh]) (by simp) (by simp [hj])) ?_
   · simp [Safety.safeOp_unfold, pointerOp]
-  refine assign_compute _ bounds _ _ _ _ _ _ ?_
-    (load_eval M dot h c feature row q initial _ (by simp) (by simp)
+  refine assign_alg _ bounds _ _ _ _ _ _ _ ?_
+    (rawLoad_eval M dot h c feature row q initial _ (by simp) (by simp)
       (by simpa using read) (by simpa using padding)) ?_
-  · exact load_safe _ bounds h c feature row q _ (by simp) (by simp) boundedIn
+  · exact rawLoad_safe _ bounds h c feature row q _ (by simp) (by simp) boundedIn
+  refine assign_compute _ bounds _ _ _ _ _ _ ?_
+    (castLoad_eval M dot h c feature row q initial _ (by simp)) ?_
+  · simp [Safety.safeOp_unfold, FPProgram.castLoadOp]
   refine assign_compute _ bounds _ _ _ _ _ _ ?_
     (output_eval M dot c (loaded M h c feature row initial q) acc _
       (by simp [ha]) (by simp [hm]) (by simp)) ?_
@@ -72,7 +75,7 @@ theorem prefix_safe (M : Algebra α) (dot : DotBackend α) (bounds : RegionBound
 theorem carry_safe (M : Algebra α) (bounds : RegionBounds) (c : Config)
     (commuted : Bool) (u : State α) :
     Safety.traceSafeList M bounds
-      [.ifThen (.ge .nat .nil (.ref .nat [] "i_t") (.constNat 0))
+      [.ifThen (.ge .int .nil (.ref .int [] "i_t") (.constInt 0))
         [.assign .real [BS] "b_z" (.compute (.alg .fp32
           (if commuted then CandidateProgram.sumLeftCarryOp c else carryOp c)))]] u := by
   rw [Safety.traceSafeList_cons]

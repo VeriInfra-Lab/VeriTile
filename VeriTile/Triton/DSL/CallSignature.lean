@@ -1,4 +1,6 @@
 import VeriTile.Triton.DSL.CallValue
+import VeriTile.Triton.DSL.SourceBindings
+import VeriTile.Triton.DSL.PythonConstants
 import VeriTile.Triton.DSL.SourceDType
 import VeriTile.Triton.DSL.RawBodyControl
 import VeriTile.Triton.DSL.RawSourceText
@@ -26,6 +28,10 @@ structure CallSignature where
   floatingPointers : List (String × FloatDType) := []
   scalars : List (String × ScalarType) := []
   constexpr : List String := []
+  /-- Immutable integer literals from the Python module, checked by source correspondence. -/
+  sourceConstants : List (String × String) := []
+  /-- Exact Python import aliases for the supported libdevice unary intrinsic. -/
+  unaryImports : List (String × String) := []
   /-- Explicit invocation port order for kernels whose first access order differs. -/
   readPorts : List String := []
   writePorts : List String := []
@@ -342,6 +348,20 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
           throwError "memory ports must be distinct pointer parameter names"
       let names := pointers.map Prod.fst ++ floatingPointers.map Prod.fst ++ scalars.map Prod.fst ++ constants
       unless names.eraseDups.length == names.length do throwError "duplicate name in call signature"
+      let sourceConstants ← bindings stringValue (← mkAppM ``Triton.CallSignature.sourceConstants #[profile])
+      let imports ← bindings stringValue (← mkAppM ``Triton.CallSignature.unaryImports #[profile])
+      let moduleNames := sourceConstants.map Prod.fst ++ imports.map Prod.fst
+      unless moduleNames.eraseDups.length == moduleNames.length &&
+          moduleNames.all (fun name => !names.contains name) do
+        throwError "module bindings must be distinct from parameters and each other"
+      liftMacroM <| SourceBindings.validateUnary imports
+      let environment ← getEnv
+      let sourceValues ← sourceConstants.mapM fun (name,source) =>
+        liftMacroM <| SourceBindings.constant environment name source
+      for stmt in stmts do rejectArgumentMutation (sourceValues.map Prod.fst) stmt.raw
+      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
+        let lowered ← SourceBindings.lowerUnary imports stmt.raw
+        return (⟨← bindSourceValues sourceValues lowered⟩ : TSyntax `tritonStmt)
       for stmt in stmts do rejectBodyMetadata stmt.raw
       let mut values : List (Name × TSyntax `tritonExpr) := []
       let mut fp32Values := Bool.false
@@ -399,6 +419,8 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
       let stmts ← liftMacroM <| stmts.mapM fun stmt =>
         return (⟨← normalizeRawBody parserEnv (← PositionalBlockPointer.normalize (← RawBodyControl.normalize stmt.raw))⟩ : TSyntax `tritonStmt)
       for stmt in stmts do liftMacroM <| checkTupleReads stmt.raw
+      let stmts ← liftMacroM <| stmts.mapM fun stmt =>
+        return (⟨← PythonConstants.lower stmt.raw⟩ : TSyntax `tritonStmt)
       let (reads, writes) := Metadata.blockRegions stmts.toList
       for region in reads ++ writes do
         let `(term| $id:ident) := region
