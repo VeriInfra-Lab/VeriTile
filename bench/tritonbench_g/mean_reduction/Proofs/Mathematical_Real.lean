@@ -472,7 +472,7 @@ def meanLoopBody (N BLOCK_M BLOCK_N : Nat) : List Stmt :=
       (.boolAnd Broadcast.nil.consL.consR
         (.ref .bool [BLOCK_M, 1] "row_mask")
         (.ref .bool [1, BLOCK_N] "col_mask"))
-  , .assign .real [BLOCK_M, BLOCK_N] "a"
+  , .assign .real [BLOCK_M, BLOCK_N] "__veritile_load_0"
       (.load .real
         (.ptr
           (.ptrAdd Broadcast.nil.consL.consR
@@ -481,6 +481,7 @@ def meanLoopBody (N BLOCK_M BLOCK_N : Nat) : List Stmt :=
         (.maskOther
           (.ref .bool [BLOCK_M, BLOCK_N] "mask")
           ((Op.const 0.0).broadcast [BLOCK_M, BLOCK_N])))
+  , .assign .real [BLOCK_M, BLOCK_N] "a" (.ref .real [BLOCK_M, BLOCK_N] "__veritile_load_0")
   , .assign .real [BLOCK_M, BLOCK_N] "_mean"
       (.add NumericDType.real Broadcast.nil.consSame.consSame
         (.ref .real [BLOCK_M, BLOCK_N] "_mean")

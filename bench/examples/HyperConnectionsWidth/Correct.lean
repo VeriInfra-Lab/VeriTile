@@ -15,6 +15,15 @@ IO contracts and mathematical formulas are stated below; execution and memory
 lemmas are in Proofs/Real.lean. Numerical casts are interpreted over the reals. -/
 
 namespace VeriTile.Bench.Examples.HyperConnectionsWidth
+
+attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
+  VeriTile.Triton.ComputeOp.toAlgorithm? VeriTile.Triton.ComputeDType.eraseDType
+  VeriTile.Triton.ComputeKernel.toAlgorithm? VeriTile.Triton.ComputeStmt.toAlgorithm?
+  VeriTile.Triton.ComputeStmt.listToAlgorithm?
+
+@[simp] private theorem source_except_ok_bind {α β ε : Type _} (a : α)
+    (f : α → Except ε β) :
+    (Except.ok a : Except ε α) >>= f = f a := rfl
 open VeriTile.Bench.Examples.HyperConnectionsWidth.Kernels
 
 attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
@@ -76,7 +85,7 @@ specification mhc_width_optimized_correctness (tau : ℝ) :
   · simp [optimizedKernel, Kernel.FlattenOk,
       StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
   · intro bounds s h1 h2 h3 h4 h5
-    simpa [optimizedIO, mhcWidthIO, Kernel.TraceSafe, optimizedKernel, mhcWidthConnectionKernel,
+    simpa [optimizedIO, mhcWidthIO, Kernel.TraceSafe, optimizedKernel, scalarKernel, mhcWidthConnectionKernel,
       Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
       MemAccess.SafeAt, stepStmt, evalOp.eq_def,
       Region.cast, Tile.bop, Tile.uop, NumericDType.mul, NumericDType.div, mul_comm]

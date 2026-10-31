@@ -1,0 +1,160 @@
+[
+  {
+    "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+    "python_function": "matrixKernel",
+    "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean",
+    "lean_definition": "matrixKernel",
+    "signature_definition": "matrixKernelSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "resMixReg",
+          "fp32"
+        ],
+        [
+          "branchOutReg",
+          "fp32"
+        ],
+        [
+          "hPostReg",
+          "fp32"
+        ],
+        [
+          "outReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "tau",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "S",
+        "T",
+        "D",
+        "numIters"
+      ]
+    },
+    "expected_call_bindings": {
+      "tau": "tau"
+    }
+  },
+  {
+    "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+    "python_function": "scalarKernel",
+    "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean",
+    "lean_definition": "scalarKernel",
+    "signature_definition": "scalarKernelSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "resMixReg",
+          "fp32"
+        ],
+        [
+          "branchOutReg",
+          "fp32"
+        ],
+        [
+          "hPostReg",
+          "fp32"
+        ],
+        [
+          "outReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "tau",
+          "fp32"
+        ]
+      ],
+      "constexpr": []
+    },
+    "expected_call_bindings": {
+      "tau": "tau"
+    }
+  },
+  {
+    "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+    "python_function": "optimizedKernel",
+    "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean",
+    "lean_definition": "optimizedKernel",
+    "signature_definition": "optimizedKernelSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "resMixReg",
+          "fp32"
+        ],
+        [
+          "branchOutReg",
+          "fp32"
+        ],
+        [
+          "hPostReg",
+          "fp32"
+        ],
+        [
+          "outReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "tau",
+          "fp32"
+        ]
+      ],
+      "constexpr": []
+    },
+    "expected_call_bindings": {
+      "tau": "tau"
+    }
+  },
+  {
+    "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+    "python_function": "matrixOptimized",
+    "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean",
+    "lean_definition": "matrixOptimized",
+    "signature_definition": "matrixOptimizedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "resMixReg",
+          "fp32"
+        ],
+        [
+          "branchOutReg",
+          "fp32"
+        ],
+        [
+          "hPostReg",
+          "fp32"
+        ],
+        [
+          "outReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "tau",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "S",
+        "T",
+        "D",
+        "numIters"
+      ]
+    },
+    "expected_call_bindings": {
+      "tau": "tau"
+    }
+  }
+]

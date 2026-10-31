@@ -102,6 +102,11 @@ private partial def body (used : List Name) (next : Nat) (stmts : List (TSyntax 
           next := after
           let yes := yes.toArray
           `(tritonStmt| if $c:tritonExpr { $yes* })
+      | `(tritonStmt| for $i:ident in range($stop:tritonExpr) { $inner:tritonStmt* }) => do
+          let (inner,after) ← body used next inner.toList
+          next := after
+          let inner := inner.toArray
+          `(tritonStmt| for $i:ident in range($stop:tritonExpr) { $inner* })
       | `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $s:tritonExpr) { $inner:tritonStmt* }) => do
           let (inner,after) ← body used next inner.toList
           next := after

@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.FP32ReferenceRewrite
 import bench.examples.HyperConnectionsWidth.Kernels
 import VeriTile.Triton.Float.GuardedRewrite
 import VeriTile.Triton.Float.RewriteTactics

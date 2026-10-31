@@ -76,7 +76,7 @@ def loadAddress (dtype : TileDType) (BM BN : Nat) : MemAccess dtype [BM, BN] :=
 /-- The full loop accumulates the converted tile in fp32 without reassociation. -/
 theorem accumulator_precision (v : Bool) (X Mean : RegionName)
     (M N BM BN : Nat) :
-    loopAssignment (typedKernel v X Mean M N BM BN) 4 =
+    loopAssignment (typedKernel v X Mean M N BM BN) 5 =
       some (.assign .real [BM, BN] "_mean" (.compute (.alg .fp32
         (.add .real Broadcast.nil.consSame.consSame
           (.ref .real [BM, BN] "_mean") (.ref .real [BM, BN] "a"))))) := by

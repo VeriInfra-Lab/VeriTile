@@ -60,7 +60,8 @@ theorem stage1_exec [Inhabited A] (e : Engine A) (inp mid : RegionName)
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,
     reduceWith,scalarValue,TileShape.allIndices,TileShape.axisDim,hb,State.write,State.setReg]
-  rfl
+  all_goals simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
+  all_goals rfl
 
 theorem stage2_exec [Inhabited A] (e : Engine A) (mid out : RegionName)
     (N B : Nat) (s : State A) (hb : 0<B) :
@@ -114,6 +115,7 @@ theorem dimension_exec [Inhabited A] (e : Engine A) (inp ov oi : RegionName)
     ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,
     indexedWith,rowValue,dimensionStores,TileShape.allIndices,TileShape.axisDim,TileShape.insertAxisIndex,toFloat,ofFloat,hn,Nat.ne_of_gt hn,
     State.setReg]
+  all_goals simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
 
 /-- Exact native/Real finite-tree construction; invalid fallback leaves never
 occur in a ReductionPlan. Thus whole-reduction equality is proved, not assumed. -/

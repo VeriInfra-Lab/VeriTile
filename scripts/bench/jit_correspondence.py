@@ -280,8 +280,9 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             if bindings != expected_call_bindings:
                 raise ValueError("runtime call bindings differ from the reviewed invocation")
             integer_args = {n for n, t in profile["scalars"] if t in {"integer", "i32", "i64"}}
-            if set(bindings) != integer_args:
-                raise ValueError("runtime call bindings must cover exactly the integer scalar parameters")
+            fp32_args = {n for n, t in profile["scalars"] if t == "fp32"}
+            if not integer_args <= set(bindings) or not set(bindings) <= integer_args | fp32_args:
+                raise ValueError("runtime call bindings must include all integer parameters and only supported scalar parameters")
         if expected_signature is not None and profile != expected_signature:
             raise ValueError("call signature differs from the reviewed launch types")
         pointer_bindings = profile["pointers"] + profile.get("floatingPointers", [])

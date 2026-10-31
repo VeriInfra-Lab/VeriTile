@@ -6,8 +6,97 @@
     "enable_fp_fusion": false
   },
   "gpu_execution": false,
+  "host_decorators_replayed": false,
   "formal_completion_certificate": false,
   "results": [
+    {
+      "case": "AdamUpdateGridLaunch",
+      "function": "update_fn_kernel",
+      "signature": {
+        "p_ptr": "*fp32",
+        "grad_ptr": "*fp32",
+        "exp_avg_ptr": "*fp32",
+        "lr": "fp32",
+        "wd": "fp32",
+        "beta1": "fp32",
+        "beta2": "fp32",
+        "n_elements": "i64",
+        "chunk_elements": "i64"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 32
+      },
+      "python": "bench/tritonbench_g/adam_update_triton/adam_update_triton.py",
+      "python_sha256": "0a9e638a151a19cacce590512938f65c64a753d67d22a29cd88e601ccca4404f",
+      "status": "PASS",
+      "ptx_sha256": "8a2f3bee46c052b78457885b676fbd4bb074bf5c5f43535841e6b4d6b4a2dd11"
+    },
+    {
+      "case": "AdamUpdateGridLaunch",
+      "function": "update_fn_kernel",
+      "signature": {
+        "p_ptr": "*fp32",
+        "grad_ptr": "*fp32",
+        "exp_avg_ptr": "*fp32",
+        "lr": "fp32",
+        "wd": "fp32",
+        "beta1": "fp32",
+        "beta2": "fp32",
+        "n_elements": "i64",
+        "chunk_elements": "i64"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 64
+      },
+      "python": "bench/tritonbench_g/adam_update_triton/adam_update_triton.py",
+      "python_sha256": "0a9e638a151a19cacce590512938f65c64a753d67d22a29cd88e601ccca4404f",
+      "status": "PASS",
+      "ptx_sha256": "816f9671af8a8b750c53d26b41e2be4fae5822b03a06d78eccf868016a7c0ae9"
+    },
+    {
+      "case": "AdamUpdateGridLaunch",
+      "function": "commuted_update",
+      "signature": {
+        "p_ptr": "*fp32",
+        "grad_ptr": "*fp32",
+        "exp_avg_ptr": "*fp32",
+        "lr": "fp32",
+        "wd": "fp32",
+        "beta1": "fp32",
+        "beta2": "fp32",
+        "n_elements": "i64",
+        "chunk_elements": "i64"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 32
+      },
+      "python": "bench/examples/AdamUpdateGridLaunch/candidate_kernels.py",
+      "python_sha256": "513d7327479e1746ba9b5e6ab86aa581f0cbbbe242454490df7fbfe71d2a28fc",
+      "status": "PASS",
+      "ptx_sha256": "ea792005116925bd1cf66b503006f7f9f9820b9e859df5aa229c6d36630dd377"
+    },
+    {
+      "case": "AdamUpdateGridLaunch",
+      "function": "commuted_update",
+      "signature": {
+        "p_ptr": "*fp32",
+        "grad_ptr": "*fp32",
+        "exp_avg_ptr": "*fp32",
+        "lr": "fp32",
+        "wd": "fp32",
+        "beta1": "fp32",
+        "beta2": "fp32",
+        "n_elements": "i64",
+        "chunk_elements": "i64"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 64
+      },
+      "python": "bench/examples/AdamUpdateGridLaunch/candidate_kernels.py",
+      "python_sha256": "513d7327479e1746ba9b5e6ab86aa581f0cbbbe242454490df7fbfe71d2a28fc",
+      "status": "PASS",
+      "ptx_sha256": "27774de2d41fe7850cc7b5682aac7f3a9f3c8af2c6b382b355863b829f7a74b5"
+    },
     {
       "case": "FlatVectorAdd",
       "function": "flat_vector_add",
@@ -199,6 +288,82 @@
       "python_sha256": "240a4b52bed7c83ef867e13f834bf6a9b44d5ebf9b2e256a752c487daa35877e",
       "status": "PASS",
       "ptx_sha256": "1ed0c8739dc4ef119a7528430cc70f243c1e55c6f319257dbf047d1b5110c704"
+    },
+    {
+      "case": "FusedLayerNorm",
+      "function": "twoPassLayerNormKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "\u03b3Reg": "*fp32",
+        "\u03b2Reg": "*fp32",
+        "yReg": "*bf16",
+        "rowStride": "i64"
+      },
+      "constexprs": {
+        "N": 32,
+        "\u03b5": 1e-05
+      },
+      "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+      "python_sha256": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd",
+      "status": "PASS",
+      "ptx_sha256": "b4378324286b561fbb82ad51da9b45b34908ed383aedb72d44ad3b77983fb9cd"
+    },
+    {
+      "case": "FusedLayerNorm",
+      "function": "twoPassLayerNormKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "\u03b3Reg": "*fp32",
+        "\u03b2Reg": "*fp32",
+        "yReg": "*bf16",
+        "rowStride": "i64"
+      },
+      "constexprs": {
+        "N": 64,
+        "\u03b5": 1e-05
+      },
+      "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+      "python_sha256": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd",
+      "status": "PASS",
+      "ptx_sha256": "cddc2587c134947e3fe7c6c1b5f54682ef63a9f13ed3b972b4f595ab96b64bd2"
+    },
+    {
+      "case": "FusedLayerNorm",
+      "function": "fusedLayerNormKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "\u03b3Reg": "*fp32",
+        "\u03b2Reg": "*fp32",
+        "yReg": "*bf16",
+        "rowStride": "i64"
+      },
+      "constexprs": {
+        "N": 32,
+        "\u03b5": 1e-05
+      },
+      "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+      "python_sha256": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd",
+      "status": "PASS",
+      "ptx_sha256": "e23df701cc5687381aa7b3b0eea4a0d7d7a9b13125aa94f961474f1c42a82492"
+    },
+    {
+      "case": "FusedLayerNorm",
+      "function": "fusedLayerNormKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "\u03b3Reg": "*fp32",
+        "\u03b2Reg": "*fp32",
+        "yReg": "*bf16",
+        "rowStride": "i64"
+      },
+      "constexprs": {
+        "N": 64,
+        "\u03b5": 1e-05
+      },
+      "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+      "python_sha256": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd",
+      "status": "PASS",
+      "ptx_sha256": "1f209d5bd5bd76c4b9702b6093ba6440a255bb3180bc583a9e5862ba930c4ed6"
     },
     {
       "case": "FusedSiLU",
@@ -429,6 +594,388 @@
       "ptx_sha256": "30e340e387d5d229f7bfc870507dafdc4957a4142e06020d16fd11de22bee9ab"
     },
     {
+      "case": "HyperConnectionsDepth",
+      "function": "matrixKernel",
+      "signature": {
+        "resMixReg": "*fp32",
+        "branchOutReg": "*fp32",
+        "hPostReg": "*fp32",
+        "outReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {
+        "S": 32,
+        "T": 32,
+        "D": 32,
+        "numIters": 2
+      },
+      "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+      "python_sha256": "11c5b12c34e652cb83111620eb53891d6dfd2af352ba20e14bdd17692ae4a372",
+      "status": "PASS",
+      "ptx_sha256": "0baee591916c6ec905b6e95224441a349f328b1b65dec53a14fc1abd42846d64"
+    },
+    {
+      "case": "HyperConnectionsDepth",
+      "function": "matrixKernel",
+      "signature": {
+        "resMixReg": "*fp32",
+        "branchOutReg": "*fp32",
+        "hPostReg": "*fp32",
+        "outReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {
+        "S": 64,
+        "T": 64,
+        "D": 64,
+        "numIters": 2
+      },
+      "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+      "python_sha256": "11c5b12c34e652cb83111620eb53891d6dfd2af352ba20e14bdd17692ae4a372",
+      "status": "PASS",
+      "ptx_sha256": "663ce10494b30e71d3a610738b2aa220eac43a2a835b726f7c4b0d2a9aa2a837"
+    },
+    {
+      "case": "HyperConnectionsDepth",
+      "function": "scalarKernel",
+      "signature": {
+        "resMixReg": "*fp32",
+        "branchOutReg": "*fp32",
+        "hPostReg": "*fp32",
+        "outReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {},
+      "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+      "python_sha256": "11c5b12c34e652cb83111620eb53891d6dfd2af352ba20e14bdd17692ae4a372",
+      "status": "PASS",
+      "ptx_sha256": "8d015722464e3d0c7e0d0dd700d420519ab2f950272bf9c2b5465e4f6c425074"
+    },
+    {
+      "case": "HyperConnectionsDepth",
+      "function": "scalarKernel",
+      "signature": {
+        "resMixReg": "*fp32",
+        "branchOutReg": "*fp32",
+        "hPostReg": "*fp32",
+        "outReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {},
+      "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+      "python_sha256": "11c5b12c34e652cb83111620eb53891d6dfd2af352ba20e14bdd17692ae4a372",
+      "status": "PASS",
+      "ptx_sha256": "8d015722464e3d0c7e0d0dd700d420519ab2f950272bf9c2b5465e4f6c425074"
+    },
+    {
+      "case": "HyperConnectionsDepth",
+      "function": "optimizedKernel",
+      "signature": {
+        "resMixReg": "*fp32",
+        "branchOutReg": "*fp32",
+        "hPostReg": "*fp32",
+        "outReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {},
+      "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+      "python_sha256": "11c5b12c34e652cb83111620eb53891d6dfd2af352ba20e14bdd17692ae4a372",
+      "status": "PASS",
+      "ptx_sha256": "a6e64c4fa205926a18f946aea305932ae2e05c468c5e0fb44313850cfb9c2c0a"
+    },
+    {
+      "case": "HyperConnectionsDepth",
+      "function": "optimizedKernel",
+      "signature": {
+        "resMixReg": "*fp32",
+        "branchOutReg": "*fp32",
+        "hPostReg": "*fp32",
+        "outReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {},
+      "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+      "python_sha256": "11c5b12c34e652cb83111620eb53891d6dfd2af352ba20e14bdd17692ae4a372",
+      "status": "PASS",
+      "ptx_sha256": "a6e64c4fa205926a18f946aea305932ae2e05c468c5e0fb44313850cfb9c2c0a"
+    },
+    {
+      "case": "HyperConnectionsDepth",
+      "function": "matrixOptimized",
+      "signature": {
+        "resMixReg": "*fp32",
+        "branchOutReg": "*fp32",
+        "hPostReg": "*fp32",
+        "outReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {
+        "S": 32,
+        "T": 32,
+        "D": 32,
+        "numIters": 2
+      },
+      "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+      "python_sha256": "11c5b12c34e652cb83111620eb53891d6dfd2af352ba20e14bdd17692ae4a372",
+      "status": "PASS",
+      "ptx_sha256": "a0fb15eca14aa0a1d68e1fd76b625d8fcdd7ff7819a3f759013b70cd3c2d5c29"
+    },
+    {
+      "case": "HyperConnectionsDepth",
+      "function": "matrixOptimized",
+      "signature": {
+        "resMixReg": "*fp32",
+        "branchOutReg": "*fp32",
+        "hPostReg": "*fp32",
+        "outReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {
+        "S": 64,
+        "T": 64,
+        "D": 64,
+        "numIters": 2
+      },
+      "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+      "python_sha256": "11c5b12c34e652cb83111620eb53891d6dfd2af352ba20e14bdd17692ae4a372",
+      "status": "PASS",
+      "ptx_sha256": "4a44402fc2296b39545ffc87f5adb0576209cd75b599a1e27bd35f9d0cabee98"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "matrixKernel",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {
+        "S": 32,
+        "T": 32,
+        "D": 32,
+        "numIters": 2
+      },
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "21c44f91ce18981a0ef41987c5e06e8cae6ae3762139ecbc30e1d8163937f191"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "matrixKernel",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {
+        "S": 64,
+        "T": 64,
+        "D": 64,
+        "numIters": 2
+      },
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "c007b37b806f54097628c193e76cacdbe0429c84dbd68a03bed1f953a5e676d5"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "scalarKernel",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {},
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "88b20700c97ec62a3061afcebde113836be8ec9e738939c273f1e51851321f83"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "scalarKernel",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {},
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "88b20700c97ec62a3061afcebde113836be8ec9e738939c273f1e51851321f83"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "middleKernel",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {},
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "37eeb015f0a87ee77743109474e53c1b9166a5b40ab913bc4138cdd5992a1d2a"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "middleKernel",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {},
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "37eeb015f0a87ee77743109474e53c1b9166a5b40ab913bc4138cdd5992a1d2a"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "optimizedKernel",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {},
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "04a2de0dc7b9841f708d41dd8ac2561801e1c4b299b9290ed23411f94c4b1f40"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "optimizedKernel",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {},
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "04a2de0dc7b9841f708d41dd8ac2561801e1c4b299b9290ed23411f94c4b1f40"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "matrixMiddle",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {
+        "S": 32,
+        "T": 32,
+        "D": 32,
+        "numIters": 2
+      },
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "02ba5f66c841c2ea12911f7921cc055076714f135a457cb106745080160289d7"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "matrixMiddle",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {
+        "S": 64,
+        "T": 64,
+        "D": 64,
+        "numIters": 2
+      },
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "c12c77a27c173a263726179ccea5bcd3591955a6b5662da969170365df50bf90"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "matrixOptimized",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {
+        "S": 32,
+        "T": 32,
+        "D": 32,
+        "numIters": 2
+      },
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "bd76437c60750a4ffead1f322da15ed53719daaea040d13776a7f58db26fef0c"
+    },
+    {
+      "case": "HyperConnectionsWidth",
+      "function": "matrixOptimized",
+      "signature": {
+        "resReg": "*fp32",
+        "hResReg": "*fp32",
+        "hPreReg": "*fp32",
+        "resMixReg": "*fp32",
+        "branchInReg": "*fp32",
+        "tau": "fp32"
+      },
+      "constexprs": {
+        "S": 64,
+        "T": 64,
+        "D": 64,
+        "numIters": 2
+      },
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+      "python_sha256": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927",
+      "status": "PASS",
+      "ptx_sha256": "c80843d5a5153c0dda0996642914d22647174dbee2d9fb670ba42da5df34de4a"
+    },
+    {
       "case": "LogExp",
       "function": "log_exp",
       "signature": {
@@ -487,6 +1034,66 @@
       "python_sha256": "02876bca6a5a02076b82bf516e623fb40a9187fa7b9a5621c0622fa233ebfdcc",
       "status": "PASS",
       "ptx_sha256": "41f451351ad2bb35f35fe2276fc7be2e3dbb39e40e6e94f98d13ef13657e5cb9"
+    },
+    {
+      "case": "OnlineSoftmax",
+      "function": "stableSoftmaxKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "yReg": "*fp32"
+      },
+      "constexprs": {
+        "blockSize": 32
+      },
+      "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+      "python_sha256": "dc40b50e23c94cb33a07fd4f9a6c8142ba9f2ad02d6446d9fffaca1d5e2f4bf2",
+      "status": "PASS",
+      "ptx_sha256": "2daf66f0a128fcb3ab3417d2ab5a84b280420853b6066d8b8731e119375ef4d0"
+    },
+    {
+      "case": "OnlineSoftmax",
+      "function": "stableSoftmaxKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "yReg": "*fp32"
+      },
+      "constexprs": {
+        "blockSize": 64
+      },
+      "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+      "python_sha256": "dc40b50e23c94cb33a07fd4f9a6c8142ba9f2ad02d6446d9fffaca1d5e2f4bf2",
+      "status": "PASS",
+      "ptx_sha256": "91f5f99fcb44db9908ca90a0a4368d823b19cdbe335ec3666a748b2eea42f819"
+    },
+    {
+      "case": "OnlineSoftmax",
+      "function": "onlineSoftmaxKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "yReg": "*fp32"
+      },
+      "constexprs": {
+        "N": 32
+      },
+      "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+      "python_sha256": "dc40b50e23c94cb33a07fd4f9a6c8142ba9f2ad02d6446d9fffaca1d5e2f4bf2",
+      "status": "PASS",
+      "ptx_sha256": "68300efbc8342986d39dba4d1f06b70327c81a26904fd149f4d3a795d10fc89e"
+    },
+    {
+      "case": "OnlineSoftmax",
+      "function": "onlineSoftmaxKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "yReg": "*fp32"
+      },
+      "constexprs": {
+        "N": 64
+      },
+      "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+      "python_sha256": "dc40b50e23c94cb33a07fd4f9a6c8142ba9f2ad02d6446d9fffaca1d5e2f4bf2",
+      "status": "PASS",
+      "ptx_sha256": "a4f3b49f15043abde70321fd935fbd4fca9ff990d4e2862a04f2522e3c07d7d7"
     },
     {
       "case": "RowWiseMax",
@@ -927,6 +1534,74 @@
       "python_sha256": "9d72f79b9ea85aaa884c5f42da09f593e7d1db52b244d57ef8815bfc3db47ab9",
       "status": "PASS",
       "ptx_sha256": "e1e014e5706cd911c5d6acec9d417134c37f6a306f0d75f41cbd2a4531d74fe6"
+    },
+    {
+      "case": "Welford",
+      "function": "twopassWelfordKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "meanReg": "*bf16",
+        "varReg": "*bf16",
+        "rowStride": "i64"
+      },
+      "constexprs": {
+        "blockSize": 32
+      },
+      "python": "bench/examples/Welford/native_kernels.py",
+      "python_sha256": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601",
+      "status": "PASS",
+      "ptx_sha256": "760f4d7a29837a0389b8618265e1786bc87942728fdd8bbfc70c732cc4479813"
+    },
+    {
+      "case": "Welford",
+      "function": "twopassWelfordKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "meanReg": "*bf16",
+        "varReg": "*bf16",
+        "rowStride": "i64"
+      },
+      "constexprs": {
+        "blockSize": 64
+      },
+      "python": "bench/examples/Welford/native_kernels.py",
+      "python_sha256": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601",
+      "status": "PASS",
+      "ptx_sha256": "853a8f9b19086d2372e6c18abc44fa7d0df33b1aa8c0fa3226e671f9df77c61f"
+    },
+    {
+      "case": "Welford",
+      "function": "onlineWelfordKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "meanReg": "*bf16",
+        "varReg": "*bf16",
+        "rowStride": "i64"
+      },
+      "constexprs": {
+        "blockSize": 32
+      },
+      "python": "bench/examples/Welford/native_kernels.py",
+      "python_sha256": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601",
+      "status": "PASS",
+      "ptx_sha256": "9e12f40ca34a5c1b405e911a1afe19e61c644ce0ad56ed24016d9592f29c4d27"
+    },
+    {
+      "case": "Welford",
+      "function": "onlineWelfordKernel",
+      "signature": {
+        "xReg": "*fp32",
+        "meanReg": "*bf16",
+        "varReg": "*bf16",
+        "rowStride": "i64"
+      },
+      "constexprs": {
+        "blockSize": 64
+      },
+      "python": "bench/examples/Welford/native_kernels.py",
+      "python_sha256": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601",
+      "status": "PASS",
+      "ptx_sha256": "eeea414495bb953525facf9cc22bc3e03f62aae1799db50c2a67743e1e8d03a5"
     }
   ]
 }

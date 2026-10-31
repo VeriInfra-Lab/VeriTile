@@ -50,8 +50,9 @@ carrier, arbitrary initial registers, and arbitrary unused numeric callbacks. -/
   simp [kernel,
     ComputeKernel.surfaceBody,FP.Structural.exec,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
-    Option.bind,copyBackend,natLt,ComputeDType.eraseDType,numeric,bop,
-    ofFloat,toFloat,Region.cast,FP.Structural.store,TileShape.dropInsertedIndex]
+    Option.bind,copyBackend,natLt,numericLt,ComputeDType.eraseDType,numeric,bop,
+    ofFloat,toFloat,Region.cast,FP.Structural.store,TileShape.dropInsertedIndex,
+    -Nat.cast_mul, -Nat.cast_add, ←Int.natCast_mul, ←Int.natCast_add, Int.toNat_natCast, Int.ofNat_lt]
   rfl
 
 theorem execution_memory {α : Type} [Inhabited α] (rest : Algebra α)

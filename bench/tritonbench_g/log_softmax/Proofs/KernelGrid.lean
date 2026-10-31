@@ -86,7 +86,8 @@ theorem source_value [Inhabited A] (d : Direction) (e : Kernel.Engine A C)
 theorem address_active (M N K BM p k : Nat) (i : TileIndex [BM,C])
     (h : Kernel.active M N K BM p k i) :
     Kernel.address M N K BM p k i = offset N K (p*BM+i.1.val) i.2.1.val k := by
-  simp only [Kernel.address,offset,Nat.min_eq_left (show p*BM+i.1.val≤M-1 by exact Nat.le_pred_of_lt h.1),
+  rw [Kernel.address_nat M N K BM p k i (by have := h.1; omega) (by have := h.2.1; omega) (by have := h.2.2; omega)]
+  simp only [offset,Nat.min_eq_left (show p*BM+i.1.val≤M-1 by exact Nat.le_pred_of_lt h.1),
     Nat.min_eq_left (show i.2.1.val≤N-1 by exact Nat.le_pred_of_lt h.2.1),
     Nat.min_eq_left (show k≤K-1 by exact Nat.le_pred_of_lt h.2.2)]
 

@@ -123,9 +123,12 @@ def parseMaxReturnIndicesKwargs (dims : List (TSyntax `term))
         if n.getNat ≥ dims.length then
           Macro.throwError "tl.max return_indices: axis out of bounds"
         axisIdx := n.getNat
-    | `(tritonReduceKwarg| return_indices=True) =>
+    | `(tritonReduceKwarg| return_indices=True)
+    | `(tritonReduceKwarg| return_indices=true) =>
+        if seenReturn then Macro.throwError "tl.max return_indices: duplicate return_indices"
         seenReturn := Bool.true
-    | `(tritonReduceKwarg| return_indices=False) =>
+    | `(tritonReduceKwarg| return_indices=False)
+    | `(tritonReduceKwarg| return_indices=false) =>
         Macro.throwError "tl.max tuple binding requires `return_indices=True`"
     | `(tritonReduceKwarg| keep_dims = false) =>
         Macro.throwError "tl.max return_indices: `keep_dims` is not supported"
@@ -135,7 +138,7 @@ def parseMaxReturnIndicesKwargs (dims : List (TSyntax `term))
         let nm := name.getId.toString
         if nm == "return_indices_tie_break_left" then
           match value with
-          | `(tritonExpr| True) => pure ()
+          | `(tritonExpr| True) | `(tritonExpr| true) => pure ()
           | _ => Macro.throwError "tl.max return_indices: only literal True leftmost tie breaking is supported"
         else
           Macro.throwError
@@ -1299,6 +1302,10 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         else if env.any (fun entry => entry.1 == userName) then userName
         else erasedName
       expandIdentRefByName env name
+  | `(tritonExpr| $((VeriTile.Triton.DSL.CallValue.fp32 $value:term : ℝ))) => do
+      let some out ← suppliedFP32Literal? stx
+        | Macro.throwError "invalid internal FP32 call literal"
+      return out
   | `(tritonExpr| $(($t:term : ℝ))) =>
       pure ⟨← `(Op.const $t), .real, SInfo.scalar, none, none⟩
   | `(tritonExpr| $(($t:term : Real))) =>

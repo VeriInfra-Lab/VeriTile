@@ -16,26 +16,26 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 6,
-      "uncovered_jit_functions": 174
+      "selected_body_copy_checked": 30,
+      "uncovered_jit_functions": 150
     },
     "example_status": {
-      "no_independent_python_reference": 19
+      "selected_body_copy_checked": 19
     },
-    "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 317,
-    "inventoried_jit_functions": 412,
-    "uncovered_inventoried_jit_functions": 398,
+    "selected_jit_functions": 338,
+    "uncovered_selected_jit_functions": 273,
+    "inventoried_jit_functions": 468,
+    "uncovered_inventoried_jit_functions": 350,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 8
+      "pasted_body": 112
     },
     "collection_status": {
       "bug_detection": {
         "no_independent_python_reference": 65
       },
       "examples": {
-        "no_independent_python_reference": 19
+        "selected_body_copy_checked": 19
       },
       "pretrain_kernels": {
         "no_independent_python_reference": 269
@@ -43,23 +43,23 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 2,
-        "selected_body_copy_checked": 6,
-        "uncovered_jit_functions": 174
+        "selected_body_copy_checked": 30,
+        "uncovered_jit_functions": 150
       }
     },
-    "primary_files_with_int64_screen_warning": 40,
+    "primary_files_with_int64_screen_warning": 38,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 130,
-        "antiquotes": 484,
+        "in_body_type_directives": 115,
+        "antiquotes": 461,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
       "examples": {
         "in_body_type_directives": 0,
-        "antiquotes": 19,
-        "dsl_loop": 3,
-        "dsl_numeric_helpers": 3
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
       }
     }
   },
@@ -9816,8 +9816,8 @@
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 6,
-        "dsl_assignment": 12,
+        "antiquotes": 0,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -9855,33 +9855,47 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "add_kernel",
+          "lean_definition": "add_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/add_example/add_example.py",
-          "function": "add_kernel"
+          "lean": "bench/tritonbench_g/add_example/Kernels.lean"
         },
         {
+          "python_function": "add_commuted_kernel",
+          "lean_definition": "add_commuted_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/add_example/add_example.py",
-          "function": "add_commuted_kernel"
+          "lean": "bench/tritonbench_g/add_example/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/add_example/add_example.py",
-          "function": "add_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/add_example/add_example.py",
-          "function": "add_commuted_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/add_example/Kernels.lean": "f42099c0f3caacedf74f235d0aa083beaa5a02a2daded788333c209a41d180b1",
-        "bench/tritonbench_g/add_example/add_example.py": "08307d73b804cc8afa2762981d55954f70034b8c49882c078d8058b56dd23c9b"
+        "bench/tritonbench_g/add_example/Kernels.lean": "a84a458bccd5f799e812703ab91b79c4a1ccc0fd79ecfeacbfa3663d6d116c40",
+        "bench/tritonbench_g/add_example/add_example.py": "08307d73b804cc8afa2762981d55954f70034b8c49882c078d8058b56dd23c9b",
+        "bench/tritonbench_g/add_example/jit-correspondence.json": "49447f28a1fbe58d7c23c7b02d28e83a842dbdd10e669f37e215690e6106f2a0"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/add_example"
@@ -9894,8 +9908,8 @@
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 6,
-        "dsl_assignment": 11,
+        "antiquotes": 0,
+        "dsl_assignment": 18,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -9933,33 +9947,47 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "puzzle1_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "N": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/add_value/add_value.py",
-          "function": "puzzle1_kernel"
+          "lean": "bench/tritonbench_g/add_value/Kernels.lean"
         },
         {
+          "python_function": "puzzle1_commuted_kernel",
+          "lean_definition": "commutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "N": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/add_value/add_value.py",
-          "function": "puzzle1_commuted_kernel"
+          "lean": "bench/tritonbench_g/add_value/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/add_value/add_value.py",
-          "function": "puzzle1_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/add_value/add_value.py",
-          "function": "puzzle1_commuted_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/add_value/Kernels.lean": "9914c49b3b6da81b5ebf3a58a39fb5f25d5e3df4158676ddb5fd1d11a4cf3e92",
-        "bench/tritonbench_g/add_value/add_value.py": "439dbbf37b927a5d48615b8e5f29941aa48a8ac668f97768f504dc36f0b12ea8"
+        "bench/tritonbench_g/add_value/Kernels.lean": "719df098d87b99a74dc9fa65c0e0a330f6684cd73dd1041730f43c3894845e6b",
+        "bench/tritonbench_g/add_value/add_value.py": "439dbbf37b927a5d48615b8e5f29941aa48a8ac668f97768f504dc36f0b12ea8",
+        "bench/tritonbench_g/add_value/jit-correspondence.json": "7911c68efdd51ae443e25670eb30765bdf1f401779b304ffebb1ce095167d43e"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/add_value"
@@ -12714,9 +12742,9 @@
       "lean": "bench/tritonbench_g/cache_transform_triton/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 19,
-        "dsl_assignment": 9,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 8,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -12725,6 +12753,12 @@
         {
           "function": "gather_cache_bytes",
           "line": 8,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "gather_cache_bytes_quotient_remainder",
+          "line": 79,
           "statements": 7,
           "explicit_int64_casts": []
         }
@@ -12738,29 +12772,59 @@
               "line": 8,
               "statements": 7,
               "explicit_int64_casts": []
+            },
+            {
+              "function": "gather_cache_bytes_quotient_remainder",
+              "line": 79,
+              "statements": 7,
+              "explicit_int64_casts": []
             }
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "gather_cache_bytes",
+          "lean_definition": "body",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK",
+            "COUNT",
+            "ROW_BYTES",
+            "START"
+          ],
           "python": "bench/tritonbench_g/cache_transform_triton/cache_transform_triton.py",
-          "function": "gather_cache_bytes"
+          "lean": "bench/tritonbench_g/cache_transform_triton/Kernels.lean"
+        },
+        {
+          "python_function": "gather_cache_bytes_quotient_remainder",
+          "lean_definition": "quotientRemainderBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK",
+            "COUNT",
+            "ROW_BYTES",
+            "START"
+          ],
+          "python": "bench/tritonbench_g/cache_transform_triton/cache_transform_triton.py",
+          "lean": "bench/tritonbench_g/cache_transform_triton/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/cache_transform_triton/cache_transform_triton.py",
-          "function": "gather_cache_bytes"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/cache_transform_triton/Kernels.lean": "f224539a28785d7d69e56d2a112c39ab374425f3ee9f08366360104072cf7d7f",
-        "bench/tritonbench_g/cache_transform_triton/cache_transform_triton.py": "e48153e24889ca841307f5a1ad075827992a38eece518e870f19a08144a4ff82"
+        "bench/tritonbench_g/cache_transform_triton/Kernels.lean": "21461d2f432eacbf923f807873f459312a5f0f3fa9259d1a15bb7d0e4178c4e0",
+        "bench/tritonbench_g/cache_transform_triton/cache_transform_triton.py": "a9e7daec56bf17cb3b975d9e1ae1e878700eace6fbb7cf315a04c6af7f313f6c",
+        "bench/tritonbench_g/cache_transform_triton/jit-correspondence.json": "1438b40de761390dc18d1629632158f96d500ea30268ed23afe6c4ac47af53de"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/cache_transform_triton"
@@ -12830,9 +12894,9 @@
       "lean": "bench/tritonbench_g/chunk_cumsum_kernel/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 16,
-        "dsl_assignment": 3,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 7,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -12954,33 +13018,45 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "chunk_global_cumsum_scalar_kernel_repaired",
+          "lean_definition": "repairedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BT",
+            "T"
+          ],
           "python": "bench/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel.py",
-          "function": "chunk_global_cumsum_scalar_kernel_repaired"
+          "lean": "bench/tritonbench_g/chunk_cumsum_kernel/Kernels.lean"
         },
         {
+          "python_function": "chunk_global_cumsum_scalar_kernel_sum_left",
+          "lean_definition": "sumLeftKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BT",
+            "T"
+          ],
           "python": "bench/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel.py",
-          "function": "chunk_global_cumsum_scalar_kernel_sum_left"
+          "lean": "bench/tritonbench_g/chunk_cumsum_kernel/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel.py",
-          "function": "chunk_global_cumsum_scalar_kernel_repaired"
-        },
-        {
-          "python": "bench/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel.py",
-          "function": "chunk_global_cumsum_scalar_kernel_sum_left"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/chunk_cumsum_kernel/Kernels.lean": "5b2db3145e961e477982b0d07ef212f4878ecdab8b546d3e0d00219f744a646e",
-        "bench/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel.py": "a7557a7ce25e6b408135e3f3f1115f35cb6117a438eb261448685b94cb45bfab"
+        "bench/tritonbench_g/chunk_cumsum_kernel/Kernels.lean": "ed39e4c142051005ba71750bd24ba12c9070ea2d1097b7fded633c2a85b3a5b1",
+        "bench/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel.py": "a7557a7ce25e6b408135e3f3f1115f35cb6117a438eb261448685b94cb45bfab",
+        "bench/tritonbench_g/chunk_cumsum_kernel/jit-correspondence.json": "810a28ca6731d81ce3a38a8b59ad402b10b911816b982566bd487f2ceda75779"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/chunk_cumsum_kernel"
@@ -14993,8 +15069,8 @@
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 6,
-        "dsl_assignment": 10,
+        "antiquotes": 0,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -15032,33 +15108,47 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "cos_func",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/cosine_compute/cosine_compute.py",
-          "function": "cos_func"
+          "lean": "bench/tritonbench_g/cosine_compute/Kernels.lean"
         },
         {
+          "python_function": "cos_func_index_commuted",
+          "lean_definition": "indexCommutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/cosine_compute/cosine_compute.py",
-          "function": "cos_func_index_commuted"
+          "lean": "bench/tritonbench_g/cosine_compute/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/cosine_compute/cosine_compute.py",
-          "function": "cos_func"
-        },
-        {
-          "python": "bench/tritonbench_g/cosine_compute/cosine_compute.py",
-          "function": "cos_func_index_commuted"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/cosine_compute/Kernels.lean": "1ace69a50e42f5cf602b49d02c984a7a84df68356d58338a4fdfa573e6724c50",
-        "bench/tritonbench_g/cosine_compute/cosine_compute.py": "cea2cd128dd3af27896c2dc0b7a4eb32769fd99859cef5c3b9b1e69b73c8b3e3"
+        "bench/tritonbench_g/cosine_compute/Kernels.lean": "bc4609c1580fe1cda16e0c7e59abb3b812bf540e7bef814b769fef25ed5c097c",
+        "bench/tritonbench_g/cosine_compute/cosine_compute.py": "cea2cd128dd3af27896c2dc0b7a4eb32769fd99859cef5c3b9b1e69b73c8b3e3",
+        "bench/tritonbench_g/cosine_compute/jit-correspondence.json": "509d1f6699d8b181a7ef910b4d75896347cf2fe2b39e3b61095f5e602a18915f"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/cosine_compute"
@@ -15701,9 +15791,9 @@
       "lean": "bench/tritonbench_g/dequantize_matmul/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 32,
-        "dsl_assignment": 7,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 39,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -15720,6 +15810,21 @@
             },
             {
               "line": 42,
+              "expression": "tl.program_id(axis=1).to(tl.int64)"
+            }
+          ]
+        },
+        {
+          "function": "dequantize_index_commuted",
+          "line": 116,
+          "statements": 13,
+          "explicit_int64_casts": [
+            {
+              "line": 126,
+              "expression": "tl.program_id(axis=0).to(tl.int64)"
+            },
+            {
+              "line": 127,
               "expression": "tl.program_id(axis=1).to(tl.int64)"
             }
           ]
@@ -15743,29 +15848,80 @@
                   "expression": "tl.program_id(axis=1).to(tl.int64)"
                 }
               ]
+            },
+            {
+              "function": "dequantize_index_commuted",
+              "line": 116,
+              "statements": 13,
+              "explicit_int64_casts": [
+                {
+                  "line": 126,
+                  "expression": "tl.program_id(axis=0).to(tl.int64)"
+                },
+                {
+                  "line": 127,
+                  "expression": "tl.program_id(axis=1).to(tl.int64)"
+                }
+              ]
             }
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "dequantize_kernel",
+          "lean_definition": "dequantizeKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 13,
+          "runtime_parameters": {
+            "K": "integer",
+            "N": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_scale": "integer",
+            "stride_fpbk": "integer",
+            "stride_fpbn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_N"
+          ],
           "python": "bench/tritonbench_g/dequantize_matmul/dequantize_matmul.py",
-          "function": "dequantize_kernel"
+          "lean": "bench/tritonbench_g/dequantize_matmul/Kernels.lean"
+        },
+        {
+          "python_function": "dequantize_index_commuted",
+          "lean_definition": "indexCommutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 13,
+          "runtime_parameters": {
+            "K": "integer",
+            "N": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_scale": "integer",
+            "stride_fpbk": "integer",
+            "stride_fpbn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_N"
+          ],
+          "python": "bench/tritonbench_g/dequantize_matmul/dequantize_matmul.py",
+          "lean": "bench/tritonbench_g/dequantize_matmul/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/dequantize_matmul/dequantize_matmul.py",
-          "function": "dequantize_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/dequantize_matmul/Kernels.lean": "664fb65d328e2e44e7369ba155c6583902cbad9c76636fc92285159123d0ebbc",
-        "bench/tritonbench_g/dequantize_matmul/dequantize_matmul.py": "5e7805a331a03eb83a8dab77455a01d77958a79e182f6a1cb6f21468a1e79a9b"
+        "bench/tritonbench_g/dequantize_matmul/Kernels.lean": "0354f24a1e92a31fd3e3492955795ec3d2ece9426a3b2dff703c2c488c533159",
+        "bench/tritonbench_g/dequantize_matmul/dequantize_matmul.py": "c2b52237db6fb1586eec832b0f96f714d59979e1aaa698b3ae81024887068ebd",
+        "bench/tritonbench_g/dequantize_matmul/jit-correspondence.json": "de06bc0097ba74a27ff59ed1139817013534c506491c2877c5d4f73e7080b5e7"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/dequantize_matmul"
@@ -18612,9 +18768,9 @@
       "lean": "bench/tritonbench_g/index_select_bwd/Kernels.lean",
       "lean_screen": {
         "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 5,
-        "dsl_assignment": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 14,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -18654,26 +18810,34 @@
           "jits": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "index_select_cat_bwd_repaired_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "count": "integer",
+            "stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK"
+          ],
           "python": "bench/tritonbench_g/index_select_bwd/index_select_bwd.py",
-          "function": "index_select_cat_bwd_repaired_kernel"
+          "lean": "bench/tritonbench_g/index_select_bwd/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/index_select_bwd/index_select_bwd.py",
-          "function": "index_select_cat_bwd_repaired_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/index_select_bwd/Kernels.lean": "dd7148ebc05b67ef0f8e2eca6082c7b013008213aa0b847074c3e6908be33a96",
+        "bench/tritonbench_g/index_select_bwd/Kernels.lean": "19ab4894ef756abf68a26cc2326ffb62076894bfa8af9f8aef49c0cc36d88879",
         "bench/tritonbench_g/index_select_bwd/index_select_bwd.py": "dd48dba37c16cbf9cce8bda52e32845d87d1128ba0f192d07871b4ae77963f98",
-        "bench/tritonbench_g/index_select_bwd/index_select_bwd_adaptive.py": "5ef7dd8ab2bf2e1a33a05fef5d9cf2c563f5da8ed6fcd37ae548ec28f173e50f"
+        "bench/tritonbench_g/index_select_bwd/index_select_bwd_adaptive.py": "5ef7dd8ab2bf2e1a33a05fef5d9cf2c563f5da8ed6fcd37ae548ec28f173e50f",
+        "bench/tritonbench_g/index_select_bwd/jit-correspondence.json": "7b3980ea1a143660df8d3e9882eaa6c723d334059db8dfd994f6baa9d6fb4f2e"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/index_select_bwd"
@@ -18685,9 +18849,9 @@
       "lean": "bench/tritonbench_g/index_select_cat/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 24,
-        "dsl_assignment": 8,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 25,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -18809,33 +18973,55 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "index_select_cat_fwd_kernel_repaired",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "num_indices": "integer",
+            "num_cols": "integer",
+            "stride0": "integer",
+            "stride1": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_COL",
+            "BLOCK_SIZE_INDEX"
+          ],
           "python": "bench/tritonbench_g/index_select_cat/index_select_cat.py",
-          "function": "index_select_cat_fwd_kernel_repaired"
+          "lean": "bench/tritonbench_g/index_select_cat/Kernels.lean"
         },
         {
+          "python_function": "index_select_cat_fwd_kernel_index_commuted",
+          "lean_definition": "indexCommutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "num_indices": "integer",
+            "num_cols": "integer",
+            "stride0": "integer",
+            "stride1": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_COL",
+            "BLOCK_SIZE_INDEX"
+          ],
           "python": "bench/tritonbench_g/index_select_cat/index_select_cat.py",
-          "function": "index_select_cat_fwd_kernel_index_commuted"
+          "lean": "bench/tritonbench_g/index_select_cat/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/index_select_cat/index_select_cat.py",
-          "function": "index_select_cat_fwd_kernel_repaired"
-        },
-        {
-          "python": "bench/tritonbench_g/index_select_cat/index_select_cat.py",
-          "function": "index_select_cat_fwd_kernel_index_commuted"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/index_select_cat/Kernels.lean": "16739bb859895dae644c20b1285727c700e0441c6ca6b7e7ac588e48661d3e80",
-        "bench/tritonbench_g/index_select_cat/index_select_cat.py": "2cdb9c84ea5340ac2699d71a38b9786b718917afc56b2d960b336af2eaece78b"
+        "bench/tritonbench_g/index_select_cat/Kernels.lean": "ed80910fda5d194853f6d73e8fea83bad670a59e648d15997a5a5a94318535b2",
+        "bench/tritonbench_g/index_select_cat/index_select_cat.py": "2cdb9c84ea5340ac2699d71a38b9786b718917afc56b2d960b336af2eaece78b",
+        "bench/tritonbench_g/index_select_cat/jit-correspondence.json": "b66fe1539466ecadf3b42c227295720455caaa8e838272e147cc4f018ba72bb5"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/index_select_cat"
@@ -20260,10 +20446,10 @@
       "python": "bench/tritonbench_g/kldiv_compute/kldiv_compute.py",
       "lean": "bench/tritonbench_g/kldiv_compute/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 3,
+        "dsl_assignment": 16,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -20272,6 +20458,12 @@
         {
           "function": "kldivergence_kernel",
           "line": 7,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "kldivergence_kernel_index_commuted",
+          "line": 64,
           "statements": 8,
           "explicit_int64_casts": []
         }
@@ -20285,29 +20477,57 @@
               "line": 7,
               "statements": 8,
               "explicit_int64_casts": []
+            },
+            {
+              "function": "kldivergence_kernel_index_commuted",
+              "line": 64,
+              "statements": 8,
+              "explicit_int64_casts": []
             }
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "kldivergence_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "n_elements": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/kldiv_compute/kldiv_compute.py",
-          "function": "kldivergence_kernel"
+          "lean": "bench/tritonbench_g/kldiv_compute/Kernels.lean"
+        },
+        {
+          "python_function": "kldivergence_kernel_index_commuted",
+          "lean_definition": "commutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "n_elements": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/kldiv_compute/kldiv_compute.py",
+          "lean": "bench/tritonbench_g/kldiv_compute/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/kldiv_compute/kldiv_compute.py",
-          "function": "kldivergence_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/kldiv_compute/Kernels.lean": "fc9c76b0ed7bebbf0902cf1d3e23b82e5199ac892b69382b5c2ec7c8800d0c19",
-        "bench/tritonbench_g/kldiv_compute/kldiv_compute.py": "1565e81f560319d9f8ab63338920c17270468f248fed28ebd2b7edca3dc7eded"
+        "bench/tritonbench_g/kldiv_compute/Kernels.lean": "9f9f989d0e4ee3315a23f4d00b24c09b40aad467f753ea88e25eee23ddbaf9e5",
+        "bench/tritonbench_g/kldiv_compute/jit-correspondence.json": "ff2589742786ce0fe23c7d7e3197d858ad48dd0f755e337f62860fbb24e326b2",
+        "bench/tritonbench_g/kldiv_compute/kldiv_compute.py": "a41769055c4dad73eab02c6e8cadaab3c0f139c6e93bb9cf61f8c0a34db39b16"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/kldiv_compute"
@@ -21032,9 +21252,9 @@
       "lean": "bench/tritonbench_g/l2_norm_triton1/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 4,
-        "antiquotes": 12,
-        "dsl_assignment": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 13,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -21098,28 +21318,48 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_l2_norm_fwd_1pass_kernel_repaired",
+          "lean_definition": "template",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/l2_norm_triton1/l2_norm_triton1.py",
-          "function": "_l2_norm_fwd_1pass_kernel_repaired"
+          "lean": "bench/tritonbench_g/l2_norm_triton1/Kernels.lean"
         },
         {
+          "python_function": "_l2_norm_fwd_1pass_kernel_index_commuted",
+          "lean_definition": "commutedTemplate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/l2_norm_triton1/l2_norm_triton1_candidate.py",
-          "function": "_l2_norm_fwd_1pass_kernel_index_commuted"
+          "lean": "bench/tritonbench_g/l2_norm_triton1/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/l2_norm_triton1/l2_norm_triton1.py",
-          "function": "_l2_norm_fwd_1pass_kernel_repaired"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/l2_norm_triton1/Kernels.lean": "24e0ec6e0f4d210d73c207b42e583ca89d3cf70a69298270e6c94812459e9e8f",
+        "bench/tritonbench_g/l2_norm_triton1/Kernels.lean": "d00a558f44d00ac59eed217298acfe26621bc238d434afd63e18450e7b12fcb6",
+        "bench/tritonbench_g/l2_norm_triton1/jit-correspondence.json": "fa5e20856ef9c0c99850e152876fd8ebf2a5b6666bf007ef4b5bbe10ea9919d2",
         "bench/tritonbench_g/l2_norm_triton1/l2_norm_triton1.py": "9800aebfe7402fb481670b03614f5fda6935991b5480a41d32726f76bc7973c5",
         "bench/tritonbench_g/l2_norm_triton1/l2_norm_triton1_candidate.py": "43dc5d1e14f3865b716885cde20fb534f6d56cf3005a708e4456e5fbba865616"
       },
@@ -21133,9 +21373,9 @@
       "lean": "bench/tritonbench_g/l2_norm_triton2/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 4,
-        "antiquotes": 18,
-        "dsl_assignment": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 15,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -21244,40 +21484,81 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_l2_norm_fwd_1pass_kernel_repaired",
+          "lean_definition": "template",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/l2_norm_triton2/l2_norm_triton2.py",
-          "function": "_l2_norm_fwd_1pass_kernel_repaired"
+          "lean": "bench/tritonbench_g/l2_norm_triton1/Kernels.lean"
         },
         {
+          "python_function": "_l2_norm_fwd_1pass_kernel_index_commuted",
+          "lean_definition": "commutedTemplate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N"
+          ],
+          "python": "bench/tritonbench_g/l2_norm_triton2/l2_norm_triton2_candidate.py",
+          "lean": "bench/tritonbench_g/l2_norm_triton1/Kernels.lean"
+        },
+        {
+          "python_function": "_l2_norm_bwd_kernel_repaired",
+          "lean_definition": "backwardTemplate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 14,
+          "runtime_parameters": {
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/l2_norm_triton2/l2_norm_triton2.py",
-          "function": "_l2_norm_bwd_kernel_repaired"
+          "lean": "bench/tritonbench_g/l2_norm_triton2/Kernels.lean"
         },
         {
+          "python_function": "_l2_norm_bwd_kernel_index_commuted",
+          "lean_definition": "commutedBackwardTemplate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 14,
+          "runtime_parameters": {
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/l2_norm_triton2/l2_norm_triton2_candidate.py",
-          "function": "_l2_norm_fwd_1pass_kernel_index_commuted"
-        },
-        {
-          "python": "bench/tritonbench_g/l2_norm_triton2/l2_norm_triton2_candidate.py",
-          "function": "_l2_norm_bwd_kernel_index_commuted"
+          "lean": "bench/tritonbench_g/l2_norm_triton2/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/l2_norm_triton2/l2_norm_triton2.py",
-          "function": "_l2_norm_fwd_1pass_kernel_repaired"
-        },
-        {
-          "python": "bench/tritonbench_g/l2_norm_triton2/l2_norm_triton2.py",
-          "function": "_l2_norm_bwd_kernel_repaired"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/l2_norm_triton2/Kernels.lean": "c2b74a1faea76b4737a31200bd1f5cd0e2c848d70c834c2dd974f9c0247311c6",
+        "bench/tritonbench_g/l2_norm_triton1/Kernels.lean": "d00a558f44d00ac59eed217298acfe26621bc238d434afd63e18450e7b12fcb6",
+        "bench/tritonbench_g/l2_norm_triton2/Kernels.lean": "993c3e8e486a55c04a42211f54ee72727a9ecf7ffbcc64a17efec52ad5705a2b",
+        "bench/tritonbench_g/l2_norm_triton2/jit-correspondence.json": "3a8b42eaf6cf18d57d11a0730c87df627c2f0e333e237139f6e5c394d1908b7c",
         "bench/tritonbench_g/l2_norm_triton2/l2_norm_triton2.py": "b512d51cc46384b9cf4a7b61e3ec6abea98a6cc4a627917902c92bc4b156fc23",
         "bench/tritonbench_g/l2_norm_triton2/l2_norm_triton2_candidate.py": "59ee2057c3a01f1632703d379b0a070121892ec57feb2ff6271bbcd6bbfdc7a0"
       },
@@ -22684,9 +22965,9 @@
       "lean": "bench/tritonbench_g/log_softmax/Kernels.lean",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 48,
-        "dsl_assignment": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 30,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -22758,6 +23039,76 @@
             },
             {
               "line": 77,
+              "expression": "tl.cast(K, tl.int64)"
+            }
+          ]
+        },
+        {
+          "function": "log_softmax_kernel_repaired_index_commuted",
+          "line": 160,
+          "statements": 16,
+          "explicit_int64_casts": [
+            {
+              "line": 161,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 162,
+              "expression": "tl.program_id(1).to(tl.int64)"
+            },
+            {
+              "line": 164,
+              "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+            },
+            {
+              "line": 163,
+              "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
+            },
+            {
+              "line": 165,
+              "expression": "tl.cast(M, tl.int64)"
+            },
+            {
+              "line": 165,
+              "expression": "tl.cast(N, tl.int64)"
+            },
+            {
+              "line": 165,
+              "expression": "tl.cast(K, tl.int64)"
+            }
+          ]
+        },
+        {
+          "function": "log_softmax_backward_kernel_repaired_index_commuted",
+          "line": 181,
+          "statements": 15,
+          "explicit_int64_casts": [
+            {
+              "line": 182,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 183,
+              "expression": "tl.program_id(1).to(tl.int64)"
+            },
+            {
+              "line": 185,
+              "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+            },
+            {
+              "line": 184,
+              "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
+            },
+            {
+              "line": 186,
+              "expression": "tl.cast(M, tl.int64)"
+            },
+            {
+              "line": 186,
+              "expression": "tl.cast(N, tl.int64)"
+            },
+            {
+              "line": 186,
               "expression": "tl.cast(K, tl.int64)"
             }
           ]
@@ -22836,37 +23187,163 @@
                   "expression": "tl.cast(K, tl.int64)"
                 }
               ]
+            },
+            {
+              "function": "log_softmax_kernel_repaired_index_commuted",
+              "line": 160,
+              "statements": 16,
+              "explicit_int64_casts": [
+                {
+                  "line": 161,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 162,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 164,
+                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+                },
+                {
+                  "line": 163,
+                  "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
+                },
+                {
+                  "line": 165,
+                  "expression": "tl.cast(M, tl.int64)"
+                },
+                {
+                  "line": 165,
+                  "expression": "tl.cast(N, tl.int64)"
+                },
+                {
+                  "line": 165,
+                  "expression": "tl.cast(K, tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "log_softmax_backward_kernel_repaired_index_commuted",
+              "line": 181,
+              "statements": 15,
+              "explicit_int64_casts": [
+                {
+                  "line": 182,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 183,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 185,
+                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+                },
+                {
+                  "line": 184,
+                  "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
+                },
+                {
+                  "line": 186,
+                  "expression": "tl.cast(M, tl.int64)"
+                },
+                {
+                  "line": 186,
+                  "expression": "tl.cast(N, tl.int64)"
+                },
+                {
+                  "line": 186,
+                  "expression": "tl.cast(K, tl.int64)"
+                }
+              ]
             }
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "log_softmax_kernel_repaired",
+          "lean_definition": "forward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/log_softmax/log_softmax.py",
-          "function": "log_softmax_kernel_repaired"
+          "lean": "bench/tritonbench_g/log_softmax/Kernels.lean"
         },
         {
+          "python_function": "log_softmax_kernel_repaired_index_commuted",
+          "lean_definition": "forwardCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/log_softmax/log_softmax.py",
-          "function": "log_softmax_backward_kernel_repaired"
-        }
-      ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/log_softmax/log_softmax.py",
-          "function": "log_softmax_kernel_repaired"
+          "lean": "bench/tritonbench_g/log_softmax/Kernels.lean"
         },
         {
+          "python_function": "log_softmax_backward_kernel_repaired",
+          "lean_definition": "backward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/log_softmax/log_softmax.py",
-          "function": "log_softmax_backward_kernel_repaired"
+          "lean": "bench/tritonbench_g/log_softmax/Kernels.lean"
+        },
+        {
+          "python_function": "log_softmax_backward_kernel_repaired_index_commuted",
+          "lean_definition": "backwardCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "python": "bench/tritonbench_g/log_softmax/log_softmax.py",
+          "lean": "bench/tritonbench_g/log_softmax/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/log_softmax/Kernels.lean": "a6ceeeecbc2690c4bedc0900e6290cc3c0d849ecad18292843f3d61bdf010291",
-        "bench/tritonbench_g/log_softmax/log_softmax.py": "08c0bc96a866f435608f7487015cb54a2f7abf74f0985157eef401dedf206830"
+        "bench/tritonbench_g/log_softmax/Kernels.lean": "8d922256c21122dd98c1281429c44d5ded66e2be4a4c1cbd8300503ba7358b76",
+        "bench/tritonbench_g/log_softmax/jit-correspondence.json": "42b9b8635be548b78af1a53e8e7aa238e2571bde009f8c392b95b75273d1db36",
+        "bench/tritonbench_g/log_softmax/log_softmax.py": "197dd5a5ec2e926b657c6e48c6b73dddea70e9b5d4bf876083a6e96e64bf6f06"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/log_softmax"
@@ -24652,9 +25129,9 @@
       "lean": "bench/tritonbench_g/matrix_transpose/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 12,
-        "dsl_assignment": 10,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 25,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -24692,32 +25169,54 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "kernel",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {
+            "matrix_stridex": "i32",
+            "matrix_stridey": "i32",
+            "out_stridex": "i32",
+            "out_stridey": "i32"
+          },
+          "constexpr_parameters": [
+            "D_HEAD",
+            "SIZE_M"
+          ],
           "python": "bench/tritonbench_g/matrix_transpose/matrix_transpose.py",
-          "function": "kernel"
+          "lean": "bench/tritonbench_g/matrix_transpose/Kernels.lean"
         },
         {
+          "python_function": "kernel_index_commuted",
+          "lean_definition": "indexCommutedSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "matrix_stridex": "i32",
+            "matrix_stridey": "i32",
+            "out_stridex": "i32",
+            "out_stridey": "i32"
+          },
+          "constexpr_parameters": [
+            "D_HEAD",
+            "SIZE_M"
+          ],
           "python": "bench/tritonbench_g/matrix_transpose/matrix_transpose.py",
-          "function": "kernel_index_commuted"
+          "lean": "bench/tritonbench_g/matrix_transpose/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/matrix_transpose/matrix_transpose.py",
-          "function": "kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/matrix_transpose/matrix_transpose.py",
-          "function": "kernel_index_commuted"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/matrix_transpose/Kernels.lean": "2e87e6112e3afa2f4fbe183896b6d3ea06d1a40e10f35c0429b4b97a4aaff09f",
+        "bench/tritonbench_g/matrix_transpose/Kernels.lean": "500e2d86e5b74023d7510548d6842a3d49b650a400cebeed0bb0c5dd719ec2ee",
+        "bench/tritonbench_g/matrix_transpose/jit-correspondence.json": "2611deb5100a73cfb5e452dbf8b0d70371ef626e532a241741468449e32894dc",
         "bench/tritonbench_g/matrix_transpose/matrix_transpose.py": "84131a4342debea02e9ae3620e7e4a19177ef04bd7d377857ea767d8549bbc94"
       },
       "collection": "tritonbench_g",
@@ -24834,9 +25333,9 @@
       "lean": "bench/tritonbench_g/max_reduction/Kernels.lean",
       "lean_screen": {
         "quotations": 6,
-        "in_body_type_directives": 6,
-        "antiquotes": 30,
-        "dsl_assignment": 8,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 31,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -24903,6 +25402,71 @@
             },
             {
               "line": 74,
+              "expression": "tl.cast(N, tl.int64)"
+            }
+          ]
+        },
+        {
+          "function": "max_stage1_commuted",
+          "line": 153,
+          "statements": 8,
+          "explicit_int64_casts": [
+            {
+              "line": 159,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 160,
+              "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+            }
+          ]
+        },
+        {
+          "function": "max_stage2_complement",
+          "line": 171,
+          "statements": 6,
+          "explicit_int64_casts": [
+            {
+              "line": 172,
+              "expression": "tl.arange(0, BLOCK_MID).to(tl.int64)"
+            }
+          ]
+        },
+        {
+          "function": "max_dimension_commuted",
+          "line": 182,
+          "statements": 15,
+          "explicit_int64_casts": [
+            {
+              "line": 193,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 194,
+              "expression": "tl.program_id(1).to(tl.int64)"
+            },
+            {
+              "line": 196,
+              "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+            },
+            {
+              "line": 195,
+              "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
+            },
+            {
+              "line": 198,
+              "expression": "tl.cast(K, tl.int64)"
+            },
+            {
+              "line": 197,
+              "expression": "tl.cast(K, tl.int64)"
+            },
+            {
+              "line": 197,
+              "expression": "tl.cast(K, tl.int64)"
+            },
+            {
+              "line": 197,
               "expression": "tl.cast(N, tl.int64)"
             }
           ]
@@ -24976,45 +25540,182 @@
                   "expression": "tl.cast(N, tl.int64)"
                 }
               ]
+            },
+            {
+              "function": "max_stage1_commuted",
+              "line": 153,
+              "statements": 8,
+              "explicit_int64_casts": [
+                {
+                  "line": 159,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 160,
+                  "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "max_stage2_complement",
+              "line": 171,
+              "statements": 6,
+              "explicit_int64_casts": [
+                {
+                  "line": 172,
+                  "expression": "tl.arange(0, BLOCK_MID).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "max_dimension_commuted",
+              "line": 182,
+              "statements": 15,
+              "explicit_int64_casts": [
+                {
+                  "line": 193,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 194,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 196,
+                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+                },
+                {
+                  "line": 195,
+                  "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
+                },
+                {
+                  "line": 198,
+                  "expression": "tl.cast(K, tl.int64)"
+                },
+                {
+                  "line": 197,
+                  "expression": "tl.cast(K, tl.int64)"
+                },
+                {
+                  "line": 197,
+                  "expression": "tl.cast(K, tl.int64)"
+                },
+                {
+                  "line": 197,
+                  "expression": "tl.cast(N, tl.int64)"
+                }
+              ]
             }
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "max_kernel_1",
+          "lean_definition": "stage1",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "M": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/max_reduction/max_reduction.py",
-          "function": "max_kernel_1"
+          "lean": "bench/tritonbench_g/max_reduction/Kernels.lean"
         },
         {
+          "python_function": "max_stage1_commuted",
+          "lean_definition": "stage1Commuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "M": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/max_reduction/max_reduction.py",
-          "function": "max_kernel_2"
+          "lean": "bench/tritonbench_g/max_reduction/Kernels.lean"
         },
         {
+          "python_function": "max_kernel_2",
+          "lean_definition": "stage2",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {
+            "mid_size": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_MID"
+          ],
           "python": "bench/tritonbench_g/max_reduction/max_reduction.py",
-          "function": "max_kernel"
+          "lean": "bench/tritonbench_g/max_reduction/Kernels.lean"
+        },
+        {
+          "python_function": "max_stage2_complement",
+          "lean_definition": "stage2Complement",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {
+            "mid_size": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_MID"
+          ],
+          "python": "bench/tritonbench_g/max_reduction/max_reduction.py",
+          "lean": "bench/tritonbench_g/max_reduction/Kernels.lean"
+        },
+        {
+          "python_function": "max_kernel",
+          "lean_definition": "dimension",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "M": "i32",
+            "N": "i32",
+            "K": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "python": "bench/tritonbench_g/max_reduction/max_reduction.py",
+          "lean": "bench/tritonbench_g/max_reduction/Kernels.lean"
+        },
+        {
+          "python_function": "max_dimension_commuted",
+          "lean_definition": "dimensionCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "M": "i32",
+            "N": "i32",
+            "K": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "python": "bench/tritonbench_g/max_reduction/max_reduction.py",
+          "lean": "bench/tritonbench_g/max_reduction/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/max_reduction/max_reduction.py",
-          "function": "max_kernel_1"
-        },
-        {
-          "python": "bench/tritonbench_g/max_reduction/max_reduction.py",
-          "function": "max_kernel_2"
-        },
-        {
-          "python": "bench/tritonbench_g/max_reduction/max_reduction.py",
-          "function": "max_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/max_reduction/Kernels.lean": "15c63ab7247872027d39f30b663b0a84d5ea03412472e19ff49f87715c099a5f",
-        "bench/tritonbench_g/max_reduction/max_reduction.py": "a0e5722ad5d075978b6019f84060d6f6811f8e3529b8d8f6eea5f47d07f57da9"
+        "bench/tritonbench_g/max_reduction/Kernels.lean": "5a7092b4965243935b9d5527c24b6e35265dc7aaa585e1d49359c2bf83ecf64e",
+        "bench/tritonbench_g/max_reduction/jit-correspondence.json": "88eb17e0a933b66e03c797b6416c016f592c101d3f9532ed4827be80c5ca5ec2",
+        "bench/tritonbench_g/max_reduction/max_reduction.py": "9a492ddbdace4ccb6a7a06afd14e83f3e5b8ede5d294c85bb849e2da8bb06ca6"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/max_reduction"
@@ -25026,9 +25727,9 @@
       "lean": "bench/tritonbench_g/mean_reduction/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 22,
-        "dsl_assignment": 5,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 14,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -25066,32 +25767,50 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "mean_dim_kernel",
+          "lean_definition": "sourceKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/mean_reduction/mean_reduction.py",
-          "function": "mean_dim_kernel"
+          "lean": "bench/tritonbench_g/mean_reduction/Kernels.lean"
         },
         {
+          "python_function": "mean_dim_kernel_index_commuted",
+          "lean_definition": "indexCommutedSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/mean_reduction/mean_reduction.py",
-          "function": "mean_dim_kernel_index_commuted"
+          "lean": "bench/tritonbench_g/mean_reduction/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/mean_reduction/mean_reduction.py",
-          "function": "mean_dim_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/mean_reduction/mean_reduction.py",
-          "function": "mean_dim_kernel_index_commuted"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/mean_reduction/Kernels.lean": "8140f1442e536530caeeeb671dc527812c7c3ed1f09ac300049b5ee927d25592",
+        "bench/tritonbench_g/mean_reduction/Kernels.lean": "5b9bae4c881f421aafac244cc8b2a46dc36ff73fa0955842fe10f9309abb4ba6",
+        "bench/tritonbench_g/mean_reduction/jit-correspondence.json": "a2cf73f365f6c103bd5acb6cc68bc97abb11dbfef218c9961e8f718606fb72da",
         "bench/tritonbench_g/mean_reduction/mean_reduction.py": "f47c2e2c4423bb7803fe5612e678d81438e3af99c84ae59ac95ce27847248e1b"
       },
       "collection": "tritonbench_g",
@@ -30235,8 +30954,8 @@
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 6,
-        "dsl_assignment": 8,
+        "antiquotes": 0,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -30274,32 +30993,46 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "sin_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/sin_computation/sin_computation.py",
-          "function": "sin_kernel"
+          "lean": "bench/tritonbench_g/sin_computation/Kernels.lean"
         },
         {
+          "python_function": "sin_kernel_index_commuted",
+          "lean_definition": "indexCommutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/sin_computation/sin_computation.py",
-          "function": "sin_kernel_index_commuted"
+          "lean": "bench/tritonbench_g/sin_computation/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/sin_computation/sin_computation.py",
-          "function": "sin_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/sin_computation/sin_computation.py",
-          "function": "sin_kernel_index_commuted"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/sin_computation/Kernels.lean": "1723137c68e9ce28fd859bd719b3ae7617f7c0bde343fd848c42058ad1365f90",
+        "bench/tritonbench_g/sin_computation/Kernels.lean": "3c3f1ac40cabd98ae2e63ccbdb4f1eaf57dd5565bfe22d81d2091bd44ab209fa",
+        "bench/tritonbench_g/sin_computation/jit-correspondence.json": "e538cb3ff451bfa9d7757c57209bd3cd1ad3b78ced805e35ce7f79e746165bc1",
         "bench/tritonbench_g/sin_computation/sin_computation.py": "e20580824a971eabe300273dc2767c10b929de6a81ceb637ff569c62171e6b6d"
       },
       "collection": "tritonbench_g",
@@ -30313,8 +31046,8 @@
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 6,
-        "dsl_assignment": 10,
+        "antiquotes": 0,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -30352,32 +31085,46 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "kernel_function",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/sin_kernel/sin_kernel.py",
-          "function": "kernel_function"
+          "lean": "bench/tritonbench_g/sin_kernel/Kernels.lean"
         },
         {
+          "python_function": "kernel_function_index_commuted",
+          "lean_definition": "indexCommutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/sin_kernel/sin_kernel.py",
-          "function": "kernel_function_index_commuted"
+          "lean": "bench/tritonbench_g/sin_kernel/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/sin_kernel/sin_kernel.py",
-          "function": "kernel_function"
-        },
-        {
-          "python": "bench/tritonbench_g/sin_kernel/sin_kernel.py",
-          "function": "kernel_function_index_commuted"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/sin_kernel/Kernels.lean": "3e9358435a3f6ee643307222e2a777bb27bd71f13d8dd8d2e8d8fd7ccc206b23",
+        "bench/tritonbench_g/sin_kernel/Kernels.lean": "8672bc4dd4c4590dc4fb07296446125549e8cb7c34a5e0e6ff18fe6535f15ee5",
+        "bench/tritonbench_g/sin_kernel/jit-correspondence.json": "cad29bace3087be9857580c94d9755d6dfa0a303e6f5a1ea43132101d907ab4c",
         "bench/tritonbench_g/sin_kernel/sin_kernel.py": "23cd97dd626a6be2989748d4d69a43a1dd8f855e47101f4c398b88495bd12fe1"
       },
       "collection": "tritonbench_g",
@@ -31450,9 +32197,9 @@
       "lean": "bench/tritonbench_g/square_matrix/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 10,
-        "dsl_assignment": 10,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 21,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -31490,32 +32237,50 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "square_kernel",
+          "lean_definition": "fp32Kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {
+            "input_row_stride": "i32",
+            "output_row_stride": "i32",
+            "n_cols": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/square_matrix/square_matrix.py",
-          "function": "square_kernel"
+          "lean": "bench/tritonbench_g/square_matrix/Kernels.lean"
         },
         {
+          "python_function": "square_index_commuted_kernel",
+          "lean_definition": "indexCommutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {
+            "input_row_stride": "i32",
+            "output_row_stride": "i32",
+            "n_cols": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/square_matrix/square_matrix.py",
-          "function": "square_index_commuted_kernel"
+          "lean": "bench/tritonbench_g/square_matrix/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/square_matrix/square_matrix.py",
-          "function": "square_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/square_matrix/square_matrix.py",
-          "function": "square_index_commuted_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/square_matrix/Kernels.lean": "a3138d7405f3f714156f43415d9998d985a138008ab5441d939d8fa4c0f23d06",
+        "bench/tritonbench_g/square_matrix/Kernels.lean": "cc5f6af6cee8d8ca44d6fec897c4b04f360f9a23fe49ba8b3c3df64d3b0b09cb",
+        "bench/tritonbench_g/square_matrix/jit-correspondence.json": "820fb8d3ade550a2c5fd5aaca0301301a80165a51d83b65996214053734f72f5",
         "bench/tritonbench_g/square_matrix/square_matrix.py": "79d2283c8d83fc8da965ebbee07a26695e05ff999ac82ac430f75ed15418d3fd"
       },
       "collection": "tritonbench_g",
@@ -31824,9 +32589,9 @@
       "lean": "bench/tritonbench_g/swiglu_backward/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 28,
-        "dsl_assignment": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 25,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -31835,6 +32600,12 @@
         {
           "function": "_swiglu_bwd_kernel",
           "line": 21,
+          "statements": 18,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "swiglu_bwd_commuted",
+          "line": 137,
           "statements": 18,
           "explicit_int64_casts": []
         }
@@ -31848,29 +32619,71 @@
               "line": 21,
               "statements": 18,
               "explicit_int64_casts": []
+            },
+            {
+              "function": "swiglu_bwd_commuted",
+              "line": 137,
+              "statements": 18,
+              "explicit_int64_casts": []
             }
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_swiglu_bwd_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 18,
+          "runtime_parameters": {
+            "stride_x_row": "i32",
+            "stride_y_row": "i32",
+            "stride_dout_row": "i32",
+            "stride_out_row": "i32",
+            "stride_dx_row": "i32",
+            "stride_dy_row": "i32",
+            "ncols": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "RECOMPUTE_OUTPUT"
+          ],
           "python": "bench/tritonbench_g/swiglu_backward/swiglu_backward.py",
-          "function": "_swiglu_bwd_kernel"
+          "lean": "bench/tritonbench_g/swiglu_backward/Kernels.lean"
+        },
+        {
+          "python_function": "swiglu_bwd_commuted",
+          "lean_definition": "commutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 18,
+          "runtime_parameters": {
+            "stride_x_row": "i32",
+            "stride_y_row": "i32",
+            "stride_dout_row": "i32",
+            "stride_out_row": "i32",
+            "stride_dx_row": "i32",
+            "stride_dy_row": "i32",
+            "ncols": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "RECOMPUTE_OUTPUT"
+          ],
+          "python": "bench/tritonbench_g/swiglu_backward/swiglu_backward.py",
+          "lean": "bench/tritonbench_g/swiglu_backward/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/swiglu_backward/swiglu_backward.py",
-          "function": "_swiglu_bwd_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/swiglu_backward/Kernels.lean": "53b0d6274ce4d5fb6698dc6de01f5e3a9a5d0e74ec6b981d798e86451b92037e",
-        "bench/tritonbench_g/swiglu_backward/swiglu_backward.py": "13c513401d90306668c863bd80bab78add46db45e3c4eac1b9b18069fb0b5f61"
+        "bench/tritonbench_g/swiglu_backward/Kernels.lean": "aafd69d8e58e6eee8b8473b6cb8cf4bcb2c2c7df787df5e759ae3dccb7129924",
+        "bench/tritonbench_g/swiglu_backward/jit-correspondence.json": "20a11b695e07c47b4dab5550e3d68c90f1bbf444425d7ba012d04299067de526",
+        "bench/tritonbench_g/swiglu_backward/swiglu_backward.py": "2b95cc3aef340bfe6b1aff89c6bfad2142e4705bd8503f8290da615b44905f9e"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/swiglu_backward"
@@ -31882,9 +32695,9 @@
       "lean": "bench/tritonbench_g/swiglu_fwd/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 16,
-        "dsl_assignment": 3,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 18,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -31893,6 +32706,12 @@
         {
           "function": "_swiglu_fwd_kernel",
           "line": 20,
+          "statements": 10,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "_swiglu_fwd_kernel_index_commuted",
+          "line": 91,
           "statements": 10,
           "explicit_int64_casts": []
         }
@@ -31906,29 +32725,63 @@
               "line": 20,
               "statements": 10,
               "explicit_int64_casts": []
+            },
+            {
+              "function": "_swiglu_fwd_kernel_index_commuted",
+              "line": 91,
+              "statements": 10,
+              "explicit_int64_casts": []
             }
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_swiglu_fwd_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "stride_x_row": "integer",
+            "stride_y_row": "integer",
+            "stride_out_row": "integer",
+            "ncols": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/swiglu_fwd/swiglu_fwd.py",
-          "function": "_swiglu_fwd_kernel"
+          "lean": "bench/tritonbench_g/swiglu_fwd/Kernels.lean"
+        },
+        {
+          "python_function": "_swiglu_fwd_kernel_index_commuted",
+          "lean_definition": "indexCommutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "stride_x_row": "integer",
+            "stride_y_row": "integer",
+            "stride_out_row": "integer",
+            "ncols": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N"
+          ],
+          "python": "bench/tritonbench_g/swiglu_fwd/swiglu_fwd.py",
+          "lean": "bench/tritonbench_g/swiglu_fwd/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/swiglu_fwd/swiglu_fwd.py",
-          "function": "_swiglu_fwd_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/swiglu_fwd/Kernels.lean": "1671e07bf16147ff0d6b0e00cfdcb1a13351935aee8952860962d3e8a910a206",
-        "bench/tritonbench_g/swiglu_fwd/swiglu_fwd.py": "11024396d179cadb06f086db70b89eb9faea74454a15b72004cce31e5c9f80e1"
+        "bench/tritonbench_g/swiglu_fwd/Kernels.lean": "dab59d1151228ee1fc6df83cdf5074cd98813a8620d73754b4dcb3ce6cecd5fb",
+        "bench/tritonbench_g/swiglu_fwd/jit-correspondence.json": "85171ce2b5266fb46a24f11505b297e3ac14f589c04d7b13397990533d22cfd0",
+        "bench/tritonbench_g/swiglu_fwd/swiglu_fwd.py": "8f9f60d1a3b0fa5f619c998d055f8c59bd06dea94fa2413427dce64e9be39dc8"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/swiglu_fwd"
@@ -33630,10 +34483,10 @@
       "python": "bench/tritonbench_g/triton_mul2/triton_mul2.py",
       "lean": "bench/tritonbench_g/triton_mul2/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
+        "quotations": 4,
         "in_body_type_directives": 0,
-        "antiquotes": 6,
-        "dsl_assignment": 9,
+        "antiquotes": 0,
+        "dsl_assignment": 33,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -33695,48 +34548,76 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "mul2_kernel",
+          "lean_definition": "sourceKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/triton_mul2/triton_mul2.py",
-          "function": "mul2_kernel"
+          "lean": "bench/tritonbench_g/triton_mul2/Kernels.lean"
         },
         {
+          "python_function": "mul2_inplace_kernel",
+          "lean_definition": "inplaceSourceKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/triton_mul2/triton_mul2.py",
-          "function": "mul2_inplace_kernel"
+          "lean": "bench/tritonbench_g/triton_mul2/Kernels.lean"
         },
         {
+          "python_function": "mul2_commuted_kernel",
+          "lean_definition": "commutedSourceKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/triton_mul2/triton_mul2.py",
-          "function": "mul2_commuted_kernel"
+          "lean": "bench/tritonbench_g/triton_mul2/Kernels.lean"
         },
         {
+          "python_function": "mul2_inplace_commuted_kernel",
+          "lean_definition": "inplaceCommutedSourceKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/triton_mul2/triton_mul2.py",
-          "function": "mul2_inplace_commuted_kernel"
+          "lean": "bench/tritonbench_g/triton_mul2/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/triton_mul2/triton_mul2.py",
-          "function": "mul2_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/triton_mul2/triton_mul2.py",
-          "function": "mul2_inplace_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/triton_mul2/triton_mul2.py",
-          "function": "mul2_commuted_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/triton_mul2/triton_mul2.py",
-          "function": "mul2_inplace_commuted_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/triton_mul2/Kernels.lean": "364392c3c4d70dbd0b10494e3974759d3393cbaf924c15246d0a28c9a2835eed",
+        "bench/tritonbench_g/triton_mul2/Kernels.lean": "46fbe6275b0577376a3c01e7b9194da187ba50feb573b228f4697908df4ef867",
+        "bench/tritonbench_g/triton_mul2/jit-correspondence.json": "40e992018df0ab4c3e834a6ad6d3ee04d4eab27d8f70f2332086971b74410876",
         "bench/tritonbench_g/triton_mul2/triton_mul2.py": "007f53e85334480f7a4b2b4ff84585638fadd18679e7be59bf312db1f1678cf6"
       },
       "collection": "tritonbench_g",
@@ -34026,9 +34907,9 @@
       "lean": "bench/tritonbench_g/var_len_copy/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 8,
-        "dsl_assignment": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 10,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -34166,32 +35047,42 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "var_len_copy_kernel_triton_repaired",
+          "lean_definition": "body",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/var_len_copy/var_len_copy.py",
-          "function": "var_len_copy_kernel_triton_repaired"
+          "lean": "bench/tritonbench_g/var_len_copy/Kernels.lean"
         },
         {
+          "python_function": "var_len_copy_kernel_triton_commuted",
+          "lean_definition": "commutedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/var_len_copy/var_len_copy.py",
-          "function": "var_len_copy_kernel_triton_commuted"
+          "lean": "bench/tritonbench_g/var_len_copy/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/var_len_copy/var_len_copy.py",
-          "function": "var_len_copy_kernel_triton_repaired"
-        },
-        {
-          "python": "bench/tritonbench_g/var_len_copy/var_len_copy.py",
-          "function": "var_len_copy_kernel_triton_commuted"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/var_len_copy/Kernels.lean": "20a3cb56e8b77c935e82db49f6061f51aa02f1b74e3af35b6255b2442a204332",
+        "bench/tritonbench_g/var_len_copy/Kernels.lean": "7c93057cd06dfc8657586ce8c8b097cd30fc6d3d1743b363516ff5d5ff448fea",
+        "bench/tritonbench_g/var_len_copy/jit-correspondence.json": "c22f21c0b3f02efcc6e32c2a08ff52230bfdd56dca39f7d7d3a4df1a6e4f5c19",
         "bench/tritonbench_g/var_len_copy/var_len_copy.py": "e390582bf1eab8fdb1d7b768bf0048bf5155325ec603453a84da955da5ff8028"
       },
       "collection": "tritonbench_g",
@@ -34205,8 +35096,8 @@
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 6,
-        "dsl_assignment": 12,
+        "antiquotes": 0,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -34244,32 +35135,46 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "add_kernel",
+          "lean_definition": "add_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/vector_addition/vector_addition.py",
-          "function": "add_kernel"
+          "lean": "bench/tritonbench_g/vector_addition/Kernels.lean"
         },
         {
+          "python_function": "add_commuted_kernel",
+          "lean_definition": "add_commuted_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/vector_addition/vector_addition.py",
-          "function": "add_commuted_kernel"
+          "lean": "bench/tritonbench_g/vector_addition/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/vector_addition/vector_addition.py",
-          "function": "add_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/vector_addition/vector_addition.py",
-          "function": "add_commuted_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/vector_addition/Kernels.lean": "0812e45c0ec4f4288f37cbfce8fad4c763fbbabbb1c3fb19a7899412e1b7f4e0",
+        "bench/tritonbench_g/vector_addition/Kernels.lean": "8c97d31482e55f34b5f050c1b8297dbb10886fec3dfbc1bf4a482b4577d3724e",
+        "bench/tritonbench_g/vector_addition/jit-correspondence.json": "23794ed3faec017b3ead7422d7f0625a736b0692027c593e004cbad99178384a",
         "bench/tritonbench_g/vector_addition/vector_addition.py": "5ac4607fd65339cc5e3d3477a2bfb1b00872499423de2863921c29a5223b7a85"
       },
       "collection": "tritonbench_g",
@@ -34283,8 +35188,8 @@
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 10,
-        "dsl_assignment": 12,
+        "antiquotes": 0,
+        "dsl_assignment": 20,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -34322,32 +35227,46 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_add_kernel",
+          "lean_definition": "add_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {
+            "size": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK"
+          ],
           "python": "bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py",
-          "function": "_add_kernel"
+          "lean": "bench/tritonbench_g/vector_addition_custom/Kernels.lean"
         },
         {
+          "python_function": "_add_commuted_kernel",
+          "lean_definition": "add_commuted_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {
+            "size": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK"
+          ],
           "python": "bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py",
-          "function": "_add_commuted_kernel"
+          "lean": "bench/tritonbench_g/vector_addition_custom/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py",
-          "function": "_add_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py",
-          "function": "_add_commuted_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/vector_addition_custom/Kernels.lean": "def6a4370cacd0b70ba87ace2dcb61faaef299c549fb0ee2f380307ae59a11f1",
+        "bench/tritonbench_g/vector_addition_custom/Kernels.lean": "1184a7460e9d4a9e0cda394e4e016a47380e547cd7542efb002f525c395521bc",
+        "bench/tritonbench_g/vector_addition_custom/jit-correspondence.json": "97383baaf5557a3c30315d4719f7ca0943a9c5bc13c1092fe015162036ad631e",
         "bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py": "b1c06db039e42a32c579e71acb33cd69fceaf818d0bba73edcde71244c53a34e"
       },
       "collection": "tritonbench_g",
@@ -34358,27 +35277,101 @@
     {
       "name": "AdamUpdateGridLaunch",
       "kind": "example",
-      "python": null,
+      "python": "bench/tritonbench_g/adam_update_triton/adam_update_triton.py",
       "lean": "bench/examples/AdamUpdateGridLaunch/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 18,
-        "dsl_assignment": 6,
+        "antiquotes": 0,
+        "dsl_assignment": 21,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 6
+        "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "update_fn_kernel",
+          "line": 17,
+          "statements": 19,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/AdamUpdateGridLaunch/candidate_kernels.py",
+          "jits": [
+            {
+              "function": "commuted_update",
+              "line": 9,
+              "statements": 19,
+              "explicit_int64_casts": []
+            }
+          ]
+        },
+        {
+          "path": "bench/tritonbench_g/adam_update_triton/adam_update_triton.py",
+          "jits": [
+            {
+              "function": "update_fn_kernel",
+              "line": 17,
+              "statements": 19,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "update_fn_kernel",
+          "lean_definition": "update_fn_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 19,
+          "runtime_parameters": {
+            "lr": "fp32",
+            "wd": "fp32",
+            "beta1": "fp32",
+            "beta2": "fp32",
+            "n_elements": "integer",
+            "chunk_elements": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/adam_update_triton/adam_update_triton.py",
+          "lean": "bench/examples/AdamUpdateGridLaunch/Kernels.lean"
+        },
+        {
+          "python_function": "commuted_update",
+          "lean_definition": "commuted_update",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 19,
+          "runtime_parameters": {
+            "lr": "fp32",
+            "wd": "fp32",
+            "beta1": "fp32",
+            "beta2": "fp32",
+            "n_elements": "integer",
+            "chunk_elements": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/examples/AdamUpdateGridLaunch/candidate_kernels.py",
+          "lean": "bench/examples/AdamUpdateGridLaunch/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/AdamUpdateGridLaunch/Kernels.lean": "075f1d04fbf4b8a4c320ca28a088e5f738834fb6cbef0e7087ff56fe3af56277"
+        "bench/examples/AdamUpdateGridLaunch/Kernels.lean": "6f6cf50bc11177be9e830c8093c4f547df6639d4c1918b52c9b7bce4dcb37185",
+        "bench/examples/AdamUpdateGridLaunch/candidate_kernels.py": "513d7327479e1746ba9b5e6ab86aa581f0cbbbe242454490df7fbfe71d2a28fc",
+        "bench/examples/AdamUpdateGridLaunch/jit-correspondence.json": "c2e453a26986581f144f210f79d2236828fb0cf0ea01bd52168849d837d58007",
+        "bench/tritonbench_g/adam_update_triton/adam_update_triton.py": "0a9e638a151a19cacce590512938f65c64a753d67d22a29cd88e601ccca4404f"
       },
       "collection": "examples",
       "id": "bench/examples/AdamUpdateGridLaunch"
@@ -34386,27 +35379,89 @@
     {
       "name": "FlatVectorAdd",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/FlatVectorAdd/flat_vector_add.py",
       "lean": "bench/examples/FlatVectorAdd/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 9,
-        "dsl_assignment": 12,
+        "antiquotes": 0,
+        "dsl_assignment": 7,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "flat_vector_add",
+          "line": 13,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "flat_vector_add_commuted",
+          "line": 24,
+          "statements": 7,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/FlatVectorAdd/flat_vector_add.py",
+          "jits": [
+            {
+              "function": "flat_vector_add",
+              "line": 13,
+              "statements": 7,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "flat_vector_add_commuted",
+              "line": 24,
+              "statements": 7,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "flat_vector_add",
+          "lean_definition": "addKernelMasked",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize",
+            "nElements"
+          ],
+          "python": "bench/examples/FlatVectorAdd/flat_vector_add.py",
+          "lean": "bench/examples/FlatVectorAdd/Kernels.lean"
+        },
+        {
+          "python_function": "flat_vector_add_commuted",
+          "lean_definition": "commutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize",
+            "nElements"
+          ],
+          "python": "bench/examples/FlatVectorAdd/flat_vector_add.py",
+          "lean": "bench/examples/FlatVectorAdd/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/FlatVectorAdd/Kernels.lean": "989cdf1cec563235ec6ac175be912d706ff8be1531e43ef18b776d747ada97bf"
+        "bench/examples/FlatVectorAdd/Kernels.lean": "1db0dfc99423a04911e8abc017cfeff04927ed90bd4ed435bd7ff7a4f56f19eb",
+        "bench/examples/FlatVectorAdd/flat_vector_add.py": "7ad3b73c43f69c96dd488cb878016b702e5d1fd0684b83ac4a3e34fb393c8f22",
+        "bench/examples/FlatVectorAdd/jit-correspondence.json": "86397e790e892629d94bff66a5d6e77b8db090825412365c96d95b20392e52c5"
       },
       "collection": "examples",
       "id": "bench/examples/FlatVectorAdd"
@@ -34414,27 +35469,87 @@
     {
       "name": "FloatDTypeAdd",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/FloatDTypeAdd/float_dtype_add.py",
       "lean": "bench/examples/FloatDTypeAdd/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 7,
-        "dsl_assignment": 11,
+        "antiquotes": 0,
+        "dsl_assignment": 15,
         "dsl_loop": 0,
-        "dsl_numeric_helpers": 2,
-        "load_dtype_extension": 2
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "float_add",
+          "line": 12,
+          "statements": 6,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "float_add_commuted",
+          "line": 22,
+          "statements": 6,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/FloatDTypeAdd/float_dtype_add.py",
+          "jits": [
+            {
+              "function": "float_add",
+              "line": 12,
+              "statements": 6,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "float_add_commuted",
+              "line": 22,
+              "statements": 6,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "float_add",
+          "lean_definition": "floatAddKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/examples/FloatDTypeAdd/float_dtype_add.py",
+          "lean": "bench/examples/FloatDTypeAdd/Kernels.lean"
+        },
+        {
+          "python_function": "float_add_commuted",
+          "lean_definition": "commutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/examples/FloatDTypeAdd/float_dtype_add.py",
+          "lean": "bench/examples/FloatDTypeAdd/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/FloatDTypeAdd/Kernels.lean": "8e29e47c889487f3e97e528d02148990357d9e06a48971b3e6d8ef5644a0603b"
+        "bench/examples/FloatDTypeAdd/Kernels.lean": "9a3ccc49199ee56aa959f69cff0f714f74771443da6b4859f0d1a2fd98ed012d",
+        "bench/examples/FloatDTypeAdd/float_dtype_add.py": "9864986a2fb41d5a0d2b8552f67202e1b8c71cc66d969caf08df3c9cc88d55cc",
+        "bench/examples/FloatDTypeAdd/jit-correspondence.json": "b969ab89a15f3e30b88677d4f66fe357349f2ecb8f1bf976dd6cdb94df59d821"
       },
       "collection": "examples",
       "id": "bench/examples/FloatDTypeAdd"
@@ -34442,27 +35557,87 @@
     {
       "name": "FloatDTypeSoftmax",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/FloatDTypeSoftmax/float_dtype_softmax.py",
       "lean": "bench/examples/FloatDTypeSoftmax/Kernels.lean",
       "lean_screen": {
-        "quotations": 3,
+        "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 11,
-        "dsl_assignment": 29,
+        "antiquotes": 0,
+        "dsl_assignment": 9,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 3
+        "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "stable_softmax_fp64",
+          "line": 13,
+          "statements": 9,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "reciprocal_softmax_fp64",
+          "line": 26,
+          "statements": 10,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/FloatDTypeSoftmax/float_dtype_softmax.py",
+          "jits": [
+            {
+              "function": "stable_softmax_fp64",
+              "line": 13,
+              "statements": 9,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "reciprocal_softmax_fp64",
+              "line": 26,
+              "statements": 10,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "stable_softmax_fp64",
+          "lean_definition": "floatStableSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FloatDTypeSoftmax/float_dtype_softmax.py",
+          "lean": "bench/examples/FloatDTypeSoftmax/Kernels.lean"
+        },
+        {
+          "python_function": "reciprocal_softmax_fp64",
+          "lean_definition": "floatSoftmaxRecipKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FloatDTypeSoftmax/float_dtype_softmax.py",
+          "lean": "bench/examples/FloatDTypeSoftmax/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/FloatDTypeSoftmax/Kernels.lean": "42e57ebfebf19e432831155106ef626d226d41b62db6604a476c6e63193b1439"
+        "bench/examples/FloatDTypeSoftmax/Kernels.lean": "7b0df06fafdad89e3e387d749040afd43c54d906dc09f571e1284f6aa684c62d",
+        "bench/examples/FloatDTypeSoftmax/float_dtype_softmax.py": "240a4b52bed7c83ef867e13f834bf6a9b44d5ebf9b2e256a752c487daa35877e",
+        "bench/examples/FloatDTypeSoftmax/jit-correspondence.json": "218bafb8b2e002397d0ec4db7e98d948d0f8845f2c52e53074fb8a763f36e0d0"
       },
       "collection": "examples",
       "id": "bench/examples/FloatDTypeSoftmax"
@@ -34470,27 +35645,93 @@
     {
       "name": "FusedLayerNorm",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/FusedLayerNorm/native_kernels.py",
       "lean": "bench/examples/FusedLayerNorm/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 24,
-        "dsl_assignment": 30,
-        "dsl_loop": 1,
-        "dsl_numeric_helpers": 4,
+        "antiquotes": 0,
+        "dsl_assignment": 9,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "twoPassLayerNormKernel",
+          "line": 14,
+          "statements": 14,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "fusedLayerNormKernel",
+          "line": 32,
+          "statements": 14,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/FusedLayerNorm/native_kernels.py",
+          "jits": [
+            {
+              "function": "twoPassLayerNormKernel",
+              "line": 14,
+              "statements": 14,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "fusedLayerNormKernel",
+              "line": 32,
+              "statements": 14,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "twoPassLayerNormKernel",
+          "lean_definition": "twoPassLayerNormKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 14,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "N",
+            "ε"
+          ],
+          "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+          "lean": "bench/examples/FusedLayerNorm/Kernels.lean"
+        },
+        {
+          "python_function": "fusedLayerNormKernel",
+          "lean_definition": "fusedLayerNormKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 14,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "N",
+            "ε"
+          ],
+          "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+          "lean": "bench/examples/FusedLayerNorm/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/FusedLayerNorm/Kernels.lean": "535c103f95b1085c12ca0eb8e9e1cd7082c4637c816ccb63252a0ae788f82ada"
+        "bench/examples/FusedLayerNorm/Kernels.lean": "b4f1e07e399684ad3718fbd093d57578e48d94e5e77a0f333a05fb1bf5a954db",
+        "bench/examples/FusedLayerNorm/jit-correspondence.json": "7b89da85e4ee66c57f89d4d5dcc07fad154c2d8e994b12133af404d592a591ff",
+        "bench/examples/FusedLayerNorm/native_kernels.py": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd"
       },
       "collection": "examples",
       "id": "bench/examples/FusedLayerNorm"
@@ -34498,27 +35739,137 @@
     {
       "name": "FusedSiLU",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/FusedSiLU/fused_silu.py",
       "lean": "bench/examples/FusedSiLU/Kernels.lean",
       "lean_screen": {
         "quotations": 4,
         "in_body_type_directives": 0,
-        "antiquotes": 20,
-        "dsl_assignment": 27,
+        "antiquotes": 0,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "fused_silu",
+          "line": 12,
+          "statements": 9,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "silu_gate",
+          "line": 25,
+          "statements": 6,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "silu_activation",
+          "line": 35,
+          "statements": 5,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "silu_residual",
+          "line": 44,
+          "statements": 6,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/FusedSiLU/fused_silu.py",
+          "jits": [
+            {
+              "function": "fused_silu",
+              "line": 12,
+              "statements": 9,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "silu_gate",
+              "line": 25,
+              "statements": 6,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "silu_activation",
+              "line": 35,
+              "statements": 5,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "silu_residual",
+              "line": 44,
+              "statements": 6,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "fused_silu",
+          "lean_definition": "fusedSiLUKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FusedSiLU/fused_silu.py",
+          "lean": "bench/examples/FusedSiLU/Kernels.lean"
+        },
+        {
+          "python_function": "silu_gate",
+          "lean_definition": "siluStepGate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FusedSiLU/fused_silu.py",
+          "lean": "bench/examples/FusedSiLU/Kernels.lean"
+        },
+        {
+          "python_function": "silu_activation",
+          "lean_definition": "siluStepSilu",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FusedSiLU/fused_silu.py",
+          "lean": "bench/examples/FusedSiLU/Kernels.lean"
+        },
+        {
+          "python_function": "silu_residual",
+          "lean_definition": "siluStepResidual",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FusedSiLU/fused_silu.py",
+          "lean": "bench/examples/FusedSiLU/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/FusedSiLU/Kernels.lean": "7c1da4db9fc0449f5cadcaff538fc897660cafd866880802114f9c8db7b23e03"
+        "bench/examples/FusedSiLU/Kernels.lean": "015fb7ffff46fad8a824b4caffcea7faf1a1046a2ecc4f6604ae383ef6f31310",
+        "bench/examples/FusedSiLU/fused_silu.py": "769f3903832184baeac2e56e5bd22bb83aa156c82472a82a7d5536a37d445fe9",
+        "bench/examples/FusedSiLU/jit-correspondence.json": "a33e31aad991dc043f697da94cb7a32bb55c532134bf184b79b79852c282ab51"
       },
       "collection": "examples",
       "id": "bench/examples/FusedSiLU"
@@ -34526,27 +35877,115 @@
     {
       "name": "FusedSwiglu",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/FusedSwiglu/native_kernels.py",
       "lean": "bench/examples/FusedSwiglu/Kernels.lean",
       "lean_screen": {
         "quotations": 3,
         "in_body_type_directives": 0,
-        "antiquotes": 14,
-        "dsl_assignment": 5,
+        "antiquotes": 0,
+        "dsl_assignment": 13,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "swiglu_fused",
+          "line": 10,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "silu_step",
+          "line": 20,
+          "statements": 5,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "mul_step",
+          "line": 28,
+          "statements": 6,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/FusedSwiglu/native_kernels.py",
+          "jits": [
+            {
+              "function": "swiglu_fused",
+              "line": 10,
+              "statements": 7,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "silu_step",
+              "line": 20,
+              "statements": 5,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "mul_step",
+              "line": 28,
+              "statements": 6,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "swiglu_fused",
+          "lean_definition": "swiglu_fused",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "ncols"
+          ],
+          "python": "bench/examples/FusedSwiglu/native_kernels.py",
+          "lean": "bench/examples/FusedSwiglu/Kernels.lean"
+        },
+        {
+          "python_function": "silu_step",
+          "lean_definition": "silu_step",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "ncols"
+          ],
+          "python": "bench/examples/FusedSwiglu/native_kernels.py",
+          "lean": "bench/examples/FusedSwiglu/Kernels.lean"
+        },
+        {
+          "python_function": "mul_step",
+          "lean_definition": "mul_step",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "ncols"
+          ],
+          "python": "bench/examples/FusedSwiglu/native_kernels.py",
+          "lean": "bench/examples/FusedSwiglu/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/FusedSwiglu/Kernels.lean": "a956755831801b8907f3aec43ad50e83b11fe77ac3702a4ca5bf8be990e50421"
+        "bench/examples/FusedSwiglu/Kernels.lean": "4750b2d65f2cff6d807ed53e841d9e41cd7fd8b4556d6e97934b5944403b06da",
+        "bench/examples/FusedSwiglu/jit-correspondence.json": "b48d0976f399f1557f4a8fa7966c6401d3b4ed570c9b1860bc511fe9f1dc802f",
+        "bench/examples/FusedSwiglu/native_kernels.py": "bb381b21f410a386cf64585366775874f93fad003dca9e5ba7dac0a7e0baeea1"
       },
       "collection": "examples",
       "id": "bench/examples/FusedSwiglu"
@@ -34554,27 +35993,147 @@
     {
       "name": "HyperConnectionsDepth",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
       "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean",
       "lean_screen": {
         "quotations": 4,
         "in_body_type_directives": 0,
-        "antiquotes": 44,
-        "dsl_assignment": 62,
+        "antiquotes": 0,
+        "dsl_assignment": 27,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 3
+        "load_dtype_extension": 4
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "matrixKernel",
+          "line": 11,
+          "statements": 20,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "scalarKernel",
+          "line": 40,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "optimizedKernel",
+          "line": 50,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "matrixOptimized",
+          "line": 60,
+          "statements": 20,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+          "jits": [
+            {
+              "function": "matrixKernel",
+              "line": 11,
+              "statements": 20,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "scalarKernel",
+              "line": 40,
+              "statements": 7,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "optimizedKernel",
+              "line": 50,
+              "statements": 7,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "matrixOptimized",
+              "line": 60,
+              "statements": 20,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "matrixKernel",
+          "lean_definition": "matrixKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 20,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [
+            "D",
+            "S",
+            "T",
+            "numIters"
+          ],
+          "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean"
+        },
+        {
+          "python_function": "scalarKernel",
+          "lean_definition": "scalarKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean"
+        },
+        {
+          "python_function": "optimizedKernel",
+          "lean_definition": "optimizedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean"
+        },
+        {
+          "python_function": "matrixOptimized",
+          "lean_definition": "matrixOptimized",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 20,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [
+            "D",
+            "S",
+            "T",
+            "numIters"
+          ],
+          "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/HyperConnectionsDepth/Kernels.lean": "47254ebf57be9116ca8d1074e9cbc30c550c3843c80a1ff8ca58282057f7b9c9"
+        "bench/examples/HyperConnectionsDepth/Kernels.lean": "950ce0c8fb26f6b3025f52306b99a050c6e1ff29693c0843a71dcd809e8a35b4",
+        "bench/examples/HyperConnectionsDepth/jit-correspondence.json": "e6d139ad0f8cd517b84c3608ba6f93a59d0d4a21c4dbd0ab4a1df75325505c8e",
+        "bench/examples/HyperConnectionsDepth/native_kernels.py": "11c5b12c34e652cb83111620eb53891d6dfd2af352ba20e14bdd17692ae4a372"
       },
       "collection": "examples",
       "id": "bench/examples/HyperConnectionsDepth"
@@ -34582,27 +36141,202 @@
     {
       "name": "HyperConnectionsWidth",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
       "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean",
       "lean_screen": {
         "quotations": 6,
         "in_body_type_directives": 0,
-        "antiquotes": 86,
-        "dsl_assignment": 117,
+        "antiquotes": 0,
+        "dsl_assignment": 43,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 3
+        "load_dtype_extension": 12
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "matrixKernel",
+          "line": 11,
+          "statements": 27,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "scalarKernel",
+          "line": 51,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "middleKernel",
+          "line": 62,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "optimizedKernel",
+          "line": 73,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "matrixMiddle",
+          "line": 84,
+          "statements": 27,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "matrixOptimized",
+          "line": 124,
+          "statements": 27,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "jits": [
+            {
+              "function": "matrixKernel",
+              "line": 11,
+              "statements": 27,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "scalarKernel",
+              "line": 51,
+              "statements": 8,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "middleKernel",
+              "line": 62,
+              "statements": 8,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "optimizedKernel",
+              "line": 73,
+              "statements": 8,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "matrixMiddle",
+              "line": 84,
+              "statements": 27,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "matrixOptimized",
+              "line": 124,
+              "statements": 27,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "matrixKernel",
+          "lean_definition": "matrixKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [
+            "D",
+            "S",
+            "T",
+            "numIters"
+          ],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        },
+        {
+          "python_function": "scalarKernel",
+          "lean_definition": "scalarKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        },
+        {
+          "python_function": "middleKernel",
+          "lean_definition": "middleKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        },
+        {
+          "python_function": "optimizedKernel",
+          "lean_definition": "optimizedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        },
+        {
+          "python_function": "matrixMiddle",
+          "lean_definition": "matrixMiddle",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [
+            "D",
+            "S",
+            "T",
+            "numIters"
+          ],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        },
+        {
+          "python_function": "matrixOptimized",
+          "lean_definition": "matrixOptimized",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [
+            "D",
+            "S",
+            "T",
+            "numIters"
+          ],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/HyperConnectionsWidth/Kernels.lean": "cc8e279c5689f5104e5b8bc3a63a872eba5da5444b96fede6f4b88ecfaf19caa"
+        "bench/examples/HyperConnectionsWidth/Kernels.lean": "028d82868c524d63b527e89a407d7b817b38e55a3b48861d26ca0a4931040611",
+        "bench/examples/HyperConnectionsWidth/jit-correspondence.json": "b8c787c17c8e9ea22a051f892110dda9c55a1f72d9513c73204453480b6908c2",
+        "bench/examples/HyperConnectionsWidth/native_kernels.py": "e261903eb0c33dee5a26ebf051aad63bcaa5334c16eae93eb94d3355fad9f927"
       },
       "collection": "examples",
       "id": "bench/examples/HyperConnectionsWidth"
@@ -34610,27 +36344,87 @@
     {
       "name": "LogExp",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/LogExp/log_exp.py",
       "lean": "bench/examples/LogExp/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 8,
-        "dsl_assignment": 13,
+        "antiquotes": 0,
+        "dsl_assignment": 5,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "log_exp",
+          "line": 15,
+          "statements": 5,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "log_exp_guarded",
+          "line": 24,
+          "statements": 8,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/LogExp/log_exp.py",
+          "jits": [
+            {
+              "function": "log_exp",
+              "line": 15,
+              "statements": 5,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "log_exp_guarded",
+              "line": 24,
+              "statements": 8,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "log_exp",
+          "lean_definition": "originalKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/LogExp/log_exp.py",
+          "lean": "bench/examples/LogExp/Kernels.lean"
+        },
+        {
+          "python_function": "log_exp_guarded",
+          "lean_definition": "optimizedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/LogExp/log_exp.py",
+          "lean": "bench/examples/LogExp/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/LogExp/Kernels.lean": "0374cc2451f952999020c3b4182fc75fae73646f06d923d3d10131085aa36683"
+        "bench/examples/LogExp/Kernels.lean": "117a7b89e85baf7e36e18b49f0d3e6ae3be0374da3b19b43f5f1f0a7df048f6c",
+        "bench/examples/LogExp/jit-correspondence.json": "6fddb09c94d24c9731d7975d8eef31a448de6acf01753ef6e677a18c6bf426cc",
+        "bench/examples/LogExp/log_exp.py": "02876bca6a5a02076b82bf516e623fb40a9187fa7b9a5621c0622fa233ebfdcc"
       },
       "collection": "examples",
       "id": "bench/examples/LogExp"
@@ -34638,27 +36432,87 @@
     {
       "name": "OnlineSoftmax",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/OnlineSoftmax/native_kernels.py",
       "lean": "bench/examples/OnlineSoftmax/Kernels.lean",
       "lean_screen": {
-        "quotations": 3,
+        "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 14,
-        "dsl_assignment": 31,
-        "dsl_loop": 2,
+        "antiquotes": 0,
+        "dsl_assignment": 13,
+        "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "stableSoftmaxKernel",
+          "line": 15,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "onlineSoftmaxKernel",
+          "line": 27,
+          "statements": 10,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/OnlineSoftmax/native_kernels.py",
+          "jits": [
+            {
+              "function": "stableSoftmaxKernel",
+              "line": 15,
+              "statements": 8,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "onlineSoftmaxKernel",
+              "line": 27,
+              "statements": 10,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "stableSoftmaxKernel",
+          "lean_definition": "stableSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+          "lean": "bench/examples/OnlineSoftmax/Kernels.lean"
+        },
+        {
+          "python_function": "onlineSoftmaxKernel",
+          "lean_definition": "onlineSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "N"
+          ],
+          "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+          "lean": "bench/examples/OnlineSoftmax/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/OnlineSoftmax/Kernels.lean": "be70d79181a6ebc092db096ac202a9334516d564c3e910c3529f42d9461c9c56"
+        "bench/examples/OnlineSoftmax/Kernels.lean": "36819fcbc46fad1f1eacfd8eb7c8f256c5d65928f486e7d145cf0c7f648548a1",
+        "bench/examples/OnlineSoftmax/jit-correspondence.json": "0e99a6a9270fbe763784487734f03604578e2fc59d833a2673ce8137457f3aa3",
+        "bench/examples/OnlineSoftmax/native_kernels.py": "dc40b50e23c94cb33a07fd4f9a6c8142ba9f2ad02d6446d9fffaca1d5e2f4bf2"
       },
       "collection": "examples",
       "id": "bench/examples/OnlineSoftmax"
@@ -34666,27 +36520,89 @@
     {
       "name": "RowWiseMax",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/RowWiseMax/row_wise_max.py",
       "lean": "bench/examples/RowWiseMax/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 8,
-        "dsl_assignment": 8,
+        "antiquotes": 0,
+        "dsl_assignment": 5,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "row_wise_max",
+          "line": 13,
+          "statements": 5,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "row_wise_max_inlined",
+          "line": 22,
+          "statements": 3,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/RowWiseMax/row_wise_max.py",
+          "jits": [
+            {
+              "function": "row_wise_max",
+              "line": 13,
+              "statements": 5,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "row_wise_max_inlined",
+              "line": 22,
+              "statements": 3,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "row_wise_max",
+          "lean_definition": "rowWiseMaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize",
+            "nCol"
+          ],
+          "python": "bench/examples/RowWiseMax/row_wise_max.py",
+          "lean": "bench/examples/RowWiseMax/Kernels.lean"
+        },
+        {
+          "python_function": "row_wise_max_inlined",
+          "lean_definition": "inlinedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize",
+            "nCol"
+          ],
+          "python": "bench/examples/RowWiseMax/row_wise_max.py",
+          "lean": "bench/examples/RowWiseMax/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/RowWiseMax/Kernels.lean": "6b601f4e8184f7c3610bd026a1938d0a350fdae84ae831de6e209db4a07862c8"
+        "bench/examples/RowWiseMax/Kernels.lean": "f90d3ffa760b4bfba566d09b5c6b9b0312ada89b3b68e8305d7111f09b2d7942",
+        "bench/examples/RowWiseMax/jit-correspondence.json": "1b8b148fe72d564d84bcedd55aaad6aab306178e15a8f8796617d7a4f603d489",
+        "bench/examples/RowWiseMax/row_wise_max.py": "104f0c446d89470a9a0433e639a31b34063bf30f62e68c455e5e26ea410fdbbb"
       },
       "collection": "examples",
       "id": "bench/examples/RowWiseMax"
@@ -34694,27 +36610,89 @@
     {
       "name": "RowWiseSum",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/RowWiseSum/row_wise_sum.py",
       "lean": "bench/examples/RowWiseSum/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 8,
-        "dsl_assignment": 11,
+        "antiquotes": 0,
+        "dsl_assignment": 5,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 1
+        "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "row_wise_sum",
+          "line": 13,
+          "statements": 5,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "row_wise_sum_reversed",
+          "line": 22,
+          "statements": 5,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/RowWiseSum/row_wise_sum.py",
+          "jits": [
+            {
+              "function": "row_wise_sum",
+              "line": 13,
+              "statements": 5,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "row_wise_sum_reversed",
+              "line": 22,
+              "statements": 5,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "row_wise_sum",
+          "lean_definition": "rowWiseSumKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize",
+            "nCol"
+          ],
+          "python": "bench/examples/RowWiseSum/row_wise_sum.py",
+          "lean": "bench/examples/RowWiseSum/Kernels.lean"
+        },
+        {
+          "python_function": "row_wise_sum_reversed",
+          "lean_definition": "reversedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize",
+            "nCol"
+          ],
+          "python": "bench/examples/RowWiseSum/row_wise_sum.py",
+          "lean": "bench/examples/RowWiseSum/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/RowWiseSum/Kernels.lean": "35a5df83b0792829d644f7ece64e2bed98fa9b5a9d9647f0618243e2c4af31a5"
+        "bench/examples/RowWiseSum/Kernels.lean": "11d839d2ad50ea19d0896091596e4b3282fbce7f2234eb7babbde4659becf0c0",
+        "bench/examples/RowWiseSum/jit-correspondence.json": "3e16da00ce02a55f0a1780b198ddb93a42d5c74d059aa1a867a75a8db026d506",
+        "bench/examples/RowWiseSum/row_wise_sum.py": "a847d56fafcd803927dedc7cccd6d4e3da12b75c60acb76cd67d3dace4e8a30e"
       },
       "collection": "examples",
       "id": "bench/examples/RowWiseSum"
@@ -34722,27 +36700,87 @@
     {
       "name": "SoftmaxReciprocal",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/SoftmaxReciprocal/softmax_reciprocal.py",
       "lean": "bench/examples/SoftmaxReciprocal/Kernels.lean",
       "lean_screen": {
-        "quotations": 3,
+        "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 11,
-        "dsl_assignment": 26,
+        "antiquotes": 0,
+        "dsl_assignment": 9,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 3
+        "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "stable_softmax",
+          "line": 14,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "reciprocal_softmax",
+          "line": 26,
+          "statements": 9,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/SoftmaxReciprocal/softmax_reciprocal.py",
+          "jits": [
+            {
+              "function": "stable_softmax",
+              "line": 14,
+              "statements": 8,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "reciprocal_softmax",
+              "line": 26,
+              "statements": 9,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "stable_softmax",
+          "lean_definition": "stableSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/SoftmaxReciprocal/softmax_reciprocal.py",
+          "lean": "bench/examples/SoftmaxReciprocal/Kernels.lean"
+        },
+        {
+          "python_function": "reciprocal_softmax",
+          "lean_definition": "softmaxRecipKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/SoftmaxReciprocal/softmax_reciprocal.py",
+          "lean": "bench/examples/SoftmaxReciprocal/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/SoftmaxReciprocal/Kernels.lean": "54b1a19d5c6e31fee151c2173d9560b89ea9c44a2f1b9107ce436aa61e3faa28"
+        "bench/examples/SoftmaxReciprocal/Kernels.lean": "cad227fcf87cb8b645c580b78bde871dad4e683bd03625fb294d4cfb0d630b31",
+        "bench/examples/SoftmaxReciprocal/jit-correspondence.json": "3aecb7783214e5ddb0e1f9d5fe67e0277829f7922b4ed20916b73375d98924f7",
+        "bench/examples/SoftmaxReciprocal/softmax_reciprocal.py": "2bfedc7cb5adfa8439e0966448be53f4e6fa0dd3266db71b475431dc4781d64f"
       },
       "collection": "examples",
       "id": "bench/examples/SoftmaxReciprocal"
@@ -34750,27 +36788,87 @@
     {
       "name": "SoftmaxStable",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/SoftmaxStable/softmax_stable.py",
       "lean": "bench/examples/SoftmaxStable/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 8,
-        "dsl_assignment": 15,
+        "antiquotes": 0,
+        "dsl_assignment": 5,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "naive_softmax",
+          "line": 14,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "stable_softmax",
+          "line": 25,
+          "statements": 8,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/SoftmaxStable/softmax_stable.py",
+          "jits": [
+            {
+              "function": "naive_softmax",
+              "line": 14,
+              "statements": 7,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "stable_softmax",
+              "line": 25,
+              "statements": 8,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "naive_softmax",
+          "lean_definition": "naiveSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "B"
+          ],
+          "python": "bench/examples/SoftmaxStable/softmax_stable.py",
+          "lean": "bench/examples/SoftmaxStable/Kernels.lean"
+        },
+        {
+          "python_function": "stable_softmax",
+          "lean_definition": "stableSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "B"
+          ],
+          "python": "bench/examples/SoftmaxStable/softmax_stable.py",
+          "lean": "bench/examples/SoftmaxStable/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/SoftmaxStable/Kernels.lean": "a0d6fcef510a2e87a908df351b5956a7517ee7240994795014f7b7a96d4fdd96"
+        "bench/examples/SoftmaxStable/Kernels.lean": "6213889e2f93fb7440e4f4b507506fa93a350912c91b49f9ed0a3b73b52706dd",
+        "bench/examples/SoftmaxStable/jit-correspondence.json": "c682d790f8649e2f97db9baf637b3253fcc8ce8db86396612d0a3fab2cecf712",
+        "bench/examples/SoftmaxStable/softmax_stable.py": "6727b2788b4279d7a8576e4a660f9e19e8c040db5c14d15f5efd875e20d3ac44"
       },
       "collection": "examples",
       "id": "bench/examples/SoftmaxStable"
@@ -34778,27 +36876,87 @@
     {
       "name": "StableLogSumExp",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/StableLogSumExp/stable_log_sum_exp.py",
       "lean": "bench/examples/StableLogSumExp/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 8,
-        "dsl_assignment": 23,
+        "antiquotes": 0,
+        "dsl_assignment": 5,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "direct_log_sum_exp",
+          "line": 14,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "guarded_log_sum_exp",
+          "line": 25,
+          "statements": 16,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/StableLogSumExp/stable_log_sum_exp.py",
+          "jits": [
+            {
+              "function": "direct_log_sum_exp",
+              "line": 14,
+              "statements": 7,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "guarded_log_sum_exp",
+              "line": 25,
+              "statements": 16,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "direct_log_sum_exp",
+          "lean_definition": "directLSEKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/StableLogSumExp/stable_log_sum_exp.py",
+          "lean": "bench/examples/StableLogSumExp/Kernels.lean"
+        },
+        {
+          "python_function": "guarded_log_sum_exp",
+          "lean_definition": "optimizedLSEKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/StableLogSumExp/stable_log_sum_exp.py",
+          "lean": "bench/examples/StableLogSumExp/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/StableLogSumExp/Kernels.lean": "1f24a7e947d35c35c141d9272a1f9dae2f7e56660b1080bb2b698a659470f384"
+        "bench/examples/StableLogSumExp/Kernels.lean": "ec640f892f37cf52f5a334d72aa1946a3c4622d5709e2be1dc36d16ee5a7e50a",
+        "bench/examples/StableLogSumExp/jit-correspondence.json": "8800473b144eef58e7b29ddfe0da466831862e15bf5d1a6d5bbc329fa565c700",
+        "bench/examples/StableLogSumExp/stable_log_sum_exp.py": "514fc36d5e49fffaa9bb192f439726a67f3d55b03d246663d384ab832ad0d6e1"
       },
       "collection": "examples",
       "id": "bench/examples/StableLogSumExp"
@@ -34806,27 +36964,91 @@
     {
       "name": "TritonBenchVectorAddition",
       "kind": "example",
-      "python": null,
+      "python": "bench/tritonbench_g/vector_addition/vector_addition.py",
       "lean": "bench/examples/TritonBenchVectorAddition/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 6,
-        "dsl_assignment": 8,
+        "antiquotes": 0,
+        "dsl_assignment": 15,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "add_kernel",
+          "line": 15,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "add_commuted_kernel",
+          "line": 32,
+          "statements": 8,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/tritonbench_g/vector_addition/vector_addition.py",
+          "jits": [
+            {
+              "function": "add_kernel",
+              "line": 15,
+              "statements": 8,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "add_commuted_kernel",
+              "line": 32,
+              "statements": 8,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "add_kernel",
+          "lean_definition": "originalKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/vector_addition/vector_addition.py",
+          "lean": "bench/examples/TritonBenchVectorAddition/Kernels.lean"
+        },
+        {
+          "python_function": "add_commuted_kernel",
+          "lean_definition": "optimizedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/vector_addition/vector_addition.py",
+          "lean": "bench/examples/TritonBenchVectorAddition/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/TritonBenchVectorAddition/Kernels.lean": "2d65a2716b832c7717b00c0a3787414d4f731bbb88a44194b91032472c845aa6"
+        "bench/examples/TritonBenchVectorAddition/Kernels.lean": "65fab2791ddd8a2aedf67ebb4445a8009b405b9e25e9c10f9d9a0d7c0d23a12f",
+        "bench/examples/TritonBenchVectorAddition/jit-correspondence.json": "2ae4906fb8c418f7aef876b4b1991ff7daa28dc783dfb227a5700be142fd8c34",
+        "bench/tritonbench_g/vector_addition/vector_addition.py": "5ac4607fd65339cc5e3d3477a2bfb1b00872499423de2863921c29a5223b7a85"
       },
       "collection": "examples",
       "id": "bench/examples/TritonBenchVectorAddition"
@@ -34834,18 +37056,31 @@
     {
       "name": "VectorAdd",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/VectorAdd/vector_add.py",
       "lean": "bench/examples/VectorAdd/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 7,
-        "dsl_assignment": 11,
+        "antiquotes": 0,
+        "dsl_assignment": 15,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 0
       },
-      "python_jits": [],
+      "python_jits": [
+        {
+          "function": "add_kernel",
+          "line": 7,
+          "statements": 6,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "add_commuted_kernel",
+          "line": 18,
+          "statements": 6,
+          "explicit_int64_casts": []
+        }
+      ],
       "python_sources": [
         {
           "path": "bench/examples/VectorAdd/vector_add.py",
@@ -34855,24 +37090,53 @@
               "line": 7,
               "statements": 6,
               "explicit_int64_casts": []
+            },
+            {
+              "function": "add_commuted_kernel",
+              "line": 18,
+              "statements": 6,
+              "explicit_int64_casts": []
             }
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "add_kernel",
+          "lean_definition": "addKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/examples/VectorAdd/vector_add.py",
-          "function": "add_kernel"
+          "lean": "bench/examples/VectorAdd/Kernels.lean"
+        },
+        {
+          "python_function": "add_commuted_kernel",
+          "lean_definition": "commutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/examples/VectorAdd/vector_add.py",
+          "lean": "bench/examples/VectorAdd/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/VectorAdd/Kernels.lean": "836a56c1c88766781c95d0992aab92f544c4ab63f7e7551ddac0bbbda68eb95c",
-        "bench/examples/VectorAdd/vector_add.py": "2eb482ba4c6e878b2648b29d9d52611fdae17b7d1ce0741921851fc21ff818b2"
+        "bench/examples/VectorAdd/Kernels.lean": "db16d9234a0ff611ee5ff8c3deb41063800ea1ca614df4728c0075c83e6f6768",
+        "bench/examples/VectorAdd/jit-correspondence.json": "ac4f0a4dc50e79f1f664f74a20c82c54bcf791ad12d1ffa99f8df3bb01f6a655",
+        "bench/examples/VectorAdd/vector_add.py": "9d72f79b9ea85aaa884c5f42da09f593e7d1db52b244d57ef8815bfc3db47ab9"
       },
       "collection": "examples",
       "id": "bench/examples/VectorAdd"
@@ -34880,27 +37144,91 @@
     {
       "name": "Welford",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/Welford/native_kernels.py",
       "lean": "bench/examples/Welford/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 13,
-        "dsl_assignment": 18,
-        "dsl_loop": 1,
-        "dsl_numeric_helpers": 4,
+        "antiquotes": 0,
+        "dsl_assignment": 7,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "python_sources": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "twopassWelfordKernel",
+          "line": 15,
+          "statements": 11,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "onlineWelfordKernel",
+          "line": 30,
+          "statements": 7,
+          "explicit_int64_casts": []
+        }
+      ],
+      "python_sources": [
+        {
+          "path": "bench/examples/Welford/native_kernels.py",
+          "jits": [
+            {
+              "function": "twopassWelfordKernel",
+              "line": 15,
+              "statements": 11,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "onlineWelfordKernel",
+              "line": 30,
+              "statements": 7,
+              "explicit_int64_casts": []
+            }
+          ]
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "twopassWelfordKernel",
+          "lean_definition": "twopassWelfordKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/Welford/native_kernels.py",
+          "lean": "bench/examples/Welford/Kernels.lean"
+        },
+        {
+          "python_function": "onlineWelfordKernel",
+          "lean_definition": "onlineWelfordKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/Welford/native_kernels.py",
+          "lean": "bench/examples/Welford/Kernels.lean"
+        }
+      ],
       "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_independent_python_reference",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/Welford/Kernels.lean": "29af773376970b1a335c275d85a57914dacb3ee702d6db1e56463a95cadcaef7"
+        "bench/examples/Welford/Kernels.lean": "7c3d0bdf6cd4780457d7884c6f266c2d3a0b1e57285818d0702cd1ea499102a9",
+        "bench/examples/Welford/jit-correspondence.json": "ead1d8431df104b8bfc5e68e1e5c87f4d1fa462a1aacb3d4ccdeabc3134c4a7a",
+        "bench/examples/Welford/native_kernels.py": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601"
       },
       "collection": "examples",
       "id": "bench/examples/Welford"

@@ -13,7 +13,17 @@ import VeriTile.Triton.Math.SinkhornMemory
 /-! Real execution, arithmetic and memory lemmas for HyperConnectionsDepth.
 The public IO contracts and mathematical specifications are in ../Correct.lean. -/
 
+attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
+  VeriTile.Triton.ComputeOp.toAlgorithm? VeriTile.Triton.ComputeDType.eraseDType
+  VeriTile.Triton.ComputeKernel.toAlgorithm? VeriTile.Triton.ComputeStmt.toAlgorithm?
+  VeriTile.Triton.ComputeStmt.listToAlgorithm?
+
+@[simp] private theorem source_except_ok_bind {α β ε : Type _} (a : α)
+    (f : α → Except ε β) :
+    (Except.ok a : Except ε α) >>= f = f a := rfl
 namespace VeriTile.Bench.Examples.HyperConnectionsDepth.Memory
+
+
 open VeriTile Triton TraceProofs Kernels
 
 set_option maxHeartbeats 6400000
@@ -170,7 +180,7 @@ private theorem mhcDepth_exec_view (tau : ℝ) (s : BlockState) :
         (s.readMem ⟨"res_mix"⟩ s.pid
           + Real.exp (s.readMem ⟨"h_post"⟩ 0 / tau)
             * s.readMem ⟨"branch_out"⟩ s.pid) := by
-  simp [mhcDepthConnectionKernel, exec, stepStmts,
+  simp [scalarKernel, mhcDepthConnectionKernel, exec, stepStmts,
     stepStmt, NumericDType.add, NumericDType.mul, NumericDType.div,
     WithBot.realAdd, WithBot.realMul, WithBot.realDiv,
     BlockState.writeMem, BlockState.readMem]
@@ -183,7 +193,7 @@ private theorem mhcDepth_frame (tau : ℝ) (s s1 : BlockState)
     (r : RegionName) (o : Nat)
     (hmiss : ¬(r = ⟨"out"⟩ ∧ o = s.pid)) :
     s1.mem r o = s.mem r o := by
-  simp [exec, mhcDepthConnectionKernel,
+  simp [exec, scalarKernel, mhcDepthConnectionKernel,
     ComputeKernel.toAlgKernel, stepStmts, stepStmt,
     NumericDType.add, NumericDType.mul, NumericDType.div] at hExec
   subst hExec
@@ -336,7 +346,7 @@ theorem mhcDepth_flattenOk (tau : ℝ) :
     ((mhcDepthConnectionKernel ⟨"res_mix"⟩ ⟨"branch_out"⟩ ⟨"h_post"⟩
       ⟨"out"⟩ 1 1 1 0 tau).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [mhcDepthConnectionKernel,
+  simp [scalarKernel, mhcDepthConnectionKernel,
     ComputeKernel.toAlgKernel, StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
 
@@ -349,7 +359,7 @@ attribute [local simp] ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? ComputeDT
 theorem optimized_exec (tau : ℝ) (s : BlockState) :
     exec (optimizedKernel tau).toAlgKernel s =
       exec (mhcDepthConnectionKernel "res_mix" "branch_out" "h_post" "out" 1 1 1 0 tau).toAlgKernel s := by
-  simp [optimizedKernel, mhcDepthConnectionKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [optimizedKernel, scalarKernel, mhcDepthConnectionKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Region.cast, Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul,
       NumericDType.div, add_comm]
 

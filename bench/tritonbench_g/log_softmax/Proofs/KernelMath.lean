@@ -43,7 +43,9 @@ theorem loaded_row [Inhabited A] (padding : A) (X : RegionName)
       Nat.min_eq_left (by omega)
     have sn : min j.val (N-1)=j.val := Nat.min_eq_left (by omega)
     have sk : min (s.pids 1) (K-1)=s.pids 1 := Nat.min_eq_left (by omega)
-    simp [Kernel.loaded,Kernel.active,Kernel.address,hm,hj,hk,sm,sn,sk,row]
+    have addr := Kernel.address_nat M N K BM (s.pids 0) (s.pids 1) (i,j,PUnit.unit)
+      (by omega) (by omega) (by omega)
+    simp [Kernel.loaded,Kernel.active,addr,hm,hj,hk,sm,sn,sk,row]
   · simp [Kernel.loaded,Kernel.active,hj]
 
 theorem forward_graph [Inhabited A] (ops : Ops A) (plan : Plan N C) (X : RegionName)

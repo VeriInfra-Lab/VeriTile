@@ -48,7 +48,7 @@ specification naive_softmax_correct (B : Nat) (hB : 0 < B) :
 specification stable_softmax_correct (B : Nat) (hB : 0 < B) :
     Spec.Real (stableIO B ⊨ fun xs i => Real.exp (xs i) / ∑ j, Real.exp (xs j)) := by
   have halg : (stableIO B).kernel.toAlgKernel =
-      (OnlineSoftmax.Kernels.batchSoftmaxKernel "x" "y" B).toAlgKernel := by
+      (OnlineSoftmax.RealSource.batchSoftmaxKernel "x" "y" B).toAlgKernel := by
     simp [stableIO, ComputeKernel.toAlgKernel, stable_projection]
   refine KernelIO₁.Implements.intro _ ?_ ?_ ?_
   · rw [halg]; exact OnlineSoftmax.batchSoftmax_flattenOk "x" "y" B

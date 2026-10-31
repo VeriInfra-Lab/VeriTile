@@ -145,6 +145,7 @@ theorem max_kernel_1_correct
     cases hExec
     simp [BlockState.writeMem_readMem]
     congr
+    all_goals simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
   · simp [exec, max_kernel_1, stage1, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted,  ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Tile.bop, Tile.cop, Tile.ptrAdd, Tile.reduceMax, Tile.reduceMaxDrop,
         TileShape.axisDim, TileShape.eraseAxis,
@@ -327,6 +328,7 @@ theorem max_kernel_1_traceSafe (inp mid : RegionName) (M BLOCK_SIZE : Nat)
     NumericDType.add, NumericDType.mul, ComparableDType.lt, hB]
   -- what survives: the load window's bound, the `reduceMax` node (simp cannot
   -- peel it), and the scalar store's bound
+  simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
   exact ⟨fun a ha => hIn a ha,
     safeAt_reduceMax _ _ _ _ _ (safeAt_ref _ _ _ _ _), hMid⟩
 
