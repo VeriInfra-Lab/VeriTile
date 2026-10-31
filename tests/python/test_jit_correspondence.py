@@ -210,6 +210,13 @@ noncomputable def following := 0
         self.assertEqual(len(ast.parse(textwrap.dedent(quoted)).body), 18)
         self.assertNotIn('arguments', quoted)
 
+    def test_scoped_options_before_next_definition_bound_the_quote(self):
+        lean = "def body := triton {\n x = 1\n}\nset_option maxHeartbeats 1000000 in\ndef next := 0\n"
+        body = quotation(lean, "body", raw_python=True)[1]
+        self.assertEqual(len(ast.parse(textwrap.dedent(body)).body), 1)
+        with self.assertRaisesRegex(ValueError, "unexpected code after quotation"):
+            quotation(lean.replace("}\nset_option", "} + extra\nset_option"), "body", raw_python=True)
+
     def test_executable_suffix_after_quote_is_rejected(self):
         with self.assertRaisesRegex(ValueError, 'unexpected code after quotation'):
             quotation('def body := triton {\n x = 1\n} + extra\nnoncomputable def next := 0\n',
@@ -258,6 +265,86 @@ def body (dtype out_dtype : FloatDType) (N : Nat) :=
     def test_duplicate_polymorphic_pointer_is_rejected(self):
         with self.assertRaises(ValueError):
             self.compare(self.lean.replace('("o",out_dtype)', '("s",out_dtype)'))
+
+
+class FinitePastedBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.python = '''@triton.jit
+def copy(s, o, N: tl.constexpr):
+    x = tl.load(s)
+    tl.store(o, x.to(o.dtype.element_ty))
+'''
+        self.lean = '''def signature (storage : Storage) (keeping : KeepStorage) : CallSignature where
+  pointers := [("s",match storage with | .fp32 => .fp32 | .fp16 => .fp16),
+    ("o",match keeping with | .integer => .i32 | .boolean => .boolean)]
+  scalars := []
+  constexpr := ["N"]
+
+def body (storage : Storage) (keeping : KeepStorage) (N : Nat) :=
+  with_triton_signature (signature storage keeping) in triton {
+    x = tl.load(s)
+    tl.store(o, x.to(o.dtype.element_ty))
+  }
+'''
+        self.profile = {
+            "pointers": [["s", {"on": "storage", "cases": [["fp32", "fp32"], ["fp16", "fp16"]]}],
+                         ["o", {"on": "keeping", "cases": [["integer", "i32"], ["boolean", "boolean"]]}]],
+            "scalars": [], "constexpr": ["N"],
+            "dtype_parameters": ["storage", "keeping"],
+            "dtype_parameter_types": {"storage": "Storage", "keeping": "KeepStorage"}}
+
+    def compare(self, lean, profile=None):
+        return check(self.python, lean, "copy", "body", "signature", profile or self.profile)
+
+    def test_exact_finite_storage_maps_are_recorded(self):
+        self.assertEqual(self.compare(self.lean)["mode"], "pasted_body")
+
+    def test_fp8_storage_tags_in_fixed_and_finite_signatures(self):
+        for tag in ["f8e4", "f8e5"]:
+            for fixed in [False, True]:
+                with self.subTest(tag=tag, fixed=fixed):
+                    profile = json.loads(json.dumps(self.profile))
+                    if fixed:
+                        before = "match storage with | .fp32 => .fp32 | .fp16 => .fp16"
+                        after = "." + tag
+                        profile["pointers"][0][1] = tag
+                    else:
+                        before, after = ".fp16 => .fp16", ".fp16 => ." + tag
+                        profile["pointers"][0][1]["cases"][1][1] = tag
+                    self.assertEqual(self.compare(self.lean.replace(before, after), profile)["mode"], "pasted_body")
+
+    def test_changed_storage_choices_are_rejected(self):
+        for before, after in [
+            (".fp16 => .fp16", ".fp16 => .bf16"),
+            (".boolean => .boolean", ".boolean => .i32"),
+            ("signature storage keeping", "signature keeping storage"),
+            (" | .fp16 => .fp16", ""),
+            (".fp16 => .fp16", ".fp32 => .fp16"),
+            (".fp16 => .fp16", ".fp16 => .made_up_type"),
+            ("match storage with", "match unknown with"),
+            ("storage : Storage", "storage : Nat"),
+            ("storage : Storage", "storage : OtherStorage"),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after, 1))
+
+    def test_explicit_source_dtype_parameter(self):
+        lean = self.lean.replace("(storage : Storage) (keeping : KeepStorage)", "(dtype : SourceDType)")
+        lean = lean.replace('match storage with | .fp32 => .fp32 | .fp16 => .fp16', 'dtype')
+        lean = lean.replace('match keeping with | .integer => .i32 | .boolean => .boolean', 'dtype')
+        lean = lean.replace('signature storage keeping', 'signature dtype')
+        profile = {"pointers": [["s", "dtype"], ["o", "dtype"]], "scalars": [], "constexpr": ["N"],
+                   "dtype_parameters": ["dtype"], "dtype_parameter_types": {"dtype": "SourceDType"}}
+        self.assertEqual(self.compare(lean, profile)["mode"], "pasted_body")
+        with self.assertRaises(ValueError):
+            self.compare(lean.replace("dtype : SourceDType", "dtype : Storage", 1), profile)
+
+    def test_arbitrary_metadata_expressions_are_rejected(self):
+        original = 'match storage with | .fp32 => .fp32 | .fp16 => .fp16'
+        for expression in ["storage.toDType", "chooseType storage", "[.fp32]",
+                           "{'on': 'storage', 'cases': [['fp32', 'fp32']]}"]:
+            with self.subTest(expression=expression), self.assertRaises((ValueError, SyntaxError)):
+                self.compare(self.lean.replace(original, expression))
 
 
 class GatedCumulativeBodyTests(unittest.TestCase):

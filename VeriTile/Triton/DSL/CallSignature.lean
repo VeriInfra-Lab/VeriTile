@@ -10,6 +10,7 @@ import VeriTile.Triton.DSL.RawBodyStores
 import VeriTile.Triton.DSL.RawBodyDTypeControl
 import VeriTile.Triton.DSL.RawBodyNestedLoads
 import Lean
+import Lean.Meta.Tactic.Cases
 
 /-! Call-site typing for a pasted Triton body. The signature describes pointer
 storage and runtime scalar registers; it emits no kernel instruction. The body
@@ -171,6 +172,7 @@ private def dtypeValue (value : Expr) : TermElabM Triton.SourceDType := do
   let kinds : List (Name × Triton.SourceDType) :=
     [(``Triton.SourceDType.fp16,.fp16),(``Triton.SourceDType.bf16,.bf16),
      (``Triton.SourceDType.fp32,.fp32),(``Triton.SourceDType.fp64,.fp64),
+     (``Triton.SourceDType.f8e4,.f8e4),(``Triton.SourceDType.f8e5,.f8e5),
      (``Triton.SourceDType.i8,.i8),(``Triton.SourceDType.i16,.i16),
      (``Triton.SourceDType.i32,.i32),(``Triton.SourceDType.i64,.i64),
      (``Triton.SourceDType.u8,.u8),(``Triton.SourceDType.u16,.u16),
@@ -385,7 +387,27 @@ private def withoutTerminalReturn (stmts : Array (TSyntax `tritonStmt)) :
   | some st => if st.raw.getKind == ``tritonReturn then stmts.pop else stmts
   | none => stmts
 
-private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
+/-- Specialize only finite dtype discriminators in caller metadata. Source
+statements are elaborated unchanged in every branch. Recursive or indexed
+inductives and kernel runtime values are never case-split by this helper. -/
+private def finitePointerDiscriminator? (profile : Expr) : TermElabM (Option FVarId) := do
+  let entries ← bindings pure (← mkAppM ``Triton.CallSignature.pointers #[profile])
+  for (_, kind) in entries do
+    let kind ← whnf kind
+    if kind.isConst then continue
+    for id in (collectFVars {} kind).fvarIds do
+      let type ← whnf (← inferType (mkFVar id))
+      let .const typeName _ := type | continue
+      let .inductInfo info ← getConstInfo typeName | continue
+      unless info.numParams == 0 && info.numIndices == 0 &&
+          !info.ctors.isEmpty && info.ctors.length ≤ 32 do continue
+      let finite ← info.ctors.allM fun ctor => do
+        let .ctorInfo c ← getConstInfo ctor | return Bool.false
+        return c.numFields == 0
+      if finite then return some id
+  return none
+
+private partial def elaborateCall (profile : TSyntax `term) (raw : Syntax)
     (callValues : Option (Array (TSyntax `tritonCallBinding))) (expected : Option Expr) : TermElabM Expr := do
       let source ← match RawSourceText.normalize raw.getAtomVal with
         | .ok body => pure body
@@ -397,6 +419,16 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
         | throwErrorAt raw "expected a complete Triton function body"
       let stmts := withoutTerminalReturn stmts
       let profile ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
+      let profile ← instantiateMVars profile
+      if let some discriminator ← finitePointerDiscriminator? profile then
+        let goal ← mkFreshExprSyntheticOpaqueMVar (mkConst ``Triton.ComputeKernel)
+        let branches ← goal.mvarId!.cases discriminator
+        for branch in branches do
+          branch.mvarId.withContext do
+            let selected ← exprToSyntax (branch.subst.apply profile)
+            let result ← elaborateCall selected raw callValues (some (← branch.mvarId.getType))
+            branch.mvarId.assign result
+        return ← instantiateMVars goal
       let pointers ← bindings dtypeValue (← mkAppM ``Triton.CallSignature.pointers #[profile])
       let floating ← bindings pure (← mkAppM ``Triton.CallSignature.floatingPointers #[profile])
       let mut storageBindings : List (Ident × TSyntax `term) := []
@@ -537,6 +569,8 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
             | .bf16 => pure (some (← `(FloatDType.bf16)))
             | .fp32 => pure (some (← `(FloatDType.fp32)))
             | .fp64 => pure (some (← `(FloatDType.real)))
+            | .f8e4 => pure (some (← `(FloatDType.f8e4)))
+            | .f8e5 => pure (some (← `(FloatDType.f8e5)))
             | _ => pure none
           if let some dtypeTerm := dtypeTerm then dtypeBindings := dtypeBindings ++ [(name,dtypeTerm)]
         for (name, dtype) in floatingPointers do

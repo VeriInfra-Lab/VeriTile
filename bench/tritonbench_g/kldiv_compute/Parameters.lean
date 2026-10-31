@@ -12,3 +12,10 @@ def blockSize : Nat := 1024
 def gridCount (n : Nat) : Nat := (n+1023)/1024
 noncomputable def mathematical (x y : ℝ) : ℝ := x * Real.log (x/y)
 end VeriTile.Bench.Repairs.KldivCompute.Contiguous
+
+namespace VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource
+/-- Floating storage labels; native support and discrete conversions are separate obligations. -/
+inductive Storage where
+  | fp32 | fp16 | bf16 | fp64 | f8e4 | f8e5
+  deriving DecidableEq, Repr
+end VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource
