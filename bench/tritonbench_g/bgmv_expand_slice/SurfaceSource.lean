@@ -11,6 +11,7 @@ def source (h : Call) : ComputeKernel :=
   let EVEN_K : Bool := h.even
   let ADD_INPUTS : Bool := h.add
   triton {
+  tl.ports inputs=[X,W,Y,Region.cast lora_indices], outputs=[Y]
   tl.region X = tl.float32, W = tl.float16, Y = tl.float32
   pid_sn = tl.program_id(axis=0).to(tl.int64)
   cur_batch = tl.program_id(axis=1).to(tl.int64)

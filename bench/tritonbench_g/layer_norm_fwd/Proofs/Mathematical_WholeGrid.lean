@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Candidate
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Real
 import VeriTile.Triton.Launch.Composition
 import VeriTile.Meta.StatementAudit
 
@@ -139,17 +139,6 @@ theorem original_correct (f : Flags) (r : Regions) (stride : Strides)
       Post f r stride M N eps p initial final :=
   compose _ f r stride M N eps p hgeo
     (fun s => RealExecution.source_correct f r stride M N eps p block hBlock s hN hsep)
-    initial
-
-theorem candidate_correct (f : Flags) (r : Regions) (stride : Strides)
-    (M N : Nat) (eps p : ℝ) (block : Nat) (hBlock : Random.ArangeSizeDomain block)
-    (hN : N ≤ block) (hsep : Domain.ReadWriteSeparated f r)
-    (hgeo : Geometry r stride N) (initial : BlockState) :
-    ∃ final, Nonempty (Kernel.GridLaunchedOrdinary
-        (CandidateExecution.source f r stride M N eps p block hBlock)
-        (grid M) initial final) ∧ Post f r stride M N eps p initial final :=
-  compose _ f r stride M N eps p hgeo
-    (fun s => CandidateExecution.source_correct f r stride M N eps p block hBlock s hN hsep)
     initial
 
 #guard_msgs (drop info) in

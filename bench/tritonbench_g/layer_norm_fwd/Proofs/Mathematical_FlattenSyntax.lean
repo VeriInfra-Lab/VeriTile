@@ -1,5 +1,5 @@
 import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_FlatDomain
-import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Candidate
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Real
 
 /-! Structural admission to the finite-memory interpreter for every retained
 branch of both complete source versions. No source branch is specialized away. -/
@@ -60,17 +60,6 @@ theorem source_flatten_ok (f : Flags) (r : Regions) (stride : Strides)
     Normalization.centerStmt, Normalization.varianceStmt, Normalization.rstdStmt,
     Affine.phase, Affine.maskStmt, Affine.loadPhase, Affine.coefficientOp, Affine.normalizedOp,
     Affine.outputPhase, Affine.valueOp, Affine.storeStmt, Affine.secondStmt]
-
-theorem candidate_flatten_ok (f : Flags) (r : Regions) (stride : Strides)
-    (M N : Nat) (eps p : ℝ) (block : Nat) (hBlock : Random.ArangeSizeDomain block) :
-    (CandidateExecution.source f r stride M N eps p block hBlock).FlattenOk := by
-  rw [Kernel.FlattenOk,
-    ← List.take_append_drop 10 (CandidateExecution.source f r stride M N eps p block hBlock).body,
-    flatten_append, CandidateExecution.source_loadPrefix, CandidateExecution.common_suffix]
-  constructor
-  · simp [CandidateExecution.loadPrefix, CandidateExecution.baseStmt, Execution.loadPrefix,
-      Execution.baseStmt, flatten_append, StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
-  · exact flatten_drop _ 10 (source_flatten_ok f r stride M N eps p block hBlock)
 
 end
 end VeriTile.Bench.TritonBenchG.LayerNormFwd.Safety

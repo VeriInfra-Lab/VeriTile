@@ -1,13 +1,38 @@
 # matrix_vector_multip
 
-Current repaired Python implementation: [matrix_vector_multip.py](matrix_vector_multip.py).
+The current repaired [Python](matrix_vector_multip.py) and [Lean source](Kernels.lean)
+retain all six uint64 scalar casts, program/lane casts, the scalar uint64
+`tl.full`, the actual `while m < M`, its final increment, both loads and their
+FP32 conversions, and the original implicit output conversion. The explicit
+FMA candidate changes only the accumulator update.
 
-[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+The call signature and argument values sit outside the pasted function bodies.
+The function bodies can be pasted with their original Python indentation, colons
+and comments. The frontend accepts this affine while only when its counter has a unique final
+increment and its bound/constexpr step remain unchanged. The checked connection
+in `Proofs/SourceWhileExecution.lean` gives ordinary while execution with the
+same complete final state, including the counter; it does not assume a whole
+kernel result.
 
-fun (matrix,vector) row => ∑ col : Fin M, logicalRow matrix (pid*BN+row) col * vector col
+[Real correctness](Correct.lean) proves the independent complete M-column dot
+product for every active row in an invocation, including zero columns and tails,
+with execution, memory safety, readback and the exterior frame.
+The invocation must belong to the original grid. `SourceBounds` expose
+the representability conditions introduced by the original
+casts. `Sources/Bounds.lean` derives them from the existing input contract and
+all 48 autotune configurations, and proves counter/valid-grid index bounds.
 
-The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+[FP equivalence](FPEquiv.lean) compares the actual two sources over the full
+N-row grid and any permutation of its legal program IDs, including the empty
+grid. Its fixed compiler profile uses local product/carry nodes and the selected
+per-row reduction tree. This is a binding to a fused compiler carry graph;
+it is not an IEEE identity between separately rounded multiply/add and FMA.
+No whole-kernel callback supplies the result.
 
-[Proof helpers](Proofs/)
+The old complete Lean `for` source and its exclusive one-block executor have
+been removed. `Mathematical_WholeSource.lean` contains only pure operands,
+ordered recurrence and partial state invariants, connected to the actual source
+by the `Source*` execution proofs. `SourceStorageView.lean` is a lossless payload
+tag adapter for those pure helpers, not another program.
 
-[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+[Input contract](Contract.lean) · [IO](IO.lean) · [proof helpers](Proofs/)

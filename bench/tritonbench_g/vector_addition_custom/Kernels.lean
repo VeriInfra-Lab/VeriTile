@@ -38,8 +38,4 @@ def originalKernel (n : Nat) : ComputeKernel := add_kernel "x" "y" "out" n block
 
 def commutedKernel (n : Nat) : ComputeKernel := add_commuted_kernel "x" "y" "out" n blockSize
 
-/-- Historical finite-interpreter name; this is the same canonical DSL source. -/
-abbrev fp32Kernel (X Y O : RegionName) (n : Nat) : ComputeKernel :=
-  add_kernel X Y O n blockSize
-
 end VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.masked_add_cuda.Sources.Mathematical_Kernels
+import bench.tritonbench_g.masked_add_cuda.Sources.Parameters
 
 /-! Canonical readable FP32 source and its existing addition-order variant.
 The guarded Python launch fixes BLOCK_SIZE=1024 and enable_fp_fusion=True.

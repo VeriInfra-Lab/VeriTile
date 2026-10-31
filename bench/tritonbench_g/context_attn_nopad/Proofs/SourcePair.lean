@@ -33,7 +33,7 @@ private theorem prefix_registers {α : Type} [Inhabited α] (M : Algebra α)
     (executed : run M (before p r scale) s=some t) :
     t.regs .nat [] "start_m"=some (fun _ => s.pids 2) ∧
       t.regs .nat [] "block_start_loc"=some (fun _ => p.BM*s.pids 2) := by
-  simp (config := {maxSteps := 1000000}) [before,originalFP32,
+  simp (config := {maxSteps := 1000000}) [before,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnNopad.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,
     ComputeKernel.surfaceBody,List.take,run,step,evalExpr,evalOp_unfold,Option.bind,
     numeric,integralFloorDiv,bop,Broadcast.leftIndex,Broadcast.rightIndex,
     ofFloat,toFloat,Region.cast,State.setReg] at executed
@@ -47,7 +47,7 @@ private theorem index_run {α : Type} [Inhabited α] (M : Algebra α)
     run M (indexCode Bool.false p r scale) t =
       run M (indexCode Bool.true p r scale) t := by
   obtain ⟨start,block⟩ := prefix_registers M p r scale s t executed
-  simp (config := {maxSteps := 1000000}) [indexCode,source,originalFP32,blockStartReusedFP32,ComputeKernel.surfaceBody,List.drop,List.take,
+  simp (config := {maxSteps := 1000000}) [indexCode,source,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnNopad.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,blockStartReusedFP32,ComputeKernel.surfaceBody,List.drop,List.take,
     run,step,evalExpr,evalOp_unfold,Option.bind,numeric,bop,
     Broadcast.leftIndex,Broadcast.rightIndex,start,block,Nat.mul_comm]
   congr 1
@@ -59,7 +59,7 @@ private theorem index_safe {α : Type} [Inhabited α] (M : Algebra α)
     (p : Layout) (r : Regions) (scale : ℝ) (s : State α) :
     Safety.traceSafeList M bounds (indexCode reused p r scale) s := by
   cases reused
-  all_goals simp [indexCode,source,originalFP32,blockStartReusedFP32,
+  all_goals simp [indexCode,source,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnNopad.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,blockStartReusedFP32,
     ComputeKernel.surfaceBody,List.drop,List.take,Safety.traceSafeList,
     Safety.stepSafe,Safety.safeExpr,Safety.safeAlg,Safety.safeOp,Safety.safeOp_unfold]
   all_goals split <;> trivial

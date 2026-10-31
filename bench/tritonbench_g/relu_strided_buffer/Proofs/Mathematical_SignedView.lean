@@ -122,30 +122,12 @@ theorem load32_eval (v : View) (n start B : Nat) (s : BlockState) :
   by_cases hi : start + i.1.val < n <;>
     simp [hi, BlockState.paddingValue, BlockState.unspecifiedValue]
 
-/-- The source store consumes its already computed FP32 register; no callback
-supplies a kernel output. -/
-def store32 (v : View) (n start B : Nat) (value : RegName) : Stmt :=
-  .store .fp32 [B] (.region v.region (addressOp v start B))
-    (.ref .fp32 [B] value) (.mask (maskOp n start B))
-
 def scatter32 (v : View) (n start B : Nat)
     (values : Tile .fp32 [B]) (s : BlockState) : BlockState :=
   (TileShape.allIndices [B]).foldl
     (fun acc i => if start + i.1.val < n then
       acc.writeMemTyped .fp32 v.region (v.address (start + i.1.val)) (values.data i)
       else acc) s
-
-theorem store32_step (v : View) (n start B : Nat) (name : RegName)
-    (values : Tile .fp32 [B]) (s : BlockState)
-    (hvalues : s.regs .fp32 [B] name = some values) :
-    stepStmt (store32 v n start B name) s =
-      some (scatter32 v n start B values s) := by
-  simp only [store32, stepStmt, evalOp_ref, hvalues, addressOp_eval,
-    maskOp_eval, bind, Option.bind, Option.map, scatter32]
-  refine congrArg some ?_
-  apply List.foldl_ext
-  intro acc i _
-  by_cases hi : start + i.1.val < n <;> simp [hi]
 
 /-- Exact typed-cell frame outside the active output footprint. This also
 covers padding lanes whose signed address would be negative. -/
@@ -224,23 +206,6 @@ theorem scatter32_readback (v : View) {n capacity start B : Nat}
   simp only [htarget, if_true]
   apply fold32_preserves_written v n start B values target hnocollision
   simp [BlockState.writeMemTyped, BlockState.writeMemAs, storedCell32]
-
-theorem store32_success_readback (v : View) {n capacity start B : Nat}
-    (hv : v.Valid n capacity) (hs : v.stride ≠ 0)
-    (name : RegName) (values : Tile .fp32 [B]) (s : BlockState)
-    (hvalues : s.regs .fp32 [B] name = some values) :
-    ∃ final, stepStmt (store32 v n start B name) s = some final ∧
-      (∀ i : TileIndex [B], start + i.1.val < n →
-        final.mem v.region (v.address (start + i.1.val)) = storedCell32 (values.data i)) ∧
-      (∀ r a, (r ≠ v.region ∨ ∀ i : TileIndex [B],
-        start + i.1.val < n → a ≠ v.address (start + i.1.val)) →
-        final.mem r a = s.mem r a) := by
-  refine ⟨scatter32 v n start B values s, store32_step v n start B name values s hvalues,
-    ?_, ?_⟩
-  · intro i hi
-    exact scatter32_readback v hv hs values s i hi
-  · intro r a ha
-    exact scatter32_frame v n start B values s r a ha
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

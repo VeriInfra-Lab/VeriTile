@@ -9,22 +9,6 @@ set_option maxRecDepth 25000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
-/-- Complete row execution uses total opaque FP primitive callbacks. No success
-or source-result oracle appears in the premise. Output formulas and frames are
-proved separately before this is composed into a public host theorem. -/
-theorem forward_executes (M : Algebra α) (h : Call) (u : State α) :
-    ∃ v, FP.Structural.exec (engine M) (Kernels.forward h) u=some v := by
-  unfold Kernels.forward
-  split
-  all_goals
-    simp [FP.Structural.exec,Kernels.regularSource,Kernels.gemmaSource,Original.forward,Original.gemma,
-      VeriTile.Bench.TritonBenchG.FastRmsLayernorm.TypedSource.forward,
-      VeriTile.Bench.TritonBenchG.FastRmsLayernorm.TypedSource.gemma,
-      ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
-      engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,
-      State.setReg,FP.Structural.store,TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex]
-
 def update (r : RegionName) (o : Nat) (v : Cell α) (heap : RegionName → Nat → Cell α) :=
   fun q n => if q=r ∧ n=o then v else heap q n
 
@@ -52,27 +36,5 @@ def forwardHeap (M : Algebra α) (h : Call) (u : State α) : RegionName → Nat 
     (fun i => FPReference.output M h x w i.1) (fun i => i.1.val<h.cols) (TileShape.allIndices [h.block])
     (update "r" (u.pids 0) (FPReference.savedInv M h x) u.mem)
 
-theorem forward_memory (M : Algebra α) (h : Call) (u : State α) :
-    ∃ v, FP.Structural.exec (engine M) (Kernels.forward h) u=some v ∧ v.mem=forwardHeap M h u := by
-  unfold Kernels.forward
-  split <;> rename_i branch
-  all_goals
-    simp [branch,ofFloat,toFloat,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,FP.Structural.exec,Kernels.regularSource,Kernels.gemmaSource,Original.forward,Original.gemma,
-      VeriTile.Bench.TritonBenchG.FastRmsLayernorm.TypedSource.forward,
-      VeriTile.Bench.TritonBenchG.FastRmsLayernorm.TypedSource.gemma,
-      ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
-      engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,
-      State.setReg,FP.Structural.store,TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
-      forwardHeap,FPReference.output,FPReference.savedInv,FPReference.normalized,FPReference.inv,
-      FPReference.reduce,FPReference.input,FPReference.padded,FPReference.literal,FPReference.cast,
-      FPReference.add,FPReference.mul,FPReference.div,fold_mem]
-    <;> dsimp only [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,State.write,update]
-    <;> norm_num
-    <;> rfl
-
-#axiomsClean forward_memory
-
-#axiomsClean forward_executes
 end
 end VeriTile.Bench.Repairs.FastRmsLayernorm.FPSource

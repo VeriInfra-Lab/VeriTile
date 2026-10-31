@@ -34,11 +34,11 @@ theorem body_safe (rest : Algebra Word) (plans : ∀ n, ReductionPlan n)
   have hav := h.av
   simp [Branches.dtype,Geometry.parameters,FloatDType.toTileDType,ofFloat] at hav
   dsimp only [Branches.body,Branches.castBranch,Branches.active,Branches.source,
-    VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,
     Geometry.parameters]
   cases ha : g.add <;>
     simp (config := {maxSteps := 800000}) [Branches.body,Branches.castBranch,Branches.active,
-      Branches.source,VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,ComputeKernel.surfaceBody,
+      Branches.source,VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,
       Geometry.parameters,ha,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,

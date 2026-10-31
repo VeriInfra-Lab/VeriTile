@@ -94,7 +94,7 @@ theorem prologue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Ho
       Controls h c s t := by
   cases ha : h.aStorage <;> cases hb : h.bStorage <;> cases causal : h.causal
   all_goals
-    simp (config := {maxSteps := 300000}) [branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,
+    simp (config := {maxSteps := 300000}) [branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
       ha,hb,causal,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
@@ -114,7 +114,7 @@ theorem setup {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.
   obtain ⟨v4,h4⟩ := Option.isSome_iff_exists.mp h4
   cases ha : h.aStorage <;> cases hb : h.bStorage <;> cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 300000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,
+    simp (config := {maxSteps := 300000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
       ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,

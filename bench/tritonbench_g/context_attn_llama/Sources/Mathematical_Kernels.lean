@@ -1,3 +1,4 @@
+import bench.tritonbench_g.context_attn_llama.Sources.Selected
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 
@@ -104,9 +105,9 @@ macro_rules
 def original (storage : Storage) := match storage with
   | .fp16 => contextLlamaSource%[tl.float16,original]
   | .bf16 => contextLlamaSource%[tl.bfloat16,original]
-  | .fp32 => contextLlamaSource%[tl.float32,original]
+  | .fp32 => VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original
 def scaleFirst (storage : Storage) := match storage with
   | .fp16 => contextLlamaSource%[tl.float16,scaleFirst]
   | .bf16 => contextLlamaSource%[tl.bfloat16,scaleFirst]
-  | .fp32 => contextLlamaSource%[tl.float32,scaleFirst]
+  | .fp32 => VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.scaleFirst
 end VeriTile.Bench.TritonBenchG.ContextAttnLlama

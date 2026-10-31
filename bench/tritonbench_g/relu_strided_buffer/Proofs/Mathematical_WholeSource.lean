@@ -37,19 +37,6 @@ end Whole
 
 noncomputable section
 namespace StructuralTile
-def liftSourceStmt : Stmt → ComputeStmt
-  | .forRangeDyn name start stop stride body =>
-    .forRangeDyn name start stop stride (body.map ComputeStmt.alg)
-  | stmt => .alg stmt
-
-
-def perTileSource (c : SignedViews) : ComputeKernel :=
-  .fromKernelBody [c.inputView.region] [c.outputView.region] c.perTile
-
-def kernelSource (c : SignedViews) (oneTile : Bool) (tiles : Nat) : ComputeKernel :=
-  .mk [c.inputView.region] [c.outputView.region]
-    ((SourceGridExecution.kernelBody c oneTile tiles).map liftSourceStmt)
-
 
 end StructuralTile
 namespace StructuralHost
@@ -62,25 +49,10 @@ def idsPerProgram (a : Arguments) (pid : Nat) : List Nat :=
 def sourceTileIds (a : Arguments) : List Nat :=
   (List.range a.C).flatMap (idsPerProgram a)
 
-
-def executeArguments {α : Type} [Inhabited α] (M : Algebra α)
-    (a : Arguments) (s : State α) : Option (State α) :=
-  runPrograms M (kernelSource (views a) a.oneTile a.T).surfaceBody a.C (List.range a.C) s
-
-
 inductive Result (α : Type) where
   | hostFailure (failure : Failure) (state : State α)
   | executionFailure
   | returned (output : Buffer) (state : State α)
-
-def execute {α : Type} [Inhabited α] (M : Algebra α) (input output : Buffer)
-    (guardSucceeds : Bool) (s : State α) : Result α :=
-  match prepare input output guardSucceeds with
-  | .error failure => .hostFailure failure s
-  | .ok a => match executeArguments M a s with
-    | none => .executionFailure
-    | some final => .returned output final
-
 
 end StructuralHost
 end

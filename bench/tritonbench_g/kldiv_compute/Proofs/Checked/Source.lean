@@ -50,11 +50,6 @@ def sourceCode (X Y O : RegionName) (n : Nat) : List Instruction :=
    .ratioLogProduct "output" "x" "y",
    .store O (.register "offsets") "output" (.register "mask")]
 
-theorem original_ast_lowering (X Y O : RegionName) (n : Nat) :
-    lowerBody (kernel X Y O n 1024).body=some (sourceCode X Y O n) := by
-  simp [lowerBody,lowerStatement,lowerIndex,lowerBool,lowerMask,kernel,VeriTile.Bench.TritonBenchG.KldivCompute.kldivergence_kernel,ComputeKernel.body,
-    ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,sourceCode,bind,pure,Except.bind,Option.bind]
-
 structure Registers (M A : Type) where
   indices : RegName → Nat → BitVec 32
   masks : RegName → Nat → Bool
@@ -96,36 +91,11 @@ def executeBody {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A →
   | [],s => s
   | stmt::rest,s => executeBody ops compute views undef pid rest (executeInstruction ops compute views undef pid s stmt)
 
-def runProgram {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A → A)
-    (views : RegionName → PhysicalView) (undef : A) (X Y O : RegionName) (n pid : Nat) (memory : M) : Option M := do
-  let code ← lowerBody (kernel X Y O n 1024).body
-  let initial : Registers M A := ⟨fun _ _ => 0,fun _ _ => Bool.false,fun _ _ => undef,memory⟩
-  pure (executeBody ops compute views undef pid code initial).memory
-
 def uncheckedWrites {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A → A)
     (x y output : PhysicalView) (n pid : Nat) (s : M) : List (Write A) :=
   (programLanes n pid).map fun lane => ⟨laneAddress output pid lane,
     compute (ops.read s x.dtype (laneAddress x pid lane)) (ops.read s y.dtype (laneAddress y pid lane))⟩
 
-theorem source_program_reduction {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A → A)
-    (views : RegionName → PhysicalView) (undef : A) (X Y O : RegionName) (n pid : Nat) (s : M) :
-    runProgram ops compute views undef X Y O n pid s=
-      some (applyWrites ops (views O).dtype (uncheckedWrites ops compute (views X) (views Y) (views O) n pid s) s) := by
-  simp only [runProgram,original_ast_lowering,Option.bind_some,bind,pure,Option.bind,sourceCode,
-    executeBody,executeInstruction,evalIndex,evalMask]
-  try simp only [if_pos rfl,if_true,String.reduceEq,if_false]
-  congr 1
-  unfold uncheckedWrites programLanes
-  rw [←fold_source_stores]
-  apply congrArg (fun f => List.foldl f s (List.range 1024))
-  funext memory lane
-  change (if VeriTile.Bench.TritonBenchG.VectorAddition.Finite.mask32 n pid lane then _ else _)=_
-  by_cases h : VeriTile.Bench.TritonBenchG.VectorAddition.Finite.mask32 n pid lane=Bool.true <;>
-    simp [h,laneAddress,VeriTile.Bench.TritonBenchG.VectorAddition.Finite.offset32,VeriTile.Bench.TritonBenchG.VectorAddition.Finite.start32,VeriTile.Bench.TritonBenchG.VectorAddition.Finite.mask32] at *
-  all_goals simp [h]
-
-#axiomsClean original_ast_lowering
-#axiomsClean source_program_reduction
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

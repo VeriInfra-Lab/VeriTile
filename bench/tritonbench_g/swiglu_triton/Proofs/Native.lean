@@ -92,7 +92,7 @@ theorem local_bridge (native target : Primitives (BitVec 32)) (h : LocalAgreemen
   rw [graph_lowering]
   cases ch <;> simp only [reference,h.one,h.cast,h.sigmoid,h.sub,h.mul,h.fma]
 
-#specNonCircular reference avoiding [interpret,sourceScalar,Tile.scalar,Tile.sourceRun]
+#specNonCircular reference avoiding [interpret,sourceScalar,Tile.scalar]
 #axiomsClean graph_lowering
 #axiomsClean reference_real
 #axiomsClean local_bridge

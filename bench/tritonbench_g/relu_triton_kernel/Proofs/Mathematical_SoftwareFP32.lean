@@ -1,3 +1,4 @@
+import bench.tritonbench_g.relu_triton_kernel.Kernels
 import bench.tritonbench_g.relu_triton_kernel.Proofs.Mathematical_TypedGrid
 import VeriTile.Triton.Float.ScalarBackend
 
@@ -27,22 +28,6 @@ def expected (x y : RegionName) (N B : Nat)
     (mem : Memory (FP.Value .fp32)) : Memory (FP.Value .fp32) :=
   fun r o => if gridCount N B ≠ 0 ∧ r = y ∧ o < B ∧ o < N then
     .mk .fp32 (wordRelu ((mem x o).read .fp32)) else mem r o
-
-theorem exact_grid (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config)
-    (cmp16 : FP.Value .fp32 → FP.Value .fp32 → Bool)
-    (x y : RegionName) (N B : Nat) (initial : State (FP.Value .fp32)) :
-    ∃ final, runGrid (backend (FP.Software.scalarFP32 rest cfg) cmp16 (orderedLe))
-        (source .fp32 x y N B) N B initial = some final ∧
-      final.mem = expected x y N B initial.mem := by
-  obtain ⟨final, hf, hm⟩ := grid_correct (FP.Software.scalarFP32 rest cfg)
-    cmp16 (orderedLe) .fp32 x y N B initial
-  refine ⟨final, hf, ?_⟩
-  rw [hm]
-  funext r o
-  by_cases h : gridCount N B = 0
-  · simp [h, expected]
-  · simp [h, expected, reference, resultValue, Profile.kind, wordRelu,
-      FP.Software.scalarFP32, FP.Software.fp32Context]
 
 theorem quiet_nan_becomes_positive_zero :
     (wordRelu (FP.Value.ofBits .fp32 0x7fc12345)).bits = 0 := by decide
@@ -79,8 +64,7 @@ theorem harness_scalar_words :
       (wordRelu (FP.Value.ofBits .fp32 word)).bits.toNat)) = harnessExpectedWords := by
   decide
 
-#specNonCircular expected avoiding [source, materialized, runPrefix, runGrid, FP.Structural.exec]
-#axiomsClean exact_grid
+#specNonCircular expected avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel,runPrefix,runGrid,FP.Structural.exec]
 #axiomsClean quiet_nan_becomes_positive_zero
 #axiomsClean signaling_nan_becomes_positive_zero
 #axiomsClean negative_zero_is_preserved

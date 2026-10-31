@@ -11,68 +11,44 @@ open VeriTile.Bench.Examples.FusedSwiglu.Kernels
 open VeriTile Triton
 open scoped VeriTile.Triton.MaskedKernelIO₂
 
+/- Only the current shared source is executable. Mathematical views below are
+its dtype erasure; these local reductions expose that view to execution proofs. -/
+attribute [local simp] ComputeKernel.seq ComputeKernel.surfaceBody
+  ComputeKernel.eraseDType ComputeKernel.toAlgorithm?
+  ComputeKernel.toAlgKernel ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm?
+  ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm?
+  Kernel.eraseDType Stmt.eraseDTypeList Stmt.eraseDType Op.eraseDType.eq_def
+  MemAccess.eraseDType.eq_def MaskOpt.eraseDType.eq_def
+  VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
+  IntegralDType.eraseDType ComputeDType.eraseDType
+attribute [local simp] swiglu_fused silu_step_source siluPrecision silu_step mul_step swiglu_unfused
+
 @[simp] private theorem except_ok_bind {α β ε : Type _} (a : α)
     (f : α → Except ε β) :
     (Except.ok a : Except ε α) >>= f = f a := rfl
 
 /-- Executable real counterpart of the source fused kernel. -/
-def swiglu_fused_math (X Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel := triton {
-  start_col = tl.program_id(0) * $(BLOCK_N)
-  cols = start_col + tl.arange(0, $(BLOCK_N))
-  x = tl.load(X + cols, mask=cols < $(ncols), other=0.0)
-  y = tl.load(Y + cols, mask=cols < $(ncols), other=0.0)
-  sil = x * tl.sigmoid(x)
-  out = sil * y
-  tl.store(OUT + cols, out, mask=cols < $(ncols))
-}
+def swiglu_fused_math (X Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
+  (swiglu_fused X Y OUT ncols BLOCK_N).eraseDType
 
-def silu_step_math (X S : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel := triton {
-  start_col = tl.program_id(0) * $(BLOCK_N)
-  cols = start_col + tl.arange(0, $(BLOCK_N))
-  x = tl.load(X + cols, mask=cols < $(ncols), other=0.0)
-  s = x * tl.sigmoid(x)
-  tl.store(S + cols, s, mask=cols < $(ncols))
-}
+def silu_step_math (X S : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
+  (silu_step X S ncols BLOCK_N).eraseDType
 
-def mul_step_math (S Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel := triton {
-  start_col = tl.program_id(0) * $(BLOCK_N)
-  cols = start_col + tl.arange(0, $(BLOCK_N))
-  z = tl.load(S + cols, mask=cols < $(ncols))
-  y = tl.load(Y + cols, mask=cols < $(ncols), other=0.0)
-  out = z * y
-  tl.store(OUT + cols, out, mask=cols < $(ncols))
-}
+def mul_step_math (S Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
+  (mul_step S Y OUT ncols BLOCK_N).eraseDType
 
 def swiglu_unfused_math (X Y S OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
-  ComputeKernel.seq [X, Y] [OUT]
-    [silu_step_math X S ncols BLOCK_N, mul_step_math S Y OUT ncols BLOCK_N]
+  (swiglu_unfused X Y S OUT ncols BLOCK_N).eraseDType
 
 theorem fused_projection (X Y OUT : RegionName) (n B : Nat) :
     (swiglu_fused X Y OUT n B).eraseDType.toAlgorithm? =
       Except.ok (swiglu_fused_math X Y OUT n B).toAlgKernel := by
-  simp [swiglu_fused, swiglu_fused_math, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
-    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
-  repeat' apply And.intro
-  all_goals
-    rw [Op.eraseDType.eq_def]
-    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
+  simp [swiglu_fused_math, silu_step_math, mul_step_math, swiglu_unfused_math]
 
 theorem unfused_projection (X Y S OUT : RegionName) (n B : Nat) :
     (swiglu_unfused X Y S OUT n B).eraseDType.toAlgorithm? =
       Except.ok (swiglu_unfused_math X Y S OUT n B).toAlgKernel := by
-  simp [swiglu_unfused, swiglu_unfused_math, silu_step, silu_step_source, siluPrecision,
-    mul_step, silu_step_math, mul_step_math, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
-    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
-  repeat' apply And.intro
-  all_goals
-    rw [Op.eraseDType.eq_def]
-    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
+  simp [swiglu_fused_math, silu_step_math, mul_step_math, swiglu_unfused_math]
 
 private theorem foldl_store_preserve_cell {α : Type} {region : RegionName}
     (offsetFn : α → Nat) (valueFn : α → ℝ) (P : α → Prop) [DecidablePred P]
@@ -177,8 +153,8 @@ theorem unfused_exec_split (n B : Nat) (s : BlockState) :
     [silu_step_math "x" "s" n B, mul_step_math "s" "y" "out" n B] s (by
       intro k hk
       simp only [List.mem_cons, List.not_mem_nil, or_false] at hk
-      rcases hk with rfl | rfl <;> rfl)
-  simpa only [execR_triv, List.foldl_cons, List.foldl_nil, Option.bind_some] using h
+      rcases hk with rfl | rfl <;> simp [swiglu_fused_math, silu_step_math, mul_step_math, swiglu_unfused_math])
+  simpa [swiglu_fused_math, silu_step_math, mul_step_math, swiglu_unfused_math, execR_triv, List.foldl_cons, List.foldl_nil, Option.bind_some] using h
 
 theorem unfused_region_run (n B : Nat) (s : BlockState) (xs ys : Fin B → ℝ)
     (hx : ∀ i : Fin B, s.pid * B + i.val < n → s.readMem "x" (s.pid * B + i.val) = xs i)
@@ -221,6 +197,7 @@ theorem fused_traceSafe (X Y OUT : RegionName) (n B : Nat)
     (h2 : ∀ j : Fin B, s.pid * B + j.val < n → s.pid * B + j.val < bounds OUT)
     : Kernel.TraceSafe bounds (swiglu_fused_math X Y OUT n B).toAlgKernel s := by
   unfold Kernel.TraceSafe
+  try simp only [swiglu_fused_math, silu_step_math, mul_step_math, swiglu_unfused_math, swiglu_fused, silu_step_source, siluPrecision, silu_step, mul_step, swiglu_unfused, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   simp only [BlockState.pid_eq] at h0 h1 h2
   simp [swiglu_fused_math, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,
@@ -243,6 +220,7 @@ theorem unfused_traceSafe (X Y S OUT : RegionName) (n B : Nat)
     (h3 : ∀ j : Fin B, s.pid * B + j.val < n → s.pid * B + j.val < bounds OUT)
     : Kernel.TraceSafe bounds (swiglu_unfused_math X Y S OUT n B).toAlgKernel s := by
   unfold Kernel.TraceSafe
+  try simp only [swiglu_fused_math, silu_step_math, mul_step_math, swiglu_unfused_math, swiglu_fused, silu_step_source, siluPrecision, silu_step, mul_step, swiglu_unfused, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   simp only [BlockState.pid_eq] at h0 h1 h2 h3
   simp [swiglu_unfused_math, silu_step_math, mul_step_math, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,

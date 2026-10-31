@@ -8,19 +8,19 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 1,
-      "uncovered_jit_functions": 179
+      "selected_body_copy_checked": 6,
+      "uncovered_jit_functions": 174
     },
     "example_status": {
       "no_independent_python_reference": 19
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 324,
-    "primary_files_with_int64_screen_warning": 44,
+    "uncovered_selected_jit_functions": 317,
+    "primary_files_with_int64_screen_warning": 40,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 141,
-        "antiquotes": 161,
+        "in_body_type_directives": 129,
+        "antiquotes": 149,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -42,7 +42,7 @@
         "quotations": 2,
         "in_body_type_directives": 8,
         "antiquotes": 10,
-        "dsl_assignment": 10,
+        "dsl_assignment": 9,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -66,7 +66,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/adam_update_triton/Kernels.lean": "3f7eb6a5437e75442ea7e0e65f7d098543e11fe1f2c2b592160bfb96f9fd6637",
+        "bench/tritonbench_g/adam_update_triton/Kernels.lean": "f13ec4c08d9641b77fc501a8d9e40da2be73226716be90166ae2a3415a85e87a",
         "bench/tritonbench_g/adam_update_triton/adam_update_triton.py": "0a9e638a151a19cacce590512938f65c64a753d67d22a29cd88e601ccca4404f"
       }
     },
@@ -512,13 +512,13 @@
       "python": "bench/tritonbench_g/attention_fwd_triton3/attention_fwd_triton3.py",
       "lean": "bench/tritonbench_g/attention_fwd_triton3/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 230,
-        "dsl_assignment": 5,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 3,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 8
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -595,7 +595,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/attention_fwd_triton3/Kernels.lean": "8ab8545519531c97ef060b64d525411cd824750954094458022bcd471714decd",
+        "bench/tritonbench_g/attention_fwd_triton3/Kernels.lean": "b40a3093ba038e2705b74e449aae8b891ec84da1bf2f78b708943d8d551f4113",
         "bench/tritonbench_g/attention_fwd_triton3/attention_fwd_triton3.py": "a94b822399e83897356a39e5cac34e945b4a30f2d46ff83ab8ee3db2d5c66066"
       }
     },
@@ -698,13 +698,13 @@
       "python": "bench/tritonbench_g/attention_llama/attention_llama.py",
       "lean": "bench/tritonbench_g/attention_llama/Kernels.lean",
       "lean_screen": {
-        "quotations": 4,
-        "in_body_type_directives": 8,
-        "antiquotes": 188,
-        "dsl_assignment": 4,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 0,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 16
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -725,7 +725,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/attention_llama/Kernels.lean": "a0b99db26bbd78b94fba8c930a76a9017c894f7059a2b7a095b38e942ebfa0cf",
+        "bench/tritonbench_g/attention_llama/Kernels.lean": "39c0de01148d24c3faa263a5fc5b07e45e02fc33d9fa2236e9866198cd6d46b4",
         "bench/tritonbench_g/attention_llama/attention_llama.py": "e5a00c93c3c1ec9665f39bd1b7c421f049bfe43974963253b848fe94551e78be"
       }
     },
@@ -893,13 +893,13 @@
       "python": "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton.py",
       "lean": "bench/tritonbench_g/attn_fwd_triton/Kernels.lean",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 63,
-        "dsl_assignment": 5,
+        "quotations": 2,
+        "in_body_type_directives": 2,
+        "antiquotes": 125,
+        "dsl_assignment": 4,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 3
+        "load_dtype_extension": 6
       },
       "python_jits": [
         {
@@ -967,7 +967,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/attn_fwd_triton/Kernels.lean": "df6dbcb85551238d7f7b6902d3217e1dd26866c09d0f4d0bb565cbb9d7acf824",
+        "bench/tritonbench_g/attn_fwd_triton/Kernels.lean": "0c816ceecfff8ae60e89dddf0dcf0d4ea568db6bb0c1b03ed24e7968c946b133",
         "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton.py": "4c7fffad65029eec05d134de8884d723b00db104df54b47a37110e9e5b5d78c7"
       }
     },
@@ -1091,7 +1091,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/bgmv_expand_slice/Kernels.lean": "7edda19789c0dac4d2de2df1eda8554b554cfe76a0c34a053eac7360cd1a0f2b",
+        "bench/tritonbench_g/bgmv_expand_slice/Kernels.lean": "962f0a2028995f98554d3cd5ed832fb625ef405edc69881a127a588d24c03d64",
         "bench/tritonbench_g/bgmv_expand_slice/bgmv_expand_slice.py": "2c324c093c5c47c5a3537a298a83f00b4f6cd710d2020fade78e30d2974d9c6e"
       }
     },
@@ -1208,13 +1208,13 @@
       "python": "bench/tritonbench_g/bmm_chunk_bwd/bmm_chunk_bwd.py",
       "lean": "bench/tritonbench_g/bmm_chunk_bwd/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 108,
-        "dsl_assignment": 18,
+        "quotations": 1,
+        "in_body_type_directives": 1,
+        "antiquotes": 54,
+        "dsl_assignment": 16,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 1
       },
       "python_jits": [
         {
@@ -1340,7 +1340,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/bmm_chunk_bwd/Kernels.lean": "df894049f6cd09b91ee9a249e8c8bb7e4421245f676816a1eae598fd4f3f6166",
+        "bench/tritonbench_g/bmm_chunk_bwd/Kernels.lean": "a187839d64734ffa55c0651dbc70e2b08bfcd430dd59860561e19c05f673f771",
         "bench/tritonbench_g/bmm_chunk_bwd/bmm_chunk_bwd.py": "91e5b8d4d3d423bb1a00fadb347273c5d90d2a3afd5d2b05b51f98eadd90c737"
       }
     },
@@ -1350,13 +1350,13 @@
       "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd.py",
       "lean": "bench/tritonbench_g/bmm_chunk_fwd/Kernels.lean",
       "lean_screen": {
-        "quotations": 3,
-        "in_body_type_directives": 3,
-        "antiquotes": 132,
-        "dsl_assignment": 10,
+        "quotations": 2,
+        "in_body_type_directives": 2,
+        "antiquotes": 72,
+        "dsl_assignment": 9,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 1
       },
       "python_jits": [
         {
@@ -1529,7 +1529,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/bmm_chunk_fwd/Kernels.lean": "ffd1177e00769d974b9c694351cada21bc65b8fd66adb2af6f41a948e1d60a19",
+        "bench/tritonbench_g/bmm_chunk_fwd/Kernels.lean": "f0be5f33ac534ac2b6a84ce8cb182ded158e875996614b4d01a1cf8b8e7aab35",
         "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd.py": "f6faaf6e84e960102afca4c63573af27c412e2c36a1a3a9d3a95ecab264665b7"
       }
     },
@@ -1616,7 +1616,7 @@
         "quotations": 19,
         "in_body_type_directives": 19,
         "antiquotes": 2053,
-        "dsl_assignment": 8,
+        "dsl_assignment": 7,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 95
@@ -1640,7 +1640,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/chunk_bwd_dqkg/Kernels.lean": "763a68e3ff38448f81cb6186dae3e1512bf9d215c2fc3742dbf9495c9438e81e",
+        "bench/tritonbench_g/chunk_bwd_dqkg/Kernels.lean": "9cfdb33e416e4af5cc27b72b1cd6f6bbf5880cd3075fd00c734c5d06176ac653",
         "bench/tritonbench_g/chunk_bwd_dqkg/chunk_bwd_dqkg.py": "7c2c6aef92283c9c3f9f4980291ab2367eaf6096436b5847c683a560335a1ac6"
       }
     },
@@ -1873,13 +1873,13 @@
       "python": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
       "lean": "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean",
       "lean_screen": {
-        "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 212,
-        "dsl_assignment": 9,
+        "quotations": 2,
+        "in_body_type_directives": 2,
+        "antiquotes": 84,
+        "dsl_assignment": 4,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 4
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -1910,7 +1910,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean": "cd7b7b6b8934b581b66053de88c707c76226bb8dbc88f7093a14974b504bcc51",
+        "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean": "fd22c9d8a21fb52cc48ae8a9a1fc49470f500e16854d3f43bd37b40619de254a",
         "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py": "dfbecac806662178eb8615196fd78193102675b8add6692c0af831d5e5e5dbc1"
       }
     },
@@ -1964,23 +1964,72 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "chunk_gated_abc_fwd_kernel_cum",
+          "lean_definition": "cumBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 4,
+          "runtime_parameters": {
+            "s_s_h": "integer",
+            "s_s_t": "integer",
+            "s_s_d": "integer"
+          },
+          "constexpr_parameters": [
+            "BH",
+            "BS",
+            "BT",
+            "PROGRAM_BASE",
+            "S",
+            "T"
+          ],
           "python": "bench/tritonbench_g/chunk_gated_attention/chunk_gated_attention.py",
-          "function": "chunk_gated_abc_fwd_kernel_cum"
+          "lean": "bench/tritonbench_g/chunk_gated_attention/Sources/Kernels.lean"
         },
         {
+          "python_function": "chunk_gated_abc_fwd_kernel_h",
+          "lean_definition": "hBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "s_k_d": "integer",
+            "s_v_h": "integer",
+            "s_v_t": "integer",
+            "s_v_d": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer",
+            "s_h_d": "integer"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "BV",
+            "GATEK",
+            "K",
+            "NT",
+            "PROGRAM_BASE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
           "python": "bench/tritonbench_g/chunk_gated_attention/chunk_gated_attention.py",
-          "function": "chunk_gated_abc_fwd_kernel_h"
+          "lean": "bench/tritonbench_g/chunk_gated_attention/Sources/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/chunk_gated_attention/Kernels.lean": "df3076e6cbdb4c6b46580c145942c45a6cd8b5ec04e9ce880fa3397ebb1987cd",
-        "bench/tritonbench_g/chunk_gated_attention/chunk_gated_attention.py": "4daab4d181d79bc0c96010cb6bc8c080946ec75b61833159d01d6931b5fdacf5"
+        "bench/tritonbench_g/chunk_gated_attention/Kernels.lean": "cd4ab8fcfdaa790e67d2c7414ac2582d74b9aaa89bfe525d37e118468f27a6ba",
+        "bench/tritonbench_g/chunk_gated_attention/Sources/Kernels.lean": "2f6db70c5b0beea649a31b605cad752c7a0b09e32ddaa8bb0cf0a80c454546f7",
+        "bench/tritonbench_g/chunk_gated_attention/chunk_gated_attention.py": "4daab4d181d79bc0c96010cb6bc8c080946ec75b61833159d01d6931b5fdacf5",
+        "bench/tritonbench_g/chunk_gated_attention/jit-correspondence.json": "65e8b3426b494a2aa6933d01ff3bb3850e8c12a2afa08ac2a024abddbec4298d"
       }
     },
     {
@@ -2056,7 +2105,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean": "d642713ad449b013810daecd5faa0cc8db7b60838a122484f90459a2ff85560c",
+        "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean": "df8fedcaebf737e803b2da6c762e2fa61b7c524508b4d953d3025b0a05a02e46",
         "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py": "3e983e484088f08c6d8690520227efc0a2d89a0fa0c4a7f4897879fa58faefb5"
       }
     },
@@ -2069,7 +2118,7 @@
         "quotations": 2,
         "in_body_type_directives": 2,
         "antiquotes": 75,
-        "dsl_assignment": 9,
+        "dsl_assignment": 6,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 4
@@ -2150,7 +2199,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/chunk_gla_simple/Kernels.lean": "8ddf77799bd3f7b1fb445a726e5c148488e0bb5f815c4adf24de652fa818f3fc",
+        "bench/tritonbench_g/chunk_gla_simple/Kernels.lean": "b036760a0d51cda841bd1fba74be76a11172f0928a50782f9badec89191d572c",
         "bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py": "ca368c049b1d8591ec4352873334fcdd79969150929b45c82fd8460249c5cd8e"
       }
     },
@@ -2230,7 +2279,7 @@
         "quotations": 0,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 3,
+        "dsl_assignment": 2,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -2308,7 +2357,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/chunk_retention/Kernels.lean": "0f94899627f775a5ae7b8fa402e7bf793357709f07bd05af87f5571a0fc6f763",
+        "bench/tritonbench_g/chunk_retention/Kernels.lean": "a9d29c84674d74541fc6e95a6996c6685d5011122ff1db0d280eed9559846712",
         "bench/tritonbench_g/chunk_retention/chunk_retention.py": "25a61c95d8536363844489c3d618b6264cf7142bec0e26ff7917c0e5dcf172bd"
       }
     },
@@ -2412,7 +2461,7 @@
         "quotations": 2,
         "in_body_type_directives": 6,
         "antiquotes": 40,
-        "dsl_assignment": 7,
+        "dsl_assignment": 6,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -2436,7 +2485,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/chunked_cumsum_fwd/Kernels.lean": "4a79679b55416aecb2e2f8f857f827bd70455b3ab6865ceb6bdc9bdbcad6b155",
+        "bench/tritonbench_g/chunked_cumsum_fwd/Kernels.lean": "1946894080630fef1ce6423f29b49cdd6abeb338195dbeb0eda97a92c86d7e76",
         "bench/tritonbench_g/chunked_cumsum_fwd/chunked_cumsum_fwd.py": "5f834ef4712a5f138681eb9c97ec332c43119e716e4d3c82fa8537fc0ec02d2a"
       }
     },
@@ -2446,13 +2495,13 @@
       "python": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py",
       "lean": "bench/tritonbench_g/context_attn_bloom/Kernels.lean",
       "lean_screen": {
-        "quotations": 3,
-        "in_body_type_directives": 3,
-        "antiquotes": 113,
-        "dsl_assignment": 3,
+        "quotations": 5,
+        "in_body_type_directives": 5,
+        "antiquotes": 189,
+        "dsl_assignment": 5,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 12
+        "load_dtype_extension": 20
       },
       "python_jits": [
         {
@@ -2518,7 +2567,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/context_attn_bloom/Kernels.lean": "7b2ecabe39c65112571bd8bde26984d48e9612f89ba5044a8115120d7e42b415",
+        "bench/tritonbench_g/context_attn_bloom/Kernels.lean": "ff378acb87055b620bd0ee95426d12603441931d8169d5b1a7d70e7198e1f704",
         "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py": "9b80a67487612a00769133e0794cea1f39b61ee23cbf02fedbaf61d661d7faee"
       }
     },
@@ -2528,13 +2577,13 @@
       "python": "bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py",
       "lean": "bench/tritonbench_g/context_attn_fwd/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 64,
-        "dsl_assignment": 21,
+        "quotations": 1,
+        "in_body_type_directives": 1,
+        "antiquotes": 32,
+        "dsl_assignment": 14,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 6
+        "load_dtype_extension": 3
       },
       "python_jits": [
         {
@@ -2588,7 +2637,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/context_attn_fwd/Kernels.lean": "1b0fbb711194cf8eca1667e9eb436bc9041e214a8b1f42b0a371743f4c5dd2dc",
+        "bench/tritonbench_g/context_attn_fwd/Kernels.lean": "ec6101eb58acee00719cacc82b3e9113b574e6ee230cab24e45aa412a5be6f05",
         "bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py": "0636069fa75d06b85ca949d2c6701cca1f96ddb9ca0a110e56948c34706a717a"
       }
     },
@@ -2598,13 +2647,13 @@
       "python": "bench/tritonbench_g/context_attn_llama/context_attn_llama.py",
       "lean": "bench/tritonbench_g/context_attn_llama/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 64,
-        "dsl_assignment": 24,
+        "quotations": 1,
+        "in_body_type_directives": 1,
+        "antiquotes": 32,
+        "dsl_assignment": 15,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 6
+        "load_dtype_extension": 3
       },
       "python_jits": [
         {
@@ -2666,7 +2715,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/context_attn_llama/Kernels.lean": "b7ec69309e7aa3d1deff7672e03a5705f3ccfb51e942fcb13392626757bd5e05",
+        "bench/tritonbench_g/context_attn_llama/Kernels.lean": "bcde6748a4575656f0c3a9afba29b9789a3ccbea2e15f9ff53dc609509bb1100",
         "bench/tritonbench_g/context_attn_llama/context_attn_llama.py": "8317f23a4c8c04305b230369c2f59f6c4aaf41a5e80dca5336e88a1e13617e0b"
       }
     },
@@ -2676,13 +2725,13 @@
       "python": "bench/tritonbench_g/context_attn_mistral/context_attn_mistral.py",
       "lean": "bench/tritonbench_g/context_attn_mistral/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 69,
-        "dsl_assignment": 2,
+        "quotations": 5,
+        "in_body_type_directives": 5,
+        "antiquotes": 174,
+        "dsl_assignment": 5,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 8
+        "load_dtype_extension": 20
       },
       "python_jits": [
         {
@@ -2736,7 +2785,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/context_attn_mistral/Kernels.lean": "0c4ed5fa82e62738a8b3bbf31ccadb1e9b78e8c8b7ff464e7f5d4bfe9bb20e7e",
+        "bench/tritonbench_g/context_attn_mistral/Kernels.lean": "46a81d6244bb713e3333877a5bc543453d478ddd9c76348b44d12ffae5a231b0",
         "bench/tritonbench_g/context_attn_mistral/context_attn_mistral.py": "d22065e999a99d827fdcf62053df5b992a68ce6bdb7222bb61c28d3a5c9bf865"
       }
     },
@@ -2746,13 +2795,13 @@
       "python": "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py",
       "lean": "bench/tritonbench_g/context_attn_nopad/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 65,
-        "dsl_assignment": 18,
+        "quotations": 1,
+        "in_body_type_directives": 1,
+        "antiquotes": 32,
+        "dsl_assignment": 12,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 8
+        "load_dtype_extension": 4
       },
       "python_jits": [
         {
@@ -2806,7 +2855,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/context_attn_nopad/Kernels.lean": "683ee0f9ae6866cf2470f52f44b699e02382b365d98a986e696c07f5dd6e80f0",
+        "bench/tritonbench_g/context_attn_nopad/Kernels.lean": "5b69cd98f1a5a88a0da24c0556f6f1ceccb534835adb988e42a5d7a8050140e7",
         "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py": "cf0939e3b862aa0e05b117cb1d66e828ffa7e65e870b62764454b782df79fed1"
       }
     },
@@ -3066,13 +3115,13 @@
       "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
       "lean": "bench/tritonbench_g/decay_cumsum/Kernels.lean",
       "lean_screen": {
-        "quotations": 6,
-        "in_body_type_directives": 6,
-        "antiquotes": 270,
-        "dsl_assignment": 19,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 10,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 6
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -3164,11 +3213,11 @@
           "function": "bwd_decay_global_cumsum"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/decay_cumsum/Kernels.lean": "0cf1aa02818efd9f57114a9b8b1dc31552fc29235fc73c9686d441c016feca09",
+        "bench/tritonbench_g/decay_cumsum/Kernels.lean": "9b65098ea8bacecf20844c33103ee24f7f54b8b629f5c72b73356a5f742f662d",
         "bench/tritonbench_g/decay_cumsum/decay_cumsum.py": "8280a38504ba5e0d5fb398180cc30cb90230739a6ca545e2c455e1d6cc309974"
       }
     },
@@ -3324,7 +3373,7 @@
         "quotations": 2,
         "in_body_type_directives": 2,
         "antiquotes": 24,
-        "dsl_assignment": 17,
+        "dsl_assignment": 14,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -3348,7 +3397,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/destindex_copy_kv1/Kernels.lean": "30be51cdde1023d7235f3159a1717d0383180c771f166249403449fb260fc0aa",
+        "bench/tritonbench_g/destindex_copy_kv1/Kernels.lean": "04e87f521711a651ad94a34a262cc3f7cae3d13c35cc8a537bb2baff541db85e",
         "bench/tritonbench_g/destindex_copy_kv1/destindex_copy_kv1.py": "746f42d8328771ce29b3cc220c570102255584707a192ddd5ebf1aa00ca6c1ba"
       }
     },
@@ -3361,7 +3410,7 @@
         "quotations": 2,
         "in_body_type_directives": 2,
         "antiquotes": 20,
-        "dsl_assignment": 15,
+        "dsl_assignment": 13,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -3385,7 +3434,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/destindex_copy_kv2/Kernels.lean": "9e1c9250bf96f82f8b737d746d6d7f3c4d4855d70ad94d2dcbbc00d596c2526e",
+        "bench/tritonbench_g/destindex_copy_kv2/Kernels.lean": "6f421493abdf74f1d96bb87bf5df3c7da77218634f8ecc1e7a9587e259d2bc27",
         "bench/tritonbench_g/destindex_copy_kv2/destindex_copy_kv2.py": "9b4cf01144f92505c9db6b0bd48e16af431136e8056b1feff888d8320e9b80f1"
       }
     },
@@ -3520,7 +3569,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/diag_ssm_triton/Kernels.lean": "4bd37352fefb9c14df7d5027006ed8f0f2324440c58e69358b4a252b1365c996",
+        "bench/tritonbench_g/diag_ssm_triton/Kernels.lean": "9a8adfe3834e2282e979069072b85ce9be1d97152b3a3f821daa71881ca2218d",
         "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py": "f4093c767a2e53fed90c15415e37f58cb3843437a3c434ffaa2ec5e83982f340"
       }
     },
@@ -3530,10 +3579,10 @@
       "python": "bench/tritonbench_g/dropout_triton/dropout_triton.py",
       "lean": "bench/tritonbench_g/dropout_triton/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 8,
-        "dsl_assignment": 6,
+        "quotations": 12,
+        "in_body_type_directives": 12,
+        "antiquotes": 48,
+        "dsl_assignment": 7,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -3567,7 +3616,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/dropout_triton/Kernels.lean": "3d73b533c3be446e95a90bddadc64af9e550d8054b03d71a23bc49798b8be4fd",
+        "bench/tritonbench_g/dropout_triton/Kernels.lean": "742cddd7f168fd0bc3f274e42a164f50af50205863b281423eebddac74a23e1e",
         "bench/tritonbench_g/dropout_triton/dropout_triton.py": "812e1ed2b002232ec0727998a3edc545a102f1fc7f7d79b1da68c1c0b19b179c"
       }
     },
@@ -3866,10 +3915,10 @@
       "python": "bench/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm.py",
       "lean": "bench/tritonbench_g/fast_rms_layernorm/Kernels.lean",
       "lean_screen": {
-        "quotations": 11,
-        "in_body_type_directives": 15,
-        "antiquotes": 80,
-        "dsl_assignment": 27,
+        "quotations": 7,
+        "in_body_type_directives": 11,
+        "antiquotes": 50,
+        "dsl_assignment": 19,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 1
@@ -3947,7 +3996,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/fast_rms_layernorm/Kernels.lean": "a3db1406e780b9ea2b653aecd00b75bf71e21d77fa7e4b26dfde755f5bd2248a",
+        "bench/tritonbench_g/fast_rms_layernorm/Kernels.lean": "4f74d19204531d18e39939b5d3489f967ad604a12050383f6a2d084e079eeb42",
         "bench/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm.py": "032d4fa4043306a5b4ad0162e312a74328eaa81e8bdb9f711b5c0cff79d5d75a"
       }
     },
@@ -3997,7 +4046,7 @@
         "quotations": 3,
         "in_body_type_directives": 3,
         "antiquotes": 196,
-        "dsl_assignment": 16,
+        "dsl_assignment": 14,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 196
@@ -4109,7 +4158,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean": "d66ad7cbc9507c057ffa3a38517bc08763de84e15651172170744a7fd3ff94a1",
+        "bench/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean": "3314d5196f999a94b060b13fc62d891f8ee6977ef67773c2253be2e09297c53b",
         "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics.py": "f1060f3487cf89047e0e3d4ffcee9fa16671bc287233baefe75a847c53334377"
       }
     },
@@ -4122,7 +4171,7 @@
         "quotations": 2,
         "in_body_type_directives": 4,
         "antiquotes": 82,
-        "dsl_assignment": 18,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 8
@@ -4156,7 +4205,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/flash_attn/Kernels.lean": "109209ca9c6546d3a7fcb58d3f1704ace2cb33d213bc1737762fa8167c2e69b2",
+        "bench/tritonbench_g/flash_attn/Kernels.lean": "0c692cfbc4548cbc228ba1548c3f562268b956c0a293fbe7eeb4781dcf5b9acb",
         "bench/tritonbench_g/flash_attn/flash_attn.py": "8c71f626473a1e807fbee5857d709829af1443fb7f6767b4e8dd82ddab12011c"
       }
     },
@@ -4219,7 +4268,7 @@
         "quotations": 1,
         "in_body_type_directives": 1,
         "antiquotes": 17,
-        "dsl_assignment": 6,
+        "dsl_assignment": 5,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 1
@@ -4256,7 +4305,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/flash_decode2_phi/Kernels.lean": "78489002e1131341913c35c7e060f2c4e103efd729e2320452dff1915ba1008c",
+        "bench/tritonbench_g/flash_decode2_phi/Kernels.lean": "4ad40819fe261c86569c64badc204d7776cd9dbe662a142971c577746ad605a0",
         "bench/tritonbench_g/flash_decode2_phi/flash_decode2_phi.py": "e40385d5a9c3c674443f90d14f539298e36bc890ba32229b8c31101e14334653"
       }
     },
@@ -4778,7 +4827,7 @@
         "quotations": 1,
         "in_body_type_directives": 1,
         "antiquotes": 5,
-        "dsl_assignment": 6,
+        "dsl_assignment": 4,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -4807,7 +4856,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/index_select_bwd/Kernels.lean": "5cbadaa85645ab34dfa1735f93504019ebf3644b8897ccb6aef47c4737da1e9b",
+        "bench/tritonbench_g/index_select_bwd/Kernels.lean": "dd7148ebc05b67ef0f8e2eca6082c7b013008213aa0b847074c3e6908be33a96",
         "bench/tritonbench_g/index_select_bwd/index_select_bwd.py": "dd48dba37c16cbf9cce8bda52e32845d87d1128ba0f192d07871b4ae77963f98"
       }
     },
@@ -4946,7 +4995,7 @@
         "quotations": 2,
         "in_body_type_directives": 4,
         "antiquotes": 104,
-        "dsl_assignment": 6,
+        "dsl_assignment": 2,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -5015,7 +5064,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/int8_dequant_matmul/Kernels.lean": "13681aa40d557f04eb6abe07b9b5ceae2b3f93d3993b5457cdd4e30b9f23415b",
+        "bench/tritonbench_g/int8_dequant_matmul/Kernels.lean": "d706924371652fba4560eb64dbebc00d3879c52adbccf416257c22992b95bf94",
         "bench/tritonbench_g/int8_dequant_matmul/int8_dequant_matmul.py": "e7d5d9fd268e2d8933eaf733d8116baf7a9c2111bc2215e0ece4c811e361e8ab"
       }
     },
@@ -5278,7 +5327,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/int_scaled_matmul/Kernels.lean": "5ed6ddf228a7b59ff3fafe1d949051a5918c5dba59df3c1bb04d3a497f91ab8e",
+        "bench/tritonbench_g/int_scaled_matmul/Kernels.lean": "817b81a3ea628308a085d7379ef6d8988f3751b72cde296c2888d2369cb73728",
         "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul.py": "17bd051b849369e11f3c2b57440052a8c304722b32985499300ab572c553a33b"
       }
     },
@@ -5371,13 +5420,13 @@
       "python": "bench/tritonbench_g/iv_dependent_matmul/iv_dependent_matmul.py",
       "lean": "bench/tritonbench_g/iv_dependent_matmul/Kernels.lean",
       "lean_screen": {
-        "quotations": 10,
-        "in_body_type_directives": 10,
-        "antiquotes": 400,
-        "dsl_assignment": 13,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 3,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 10
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -5459,11 +5508,11 @@
           "function": "iv_dependent_matmul_kernel_i64"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/iv_dependent_matmul/Kernels.lean": "0aa589f9cf1ce7d68aadeeb9bb90e0e070ad4dd2981d27cf9564a91c1cf7c8ee",
+        "bench/tritonbench_g/iv_dependent_matmul/Kernels.lean": "bba4568a601c4e8eae44bc0dad147b82b01f1b359814b8658d6d52782415bdc7",
         "bench/tritonbench_g/iv_dependent_matmul/iv_dependent_matmul.py": "9256084fd67ed7b828363cf6b36b9e1ee4d03b4888c5026110faddc3df0ab57b"
       }
     },
@@ -5476,7 +5525,7 @@
         "quotations": 2,
         "in_body_type_directives": 2,
         "antiquotes": 34,
-        "dsl_assignment": 11,
+        "dsl_assignment": 10,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -5568,7 +5617,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/kcache_copy_triton/Kernels.lean": "3da532e2d6e43d7eba92da195d9d056e09b835d85a98d5340546674382b129a6",
+        "bench/tritonbench_g/kcache_copy_triton/Kernels.lean": "fa599ce6a405881c31474d905b0feb295fe538df8a4b6606aac3fdd4c19a0d34",
         "bench/tritonbench_g/kcache_copy_triton/kcache_copy_triton.py": "ba8fda41d87c2d01e1a65235835392d6c961e939bc4296ae81d6f0c850d534a6"
       }
     },
@@ -5578,10 +5627,10 @@
       "python": "bench/tritonbench_g/kldiv_compute/kldiv_compute.py",
       "lean": "bench/tritonbench_g/kldiv_compute/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 6,
-        "dsl_assignment": 9,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 3,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -5605,7 +5654,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/kldiv_compute/Kernels.lean": "02645df261d2b3a50776f172ef750069539e91c14ad794f0309e6e3d9c71442d",
+        "bench/tritonbench_g/kldiv_compute/Kernels.lean": "fc9c76b0ed7bebbf0902cf1d3e23b82e5199ac892b69382b5c2ec7c8800d0c19",
         "bench/tritonbench_g/kldiv_compute/kldiv_compute.py": "1565e81f560319d9f8ab63338920c17270468f248fed28ebd2b7edca3dc7eded"
       }
     },
@@ -5615,10 +5664,10 @@
       "python": "bench/tritonbench_g/kldiv_ops/kldiv_ops.py",
       "lean": "bench/tritonbench_g/kldiv_ops/Kernels.lean",
       "lean_screen": {
-        "quotations": 8,
-        "in_body_type_directives": 12,
-        "antiquotes": 76,
-        "dsl_assignment": 36,
+        "quotations": 100,
+        "in_body_type_directives": 104,
+        "antiquotes": 812,
+        "dsl_assignment": 30,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -5702,7 +5751,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/kldiv_ops/Kernels.lean": "ea0f72237457679f483ae4f21de90381868f6f1e0c30eec975d94aa0823e4120",
+        "bench/tritonbench_g/kldiv_ops/Kernels.lean": "1398ecb124b5d5576fa3790169b5296f6ef9383b09ed4cd2e0705fff60685176",
         "bench/tritonbench_g/kldiv_ops/kldiv_ops.py": "5a610a722d441f13cccdf9ef8443f994046b26bd1fbec5f858c12d1f8809a20d"
       }
     },
@@ -5904,7 +5953,7 @@
         "quotations": 6,
         "in_body_type_directives": 6,
         "antiquotes": 152,
-        "dsl_assignment": 57,
+        "dsl_assignment": 55,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -5951,7 +6000,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/kv_cache_filling/Kernels.lean": "e5e83beebea5fa54c85b81b492206b8217dc5a3ff80cb4a4837fea69c6ddca09",
+        "bench/tritonbench_g/kv_cache_filling/Kernels.lean": "4387f585baab258864ad31e7e695b29b14f7ae76427e9b4d4a5c1f9c6159fe05",
         "bench/tritonbench_g/kv_cache_filling/kv_cache_filling.py": "c2652aa0fca4bb8343693e3ae35b749ba36eb28c1e18ad4a04d52ba213508506"
       }
     },
@@ -6056,7 +6105,7 @@
         "quotations": 2,
         "in_body_type_directives": 4,
         "antiquotes": 18,
-        "dsl_assignment": 6,
+        "dsl_assignment": 4,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -6108,7 +6157,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/l2_norm_triton2/Kernels.lean": "ae5943c7af9aae16fda0234790dfc929bcce3b255a7ccab0642f3570538827b6",
+        "bench/tritonbench_g/l2_norm_triton2/Kernels.lean": "c2b74a1faea76b4737a31200bd1f5cd0e2c848d70c834c2dd974f9c0247311c6",
         "bench/tritonbench_g/l2_norm_triton2/l2_norm_triton2.py": "b512d51cc46384b9cf4a7b61e3ec6abea98a6cc4a627917902c92bc4b156fc23"
       }
     },
@@ -6118,9 +6167,9 @@
       "python": "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd.py",
       "lean": "bench/tritonbench_g/layer_norm_fwd/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 8,
-        "antiquotes": 58,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
         "dsl_assignment": 6,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
@@ -6146,11 +6195,11 @@
           "function": "_layer_norm_fwd_1pass_kernel"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/layer_norm_fwd/Kernels.lean": "c9466304437d9f31346af044871476c1c44e3acc1a89e8e8cc401d7e8a7cfd74",
+        "bench/tritonbench_g/layer_norm_fwd/Kernels.lean": "10264c6f31ed44caed24b2b817130313facdf4ba7a15a641cff939be605b9e4c",
         "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd.py": "0b53dbb1504fd27fad7a00e9ed2be38b63468eb6d7b88b744507c51fded7fcc1"
       }
     },
@@ -6481,13 +6530,13 @@
       "python": "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py",
       "lean": "bench/tritonbench_g/layernorm_fwd_triton/Kernels.lean",
       "lean_screen": {
-        "quotations": 3,
-        "in_body_type_directives": 5,
-        "antiquotes": 82,
-        "dsl_assignment": 14,
+        "quotations": 2,
+        "in_body_type_directives": 4,
+        "antiquotes": 54,
+        "dsl_assignment": 12,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 6
+        "load_dtype_extension": 4
       },
       "python_jits": [
         {
@@ -6557,7 +6606,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/layernorm_fwd_triton/Kernels.lean": "bff47ea85c7e34b5da27bcf0910aee9cc74386cd8a4b71bf5dbc421b3c7fc7d7",
+        "bench/tritonbench_g/layernorm_fwd_triton/Kernels.lean": "7f6267077cd7a050b9a48714d5ba9c5b869a8e9a0dd6512ace6b9655e60ca93f",
         "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py": "a22618b08165692510fbf836cd2f7ad87943610902d3ee85016824e34e82aae9"
       }
     },
@@ -6865,10 +6914,10 @@
       "python": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py",
       "lean": "bench/tritonbench_g/lora_expand_gemv/Kernels.lean",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 22,
-        "dsl_assignment": 12,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 4,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -6892,7 +6941,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/lora_expand_gemv/Kernels.lean": "4aa25c5bd438852e38764d8e4d1659da43dd51548579ea28b6d85e1879deccf5",
+        "bench/tritonbench_g/lora_expand_gemv/Kernels.lean": "6006169ea16d77f8d5e43e04b136dc05f7eaff0ca8a10d4528181de3d5cff4b9",
         "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py": "85f452b177066c749577b51a730ac49b81acd153ed4f5fc6d141762b4075ae03"
       }
     },
@@ -6929,7 +6978,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/masked_add_cuda/Kernels.lean": "63bbc0b01090634372b6f1d5cf043a5bdc48af7f59369b35aa3bd851e4f7645f",
+        "bench/tritonbench_g/masked_add_cuda/Kernels.lean": "d81be128e03f92df0dee72fe6d874fa37cde796c05dd867436358e2b0451f9be",
         "bench/tritonbench_g/masked_add_cuda/masked_add_cuda.py": "eafb63c41a33b5e59938db513b49826dc5ac65ba485ed19963570d7887f46226"
       }
     },
@@ -6939,10 +6988,10 @@
       "python": "bench/tritonbench_g/masked_select/masked_select.py",
       "lean": "bench/tritonbench_g/masked_select/Kernels.lean",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 4,
-        "dsl_assignment": 6,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 1,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -6966,7 +7015,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/masked_select/Kernels.lean": "8e98f6dc18c007eb25846ac6c01e8b88e086dd24d0f8c2592960746d279aaf84",
+        "bench/tritonbench_g/masked_select/Kernels.lean": "bab659ea0e89c4bc9e6e5a7d40e3c9b968845833df4295d0f4f45b8b3250de8f",
         "bench/tritonbench_g/masked_select/masked_select.py": "9b28fdd896227daab5970493602f5d580a94be1f8979484f613cfb8aa41f47fe"
       }
     },
@@ -6979,7 +7028,7 @@
         "quotations": 1,
         "in_body_type_directives": 1,
         "antiquotes": 21,
-        "dsl_assignment": 29,
+        "dsl_assignment": 28,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 1,
         "load_dtype_extension": 0
@@ -7013,7 +7062,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_dequant_int4/Kernels.lean": "4d6eaf3be9bdd2d8f794bdc107512771d96373ccb87e73408f117cba4450b142",
+        "bench/tritonbench_g/matmul_dequant_int4/Kernels.lean": "21c76ad5db46d709978290b690d773f4df1fc0a42812592a605c625689698d1d",
         "bench/tritonbench_g/matmul_dequant_int4/matmul_dequant_int4.py": "17de8be715084e9b1a6482bc3a8e02b3510103df720bb72d36e4b52686330f8e"
       }
     },
@@ -7026,7 +7075,7 @@
         "quotations": 3,
         "in_body_type_directives": 3,
         "antiquotes": 130,
-        "dsl_assignment": 7,
+        "dsl_assignment": 3,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 5,
         "load_dtype_extension": 2
@@ -7070,7 +7119,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_dequantize/Kernels.lean": "b5994f25982b8b37102c85386618dfa378b76e73903a107b078a465e58de71d6",
+        "bench/tritonbench_g/matmul_dequantize/Kernels.lean": "c7b22337b1d1df5d470985d6bdf81c87e6b4bc01d9dd2aac6497a6773f23c52e",
         "bench/tritonbench_g/matmul_dequantize/matmul_dequantize.py": "8aead7bf90ca37c06d10382702dd47072db7614a55b33e0940c2a33da1f64283"
       }
     },
@@ -7204,7 +7253,7 @@
         "quotations": 2,
         "in_body_type_directives": 2,
         "antiquotes": 98,
-        "dsl_assignment": 5,
+        "dsl_assignment": 4,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -7299,7 +7348,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_leakyrelu_fp8/Kernels.lean": "0520117b46c5324c592539cd1b2928a08bf90f0514fc1b55f81ecebfef646ab5",
+        "bench/tritonbench_g/matmul_leakyrelu_fp8/Kernels.lean": "7d41a67f091685ec9a70e83d1ccbc5497c540d108f7ef1d928249920b28ae4fd",
         "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8.py": "185ae6684de33dfff4c28b33c11f824338e585f3a283712bf4f32f2d76829457"
       }
     },
@@ -7389,7 +7438,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_persistent_triton/Kernels.lean": "d00a4d26d5a6105495c1b2a53b58614496906e40a4e0e973618feb83b73ce3ae",
+        "bench/tritonbench_g/matmul_persistent_triton/Kernels.lean": "f85e179fbaf21f655b0124f622c7db23d5b607f9eb353b621abacddb06cdca01",
         "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton.py": "cbc4b8cf640d36422da090fe981e5d84a1d5a7f3e686e6b7842a43271ef875b6"
       }
     },
@@ -7426,7 +7475,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_tma/Kernels.lean": "124e7bcbe389b556163b1683ddb8406da74b6b9502269c9b0e59cdcc3e5b56fe",
+        "bench/tritonbench_g/matmul_tma/Kernels.lean": "b963fc9379a42c65ad8c3734d6e5b28c7897e3b1a8aa739959cb1cd572b5795a",
         "bench/tritonbench_g/matmul_tma/matmul_tma.py": "71d5329036259331442629daac29492bb71c0d26b2acd64d5e5ef9f7142f5b5b"
       }
     },
@@ -7436,13 +7485,13 @@
       "python": "bench/tritonbench_g/matmul_triton1/matmul_triton1.py",
       "lean": "bench/tritonbench_g/matmul_triton1/Kernels.lean",
       "lean_screen": {
-        "quotations": 3,
-        "in_body_type_directives": 3,
-        "antiquotes": 91,
-        "dsl_assignment": 12,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 9,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 3
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -7452,18 +7501,40 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "body",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 22,
+          "runtime_parameters": {
+            "m_size": "integer",
+            "k_size": "integer",
+            "n_size": "integer",
+            "stride_xm": "integer",
+            "stride_xk": "integer",
+            "stride_yk": "integer",
+            "stride_yn": "integer",
+            "stride_zm": "integer",
+            "stride_zn": "integer"
+          },
+          "constexpr_parameters": [
+            "k_block_size",
+            "m_block_size",
+            "n_block_size"
+          ],
           "python": "bench/tritonbench_g/matmul_triton1/matmul_triton1.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/matmul_triton1/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_triton1/Kernels.lean": "b20f3512b3d2d40bbe3aff47417003989031d210ae28716c7ff3cd8696bc3c57",
+        "bench/tritonbench_g/matmul_triton1/Kernels.lean": "b9a22bc7cb8f0a327e70229a2edc65041dfe76f99f4437ea91466b964e2e93d3",
+        "bench/tritonbench_g/matmul_triton1/jit-correspondence.json": "df946e23709772bd3f0701b5516369f166967a3fe0a4163fd862263342fbfe40",
         "bench/tritonbench_g/matmul_triton1/matmul_triton1.py": "705bfb2cecafd2644cfe60922a0eebce2e110d0221343c7e87b273c14bbfe62a"
       }
     },
@@ -7474,8 +7545,8 @@
       "lean": "bench/tritonbench_g/matmul_triton2/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 70,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
         "dsl_assignment": 9,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
@@ -7489,18 +7560,41 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "body",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 28,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
           "python": "bench/tritonbench_g/matmul_triton2/matmul_triton2.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/matmul_triton2/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_triton2/Kernels.lean": "c5a1394c85772c32b1ccb4c0ce9485d93e78be0a84d22fb08e312613a6d51623",
+        "bench/tritonbench_g/matmul_triton2/Kernels.lean": "71219b8e483a0dc0f043ff82562385ea05812206f5f52c40179a0c86b436bab0",
+        "bench/tritonbench_g/matmul_triton2/jit-correspondence.json": "5cc8343645e54de6f0fc5128d19f6e5086036836b435861aff1b249877ef4f75",
         "bench/tritonbench_g/matmul_triton2/matmul_triton2.py": "8be06ecb63df7503e779d8dcf10d90de69d378f977b7f2cd9e06aeeb06eaef56"
       }
     },
@@ -7658,7 +7752,7 @@
         "quotations": 2,
         "in_body_type_directives": 2,
         "antiquotes": 12,
-        "dsl_assignment": 4,
+        "dsl_assignment": 10,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -7692,7 +7786,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/matrix_transpose/Kernels.lean": "c8c89bd3f7282b08b41237d68229b8549e332aaf0c85ae07d26147cc6b759ed4",
+        "bench/tritonbench_g/matrix_transpose/Kernels.lean": "2e87e6112e3afa2f4fbe183896b6d3ea06d1a40e10f35c0429b4b97a4aaff09f",
         "bench/tritonbench_g/matrix_transpose/matrix_transpose.py": "84131a4342debea02e9ae3620e7e4a19177ef04bd7d377857ea767d8549bbc94"
       }
     },
@@ -7703,9 +7797,9 @@
       "lean": "bench/tritonbench_g/matrix_vector_multip/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 34,
-        "dsl_assignment": 10,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 11,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -7724,22 +7818,57 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "mv_contiguous_kernel",
+          "lean_definition": "body",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 18,
+          "runtime_parameters": {
+            "N": "integer",
+            "M": "integer",
+            "stride_an": "integer",
+            "stride_am": "integer",
+            "stride_bm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/matrix_vector_multip/matrix_vector_multip.py",
-          "function": "mv_contiguous_kernel"
+          "lean": "bench/tritonbench_g/matrix_vector_multip/Kernels.lean"
         },
         {
+          "python_function": "mv_contiguous_fma_kernel",
+          "lean_definition": "fmaBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 18,
+          "runtime_parameters": {
+            "N": "integer",
+            "M": "integer",
+            "stride_an": "integer",
+            "stride_am": "integer",
+            "stride_bm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/matrix_vector_multip/matrix_vector_multip.py",
-          "function": "mv_contiguous_fma_kernel"
+          "lean": "bench/tritonbench_g/matrix_vector_multip/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/matrix_vector_multip/Kernels.lean": "6cb45a8bf486f6f2b3fc95534a6ffd83963d9be36fb3594fa390139d740e9d3d",
+        "bench/tritonbench_g/matrix_vector_multip/Kernels.lean": "1c463c47991c23bfeeffe4d118c8226329d04151f96be33cd4a9288cdde0b1fc",
+        "bench/tritonbench_g/matrix_vector_multip/jit-correspondence.json": "b10734794c28ffb016c48515a3f14ba2b3c95a7c56bcc9c1573ebbe506bd2afe",
         "bench/tritonbench_g/matrix_vector_multip/matrix_vector_multip.py": "31a43e4edb448c41b28c99b6a5132a359368a093e75fa806e4cd14d13294e208"
       }
     },
@@ -7749,10 +7878,10 @@
       "python": "bench/tritonbench_g/max_reduction/max_reduction.py",
       "lean": "bench/tritonbench_g/max_reduction/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
-        "in_body_type_directives": 0,
-        "antiquotes": 0,
-        "dsl_assignment": 6,
+        "quotations": 6,
+        "in_body_type_directives": 6,
+        "antiquotes": 30,
+        "dsl_assignment": 8,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -7843,7 +7972,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/max_reduction/Kernels.lean": "f2aaaaf2d07c08e3fac3778369a558784c7fd5e4a1c7512cf0b765e04202119e",
+        "bench/tritonbench_g/max_reduction/Kernels.lean": "15c63ab7247872027d39f30b663b0a84d5ea03412472e19ff49f87715c099a5f",
         "bench/tritonbench_g/max_reduction/max_reduction.py": "a0e5722ad5d075978b6019f84060d6f6811f8e3529b8d8f6eea5f47d07f57da9"
       }
     },
@@ -7890,7 +8019,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/mean_reduction/Kernels.lean": "f84a1781c4d40a18ae5f34e5b590e6733e8b565a39e9d1e74368819aebcce7b5",
+        "bench/tritonbench_g/mean_reduction/Kernels.lean": "8140f1442e536530caeeeb671dc527812c7c3ed1f09ac300049b5ee927d25592",
         "bench/tritonbench_g/mean_reduction/mean_reduction.py": "f47c2e2c4423bb7803fe5612e678d81438e3af99c84ae59ac95ce27847248e1b"
       }
     },
@@ -8736,7 +8865,7 @@
         "quotations": 2,
         "in_body_type_directives": 2,
         "antiquotes": 56,
-        "dsl_assignment": 15,
+        "dsl_assignment": 12,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -8760,7 +8889,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/quant_transpose_kernel/Kernels.lean": "9060826214f38e80cf759ff92f51760422e43bb483dcfe79b2e96e6122df6c7f",
+        "bench/tritonbench_g/quant_transpose_kernel/Kernels.lean": "dcb0e67ba7d594948a6ffa3fc7166215b4f8310f86ef2e066b78c1c77e634a4e",
         "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py": "46e8cc01024faa27ea3187bc2d1c70b412392cea65d0c4be00de276335820e7d"
       }
     },
@@ -9077,7 +9206,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/rbe_triton_transform/Kernels.lean": "64b69b2e4d16a7a07f67b2e00ff2c43708f209418c2baa3ecc4cd6c365256a77",
+        "bench/tritonbench_g/rbe_triton_transform/Kernels.lean": "aadd68e0e08bf5709152fad65f4fde6ae4ddb9fcb4f1ada34a84d9dccfb5e932",
         "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform.py": "97d336d7baa78cd4104f114d658760deb16a06f4bb56a68ff3c675ee339aa2fd"
       }
     },
@@ -9362,7 +9491,7 @@
         "quotations": 8,
         "in_body_type_directives": 24,
         "antiquotes": 488,
-        "dsl_assignment": 50,
+        "dsl_assignment": 46,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 24,
         "load_dtype_extension": 16
@@ -9489,7 +9618,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "4255cebc05e85f4a5983a187fb1c1f021b2cc5c7e779fda568abff5e9bab6259",
+        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "fcc2a130b01d7bdee64d56cbe36b3d0ea003578ecaf2ee0835156fbb32069d7c",
         "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py": "bae7101afcaa4538e1d325bdf711089babb56cdb22062b3f0cbb4fc7e5cb89b0"
       }
     },
@@ -9499,10 +9628,10 @@
       "python": "bench/tritonbench_g/rms_norm_triton/rms_norm_triton.py",
       "lean": "bench/tritonbench_g/rms_norm_triton/Kernels.lean",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 10,
-        "dsl_assignment": 3,
+        "quotations": 2,
+        "in_body_type_directives": 2,
+        "antiquotes": 20,
+        "dsl_assignment": 2,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -9526,7 +9655,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/rms_norm_triton/Kernels.lean": "a95e17fd321f57f724f20ac16ade6568f8f395001131063e7a25519dc004f5df",
+        "bench/tritonbench_g/rms_norm_triton/Kernels.lean": "30de5f9f72f69f3b01f9d7d0aca1d6189df5455120025648f677a47d77609950",
         "bench/tritonbench_g/rms_norm_triton/rms_norm_triton.py": "879dd4e82d40b9891c53bd584debb8932c27ae47389df0350b13614dc2782983"
       }
     },
@@ -9539,7 +9668,7 @@
         "quotations": 4,
         "in_body_type_directives": 4,
         "antiquotes": 252,
-        "dsl_assignment": 13,
+        "dsl_assignment": 12,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8,
         "load_dtype_extension": 8
@@ -9738,7 +9867,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean": "387536c2265755e4ba4d9fad0e422dc0d2a2c7a93adf6318e9ab1ae29dd94d0f",
+        "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean": "c677f7abfcb4a1404c8053eb9b1a9bf5ab377dc9bb72fcac74b50260cc937dc2",
         "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py": "dfacb5b24c87863213a7516fdf9885be9027db9cec5ed0be41066f36464c3824"
       }
     },
@@ -9751,7 +9880,7 @@
         "quotations": 2,
         "in_body_type_directives": 4,
         "antiquotes": 26,
-        "dsl_assignment": 9,
+        "dsl_assignment": 8,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -9780,7 +9909,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/rmsnorm_fused/Kernels.lean": "e0fb025a96e2d60be3c7d87f85a9aeee2dfb133182d5d3db610d2c823e4bd21c",
+        "bench/tritonbench_g/rmsnorm_fused/Kernels.lean": "60d6270e2fa4fe8ebab516e90184e21559f1a7a1fe9002e07df7c21ee25538a0",
         "bench/tritonbench_g/rmsnorm_fused/rmsnorm_fused.py": "677bf13ce7db6ef8b0097d6ed68c637ea75015a3949702f10b881909e3790ddd"
       }
     },
@@ -9790,13 +9919,13 @@
       "python": "bench/tritonbench_g/rmsnorm_fused_llama/rmsnorm_fused_llama.py",
       "lean": "bench/tritonbench_g/rmsnorm_fused_llama/Kernels.lean",
       "lean_screen": {
-        "quotations": 4,
-        "in_body_type_directives": 6,
-        "antiquotes": 50,
+        "quotations": 2,
+        "in_body_type_directives": 4,
+        "antiquotes": 24,
         "dsl_assignment": 6,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 4
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -9817,7 +9946,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/rmsnorm_fused_llama/Kernels.lean": "66854c79b9a2f338d1a98b2e96d232d77efc0b59884d3409c8c3c2c1cb156f31",
+        "bench/tritonbench_g/rmsnorm_fused_llama/Kernels.lean": "f0dac2a4096a19acffbb620cdda335ae9658cc4cdcd8d764511e8e994a1c1a17",
         "bench/tritonbench_g/rmsnorm_fused_llama/rmsnorm_fused_llama.py": "74728350fa4edb13fb1548218e87f262671af134532e2be19dec38fb3fdc113e"
       }
     },
@@ -9854,7 +9983,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/rmsnorm_implementation/Kernels.lean": "2711926c04919eeca95187d02ffe52c4624f6c1fcfd556c5b0c5cf8ad68b746f",
+        "bench/tritonbench_g/rmsnorm_implementation/Kernels.lean": "e6a9001400c022477aa23cc24193be5d475295fcabafc5ded5b694b635f0c18c",
         "bench/tritonbench_g/rmsnorm_implementation/rmsnorm_implementation.py": "210c3a54de4bbf00053a81f981860bf1068469b95903261034bf7b7515b3ef9d"
       }
     },
@@ -9864,10 +9993,10 @@
       "python": "bench/tritonbench_g/rmsnorm_triton/rmsnorm_triton.py",
       "lean": "bench/tritonbench_g/rmsnorm_triton/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 36,
-        "dsl_assignment": 5,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 3,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -9891,7 +10020,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/rmsnorm_triton/Kernels.lean": "d43441957b925c7fece692cd140025fe74f7500d731d935be1b2e31b6ed5f6e1",
+        "bench/tritonbench_g/rmsnorm_triton/Kernels.lean": "ca7c928e119ce5b3c7aab71a86abbb501d4f0b23ce5e88fe1f84b0f7ec50ef4e",
         "bench/tritonbench_g/rmsnorm_triton/rmsnorm_triton.py": "5b89dde21e5b2752f1af7aaee97317c7a55824a08901a480fffdee875164cf0c"
       }
     },
@@ -10292,10 +10421,10 @@
       "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
       "lean": "bench/tritonbench_g/seeded_dropout/Kernels.lean",
       "lean_screen": {
-        "quotations": 6,
-        "in_body_type_directives": 6,
-        "antiquotes": 30,
-        "dsl_assignment": 5,
+        "quotations": 48,
+        "in_body_type_directives": 48,
+        "antiquotes": 240,
+        "dsl_assignment": 6,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -10329,7 +10458,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/seeded_dropout/Kernels.lean": "e85d94bd391b25ab5f571adf2206505808a925996aa6e79187170857dae1ce20",
+        "bench/tritonbench_g/seeded_dropout/Kernels.lean": "f20e1d78c28bc9c504b38e9e141f02f46cf8737d73dd728054522df00f99bf0d",
         "bench/tritonbench_g/seeded_dropout/seeded_dropout.py": "f716d15192552746f3797d82ca6fb97a63114f0f8576e00f7fcbdc18ba40ba6f"
       }
     },
@@ -10551,7 +10680,7 @@
         "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 6,
-        "dsl_assignment": 10,
+        "dsl_assignment": 8,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -10585,7 +10714,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/sin_computation/Kernels.lean": "621005af76669b80e4f4c729112d83c2ef3d3ab542ea00b5c8289268fdfc78cd",
+        "bench/tritonbench_g/sin_computation/Kernels.lean": "1723137c68e9ce28fd859bd719b3ae7617f7c0bde343fd848c42058ad1365f90",
         "bench/tritonbench_g/sin_computation/sin_computation.py": "e20580824a971eabe300273dc2767c10b929de6a81ceb637ff569c62171e6b6d"
       }
     },
@@ -10642,13 +10771,13 @@
       "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
       "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean",
       "lean_screen": {
-        "quotations": 8,
-        "in_body_type_directives": 8,
-        "antiquotes": 250,
-        "dsl_assignment": 8,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 0,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 12
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -10811,11 +10940,11 @@
           "function": "softmax_backward_kernel_inner"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/softmax_flaggems/Kernels.lean": "2f8c203ba6a4811a77067e8d4d1188b7b9c3a4b4e9742619af7e83c6e95895ae",
+        "bench/tritonbench_g/softmax_flaggems/Kernels.lean": "79da2442703048dfe8a6472b78b70b1755fed7a2f848e0a9b9b376ea11e62921",
         "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py": "6b2ecbf51ec2791b0fcc330184bf5f974e3c6bae81047639cafa663b0320c0e6"
       }
     },
@@ -11185,7 +11314,7 @@
         "quotations": 2,
         "in_body_type_directives": 2,
         "antiquotes": 10,
-        "dsl_assignment": 7,
+        "dsl_assignment": 10,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -11219,7 +11348,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/square_matrix/Kernels.lean": "b5164722b3f03bce6fc0981842e5cb5feb01146b565415ede6f1f4bf0a005d87",
+        "bench/tritonbench_g/square_matrix/Kernels.lean": "a3138d7405f3f714156f43415d9998d985a138008ab5441d939d8fa4c0f23d06",
         "bench/tritonbench_g/square_matrix/square_matrix.py": "79d2283c8d83fc8da965ebbee07a26695e05ff999ac82ac430f75ed15418d3fd"
       }
     },
@@ -11343,7 +11472,7 @@
         "quotations": 2,
         "in_body_type_directives": 2,
         "antiquotes": 28,
-        "dsl_assignment": 3,
+        "dsl_assignment": 2,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -11367,7 +11496,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/swiglu_backward/Kernels.lean": "cb463b5bd4985379433821ffc1973cf8c222162dcc27f37dbfb0d5b34618ee53",
+        "bench/tritonbench_g/swiglu_backward/Kernels.lean": "53b0d6274ce4d5fb6698dc6de01f5e3a9a5d0e74ec6b981d798e86451b92037e",
         "bench/tritonbench_g/swiglu_backward/swiglu_backward.py": "13c513401d90306668c863bd80bab78add46db45e3c4eac1b9b18069fb0b5f61"
       }
     },
@@ -11380,7 +11509,7 @@
         "quotations": 2,
         "in_body_type_directives": 2,
         "antiquotes": 16,
-        "dsl_assignment": 4,
+        "dsl_assignment": 3,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -11404,7 +11533,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/swiglu_fwd/Kernels.lean": "074342404504da33eddcc620b94ba145af4334fd2daae4c749fa48c442abc9c4",
+        "bench/tritonbench_g/swiglu_fwd/Kernels.lean": "1671e07bf16147ff0d6b0e00cfdcb1a13351935aee8952860962d3e8a910a206",
         "bench/tritonbench_g/swiglu_fwd/swiglu_fwd.py": "11024396d179cadb06f086db70b89eb9faea74454a15b72004cce31e5c9f80e1"
       }
     },
@@ -11417,7 +11546,7 @@
         "quotations": 4,
         "in_body_type_directives": 4,
         "antiquotes": 20,
-        "dsl_assignment": 20,
+        "dsl_assignment": 19,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -11471,7 +11600,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/swiglu_triton/Kernels.lean": "8cc99f3e3e9313f5f157672f3dee44cb7e8e44c9a218464976d90e476abc3cbb",
+        "bench/tritonbench_g/swiglu_triton/Kernels.lean": "f74f4c67e5ba3bd756339d093216e3f5079a0d9e9c8f79a31305e5217caeebfd",
         "bench/tritonbench_g/swiglu_triton/swiglu_triton.py": "e6604497013fdd698c6d2894a19d3d6520766501e410e6e246b49c5b9c192df7"
       }
     },
@@ -11521,7 +11650,7 @@
         "quotations": 1,
         "in_body_type_directives": 1,
         "antiquotes": 26,
-        "dsl_assignment": 4,
+        "dsl_assignment": 3,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 1
@@ -11545,7 +11674,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/token_attn_mistral/Kernels.lean": "e0b49cb7a53655307cbc91676cd4c0ba387650d22cb87f19d15083235460a0b9",
+        "bench/tritonbench_g/token_attn_mistral/Kernels.lean": "756671fbb50d96b8b279ce10bed3e40bbd3fe2ce9f36be5772a6d42325815704",
         "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py": "0c5cf97e58ab9539ba589afa4bda50e033222236826001b1ab7019c3d49bbabe"
       }
     },
@@ -11558,7 +11687,7 @@
         "quotations": 1,
         "in_body_type_directives": 1,
         "antiquotes": 23,
-        "dsl_assignment": 4,
+        "dsl_assignment": 3,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 1
@@ -11582,7 +11711,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/token_attn_reduceV/Kernels.lean": "08be5ca0d84c7cdd975f6fe7eade15742afd1d0c5a635872ecfcb7b01705b0dd",
+        "bench/tritonbench_g/token_attn_reduceV/Kernels.lean": "254a77c5c9cc2240b0296b5d42561655c2f3fa0d46b35e02638ae49d9640e87c",
         "bench/tritonbench_g/token_attn_reduceV/token_attn_reduceV.py": "35b3502fa9e93d09b5ac05dc8ad59cacd516542a69968f894e4da293869dcd82"
       }
     },
@@ -11595,7 +11724,7 @@
         "quotations": 1,
         "in_body_type_directives": 1,
         "antiquotes": 7,
-        "dsl_assignment": 2,
+        "dsl_assignment": 1,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -11640,7 +11769,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/token_softmax_bloom/Kernels.lean": "b4267c5a39d6c85c3b95268abbbf49c049c0619afac5598ecf862b22746bdce6",
+        "bench/tritonbench_g/token_softmax_bloom/Kernels.lean": "2838ec06102c150b8466b03f5d514fe7c739095456133edfab531521b8fc422f",
         "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py": "3a7a843d8532cc306d9ea665674859dbf91e88933c413074287757d43a86eab4"
       }
     },
@@ -12102,7 +12231,7 @@
         "quotations": 0,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 1,
+        "dsl_assignment": 0,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -12180,18 +12309,42 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel_repaired",
+          "lean_definition": "rawBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 29,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
           "python": "bench/tritonbench_g/triton_matmul/triton_matmul.py",
-          "function": "matmul_kernel_repaired"
+          "lean": "bench/tritonbench_g/triton_matmul/Sources/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/triton_matmul/Kernels.lean": "e81e5a62f5d2ab346642af3309dda470652d5f97aa3e7c60ffaa4416b9845e11",
+        "bench/tritonbench_g/triton_matmul/Kernels.lean": "a26967bd4896aeb6140d5713daf992a8e24e1724d0f4de05d514ddee9a052543",
+        "bench/tritonbench_g/triton_matmul/Sources/Kernels.lean": "b3c0172fcac6d222b33ac742984053edb00f0b9d717df106aae7de1e9554a795",
+        "bench/tritonbench_g/triton_matmul/jit-correspondence.json": "e2d104b76eb5d7e33aec22f024f25983d20b6becf146db1ab8217005c2874510",
         "bench/tritonbench_g/triton_matmul/triton_matmul.py": "ae92db50d9682c192a9404f75686f30dd02e9881d6fd440d00dce82ccd68c84f"
       }
     },
@@ -12317,7 +12470,7 @@
         "quotations": 2,
         "in_body_type_directives": 2,
         "antiquotes": 34,
-        "dsl_assignment": 4,
+        "dsl_assignment": 2,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -12400,7 +12553,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/uniform_sampling/Kernels.lean": "17afcce620a5022a69f886a58ed4ac84f4c3037da5d19ec4c2f4fc39ebd83340",
+        "bench/tritonbench_g/uniform_sampling/Kernels.lean": "34c1b277b3700f0f0aecdf5949ba16e53b09f5f24e5bd4ce189628d3946e0084",
         "bench/tritonbench_g/uniform_sampling/uniform_sampling.py": "d2b5a74be5614a7eba8668418dae451ff393076cdf7c2524a811cd315fbdb92f"
       }
     },
@@ -12557,7 +12710,7 @@
         "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 10,
-        "dsl_assignment": 13,
+        "dsl_assignment": 12,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -12591,7 +12744,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "uncovered_jit_functions",
       "source_sha256": {
-        "bench/tritonbench_g/vector_addition_custom/Kernels.lean": "44c6e9d3541cb118d4e4fea66c15ef378b2ec1963cfcdee0c61ac024edee42d2",
+        "bench/tritonbench_g/vector_addition_custom/Kernels.lean": "def6a4370cacd0b70ba87ace2dcb61faaef299c549fb0ee2f380307ae59a11f1",
         "bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py": "b1c06db039e42a32c579e71acb33cd69fceaf818d0bba73edcde71244c53a34e"
       }
     }
@@ -12963,10 +13116,10 @@
       "python": null,
       "lean": "bench/examples/StableLogSumExp/Kernels.lean",
       "lean_screen": {
-        "quotations": 3,
+        "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 12,
-        "dsl_assignment": 31,
+        "antiquotes": 8,
+        "dsl_assignment": 23,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -12978,7 +13131,7 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "no_independent_python_reference",
       "source_sha256": {
-        "bench/examples/StableLogSumExp/Kernels.lean": "b78b8539c37683a6e96f49d31c384cab1acbbfbb037e548510c5943a431c38ef"
+        "bench/examples/StableLogSumExp/Kernels.lean": "1f24a7e947d35c35c141d9272a1f9dae2f7e56660b1080bb2b698a659470f384"
       }
     },
     {

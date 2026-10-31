@@ -2,10 +2,8 @@ import bench.tritonbench_g.attention_score.Proofs.Reused.Kernels
 import bench.tritonbench_g.attention_score.Proofs.Reused.RealSource
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.TypedSource
 open VeriTile.Triton
-/-- The DSL uses mathematical index integers. Widening changes machine
-representation, whose bounds are proved separately, but not this source tree. -/
+/-- Compatibility name for the sole repaired source definition. -/
 theorem widened_eq : widened = VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.TypedSource.original := by
-  funext Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N R NK B D BN off sz scale w comp em en eq
-  simp only [widened, VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.TypedSource.original]
+  rfl
 #axiomsClean widened_eq
 end VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.TypedSource

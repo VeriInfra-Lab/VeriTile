@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_llama.Sources.Mathematical_Kernels
+import VeriTile.Triton.DSL
 import bench.tritonbench_g.attention_llama.Proofs.Mathematical_RealKernel
 import bench.tritonbench_g.attention_llama.Proofs.Mathematical_FP8RealLoads
 import VeriTile.Triton.Float.Erasure
@@ -122,114 +122,10 @@ theorem sourceTail_lower_step (fused : Bool) (skn svk N BM BN BD : Nat)
   exact max_head_step _ _ "m_curr"
     (((alLoopTailG skn svk N BM BN BD candidate).drop 1).flatMap (lowerLoad fused)) s
 
-/-- All original recurrence statements are kept, including the source's
-block-local key mask and its causal direction `key + SP ≤ query`. -/
-def loopBody (fused : Bool) (scale : ℝ) (skn svk N SP BM BN BD : Nat)
-    (causal candidate : Bool) : List Stmt :=
-  (alLoopPrefixG scale N BM BN BD).flatMap (lowerLoad fused) ++
-    .ifThen (.constBool causal) [alCausalWhereStmt SP BM BN] ::
-      (sourceTail skn svk N BM BN BD candidate).flatMap (lowerLoad fused)
-
-private theorem loop_fuse (scale : ℝ) (skn svk N SP BM BN BD : Nat)
-    (causal candidate : Bool) (s : BlockState) :
-    stepStmts (loopBody Bool.false scale skn svk N SP BM BN BD causal candidate) s =
-      stepStmts (loopBody Bool.true scale skn svk N SP BM BN BD causal candidate) s := by
-  simp only [loopBody, ProgramRewrite.append, lowerList_fuse]
-  congr 1
-  funext t
-  simp only [stepStmts, lowerList_fuse]
-
-private theorem loop_safe (bounds : RegionBounds) (scale : ℝ) (skn svk N SP BM BN BD : Nat)
-    (causal candidate : Bool) (s : BlockState) :
-    Stmt.TraceSafeList bounds (loopBody Bool.false scale skn svk N SP BM BN BD causal candidate) s ↔
-      Stmt.TraceSafeList bounds (loopBody Bool.true scale skn svk N SP BM BN BD causal candidate) s := by
-  simp only [loopBody, TraceRewrite.append_iff, lowerList_safe, lowerList_fuse]
-  simp only [Stmt.TraceSafeList, lowerList_safe]
-
 section
 variable (Q K V Out : RegionName) (scale : ℝ)
     (sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son
       NH H N SP BM BN BD : Nat) (causal candidate : Bool)
-
-/-- The full typed program, before projection to real arithmetic. -/
-def source : ComputeKernel :=
-  if candidate then
-    TypedSource.carryFirstFP8 Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal
-  else
-    TypedSource.originalFP8 Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal
-
-def body (fused : Bool) : List Stmt :=
-  alPreLoopG Q K V sqz sqh sqm sqk skz skh skn skk svz svh svk svn NH H N BM BN BD ++
-    .ifThen (.constBool causal) [alBnEndCausalStmt SP BN] ::
-    .forRangeDyn "start_n" (.constNat 0) (.ref .nat [] "block_n_end") (.constNat BN)
-      (loopBody fused scale skn svk N SP BM BN BD causal candidate) ::
-      alPostLoopG Out soz soh som son H BM BD
-
-/-- The source's real projection retains both int8 loads and decoders. -/
-theorem source_body :
-    (source Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate).eraseDType.toAlgKernel.body =
-      body Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate Bool.false := by
-  cases candidate <;>
-    simp only [source, TypedSource.originalFP8, TypedSource.carryFirstFP8,
-      Bool.false_eq_true, ↓reduceIte, ComputeKernel.eraseDType,
-      ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel,
-      ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
-      ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType,
-      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,
-      MaskOpt.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-      ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind,
-      List.map_cons, List.map_nil]
-  all_goals
-    simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-      VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
-      ComparableDType.eraseDType, IntegralDType.eraseDType, List.map_cons, List.map_nil]
-    rfl
-
-theorem projection_supported :
-    (source Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate).eraseDType.toAlgorithm? =
-      .ok (source Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate).eraseDType.toAlgKernel := by
-  have h : (source Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate).toAlgorithm? =
-      .ok (source Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate).toAlgKernel := by
-    cases candidate <;> rfl
-  simp only [ComputeKernel.eraseDType, h]
-  simp
-
-/-- Proof-body normalization for both complete sources, not a new candidate
-FP program. It operates only after numerical precision has been erased. -/
-def fusedKernel : Kernel where
-  inputs := [Q, K, V]
-  outputs := [Out]
-  body := body Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate Bool.true
-
-theorem fused_execution (s : BlockState) :
-    exec (source Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate).eraseDType.toAlgKernel s =
-      exec (fusedKernel Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate) s := by
-  simp only [exec, source_body, fusedKernel, body, ProgramRewrite.append,
-    stepStmts, ProgramRewrite.dynamic_range_congr _ _ _ _ _ _
-      (loop_fuse scale skn svk N SP BM BN BD causal candidate)]
-
-/-- Fusion also preserves the safety of intermediate accesses, not just the
-final execution result. The byte load is still the memory-reading operation. -/
-theorem fused_safety (bounds : RegionBounds) (s : BlockState) :
-    (source Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate).eraseDType.toAlgKernel.TraceSafe bounds s ↔
-      (fusedKernel Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate).TraceSafe bounds s := by
-  simp only [Kernel.TraceSafe, source_body, fusedKernel, body, TraceRewrite.append_iff,
-    Stmt.TraceSafeList, TraceRewrite.dynamic_range_congr bounds _ _ _ _ _ _
-      (loop_fuse scale skn svk N SP BM BN BD causal candidate)
-      (loop_safe bounds scale skn svk N SP BM BN BD causal candidate),
-    ProgramRewrite.dynamic_range_congr _ _ _ _ _ _
-      (loop_fuse scale skn svk N SP BM BN BD causal candidate)]
-
-/-- The erased byte loads, decoders, loops and stores are all supported by
-regional-to-flat memory transport. This is checked on the complete source. -/
-theorem flatten_supported :
-    (source Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate).eraseDType.toAlgKernel.FlattenOk := by
-  cases candidate <;>
-    simp [Kernel.FlattenOk, source_body, body, alPreLoopG, loopBody, alLoopPrefixG,
-    sourceTail, alLoopTailG, List.drop_succ_cons, List.drop_zero, alCausalWhereStmt, alBnEndCausalStmt, alPostLoopG,
-    lowerLoad, byteLoad?, FP8RealLoads.conversion,
-    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
-  all_goals simp only [Op.FlattenOk.eq_def, true_and, and_true]
 
 end
 #guard_msgs (drop info) in

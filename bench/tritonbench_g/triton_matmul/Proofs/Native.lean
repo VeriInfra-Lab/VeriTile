@@ -35,6 +35,8 @@ def algebra (rest : Algebra Word) (I : Instructions) : Algebra Word :=
     literal := fun p d x => if x=0 then FP.Value.zero .fp32 else rest.literal p d x
     cast := fun p src dst x => match src,dst with
       | .real,.fp16 => cast I .half x
+      | .fp16,.fp16 => x
+      | .f8e4,.f8e4 => x
       | .real,.f8e4 => cast I .e4m3 x
       | src,dst => rest.cast p src dst x}
 def dotValue (I : Instructions) (st : Storage) {batch : TileShape} {m k n : Nat}

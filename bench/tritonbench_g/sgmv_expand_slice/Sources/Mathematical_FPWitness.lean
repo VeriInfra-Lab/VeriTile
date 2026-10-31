@@ -48,40 +48,8 @@ theorem witness_value (fmt : Storage) (out : Output) :
 theorem witness_layout (fmt : Storage) : Function.Injective (outputOffset witnessParameters (witnessInitial fmt)) := by
   cases fmt <;> decide +kernel
 
-/-- Two full K blocks, both low-precision input formats and all three output
-formats, nonzero PIDs/start/adapter/slice, modulo gather, and both masked axes. -/
-theorem two_block_bit_success (rest : Algebra Word) (fmt : Storage) (out : Output) :
-    ∃ final, FP.Structural.exec (backend rest .ieeeValue (softwareDot .ieeeValue))
-      (source fmt out witnessParameters) (witnessInitial fmt)=some final ∧
-      final.mem "Y" 77=outputCell out (resultWord out) ∧
-      final.mem "Y" 78=(witnessInitial fmt).mem "Y" 78 ∧
-      final.mem "Y" 87=(witnessInitial fmt).mem "Y" 87 ∧
-      final.mem "X" 42=(witnessInitial fmt).mem "X" 42 := by
-  obtain ⟨final,he,hp⟩ := correctness rest .ieeeValue (softwareDot .ieeeValue) fmt out
-    witnessParameters (witnessInitial fmt) (witness_layout fmt)
-  refine ⟨final,he,?_,?_,?_,hp.2 "X" 42 (Or.inl (by decide))⟩
-  · have ha : active witnessParameters (witnessInitial fmt) lane00=Bool.true := by
-      simp [active,row,col,seqLen,witnessParameters,witnessInitial,lane00]
-    have hv := hp.1 lane00 ha
-    change final.mem "Y" 77=_ at hv
-    exact hv.trans (congrArg (outputCell out) (witness_value fmt out))
-  · apply hp.2 "Y" 78
-    right
-    intro i hi
-    simp [active,row,col,seqLen,outputOffset,seqStart,witnessParameters,witnessInitial] at hi ⊢
-    have hrow : i.1.val=0 := by omega
-    have hcol : i.2.1.val=0 := by omega
-    simp [hrow,hcol]
-  · apply hp.2 "Y" 87
-    right
-    intro i hi
-    simp [active,row,col,seqLen,outputOffset,seqStart,witnessParameters,witnessInitial] at hi ⊢
-    have hrow : i.1.val=0 := by omega
-    have hcol : i.2.1.val=0 := by omega
-    simp [hrow,hcol]
 #axiomsClean witness_launch
 #axiomsClean witness_value
 #axiomsClean witness_layout
-#axiomsClean two_block_bit_success
 end
 end VeriTile.Bench.TritonBenchG.SgmvExpandSlice.FPValue

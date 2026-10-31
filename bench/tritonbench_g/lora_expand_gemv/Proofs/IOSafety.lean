@@ -17,7 +17,7 @@ theorem header_safe (rest : Algebra Word) (plans : ∀ n, ReductionPlan n)
     Safety.traceSafeList (Branches.engine rest .ieeeValue plans) bounds
       (Branches.header .singleHalf .single g.parameters) s := by
   dsimp only [Branches.header,Branches.source,
-    VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,ComputeKernel.surfaceBody]
+    VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,ComputeKernel.surfaceBody]
   simpa [
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,

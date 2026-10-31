@@ -1,0 +1,74 @@
+import bench.tritonbench_g.matmul_triton1.Proofs.MaskIOComplete
+import bench.tritonbench_g.matmul_triton1.Proofs.MaskIOSafety
+import bench.tritonbench_g.matmul_triton1.Proofs.Real
+import VeriTile.Meta.StatementAudit
+namespace VeriTile.Bench.Repairs.MatmulTriton1.MaskIOProof
+open VeriTile.Triton FP.Structural
+open VeriTile.Bench.Repairs.MatmulTriton1.MaskRuntime
+open VeriTile.Bench.Repairs.MatmulTriton1
+open Revision001
+open Pair
+open VeriTile.Bench.Repairs.MatmulTriton1.SourceRuntime (observedState observed_cell_read observed_logical)
+open VeriTile.Bench.Repairs.IntScaledMatmul.Revision001
+noncomputable section
+set_option maxHeartbeats 4000000
+set_option maxRecDepth 24000
+set_option linter.unusedSimpArgs false
+
+theorem precision {α : Type} [Inhabited α] (rest : Algebra α) (P : Core.Primitives α)
+    (p : Core.Parameters) (canonical : FiniteSource.Canonical p)
+    (ready : FiniteIndex.Ready p) (storage : FiniteIndex.StorageBounds p)
+    (geometry : Geometry.Valid (Core.geometry p))
+    (ha : p.input≠p.output) (hb : p.weight≠p.output) :
+    (candidateIO rest P p).Implements (MatmulIO.precisionTarget P p) := by
+  apply ProgramIO.Implements.intro
+  · intro vals limits bound initial _
+    exact schedule_safe rest P p vals limits bound canonical ready _
+      (fun _ member => List.mem_range.mp member) initial
+  · exact complete rest P p canonical ready storage geometry ha hb
+
+theorem real_target (rest : Algebra ℝ) (p : Core.Parameters)
+    (xs : ChannelValues ℝ (MatmulIO.inputs p)) (s : State (Word ℝ))
+    (hin : (candidateIO rest Core.realPrimitives p).InputBinding xs s)
+    (r : Fin p.rows) (c : Fin p.columns) :
+    Core.realMatmul p (observedState Core.realPrimitives s) r.val c.val =
+      (MatmulIO.realTarget p xs) (0 : Fin 1) (r,c,()) := by
+  apply RealSum.sum_congr
+  intro k hk
+  change k<p.innerSize at hk
+  change ((observedState Core.realPrimitives s).mem p.input (r.val*p.inputRow+k*p.inputInner)).read .real *
+    ((observedState Core.realPrimitives s).mem p.weight (k*p.weightInner+c.val*p.weightColumn)).read .real =
+    MatmulIO.left p xs 0 r k * MatmulIO.right p xs 0 c k
+  rw [read_left rest Core.realPrimitives p xs s hin r ⟨k,hk⟩,
+    read_right rest Core.realPrimitives p xs s hin ⟨k,hk⟩ c]
+  simp [MatmulIO.left,MatmulIO.right,hk]
+
+theorem real (rest : Algebra ℝ) (p : Core.Parameters) (canonical : FiniteSource.Canonical p)
+    (ready : FiniteIndex.Ready p) (storage : FiniteIndex.StorageBounds p)
+    (geometry : Geometry.Valid (Core.geometry p))
+    (ha : p.input≠p.output) (hb : p.weight≠p.output) :
+    (candidateIO rest Core.realPrimitives p).Implements (MatmulIO.realTarget p) := by
+  apply ProgramIO.Implements.intro
+  · intro vals limits bound initial _
+    exact schedule_safe rest Core.realPrimitives p vals limits bound canonical ready _
+      (fun _ member => List.mem_range.mp member) initial
+  · intro xs initial hin
+    obtain ⟨final,ran,outputs,frame⟩ :=
+      complete rest Core.realPrimitives p canonical ready storage geometry ha hb xs initial hin
+    have targets : MatmulIO.precisionTarget Core.realPrimitives p xs=MatmulIO.realTarget p xs := by
+      funext o j
+      have ho : o=(0 : Fin 1) := Fin.eq_zero o
+      subst o
+      change MatmulIO.precisionAccum Core.realPrimitives p xs j.1 j.2.1 (Core.steps p)=_
+      rw [← precision_target rest Core.realPrimitives p xs initial hin]
+      exact (Core.logical_realMatmul p (observedState Core.realPrimitives initial) _ _
+        (by have := ready.blockInner.1; omega)).trans
+        (real_target rest p xs initial hin j.1 j.2.1)
+    rw [targets] at outputs
+    exact ⟨final,ran,outputs,frame⟩
+
+#axiomsClean precision
+#axiomsClean real_target
+#axiomsClean real
+end
+end VeriTile.Bench.Repairs.MatmulTriton1.MaskIOProof

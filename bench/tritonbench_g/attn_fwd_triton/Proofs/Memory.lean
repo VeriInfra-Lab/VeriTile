@@ -25,6 +25,8 @@ structure Config where
   (z h startM : Nat)
   offsets : BaseOffsets := {}
 
+def rows (B start : Nat) : Tile .int [B] := ⟨fun i => ((start+i.1.val : Nat) : Int)⟩
+
 def qbase (c : Config) := c.z*c.p.queryBatch+c.h*c.p.queryHead+c.offsets.query
 def kbase (c : Config) := c.z*c.p.keyBatch+c.h*c.p.keyHead+c.offsets.key
 def vbase (c : Config) := c.z*c.p.valueBatch+c.h*c.p.valueHead+c.offsets.value
@@ -63,9 +65,9 @@ def queryMaskTile (BM BD N D startM : Nat) : Tile .bool [BM,BD] :=
   ⟨fun i => decide (startM*BM+i.1.val < N ∧ i.2.1.val < D)⟩
 
 theorem eval_key_mask (s : BlockState) (BD BN N D start : Nat)
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar start))
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar N)) :
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar start))
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar N)) :
     evalOp (keyMask BD BN D) s = some (keyMaskTile BD BN N D start) := by
   simp only [keyMask, tail, evalOp.eq_def, hn, hs, hctx, bind, Option.bind]
   congr 1
@@ -73,13 +75,14 @@ theorem eval_key_mask (s : BlockState) (BD BN N D start : Nat)
   rintro ⟨d,j,⟨⟩⟩
   simp [keyMaskTile, Tile.cop_data, Tile.bop_data, Tile.expandDim_data, Tile.vec, Tile.scalar,
     TileShape.dropInsertedIndex, ComparableDType.lt, NumericDType.sub,
-    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealExpressions.tail_mask_iff, -Tile.scalar_eta]
-  rfl
+    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealExpressions.tail_mask_iff,ControlView.signed_tail, -Tile.scalar_eta]
+  change (decide ((j.val : Int)<(N : Int)-(start : Int)) && decide (d.val<D)) = _
+  rw [ControlView.signed_tail_add]
 
 theorem eval_value_mask (s : BlockState) (BN BD N D start : Nat)
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar start))
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar N)) :
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar start))
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar N)) :
     evalOp (valueMask BN BD D) s = some (valueMaskTile BN BD N D start) := by
   simp only [valueMask, evalOp.eq_def, hn, hs, hctx, bind, Option.bind]
   congr 1
@@ -87,12 +90,13 @@ theorem eval_value_mask (s : BlockState) (BN BD N D start : Nat)
   rintro ⟨j,d,⟨⟩⟩
   simp [valueMaskTile, Tile.cop_data, Tile.bop_data, Tile.expandDim_data, Tile.vec, Tile.scalar,
     TileShape.dropInsertedIndex, ComparableDType.lt, NumericDType.sub,
-    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealExpressions.tail_mask_iff, -Tile.scalar_eta]
-  rfl
+    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealExpressions.tail_mask_iff,ControlView.signed_tail, -Tile.scalar_eta]
+  change (decide ((j.val : Int)<(N : Int)-(start : Int)) && decide (d.val<D)) = _
+  rw [ControlView.signed_tail_add]
 
 theorem eval_query_mask (s : BlockState) (BM BD N D startM : Nat)
-    (hm : s.regs .nat [BM] "offs_m" = some ⟨fun i => startM*BM+i.1.val⟩)
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar N)) :
+    (hm : s.regs .int [BM] "offs_m" = some ⟨fun i => startM*BM+i.1.val⟩)
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar N)) :
     evalOp (queryMask BM BD D) s = some (queryMaskTile BM BD N D startM) := by
   simp only [queryMask, evalOp.eq_def, hm, hctx, bind, Option.bind]
   congr 1
@@ -100,7 +104,13 @@ theorem eval_query_mask (s : BlockState) (BM BD N D startM : Nat)
   rintro ⟨r,d,⟨⟩⟩
   simp [queryMaskTile, Tile.cop_data, Tile.bop_data, Tile.expandDim_data, Tile.vec, Tile.scalar,
     TileShape.dropInsertedIndex, ComparableDType.lt, -Tile.scalar_eta]
-  rfl
+  change (decide ((startM : Int)*(BM : Int)+(r.val : Int)<(N : Int)) && decide (d.val<D)) = _
+  simp only [←Int.natCast_mul,←Int.natCast_add]
+  congr 1
+  simp
+  change (startM : Int)*(BM : Int)+(r.val : Int)<(N : Int) ↔ startM*BM+r.val<N
+  simp only [←Int.natCast_mul,←Int.natCast_add]
+  omega
 
 theorem key_load (s : BlockState) (c : Config) (BD BN start : Nat) (pointer : RegName)
     (hp : s.regs .ptr [BD,BN] pointer = some (keyPointer c BD BN start))
@@ -117,9 +127,9 @@ theorem key_load (s : BlockState) (c : Config) (BD BN start : Nat) (pointer : Re
 
 theorem value_load (s : BlockState) (c : Config) (BN BD start : Nat) (pointer : RegName)
     (hp : s.regs .ptr [BN,BD] pointer = some (valuePointer c BN BD start))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar start))
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context)) :
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar start))
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context)) :
     evalOp (.load .real (.ptr (.ref .ptr [BN,BD] pointer))
       (.maskOther (valueMask BN BD c.p.headDim) (.broadcast (.const 0.0) [BN,BD]))) s =
       some (finite (vvalue s c BN BD start)) := by
@@ -134,8 +144,8 @@ theorem value_load (s : BlockState) (c : Config) (BN BD start : Nat) (pointer : 
 
 theorem query_load (s : BlockState) (c : Config) (BM BD : Nat)
     (hp : s.regs .ptr [BM,BD] "Q_ptrs" = some (queryPointer c BM BD))
-    (hm : s.regs .nat [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context)) :
+    (hm : s.regs .int [BM] "offs_m" = some ⟨fun i => c.startM*BM+i.1.val⟩)
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context)) :
     evalOp (.load .real (.ptr (.ref .ptr [BM,BD] "Q_ptrs"))
       (.maskOther (queryMask BM BD c.p.headDim) (.broadcast (.const 0.0) [BM,BD]))) s =
       some (finite (qvalue s c BM BD)) := by
@@ -160,28 +170,32 @@ theorem scale_load (s : BlockState) (r : RegionName) (offset : Nat) (pointer : R
 
 theorem key_advance (s : BlockState) (c : Config) (BN BD start : Nat) (name : RegName)
     (hp : s.regs .ptr [BD,BN] name = some (keyPointer c BD BN start))
-    (hr : s.regs .nat [] "stride_kn64" = some (Tile.scalar c.p.keyRow)) :
+    (hr : s.regs .int [] "stride_kn64" = some (Tile.scalar c.p.keyRow)) :
     evalOp (.ptrAdd .scalarR (.ref .ptr [BD,BN] name)
-      (.mul .nat .nil (.constNat BN) (.ref .nat [] "stride_kn64"))) s =
+      (.castIntToNat (.mul .int .nil (wide BN) (.ref .int [] "stride_kn64")))) s =
       some (keyPointer c BD BN (start+BN)) := by
-  simp only [evalOp.eq_def, hp, hr, bind, Option.bind]
+  simp only [wide,evalOp.eq_def, hp, hr, bind, Option.bind]
   congr 1
   apply Tile.ext
   rintro ⟨d,j,⟨⟩⟩
   simp [keyPointer, Tile.scalar, NumericDType.mul, -Tile.scalar_eta]
+  change _ + Int.toNat ((BN : Int)*(c.p.keyRow : Int)) = _
+  simp only [←Int.natCast_mul,Int.toNat_natCast]
   ring
 
 theorem value_advance (s : BlockState) (c : Config) (BN BD start : Nat) (name : RegName)
     (hp : s.regs .ptr [BN,BD] name = some (valuePointer c BN BD start))
-    (hr : s.regs .nat [] "stride_vk64" = some (Tile.scalar c.p.valueRow)) :
+    (hr : s.regs .int [] "stride_vk64" = some (Tile.scalar c.p.valueRow)) :
     evalOp (.ptrAdd .scalarR (.ref .ptr [BN,BD] name)
-      (.mul .nat .nil (.constNat BN) (.ref .nat [] "stride_vk64"))) s =
+      (.castIntToNat (.mul .int .nil (wide BN) (.ref .int [] "stride_vk64")))) s =
       some (valuePointer c BN BD (start+BN)) := by
-  simp only [evalOp.eq_def, hp, hr, bind, Option.bind]
+  simp only [wide,evalOp.eq_def, hp, hr, bind, Option.bind]
   congr 1
   apply Tile.ext
   rintro ⟨j,d,⟨⟩⟩
   simp [valuePointer, Tile.scalar, NumericDType.mul, -Tile.scalar_eta]
+  change _ + Int.toNat ((BN : Int)*(c.p.valueRow : Int)) = _
+  simp only [←Int.natCast_mul,Int.toNat_natCast]
   ring
 
 theorem scale_advance (s : BlockState) (c : Config) (BN start : Nat) (hN : 0 < BN) (name : RegName)

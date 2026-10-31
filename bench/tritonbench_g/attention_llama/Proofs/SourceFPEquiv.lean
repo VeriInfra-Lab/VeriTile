@@ -150,38 +150,6 @@ theorem attention_native_tensor_equiv {α β : Type} {B heads H D : Nat}
   exact native_graph_transport A R f input.at scale fp8 causal N position hlocal
     (tensorAddress base soz soh som son) hinj memory referenceMemory
 
-/-- Complete typed FP16 source equivalence. The local domain checks the
-actual sum(p) and rescaled carry after the repaired prefix in every reached
-iteration. The sole arithmetic rule is finite FP32 add_commute. -/
-theorem attention_fp16_carry_first_equiv
-    (Q K V Out : RegionName) (scale : ℝ)
-    (sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son
-      NH H N SP BM BN BD : Nat) (causal : Bool) (R : FP.ScalarArithmetic.Rules) :
-    FPSourceEquiv.original Q K V Out scale sqz sqh sqm sqk skz skh skn skk
-      svz svh svk svn soz soh som son NH H N SP BM BN BD causal ≡[R]
-    FPSourceEquiv.carryFirst Q K V Out scale sqz sqh sqm sqk skz skh skn skk
-      svz svh svk svn soz soh som son NH H N SP BM BN BD causal :=
-  FPSourceEquiv.attention_carry_first_equiv Q K V Out scale sqz sqh sqm sqk skz skh skn skk
-    svz svh svk svn soz soh som son NH H N SP BM BN BD causal R
-
-/-- Complete typed byte-source equivalence retains E5M2 reinterpretation,
-FP16 conversion, both dots, probability/output casts and all memory effects. -/
-theorem attention_e5m2_carry_first_equiv
-    (Q K V Out : RegionName) (scale : ℝ)
-    (sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son
-      NH H N SP BM BN BD : Nat) (causal : Bool) (R : FP.ScalarArithmetic.Rules) :
-    FP8SourceEquiv.original Q K V Out scale sqz sqh sqm sqk skz skh skn skk
-      svz svh svk svn soz soh som son NH H N SP BM BN BD causal ≡[R]
-    FP8SourceEquiv.carryFirst Q K V Out scale sqz sqh sqm sqk skz skh skn skk
-      svz svh svk svn soz soh som son NH H N SP BM BN BD causal :=
-  FP8SourceEquiv.attention_carry_first_equiv Q K V Out scale sqz sqh sqm sqk skz skh skn skk
-    svz svh svk svn soz soh som son NH H N SP BM BN BD causal R
-
-#print_fp_assumptions attention_fp16_carry_first_equiv
-#print_fp_assumptions attention_e5m2_carry_first_equiv
-#print axioms attention_fp16_carry_first_equiv
-#print axioms attention_e5m2_carry_first_equiv
-
 #print axioms attention_native_tensor_equiv
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -17,8 +17,7 @@ theorem accumulate_safe (A : Algebra α) (base s : State α) (X Y : RegionName)
     traceSafeList A bounds (rangeBody (code Y X rows N K B C) 2)
       (s.setReg "start_n" .nat [] (fun _ => cur)) := by
   rcases hs with ⟨hr,hk,hm,hz,hmem⟩
-  simp [rangeBody,code,branch,Source.forward_noninner,softmax_kernel_non_inner,
-    ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+  simp [rangeBody,code,branch,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,
@@ -33,8 +32,7 @@ theorem emit_safe (A : Algebra α) (base s : State α) (X Y : RegionName)
     traceSafeList A bounds (rangeBody (code Y X rows N K B C) 7)
       (s.setReg "start_n" .nat [] (fun _ => cur)) := by
   rcases hs with ⟨hr,hk,hm,hz,hprev,hmem⟩
-  simp [rangeBody,code,branch,Source.forward_noninner,softmax_kernel_non_inner,
-    ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+  simp [rangeBody,code,branch,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,
@@ -53,7 +51,7 @@ theorem initial_safety (A : Algebra α) (s : State α) (X Y : RegionName)
       ∀ mid, range A "start_n" 0 N B (rangeBody (code Y X rows N K B C) 2)
         (initial A s B C)=some mid →
         traceSafeList A bounds ((code Y X rows N K B C).drop 3) mid := by
-  simp [TraceSafe,Source.forward_noninner,softmax_kernel_non_inner,code,branch,rangeBody,
+  simp [TraceSafe,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,code,branch,rangeBody,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -71,8 +69,7 @@ theorem after_safety (A : Algebra α) (base mid : State α) (X Y : RegionName)
       rangeSafe A bounds "start_n" 0 N B (rangeBody (code Y X rows N K B C) 7)
         (writeInitial A mid N B C v) := by
   rcases hs with ⟨hr,hk,hm,hz,hmem⟩
-  simp [code,branch,rangeBody,Source.forward_noninner,softmax_kernel_non_inner,
-    ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+  simp [code,branch,rangeBody,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,

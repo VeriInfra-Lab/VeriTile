@@ -18,9 +18,9 @@ specification matmul_triton1_real (rest : Algebra ℝ) (p : Core.Parameters)
   LogicalIOProof.implements rest p canonical ready storage geometry ha hb
 
 #stmtSurfaceSubset matmul_triton1_real ⊆
-  [matmul_triton1_real.match_1,Spec.Real,LogicalProgramIO.Implements,MatmulIO.logicalIO,Core.realPrimitives,Core.Parameters,Core.Parameters.rows,Core.Parameters.columns,Core.Parameters.innerSize,Core.Parameters.input,Core.Parameters.weight,Core.Parameters.output,FP.Structural.Algebra,FiniteSource.Canonical,FiniteIndex.Ready,FiniteIndex.StorageBounds,Geometry.Valid,Core.geometry,RegionName]
+  [matmul_triton1_real.match_1,Spec.Real,LogicalProgramIO.Implements,MatmulIO.logicalIO,Core.realPrimitives,DotProfile.Value,DotProfile.instInhabitedValue,Core.Parameters,Core.Parameters.rows,Core.Parameters.columns,Core.Parameters.innerSize,Core.Parameters.input,Core.Parameters.weight,Core.Parameters.output,FP.Structural.Algebra,FiniteSource.Canonical,FiniteIndex.Ready,FiniteIndex.StorageBounds,Geometry.Valid,Core.geometry,RegionName]
 #axiomsClean matmul_triton1_real
-#specNonCircular MatmulIO.realTarget avoiding [Core.source,Kernel.source,Core.grid,FiniteSource.grid,FP.Structural.exec,Core.logical]
+#specNonCircular MatmulIO.realTarget avoiding [Core.source,Kernel.source,SourceRuntime.grid,FP.Structural.exec,Core.logical]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

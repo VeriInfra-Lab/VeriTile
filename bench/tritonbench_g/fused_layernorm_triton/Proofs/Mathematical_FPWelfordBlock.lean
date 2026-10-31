@@ -6,35 +6,6 @@ set_option maxHeartbeats 10000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
-/-- Exact first body for XBLOCK=1 and 0<rnumel≤RBLOCK. The true
-first_iteration branch returns the loaded value, positive zero and one;
-it does not perform the general delta/weight update. Mask-only loads,
-both casts, the unit row axis and the three post-helper masks remain. -/
-def welfordPrefix (X : RegionName) (xnumel rnumel RBLOCK : Nat) : List ComputeStmt := (triton {
-  tl.region X = tl.float32
-  xoffset = tl.program_id(0) * $(1)
-  xindex = xoffset + tl.arange(0, $(1))[:, None]
-  xmask = xindex < $(xnumel)
-  rbase = tl.arange(0, $(RBLOCK))[None, :]
-  x0 = xindex
-  tmp3_mean = tl.zeros([$(1), $(RBLOCK)], tl.float32)
-  tmp3_m2 = tl.zeros([$(1), $(RBLOCK)], tl.float32)
-  tmp3_weight = tl.zeros([$(1), $(RBLOCK)], tl.float32)
-  roffset = $((0 : Nat))
-  rindex = roffset + rbase
-  rmask = rindex < $(rnumel)
-  r1 = rindex
-  tmp0 = tl.load(X + (r1 + ($(rnumel) * x0)), mask=rmask).to(tl.float32)
-  tmp1 = (tmp0).to(tl.float32)
-  tmp2, _ = tl.broadcast(tmp1, tmp3_mean)
-  tmp3_weight_next = tl.full([$(1), $(RBLOCK)], $((1 : ℝ)), dtype=tl.float32)
-  tmp3_mean_next = tmp2
-  tmp3_m2_next = tl.zeros([$(1), $(RBLOCK)], tl.float32)
-  tmp3_mean = tl.where(rmask, tmp3_mean_next, tmp3_mean)
-  tmp3_m2 = tl.where(rmask, tmp3_m2_next, tmp3_m2)
-  tmp3_weight = tl.where(rmask, tmp3_weight_next, tmp3_weight)
-}).surfaceBody
-
 def firstLaneValues {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
     (X : RegionName) (rnumel RBLOCK : Nat) : Fin RBLOCK → WelfordTriple α := fun i =>
   if i.val<rnumel then
@@ -52,16 +23,6 @@ structure WelfordLanesReady {α : Type} [Inhabited α] {N : Nat} (s t : State α
   m2 : t.regs .real [1,N] "tmp3_m2" = some (fun i => (values i.2.1).m2)
   weight : t.regs .real [1,N] "tmp3_weight" = some (fun i => (values i.2.1).weight)
   row : t.regs .nat [1,1] "x0" = some (fun _ => s.pids 0)
-
-theorem welford_prefix_run {α : Type} [Inhabited α] (M : Algebra α) (equal32 : α→α→Bool)
-    (s : State α) (X : RegionName) (xnumel rnumel RBLOCK : Nat) :
-    ∃ final, run (withEquality M equal32) (welfordPrefix X xnumel rnumel RBLOCK) s = some final ∧
-      WelfordLanesReady s final (firstLaneValues M s X rnumel RBLOCK) := by
-  simp [welfordPrefix, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
-    evalOp_unfold, Option.bind, ComputeDType.eraseDType, numeric, bop, natLt, numericLt,
-    withEquality, Region.cast, ofFloat, toFloat]
-  constructor <;> simp [State.setReg, firstLaneValues, bop, ofFloat, toFloat, Fin.eq_zero]
-  all_goals first | rfl | (funext i; first | (split <;> simp_all [Fin.eq_zero]) | simp [bop])
 
 /-- A tuple reduction's outputs have shape [1], matching reduce(axis=1) of
 [1,RBLOCK]. Each scalar expression is the exact chosen helper tree. -/
@@ -154,28 +115,7 @@ theorem welford_suffix_run {α : Type} [Inhabited α] (M : Algebra α)
     withEquality, Region.cast, ofFloat, toFloat,h.mean,h.m2,h.weight,h.row,
     TileShape.allIndices,List.finRange_succ,Fin.eq_zero,State.write,statisticsMemory,rstdValue,h.mem]
 
-/-- Correct helper expansion for the accepted single reduction block. A
-complete tree is an explicit numerical execution profile, not an associative
-fold quotient and not an unspecified native reduction. -/
-def welfordBlock (X Mean Rstd : RegionName) (xnumel rnumel RBLOCK : Nat)
-    (tree : ReductionTree RBLOCK) : ComputeKernel :=
-  .mk [X] [Mean,Rstd] (welfordPrefix X xnumel rnumel RBLOCK ++ welfordTupleCode tree ++ welfordSuffix Rstd Mean rnumel)
-
-specification welford_block_fp32 {α : Type} [Inhabited α] (M : Algebra α) (equal32 : α→α→Bool)
-    (X Mean Rstd : RegionName) (xnumel rnumel RBLOCK : Nat) (tree : ReductionTree RBLOCK)
-    (hpositive : 0<rnumel) (hblock : rnumel≤RBLOCK) (htree : tree.Complete) (s : State α) :
-    ∃ final, FP.Structural.exec (withEquality M equal32) (welfordBlock X Mean Rstd xnumel rnumel RBLOCK tree) s = some final ∧
-      final.mem = (statisticsMemory M s Mean Rstd rnumel
-        (treeValue M equal32 (firstLaneValues M s X rnumel RBLOCK) tree)).mem := by
-  obtain ⟨p,hp,hpr⟩ := welford_prefix_run M equal32 s X xnumel rnumel RBLOCK
-  obtain ⟨u,hu,hur⟩ := welford_tuple_run M equal32 s p _ hpr tree
-  obtain ⟨final,hf,hm⟩ := welford_suffix_run M equal32 s u Mean Rstd rnumel _ hur
-  refine ⟨final,?_,hm⟩
-  simp only [welfordBlock,FP.Structural.exec,ComputeKernel.surfaceBody,run_append,hp,hu,hf,bind,pure,Option.bind]
-
-#axiomsClean welford_prefix_run
 #axiomsClean welford_tuple_run
 #axiomsClean welford_suffix_run
-#axiomsClean welford_block_fp32
 end
 end VeriTile.Bench.TritonBenchG.FusedLayernormTriton.FPStages

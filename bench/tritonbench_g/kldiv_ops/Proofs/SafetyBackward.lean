@@ -36,12 +36,12 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (row start : 
         (traceSafeList_cons_of_step ?_ (step3 M p flag s row start)
           (traceSafeList_cons_intro ?_ (by intro t _;exact traceSafeList_nil _ _ _)))))
   all_goals cases flag
-  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,
+  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
-    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
-    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,
-    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.commuteOutput,
+    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,
+    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
+
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,
     safeMask_unfold,addressSafe_unfold,maskActive_unfold,precisionContext,
@@ -61,12 +61,12 @@ theorem prefix_safe (M : Algebra α) (p : Parameters) (flag : Bool)
   apply pure_trace
   intro cmd member state
   cases flag
-  all_goals simp only [Backward.backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,
+  all_goals simp only [Backward.backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
-    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
-    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,
-    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.commuteOutput,
+    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,
+    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
+
     ComputeKernel.surfaceBody,List.take,Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
     List.mem_cons,List.not_mem_nil,or_false] at member
   all_goals rcases member with rfl | rfl | rfl | rfl | rfl

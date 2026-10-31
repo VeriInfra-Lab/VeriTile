@@ -11,19 +11,19 @@ open VeriTile Triton FP.Structural
 open VeriTile.Bench.Examples StableLogSumExpFPExecution
 open scoped VeriTile.Spec
 
-theorem stable_empty_fails {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
-    FP.Structural.exec M (stableLSEKernel "x" "y" 0) s = none := by
-  simp [stableLSEKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+theorem candidate_empty_fails {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
+    FP.Structural.exec M (optimizedLSEKernel "x" "y" 0) s = none := by
+  simp [optimizedLSEKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
     numeric, TileShape.axisDim, TileShape.eraseAxis, Region.cast]
 
 -- Scalar output can alias input: the complete row was read before the store.
-example {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (hB : 0 < B)
+example {α : Type} [Inhabited α] (M : Algebra α) (B : Nat)
     (xs : Fin B → α) (s : State α)
     (hx : ∀ i : Fin B, (s.mem "x" (s.pids 0 * B + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (stableLSEKernel "x" "x" B) s = some t ∧
-      t.mem "x" (s.pids 0) = .mk .bf16 (stableValue M xs) ∧
+    ∃ t, FP.Structural.exec M (directLSEKernel "x" "x" B) s = some t ∧
+      t.mem "x" (s.pids 0) = .mk .bf16 (directValue M xs) ∧
       (∀ (r : RegionName) o, (r ≠ "x" ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) :=
-  stable_run M "x" "x" B hB xs s hx
+  direct_run M "x" "x" B xs s hx
 
 private noncomputable def model (logarithm : ℚ → ℚ) : Algebra ℚ where
   literal := fun _ _ r => if r = 0 then 0 else 1
@@ -110,7 +110,8 @@ theorem cast_equality_cannot_be_cancelled :
       (model id).cast (some .fp32) .real .bf16 ((2 : ℚ) - 1) := by
   norm_num [model]
 
-private def lhs := StableLogSumExpFPContract.stable "x" "y" 2
+private noncomputable def lhs : FP.Scheduled.IO₁ :=
+  ⟨optimizedIO "x" "y" 2, FP.Scheduled.fp32, StableLogSumExpFPContract.requirements "x" 2⟩
 private def rhs := StableLogSumExpFPContract.direct "x" "y" 2
 
 theorem scalar_output_address_is_observable :
@@ -127,7 +128,7 @@ theorem scalar_output_neighbor_is_framed :
     intro i
     change 2 ≠ 1 + i.val
     have hi : i.val < 1 := i.isLt
-    omega)) (by simp [lhs, StableLogSumExpFPContract.stable, stableIO, directIO])
+    omega)) (by simp [lhs, optimizedIO, directIO])
   simp [initial, State.write] at bad
 
 specification opaque_logsumexp (h : FP.Scheduled.Equivalent₁ [] lhs rhs) : lhs ≡[[]] rhs :=
@@ -160,8 +161,8 @@ theorem wrapped_log_mul {α : Type} (M : Algebra α) (D : FP.Guarded.Domain α)
 
 #axiomsClean FP.LogSumExpShift.recover_sum
 #axiomsClean FP.LogSumExpShift.shifted_result
-#axiomsClean StableLogSumExpFPContract.original_runs_under_log
-#axiomsClean stable_empty_fails
+#axiomsClean StableLogSumExpFPContract.original_values
+#axiomsClean candidate_empty_fails
 #axiomsClean domain_is_satisfiable
 #axiomsClean exp_sub_holds
 #axiomsClean log_mul_holds

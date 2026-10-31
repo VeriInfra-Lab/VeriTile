@@ -45,7 +45,13 @@ theorem integer_math_kernel_correct
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [exec, integer_math_kernel, stepStmts, stepStmt, evalOp.eq_def,
+  simp [exec, integer_math_kernel,VeriTile.Bench.Repairs.MaskedAddCuda.kernel,
+    VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind, stepStmts, stepStmt, evalOp.eq_def,
         tile_elementwise, Bool.and_eq_true] at hExec
   subst s'
   simp only [integerAddOffset]
@@ -88,7 +94,13 @@ theorem integer_math_kernel_frame
         = 0 →
       ¬(grad_ptr = r ∧ s.pids 0 * BLOCK_SIZE + i.val = o)) :
     s1.mem r o = s.mem r o := by
-  simp [exec, integer_math_kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
+  simp [exec, integer_math_kernel,VeriTile.Bench.Repairs.MaskedAddCuda.kernel,
+    VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
         evalOp.eq_def, tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst hExec
   refine Eq.trans (foldl_store_preserve_cell _ _ _ r o _ _ ?_) rfl
@@ -106,7 +118,13 @@ theorem integer_math_kernel_exec_isSome
     (s : BlockState) :
     ∃ s1, exec ((integer_math_kernel grad_ptr p_ptr p_mask_ptr
         n_elements alpha BLOCK_SIZE).toAlgKernel) s = some s1 := by
-  simp [exec, integer_math_kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
+  simp [exec, integer_math_kernel,VeriTile.Bench.Repairs.MaskedAddCuda.kernel,
+    VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
         evalOp.eq_def, tile_elementwise, ComputeExpr.toAlgorithm?]
 
 /-- **The region-model masked in-place Hoare triple** — termination,
@@ -177,7 +195,13 @@ theorem integer_math_kernel_traceSafe
       ((integer_math_kernel grad_ptr p_ptr p_mask_ptr n_elements alpha
         BLOCK_SIZE).toAlgKernel) s := by
   unfold Kernel.TraceSafe
-  simp [integer_math_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [integer_math_kernel,VeriTile.Bench.Repairs.MaskedAddCuda.kernel,
+    VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
@@ -196,7 +220,13 @@ theorem integer_math_kernel_flattenOk
     ((integer_math_kernel grad_ptr p_ptr p_mask_ptr n_elements alpha
         BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [integer_math_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [integer_math_kernel,VeriTile.Bench.Repairs.MaskedAddCuda.kernel,
+    VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 set_option maxHeartbeats 1600000 in
@@ -224,7 +254,13 @@ theorem integer_commuted_math_kernel_traceSafe
       ((integer_commuted_math_kernel grad_ptr p_ptr p_mask_ptr n_elements alpha
         BLOCK_SIZE).toAlgKernel) s := by
   unfold Kernel.TraceSafe
-  simp [integer_commuted_math_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [integer_commuted_math_kernel,VeriTile.Bench.Repairs.MaskedAddCuda.kernel,
+    VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
@@ -243,7 +279,13 @@ theorem integer_commuted_math_kernel_flattenOk
     ((integer_commuted_math_kernel grad_ptr p_ptr p_mask_ptr n_elements alpha
         BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [integer_commuted_math_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [integer_commuted_math_kernel,VeriTile.Bench.Repairs.MaskedAddCuda.kernel,
+    VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 private theorem optional_add_comm (a b : Option ℝ) :
@@ -255,7 +297,19 @@ theorem integer_commuted_exec (g p m : RegionName) (n : Nat) (a : ℝ) (B : Nat)
     (s : BlockState) :
     exec (integer_commuted_math_kernel g p m n a B).toAlgKernel s =
       exec (integer_math_kernel g p m n a B).toAlgKernel s := by
-  simp [integer_commuted_math_kernel, integer_math_kernel, exec, stepStmts, stepStmt,
+  simp [integer_commuted_math_kernel,VeriTile.Bench.Repairs.MaskedAddCuda.kernel,
+    VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind, integer_math_kernel,VeriTile.Bench.Repairs.MaskedAddCuda.kernel,
+    VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind, exec, stepStmts, stepStmt,
     evalOp.eq_def, tile_elementwise, add_comm, optional_add_comm]
 
 theorem integer_exec (storage : MaskStorage) (v : Bool) (g p m : RegionName)
@@ -282,62 +336,6 @@ theorem integer_traceSafe (storage : MaskStorage) (v : Bool) (g p m : RegionName
     (hm : ∀ j : Fin B, s.pids 0 * B + j.val < n → s.pids 0 * B + j.val < bounds m) :
     Kernel.TraceSafe bounds (integer_kernel storage v g p m n a B).eraseDType.toAlgKernel s := by
   rw [integer_projection]
-  cases v
-  · exact integer_math_kernel_traceSafe g p m n a B bounds s hp hg hm
-  · exact integer_commuted_math_kernel_traceSafe g p m n a B bounds s hp hg hm
-
-theorem fp64_integer_exec (storage : MaskStorage) (v : Bool) (g p m : RegionName)
-    (n : Nat) (a : ℝ) (B : Nat) (s : BlockState) :
-    exec (integer_fp64_kernel storage v g p m n a B).eraseDType.toAlgKernel s =
-      exec (integer_math_kernel g p m n a B).toAlgKernel s := by
-  rw [fp64_integer_projection]
-  cases v
-  · rfl
-  · exact integer_commuted_exec g p m n a B s
-
-theorem fp64_integer_flattenOk (storage : MaskStorage) (v : Bool) (g p m : RegionName)
-    (n : Nat) (a : ℝ) (B : Nat) :
-    (integer_fp64_kernel storage v g p m n a B).eraseDType.toAlgKernel.FlattenOk := by
-  rw [fp64_integer_projection]
-  cases v
-  · exact integer_math_kernel_flattenOk g p m n a B
-  · exact integer_commuted_math_kernel_flattenOk g p m n a B
-
-theorem fp64_integer_traceSafe (storage : MaskStorage) (v : Bool) (g p m : RegionName)
-    (n : Nat) (a : ℝ) (B : Nat) (bounds : RegionBounds) (s : BlockState)
-    (hp : ∀ j : Fin B, s.pids 0 * B + j.val < n → s.pids 0 * B + j.val < bounds p)
-    (hg : ∀ j : Fin B, s.pids 0 * B + j.val < n → s.pids 0 * B + j.val < bounds g)
-    (hm : ∀ j : Fin B, s.pids 0 * B + j.val < n → s.pids 0 * B + j.val < bounds m) :
-    Kernel.TraceSafe bounds (integer_fp64_kernel storage v g p m n a B).eraseDType.toAlgKernel s := by
-  rw [fp64_integer_projection]
-  cases v
-  · exact integer_math_kernel_traceSafe g p m n a B bounds s hp hg hm
-  · exact integer_commuted_math_kernel_traceSafe g p m n a B bounds s hp hg hm
-
-theorem full_integer_exec (gradType pType : FloatStorage) (storage : MaskStorage) (v : Bool) (g p m : RegionName)
-    (n : Nat) (a : ℝ) (B : Nat) (s : BlockState) :
-    exec (typed_integer_kernel gradType pType storage v g p m n a B).eraseDType.toAlgKernel s =
-      exec (integer_math_kernel g p m n a B).toAlgKernel s := by
-  rw [full_integer_projection]
-  cases v
-  · rfl
-  · exact integer_commuted_exec g p m n a B s
-
-theorem full_integer_flattenOk (gradType pType : FloatStorage) (storage : MaskStorage) (v : Bool) (g p m : RegionName)
-    (n : Nat) (a : ℝ) (B : Nat) :
-    (typed_integer_kernel gradType pType storage v g p m n a B).eraseDType.toAlgKernel.FlattenOk := by
-  rw [full_integer_projection]
-  cases v
-  · exact integer_math_kernel_flattenOk g p m n a B
-  · exact integer_commuted_math_kernel_flattenOk g p m n a B
-
-theorem full_integer_traceSafe (gradType pType : FloatStorage) (storage : MaskStorage) (v : Bool) (g p m : RegionName)
-    (n : Nat) (a : ℝ) (B : Nat) (bounds : RegionBounds) (s : BlockState)
-    (hp : ∀ j : Fin B, s.pids 0 * B + j.val < n → s.pids 0 * B + j.val < bounds p)
-    (hg : ∀ j : Fin B, s.pids 0 * B + j.val < n → s.pids 0 * B + j.val < bounds g)
-    (hm : ∀ j : Fin B, s.pids 0 * B + j.val < n → s.pids 0 * B + j.val < bounds m) :
-    Kernel.TraceSafe bounds (typed_integer_kernel gradType pType storage v g p m n a B).eraseDType.toAlgKernel s := by
-  rw [full_integer_projection]
   cases v
   · exact integer_math_kernel_traceSafe g p m n a B bounds s hp hg hm
   · exact integer_commuted_math_kernel_traceSafe g p m n a B bounds s hp hg hm

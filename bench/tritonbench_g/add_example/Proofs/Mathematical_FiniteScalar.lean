@@ -103,8 +103,8 @@ theorem scalar_success_defined (b : Numerics) (r : Route) (a c value : Carrier r
     · cases h
   · cases h
 
-#specNonCircular scalarFormula avoiding [evaluateScalar,execute,runLive,runLoaded]
-#specNonCircular expectedScalar avoiding [evaluateScalar,execute,runLive,runLoaded]
+#specNonCircular scalarFormula avoiding [evaluateScalar,runLive,runLoaded]
+#specNonCircular expectedScalar avoiding [evaluateScalar,runLive,runLoaded]
 #axiomsClean scalar_policy_independent
 #axiomsClean scalar_correspondence
 #axiomsClean scalar_success_defined

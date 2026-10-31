@@ -37,41 +37,6 @@ namespace Standalone
 abbrev Parameters := MatmulDequantInt4.FPTyped.Parameters
 abbrev Half := MatmulDequantInt4.Binary16.Value
 
-def source (p : Parameters) : ComputeKernel := dequantTyped .fp16 p.weight p.scale p.zero p.output
-  p.rows p.columns p.groupSize p.weightRowStride p.weightColumnStride p.scaleRowStride p.scaleColumnStride
-  p.zeroRowStride p.zeroColumnStride p.outputRowStride p.outputColumnStride p.blockRows p.blockColumns
-
-/-- Both independent Python sources contain this complete standalone stage;
-this bridge reuses its signed-word and concrete binary16 result proof. -/
-theorem source_bridge (p : Parameters) :
-    source p = MatmulDequantInt4.FPTyped.source p := rfl
-
-theorem correctness [Inhabited Half] (rest : Algebra Half) (p : Parameters) (s : State Half)
-    (hInputs : MatmulDequantInt4.FPTyped.PackedInputs p s)
-    (hw : ∀ i j, MatmulDequantInt4.FPTyped.active p s i → MatmulDequantInt4.FPTyped.active p s j →
-      MatmulDequantInt4.FPTyped.outputOffset p s i = MatmulDequantInt4.FPTyped.outputOffset p s j → i = j) :
-    ∃ final, FP.Structural.exec (MatmulDequantInt4.FPTyped.software rest) (source p) s = some final ∧
-      MatmulDequantInt4.FPTyped.Post p s final (MatmulDequantInt4.FPTyped.roundedValue p s) ∧
-      ∀ i, MatmulDequantInt4.FPTyped.active p s i → ∃ word zero : BitVec 32,
-        s.mem p.weight (MatmulDequantInt4.FPTyped.weightOffset p s i) = .mk .int word.toInt ∧
-        s.mem p.zero (MatmulDequantInt4.FPTyped.zeroOffset p s i) = .mk .int zero.toInt ∧
-        final.mem p.output (MatmulDequantInt4.FPTyped.outputOffset p s i) =
-          .mk .fp16 (MatmulDequantInt4.FPTyped.packedResult p s i word zero) := by
-  rw [source_bridge]
-  exact MatmulDequantInt4.matmul_dequant_int4_fp16_correctness rest p s hInputs hw
-
-theorem bit_success [Inhabited Half] (rest : Algebra Half) :
-    ∃ final, FP.Structural.exec (MatmulDequantInt4.FPTyped.software rest)
-      (source MatmulDequantInt4.FPTyped.witnessParameters) MatmulDequantInt4.FPTyped.witnessInitial = some final ∧
-      final.mem "output" 119 = .mk .fp16 MatmulDequantInt4.FPTyped.resultValue ∧
-      final.mem "output" 120 = MatmulDequantInt4.FPTyped.witnessInitial.mem "output" 120 ∧
-      final.mem "weight" 7 = .mk .int MatmulDequantInt4.FPTyped.weightWord.toInt ∧
-      (-7 * (1365 / 4096) : Rat) ≠ -597 / 256 := by
-  rw [source_bridge]
-  exact MatmulDequantInt4.matmul_dequant_int4_bit_success rest
-#axiomsClean source_bridge
-#axiomsClean correctness
-#axiomsClean bit_success
 end Standalone
 end
 end VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped

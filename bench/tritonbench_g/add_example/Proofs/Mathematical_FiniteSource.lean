@@ -122,7 +122,9 @@ def sourceCode (X Y O : RegionName) (n : Nat) : List Instruction :=
 
 theorem original_ast_lowering (X Y O : RegionName) (n : Nat) :
     lowerBody (add_kernel X Y O n 4).body=some (sourceCode X Y O n) := by
-  simp [lowerBody,lowerStatement,lowerIndex,lowerBool,lowerMask,add_kernel,ComputeKernel.body,
+  simp [lowerBody,lowerStatement,lowerIndex,lowerBool,lowerMask,add_kernel,VeriTile.Bench.Repairs.AddExample.Contiguous.add_kernel,
+    ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,
+    ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Region.cast,ComputeKernel.body,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,sourceCode,bind,pure,Except.bind,Option.bind]
 
 structure Registers (M A : Type) where

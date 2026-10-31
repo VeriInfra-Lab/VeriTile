@@ -24,6 +24,15 @@ structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
   output : ∀ (i d : Fin 128),s.pids 0*128+i.val<p.length → d.val<96 →
     base p s p.o+(s.pids 0*128+i.val)*p.o.row+d.val*p.o.dim<bounds p.Out
 
+private theorem source_offset (ph heads batch head pm i row d dim : Nat) :
+    ((ph:Int)/(heads:Int)*(batch:Int)+((ph:Int)-(heads:Int)*((ph:Int)/(heads:Int)))*(head:Int)+
+      ((pm:Int)*128+(i:Int))*(row:Int)+(d:Int)*(dim:Int)).toNat =
+      ph/heads*batch+ph%heads*head+(pm*128+i)*row+d*dim := by
+  have hm : (ph:Int)-(heads:Int)*((ph:Int)/(heads:Int))=((ph%heads:Nat):Int) := by
+    rw [←Int.emod_def,←Int.natCast_emod]
+  rw [hm]
+  norm_cast
+
 theorem entry_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : RegionName → Nat)
     (s : State α) (hb : Bounds p s bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).before s := by
@@ -35,7 +44,9 @@ theorem entry_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : Re
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
     TileShape.axisDim,Region.cast,State.setReg]
-  exact ⟨hb.query,hb.queryScale⟩
+  refine ⟨?_,hb.queryScale⟩
+  intro i d hr hd
+  simpa only [source_offset,base] using hb.query i d (by exact_mod_cast hr) hd
 
 theorem body_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : RegionName → Nat)
     (initial current : State α) (row : Nat) (a : Acc α)
@@ -67,7 +78,9 @@ theorem post_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : Reg
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
     TileShape.axisDim,Region.cast,State.setReg,
     ctx.memory,ctx.rows,ctx.outputPointer,ctx.normalizer,ctx.value]
-  exact ⟨hb.output,by split <;> trivial⟩
+  refine ⟨?_,by split <;> trivial⟩
+  intro i d hr hd
+  exact hb.output i d (by exact_mod_cast hr) hd
 
 end
 end VeriTile.Bench.Repairs.AttentionFwdTriton2.SourceSafety

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.attn_fwd_triton.Proofs.SourceConnection
 import bench.tritonbench_g.attn_fwd_triton.Proofs.Prologue
 import bench.tritonbench_g.attn_fwd_triton.Proofs.TwoLoops
 import bench.tritonbench_g.attn_fwd_triton.Proofs.Output
@@ -47,6 +48,20 @@ theorem executes (s : BlockState) (p : Parameters) (BM BN BD : Nat) (hN : 0 < BN
     exact (stepStmts.append_some ((stepStmts.append_some hpstep).trans hlstep)).trans htstep
   · intro region offset h
     rw [htframe region offset h,hlf.mem,hpf.mem]
+
+/-- The complete output and frame theorem for the actual repair quotation,
+using the checked literal-branch view only inside the proof. -/
+theorem actual_executes (s : BlockState) (p : Parameters) (BM BN BD : Nat) (hN : 0 < BN) (reciprocal : Bool) :
+    let c := Coordinates.configuration s p
+    let carry := result s p BM BN BD
+    ∃ t, stepStmts (actualCode BM BN BD p reciprocal) s = some t ∧
+      (∀ i, Output.active c BM BD i = Bool.true →
+        (∀ x y, Output.active c BM BD x = Bool.true → Output.active c BM BD y = Bool.true →
+          Output.address c BM BD x = Output.address c BM BD y → x = y) →
+        t.readMem p.Out (Output.address c BM BD i) = carry.numerator i/carry.denominator i.1) ∧
+      (∀ region offset, (region ≠ p.Out ∨ ∀ i, Output.active c BM BD i = Bool.true → offset ≠ Output.address c BM BD i) →
+        t.mem region offset = s.mem region offset) := by
+  simpa only [code_run BM BN BD p reciprocal s] using executes s p BM BN BD hN reciprocal
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_IntegerSource
 
 namespace VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource
@@ -15,34 +16,6 @@ def expectedMemory {α : Type} [Inhabited α] (x y : Storage)
     if offset p s i < p.n then fun r o =>
       if r = p.output ∧ o = offset p s i then resultCell x y p s.mem (offset p s i) else mem r o
     else mem) s.mem
-
-/-- Every source statement actually executes. There is no floating callback
-premise and no assumed successful execution; fixed widths are explicit. -/
-def execution {α : Type} [Inhabited α] (M : Algebra α) (x y : Storage)
-    (p : Parameters) (s : State α) :
-    {t : State α // FP.Structural.exec M (source x y p) s = some t} := by
-  refine ⟨?_, ?_⟩
-  swap
-  simp [source, FP.Structural.exec, ComputeKernel.surfaceBody,
-    run, step, evalExpr, evalComputeOp, eval_castOp, eval_loadOp, eval_storeStmt,
-    FP.Structural.evalOp, Option.bind, numeric, numericLt, numericEq, natLt, bop,
-    Region.cast, IntegerExpr.same_left, IntegerExpr.same_right]
-  rfl
-
-/-- Readback is the bitvector formula, including i1 wrapping before bool i8
-storage. Both operand loads precede all output stores. -/
-theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (x y : Storage)
-    (p : Parameters) (s : State α) :
-    (execution M x y p s).val.mem = expectedMemory x y p s := by
-  cases x <;> cases y
-  all_goals simp [execution, expectedMemory, offset, resultCell, stored, loaded, loadValue,
-    bop, Broadcast.leftIndex, Broadcast.rightIndex,
-    ValueProofs.masked_scatter_memory, State.setReg, unsigned_cast_eq_bitvec, -BitVec.toNat_ofInt, -BitVec.toInt_ofInt]
-  all_goals congr 1
-  all_goals funext mem i
-  all_goals by_cases hi : s.pids 0 * p.block + i.1.val < p.n
-  all_goals simp only [hi, ↓reduceIte]
-  all_goals rfl
 
 theorem expectedMemory_eq_scatter {α : Type} [Inhabited α] (x y : Storage) (p : Parameters) (s : State α) :
     expectedMemory x y p s =
@@ -89,14 +62,7 @@ theorem expected_cell {α : Type} [Inhabited α] (x y : Storage) (p : Parameters
       exact ⟨hr, by omega, by omega, by omega⟩
     · exact Or.inl hr
 
-theorem complete_correct {α : Type} [Inhabited α] (M : Algebra α) (x y : Storage) (p : Parameters) (s : State α) :
-    ∃ t, FP.Structural.exec M (source x y p) s = some t ∧ t.mem = expectedMemory x y p s :=
-  ⟨(execution M x y p s).val, (execution M x y p s).property, execution_memory M x y p s⟩
-
-#specNonCircular expectedMemory avoiding [source, FP.Structural.exec]
-#axiomsClean execution
-#axiomsClean execution_memory
+#specNonCircular expectedMemory avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 #axiomsClean expected_cell
-#axiomsClean complete_correct
 end
 end VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource

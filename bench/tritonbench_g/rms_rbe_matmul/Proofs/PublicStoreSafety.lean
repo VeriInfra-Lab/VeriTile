@@ -15,7 +15,7 @@ theorem stores_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
     Safety.traceSafeList (engine a) bounds (stores fp8 p) t := by
   cases fp8
   all_goals
-    simp [stores,kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,arguments,
+    simp [stores,kernel,TypedSource.kernel,TypedSource.source,arguments,
       ComputeKernel.surfaceBody,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

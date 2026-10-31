@@ -1,3 +1,4 @@
+import bench.tritonbench_g.context_attn_nopad.Sources.Selected
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 
@@ -101,9 +102,9 @@ macro_rules
 def original (storage : Storage) := match storage with
   | .fp16 => contextNopadSource%[tl.float16,original]
   | .bf16 => contextNopadSource%[tl.bfloat16,original]
-  | .fp32 => contextNopadSource%[tl.float32,original]
+  | .fp32 => VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original
 def scaleFirst (storage : Storage) := match storage with
   | .fp16 => contextNopadSource%[tl.float16,scaleFirst]
   | .bf16 => contextNopadSource%[tl.bfloat16,scaleFirst]
-  | .fp32 => contextNopadSource%[tl.float32,scaleFirst]
+  | .fp32 => VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.scaleFirst
 end VeriTile.Bench.TritonBenchG.ContextAttnNopad

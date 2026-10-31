@@ -25,7 +25,7 @@ theorem entry_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,
+      numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,natLe,numericLe,numericLt,natLt,bop,
       ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList]
   intro e j he hj

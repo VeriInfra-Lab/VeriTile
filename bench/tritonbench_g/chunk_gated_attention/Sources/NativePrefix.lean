@@ -1,11 +1,13 @@
+import bench.tritonbench_g.chunk_gated_attention.Proofs.CumulativeSource
 import bench.tritonbench_g.chunk_gated_attention.Sources.NativeValue
 
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.NativePrefix
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
+open VeriTile.Bench.Repairs.ChunkGatedAttention
 open VeriTile.Bench.Repairs.ChunkGlaSimple
 open VeriTile.Bench.TritonBenchG.KcacheCopyTriton.TypedCopy (scatter_memory masked_scatter_memory)
 noncomputable section
-set_option maxHeartbeats 16000000
+set_option maxHeartbeats 600000
 set_option maxRecDepth 32000
 set_option linter.unusedSimpArgs false
 
@@ -35,8 +37,8 @@ def triangle (c : Shape) (i : TileIndex [c.BT,c.BT]) : NativeGraph.Expr :=
 def input (c : Shape) (base : Nat) (s : State NativeGraph.Expr) (i : Index c) : NativeGraph.Expr :=
   .cast (some .fp32) .fp32 .real ((s.mem "s" (offset c base s i)).read .fp32)
 def value (c : Shape) (base : Nat) (s : State NativeGraph.Expr) (i : Index c) : NativeGraph.Expr :=
-  .cast (some .fp32) .real .fp32 (.pendingDot (some .fp32) NativeGraph.options [] c.BT c.BT c.BS
-    (triangle c) (input c base s) i)
+  .cast (some .fp32) .fp32 .fp32 (.cast (some .fp32) .real .fp32 (.pendingDot (some .fp32) NativeGraph.options [] c.BT c.BT c.BS
+    (triangle c) (input c base s) i))
 
 def written (c : Shape) (base : Nat) (s : State NativeGraph.Expr) : State NativeGraph.Expr :=
   if enabled c base s then (TileShape.allIndices [c.BT,c.BS]).foldl
@@ -50,16 +52,23 @@ def execution (c : Shape) (base : Nat) (s : State NativeGraph.Expr) :
     unfold enabled linear at condition
     refine ⟨?_,?_⟩
     swap
-    simp (config := {maxSteps:=150000}) [source,NativeSource.cumOriginal,
+    simp (config := {maxSteps:=150000}) [source,NativeSource.cumOriginal,NativeSource.cumBody,
+      ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
+      FP.Structural.eval_truncDiv,FP.Structural.eval_truncMod,
       ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,
+      evalOffsets,numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,
       State.setReg,integralFloorDiv,integralMod,FP.Structural.store,condition,
       NativeValue.algebra,ScalarGraph.algebra,NativeGraph.algebra]
+    simp only [←Int.natCast_add,←Int.natCast_mul,←Int.natCast_ediv,Int.ofNat_lt,condition,
+      Int.natCast_nonneg,not_lt.mpr (Int.natCast_nonneg _),↓reduceIte,↓reduceDIte,
+      Option.bind_some,Option.bind_none,Option.bind_eq_bind]
     rfl
 
 theorem memory (c : Shape) (base : Nat) (s : State NativeGraph.Expr) :
     (execution c base s).val.mem=(written c base s).mem := by
+  have remCast (a b : Nat) : (a : Int) - (b*(a/b) : Nat) = (a%b : Nat) := by
+    rw [Int.natCast_mul,Int.natCast_ediv,←Int.emod_def,←Int.natCast_emod]
   by_cases h : enabled c base s
   all_goals
     have condition:=h
@@ -67,7 +76,11 @@ theorem memory (c : Shape) (base : Nat) (s : State NativeGraph.Expr) :
     simp [execution,written,h,condition,enabled,linear,offset,head,timeBlock,featureBlock,value,triangle,input,
       scatter_memory,masked_scatter_memory,NativeGraph.options,FP.Structural.bop,
       Broadcast.leftIndex,Broadcast.rightIndex] <;>
-      norm_num [triangle,input,offset,head,timeBlock,featureBlock,linear] <;> rfl
+      norm_num [triangle,input,offset,head,timeBlock,featureBlock,linear]
+    all_goals
+      simp only [←Int.natCast_add,←Int.natCast_mul,←Int.natCast_ediv,
+        remCast,Int.toNat_natCast]
+      try rfl
 
 theorem source_memory (c : Shape) (base : Nat) (s : State NativeGraph.Expr) :
     ∃ t,FP.Structural.exec (engine NativeValue.algebra) (source c base) s=some t ∧ t.mem=(written c base s).mem :=

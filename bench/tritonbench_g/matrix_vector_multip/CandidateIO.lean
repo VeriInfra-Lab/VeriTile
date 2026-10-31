@@ -7,13 +7,6 @@ open VeriTile.Triton FP.Structural KernelSource
 open VeriTile.Bench.TritonBenchG.MatrixVectorMultip WholeSource WholeNative
 noncomputable section
 
-/-- The existing native source model already interprets each product/add pair
-as a single FMA carry. This explicit primitive constructs that same carry;
-there is no equation between a separately rounded multiply/add and FMA. -/
-def algebra (native : Scalars) (g : Graph BN BM) : Algebra Payload :=
-  { WholeNative.algebra native g with
-    fma := fun _ => some (fun a b c => .carry c a b) }
-
 def originalIO (native : Scalars) (N M BN BM pid : Nat) (g : Graph BN BM) :=
   IO.io (WholeNative.algebra native g) N M BN BM pid Payload.word Payload.bits
 
@@ -38,7 +31,7 @@ noncomputable section
 def io (native : Scalars) (N M BN BM : Nat) (g : Graph BN BM) (order : List Nat) :
     ProgramIO (BitVec 32) Payload where
   inputs := IO.channels N M
-  outputs := [⟨.fp32,[N],"C"⟩]
+  outputs := [⟨.real,[N],"C"⟩]
   buffers := ["A","B","C"]
   scratch := []
   read := IO.inputRead N M

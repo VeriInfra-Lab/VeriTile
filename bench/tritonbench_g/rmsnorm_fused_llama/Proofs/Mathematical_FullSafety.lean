@@ -6,7 +6,7 @@ set_option maxHeartbeats 3000000
 set_option maxRecDepth 12000
 
 theorem var_safe (bounds : RegionBounds) (s0 s : BlockState) (X Y : RegionName)
-    (stride N B c : Nat) (h : VarInv s0 X Y stride N B c s)
+    (stride N B c : Nat) (eps : ℝ) (h : VarInv s0 X Y stride N B c eps s)
     (hbx : ∀ k : Fin N, s0.pids 0 * stride + k.val < bounds X) :
     Stmt.TraceSafeListR .triv bounds (varBody N B)
       (s.setReg "off" .nat [] (Tile.scalar (c * B))) := by
@@ -37,19 +37,19 @@ theorem write_safe (bounds : RegionBounds) (s0 s : BlockState) (X Y W : RegionNa
     fun j hj => hby ⟨c * B + j.val, hj⟩⟩
 
 theorem var_loop_safe (bounds : RegionBounds) (s0 s : BlockState) (X Y : RegionName)
-    (stride N B : Nat) (h : VarInv s0 X Y stride N B 0 s)
+    (stride N B : Nat) (eps : ℝ) (h : VarInv s0 X Y stride N B 0 eps s)
     (hbx : ∀ k : Fin N, s0.pids 0 * stride + k.val < bounds X) :
     Stmt.TraceSafeR .triv bounds (.forRange "off" 0 N B (varBody N B)) s := by
   simp only [Stmt.TraceSafeR]
   apply Stmt.forRangeTraceSafeR_inv .triv bounds "off" N B (varBody N B)
-    (fun off st => ∃ c, off = c * B ∧ VarInv s0 X Y stride N B c st)
+    (fun off st => ∃ c, off = c * B ∧ VarInv s0 X Y stride N B c eps st)
     ?_ 0 s ⟨0, by simp, h⟩
   intro off st _ hst
   rcases hst with ⟨c, rfl, hst⟩
-  refine ⟨var_safe bounds s0 st X Y stride N B c hst hbx,
-    varState s0 st X stride N B c, ?_, c+1, ?_, var_inv s0 st X Y stride N B c hst⟩
+  refine ⟨var_safe bounds s0 st X Y stride N B c eps hst hbx,
+    varState s0 st X stride N B c, ?_, c+1, ?_, var_inv s0 st X Y stride N B c eps hst⟩
   · rw [stepStmtsR_triv]
-    exact var_exec s0 st X Y stride N B c hst
+    exact var_exec s0 st X Y stride N B c eps hst
   · simp [Nat.add_mul]
 
 theorem write_loop_safe (bounds : RegionBounds) (s0 s : BlockState) (X Y W : RegionName)
@@ -73,11 +73,11 @@ theorem write_loop_safe (bounds : RegionBounds) (s0 s : BlockState) (X Y W : Reg
   · simpa [Nat.add_mul] using write_inv s0 st X Y W stride N B c eps hst hXY hWY
 
 theorem pre_safe (bounds : RegionBounds) (s : BlockState) (X Y : RegionName)
-    (stride B : Nat) : Stmt.TraceSafeListR .triv bounds (pre X Y stride B) s := by
+    (stride B : Nat) (eps : ℝ) : Stmt.TraceSafeListR .triv bounds (pre X Y stride B eps) s := by
   apply Stmt.TraceSafeListR.of_forall
   intro stmt hst st
   simp only [pre, List.mem_cons, List.not_mem_nil, or_false] at hst
-  rcases hst with rfl | rfl | rfl | rfl <;> simp [Stmt.TraceSafeR, Op.SafeAtR.eq_def]
+  rcases hst with rfl | rfl | rfl | rfl | rfl <;> simp [Stmt.TraceSafeR, Op.SafeAtR.eq_def]
 
 theorem post_safe (bounds : RegionBounds) (s : BlockState) (N B : Nat) (eps : ℝ) :
     Stmt.TraceSafeListR .triv bounds (post N B eps) s := by
@@ -96,17 +96,17 @@ theorem real_trace_safe (bounds : RegionBounds) (s0 : BlockState) (X Y W : Regio
   unfold Kernel.TraceSafeR
   rw [body_decomp]
   simp only [List.append_assoc, List.cons_append, List.nil_append]
-  refine Stmt.TraceSafeListR.append_intro _ _ (pre_safe bounds s0 X Y stride B) ?_
+  refine Stmt.TraceSafeListR.append_intro _ _ (pre_safe bounds s0 X Y stride B eps) ?_
   intro sp hsp
   rw [stepStmtsR_triv, pre_exec] at hsp
   have heq := Option.some.inj hsp
   subst sp
   refine Stmt.TraceSafeListR.cons_intro
-    (var_loop_safe bounds s0 _ X Y stride N B (pre_inv s0 X Y stride N B) hbx) ?_
+    (var_loop_safe bounds s0 _ X Y stride N B eps (pre_inv s0 X Y stride N B eps) hbx) ?_
   intro sv hsv
   rw [stepStmtR_triv] at hsv
-  obtain ⟨c, sv', hv, hc, hi⟩ := var_loop s0 (preState s0 X Y stride B) X Y
-    stride N B hB (pre_inv s0 X Y stride N B)
+  obtain ⟨c, sv', hv, hc, hi⟩ := var_loop s0 (preState s0 X Y stride B eps) X Y
+    stride N B eps hB (pre_inv s0 X Y stride N B eps)
   have heq : sv = sv' := Option.some.inj (hsv.symm.trans hv)
   subst sv
   refine Stmt.TraceSafeListR.append_intro _ _ (post_safe bounds sv' N B eps) ?_

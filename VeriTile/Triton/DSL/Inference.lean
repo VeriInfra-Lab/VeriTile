@@ -900,6 +900,7 @@ private def dtypeOfTritonDType (stx : TSyntax `tritonDType) : Option DInfo :=
   | `(tritonDType| tl.uint16) => some .nat
   | `(tritonDType| tl.uint32) => some .nat
   | `(tritonDType| tl.uint64) => some .nat
+  | `(tritonDType| storage_dtype($name:ident)) => some (.floatVar name.getId.eraseMacroScopes.toString)
   | `(tritonDType| DTYPE) => some (.floatVar "dtype")
   | `(tritonDType| OUT_DTYPE) => some (.floatVar "out_dtype")
   | _ => none

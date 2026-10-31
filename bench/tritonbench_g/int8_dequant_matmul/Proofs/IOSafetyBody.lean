@@ -42,8 +42,7 @@ theorem loadPair_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic) (con
       fun h => (keep _ _ _ (by decide) (by decide)).trans (hR h)
     cases unmasked
     all_goals
-      simp [loadPair,loadArm,body,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-        ComputeKernel.surfaceBody] at member
+      simp [loadPair,loadArm,body,source,TypedSource.kernel,ComputeKernel.surfaceBody] at member
       rcases member with rfl|rfl
       all_goals
         simp only [IntegerDot.stepSafe_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
@@ -60,8 +59,7 @@ theorem loadPair_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic) (con
   · intro st member current next keep executed
     cases unmasked
     all_goals
-      simp [loadPair,loadArm,body,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-        ComputeKernel.surfaceBody] at member
+      simp [loadPair,loadArm,body,source,TypedSource.kernel,ComputeKernel.surfaceBody] at member
       rcases member with rfl|rfl
       all_goals
         simp only [IntegerDot.step,IntegerDot.arithmeticStep,FP.Structural.step] at executed
@@ -78,7 +76,7 @@ theorem body_tail_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic) (co
     (s : Shape) (c : Config) (hasBias : Bool) (bounds : RegionName → Nat) (state : State α) :
     IntegerDot.traceSafeList M arithmetic context bounds ((body s c hasBias).drop 1) state := by
   apply traceSafe_of_pointwise
-  simp [body,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,ComputeKernel.surfaceBody]
+  simp [body,source,TypedSource.kernel,ComputeKernel.surfaceBody]
   all_goals simp only [IntegerDot.stepSafe_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   all_goals simp [Safety.safeOp_unfold]
 

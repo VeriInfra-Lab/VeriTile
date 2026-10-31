@@ -4,14 +4,6 @@ import VeriTile.Triton.Memory.TraceProofs
 namespace VeriTile.Bench.TritonBenchG.SoftmaxOptimize.Safety
 open VeriTile.Triton SignedTransport
 
-theorem index_prefix_safe (bounds : RegionBounds) (X : RegionName) (N B : Nat)
-    (s : BlockState) : Stmt.TraceSafeList bounds (indexPrefix X N B) s := by
-  apply TraceProofs.all_safe
-  intro st hst t
-  simp only [indexPrefix, List.mem_cons, List.not_mem_nil, or_false] at hst
-  rcases hst with rfl | rfl | rfl <;>
-    simp [Stmt.TraceSafe, Op.SafeAt, Op.SafeAt.eq_def]
-
 theorem reduction_safe (bounds : RegionBounds) (B : Nat) (s : BlockState) :
     Stmt.TraceSafeList bounds (reductionStmts B) s := by
   apply TraceProofs.all_safe

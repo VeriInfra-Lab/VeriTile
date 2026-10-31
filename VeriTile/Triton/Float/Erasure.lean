@@ -229,6 +229,9 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .makeBlockPtrDynOffsets region baseOffset parentShape blockShape strides offsets =>
       .makeBlockPtrDynOffsets region baseOffset.eraseDType parentShape blockShape
         strides (offsets.map (·.eraseDType))
+  | .makeBlockPtrDynMetadata region baseOffset parentShape blockShape strides offsets =>
+      .makeBlockPtrDynMetadata region baseOffset.eraseDType parentShape blockShape
+        (strides.map (·.eraseDType)) (offsets.map (·.eraseDType))
   | .advanceBlockPtr ptr deltas => .advanceBlockPtr ptr.eraseDType deltas
   | .advanceBlockPtrDyn ptr deltas =>
       .advanceBlockPtrDyn ptr.eraseDType (deltas.map (·.eraseDType))

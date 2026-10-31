@@ -35,13 +35,6 @@ def typedJIT (r : Request) (c : Config) : VeriTile.Triton.ComputeKernel :=
     c.BM c.BN c.BK 8 c.S (steps (requestShape r) c)
     ((requestShape r).K % (c.BK*c.S)==0) (hasBias r)
 
-theorem typedJIT_preserved (r : Request) (c : Config) :
-    typedJIT r c=Source.typedJIT (requestShape r) c
-      (canonical (requestShape r).M (requestShape r).K)
-      (canonical (requestShape r).K (requestShape r).N)
-      (canonical (requestShape r).M (requestShape r).N) (hasBias r) := by
-  exact TypedSource.typed_kernel_preserved _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
 theorem prepared_bounds (r : Request) (out : Nat) (c : Config) (p : Prepared r out c)
     (hm : 0<(requestShape r).M) (hn : 0<(requestShape r).N) :
     IndexABI (requestShape r) c (requestBuffers r out)
@@ -57,7 +50,6 @@ theorem runtime_cast_exact (x : RuntimeIndex) : x.widen.toInt=x.decode :=
 
 theorem constexpr_one_cast : (BitVec.ofNat 64 1).toInt=1 := by decide
 
-#axiomsClean typedJIT_preserved
 #axiomsClean prepared_bounds
 #axiomsClean runtime_cast_exact
 #axiomsClean constexpr_one_cast

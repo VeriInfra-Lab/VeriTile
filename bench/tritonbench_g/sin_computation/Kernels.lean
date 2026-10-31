@@ -34,6 +34,4 @@ def indexCommutedKernel (X O : RegionName) (n B : Nat) : ComputeKernel :=
     tl.store(out_ptr + offsets, output, mask=mask)
   }
 
-def originalKernel (n : Nat) : ComputeKernel := kernel "in_ptr0" "out_ptr" n blockSize
-def candidateKernel (n : Nat) : ComputeKernel := indexCommutedKernel "in_ptr0" "out_ptr" n blockSize
 end VeriTile.Bench.Repairs.SinComputation.Contiguous

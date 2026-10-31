@@ -23,7 +23,7 @@ theorem stage1_same_run [Inhabited A] (e : Source.Engine A) (inp out : RegionNam
     (N B : Nat) (s : State A) :
     FP.Structural.exec e.algebra (stage1 inp out N B) s =
       FP.Structural.exec e.algebra (stage1Commuted inp out N B) s := by
-  simp [stage1,stage1Commuted,VeriTile.Bench.TritonBenchG.MaxReduction.stage1,FP.Structural.exec,ComputeKernel.surfaceBody,
+  simp [stage1, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted, stage1Commuted, FP.Structural.exec,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,Region.cast,scalar_mul,lane_lt,State.setReg,Source.Engine.algebra,Source.reduceWith,Source.indexedWith,Nat.mul_comm]
 
@@ -32,7 +32,7 @@ theorem stage2_candidate_exec [Inhabited A] (e : Source.Engine A)
     ∃ final,FP.Structural.exec e.algebra (stage2Complement inp out N B) s=some final ∧
       final.mem=(s.write out 0 (.mk .real
         (Source.scalarValue e (fun i => (s.mem inp i).read .real) N B 0))).mem := by
-  simp [stage2Complement,VeriTile.Bench.TritonBenchG.MaxReduction.stage2,FP.Structural.exec,ComputeKernel.surfaceBody,
+  simp [stage2Complement, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted, FP.Structural.exec,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLe,numericLe,Region.cast,Source.Engine.algebra,
     Source.reduceWith,Source.scalarValue,TileShape.allIndices,TileShape.axisDim,hb,
@@ -43,7 +43,7 @@ theorem dimension_same_run [Inhabited A] (e : Source.Engine A) (inp ov oi : Regi
     (M N K BM BN : Nat) (s : State A) :
     FP.Structural.exec e.algebra (dimension inp ov oi M N K BM BN) s =
       FP.Structural.exec e.algebra (dimensionCommuted inp ov oi M N K BM BN) s := by
-  simp [dimension,dimensionCommuted,VeriTile.Bench.TritonBenchG.MaxReduction.dimensionSource,FP.Structural.exec,ComputeKernel.surfaceBody,
+  simp [dimension,dimensionCommuted, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted, FP.Structural.exec,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,Region.cast,scalar_mul,lane_lt,State.setReg,Source.Engine.algebra,Source.reduceWith,Source.indexedWith,Nat.mul_comm]
 

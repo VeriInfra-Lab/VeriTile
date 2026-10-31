@@ -1,3 +1,4 @@
+import bench.tritonbench_g.attention_score.Sources.AlgorithmProjection
 import bench.tritonbench_g.attention_score.Proofs.Reused.RealExpressions
 import VeriTile.Triton.Float.Erasure
 import VeriTile.Triton.Semantics.ProgramRewrite
@@ -51,10 +52,10 @@ def body (BN BD N_CTX : Nat) (offset size : Int)
           (Op.where
             (Op.remap [BN, BN] (Broadcast.leftIndex (Broadcast.consSame (Broadcast.consL Broadcast.nil)))
               (Op.expandDim ⟨1, by simp⟩
-                (Op.lt ComparableDType.nat Broadcast.scalarR
-                  (Op.add NumericDType.nat Broadcast.scalarR (Op.arange BN)
-                    (Op.ref TileDType.nat [] "start_m"))
-                  (Op.constNat N_CTX))))
+                (Op.lt ComparableDType.int Broadcast.scalarR
+                  (Op.add NumericDType.int Broadcast.scalarR (Op.castNatToInt (Op.arange BN))
+                    (Op.ref TileDType.int [] "start_m"))
+                  (Op.castNatToInt (Op.constNat N_CTX)))))
             (Op.ref TileDType.real [BN, BN] "p") (Op.broadcast (Op.const 0) [BN, BN]))],
     Stmt.assign TileDType.real [BN] "o"
       (Op.add NumericDType.real (Broadcast.consSame Broadcast.nil) (Op.ref TileDType.real [BN] "o")
@@ -65,8 +66,22 @@ def body (BN BD N_CTX : Nat) (offset size : Int)
 or a successful intermediate result. -/
 def loopBody? : List Stmt → Option (List Stmt)
   | [] => none
-  | .forRangeDyn "start_m" _ _ _ body :: _ => some body
+  | .forRangeDyn "start_m" _ _ _ body :: _ | .forRangeInt "start_m" _ _ _ body :: _ => some body
   | _ :: tail => loopBody? tail
+
+theorem loopBody_erased (code : List Stmt) :
+    loopBody? (Stmt.eraseDTypeList code) = (loopBody? code).map Stmt.eraseDTypeList := by
+  induction code with
+  | nil => simp [Stmt.eraseDTypeList,loopBody?]
+  | cons st rest ih =>
+      cases st <;> try simp [Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,loopBody?,ih]
+      all_goals
+        rename_i idx start stop stride body
+        by_cases h : idx="start_m"
+        · subst idx
+          simp [Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,loopBody?]
+        · simp [Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,loopBody?,h,ih]
+
 
 section
 variable (Q K M Out : RegionName)
@@ -81,19 +96,15 @@ theorem original_arithmetic :
         (fun code => (code.drop 3).take 9) =
       some (body BN BD N offset size window complement evenM Bool.false) := by
   subst BM
-  simp only [TypedSource.original, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Kernel.eraseDType,
-    Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,
-    MaskOpt.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind,
-    List.map_cons, List.map_nil]
-  simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, List.map_cons, List.map_nil]
-  simp only [loopBody?, Option.map, List.drop_succ_cons, List.drop_zero,
-    List.take_succ_cons, List.take_zero, body, Bool.false_eq_true, ↓reduceIte]
+  rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_, rfl⟩)]
+  rw [loopBody_erased]
+  simp only [TypedSource.original,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
+    loopBody?,Option.map,List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]
+  simp only [Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType,
+    MaskOpt.eraseDType,VeriTile.Triton.eraseDType,FloatDType.toTileDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,body,Bool.false_eq_true,↓reduceIte]
   rfl
 
 theorem candidate_arithmetic :
@@ -103,19 +114,15 @@ theorem candidate_arithmetic :
         (fun code => (code.drop 3).take 9) =
       some (body BN BD N offset size window complement evenM Bool.true) := by
   subst BM
-  simp only [TypedSource.scalarLeft, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Kernel.eraseDType,
-    Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,
-    MaskOpt.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind,
-    List.map_cons, List.map_nil]
-  simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, List.map_cons, List.map_nil]
-  simp only [loopBody?, Option.map, List.drop_succ_cons, List.drop_zero,
-    List.take_succ_cons, List.take_zero, body, Bool.false_eq_true, ↓reduceIte]
+  rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_, rfl⟩)]
+  rw [loopBody_erased]
+  simp only [TypedSource.scalarLeft,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
+    loopBody?,Option.map,List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]
+  simp only [Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType,
+    MaskOpt.eraseDType,VeriTile.Triton.eraseDType,FloatDType.toTileDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,body,Bool.false_eq_true,↓reduceIte]
   rfl
 
 end
@@ -129,8 +136,8 @@ theorem executes (s : BlockState) (B D N startM startN : Nat)
     (hm : s.regs .real [B] "m" = some m)
     (ho : s.regs .real [B] "o" = some old)
     (hs : s.regs .real [] "qk_scale" = some (Tile.scalar (some scale)))
-    (hsm : s.regs .nat [] "start_m" = some (Tile.scalar startM))
-    (hsn : s.regs .nat [] "start_n" = some (Tile.scalar startN)) :
+    (hsm : s.regs .int [] "start_m" = some (Tile.scalar (startM:Int)))
+    (hsn : s.regs .int [] "start_n" = some (Tile.scalar (startN:Int))) :
     ∃ t, stepStmts (body B D N offset size window complement evenM Bool.false) s = some t ∧
       t.mem = s.mem ∧ t.pids = s.pids ∧ t.undef = s.undef := by
   cases window <;> cases complement <;> cases evenM

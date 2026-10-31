@@ -20,9 +20,9 @@ def masked {BM BN : Nat} (score : Fin BM → Fin BN → ℝ) (active : Fin BM �
   ⟨fun i => if active i.1 i.2.1 then (score i.1 i.2.1 : WithBot ℝ) else ⊥⟩
 
 theorem eval_tail (s : BlockState) (BN N startN : Nat)
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar startN))
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar N)) :
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar startN))
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar N)) :
     evalOp (tail BN) s = some (⟨fun i => decide (startN+i.2.1.val < N)⟩ : Tile .bool [1,BN]) := by
   simp only [tail, evalOp.eq_def, hn, hs, hctx, bind, Option.bind]
   congr 1
@@ -30,15 +30,35 @@ theorem eval_tail (s : BlockState) (BN N startN : Nat)
   rintro ⟨i,j,⟨⟩⟩
   simp [Tile.cop_data, Tile.bop_data, Tile.expandDim_data, Tile.vec, Tile.scalar,
     TileShape.dropInsertedIndex, ComparableDType.lt, NumericDType.sub,
-    RealExpressions.tail_mask_iff, -Tile.scalar_eta]
+    RealExpressions.tail_mask_iff,ControlView.signed_tail, -Tile.scalar_eta]
+  change ((j.val : Int) < (N : Int)-(startN : Int)) ↔ startN+j.val<N
+  omega
+
+theorem eval_mask (s : BlockState) (BM BN startM startN : Nat)
+    (hm : s.regs .int [BM] "offs_m"=some ⟨fun i => ((startM*BM+i.1.val : Nat) : Int)⟩)
+    (hn : s.regs .int [BN] "offs_n"=some (Tile.vec (fun i => (i.val : Int))))
+    (hs : s.regs .int [] "start_n"=some (Tile.scalar (startN : Int))) :
+    evalOp (maskExpr BM BN) s=some (RealExpressions.maskTile BM BN startM startN) := by
+  simp only [maskExpr,evalOp.eq_def,hm,hn,hs,bind,Option.bind]
+  congr 1
+  apply Tile.ext
+  rintro ⟨r,j,⟨⟩⟩
+  simp only [Tile.cop_data,Tile.bop_data,Tile.expandDim_data,Tile.vec,Tile.scalar,
+    TileShape.dropInsertedIndex,ComparableDType.ge,NumericDType.add,RealExpressions.maskTile]
+  simp only [←Int.natCast_add]
+  simp [Broadcast.leftIndex,Broadcast.rightIndex]
+  simp only [←Int.natCast_mul,←Int.natCast_add]
+  change ((startN+j.val : Nat) : Int) ≤ ((startM*BM+r.val : Nat) : Int) ↔
+    startN+j.val≤startM*BM+r.val
+  omega
 
 theorem guard_executes (s : BlockState) (BM BN N startM startN : Nat) (second diagonal : Bool)
     (score : Fin BM → Fin BN → ℝ)
     (hqk : s.regs .real [BM,BN] "qk" = some (finite (fun i : TileIndex [BM,BN] => score i.1 i.2.1)))
-    (hm : s.regs .nat [BM] "offs_m" = some ⟨fun i => startM*BM+i.1.val⟩)
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
-    (hs : s.regs .nat [] "start_n" = some (Tile.scalar startN))
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar N)) :
+    (hm : s.regs .int [BM] "offs_m" = some ⟨fun i => startM*BM+i.1.val⟩)
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => i.val)))
+    (hs : s.regs .int [] "start_n" = some (Tile.scalar startN))
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar N)) :
     ∃ t, stepStmts (guard BM BN second diagonal) s = some t ∧
       t.regs .real [BM,BN] "qk" = some (masked score (keep BM BN N startM startN diagonal)) ∧
       Frame [maskName second,"qk"] s t := by
@@ -64,7 +84,7 @@ theorem guard_executes (s : BlockState) (BM BN N startM startN : Nat) (second di
     rw [stepStmts.cons_some (stepStmt_assign_eq_some he), stepStmts.nil]
     exact ⟨_, rfl, by simp, Frame.setReg _ s "qk" _ _ _ (by simp)⟩
   · let sm := s.setReg (maskName second) .bool [BM,BN] (RealExpressions.maskTile BM BN startM startN)
-    have hmask := RealExpressions.eval_mask s BM BN startM startN hm hn hs
+    have hmask := eval_mask s BM BN startM startN hm hn hs
     have ht := eval_tail sm BN N startN (by cases second <;> simpa [sm,maskName,RealPreparation.maskName] using hn)
       (by cases second <;> simpa [sm,maskName,RealPreparation.maskName] using hs)
       (by cases second <;> simpa [sm,maskName,RealPreparation.maskName] using hctx)

@@ -19,7 +19,7 @@ theorem prefix_safe {α : Type} [Inhabited α] (A : Algebra α)
     Safety.traceSafeList (engine A) bounds (stagePrefix f r stride M N eps p block hb) s := by
   rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
   cases res <;> cases resout <;> cases x1 <;> cases w1
-  all_goals simp (config := {maxSteps:=500000}) [stagePrefix,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp (config := {maxSteps:=500000}) [stagePrefix,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,

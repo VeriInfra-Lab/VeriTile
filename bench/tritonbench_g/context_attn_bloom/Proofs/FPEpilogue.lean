@@ -52,7 +52,7 @@ theorem epilogue_success (p : Layout) (r : Regions) (scale : ℝ)
     (a i)),?_⟩
   simp [parts,kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnBloom.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,ComputeKernel.surfaceBody,
     Source.intRange?]
   simp (config := {maxSteps := 100000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,

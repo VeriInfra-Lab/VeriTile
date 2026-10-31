@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rms_norm_triton.Proofs.SourcePreservation
+import bench.tritonbench_g.rms_norm_triton.Kernels
 import bench.tritonbench_g.rms_norm_triton.IO
 import bench.tritonbench_g.rms_norm_triton.Proofs.PublicIO
 namespace VeriTile.Bench.Repairs.RmsNormTriton.Pair
@@ -12,8 +12,6 @@ set_option maxRecDepth 20000
 abbrev sourceCandidate (c : Layout) (eps : ℝ) : ComputeKernel :=
   indexCommutedKernel c.Y c.X c.W c.N c.B eps
 
-theorem source_id (c : Layout) (eps : ℝ) :
-    c.source eps = typed .fp32 .fp32 Bool.false c.Y c.X c.W c.N 1 c.N 1 c.N eps c.B := rfl
 
 theorem run_eq {α : Type} [Inhabited α] (M : Algebra α)
     (c : Layout) (eps : ℝ) (s : State α) :
@@ -26,7 +24,7 @@ theorem run_eq {α : Type} [Inhabited α] (M : Algebra α)
   rw [run_append, run_append]
   congr 1
   simp [sourceCandidate,indexCommutedKernel,Layout.source,
-    VeriTile.Bench.TritonBenchG.RmsNormTriton.kernel,typed,ComputeKernel.surfaceBody,run,step,
+    VeriTile.Bench.TritonBenchG.RmsNormTriton.kernel,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,bop,store,Option.bind,numeric,
     Region.cast,State.setReg,Nat.mul_comm]
   funext d sh n
@@ -43,7 +41,7 @@ theorem row_safe {α : Type} [Inhabited α] (M : Algebra α) (c : Layout) (eps :
     (weight : ∀ i : Fin c.B,i.val<c.N → i.val<bounds c.W)
     (output : ∀ i : Fin c.B,i.val<c.N → pid*c.N+i.val<bounds c.Y) :
     TraceSafe (engine M) bounds (sourceCandidate c eps) (rowState pid s) := by
-  simp [TraceSafe,sourceCandidate,indexCommutedKernel,typed,ComputeKernel.surfaceBody,
+  simp [TraceSafe,sourceCandidate,indexCommutedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

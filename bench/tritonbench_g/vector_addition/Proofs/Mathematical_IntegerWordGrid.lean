@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_IntegerWords
 
 /-! Finite input-word relation composed with the complete original integer grid.
@@ -27,15 +28,6 @@ theorem reference_refines {α : Type} [Inhabited α] (x y : Canonical)
   · simp only [IntegerValueCorrect.spec, wordSpec, active]
     exact result_refines x y (wx o) (wy o) p initial.mem o (hx o active.2) (hy o active.2)
   · simp only [IntegerValueCorrect.spec, wordSpec, active, ↓reduceIte]
-
-theorem grid_correct_words {α : Type} [Inhabited α] (M : Algebra α)
-    (x y : Canonical) (wx : Nat → Word x) (wy : Nat → Word y)
-    (p : Parameters) (initial : State α) (positive : 0 < p.block)
-    (hx : InputWords x wx p.x p.n initial.mem) (hy : InputWords y wy p.y p.n initial.mem) :
-    ∃ final, IntegerSource.runGrid M x.storage y.storage p initial = some final ∧
-      final.mem = wordSpec x y wx wy p initial.mem := by
-  obtain ⟨final, he, hm⟩ := IntegerValueCorrect.correct M x y p initial positive
-  exact ⟨final, he, hm.trans (reference_refines x y wx wy p initial hx hy)⟩
 
 theorem wordSpec_frame {α : Type} (x y : Canonical)
     (wx : Nat → Word x) (wy : Nat → Word y) (p : Parameters) (initial : Memory α)
@@ -78,24 +70,12 @@ theorem withInputs_y {α : Type} (x y : Canonical)
   · simpa [withInputs, ho, sameRegion] using compatible sameRegion o ho
   · simp [withInputs, ho, sameRegion]
 
-theorem constructed_grid_correct {α : Type} [Inhabited α] (M : Algebra α)
-    (x y : Canonical) (wx : Nat → Word x) (wy : Nat → Word y)
-    (p : Parameters) (initial : State α) (positive : 0 < p.block)
-    (compatible : p.y = p.x → ∀ o, o < p.n → decodeCell (α := α) x (wx o) = decodeCell y (wy o)) :
-    ∃ final, IntegerSource.runGrid M x.storage y.storage p (withInputs x y wx wy p initial) = some final ∧
-      final.mem = wordSpec x y wx wy p (withInputs x y wx wy p initial).mem :=
-  grid_correct_words M x y wx wy p _ positive (withInputs_x x y wx wy p initial)
-    (withInputs_y x y wx wy p initial compatible)
-
-#specNonCircular wordSpec avoiding [IntegerSource.source, IntegerSource.runGrid,
-  IntegerSource.runGridPrefix, FP.Structural.exec, IntegerSource.resultCell]
+#specNonCircular wordSpec avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 #axiomsClean reference_refines
-#axiomsClean grid_correct_words
 #axiomsClean wordSpec_frame
 #axiomsClean wordSpec_readback
 #axiomsClean withInputs_x
 #axiomsClean withInputs_y
-#axiomsClean constructed_grid_correct
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

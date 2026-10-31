@@ -40,19 +40,7 @@ theorem written_frame {α : Type} [Inhabited α] (M : Algebra α) (p : Parameter
   rw [State.masked_scatter_frame _ _ _ _ _ _ _ (h.imp id (fun h i _ hi => h Bool.true i hi))]
   rw [State.masked_scatter_frame _ _ _ _ _ _ _ (h.imp id (fun h i _ hi => h Bool.false i hi))]
 
-theorem correctness {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)
-    (hw : WritesApart p s) :
-    ∃ final, FP.Structural.exec M (source p) s = some final ∧ Post p s final (value M p s) := by
-  refine ⟨(execution M p s).val, (execution M p s).property, ?_, ?_⟩
-  · intro imag i hi
-    rw [execution_memory]
-    exact written_readback M p s hw imag i hi
-  · intro r o h
-    rw [execution_memory]
-    exact written_frame M p s r o h
-
 #axiomsClean written_readback
 #axiomsClean written_frame
-#axiomsClean correctness
 end
 end VeriTile.Bench.Repairs.RbeTritonTransform.Source

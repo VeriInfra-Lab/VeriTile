@@ -14,8 +14,6 @@ def iteration (p : Layout) (r : Regions) : List Stmt :=
 
 def tripCount (p : Layout) : Op .nat [] :=
   .div .nat .nil (.sub .nat .nil (.add .nat .nil (.constNat p.K) (.constNat p.BK)) (.constNat 1)) (.constNat p.BK)
-def loop (p : Layout) (r : Regions) : Stmt :=
-  .forRangeDyn "i_k" (.constNat 0) (tripCount p) (.constNat 1) (iteration p r)
 
 structure Holds (p : Layout) (r : Regions) (s0 : BlockState) (n : Nat) (u : BlockState) : Prop where
   limit : n ≤ numBlocks p
@@ -58,19 +56,6 @@ theorem loop_step (p : Layout) (r : Regions) (s0 : BlockState)
   · simpa [t,hi.maskReg] using hmask
   · rw [ho,query_tile p r t n,history_tile p r t n,ht_l,ht_a,output_update]
   · rw [hs,query_tile p r t n,key_tile p r t n,ht_l,ht_a,score_update]
-
-theorem loop_executes (p : Layout) (r : Regions) (s0 : BlockState)
-    (hu : s0.undef = fun _ _ => 0) (u : BlockState) (hi : Holds p r s0 0 u) :
-    ∃ v, stepStmt (loop p r) u = some v ∧ Holds p r s0 (numBlocks p) v := by
-  have htrip : evalOp (tripCount p) u = some (Tile.scalar (numBlocks p)) := by
-    simp only [tripCount,evalOp_div,evalOp_sub,evalOp_add,evalOp_constNat,Option.bind_eq_bind,Option.bind_some]
-    rfl
-  obtain ⟨n,v,he,hn,hv⟩ := forRangeDyn_inv (idx := "i_k") (start := 0) (stop := numBlocks p) (step := 1)
-    (P := Holds p r s0) (body := iteration p r) (evalOp_constNat 0 u) htrip (evalOp_constNat 1 u)
-    (by decide) hi (loop_step p r s0 hu)
-  have hn' : n = numBlocks p := Nat.le_antisymm hv.limit hn
-  subst n
-  exact ⟨v,he,hv⟩
 
 #guard_msgs (drop info) in
 #auditModuleAxioms
@@ -246,22 +231,6 @@ def footprint (p : Layout) (l : Launch) (r : Regions) : WriteFootprint :=
   fun cell => cell.1 = r.output ∧ ∃ i : TileIndex [p.BT,p.BV],
     active p l i.1.val i.2.1.val ∧ cell.2 = outputAddress p l i.1.val i.2.1.val
 
-theorem store_executes (p : Layout) (l : Launch) (r : Regions) (a : Inputs) (scale : ℝ) (s : BlockState)
-    (hp : s.regs .blockPtr [p.BT,p.BV] "p_o" = some (outputPointer p l r))
-    (ho : s.regs .real [p.BT,p.BV] "b_o" = some (resultTile p l a scale)) :
-    stepStmt (chunkGlaStoreStmt r.output p.BT p.BV) s = some (scatter p l r a scale s) := by
-  simp only [chunkGlaStoreStmt,stepStmt,evalOp_ref,hp,ho,Option.bind_eq_bind,Option.bind_some,
-    outputPointer,TileShape.indexToList,BlockPtr.inBounds_2d_offsets,
-    BlockPtr.address_2d_offsets,Bool.true_and,decide_eq_true_eq,Nat.mul_one]
-  apply congrArg some
-  unfold scatter
-  congr 1
-  funext u i
-  obtain ⟨i,j,⟨⟩⟩ := i
-  simp only [BlockState.writeMemTyped_real]
-  erw [result_value]
-  rfl
-
 theorem scatter_readback (p : Layout) (l : Launch) (r : Regions) (a : Inputs) (scale : ℝ) (s : BlockState)
     (hinj : NoCollision p l) (i : TileIndex [p.BT,p.BV]) (hi : active p l i.1.val i.2.1.val) :
     (scatter p l r a scale s).readMem r.output (outputAddress p l i.1.val i.2.1.val) =
@@ -287,41 +256,6 @@ set_option maxHeartbeats 4000000
 set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false
 
-def kernel (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ) : ComputeKernel :=
-  original dot value gate out r.query r.key r.value r.history r.gate r.output
-    p.keyHead p.keyTime p.valueHead p.valueTime p.historyHead p.historyKey scale p.T p.K p.V p.BT p.BK p.BV
-
-theorem source_body (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ) :
-    (kernel p r dot value gate out scale).eraseDType.toAlgKernel.body =
-      setup p ++ [loop p r] ++ tail p r scale ++ [chunkGlaStoreStmt r.output p.BT p.BV] := by
-  unfold kernel original
-  rw [RealSource.storage_erasure,RealSource.body_split]
-  rfl
-
-theorem region_executes (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ)
-    (s : BlockState) (hu : s.undef = fun _ _ => 0) (hinj : NoCollision p (launch s)) :
-    ∃ t, exec (kernel p r dot value gate out scale).eraseDType.toAlgKernel s = some t ∧
-      (∀ i : TileIndex [p.BT,p.BV], active p (launch s) i.1.val i.2.1.val →
-        t.readMem r.output (outputAddress p (launch s) i.1.val i.2.1.val) =
-          expected p (launch s) (inputs r s) scale i.1.val i.2.1.val) ∧
-      BlockState.WriteWithin (footprint p (launch s) r) s t := by
-  obtain ⟨v,hl,hv⟩ := loop_executes p r s hu (start p s) (start_holds p r s)
-  obtain ⟨u,ht,hm,hpad,hp,hptr,ho⟩ := tail_executes p r scale s v hu hv
-  have he : exec (kernel p r dot value gate out scale).eraseDType.toAlgKernel s =
-      some (scatter p (launch s) r (inputs r s) scale u) := by
-    show stepStmts _ _ = _
-    rw [source_body]
-    simp only [List.append_assoc]
-    rw [stepStmts.append_some (setup_executes p s)]
-    have hlone : stepStmts [loop p r] (start p s) = some v := by
-      rw [stepStmts.cons_some hl,stepStmts.nil]
-    rw [stepStmts.append_some hlone]
-    rw [stepStmts.append_some ht,stepStmts.cons_some (store_executes p (launch s) r (inputs r s) scale u hptr ho),
-      stepStmts.nil]
-  refine ⟨_,he,fun i hi => scatter_readback p (launch s) r (inputs r s) scale u hinj i hi,?_⟩
-  intro region off hn
-  simpa only [hm] using scatter_frame p (launch s) r (inputs r s) scale u region off hn
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end
@@ -334,49 +268,10 @@ set_option maxHeartbeats 3000000
 set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false
 
-def candidate (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ) : ComputeKernel :=
-  scaleFirst dot value gate out r.query r.key r.value r.history r.gate r.output
-    p.keyHead p.keyTime p.valueHead p.valueTime p.historyHead p.historyKey scale p.T p.K p.V p.BT p.BK p.BV
-
-def before (p : Layout) (r : Regions) (scale : ℝ) : List Stmt :=
-  (chunkGlaFront r.query r.key r.value r.history r.gate r.output
-    p.keyHead p.keyTime p.valueHead p.valueTime p.historyHead p.historyKey
-    p.T p.K p.V p.BT p.BK p.BV scale).take 15
-
-def after (p : Layout) (r : Regions) (scale : ℝ) : List Stmt :=
-  (chunkGlaFront r.query r.key r.value r.history r.gate r.output
-    p.keyHead p.keyTime p.valueHead p.valueTime p.historyHead p.historyKey
-    p.T p.K p.V p.BT p.BK p.BV scale).drop 16 ++ [chunkGlaStoreStmt r.output p.BT p.BV]
-
 def totalOp (p : Layout) : Op .real [p.BT,p.BV] :=
   .add .real (.consSame (.consSame .nil)) (.ref .real [p.BT,p.BV] "b_o")
     (.dot (batch := []) (.ref .real [p.BT,p.BT] "b_s") (.ref .real [p.BT,p.BV] "b_v")
       {allowTF32 := some Bool.false})
-
-theorem original_split (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ) :
-    (kernel p r dot value gate out scale).eraseDType.toAlgKernel.body =
-      before p r scale ++ .assign .real [p.BT,p.BV] "b_o" (.mul .real .scalarR (totalOp p) (.const scale)) ::
-      after p r scale := by
-  unfold kernel original
-  rw [RealSource.storage_erasure,RealSource.body_split]
-  rfl
-
-theorem candidate_split (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ) :
-    (candidate p r dot value gate out scale).eraseDType.toAlgKernel.body =
-      before p r scale ++ .assign .real [p.BT,p.BV] "b_o" (.mul .real .scalarL (.const scale) (totalOp p)) ::
-      after p r scale := by
-  unfold candidate scaleFirst
-  rw [RealSource.storage_erasure]
-  simp only [source, Bool.false_eq_true, ↓reduceIte, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
-    ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList,
-    Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
-    NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType,
-    Except.bind, bind, List.map_cons, List.map_nil, eraseDType_float,VeriTile.Triton.eraseDType]
-  simp only [Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
-    FloatDType.toTileDType,eraseDType_float,VeriTile.Triton.eraseDType]
-  rfl
 
 theorem scaling_commutes (p : Layout) (scale : ℝ) (u : BlockState) :
     stepStmt (.assign .real [p.BT,p.BV] "b_o" (.mul .real .scalarR (totalOp p) (.const scale))) u =
@@ -393,17 +288,6 @@ theorem scaling_commutes (p : Layout) (scale : ℝ) (u : BlockState) :
     simp [Tile.bop,Tile.scalar,-Tile.scalar_eta,Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.mul,
       WithBot.realMul,h,mul_comm]
 
-theorem candidate_executes_like (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType)
-    (scale : ℝ) (s t : BlockState)
-    (he : exec (kernel p r dot value gate out scale).eraseDType.toAlgKernel s = some t) :
-    exec (candidate p r dot value gate out scale).eraseDType.toAlgKernel s = some t := by
-  rw [exec,original_split] at he
-  rw [exec,candidate_split]
-  obtain ⟨u,hbefore,ht⟩ := stepStmts.append_some_iff.mp he
-  apply stepStmts.append_some_iff.mpr
-  refine ⟨u,hbefore,?_⟩
-  simpa only [stepStmts,scaling_commutes p scale u] using ht
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end
@@ -414,36 +298,6 @@ open VeriTile.Triton Math
 noncomputable section
 set_option maxHeartbeats 3000000
 set_option maxRecDepth 16000
-
-def program (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ) (swapped : Bool) :=
-  if swapped then candidate p r dot value gate out scale else kernel p r dot value gate out scale
-
-def post (p : Layout) (r : Regions) (scale : ℝ) (swapped : Bool) : List Stmt :=
-  (tail p r scale).take 7 ++ .assign .real [p.BT,p.BV] "b_o"
-    (if swapped then .mul .real .scalarL (.const scale) (totalOp p)
-      else .mul .real .scalarR (totalOp p) (.const scale)) :: after p r scale
-
-theorem program_body (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ) (swapped : Bool) :
-    (program p r dot value gate out scale swapped).eraseDType.toAlgKernel.body =
-      setup p ++ loop p r :: post p r scale swapped := by
-  cases swapped
-  · simp only [program,Bool.false_eq_true,↓reduceIte,source_body]
-    rfl
-  · simp only [program,↓reduceIte,candidate_split]
-    rfl
-
-theorem program_executes (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ)
-    (swapped : Bool) (s : BlockState) (hu : s.undef = fun _ _ => 0) (hinj : NoCollision p (launch s)) :
-    ∃ t, exec (program p r dot value gate out scale swapped).eraseDType.toAlgKernel s = some t ∧
-      (∀ i : TileIndex [p.BT,p.BV], active p (launch s) i.1.val i.2.1.val →
-        t.readMem r.output (outputAddress p (launch s) i.1.val i.2.1.val) =
-          expected p (launch s) (inputs r s) scale i.1.val i.2.1.val) ∧
-      BlockState.WriteWithin (footprint p (launch s) r) s t := by
-  obtain ⟨t,he,ho,hf⟩ := region_executes p r dot value gate out scale s hu hinj
-  refine ⟨t,?_,ho,hf⟩
-  cases swapped
-  · exact he
-  · exact candidate_executes_like p r dot value gate out scale s t he
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -22,8 +22,8 @@ theorem source_memory (M : Algebra α) (h : Call) (u : State α) :
     ∃ v, FP.Structural.exec (engine M) (Kernels.backward h) u=some v ∧ v.mem=expectedHeap M h u := by
   cases mode : h.gemma
   all_goals
-    simp [mode,ofFloat,toFloat,FP.Structural.exec,Kernels.backward,Kernels.inputGradientSource,Original.backward,
-      VeriTile.Bench.TritonBenchG.FastRmsLayernorm.TypedSource.backward,
+    simp [mode,ofFloat,toFloat,FP.Structural.exec,Kernels.backward,Kernels.inputGradientSource,
+
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,

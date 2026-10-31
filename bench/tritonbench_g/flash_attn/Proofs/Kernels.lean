@@ -142,8 +142,5 @@ def execute (x : Layout) (p : Ops α) (scale : α) : List Work → Memory α →
 end VeriTile.Bench.Repairs.FlashAttn
 
 namespace VeriTile.Bench.Repairs.FlashAttn
-/-- Selected repaired Python body in the shared Triton source language. -/
-abbrev actual_kernel := ActualSource.kernel
-theorem shared_source (p : ActualSource.Parameters) : actual_kernel p=ActualSource.kernel p := rfl
-#axiomsClean shared_source
+
 end VeriTile.Bench.Repairs.FlashAttn

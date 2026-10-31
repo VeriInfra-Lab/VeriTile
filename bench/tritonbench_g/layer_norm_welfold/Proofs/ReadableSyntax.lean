@@ -35,7 +35,7 @@ theorem sum_expression {B : Nat} (t : ReductionTree B) :
     DSL.WelfordSource.sumExpression (.ref .real [1,B] "acc") (tree t)=sumExpr t := by
   induction t with
   | leaf i => rfl
-  | node l r hl hr => simp only [tree,DSL.WelfordSource.sumExpression,sumExpr,hl,hr]
+  | node l r hl hr => simp only [tree,SourceBinding.tree,DSL.WelfordSource.sumExpression,sumExpr,hl,hr]
 
 theorem stats_split (X Mean Rstd : RegionName) (S D B : Nat) (t : ReductionTree B) :
     stats X Mean Rstd S D B t =

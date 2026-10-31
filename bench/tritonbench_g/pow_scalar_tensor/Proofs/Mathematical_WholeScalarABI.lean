@@ -37,38 +37,6 @@ def fp32Backend (rest : Algebra Float32Bits) (baseWord : Float32Bits) : Algebra 
   { rest with literal := fun _ _ _ => baseWord
               cast := fun _ _ _ word => word }
 
-/-- Exact original preparation order. No extraction occurs on shape, empty,
-metadata or CUDA-guard failure; extraction is the scalar launch-argument step.
-The extracted word binds the only val0 occurrence before complete grid execution. -/
-def runPythonHost (rest : Algebra Float32Bits) (abi : ScalarABI) (host : PythonFloat)
-    (candidate : Bool) (input output : Buffer) (guardSucceeds : Bool)
-    (s : State Float32Bits) : Result Float32Bits :=
-  match prepare input output guardSucceeds with
-  | .error failure => .hostFailure failure s
-  | .ok args =>
-    let runtimeBase := abi.extractFP32 host.payload
-    match executeArguments (fp32Backend rest runtimeBase) sourceSlot candidate args s with
-    | none => .executionFailure
-    | some final => .returned output final
-
-theorem python_run_eq (rest : Algebra Float32Bits) (abi : ScalarABI) (host : PythonFloat)
-    (candidate : Bool) (input output : Buffer) (guardSucceeds : Bool) (s : State Float32Bits) :
-    runPythonHost rest abi host candidate input output guardSucceeds s =
-      runHost (fp32Backend rest (abi.extractFP32 host.payload)) sourceSlot candidate
-        input output guardSucceeds s := by
-  unfold runPythonHost runHost
-  cases hprep : prepare input output guardSucceeds with
-  | error failure => rfl
-  | ok args =>
-    simp only
-    cases hexec : executeArguments (fp32Backend rest (abi.extractFP32 host.payload)) sourceSlot candidate args s <;> simp only [hexec]
-
-theorem python_host_failure (rest : Algebra Float32Bits) (abi : ScalarABI) (host : PythonFloat)
-    (candidate : Bool) (input output : Buffer) (guardSucceeds : Bool) (s : State Float32Bits)
-    (failure : Failure) (failed : prepare input output guardSucceeds = .error failure) :
-    runPythonHost rest abi host candidate input output guardSucceeds s = .hostFailure failure s := by
-  simp only [runPythonHost, failed]
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.IntegerIndex
 import bench.tritonbench_g.attention_fwd_triton2.Proofs.Entry
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Source
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
@@ -33,8 +34,8 @@ structure Context (M : Algebra α) (p : Parameters) (initial : State α)
     (row : Nat) (a : Acc α) (current : State α) : Prop where
   memory : current.mem=initial.mem
   aligned : row%64=0
-  rows : current.regs .nat [128] "offs_m"=some (fun i => initial.pids 0*128+i.1.val)
-  cols : current.regs .nat [64] "offs_n"=some (fun i => i.1.val)
+  rows : current.regs .int [128] "offs_m"=some (fun i => ((initial.pids 0*128+i.1.val : Nat) : Int))
+  cols : current.regs .int [64] "offs_n"=some (fun i => (i.1.val : Int))
   query : current.regs .real [128,128] "q"=some (Source.query M p initial)
   scale : current.regs .real [] "q_scale"=some (fun _ => queryScale M p initial)
   keyPointer : current.regs .ptr [128,64] "K_ptrs"=some (fun i =>
@@ -52,12 +53,20 @@ structure Context (M : Algebra α) (p : Parameters) (initial : State α)
 theorem entry_context (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State α) :
     Context M p s 0 (initialAcc M) (entry M dot p s).val := by
   constructor
-  all_goals simp [entry,query,queryScale,base,zero,initialAcc,
+  all_goals try simp [entry,query,queryScale,base,zero,initialAcc,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def]
-  all_goals funext i
-  all_goals simp [query,queryScale,base,zero,initialAcc,
+  all_goals try funext i
+  all_goals try simp [query,queryScale,base,zero,initialAcc,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def]
-  all_goals norm_num
+  all_goals try simp only [IntegerIndex.nat_div,IntegerIndex.nat_mod,IntegerIndex.nat_cdiv,
+    ←Int.natCast_ediv,←Int.natCast_emod,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
+  all_goals try norm_num
+  all_goals try norm_cast
+  all_goals try simp only [show (1.0 : ℝ)=1 from by norm_num]
+  all_goals try simp [Value,Int.toNat_add,Int.toNat_mul,Int.natCast_nonneg]
+  all_goals try congr 2
+  all_goals try norm_cast
+  all_goals try simp [Value,Int.toNat_add,Int.toNat_mul,Int.natCast_nonneg]
   all_goals rfl
 
 #guard_msgs (drop info) in

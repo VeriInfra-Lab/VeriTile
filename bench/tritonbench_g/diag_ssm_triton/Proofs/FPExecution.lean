@@ -42,7 +42,7 @@ theorem forward_success {α : Type} [Inhabited α] (M : Algebra α)
   obtain ⟨a, ha, hi⟩ : ∃ a,
       run M ((Kernels.forwardTyped s x transition y length batch dim block).surfaceBody.take 5) u = some a ∧
       forwardInvariant block a := by
-    simp [Kernels.ReadableSource.forward_preserved, TypedSource.forward, ComputeKernel.surfaceBody,
+    simp [Kernels.ReadableSource.forward_preserved, TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, forwardInvariant]
   have hs : ∀ i a, i < length → forwardInvariant block a →
@@ -50,7 +50,7 @@ theorem forward_success {α : Type} [Inhabited α] (M : Algebra α)
         (a.setReg "t" .nat [] (fun _ => i)) = some b ∧ forwardInvariant block b := by
     intro i a _ hi
     rcases hi with ⟨v0, v1, v2, v3, h0, h1, h2, h3⟩
-    simp [bodyAt, Kernels.ReadableSource.forward_preserved, TypedSource.forward, ComputeKernel.surfaceBody,
+    simp [bodyAt, Kernels.ReadableSource.forward_preserved, TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, forwardInvariant,
       h0, h1, h2, h3]
@@ -58,7 +58,7 @@ theorem forward_success {α : Type} [Inhabited α] (M : Algebra α)
     0 (Nat.zero_le length) a hi
   obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.forwardTyped s x transition y length batch dim block).surfaceBody.drop 6) b = some v := by
     rcases hi with ⟨v0, v1, v2, v3, h0, h1, h2, h3⟩
-    simp [Kernels.ReadableSource.forward_preserved, TypedSource.forward, ComputeKernel.surfaceBody,
+    simp [Kernels.ReadableSource.forward_preserved, TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
       h0, h1, h2, h3]
@@ -84,7 +84,7 @@ theorem backward_success {α : Type} [Inhabited α] (M : Algebra α)
   obtain ⟨a, ha, hi⟩ : ∃ a,
       run M ((Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.take 6) u = some a ∧
       backwardInvariant block a := by
-    simp [Kernels.ReadableSource.backward_preserved, TypedSource.backward, ComputeKernel.surfaceBody,
+    simp [Kernels.ReadableSource.backward_preserved, TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, backwardInvariant]
   have hs : ∀ i a, i < length → backwardInvariant block a →
@@ -93,7 +93,7 @@ theorem backward_success {α : Type} [Inhabited α] (M : Algebra α)
     intro i a _ hi
     rcases hi with ⟨v0, v1, v2, v3, v4, h0, h1, h2, h3, h4⟩
     by_cases hbranch : i < length - 1 <;>
-      simp [hbranch, bodyAt, Kernels.ReadableSource.backward_preserved, TypedSource.backward, ComputeKernel.surfaceBody,
+      simp [hbranch, bodyAt, Kernels.ReadableSource.backward_preserved, TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, backwardInvariant,
       h0, h1, h2, h3, h4]
@@ -101,7 +101,7 @@ theorem backward_success {α : Type} [Inhabited α] (M : Algebra α)
     0 (Nat.zero_le length) a hi
   obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.drop 7) b = some v := by
     rcases hi with ⟨v0, v1, v2, v3, v4, h0, h1, h2, h3, h4⟩
-    simp [Kernels.ReadableSource.backward_preserved, TypedSource.backward, ComputeKernel.surfaceBody,
+    simp [Kernels.ReadableSource.backward_preserved, TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
       h0, h1, h2, h3, h4]
@@ -128,7 +128,7 @@ theorem complexForward_success {α : Type} [Inhabited α] (M : Algebra α)
   obtain ⟨a, ha, hi⟩ : ∃ a,
       run M ((Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody.take 7) u = some a ∧
       complexForwardInvariant block a := by
-    simp [Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward, ComputeKernel.surfaceBody,
+    simp [Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexForwardInvariant]
   have hs : ∀ i a, i < length → complexForwardInvariant block a →
@@ -136,7 +136,7 @@ theorem complexForward_success {α : Type} [Inhabited α] (M : Algebra α)
         (a.setReg "t" .nat [] (fun _ => i)) = some b ∧ complexForwardInvariant block b := by
     intro i a _ hi
     rcases hi with ⟨v0, v1, v2, v3, v4, v5, h0, h1, h2, h3, h4, h5⟩
-    simp [bodyAt, Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward, ComputeKernel.surfaceBody,
+    simp [bodyAt, Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexForwardInvariant,
       h0, h1, h2, h3, h4, h5]
@@ -144,7 +144,7 @@ theorem complexForward_success {α : Type} [Inhabited α] (M : Algebra α)
     0 (Nat.zero_le length) a hi
   obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody.drop 8) b = some v := by
     rcases hi with ⟨v0, v1, v2, v3, v4, v5, h0, h1, h2, h3, h4, h5⟩
-    simp [Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward, ComputeKernel.surfaceBody,
+    simp [Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
       h0, h1, h2, h3, h4, h5]
@@ -173,7 +173,7 @@ theorem complexBackward_success {α : Type} [Inhabited α] (M : Algebra α)
   obtain ⟨a, ha, hi⟩ : ∃ a,
       run M ((Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.take 9) u = some a ∧
       complexBackwardInvariant block a := by
-    simp [Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward, ComputeKernel.surfaceBody,
+    simp [Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexBackwardInvariant]
   have hs : ∀ i a, i < length → complexBackwardInvariant block a →
@@ -182,7 +182,7 @@ theorem complexBackward_success {α : Type} [Inhabited α] (M : Algebra α)
     intro i a _ hi
     rcases hi with ⟨v0, v1, v2, v3, v4, v5, v6, v7, h0, h1, h2, h3, h4, h5, h6, h7⟩
     by_cases hbranch : i < length - 1 <;>
-      simp [hbranch, bodyAt, Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward, ComputeKernel.surfaceBody,
+      simp [hbranch, bodyAt, Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexBackwardInvariant,
       h0, h1, h2, h3, h4, h5, h6, h7]
@@ -190,7 +190,7 @@ theorem complexBackward_success {α : Type} [Inhabited α] (M : Algebra α)
     0 (Nat.zero_le length) a hi
   obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.drop 10) b = some v := by
     rcases hi with ⟨v0, v1, v2, v3, v4, v5, v6, v7, h0, h1, h2, h3, h4, h5, h6, h7⟩
-    simp [Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward, ComputeKernel.surfaceBody,
+    simp [Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
       h0, h1, h2, h3, h4, h5, h6, h7]

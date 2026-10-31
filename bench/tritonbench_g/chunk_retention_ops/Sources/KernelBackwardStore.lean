@@ -91,6 +91,8 @@ theorem store_pointers (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (
     (carry : Carry p α) (ctx : Ready M p pid input s) (hc : HasCarry p carry s) :
     Pointers p pid n (storeExecution M D p scale terminal initial pid input s n carry ctx hc).val := by
   constructor <;> simp [storeExecution,time,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
+  all_goals funext i
+  all_goals congr 1
 
 #axiomsClean store_memory
 #axiomsClean store_ready

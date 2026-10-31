@@ -37,7 +37,7 @@ theorem prologueWithPointers_run [Inhabited Word] (rest : Algebra Word) (cfg : F
       ReadyAt schedule p s t 0 (fun _ => FP.Value.zero .fp32) := by
   cases schedule <;>
     simp [prologueWithPointers, initialPointers, copyPointer, aAt, bAt, pointer, strideOffset,
-      prologue,FPValue.source,typed,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+      prologue,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
       integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,backend,
       SgmvExpandSlice.FPValue.backend,LoraExpandGemv.FPValue.backend]

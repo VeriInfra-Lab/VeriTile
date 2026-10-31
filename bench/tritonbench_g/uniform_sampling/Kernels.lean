@@ -82,12 +82,4 @@ def indexCommutedKernel (out_ptr : RegionName) (N : Nat) (seed offset : Int) (lo
     tl.store(out_ptr + tl.minimum(off_3, ($(N) - $((1 : Nat))).to(tl.int64)), (r3).to(tl.float32), mask=off_3 < $(N), eviction_policy="evict_first")
   }
 
-/-- Fixed argument names for the two displayed Python JIT bodies. -/
-def originalKernel (N : Nat) (seed offset : Int) (lower upper : Float32Bits)
-    (B : Nat) (hB : Random.ArangeSizeDomain B) :=
-  kernel "out_ptr" N seed offset lower upper B hB
-
-def candidateKernel (N : Nat) (seed offset : Int) (lower upper : Float32Bits)
-    (B : Nat) (hB : Random.ArangeSizeDomain B) :=
-  indexCommutedKernel "out_ptr" N seed offset lower upper B hB
 end VeriTile.Bench.Repairs.UniformSampling

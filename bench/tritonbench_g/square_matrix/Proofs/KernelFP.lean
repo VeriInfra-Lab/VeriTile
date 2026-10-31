@@ -14,7 +14,7 @@ primitive implementations. This adds no numerical law or finite-value domain. -/
 theorem successful {α : Type} [Inhabited α] (M : Algebra α)
     (n B : Nat) (s : State α) :
     ∃ t, FP.Structural.exec M (fp32Kernel n B) s = some t := by
-  simp [fp32Kernel, typedKernel, FP.Structural.exec, ComputeKernel.surfaceBody,
+  simp [fp32Kernel, typedKernel, VeriTile.Bench.Repairs.SquareMatrix.fp32Kernel, VeriTile.Bench.Repairs.SquareMatrix.indexCommutedKernel, FP.Structural.exec, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     numericLt, natLt, bop, store, ComputeDType.eraseDType, numeric]
 
@@ -24,7 +24,7 @@ theorem variants_equal {α : Type} [Inhabited α] (M : Algebra α)
     (n B : Nat) (s : State α) :
     FP.Structural.exec M (fp32Kernel n B) s =
       FP.Structural.exec M (indexCommutedKernel n B) s := by
-  simp [fp32Kernel, indexCommutedKernel, typedKernel, FP.Structural.exec,
+  simp [fp32Kernel, indexCommutedKernel, typedKernel, VeriTile.Bench.Repairs.SquareMatrix.fp32Kernel, VeriTile.Bench.Repairs.SquareMatrix.indexCommutedKernel, FP.Structural.exec,
     ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     Option.bind, numericLt, natLt, bop, store, ComputeDType.eraseDType, numeric,
     Nat.mul_comm]
@@ -59,16 +59,9 @@ theorem coordinates {α : Type} [Inhabited α] (M : Algebra α)
     · omega
     · omega
 
-theorem precision (n B : Nat) :
-    (fp32Kernel n B).surfaceBody[5]? = some (expectedProduct .fp32 B) ∧
-    (fp32Kernel n B).surfaceBody.getLast? = some (expectedStore .fp32 n B) :=
-  ⟨multiplication_precision .fp32 Bool.false _ _ _ _ _ _,
-   store_precision .fp32 Bool.false _ _ _ _ _ _⟩
-
 #axiomsClean successful
 #axiomsClean variants_equal
 #axiomsClean coordinates
-#axiomsClean precision
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

@@ -49,7 +49,7 @@ def prologue (BM BN BK : Nat) (p : RealProgram.Parameters) : List Stmt :=
 theorem prologue_executes (s : BlockState) (BM BN BK : Nat) (p : RealProgram.Parameters) :
     stepStmts (prologue BM BN BK p) s = some (prologueResult s BM BN p) := by
   simp [prologue, RealProgram.realPart, RealProgram.branch, RealProgram.source,
-    TypedSource.specialize, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
+    TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
@@ -92,7 +92,7 @@ theorem original_candidate_setup (swapped : Bool) (BM BN BK : Nat) (p : RealProg
 theorem executes (s : BlockState) (BM BN BK : Nat) (p : RealProgram.Parameters) :
     stepStmts (code BM BN BK p) (prologueResult s BM BN p) = some (result s BM BN BK p) := by
   simp [code, RealProgram.realPart, RealProgram.parts, RealProgram.branch, RealProgram.source,
-    TypedSource.specialize, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
+    TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,

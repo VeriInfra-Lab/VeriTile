@@ -1,6 +1,5 @@
 import VeriTile.Triton.Float.LogicalProgramIO
 import bench.tritonbench_g.int8_matmul_kernel.IO
-import bench.tritonbench_g.int8_matmul_kernel.IO
 import bench.tritonbench_g.int8_matmul_kernel.Proofs.GridIO
 
 namespace VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.LogicalReader
@@ -18,7 +17,6 @@ def denseFormula (layout : Layout) (s : Shape) (xs : PublicIO.Inputs layout s) :
       (∑ f ∈ Finset.range 4, ∑ q ∈ Finset.range (s.k/4),
         ((truncateFloat (PublicIO.inputRow layout s xs i.1 (f*(s.k/4)+q))).getD 0) *
           packedWeight (packedByte (PublicIO.weightRow layout s xs i.2.1 q)) f)).toInt
-
 
 /-- Complete production grid for any of the fifteen retained configurations:
 the signed INT32 output is the low 32 bits of the independent dense integer

@@ -34,7 +34,7 @@ theorem storage_erasure (p : Layout) (r : Regions) (storage : Storage) (swapped 
     (kernel p r storage swapped scale).eraseDType.toAlgKernel.body =
       (mathematical p r swapped scale).eraseDType.toAlgKernel.body := by
   cases swapped <;> cases storage
-  all_goals simp only [kernel,mathematical,VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.TritonBenchG.ContextAttnLlama.scaleFirst,
+  all_goals simp only [kernel,mathematical,VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,VeriTile.Bench.TritonBenchG.ContextAttnLlama.scaleFirst,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.scaleFirst,
     Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

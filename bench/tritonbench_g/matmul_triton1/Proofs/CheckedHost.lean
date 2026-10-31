@@ -6,10 +6,10 @@ open SharedContract TensorBinding
 noncomputable section
 variable {α : Type} [Inhabited α]
 
-def call (P : Core.Primitives α) (allocate : Host.Allocator α)
-    (a b : TensorBinding.Tensor) (ra rb : RegionName) (default : Bool) (s : State α) :=
+def call (rest : Algebra α) (P : Core.Primitives α) (allocate : Host.Allocator (DotProfile.Value α))
+    (a b : TensorBinding.Tensor) (ra rb : RegionName) (default : Bool) (s : State (DotProfile.Value α)) :=
   if SharedContract.checkTensorInputs Bool.true default a.metadata b.metadata=.ok () then
-    FiniteHost.call P allocate (InputAdapter.arguments a b ra rb default) s
+    FiniteHost.call rest P allocate (InputAdapter.arguments a b ra rb default) s
   else none
 
 /-- Pointwise successful allocation, including its local frame and capacity.
@@ -31,13 +31,13 @@ def Launchable (allocate : Host.Allocator α) (x : Host.Arguments) (s : State α
   ∀ c after, allocate x s=some (c,after) → ¬Host.Empty x →
     FiniteIndex.count (Host.parameters x c)<2^31
 
-theorem correct (rest : Algebra α) (P : Core.Primitives α) (allocate : Host.Allocator α)
+theorem correct (rest : Algebra α) (P : Core.Primitives α) (allocate : Host.Allocator (DotProfile.Value α))
     (a b : TensorBinding.Tensor) (la : Laws a) (lb : Laws b) (ra rb : RegionName) (default : Bool)
-    (h : SharedContract.InputContract Bool.true default a.metadata b.metadata) (initial : State α)
+    (h : SharedContract.InputContract Bool.true default a.metadata b.metadata) (initial : State (DotProfile.Value α))
     (allocation : Allocation allocate (InputAdapter.arguments a b ra rb default) initial)
     (launch : Launchable allocate (InputAdapter.arguments a b ra rb default) initial) :
-    ∃ c final, call P allocate a b ra rb default initial=some (c,final) ∧
-      Host.Post P (InputAdapter.arguments a b ra rb default) initial final c := by
+    ∃ c final, call rest P allocate a b ra rb default initial=some (c,final) ∧
+      Host.Post (SourceRuntime.symbolicPrimitives α) (InputAdapter.arguments a b ra rb default) initial final c := by
   have localLaw := allocation_result allocate (InputAdapter.arguments a b ra rb default) initial allocation
   have allocated : ∃ c after, allocate (InputAdapter.arguments a b ra rb default) initial=some (c,after) ∧
       Host.Allocated (InputAdapter.arguments a b ra rb default) initial after c := by
@@ -53,10 +53,10 @@ theorem correct (rest : Algebra α) (P : Core.Primitives α) (allocate : Host.Al
       (localLaw c after result).1 (localLaw c after result).2)
   simpa only [call,if_pos ((SharedContract.checkTensorInputs_iff Bool.true default a.metadata b.metadata).mpr h)] using result
 
-theorem rejected (P : Core.Primitives α) (allocate : Host.Allocator α)
-    (a b : TensorBinding.Tensor) (ra rb : RegionName) (default : Bool) (s : State α)
+theorem rejected (rest : Algebra α) (P : Core.Primitives α) (allocate : Host.Allocator (DotProfile.Value α))
+    (a b : TensorBinding.Tensor) (ra rb : RegionName) (default : Bool) (s : State (DotProfile.Value α))
     (h : ¬SharedContract.InputContract Bool.true default a.metadata b.metadata) :
-    call P allocate a b ra rb default s=none := by
+    call rest P allocate a b ra rb default s=none := by
   simp [call,(SharedContract.checkTensorInputs_iff Bool.true default a.metadata b.metadata).not.mpr h]
 
 #axiomsClean correct

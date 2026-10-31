@@ -54,11 +54,11 @@ theorem schedule_run {α : Type} [Inhabited α] (family : Nat → Algebra α) (v
   | cons pid rest ih =>
     simp only [List.map_cons,runSchedule,Invocation.run,invocation_initial,WholeFPFamily.runTiles]
     have kernelEq : (invocation family variant M N pid).kernel=
-        typedKernel .fp32 .fp32 variant "X" "Mean" M N 8 8 := by cases variant <;> rfl
+        typedKernel variant "X" "Mean" M N 8 8 := by cases variant <;> rfl
     rw [kernelEq]
-    change (exec (family pid) (typedKernel .fp32 .fp32 variant "X" "Mean" M N 8 8)
+    change (exec (family pid) (typedKernel variant "X" "Mean" M N 8 8)
       (WholeFP.tileState pid s)).bind _=_
-    cases exec (family pid) (typedKernel .fp32 .fp32 variant "X" "Mean" M N 8 8)
+    cases exec (family pid) (typedKernel variant "X" "Mean" M N 8 8)
       (WholeFP.tileState pid s) with
     | none => rfl
     | some t => exact ih t

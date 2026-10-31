@@ -18,9 +18,6 @@ def copies (BM BN BD : Nat) : List Stmt :=
    .assign .ptr [] "K_scale_ptr_first" (.ref .ptr [] "K_scale_ptr"),
    .assign .ptr [BN,BD] "V_ptrs_first" (.ref .ptr [BN,BD] "V_ptrs")]
 
-def code (BM BN BD HD : Nat) (diagonal : Bool) : List Stmt :=
-  copies BM BN BD ++ [.ifThen (.constBool diagonal) (RealSetup.code BM BN BD HD Bool.false)]
-
 theorem copies_execute (s : BlockState) (c : Config) (BM BN BD : Nat)
     (caller : RealTwoLoops.Caller s c BN BD) :
     ∃ t, stepStmts (copies BM BN BD) s = some t ∧
@@ -52,32 +49,6 @@ theorem copies_execute (s : BlockState) (c : Config) (BM BN BD : Nat)
   simp only [RealSetup.writes, RealSetup.lowerName, RealSetup.upperName, RealMemory.keyName,
     RealMemory.scaleName, RealMemory.valueName, Bool.false_eq_true, ↓reduceIte, List.mem_cons, not_or] at hn
   simp [ss, sk, sh, sl, hn.1, hn.2.1, hn.2.2.1, hn.2.2.2.1, hn.2.2.2.2.1]
-
-theorem executes (s : BlockState) (c : Config) (BM BN BD : Nat) (diagonal : Bool)
-    (caller : RealTwoLoops.Caller s c BN BD) :
-    ∃ t, stepStmts (code BM BN BD c.headDim diagonal) s = some t ∧
-      t.regs .nat [] "first_lo" = some (Tile.scalar (firstLower c.startM BM diagonal)) ∧
-      t.regs .nat [] "first_hi" = some (Tile.scalar (firstUpper c.startM BM diagonal)) ∧
-      Pointers t c BN BD (firstLower c.startM BM diagonal) Bool.false ∧
-      Frame (RealSetup.writes Bool.false) s t := by
-  obtain ⟨sc, hcopy, hlo, hhi, hp, hf⟩ := copies_execute s c BM BN BD caller
-  cases diagonal with
-  | «false» =>
-    refine ⟨sc, ?_, hlo, hhi, hp, hf⟩
-    rw [code, stepStmts.append_some hcopy]
-    have hskip : stepStmt (.ifThen (.constBool Bool.false) (RealSetup.code BM BN BD c.headDim Bool.false)) sc = some sc := by
-      conv_lhs => unfold stepStmt
-      simp only [evalOp.eq_def, bind, Option.bind, Tile.scalar, Bool.false_eq_true, ↓reduceIte]
-    rw [stepStmts.cons_some hskip, stepStmts.nil]
-  | «true» =>
-    obtain ⟨t, ht, hl, hh, hptr, hframe⟩ := RealSetup.executes sc c BM BN BD Bool.false
-      ((hf.regs _ _ "start_m" (by decide)).trans caller.row) hp.key hp.scale hp.value
-    refine ⟨t, ?_, hl, hh, hptr, hf.trans hframe⟩
-    rw [code, stepStmts.append_some hcopy]
-    have hbranch : stepStmt (.ifThen (.constBool Bool.true) (RealSetup.code BM BN BD c.headDim Bool.false)) sc = some t := by
-      conv_lhs => unfold stepStmt
-      simpa only [evalOp.eq_def, bind, Option.bind, Tile.scalar, Bool.true_eq, ↓reduceIte] using ht
-    rw [stepStmts.cons_some hbranch, stepStmts.nil]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

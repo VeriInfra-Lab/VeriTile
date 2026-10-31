@@ -19,7 +19,7 @@ theorem source_trace_safe {α : Type} [Inhabited α] (rest : Algebra α)
     (output : ∀ i, active p i → outputOffset p s i < bounds p.Out) :
     TraceSafe (rawBackend rest) bounds (kernel p) s := by
   simp [TraceSafe,kernel,
-    VeriTile.Bench.TritonBenchG.DestindexCopyKv2.TypedSource.kernel,ComputeKernel.surfaceBody,
+    ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

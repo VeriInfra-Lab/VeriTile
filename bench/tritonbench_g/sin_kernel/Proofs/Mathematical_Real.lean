@@ -6,6 +6,8 @@ namespace VeriTile.Bench.TritonBenchG.SinKernel
 open VeriTile.Triton VeriTile.Examples
 open scoped VeriTile.Triton.MaskedKernelIO₁
 
+attribute [local simp] VeriTile.Bench.Repairs.SinKernel.kernel Except.bind bind ComputeDType.eraseDType ComputeKernel.toAlgKernel ComputeKernel.toAlgorithm? ComputeKernel.surfaceBody ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm? ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? Region.cast
+
 /-- Algorithm-layer correctness for `kernel_function`.
 
 Each active lane writes `Real.sin (xs i)`; inactive tail lanes are
@@ -120,6 +122,7 @@ theorem kernel_function_traceSafe
       ((kernel_function x_ptr output_ptr n_elements BLOCK_SIZE
         ).toAlgKernel) s := by
   unfold Kernel.TraceSafe
+  try simp only [kernel_function, VeriTile.Bench.Repairs.SinKernel.kernel, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Region.cast]
   -- Computational unroll: walks all seven statements, discharging every
   -- load-free `SafeAt` and reducing the two memory accesses' lane-wise
   -- address obligations to the bounds hypotheses below.
@@ -163,6 +166,5 @@ def sinIO (x_ptr output_ptr : RegionName)
   read := fun pid => pid * BLOCK_SIZE
   write := fun pid => pid * BLOCK_SIZE
   mask := fun pid j => pid * BLOCK_SIZE + j.val < n_elements
-
 
 end VeriTile.Bench.TritonBenchG.SinKernel

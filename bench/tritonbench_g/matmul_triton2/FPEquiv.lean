@@ -13,16 +13,18 @@ def maskHoisted (rest : Algebra α) (P : Core.Primitives α) (p : Core.Parameter
   ProgramIO.Implementation.ofVariant (Pair.variant rest P p) (fun _ => True)
 
 /-- Hoist invariant row/column comparisons out of the K loop, and reuse
-both masks in every load and the final store. Every original configuration,
-grouped grid, padded live TF32 dot and input domain is retained. Both full
+both masks in every load and the final store. SourceBounds makes the integer
+cast boundary explicit; grouped ordering, padded live default-TF32 dots and
+all selected configurations are retained. Both full
 schedules are safe and succeed, all outputs agree and both exact raw frames
 hold. No floating rewrite rule is required. -/
 specification source_pair_equiv (rest : Algebra α) (P : Core.Primitives α) (p : Core.Parameters)
+    (scope : SourceRuntime.SourceBounds p)
     (geometry : Geometry.Valid (Core.geometry p)) (inner : 0<p.blockInner)
     (ha : p.input≠p.output) (hb : p.weight≠p.output) :
     original rest P p ≡[[]] maskHoisted rest P p :=
   ProgramIO.Implementation.of_equivalent (Pair.variant rest P p)
-    (Pair.equivalent rest P p geometry inner ha hb)
+    (Pair.equivalent rest P p scope geometry inner ha hb)
 
 #print_fp_assumptions source_pair_equiv
 #axiomsClean source_pair_equiv

@@ -24,7 +24,7 @@ private theorem entry_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,integralFloorDiv,integralMod,numericEq,natLe,numericLe,numericLt,natLt,bop,
+      numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,natLe,numericLe,numericLt,natLt,bop,
       ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,
       Broadcast.leftIndex,Broadcast.rightIndex,last]
@@ -52,10 +52,10 @@ private theorem body_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape) (sc
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,integralFloorDiv,integralMod,numericEq,natLe,numericLe,numericLt,natLt,bop,
+      numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,natLe,numericLe,numericLt,natLt,bop,
       ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,
-      Broadcast.leftIndex,Broadcast.rightIndex,ctx.ik,ctx.it,ctx.bh,ctx.nh,ctx.dq,ctx.dk,ctx.ds,ctx.query,ctx.key,ctx.score,ha.1,ha.2.1,ha.2.2,FP.Structural.store]
+      Broadcast.leftIndex,Broadcast.rightIndex,ctx.ik,ctx.it,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.nh,ctx.dq,ctx.dk,ctx.ds,ctx.query,ctx.key,ctx.score,ha.1,ha.2.1,ha.2.2,FP.Structural.store]
   refine ⟨?_,?_,?_,?_,?_⟩
   · intro t j ht hj; exact hv _ _ ht hj
   · intro t j ht hj; exact hg _ _ ht hj
@@ -76,10 +76,10 @@ private theorem finish_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape) (
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-      numeric,integralFloorDiv,integralMod,numericEq,natLe,numericLe,numericLt,natLt,bop,
+      numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,natLe,numericLe,numericLt,natLt,bop,
       ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList,
-      Broadcast.leftIndex,Broadcast.rightIndex,ctx.ik,ctx.it,ctx.bh,ctx.dq,ctx.dk,ctx.ds,ctx.query,ctx.key,ha.1,ha.2.1,ha.2.2,FP.Structural.store]
+      Broadcast.leftIndex,Broadcast.rightIndex,ctx.ik,ctx.it,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.dq,ctx.dk,ctx.ds,ctx.query,ctx.key,ha.1,ha.2.1,ha.2.2,FP.Structural.store]
   constructor
   · intro t e ht he; exact hq (t,e,PUnit.unit) ⟨ht,he⟩
   · intro t e ht he; exact hk (t,e,PUnit.unit) ⟨ht,he⟩

@@ -60,18 +60,21 @@ theorem key_load (s : BlockState) (Q K M : RegionName)
     BlockState.readMemValue_real, BlockState.defaultCarrier]
   all_goals split_ifs <;> rfl
 
+theorem signed_row_lt (row lane stop : Nat) :
+    ((row:Int)+(lane:Int)<(stop:Int)) ↔ row+lane<stop := by omega
+
 theorem normalizer_load (s : BlockState) (Q K M : RegionName)
     (B D N baseQ baseK baseM sqm sqk skn skk row : Nat)
     (hp : s.regs .ptr [B] "m_ptrs" = some (normalizerPointers M B baseM row))
-    (hr : s.regs .nat [] "start_m" = some (Tile.scalar row)) :
+    (hr : s.regs .int [] "start_m" = some (Tile.scalar (row:Int))) :
     evalOp (.load .real (.ptr (.ref .ptr [B] "m_ptrs"))
-      (.maskOther (.lt .nat .scalarR (.add .nat .scalarL (.ref .nat [] "start_m") (.arange B)) (.constNat N)) (.broadcast (.const 0) [B])) .zero) s =
+      (.maskOther (.lt .int .scalarR (.add .int .scalarL (.ref .int [] "start_m") (.castNatToInt (.arange B))) (.castNatToInt (.constNat N))) (.broadcast (.const 0) [B])) .zero) s =
       some (RealTiles.normalizer (inputs s Q K M D baseQ baseK baseM sqm sqk skn skk) B N row) := by
   simp only [evalOp.eq_def, hp, hr, bind, Option.bind]
   congr 1
   apply Tile.ext
   rintro ⟨i,⟨⟩⟩
-  simp [normalizerPointers, RealTiles.normalizer, inputs, Nat.add_assoc, Region.cast, NumericDType.add, BlockState.defaultCarrier]
+  simp [normalizerPointers, RealTiles.normalizer, inputs, Nat.add_assoc, Region.cast, NumericDType.add, BlockState.defaultCarrier, signed_row_lt]
   split_ifs <;> rfl
 
 /-- The source advances Q by one query block, leaving its shape and strides. -/

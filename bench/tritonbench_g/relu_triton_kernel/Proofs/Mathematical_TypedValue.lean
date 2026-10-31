@@ -1,3 +1,4 @@
+import bench.tritonbench_g.relu_triton_kernel.Kernels
 import bench.tritonbench_g.relu_triton_kernel.Proofs.Mathematical_GatedGrid
 
 /-! Typed source materializations for the twelve admitted logical profiles.
@@ -75,27 +76,6 @@ def storedOp (k : Kind) (B : Nat) : Op .fp32 [B] :=
   | .bf16 => .castFloat .bf16 .fp32 (.ref .bf16 [B] "result")
   | _ => .ref .fp32 [B] "result"
 
-/-- All original source statements, including pre-gate loads/comparison and
-the store's explicit fp32 pointer conversion. No larger-pid store is added. -/
-def materialized (k : Kind) (x y : RegionName) (N B : Nat) : ComputeKernel :=
-  .mk [x] [y] [
-    .assign .nat [] "pid" (.alg (.programId 0)),
-    .assign .nat [] "block_start" (.alg (.mul .nat .nil
-      (.ref .nat [] "pid") (.constNat B))),
-    .assign .nat [B] "offsets" (.alg (.add .nat .scalarL
-      (.ref .nat [] "block_start") (.arange B))),
-    .assign .bool [B] "mask" (.alg (.lt .nat .scalarR
-      (.ref .nat [B] "offsets") (.constNat N))),
-    .assign k.inputType [B] "x" (.alg (.load k.inputType
-      (.region x (.ref .nat [B] "offsets"))
-      (.mask (.ref .bool [B] "mask")) .zero)),
-    .assign k.resultType [B] "result" (.alg (resultOp k B)),
-    .ifThen (.eq .nat .nil (.ref .nat [] "pid") (.constNat 0)) [
-      .store .fp32 [B] (.region y (.ref .nat [B] "offsets"))
-        (.alg (storedOp k B)) (.mask (.ref .bool [B] "mask")) ] ]
-
-def source (p : Profile) := materialized p.kind
-
 def resultValue {α : Type} [Inhabited α] (M : Algebra α)
     (cmp16 cmp32 : α → α → Bool) (k : Kind) (cell : Cell α) : α :=
   match k with
@@ -122,23 +102,7 @@ def outputState {α : Type} [Inhabited α] (M : Algebra α)
       else t) s
   else s
 
-theorem source_run {α : Type} [Inhabited α] (M : Algebra α)
-    (cmp16 cmp32 : α → α → Bool) (k : Kind) (x y : RegionName)
-    (N B : Nat) (s : State α) :
-    ∃ t, FP.Structural.exec (backend M cmp16 cmp32) (materialized k x y N B) s = some t ∧
-      t.mem = (outputState M cmp16 cmp32 k x y N B s).mem := by
-  cases k <;> by_cases hp : s.pids 0 = 0
-  all_goals simp [hp, materialized, Kind.inputType, Kind.resultType, resultOp, storedOp,
-    boolNat, backend, FP.Structural.exec, ComputeKernel.surfaceBody,
-    run, step, evalExpr, evalOp_unfold, numeric, numericLe, natLe, numericLt, natLt,
-    numericEq, FP.Structural.bop, store, outputState, resultValue, Region.cast,
-    ofFloat, toFloat]
-  all_goals try simp +contextual only [ite_true]
-  all_goals apply FPProofs.scatter_mem_congr _ (fun i : TileIndex [B] => i.1.val < N)
-  all_goals rfl
-
-#specNonCircular resultValue avoiding [source, materialized, FP.Structural.exec]
-#axiomsClean source_run
+#specNonCircular resultValue avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel, FP.Structural.exec]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

@@ -38,7 +38,10 @@ def preludeExecution (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word �
     {t : State Word // run (backend rest cfg u) (prelude p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [prelude, original, typedScaled, ComputeKernel.surfaceBody,
+  simp [prelude, original, typedScaled, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType, Region.cast, Option.bind,
@@ -72,7 +75,10 @@ def bodyExecution (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → 
       (current.setReg "j" .nat [] (fun _ => k)) = some t} := by
   refine ⟨bodyResult p initial current k, ?_⟩
   cases he : p.even <;>
-    simp [body, originalBody, original, typedScaled, widths, widthAssignment, ComputeKernel.surfaceBody,
+    simp [body, originalBody, original, typedScaled, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
       bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
       FloatDType.numericDType, FloatDType.toTileDType, Region.cast, Option.bind,

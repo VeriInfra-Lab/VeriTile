@@ -33,14 +33,17 @@ def scoreSum (c : Shape) (xs : LogicalIO.Inputs c) (offset size : Int) (scale : 
 /-- Every output equals the independent N-term windowed score sum. The shared
 IO judgment includes actual source access safety and the complete exterior
 frame. The original machine-range and tile-formation domain remains explicit;
-its physical endpoint is retained in Misc/RawCorrect. -/
+its physical endpoint is retained in Proofs/Reused/RealPhysical. -/
 specification kernel_correct (c : Shape) (abi : ABI c)
     (offset size : Int) (scale : ℝ) (window complement : Bool)
     (_domain : Whole002.Representation.Domain c abi offset size window)
     (_tile : c.B*c.D≤1048576) :
     Spec.Real (kernelIO c offset size scale window complement ⊨{LogicalIO.initialOutput c}
       fun xs z h key => scoreSum c xs offset size scale window complement z h key) :=
-  LogicalReader.correct c offset size scale window complement _ rfl
+  LogicalReader.correct c (fun hn ho => by
+    have hk := (_domain.launch hn ho).paddedKey
+    change c.programs*c.B≤2147483647 at hk
+    omega) offset size scale window complement _ rfl
 
 #specNonCircular scoreSum avoiding [kernel,realExecute,Triton.exec]
 #axiomsClean kernel_correct

@@ -82,9 +82,9 @@ def finishExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
   simp [parts,kernel,Kernels.backwardQKV,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
-    resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,numericEq,
+    resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,
     natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
-    ctx.ik,ctx.it,ctx.bh,ctx.dq,ctx.dk,ctx.ds,ctx.query,ctx.key,ha.1,ha.2.1,ha.2.2,FP.Structural.store]
+    ctx.ik,ctx.it,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.dq,ctx.dk,ctx.ds,ctx.query,ctx.key,ha.1,ha.2.1,ha.2.2,FP.Structural.store]
   rfl
 
 theorem finishMemory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ)

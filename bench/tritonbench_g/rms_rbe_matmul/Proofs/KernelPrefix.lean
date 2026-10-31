@@ -30,7 +30,7 @@ structure Ready (p : Parameters) (s t : State α) (step : Nat) (acc : Accumulato
 theorem prefix_run (a : Operations α) (fp8 : Bool) (p : Parameters) (s : State α) :
     ∃ t, run (engine a) (prelude fp8 p) s=some t ∧ Ready p s t 0 (initial a) := by
   cases fp8 <;>
-    simp [prelude,kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,arguments,
+    simp [prelude,kernel,TypedSource.kernel,TypedSource.source,arguments,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
       integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,

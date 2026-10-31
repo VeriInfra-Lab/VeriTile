@@ -9,7 +9,7 @@ set_option maxHeartbeats 2000000
 /-- The second-stage source terminates whenever its reduction tile is nonempty. -/
 theorem stage2_terminates (mid out : RegionName) (M B : Nat) (hB : 0 < B)
     (s : BlockState) : ∃ t, exec (max_kernel_2 mid out M B) s = some t := by
-  simp [exec, max_kernel_2, stepStmts, stepStmt, evalOp.eq_def, Tile.cop, Tile.ptrAdd,
+  simp [exec, max_kernel_2, stage2, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted,  ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, stepStmts, stepStmt, evalOp.eq_def, Tile.cop, Tile.ptrAdd,
     Tile.reduceMax, Tile.reduceMaxDrop, TileShape.axisDim, TileShape.eraseAxis,
     ComparableDType.lt, hB]
 
@@ -17,7 +17,7 @@ theorem stage2_terminates (mid out : RegionName) (M B : Nat) (hB : 0 < B)
 theorem stage2_frame (mid out : RegionName) (M B : Nat) (hB : 0 < B)
     (s t : BlockState) (he : exec (max_kernel_2 mid out M B) s = some t)
     (r : RegionName) (o : Nat) (hm : r ≠ out ∨ o ≠ 0) : t.mem r o = s.mem r o := by
-  simp [exec, max_kernel_2, stepStmts, stepStmt, evalOp.eq_def, Tile.cop, Tile.ptrAdd,
+  simp [exec, max_kernel_2, stage2, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted,  ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, stepStmts, stepStmt, evalOp.eq_def, Tile.cop, Tile.ptrAdd,
     Tile.reduceMax, Tile.reduceMaxDrop, TileShape.axisDim, TileShape.eraseAxis,
     ComparableDType.lt, hB] at he
   subst he
@@ -31,7 +31,7 @@ theorem stage2_frame (mid out : RegionName) (M B : Nat) (hB : 0 < B)
 theorem stage2_flattenOk (mid out : RegionName) (M B : Nat) :
     (max_kernel_2 mid out M B).toAlgKernel.FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [max_kernel_2, ComputeKernel.toAlgKernel, StmtList.FlattenOk,
+  simp [max_kernel_2, stage2, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted,  ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, ComputeKernel.toAlgKernel, StmtList.FlattenOk,
     Stmt.FlattenOk, Op.FlattenOk]
   simp only [Op.FlattenOk.eq_def]
 
@@ -39,7 +39,7 @@ theorem stage2_traceSafe (mid out : RegionName) (M B : Nat) (hB : 0 < B)
     (bounds : RegionBounds) (s : BlockState)
     (hi : ∀ i : Fin B, i.val < M → i.val < bounds mid) (ho : 0 < bounds out) :
     (max_kernel_2 mid out M B).toAlgKernel.TraceSafe bounds s := by
-  simp [Kernel.TraceSafe, max_kernel_2, Stmt.TraceSafeList, Stmt.TraceSafe,
+  simp [Kernel.TraceSafe, max_kernel_2, stage2, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted,  ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, Stmt.TraceSafeList, Stmt.TraceSafe,
     Op.SafeAt, MaskOpt.SafeAt, MaskOpt.Active, MemAccess.SafeAt,
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
     Op.PointerAddressesSafeOn, Op.MemorySafe, stepStmt, evalOp.eq_def,
@@ -65,8 +65,9 @@ theorem stage2_formula (mid : RegionName) (M B : Nat) (hB : 0 < B)
 
 /-- The second-stage IO uses the entire masked intermediate buffer and one
 unmasked scalar output; it never receives a precomputed maximum as input. -/
-def stage2IO (mid out : RegionName) (M B : Nat) : MaskedTileKernelIO₁ where
+noncomputable def stage2IO (mid out : RegionName) (M B : Nat) : MaskedTileKernelIO₁ where
   kernel := max_kernel_2 mid out M B
+  projection := by simp only [max_kernel_2, ComputeKernel.toAlgorithm?_fromKernelBody, ComputeKernel.toAlgKernel_fromKernelBody]
   inp := mid
   out := out
   shape := [B]

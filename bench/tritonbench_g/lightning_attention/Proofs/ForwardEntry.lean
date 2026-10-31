@@ -19,33 +19,5 @@ def FwdRows (p : Parameters) (block : Nat) (s : State α) : Prop :=
 def FwdCarry (p : Parameters) (carry : Matrix α p.D p.BM) (s : State α) : Prop :=
   s.regs .real [p.D,p.BM] "kv"=some carry
 
-def fwdEntry (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s : State α) :
-    {t : State α // run (engine (withDot M D)) (fwdParts p).before s=some t} := by
-  refine ⟨?_,?_⟩
-  swap
-  simp [fwdParts,forward,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
-    run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
-    Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
-    numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
-    TileShape.axisDim,Region.cast,State.setReg]
-  rfl
-
-theorem fwdEntry_memory (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s : State α) :
-    (fwdEntry M D p s).val.mem=s.mem := by simp [fwdEntry]
-theorem fwdEntry_ready (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s : State α) :
-    FwdReady p ⟨s.pids 0,s.pids 1⟩ s.mem (fwdEntry M D p s).val ∧
-    FwdRows p 0 (fwdEntry M D p s).val ∧
-    FwdCarry p (fun _ => zero M) (fwdEntry M D p s).val := by
-  refine ⟨?_,?_,?_⟩
-  · constructor
-    · rw [fwdEntry_memory]; exact Inputs.refl _
-    all_goals simp [fwdEntry,FP.Structural.bop,Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex]
-    all_goals
-      funext i
-      simp [FP.Structural.bop,Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex]
-  · simp [FwdRows,fwdEntry]
-  · simp [FwdCarry,fwdEntry,zero]
-#axiomsClean fwdEntry_memory
-#axiomsClean fwdEntry_ready
 end
 end VeriTile.Bench.Repairs.LightningAttention

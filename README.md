@@ -44,9 +44,8 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   `ComputeCorrect.Realizes_without_Rounding`) at the trivial model. See the
   fused-vs-unfused SwiGLU showcase
   [`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
-- **Examples**: 184 TritonBench-G task directories, with original-source
-  proof contracts in the declared scopes of 183 tasks and one repaired-only
-  candidate. The [final contract review](./validation/contracts.json) records mathematical targets, implementation pairs, conditions and proof scope. See the
+- **Examples**: 183 current TritonBench-G task directories, with proof
+  contracts for their selected repaired implementations. The [final contract review](./validation/contracts.json) records mathematical targets, implementation pairs, conditions and proof scope. See the
   [current source inventory](./documents/bench/current_source_acceptance.md) for checked
   inputs and reproduction commands. Additional examples include FlashAttention-1
   forward, online softmax, Welford, LayerNorm, log-sum-exp.

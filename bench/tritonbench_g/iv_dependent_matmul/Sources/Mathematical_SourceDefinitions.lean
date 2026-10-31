@@ -1,3 +1,4 @@
+import bench.tritonbench_g.iv_dependent_matmul.Sources.Selected
 import VeriTile.Triton
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
@@ -11,67 +12,23 @@ structure Parameters where
   (input weight output : RegionName)
   (rows columns inner inputRowStride inputInnerStride weightInnerStride weightColumnStride
     outputRowStride outputColumnStride blockRows blockColumns blockInner : Nat)
+/-- Derived common view used by the execution decomposition, never a
+standalone source authority. The complete repaired preLoad quotation supplies
+the body; only its two initial pointer aliases are split out here. -/
+def commonView (k : ComputeKernel) : ComputeKernel :=
+  .mk k.inputs k.outputs (k.surfaceBody.take 9 ++ k.surfaceBody.drop 11)
+
 def typed (dtype : FloatDType)
     (A B C : RegionName)
-    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
-      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) :
-    ComputeKernel := triton {
-  tl.region A = DTYPE, B = DTYPE, C = DTYPE
-  pid = tl.program_id(axis=0)
-  num_pid_n = tl.cdiv($(N), $(BLOCK_SIZE_N))
-  pid_m = pid // num_pid_n
-  pid_n = pid % num_pid_n
-  offs_am = (pid_m * $(BLOCK_SIZE_M) + tl.arange(0, $(BLOCK_SIZE_M))) % $(M)
-  offs_bn = (pid_n * $(BLOCK_SIZE_N) + tl.arange(0, $(BLOCK_SIZE_N))) % $(N)
-  offs_k = tl.arange(0, $(BLOCK_SIZE_K))
-  a_ptr = A + offs_am[:, None] * $(stride_am) + offs_k[None, :] * $(stride_ak)
-  b_ptr = B + offs_k[:, None] * $(stride_bk) + offs_bn[None, :] * $(stride_bn)
-  accumulator = tl.zeros([$(BLOCK_SIZE_M), $(BLOCK_SIZE_N)], dtype=tl.float32)
-  for k in range($(0), tl.cdiv($(K), $(BLOCK_SIZE_K)), $(1)) {
-    a_ptrs = a_ptr + k * $(BLOCK_SIZE_K) * $(stride_ak)
-    b_ptrs = b_ptr + k * $(BLOCK_SIZE_K) * $(stride_bk)
-    a = tl.load(a_ptrs, mask=offs_k[None, :] < $(K) - k * $(BLOCK_SIZE_K), other=0.0)
-    b = tl.load(b_ptrs, mask=offs_k[:, None] < $(K) - k * $(BLOCK_SIZE_K), other=0.0)
-    accumulator += tl.dot(a, b)
-  }
-  c = (accumulator).to(tl.float16)
-  offs_cm = pid_m * $(BLOCK_SIZE_M) + tl.arange(0, $(BLOCK_SIZE_M))
-  offs_cn = pid_n * $(BLOCK_SIZE_N) + tl.arange(0, $(BLOCK_SIZE_N))
-  c_ptrs = C + $(stride_cm) * offs_cm[:, None] + $(stride_cn) * offs_cn[None, :]
-  c_mask = (offs_cm[:, None] < $(M)) & (offs_cn[None, :] < $(N))
-  tl.store(c_ptrs, c.to(DTYPE), mask=c_mask)
-}
+    (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
+  commonView (VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource
+    dtype A B C M N K sam sak sbk sbn scm scn BM BN BK)
 
 def fusedTyped (dtype : FloatDType)
     (A B C : RegionName)
-    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
-      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) :
-    ComputeKernel := triton {
-  tl.region A = DTYPE, B = DTYPE, C = DTYPE
-  pid = tl.program_id(axis=0)
-  num_pid_n = tl.cdiv($(N), $(BLOCK_SIZE_N))
-  pid_m = pid // num_pid_n
-  pid_n = pid % num_pid_n
-  offs_am = (pid_m * $(BLOCK_SIZE_M) + tl.arange(0, $(BLOCK_SIZE_M))) % $(M)
-  offs_bn = (pid_n * $(BLOCK_SIZE_N) + tl.arange(0, $(BLOCK_SIZE_N))) % $(N)
-  offs_k = tl.arange(0, $(BLOCK_SIZE_K))
-  a_ptr = A + offs_am[:, None] * $(stride_am) + offs_k[None, :] * $(stride_ak)
-  b_ptr = B + offs_k[:, None] * $(stride_bk) + offs_bn[None, :] * $(stride_bn)
-  accumulator = tl.zeros([$(BLOCK_SIZE_M), $(BLOCK_SIZE_N)], dtype=tl.float32)
-  for k in range($(0), tl.cdiv($(K), $(BLOCK_SIZE_K)), $(1)) {
-    a_ptrs = a_ptr + k * $(BLOCK_SIZE_K) * $(stride_ak)
-    b_ptrs = b_ptr + k * $(BLOCK_SIZE_K) * $(stride_bk)
-    a = tl.load(a_ptrs, mask=offs_k[None, :] < $(K) - k * $(BLOCK_SIZE_K), other=0.0)
-    b = tl.load(b_ptrs, mask=offs_k[:, None] < $(K) - k * $(BLOCK_SIZE_K), other=0.0)
-    accumulator = tl.dot(a, b, accumulator)
-  }
-  c = (accumulator).to(tl.float16)
-  offs_cm = pid_m * $(BLOCK_SIZE_M) + tl.arange(0, $(BLOCK_SIZE_M))
-  offs_cn = pid_n * $(BLOCK_SIZE_N) + tl.arange(0, $(BLOCK_SIZE_N))
-  c_ptrs = C + $(stride_cm) * offs_cm[:, None] + $(stride_cn) * offs_cn[None, :]
-  c_mask = (offs_cm[:, None] < $(M)) & (offs_cn[None, :] < $(N))
-  tl.store(c_ptrs, c.to(DTYPE), mask=c_mask)
-}
+    (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
+  commonView (VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative
+    dtype A B C M N K sam sak sbk sbn scm scn BM BN BK)
 
 def source (g : Graph) (p : Parameters) : ComputeKernel :=
   (match g with | .source => typed | .accumulator => fusedTyped) .fp32

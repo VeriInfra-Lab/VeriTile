@@ -26,7 +26,7 @@ theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s
   simp only [originalSite,shiftedSite,Source.kernel,kernel,TypedSource.repaired,CandidateSource.shifted,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   simp only [step,evalExpr,evalOp_unfold]
-  cases hr : s.regs .nat [] "start_m"
+  cases hr : s.regs .int [] "start_m"
   all_goals simp [hr,numeric,FP.Structural.bop,Nat.shiftLeft_eq,Broadcast.leftIndex,Broadcast.rightIndex]
   all_goals unfold FP.Structural.bop
   all_goals simp [Nat.shiftLeft_eq,Broadcast.leftIndex,Broadcast.rightIndex]

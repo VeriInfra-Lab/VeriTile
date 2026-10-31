@@ -36,7 +36,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α)
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp [kernel, source, FP.Structural.exec, ComputeKernel.surfaceBody,
+    simp [kernel, source,VeriTile.Bench.Repairs.RopeTransform.Kernels.source, FP.Structural.exec, ComputeKernel.surfaceBody,
       FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
       FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
       FP.Structural.evalOffsets, FP.Structural.store, FP.Structural.numeric,

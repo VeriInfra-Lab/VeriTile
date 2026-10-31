@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_TypedGrid
 
 /-! Any complete permutation of whole typed floating programs has the same
@@ -63,56 +64,6 @@ theorem scheduled_reference_step {α : Type} [Inhabited α] (M : Algebra α)
     · simp [active, scheduledMemory]
   · simp [region, scheduledMemory]
 
-/-- The list is executed in its given order, resetting local registers and
-retaining the actual preceding memory for each complete program. -/
-def runScheduleAux {α : Type} [Inhabited α] (M : Algebra α)
-    (dx dy dc : FloatDType) (p : Parameters) (initial : State α) :
-    List Nat → State α → Option (State α)
-  | [], current => some current
-  | pid :: jobs, current =>
-      (FP.Structural.exec (castBackend M) (materialized dx dy dc p)
-        (programState p initial current.mem pid)).bind
-          (runScheduleAux M dx dy dc p initial jobs)
-
-def runSchedule {α : Type} [Inhabited α] (M : Algebra α)
-    (dx dy dc : FloatDType) (p : Parameters) (initial : State α) (jobs : List Nat) :=
-  runScheduleAux M dx dy dc p initial jobs initial
-
-theorem schedule_aux_correct {α : Type} [Inhabited α] (M : Algebra α)
-    (dx dy dc : FloatDType) (p : Parameters) (initial : State α)
-    (positive : 0 < p.block) (jobs done : List Nat) (current : State α)
-    (unique : (done ++ jobs).Nodup)
-    (memory : current.mem = scheduledMemory M dx dy dc p initial done) :
-    ∃ final, runScheduleAux M dx dy dc p initial jobs current = some final ∧
-      final.mem = scheduledMemory M dx dy dc p initial (done ++ jobs) := by
-  induction jobs generalizing done current with
-  | nil => exact ⟨current, rfl, by simpa using memory⟩
-  | cons pid jobs ih =>
-    have fresh : pid ∉ done := by
-      intro member
-      exact (List.nodup_append.mp unique).2.2 pid member pid (List.mem_cons_self) rfl
-    obtain ⟨next, he, hm⟩ := complete_correct M dx dy dc p
-      (programState p initial current.mem pid)
-    have nextMemory : next.mem = scheduledMemory M dx dy dc p initial (done ++ [pid]) := by
-      rw [hm, memory, scheduled_reference_step M dx dy dc p initial positive done pid fresh]
-    have nextUnique : ((done ++ [pid]) ++ jobs).Nodup := by
-      simpa [List.append_assoc] using unique
-    obtain ⟨final, hr, hf⟩ := ih (done ++ [pid]) next nextUnique nextMemory
-    refine ⟨final, ?_, ?_⟩
-    · simp only [runScheduleAux, he, Option.bind_some]
-      exact hr
-    · simpa [List.append_assoc] using hf
-
-theorem schedule_correct {α : Type} [Inhabited α] (M : Algebra α)
-    (dx dy dc : FloatDType) (p : Parameters) (initial : State α)
-    (positive : 0 < p.block) (jobs : List Nat) (unique : jobs.Nodup) :
-    ∃ final, runSchedule M dx dy dc p initial jobs = some final ∧
-      final.mem = scheduledMemory M dx dy dc p initial jobs := by
-  apply schedule_aux_correct M dx dy dc p initial positive jobs [] initial
-  · simpa using unique
-  · funext r o
-    simp [scheduledMemory]
-
 theorem complete_scheduled_memory {α : Type} [Inhabited α] (M : Algebra α)
     (dx dy dc : FloatDType) (p : Parameters) (initial : State α)
     (positive : 0 < p.block) (jobs : List Nat)
@@ -126,25 +77,11 @@ theorem complete_scheduled_memory {α : Type} [Inhabited α] (M : Algebra α)
     simp [scheduledMemory, gridExpectedMemory, active, member]
   · simp [scheduledMemory, gridExpectedMemory, active]
 
-theorem complete_schedule_correct {α : Type} [Inhabited α] (M : Algebra α)
-    (dx dy dc : FloatDType) (p : Parameters) (initial : State α)
-    (positive : 0 < p.block) (jobs : List Nat)
-    (order : jobs.Perm (List.range (gridCount p))) :
-    ∃ final, runSchedule M dx dy dc p initial jobs = some final ∧
-      final.mem = gridExpectedMemory M dx dy dc p initial := by
-  obtain ⟨final, he, hm⟩ := schedule_correct M dx dy dc p initial positive jobs
-    (order.nodup_iff.mpr (List.nodup_range))
-  exact ⟨final, he, hm.trans (complete_scheduled_memory M dx dy dc p initial positive jobs order)⟩
-
-#specNonCircular scheduledMemory avoiding [runScheduleAux, runSchedule, materialized,
-  source, FP.Structural.exec]
+#specNonCircular scheduledMemory avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 #axiomsClean program_window_iff
 #axiomsClean scheduled_fresh_inputs
 #axiomsClean scheduled_reference_step
-#axiomsClean schedule_aux_correct
-#axiomsClean schedule_correct
 #axiomsClean complete_scheduled_memory
-#axiomsClean complete_schedule_correct
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

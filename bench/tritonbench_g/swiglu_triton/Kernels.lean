@@ -1,12 +1,10 @@
-import bench.tritonbench_g.swiglu_triton.Sources.Mathematical_Kernels
 import VeriTile.Triton.DSL
 import VeriTile.Meta.StatementAudit
 
 /-! Separate FP32 host repair. Both JIT bodies, the silu helper, and all
 calculate_settings branches are AST-identical to the original Python.
 The current direct-storage entry adds checked contiguous FP32 metadata.
-Historical padded-source declarations remain stable for downstream users.
-The original source/proofs remain preserved, not retroactively certified. -/
+The retained source-profile interfaces share these repaired FP32 bodies. -/
 namespace VeriTile.Bench.Repairs.SwigluTriton
 open VeriTile.Triton
 
@@ -106,10 +104,6 @@ blocks while CUDA has 32. Columns beyond 65536 are rejected before launch. -/
 def warps (hip : Bool) (block : Nat) : Nat :=
   if block ≥ 32768 then (if hip then 16 else 32)
   else if block ≥ 8192 then 16 else if block ≥ 2048 then 8 else 4
-
-def source (backward : Bool) (block cols : Nat) : ComputeKernel :=
-  if backward then backwardKernel "DC" "A" "B" block cols block
-  else forwardKernel "A" "B" "C" block cols block
 
 /-- Actual contiguous rows have stride cols, including non-power-of-two widths. -/
 def directSource (backward : Bool) (block cols : Nat) : ComputeKernel :=

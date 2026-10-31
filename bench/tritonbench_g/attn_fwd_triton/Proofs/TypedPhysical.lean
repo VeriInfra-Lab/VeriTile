@@ -55,40 +55,6 @@ theorem output_read (a : Layout) (p : Config) (base : Role → Nat) (v : Views a
   apply Fin.ext
   exact v.address _ _ _ _ .output ⟨c.1.isLt,c.2.1.isLt,c.2.2.1.isLt,c.2.2.2.isLt⟩
 
-/-- Caller memory, actual complete source grids, physical BF16-cell readback
-against the unchanged division reference on initial inputs, and full frame.
-No execution, returned-value, or program-bridge premise is supplied. -/
-theorem physical_grid_equivalence {α : Type} [Inhabited α] (R : FPEquivProofs.Rules)
-    (A : Algebra α) (D : FP.Guarded.Domain α) (hM : FP.Guarded.Models R.assumptions A D)
-    (p : Config) (BD : Nat) (support : DotSupport A BD)
-    (a : Layout) (base : Role → Nat) (views : Views a p base)
-    (initial : Physical α a.toLayout) (template : State α)
-    (hD : p.headDim≤BD) (hn : NonOverlapping p)
-    (fresh : FreshBytes a (fun k => Window p k.1 k.2))
-    (hd : ∀ idx : ProgramIndex p, ∀ site∈(program p BD Bool.false).domain,
-      site.Holds A D (atProgram p (pull a.toLayout initial template) idx)) :
-    ∃ final, ∃ physical : Physical α a.toLayout,
-      Nonempty (GridRun A p BD Bool.false (pull a.toLayout initial template) final) ∧
-      Nonempty (GridRun A p BD Bool.true (pull a.toLayout initial template) final) ∧
-      pull a.toLayout physical final=final ∧
-      (∀ c : Coordinate p, physical (outputCell a p base views c)=
-        reference A p BD support (pull a.toLayout initial template) c) ∧
-      (∀ cell : Fin a.capacity,
-        (∀ k, Window p k.1 k.2 → a.address k≠cell.val) → physical cell=initial cell) := by
-  obtain ⟨final,ho,hr,hread,hframe⟩ := grid_equivalence R A D hM p BD support
-    (pull a.toLayout initial template) hD hn hd
-  let physical := TypedRealisation.realise a.toLayout initial final (fun k => Window p k.1 k.2)
-  have hpull : pull a.toLayout physical final=final :=
-    TypedRealisation.realise_pull_state a.toLayout initial template final _ (fresh_cells a _ fresh)
-      (fun k hk => hframe k.1 k.2 hk)
-  refine ⟨final,physical,ho,hr,hpull,?_,?_⟩
-  · intro c
-    rw [←output_read a p base views physical c]
-    change (pull a.toLayout physical final).mem p.Out (logicalAddress p c)=_
-    rw [hpull]
-    exact hread c
-  · exact fun cell h => TypedRealisation.realise_unwritten a.toLayout initial final _ cell h
-
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

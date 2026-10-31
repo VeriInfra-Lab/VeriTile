@@ -14,7 +14,7 @@ theorem backward_inner (M : Algebra α) (s : State α) (P G Y : RegionName)
       final.mem = (scatter s Y (backwardInnerOffset (s.pids 0) N)
         (backwardInnerActive (s.pids 0) rows N)
         (backwardInnerValue M s P G (s.pids 0) rows N B C)).mem := by
-  simp [Source.softmax_backward_kernel_inner_fp32, exec, run, step,
+  simp [Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner, exec, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, store, numeric, numericLt, numericLe,
     natLt, natLe, bop, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
     State.setReg, Option.bind, backwardInnerValue, backwardInnerScale,
@@ -30,7 +30,7 @@ theorem backward_noninner (M : Algebra α) (s : State α) (P G Y : RegionName)
       final.mem = (scatter s Y (noninnerOffset (s.pids 0) (s.pids 1) N K)
         (noninnerActive (s.pids 1) N K)
         (backwardNoninnerValue M s P G (s.pids 0) (s.pids 1) N K B C)).mem := by
-  simp [Source.softmax_backward_kernel_non_inner_fp32, exec, run, step,
+  simp [Source.softmax_backward_kernel_non_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner, exec, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, store, numeric, numericLt, numericLe,
     natLt, natLe, bop, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
     State.setReg, Option.bind, backwardNoninnerValue, backwardNoninnerScale,
@@ -44,8 +44,7 @@ theorem forward_inner (M : Algebra α) (s : State α) (X Y : RegionName)
     ∃ final, exec M (Source.forward_inner Y X rows N B Bool.true) s = some final ∧
       final.mem = (scatter s Y (innerOffset (s.pids 0) N) (innerActive N)
         (forwardInnerValue M s X (s.pids 0) N B)).mem := by
-  simp [Source.forward_inner,
-    VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.FullSource.softmax_kernel_inner,
+  simp [Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,
     exec, run, step, evalExpr, evalComputeOp, evalOp_unfold, store,
     numeric, numericLt, numericLe, natLt, natLe, bop, ofFloat, toFloat,
     Region.cast, ComputeDType.eraseDType, State.setReg, Option.bind,
@@ -64,8 +63,7 @@ theorem forward_noninner (M : Algebra α) (s : State α) (X Y : RegionName)
       final.mem = (scatter s Y (noninnerOffset (s.pids 0) (s.pids 1) N K)
         (noninnerActive (s.pids 1) N K)
         (forwardNoninnerValue M s X (s.pids 0) (s.pids 1) N K B C)).mem := by
-  simp [Source.forward_noninner,
-    VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.FullSource.softmax_kernel_non_inner,
+  simp [Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,
     exec, run, step, evalExpr, evalComputeOp, evalOp_unfold, store,
     numeric, numericLt, numericLe, natLt, natLe, bop, ofFloat, toFloat,
     Region.cast, ComputeDType.eraseDType, State.setReg, Option.bind,

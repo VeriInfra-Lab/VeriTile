@@ -90,28 +90,6 @@ def setup (rows row : Nat) (s : State α) : State α :=
           pids := fun a => if a=0 then row else 0
           numPids := fun a => if a=0 then rows else 1}
 
-/-- Every scheduled row executes the entire typed source against the actual
-memory left by preceding rows. No per-row output is supplied by the runtime. -/
-def source (A : Algebra α) (X Y W : RegionName) (M N B : Nat) (eps : ℝ) :
-    List Nat → State α → Option (State α)
-  | [],s => some s
-  | r::rest,s => (FP.Structural.exec A (kernel X Y W N B eps) (setup M r s)).bind
-      (source A X Y W M N B eps rest)
-
-theorem source_complete (A : Algebra α) (X Y W : RegionName) (M N B : Nat) (eps : ℝ)
-    (hN : 0<N) (hNB : N≤B) (rows : List Nat) (s : State α) :
-    ∃ t,source A X Y W M N B eps rows s=some t ∧
-      t.mem=(grid A X Y W N B eps rows s).mem := by
-  induction rows generalizing s with
-  | nil => exact ⟨s,rfl,rfl⟩
-  | cons r rest ih =>
-    obtain ⟨t,ht,hm⟩ := complete A (setup M r s) X Y W N B eps hN hNB
-    obtain ⟨u,hu,hv⟩ := ih t
-    refine ⟨u,by simpa [source,ht] using hu,?_⟩
-    have hb : t.mem=(block A s X Y W r N B eps).mem :=
-      hm.trans (block_congr A (setup M r s) s X Y W r N B eps rfl)
-    exact hv.trans (grid_congr A X Y W N B eps rest t _ hb)
-
 theorem grid_frame (A : Algebra α) (X Y W : RegionName) (N B : Nat) (eps : ℝ)
     (rows : List Nat) (s : State α) (r : RegionName) (o : Nat)
     (outside : r≠Y ∨ ∀ row∈rows,∀ k,k<N → o≠row*N+k) :
