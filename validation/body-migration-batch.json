@@ -927,6 +927,19 @@
           "VeriTile.Bench.Repairs.FusedActivation.FPEquiv.fused_activation_commuted_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/nested_loops_processing",
+      "python": "bench/tritonbench_g/nested_loops_processing/nested_loops_processing.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/nested_loops_processing/Correct.lean": [
+          "VeriTile.Bench.Repairs.NestedLoopsProcessing.Correct.kernel_correctness"
+        ],
+        "bench/tritonbench_g/nested_loops_processing/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.NestedLoopsProcessing.FPEquiv.kernel_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1095,6 +1108,16 @@
     "bench/tritonbench_g/mean_reduction/Proofs/Mathematical_Real.lean",
     "bench/tritonbench_g/mean_reduction/Proofs/Mathematical_Source.lean",
     "bench/tritonbench_g/mean_reduction/Proofs/Mathematical_WholeFPValue.lean",
+    "bench/tritonbench_g/nested_loops_processing/Kernels.lean",
+    "bench/tritonbench_g/nested_loops_processing/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/nested_loops_processing/Proofs/TypedFP.lean",
+    "bench/tritonbench_g/nested_loops_processing/Proofs/TypedFinish.lean",
+    "bench/tritonbench_g/nested_loops_processing/Proofs/TypedInitialize.lean",
+    "bench/tritonbench_g/nested_loops_processing/Proofs/TypedLoop.lean",
+    "bench/tritonbench_g/nested_loops_processing/Proofs/TypedMemory.lean",
+    "bench/tritonbench_g/nested_loops_processing/Proofs/TypedMiddle.lean",
+    "bench/tritonbench_g/nested_loops_processing/Proofs/TypedOuter.lean",
+    "bench/tritonbench_g/nested_loops_processing/Proofs/TypedStep.lean",
     "bench/tritonbench_g/quantize_copy_kv/Proofs/AccessSafety.lean",
     "bench/tritonbench_g/quantize_copy_kv/Proofs/KernelExecution.lean",
     "bench/tritonbench_g/quantize_global/Kernels.lean",
@@ -1137,6 +1160,7 @@
     "bench/tritonbench_g/vector_addition/Parameters.lean",
     "bench/tritonbench_g/vector_addition/Sources/Mathematical_Value.lean",
     "bench/tritonbench_g/vector_addition_custom/Kernels.lean",
+    "tests/lean/CallArgumentCapture.lean",
     "tests/lean/CallArguments.lean",
     "tests/lean/CallScalarPrecision.lean",
     "tests/lean/CallSignature.lean",

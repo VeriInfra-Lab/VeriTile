@@ -36,6 +36,28 @@ structure CallSignature where
   readPorts : List String := []
   writePorts : List String := []
 
+/-- A scalar expression supplied by a call, before the callee's first statement.
+These bindings are separate from the pasted source body and preserve dtype. -/
+structure ScalarArgument where
+  name : RegName
+  dtype : TileDType
+  value : ComputeExpr dtype []
+
+namespace ScalarArgument
+noncomputable def fp32 (name : RegName) (value : ℝ) : ScalarArgument :=
+  ⟨name,.real,.compute (.alg .fp32 (.const value))⟩
+def integer (name : RegName) (value : Int) : ScalarArgument :=
+  ⟨name,.int,.alg (.constInt value)⟩
+def statement (arg : ScalarArgument) : ComputeStmt :=
+  .assign arg.dtype [] arg.name arg.value
+end ScalarArgument
+
+/-- Instantiate a call without changing its source quotation. The prefix only
+binds argument expressions, in order; it performs no memory operation. -/
+def ComputeKernel.withScalarArguments (kernel : ComputeKernel) (args : List ScalarArgument) : ComputeKernel :=
+  .mk kernel.inputs kernel.outputs (args.map ScalarArgument.statement ++ kernel.surfaceBody)
+
+
 namespace DSL.CallSignature
 open Lean Elab Term Meta
 
@@ -288,6 +310,44 @@ private partial def rejectArgumentMutation (names : List Name) (raw : Syntax) : 
     reject ⟨raw[1]⟩
   for arg in raw.getArgs do rejectArgumentMutation names arg
 
+/-- A top-level self-cast preserves the source argument as a runtime register.
+Other mutations still fail closed until their control-flow joins are modeled. -/
+private def argumentSignedCast? (raw : Syntax) : Option Name := do
+  let `(tritonStmt| $target:ident = $value:tritonExpr) := raw | none
+  let (receiver,dtype) ← (methodCast? value) <|> (match value with
+    | `(tritonExpr| tl.cast($receiver:tritonExpr, $dtype:tritonDType)) => some (receiver,dtype)
+    | _ => none)
+  let name ← if receiver.raw.isIdent then some receiver.raw.getId.eraseMacroScopes
+    else match receiver with
+      | `(tritonExpr| $name:ident) => some name.getId.eraseMacroScopes
+      | _ => none
+  match dtype with
+  | `(tritonDType| tl.int8) | `(tritonDType| tl.int16)
+  | `(tritonDType| tl.int32) | `(tritonDType| tl.int64) => pure ()
+  | _ => none
+  if target.getId.eraseMacroScopes == name
+    then some target.getId.eraseMacroScopes else none
+
+/-- Specialize call integers through their checked, pure self-casts. Every
+source assignment remains an instruction; later uses receive the cast value,
+rather than the original argument. Floating operations are not propagated. -/
+private def bindInvocationStatements (values : List (Name × TSyntax `tritonExpr))
+    (captured : List Name) (stmts : Array (TSyntax `tritonStmt)) :
+    MacroM (Array (TSyntax `tritonStmt)) := do
+  let mut current := values
+  let mut result := #[]
+  for stmt in stmts do
+    if let some name := argumentSignedCast? stmt.raw then
+      if captured.contains name then
+        let `(tritonStmt| $target:ident = $rhs:tritonExpr) := stmt
+          | Macro.throwErrorAt stmt "expected an integer argument self-cast"
+        let rhs : TSyntax `tritonExpr := ⟨← bindSourceValues current rhs.raw⟩
+        result := result.push (← `(tritonStmt| $target:ident = $rhs:tritonExpr))
+        current := current.map (fun entry => if entry.1 == name then (name,rhs) else entry)
+        continue
+    result := result.push ⟨← bindSourceValues current stmt.raw⟩
+  return result
+
 /-- Literal specialization cannot erase the source argument's FP32 rounding.
 Accept it only when elaboration already placed every use under FP32 evaluation.
 Other contexts use the ordinary runtime register interface. -/
@@ -381,6 +441,12 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
         return (⟨← bindSourceValues sourceValues lowered⟩ : TSyntax `tritonStmt)
       for stmt in stmts do rejectBodyMetadata stmt.raw
       let mut values : List (Name × TSyntax `tritonExpr) := []
+      let captured := if callValues.isSome then
+        scalars.filterMap (fun (name,kind) =>
+          if (kind matches .integer | .i32 | .i64) &&
+              stmts.any (fun st => argumentSignedCast? st.raw == some (Name.mkSimple name))
+          then some (Name.mkSimple name) else none)
+        else []
       let mut fp32Values := Bool.false
       if let some args := callValues then
         for arg in args do
@@ -409,9 +475,10 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
         unless scalars.all (fun (name,kind) =>
             (kind matches .fp32 | .fp64) || values.any (fun p => p.1.toString == name)) do
           throwError "every integer runtime scalar needs an explicit call binding"
-        for stmt in stmts do rejectArgumentMutation (values.map Prod.fst) stmt.raw
-      let stmts ← liftMacroM <| stmts.mapM fun st => do
-        return (⟨← bindSourceValues values st.raw⟩ : TSyntax `tritonStmt)
+        for stmt in stmts do
+          if (argumentSignedCast? stmt.raw).any captured.contains then continue
+          rejectArgumentMutation (values.map Prod.fst) stmt.raw
+      let stmts ← liftMacroM <| bindInvocationStatements values captured stmts
       let (constantBindings,prepared) ← liftMacroM <|
         RawBodyConstants.prepare (constants.map Name.mkSimple) [] stmts.toList
       let mut weakConstants : List (Name × TSyntax `tritonExpr) := []
@@ -537,25 +604,5 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
 
 end DSL.CallSignature
 
-/-- A scalar expression supplied by a call, before the callee's first statement.
-These bindings are separate from the pasted source body and preserve dtype. -/
-structure ScalarArgument where
-  name : RegName
-  dtype : TileDType
-  value : ComputeExpr dtype []
-
-namespace ScalarArgument
-noncomputable def fp32 (name : RegName) (value : ℝ) : ScalarArgument :=
-  ⟨name,.real,.compute (.alg .fp32 (.const value))⟩
-def integer (name : RegName) (value : Int) : ScalarArgument :=
-  ⟨name,.int,.alg (.constInt value)⟩
-def statement (arg : ScalarArgument) : ComputeStmt :=
-  .assign arg.dtype [] arg.name arg.value
-end ScalarArgument
-
-/-- Instantiate a call without changing its source quotation. The prefix only
-binds argument expressions, in order; it performs no memory operation. -/
-def ComputeKernel.withScalarArguments (kernel : ComputeKernel) (args : List ScalarArgument) : ComputeKernel :=
-  .mk kernel.inputs kernel.outputs (args.map ScalarArgument.statement ++ kernel.surfaceBody)
 
 end VeriTile.Triton

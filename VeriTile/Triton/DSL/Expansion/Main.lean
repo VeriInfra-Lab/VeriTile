@@ -3076,17 +3076,9 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       MacroM (TSyntax `term × TSyntax `term × Env × Bool) := do
     if dest.getId.getString! != old.getId.getString! then
       let sumExpr : TSyntax `tritonExpr ← `(tritonExpr| $old:ident + $rhs:tritonExpr)
-      let e' ←
-        if intPinned.contains dest.getId.toString then
-          if (Inference.pointerElementDType? regionDTypes ptrElems sumExpr).isSome then
-            let inferred ← expandExpr env sumExpr
-            if inferred.dtype == DInfo.ptr then pure inferred
-            else expandIntExpectedExpr env sumExpr
-          else expandIntExpectedExpr env sumExpr
-        else if pinned.contains dest.getId.toString then
-          expandNatExpectedExpr env sumExpr
-        else
-          expandExpr env sumExpr
+      -- This is an ordinary assignment, so use its full type inference.
+      -- Address pins must not override an already signed induction variable.
+      let e' ← expandAssignment dest sumExpr
       emitAssign dest e'
     else
       let rawName := old.getId.toString
