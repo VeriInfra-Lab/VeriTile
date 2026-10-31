@@ -55,7 +55,7 @@ def nativeRow (family : Nat → Algebra α) (M N : Nat) (values : Inputs α M N)
     (fun _ => A.literal (some .fp32) .real 0)
   A.binary (some .fp32) .real .div
     (A.reduceSum (some .fp32) ⟨1,by simp⟩ Bool.false acc (⟨row.val%8,by omega⟩,PUnit.unit))
-    (A.literal (some .fp32) .real (N:ℝ))
+    (A.fromNat (some .fp32) N)
 
 def nativeTarget (family : Nat → Algebra α) (M N : Nat)
     (values : Inputs α M N) : Outputs α M :=

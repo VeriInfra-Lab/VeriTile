@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Parameters
 import bench.tritonbench_g.vector_addition.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.ScalarOps
 import VeriTile.Triton.Float.Structural
@@ -14,9 +15,6 @@ set_option maxHeartbeats 3000000
 set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
-structure Parameters where
-  (x y output : RegionName)
-  (n block : Nat)
 
 def offset {α : Type} (p : Parameters) (s : State α) (i : TileIndex [p.block]) : Nat :=
   s.pids 0 * p.block + i.1.val

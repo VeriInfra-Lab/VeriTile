@@ -98,15 +98,16 @@ theorem source_run {α : Type} [Inhabited α] (M : Algebra α) (round : α → B
     numericLt, natLt, Option.bind, fold_regs, fold_pids, TileShape.axisDim, hwidth]
   try simp only [fold_memory]
   simp +contextual (config := { maxSteps := 1000000 }) [State.write, fold_memory, fold_expanded, maxInput, show (127.0 : ℝ) = 127 by norm_num]
+  simp only [← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast]
   have hmax : (fun (i : TileIndex [p.width]) =>
       if i.1.val < p.columns then M.unary (some .fp32) (.abs .real)
         (M.fp32Load (if i.1.val < p.columns then
           (s.mem p.x (s.pids 0 * p.columns + i.1.val)).read .real
           else s.undef .real p.x (s.pids 0 * p.columns + i.1.val)))
-      else M.literal (some .fp32) .real 0.0) = maxInput M p s := by
+      else M.literal (some .fp32) .real 0) = maxInput M p s := by
     funext i
     by_cases hi : i.1.val < p.columns <;> simp [hi, maxInput, offset, show (0.0 : ℝ) = 0 by norm_num]
-  simp only [hmax]
+  try simp only [hmax]
   funext r o
   split
   · rfl

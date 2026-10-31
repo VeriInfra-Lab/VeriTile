@@ -708,7 +708,7 @@ def meanPostLoop (N BLOCK_M BLOCK_N : Nat) : List Stmt :=
       (.div NumericDType.real Broadcast.scalarR
         (.reduceSum (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false
           (.ref .real [BLOCK_M, BLOCK_N] "_mean"))
-        (.const (N : ℝ)))
+        (.natToReal (.constNat N)))
   , .assign .real [BLOCK_M, 1] "mean"
       (.expandDim (⟨1, by simp⟩ : Fin ([BLOCK_M].length + 1))
         (.ref .real [BLOCK_M] "mean"))

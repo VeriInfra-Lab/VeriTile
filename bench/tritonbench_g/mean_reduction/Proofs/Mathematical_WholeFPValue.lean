@@ -132,7 +132,7 @@ theorem prefix_context {α : Type} [Inhabited α] (A : Algebra α) (X Mean : Reg
 def meanValues {α : Type} (A : Algebra α) (N : Nat) (acc : Acc α) : Values α .real [8] :=
   fun i => A.binary (some .fp32) .real .div
     (A.reduceSum (some .fp32) ⟨1,by simp⟩ Bool.false acc i)
-    (A.literal (some .fp32) .real (N:ℝ))
+    (A.fromNat (some .fp32) N)
 
 def suffixState {α : Type} (A : Algebra α) (Mean : RegionName) (M N pid : Nat)
     (acc : Acc α) (s : State α) : State α :=

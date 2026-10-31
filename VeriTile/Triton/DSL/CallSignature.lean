@@ -400,9 +400,9 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
                 liftMacroM `(tritonExpr| $((VeriTile.Triton.DSL.CallValue.fp32 $value:term : ℝ)))
             | .integer | .i32 | .i64 => do
                 if ← isDefEq dtype (mkConst ``Nat) then
-                  liftMacroM `(tritonExpr| $(($value:term : Nat)))
+                  liftMacroM `(tritonExpr| $((VeriTile.Triton.DSL.CallValue.natural $value:term : Nat)))
                 else if ← isDefEq dtype (mkConst ``Int) then
-                  liftMacroM `(tritonExpr| $(($value:term : Int)))
+                  liftMacroM `(tritonExpr| $((VeriTile.Triton.DSL.CallValue.integer $value:term : Int)))
                 else throwErrorAt value "per-call integer value must have a Nat or Int carrier"
             | .fp64 => throwErrorAt value "per-call FP64 specialization is unsupported; use runtime scalar binding"
           values := values ++ [(name, expression)]
@@ -420,7 +420,8 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
         let id : TSyntax `term := ⟨mkIdent name⟩
         let value ← elabTerm id none
         let dtype ← inferType value
-        if (← isDefEq dtype (mkConst ``Nat)) || (← isDefEq dtype (mkConst ``Bool)) then continue
+        if (← isDefEq dtype (mkConst ``Nat)) || (← isDefEq dtype (mkConst ``Bool)) ||
+            (← isDefEq dtype (mkConst ``String)) then continue
         let expression ←
           if ← isDefEq dtype (mkConst ``Int) then
             liftMacroM `(tritonExpr| $(($id:term : Int)))
@@ -428,7 +429,7 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
             liftMacroM `(tritonExpr| $(($id:term : ℝ)))
           else if ← isDefEq dtype (mkConst ``Bool) then
             liftMacroM `(tritonExpr| $(($id:term : Bool)))
-          else throwError "unsupported constexpr carrier; expected Nat, Int, Real or Bool"
+          else throwError "unsupported constexpr carrier; expected Nat, Int, Real, Bool or String"
         weakConstants := weakConstants ++ [(name,expression)]
       let stmts ← liftMacroM <| prepared.toArray.mapM fun st => do
         return (⟨← bindSourceValues weakConstants st.raw⟩ : TSyntax `tritonStmt)
@@ -514,13 +515,18 @@ private def elaborateCall (profile : TSyntax `term) (raw : Syntax)
         `(let $name:ident : FloatDType := $value:term; $body:term)
       let term : TSyntax `term := ⟨← specializeRanges (constants.map Name.mkSimple) [] term.raw⟩
       let result ← elabTerm term expected
-      if fp32Values then
+      let result ← if fp32Values then do
         synthesizeSyntheticMVarsNoPostponing
         let result ← instantiateMVars result
         checkFP32CallPrecision result
-        return result.replace fun e =>
-          if e.isAppOfArity ``CallValue.fp32 1 then some e.appArg! else none
-      return result
+        pure result
+        else pure result
+      -- Provenance markers guide source typing only. Erase them after the
+      -- typed operations (including integer-to-float conversion) are fixed.
+      return result.replace fun e =>
+        if e.isAppOfArity ``CallValue.fp32 1 ||
+            e.isAppOfArity ``CallValue.natural 1 ||
+            e.isAppOfArity ``CallValue.integer 1 then some e.appArg! else none
 
 @[term_elab withSignature] def elaborateSignature : TermElab := fun stx expected =>
   elaborateCall ⟨stx[1]⟩ stx.getArgs.back! none expected

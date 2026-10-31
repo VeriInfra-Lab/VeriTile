@@ -89,7 +89,7 @@ theorem reduction_precision (v : Bool) (X Mean : RegionName)
       some (.assign .real [BM] "mean" (.compute (.alg .fp32
         (.div .real .scalarR
           (.reduceSum ⟨1, by simp⟩ Bool.false (.ref .real [BM, BN] "_mean"))
-          (.const (N : ℝ)))))) := by
+          (.natToReal (.constNat N)))))) := by
   cases v <;> rfl
 
 #guard_msgs (drop info) in

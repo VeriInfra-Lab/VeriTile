@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.CallSignature
-import bench.tritonbench_g.kldiv_compute.Proofs.HistoricalKernels
+import bench.tritonbench_g.kldiv_compute.Parameters
 
 namespace VeriTile.Bench.Repairs.KldivCompute.KernelDSL
 open VeriTile.Triton
@@ -50,10 +50,4 @@ def commutedKernel (p : Parameters) : ComputeKernel :=
     tl.store(output_ptr + offsets, output, mask=mask)
   }
 
-/-- Literal typed AST equality permits reuse of the complete source proof. -/
-theorem source_eq (p : Parameters) : kernel p = KldivCompute.source p := rfl
-
-#axiomsClean source_eq
-#guard_msgs (drop info) in
-#auditModuleAxioms
 end VeriTile.Bench.Repairs.KldivCompute.KernelDSL

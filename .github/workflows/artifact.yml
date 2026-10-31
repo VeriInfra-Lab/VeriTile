@@ -139,12 +139,19 @@ jobs:
         run: python3 -B scripts/bench/final_inventory.py --check
 
   body-migration:
-    name: Staged function-body proofs and independent replay
+    name: Function-body proof replay ${{ matrix.shard }} / 6
     if: github.event_name == 'workflow_dispatch' && inputs.body_migration_only
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     permissions:
       contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    env:
+      BODY_SHARD_INDEX: ${{ matrix.shard }}
+      BODY_SHARD_COUNT: 6
     steps:
       - uses: actions/checkout@v4
       - name: Validate every staged original and candidate function body
@@ -156,19 +163,47 @@ jobs:
           lint: false
           use-mathlib-cache: auto
       - name: Build all retained modules in the staged cases
-        run: python3 scripts/bench/replay_body_migrations.py --build
+        run: |
+          python3 scripts/bench/replay_body_migrations.py --build \
+            --shard-index "$BODY_SHARD_INDEX" --shard-count "$BODY_SHARD_COUNT"
       - uses: ./.github/actions/setup-comparator
       - name: Audit and independently replay the staged proofs
         run: |
           python3 scripts/bench/replay_body_migrations.py --replay \
+            --shard-index "$BODY_SHARD_INDEX" --shard-count "$BODY_SHARD_COUNT" \
             --workspace "$RUNNER_TEMP/body-migration-judge" \
             --report "$RUNNER_TEMP/body-migration-replay.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: body-migration-proof-replay
+          name: body-migration-proof-replay-${{ matrix.shard }}
+          overwrite: true
           path: |
             ${{ runner.temp }}/body-migration-replay.json
             Logs/comparator-check-*/**/result.json
             Logs/comparator-check-*/**/targets.json
           if-no-files-found: warn
+
+  body-migration-receipt:
+    name: Require complete official body-migration receipts
+    needs: body-migration
+    if: always() && github.event_name == 'workflow_dispatch' && inputs.body_migration_only
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: body-migration-proof-replay-*
+          path: ${{ runner.temp }}/body-migration-shards
+      - name: Require every case and shared proof on the same source snapshot
+        run: |
+          python3 scripts/bench/replay_body_migrations.py \
+            --merge-reports "$RUNNER_TEMP/body-migration-shards" \
+            --report "$RUNNER_TEMP/body-migration-replay.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: body-migration-proof-replay
+          overwrite: true
+          path: ${{ runner.temp }}/body-migration-replay.json

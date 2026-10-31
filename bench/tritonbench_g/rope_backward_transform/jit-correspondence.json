@@ -1,0 +1,186 @@
+[
+  {
+    "lean": "bench/tritonbench_g/rope_backward_transform/Kernels.lean",
+    "lean_definition": "source",
+    "python": "bench/tritonbench_g/rope_backward_transform/rope_backward_transform.py",
+    "python_function": "_triton_rope",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "q_row_stride": "q_row_stride",
+      "k_row_stride": "k_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "cos_col_stride": "cos_col_stride",
+      "sin_row_stride": "sin_row_stride",
+      "sin_col_stride": "sin_col_stride",
+      "sl": "sl"
+    },
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "q_row_stride",
+          "integer"
+        ],
+        [
+          "k_row_stride",
+          "integer"
+        ],
+        [
+          "cos_row_stride",
+          "integer"
+        ],
+        [
+          "cos_col_stride",
+          "integer"
+        ],
+        [
+          "sin_row_stride",
+          "integer"
+        ],
+        [
+          "sin_col_stride",
+          "integer"
+        ],
+        [
+          "sl",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "bs",
+        "n_qh",
+        "n_kh",
+        "hd",
+        "pad_n_qh",
+        "pad_n_kh",
+        "pad_hd",
+        "BLOCK_SIZE",
+        "BACKWARD_PASS"
+      ],
+      "readPorts": [
+        "q_ptr",
+        "k_ptr",
+        "cos",
+        "sin"
+      ],
+      "writePorts": [
+        "q_ptr",
+        "k_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "q_ptr",
+          "dtype"
+        ],
+        [
+          "k_ptr",
+          "dtype"
+        ],
+        [
+          "cos",
+          "out_dtype"
+        ],
+        [
+          "sin",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype",
+        "out_dtype"
+      ]
+    }
+  },
+  {
+    "lean": "bench/tritonbench_g/rope_backward_transform/Kernels.lean",
+    "lean_definition": "indexShared",
+    "python": "bench/tritonbench_g/rope_backward_transform/rope_backward_transform.py",
+    "python_function": "_triton_rope_index_shared",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "q_row_stride": "q_row_stride",
+      "k_row_stride": "k_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "cos_col_stride": "cos_col_stride",
+      "sin_row_stride": "sin_row_stride",
+      "sin_col_stride": "sin_col_stride",
+      "sl": "sl"
+    },
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "q_row_stride",
+          "integer"
+        ],
+        [
+          "k_row_stride",
+          "integer"
+        ],
+        [
+          "cos_row_stride",
+          "integer"
+        ],
+        [
+          "cos_col_stride",
+          "integer"
+        ],
+        [
+          "sin_row_stride",
+          "integer"
+        ],
+        [
+          "sin_col_stride",
+          "integer"
+        ],
+        [
+          "sl",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "bs",
+        "n_qh",
+        "n_kh",
+        "hd",
+        "pad_n_qh",
+        "pad_n_kh",
+        "pad_hd",
+        "BLOCK_SIZE",
+        "BACKWARD_PASS"
+      ],
+      "readPorts": [
+        "q_ptr",
+        "k_ptr",
+        "cos",
+        "sin"
+      ],
+      "writePorts": [
+        "q_ptr",
+        "k_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "q_ptr",
+          "dtype"
+        ],
+        [
+          "k_ptr",
+          "dtype"
+        ],
+        [
+          "cos",
+          "out_dtype"
+        ],
+        [
+          "sin",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype",
+        "out_dtype"
+      ]
+    }
+  }
+]

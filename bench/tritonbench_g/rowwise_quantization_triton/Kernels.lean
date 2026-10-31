@@ -1,6 +1,7 @@
 import Mathlib
 import VeriTile.Triton.Float.ScalarOps
 import VeriTile.Triton.DSL
+import VeriTile.Triton.DSL.CallSignature
 
 /-! Source-order scalar/register and byte-store semantics for the selected
 FP32 contiguous rowwise quantizer. `llrint` and direct binary16 conversion are
@@ -16,25 +17,53 @@ abbrev Half := Fin 65536
 abbrev Word := VeriTile.Triton.FP.Value .fp32
 abbrev Heap := Nat → Byte
 
-/-- Complete selected source. Natural indices erase only the separately proved
-int64 casts. The explicit int8/fp16 casts spell out tl.store's implicit casts;
-the llrint node remains in the actual source rather than being omitted. -/
+def callSignature : CallSignature where
+  pointers := [("x_ptr",.fp32),("output_ptr",.i8),("output_maxs",.fp16)]
+  scalars := [("n_elements",.integer)]
+  constexpr := ["BLOCK_SIZE","P2"]
+
+/-- The unchanged complete original Python body. Storage and invocation types
+are outside the quotation; the unused runtime argument emits no instruction. -/
 def source (x_ptr output_ptr output_maxs : RegionName)
-    (columns width : Nat) : ComputeKernel := triton {
-  tl.region x_ptr = tl.float32, output_ptr = tl.int8, output_maxs = tl.float16
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(columns)
-  arange = tl.arange(0, $(width))
-  offsets = block_start + arange
-  row_mask = arange < $(columns)
-  x = tl.load(x_ptr + offsets, mask=row_mask)
-  abs_x = tl.abs(x)
-  max_val = tl.max(tl.where(row_mask, abs_x, 0.0), axis=0)
-  safe_max = tl.where(max_val == 0.0, 1.0, max_val)
-  output = tl.extra.cuda.libdevice.llrint(127.0 * (x / safe_max))
-  tl.store(output_ptr + offsets, output.to(tl.int8), mask=row_mask)
-  tl.store(output_maxs + pid, max_val.to(tl.float16))
-}
+    (columns width : Nat) : ComputeKernel :=
+  let BLOCK_SIZE := columns
+  let P2 := width
+  with_triton_signature callSignature in triton {
+      pid = tl.program_id(axis=0).to(tl.int64)
+      block_start = pid * tl.full((), BLOCK_SIZE, tl.int64)
+      arange = tl.arange(0, P2)
+      offsets = block_start + arange
+      row_mask = arange < BLOCK_SIZE
+      x = tl.load(x_ptr + offsets, mask=row_mask)
+
+      abs_x = tl.abs(x)
+      max_val = tl.max(tl.where(row_mask, abs_x, 0), axis=0)
+      safe_max = tl.where(max_val == 0.0, 1.0, max_val)
+      output = tl.extra.cuda.libdevice.llrint(127.0 * (x / safe_max))
+      tl.store(output_ptr + offsets, output, mask=row_mask)
+      tl.store(output_maxs + pid, max_val)
+  }
+
+/-- Existing early-maximum-store candidate, with all source operations retained. -/
+def earlyMaximumSource (x_ptr output_ptr output_maxs : RegionName)
+    (columns width : Nat) : ComputeKernel :=
+  let BLOCK_SIZE := columns
+  let P2 := width
+  with_triton_signature callSignature in triton {
+      pid = tl.program_id(axis=0).to(tl.int64)
+      block_start = pid * tl.full((), BLOCK_SIZE, tl.int64)
+      arange = tl.arange(0, P2)
+      offsets = block_start + arange
+      row_mask = arange < BLOCK_SIZE
+      x = tl.load(x_ptr + offsets, mask=row_mask)
+
+      abs_x = tl.abs(x)
+      max_val = tl.max(tl.where(row_mask, abs_x, 0), axis=0)
+      tl.store(output_maxs + pid, max_val)
+      safe_max = tl.where(max_val == 0.0, 1.0, max_val)
+      output = tl.extra.cuda.libdevice.llrint(127.0 * (x / safe_max))
+      tl.store(output_ptr + offsets, output, mask=row_mask)
+  }
 
 def load32 (heap : Heap) (address : Nat) : Word :=
   VeriTile.Triton.FP.Value.ofBits .fp32
