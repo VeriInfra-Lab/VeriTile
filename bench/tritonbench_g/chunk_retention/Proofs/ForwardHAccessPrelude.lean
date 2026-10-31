@@ -44,7 +44,7 @@ theorem prelude_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
         simp [AccessSafety.singleton_safe,Safety.stepSafe_unfold,
           Safety.safeExpr_unfold,Safety.safeCompute_unfold,AccessSafety.two_offset_pointer,Safety.safeOp_unfold,Safety.safeAddress_unfold,
           Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-          evalOp_unfold,Option.bind,State.setReg,ctx.ik,ctx.iv,ctx.bh,
+          evalOp_unfold,Option.bind,State.setReg,ctx.ik,ctx.iv,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,
           BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList]
         intro e j he hj
         exact hh (e,j,PUnit.unit) ⟨he,hj⟩

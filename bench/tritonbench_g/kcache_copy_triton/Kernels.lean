@@ -71,7 +71,6 @@ def kernel (commuted : Bool) : Parameters → ComputeKernel :=
       tl.store(KCache + offsets_kcache, k)
     }
 
-def originalKernel := kernel Bool.false
 def commutedKernel := kernel Bool.true
 
 end VeriTile.Bench.Repairs.KcacheCopyTriton.Source

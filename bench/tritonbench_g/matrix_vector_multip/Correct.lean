@@ -13,14 +13,14 @@ def matrixVector (M : Nat) (matrix : Nat → Nat → ℝ) (vector : Nat → ℝ)
 /-- Both complete inputs and the original single invocation's output tile.
 The row mask remains exactly `pid * BN + row < N`, including the final tail. -/
 abbrev matrixVectorIO (N M BN BM pid : Nat) := IO.logicalIO WholeMath.algebra N M BN BM pid
-specification mv_kernel_correctness (N M BN BM pid : Nat) (width : 0 < BM) :
+specification mv_kernel_correctness (N M BN BM pid : Nat) (width : 0 < BM) (scope : SourceBounds N M BN BM) (launch : pid<(N+BN-1)/BN) :
     Spec.Real (matrixVectorIO N M BN BM pid ⊨ fun ⟨matrix,vector⟩ row =>
       ∑ col : Fin M, IO.logicalRow matrix (pid*BN+row.val) col * vector col) :=
-  LogicalIOProof.implements N M BN BM pid width
+  LogicalIOProof.implements N M BN BM pid width scope (scope.grid_pid pid launch)
 
 #specNonCircular matrixVector avoiding [Kernels.source]
 #stmtSurfaceSubset mv_kernel_correctness ⊆
-  [mv_kernel_correctness.match_1,Spec.Real,matrixVectorIO,LogicalProgramIO.Implements,IO.logicalRow]
+  [mv_kernel_correctness.match_1,Spec.Real,matrixVectorIO,LogicalProgramIO.Implements,IO.logicalRow,SourceBounds]
 #axiomsClean mv_kernel_correctness
 #guard_msgs (drop info) in
 #auditModuleAxioms

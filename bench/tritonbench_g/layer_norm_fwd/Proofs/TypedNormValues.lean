@@ -29,7 +29,7 @@ theorem normalization_values {α : Type} [Inhabited α] (A : Algebra α)
     (f.rms=Bool.false → t.regs .real [] "mean"=some (fun _ => meanValue A N v)) := by
   rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
   cases hrms : f.rms
-  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
     numericLt,Region.cast,Random.i32ArangeSize,TileShape.axisDim,
@@ -51,7 +51,7 @@ theorem normalization_rstd_readback {α : Type} [Inhabited α] (A : Algebra α)
     t.mem r.rstd row=Cell.mk .real (cast A (rstdValue A f.rms N eps v)) := by
   rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
   cases hrms : f.rms
-  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
     numericLt,Region.cast,Random.i32ArangeSize,TileShape.axisDim,

@@ -6,35 +6,29 @@ open VeriTile.Triton TypedSource
 set_option maxHeartbeats 6000000
 set_option maxRecDepth 20000
 
-/-- The same full sources interpreted over real arithmetic, solely for
-mathematical correctness. Floating equivalence never uses these erasures. -/
+/-- Real projections of the shared repaired sources. No complete mathematical
+kernel is copied into the proof layer. -/
 def forward (swapped : Bool) : forwardSource :=
-  if swapped then diagSsmForwardSource%[tl.float64, indexCommuted]
-  else diagSsmForwardSource%[tl.float64, original]
+  fun s x lam y length batch dim B =>
+    (TypedSource.forward .fp32 swapped s x lam y length batch dim B).eraseDType
 
 def backward (swapped : Bool) : backwardSource :=
   fun s lam y gs gx glam gy length batch dim B =>
-    let reference : backwardSource :=
-    if swapped then diagSsmBackwardSource%[tl.float64, indexCommuted]
-    else diagSsmBackwardSource%[tl.float64, original]
-    (reference s lam y gs gx glam gy length batch dim B).eraseDType
+    (TypedSource.backward .fp32 swapped s lam y gs gx glam gy length batch dim B).eraseDType
 
 def complexForward (swapped : Bool) : complexForwardSource :=
-  if swapped then diagSsmComplexForwardSource%[tl.float64, indexCommuted]
-  else diagSsmComplexForwardSource%[tl.float64, original]
+  fun s x y lam length batch dim B =>
+    (TypedSource.complexForward swapped s x y lam length batch dim B).eraseDType
 
 def complexBackward (swapped : Bool) : complexBackwardSource :=
   fun s lam y gs gx glam gy length batch dim B =>
-    let reference : complexBackwardSource :=
-    if swapped then diagSsmComplexBackwardSource%[tl.float64, indexCommuted]
-    else diagSsmComplexBackwardSource%[tl.float64, original]
-    (reference s lam y gs gx glam gy length batch dim B).eraseDType
+    (TypedSource.complexBackward swapped s lam y gs gx glam gy length batch dim B).eraseDType
 
 theorem forward_body (storage : Storage) (swapped : Bool) (s_ptr x_ptr lambda_ptr y_ptr : RegionName) (length batch_size dim BLOCK_SIZE : Nat) :
     (TypedSource.forward storage swapped s_ptr x_ptr lambda_ptr y_ptr length batch_size dim BLOCK_SIZE).eraseDType.toAlgKernel.body =
       (forward swapped s_ptr x_ptr lambda_ptr y_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body := by
   cases storage <;> cases swapped
-  all_goals simp only [TypedSource.forward,forward,
+  all_goals simp only [TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted,forward,
     Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
@@ -49,7 +43,7 @@ theorem backward_body (storage : Storage) (swapped : Bool) (s_ptr lambda_ptr y_p
     (TypedSource.backward storage swapped s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).eraseDType.toAlgKernel.body =
       (backward swapped s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body := by
   cases storage <;> cases swapped
-  all_goals simp only [TypedSource.backward,backward,
+  all_goals simp only [TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted,backward,
     Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
@@ -64,7 +58,7 @@ theorem complexForward_body (swapped : Bool) (s_ptr x_ptr y_ptr lambda_ptr : Reg
     (TypedSource.complexForward swapped s_ptr x_ptr y_ptr lambda_ptr length batch_size dim BLOCK_SIZE).eraseDType.toAlgKernel.body =
       (complexForward swapped s_ptr x_ptr y_ptr lambda_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body := by
   cases swapped
-  all_goals simp only [TypedSource.complexForward,complexForward,
+  all_goals simp only [TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,complexForward,
     Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
@@ -79,7 +73,7 @@ theorem complexBackward_body (swapped : Bool) (s_ptr lambda_ptr y_ptr grad_s_ptr
     (TypedSource.complexBackward swapped s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).eraseDType.toAlgKernel.body =
       (complexBackward swapped s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body := by
   cases swapped
-  all_goals simp only [TypedSource.complexBackward,complexBackward,
+  all_goals simp only [TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,complexBackward,
     Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

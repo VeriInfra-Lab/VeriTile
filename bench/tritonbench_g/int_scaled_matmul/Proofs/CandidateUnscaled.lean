@@ -33,7 +33,10 @@ def finish {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // run (backend M) (epilogue p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [epilogue, ComputeKernel.surfaceBody,
+  simp [epilogue, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     FP.Structural.bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -101,7 +104,10 @@ theorem epilogue_safe (M : Algebra KernelModel.Word) (p : Parameters)
     (ho : ∀ r c,r<p.rows → c<p.columns →
       r*p.outputRowStride+c*p.outputColumnStride<bounds p.output) :
     Safety.traceSafeList (backend M) bounds (epilogue p) current := by
-  simp [epilogue,ComputeKernel.surfaceBody,
+  simp [epilogue,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
     singleton_safe,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,FP.Structural.step,evalExpr,evalComputeOp,

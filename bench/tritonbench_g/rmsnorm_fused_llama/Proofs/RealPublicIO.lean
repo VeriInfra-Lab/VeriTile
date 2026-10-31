@@ -87,7 +87,7 @@ theorem safe (candidate : Bool) (X Y W : RegionName) (rows N B : Nat) (eps : ℝ
   have hw (k : Fin N) := hb.1 (1 : Fin 2) k trivial
   have hy (k : Fin N) := hb.2.1 (0 : Fin 1) ⟨r*N+k.val,flat k⟩ trivial
   have result := VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.General.typed_full_trace_safe
-    .fp32 .fp32 .fp32 candidate bounds ((IO.launch rows r).initial s) X Y W N N B eps hB hXY hWY hx hw hy
+    candidate bounds ((IO.launch rows r).initial s) X Y W N N B eps hB hXY hWY hx hw hy
   cases candidate <;> exact result
 
 theorem implements (candidate : Bool) (X Y W : RegionName) (rows N B : Nat) (eps : ℝ)

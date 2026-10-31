@@ -1,4 +1,7 @@
 import bench.tritonbench_g.matmul_persistent_triton.Sources.Mathematical_Source
+import VeriTile.Triton.DSL
+import VeriTile.Triton.Source
+import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.TypedSource
 open VeriTile.Triton

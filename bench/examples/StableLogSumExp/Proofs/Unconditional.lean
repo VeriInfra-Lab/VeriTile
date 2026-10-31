@@ -1,42 +1,36 @@
 import bench.examples.StableLogSumExp.Proofs.UnconditionalModel
-import VeriTile.Triton.Float.Disprove
 
-/-! Disproof of the historical FP specification without fallbacks.
-
-The shared sources in ../Kernels.lean compute:
-  directLSEKernel: bf16(tl.log(sum(libdevice.exp(x))))
-  stableLSEKernel: bf16(m + tl.log(sum(libdevice.exp(x - m)))), m = max(x).
-The historical source remains correct over the reals (LegacyCorrect.lean).
-
-UnconditionalModel.lean constructs a model of the fixed strict software theory
-and every currently selected arithmetic/exp/log rule. Its guarded finite
-operands are the actual FP32 words +0 and +1; the singleton input satisfies
-the complete kernel domain. On this row,
-the actual kernels successfully store different bf16 values. Thus the old
-specification is false under this mixed theory, even after adding the
-admitted conditional log rules. This is a logical countermodel, not a GPU
-measurement, an IEEE claim, or a rejection of statistical two-gates admission.
-
-The supported optimizedLSEKernel retains the fallbacks; its specifications
-remain in ../Correct.lean and ../FPEquiv.lean. -/
+/-! A scalar countermodel for dropping the conditional log fallbacks. The
+current kernel pair remains in Kernels.lean; no retired kernel is executable
+here. These results refute an unguarded scalar rewrite, not the repaired pair. -/
 namespace VeriTile.Bench.Examples.StableLogSumExpUnconditional
-open VeriTile Triton StableLogSumExpFPContract
-open scoped VeriTile.Spec
+open VeriTile Triton FP.Structural FP.Guarded
+open StableLogSumExpFPContract
 
-def equivalenceGoal (B : Nat) (R : FP.Exponential.Rules) : Prop :=
-  0 < B → stable "x" "y" B ≡[R] direct "x" "y" B
+/-- A scalar rewrite would have to hold in every model of its selected atoms
+and at the admitted singleton input and intermediate operands. -/
+def scalarGoal (assumptions : Spec.Assumptions FP.GuardedFragment) : Prop :=
+  ∀ (M : Algebra Model.Number) (D : Domain Model.Number),
+    Models assumptions M D →
+    (requirements "x" 1 FP.Equational.seededSchedules).Holds M D Model.initial →
+    StableLogSumExpFPExecution.stableValue
+      (SoftmaxStableFPContract.engine M FP.Equational.seededSchedules)
+      (fun _ : Fin 1 => Model.one) =
+    StableLogSumExpFPExecution.directValue
+      (SoftmaxStableFPContract.engine M FP.Equational.seededSchedules)
+      (fun _ : Fin 1 => Model.one)
 
-/-- A positive singleton row already refutes the historical target. -/
-refutation unconditional_disproved (R : FP.Exponential.Rules) : equivalenceGoal 1 R := by
-  disprove [Model.exponential_models R, Model.domain_holds, Model.stored_outputs_different]
+theorem unconditional_disproved (R : FP.Exponential.Rules) : ¬ scalarGoal R.assumptions := by
+  intro h
+  exact Model.scalar_outputs_different
+    (h Model.algebra Model.domain (Model.exponential_models R) Model.domain_holds)
 
-/-- The same counterexample satisfies the additional admitted log rules.
-Adding those rules does not justify removing the fallback branches. -/
-refutation unconditional_disproved_with_log_rules (R : FP.LogSumExp.Rules) :
-    stable "x" "y" 1 ≡[R] direct "x" "y" 1 := by
-  disprove [Model.models R, Model.domain_holds, Model.stored_outputs_different]
+theorem unconditional_disproved_with_log_rules (R : FP.LogSumExp.Rules) :
+    ¬ scalarGoal R.assumptions := by
+  intro h
+  exact Model.scalar_outputs_different
+    (h Model.algebra Model.domain (Model.models R) Model.domain_holds)
 
 #axiomsClean unconditional_disproved
 #axiomsClean unconditional_disproved_with_log_rules
-
 end VeriTile.Bench.Examples.StableLogSumExpUnconditional

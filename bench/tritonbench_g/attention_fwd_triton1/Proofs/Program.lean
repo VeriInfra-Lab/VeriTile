@@ -7,6 +7,9 @@ noncomputable section
 abbrev preciseDot : DotOptions := {allowTF32 := some Bool.false}
 def times (name : RegName) (n : Nat) : Op .nat [] :=
   .mul .nat .nil (.ref .nat [] name) (.constNat n)
+/-- The source retains its explicit int64 head cast through address construction. -/
+def headTimes (n : Nat) : Op .nat [] :=
+  .castIntToNat (.mul .int .nil (.ref .int [] "i_bh") (.castNatToInt (.constNat n)))
 def ref (m n : Nat) (name : RegName) : Op .real [m,n] := .ref .real [m,n] name
 def cast {s : TileShape} (value : Op .real s) : Op .real s := .castFloat .real .real value
 def comp {s : TileShape} (value : Op .real s) : ComputeExpr .real s :=
@@ -17,12 +20,12 @@ def pointer (name region : String) (parent block strides : List Nat)
     (base : Op .nat []) (offsets : List (Op .nat [])) : ComputeStmt :=
   .assign .blockPtr block name (.alg (.makeBlockPtrDynOffsets region base parent block strides offsets))
 def pointers (c : Shape) : List ComputeStmt :=
-  [pointer "p_q" "q" [c.T,c.D] [32,c.D] [c.D,1] (times "i_bh" c.headSize) [times "i" 32,.constNat 0],
-   pointer "p_k" "k" [c.D,c.T] [c.D,32] [1,c.D] (times "i_bh" c.headSize) [.constNat 0,times "i" 32],
-   pointer "p_v" "v" [c.T,c.D] [32,c.D] [c.D,1] (times "i_bh" c.headSize) [times "i" 32,.constNat 0],
+  [pointer "p_q" "q" [c.T,c.D] [32,c.D] [c.D,1] (headTimes c.headSize) [times "i" 32,.constNat 0],
+   pointer "p_k" "k" [c.D,c.T] [c.D,32] [1,c.D] (headTimes c.headSize) [.constNat 0,times "i" 32],
+   pointer "p_v" "v" [c.T,c.D] [32,c.D] [c.D,1] (headTimes c.headSize) [times "i" 32,.constNat 0],
    pointer "p_h" "h" [c.chunks*c.D,c.D] [c.D,c.D] [c.D,1]
-     (times "i_bh" c.historyHead) [times "i" c.D,.constNat 0],
-   pointer "p_o" "o" [c.T,c.D] [32,c.D] [c.D,1] (times "i_bh" c.headSize) [times "i" 32,.constNat 0]]
+     (headTimes c.historyHead) [times "i" c.D,.constNat 0],
+   pointer "p_o" "o" [c.T,c.D] [32,c.D] [c.D,1] (headTimes c.headSize) [times "i" 32,.constNat 0]]
 def store (m n : Nat) (pointer value : String) (axes : List Nat) : ComputeStmt :=
   .store .real [m,n] (.blockPtr (.ref .blockPtr [m,n] pointer) axes)
     (comp (cast (ref m n value))) .none
@@ -56,7 +59,7 @@ def body (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) : List ComputeStmt 
   pointers c ++ [save c storeFlag] ++ loads c scale ++
     [update c ifcond,store 32 c.D "p_o" "b_o" [0]]
 def code (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) : List ComputeStmt :=
-  [.assign .nat [] "i_bh" (.alg (.programId 0)),
+  [.assign .int [] "i_bh" (.alg (.castNatToInt (.programId 0))),
    .assign .real [c.D,c.D] "b_h" (.compute (.full [c.D,c.D] (.alg .fp32 (.const 0)))),
    .forRangeDyn "i" (.constNat 0) (.constNat c.chunks) (.constNat 1)
      (body c scale storeFlag ifcond)]
@@ -67,7 +70,7 @@ def kernel (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) : ComputeKernel :
 /-- Exact quotation-to-statement connection, with every original branch,
 load, cast, dot option, explicit add and store present. No semantic premise. -/
 theorem quoted (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :
-    kernel c scale storeFlag ifcond = .mk ["q","k","v","h","o"] []
+    kernel c scale storeFlag ifcond = .mk ["q","k","v"] ["h","o"]
       (code c scale storeFlag ifcond) := rfl
 
 #axiomsClean quoted

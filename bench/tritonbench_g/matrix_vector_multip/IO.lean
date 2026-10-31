@@ -10,7 +10,7 @@ set_option maxHeartbeats 6000000
 set_option maxRecDepth 24000
 
 abbrev channels (N M : Nat) : List IOChannel :=
-  [⟨.fp32, [N, M], "A"⟩, ⟨.fp32, [M], "B"⟩]
+  [⟨.real, [N, M], "A"⟩, ⟨.real, [M], "B"⟩]
 abbrev Inputs (α : Type) (N M : Nat) := ChannelValues α (channels N M)
 
 def matrixValues {α : Type} [Inhabited α] {N M : Nat}
@@ -37,7 +37,7 @@ It retains the entire matrix/vector inputs and the one program's output rows. -/
 abbrev io {α β : Type} (A : Algebra β) (N M BN BM pid : Nat)
     (encode : α → β) (observe : β → α) : ProgramIO α β where
   inputs := channels N M
-  outputs := [⟨.fp32, [BN], "C"⟩]
+  outputs := [⟨.real, [BN], "C"⟩]
   scratch := []
   buffers := ["A", "B", "C"]
   read := inputRead N M
@@ -52,7 +52,7 @@ abbrev io {α β : Type} (A : Algebra β) (N M BN BM pid : Nat)
 
 /-- A single logical result vector in the public typed output channel. -/
 def outputValues {α : Type} {BN : Nat} (f : Fin BN → α) :
-    ChannelValues α [⟨.fp32, [BN], "C"⟩] :=
+    ChannelValues α [⟨.real, [BN], "C"⟩] :=
   Fin.cases (fun i => f i.1) (fun i => i.elim0)
 
 end
@@ -78,7 +78,7 @@ def logicalInputs (N M : Nat) :
 
 /-- The complete original BN output tile; its active row mask remains in core IO. -/
 def logicalOutputs (BN : Nat) :
-    ChannelValues ℝ [⟨.fp32,[BN],"C"⟩] ≃ (Fin BN → ℝ) where
+    ChannelValues ℝ [⟨.real,[BN],"C"⟩] ≃ (Fin BN → ℝ) where
   toFun := fun ys row => ys 0 (row,PUnit.unit)
   invFun := outputValues
   left_inv := by

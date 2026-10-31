@@ -21,7 +21,7 @@ theorem real_reference (p : Core.Parameters) (initial : State ℝ)
   intro k hk
   simp only [Core.realProduct, ha r k hr hk, hb k c hk hc]
 
-#specNonCircular Reference.real avoiding [Core.grid,Core.source,FP.Structural.exec]
+#specNonCircular Reference.real avoiding [Core.source,FP.Structural.exec]
 #axiomsClean real_reference
 end
 end VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.KernelInputs

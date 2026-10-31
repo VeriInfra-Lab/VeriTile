@@ -297,7 +297,4 @@ def kernel (version : Bool) (r : Request) : ComputeKernel :=
   | .int4 => QuantSource.kernel4 version (parameters r)
   | .int8 => QuantSource.kernel8 version (parameters r)
 
-def original := kernel Bool.false
-def candidate := kernel Bool.true
-
 end VeriTile.Bench.Repairs.KvCacheFilling.Shared

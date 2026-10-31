@@ -26,7 +26,7 @@ theorem prologue_run [Inhabited Word] (rest : Algebra Word) (cfg : FP.Config) (D
     (p : Parameters) (s : State Word) :
     ∃ t, run (backend rest cfg D F) (prologue p) s=some t ∧
       Ready p s t (fun _ => FP.Value.zero .fp32) := by
-  simp [prologue,source,typed,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [prologue,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,backend,
     SgmvExpandSlice.FPValue.backend,LoraExpandGemv.FPValue.backend]
@@ -40,7 +40,7 @@ theorem body_run [Inhabited Word] (rest : Algebra Word) (cfg : FP.Config) (D : D
     ∃ u, run (backend rest cfg D F) (body g p) (t.setReg "k" .nat [] (fun _ => cur))=some u ∧
       Ready p s u (update cfg D F g p s cur a) := by
   cases g <;>
-    simp [body,source,typed,fusedTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    simp [body,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
       integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,
       h.mem,h.pids,h.undef,h.pm,h.pn,h.offk,h.aptr,h.bptr,h.acc,backend,
@@ -70,7 +70,7 @@ theorem loop_run [Inhabited Word] (rest : Algebra Word) (cfg : FP.Config) (D : D
 theorem suffix_run [Inhabited Word] (rest : Algebra Word) (cfg : FP.Config) (D : Dot) (F : DotAcc)
     (p : Parameters) (s t : State Word) (a : Accumulator p) (h : Ready p s t a) :
     ∃ u, run (backend rest cfg D F) (suffix p) t=some u ∧ u.mem=(written cfg p s a).mem := by
-  simp [suffix,source,typed,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [suffix,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     Region.cast,ofFloat,toFloat,State.setReg,store,h.mem,h.pids,h.undef,h.pm,h.pn,h.offk,h.aptr,h.bptr,h.acc,
     backend,SgmvExpandSlice.FPValue.backend,LoraExpandGemv.FPValue.backend,LoraExpandGemv.FPValue.formatOf]

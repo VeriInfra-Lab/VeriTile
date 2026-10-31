@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_recurrent_delta.Proofs.LiteralSource
+import bench.tritonbench_g.fused_recurrent_delta.Proofs.ScalarView
 import bench.tritonbench_g.fused_recurrent_delta.GeometrySource
 import VeriTile.Triton.Float.Control
 import VeriTile.Triton.Float.ProfiledRewrite

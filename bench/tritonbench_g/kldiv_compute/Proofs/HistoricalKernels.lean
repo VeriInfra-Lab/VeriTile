@@ -15,7 +15,7 @@ end VeriTile.Bench.Repairs.KldivCompute
 
 namespace VeriTile.Bench.Repairs.KldivCompute.Contiguous
 open VeriTile.Triton
-abbrev kernel := VeriTile.Bench.TritonBenchG.KldivCompute.kldivergence_kernel
+
 def blockSize : Nat := 1024
 def gridCount (n : Nat) : Nat := (n+1023)/1024
 noncomputable def mathematical (x y : ℝ) : ℝ := x * Real.log (x/y)

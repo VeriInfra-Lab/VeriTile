@@ -16,52 +16,6 @@ structure Parameters where
   (rows columns inputRowStride inputColumnStride outputRowStride outputColumnStride scaleStride
     blockRows blockColumns steps : Nat)
 
-def source (p : Parameters) : ComputeKernel :=
-  let fpa_ptr := p.input
-  let a_ptr : Region .int := p.output
-  let as_ptr := p.scales
-  triton {
-  tl.region fpa_ptr = tl.float32, a_ptr = tl.int8, as_ptr = tl.float16
-  pid_m = tl.program_id(0)
-  offs_k = tl.arange(0, $(p.blockColumns))
-  offs_am = (pid_m * $(p.blockRows) + tl.arange(0, $(p.blockRows))) % $(p.rows)
-  fpa_ptrs = fpa_ptr + offs_am[:, None] * $(p.inputRowStride) + offs_k[None, :] * $(p.inputColumnStride)
-  a_ptrs = a_ptr + offs_am[:, None] * $(p.outputRowStride) + offs_k[None, :] * $(p.outputColumnStride)
-  a_max = tl.zeros([$(p.blockRows)], dtype=tl.float32)
-  for k in range($(0), $(p.steps), $(1)) {
-    fpa = tl.load(fpa_ptrs, mask=offs_k[None, :] < $(p.columns) - k * $(p.blockColumns), other=0.0)
-    a_max = tl.maximum(a_max, tl.max(tl.abs(fpa), axis=1))
-    fpa_ptrs += $(p.blockColumns) * $(p.inputColumnStride)
-  }
-  a_scale = (a_max / 127.0)
-  fpa_ptrs = fpa_ptr + offs_am[:, None] * $(p.inputRowStride) + offs_k[None, :] * $(p.inputColumnStride)
-  for k in range($(0), $(p.steps), $(1)) {
-    fpa = tl.load(fpa_ptrs, mask=offs_k[None, :] < $(p.columns) - k * $(p.blockColumns), other=0.0)
-    inta = (fpa / a_scale[:, None]).to(tl.int8)
-    tl.store(a_ptrs, inta, mask=offs_k[None, :] < $(p.columns) - k * $(p.blockColumns))
-    fpa_ptrs += $(p.blockColumns) * $(p.inputColumnStride)
-    a_ptrs += $(p.blockColumns) * $(p.outputColumnStride)
-  }
-  as_offs = pid_m * $(p.blockRows) * $(p.scaleStride) + tl.arange(0, $(p.blockRows))
-  tl.store(as_ptr + as_offs, a_scale.to(tl.float16))
-}
-
-def prelude (p : Parameters) := (source p).surfaceBody.take 6
-
-def firstBody (p : Parameters) : List ComputeStmt :=
-  match (source p).surfaceBody[6]? with | some (ComputeStmt.forRange _ _ _ _ b) => b | _ => []
-
-def middle (p : Parameters) := ((source p).surfaceBody.drop 7).take 2
-
-def secondBody (p : Parameters) : List ComputeStmt :=
-  match (source p).surfaceBody[9]? with | some (ComputeStmt.forRange _ _ _ _ b) => b | _ => []
-
-def epilogue (p : Parameters) := (source p).surfaceBody.drop 10
-
-def source_decomposition (p : Parameters) : (source p).surfaceBody =
-    prelude p ++ [.forRange "k" 0 p.steps 1 (firstBody p)] ++ middle p ++
-      [.forRange "k" 0 p.steps 1 (secondBody p)] ++ epilogue p := by rfl
-
 /-- Explicit software maximum-number profile for the pointwise maximum.
 A single NaN is suppressed, both NaNs return the canonical fp32 quiet NaN,
 and equal ordered values select the right operand. The last two choices
@@ -117,6 +71,5 @@ def InputDefined (cfg : FP.Config) (p : Parameters) (s : State Word) : Prop :=
 def scaleOffset (p : Parameters) (s : State Word) (i : Fin p.blockRows) : Nat :=
   s.pids 0 * p.blockRows * p.scaleStride + i.val
 
-#axiomsClean source_decomposition
 end
 end VeriTile.Bench.TritonBenchG.Int8MatmulQuantization.FPQuantize

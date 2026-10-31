@@ -30,41 +30,6 @@ theorem padded_agrees (M : Algebra α) (h : Call) (a b : Fin h.block → α)
   · simp [FPReference.padded,hi,agree j hi]
   · simp [FPReference.padded,hi]
 
-theorem forward {β : Type} (M : Algebra α) (h : Call) (storage : Placement h .forward)
-    (tensors : RegionName → VeriTile.Torch.TensorMetadata) (binding : Binding h .forward storage tensors)
-    (heap : Nat → β) (decode : (Fin 4 → β) → Cell α) (other : Cell α)
-    (logical : RegionName → Nat → α) (reads : ReadLaw .forward tensors heap decode (Cell.read .real) logical) :
-    let initial:=lift storage heap decode other
-    ∃ final,FPGridForward.run M h initial=some final ∧
-      (∀ i : Fin h.rows,∀ j : Fin h.cols,final ("y",i.val*h.cols+j.val)=forwardReference M h logical i j) ∧
-      (∀ i : Fin h.rows,final ("r",i.val)=savedReference M h logical i) ∧
-      Frame h .forward initial final := by
-  dsimp only
-  let initial:=lift storage heap decode other
-  have lr:=logical_read h .forward storage tensors binding heap decode (Cell.read .real) logical reads other
-  obtain ⟨final,run,values,frame⟩:=FPGridForward.complete M h initial
-  have xr (i : Fin h.rows) : FPReference.padded M h (FPMemory.raw h (entry initial i.val h.rows) "x" h.cols)=
-      FPReference.padded M h (row h logical "x" i) := by
-    apply padded_agrees
-    intro j hj
-    apply lr "x" (by simp [inputs])
-    simpa [cells] using Native.offset_bound h i.val j.val i.isLt hj
-  have wr (i : Fin h.rows) : FPReference.padded M h (FPMemory.raw h (entry initial i.val h.rows) "w" 0)=
-      FPReference.padded M h (weight h logical) := by
-    apply padded_agrees
-    intro j hj
-    simpa [FPMemory.raw,entry,weight] using lr "w" (by simp [inputs]) j.val (by simpa [cells] using hj)
-  refine ⟨final,run,?_,?_,forward_frame h initial final frame⟩
-  · intro i j
-    have value:=values i (.inl j)
-    simp only [FPGridForward.expected,forwardReference,FPReference.output,FPReference.normalized,
-      FPReference.inv,FPReference.input,xr,wr] at value ⊢
-    exact value
-  · intro i
-    have value:=values i (.inr ())
-    simp only [FPGridForward.expected,savedReference,FPReference.savedInv,FPReference.inv,FPReference.input,xr] at value ⊢
-    exact value
-
 /-- Each launch has its own algebra: dW can require split mul/add while dX
 retains the compiler-selected contraction structure. -/
 def sequence (W X : Algebra α) (h : Call) (initial : FPGridForward.Heap α) : Option (FPGridForward.Heap α) :=
@@ -173,7 +138,6 @@ theorem backward {β : Type} (W X : Algebra α) (h : Call) (zero : Cell α) (sto
     · intro i hi
       exact lr "r" (by simp [inputs]) i (by simpa [cells] using hi)
 
-#axiomsClean forward
 #axiomsClean backward
 #specNonCircular forwardReference avoiding [FP.Structural.exec,Kernels.forward,Kernels.backward,Kernels.weightBackward]
 #specNonCircular inputReference avoiding [FP.Structural.exec,Kernels.forward,Kernels.backward,Kernels.weightBackward]

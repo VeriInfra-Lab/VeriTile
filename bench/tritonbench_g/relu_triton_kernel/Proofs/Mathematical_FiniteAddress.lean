@@ -1,3 +1,4 @@
+import bench.tritonbench_g.relu_triton_kernel.Kernels
 import bench.tritonbench_g.relu_triton_kernel.Proofs.Mathematical_WordGrid
 
 /-! Fixed-1024 ReLU index arithmetic on an explicit nonnegative signed-i32
@@ -94,7 +95,7 @@ theorem offset_sign_extend (N pid lane : Nat) (domain : IndexDomain N)
   exact BitVec.toInt_ofInt_eq_self (w := 64) (n := (offset pid lane : Nat))
     (by decide) (by omega) (by unfold indexLimit at bound; norm_num; omega)
 
-#specNonCircular mask32 avoiding [TypedValue.source, runGrid, FP.Structural.exec]
+#specNonCircular mask32 avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel,runGrid,FP.Structural.exec]
 #axiomsClean padded_extent_le
 #axiomsClean lane_bound
 #axiomsClean pid_bound

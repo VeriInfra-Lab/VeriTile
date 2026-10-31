@@ -33,7 +33,10 @@ theorem prelude_safe (M : Algebra α) (p : Parameters)
     Safety.traceSafeList (backend M) bounds (prelude p) s := by
   apply PureSafety.trace
   intro st member current
-  dsimp only [prelude,original,int_scaled_matmul_matmul_surface,ComputeKernel.surfaceBody,List.take] at member
+  dsimp only [prelude,original,int_scaled_matmul_matmul_surface,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,List.take] at member
   simp only [List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with (rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl)
   all_goals simp [Safety.stepSafe,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
@@ -53,16 +56,22 @@ theorem body_safe (M : Algebra α) (p : Parameters)
     intro s
     apply PureSafety.trace
     intro st member current
-    simp [body,originalBody,original,int_scaled_matmul_matmul_surface,widths,ComputeKernel.surfaceBody] at member
+    simp [body,originalBody,original,int_scaled_matmul_matmul_surface,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+      VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+      VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+      VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+      List.mem_cons,List.not_mem_nil,or_false] at member
     rcases member with (rfl | rfl | rfl)
     all_goals simp [Safety.stepSafe,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
   rw [← List.take_append_drop 2 (body p),Safety.traceSafeList_append]
   refine ⟨?_,fun s _=>tail s⟩
-  simp [body,originalBody,original,int_scaled_matmul_matmul_surface,widths,
-    ComputeKernel.surfaceBody,singleton_safe,Safety.traceSafeList,Safety.stepSafe,
+  simp [body,originalBody,original,int_scaled_matmul_matmul_surface,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,singleton_safe,Safety.traceSafeList,Safety.stepSafe,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress,
     Safety.safeMask,Safety.addressSafe,Safety.maskActive,
-    FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,eval_intToSigned,
+    FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,FP.Structural.eval_intToSigned,
     numeric,bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
     FloatDType.numericDType,FloatDType.toTileDType,Region.cast,Option.bind,
     integralFloorDiv,integralMod,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -81,7 +90,10 @@ theorem epilogue_safe (M : Algebra α) (p : Parameters)
     (ho : ∀ r c,r<p.rows → c<p.columns →
       r*p.outputRowStride+c*p.outputColumnStride<bounds p.output) :
     Safety.traceSafeList (backend M) bounds (epilogue p) current := by
-  simp [epilogue,original,int_scaled_matmul_matmul_surface,ComputeKernel.surfaceBody,
+  simp [epilogue,original,int_scaled_matmul_matmul_surface,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
     singleton_safe,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,FP.Structural.step,evalExpr,evalComputeOp,

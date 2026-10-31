@@ -18,10 +18,10 @@ theorem kernel_run [Inhabited α] (op : Ops α) (p : Parameters) (s : State α) 
     ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
     FP.Structural.evalExpr, FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
     FP.Structural.store, FP.Structural.numeric, FP.Structural.bop, FP.Structural.natLt,
-    FP.Structural.numericEq, backend, ComputeDType.eraseDType, FP.Structural.ofFloat,
+    FP.Structural.numericEq, FP.Structural.numericLt, backend, ComputeDType.eraseDType, FP.Structural.ofFloat,
     FP.Structural.toFloat, Region.cast, Option.bind, TileShape.axisDim]
   congr 2
-  simp only [State.setReg]
+  try simp only [State.setReg]
   congr 1
   funext d sh name
   by_cases ho : name="o_ptrs"

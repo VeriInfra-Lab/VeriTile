@@ -4,8 +4,7 @@ import VeriTile.Meta.StatementAudit
 
 /-! Real correctness of the direct reference and conditional optimization.
 Both sources are in Kernels.lean and retain their bf16 store; their mathematical
-interpretation erases dtype. Auxiliary lemmas are in Proofs/Real.lean.
-The historical max-shifted version is checked separately in Proofs/LegacyCorrect.lean. -/
+interpretation erases dtype. Auxiliary lemmas are in Proofs/Real.lean. -/
 
 namespace VeriTile.Bench.Examples.StableLogSumExpCorrect
 open VeriTile.Bench.Examples.StableLogSumExp.Kernels

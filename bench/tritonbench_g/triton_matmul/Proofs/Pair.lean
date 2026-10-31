@@ -1,69 +1,78 @@
 import bench.tritonbench_g.triton_matmul.PairIO
-import bench.tritonbench_g.triton_matmul.CandidateKernels
 import bench.tritonbench_g.triton_matmul.Proofs.PublicIO
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
-
+import bench.tritonbench_g.triton_matmul.CandidateKernels
+import bench.tritonbench_g.triton_matmul.Proofs.SourceDecomposition
+import VeriTile.Triton.Float.Integer
+import VeriTile.Triton.Float.StructuralSafety
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.Pair
-open VeriTile Triton FP.Structural FPValue
+open VeriTile.Triton FP.Structural
+open VeriTile.Bench.TritonBenchG.TritonMatmul.FPValue
+open VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source
 noncomputable section
-set_option maxHeartbeats 500000
-set_option maxRecDepth 32000
 local instance : Inhabited Word := ⟨FP.Value.zero .fp32⟩
+set_option maxRecDepth 32000
+set_option maxHeartbeats 1000000
+set_option linter.unusedSimpArgs false
 
-def before (p : Parameters) (st : Storage) := (Source.typed p st).surfaceBody.take 3
-def after (p : Parameters) (st : Storage) := (Source.typed p st).surfaceBody.drop 4
+abbrev candidate := VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.typed
+
+def before (p : Parameters) (st : Storage) := (typed p st).surfaceBody.take 16
+def after (p : Parameters) (st : Storage) := (typed p st).surfaceBody.drop 17
 def originalSite (p : Parameters) (st : Storage) :=
-  ((Source.typed p st).surfaceBody[3]? : Option ComputeStmt).getD (.effectMarker "unreachable")
+  ((typed p st).surfaceBody[16]? : Option ComputeStmt).getD (.effectMarker "unreachable")
 def shiftedSite (p : Parameters) (st : Storage) :=
-  ((CandidateSource.typed p st).surfaceBody[3]? : Option ComputeStmt).getD (.effectMarker "unreachable")
+  ((candidate p st).surfaceBody[16]? : Option ComputeStmt).getD (.effectMarker "unreachable")
 
 theorem original_code (p : Parameters) (st : Storage) :
-    (Source.typed p st).surfaceBody = before p st ++ originalSite p st :: after p st := rfl
+    (typed p st).surfaceBody=before p st++originalSite p st::after p st := by
+  cases st <;> rfl
 
 theorem shifted_code (p : Parameters) (st : Storage) :
-    (CandidateSource.typed p st).surfaceBody = before p st ++ shiftedSite p st :: after p st := rfl
+    (candidate p st).surfaceBody=before p st++shiftedSite p st::after p st := by
+  cases st <;> by_cases hg : p.GROUP_SIZE_M=8 <;> simp only [candidate,CandidateSource.typed,shiftedSite,before,after,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.rawBody,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawBody,dtype,hg,↓reduceIte] <;> rfl
 
 theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (st : Storage) (s : State α) :
-    step M (originalSite p st) s = step M (shiftedSite p st) s := by
-  simp only [originalSite,shiftedSite,Source.typed,CandidateSource.typed,
-    ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
-  by_cases hg : p.GROUP_SIZE_M=8
-  all_goals simp only [hg,decide_true,decide_false]
-  all_goals simp only [step, FP.Structural.run, evalExpr, evalOp_unfold]
-  all_goals cases hr : s.regs .nat [] "num_pid_n"
-  all_goals simp [FP.Structural.run,step,evalExpr,evalOp_unfold,hr,hg,numeric,FP.Structural.bop,
-    Nat.shiftLeft_eq,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm]
+    step M (originalSite p st) s=step M (shiftedSite p st) s := by
+  cases st <;> by_cases hg:p.GROUP_SIZE_M=8
+  all_goals simp only [originalSite,shiftedSite,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,candidate,CandidateSource.typed,
+    VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawBody,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.rawBody,dtype,hg,↓reduceIte,
+    ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,
+    List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
+  all_goals try rfl
+  all_goals cases hr:s.regs .int [] "num_pid_n"
+  all_goals simp [step,stepAlg,run,evalExpr,evalOp_unfold,hr,numeric,bop,
+    Broadcast.leftIndex,Broadcast.rightIndex,Int.mul_comm]
+
   all_goals unfold FP.Structural.bop
   all_goals congr 1
   all_goals funext i
-  all_goals simp [Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm]
+  all_goals simp [Broadcast.leftIndex,Broadcast.rightIndex,Int.mul_comm]
 
-theorem site_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionName → Nat)
+theorem site_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionName→Nat)
     (p : Parameters) (st : Storage) (s : State α) :
-    Safety.stepSafe M bounds (originalSite p st) s ∧
-      Safety.stepSafe M bounds (shiftedSite p st) s := by
-  simp only [originalSite,shiftedSite,Source.typed,CandidateSource.typed,
-    ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
-  by_cases hg : p.GROUP_SIZE_M=8
-  all_goals simp only [hg,decide_true,decide_false,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
-    Safety.safeOp_unfold,Safety.traceSafeList_cons,Safety.traceSafeList_nil,evalOp_unfold,
-    implies_true,and_true,true_and,Bool.false_eq_true,if_true,if_false]
+    Safety.stepSafe M bounds (originalSite p st) s ∧ Safety.stepSafe M bounds (shiftedSite p st) s := by
+  cases st <;> by_cases hg:p.GROUP_SIZE_M=8
+  all_goals simp only [originalSite,shiftedSite,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,candidate,CandidateSource.typed,
+    VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawBody,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.rawBody,dtype,hg,↓reduceIte,
+    ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,
+    List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
+  all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold,
+    Safety.safeCompute,evalOp_unfold]
 
-theorem run_cons {α : Type} [Inhabited α] (M : Algebra α)
-    (st : ComputeStmt) (rest : List ComputeStmt) (s : State α) :
-    FP.Structural.run M (st::rest) s = (step M st s).bind (FP.Structural.run M rest) := by rw [FP.Structural.run]; rfl
+#axiomsClean site_safe
 
 theorem kernel_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (st : Storage) (s : State α) :
-    exec M (Source.typed p st) s = exec M (CandidateSource.typed p st) s := by
-  change FP.Structural.run M (Source.typed p st).surfaceBody s = FP.Structural.run M (CandidateSource.typed p st).surfaceBody s
+    exec M (typed p st) s=exec M (candidate p st) s := by
+  change run M (typed p st).surfaceBody s=run M (candidate p st).surfaceBody s
   rw [original_code,shifted_code,run_append,run_append]
-  apply congrArg (fun f => (FP.Structural.run M (before p st) s).bind f)
+  apply congrArg (fun f=>(run M (before p st) s).bind f)
   funext t
-  rw [run_cons,run_cons,site_run]
+  simp only [run,site_run]
 
-theorem kernel_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionName → Nat)
+theorem kernel_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionName→Nat)
     (p : Parameters) (st : Storage) (s : State α) :
-    TraceSafe M bounds (Source.typed p st) s ↔ TraceSafe M bounds (CandidateSource.typed p st) s := by
+    TraceSafe M bounds (typed p st) s ↔ TraceSafe M bounds (candidate p st) s := by
   unfold TraceSafe
   rw [original_code,shifted_code,Safety.traceSafeList_append,Safety.traceSafeList_append]
   apply and_congr_right
@@ -127,5 +136,14 @@ theorem equivalent (rest : Algebra Word) (I : Native.Instructions) (g : Geometry
     rfl
 
 #axiomsClean equivalent
+
+#axiomsClean kernel_safe
+
+#axiomsClean kernel_run
+
+#axiomsClean site_run
+
+#axiomsClean original_code
+#axiomsClean shifted_code
 end
 end VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.Pair

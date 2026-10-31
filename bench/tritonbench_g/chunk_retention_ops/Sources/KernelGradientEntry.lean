@@ -15,7 +15,7 @@ structure GradientReady (p : Parameters) (pid : PID) (heads : Nat) (input : Memo
   inputs : GradientInputs s.mem input
   ik : s.regs .nat [] "i_k"=some (fun _ => pid.x)
   it : s.regs .nat [] "i_t"=some (fun _ => pid.y)
-  bh : s.regs .nat [] "i_bh"=some (fun _ => pid.z)
+  bh : s.regs .int [] "i_bh"=some (fun _ => (pid.z:Int))
   nh : s.regs .int [] "n_bh"=some (fun _ => (heads:Int))
 
 structure GradientFixed (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (pid : PID)

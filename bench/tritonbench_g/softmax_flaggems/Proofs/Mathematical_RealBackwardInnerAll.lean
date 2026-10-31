@@ -1,5 +1,12 @@
-import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealBackwardInnerOneTileFlat
-import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealBackwardInnerFlat
+import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealBackwardInnerOneTileIO
+import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealBackwardInnerInitialize
+import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealBackwardInnerWriteback
+import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealLoopSafety
+import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealTrace
+import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealProjection
+import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealCandidate
+import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealFlatFrame
+import VeriTile.Triton.Memory.KernelCore
 import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_RealBackwardInnerFormula
 
 namespace VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.RealBackwardInner
@@ -18,42 +25,6 @@ def IOResult (s final : BlockState) (P G Y : RegionName) (M N B C : Nat) (one : 
         expected s P G M N (paddedLength one N B) (s.pids 0*C+r) n) ∧
     final.pids=s.pids ∧ final.numPids=s.numPids ∧ final.undef=s.undef
 
-theorem original_all_io (storage : Storage) (s : BlockState) (P G Y : RegionName)
-    (M N B C : Nat) (one : Bool) (h : ExecutionDomain one P G Y N B) :
-    ∃ final, exec (softmax_backward_kernel_inner storage P G Y M N C B one).eraseDType.toAlgKernel s = some final ∧
-      IOResult s final P G Y M N B C one := by
-  cases one
-  · obtain ⟨hN,hB,hPY,hGY⟩ := h
-    exact original_io storage s P G Y M N B C hN hB hPY hGY
-  · exact one_original_io storage s P G Y M N B C h
-
-theorem candidate_all_io (storage : Storage) (s : BlockState) (P G Y : RegionName)
-    (M N B C : Nat) (one : Bool) (h : ExecutionDomain one P G Y N B) :
-    ∃ final, exec (softmax_backward_kernel_inner_candidate storage P G Y M N C B one).eraseDType.toAlgKernel s = some final ∧
-      IOResult s final P G Y M N B C one := by
-  rw [←candidate_exec]
-  exact original_all_io storage s P G Y M N B C one h
-
-theorem original_all_safe (storage : Storage) (bounds : RegionBounds) (s : BlockState)
-    (P G Y : RegionName) (M N B C : Nat) (one : Bool)
-    (h : ExecutionDomain one P G Y N B)
-    (hP : M*N≤bounds P) (hG : M*N≤bounds G) (hY : M*N≤bounds Y) :
-    (softmax_backward_kernel_inner storage P G Y M N C B one).eraseDType.toAlgKernel.TraceSafe bounds s := by
-  cases one
-  · obtain ⟨hN,hB,hPY,hGY⟩ := h
-    exact original_safe storage bounds s P G Y M N B C hN hB hPY hGY hP hG hY
-  · exact one_original_safe storage bounds s P G Y M N B C hP hG hY
-
-theorem candidate_all_safe (storage : Storage) (bounds : RegionBounds) (s : BlockState)
-    (P G Y : RegionName) (M N B C : Nat) (one : Bool)
-    (h : ExecutionDomain one P G Y N B)
-    (hP : M*N≤bounds P) (hG : M*N≤bounds G) (hY : M*N≤bounds Y) :
-    (softmax_backward_kernel_inner_candidate storage P G Y M N C B one).eraseDType.toAlgKernel.TraceSafe bounds s := by
-  cases one
-  · obtain ⟨hN,hB,hPY,hGY⟩ := h
-    exact candidate_safe storage bounds s P G Y M N B C hN hB hPY hGY hP hG hY
-  · exact one_candidate_safe storage bounds s P G Y M N B C hP hG hY
-
 def FlatIOResult (A : FlatAlloc) (s final : BlockState) (P G Y : RegionName)
     (M N B C : Nat) (one : Bool) : Prop :=
   BlockState.WriteWithin
@@ -62,30 +33,6 @@ def FlatIOResult (A : FlatAlloc) (s final : BlockState) (P G Y : RegionName)
     ∀ r n, r<C → s.pids 0*C+r<M → n<N →
       final.readMem A.flat (A.addr Y (offset N (s.pids 0*C+r) n)) =
         expected s P G M N (paddedLength one N B) (s.pids 0*C+r) n
-
-theorem original_all_flat_io (storage : Storage) (A : FlatAlloc) (hd : A.Disjoint)
-    (hcov : ∀ r, r ∉ A.regions → A.extent r=0) (s : BlockState) (P G Y : RegionName)
-    (M N B C : Nat) (one : Bool) (h : ExecutionDomain one P G Y N B)
-    (hP : M*N≤A.extent P) (hG : M*N≤A.extent G) (hY : M*N≤A.extent Y)
-    (hYr : Y∈A.regions) (hu : s.undef=fun _ _ ↦ 0) :
-    ∃ final, exec (A.flattenKernel
-        (softmax_backward_kernel_inner storage P G Y M N C B one).eraseDType.toAlgKernel)
-        (A.flattenState s) = some final ∧ FlatIOResult A s final P G Y M N B C one := by
-  cases one
-  · obtain ⟨hN,hB,hPY,hGY⟩ := h
-    exact original_flat_io storage A hd hcov s P G Y M N B C hN hB hPY hGY hP hG hY hYr hu
-  · exact one_original_flat_io storage A hd hcov s P G Y M N B C h hP hG hY hYr hu
-
-theorem candidate_all_flat_io (storage : Storage) (A : FlatAlloc) (hd : A.Disjoint)
-    (hcov : ∀ r, r ∉ A.regions → A.extent r=0) (s : BlockState) (P G Y : RegionName)
-    (M N B C : Nat) (one : Bool) (h : ExecutionDomain one P G Y N B)
-    (hP : M*N≤A.extent P) (hG : M*N≤A.extent G) (hY : M*N≤A.extent Y)
-    (hYr : Y∈A.regions) (hu : s.undef=fun _ _ ↦ 0) :
-    ∃ final, exec (A.flattenKernel
-        (softmax_backward_kernel_inner_candidate storage P G Y M N C B one).eraseDType.toAlgKernel)
-        (A.flattenState s) = some final ∧ FlatIOResult A s final P G Y M N B C one := by
-  rw [←RealCandidate.backward_inner_flat_exec]
-  exact original_all_flat_io storage A hd hcov s P G Y M N B C one h hP hG hY hYr hu
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

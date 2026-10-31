@@ -34,7 +34,7 @@ theorem loop_code_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
     Safety.traceSafeList (engine a) bounds (loopCode fp8 p) t := by
   have safe := range_safe a fp8 p bounds s t 0 (steps p) acc bytes h backed
   cases fp8 <;>
-    simpa [loopCode,KernelSource.loop,kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,arguments,
+    simpa [loopCode,KernelSource.loop,kernel,TypedSource.kernel,TypedSource.source,arguments,
       ComputeKernel.surfaceBody,Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeOp_unfold,
       evalOp_unfold,Option.bind,numeric,bop,integralFloorDiv,integralMod,steps,
       Broadcast.leftIndex,Broadcast.rightIndex] using safe

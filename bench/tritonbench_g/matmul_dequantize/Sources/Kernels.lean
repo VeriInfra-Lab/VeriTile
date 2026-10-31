@@ -4,7 +4,7 @@ namespace VeriTile.Bench.Repairs.MatmulDequantizeWhole001
 open VeriTile.Triton
 noncomputable section
 namespace FPTyped
-abbrev matmul4Typed := VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.matmul4Typed
+
 abbrev dequantTyped := VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.dequantTyped
 def matmulTyped (dtype : FloatDType)
     (a_ptr c_ptr bs_ptr : RegionName) (b_ptr bzp_ptr : RegionName)

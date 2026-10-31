@@ -415,6 +415,12 @@ inductive Op : TileDType → TileShape → Type where
                 (parentShape : List Nat) → (blockShape : TileShape) →
                 (strides : List Nat) → (offsets : List (Op .nat [])) →
                 Op .blockPtr blockShape
+  /-- Block pointer layout operands supplied at runtime, evaluated in source
+  order. Parent/block extents remain static; strides and offsets are genuine
+  scalar expressions, not constants substituted by the caller. -/
+  | makeBlockPtrDynMetadata : (region : RegionName) → (baseOffset : Op .nat []) →
+                (parentShape : List Nat) → (blockShape : TileShape) →
+                (strides offsets : List (Op .nat [])) → Op .blockPtr blockShape
   | advanceBlockPtr : Op .blockPtr shape → (offsetDeltas : List Int) → Op .blockPtr shape
   /-- Runtime signed offsets for `tl.advance`; all coordinates must evaluate. -/
   | advanceBlockPtrDyn : Op .blockPtr shape → List (Op .int []) → Op .blockPtr shape

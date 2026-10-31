@@ -21,7 +21,7 @@ theorem stage1_run (kind : TypedScratch.Kind) (rest : Algebra Value) (s : State 
       ofFloat,toFloat,bop,numeric,numericLt,numericEq,natLt,TileShape.discreteMaximum,
       TileShape.discreteIntArgMax,orderedEq,globalLoaded,firstIndex,firstWritten,Option.bind,
       store,TileShape.allIndices,Region.cast,TypedScratch.channel,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
-  all_goals simp only [State.write,State.setReg_mem]
+  all_goals simp only [← apply_ite (fun n : Nat => (n : Int)), Int.toNat_natCast, State.write,State.setReg_mem]
   all_goals rfl
 
 theorem stage2_run (kind : TypedScratch.Kind) (rest : Algebra Value) (s : State Value)
@@ -36,7 +36,7 @@ theorem stage2_run (kind : TypedScratch.Kind) (rest : Algebra Value) (s : State 
       ofFloat,toFloat,bop,numeric,numericLt,numericEq,natLt,TileShape.discreteMaximum,
       TileShape.discreteIntArgMax,orderedEq,secondIndex,secondWritten,Option.bind,
       store,TileShape.allIndices,Region.cast,TypedScratch.channel,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
-  all_goals simp only [State.write,State.setReg_mem]
+  all_goals simp only [← apply_ite (fun n : Nat => (n : Int)), Int.toNat_natCast, State.write,State.setReg_mem]
   all_goals rfl
 
 

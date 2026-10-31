@@ -32,9 +32,4 @@ def tailBlock (count : Nat) : Nat :=
   else if count ≤ 64 then 64 else if count ≤ 128 then 128
   else if count ≤ 256 then 256 else 512
 
-/-- The actual candidate reuses the same JIT source at a smaller launch
-specialization. FP32 load/add/store order and all active addresses stay fixed. -/
-def adaptiveKernel (p : Launch) : ComputeKernel :=
-  kernel {p with block := tailBlock p.count}
-
 end VeriTile.Bench.Repairs.IndexSelectBwd

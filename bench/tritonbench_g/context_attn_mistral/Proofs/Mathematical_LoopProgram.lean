@@ -99,7 +99,7 @@ def body (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) : List Stmt :
 theorem source (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
     body p r swapped scale = keys p r ++ scores p swapped scale ++ statsCode p ++ normalizerCode p ++ scalesCode p ++ values p r ++ commitCode p := by
   cases swapped
-  all_goals simp only [body,lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.TritonBenchG.ContextAttnMistral.scaleFirst,ComputeKernel.surfaceBody,
+  all_goals simp only [body,lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.TritonBenchG.ContextAttnMistral.scaleFirst,VeriTile.Bench.Repairs.ContextAttnMistralKernel.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageScaleFirst,ComputeKernel.surfaceBody,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
     Source.intRange?,Source.prefixBefore,List.length_cons,List.length_nil,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

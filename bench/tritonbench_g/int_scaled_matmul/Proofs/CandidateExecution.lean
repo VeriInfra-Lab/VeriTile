@@ -74,7 +74,10 @@ def finish (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
     {t : State Word // run (backend rest cfg u) (epilogue p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [epilogue, ScaledWord.epilogue, original, typedScaled, ComputeKernel.surfaceBody,
+  simp [epilogue, ScaledWord.epilogue, original, typedScaled, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     FP.Structural.bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -139,7 +142,10 @@ theorem epilogue_safe (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word 
     (hs : ∀ i : CIndex p,active p initial i → outputRow p initial i*p.scaleRowStride<bounds p.scale)
     (ho : ∀ i : CIndex p,active p initial i → outputOffset p initial i<bounds p.output) :
     Safety.traceSafeList (backend rest cfg u) bounds (epilogue p) current := by
-  simp [epilogue,ScaledWord.epilogue,original,typedScaled,ComputeKernel.surfaceBody,
+  simp [epilogue,ScaledWord.epilogue,original,typedScaled,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
     singleton_safe,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,Safety.precisionContext,

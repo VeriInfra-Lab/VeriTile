@@ -13,40 +13,29 @@ open VeriTile.Triton.TiledReduction.WelfordRec
 open VeriTile.Examples (InputRowLoadedAt onlineWelfordLoopBody)
 open scoped VeriTile.Triton.KernelIO₁ₓ₂
 
+/- Only the current shared source is executable. Mathematical views below are
+its dtype erasure; these local reductions expose that view to execution proofs. -/
+attribute [local simp] ComputeKernel.eraseDType ComputeKernel.toAlgorithm?
+  ComputeKernel.toAlgKernel ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm?
+  ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm?
+  Kernel.eraseDType Stmt.eraseDTypeList Stmt.eraseDType Op.eraseDType.eq_def
+  MemAccess.eraseDType.eq_def MaskOpt.eraseDType.eq_def
+  VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
+  IntegralDType.eraseDType ComputeDType.eraseDType
+attribute [local simp] twopassWelfordKernel onlineWelfordKernel
+
 @[simp] private theorem except_ok_bind {α β ε : Type _} (a : α)
     (f : α → Except ε β) :
     (Except.ok a : Except ε α) >>= f = f a := rfl
 
 /-- Executable real counterpart of the two-pass source. -/
 def twopassMathKernel (xReg meanReg varReg : RegionName)
-    (blockSize rowStride : Nat) : ComputeKernel := triton {
-  pid    := tl.program_id(0)
-  offs   := pid * $(rowStride) + tl.arange($(blockSize))
-  x      := tl.load($(xReg) + offs)
-  s_x    := tl.sum(x)
-  μ      := s_x / tl.toReal($(blockSize))
-  d      := x - μ
-  s_d2   := tl.sum(d * d)
-  v      := s_d2 / tl.toReal($(blockSize))
-  tl.store($(meanReg), μ)
-  tl.store($(varReg), v)
-}
+    (blockSize rowStride : Nat) : ComputeKernel :=
+  (twopassWelfordKernel xReg meanReg varReg blockSize rowStride).eraseDType
 
 def onlineMathKernel (xReg meanReg varReg : RegionName)
-    (blockSize rowStride : Nat) : ComputeKernel := triton {
-  pid := tl.program_id(0)
-  M   := 0
-  S   := 0
-  tl.for i in $(blockSize) {
-    xi     := tl.load($(xReg) + (pid * $(rowStride) + i))
-    delta  := xi - M
-    M      := M + delta / (tl.toReal(i) + 1)
-    delta2 := xi - M
-    S      := S + delta * delta2
-  }
-  tl.store($(meanReg), M)
-  tl.store($(varReg), S / tl.toReal($(blockSize)))
-}
+    (blockSize rowStride : Nat) : ComputeKernel :=
+  (onlineWelfordKernel xReg meanReg varReg blockSize rowStride).eraseDType
 
 variable (rowStride : Nat)
 
@@ -199,28 +188,12 @@ theorem welford_loop_run (N rowStride : Nat) (xReg : RegionName) (s : BlockState
 theorem twopass_projection (xReg meanReg varReg : RegionName) (N stride : Nat) :
     (twopassWelfordKernel xReg meanReg varReg N stride).eraseDType.toAlgorithm? =
       Except.ok (twopassMathKernel xReg meanReg varReg N stride).toAlgKernel := by
-  simp [twopassWelfordKernel, twopassMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
-  repeat' apply And.intro
-  all_goals
-    rw [Op.eraseDType.eq_def]
-    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
+  simp [twopassMathKernel, onlineMathKernel]
 
 theorem online_projection (xReg meanReg varReg : RegionName) (N stride : Nat) :
     (onlineWelfordKernel xReg meanReg varReg N stride).eraseDType.toAlgorithm? =
       Except.ok (onlineMathKernel xReg meanReg varReg N stride).toAlgKernel := by
-  simp [onlineWelfordKernel, onlineMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
-  repeat' apply And.intro
-  all_goals
-    rw [Op.eraseDType.eq_def]
-    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
+  simp [twopassMathKernel, onlineMathKernel]
 
 /-- Direct mean/variance computation, including the totalized empty-row case. -/
 theorem twopass_region_run (N stride : Nat) (s : BlockState) (xs : Fin N → ℝ)
@@ -353,6 +326,7 @@ theorem twopass_traceSafe (bounds : RegionBounds)
       ((twopassMathKernel xReg meanReg varReg blockSize rowStride
         ).toAlgKernel) s := by
   unfold Kernel.TraceSafe
+  try simp only [twopassMathKernel, onlineMathKernel, twopassWelfordKernel, onlineWelfordKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
   intro s1 hs1
   obtain ⟨v1, hv1, rfl⟩ := stepStmt_assign_inv hs1
@@ -395,13 +369,13 @@ theorem twopass_traceSafe (bounds : RegionBounds)
   obtain ⟨v8, hv8, rfl⟩ := stepStmt_assign_inv hs8
   refine Stmt.TraceSafeList.cons_intro ?_ ?_
   · simp only [Stmt.TraceSafe, MemAccess.SafeAt, MaskOpt.SafeAt, Op.SafeAt]
-    exact ⟨trivial, by simp, trivial,
+    exact ⟨trivial, by simp [Op.SafeAt.eq_def], trivial,
       const0_activeAddressSafe  bounds _ _ (Region.cast meanReg)
         (by simpa [Region.cast_self] using hmb)⟩
   intro s9 hs9
   refine Stmt.TraceSafeList.cons_intro ?_ (fun _ _ => .nil_intro)
   simp only [Stmt.TraceSafe, MemAccess.SafeAt, MaskOpt.SafeAt, Op.SafeAt]
-  exact ⟨trivial, by simp, trivial,
+  exact ⟨trivial, by simp [Op.SafeAt.eq_def], trivial,
     const0_activeAddressSafe  bounds _ _ (Region.cast varReg)
       (by simpa [Region.cast_self] using hvb)⟩
 
@@ -498,6 +472,7 @@ theorem online_traceSafe (bounds : RegionBounds)
       ((onlineMathKernel xReg meanReg varReg blockSize rowStride
         ).toAlgKernel) s := by
   unfold Kernel.TraceSafe
+  try simp only [twopassMathKernel, onlineMathKernel, twopassWelfordKernel, onlineWelfordKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
   intro s1 hs1
   obtain ⟨v1, hv1, rfl⟩ := stepStmt_assign_inv hs1
@@ -517,13 +492,13 @@ theorem online_traceSafe (bounds : RegionBounds)
   intro s4 hs4
   refine Stmt.TraceSafeList.cons_intro ?_ ?_
   · simp only [Stmt.TraceSafe, MemAccess.SafeAt, MaskOpt.SafeAt, Op.SafeAt]
-    exact ⟨trivial, by simp, trivial,
+    exact ⟨trivial, by simp [Op.SafeAt.eq_def], trivial,
       const0_activeAddressSafe  bounds _ _ (Region.cast meanReg)
         (by simpa [Region.cast_self] using hmb)⟩
   intro s5 hs5
   refine Stmt.TraceSafeList.cons_intro ?_ (fun _ _ => .nil_intro)
   simp only [Stmt.TraceSafe, MemAccess.SafeAt, MaskOpt.SafeAt, Op.SafeAt]
-  exact ⟨trivial, by simp, trivial,
+  exact ⟨trivial, by simp [Op.SafeAt.eq_def], trivial,
     const0_activeAddressSafe  bounds _ _ (Region.cast varReg)
       (by simpa [Region.cast_self] using hvb)⟩
 

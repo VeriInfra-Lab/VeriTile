@@ -15,7 +15,7 @@ theorem source (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
       prelude p r ++ [loop p r swapped scale] ++ EpilogueProgram.post p r := by
   rw [← prelude_shared p r swapped scale,← EpilogueProgram.shared p r swapped scale]
   cases swapped
-  all_goals simp only [lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.TritonBenchG.ContextAttnFwd.scaleFirst,ComputeKernel.surfaceBody,
+  all_goals simp only [lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.TritonBenchG.ContextAttnFwd.scaleFirst,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.scaleFirst,ComputeKernel.surfaceBody,
     ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,

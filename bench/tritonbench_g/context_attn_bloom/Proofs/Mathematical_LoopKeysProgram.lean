@@ -49,7 +49,7 @@ theorem shared (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
   cases swapped <;> rfl
 
 theorem source (p : Layout) (r : Regions) : keys p r = code p r := by
-  simp only [keys,keyPrefix,lower,parts,mathematical,ComputeKernel.surfaceBody,
+  simp only [keys,keyPrefix,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,ComputeKernel.surfaceBody,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
     Source.intRange?,Source.prefixBefore,List.length_cons,List.length_nil,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.swiglu_triton.Sources.Mathematical_Kernels
 import bench.tritonbench_g.swiglu_triton.Kernels
 import bench.tritonbench_g.swiglu_backward.Proofs.Mathematical_WholeTile
 
@@ -39,7 +40,7 @@ def sourceRun {α : Type} [Inhabited α] (M : Algebra α) (backward : Bool)
     refine ⟨?_, ?_⟩
     swap
     simp (maxSteps := 900000) [directSource, forwardKernel, backwardKernel,
-      typedFwd, typedBwd, typedBwd_fp32_fp32, ComputeKernel.surfaceBody,
+      typedFwd,VeriTile.Bench.Repairs.SwigluTriton.forwardKernel,VeriTile.Bench.Repairs.SwigluTriton.forwardIndexCommuted,VeriTile.Bench.Repairs.SwigluTriton.backwardKernel,VeriTile.Bench.Repairs.SwigluTriton.backwardIndexCommuted, typedBwd, typedBwd_fp32_fp32,VeriTile.Bench.Repairs.SwigluTriton.forwardKernel,VeriTile.Bench.Repairs.SwigluTriton.forwardIndexCommuted,VeriTile.Bench.Repairs.SwigluTriton.backwardKernel,VeriTile.Bench.Repairs.SwigluTriton.backwardIndexCommuted, ComputeKernel.surfaceBody,
       run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
       evalOffsets, evalDeltas, store, Option.bind, ComputeDType.eraseDType,
       numeric, bop, natLt, rowState, ofFloat, toFloat, TileShape.axisDim,

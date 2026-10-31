@@ -46,7 +46,7 @@ theorem program {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Hos
   · rw [Safety.stepSafe]
     constructor
     · cases causal : h.causal <;>
-        simp [branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,causal,
+        simp [branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,causal,
           Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,Safety.safeOp.eq_def]
     · rw [hactive]
       cases act : FPSuccess.active h c s
@@ -76,7 +76,7 @@ theorem program {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Hos
           refine ⟨?_,?_,?_,iterations o h c d 0 bounds prepared hstate bounded ha hb⟩
           all_goals
             cases causal : h.causal <;>
-              simp [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,causal,
+              simp [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,causal,
                 Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,Safety.safeOp.eq_def]
         · exact epilogue o h c d _ bounds terminal hterminal bounded.rowSeq bounded.colSeq bounded.out ha hb
   · intro final _

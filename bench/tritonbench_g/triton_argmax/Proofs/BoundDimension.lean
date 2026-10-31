@@ -47,7 +47,7 @@ def dimCommit {M} (mem : Primitives M) (c : DimConfig) (p : DimMemory.Buffers)
 def DimStep {M} (mem : Primitives M) (rest : Algebra Word) (template : State Word)
     (c : DimConfig) (p : DimMemory.Buffers) (index64 : Bool) (job : Nat × Nat) (before after : M) : Prop :=
   ∃ quoted, FP.Structural.exec (Typed.backend rest)
-      (TypedSource.dimension X O c.outer c.extent c.inner 128 128 0 index64)
+      (JITCall.dimension X O c.outer c.extent c.inner 128 128 0 index64)
       (dimEntry mem p before template (job.1*c.inner+job.2))=some quoted ∧
     after=dimCommit mem c p job quoted before ∧
     (∀ region offset,(region≠Region.cast O ∨ ∀ lane : Fin 128,job.1*128+lane.val<c.outer →

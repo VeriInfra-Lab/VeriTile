@@ -21,7 +21,7 @@ structure Dots {α : Type} (M : Algebra α) (c : Shape) where
   sv_eq : ∀ a b, M.dotWithOptions (some .fp32) {allowTF32 := some Bool.false} (batch := []) a b = some (sv a b)
 
 def parts (c : Shape) (scale : ℝ) : Source.DynamicRange :=
-  (Source.dynamicRange? (kernel c .fp32 .fp32 .fp32 .fp32 scale).surfaceBody "i_k").getD
+  (Source.dynamicRange? (kernel c scale).surfaceBody "i_k").getD
     ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
 
 def Present {α : Type} (s : State α) (d : TileDType) (sh : TileShape) (n : RegName) : Prop :=
@@ -35,7 +35,7 @@ def Holds {α : Type} (c : Shape) (s : State α) : Prop :=
 
 theorem entry {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ) (s : State α) :
     ∃ t, run (engine M) (parts c scale).before s = some t ∧ Holds c t := by
-  simp only [parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp only [parts,kernel,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
   dsimp [fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   simp (config := {maxSteps := 150000}) [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
@@ -47,7 +47,7 @@ theorem iteration {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale
     (d : Dots M c) (n : Nat) (s : State α) (hs : Holds c s) :
     ∃ t, run (engine M) (parts c scale).body (s.setReg "i_k" .nat [] (fun _ => n)) = some t ∧ Holds c t := by
   rcases hs with ⟨⟨bh,hbh⟩,⟨it,hit⟩,⟨rows,hr⟩,⟨cols,hc⟩,⟨mask,hm⟩,⟨bo,ho⟩,⟨bs,hbs⟩⟩
-  simp only [parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp only [parts,kernel,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
   dsimp [fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   simp (config := {maxSteps := 150000}) [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
@@ -73,7 +73,7 @@ theorem finish {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : 
     (d : Dots M c) (s : State α) (hs : Holds c s) :
     ∃ t, run (engine M) (parts c scale).after s = some t := by
   rcases hs with ⟨⟨bh,hbh⟩,⟨it,hit⟩,⟨rows,hr⟩,⟨cols,hc⟩,⟨mask,hm⟩,⟨bo,ho⟩,⟨bs,hbs⟩⟩
-  simp only [parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp only [parts,kernel,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
   dsimp [fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   simp (config := {maxSteps := 150000}) [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
@@ -82,7 +82,7 @@ theorem finish {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : 
     hbh,hit,hr,hc,hm,ho,hbs,d.sv_eq,FP.Structural.store]
 
 theorem source_parts (c : Shape) (scale : ℝ) :
-    (kernel c .fp32 .fp32 .fp32 .fp32 scale).surfaceBody = (parts c scale).before ++
+    (kernel c scale).surfaceBody = (parts c scale).before ++
     [.forRangeDyn "i_k" (parts c scale).start (parts c scale).stop (parts c scale).stride (parts c scale).body] ++
     (parts c scale).after := rfl
 
@@ -91,7 +91,7 @@ opaque, available native dot operations. All memory, casts, address/control
 operations, separate add/multiply and gate arithmetic are executed here. -/
 theorem executes {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ)
     (d : Dots M c) (s : State α) :
-    ∃ t, FP.Structural.exec (engine M) (kernel c .fp32 .fp32 .fp32 .fp32 scale) s = some t := by
+    ∃ t, FP.Structural.exec (engine M) (kernel c scale) s = some t := by
   obtain ⟨u,hu,hi⟩ := entry M c scale s
   obtain ⟨v,hv,hiv⟩ := range_executes M c scale d 0 ((c.K+c.BK-1)/c.BK) u hi
   obtain ⟨t,ht⟩ := finish M c scale d v hiv
@@ -104,7 +104,7 @@ theorem executes {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale 
     simp only [step,ha,hb,hd,evalOp_unfold,numeric,bop,Option.bind,Option.bind_some]
     exact hv
   refine ⟨t,?_⟩
-  change run (engine M) (kernel c .fp32 .fp32 .fp32 .fp32 scale).surfaceBody s = _
+  change run (engine M) (kernel c scale).surfaceBody s = _
   rw [source_parts]
   simp only [List.append_assoc,run_append,hu,Option.bind_some,List.singleton_append]
   rw [run]

@@ -24,7 +24,7 @@ theorem split (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
     (UpdateProgram.sources p r swapped scale).2.1,(UpdateProgram.sources p r swapped scale).2.2.1,
     ValuesProgram.source,(UpdateProgram.sources p r swapped scale).2.2.2]
   cases swapped
-  all_goals simp only [body,lower,parts,mathematical,ComputeKernel.surfaceBody,
+  all_goals simp only [body,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,ComputeKernel.surfaceBody,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
     Source.intRange?,Source.prefixBefore,List.length_cons,List.length_nil,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

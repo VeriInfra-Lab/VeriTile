@@ -82,7 +82,7 @@ def body (p : Layout) (r : Regions) (scale : ℝ) : List Stmt :=
   setup p ++ [loop p r] ++ tail p r scale ++ [store p]
 
 def typed (p : Layout) (r : Regions) (scale : ℝ) : ComputeKernel :=
-  ChunkGlaSimple.source .fp32 .fp32 .fp32 Bool.false .fp32
+  ChunkGlaSimple.source .fp32
     r.query r.key r.value r.history r.gate r.output
     p.keyHead p.keyTime p.valueHead p.valueTime p.historyHead p.historyKey scale
     p.T p.K p.V p.BT p.BK p.BV
@@ -92,7 +92,7 @@ its independent Real interpretation. Unchanged arithmetic statements are
 literally reused from the original program, rather than reproved here. -/
 theorem source_body (p : Layout) (r : Regions) (scale : ℝ) :
     (typed p r scale).eraseDType.toAlgKernel.body = body p r scale := by
-  simp only [typed, ChunkGlaSimple.source, Bool.false_eq_true, ↓reduceIte,
+  simp only [typed, ChunkGlaSimple.source,VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.fp32Original, Bool.false_eq_true, ↓reduceIte,
     ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
     ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.swiglu_triton.Kernels
 /-
 Source-audit target: _swiglu_forward_kernel
 Source-audit Lean: swigluForward%
@@ -83,49 +84,6 @@ set_option maxRecDepth 16000
 open VeriTile.Triton
 open scoped VeriTile.Triton.MaskedKernelIO₂
 open scoped VeriTile.Triton.MaskedKernelIO₃ₓ₂
-
-/-- Faithful transcription of `swiglu_triton.py`'s `_swiglu_forward_kernel`.
-
-Allowed mechanical Lean-syntax-only changes:
-- Python `n_cols: tl.constexpr` / `BLOCK_SIZE: tl.constexpr` -> Lean `Nat`
-  parameters. -/
-def swiglu_forward_kernel
-    (a_ptr b_ptr c_ptr : RegionName) (stride n_cols BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
-  program_id = tl.program_id(0).to(tl.int64)
-  a_ptr += program_id * $(stride)
-  b_ptr += program_id * $(stride)
-  c_ptr += program_id * $(stride)
-  col_offsets = tl.arange(0, $(BLOCK_SIZE))
-  mask = col_offsets < $(n_cols)
-  a_row = tl.load(a_ptr + col_offsets, mask=mask, other=0).to(tl.float32)
-  b_row = tl.load(b_ptr + col_offsets, mask=mask, other=0)
-  c_row = silu(a_row) * b_row
-  tl.store(c_ptr + col_offsets, c_row, mask=mask)
-}
-
-/-- Faithful transcription of `swiglu_triton.py`'s `_swiglu_backward_kernel`.
-
-Allowed mechanical Lean-syntax-only changes match `swiglu_forward_kernel`. -/
-def swiglu_backward_kernel
-    (dc_ptr a_ptr b_ptr : RegionName) (stride n_cols BLOCK_SIZE : Nat) :
-    ComputeKernel := triton {
-  program_id = tl.program_id(0).to(tl.int64)
-  dc_ptr += program_id * $(stride)
-  a_ptr += program_id * $(stride)
-  b_ptr += program_id * $(stride)
-  col_offsets = tl.arange(0, $(BLOCK_SIZE))
-  mask = col_offsets < $(n_cols)
-  dc_row = tl.load(dc_ptr + col_offsets, mask=mask, other=0)
-  a_row = tl.load(a_ptr + col_offsets, mask=mask, other=0).to(tl.float32)
-  b_row = tl.load(b_ptr + col_offsets, mask=mask, other=0)
-  sig_a = tl.sigmoid(a_row)
-  silu_a = a_row * sig_a
-  db_row = dc_row * silu_a
-  da_row = dc_row * (silu_a * (1 - sig_a) + sig_a) * b_row
-  tl.store(a_ptr + col_offsets, da_row, mask=mask)
-  tl.store(b_ptr + col_offsets, db_row, mask=mask)
-}
 
 /-! Storage-specialized full source. The output conversions spell out Triton's
 implicit store conversions; no arithmetic statement is omitted or reordered.
@@ -242,22 +200,19 @@ macro_rules
   $bWrite
 }).surfaceBody)
 
-
 /-- Floating storage choices; output A/C and backward B follow their input buffers. -/
 inductive Storage where
   | fp32 | fp16 | bf16 | fp64 | f8e4 | f8e5
   deriving DecidableEq, Repr
-
-
 
 /-- Complete forward source family with independent input storage. -/
 def typedFwd (storage partner : Storage) (commuted : Bool)
     (a_ptr b_ptr c_ptr : RegionName) (stride n_cols BLOCK_SIZE : Nat) : ComputeKernel :=
   match storage, partner, commuted with
   | .fp32, .fp32, Bool.false =>
-    swigluForward%[tl.float32, tl.float32, original] a_ptr b_ptr c_ptr stride n_cols BLOCK_SIZE
+    VeriTile.Bench.Repairs.SwigluTriton.forwardKernel a_ptr b_ptr c_ptr stride n_cols BLOCK_SIZE
   | .fp32, .fp32, Bool.true =>
-    swigluForward%[tl.float32, tl.float32, commuted] a_ptr b_ptr c_ptr stride n_cols BLOCK_SIZE
+    VeriTile.Bench.Repairs.SwigluTriton.forwardIndexCommuted a_ptr b_ptr c_ptr stride n_cols BLOCK_SIZE
   | .fp32, .fp16, Bool.false =>
     swigluForward%[tl.float32, tl.float16, original] a_ptr b_ptr c_ptr stride n_cols BLOCK_SIZE
   | .fp32, .fp16, Bool.true =>
@@ -404,9 +359,9 @@ def typedBwd_fp32_fp32 (gradient : Storage) (commuted : Bool)
     (dc_ptr a_ptr b_ptr : RegionName) (stride n_cols BLOCK_SIZE : Nat) : ComputeKernel :=
   match gradient, commuted with
   | .fp32, Bool.false =>
-    swigluBackward%[tl.float32, tl.float32, tl.float32, original] dc_ptr a_ptr b_ptr stride n_cols BLOCK_SIZE
+    VeriTile.Bench.Repairs.SwigluTriton.backwardKernel dc_ptr a_ptr b_ptr stride n_cols BLOCK_SIZE
   | .fp32, Bool.true =>
-    swigluBackward%[tl.float32, tl.float32, tl.float32, commuted] dc_ptr a_ptr b_ptr stride n_cols BLOCK_SIZE
+    VeriTile.Bench.Repairs.SwigluTriton.backwardIndexCommuted dc_ptr a_ptr b_ptr stride n_cols BLOCK_SIZE
   | .fp16, Bool.false =>
     swigluBackward%[tl.float32, tl.float32, tl.float16, original] dc_ptr a_ptr b_ptr stride n_cols BLOCK_SIZE
   | .fp16, Bool.true =>

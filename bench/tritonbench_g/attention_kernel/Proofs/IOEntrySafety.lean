@@ -35,9 +35,15 @@ theorem entry_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State �
     · intro i j hi
       change (decide (s.pids 0*bm+i.val<length) && Bool.true)=Bool.true at hi
       simp only [Bool.and_true,decide_eq_true_eq] at hi
+      simp only [source_base_int]
+      simp only [Int.toNat_natCast]
       simpa [base,Nat.add_assoc] using hq _ hi j.val j.isLt
     · intro i j hi
-      simpa [base,Nat.add_assoc] using hbi _ hi (j.val%64+64)
+      have hrow : (s.pids 0:Int)*(bm:Int)+(i.val:Int)<(length:Int) := hi
+      have hn : s.pids 0*bm+i.val<length := (source_row_lt _ _ _ _).mp hrow
+      simp only [source_base_int]
+      rw [source_bias_offset]
+      simpa [base,Nat.add_assoc] using hbi _ hn (j.val%64+64)
         (by have:=Nat.mod_lt j.val (by decide : 0<64);omega)
 
 end

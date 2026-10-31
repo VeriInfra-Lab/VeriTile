@@ -1,3 +1,4 @@
+import bench.tritonbench_g.relu_triton_kernel.Kernels
 import bench.tritonbench_g.relu_triton_kernel.Proofs.Mathematical_FiniteAddress
 
 /-! Byte-scaled finite-address arithmetic, separately from memory semantics.
@@ -100,7 +101,7 @@ theorem separate_byte_ranges (a wa na b wb nb i j u v : Nat)
   have hb := relative_byte_bound wb nb j v hj hv
   rcases separate with h | h <;> omega
 
-#specNonCircular pointer64 avoiding [TypedValue.source, runGrid, FP.Structural.exec]
+#specNonCircular pointer64 avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel,runGrid,FP.Structural.exec]
 #axiomsClean element_bytes_positive
 #axiomsClean element_bytes_width
 #axiomsClean relative_byte_bound

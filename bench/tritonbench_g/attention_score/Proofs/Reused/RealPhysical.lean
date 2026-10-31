@@ -50,7 +50,7 @@ theorem target_logical (c : Shape) (abi : ABI c) (physical : Nat → ℝ) (xs : 
       normalized.normalizer z h ⟨i.val,lt_of_lt_of_le i.isLt c.normalizerCapacity⟩
   simp only [LogicalFormula.weight,hq,hk,hm]
 
-theorem returned (c : Shape) (abi : ABI c) (physical : Nat → ℝ) (xs : LogicalInputs ℝ c)
+theorem returned (c : Shape) (keyRange : c.N≠0 → c.outputSize≠0 → c.programs*c.B<2147483648) (abi : ABI c) (physical : Nat → ℝ) (xs : LogicalInputs ℝ c)
     (normalized : Normalized c abi physical xs) (offset size : Int) (scale : ℝ)
     (window complement : Bool) :
     ∃ result, execute c abi physical offset size scale window complement=some result ∧
@@ -60,7 +60,7 @@ theorem returned (c : Shape) (abi : ABI c) (physical : Nat → ℝ) (xs : Logica
       (∀ (r : RegionName), tracked r → r≠"out" → ∀ i, i<(abi.alloc r).length →
         result ((abi.alloc r).base+i)=physical ((abi.alloc r).base+i)) ∧
       (∀ a, ¬(abi.alloc "out").Contains a → result a=physical a) := by
-  obtain ⟨t,ht,_,hv,_⟩ := RealReturned.host_returned c (initial abi physical) offset size scale window complement
+  obtain ⟨t,ht,_,hv,_⟩ := RealReturned.host_returned c keyRange (initial abi physical) offset size scale window complement
   refine ⟨flush (abi.alloc "out") (t.readMem "out") physical,?_,?_,?_,?_⟩
   · simp [execute,ht]
   · intro z h j

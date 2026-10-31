@@ -1,3 +1,4 @@
+import bench.tritonbench_g.relu_strided_buffer.Kernels
 import bench.tritonbench_g.relu_strided_buffer.Proofs.Mathematical_WholeSource
 import VeriTile.Triton.Float.Structural
 
@@ -15,31 +16,6 @@ set_option maxHeartbeats 4000000
 set_option maxRecDepth 16000
 
 abbrev Memory (α : Type) := RegionName → Nat → Cell α
-
-/-- The only control flow in the installed source is one forRangeDyn. Its body
-is made of assignments and a store. Expose that loop to the structural engine;
-all other source statements are retained verbatim as alg statements. -/
-theorem liftSourceStmt_projection (stmt : Stmt) :
-    (liftSourceStmt stmt).toAlgorithm? = .ok stmt := by
-  cases stmt <;> simp [liftSourceStmt, ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?_map_alg, bind, Except.bind]
-
-theorem liftSourceBody_projection (body : List Stmt) :
-    ComputeStmt.listToAlgorithm? (body.map liftSourceStmt) = .ok body := by
-  induction body with
-  | nil => rfl
-  | cons stmt rest ih =>
-    simp [ComputeStmt.listToAlgorithm?, liftSourceStmt_projection, ih, bind, Except.bind]
-
-theorem perTileSource_projection (c : SignedViews) :
-    (perTileSource c).toAlgorithm? =
-      .ok (.mk [c.inputView.region] [c.outputView.region] c.perTile) := by
-  simp [perTileSource]
-
-theorem kernelSource_projection (c : SignedViews) (oneTile : Bool) (tiles : Nat) :
-    (kernelSource c oneTile tiles).toAlgorithm? =
-      .ok (.mk [c.inputView.region] [c.outputView.region]
-        (SourceGridExecution.kernelBody c oneTile tiles)) := by
-  simp [kernelSource, ComputeKernel.toAlgorithm?, liftSourceBody_projection, bind, Except.bind]
 
 /-- Literal zero has precisely the source's real-to-FP32 conversion. -/
 def scalarZero {α : Type} (M : Algebra α) : α :=
@@ -93,19 +69,6 @@ def sourceFinal {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → α →
         (.mk .fp32 (scalarResult M cmp (rawValues c T s i)))
     else current) (beforeStore M cmp c T s)
 
-/-- Successful execution of the complete installed source perTile list. No
-output state or scalar result is provided as a premise. -/
-theorem perTile_exact {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → α → Bool)
-    (hc : M.compareLt none .fp32 = some cmp) (c : SignedViews) (T : Nat) (s : State α)
-    (ht : s.regs .nat [] "tile_id" = some (fun _ => T)) :
-    run M (c.perTile.map ComputeStmt.alg) s = some (sourceFinal M cmp c T s) := by
-  simp [SignedViews.perTile, run, step, stepAlg, evalOp_unfold,
-    dynamicAddress, dynamicIndex, dynamicMask, SignedTile.reluOp, SignedTile.zero32,
-    numeric, numericLt, natLt, FP.Structural.bop, store, hc, ht,
-    sourceFinal, beforeStore, rawValues,
-    scalarResult, scalarZero, View.address, View.signedAddress, Region.cast, ofFloat, toFloat]
-  rfl
-
 theorem scatter_mem {α ι : Type} (r : RegionName) (off : ι → Nat)
     (value : ι → Cell α) (active : ι → Prop) [DecidablePred active]
     (lanes : List ι) (s : State α) :
@@ -142,31 +105,6 @@ theorem scatter_control {α ι : Type} (r : RegionName) (off : ι → Nat)
     by_cases hi : active i
     · simpa only [hi, if_true, State.write] using ih (s.write r (off i) (value i))
     · simpa only [hi, if_false] using ih s
-
-/-- The complete perTile contract consumed by source loop/grid composition.
-Only the comparison's availability is assumed; scalar casts stay explicit. -/
-theorem perTile_run {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → α → Bool)
-    (hc : M.compareLt none .fp32 = some cmp) (c : SignedViews) (T : Nat) (s : State α)
-    (ht : s.regs .nat [] "tile_id" = some (fun _ => T)) :
-    ∃ final, run M (c.perTile.map ComputeStmt.alg) s = some final ∧
-      final.mem = tileOutput M cmp c T s.mem ∧ final.undef = s.undef ∧
-      final.regs .nat [] "pid" = s.regs .nat [] "pid" ∧
-      final.regs .nat [] "num_ctas" = s.regs .nat [] "num_ctas" ∧
-      final.pids = s.pids ∧ final.numPids = s.numPids := by
-  have control := scatter_control c.outputView.region
-    (fun i : TileIndex [c.B] => c.outputView.address (T * c.B + i.1.val))
-    (fun i => Cell.mk .fp32 (scalarResult M cmp (rawValues c T s i)))
-    (fun i => T * c.B + i.1.val < c.n) (TileShape.allIndices [c.B]) (beforeStore M cmp c T s)
-  refine ⟨sourceFinal M cmp c T s, perTile_exact M cmp hc c T s ht,
-    sourceFinal_mem M cmp c T s, ?_, ?_, ?_, ?_, ?_⟩
-  · exact control.2.1
-  · change (sourceFinal M cmp c T s).regs .nat [] "pid" = _
-    rw [show (sourceFinal M cmp c T s).regs = (beforeStore M cmp c T s).regs from control.1]
-    simp [beforeStore]
-  · rw [show (sourceFinal M cmp c T s).regs = (beforeStore M cmp c T s).regs from control.1]
-    simp [beforeStore]
-  · exact control.2.2.1
-  · exact control.2.2.2
 
 private theorem fold_written {α ι : Type} (r : RegionName) (off : ι → Nat)
     (value : ι → Cell α) (active : ι → Prop) [DecidablePred active]
@@ -244,7 +182,7 @@ theorem tileOutput_frame {α : Type} [Inhabited α] (M : Algebra α)
   exact fold_frame _ _ _ _ _ _ _ _ outside
 
 #guard_msgs (drop info) in
-#specNonCircular scalarResult avoiding [perTileSource, kernelSource, FP.Structural.exec]
+#specNonCircular scalarResult avoiding [VeriTile.Bench.Repairs.ReluStridedBuffer.kernel, FP.Structural.exec]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

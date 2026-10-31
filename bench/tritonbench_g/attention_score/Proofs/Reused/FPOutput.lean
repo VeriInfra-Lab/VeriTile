@@ -26,8 +26,8 @@ def executes (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Paramet
     {t : State α // run (engine (withDot M dot)) (parts B D p).after current=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,RealSource.source,TypedSource.original,
-    ComputeKernel.surfaceBody,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
+  simp [parts,kernel,TypedSource.original,
+    ComputeKernel.surfaceBody,Source.intRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -39,6 +39,15 @@ def written (M : Algebra α) (B : Nat) (p : RealSource.Parameters) (s : State α
   (TileShape.allIndices [B]).foldl (fun t i =>
     if active B p s i then t.write p.Out (address B p s i) (.mk .real (value M acc i)) else t) s
 
+private theorem output_offset (ph heads batch head lane pm B : Nat) :
+    ((ph:Int)/(heads:Int)*(batch:Int)+(ph:Int)%(heads:Int)*(head:Int)+
+      ((lane:Int)+(pm:Int)*(B:Int))).toNat =
+      ph/heads*batch+ph%heads*head+lane+pm*B := by
+  norm_cast <;> omega
+
+private theorem output_guard (lane pm B stop : Nat) :
+    ((lane:Int)+(pm:Int)*(B:Int)<(stop:Int)) ↔ lane+pm*B<stop := by omega
+
 theorem memory (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Parameters)
     (initial current : State α) (row : Nat) (acc : Fin B → α)
     (ctx : Context M B D p initial row acc current) :
@@ -46,10 +55,11 @@ theorem memory (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Param
   simp [executes,written,masked_scatter_memory,ctx.memory,active,address,value,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
     Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
+  simp [output_offset,output_guard,Value,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
 
 theorem source_parts (B D : Nat) (p : RealSource.Parameters) :
     (kernel B D p).surfaceBody=(parts B D p).before ++
-      [.forRangeDyn "start_m" (parts B D p).start (parts B D p).stop (parts B D p).stride (parts B D p).body] ++
+      [.forRangeInt "start_m" (parts B D p).start (parts B D p).stop (parts B D p).stride (parts B D p).body] ++
       (parts B D p).after := rfl
 
 /-- The entire actual typed source runs and returns precisely the finite masked
@@ -62,13 +72,13 @@ theorem source_memory (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSourc
   let finish := executes M dot B D p s mid row (FPLoop.accumulated M dot B D p s) hc
   refine ⟨finish.val,?_,memory M dot B D p s mid row _ hc⟩
   have hl : step (engine (withDot M dot))
-      (.forRangeDyn "start_m" (parts B D p).start (parts B D p).stop (parts B D p).stride (parts B D p).body)
+      (.forRangeInt "start_m" (parts B D p).start (parts B D p).stop (parts B D p).stride (parts B D p).body)
       start.val=some mid := by
-    have h0 : (parts B D p).start=.ref .nat [] "lo" := rfl
-    have hn : (parts B D p).stop=.ref .nat [] "hi" := rfl
+    have h0 : (parts B D p).start=.castNatToInt (.ref .nat [] "lo") := rfl
+    have hn : (parts B D p).stop=.ref .int [] "hi" := rfl
     have hb : (parts B D p).stride=.constNat B := rfl
     have hlo : start.val.regs .nat [] "lo"=some (fun _ => 0) := (FPLoop.entry_limits M dot B D p s).1
-    have hhi : start.val.regs .nat [] "hi"=some (fun _ => p.queryContext) := (FPLoop.entry_limits M dot B D p s).2
+    have hhi : start.val.regs .int [] "hi"=some (fun _ => (p.queryContext:Int)) := (FPLoop.entry_limits M dot B D p s).2
     simpa only [step,h0,hn,hb,evalOp_unfold,hlo,hhi,Option.bind,Option.bind_some] using hm
   change run (engine (withDot M dot)) (kernel B D p).surfaceBody s=some finish.val
   rw [source_parts,List.append_assoc,run_append,start.property]

@@ -15,16 +15,16 @@ def distanceExpr (BM BN : Nat) (offset : Int) : Op .int [BM, BN] :=
         (.sub .int (.consR (.consL .nil))
           (.castNatToInt (.expandDim ⟨1, by simp⟩ (.arange BM)))
           (.castNatToInt (.expandDim ⟨0, by simp⟩ (.arange BN))))
-        (.castNatToInt (.ref .nat [] "start_m")))
-      (.mul .int .nil (.castNatToInt (.ref .nat [] "start_n")) (.constInt BN)))
+        (.ref .int [] "start_m"))
+      (.mul .int .nil (.ref .int [] "start_n") (.constInt BN)))
     (.constInt offset)
 
 def distances (BM BN startM startN : Nat) (offset : Int) : Tile .int [BM, BN] :=
   ⟨fun i => RealFormula.distance (startM + i.1.val) (startN * BN + i.2.1.val) offset⟩
 
 theorem eval_distance (s : BlockState) (BM BN startM startN : Nat) (offset : Int)
-    (hm : s.regs .nat [] "start_m" = some (Tile.scalar startM))
-    (hn : s.regs .nat [] "start_n" = some (Tile.scalar startN)) :
+    (hm : s.regs .int [] "start_m" = some (Tile.scalar (startM:Int)))
+    (hn : s.regs .int [] "start_n" = some (Tile.scalar (startN:Int))) :
     evalOp (distanceExpr BM BN offset) s = some (distances BM BN startM startN offset) := by
   simp only [distanceExpr, evalOp.eq_def, hm, hn, bind, Option.bind]
   congr 1
@@ -46,7 +46,7 @@ def distance? (BM BN : Nat) : Nat → List ComputeStmt → Option (Op .int [BM, 
             if h : sh = [BM, BN] then some (h ▸ value) else none
         | .ifThen _ body => distance? BM BN fuel body
         | .ifThenElse _ yes no => distance? BM BN fuel yes <|> distance? BM BN fuel no
-        | .forRangeDyn _ _ _ _ body => distance? BM BN fuel body
+        | .forRangeDyn _ _ _ _ body | .forRangeInt _ _ _ _ body => distance? BM BN fuel body
         | _ => none
       found <|> distance? BM BN fuel rest
 

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.destindex_copy_kv2.Sources.Mathematical_Kernels
+import VeriTile.Triton.DSL
 import bench.tritonbench_g.destindex_copy_kv1.Kernels
 
 namespace VeriTile.Bench.Repairs.DestindexCopyKv2
@@ -7,18 +7,6 @@ abbrev Layout := VeriTile.Bench.Repairs.DestindexCopyKv1.Layout
 abbrev Config := VeriTile.Bench.Repairs.DestindexCopyKv1.Config
 abbrev block := VeriTile.Bench.Repairs.DestindexCopyKv1.block
 abbrev flat := VeriTile.Bench.Repairs.DestindexCopyKv1.flat
-
-namespace Legacy
-def kernel (p : Layout) : ComputeKernel :=
-  VeriTile.Bench.TritonBenchG.DestindexCopyKv2.TypedSource.kernel .fp32 .fp32 Bool.false
-    p.K p.Dest_loc p.Out p.stride_k_bs p.stride_k_h p.stride_k_d
-    p.stride_o_bs p.stride_o_h p.stride_o_d p.head_num p.BLOCK_DMODEL p.BLOCK_HEAD
-
-def indexCommutedKernel (p : Layout) : ComputeKernel :=
-  VeriTile.Bench.TritonBenchG.DestindexCopyKv2.TypedSource.kernel .fp32 .fp32 Bool.true
-    p.K p.Dest_loc p.Out p.stride_k_bs p.stride_k_h p.stride_k_d
-    p.stride_o_bs p.stride_o_h p.stride_o_d p.head_num p.BLOCK_DMODEL p.BLOCK_HEAD
-end Legacy
 
 /-- Complete selected FP32 source. Only the head dimension is masked, as in
 the Python source; the public width premise covers every feature lane. -/

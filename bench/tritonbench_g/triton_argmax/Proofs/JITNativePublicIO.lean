@@ -38,7 +38,7 @@ theorem first_safe (s : State Word) (pid : Nat) (index64 : Bool)
     (JITIO.firstLaunch (JITBinding.ops binding rest) (JITBinding.first binding c index64) c.size 0 pid).Safe bounds s := by
   let initial := { s with pids := fun ax => if ax = 0 then pid else s.pids ax }
   have selected : Typed.firstIndex initial BoundSource.X c.size c.block 0 positive < bounds BoundSource.X := by
-    rw [TypedNative.first_index initial BoundSource.X c g 0 positive]
+    rw [JITNative.first_index initial BoundSource.X c g 0 positive]
     simp only [initial, ite_true, Nat.add_zero]
     exact inputBounds _ (first_valid c g _ pid positive active)
   unfold Invocation.Safe

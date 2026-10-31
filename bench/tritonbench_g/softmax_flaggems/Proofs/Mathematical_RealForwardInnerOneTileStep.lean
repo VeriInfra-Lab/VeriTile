@@ -6,11 +6,6 @@ set_option maxHeartbeats 3500000
 set_option maxRecDepth 20000
 set_option linter.unusedSimpArgs false
 
-def body (Y X : RegionName) (M N B : Nat) : List Stmt :=
-  match ((softmax_kernel_inner .fp32 .fp32 Y X M N B Bool.true).eraseDType.toAlgKernel.body[1]? : Option Stmt) with
-  | some (.ifThenElse _ yes _) => yes
-  | _ => []
-
 def tileOffset {B : Nat} (row N : Nat) (i : TileIndex [B]) : Nat := row*N+i.1.val
 
 def tileActive {B : Nat} (N : Nat) (i : TileIndex [B]) : Bool := decide (i.1.val<N)
@@ -41,32 +36,6 @@ noncomputable def midState (s : BlockState) (Y X : RegionName)
 
 private theorem exp_finite (x : WithBot ℝ) :
     WithBot.realExp x=some (x.elim 0 Real.exp) := by cases x <;> rfl
-
-theorem step (Y X : RegionName) (M N B row : Nat) (hB : 0<B)
-    (s : BlockState) (hrow : s.regs .nat [] "pid_m"=some (Tile.scalar row)) :
-    ∃ mid, stepStmts (body Y X M N B) s =
-      some (scatter mid Y (tileOffset row N) (storeValue s X row N B hB) (tileActive N)) ∧
-      mid.mem=s.mem ∧ mid.pids=s.pids ∧ mid.numPids=s.numPids ∧ mid.undef=s.undef := by
-  simp [body, softmax_kernel_inner,
-    ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
-    ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Kernel.eraseDType,
-    Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
-    NumericDType.eraseDType, ComparableDType.eraseDType,
-    VeriTile.Triton.eraseDType, Region.cast, Except.bind, bind]
-  simp only [stepStmts, stepStmt, evalOp.eq_def, hrow,
-    BlockState.setReg_same, BlockState.setReg_ne_name, ne_eq,
-    String.reduceEq, not_false_eq_true, Option.bind_eq_bind, Option.bind, Option.pure_def,
-    Tile.reduceMax, Tile.reduceMaxDrop, TileShape.axisDim, List.getElem_cons_zero, hB, ↓reduceDIte]
-  refine ⟨midState s Y X row N B hB, ?_, rfl, rfl, rfl, rfl⟩
-  simp [midState, scatter, tileOffset, tileActive, storeValue, score, batchMax, batchSum,
-    RealForwardInner.globalMax, TileShape.insertAxisIndex,
-    Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd, Tile.reduceSum, Tile.reduceSumDrop_data,
-    NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div, ComparableDType.lt,
-    BlockState.writeMemTyped_real, BlockState.readMemValue_real, exp_finite, ←WithBot.coe_sum]
-  simp only [Tile.reduceSumDrop, TileShape.axisDim, TileShape.insertAxisIndex, List.getElem_cons_zero]
-  congr 1
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

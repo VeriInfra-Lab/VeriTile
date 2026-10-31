@@ -8,7 +8,13 @@ set_option linter.unusedSimpArgs false
 
 theorem middle_assembled (p : Config) (BD : Nat) :
     middleCode p BD=initializationCode p BD ++ setupCode p BD Bool.false ++
-      loopCode p BD Bool.false ++ setupCode p BD Bool.true ++ loopCode p BD Bool.true := rfl
+      loopCode p BD Bool.false ++ setupCode p BD Bool.true ++ loopCode p BD Bool.true := by
+  cases hd : decide (p.stage=2)
+  all_goals simp only [middleCode,coordinateCode,pointerCode,initializationCode,setupCode,loopCode,body,
+    lowerOp,lowerName,upperName,code,source,TypedSource.repaired,ComputeKernel.surfaceBody,hd,
+    Bool.false_or,Bool.true_or,Bool.false_eq_true,Bool.true_eq,↓reduceIte,ControlView.compute,
+    List.cons_append,List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero]
+  all_goals rfl
 
 theorem middle_success {α : Type} [Inhabited α] (A : Algebra α)
     (p : Config) (BD : Nat) (support : DotSupport A BD) (s : State α)
@@ -23,13 +29,13 @@ theorem middle_success {α : Type} [Inhabited α] (A : Algebra α)
   rw [middle_assembled]
   simp only [run_append,h3,h4,h5,h6,h7,Option.bind_some]
 
-theorem prefix_assembled (p : Config) (BD : Nat) (r : Bool) :
-    (source p BD r).surfaceBody.take 41=(code p BD).take 22 ++ middleCode p BD := by
-  cases r <;> rfl
+theorem prefix_assembled (p : Config) (BD : Nat) :
+    (code p BD).take 41=(code p BD).take 22 ++ middleCode p BD := by
+  simpa only [middleCode] using (List.take_add (l:=code p BD) (i:=22) (j:=19))
 
 theorem before_tail {α : Type} [Inhabited α] (A : Algebra α)
     (p : Config) (BD : Nat) (support : DotSupport A BD) (r : Bool) (s : State α) :
-    ∃ t, run (engine A) ((source p BD r).surfaceBody.take 41) s=some t ∧
+    ∃ t, run (engine A) ((code p BD).take 41) s=some t ∧
       Ready BD t ∧ AddressReady p BD (s.pids 0) (s.pids 1) t ∧ t.mem=s.mem := by
   obtain ⟨u,hu,hr,ha,hm⟩ := header A p BD s
   obtain ⟨t,ht,hready⟩ := middle_success A p BD support u hr

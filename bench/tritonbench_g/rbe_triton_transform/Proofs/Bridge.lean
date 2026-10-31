@@ -106,20 +106,6 @@ theorem source_apart (r : Request) (input output : RegionName) (s : State α) :
     simp only [Bool.false_eq_true,↓reduceIte,add_zero] at h3
     omega
 
-theorem source_execution {α : Type} [Inhabited α] (ops : Operations α) (r : Request)
-    (input output : RegionName) (s : State α) (l : Location) :
-    ∃ final, FP.Structural.exec ops.backend (Source.source (parameters r input output)) (programState s l) = some final ∧
-      (active r l → (final.mem output (r.offset (batch l) (row r l) (column r l))).read .fp32 =
-        scalarResult ops r (fun o => (s.mem input o).read .fp32) (batch l) (row r l) (column r l)) := by
-  obtain ⟨final,he,hv,hf⟩ := Source.correctness ops.backend (parameters r input output)
-    (programState s l) (source_apart r input output (programState s l))
-  refine ⟨final,he,?_⟩
-  intro ha
-  have hread := hv (imaginary l) (lane l) (source_active r input output s l ha)
-  rw [(source_offset r input output s l).2] at hread
-  rw [hread,Cell.read_same,source_value ops r input output s l ha]
-
-#axiomsClean source_execution
 #axiomsClean source_apart
 #axiomsClean source_value
 #axiomsClean source_offset

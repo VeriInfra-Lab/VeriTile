@@ -9,6 +9,8 @@ Other profiles, native conversion admission and the later address candidate rema
 -/
 
 import VeriTile.Triton
+import bench.tritonbench_g.rmsnorm_implementation.Kernels
+import VeriTile.Triton.Source.RealCastView
 
 /-!
 # `rmsnorm_implementation` — strict per-kernel correctness
@@ -71,43 +73,18 @@ open VeriTile.Triton
 set_option maxHeartbeats 5000000
 set_option linter.unusedSimpArgs false
 
-/-- Faithful transcription of `rmsnorm_implementation.py`'s `rmsnorm_triton`.
-
-Allowed mechanical Lean-syntax-only changes:
-- Python `N_SIZE: tl.constexpr` / `eps: tl.constexpr` / `BLOCK_N_SIZE: tl.constexpr`
-  -> Lean `Nat` / `ℝ` parameters. -/
+/-- Mathematical view derived from the selected repair source. The inherited
+real recurrence uses an explicit real identity cast at `xf`; its execution
+connection is checked through the full variance loop in Proofs/Source. -/
 def rmsnorm_implementation
     (x_ptr rms_w_ptr out_ptr : RegionName)
     (stride_x_batch stride_x_m stride_x_k stride_rms_w
       stride_out_batch stride_out_m stride_out_k : Nat)
-    (N_SIZE BLOCK_N_SIZE : Nat) (eps : ℝ) :
-    ComputeKernel := triton {
-  pid_batch = tl.program_id(0)
-  pid_m = tl.program_id(1)
-  offset_m = pid_batch * $(stride_x_batch) + pid_m * $(stride_x_m)
-  block_n_size = tl.arange(0, $(BLOCK_N_SIZE))
-  var = tl.zeros([$(BLOCK_N_SIZE)], tl.float32)
-  for block_n_strart_ptr in range(0, $(N_SIZE), $(BLOCK_N_SIZE)) {
-    offset_n = block_n_strart_ptr + block_n_size
-    x_ptr_mask = offset_n < $(N_SIZE)
-    x = tl.load(x_ptr + offset_m + offset_n * $(stride_x_k), mask=x_ptr_mask, other=0.0)
-    xf = (x).to(tl.float32)
-    var += xf * xf
-  }
-  var = tl.sum(var, axis=0) / $(N_SIZE)
-  std = tl.sqrt(var + $(eps))
-  for block_n_strart_ptr in range(0, $(N_SIZE), $(BLOCK_N_SIZE)) {
-    offset_n = block_n_strart_ptr + block_n_size
-    x_ptr_mask = offset_n < $(N_SIZE)
-    rms_w_offset = tl.load(rms_w_ptr + offset_n * $(stride_rms_w), mask=x_ptr_mask)
-    x = tl.load(x_ptr + offset_m + offset_n * $(stride_x_k), mask=x_ptr_mask, other=0.0)
-    x_new = x / std
-    out = x_new * rms_w_offset
-    out_offset = pid_batch * $(stride_out_batch) + pid_m * $(stride_out_m) +
-      offset_n * $(stride_out_k)
-    tl.store(out_ptr + out_offset, out, mask=x_ptr_mask)
-  }
-}
+    (N_SIZE BLOCK_N_SIZE : Nat) (eps : ℝ) : ComputeKernel :=
+  RealCastView.ofKernel "xf"
+    (VeriTile.Bench.Repairs.RmsnormImplementation.kernel x_ptr rms_w_ptr out_ptr
+      stride_x_batch stride_x_m stride_x_k stride_rms_w
+      stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE eps).eraseDType.toAlgKernel
 
 
 open Lean
@@ -157,14 +134,6 @@ macro_rules
   }
 }).surfaceBody)
 
-/-- Independent input, weight and output storage; the wrapper uses output=input. -/
-inductive Storage where
-  | fp32 | fp64 | fp16 | bf16 | f8e4 | f8e5
-  deriving DecidableEq, Repr
-
-abbrev Source := RegionName → RegionName → RegionName →
-  Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → ℝ → ComputeKernel
-
 set_option maxHeartbeats 16000000
 set_option maxRecDepth 16000
 
@@ -173,7 +142,7 @@ and weight load without `other`. The explicit store conversion models Triton's
 implicit conversion to the output pointer element type. -/
 def originalTyped (input weight output : Storage) : Source :=
   match input, weight, output with
-  | .fp32, .fp32, .fp32 => rmsnormTyped%[tl.float32, tl.float32, tl.float32]
+  | .fp32, .fp32, .fp32 => VeriTile.Bench.Repairs.RmsnormImplementation.kernel
   | .fp32, .fp32, .fp64 => rmsnormTyped%[tl.float32, tl.float32, tl.float64]
   | .fp32, .fp32, .fp16 => rmsnormTyped%[tl.float32, tl.float32, tl.float16]
   | .fp32, .fp32, .bf16 => rmsnormTyped%[tl.float32, tl.float32, tl.bfloat16]

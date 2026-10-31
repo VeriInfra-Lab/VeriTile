@@ -59,7 +59,6 @@ theorem target_real (input : Nat → ℝ) (N K BN j : Nat) (hn : 0<N) (covers : 
     | coe value => simpa [Compute.observe] using hp
   exact ⟨answer,index,eq,hs⟩
 
-
 /-- One actual indexed-reduction program has an attained maximum and the
 least original index for each active row, plus an exact exterior cell frame. -/
 theorem dimension_rows (M N K BM BN p k : Nat) (hN : 0 < N) (covers : N ≤ BN)

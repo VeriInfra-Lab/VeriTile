@@ -20,12 +20,14 @@ theorem loop_safe_from {BM BN BD : Nat} (bounds : RegionBounds) (mem s : BlockSt
     (hb : Bounds bounds c BN BD lower upper) (i : Nat) (hi : i ≤ Loop.count lower upper BN)
     (hr : Loop.Registers mem s c BM BN BD (Loop.cursor lower BN i) second
       (Loop.after mem c BM BN BD lower second diagonal seed i)) :
-    Stmt.forRangeTraceSafe bounds "start_n" (Loop.cursor lower BN i) upper BN
+    Stmt.forRangeIntTraceSafe bounds "start_n" ((Loop.cursor lower BN i : Nat) : Int) (upper : Int) BN
       (sourceIteration BM BN BD c.p.headDim second diagonal) s := by
-  rw [Stmt.forRangeTraceSafe,if_neg (by omega)]
+  rw [Stmt.forRangeIntTraceSafe,if_neg (by omega)]
   by_cases hlt : i < Loop.count lower upper BN
-  · rw [if_pos ((VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealLoop.cursor_lt lower upper BN i hN).mpr hlt)]
-    let si := s.setReg "start_n" .nat [] (Tile.scalar (Loop.cursor lower BN i))
+  · have activeNat := (VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealLoop.cursor_lt lower upper BN i hN).mpr hlt
+    have activeInt : ((Loop.cursor lower BN i : Nat) : Int)<(upper : Int) := by exact_mod_cast activeNat
+    rw [if_pos activeInt]
+    let si := s.setReg "start_n" .int [] (Tile.scalar (Loop.cursor lower BN i))
     have hp : Pointers si c BN BD (Loop.cursor lower BN i) second := by
       refine ⟨?_,?_,?_⟩
       · cases second <;> simpa [si,keyName,VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.keyName] using hr.pointers.key
@@ -36,9 +38,12 @@ theorem loop_safe_from {BM BN BD : Nat} (bounds : RegionBounds) (mem s : BlockSt
       (hb.keys i hlt) (hb.scales i hlt) (hb.values i hlt),?_⟩
     obtain ⟨t,et,ht,_⟩ := Loop.invariant_step mem s c BM BN BD lower second diagonal seed hN i hr
     rw [et]
-    simpa only [VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealLoop.cursor_succ] using
+    simpa only [←Int.natCast_add,VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealLoop.cursor_succ] using
       loop_safe_from bounds mem t c lower upper second diagonal seed hN hb (i+1) (by omega) ht
-  · rw [if_neg (fun hcur => hlt ((VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealLoop.cursor_lt lower upper BN i hN).mp hcur))]
+  · have doneNat : ¬Loop.cursor lower BN i<upper := fun hcur =>
+      hlt ((VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealLoop.cursor_lt lower upper BN i hN).mp hcur)
+    have doneInt : ¬((Loop.cursor lower BN i : Nat) : Int)<(upper : Int) := by exact_mod_cast doneNat
+    rw [if_neg doneInt]
     trivial
 termination_by Loop.count lower upper BN-i
 
@@ -46,7 +51,7 @@ theorem loop_safe {BM BN BD : Nat} (bounds : RegionBounds) (mem s : BlockState) 
     (lower upper : Nat) (second diagonal : Bool) (seed : Carry BM BD) (hN : 0 < BN)
     (hb : Bounds bounds c BN BD lower upper)
     (hr : Loop.Registers mem s c BM BN BD lower second seed) :
-    Stmt.forRangeTraceSafe bounds "start_n" lower upper BN
+    Stmt.forRangeIntTraceSafe bounds "start_n" (lower : Int) (upper : Int) BN
       (sourceIteration BM BN BD c.p.headDim second diagonal) s := by
   simpa only [Loop.cursor,VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealLoop.cursor,Nat.zero_mul,Nat.add_zero] using
     loop_safe_from bounds mem s c lower upper second diagonal seed hN hb 0 (Nat.zero_le _)
@@ -56,16 +61,22 @@ theorem loop_safe {BM BN BD : Nat} (bounds : RegionBounds) (mem s : BlockState) 
 theorem statement_safe {BM BN BD : Nat} (bounds : RegionBounds) (mem s : BlockState) (c : Config)
     (lower upper : Nat) (second diagonal : Bool) (seed : Carry BM BD) (hN : 0 < BN)
     (hb : Bounds bounds c BN BD lower upper)
-    (hl : s.regs .nat [] (Setup.lowerName second) = some (Tile.scalar lower))
-    (hu : s.regs .nat [] (Setup.upperName second) = some (Tile.scalar upper))
+    (hl : if second || diagonal then
+      s.regs .int [] (Setup.lowerName second) = some (Tile.scalar (lower : Int))
+      else s.regs .nat [] (Setup.lowerName second) = some (Tile.scalar lower))
+    (hu : s.regs .int [] (Setup.upperName second) = some (Tile.scalar (upper : Int)))
     (hr : Loop.Registers mem s c BM BN BD lower second seed) :
     Stmt.TraceSafe bounds (loop BM BN BD c.p.headDim second diagonal) s := by
-  rw [loop,Stmt.TraceSafe]
-  refine ⟨by simp [Op.SafeAt.eq_def],by simp [Op.SafeAt.eq_def],by simp [Op.SafeAt.eq_def],?_⟩
-  change s.regs .nat [] (if second then "second_lo" else "first_lo") = some (Tile.scalar lower) at hl
-  change s.regs .nat [] (if second then "second_hi" else "first_hi") = some (Tile.scalar upper) at hu
-  simp only [evalOp_ref,hl,hu,evalOp_constNat,Tile.scalar]
-  exact loop_safe bounds mem s c lower upper second diagonal seed hN hb hr
+  have safe := loop_safe bounds mem s c lower upper second diagonal seed hN hb hr
+  cases second <;> cases diagonal
+  all_goals simp only [Setup.lowerName,Setup.upperName,
+    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealSetup.lowerName,
+    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealSetup.upperName,
+    Bool.false_or,Bool.true_or,Bool.false_eq_true,Bool.true_eq,↓reduceIte] at hl hu
+  all_goals simpa only [loop,Stmt.TraceSafe,Op.SafeAt.eq_def,Setup.lowerName,Setup.upperName,
+    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealSetup.lowerName,
+    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealSetup.upperName,Bool.false_or,Bool.true_or,Bool.false_eq_true,Bool.true_eq,↓reduceIte,evalOp.eq_def,hl,hu,
+    bind,Option.bind,Tile.scalar,true_and] using safe
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -14,8 +14,8 @@ theorem body_safe (bounds : RegionBounds) (os ol ns : Region .int) (src dst : Re
     (hO : s.regs .int [] "old_start" = some (Tile.scalar oldStart))
     (hN : s.regs .int [] "new_start" = some (Tile.scalar newStart))
     (hI : s.regs .int [] "i" = some (Tile.scalar current))
-    (hOld : s.regs .nat [B] "old_offset" = some (Tile.vec fun i ↦ i.val))
-    (hNew : s.regs .nat [B] "new_offset" = some (Tile.vec fun i ↦ i.val))
+    (hOld : s.regs .int [B] "old_offset" = some (Tile.vec fun i ↦ (i.val : Int)))
+    (hNew : s.regs .int [B] "new_offset" = some (Tile.vec fun i ↦ (i.val : Int)))
     (hin : ∀ i : TileIndex [B], current + (i.1.val : Int) < length →
       address oldStart current i < bounds src)
     (hout : ∀ i : TileIndex [B], current + (i.1.val : Int) < length →

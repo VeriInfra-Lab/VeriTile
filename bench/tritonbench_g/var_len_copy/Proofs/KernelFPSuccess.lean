@@ -12,8 +12,8 @@ structure Ready (B : Nat) (length oldStart newStart : Int) (s : State α) : Prop
   lengthReg : s.regs .int [] "length" = some (fun _ => length)
   oldReg : s.regs .int [] "old_start" = some (fun _ => oldStart)
   newReg : s.regs .int [] "new_start" = some (fun _ => newStart)
-  oldOffset : s.regs .nat [B] "old_offset" = some (fun i => i.1.val)
-  newOffset : s.regs .nat [B] "new_offset" = some (fun i => i.1.val)
+  oldOffset : s.regs .int [B] "old_offset" = some (fun i => (i.1.val : Int))
+  newOffset : s.regs .int [B] "new_offset" = some (fun i => (i.1.val : Int))
 
 def copied (M : Algebra α) {B : Nat} (s : State α) (src : RegionName)
     (length start current : Int) : Values α .real [B] := fun i =>
@@ -91,8 +91,8 @@ def prefixState (B : Nat) (os ol ns : Region .int) (s : State α) : State α :=
   let t := t.setReg "length" .int [] (fun _ => (s.mem ol.cast (s.pids 0)).read .int)
   let t := t.setReg "old_start" .int [] (fun _ => (s.mem os.cast (s.pids 0)).read .int)
   let t := t.setReg "new_start" .int [] (fun _ => (s.mem ns.cast (s.pids 0)).read .int)
-  let t := t.setReg "old_offset" .nat [B] (fun i => i.1.val)
-  t.setReg "new_offset" .nat [B] (fun i => i.1.val)
+  let t := t.setReg "old_offset" .int [B] (fun i => (i.1.val : Int))
+  t.setReg "new_offset" .int [B] (fun i => (i.1.val : Int))
 
 theorem prefix_run (M : Algebra α) (os ol ns : Region .int) (src dst : RegionName)
     (B : Nat) (s : State α) :

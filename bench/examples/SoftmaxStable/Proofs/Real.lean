@@ -10,20 +10,25 @@ open VeriTile.Bench.Examples.SoftmaxStable.Kernels
 open VeriTile Triton Triton.TiledSoftmax
 open scoped VeriTile.Triton.KernelIO₁
 
+/- Only the current shared source is executable. Mathematical views below are
+its dtype erasure; these local reductions expose that view to execution proofs. -/
+attribute [local simp] ComputeKernel.eraseDType ComputeKernel.toAlgorithm?
+  ComputeKernel.toAlgKernel ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm?
+  ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm?
+  Kernel.eraseDType Stmt.eraseDTypeList Stmt.eraseDType Op.eraseDType.eq_def
+  MemAccess.eraseDType.eq_def MaskOpt.eraseDType.eq_def
+  VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
+  IntegralDType.eraseDType ComputeDType.eraseDType
+attribute [local simp] naiveSoftmaxKernel stableSoftmaxKernel
+  OnlineSoftmax.Kernels.batchSoftmaxKernel OnlineSoftmax.Kernels.stableSoftmaxKernel
+
 @[simp] private theorem except_ok_bind {α β ε : Type _} (a : α)
     (f : α → Except ε β) :
     (Except.ok a : Except ε α) >>= f = f a := rfl
 
 /-- Executable mathematical projection, used only by the real proof. -/
-def naiveMathKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel := triton {
-  pid := tl.program_id(0)
-  offs := pid * $(B) + tl.arange(0, $(B))
-  x := tl.load($(xReg) + offs)
-  e := libdevice.exp(x)
-  s := tl.sum(e, axis=0)
-  y := e / s
-  tl.store($(yReg) + offs, y)
-}
+def naiveMathKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel :=
+  (naiveSoftmaxKernel xReg yReg B).eraseDType
 
 private theorem erase_output_cast (B : Nat) :
     (Op.castFloat .real .bf16 (Op.ref .real [B] "y")).eraseDType =
@@ -36,29 +41,12 @@ private theorem erase_output_cast (B : Nat) :
 theorem naive_projection (xReg yReg : RegionName) (B : Nat) :
     (naiveSoftmaxKernel xReg yReg B).eraseDType.toAlgorithm? =
       Except.ok (naiveMathKernel xReg yReg B).toAlgKernel := by
-  simp [naiveSoftmaxKernel, naiveMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
-  repeat' apply And.intro
-  all_goals first
-    | exact erase_output_cast B
-    | (rw [Op.eraseDType.eq_def]; simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType])
+  simp [naiveMathKernel]
 
 theorem stable_projection (xReg yReg : RegionName) (B : Nat) :
     (stableSoftmaxKernel xReg yReg B).eraseDType.toAlgorithm? =
       Except.ok (OnlineSoftmax.Kernels.batchSoftmaxKernel xReg yReg B).toAlgKernel := by
-  simp [stableSoftmaxKernel, OnlineSoftmax.Kernels.batchSoftmaxKernel,
-    OnlineSoftmax.Kernels.stableSoftmaxKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
-  repeat' apply And.intro
-  all_goals first
-    | exact erase_output_cast B
-    | (rw [Op.eraseDType.eq_def]; simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType])
+  simp [naiveMathKernel]
 
 /-- Value, termination, and untouched-memory obligations for the naive kernel. -/
 theorem naive_region_run (B : Nat) (s : BlockState) (xs : Fin B → ℝ)
@@ -99,6 +87,7 @@ theorem naive_traceSafe (xReg yReg : RegionName) (B : Nat) (hB : 0 < B)
     Kernel.TraceSafe bounds (naiveMathKernel xReg yReg B).toAlgKernel s := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
   unfold Kernel.TraceSafe
+  try simp only [naiveMathKernel, naiveSoftmaxKernel, stableSoftmaxKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   simp only [BlockState.pid_eq] at hx hy
   simp [naiveMathKernel, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,

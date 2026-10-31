@@ -30,7 +30,10 @@ def preludeExecution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // run (backend M) (prelude p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [prelude, original, int_scaled_matmul_matmul_surface, ComputeKernel.surfaceBody,
+  simp [prelude, original, int_scaled_matmul_matmul_surface, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, eval_intToSigned, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -54,7 +57,10 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α)
       (current.setReg "k" .nat [] (fun _ => k * p.blockInner)) = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [body, originalBody, original, int_scaled_matmul_matmul_surface, widths, ComputeKernel.surfaceBody,
+  simp [body, originalBody, original, int_scaled_matmul_matmul_surface, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, eval_intToSigned, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,

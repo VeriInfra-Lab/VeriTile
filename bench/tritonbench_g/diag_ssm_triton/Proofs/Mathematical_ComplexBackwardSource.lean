@@ -21,7 +21,12 @@ theorem source_body (s l y gs gx gl gy : RegionName) (length batch dim B : Nat) 
     (Erasure.complexBackward Bool.false s l y gs gx gl gy length batch dim B).toAlgKernel.body =
       prelude l batch dim B ++ [.forLoop "i" length (body s y gx gy length batch dim B)] ++
         postlude gs gl B := by
-  simp [prelude, body, postlude, Erasure.complexBackward,
+  simp [prelude, body, postlude, Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
+    IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.eraseDType, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,

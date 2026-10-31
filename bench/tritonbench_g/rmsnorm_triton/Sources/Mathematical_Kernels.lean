@@ -1,3 +1,5 @@
+import bench.tritonbench_g.rmsnorm_triton.Sources.Selected
+import bench.tritonbench_g.rmsnorm_triton.Sources.RealSquareView
 import VeriTile.Triton
 
 /-!
@@ -78,47 +80,18 @@ open VeriTile.Triton
 set_option maxHeartbeats 5000000
 set_option linter.unusedSimpArgs false
 
-/- The following retained declaration is the historical exact-real square
-model. Its statement headers and docstrings are retained for compatibility.
-The actual typed source below keeps the independent libdevice integer-power
-operation; its exact-real link to this model is a proved square identity. -/
-/-- Faithful transcription of `rmsnorm_triton.py`'s `rmsnorm_triton`.
-
-Allowed mechanical Lean-syntax-only changes:
-- Python `N_SIZE: tl.constexpr` / `eps: tl.constexpr` / `BLOCK_N_SIZE: tl.constexpr`
-  -> Lean `Nat` / `ℝ` parameters. -/
+/-- Mathematical view derived from the shared repair. The local Real-only
+power-of-two rewrite is connected through the complete source variance loop
+by Proofs.Source.variance_run and original_run. FP keeps libdevicePowi. -/
 def rmsnorm_triton
     (x_ptr rms_w_ptr output_ptr : RegionName)
     (stride_x_batch stride_x_m stride_x_k stride_rms_w
       stride_out_batch stride_out_m stride_out_k : Nat)
-    (N_SIZE BLOCK_N_SIZE : Nat) (eps : ℝ) :
-    ComputeKernel := triton {
-  pid_batch = tl.program_id(0)
-  pid_m = tl.program_id(1)
-  offs_m = pid_batch * $(stride_x_batch) + pid_m * $(stride_x_m)
-  block_N = tl.arange(0, $(BLOCK_N_SIZE))
-  var = tl.zeros([$(BLOCK_N_SIZE)], tl.float32)
-  for block_n_start_idx in range(0, $(N_SIZE), $(BLOCK_N_SIZE)) {
-    offs_n = block_n_start_idx + block_N
-    x_ptr_mask = offs_n < $(N_SIZE)
-    x = tl.load(x_ptr + offs_m + offs_n * $(stride_x_k), mask=x_ptr_mask, other=0.0)
-    var += (x).to(tl.float32) * (x).to(tl.float32)
-  }
-  var = tl.sum(var, axis=0) / $(N_SIZE)
-  rstd = tl.math.rsqrt(var + $(eps))
-  for block_n_start_idx in range(0, $(N_SIZE), $(BLOCK_N_SIZE)) {
-    offs_n = block_n_start_idx + block_N
-    x_ptr_mask = offs_n < $(N_SIZE)
-    rms_w = tl.load(rms_w_ptr + offs_n * $(stride_rms_w), mask=x_ptr_mask)
-    x = tl.load(x_ptr + offs_m + offs_n * $(stride_x_k), mask=x_ptr_mask, other=0.0).to(tl.float32)
-    x_hat = x * rstd
-    out = x_hat * rms_w
-    out_off = pid_batch * $(stride_out_batch) + pid_m * $(stride_out_m) +
-      offs_n * $(stride_out_k)
-    tl.store(output_ptr + out_off, out, mask=x_ptr_mask)
-  }
-}
-
+    (N_SIZE BLOCK_N_SIZE : Nat) (eps : ℝ) : ComputeKernel :=
+  RealSquareView.ofKernel
+    (VeriTile.Bench.Repairs.RmsnormTriton.kernel x_ptr rms_w_ptr output_ptr
+      stride_x_batch stride_x_m stride_x_k stride_rms_w
+      stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE eps).eraseDType.toAlgKernel
 
 open Lean
 syntax "rmsnormPowiTyped%" "[" tritonDType "," tritonDType "," tritonDType "]" : term
@@ -181,7 +154,7 @@ power, rsqrt and the weight load without `other`. The explicit store conversion
 represents the source store's implicit destination conversion. -/
 def originalTyped (input weight output : Storage) : Source :=
   match input, weight, output with
-  | .fp32, .fp32, .fp32 => rmsnormPowiTyped%[tl.float32, tl.float32, tl.float32]
+  | .fp32, .fp32, .fp32 => VeriTile.Bench.Repairs.RmsnormTriton.kernel
   | .fp32, .fp32, .fp64 => rmsnormPowiTyped%[tl.float32, tl.float32, tl.float64]
   | .fp32, .fp32, .fp16 => rmsnormPowiTyped%[tl.float32, tl.float32, tl.float16]
   | .fp32, .fp32, .bf16 => rmsnormPowiTyped%[tl.float32, tl.float32, tl.bfloat16]

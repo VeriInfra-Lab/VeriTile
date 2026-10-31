@@ -30,7 +30,7 @@ theorem erases
       stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
       Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
       END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW sliding_window_offset sliding_window_size).eraseDType := by
-  simp only [ComputeKernel.eraseDType, FP32Source.original, TypedSource.original,
+  simp only [ComputeKernel.eraseDType, FP32Source.original,VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.Quoted.kernel, TypedSource.original,
     ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType, List.map_cons, List.map_nil, Kernel.eraseDType, Stmt.eraseDTypeList,

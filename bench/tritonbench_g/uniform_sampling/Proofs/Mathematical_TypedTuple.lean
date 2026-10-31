@@ -123,13 +123,6 @@ theorem outputs_exec {α : Type} [Inhabited α] (M : Algebra α)
   rw [field_step M seed offset i4 .c3 _ hseed h2]
   rfl
 
-theorem source_slice (storage : Storage) (swapped : Bool) (y : RegionName)
-    (N : Nat) (seed offset : Int) (lower upper : ℝ) (B : Nat)
-    (hB : SourceDomain.LegalBlock B) :
-    ((source storage swapped y N seed offset lower upper B hB).surfaceBody.drop 10).take 1 =
-      [tupleBlock B] := by
-  cases storage <;> cases swapped <;> rfl
-
 theorem tuple_exec {α : Type} [Inhabited α] (M : Algebra α)
     {B : Nat} (seed offset : Int) (i4 : TileIndex [B] → Nat)
     (s : State α) (hseed : Random.IntegerType.i64.inRange seed = Bool.true)
@@ -157,7 +150,6 @@ theorem output_register {α : Type} {B : Nat} (seed offset : Int) (i4 : TileInde
 #axiomsClean field_step
 #axiomsClean field_preserves_captures
 #axiomsClean outputs_exec
-#axiomsClean source_slice
 #axiomsClean tuple_exec
 #axiomsClean output_register
 

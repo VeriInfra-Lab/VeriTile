@@ -51,38 +51,7 @@ theorem pointer_eval (swapped : Bool) (T BT row : Nat) (r : RegionName)
       Option.bind, Tile.bop, Tile.scalar, Broadcast.leftIndex, Broadcast.rightIndex,
       NumericDType.mul, pointer, hmul, Nat.mul_comm]
 
-theorem executes (swapped : Bool) (T BT row : Nat) (s o : RegionName)
-    (input padding : Nat → ℝ) (acc : ℝ) (j : Int) (u : BlockState) (hj : j < 1)
-    (hr : u.regs .int [] "__rev_i_t" = some (Tile.scalar j))
-    (hh : u.regs .nat [] "i_bh" = some (Tile.scalar row))
-    (ha : u.regs .real [] "b_z" = some (Tile.scalar (some acc)))
-    (hm : ∀ off, u.readMem s off = input off)
-    (hu : ∀ off, u.undef s off = padding off) :
-    stepStmts (loopBody swapped T BT s o) u =
-      some (result T BT row s o (-j).toNat (value T row input padding) acc u) := by
-  unfold loopBody
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (index_eval j u hj hr))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (pointer_eval swapped T BT row s
-    (-j).toNat _ (by simp [hh]) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (pointer_eval Bool.false T BT row o
-    (-j).toNat _ (by simp [hh]) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_eval T BT row s (-j).toNat
-    input padding _ (by simp) (by intro off; simp [hm]) (by intro off; simp [hu])))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (shape := []) (sum_eval BT (-j).toNat
-    (value T row input padding) _ (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (carry_eval BT (-j).toNat
-    (value T row input padding) acc _ (by simp [ha]) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (output_eval BT (-j).toNat
-    (value T row input padding) (acc + chunkSum BT (-j).toNat (value T row input padding)) _
-    (by simp) (by simp)))]
-  rw [stepStmts.cons_some (RealMemory.store_eval T BT row o (-j).toNat
-    (value T row input padding) (acc + chunkSum BT (-j).toNat (value T row input padding)) _
-    (by simp) (by simp))]
-  rw [stepStmts.nil]
-  rfl
-
 #axiomsClean index_eval
 #axiomsClean pointer_eval
-#axiomsClean executes
 end
 end VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealStep

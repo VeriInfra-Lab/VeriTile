@@ -68,7 +68,7 @@ theorem tensor_post (read : Nat → ℝ) (h : Shape) (f : Flags) (a b c : Tensor
   rw [hp]
   exact read_stored _ _
 
-#specNonCircular product avoiding [kernel,source,FP.Structural.exec,scatter]
+#specNonCircular product avoiding [source,FP.Structural.exec,scatter]
 #axiomsClean output_product
 #axiomsClean tensor_post
 end

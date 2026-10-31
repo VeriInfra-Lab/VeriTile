@@ -1,126 +1,104 @@
-import bench.tritonbench_g.bgmv_expand_slice.Sources.Mathematical_Kernels
+import bench.tritonbench_g.bgmv_expand_slice.Kernels
+import VeriTile.Triton.Source
+import VeriTile.Meta.StatementAudit
 
-/-! Source regressions for all input/weight/cast choices, with a partial K tile
-and two output-loop steps. Offsetted loads retain their storage dtypes. The
-checks also prevent a failed branch/loop locator from removing the domain. -/
+/-! Precision and control regressions for the actual repaired source and its
+output-first candidate. The wrapper selects FP32 X/Y, FP16 W, CAST_TYPE=true,
+BLOCK_N=256 and SPLIT_N=N. No historical mixed-profile program is constructed. -/
 namespace FPBgmvExpandSliceSourceTests
 open VeriTile.Triton
-open VeriTile.Bench.TritonBenchG.BgmvExpandSlice
-set_option maxHeartbeats 2200000
+open VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked
+set_option maxHeartbeats 1000000
+set_option maxRecDepth 12000
 
-private def source (input : TypedSource.InputStorage) (weight : TypedSource.WeightStorage)
-    (cast swapped : Bool) (out_dtype : FloatDType) (even add : Bool) :=
-  TypedSource.specialize input weight cast swapped out_dtype "X" "W" "Y" 5 3 ⟨"Index"⟩
-    3 1 15 3 1 5 1 0 2 4 2 even add
-
-private def activeBody (kernel : ComputeKernel) :=
-  ((Source.conditional? kernel.surfaceBody
-    (fun body => (Source.dynamicRange? body "n").isSome)).map (·.yes)).getD []
-
-private def loopBody (kernel : ComputeKernel) :=
-  ((Source.dynamicRange? (activeBody kernel) "n").map (fun (r : Source.DynamicRange) => r.body)).getD []
-
-private def yesBody (code : List ComputeStmt) :=
-  ((Source.conditional? code (fun _ => Bool.true)).map (·.yes)).getD []
-
+private def source (h : Call) (candidate : Bool) :=
+  if candidate then Kernels.outputFirst h else Kernels.source h
+private def activeBody (h : Call) (candidate : Bool) :=
+  ((Source.conditional? (source h candidate).surfaceBody
+    (fun body => (Source.intRange? body "n").isSome)).map (·.yes)).getD []
+private def loop (h : Call) (candidate : Bool) :=
+  Source.intRange? (activeBody h candidate) "n"
+private def loopBody (h : Call) (candidate : Bool) := ((loop h candidate).map (·.body)).getD []
+private def firstConditional (code : List ComputeStmt) :=
+  Source.conditional? code (fun _ => Bool.true)
+private def branch (code : List ComputeStmt) (yes : Bool) :=
+  ((firstConditional code).map (fun c => if yes then c.yes else c.no)).getD []
 private def assignment (code : List ComputeStmt) (name : RegName) :=
   (code.drop (Source.prefixBefore code name).length).head?
-
 private def loadDType? : ComputeStmt → Option TileDType
   | .assign _ _ _ (.alg (.load dtype _ _)) => some dtype
   | .assign _ _ _ (.compute (.load .fp32 _ _)) => some .fp32
-  -- Declared fp64 storage is an actual real-channel load under fp64 compute.
-  -- Inspect the load itself: a cast, reference or other expression is not a load.
-  | .assign _ _ _ (.compute (.alg .fp64 (.load .real _ _))) => some .real
   | _ => none
-
-private def assignedLoad (code : List ComputeStmt) (name : RegName) :=
-  (assignment code name).bind loadDType?
-
-private def inputDType : TypedSource.InputStorage → TileDType
-  | .fp16 => .fp16 | .bf16 => .bf16 | .fp32 => .fp32
-private def weightDType : TypedSource.WeightStorage → TileDType
-  | .fp16 => .fp16 | .bf16 => .bf16
-
-section
-variable (input : TypedSource.InputStorage) (weight : TypedSource.WeightStorage)
-    (cast swapped : Bool) (out_dtype : FloatDType) (even add : Bool)
-
-theorem input_load_keeps_storage :
-    assignedLoad (yesBody (activeBody (source input weight cast swapped out_dtype even add))) "tiled_a" =
-      some (inputDType input) := by
-  cases input <;> cases weight <;> cases cast <;> cases swapped <;> cases out_dtype <;> rfl
-
-theorem offsetted_weight_load_keeps_storage :
-    assignedLoad (loopBody (source input weight cast swapped out_dtype even add)) "tiled_b" =
-      some (weightDType weight) := by
-  cases input <;> cases weight <;> cases cast <;> cases swapped <;> cases out_dtype <;> rfl
-
-theorem old_output_load_keeps_storage :
-    assignedLoad (yesBody (loopBody (source input weight cast swapped out_dtype even add))) "tiled_out" =
-      some out_dtype.toTileDType := by
-  cases input <;> cases weight <;> cases cast <;> cases swapped <;> cases out_dtype <;> rfl
-
 private def assignedDType? : ComputeStmt → Option TileDType
   | .assign dtype _ _ _ => some dtype
   | _ => none
+private def assignedLoad (code : List ComputeStmt) (name : RegName) :=
+  (assignment code name).bind loadDType?
 
-theorem cast_rebinds_to_weight_dtype :
-    (assignment (activeBody (source input weight cast swapped out_dtype even add)) "tiled_a").bind assignedDType? =
-      if cast then some (weightDType weight) else none := by
-  cases input <;> cases weight <;> cases cast <;> cases swapped <;> cases out_dtype <;> rfl
+/-- Both EVEN_K arms load FP32 input, before the required conversion to half. -/
+theorem input_load_keeps_storage (h : Call) (candidate yes : Bool) :
+    assignedLoad (branch (activeBody h candidate) yes) "tiled_a" = some .fp32 := by
+  cases candidate <;> cases yes <;> rfl
 
-private def storedDType? : ComputeStmt → Option TileDType
-  | .store _ _ _ (.compute (.alg .fp32 _)) _ => some .fp32
-  | .store dtype _ _ _ _ => some dtype
-  | _ => none
+theorem weight_load_keeps_storage (h : Call) (candidate : Bool) :
+    assignedLoad (loopBody h candidate) "tiled_b" = some .fp16 := by
+  cases candidate <;> rfl
 
-theorem store_keeps_output_dtype :
-    ((loopBody (source input weight cast swapped out_dtype even add)).getLast?).bind storedDType? =
-      some out_dtype.toTileDType := by
-  cases input <;> cases weight <;> cases cast <;> cases swapped <;> cases out_dtype <;> rfl
+theorem old_output_load_keeps_storage (h : Call) (candidate : Bool) :
+    assignedLoad (branch (loopBody h candidate) Bool.true) "tiled_out" = some .fp32 := by
+  cases candidate <;> rfl
 
-theorem loop_keeps_dynamic_bounds :
-    (Source.dynamicRange? (activeBody (source input weight cast swapped out_dtype even add)) "n").map
-      (fun r => (r.start,r.stop,r.stride)) =
-      some (.constNat 0, .ref .nat [] "split_n_length", .constNat 2) := by
-  cases input <;> cases weight <;> cases cast <;> cases swapped <;> cases out_dtype <;> rfl
+/-- The cast is an actual top-level reassignment, outside the input-load branch. -/
+theorem input_cast_rebinds_to_half (h : Call) (candidate : Bool) :
+    (assignment (activeBody h candidate) "tiled_a").bind assignedDType? = some .fp16 := by
+  cases candidate <;> rfl
 
-theorem complete_io_signature :
-    (source input weight cast swapped out_dtype even add).inputs = ["X","W","Y","Index"] ∧
-    (source input weight cast swapped out_dtype even add).outputs = ["Y"] := by
-  cases input <;> cases weight <;> cases cast <;> cases swapped <;> cases out_dtype <;> exact ⟨rfl,rfl⟩
+theorem loop_keeps_signed_bounds (h : Call) (candidate : Bool) :
+    (loop h candidate).map (fun r => (r.start,r.stop,r.stride)) =
+      some (.constInt 0,.ref .int [] "split_n_length",.constNat 256) := by
+  cases candidate <;> rfl
 
-end
+/-- Early return is lowered by guarding the complete remaining body with the
+negated signed sentinel test. No arithmetic or store precedes that guard. -/
+theorem signed_early_return (h : Call) (candidate : Bool) :
+    (Source.conditional? (source h candidate).surfaceBody
+      (fun body => (Source.intRange? body "n").isSome)).map (fun c => c.condition) =
+        some (.boolNot (.eq .int .nil (.ref .int [] "lora_index") (.constInt (-1)))) := by
+  cases candidate <;> rfl
 
-private def halfSum : Op .fp16 [2] :=
-  .reduceSumTyped .fp16 ⟨1, by decide⟩ Bool.false
-    (.mul .fp16 (.leadL (.consSame .nil)) (.ref .fp16 [4] "tiled_a")
-      (.ref .fp16 [2, 4] "tiled_b"))
+theorem signed_metadata (h : Call) (candidate : Bool) :
+    (assignment (source h candidate).surfaceBody "pid_sn").bind assignedDType? = some .int ∧
+    (assignment (source h candidate).surfaceBody "cur_batch").bind assignedDType? = some .int ∧
+    (assignment (source h candidate).surfaceBody "lora_index").bind assignedDType? = some .int := by
+  cases candidate <;> exact ⟨rfl,rfl,rfl⟩
 
-/-- Half output requires a half addition of the actual half reduction. -/
-theorem half_sum_and_addition_keep_dtype :
-    assignment (yesBody (loopBody
-      (source .fp16 .fp16 Bool.false Bool.false .fp16 Bool.false Bool.true))) "accumulator" =
-      some (.assign .fp16 [2] "accumulator" (.alg (.castFloat .fp16 .fp16
-        (.withPrecision .fp16 .fp32
-          (.add .fp16 (.consSame .nil) halfSum (.ref .fp16 [2] "tiled_out")))))) := rfl
+private def halfSum (h : Call) : Op .fp16 [256] :=
+  .reduceSumTyped .fp16 ⟨1,by simp⟩ Bool.false
+    (.mul .fp16 (.leadL (.consSame .nil)) (.ref .fp16 [h.BK] "tiled_a")
+      (.ref .fp16 [256,h.BK] "tiled_b"))
 
-/-- Promotion occurs after the typed reduction when output storage is fp32. -/
-theorem fp32_output_promotes_after_half_sum :
-    assignment (yesBody (loopBody
-      (source .fp16 .fp16 Bool.false Bool.false .fp32 Bool.false Bool.true))) "accumulator" =
-      some (.assign .real [2] "accumulator" (.compute (.alg .fp32 (.castFloat .real .real
-        (.add .real (.consSame .nil) (.castFloat .fp16 .real halfSum)
-          (.ref .real [2] "tiled_out")))))) := rfl
+/-- FP16 multiplication/reduction precedes promotion and the optional FP32
+addition; the current candidate exchanges just those addition operands. -/
+theorem output_promotes_after_half_sum (h : Call) (candidate : Bool) :
+    assignment (branch (loopBody h candidate) Bool.true) "accumulator" =
+      some (.assign .real [256] "accumulator" (.compute (.alg .fp32 (.castFloat .real .real
+        (if candidate then
+          .add .real (.consSame .nil) (.ref .real [256] "tiled_out") (.castFloat .fp16 .real (halfSum h))
+        else .add .real (.consSame .nil) (.castFloat .fp16 .real (halfSum h)) (.ref .real [256] "tiled_out")))))) := by
+  cases candidate <;> rfl
 
-/-- The candidate swaps exactly these operands without widening their arithmetic. -/
-theorem half_candidate_preserves_sum_dtype :
-    assignment (yesBody (loopBody
-      (source .fp16 .fp16 Bool.false Bool.true .fp16 Bool.false Bool.true))) "accumulator" =
-      some (.assign .fp16 [2] "accumulator" (.alg (.castFloat .fp16 .fp16
-        (.withPrecision .fp16 .fp32
-          (.add .fp16 (.consSame .nil) (.ref .fp16 [2] "tiled_out") halfSum))))) := rfl
+/-- The active output lane test survives the implicit destination conversion. -/
+theorem masked_output_store (h : Call) (candidate : Bool) :
+    (loopBody h candidate).getLast? = some (.store .real [256]
+      (.ptr (.ptrAdd .scalarL (.ref .ptr [] "c_ptr") (.castIntToNat (.ref .int [256] "current_n"))))
+      (.compute (.alg .fp32 (.ref .real [256] "accumulator")))
+      (.mask (.ref .bool [256] "c_mask"))) := by
+  cases candidate <;> rfl
+
+theorem complete_io_signature (h : Call) (candidate : Bool) :
+    (source h candidate).inputs = ["X","W","Y","Indices"] ∧
+    (source h candidate).outputs = ["Y"] := by
+  cases candidate <;> exact ⟨rfl,rfl⟩
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

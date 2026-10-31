@@ -22,7 +22,39 @@ theorem projects :
       s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV).toAlgorithm? =
     .ok (TypedOutput.source query value gate swapped dtype out_dtype q v g h o A
       s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV).toAlgKernel := by
-  cases swapped <;> cases query <;> cases value <;> cases gate <;> rfl
+  cases swapped <;> cases query <;> cases value <;> cases gate
+  all_goals simp only [BlockPaddingView.kernel,
+    BlockPaddingView.statements,
+    BlockPaddingView.statement,
+    BlockPaddingView.algorithmStatements,
+    BlockPaddingView.algorithmStatement,
+    BlockPaddingView.expression,
+    BlockPaddingView.compute,
+    BlockPaddingView.operation,
+    VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedOutput.Storage.current,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.source,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32Original,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32DotFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedIntra.source,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedIntra.fp32Original,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedIntra.fp32ScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedSplit.source,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedSplit.fp32Original,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedSplit.fp32ScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedOutput.source,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedOutput.fp32Original,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedOutput.fp32SumLeft,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedMerge.original,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedMerge.loadFirst,
+    TypedOutput.source, Bool.false_eq_true, ↓reduceIte,
+    ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
+    ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
+    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList,
+    Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
+    NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType,
+    Except.bind, bind, List.map_cons, List.map_nil, eraseDType_float]
+  all_goals rfl
 
 theorem storage_erasure :
     (TypedOutput.source query value gate swapped dtype out_dtype q v g h o A
@@ -30,7 +62,30 @@ theorem storage_erasure :
     (TypedOutput.source .fp32 .fp32 .fp32 swapped .real .real q v g h o A
       s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV).eraseDType.toAlgKernel.body := by
   cases swapped <;> cases query <;> cases value <;> cases gate
-  all_goals simp only [TypedOutput.source, Bool.false_eq_true, ↓reduceIte,
+  all_goals simp only [BlockPaddingView.kernel,
+    BlockPaddingView.statements,
+    BlockPaddingView.statement,
+    BlockPaddingView.algorithmStatements,
+    BlockPaddingView.algorithmStatement,
+    BlockPaddingView.expression,
+    BlockPaddingView.compute,
+    BlockPaddingView.operation,
+    VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedOutput.Storage.current,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.source,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32Original,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32DotFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedIntra.source,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedIntra.fp32Original,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedIntra.fp32ScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedSplit.source,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedSplit.fp32Original,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedSplit.fp32ScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedOutput.source,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedOutput.fp32Original,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedOutput.fp32SumLeft,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedMerge.original,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedMerge.loadFirst,
+    TypedOutput.source, Bool.false_eq_true, ↓reduceIte,
     ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,

@@ -56,7 +56,7 @@ theorem prefix_safe (bounds : RegionBounds) (s : BlockState) (Q M : RegionName)
     (hp : s.regs .blockPtr [B,D] "Q_block_ptr" = some (RealLoads.queryPointer Q B D N baseQ sqm sqk row))
     (hm : s.regs .ptr [B] "m_ptrs" = some (RealLoads.normalizerPointers M B baseM row))
     (hbQ : BlockBounds bounds (RealLoads.queryPointer Q B D N baseQ sqm sqk row) (RealLoads.checks evenM))
-    (hr : s.regs .nat [] "start_m" = some (Tile.scalar row))
+    (hr : s.regs .int [] "start_m" = some (Tile.scalar (row:Int)))
     (hbM : ∀ i : Fin B, row+i.val < N → baseM+row+i.val < bounds M) :
     Stmt.TraceSafeList bounds (RealBody.loadPrefix B D N evenM) s := by
   unfold RealBody.loadPrefix
@@ -68,13 +68,13 @@ theorem prefix_safe (bounds : RegionBounds) (s : BlockState) (Q M : RegionName)
     (load_choice_safe bounds _ [B,D] "Q_block_ptr" "q" evenM _ (by simp [hp]) hbQ)
   intro t ht
   have he : stepStmts [loadChoice [B,D] "Q_block_ptr" "q" evenM]
-      (s.setReg "start_m" .nat [] (Tile.scalar row)) = some t := by
+      (s.setReg "start_m" .int [] (Tile.scalar (row:Int))) = some t := by
     simpa only [stepStmts, ht, bind, Option.bind] using (rfl : some t = some t)
   have frame := (load_choice_code [B,D] "Q_block_ptr" "q" evenM).frame he
   have hmt : t.regs .ptr [B] "m_ptrs" = some (RealLoads.normalizerPointers M B baseM row) :=
     (frame.regs .ptr [B] "m_ptrs" (by simp)).trans (by simp [hm])
-  have hrt : t.regs .nat [] "start_m" = some (Tile.scalar row) :=
-    (frame.regs .nat [] "start_m" (by simp)).trans (by simp)
+  have hrt : t.regs .int [] "start_m" = some (Tile.scalar (row:Int)) :=
+    (frame.regs .int [] "start_m" (by simp)).trans (by simp)
   apply Stmt.TraceSafeList.cons_intro
   · simp only [Stmt.TraceSafe, Op.SafeAt.eq_def, true_and]
     unfold MemAccess.ActiveAddressSafe memAccessActiveAddressSafe Op.PointerAddressesSafeOn
@@ -83,9 +83,11 @@ theorem prefix_safe (bounds : RegionBounds) (s : BlockState) (Q M : RegionName)
     rw [evalOp_ref, hmt] at ht
     cases ht
     have hrow : row + i.1.val < N := by
-      simpa [MaskOpt.Active, evalOp.eq_def, hrt, bind, Option.bind,
+      have active : (row:Int)+(i.1.val:Int)<(N:Int) := by
+        simpa [MaskOpt.Active, evalOp.eq_def, hrt, bind, Option.bind,
         Tile.bop, Tile.cop, Tile.scalar, Tile.vec, NumericDType.add,
         ComparableDType.lt, Broadcast.leftIndex, Broadcast.rightIndex, -Tile.scalar_eta] using hactive
+      exact_mod_cast active
     simpa [RealLoads.normalizerPointers] using hbM i.1 hrow
   · intro _ _; exact Stmt.TraceSafeList.nil_intro
 
@@ -95,7 +97,7 @@ theorem body_safe (bounds : RegionBounds) (s : BlockState) (Q M : RegionName)
     (hp : s.regs .blockPtr [B,D] "Q_block_ptr" = some (RealLoads.queryPointer Q B D N baseQ sqm sqk row))
     (hm : s.regs .ptr [B] "m_ptrs" = some (RealLoads.normalizerPointers M B baseM row))
     (hbQ : BlockBounds bounds (RealLoads.queryPointer Q B D N baseQ sqm sqk row) (RealLoads.checks evenM))
-    (hr : s.regs .nat [] "start_m" = some (Tile.scalar row))
+    (hr : s.regs .int [] "start_m" = some (Tile.scalar (row:Int)))
     (hbM : ∀ i : Fin B, row+i.val < N → baseM+row+i.val < bounds M) :
     Stmt.TraceSafeList bounds (RealBody.body B D N offset size window complement evenM evenN candidate) s := by
   unfold RealBody.body

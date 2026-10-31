@@ -106,7 +106,7 @@ each launched program retains the original row/column masks internally. -/
 def realIO (M N : Nat) : UKernelIO where
   kernel := (kernel M N).eraseDType
   projection := VeriTile.Bench.TritonBenchG.MeanReduction.typed_supported
-    .fp32 .fp32 Bool.false "X" "Mean" M N 8 8
+    Bool.false "X" "Mean" M N 8 8
   nIn := 1
   nOut := 1
   nScr := 0

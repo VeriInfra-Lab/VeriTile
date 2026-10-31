@@ -82,24 +82,6 @@ structure Layout where
 def layout (kind : Kind) (h : Call) (p : Phase) : Layout :=
   ⟨kind,p.span,h.BK,h.width,0,Bool.true,Bool.true,Bool.true,64,Bool.true,Bool.true,scaleArgument kind,scaleSlot⟩
 
-/-- Decoding retains symbolic scalar slots. Runtime dimensions and strides
-are supplied only when the decoded source template is instantiated. -/
-def template (recipe : Layout) (args : List Nat) : ComputeKernel :=
-  let arg := fun i => (args[i]?).getD 0
-  match recipe.kind with
-  | .forward => Original.forward .fp32 Bool.false "g" "go"
-      (arg recipe.headStrideSlot) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5)
-      recipe.timeSpan recipe.lanes recipe.width recipe.scaleMarker
-  | .prepare => Original.prepare .fp32 .fp32 Bool.false "q" "k" "g" "qg" "kg"
-      (arg recipe.headStrideSlot) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5)
-      recipe.timeSpan recipe.lanes recipe.width recipe.scaleMarker
-  | .backward => Original.backward .fp32 .fp32 Bool.false "dqi" "dqo" "dki" "dko" "q" "k" "g" "dg"
-      (arg recipe.headStrideSlot) (arg 1) (arg 2) (arg 3) (arg 4) (arg 5)
-      recipe.timeSpan recipe.lanes recipe.width recipe.scaleMarker
-
-theorem template_source (kind : Kind) (h : Call) (p : Phase) :
-    template (layout kind h p) (arguments h p)=Kernels.source kind h p scaleSlot := by
-  cases kind <;> rfl
 structure Decoder where
   layout : ByteArray → Signature → Options → Layout
   sites : ByteArray → Signature → Options → PrimitiveNames → Graph
@@ -140,45 +122,11 @@ def algebra (platform : Platform) (binding : Binding platform kind h p) (host : 
     (platform.decoder.sites binding.object.bytes binding.object.signature binding.object.options binding.object.primitives)
     kind (platform.scale binding.object host)
 
-def decodedSource (platform : Platform) (binding : Binding platform kind h p) : ComputeKernel :=
-  template (platform.decoder.layout binding.object.bytes binding.object.signature binding.object.options)
-    (arguments h p)
-theorem decoded_source (platform : Platform) (binding : Binding platform kind h p) :
-    decodedSource platform binding=Kernels.source kind h p scaleSlot := by
-  unfold decodedSource
-  rw [binding.decoded,template_source]
-
-structure Facts (platform : Platform) (binding : Binding platform kind h p) (host : UInt64)
-    (prog : Program h p) (u v : State Node) : Prop extends
-    KernelExecution.Facts (algebra platform binding host) kind h p prog scaleSlot u v where
-  decodedSuccess : FP.Structural.exec (engine (algebra platform binding host))
-    (decodedSource platform binding) u=some v
-
-theorem complete (platform : Platform) (kind : Kind) (h : Call) (p : Phase)
-    (binding : Binding platform kind h p) (host : UInt64) (hp : p∈phases h)
-    (prog : Program h p) (u : State Node)
-    (hf : u.pids 0=prog.feature) (hc : u.pids 1=prog.chunk) (hr : u.pids 2=prog.row) :
-    ∃ v,Facts platform binding host prog u v ∧
-      KernelNative.Outputs (platform.instructions binding.object.primitives) kind h p prog
-        (platform.scale binding.object host) u v := by
-  have graphs := funext binding.graphs
-  have same : algebra platform binding host=Native.algebra (platform.instructions binding.object.primitives)
-      selected kind (platform.scale binding.object host) := by
-    simp only [algebra,graphs]
-  obtain ⟨v,facts,values⟩ := KernelNative.complete (platform.instructions binding.object.primitives)
-    kind h p hp prog (platform.scale binding.object host) u hf hc hr
-  rw [←same] at facts
-  refine ⟨v,⟨facts,?_⟩,values⟩
-  rw [decoded_source]
-  exact facts.success
-
 theorem runtime_scale_value (platform : Platform) (binding : Binding platform kind h p) (host : UInt64) :
     ((algebra platform binding host).literal (some .fp32) .real scaleSlot).value=platform.scale binding.object host :=
   scale_all_words _
 
-#axiomsClean complete
 #axiomsClean runtime_scale_value
 #axiomsClean scale_argument_slots
-#axiomsClean decoded_source
 end
 end VeriTile.Bench.Repairs.DecayCumsum.KernelCompiler

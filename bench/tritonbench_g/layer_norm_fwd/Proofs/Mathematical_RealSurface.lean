@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Candidate
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Real
 import VeriTile.Triton.Correctness
 
 /-! Standard region realization of the complete seven-output mathematical
@@ -65,18 +65,6 @@ theorem original_realizes (f : Flags) (r : Regions) (stride : Strides)
     RealExecution.source_correct f r stride M N eps p block hBlock initial hN hsep
   exact realizes_of_contract _ _
     (erase_projection _ (original_toAlgorithm_supported f r stride M N eps p block hBlock))
-    f r stride M N eps p initial final he hp
-
-theorem candidate_realizes (f : Flags) (r : Regions) (stride : Strides)
-    (M N : Nat) (eps p : ℝ) (block : Nat) (hBlock : Random.ArangeSizeDomain block)
-    (initial : BlockState) (hN : N ≤ block) (hsep : Domain.ReadWriteSeparated f r) :
-    ComputeCorrect.RealizesFrame_without_Rounding (α := MemCell)
-      (candidate f r stride M N eps p block hBlock).eraseDType initial
-      (writes f r stride M N initial.pid) (expected f r stride M N eps p initial) := by
-  obtain ⟨final, he, hp⟩ :=
-    CandidateExecution.source_correct f r stride M N eps p block hBlock initial hN hsep
-  exact realizes_of_contract _ _
-    (erase_projection _ (candidate_toAlgorithm_supported f r stride M N eps p block hBlock))
     f r stride M N eps p initial final he hp
 
 end

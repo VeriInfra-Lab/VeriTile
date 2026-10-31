@@ -1,14 +1,8 @@
-import bench.tritonbench_g.rmsnorm_fused.Sources.Mathematical_Kernels
+import VeriTile.Triton
 import VeriTile.Triton.Float.Structural
 
 namespace VeriTile.Bench.Repairs.RmsnormFused
 open VeriTile.Triton
-
-/-- The complete original FP32 typed body. The repaired Python promotes the PID
-to int64 before the same address arithmetic; Geometry binds the bounded native
-indices to these naturals. Both loops and every numerical operation are retained. -/
-def kernel (X Y W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
-  VeriTile.Bench.TritonBenchG.RmsnormFused.originalTyped .fp32 .fp32 .fp32 X Y W N N B eps
 
 /-- Complete repaired runtime-epsilon source. The FP32 scalar is supplied by
 `Runtime.bind` and the IO invocation; its declaration emits no statement.

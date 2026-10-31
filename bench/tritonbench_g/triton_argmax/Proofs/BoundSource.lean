@@ -37,20 +37,19 @@ def O : Region .int := ⟨"argmax.output"⟩
 def Binding.cell {casts kind} : Binding casts kind → MidWord kind.format → Cell Word
   | .floating k _ codec => fun word => .mk (TypedScratch.channel k).toTileDType
       (ofFloat (TypedScratch.channel k) (codec.decode word))
-  | .integer k _ => fun word => .mk .int (Formats.decodeStored k word)
+  | .integer k _ => fun word => JITInteger.cell k (word.cast (Formats.format_width k).symm)
 
 def Binding.ops {casts kind} : Binding casts kind → Algebra Word → Algebra Word
   | .floating _ round _ => TypedScratch.backend round
-  | .integer k _ => TypedIntegerMacro.backend k (casts.integer k)
+  | .integer k _ => JITInteger.backend k (casts.integer k)
 
 def Binding.first {casts kind} : Binding casts kind → GlobalConfig → Bool → ComputeKernel
-  | .floating k _ _,c,index64 => TypedScratch.firstKernel k X V I c.size c.block 0 index64
-  | .integer _ _,c,index64 => TypedIntegerMacro.kernel X V I c.size c.block 0 index64
+  | .floating k _ _,c,index64 => JITCall.first X V I (JITStage1.floatingType k) c.size c.block 0 index64
+  | .integer k _,c,index64 => JITCall.first X V I (JITInteger.sourceType k) c.size c.block 0 index64
 
 def Binding.second {casts kind} : Binding casts kind → GlobalConfig → ComputeKernel
-  | .floating k _ _,c => TypedScratch.secondKernel k V I O c.blocks c.midBlock
-  | .integer k _,c => TypedInteger.stage2 VI I O c.blocks c.midBlock
-      (Formats.decodeStored k (integerScratch k (casts.integer k)).padding)
+  | .floating k _ _,c => JITCall.second V I O (JITStage1.floatingType k) c.blocks c.midBlock
+  | .integer k _,c => JITCall.second V I O (JITInteger.sourceType k) c.blocks c.midBlock
 
 /-- All entry loads come from this exact current byte state. Other registers
 and undefined channels are arbitrary block-local template values. -/
@@ -108,17 +107,19 @@ theorem first_step {M casts kind} (mem : Primitives M) (binding : Binding casts 
       (Native.firstProgram mem (Request.scratch casts kind) g p before pid) := by
   cases binding with
   | floating k round codec =>
-    obtain ⟨t,run,writes⟩ := TypedNative.first_float k round (casts.floating k) codec rest
+    obtain ⟨t,run,writes⟩ := JITNative.first_float k round (casts.floating k) codec rest
       (entry mem (.floating k round codec) p before template pid) X V I c g 0 index64 positive
     simp only [entry_input,entry_pid,Nat.add_zero] at writes
-    refine ⟨t,Native.firstIndex g (GlobalMemory.input mem p before) pid,run,?_,rfl⟩
-    exact writes
+    refine ⟨t,Native.firstIndex g (GlobalMemory.input mem p before) pid,?_,?_,rfl⟩
+    · simpa only [Binding.first,Binding.ops,JITCall.first,JITCall.bind_first,JITStage1.arguments] using run
+    · exact writes
   | integer k zero =>
-    obtain ⟨t,run,writes⟩ := TypedIntegerMacro.source_native k (casts.integer k) rest
+    obtain ⟨t,run,writes⟩ := JITNative.first_integer k (casts.integer k) rest
       (entry mem (.integer k zero) p before template pid) X V I c g 0 index64 positive
     simp only [entry_input,entry_pid,Nat.add_zero] at writes
-    refine ⟨t,Native.firstIndex g (GlobalMemory.input mem p before) pid,run,?_,rfl⟩
-    exact writes
+    refine ⟨t,Native.firstIndex g (GlobalMemory.input mem p before) pid,?_,?_,rfl⟩
+    · simpa only [Binding.first,Binding.ops,JITCall.first,JITCall.bind_first,JITStage1.arguments] using run
+    · exact writes
 
 def Reachable {casts kind} (binding : Binding casts kind) (word : MidWord kind.format) : Prop :=
   match binding with
@@ -145,20 +146,23 @@ theorem second_step {M casts kind} (mem : Primitives M) (binding : Binding casts
       (Native.secondProgram mem (Request.scratch casts kind) kind.isFloating g p before) := by
   cases binding with
   | floating k round codec =>
-    obtain ⟨t,run,writes⟩ := TypedNative.second_float k round (casts.floating k) codec rest
+    obtain ⟨t,run,writes⟩ := JITNative.second_float k round (casts.floating k) codec rest
       (entry mem (.floating k round codec) p before template 0) V I O c g positive
       (fun i => mem.read k.format.bytes before (address p.midValue k.format.bytes i)) reachable
       (by intro i hi; rw [entry_mid]; cases k <;> rfl)
     simp only [entry_index] at writes
-    exact ⟨t,_,run,writes,rfl⟩
+    refine ⟨t,_,?_,writes,rfl⟩
+    simpa only [Binding.second,Binding.ops,JITCall.second,JITCall.bind_second] using run
   | integer k zero =>
-    obtain ⟨t,run,writes⟩ := TypedNative.second_integer k (casts.integer k)
-      (Binding.ops (.integer k zero) rest) (entry mem (.integer k zero) p before template 0) VI I O c g positive
+    obtain ⟨t,run,writes⟩ := JITNative.second_integer k (casts.integer k)
+      (Binding.ops (.integer k zero) rest) (entry mem (.integer k zero) p before template 0) V I O c g positive
       (fun i => mem.read (Formats.format k).bytes before (address p.midValue (Formats.format k).bytes i))
-      (by intro i hi; change ((entry mem (.integer k zero) p before template 0).mem V i).read .int=_
-          rw [entry_mid]; rfl)
+      (by intro i hi
+          rw [entry_mid]
+          simp only [Binding.cell, JITInteger.read_cell, BitVec.cast_cast, BitVec.cast_eq, Request.Kind.format])
     simp only [entry_index] at writes
-    exact ⟨t,_,run,writes,rfl⟩
+    refine ⟨t,_,?_,writes,rfl⟩
+    simpa only [Binding.second,Binding.ops,JITCall.second,JITCall.bind_second] using run
 
 #axiomsClean first_step
 #axiomsClean second_step

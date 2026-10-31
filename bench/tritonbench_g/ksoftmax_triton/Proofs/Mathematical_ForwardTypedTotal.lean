@@ -30,7 +30,7 @@ def fp32_source_run {α : Type} [Inhabited α] (algebra : Algebra α)
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp (maxSteps := 300000) [Typed.fp32Original, MaskMode.python,
+    simp (maxSteps := 300000) [Typed.fp32Original,VeriTile.Bench.Repairs.Ksoftmax.forward, MaskMode.python,
       ComputeKernel.surfaceBody, run, step, stepAlg,
       FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
       Option.bind, engine, Algebra.withDefaultPrecision, resolvePrecision,
@@ -39,25 +39,6 @@ def fp32_source_run {α : Type} [Inhabited α] (algebra : Algebra α)
       FP.Structural.store]
     try rfl
 
-/-- The candidate shares the original's produced state. Equivalence is
-used only after original execution success has been established above. -/
-theorem fp32_nonempty_pair {α : Type} [Inhabited α] (algebra : Algebra α)
-    (Y X M : RegionName) (ym yn xm xn sm K D : Nat) (hD : 0 < D)
-    (log : Bool) (mode : MaskMode) (causal fp16 : Bool) (initial : State α) :
-    ∃ final : State α, ∀ commuted : Bool,
-      run (engine algebra)
-        (Typed.checkedKernel .fp32 commuted Y X M ym yn xm xn sm K D
-          log mode.python causal fp16).surfaceBody initial = some final := by
-  let witness := fp32_source_run algebra Y X M ym yn xm xn sm K D hD
-    log mode causal fp16 initial
-  refine ⟨witness.val, ?_⟩
-  intro commuted
-  cases commuted
-  · exact witness.property
-  · exact (Floating.forward_run_eq .fp32 Y X M ym yn xm xn sm K D
-      log mode.python causal fp16 algebra initial).symm.trans witness.property
-
 end
 #axiomsClean fp32_source_run
-#axiomsClean fp32_nonempty_pair
 end VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.TypedTotal

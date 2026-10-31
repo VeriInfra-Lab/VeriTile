@@ -58,7 +58,7 @@ def CorrectAt (c : Shape) (initial current : BlockState) (offset size : Int)
     LogicalFormula.column (inputs c initial job.1.val job.2.1.val) scale c.N window complement offset size
       (job.2.2.val*c.B+lane.val)
 
-theorem step (c : Shape) (initial current : BlockState) (same : InputsSame initial current)
+theorem step (c : Shape) (keyRange : c.programs*c.B<2147483648) (initial current : BlockState) (same : InputsSame initial current)
     (offset size : Int) (scale : ℝ) (window complement : Bool) (job : Job c) :
     ∃ t, invoke c offset size scale window complement job current=some t ∧
       InputsSame initial t ∧ CorrectAt c initial t offset size scale window complement job ∧
@@ -66,6 +66,7 @@ theorem step (c : Shape) (initial current : BlockState) (same : InputsSame initi
         CorrectAt c initial t offset size scale window complement old) := by
   obtain ⟨t,ht,ho,hf⟩ := DenseSource.executes c current job.2.2.val job.1.val job.2.1
     offset size scale window complement
+    (lt_of_le_of_lt (Nat.mul_le_mul_right c.B (Nat.le_of_lt job.2.2.isLt)) keyRange)
   refine ⟨t,ht,?_,?_,?_⟩
   · intro r a hr
     exact (hf r a (Or.inl hr)).trans (same r a hr)
@@ -85,7 +86,7 @@ theorem step (c : Shape) (initial current : BlockState) (same : InputsSame initi
 /-- All programs actually execute. The induction keeps initial input cells and
 every column already produced; repeated jobs are harmless because their values
 depend only on preserved inputs. The public launch enumerates every job once. -/
-theorem run_correct (c : Shape) (initial current : BlockState) (same : InputsSame initial current)
+theorem run_correct (c : Shape) (keyRange : c.programs*c.B<2147483648) (initial current : BlockState) (same : InputsSame initial current)
     (offset size : Int) (scale : ℝ) (window complement : Bool) (order done : List (Job c))
     (correct : ∀ job∈done, CorrectAt c initial current offset size scale window complement job) :
     ∃ t, run c offset size scale window complement order current=some t ∧ InputsSame initial t ∧
@@ -93,7 +94,7 @@ theorem run_correct (c : Shape) (initial current : BlockState) (same : InputsSam
   induction order generalizing current done with
   | nil => exact ⟨current,rfl,same,by simpa using correct⟩
   | cons job rest ih =>
-      obtain ⟨next,hn,hs,hnew,hkeep⟩ := step c initial current same offset size scale window complement job
+      obtain ⟨next,hn,hs,hnew,hkeep⟩ := step c keyRange initial current same offset size scale window complement job
       have hc : ∀ old∈done++[job], CorrectAt c initial next offset size scale window complement old := by
         intro old ho
         by_cases he : old=job
@@ -105,11 +106,11 @@ theorem run_correct (c : Shape) (initial current : BlockState) (same : InputsSam
       · simp only [run,hn,Option.bind_some]; exact ht
       · simpa only [List.append_assoc,List.singleton_append] using hout
 
-theorem whole_grid (c : Shape) (initial : BlockState) (offset size : Int) (scale : ℝ)
+theorem whole_grid (c : Shape) (keyRange : c.programs*c.B<2147483648) (initial : BlockState) (offset size : Int) (scale : ℝ)
     (window complement : Bool) :
     ∃ t, run c offset size scale window complement (jobs c) initial=some t ∧
       InputsSame initial t ∧ ∀ job, CorrectAt c initial t offset size scale window complement job := by
-  obtain ⟨t,ht,hs,ho⟩ := run_correct c initial initial (by intro _ _ _; rfl)
+  obtain ⟨t,ht,hs,ho⟩ := run_correct c keyRange initial initial (by intro _ _ _; rfl)
     offset size scale window complement (jobs c) [] (by simp)
   exact ⟨t,ht,hs,fun job => ho job (by simp [jobs])⟩
 

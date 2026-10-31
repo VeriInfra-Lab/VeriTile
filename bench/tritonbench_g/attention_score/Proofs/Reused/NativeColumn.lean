@@ -14,7 +14,7 @@ def column (decode : BitVec 32 → ℝ) (B D : Nat) (p : RealSource.Parameters) 
     p.window p.complement p.evenM p.evenN p.offset p.size (s.pids 0*B+j.val)
 
 theorem fold_column (decode : BitVec 32 → ℝ) (hz : decode 0=0) (B D : Nat) (hB : Supported B)
-    (p : RealSource.Parameters) (s : State Expr) (remaining done stop : Nat) (acc : Fin B → Graph)
+    (p : RealSource.Parameters) (s : State Expr) (keyRange : s.pids 0*B<2147483648) (remaining done stop : Nat) (acc : Fin B → Graph)
     (hacc : ∀ j, (acc j).eval (isa decode)=column decode B D p s done j)
     (hupper : stop≤(done+remaining)*B)
     (hlower : done+remaining=0 ∨ (done+remaining-1)*B<stop) :
@@ -36,7 +36,7 @@ theorem fold_column (decode : BitVec 32 → ℝ) (hz : decode 0=0) (B D : Nat) (
           column decode B D p s (done+1) j := by
         intro j
         change (acc j).eval (isa decode)+(NativeFormula.contribution B D p s (done*B) j).eval (isa decode)=_
-        rw [hacc,NativeMath.contribution_eval decode hz _ _ hB]
+        rw [hacc,NativeMath.contribution_eval decode hz _ _ hB p s _ j keyRange]
         exact (RealFormula.column_succ _ _ _ _ _ _ _ _ _ _ _ _ _).symm
       have next := ih (done+1) (NativeFormula.update B D p s (done*B) acc) hnext
         (by simpa [Nat.add_assoc,Nat.add_comm,Nat.add_left_comm] using hupper)
@@ -50,22 +50,22 @@ theorem fold_column (decode : BitVec 32 → ℝ) (hz : decode 0=0) (B D : Nat) (
       simpa [Nat.add_mul,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm] using next j
 
 theorem accumulated_eval (decode : BitVec 32 → ℝ) (hz : decode 0=0) (B D : Nat) (hB : Supported B)
-    (p : RealSource.Parameters) (s : State Expr) (j : Fin B) :
+    (p : RealSource.Parameters) (s : State Expr) (keyRange : s.pids 0*B<2147483648) (j : Fin B) :
     (NativeFormula.accumulated B D p s j).eval (isa decode)=
       column decode B D p s (RealLoop.tripCount p.queryContext B) j := by
   obtain ⟨hu,hl⟩ := RealLoop.tripCount_bounds p.queryContext B (supported_positive B hB)
-  simpa [NativeFormula.accumulated] using fold_column decode hz B D hB p s
+  simpa [NativeFormula.accumulated] using fold_column decode hz B D hB p s keyRange
     (RealLoop.tripCount p.queryContext B) 0 p.queryContext (fun _ => NativeFormula.zero32)
     (by intro j; simp [column,RealFormula.column,NativeFormula.zero32,Graph.eval,isa])
     (by simpa using hu) (by simpa using hl) j
 
 theorem logical_column (decode : BitVec 32 → ℝ) (hz : decode 0=0) (B D : Nat) (hB : Supported B)
-    (p : RealSource.Parameters) (s : State Expr) (j : Fin B)
+    (p : RealSource.Parameters) (s : State Expr) (keyRange : s.pids 0*B<2147483648) (j : Fin B)
     (hj : s.pids 0*B+j.val<p.keyContext) (he : p.evenM=Bool.true → p.queryContext%B=0) :
     (NativeFormula.accumulated B D p s j).eval (isa decode)=
       LogicalFormula.column (NativeMath.inputs decode D p s) p.scale p.queryContext
         p.window p.complement p.offset p.size (s.pids 0*B+j.val) := by
-  rw [accumulated_eval decode hz _ _ hB]
+  rw [accumulated_eval decode hz _ _ hB p s keyRange]
   exact LogicalFormula.repaired_column _ _ _ _ _ _ _ _ _ _ _ _ (supported_positive B hB) hj he
 
 #axiomsClean logical_column

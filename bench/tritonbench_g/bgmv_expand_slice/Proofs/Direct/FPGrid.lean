@@ -1,4 +1,6 @@
-import bench.tritonbench_g.bgmv_expand_slice.Proofs.Direct.FPExecution
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Direct.FPReadback
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Direct.Geometry
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Direct.FPControl
 import bench.tritonbench_g.bgmv_expand_slice.Proofs.Snapshot
 
 namespace VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Direct.FPGrid
@@ -20,48 +22,9 @@ def updated (M : Algebra α) (reduction : Reduction α) (h : Call) (p : Geometry
 def observed (data : Data α) (state : State α) : Data α :=
   {data with output := fun off => (state.mem "Y" off).read .real}
 
-def run (M : Algebra α) (reduction : Reduction α) (h : Call) :
-    List (Geometry.Program h) → Data α → Option (Data α)
-  | [],data => some data
-  | p::rest,data => do
-      let state ← FP.Structural.exec (machine M reduction) (Kernels.source h) (entry h p.batch p.row data)
-      run M reduction h rest (observed data state)
-
 def fold (M : Algebra α) (reduction : Reduction α) (h : Call) : List (Geometry.Program h) → Data α → Data α
   | [],data => data
   | p::rest,data => fold M reduction h rest (updated M reduction h p data)
-
-theorem one (M : Algebra α) (reduction : Reduction α) (h : Call) (primary : Kernels.Primary h)
-    (p : Geometry.Program h) (data : Data α) (valid : data.indices p.batch=-1 ∨ 0 ≤ data.indices p.batch) :
-    ∃ t,FP.Structural.exec (machine M reduction) (Kernels.source h) (entry h p.batch p.row data)=some t ∧
-      observed data t=updated M reduction h p data := by
-  obtain ⟨t,exec,memory⟩ := FPExecution.source_executes M reduction h primary p data valid
-  refine ⟨t,exec,?_⟩
-  unfold observed updated
-  congr 1
-  funext off
-  by_cases sentinel : data.indices p.batch=-1
-  · simp only [sentinel,if_true] at memory
-    rw [memory]
-    simp [sentinel,entry,Data.cells]
-  · simp only [sentinel,if_false] at memory
-    rw [memory]
-    by_cases same : off=address h p
-    all_goals
-      simp only [address] at same
-      simp [sentinel,entry,Data.cells,State.write,value,address,same]
-
-theorem executes (M : Algebra α) (reduction : Reduction α) (h : Call) (primary : Kernels.Primary h)
-    (ps : List (Geometry.Program h)) (data : Data α)
-    (valid : ∀ b,b<h.batches → data.indices b=-1 ∨ 0 ≤ data.indices b) :
-    run M reduction h ps data=some (fold M reduction h ps data) := by
-  induction ps generalizing data with
-  | nil => rfl
-  | cons p rest ih =>
-    obtain ⟨t,exec,read⟩ := one M reduction h primary p data (valid p.batch p.batchInside)
-    simp only [run,exec,bind,Option.bind,read,fold]
-    apply ih
-    exact valid
 
 theorem value_after_other (M : Algebra α) (reduction : Reduction α) (h : Call)
     (p q : Geometry.Program h) (data : Data α) (different : address h q≠address h p) :
@@ -95,7 +58,6 @@ theorem values (M : Algebra α) (reduction : Reduction α) (h : Call)
     · rw [fold,ih uniqueRest (updated M reduction h q data) later active]
       exact value_after_other M reduction h q p data (Ne.symm (different p later))
 
-#axiomsClean executes
 #axiomsClean values
 #axiomsClean frame
 end

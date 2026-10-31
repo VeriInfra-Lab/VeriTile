@@ -28,7 +28,7 @@ theorem softmax_kernel_correct
   intro i
   by_cases hB : 0 < BLOCK_SIZE
   · cases HAS_MASK <;>
-      simp [exec, softmax_kernel, stepStmts, stepStmt, evalOp.eq_def,
+      simp [exec, softmax_kernel,VeriTile.Bench.Repairs.SoftmaxTriton3.softmax_kernel, stepStmts, stepStmt, evalOp.eq_def,
             Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
             Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
             TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
@@ -75,7 +75,7 @@ private theorem softmax_kernel_frame
       ¬(output_ptr = r ∧ s.pid * row_stride + i.val = o)) :
     s1.mem r o = s.mem r o := by
   cases HAS_MASK <;>
-    (simp [exec, softmax_kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
+    (simp [exec, softmax_kernel,VeriTile.Bench.Repairs.SoftmaxTriton3.softmax_kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
           evalOp.eq_def, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
           FloatDType.cast,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
@@ -99,7 +99,7 @@ private theorem softmax_kernel_exec_isSome
     ∃ s1, exec ((softmax_kernel output_ptr input_ptr mask_ptr row_stride
         n_cols BLOCK_SIZE HAS_MASK).toAlgKernel) s = some s1 := by
   cases HAS_MASK <;>
-    simp [exec, softmax_kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
+    simp [exec, softmax_kernel,VeriTile.Bench.Repairs.SoftmaxTriton3.softmax_kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
           evalOp.eq_def, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
           FloatDType.cast,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
@@ -188,7 +188,7 @@ theorem softmax_kernel_flattenOk
         BLOCK_SIZE HAS_MASK).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
   cases HAS_MASK <;>
-    simp [softmax_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+    simp [softmax_kernel,VeriTile.Bench.Repairs.SoftmaxTriton3.softmax_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
       ComputeOp.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk,
       Op.FlattenOk.eq_def]
 
@@ -212,7 +212,7 @@ theorem softmax_kernel_traceSafe
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
   unfold Kernel.TraceSafe
   simp only [BlockState.pid_eq] at hin hout
-  simp [softmax_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [softmax_kernel,VeriTile.Bench.Repairs.SoftmaxTriton3.softmax_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, FloatDType.cast,
     Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmts, stepStmt, evalOp.eq_def,
@@ -247,7 +247,7 @@ theorem softmax_kernel_masked_traceSafe
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
   unfold Kernel.TraceSafe
   simp only [BlockState.pid_eq] at hin hmask hout
-  simp [softmax_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [softmax_kernel,VeriTile.Bench.Repairs.SoftmaxTriton3.softmax_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, FloatDType.cast,
     Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmts, stepStmt, evalOp.eq_def,
@@ -264,335 +264,5 @@ theorem softmax_kernel_masked_traceSafe
 private theorem mul_recip (a b : Option ℝ) :
     Option.map₂ (· * ·) a (b.map (fun x => x⁻¹)) = Option.map₂ (· / ·) a b := by
   cases a <;> cases b <;> simp [div_eq_mul_inv]
-
-set_option maxHeartbeats 1800000 in
-theorem reciprocal_exec (output_ptr input_ptr mask_ptr : RegionName)
-    (row_stride n_cols B : Nat) (hasMask : Bool) (hB : 0 < B) (s : BlockState) :
-    exec (softmax_reciprocal_kernel output_ptr input_ptr mask_ptr row_stride n_cols B hasMask).toAlgKernel s =
-    exec (softmax_kernel output_ptr input_ptr mask_ptr row_stride n_cols B hasMask).toAlgKernel s := by
-  obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-  cases hasMask <;> simp [softmax_kernel, softmax_reciprocal_kernel, exec, stepStmts, stepStmt,
-    evalOp.eq_def, BlockState.setReg, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
-    Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
-    TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
-    NumericDType.mul, NumericDType.div, mul_recip, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, FloatDType.cast]
-
-/-- The kernel sits inside the flat-memory bridge's covered fragment (pointer
-arithmetic, masked loads with `other`, dtype casts, the constexpr `if`,
-reductions, masked store) — both `HAS_MASK` branches. -/
-theorem softmax_reciprocal_kernel_flattenOk
-    (output_ptr input_ptr mask_ptr : RegionName)
-    (row_stride n_cols BLOCK_SIZE : Nat) (HAS_MASK : Bool) :
-    ((softmax_reciprocal_kernel output_ptr input_ptr mask_ptr row_stride n_cols
-        BLOCK_SIZE HAS_MASK).toAlgKernel).FlattenOk := by
-  unfold Kernel.FlattenOk
-  cases HAS_MASK <;>
-    simp [softmax_reciprocal_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-      ComputeOp.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk,
-      Op.FlattenOk.eq_def]
-
-set_option maxHeartbeats 1600000 in
-/-- Per-execution safety walk, `HAS_MASK = false`: one computational unfold
-walks all the statements — the pointer/index staging, the reductions, and the
-register arithmetic are memory-silent, the constexpr `if` is inert — and
-reduces the two masked accesses (row load, row store) to the **lane-wise**
-bounds hypotheses: every *active* lane's address is below the region bound. -/
-theorem softmax_reciprocal_kernel_traceSafe
-    (output_ptr input_ptr mask_ptr : RegionName)
-    (row_stride n_cols BLOCK_SIZE : Nat)
-    (hB : 0 < BLOCK_SIZE) (bounds : RegionBounds) (s : BlockState)
-    (hin : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds input_ptr)
-    (hout : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds output_ptr) :
-    Kernel.TraceSafe bounds
-      ((softmax_reciprocal_kernel output_ptr input_ptr mask_ptr row_stride n_cols
-        BLOCK_SIZE Bool.false).toAlgKernel) s := by
-  obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-  unfold Kernel.TraceSafe
-  simp only [BlockState.pid_eq] at hin hout
-  simp [softmax_reciprocal_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, FloatDType.cast,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
-    MaskOpt.SafeAt, MemAccess.SafeAt, stepStmts, stepStmt, evalOp.eq_def,
-    MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
-    MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
-    BlockState.setReg,
-    Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
-    NumericDType.mul, NumericDType.sub, NumericDType.div,
-    ComparableDType.lt,
-    Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
-    TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex]
-  exact ⟨fun a ha => hin a ha, fun a ha => hout a ha⟩
-
-set_option maxHeartbeats 1600000 in
-/-- Per-execution safety walk, `HAS_MASK = true`: as
-`softmax_reciprocal_kernel_traceSafe`, plus the mask row load — three masked accesses
-(row load, mask load, row store), each reduced to its lane-wise bounds
-hypothesis. -/
-theorem softmax_reciprocal_kernel_masked_traceSafe
-    (output_ptr input_ptr mask_ptr : RegionName)
-    (row_stride n_cols BLOCK_SIZE : Nat)
-    (hB : 0 < BLOCK_SIZE) (bounds : RegionBounds) (s : BlockState)
-    (hin : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds input_ptr)
-    (hmask : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds mask_ptr)
-    (hout : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds output_ptr) :
-    Kernel.TraceSafe bounds
-      ((softmax_reciprocal_kernel output_ptr input_ptr mask_ptr row_stride n_cols
-        BLOCK_SIZE Bool.true).toAlgKernel) s := by
-  obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-  unfold Kernel.TraceSafe
-  simp only [BlockState.pid_eq] at hin hmask hout
-  simp [softmax_reciprocal_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, FloatDType.cast,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
-    MaskOpt.SafeAt, MemAccess.SafeAt, stepStmts, stepStmt, evalOp.eq_def,
-    MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
-    MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
-    BlockState.setReg,
-    Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
-    NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
-    ComparableDType.lt,
-    Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
-    TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex]
-  exact ⟨fun a ha => hin a ha, fun a ha => hmask a ha, fun a ha => hout a ha⟩
-
-set_option maxHeartbeats 2000000 in
-/-- Removing the explicit casts changes no operation in the real interpretation. -/
-theorem math_exec_eq (out inp mask : RegionName) (stride n B : Nat)
-    (hasMask : Bool) (hB : 0 < B) (s : BlockState) :
-    exec (math_kernel out inp mask stride n B hasMask).toAlgKernel s =
-      exec (softmax_kernel out inp mask stride n B hasMask).toAlgKernel s := by
-  obtain ⟨k, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-  cases hasMask <;> simp [math_kernel, softmax_kernel, exec, stepStmts, stepStmt,
-    evalOp.eq_def, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
-    ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, FloatDType.cast, Tile.reduceMax, Tile.reduceMaxDrop,
-    Tile.reduceSum, Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-    TileShape.insertAxisIndex]
-
-set_option maxHeartbeats 2000000 in
-theorem math_reciprocal_exec_eq (out inp mask : RegionName) (stride n B : Nat)
-    (hasMask : Bool) (hB : 0 < B) (s : BlockState) :
-    exec (math_reciprocal_kernel out inp mask stride n B hasMask).toAlgKernel s =
-      exec (softmax_reciprocal_kernel out inp mask stride n B hasMask).toAlgKernel s := by
-  obtain ⟨k, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-  cases hasMask <;> simp [math_reciprocal_kernel, softmax_reciprocal_kernel,
-    exec, stepStmts, stepStmt, evalOp.eq_def, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
-    ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, FloatDType.cast, Tile.reduceMax, Tile.reduceMaxDrop,
-    Tile.reduceSum, Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-    TileShape.insertAxisIndex]
-
-/-- The kernel sits inside the flat-memory bridge's covered fragment (pointer
-arithmetic, masked loads with `other`, dtype casts, the constexpr `if`,
-reductions, masked store) — both `HAS_MASK` branches. -/
-theorem math_kernel_flattenOk
-    (output_ptr input_ptr mask_ptr : RegionName)
-    (row_stride n_cols BLOCK_SIZE : Nat) (HAS_MASK : Bool) :
-    ((math_kernel output_ptr input_ptr mask_ptr row_stride n_cols
-        BLOCK_SIZE HAS_MASK).toAlgKernel).FlattenOk := by
-  unfold Kernel.FlattenOk
-  cases HAS_MASK <;>
-    simp [math_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-      ComputeOp.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk,
-      Op.FlattenOk.eq_def]
-
-set_option maxHeartbeats 1600000 in
-/-- Per-execution safety walk, `HAS_MASK = false`: one computational unfold
-walks all the statements — the pointer/index staging, the reductions, and the
-register arithmetic are memory-silent, the constexpr `if` is inert — and
-reduces the two masked accesses (row load, row store) to the **lane-wise**
-bounds hypotheses: every *active* lane's address is below the region bound. -/
-theorem math_kernel_traceSafe
-    (output_ptr input_ptr mask_ptr : RegionName)
-    (row_stride n_cols BLOCK_SIZE : Nat)
-    (hB : 0 < BLOCK_SIZE) (bounds : RegionBounds) (s : BlockState)
-    (hin : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds input_ptr)
-    (hout : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds output_ptr) :
-    Kernel.TraceSafe bounds
-      ((math_kernel output_ptr input_ptr mask_ptr row_stride n_cols
-        BLOCK_SIZE Bool.false).toAlgKernel) s := by
-  obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-  unfold Kernel.TraceSafe
-  simp only [BlockState.pid_eq] at hin hout
-  simp [math_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, FloatDType.cast,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
-    MaskOpt.SafeAt, MemAccess.SafeAt, stepStmts, stepStmt, evalOp.eq_def,
-    MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
-    MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
-    BlockState.setReg,
-    Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
-    NumericDType.mul, NumericDType.sub, NumericDType.div,
-    ComparableDType.lt,
-    Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
-    TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex]
-  exact ⟨fun a ha => hin a ha, fun a ha => hout a ha⟩
-
-set_option maxHeartbeats 1600000 in
-/-- Per-execution safety walk, `HAS_MASK = true`: as
-`math_kernel_traceSafe`, plus the mask row load — three masked accesses
-(row load, mask load, row store), each reduced to its lane-wise bounds
-hypothesis. -/
-theorem math_kernel_masked_traceSafe
-    (output_ptr input_ptr mask_ptr : RegionName)
-    (row_stride n_cols BLOCK_SIZE : Nat)
-    (hB : 0 < BLOCK_SIZE) (bounds : RegionBounds) (s : BlockState)
-    (hin : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds input_ptr)
-    (hmask : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds mask_ptr)
-    (hout : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds output_ptr) :
-    Kernel.TraceSafe bounds
-      ((math_kernel output_ptr input_ptr mask_ptr row_stride n_cols
-        BLOCK_SIZE Bool.true).toAlgKernel) s := by
-  obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-  unfold Kernel.TraceSafe
-  simp only [BlockState.pid_eq] at hin hmask hout
-  simp [math_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, FloatDType.cast,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
-    MaskOpt.SafeAt, MemAccess.SafeAt, stepStmts, stepStmt, evalOp.eq_def,
-    MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
-    MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
-    BlockState.setReg,
-    Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
-    NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
-    ComparableDType.lt,
-    Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
-    TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex]
-  exact ⟨fun a ha => hin a ha, fun a ha => hmask a ha, fun a ha => hout a ha⟩
-
-/-- The kernel sits inside the flat-memory bridge's covered fragment (pointer
-arithmetic, masked loads with `other`, dtype casts, the constexpr `if`,
-reductions, masked store) — both `HAS_MASK` branches. -/
-theorem math_reciprocal_kernel_flattenOk
-    (output_ptr input_ptr mask_ptr : RegionName)
-    (row_stride n_cols BLOCK_SIZE : Nat) (HAS_MASK : Bool) :
-    ((math_reciprocal_kernel output_ptr input_ptr mask_ptr row_stride n_cols
-        BLOCK_SIZE HAS_MASK).toAlgKernel).FlattenOk := by
-  unfold Kernel.FlattenOk
-  cases HAS_MASK <;>
-    simp [math_reciprocal_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-      ComputeOp.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk,
-      Op.FlattenOk.eq_def]
-
-set_option maxHeartbeats 1600000 in
-/-- Per-execution safety walk, `HAS_MASK = false`: one computational unfold
-walks all the statements — the pointer/index staging, the reductions, and the
-register arithmetic are memory-silent, the constexpr `if` is inert — and
-reduces the two masked accesses (row load, row store) to the **lane-wise**
-bounds hypotheses: every *active* lane's address is below the region bound. -/
-theorem math_reciprocal_kernel_traceSafe
-    (output_ptr input_ptr mask_ptr : RegionName)
-    (row_stride n_cols BLOCK_SIZE : Nat)
-    (hB : 0 < BLOCK_SIZE) (bounds : RegionBounds) (s : BlockState)
-    (hin : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds input_ptr)
-    (hout : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds output_ptr) :
-    Kernel.TraceSafe bounds
-      ((math_reciprocal_kernel output_ptr input_ptr mask_ptr row_stride n_cols
-        BLOCK_SIZE Bool.false).toAlgKernel) s := by
-  obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-  unfold Kernel.TraceSafe
-  simp only [BlockState.pid_eq] at hin hout
-  simp [math_reciprocal_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, FloatDType.cast,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
-    MaskOpt.SafeAt, MemAccess.SafeAt, stepStmts, stepStmt, evalOp.eq_def,
-    MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
-    MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
-    BlockState.setReg,
-    Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
-    NumericDType.mul, NumericDType.sub, NumericDType.div,
-    ComparableDType.lt,
-    Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
-    TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex]
-  exact ⟨fun a ha => hin a ha, fun a ha => hout a ha⟩
-
-set_option maxHeartbeats 1600000 in
-/-- Per-execution safety walk, `HAS_MASK = true`: as
-`math_reciprocal_kernel_traceSafe`, plus the mask row load — three masked accesses
-(row load, mask load, row store), each reduced to its lane-wise bounds
-hypothesis. -/
-theorem math_reciprocal_kernel_masked_traceSafe
-    (output_ptr input_ptr mask_ptr : RegionName)
-    (row_stride n_cols BLOCK_SIZE : Nat)
-    (hB : 0 < BLOCK_SIZE) (bounds : RegionBounds) (s : BlockState)
-    (hin : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds input_ptr)
-    (hmask : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds mask_ptr)
-    (hout : ∀ j : Fin BLOCK_SIZE, j.val < n_cols →
-      s.pid * row_stride + j.val < bounds output_ptr) :
-    Kernel.TraceSafe bounds
-      ((math_reciprocal_kernel output_ptr input_ptr mask_ptr row_stride n_cols
-        BLOCK_SIZE Bool.true).toAlgKernel) s := by
-  obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-  unfold Kernel.TraceSafe
-  simp only [BlockState.pid_eq] at hin hmask hout
-  simp [math_reciprocal_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, FloatDType.cast,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
-    MaskOpt.SafeAt, MemAccess.SafeAt, stepStmts, stepStmt, evalOp.eq_def,
-    MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
-    MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
-    BlockState.setReg,
-    Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
-    NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
-    ComparableDType.lt,
-    Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
-    TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex]
-  exact ⟨fun a ha => hin a ha, fun a ha => hmask a ha, fun a ha => hout a ha⟩
-
-theorem typed_exec_eq (inputType maskType : Storage) (v : Bool) (out inp mask : RegionName)
-    (stride n B : Nat) (hasMask : Bool) (hB : 0 < B) (s : BlockState) :
-    exec (typedKernel inputType maskType v out inp mask stride n B hasMask).eraseDType.toAlgKernel s =
-      exec (softmax_kernel out inp mask stride n B hasMask).toAlgKernel s := by
-  cases v
-  · rw [typed_projection]
-    exact math_exec_eq out inp mask stride n B hasMask hB s
-  · rw [reciprocal_projection, math_reciprocal_exec_eq out inp mask stride n B hasMask hB]
-    exact reciprocal_exec out inp mask stride n B hasMask hB s
-
-theorem typed_flattenOk (inputType maskType : Storage) (v : Bool) (out inp mask : RegionName)
-    (stride n B : Nat) (hasMask : Bool) :
-    (typedKernel inputType maskType v out inp mask stride n B hasMask).eraseDType.toAlgKernel.FlattenOk := by
-  cases v
-  · rw [typed_projection]; exact math_kernel_flattenOk out inp mask stride n B hasMask
-  · rw [reciprocal_projection]
-    exact math_reciprocal_kernel_flattenOk out inp mask stride n B hasMask
-
-theorem typed_traceSafe (inputType maskType : Storage) (v : Bool) (out inp mask : RegionName)
-    (stride n B : Nat) (hB : 0 < B) (bounds : RegionBounds) (s : BlockState)
-    (hin : ∀ j : Fin B, j.val < n → s.pid * stride + j.val < bounds inp)
-    (hout : ∀ j : Fin B, j.val < n → s.pid * stride + j.val < bounds out) :
-    Kernel.TraceSafe bounds
-      (typedKernel inputType maskType v out inp mask stride n B Bool.false).eraseDType.toAlgKernel s := by
-  cases v
-  · rw [typed_projection]
-    exact math_kernel_traceSafe out inp mask stride n B hB bounds s hin hout
-  · rw [reciprocal_projection]
-    exact math_reciprocal_kernel_traceSafe out inp mask stride n B hB bounds s hin hout
-
-theorem typed_masked_traceSafe (inputType maskType : Storage) (v : Bool)
-    (out inp mask : RegionName) (stride n B : Nat) (hB : 0 < B) (bounds : RegionBounds) (s : BlockState)
-    (hin : ∀ j : Fin B, j.val < n → s.pid * stride + j.val < bounds inp)
-    (hm : ∀ j : Fin B, j.val < n → s.pid * stride + j.val < bounds mask)
-    (hout : ∀ j : Fin B, j.val < n → s.pid * stride + j.val < bounds out) :
-    Kernel.TraceSafe bounds
-      (typedKernel inputType maskType v out inp mask stride n B Bool.true).eraseDType.toAlgKernel s := by
-  cases v
-  · rw [typed_projection]
-    exact math_kernel_masked_traceSafe out inp mask stride n B hB bounds s hin hm hout
-  · rw [reciprocal_projection]
-    exact math_reciprocal_kernel_masked_traceSafe out inp mask stride n B hB bounds s hin hm hout
 
 end VeriTile.Bench.TritonBenchG.SoftmaxTriton3

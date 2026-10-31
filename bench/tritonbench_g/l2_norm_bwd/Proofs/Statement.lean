@@ -71,7 +71,7 @@ def state4 {α : Type} [Inhabited α] (c : Invocation α) : State α :=
   (state3 c).setReg "DY" .ptr [] (fun _ => ("DY",c.row*c.layout.dyRow))
 
 def state5 {α : Type} [Inhabited α] (c : Invocation α) : State α :=
-  (state4 c).setReg "cols" .nat [c.B] (fun i => i.1.val)
+  (state4 c).setReg "cols" .int [c.B] (fun i => (i.1.val : Int))
 
 def state6 {α : Type} [Inhabited α] (c : Invocation α) : State α :=
   (state5 c).setReg "x" .real [c.B] (fun i => loaded c.alg c.N c.B c.xs i.1)
@@ -155,6 +155,9 @@ theorem statement5 {α : Type} [Inhabited α] (c : Invocation α) :
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
   try rfl
+  all_goals try congr 2
+  all_goals try funext i
+  all_goals simp [Int.toNat_mul,Value,FloatDType.toTileDType,bop,Broadcast.leftIndex,Broadcast.rightIndex]
 
 #axiomsClean statement5
 
@@ -164,6 +167,9 @@ theorem statement6 {α : Type} [Inhabited α] (c : Invocation α) :
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
   try rfl
+  all_goals try congr 2
+  all_goals try funext i
+  all_goals simp [Int.toNat_mul,Value,FloatDType.toTileDType,bop,Broadcast.leftIndex,Broadcast.rightIndex]
 
 #axiomsClean statement6
 
@@ -191,6 +197,9 @@ theorem statement9 {α : Type} [Inhabited α] (c : Invocation α) :
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
   try rfl
+  all_goals try congr 2
+  all_goals try funext i
+  all_goals simp [Int.toNat_mul,Value,FloatDType.toTileDType,bop,Broadcast.leftIndex,Broadcast.rightIndex]
 
 #axiomsClean statement9
 
@@ -200,6 +209,9 @@ theorem statement10 {α : Type} [Inhabited α] (c : Invocation α) :
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
   try rfl
+  all_goals try congr 2
+  all_goals try funext i
+  all_goals simp [Int.toNat_mul,Value,FloatDType.toTileDType,bop,Broadcast.leftIndex,Broadcast.rightIndex]
 
 #axiomsClean statement10
 
@@ -209,6 +221,9 @@ theorem statement11 {α : Type} [Inhabited α] (c : Invocation α) :
   try simp only [Option.bind_eq_bind,Option.pure_def,Option.bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast,Nat.zero_add]
   try simp only [show (0.0:ℝ)=0 from by norm_num, id_eq]
   try rfl
+  all_goals try congr 2
+  all_goals try funext i
+  all_goals simp [Int.toNat_mul,Value,FloatDType.toTileDType,bop,Broadcast.leftIndex,Broadcast.rightIndex]
 
 #axiomsClean statement11
 

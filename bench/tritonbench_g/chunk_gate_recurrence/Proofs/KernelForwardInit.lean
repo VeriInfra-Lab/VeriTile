@@ -73,7 +73,7 @@ theorem source_correct (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bo
   change run (engine M) (source .forward c s seed).surfaceBody u=some v
   rw [source_body,List.append_assoc,run_append,(KernelPrefix.forward M c s seed u).property]
   simpa [KernelProgram.loop,KernelOps.forward_body,after,parts,source,Kernels.forward,
-    ComputeKernel.surfaceBody,VeriTile.Triton.Source.dynamicRange?,run,step,FP.Structural.evalOp] using he
+    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,run,step,FP.Structural.evalOp] using he
 
 #axiomsClean source_correct
 end

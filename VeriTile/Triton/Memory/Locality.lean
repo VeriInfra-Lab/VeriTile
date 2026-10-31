@@ -647,6 +647,15 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
         fun off hoff => evalOp_agreeOn bounds off s₁ s₂ hag (hmoffs off hoff)
       simp only [evalOp, evalOp_agreeOn bounds bo s₁ s₂ hag hmb,
         mapM_data_agreeOn s₁ s₂ offs hmem]
+  | _, _, .makeBlockPtrDynMetadata r bo ps bs strides offs, s₁,s₂,hag,hms => by
+      simp only [Op.SafeAt] at hms
+      obtain ⟨hmb,hmstrides,hmoffs⟩ := hms
+      have hstrides : ∀ stride ∈ strides,evalOp stride s₁=evalOp stride s₂ :=
+        fun stride member => evalOp_agreeOn bounds stride s₁ s₂ hag (hmstrides stride member)
+      have hoffsets : ∀ off ∈ offs,evalOp off s₁=evalOp off s₂ :=
+        fun off member => evalOp_agreeOn bounds off s₁ s₂ hag (hmoffs off member)
+      simp only [evalOp,evalOp_agreeOn bounds bo s₁ s₂ hag hmb,
+        mapM_data_agreeOn s₁ s₂ strides hstrides,mapM_data_agreeOn s₁ s₂ offs hoffsets]
   | _, _, .advanceBlockPtr p ds, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds p s₁ s₂ hag hms]

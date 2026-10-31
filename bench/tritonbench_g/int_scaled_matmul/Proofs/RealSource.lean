@@ -14,8 +14,6 @@ abbrev body := ScaledWord.body
 abbrev originalBody := ScaledWord.originalBody
 abbrev original := ScaledWord.original
 abbrev typedScaled := ScaledWord.typedScaled
-abbrev widths := ScaledWord.widths
-abbrev widthAssignment := ScaledWord.widthAssignment
 abbrev epilogue := ScaledWord.epilogue
 abbrev source := Kernels.scaled
 

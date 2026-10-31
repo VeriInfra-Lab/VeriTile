@@ -25,7 +25,7 @@ noncomputable def postState (s0 s : BlockState) (X : RegionName)
     "rstd" .real [] (Tile.scalar (some (inverseStd s0 X stride N eps)))
 
 theorem sum_eval (s0 s : BlockState) (X Y : RegionName)
-    (stride N B c : Nat) (h : VarInv s0 X Y stride N B c s) :
+    (stride N B c : Nat) (eps : ℝ) (h : VarInv s0 X Y stride N B c eps s) :
     evalOp (.reduceSum (⟨0, by simp⟩ : Fin [B].length) Bool.false (.ref .real [B] "_var")) s =
       some (Tile.scalar (some (∑ j : Fin B, accumulator s0 X stride N B c j))) := by
   rw [evalOp_reduceSum, evalOp_ref, h.acc]
@@ -38,12 +38,12 @@ theorem sum_eval (s0 s : BlockState) (X Y : RegionName)
   exact withBot_sum_some _
 
 theorem mean_eval (s0 s : BlockState) (X Y : RegionName)
-    (stride N B c : Nat) (hB : 0 < B) (hN : N ≤ c * B)
-    (h : VarInv s0 X Y stride N B c s) :
+    (stride N B c : Nat) (eps : ℝ) (hB : 0 < B) (hN : N ≤ c * B)
+    (h : VarInv s0 X Y stride N B c eps s) :
     evalOp (.div .real .nil
       (.reduceSum (⟨0, by simp⟩ : Fin [B].length) Bool.false (.ref .real [B] "_var"))
       (.const (N : ℝ))) s = some (Tile.scalar (some (meanSquare s0 X stride N))) := by
-  have hs := sum_eval s0 s X Y stride N B c h
+  have hs := sum_eval s0 s X Y stride N B c eps h
   rw [accumulator_sum s0 X stride N B c hB hN] at hs
   simp only [evalOp_div, evalOp_const, Option.bind_eq_bind]
   erw [hs]
@@ -54,13 +54,13 @@ theorem mean_eval (s0 s : BlockState) (X Y : RegionName)
 
 theorem post_exec (s0 s : BlockState) (X Y : RegionName)
     (stride N B c : Nat) (eps : ℝ) (hB : 0 < B) (hN : N ≤ c * B)
-    (h : VarInv s0 X Y stride N B c s) :
+    (h : VarInv s0 X Y stride N B c eps s) :
     stepStmts (post N B eps) s = some (postState s0 s X stride N eps) := by
   unfold post
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (mean_eval s0 s X Y stride N B c hB hN h))]
+    (mean_eval s0 s X Y stride N B c eps hB hN h))]
   simp [stepStmts, stepStmt, evalOp.eq_def, postState, inverseStd,
-    Tile.bop, Tile.uop, NumericDType.add, NumericDType.div, WithBot.realSqrt,
+    h.epsilon, Tile.bop, Tile.uop, NumericDType.add, NumericDType.div, WithBot.realSqrt,
     Tile.scalar, -Tile.scalar_eta, Function.comp_def, one_div]
 
 structure WriteContext (s0 : BlockState) (X Y W : RegionName)
@@ -73,7 +73,7 @@ structure WriteContext (s0 : BlockState) (X Y W : RegionName)
   readW : s.readMem W = s0.readMem W
 
 theorem post_context (s0 s : BlockState) (X Y W : RegionName)
-    (stride N B c : Nat) (eps : ℝ) (h : VarInv s0 X Y stride N B c s) :
+    (stride N B c : Nat) (eps : ℝ) (h : VarInv s0 X Y stride N B c eps s) :
     WriteContext s0 X Y W stride N eps (postState s0 s X stride N eps) := by
   constructor
   · simpa [postState] using h.pids

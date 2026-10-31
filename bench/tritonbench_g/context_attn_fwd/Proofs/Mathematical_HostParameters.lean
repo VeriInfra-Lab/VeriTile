@@ -120,16 +120,9 @@ theorem launch_ext (a : Arguments) {idx jdx : GridIndex (grid a)}
     change (jdx ⟨2, ha⟩).val < 1 at hj
     omega
 
-/-- Selected production storage is FP32. -/
-def source (a : Arguments) (r : Regions) (swapped : Bool) : ComputeKernel :=
-  kernel (layout a) r .fp32 swapped (scale a)
-
 /-- A logical lazy-negative V view preserves the complete raw source ABI. -/
 def negateValueView (a : Arguments) : Arguments :=
   { a with v := { a.v with negative := !a.v.negative } }
-
-theorem source_ignores_value_sign (a : Arguments) (r : Regions) (swapped : Bool) :
-    source (negateValueView a) r swapped = source a r swapped := rfl
 
 theorem grid_ignores_value_sign (a : Arguments) : grid (negateValueView a) = grid a := rfl
 

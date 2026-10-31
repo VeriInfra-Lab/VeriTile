@@ -37,25 +37,25 @@ theorem real_forward_accesses (storage : Storage) (swapped : Bool) :
     accesses (forward storage swapped "s" "x" "lambda" "y" 2 1 3 4).surfaceBody =
       [("load",storageType storage,Bool.true),("load",storageType storage,Bool.true),
        ("load",storageType storage,Bool.true),("store",storageType storage,Bool.true)] := by
-  cases storage <;> cases swapped <;> simp [forward,ComputeKernel.surfaceBody,accesses,loaded,storageType,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption]
+  cases storage <;> cases swapped <;> simp [forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.surfaceBody,accesses,loaded,storageType,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption]
 
 theorem real_backward_accesses (storage : Storage) (swapped : Bool) :
     accesses (backward storage swapped "s" "lambda" "y" "gs" "gx" "gl" "gy" 2 1 3 4).surfaceBody =
       List.replicate 4 ("load",storageType storage,Bool.true) ++
       List.replicate 3 ("store",storageType storage,Bool.true) := by
-  cases storage <;> cases swapped <;> simp [backward,ComputeKernel.surfaceBody,accesses,loaded,storageType,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption]
+  cases storage <;> cases swapped <;> simp [backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.surfaceBody,accesses,loaded,storageType,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption]
 
 theorem complex_forward_accesses (swapped : Bool) :
     accesses (complexForward swapped "s" "x" "y" "lambda" 2 1 3 4).surfaceBody =
       List.replicate 6 ("load",TileDType.real,Bool.true) ++
       List.replicate 2 ("store",TileDType.real,Bool.true) := by
-  cases swapped <;> simp [complexForward,ComputeKernel.surfaceBody,accesses,loaded,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption]
+  cases swapped <;> simp [complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.surfaceBody,accesses,loaded,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption]
 
 theorem complex_backward_accesses (swapped : Bool) :
     accesses (complexBackward swapped "s" "lambda" "y" "gs" "gx" "gl" "gy" 2 1 3 4).surfaceBody =
       List.replicate 8 ("load",TileDType.real,Bool.true) ++
       List.replicate 6 ("store",TileDType.real,Bool.true) := by
-  cases swapped <;> simp [complexBackward,ComputeKernel.surfaceBody,accesses,loaded,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption]
+  cases swapped <;> simp [complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.surfaceBody,accesses,loaded,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

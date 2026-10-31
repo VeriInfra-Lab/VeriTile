@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_IntegerValueCorrect
 
 /-! Explicit finite input/output words for the 81 integer/bool profiles.
@@ -85,8 +86,7 @@ theorem bool_both_nonzero_wrap (a b : Word .b1) (ha : a ≠ 0) (hb : b ≠ 0) :
   simp only [resultWord, hx, hy]
   decide +kernel
 
-#specNonCircular resultWord avoiding [IntegerSource.source, IntegerSource.runGrid,
-  IntegerSource.runGridPrefix, FP.Structural.exec, IntegerSource.resultCell]
+#specNonCircular resultWord avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 #axiomsClean word_toInt_zero_iff
 #axiomsClean loaded_decode
 #axiomsClean bool_load_zero

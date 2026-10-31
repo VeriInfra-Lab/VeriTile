@@ -60,9 +60,8 @@ def target (M : Algebra α) (P : Primitives α) (h : Call) (orders : VeriTile.Be
       (payload M P h data b.val (data.indices b.val).toNat split.val ⟨n.val,n.isLt.trans_le h.rowsCovered⟩))
       (data.output ((b.val*h.columns+n.val)))
 
-
-#specNonCircular real avoiding [VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.CheckedReal.Run,VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.RealExecution.contribution,VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Kernels.source,VeriTile.Triton.exec]
-#specNonCircular target avoiding [VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPValues.target,VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Kernels.source,FP.Structural.exec]
+#specNonCircular real avoiding [VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.CheckedReal.Run,VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.RealExecution.contribution,VeriTile.Triton.exec]
+#specNonCircular target avoiding [VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPValues.target,FP.Structural.exec]
 #auditModuleAxioms
 end
 end Target

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attn_fwd_triton.Sources.Kernels
+import bench.tritonbench_g.attn_fwd_triton.Kernels
 import bench.tritonbench_g.attn_fwd_triton.Proofs.Mathematical_Real
 import Mathlib.Tactic
 

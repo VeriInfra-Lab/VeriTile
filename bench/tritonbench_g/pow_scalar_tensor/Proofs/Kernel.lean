@@ -53,21 +53,6 @@ theorem kernel_execution [Inhabited α] (M : Algebra α) (c : Parameters)
           ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric] using ran
     · simp [kernelIds,branch,runTiles,flatTile]
 
-/-- Readable signed-pointer DSL and the historical signed block-pointer
-source both succeed and have identical complete memory/undef observations. -/
-theorem signed_source_lowering [Inhabited α] (M : Algebra α) (c : Parameters)
-    (candidate : Bool) (s : State α) :
-    ∃ displayed historical,
-      FP.Structural.exec M (sourceKernel c candidate) s = some displayed ∧
-      FP.Structural.exec M (WholeSource.kernel (config c candidate) c.oneTile c.tiles) s = some historical ∧
-      displayed.mem = historical.mem ∧ displayed.undef = historical.undef := by
-  obtain ⟨displayed,flat,ran,flatRan,obs⟩ := kernel_execution M c candidate s
-  obtain ⟨historical,flat',oldRan,oldFlatRan,oldObs⟩ :=
-    WholeHost.kernel_execution M (config c candidate) c.oneTile c.tiles s
-  have equal : flat = flat' := Option.some.inj (flatRan.symm.trans oldFlatRan)
-  subst flat'
-  exact ⟨displayed,historical,ran,oldRan,obs.1.trans oldObs.1.symm,obs.2.trans oldObs.2.symm⟩
-
 /-- Both actual integer-index variants succeed and agree on every memory
 cell, for arbitrary interpretations of the unchanged scalar operations. -/
 theorem commuted_memory [Inhabited α] (M : Algebra α) (c : Parameters) (s : State α) :
@@ -130,7 +115,6 @@ theorem grid_result [Inhabited α] (M : Algebra α) (base : ℝ) (candidate : Bo
     by simpa only [hobs.1] using hinput,by simpa only [hobs.1] using hframe,hbounds⟩
 
 #axiomsClean kernel_execution
-#axiomsClean signed_source_lowering
 #axiomsClean commuted_memory
 #axiomsClean grid_result
 end

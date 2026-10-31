@@ -33,10 +33,6 @@ def params (p : PackedInfo) (i : Fin 8) : Source.Parameters where
 def Source.Profile.hostDtype : Source.Profile → MatmulDequantInt4.Host.DType
   | .half => .fp16 | .single => .fp32
 
-/-- Complete readable shared quotation: loads, unpacking, signed subtraction,
-selected-width conversion/multiply, mask and store. No numerical rewrite. -/
-abbrev dequantize (f : Source.Profile) (p : PackedInfo) (i : Fin 8) := Source.source f (params p i)
-
 theorem valid (p : PackedInfo) (i : Fin 8) : KernelGrid.Valid (params p i) := by
   have h := MatmulDequantInt4.Source.dequant_valid _ (tuning_mem i)
   exact ⟨h.1,h.2.1,rfl,rfl,by simp [params],by simp [params],by simp [params]⟩

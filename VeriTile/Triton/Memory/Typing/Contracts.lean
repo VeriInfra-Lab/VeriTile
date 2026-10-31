@@ -60,6 +60,10 @@ def Op.BlockPointerRegionHasDType (Γ : RegionTyping) (dtype : TileDType) :
   | .makeBlockPtrDynOffsets region base _ _ _ offsets =>
       Γ region = dtype ∧ base.RespectsRegionTyping Γ ∧
         ∀ off ∈ offsets, off.RespectsRegionTyping Γ
+  | .makeBlockPtrDynMetadata region base _ _ strides offsets =>
+      Γ region=dtype ∧ base.RespectsRegionTyping Γ ∧
+        (∀ stride ∈ strides,stride.RespectsRegionTyping Γ) ∧
+        ∀ off ∈ offsets,off.RespectsRegionTyping Γ
   | .advanceBlockPtr ptr _ => ptr.BlockPointerRegionHasDType Γ dtype
   | .advanceBlockPtrDyn ptr deltas =>
       ptr.BlockPointerRegionHasDType Γ dtype ∧ ∀ d ∈ deltas, d.RespectsRegionTyping Γ
@@ -220,6 +224,9 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .makeBlockPtrDyn _ base _ _ _ _ => base.RespectsRegionTyping Γ
   | .makeBlockPtrDynOffsets _ base _ _ _ offsets =>
       base.RespectsRegionTyping Γ ∧ ∀ off ∈ offsets, off.RespectsRegionTyping Γ
+  | .makeBlockPtrDynMetadata _ base _ _ strides offsets =>
+      base.RespectsRegionTyping Γ ∧ (∀ stride ∈ strides,stride.RespectsRegionTyping Γ) ∧
+        ∀ off ∈ offsets,off.RespectsRegionTyping Γ
   | .advanceBlockPtr ptr _ => ptr.RespectsRegionTyping Γ
   | .advanceBlockPtrDyn ptr deltas =>
       ptr.RespectsRegionTyping Γ ∧ ∀ d ∈ deltas, d.RespectsRegionTyping Γ

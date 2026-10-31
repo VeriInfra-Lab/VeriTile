@@ -877,7 +877,8 @@ theorem body_decomp (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat)
         ++ [Stmt.forRange "block_n_start_idx" 0 N B (varBody x sxk N B)]
         ++ postStmts N B eps
         ++ [Stmt.forRange "block_n_start_idx" 0 N B (wbBody x w o sxb sxm sxk srw sob som sok N B)] := by
-  rfl
+  simp only [rmsnorm_triton,RealSquareView.ofKernel,RealSquareView.bindings,RealSquareView.binding,RealSquareView.assignment,RealSquareView.assignment,RealSquareView.sum,RealSquareView.square,IntegerExpr.sameShape,VeriTile.Bench.Repairs.RmsnormTriton.kernel,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,ComputeDType.eraseDType,FloatDType.toTileDType,Region.cast,Except.bind,bind,List.map_cons,List.map_nil,prefixStmts,varBody,postStmts,wbBody]
+  try rfl
 
 end Final
 
@@ -997,7 +998,15 @@ theorem rmsnorm_full_compute_correct
       (expected := fun k : Fin N => rmsSpecFull s x w sxb sxm sxk srw N eps k.val) := by
   rw [ComputeCorrect.realizes_writeIf_iff]
   apply ComputeKernel.computeCorrect_of_toAlgKernel
-  · simp [VeriTile.Bench.TritonBenchG.RmsnormTriton.rmsnorm_triton,
+  · simp [VeriTile.Bench.TritonBenchG.RmsnormTriton.rmsnorm_triton,RealSquareView.ofKernel,RealSquareView.bindings,RealSquareView.binding,RealSquareView.assignment,
+    RealSquareView.sum,RealSquareView.square,IntegerExpr.sameShape,
+    VeriTile.Bench.Repairs.RmsnormTriton.kernel,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
+    ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,
+    Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
+    IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
   intro s0 s' hExec hs0
   subst s0
@@ -1024,7 +1033,15 @@ theorem rmsnorm_full_output_summary_bridge
         (fun k => (o, outOff s sob som sok k.val)))
       (expected := fun k : Fin N => rmsSpecFull s x w sxb sxm sxk srw N eps k.val) := by
   refine ⟨?_, rmsnorm_full_compute_correct x w o sxb sxm sxk srw sob som sok N B eps s hB hNpos hox how hsok⟩
-  simp [VeriTile.Bench.TritonBenchG.RmsnormTriton.rmsnorm_triton,
+  simp [VeriTile.Bench.TritonBenchG.RmsnormTriton.rmsnorm_triton,RealSquareView.ofKernel,RealSquareView.bindings,RealSquareView.binding,RealSquareView.assignment,
+    RealSquareView.sum,RealSquareView.square,IntegerExpr.sameShape,
+    VeriTile.Bench.Repairs.RmsnormTriton.kernel,ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
+    ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,
+    Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
+    IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
 end Final2
@@ -1118,6 +1135,9 @@ def rmsnormKernelIO (x w o : RegionName)
     (sxb sxm sxk srw sob som sok N B : Nat) (eps : ℝ) :
     StreamEmitMasked2DKernelIO₂ where
   kernel := rmsnorm_triton x w o sxb sxm sxk srw sob som sok N B eps
+  projection := by
+    simp only [rmsnorm_triton,RealSquareView.ofKernel,
+      ComputeKernel.toAlgorithm?_fromKernelBody,ComputeKernel.toAlgKernel_fromKernelBody]
   inp1 := x
   inp2 := w
   out := o

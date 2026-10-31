@@ -71,19 +71,6 @@ theorem output_dotAcc (rest : Algebra Expr) (c : Shape) (s : State Expr) (scale 
             (FPValue.gatedO (algebra rest) c s (FPValue.accumulated (algebra rest) c (dots rest c) s) i) i)
           (.literal (some .fp32) .real scale)) := rfl
 
-/-- The actual reached loop body constructs the two native accumulator nodes.
-The equality is at graph construction, before either dot is interpreted. -/
-theorem reached_body (rest : Algebra Expr) (c : Shape) (scale : ℝ)
-    (initial current : State Expr) (block : Nat) (acc : FPValue.Acc Expr c)
-    (ctx : FPValue.Context c initial current) (ha : FPValue.HasAcc c acc current) :
-    let t := (FPValue.bodyExecution (algebra rest) c scale (dots rest c) initial current block acc ctx ha).val
-    FPValue.HasAcc c
-      (fun i => Expr.dotAcc (some .fp32) options [] c.BT c.BK c.BV
-        (FPValue.qValue (algebra rest) c initial block) (FPValue.hValue (algebra rest) c initial block) (acc.1 i) i,
-       fun i => Expr.dotAcc (some .fp32) options [] c.BT c.BK c.BT
-        (FPValue.qValue (algebra rest) c initial block) (FPValue.kValue (algebra rest) c initial block) (acc.2 i) i) t :=
-  (FPValue.bodyContext (algebra rest) c scale (dots rest c) initial current block acc ctx ha).2
-
 /-- Exact local numerical ports for the staged FP32/IEEE dot graph. No
 whole-output, execution, address, or split-rounded-equals-dotAcc law appears. -/
 structure Primitives (α : Type) where
@@ -110,24 +97,7 @@ def evaluate {α : Type} (p : Primitives α) : Expr → α
   | .dotAcc q opts batch m k n a b acc i => p.dotAcc q opts batch m k n
       (fun j => evaluate p (a j)) (fun j => evaluate p (b j)) (evaluate p acc) i
 
-/-- Native graph execution reaches one merged grid state, and numerical
-readback is the independent initial-input recurrence evaluated by local ports. -/
-theorem whole_grid {α : Type} (p : Primitives α) (rest : Algebra Expr) (c : Shape)
-    (scale : ℝ) (s : State Expr) :
-    ∃ t, FPGrid.run (algebra rest) c scale (FPGrid.programs c) s=some t ∧
-      FPGrid.Result (algebra rest) c scale (dots rest c) s t ∧
-      (∀ q : FPGrid.Pid c, ∀ i, FPValue.active c (FPGrid.launch c s q) i →
-        evaluate p ((t.mem "o" (FPValue.oOffset c (FPGrid.launch c s q) i)).read .fp32)=
-          evaluate p (FPValue.outputValue (algebra rest) c (dots rest c) (FPGrid.launch c s q) scale i)) := by
-  obtain ⟨t,he,hr⟩ := FPGrid.whole_grid (algebra rest) c scale (dots rest c) s
-  refine ⟨t,he,hr,?_⟩
-  intro q i hi
-  rw [hr.1 q i hi]
-  rfl
-
 #axiomsClean update_dotAcc
-#axiomsClean reached_body
-#axiomsClean whole_grid
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

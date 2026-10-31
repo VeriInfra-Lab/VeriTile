@@ -16,7 +16,7 @@ set_option linter.unusedSimpArgs false
 theorem pointers_safe (A : FlatAlloc) (bounds : RegionBounds) (s : BlockState) (p : Parameters) (BM BN BD : Nat) :
     Stmt.TraceSafeList bounds (A.flattenStmts (Pointers.code p BM BN BD)) s := by
   apply list_safe
-  simp only [Pointers.code,Pointers.rowExpr,Pointers.keyExpr,RealPointers.rowExpr,
+  simp only [Pointers.code,Pointers.rowExpr,Pointers.keyExpr,Pointers.rowOffsets,Pointers.queryScaleExpr,Pointers.keyScaleExpr,wide,RealPointers.rowExpr,
     RealPointers.queryScaleExpr,RealPointers.keyScaleExpr,FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,FlatAlloc.flattenOp,
     FlatCongruence.vec0,FlatCongruence.vec1]
   simp [Op.SafeAt.eq_def]
@@ -27,12 +27,12 @@ theorem prologue_safe (A : FlatAlloc) (bounds : RegionBounds) (s : BlockState) (
     Stmt.TraceSafeList bounds (Coordinates.code p BM BN ++ A.flattenStmts (Pointers.code p BM BN BD) ++ Initialization.code BM BD p.headDim) s := by
   let c := Coordinates.configuration s p
   obtain ⟨sc,hcs,hcv,_⟩ := Coordinates.executes s p BM BN
-  have hqsb : sc.regs .nat [] "q_scale_offset" = some (Tile.scalar (qsbase c BM)) := by
-    change sc.regs .nat [] "q_scale_offset" = some (Tile.scalar ((c.z*p.heads+c.h)*((p.context+BM-1)/BM)))
+  have hqsb : sc.regs .int [] "q_scale_offset" = some (Tile.scalar (qsbase c BM)) := by
+    change sc.regs .int [] "q_scale_offset" = some (Tile.scalar ((((c.z*p.heads+c.h)*((p.context+BM-1)/BM)) : Nat) : Int))
     rw [show c.z*p.heads+c.h = s.pids 1 from Coordinates.packed_head s p]
     exact hcv.queryScaleBase
-  have hksb : sc.regs .nat [] "k_scale_offset" = some (Tile.scalar (ksbase c BN)) := by
-    change sc.regs .nat [] "k_scale_offset" = some (Tile.scalar ((c.z*p.heads+c.h)*((p.context+BN-1)/BN)))
+  have hksb : sc.regs .int [] "k_scale_offset" = some (Tile.scalar (ksbase c BN)) := by
+    change sc.regs .int [] "k_scale_offset" = some (Tile.scalar ((((c.z*p.heads+c.h)*((p.context+BN-1)/BN)) : Nat) : Int))
     rw [show c.z*p.heads+c.h = s.pids 1 from Coordinates.packed_head s p]
     exact hcv.keyScaleBase
   obtain ⟨sp,hps,hpv,hpf⟩ := FlatPointers.executes A sc c BM BN BD hcv.row hcv.queryBase hcv.keyBase

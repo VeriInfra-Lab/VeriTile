@@ -20,7 +20,7 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α)
       r.offset key (s.pids 0) h.val (r.column side j.val)<bounds (region key)) :
     TraceSafe M bounds (kernel r) s := by
   simp (maxSteps := 3000000) [TraceSafe,kernel,T.kernel,
-    VeriTile.Bench.TritonBenchG.RopeTransform.Typed.source,Request.parameters,
+    VeriTile.Bench.TritonBenchG.RopeTransform.Typed.source,VeriTile.Bench.Repairs.RopeTransform.Kernels.source,Request.parameters,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,

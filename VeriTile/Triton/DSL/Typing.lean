@@ -183,6 +183,7 @@ def expandDType : TSyntax `tritonDType → MacroM DInfo
   | `(tritonDType| tl.uint16) => pure .nat
   | `(tritonDType| tl.uint32) => pure .nat
   | `(tritonDType| tl.uint64) => pure .nat
+  | `(tritonDType| storage_dtype($name:ident)) => pure (.floatVar name.getId.eraseMacroScopes.toString)
   | `(tritonDType| OUT_DTYPE) => pure (.floatVar "out_dtype")
   | `(tritonDType| DTYPE) => pure (.floatVar "dtype")
   | _ => Macro.throwUnsupported
@@ -207,6 +208,10 @@ def expandDTypeIdent (name : Name) : MacroM DInfo :=
   | _ => Macro.throwUnsupported
 
 def expandDTypeExpr : TSyntax `tritonExpr → MacroM DInfo
+  | `(tritonExpr| tl.float64) => pure .real
+  | `(tritonExpr| tl.float32) => pure .fp32
+  | `(tritonExpr| tl.float16) => pure .fp16
+  | `(tritonExpr| tl.bfloat16) => pure .bf16
   | `(tritonExpr| $name:ident) => expandDTypeIdent name.getId
   | _ => Macro.throwUnsupported
 

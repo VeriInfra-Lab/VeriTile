@@ -27,7 +27,6 @@ theorem tail_load_safe (bounds : RegionBounds) (X : RegionName) (N B i p : Nat)
   intro lane hactive
   exact hbound lane.1 (of_decide_eq_true hactive)
 
-
 /-- The source maximum and the remaining arithmetic have no memory accesses. -/
 private theorem source_update_safe (bounds : RegionBounds) (X : RegionName) (N B : Nat)
     (s : BlockState) :
@@ -37,71 +36,6 @@ private theorem source_update_safe (bounds : RegionBounds) (X : RegionName) (N B
   simp only [loopAbody, List.drop, List.mem_cons, List.not_mem_nil, or_false] at hst
   rcases hst with rfl | rfl | rfl | rfl <;>
     simp [sourceMaximum, Stmt.TraceSafe, Op.SafeAt, Op.SafeAt.eq_def]
-
-/-- Every full input-loop body is safe from its address facts alone; the
-numerical registers are unrestricted, including missing-register failure. -/
-theorem input_full_safe (bounds : RegionBounds) (X : RegionName) (N B i p : Nat)
-    (s : BlockState)
-    (hpid : s.regs .nat [] "pid_m" = some (Tile.scalar p))
-    (hbound : ∀ lane : Fin B, p * N + (i + lane.val) < bounds X) :
-    Stmt.TraceSafeList bounds (inputFull X N B)
-      (s.setReg "start_n" .int [] (Tile.scalar (i : Int))) := by
-  unfold inputFull
-  apply TraceProofs.append_safe _ _ (index_prefix_safe bounds X N B _)
-  intro t ht
-  have heq := Option.some.inj ((prefix_int_run X N B i p s hpid).symm.trans ht)
-  subst t
-  change Stmt.TraceSafeList bounds
-    (.assign .real [B] "inp" (.load .real (.ptr (.ref .ptr [B] "input_ptrs")) .none) ::
-      (sourceMaximum B :: (loopAbody X N B).drop 5)) (prefixIntState X N B i p s)
-  apply TraceProofs.assign_cons
-  · exact full_load_safe bounds X N B i p _ (by simp [prefixIntState]) hbound
-  · intro value
-    exact source_update_safe bounds X N B _
-
-theorem mask_run (X : RegionName) (N B i p : Nat) (s : BlockState) :
-    stepStmt (maskStatement N B) (prefixIntState X N B i p s) =
-      some ((prefixIntState X N B i p s).setReg "mask" .bool [B]
-        (Tile.vec fun lane ↦ decide (i + lane.val < N))) := by
-  apply stepStmt_assign_eq_some
-  simp only [maskStatement, evalOp.eq_def, prefixIntState,
-    BlockState.setReg_ne_name, BlockState.setReg_same, ne_eq, String.reduceEq,
-    not_false_eq_true, Option.bind_some, Option.bind_eq_bind]
-  apply congrArg some
-  apply Tile.ext
-  intro lane
-  change decide (((i + lane.1.val : Nat) : Int) < (N : Int)) =
-    decide (i + lane.1.val < N)
-  simp only [Int.ofNat_lt]
-
-/-- Tail safety uses the source's signed mask and checks only active lanes. -/
-theorem input_tail_safe (bounds : RegionBounds) (X : RegionName) (N B i p : Nat)
-    (s : BlockState)
-    (hpid : s.regs .nat [] "pid_m" = some (Tile.scalar p))
-    (hbound : ∀ lane : Fin B, i + lane.val < N → p * N + (i + lane.val) < bounds X) :
-    Stmt.TraceSafeList bounds (inputTail X N B)
-      (s.setReg "start_n" .int [] (Tile.scalar (i : Int))) := by
-  rw [inputTail, List.append_assoc]
-  apply TraceProofs.append_safe _ _ (index_prefix_safe bounds X N B _)
-  intro t ht
-  have heq := Option.some.inj ((prefix_int_run X N B i p s hpid).symm.trans ht)
-  subst t
-  change Stmt.TraceSafeList bounds
-    (maskStatement N B ::
-      (((loopBbody X N B).drop 4).take 1 ++ [sourceMaximum B] ++
-        (loopBbody X N B).drop 6)) (prefixIntState X N B i p s)
-  rw [TraceProofs.cons_of_run_iff (mask_run X N B i p s)]
-  constructor
-  · simp [maskStatement, Stmt.TraceSafe, Op.SafeAt, Op.SafeAt.eq_def]
-  · change Stmt.TraceSafeList bounds
-      (.assign .real [B] "inp" (.load .real (.ptr (.ref .ptr [B] "input_ptrs"))
-        (.maskOther (.ref .bool [B] "mask") (Op.negInf.broadcast [B]))) ::
-        (sourceMaximum B :: (loopBbody X N B).drop 6)) _
-    apply TraceProofs.assign_cons
-    · exact tail_load_safe bounds X N B i p _ (by simp [prefixIntState])
-        (by simp) hbound
-    · intro value
-      exact source_update_safe bounds X N B _
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

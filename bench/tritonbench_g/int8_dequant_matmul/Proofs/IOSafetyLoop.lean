@@ -25,13 +25,11 @@ theorem loadArm_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic) (cont
   · rw [←List.take_append_drop 1 (loadArm s c hasBias Bool.false),IntegerDot.traceSafeList_append]
     constructor
     · apply traceSafe_of_pointwise
-      simp [loadArm,body,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-        ComputeKernel.surfaceBody]
+      simp [loadArm,body,source,TypedSource.kernel,ComputeKernel.surfaceBody]
       simp only [IntegerDot.stepSafe_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
       simp [Safety.safeOp_unfold]
     · intro next executed
-      simp [loadArm,body,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-        ComputeKernel.surfaceBody,IntegerDot.run,IntegerDot.step,IntegerDot.arithmeticStep,
+      simp [loadArm,body,source,TypedSource.kernel,ComputeKernel.surfaceBody,IntegerDot.run,IntegerDot.step,IntegerDot.arithmeticStep,
         FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,
         Broadcast.leftIndex,Broadcast.rightIndex] at executed
       cases executed

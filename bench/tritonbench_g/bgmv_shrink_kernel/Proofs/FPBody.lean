@@ -12,7 +12,7 @@ structure Invariant (h : Call) (data : Data α) (batch split slot : Nat)
   memory : s.mem=data.cells h
   scaleReg : s.regs .real [] "scaling"=some (fun _ => data.scaling)
   batchReg : s.regs .int [] "cur_batch"=some (fun _ => (batch:Int))
-  offsetN : s.regs .nat [h.BN] "offset_n"=some (fun i => i.1.val)
+  offsetN : s.regs .int [h.BN] "offset_n"=some (fun i => (i.1.val : Int))
   offsetK : s.regs .int [256] "offset_k"=some (fun i => ((i.1.val+split*256:Nat):Int))
   inputPtr : s.regs .ptr [] "a_ptr"=some (fun _ => (("X":RegionName),batch*h.K))
   weightPtr : s.regs .ptr [] "b_ptr"=some (fun _ => (("W":RegionName),(h.N*h.K)*slot))

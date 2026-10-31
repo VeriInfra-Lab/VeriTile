@@ -14,7 +14,7 @@ theorem rotation_run (a : Operations α) (fp8 : Bool) (p : Parameters)
       TailReady p s u (rotated a p s values) := by
   cases fp8 <;> cases hr : p.rotary
   all_goals
-    simp [rotation,kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,arguments,
+    simp [rotation,kernel,TypedSource.kernel,TypedSource.source,arguments,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
       integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,

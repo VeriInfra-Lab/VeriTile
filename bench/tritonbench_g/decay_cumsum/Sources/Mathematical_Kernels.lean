@@ -1,3 +1,4 @@
+import bench.tritonbench_g.decay_cumsum.Sources.Selected
 import VeriTile.Triton.Source
 import VeriTile.Triton.DSL
 /-! Source: decay_cumsum.py. Complete forward scan, preparation and reverse
@@ -8,11 +9,6 @@ final unused pointer decrements. Pointer arithmetic uses the natural-address
 model; no fixed-width overflow or host launch claim is made. -/
 namespace VeriTile.Bench.TritonBenchG.DecayCumsum.TypedSource
 open Lean VeriTile.Triton
-inductive Storage where
-  | fp16 | bf16 | fp32
-  deriving DecidableEq
-def inv_ln2 : ℝ := 1.44269504
-
 /-! Source: decay_cumsum.py, fwd_decay_cumsum. -/
 syntax "decayForwardSource%" "[" tritonDType "," tritonDType "," ident "]" : term
 set_option hygiene false in
@@ -43,7 +39,7 @@ macro_rules
 def forward (storage : Storage) (swapped : Bool) := match storage with
   | .fp16 => if swapped then decayForwardSource%[tl.float16,tl.float16,indexCommuted] else decayForwardSource%[tl.float16,tl.float16,original]
   | .bf16 => if swapped then decayForwardSource%[tl.bfloat16,tl.bfloat16,indexCommuted] else decayForwardSource%[tl.bfloat16,tl.bfloat16,original]
-  | .fp32 => if swapped then decayForwardSource%[tl.float32,tl.float32,indexCommuted] else decayForwardSource%[tl.float32,tl.float32,original]
+  | .fp32 => if swapped then VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedForwardIndexCommuted else VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedForward
 
 /-! Source: decay_cumsum.py, prepare_qg_kg. -/
 syntax "decayPrepareSource%" "[" tritonDType "," tritonDType "," ident "]" : term
@@ -91,7 +87,7 @@ def prepare (source gate : Storage) (swapped : Bool) := match source, gate with
   | .bf16, .fp32 => if swapped then decayPrepareSource%[tl.bfloat16,tl.float32,indexCommuted] else decayPrepareSource%[tl.bfloat16,tl.float32,original]
   | .fp32, .fp16 => if swapped then decayPrepareSource%[tl.float32,tl.float16,indexCommuted] else decayPrepareSource%[tl.float32,tl.float16,original]
   | .fp32, .bf16 => if swapped then decayPrepareSource%[tl.float32,tl.bfloat16,indexCommuted] else decayPrepareSource%[tl.float32,tl.bfloat16,original]
-  | .fp32, .fp32 => if swapped then decayPrepareSource%[tl.float32,tl.float32,indexCommuted] else decayPrepareSource%[tl.float32,tl.float32,original]
+  | .fp32, .fp32 => if swapped then VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedPrepareIndexCommuted else VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedPrepare
 
 /-! Source: decay_cumsum.py, bwd_decay_global_cumsum. -/
 syntax "decayBackwardSource%" "[" tritonDType "," tritonDType "," ident "]" : term
@@ -158,6 +154,6 @@ def backward (source gate : Storage) (swapped : Bool) := match source, gate with
   | .bf16, .fp32 => if swapped then decayBackwardSource%[tl.bfloat16,tl.float32,indexCommuted] else decayBackwardSource%[tl.bfloat16,tl.float32,original]
   | .fp32, .fp16 => if swapped then decayBackwardSource%[tl.float32,tl.float16,indexCommuted] else decayBackwardSource%[tl.float32,tl.float16,original]
   | .fp32, .bf16 => if swapped then decayBackwardSource%[tl.float32,tl.bfloat16,indexCommuted] else decayBackwardSource%[tl.float32,tl.bfloat16,original]
-  | .fp32, .fp32 => if swapped then decayBackwardSource%[tl.float32,tl.float32,indexCommuted] else decayBackwardSource%[tl.float32,tl.float32,original]
+  | .fp32, .fp32 => if swapped then VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedBackwardIndexCommuted else VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedBackward
 
 end VeriTile.Bench.TritonBenchG.DecayCumsum.TypedSource

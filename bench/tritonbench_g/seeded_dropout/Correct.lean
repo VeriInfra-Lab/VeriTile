@@ -21,7 +21,7 @@ specification seeded_dropout_kernel_correctness (k : SeedKind) (X O : RegionName
         then xs i/(1-p) else 0) :=
   KernelPublic.logical_real k X O n p seed pid hn hp hs
 
-#specNonCircular Whole.realFormula avoiding [kernel,indexCommutedKernel,KernelExecution.originalExecution]
+#specNonCircular Whole.realFormula avoiding [kernel,selected,sourceFamily,indexCommutedKernel,selected,sourceFamily,KernelExecution.originalExecution]
 #axiomsClean seeded_dropout_kernel_correctness
 #stmtSurfaceSubset seeded_dropout_kernel_correctness ⊆
   [SeedKind,RegionName,SeedCarrier,gridCount,SeedABI,VeriTile.Spec.Real,

@@ -14,7 +14,7 @@ set_option linter.unusedSimpArgs false
 noncomputable section
 
 theorem correct (bounds : RegionBounds) (s : BlockState) (Q K M : RegionName)
-    (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat) (scale : ℝ) (evenN : Bool)
+    (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat) (scale : ℝ) (evenN : Bool) (keyRange : s.pids 0*B<2147483648)
     (hbK : BlockBounds bounds (RealLoads.keyPointer K B D NK
       (s.pids 1 / H * skz + (s.pids 1 % H) / (H / HK) * skh) skn skk (s.pids 0))
       (RealLoads.checks evenN)) :
@@ -22,24 +22,24 @@ theorem correct (bounds : RegionBounds) (s : BlockState) (Q K M : RegionName)
       sqz sqh sqm sqk skz skh skn skk evenN) s := by
   let code := RealProgram.prelude Q K M scale H HK N RN NK B D
     sqz sqh sqm sqk skz skh skn skk evenN
-  let before := code.take 11
-  let after := code.drop 11
-  have hsplit : code = before ++ after := (List.take_append_drop 11 code).symm
+  let before := RealPrefix.beforeKey Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk
+  let after := RealPrefix.afterKey B D N scale evenN
+  have hsplit : code = before ++ after := RealPrefix.prelude_shape Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk scale evenN
   have hs : Stmt.TraceSafeList bounds before s := by
     apply list_safe
-    simp only [before, code, RealProgram.prelude, List.take_succ_cons, List.take_zero,
+    simp only [before, RealPrefix.beforeKey,
       List.forall_mem_cons, List.not_mem_nil, false_implies, forall_const, and_true,
       assign_iff, dynamic_offsets_safe]
     simp [Op.SafeAt.eq_def]
   have hf : RealFrame.Code ["k","lo","hi","qk_scale"] after := by
-    dsimp [after, code, RealProgram.prelude, RealBody.loadKey]
+    dsimp [after, RealPrefix.afterKey, RealBody.loadKey]
     repeat' first
       | apply RealFrame.Code.ifThenElse
       | apply RealFrame.Code.assign
       | apply RealFrame.Code.nil
       | simp
   obtain ⟨t,he,_,_,_,_,_,hk,_⟩ := RealPrelude.correct s Q K M H HK N RN NK B D
-    sqz sqh sqm sqk skz skh skn skk 0 0 scale Bool.false Bool.false Bool.false evenN Bool.false
+    sqz sqh sqm sqk skz skh skn skk 0 0 scale Bool.false Bool.false Bool.false evenN Bool.false keyRange
   change stepStmts code s = some t at he
   rw [hsplit, ProgramRewrite.append] at he
   cases hp : stepStmts before s with
@@ -51,7 +51,7 @@ theorem correct (bounds : RegionBounds) (s : BlockState) (Q K M : RegionName)
       change Stmt.TraceSafeList bounds code s
       rw [hsplit]
       apply append_of_run hs hp
-      dsimp [after, code, RealProgram.prelude]
+      dsimp [after, RealPrefix.afterKey]
       apply Stmt.TraceSafeList.cons_intro
         (RealSafetyParts.load_choice_safe bounds u [D,B] "K_block_ptr" "k" evenN _ hku hbK)
       intro v _

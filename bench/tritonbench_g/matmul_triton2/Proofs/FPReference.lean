@@ -40,16 +40,6 @@ def accumulation {α : Type} [Inhabited α] (P : Primitives α) (p : Parameters)
   | block+1 => matrixDot P (batch:=[]) (aValues P p initial block) (bValues P p initial block)
       (accumulation P p initial block)
 
-structure Invariant {α : Type} [Inhabited α] (P : Primitives α) (p : Parameters)
-    (initial : State α) (block : Nat) (current : State α) : Prop where
-  memory : current.mem=initial.mem
-  offm : current.regs .nat [p.blockRows] "offs_am" = some (fun i => row p initial i.1)
-  offn : current.regs .nat [p.blockColumns] "offs_bn" = some (fun i => column p initial i.1)
-  offk : current.regs .nat [p.blockInner] "offs_k" = some (fun i => i.1.val)
-  aptrs : current.regs .ptr [p.blockRows,p.blockInner] "a_ptrs" = some (fun i => (p.input,aOffset p initial block i))
-  bptrs : current.regs .ptr [p.blockInner,p.blockColumns] "b_ptrs" = some (fun i => (p.weight,bOffset p initial block i))
-  acc : current.regs .real [p.blockRows,p.blockColumns] "accumulator" = some (accumulation P p initial block)
-
 #specNonCircular accumulation avoiding [source, FP.Structural.exec]
 end
 end VeriTile.Bench.Repairs.MatmulTriton2.Revision001.Core

@@ -1,8 +1,8 @@
 import bench.tritonbench_g.fast_rms_layernorm.Proofs.FPTensor
 
 /-! Runtime epsilon has a separate scalar register throughout source execution
-and the independent reference. The historical literal-specialized path remains
-available only to the Real/optional host interpretation. -/
+and the independent reference. The Real view binds the same source's scalar
+argument before interpreting the complete body. -/
 namespace VeriTile.Bench.Repairs.FastRmsLayernorm.RuntimeForward
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
 noncomputable section
@@ -27,8 +27,7 @@ def output (M : Algebra α) (h : Call) (epsilon : α) (x w : Fin h.block → α)
   else mul M (cast M (normalized M h epsilon x j)) (M.fp32Load (padded M h w j))))
 
 def savedInv (M : Algebra α) (h : Call) (epsilon : α) (x : Fin h.block → α) : Cell α := .mk .real (cast M (inv M h epsilon x))
-/-- The Real/optional historical interpretation is exactly the specialization
-that supplies the mathematical epsilon literal at this one scalar position. -/
+/-- Supplying the mathematical epsilon value specializes the scalar formula. -/
 theorem literal_inv (M : Algebra α) (h : Call) (x : Fin h.block → α) :
     inv M h (FPReference.literal M h.eps) x=FPReference.inv M h x := rfl
 theorem literal_output (M : Algebra α) (h : Call) (x w : Fin h.block → α) (j : Fin h.block) :
@@ -37,15 +36,15 @@ theorem literal_saved (M : Algebra α) (h : Call) (x : Fin h.block → α) :
     savedInv M h (FPReference.literal M h.eps) x=FPReference.savedInv M h x := rfl
 end Reference
 namespace Source
-/-- Only the inverse-statistic assignment (slot 9) changes when epsilon becomes
-an external register. All loads, masks, addresses, casts and stores are identical. -/
+/-- The Real call executes the complete runtime source after binding epsilon. -/
 theorem runtime_body (h : Call) :
-    (Kernels.forwardRuntime h).surfaceBody.eraseIdx 9=(Kernels.forward h).surfaceBody.eraseIdx 9 := by
+    Kernels.forward h = (Kernels.forwardRuntime h).withScalarArguments
+      [ScalarArgument.fp32 "eps" h.eps] := by
   unfold Kernels.forwardRuntime Kernels.forward
   split <;> rfl
 
 theorem runtime_length (h : Call) :
-    (Kernels.forwardRuntime h).surfaceBody.length=(Kernels.forward h).surfaceBody.length := by
+    (Kernels.forward h).surfaceBody.length=(Kernels.forwardRuntime h).surfaceBody.length+1 := by
   unfold Kernels.forwardRuntime Kernels.forward
   split <;> rfl
 
@@ -76,7 +75,6 @@ theorem forward_memory (M : Algebra α) (h : Call) (epsilon : α) (u : State α)
     <;> dsimp only [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,State.write,update]
     <;> norm_num
     <;> rfl
-
 
 #axiomsClean forward_memory
 end Source
@@ -123,7 +121,6 @@ theorem forward_complete (M : Algebra α) (h : Call) (epsilon : α) (u : State �
         intro i _ active eq
         exact outside (Or.inl ⟨same,⟨⟨i.1.val,active⟩,eq⟩⟩)
       · exact Or.inl same
-
 
 end Memory
 namespace Grid
@@ -205,7 +202,6 @@ theorem complete (M : Algebra α) (h : Call) (epsilon : α) (heap : Heap α) :
     (fun w _ => expected_stable M h epsilon w) heap
   exact ⟨final,he,fun row => ho row (List.mem_finRange row),fun addr out => hf addr (fun row _ => out row)⟩
 
-
 #axiomsClean complete
 end Grid
 namespace Tensor
@@ -249,7 +245,6 @@ theorem forward {β : Type} (M : Algebra α) (h : Call) (epsilon : α) (storage 
     have value:=values i (.inr ())
     simp only [Grid.expected,savedReference,Reference.savedInv,Reference.inv,FPReference.input,xr] at value ⊢
     exact value
-
 
 #axiomsClean forward
 end Tensor

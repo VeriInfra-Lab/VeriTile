@@ -16,6 +16,8 @@ if __package__ in (None, ""):
 import ast
 import copy
 import difflib
+import io
+import tokenize
 import json
 from pathlib import Path
 import re
@@ -24,12 +26,15 @@ import textwrap
 from scripts.bench.audit_source import lean_code_mask, strip_lean_comments
 
 
-def quotation(text: str, definition: str) -> tuple[str, str]:
+def quotation(text: str, definition: str, *, raw_python: bool = False) -> tuple[str, str]:
     mask = lean_code_mask(text)
-    start = re.search(r"\bdef\s+" + re.escape(definition) + r"\b", mask)
-    if not start:
+    matches = list(re.finditer(r"(?m)^\s*(?:(?:noncomputable|private|protected)\s+)*def\s+" + re.escape(definition) + r"\b", mask))
+    if not matches:
         raise ValueError(f"missing Lean definition: {definition}")
-    next_def = re.search(r"\n(?:def|theorem|specification|end)\b", mask[start.end():])
+    if len(matches) != 1:
+        raise ValueError(f"ambiguous Lean definition: {definition}")
+    start = matches[0]
+    next_def = re.search(r"\n(?:(?:noncomputable|private|protected)\s+)*(?:def|abbrev|theorem|specification|end)\b", mask[start.end():])
     end = start.end() + next_def.start() if next_def else len(text)
     selected, code = text[start.start():end], mask[start.start():end]
     begin = re.search(r"\btriton\b", code)
@@ -38,6 +43,30 @@ def quotation(text: str, definition: str) -> tuple[str, str]:
     opening = code.find("{", begin.end())
     if opening < 0:
         raise ValueError("missing quotation body")
+    if raw_python:
+        # The literal body uses Python comments and strings. Tokenization
+        # keeps braces in either out of the quotation delimiter count.
+        fragment = selected[opening:]
+        offsets = [0]
+        for line in fragment.splitlines(keepends=True):
+            offsets.append(offsets[-1] + len(line))
+        depth = 0
+        try:
+            for token in tokenize.generate_tokens(io.StringIO(fragment).readline):
+                if token.type != tokenize.OP:
+                    continue
+                if token.string == "{":
+                    depth += 1
+                elif token.string == "}":
+                    depth -= 1
+                    if depth == 0:
+                        stop = opening + offsets[token.end[0] - 1] + token.end[1]
+                        if code[stop:].strip():
+                            raise ValueError("unexpected code after quotation")
+                        return selected[:opening], selected[opening + 1:stop - 1]
+        except (tokenize.TokenError, IndentationError) as error:
+            raise ValueError("invalid Python quotation delimiters") from error
+        raise ValueError("unterminated quotation")
     depth = 1
     for i in range(opening + 1, len(code)):
         depth += (code[i] == "{") - (code[i] == "}")
@@ -151,17 +180,47 @@ class ShapeSpelling(ast.NodeTransformer):
 
 def call_signature(text: str, name: str) -> dict:
     code = strip_lean_comments(text)
-    match = re.search(r"\bdef\s+" + re.escape(name) + r"\s*:\s*CallSignature\s+where\s*(.*?)(?=\ndef |\nnoncomputable |\nend\b|\Z)", code, re.S)
-    if not match:
+    matches = list(re.finditer(r"(?m)^\s*def\s+" + re.escape(name) +
+                              r"\s*((?:\([^\n()]*\)\s*)*):\s*CallSignature\s+where\s*"
+                              r"(.*?)(?=\ndef |\nnoncomputable |\nend\b|\Z)", code, re.S))
+    if len(matches) != 1:
         raise ValueError("missing declarative call signature")
+    match = matches[0]
+    dtype_parameters = []
+    for group in re.findall(r"\(([^()]*)\)", match[1]):
+        parameter = re.fullmatch(r"\s*([A-Za-z_]\w*(?:\s+[A-Za-z_]\w*)*)\s*:\s*FloatDType\s*", group)
+        if not parameter:
+            raise ValueError("unsupported call signature parameter")
+        dtype_parameters.extend(parameter[1].split())
+    if len(dtype_parameters) != len(set(dtype_parameters)):
+        raise ValueError("duplicate call signature dtype parameter")
     fields = {}
     for field in ("pointers", "scalars", "constexpr"):
-        value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
+        value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[2])
         if not value:
+            if field == "pointers" and dtype_parameters:
+                fields[field] = []
+                continue
             raise ValueError(f"missing call signature field: {field}")
         source = re.sub(r"\.(fp16|bf16|fp32|fp64|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer)\b", r'"\1"', value[1])
         fields[field] = json.loads(json.dumps(ast.literal_eval(source)))
-    names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"]
+    floating = re.search(r"\bfloatingPointers\s*:=\s*(\[[^\]]*\])", match[2])
+    if dtype_parameters or floating:
+        if not floating:
+            raise ValueError("missing polymorphic pointer signature")
+        tree = ast.parse(floating[1], mode="eval").body
+        if not isinstance(tree, ast.List):
+            raise ValueError("unsupported polymorphic pointer signature")
+        pairs = []
+        for pair in tree.elts:
+            if not (isinstance(pair, ast.Tuple) and len(pair.elts) == 2
+                    and isinstance(pair.elts[0], ast.Constant) and type(pair.elts[0].value) is str
+                    and isinstance(pair.elts[1], ast.Name) and pair.elts[1].id in dtype_parameters):
+                raise ValueError("polymorphic pointers must use declared dtype parameters")
+            pairs.append([pair.elts[0].value, pair.elts[1].id])
+        fields["floatingPointers"] = pairs
+        fields["dtype_parameters"] = dtype_parameters
+    names = [n for n, _ in fields["pointers"] + fields.get("floatingPointers", []) + fields["scalars"]] + fields["constexpr"]
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")
     return fields
@@ -170,7 +229,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           signature_definition: str | None = None, expected_signature: dict | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
-    if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
+    if len(functions) != 1 or not any(ast.unparse(d.func if isinstance(d, ast.Call) else d) == "triton.jit"
+                                      for d in functions[0].decorator_list):
         raise ValueError("expected one explicitly selected @triton.jit function")
     function = functions[0]
     def annotation(argument):
@@ -184,26 +244,31 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     constants = {a.arg for a in function.args.args if annotation(a) == "tl.constexpr"}
     runtime = {a.arg: ast.unparse(a.annotation) for a in function.args.args
                if a.annotation is not None and a.arg not in constants}
-    signature, body = quotation(lean_text, lean_definition)
+    signature, body = quotation(lean_text, lean_definition, raw_python=signature_definition is not None)
     profile = None
     if signature_definition is not None:
         if expected_signature is None:
             raise ValueError("pasted body requires an independently reviewed call signature")
         if re.search(r"\btl\.(region|param)\b|\$", body):
             raise ValueError("pasted body must not contain metadata directives or Lean antiquotes")
-        if not re.search(r"\bwith_triton_signature\s+" + re.escape(signature_definition) + r"\s+in\b", signature):
-            raise ValueError("quotation does not use the declared call signature")
         profile = call_signature(lean_text, signature_definition)
+        dtype_arguments = profile.get("dtype_parameters", [])
+        selected_signature = (r"\(\s*" + re.escape(signature_definition) + r"\s+" +
+                              r"\s+".join(map(re.escape, dtype_arguments)) + r"\s*\)"
+                              if dtype_arguments else re.escape(signature_definition))
+        if not re.search(r"\bwith_triton_signature\s+" + selected_signature + r"\s+in\b", signature):
+            raise ValueError("quotation does not use the declared call signature")
         if expected_signature is not None and profile != expected_signature:
             raise ValueError("call signature differs from the reviewed launch types")
-        names = {n for n, _ in profile["pointers"] + profile["scalars"]} | set(profile["constexpr"])
+        pointer_bindings = profile["pointers"] + profile.get("floatingPointers", [])
+        names = {n for n, _ in pointer_bindings + profile["scalars"]} | set(profile["constexpr"])
         if names != {a.arg for a in function.args.args} or set(profile["constexpr"]) != constants:
             raise ValueError("Python parameters and call signature differ")
         # `integer` is intentionally unbounded; it cannot certify an explicit
         # int32/int64 ABI annotation. Pointer annotations are not scalar args.
         scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64"}
         supplied = {n: scalar_types.get(t) for n, t in profile["scalars"]}
-        pointer_names = {n for n, _ in profile["pointers"]}
+        pointer_names = {n for n, _ in pointer_bindings}
         for arg in function.args.args:
             t = annotation(arg)
             if t is None or arg.arg in constants:

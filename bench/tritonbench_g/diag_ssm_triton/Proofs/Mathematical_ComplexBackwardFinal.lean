@@ -16,7 +16,12 @@ theorem post_step {B : Nat} (u : BlockState) (gs gl : RegionName) (col : TileInd
     (h : ComplexBackwardStep.Registers u col mask carry acc transition) :
     stepStmts (ComplexBackwardSource.postlude gs gl B) u = some (result u gs gl col mask carry acc) := by
   rcases h with ⟨hc,hm,hcr,hci,har,hai,hlr,hli⟩
-  simp only [ComplexBackwardSource.postlude,Erasure.complexBackward,
+  simp only [ComplexBackwardSource.postlude,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
+    IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,

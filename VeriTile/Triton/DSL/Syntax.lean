@@ -26,6 +26,13 @@ syntax str : tritonExpr
 -- `:max` so trailing parsers (e.g. the slicer postfix `e[:, None]`) chain
 -- on bare register identifiers without the user wrapping them in parens.
 syntax:max ident : tritonExpr
+-- Pointer dtype tests use type names as compile-time expression values.
+syntax "tl.float16" : tritonExpr
+syntax "tl.bfloat16" : tritonExpr
+syntax "tl.float32" : tritonExpr
+syntax "tl.float64" : tritonExpr
+syntax "tl.float8e4nv" : tritonExpr
+syntax "tl.float8e5" : tritonExpr
 syntax "$(" term ")" : tritonExpr
 syntax "(" tritonExpr ")" : tritonExpr
 syntax "tl.program_id(" tritonExpr ")" : tritonExpr
@@ -157,6 +164,7 @@ syntax "tl.uint8" : tritonDType
 syntax "tl.uint16" : tritonDType
 syntax "tl.uint32" : tritonDType
 syntax "tl.uint64" : tritonDType
+syntax "storage_dtype(" ident ")" : tritonDType
 syntax "OUT_DTYPE" : tritonDType
 syntax "DTYPE" : tritonDType
 
@@ -166,15 +174,15 @@ syntax "tl.dot(" tritonExpr ", " tritonExpr ("," tritonReduceKwarg)* ")" : trito
 syntax "tl.dot(" tritonExpr ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.dot(" tritonExpr ", " tritonExpr ", " tritonExpr ("," tritonReduceKwarg)* ")" : tritonExpr
 
-syntax ident "=" tritonDType : tritonMemKwarg
-syntax ident " = " tritonDType : tritonMemKwarg
+syntax (priority := high) ident "=" tritonDType : tritonMemKwarg
+syntax (priority := high) ident " = " tritonDType : tritonMemKwarg
 -- kwarg: `name = expr`. Used for `mask=` / `other=` in tl.load / tl.store.
 syntax ident " = " tritonExpr : tritonKwarg
 syntax ident " = " tritonExpr : tritonMemKwarg
 syntax "boundary_check=" term : tritonMemKwarg
 syntax "boundary_check=(" term ")" : tritonMemKwarg
 syntax "boundary_check=([" num,* "]" ":" term ")" : tritonMemKwarg
-syntax "boundary_check=(" num,* ")" : tritonMemKwarg
+syntax "boundary_check=(" num,*,? ")" : tritonMemKwarg
 syntax "padding_option=" str : tritonMemKwarg
 syntax "eviction_policy=\"evict_last\"" : tritonMemKwarg
 syntax "eviction_policy=\"evict_first\"" : tritonMemKwarg
@@ -190,7 +198,7 @@ syntax "return_indices=False" : tritonReduceKwarg
 syntax "reverse=True" : tritonReduceKwarg
 syntax "reverse=False" : tritonReduceKwarg
 syntax "out_dtype=" tritonDType : tritonReduceKwarg
-syntax ident "=" tritonDType : tritonReduceKwarg
+syntax (priority := high) ident "=" tritonDType : tritonReduceKwarg
 syntax "input_precision=" str : tritonReduceKwarg
 syntax ident "=" tritonExpr : tritonReduceKwarg
 

@@ -48,23 +48,6 @@ theorem kernel_execution [Inhabited α] (M : Algebra α) (cmp : α → α → Bo
         SourceForRange.numTilesStmt,ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric,range_assign] using ran
     · simp [kernelIds,branch,runTiles,flatTile]
 
-/-- The displayed signed-pointer DSL is an observational lowering of the
-historical FP32 block-pointer source: successful execution, all memory cells,
-and arbitrary masked-load observations agree. Only private pointer registers
-change from cell indices to signed pre-conversion offsets. -/
-theorem signed_source_lowering [Inhabited α] (M : Algebra α) (cmp : α → α → Bool)
-    (hc : M.compareLt none .fp32 = some cmp) (c : Parameters) (s : State α) :
-    ∃ displayed historical,
-      FP.Structural.exec M (kernel c) s = some displayed ∧
-      FP.Structural.exec M (StructuralTile.kernelSource (views c) c.oneTile c.tiles) s = some historical ∧
-      displayed.mem = historical.mem ∧ displayed.undef = historical.undef := by
-  obtain ⟨displayed,flat,ran,flatRan,obs⟩ := kernel_execution M cmp hc c s
-  obtain ⟨historical,flat',oldRan,oldFlatRan,oldObs⟩ :=
-    StructuralHost.kernel_execution M cmp hc (views c) c.oneTile c.tiles s
-  have equal : flat = flat' := Option.some.inj (flatRan.symm.trans oldFlatRan)
-  subst flat'
-  exact ⟨displayed,historical,ran,oldRan,obs.1.trans oldObs.1.symm,obs.2.trans oldObs.2.symm⟩
-
 /-- The candidate changes the unused integer cdiv to its host-folded constant.
 Floating operations, masks, signed addresses and branch iteration order remain
 identical. This exact discrete equality needs no numerical experiment. -/
@@ -174,7 +157,6 @@ theorem grid_folded_execution [Inhabited α] (M : Algebra α) (a : HostPlan.Argu
   exact go (List.range a.C) s
 
 #axiomsClean kernel_execution
-#axiomsClean signed_source_lowering
 #axiomsClean folded_execution
 #axiomsClean kernel_result
 #axiomsClean grid_result

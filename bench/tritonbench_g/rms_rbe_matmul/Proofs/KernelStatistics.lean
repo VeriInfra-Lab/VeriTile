@@ -24,7 +24,7 @@ theorem statistics_run (a : Operations α) (fp8 : Bool) (p : Parameters)
       TailReady p s u (normalized a p acc) := by
   cases fp8
   all_goals
-    simp [statistics,kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,arguments,
+    simp [statistics,kernel,TypedSource.kernel,TypedSource.source,arguments,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
       Region.cast,ofFloat,toFloat,State.setReg,

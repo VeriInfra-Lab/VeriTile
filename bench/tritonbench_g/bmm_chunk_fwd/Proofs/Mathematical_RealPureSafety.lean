@@ -15,7 +15,7 @@ theorem setup_safe (BM BN BK : Nat) (p : RealProgram.Parameters) (bounds : Regio
     Stmt.TraceSafeList bounds (RealSetup.code BM BN BK p) s := by
   apply TraceProofs.all_safe
   simp [RealSetup.code, RealProgram.realPart, RealProgram.parts, RealProgram.branch, RealProgram.source,
-    TypedSource.specialize, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
+    TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
@@ -33,7 +33,7 @@ theorem prologue_safe (BM BN BK : Nat) (p : RealProgram.Parameters) (bounds : Re
     Stmt.TraceSafeList bounds (RealSetup.prologue BM BN BK p) s := by
   apply TraceProofs.all_safe
   simp [RealSetup.prologue, RealProgram.realPart, RealProgram.branch, RealProgram.source,
-    TypedSource.specialize, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
+    TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,

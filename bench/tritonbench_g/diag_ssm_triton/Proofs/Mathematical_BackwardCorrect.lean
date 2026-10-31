@@ -1,6 +1,8 @@
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_BackwardProjection
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_BackwardReference
-import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_Candidate
+import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_Erasure
+import VeriTile.Triton.Semantics.ProgramRewrite
+import VeriTile.Triton.Memory.FlattenTolerant
 import bench.tritonbench_g.decay_cumsum.Proofs.Mathematical_GroupedRealIO
 namespace VeriTile.Bench.TritonBenchG.DiagSsmTriton.BackwardCorrect
 open VeriTile VeriTile.Triton TypedSource
@@ -85,18 +87,6 @@ theorem original_correct (storage : Storage) (s_ptr lambda_ptr y_ptr grad_s_ptr 
   simpa only [Spec.Real,StreamGroupedEmitMasked3DKernelIO.Implements,originalIO,
     RealReference.diagSsmBackwardKernelIO,BackwardProjection.typed_source_flat_exec,
     BackwardReference.gradients_reference] using h
-
-theorem candidate_correct (storage : Storage) (s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr : RegionName)
-    (length batch_size dim BLOCK_SIZE : Nat) (hLength : 0<length)
-    (hGradXSNe : grad_x_ptr≠s_ptr) (hGradXYNe : grad_x_ptr≠y_ptr)
-    (hGradXGradYNe : grad_x_ptr≠grad_y_ptr) (hGradXLambdaNe : grad_x_ptr≠lambda_ptr)
-    (hGradSGradXNe : grad_s_ptr≠grad_x_ptr) (hGradLambdaGradXNe : grad_lambda_ptr≠grad_x_ptr)
-    (hGradLambdaGradSNe : grad_lambda_ptr≠grad_s_ptr) :
-    Spec.Real (indexCommutedIO storage s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE ⊨
-      fun _ _ _ xs o t j => BackwardReference.gradients xs o t j) := by
-  have h := original_correct storage s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE hLength hGradXSNe hGradXYNe hGradXGradYNe hGradXLambdaNe hGradSGradXNe hGradLambdaGradXNe hGradLambdaGradSNe
-  simpa only [Spec.Real,StreamGroupedEmitMasked3DKernelIO.Implements,originalIO,indexCommutedIO,
-    ← Candidate.backward_flat_exec] using h
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

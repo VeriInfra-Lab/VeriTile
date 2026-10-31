@@ -56,7 +56,7 @@ theorem prefix_executes (storage : Storage) (kind : Random.IntegerType)
     run M ((source storage kind Bool.false "x" "y" 1 p seed 1 one_legal).surfaceBody.take 7)
       (initial storage value) = some (prefixState M storage kind seed value) := by
   cases storage <;> cases kind
-  all_goals simp [source, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
+  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, Option.bind, numeric, natLt, numericLt, bop, initial, stored,
     Region.cast, Random.i32ArangeSize, prefixState, seedState]
   all_goals rfl
@@ -106,7 +106,7 @@ theorem suffix_executes (storage : Storage) (kind : Random.IntegerType)
     ∃ v, run M ((source storage kind Bool.false "x" "y" 1 p seed 1 one_legal).surfaceBody.drop 8)
       ((prefixState M storage kind seed value).setReg "random" .real [1] random) = some v := by
   cases storage <;> cases kind
-  all_goals simp [source, ComputeKernel.surfaceBody, run, step, store, evalExpr, evalComputeOp,
+  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, ComputeKernel.surfaceBody, run, step, store, evalExpr, evalComputeOp,
     evalOp_unfold, ComputeDType.eraseDType, Option.bind, hcompare, numeric, numericLt,
     ofFloat, toFloat, Region.cast, prefixState, Random.i32ArangeSize]
 
@@ -131,7 +131,7 @@ theorem original_executes (storage : Storage) (kind : Random.IntegerType)
   cases storage <;> cases kind
   all_goals
     simp only [seedOp, RandomDomain.profile] at hr
-    simp only [source, ComputeKernel.surfaceBody, List.drop_succ_cons, List.drop_zero, Random.i32ArangeSize] at hv ⊢
+    simp only [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, ComputeKernel.surfaceBody, List.drop_succ_cons, List.drop_zero, Random.i32ArangeSize] at hv ⊢
     simp only [run, step, evalExpr, evalComputeOp] at ⊢
     erw [hr]
     simpa only [run, step, evalExpr, evalComputeOp, bind, Option.bind] using hv

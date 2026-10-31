@@ -8,7 +8,7 @@ set_option maxHeartbeats 3000000
 def runTiles {α : Type} [Inhabited α] (family : Nat → Algebra α) (variant : Bool)
     (X Mean : RegionName) (M N : Nat) : List Nat → State α → Option (State α)
   | [],s => some s
-  | pid::rest,s => (exec (family pid) (typedKernel .fp32 .fp32 variant X Mean M N 8 8)
+  | pid::rest,s => (exec (family pid) (typedKernel variant X Mean M N 8 8)
       (WholeFP.tileState pid s)).bind (runTiles family variant X Mean M N rest)
 
 def rowValue {α : Type} [Inhabited α] (family : Nat → Algebra α) (X : RegionName)
@@ -92,7 +92,7 @@ theorem grid_equal {α : Type} [Inhabited α] (family : Nat → Algebra α) (X M
   | nil => rfl
   | cons pid rest ih =>
     simp only [runTiles,WholeFP.tile_equal]
-    cases exec (family pid) (typedKernel .fp32 .fp32 Bool.true X Mean M N 8 8) (WholeFP.tileState pid s) with
+    cases exec (family pid) (typedKernel Bool.true X Mean M N 8 8) (WholeFP.tileState pid s) with
     | none => rfl
     | some t => exact ih t
 

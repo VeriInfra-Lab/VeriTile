@@ -10,12 +10,12 @@ noncomputable section
 set_option maxHeartbeats 8000000
 
 def kernel (c : Shape) (scale : ℝ) : Kernel :=
-  (ChunkGlaSimpleMinDotTile.kernel c .fp32 .fp32 .fp32 .fp32 scale).eraseDType.toAlgKernel
+  (ChunkGlaSimpleMinDotTile.kernel c scale).eraseDType.toAlgKernel
 
 /-- Candidate BK specialization of the unchanged generic readable source.
 Only the candidate Shape is used; the predecessor's small-BK host instance is not reused. -/
 theorem source_binding (c : Shape) (scale : ℝ) :
-    ChunkGlaSimpleMinDotTile.kernel c .fp32 .fp32 .fp32 .fp32 scale =
+    ChunkGlaSimpleMinDotTile.kernel c scale =
       VeriTile.Bench.Repairs.ChunkGlaSimple.Program.typed (layout c) regions scale := rfl
 
 theorem perProgram (c : Shape) (scale : ℝ) (s : BlockState) (idx : GridIndex (grid c)) :

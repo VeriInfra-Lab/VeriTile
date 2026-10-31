@@ -16,11 +16,13 @@ private abbrev RegionBindings := List (String × List (TSyntax `term))
 
 private def methodCastExpr? (stx : TSyntax `tritonExpr) : Option (TSyntax `tritonExpr) :=
   let k := stx.raw.getKind
-  if k == ``tritonMethodCast then
+  if k == ``tritonMethodCast || k == ``tritonIdentMethodCast ||
+      k == ``tritonIdentMethodCastSpaced || k == ``tritonMethodCastElementTy ||
+      k == ``tritonMethodCastElementTyIdent || k == ``tritonIdentMethodCastElementTyIdent ||
+      k == ``tritonIdentMethodCastElementTyIdentSpaced || k == ``tritonMethodCastDTypeIdent ||
+      k == ``tritonIdentMethodCastDTypeIdent || k == ``tritonIdentMethodCastDTypeIdentSpaced then
     let args := stx.raw.getArgs
-    if h : args.size = 5 then
-      some ⟨args[0]⟩
-    else if h : args.size = 6 then
+    if h : 0 < args.size then
       some ⟨args[0]⟩
     else
       none
@@ -50,6 +52,16 @@ private partial def staticPtrRegions (assigned : RegionBindings) :
         $_:ident=[$_:tritonExpr,*], $_:ident=[$_:tritonExpr,*],
         $_:ident=[$_:tritonExpr,*], $_:ident=[$_:tritonExpr,*])) =>
       staticPtrRegions assigned p
+  | `(tritonExpr| tl.make_block_ptr($_:ident=$p:tritonExpr,
+        $_:ident=($_:tritonExpr,*), $_:ident=($_:tritonExpr,*),
+        $_:ident=($_:tritonExpr,*), $_:ident=($_:tritonExpr,*)))
+  | `(tritonExpr| tl.make_block_ptr($_:ident=$p:tritonExpr,
+        $_:ident=($_:tritonExpr,*), $_:ident=($_:tritonExpr,*),
+        $_:ident=($_:tritonExpr,*), $_:ident=($_:tritonExpr,*), $_:ident=($_:num,*))) =>
+      staticPtrRegions assigned p
+  | `(tritonExpr| tl.advance($p:tritonExpr, ($_:tritonExpr,*)))
+  | `(tritonExpr| tl.advance($p:tritonExpr, $_:ident=($_:tritonExpr,*))) =>
+      staticPtrRegions assigned p
   | `(tritonExpr| tl.advance($p:tritonExpr, [$_:tritonExpr,*])) =>
       staticPtrRegions assigned p
   | _ => []
@@ -63,6 +75,9 @@ private partial def exprRegions (assigned : RegionBindings) :
   | some e => exprRegions assigned e
   | none =>
   match stx with
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:tritonDType))
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:ident))
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:ident.$_:ident))
   | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
       let kwargRegions : List (TSyntax `term) :=
         kwargs.foldl
@@ -71,6 +86,9 @@ private partial def exprRegions (assigned : RegionBindings) :
             | `(tritonMemKwarg| $_:ident = $val:tritonExpr) => acc ++ exprRegions assigned val
             | _ => acc) []
       staticPtrRegions assigned p ++ exprRegions assigned mask ++ kwargRegions
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:tritonDType))
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:ident))
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:ident.$_:ident))
   | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
       let kwargRegions : List (TSyntax `term) :=
         kwargs.foldl
@@ -248,16 +266,16 @@ private partial def exprRegions (assigned : RegionBindings) :
   | `(tritonExpr| tl.make_block_ptr($p:tritonExpr, $_:ident=$base:tritonExpr,
         $_:ident=[$_parent:tritonExpr,*], $_:ident=[$_strides:tritonExpr,*],
         $_:ident=[$_offsets:tritonExpr,*], $_:ident=[$_block:tritonExpr,*])) =>
-      staticPtrRegions assigned p ++ exprRegions assigned base
+      exprRegions assigned p ++ exprRegions assigned base
   | `(tritonExpr| tl.make_block_ptr($_:ident=$p:tritonExpr,
         $_:ident=($_parent:tritonExpr,*), $_:ident=($_strides:tritonExpr,*),
         $_:ident=($_offsets:tritonExpr,*), $_:ident=($_block:tritonExpr,*))) =>
-      staticPtrRegions assigned p
+      exprRegions assigned p
   | `(tritonExpr| tl.make_block_ptr($_:ident=$p:tritonExpr,
         $_:ident=($_parent:tritonExpr,*), $_:ident=($_strides:tritonExpr,*),
         $_:ident=($_offsets:tritonExpr,*), $_:ident=($_block:tritonExpr,*),
         $_:ident=($_order:num,*))) =>
-      staticPtrRegions assigned p
+      exprRegions assigned p
   | `(tritonExpr| tl.advance($p:tritonExpr, [$_deltas:tritonExpr,*])) =>
       exprRegions assigned p
   | `(tritonExpr| tl.advance($p:tritonExpr, $_:ident=($_deltas:tritonExpr,*))) =>

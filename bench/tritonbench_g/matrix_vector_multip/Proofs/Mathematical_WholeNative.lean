@@ -179,3 +179,13 @@ theorem tileFormula_eq (B : Scalars) (p : Parameters) (g : Graph p.blockRows p.b
 #auditModuleAxioms
 end
 end VeriTile.Bench.TritonBenchG.MatrixVectorMultip.WholeNative
+
+namespace VeriTile.Bench.Repairs.MatrixVectorMultip.ExplicitFMA
+open VeriTile.Triton FP.Structural
+open VeriTile.Bench.TritonBenchG.MatrixVectorMultip WholeNative
+noncomputable section
+/-- Local compiler carry primitive, not an IEEE split multiply/add contraction equation. -/
+def algebra (native : Scalars) (g : Graph BN BM) : Algebra Payload :=
+  { WholeNative.algebra native g with fma := fun _ => some (fun a b c => .carry c a b) }
+end
+end VeriTile.Bench.Repairs.MatrixVectorMultip.ExplicitFMA

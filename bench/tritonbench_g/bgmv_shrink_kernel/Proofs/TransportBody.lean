@@ -60,7 +60,7 @@ theorem body_transport (M : Algebra α) (P : Primitives α) (h : Call)
       Broadcast.leftIndex,Broadcast.rightIndex,rebase]
     have rankCast (e : Nat) : (c:Int)*16384 + ((e:Int)+(split:Int)*256) =
         ((c*16384+(e+split*256):Nat):Int) := by norm_cast
-    simp only [rankCast,Int.toNat_natCast,Int.ofNat_lt]
+    simp only [rankCast,←Int.natCast_mul,Int.toNat_natCast,Int.ofNat_lt]
     simp_rw [inputLoad,weightLoad]
     rfl
 

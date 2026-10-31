@@ -29,11 +29,11 @@ def prefixRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
+    simp [backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
-      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
-      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,
-      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.commuteOutput,
+      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,
+      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
+
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       State.setReg,numeric,numericLt,natLt,FP.Structural.bop,Region.cast]
@@ -52,11 +52,11 @@ def chunkRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag 
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
+    simp [body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
-      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,
-      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,
-      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.commuteOutput,
+      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,
+      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
+
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       State.setReg,numeric,numericLt,natLt,FP.Structural.bop,store,Region.cast,h.target,h.output]

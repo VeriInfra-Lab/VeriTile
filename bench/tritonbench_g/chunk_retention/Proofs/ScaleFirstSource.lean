@@ -36,9 +36,9 @@ def finishExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
   simp [parts,kernel,Kernels.forwardOScaleFirst,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
-    resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,
+    resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,
     natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
-    ctx.memory,ctx.iv,ctx.it,ctx.bh,ctx.di,ctx.ds,ha.1,ha.2,FP.Structural.store]
+    ctx.memory,ctx.iv,ctx.it,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.di,ctx.ds,ha.1,ha.2,FP.Structural.store]
   rfl
 
 def written (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s : State α) : State α :=

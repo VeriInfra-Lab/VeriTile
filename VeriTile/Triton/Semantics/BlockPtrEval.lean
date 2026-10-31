@@ -46,6 +46,25 @@ theorem makeBlockPtr2_eval (region : RegionName) (baseOffset : Op .nat [])
             , offsets := offs }⟩) := by
   simp [evalOp]
 
+/-- Constant runtime stride operands recover the existing dynamic-offset
+constructor exactly. This is an execution equality, including failure. -/
+theorem makeBlockPtr_metadata_constants (region : RegionName) (base : Op .nat [])
+    (parent : List Nat) (block : TileShape) (strides : List Nat)
+    (offsets : List (Op .nat [])) (state : BlockState) :
+    evalOp (.makeBlockPtrDynMetadata region base parent block
+      (strides.map Op.constNat) offsets) state =
+      evalOp (.makeBlockPtrDynOffsets region base parent block strides offsets) state := by
+  have hs : (strides.map Op.constNat).mapM (fun stride => do
+      let v ← evalOp stride state
+      some (v.data PUnit.unit)) = some strides := by
+    induction strides with
+    | nil => rfl
+    | cons stride tail ih =>
+        simp only [List.map_cons, List.mapM_cons, evalOp, Tile.scalar, Option.bind_some, ih]
+        rfl
+  simp only [evalOp, hs]
+  cases evalOp base state <;> rfl
+
 /-- **`advanceBlockPtr` eval** (`tl.advance`): advances every lane's `BlockPtr`
 by `deltas` (per-axis offset add). -/
 @[simp] theorem advanceBlockPtr_eval {shape : TileShape}

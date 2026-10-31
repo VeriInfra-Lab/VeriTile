@@ -18,7 +18,7 @@ theorem source {α : Type} [Inhabited α] (M : Algebra α) (p : Source.Parameter
     (output : ∀ imag i, Source.active p s imag i →
       Source.outputOffset p s imag i < bounds p.output) :
     TraceSafe M bounds (Selected.source p) s := by
-  simp (maxSteps := 1200000) [TraceSafe,Selected.source,Selected.typed,ComputeKernel.surfaceBody,
+  simp (maxSteps := 1200000) [TraceSafe,Selected.source,Selected.typed,VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.typed,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,

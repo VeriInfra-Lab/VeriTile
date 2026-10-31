@@ -25,7 +25,7 @@ theorem native_run (c : Shape) (jobs : List (GridIndex (grid c))) (s : State Exp
   | cons q rest ih =>
     simp only [List.map_cons,runSchedule,Invocation.run,native_initial,FPGrid.run]
     cases he : FP.Structural.exec (FP.ProfiledRewrite.engine ScalarGraph.algebra)
-      (kernel c .fp32 .fp32 .fp32 .fp32 ScalarGraph.scaleTag) (FPGrid.launch c s q)
+      (kernel c ScalarGraph.scaleTag) (FPGrid.launch c s q)
     · simp only [nativeLaunch,he,bind,Option.bind_none]
     · simp only [nativeLaunch,he,bind,Option.bind_some,ih]
 
@@ -37,7 +37,7 @@ theorem native_safe (c : Shape) (bounds : RegionName → Nat)
   | cons q rest ih =>
     refine ⟨?_,fun t _ => ih t⟩
     change FP.Structural.TraceSafe (FP.ProfiledRewrite.engine ScalarGraph.algebra) bounds
-      (kernel c .fp32 .fp32 .fp32 .fp32 ScalarGraph.scaleTag) (FPGrid.launch c s q)
+      (kernel c ScalarGraph.scaleTag) (FPGrid.launch c s q)
     apply IONativeSafety.source_safe _ _ _ (ScalarGraph.dots c)
     rw [native_position]
     exact IOBindings.capacity_bounds c q bounds hb

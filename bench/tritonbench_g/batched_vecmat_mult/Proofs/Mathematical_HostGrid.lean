@@ -1,3 +1,4 @@
+import bench.tritonbench_g.batched_vecmat_mult.Kernels
 import bench.tritonbench_g.batched_vecmat_mult.Proofs.Mathematical_ValueCorrect
 
 namespace VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs
@@ -18,15 +19,6 @@ def programState (p : Parameters) (initial : State Word) (mem : Memory) (k : Nat
     pids := fun ax => if ax = 0 then k % gridM p else if ax = 1 then k / gridM p else 0
     numPids := fun ax => if ax = 0 then gridM p else if ax = 1 then gridN p else 1 }
 
-def runGridPrefix (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
-    (p : Parameters) (initial : State Word) : Nat → Option (State Word)
-  | 0 => some initial
-  | k+1 => (runGridPrefix rest cfg plans p initial k).bind fun previous =>
-      FP.Structural.exec (engine rest cfg plans) (source p) (programState p initial previous.mem k)
-
-def runGrid (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
-    (p : Parameters) (initial : State Word) := runGridPrefix rest cfg plans p initial (gridCount p)
-
 /-- Independent ordered references read prior reference memory, preserving
 any program-to-program aliases instead of merging isolated executions. -/
 def referenceGridPrefix (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
@@ -37,22 +29,6 @@ def referenceGridPrefix (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
 
 def gridExpectedMemory (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
     (p : Parameters) (initial : State Word) := referenceGridPrefix cfg plans p initial (gridCount p)
-
-theorem grid_prefix_correct (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
-    (p : Parameters) (initial : State Word) (k : Nat) :
-    ∃ final, runGridPrefix rest cfg plans p initial k = some final ∧
-      final.mem = referenceGridPrefix cfg plans p initial k := by
-  induction k with
-  | zero => exact ⟨initial, rfl, rfl⟩
-  | succ k ih =>
-    obtain ⟨previous, hr, hm⟩ := ih
-    obtain ⟨final, he, hmem, _⟩ := complete_correct rest cfg plans p
-      (programState p initial previous.mem k)
-    refine ⟨final, ?_, ?_⟩
-    · simp only [runGridPrefix, hr, Option.bind_some]
-      exact he
-    · rw [hmem, hm]
-      rfl
 
 def GridOutside (p : Parameters) (r : RegionName) (o : Nat) : Prop :=
   r ≠ p.output ∨ ∀ m : Fin (gridM p), ∀ n : Fin (gridN p),
@@ -108,23 +84,10 @@ theorem grid_reference_frame (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
       (outside_program p initial _ k (by omega) r o ho)]
     exact ih (by omega)
 
-theorem grid_correct (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
-    (p : Parameters) (initial : State Word) :
-    ∃ final, runGrid rest cfg plans p initial = some final ∧
-      final.mem = gridExpectedMemory cfg plans p initial ∧
-      (∀ r o, GridOutside p r o → final.mem r o = initial.mem r o) := by
-  obtain ⟨final, he, hm⟩ := grid_prefix_correct rest cfg plans p initial (gridCount p)
-  refine ⟨final, he, hm, ?_⟩
-  intro r o ho
-  rw [hm]
-  exact grid_reference_frame cfg plans p initial (gridCount p) (by rfl) r o ho
-
-#specNonCircular gridExpectedMemory avoiding [runGrid, runGridPrefix, FP.Structural.exec, source]
-#axiomsClean grid_prefix_correct
+#specNonCircular gridExpectedMemory avoiding [VeriTile.Bench.Repairs.BatchedVecmatMult.source, FP.Structural.exec]
 #axiomsClean coordinate_bounds
 #axiomsClean coordinates_cover
 #axiomsClean outside_program
 #axiomsClean grid_reference_frame
-#axiomsClean grid_correct
 end
 end VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs

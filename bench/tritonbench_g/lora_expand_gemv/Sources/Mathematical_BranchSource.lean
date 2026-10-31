@@ -1,3 +1,4 @@
+import bench.tritonbench_g.lora_expand_gemv.Sources.Selected
 import bench.tritonbench_g.lora_expand_gemv.Sources.Mathematical_FPModel
 import bench.tritonbench_g.lora_expand_gemv.Sources.Mathematical_LoraExpandGemv
 
@@ -11,13 +12,6 @@ set_option maxHeartbeats 12000000
 inductive InputProfile where
   | halfHalf | halfBfloat | bfloatHalf | bfloatBfloat | singleHalf | singleBfloat
   deriving DecidableEq, Repr
-
-structure Parameters where
-  (input weight output : RegionName)
-  indices : Region .int
-  (inner outputSize splits inputBatchStride inputInnerStride loraStride weightRowStride
-    weightInnerStride outputBatchStride outputStride blockRows blockInner : Nat)
-  (evenK addInputs castType : Bool)
 
 def length (p : Parameters) := (p.outputSize + p.splits - 1) / p.splits
 
@@ -111,7 +105,7 @@ def source (profile : InputProfile) (out : OutputFormat) (p : Parameters) : Comp
   | .bfloatBfloat, .single => loraBranches%[tl.bfloat16,tl.bfloat16,tl.float32] p
   | .singleHalf, .half => loraBranches%[tl.float32,tl.float16,tl.float16] p
   | .singleHalf, .bfloat => loraBranches%[tl.float32,tl.float16,tl.bfloat16] p
-  | .singleHalf, .single => loraBranches%[tl.float32,tl.float16,tl.float32] p
+  | .singleHalf, .single => VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource p
   | .singleBfloat, .half => loraBranches%[tl.float32,tl.bfloat16,tl.float16] p
   | .singleBfloat, .bfloat => loraBranches%[tl.float32,tl.bfloat16,tl.bfloat16] p
   | .singleBfloat, .single => loraBranches%[tl.float32,tl.bfloat16,tl.float32] p

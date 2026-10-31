@@ -59,6 +59,5 @@ def nativeDimension (ops : NativeOps) (tree : Tree) (input : Nat → Word)
     (fun n => (if n<N then input (m*N*K+n*K+k) else negativeInfinity,n))
   (pair.1,indexStore pair.2)
 
-
 end
 end VeriTile.Bench.Repairs.MaxReduction

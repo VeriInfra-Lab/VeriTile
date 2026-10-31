@@ -22,7 +22,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // FP.Structural.exec (backend M) (fp32Kernel n B) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [fp32Kernel, VeriTile.Bench.TritonBenchG.SquareMatrix.typedKernel,
+  simp [fp32Kernel, VeriTile.Bench.Repairs.SquareMatrix.fp32Kernel, VeriTile.Bench.Repairs.SquareMatrix.indexCommutedKernel,
     FP.Structural.exec, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, numericLt, natLt, bop, store, ComputeDType.eraseDType, numeric, backend]
   rfl

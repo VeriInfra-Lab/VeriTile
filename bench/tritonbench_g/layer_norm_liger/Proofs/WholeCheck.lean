@@ -2,7 +2,6 @@ import bench.tritonbench_g.layer_norm_liger.Proofs.ForwardResult
 import bench.tritonbench_g.layer_norm_liger.Proofs.HostResults
 import bench.tritonbench_g.layer_norm_liger.Proofs.Frame
 import bench.tritonbench_g.layer_norm_liger.Proofs.ClosedFP
-import bench.tritonbench_g.layer_norm_liger.Proofs.SourceShape
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Reader
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (withSum softwareSum SumPrimitive)
@@ -66,16 +65,6 @@ theorem backward_frame {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimi
     ∃ t, FP.Structural.exec (withSum M R) (Backward.kernel p) s=some t ∧
       ∀ r o, Backward.Outside p s r o → t.mem r o=s.mem r o := Backward.complete_frame M R p s
 
-theorem forward_shape (p : Forward.Parameters) :
-    (Forward.kernel p).eraseDType.surfaceBody =
-      (Shape.forwardSurface p.y p.yStride p.x p.xStride p.weight p.weightStride
-        p.bias p.biasStride p.mean p.meanStride p.rstd p.rstdStride p.columns p.epsilon p.block).eraseDType.surfaceBody := Shape.forward_shape p
-
-theorem backward_shape (p : Backward.Parameters) :
-    (Backward.kernel p).eraseDType.surfaceBody =
-      (Shape.backwardSurface p.x p.weight p.mean p.rstd p.dx p.dw p.db p.dy
-        p.xStride p.dxStride p.dwStride p.dbStride p.dyStride p.rows p.columns p.rowsPerProgram p.block).eraseDType.surfaceBody := Shape.backward_shape p
-
 #axiomsClean forward_logical
 #axiomsClean backward_logical
 #axiomsClean host_dw
@@ -84,8 +73,6 @@ theorem backward_shape (p : Backward.Parameters) :
 #axiomsClean forward_bits
 #axiomsClean backward_bits
 #axiomsClean backward_frame
-#axiomsClean forward_shape
-#axiomsClean backward_shape
 #specNonCircular Logical.mean avoiding [Forward.kernel, Backward.kernel, Forward.reference, Backward.reference]
 #specNonCircular Logical.variance avoiding [Forward.kernel, Backward.kernel, Forward.reference, Backward.reference]
 #specNonCircular Logical.y avoiding [Forward.kernel, Backward.kernel, Forward.reference, Backward.reference]

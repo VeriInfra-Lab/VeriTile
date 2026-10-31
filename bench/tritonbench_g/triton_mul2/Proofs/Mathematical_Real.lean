@@ -9,6 +9,9 @@ namespace VeriTile.Bench.TritonBenchG.TritonMul2
 open VeriTile.Triton VeriTile.Examples
 open scoped VeriTile.Triton.MaskedKernelIO₁
 
+attribute [local simp] Except.bind bind ComputeDType.eraseDType
+  VeriTile.Bench.Repairs.TritonMul2.sourceKernel VeriTile.Bench.Repairs.TritonMul2.inplaceSourceKernel ComputeKernel.toAlgKernel ComputeKernel.toAlgorithm? ComputeKernel.surfaceBody ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm? ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? Region.cast
+
 /-- Algorithm-layer correctness for `mul2_kernel`. -/
 theorem mul2_kernel_correct
     (in_ptr0 out_ptr : RegionName)
@@ -116,6 +119,7 @@ theorem mul2_kernel_traceSafe
       ((mul2_kernel in_ptr0 out_ptr n_elements BLOCK_SIZE
         ).toAlgKernel) s := by
   unfold Kernel.TraceSafe
+  try simp only [mul2_kernel, mul2_inplace_kernel, VeriTile.Bench.Repairs.TritonMul2.sourceKernel, VeriTile.Bench.Repairs.TritonMul2.inplaceSourceKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Region.cast, Except.bind, bind]
   -- Computational unroll: walks all seven statements, discharging every
   -- load-free `SafeAt` and reducing the two memory accesses' lane-wise
   -- address obligations to the bounds hypotheses below.
@@ -246,6 +250,7 @@ theorem mul2_inplace_kernel_traceSafe
       ((mul2_inplace_kernel ptr n_elements BLOCK_SIZE
         ).toAlgKernel) s := by
   unfold Kernel.TraceSafe
+  try simp only [mul2_kernel, mul2_inplace_kernel, VeriTile.Bench.Repairs.TritonMul2.sourceKernel, VeriTile.Bench.Repairs.TritonMul2.inplaceSourceKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Region.cast, Except.bind, bind]
   -- Computational unroll: walks all seven statements, discharging every
   -- load-free `SafeAt` and reducing the two memory accesses' lane-wise
   -- address obligations to the bounds hypothesis below.
@@ -275,46 +280,6 @@ theorem mul2_inplace_kernel_flattenOk
 section Commuted
 
 set_option maxHeartbeats 5000000
-
-/-- Execution equality here uses real arithmetic; FP laws live in FPEquiv.lean. -/
-theorem commuted_exec (in_ptr0 out_ptr : RegionName) (n B : Nat) (s : BlockState) :
-    exec (mul2_commuted_kernel in_ptr0 out_ptr n B).toAlgKernel s =
-      exec (mul2_kernel in_ptr0 out_ptr n B).toAlgKernel s := by
-  simp [mul2_commuted_kernel, mul2_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul, ComparableDType.lt, mul_comm]
-
-theorem commuted_flattenOk (in_ptr0 out_ptr : RegionName) (n B : Nat) :
-    (mul2_commuted_kernel in_ptr0 out_ptr n B).toAlgKernel.FlattenOk := by
-  simp [mul2_commuted_kernel, Kernel.FlattenOk,
-    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
-
-theorem commuted_traceSafe (in_ptr0 out_ptr : RegionName) (n B : Nat)
-    (bounds : RegionBounds) (s : BlockState)
-    (hx : ∀ j : Fin B, s.pid * B + j.val < n → s.pid * B + j.val < bounds in_ptr0)
-    (hout : ∀ j : Fin B, s.pid * B + j.val < n → s.pid * B + j.val < bounds out_ptr) :
-    Kernel.TraceSafe bounds (mul2_commuted_kernel in_ptr0 out_ptr n B).toAlgKernel s := by
-  simpa [Kernel.TraceSafe, mul2_commuted_kernel, mul2_kernel,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
-    MemAccess.SafeAt, stepStmt, evalOp.eq_def, Tile.bop, Tile.cop,
-    NumericDType.add, NumericDType.mul, ComparableDType.lt, mul_comm]
-    using mul2_kernel_traceSafe in_ptr0 out_ptr n B bounds s hx hout
-
-/-- The two in-place sources are definitionally the ordinary sources with
-both pointer arguments wired to ptr. The execution bridge permits this alias. -/
-theorem inplace_commuted_exec (ptr : RegionName) (n B : Nat) (s : BlockState) :
-    exec (mul2_inplace_commuted_kernel ptr n B).toAlgKernel s =
-      exec (mul2_inplace_kernel ptr n B).toAlgKernel s :=
-  commuted_exec ptr ptr n B s
-
-theorem inplace_commuted_flattenOk (ptr : RegionName) (n B : Nat) :
-    (mul2_inplace_commuted_kernel ptr n B).toAlgKernel.FlattenOk :=
-  commuted_flattenOk ptr ptr n B
-
-theorem inplace_commuted_traceSafe (ptr : RegionName) (n B : Nat)
-    (bounds : RegionBounds) (s : BlockState)
-    (hx : ∀ j : Fin B, s.pid * B + j.val < n → s.pid * B + j.val < bounds ptr) :
-    Kernel.TraceSafe bounds (mul2_inplace_commuted_kernel ptr n B).toAlgKernel s :=
-  commuted_traceSafe ptr ptr n B bounds s hx hx
 
 end Commuted
 

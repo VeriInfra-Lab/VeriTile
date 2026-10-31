@@ -22,7 +22,7 @@ theorem normalization_safe {α : Type} [Inhabited α] (A : Algebra α)
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
     Safety.maskActive_unfold,Safety.precisionContext,
-    normalization,repaired,original,ComputeKernel.surfaceBody,
+    normalization,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
     numericLt,Region.cast,Random.i32ArangeSize,TileShape.axisDim,
@@ -46,7 +46,7 @@ theorem affine_safe {α : Type} [Inhabited α] (A : Algebra α)
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
     Safety.maskActive_unfold,Safety.precisionContext,
-    affine,repaired,original,ComputeKernel.surfaceBody,
+    affine,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
       run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
       numericLt,Region.cast,Random.i32ArangeSize,hcols,hy,hy1,hx,hstd,hmean,hrms,hbias,hw1,hb1]
@@ -64,7 +64,7 @@ theorem affine_safe {α : Type} [Inhabited α] (A : Algebra α)
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
     Safety.maskActive_unfold,Safety.precisionContext,
-    affine,repaired,original,ComputeKernel.surfaceBody,
+    affine,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
       run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
       numericLt,Region.cast,Random.i32ArangeSize,hcols,hy,hy1,hx,hstd,hrms,hbias,hw1,hb1]

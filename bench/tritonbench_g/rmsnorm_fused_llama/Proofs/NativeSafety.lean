@@ -20,8 +20,8 @@ theorem row (A : Algebra α) (candidate : Bool) (X Y W : RegionName) (N B : Nat)
   have hz : (0.0 : ℝ)=0 := by norm_num
   cases candidate
   all_goals
-    simp (config := {maxSteps:=500000}) [NativeIO.source,runtimeCandidate,indexCommuted,
-      runtimeKernel,VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.originalTyped,
+    simp (config := {maxSteps:=500000}) [NativeIO.source,runtimeCandidate,
+      runtimeKernel,
       TraceSafe,traceSafeList_unfold,stepSafe_unfold,rangeSafe_unfold,
       safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,
       addressSafe_unfold,maskActive_unfold,

@@ -21,8 +21,8 @@ def executeHost {α : Type} [Inhabited α] (M : Algebra α) (eq32 : α → α �
   let inverse := reinterpret a.inverseViewObject backing [S,1] [1,1] 0
   let output := outputTensor a S D
   let u ← runTrials M eq32 X.region W.region Bias.region output.region mean.region inverse.region S D trials s
-  let t ← runRows (withEquality M eq32)
-    (rowKernel X.region W.region Bias.region output.region mean.region inverse.region S D last.block last.tree)
+  let t ← SourceCode.runRows (withEquality M eq32)
+    (SourceCode.rowKernel X.region W.region Bias.region output.region mean.region inverse.region S D last.block (Readable.tree last.tree))
     (List.range S) u
   return ⟨t, (output, X, mean, inverse)⟩
 

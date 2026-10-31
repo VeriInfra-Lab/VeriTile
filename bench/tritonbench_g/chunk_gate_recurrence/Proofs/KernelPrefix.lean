@@ -17,7 +17,7 @@ def forward (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool) (u : St
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [before,parts,source,Kernels.forward,ComputeKernel.surfaceBody,
+    simp only [before,parts,source,Kernels.forward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
       VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,String.reduceEq,
       beq_self_eq_true,↓reduceIte]
     simp (config := {maxSteps:=150000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -34,7 +34,7 @@ def backward (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool) (u : S
     TritonBenchG.ChunkGateRecurrence.TypedSource.backward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.specializeBackward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
+    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp (config := {maxSteps:=150000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

@@ -43,7 +43,7 @@ theorem values_same (M : Algebra α) (dot : Dot α) (c : Shape) (offset size : I
       FPValues.update M dot c.B c.D (parameters c offset size scale window complement) (programState c initial job) := by
     funext row acc col
     delta FPValues.update FPValues.probability FPValues.raw FPValues.query FPValues.normalizer
-      FPValues.distance FPContext.key FPContext.baseQ FPContext.baseK FPContext.baseM
+      FPValues.distance FPContext.key FPContext.keyStart FPContext.baseQ FPContext.baseK FPContext.baseM
     simp only [programState,parameters,hq,hk,hm]
   funext i
   simp only [values,FPLoop.accumulated,hu]

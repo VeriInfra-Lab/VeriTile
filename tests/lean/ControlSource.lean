@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL
 import VeriTile.Triton.DSL.ControlSource
 import bench.tritonbench_g.spinning_lock_reduction.SourceAdapter
 import bench.tritonbench_g.spinning_lock_reduction.SourceSyntax
@@ -53,6 +54,14 @@ def wrongPrecision : Program := source_program triton {
 }
 
 theorem changed_precision_rejected : rejected (SourceAdapter.decode wrongPrecision) = Bool.true := rfl
+
+/-- Importing the control frontend must also keep ordinary masked source
+bodies parseable through the shared load/store keyword grammar. -/
+def regularMaskedSource (p : VeriTile.Triton.RegionName) : VeriTile.Triton.ComputeKernel := triton {
+  r = tl.arange(0, $(4))
+  x = tl.load(p + r, mask=r < $(3), other=0.0)
+  tl.store(p + r, x, mask=r < $(3))
+}
 
 /-- Importing both existing frontends and the shared frontend must preserve
 ordinary Lean Boolean terms without duplicate notation alternatives. -/

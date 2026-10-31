@@ -51,18 +51,27 @@ theorem tail_read (p : Config) (BD : Nat) (idx : ProgramIndex p)
     t.mem p.Out (outputAddress p BD idx.1.val idx.2.val i)=Cell.mk .bf16 (output c i) := by
   rcases hb with ⟨h0,_,_,_,h4,_,_,_,_,h9,_,_,_,h13,h14⟩
   simp only [fixed] at h0 h4 h9
-  simp only [tail,source,Bool.false_eq_true,↓reduceIte,AttnFwdTriton.TypedSource.repaired,
+  cases hd : decide (p.stage=2)
+  all_goals simp only [tail,code,AttnFwdTriton.ControlView.compute,hd,source,Bool.false_eq_true,↓reduceIte,AttnFwdTriton.TypedSource.repaired,
     ComputeKernel.surfaceBody,List.drop_succ_cons,List.drop_zero] at ht
-  simp [run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
+  all_goals simp [run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,natLt,numericLt,
     Cell.read,ofFloat,toFloat,Region.cast,State.setReg,h0,h4,h9,h13,h14,
     engine,Algebra.withDefaultPrecision,resolvePrecision,backend,Graph.cast,nativeDType,consume,bop] at ht
-  subst t
-  apply scatter_at
-  · exact TileShape.mem_allIndices _ i
-  · simpa [outputActive] using hi
-  · intro j hj he
-    exact output_injective_active p BD idx hn i j hi (by simpa [outputActive] using hj) he
+  all_goals subst t
+  all_goals
+    apply scatter_at
+    · exact TileShape.mem_allIndices _ i
+    · have hm := hi
+      simp [outputActive] at hm
+      have row : (idx.1.val : Int)*128+(i.1.val : Int)<(p.context : Int) := by omega
+      simpa [bop,Broadcast.leftIndex,Broadcast.rightIndex] using And.intro row hm.2
+    · intro j hj he
+      have hm : ((idx.1.val : Int)*128+(j.1.val : Int)<(p.context : Int)) ∧ j.2.1.val<p.headDim := by
+        simpa [bop,Broadcast.leftIndex,Broadcast.rightIndex] using hj
+      apply output_injective_active p BD idx hn i j hi _ he
+      simp [outputActive]
+      exact And.intro (by omega) hm.2
 
 #axiomsClean output_injective_active
 #axiomsClean tail_read

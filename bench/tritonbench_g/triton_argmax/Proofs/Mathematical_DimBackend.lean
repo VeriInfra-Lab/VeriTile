@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_argmax.Proofs.Mathematical_DimSource
+import bench.tritonbench_g.triton_argmax.Proofs.Mathematical_TypedSource
 import bench.tritonbench_g.matrix_reduction.Proofs.ConcreteCorrect
 import bench.tritonbench_g.triton_argmax.Proofs.Mathematical_BitCorrect
 import VeriTile.Triton.Float.Control

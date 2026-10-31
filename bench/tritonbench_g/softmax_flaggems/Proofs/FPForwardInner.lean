@@ -42,8 +42,7 @@ theorem accumulate_step (M : Algebra α) (base s : State α) (X Y : RegionName)
       Ready base X Y row N B (accumulate M base X masked row N B cur v) t := by
   rcases hs with ⟨hx,hy,hprev,hm,hz,hmem⟩
   cases masked <;>
-    simp [rangeBody,code,branch,Source.forward_inner,softmax_kernel_inner,
-      ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+    simp [rangeBody,code,branch,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       numeric,numericLt,numericLe,natLt,natLe,bop,ofFloat,toFloat,Region.cast,
       ComputeDType.eraseDType,State.setReg,Option.bind,hx,hy,hprev,hm,hz,hmem,
       Ready,accumulate,load,active,offset,literal,add,mul,sub,exp,FPReference.max,FPReference.read]
@@ -82,8 +81,7 @@ theorem emit_step (M : Algebra α) (base s : State α) (X Y : RegionName)
       WriteReady (emit M X Y masked row N B mx z cur base) X Y row N B mx z t := by
   rcases hs with ⟨hx,hy,hprev,hm,hz,hmem⟩
   cases masked <;>
-    simp [rangeBody,code,branch,Source.forward_inner,softmax_kernel_inner,
-      ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,
+    simp [rangeBody,code,branch,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,
       numeric,numericLt,numericLe,natLt,natLe,bop,ofFloat,toFloat,Region.cast,
       ComputeDType.eraseDType,State.setReg,Option.bind,hx,hy,hprev,hm,hz,hmem,
       WriteReady,emit,storedValue,load,active,offset,literal,add,mul,sub,exp,
@@ -109,7 +107,7 @@ theorem initial_exec (M : Algebra α) (s : State α) (X Y : RegionName) (rows N 
     exec M (Source.forward_inner Y X rows N B Bool.false) s =
     (range M "start_n" 0 (previous N B) B (rangeBody (code Y X rows N B) 5) (initial M s X Y N B)).bind
       (run M ((code Y X rows N B).drop 6)) := by
-  simp [exec,run,step,Source.forward_inner,softmax_kernel_inner,code,branch,rangeBody,
+  simp [exec,run,step,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,code,branch,rangeBody,
     ComputeKernel.surfaceBody,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,natLt,
     integralFloorDiv,bop,ofFloat,toFloat,Region.cast,ComputeDType.eraseDType,State.setReg,
     initial,literal,previous,List.drop_succ_cons,List.drop_zero]
@@ -124,7 +122,7 @@ theorem between_accumulate (M : Algebra α) (base mid : State α) (X Y : RegionN
     (range M "start_n" (previous N B) N B (rangeBody (code Y X rows N B) 6) mid).bind
       (run M ((code Y X rows N B).drop 7)) := by
   rcases hs with ⟨hx,hy,hprev,hm,hz,hmem⟩
-  simp [code,branch,rangeBody,Source.forward_inner,softmax_kernel_inner,ComputeKernel.surfaceBody,
+  simp [code,branch,rangeBody,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,hprev,List.drop_succ_cons,List.drop_zero]
 
 def writeInitial (M : Algebra α) (s : State α) (N B : Nat) (v : Acc α B) : State α :=
@@ -140,7 +138,7 @@ theorem after_accumulate (M : Algebra α) (base mid : State α) (X Y : RegionNam
       (run M ((code Y X rows N B).drop 12)) ∧
     WriteReady base X Y row N B (maxReduced M B v) (sumReduced M B v) (writeInitial M mid N B v) := by
   rcases hs with ⟨hx,hy,hprev,hm,hz,hmem⟩
-  simp [code,branch,rangeBody,Source.forward_inner,softmax_kernel_inner,ComputeKernel.surfaceBody,
+  simp [code,branch,rangeBody,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,natLt,bop,ofFloat,toFloat,
     integralFloorDiv,Region.cast,ComputeDType.eraseDType,State.setReg,hx,hy,hprev,hm,hz,hmem,
     writeInitial,maxReduced,sumReduced,previous,WriteReady,TileShape.axisDim,hB,mul,sub,exp,
@@ -156,7 +154,7 @@ theorem after_accumulate (M : Algebra α) (base mid : State α) (X Y : RegionNam
 theorem between_emit (M : Algebra α) (s : State α) (X Y : RegionName) (rows N B : Nat) :
     run M ((code Y X rows N B).drop 12) s =
       range M "start_n" B N B (rangeBody (code Y X rows N B) 12) s := by
-  simp [code,branch,rangeBody,Source.forward_inner,softmax_kernel_inner,ComputeKernel.surfaceBody,
+  simp [code,branch,rangeBody,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,List.drop_succ_cons,List.drop_zero]
 
 def graph (M : Algebra α) (base : State α) (X Y : RegionName) (row N B : Nat) : State α :=

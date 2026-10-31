@@ -13,9 +13,9 @@ All FP32 loads, input casts, accumulator additions, reduction, integer-to-float
 divisor conversion, division and stores retain their actual source order. -/
 theorem tile_equal {α : Type} [Inhabited α] (A : Algebra α) (X Mean : RegionName)
     (M N : Nat) (s : State α) :
-    exec A (typedKernel .fp32 .fp32 Bool.false X Mean M N 8 8) s =
-      exec A (typedKernel .fp32 .fp32 Bool.true X Mean M N 8 8) s := by
-  simp only [typedKernel, ComputeKernel.surfaceBody, FP.Structural.exec]
+    exec A (typedKernel Bool.false X Mean M N 8 8) s =
+      exec A (typedKernel Bool.true X Mean M N 8 8) s := by
+  simp only [typedKernel, Bool.false_eq_true, ↓reduceIte, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource, ComputeKernel.surfaceBody, FP.Structural.exec]
   rw [run,run]
   congr 1
   simp [step,evalExpr,FP.Structural.evalOp_unfold,numeric,Option.bind]
@@ -30,7 +30,7 @@ def tileState {α : Type} (pid : Nat) (s : State α) : State α :=
 def runTiles {α : Type} [Inhabited α] (A : Algebra α) (v : Bool)
     (X Mean : RegionName) (M N : Nat) : List Nat → State α → Option (State α)
   | [],s => some s
-  | pid::rest,s => (exec A (typedKernel .fp32 .fp32 v X Mean M N 8 8) (tileState pid s)).bind
+  | pid::rest,s => (exec A (typedKernel v X Mean M N 8 8) (tileState pid s)).bind
       (runTiles A v X Mean M N rest)
 
 /-- The complete launched sequence preserves all memory, registers and failure
@@ -42,7 +42,7 @@ theorem grid_equal {α : Type} [Inhabited α] (A : Algebra α) (X Mean : RegionN
   | nil => rfl
   | cons pid rest ih =>
     simp only [runTiles,tile_equal]
-    cases exec A (typedKernel .fp32 .fp32 Bool.true X Mean M N 8 8) (tileState pid s) with
+    cases exec A (typedKernel Bool.true X Mean M N 8 8) (tileState pid s) with
     | none => rfl
     | some t => exact ih t
 

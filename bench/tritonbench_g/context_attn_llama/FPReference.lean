@@ -137,7 +137,7 @@ theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α) (s : S
       Matches p M (inputs p r s) (initial p M) t ∧ t.mem=s.mem := by
   simp (config := {maxSteps := 500000}) [parts,kernel,originalFP32,
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,
@@ -159,7 +159,7 @@ theorem body (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
   simp (config := {maxSteps := 1000000}) [parts,kernel,originalFP32,
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,

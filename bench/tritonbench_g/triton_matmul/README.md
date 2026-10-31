@@ -1,15 +1,27 @@
 # triton_matmul
 
-Current repaired Python implementation: [triton_matmul.py](triton_matmul.py).
+The current implementation is [the repaired Python kernel](triton_matmul.py).
+[Sources/Kernels.lean](Sources/Kernels.lean) contains its unchanged function body
+inside `triton { ... }`. Pointer dtypes, nine runtime integer arguments and four
+constexpr arguments are declared outside the pasted body.
 
-[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+[Real correctness](Correct.lean) proves the full matrix product over every K
+coordinate, with access safety and an exact exterior frame for every complete
+grid permutation. Both FP16 and E4M3FN storage, FP32 accumulation, signed grouped
+indices, clamped tails, the runtime loop bound and both output conversions are
+retained. Launch facts used by the proof follow from the existing host configuration.
 
-For each logical output (i,j), sum over every k of A i k * B k j.
+[FP equivalence](FPEquiv.lean) compares this source with the existing
+[group-eight shift candidate](CandidateKernels.lean). The candidate changes only
+`GROUP_SIZE_M * num_pid_n` to `num_pid_n << 3` when the group size is eight;
+other group sizes use the same repaired body. No floating rewrite assumption is used.
 
-The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+[Proofs](Proofs/) decompose and execute the actual source. The independent
+mathematical recurrence and finite-index refinement support these proofs;
+previous complete Lean kernel quotations and their old execution proofs are removed.
+The explicit output cast and implicit store conversion are both present in the IR.
 
-[Proof helpers](Proofs/)
-
-[Source and mathematical adapters](Sources/)
-
-[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+The [correspondence manifest](jit-correspondence.json) checks all 29 top-level
+Python statements, including the configured JIT decorator and dtype branch.
+[Current validation records](../../../validation/) distinguish source checks,
+Lean proofs, pending corpus translations and historical numerical receipts.

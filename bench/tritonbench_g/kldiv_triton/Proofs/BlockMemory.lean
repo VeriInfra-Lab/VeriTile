@@ -11,7 +11,7 @@ structure Header {α : Type} (s : State α) (yBase tBase oBase B : Nat) : Prop w
   y : s.regs .ptr [] "y_ptr" = some (fun _ => (("y_ptr" : RegionName), yBase))
   t : s.regs .ptr [] "gt_ptr" = some (fun _ => (("gt_ptr" : RegionName), tBase))
   o : s.regs .ptr [] "loss_ptr" = some (fun _ => (("loss_ptr" : RegionName), oBase))
-  base : s.regs .nat [B] "base_offsets" = some (fun j => j.1.val)
+  base : s.regs .int [B] "base_offsets" = some (fun j => (j.1.val : Int))
 
 theorem initial_header {α : Type} (s : State α) (sy st so B : Nat) :
     Header (forwardInitial s sy st so B) (s.pids 0 * sy) (s.pids 0 * st) (s.pids 0 * so) B := by

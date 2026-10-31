@@ -9,7 +9,6 @@ leaves this full typed source. All numerical instructions and guards remain. -/
 namespace VeriTile.Bench.Repairs.ContextAttnMistral
 open VeriTile.Triton
 open VeriTile.Bench.TritonBenchG.ContextAttnMistral
-abbrev repairedKernel := Program.kernel
 
 def addressBits : Nat := 64
 def blockSize : Nat := 128

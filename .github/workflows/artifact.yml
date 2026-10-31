@@ -61,7 +61,7 @@ jobs:
         uses: leanprover/lean-action@v1
         with:
           build: true
-          build-args: "VeriTile VeriTileFull bench.examples.VectorAdd.Kernels bench.tritonbench_g.softmax_triton1.Proofs.Mathematical_Kernels"
+          build-args: "VeriTile VeriTileFull bench.examples.VectorAdd.Kernels bench.tritonbench_g.softmax_triton1.Kernels"
           test: false
           lint: false
           use-mathlib-cache: auto
@@ -71,6 +71,29 @@ jobs:
 
       - name: Check artifact contract with comparator
         run: scripts/check-artifact.sh
+
+      - name: Replay independent mathematics after kernel retirement
+        run: |
+          for source in \
+            bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_RealFoundation.lean \
+            bench/tritonbench_g/bgmv_shrink_kernel/Sources/Mathematical_RealFoundation.lean \
+            bench/tritonbench_g/chunk_bwd_dqkg/Proofs/RealFragments.lean \
+            bench/tritonbench_g/chunk_cumsum_kernel/Proofs/ChunkMath.lean \
+            bench/tritonbench_g/int8_matmul_quantization/Sources/Mathematical_Int8MatmulQuantization.lean \
+            bench/tritonbench_g/int_scaled_matmul/Sources/Mathematical_IntScaledMatmul.lean \
+            bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_LayernormFwdTriton.lean \
+            bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_LoraExpandGemv.lean \
+            bench/tritonbench_g/matmul_dequant_int4/Sources/Mathematical_MatmulDequantInt4.lean \
+            bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_MatmulDequantize.lean \
+            bench/tritonbench_g/matmul_dequantize_int4/Sources/Mathematical_MatmulDequantizeInt4.lean \
+            bench/tritonbench_g/rope_transform/Proofs/Mathematical_RopeTransform.lean \
+            bench/tritonbench_g/softmax_optimize/Proofs/Mathematical_LegacyReal.lean \
+            bench/tritonbench_g/softmax_triton1/Proofs/Mathematical_Real.lean \
+            bench/tritonbench_g/softmax_triton2/Proofs/Mathematical_Real.lean \
+            bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Spec.lean; do
+            python3 scripts/check_comparator.py --file "$source" --trust \
+              --workspace "$RUNNER_TEMP/standalone-math-replay"
+          done
 
       - name: Check audit and documentation regressions
         run: |

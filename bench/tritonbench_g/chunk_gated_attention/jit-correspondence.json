@@ -1,0 +1,142 @@
+[
+  {
+    "python": "bench/tritonbench_g/chunk_gated_attention/chunk_gated_attention.py",
+    "lean": "bench/tritonbench_g/chunk_gated_attention/Sources/Kernels.lean",
+    "python_function": "chunk_gated_abc_fwd_kernel_cum",
+    "lean_definition": "cumBody",
+    "signature_definition": "cumSignature",
+    "expected_signature": {
+      "pointers": [],
+      "floatingPointers": [
+        [
+          "s",
+          "dtype"
+        ],
+        [
+          "o",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype",
+        "out_dtype"
+      ],
+      "scalars": [
+        [
+          "s_s_h",
+          "integer"
+        ],
+        [
+          "s_s_t",
+          "integer"
+        ],
+        [
+          "s_s_d",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "S",
+        "BT",
+        "BS",
+        "BH",
+        "PROGRAM_BASE"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_gated_attention/chunk_gated_attention.py",
+    "lean": "bench/tritonbench_g/chunk_gated_attention/Sources/Kernels.lean",
+    "python_function": "chunk_gated_abc_fwd_kernel_h",
+    "lean_definition": "hBody",
+    "signature_definition": "hSignature",
+    "expected_signature": {
+      "pointers": [],
+      "floatingPointers": [
+        [
+          "k",
+          "dot"
+        ],
+        [
+          "v",
+          "dot"
+        ],
+        [
+          "g",
+          "gate"
+        ],
+        [
+          "h",
+          "history"
+        ],
+        [
+          "h0",
+          "dtype"
+        ],
+        [
+          "ht",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dot",
+        "gate",
+        "history",
+        "dtype",
+        "out_dtype"
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "s_k_d",
+          "integer"
+        ],
+        [
+          "s_v_h",
+          "integer"
+        ],
+        [
+          "s_v_t",
+          "integer"
+        ],
+        [
+          "s_v_d",
+          "integer"
+        ],
+        [
+          "s_h_h",
+          "integer"
+        ],
+        [
+          "s_h_t",
+          "integer"
+        ],
+        [
+          "s_h_d",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "V",
+        "BT",
+        "BK",
+        "BV",
+        "NT",
+        "GATEK",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "PROGRAM_BASE"
+      ]
+    }
+  }
+]

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.swiglu_backward.Sources.Mathematical_Kernels
+import bench.tritonbench_g.swiglu_backward.Kernels
 import bench.tritonbench_g.swiglu_fwd.Proofs.Mathematical_FP
 namespace VeriTile.Bench.TritonBenchG.SwigluBackward.FPProof
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite

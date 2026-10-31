@@ -22,7 +22,7 @@ theorem source_scalePhase (f : Flags) (r : Regions) (stride : Strides)
   have hproj : (original f r stride M N eps p block hBlock).toAlgorithm? =
       .ok (original f r stride M N eps p block hBlock).toAlgKernel := rfl
   simp only [source, ComputeKernel.eraseDType, hproj, ComputeKernel.toAlgKernel_fromKernelBody]
-  simp only [original, scalePhase, ComputeKernel.surfaceBody,
+  simp only [original, scalePhase, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind,

@@ -10,11 +10,6 @@ set_option maxHeartbeats 8000000
 set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
-/-- Complete source identity, including ports, all typed instructions and branches. -/
-theorem readable_preserves (fp8 : Bool) (p : TypedSource.Arguments) :
-    TypedSource.source fp8 p = RmsMatmulRbe.TypedSource.kernel fp8 fp8 p := by
-  cases fp8 <;> rfl
-
 def original (fp8 : Bool) (p : TypedSource.Arguments) : FP.ProfiledRewrite.Program :=
   ⟨TypedSource.source fp8 p, []⟩
 def indexCommuted (fp8 : Bool) (p : TypedSource.Arguments) : FP.ProfiledRewrite.Program :=
@@ -63,7 +58,7 @@ def candidateStores (fp8 : Bool) (p : KernelSource.Parameters) :=
 theorem tail_run (M : Algebra α) (fp8 : Bool) (p : KernelSource.Parameters) (s : State α) :
     run M (KernelSource.stores fp8 p) s = run M (candidateStores fp8 p) s := by
   cases fp8 <;>
-    simp only [KernelSource.stores,KernelSource.kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,candidateStores,
+    simp only [KernelSource.stores,KernelSource.kernel,TypedSource.kernel,TypedSource.source,candidateStores,
       candidate,TypedSource.indexCommutedKernel,KernelSource.arguments,
       ComputeKernel.surfaceBody,List.drop,run,row_assignment]
 
@@ -72,7 +67,7 @@ theorem tail_safe (M : Algebra α) (fp8 : Bool) (p : KernelSource.Parameters)
     Safety.traceSafeList M bounds (KernelSource.stores fp8 p) s ↔
       Safety.traceSafeList M bounds (candidateStores fp8 p) s := by
   cases fp8 <;>
-    simp only [KernelSource.stores,KernelSource.kernel,TypedSource.kernel,RmsMatmulRbe.TypedSource.kernel,candidateStores,
+    simp only [KernelSource.stores,KernelSource.kernel,TypedSource.kernel,TypedSource.source,candidateStores,
       candidate,TypedSource.indexCommutedKernel,KernelSource.arguments,
       ComputeKernel.surfaceBody,List.drop,Safety.traceSafeList_cons,Safety.traceSafeList_nil,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeAlg_unfold,
@@ -105,7 +100,6 @@ theorem trace_safe (M : Algebra α) (fp8 : Bool) (p : KernelSource.Parameters)
   simp only [Safety.traceSafeList_append]
   exact and_congr_right (fun _ => forall_congr' (fun t => imp_congr_right (fun _ => tail_safe M fp8 p bounds t)))
 
-#axiomsClean readable_preserves
 #axiomsClean equivalent
 #axiomsClean execution
 #axiomsClean trace_safe

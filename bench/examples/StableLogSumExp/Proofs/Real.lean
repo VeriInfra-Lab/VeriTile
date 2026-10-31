@@ -10,21 +10,24 @@ namespace VeriTile.Bench.Examples.StableLogSumExpCorrect
 open VeriTile.Bench.Examples.StableLogSumExp.Kernels
 open VeriTile Triton Triton.TiledLogSumExp
 
+/- Only the current shared source is executable. Mathematical views below are
+its dtype erasure; these local reductions expose that view to execution proofs. -/
+attribute [local simp] ComputeKernel.eraseDType ComputeKernel.toAlgorithm?
+  ComputeKernel.toAlgKernel ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm?
+  ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm?
+  Kernel.eraseDType Stmt.eraseDTypeList Stmt.eraseDType Op.eraseDType.eq_def
+  MemAccess.eraseDType.eq_def MaskOpt.eraseDType.eq_def
+  VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
+  IntegralDType.eraseDType ComputeDType.eraseDType
+attribute [local simp] directLSEKernel optimizedLSEKernel
+
 @[simp] private theorem except_ok_bind {α β ε : Type _} (a : α)
     (f : α → Except ε β) :
     (Except.ok a : Except ε α) >>= f = f a := rfl
 
-
 /-- Executable real projections used by the correctness proofs. -/
-def directMathKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel := triton {
-  pid  := tl.program_id(0)
-  offs := pid * $(blockSize) + tl.arange(0, $(blockSize))
-  x    := tl.load($(xReg) + offs)
-  e    := libdevice.exp(x)
-  s    := tl.sum(e, axis=0)
-  y    := tl.log(s)
-  tl.store($(yReg) + pid, y)
-}
+def directMathKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+  (directLSEKernel xReg yReg blockSize).eraseDType
 
 private theorem erase_output_cast :
     (Op.castFloat .real .bf16 (Op.ref .real [] "y")).eraseDType =
@@ -37,15 +40,7 @@ private theorem erase_output_cast :
 theorem direct_projection (xReg yReg : RegionName) (B : Nat) :
     (directLSEKernel xReg yReg B).eraseDType.toAlgorithm? =
       Except.ok (directMathKernel xReg yReg B).toAlgKernel := by
-  simp [directLSEKernel, directMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
-  repeat' apply And.intro
-  all_goals first
-    | exact erase_output_cast
-    | (rw [Op.eraseDType.eq_def]; simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType])
+  simp [directMathKernel]
 
 theorem direct_flattenOk (xReg yReg : RegionName) (B : Nat) :
     (directMathKernel xReg yReg B).toAlgKernel.FlattenOk := by
@@ -59,6 +54,7 @@ theorem direct_traceSafe (xReg yReg : RegionName) (B : Nat) (hB : 0 < B)
     Kernel.TraceSafe bounds (directMathKernel xReg yReg B).toAlgKernel s := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
   unfold Kernel.TraceSafe
+  try simp only [directMathKernel, directLSEKernel, optimizedLSEKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   simp only [BlockState.pid_eq] at hx hy
   simp [directMathKernel, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,
@@ -98,9 +94,7 @@ set_option maxHeartbeats 2400000
 /-- The candidate retains its two branch selectors when precision is erased. -/
 theorem candidate_projection (x y : RegionName) (B : Nat) :
     (optimizedLSEKernel x y B).eraseDType.toAlgorithm? = .ok (optimizedLSEKernel x y B).eraseDType.toAlgKernel := by
-  simp only [ComputeKernel.eraseDType, show (optimizedLSEKernel x y B).toAlgorithm? =
-    .ok (optimizedLSEKernel x y B).toAlgKernel from rfl]
-  simp
+  simp [directMathKernel]
 
 theorem candidate_flattenOk (x y : RegionName) (B : Nat) :
     (optimizedLSEKernel x y B).eraseDType.toAlgKernel.FlattenOk := by
@@ -117,6 +111,7 @@ theorem candidate_traceSafe (xReg yReg : RegionName) (B : Nat) (hB : 0 < B)
     Kernel.TraceSafe bounds (optimizedLSEKernel xReg yReg B).eraseDType.toAlgKernel s := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
   unfold Kernel.TraceSafe
+  try simp only [directMathKernel, directLSEKernel, optimizedLSEKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   simp only [BlockState.pid_eq] at hx hy
   simp [optimizedLSEKernel, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
     ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,

@@ -290,6 +290,15 @@ noncomputable def evalOpR (R : RoundingModel) :
         , blockShape := blockShape
         , strides := strides
         , offsets := offsets }⟩
+  | .makeBlockPtrDynMetadata region baseOffset parentShape blockShape strides offsets, s => do
+      let base ← evalOpR R baseOffset s
+      let strides ← strides.mapM (fun stride => do
+        let value ← evalOpR R stride s
+        some (value.data PUnit.unit))
+      let offsets ← offsets.mapM (fun off => do
+        let value ← evalOpR R off s
+        some (value.data PUnit.unit))
+      some ⟨fun _ => ⟨region,base.data PUnit.unit,parentShape,blockShape,strides,offsets⟩⟩
   | .advanceBlockPtr ptr deltas, s => do
       let p ← evalOpR R ptr s
       some ⟨fun i => (p.data i).advance deltas⟩
@@ -508,6 +517,9 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
       simp only [evalOpR, evalOp, evalOpR_triv base s]
   | _, _, .makeBlockPtrDynOffsets _ base _ _ _ offsets, s => by
       simp only [evalOpR, evalOp, evalOpR_triv base s, evalOpR_triv_offsets offsets s]
+  | _, _, .makeBlockPtrDynMetadata _ base _ _ strides offsets, s => by
+      simp only [evalOpR,evalOp,evalOpR_triv base s,
+        evalOpR_triv_offsets strides s,evalOpR_triv_offsets offsets s]
   | _, _, .advanceBlockPtr p _, s => by simp only [evalOpR, evalOp, evalOpR_triv p s]
   | _, _, .advanceBlockPtrDyn p ds, s => by
       simp only [evalOpR, evalOp, evalOpR_triv p s, evalOpR_triv_offsets ds s]

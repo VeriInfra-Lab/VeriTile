@@ -1,5 +1,5 @@
 import bench.tritonbench_g.layer_norm_welfold.IO
-import bench.tritonbench_g.layer_norm_welfold.Proofs.SourceSafety
+import bench.tritonbench_g.layer_norm_welfold.Proofs.ReadableSafety
 import bench.tritonbench_g.layer_norm_welfold.Proofs.Trials
 
 namespace VeriTile.Bench.Repairs.LayerNormWelfold.IOProof
@@ -12,15 +12,15 @@ variable {α : Type} [Inhabited α]
 theorem schedule_eq (M : Algebra α) (Y Mean Rstd : RegionName) (S D B : Nat)
     (tree : ReductionTree B) (rows : List Nat) (s : State α) :
     runSchedule (rows.map (IO.invocation M Y Mean Rstd S D B tree)) s =
-      Source.runRows (withEquality M (fun _ _ => Bool.false))
-        (Source.rowKernel "X" "W" "Bias" Y Mean Rstd S D B (SourceBinding.tree tree)) rows s := by
+      SourceCode.runRows (withEquality M (fun _ _ => Bool.false))
+        (SourceCode.rowKernel "X" "W" "Bias" Y Mean Rstd S D B (SourceBinding.tree tree)) rows s := by
   induction rows generalizing s with
   | nil => rfl
   | cons row rows ih =>
-    simp only [List.map_cons,runSchedule,Source.runRows]
+    simp only [List.map_cons,runSchedule,SourceCode.runRows]
     have head : (IO.invocation M Y Mean Rstd S D B tree row).run s =
         exec (withEquality M (fun _ _ => Bool.false))
-          (Source.rowKernel "X" "W" "Bias" Y Mean Rstd S D B (SourceBinding.tree tree))
+          (SourceCode.rowKernel "X" "W" "Bias" Y Mean Rstd S D B (SourceBinding.tree tree))
           {s with pids := fun ax => if ax=0 then row else 0} := rfl
     rw [head]
     congr 1
@@ -39,7 +39,7 @@ theorem schedule_safe (M : Algebra α) (observe : α → α)
   | cons row rows ih =>
     refine ⟨?_,fun t _ => ih (fun r hr => legal r (List.mem_cons_of_mem _ hr)) t⟩
     have hr := legal row List.mem_cons_self
-    apply SourceSafety.source_safe M (fun _ _ => Bool.false) (atRow s row)
+    apply Readable.source_safe M (fun _ _ => Bool.false) Bool.false (atRow s row)
       "X" "W" "Bias" Y Mean Rstd S D B tree separated bounds
     · intro j hj
       exact bounded.2.1 0 (⟨row,hr⟩,⟨j,hj⟩,()) trivial
@@ -72,7 +72,7 @@ theorem implements (M : Algebra α) (observe : α → α)
       (∀ row, row < S → ∀ col, col < D → (s.mem "X" (col+D*row)).read .real = x (col+D*row)) →
       (∀ col, col < D → (s.mem "W" col).read .real = w col) →
       (∀ col, col < D → (s.mem "Bias" col).read .real = bias col) →
-      ∃ final, Source.launch (withEquality M (fun _ _ => Bool.false)) s Y Mean Rstd S D B
+      ∃ final, SourceCode.launch (withEquality M (fun _ _ => Bool.false)) Bool.false s Y Mean Rstd S D B
           (SourceBinding.tree tree) = some final ∧
         (∀ row, row < S → mapCell observe (final.mem Mean row) = .mk .real (f x w bias row).1) ∧
         (∀ row, row < S → mapCell observe (final.mem Rstd row) = .mk .real (f x w bias row).2.1) ∧

@@ -51,7 +51,7 @@ theorem prelude {α : Type} [Inhabited α] (o : FPBackend.Ops α)
   cases storage
   all_goals
     simp (config := {maxSteps := 300000}) [parts,program,VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,Source.intRange?,ComputeKernel.surfaceBody,
+      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,Source.intRange?,ComputeKernel.surfaceBody,
       run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       engine,Algebra.withDefaultPrecision,resolvePrecision,FPBackend.Ops.algebra,
       ComputeDType.eraseDType,numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,
@@ -86,7 +86,7 @@ theorem body {α : Type} [Inhabited α] (o : FPBackend.Ops α)
   all_goals
     simp (config := {maxSteps := 300000}) [parts,program,
       VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,Source.intRange?,ComputeKernel.surfaceBody,
+      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,Source.intRange?,ComputeKernel.surfaceBody,
       run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       engine,Algebra.withDefaultPrecision,resolvePrecision,FPBackend.Ops.algebra,
       ComputeDType.eraseDType,numeric,natLt,natLe,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,

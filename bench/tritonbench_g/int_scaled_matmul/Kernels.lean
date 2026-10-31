@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int_scaled_matmul.Sources.Kernels
+import bench.tritonbench_g.int_scaled_matmul.Sources.Parameters
 
 /-! Direct source for the selected signed8 / modular-add repair. The explicit
 casts retain byte storage and the zero-seeded dot followed by add.u32. The

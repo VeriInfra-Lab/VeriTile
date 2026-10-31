@@ -1,5 +1,5 @@
 import bench.tritonbench_g.dequantize_rowwise.Kernels
-import bench.tritonbench_g.dequantize_rowwise.Proofs.BodyExecution
+import bench.tritonbench_g.dequantize_rowwise.Proofs.Mathematical_RealReference
 
 namespace VeriTile.Bench.Repairs.DequantizeRowwise.KernelCorrectness
 open VeriTile VeriTile.Triton
@@ -13,10 +13,6 @@ set_option linter.unusedSimpArgs false
 and zero or negative scales. -/
 def dequantized (scale : ℝ) (weight : Int) : ℝ := scale * (weight : ℝ) / 127
 
-theorem source_memory (x scale out : RegionName) (inv : ℝ) (n block lanes : Nat) (u : BlockState) :
-    (exec (source x scale out inv n block lanes).eraseDType.toAlgKernel u).map (·.mem) =
-      (exec (RealReference.dequantize_rowwise_kernel x scale out inv n block lanes).toAlgKernel u).map (·.mem) :=
-  BodyExecution.source_memory x scale out inv n block lanes u
 
 def Result (p : Parameters) (u v : BlockState) : Prop :=
   (∀ column, column < p.cols →
@@ -34,22 +30,12 @@ theorem correct (p : Parameters) (u : BlockState) :
     xRegion scaleRegion outRegion (1 / 127) (p.rows * p.cols) p.cols p.width u
     (fun j => u.readMemValue .int xRegion (u.pid * p.cols + j.val))
     (fun _ => u.readMem scaleRegion u.pid) (by intros; rfl) (by intros; rfl)
-  have memory := source_memory xRegion scaleRegion outRegion (1/127)
-    (p.rows*p.cols) p.cols p.width u
-  rw [he] at memory
-  change (exec (kernel p).eraseDType.toAlgKernel u).map (·.mem) = some v.mem at memory
-  cases ran : exec (kernel p).eraseDType.toAlgKernel u with
-  | none => simp only [ran, Option.map_none, reduceCtorEq] at memory
-  | some final =>
-    have same : final.mem = v.mem := by simpa only [ran, Option.map_some, Option.some.injEq] using memory
-    refine ⟨final, rfl, ?_, ?_⟩
-    · intro column hc
-      have h := ho ⟨column, lt_of_lt_of_le hc p.covers⟩ hc
-      simpa only [BlockState.readMem, BlockState.readMemValue, same, dequantized,
-        div_eq_mul_inv, one_mul] using h
-    · intro r o miss
-      rw [same]
-      exact hf r o (miss.imp id (fun h j hj => h j.val hj))
+  refine ⟨v, he, ?_, ?_⟩
+  · intro column hc
+    have h := ho ⟨column, lt_of_lt_of_le hc p.covers⟩ hc
+    simpa only [dequantized,div_eq_mul_inv,one_mul] using h
+  · intro r o miss
+    exact hf r o (miss.imp id (fun h j hj => h j.val hj))
 
 /-- The original scale load is unmasked, including when the row has no
 active output lane. Its capacity is therefore an independent scalar bound. -/

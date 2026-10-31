@@ -1,6 +1,7 @@
-import bench.tritonbench_g.chunk_gla_simple.SourceCompatibility
+import VeriTile.Triton.DSL
+import VeriTile.Triton.Source
 import VeriTile.Meta.StatementAudit
-import bench.tritonbench_g.chunk_gla_simple.Proofs.Layout
+import bench.tritonbench_g.chunk_gla_simple.Proofs.Shape
 
 /-! Exact arithmetic sequence of the separate Python repair. Its pointer-index
 expressions are represented as mathematical naturals; the Python source widens
@@ -85,100 +86,11 @@ def rowReusedSource (out_dtype : FloatDType) (q k v h g o : RegionName) (s_k_h s
     tl.store(p_o, (b_o).to(OUT_DTYPE), mask=(rows[:, None] < $(T)) & (cols[None, :] < $(V)))
   }
 
-set_option maxHeartbeats 8000000 in
-def source (dotStorage valueStorage gateStorage : Storage) (swapped : Bool) :=
-  match dotStorage,valueStorage,gateStorage with
-  | .fp32, .fp32, .fp32 =>
-      if swapped then minDotSimpleGLASource%[tl.float32, tl.float32, tl.float32, scaleFirst]
-      else fp32Original
-  | .fp32, .fp32, .fp16 =>
-      if swapped then minDotSimpleGLASource%[tl.float32, tl.float32, tl.float16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float32, tl.float32, tl.float16, original]
-  | .fp32, .fp32, .bf16 =>
-      if swapped then minDotSimpleGLASource%[tl.float32, tl.float32, tl.bfloat16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float32, tl.float32, tl.bfloat16, original]
-  | .fp32, .fp16, .fp32 =>
-      if swapped then minDotSimpleGLASource%[tl.float32, tl.float16, tl.float32, scaleFirst]
-      else minDotSimpleGLASource%[tl.float32, tl.float16, tl.float32, original]
-  | .fp32, .fp16, .fp16 =>
-      if swapped then minDotSimpleGLASource%[tl.float32, tl.float16, tl.float16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float32, tl.float16, tl.float16, original]
-  | .fp32, .fp16, .bf16 =>
-      if swapped then minDotSimpleGLASource%[tl.float32, tl.float16, tl.bfloat16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float32, tl.float16, tl.bfloat16, original]
-  | .fp32, .bf16, .fp32 =>
-      if swapped then minDotSimpleGLASource%[tl.float32, tl.bfloat16, tl.float32, scaleFirst]
-      else minDotSimpleGLASource%[tl.float32, tl.bfloat16, tl.float32, original]
-  | .fp32, .bf16, .fp16 =>
-      if swapped then minDotSimpleGLASource%[tl.float32, tl.bfloat16, tl.float16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float32, tl.bfloat16, tl.float16, original]
-  | .fp32, .bf16, .bf16 =>
-      if swapped then minDotSimpleGLASource%[tl.float32, tl.bfloat16, tl.bfloat16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float32, tl.bfloat16, tl.bfloat16, original]
-  | .fp16, .fp32, .fp32 =>
-      if swapped then minDotSimpleGLASource%[tl.float16, tl.float32, tl.float32, scaleFirst]
-      else minDotSimpleGLASource%[tl.float16, tl.float32, tl.float32, original]
-  | .fp16, .fp32, .fp16 =>
-      if swapped then minDotSimpleGLASource%[tl.float16, tl.float32, tl.float16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float16, tl.float32, tl.float16, original]
-  | .fp16, .fp32, .bf16 =>
-      if swapped then minDotSimpleGLASource%[tl.float16, tl.float32, tl.bfloat16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float16, tl.float32, tl.bfloat16, original]
-  | .fp16, .fp16, .fp32 =>
-      if swapped then minDotSimpleGLASource%[tl.float16, tl.float16, tl.float32, scaleFirst]
-      else minDotSimpleGLASource%[tl.float16, tl.float16, tl.float32, original]
-  | .fp16, .fp16, .fp16 =>
-      if swapped then minDotSimpleGLASource%[tl.float16, tl.float16, tl.float16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float16, tl.float16, tl.float16, original]
-  | .fp16, .fp16, .bf16 =>
-      if swapped then minDotSimpleGLASource%[tl.float16, tl.float16, tl.bfloat16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float16, tl.float16, tl.bfloat16, original]
-  | .fp16, .bf16, .fp32 =>
-      if swapped then minDotSimpleGLASource%[tl.float16, tl.bfloat16, tl.float32, scaleFirst]
-      else minDotSimpleGLASource%[tl.float16, tl.bfloat16, tl.float32, original]
-  | .fp16, .bf16, .fp16 =>
-      if swapped then minDotSimpleGLASource%[tl.float16, tl.bfloat16, tl.float16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float16, tl.bfloat16, tl.float16, original]
-  | .fp16, .bf16, .bf16 =>
-      if swapped then minDotSimpleGLASource%[tl.float16, tl.bfloat16, tl.bfloat16, scaleFirst]
-      else minDotSimpleGLASource%[tl.float16, tl.bfloat16, tl.bfloat16, original]
-  | .bf16, .fp32, .fp32 =>
-      if swapped then minDotSimpleGLASource%[tl.bfloat16, tl.float32, tl.float32, scaleFirst]
-      else minDotSimpleGLASource%[tl.bfloat16, tl.float32, tl.float32, original]
-  | .bf16, .fp32, .fp16 =>
-      if swapped then minDotSimpleGLASource%[tl.bfloat16, tl.float32, tl.float16, scaleFirst]
-      else minDotSimpleGLASource%[tl.bfloat16, tl.float32, tl.float16, original]
-  | .bf16, .fp32, .bf16 =>
-      if swapped then minDotSimpleGLASource%[tl.bfloat16, tl.float32, tl.bfloat16, scaleFirst]
-      else minDotSimpleGLASource%[tl.bfloat16, tl.float32, tl.bfloat16, original]
-  | .bf16, .fp16, .fp32 =>
-      if swapped then minDotSimpleGLASource%[tl.bfloat16, tl.float16, tl.float32, scaleFirst]
-      else minDotSimpleGLASource%[tl.bfloat16, tl.float16, tl.float32, original]
-  | .bf16, .fp16, .fp16 =>
-      if swapped then minDotSimpleGLASource%[tl.bfloat16, tl.float16, tl.float16, scaleFirst]
-      else minDotSimpleGLASource%[tl.bfloat16, tl.float16, tl.float16, original]
-  | .bf16, .fp16, .bf16 =>
-      if swapped then minDotSimpleGLASource%[tl.bfloat16, tl.float16, tl.bfloat16, scaleFirst]
-      else minDotSimpleGLASource%[tl.bfloat16, tl.float16, tl.bfloat16, original]
-  | .bf16, .bf16, .fp32 =>
-      if swapped then minDotSimpleGLASource%[tl.bfloat16, tl.bfloat16, tl.float32, scaleFirst]
-      else minDotSimpleGLASource%[tl.bfloat16, tl.bfloat16, tl.float32, original]
-  | .bf16, .bf16, .fp16 =>
-      if swapped then minDotSimpleGLASource%[tl.bfloat16, tl.bfloat16, tl.float16, scaleFirst]
-      else minDotSimpleGLASource%[tl.bfloat16, tl.bfloat16, tl.float16, original]
-  | .bf16, .bf16, .bf16 =>
-      if swapped then minDotSimpleGLASource%[tl.bfloat16, tl.bfloat16, tl.bfloat16, scaleFirst]
-      else minDotSimpleGLASource%[tl.bfloat16, tl.bfloat16, tl.bfloat16, original]
-
-def original (dotStorage valueStorage gateStorage : Storage) := source dotStorage valueStorage gateStorage Bool.false
-def scaleFirst (dotStorage valueStorage gateStorage : Storage) := source dotStorage valueStorage gateStorage Bool.true
-
-
 abbrev Shape := Host.Shape
-/-- Candidate host specialization covers every supported Q/K/H, V and G dtype.
-The output storage is independently explicit; Python chooses V's dtype. -/
-def kernel (c : Shape) (dot value gate : Storage) (out : FloatDType) (scale : ℝ) : ComputeKernel :=
-  source dot value gate Bool.false out "q" "k" "v" "h" "g" "o"
+/-- The repair wrapper admits FP32 tensors. Its complete three-dimensional
+launch selects this shared source, including every K block and masked tail. -/
+def kernel (c : Shape) (scale : ℝ) : ComputeKernel :=
+  fp32Original .fp32 "q" "k" "v" "h" "g" "o"
     (c.T*c.K) c.K (c.T*c.V) c.V (c.NT*c.K*c.V) c.V
     scale c.T c.K c.V c.BT c.BK c.BV
 /-- Same complete grid specialization, with row-lane-vector CSE only. -/

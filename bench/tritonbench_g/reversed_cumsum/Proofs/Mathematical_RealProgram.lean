@@ -1,4 +1,4 @@
-import bench.tritonbench_g.reversed_cumsum.Proofs.Mathematical_Source
+import VeriTile.Triton.DSL
 import bench.tritonbench_g.reversed_cumsum.Proofs.Mathematical_RealMath
 
 /-! Exact per-iteration expressions and initialization, exposed for staged

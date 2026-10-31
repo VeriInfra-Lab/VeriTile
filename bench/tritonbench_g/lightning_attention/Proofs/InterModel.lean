@@ -75,9 +75,5 @@ def interMemory (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (head : 
     (input current : Memory α) : Memory α :=
   keyValueScanMemory M D p head input (queryScanMemory M D p head input current)
 
-def interForwardParts (p : Parameters) : Source.DynamicRange :=
-  (Source.dynamicRange? (inter p).surfaceBody "i").getD ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
-def interReverseParts (p : Parameters) : Source.DynamicRange :=
-  (Source.dynamicRange? (interForwardParts p).after "reverse_i").getD ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
 end
 end VeriTile.Bench.Repairs.LightningAttention

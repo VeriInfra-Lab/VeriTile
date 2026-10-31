@@ -1,10 +1,10 @@
-import bench.tritonbench_g.matmul_persistent_triton.Proofs.Kernels
+import bench.tritonbench_g.matmul_persistent_triton.Sources.Mathematical_Source
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.Mathematical_ScheduleCoverage
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.Mathematical_RealMath
 
 namespace VeriTile.Bench.Repairs.MatmulPersistentTriton
 open VeriTile.Bench.TritonBenchG.MatmulPersistentTriton
-abbrev Storage := TypedSource.Storage
+abbrev Storage := VeriTile.Bench.TritonBenchG.MatmulPersistentTriton.TypedSource.Storage
 
 def Storage.bytes : Storage → Nat
   | .fp16 => 2

@@ -95,31 +95,7 @@ theorem grid_eq (M : Algebra α) (c : Shape) (d : Typed.Dots M c)
   | nil => rfl
   | cons q rest ih => simp only [grid,written_eq M c d h,ih,FPGrid.reference]
 
-/-- Native i64 loop/control, actual masked loads and stores, and the typed
-source execution have the same complete grid memory. The readback target is
-the independent FP recurrence over the initial inputs. -/
-theorem whole_grid (M : Algebra α) (c : Shape) (d : Typed.Dots M c)
-    (h : NativeControl.Accepted c) (scale : ℝ) (s : State α) :
-    ∃ t, FPGrid.run M c scale (FPGrid.programs c) s=some t ∧
-      t.mem=(grid M c d scale (FPGrid.programs c) s).mem ∧ FPGrid.Result M c scale d s t := by
-  obtain ⟨t,he,hm⟩ := FPGrid.run_memory M c scale d (FPGrid.programs c) s
-  obtain ⟨u,hu,hr⟩ := FPGrid.whole_grid M c scale d s
-  have hut : u=t := Option.some.inj (hu.symm.trans he)
-  subst u
-  exact ⟨t,he,by rw [grid_eq M c d h]; exact hm,hr⟩
-
-/-- Staged native dotAcc graph and native integer execution compose before
-any local numerical primitive is interpreted. -/
-theorem graph_grid (rest : Algebra NativeGraph.Expr) (c : Shape)
-    (h : NativeControl.Accepted c) (scale : ℝ) (s : State NativeGraph.Expr) :
-    ∃ t, FPGrid.run (NativeGraph.algebra rest) c scale (FPGrid.programs c) s=some t ∧
-      t.mem=(grid (NativeGraph.algebra rest) c (NativeGraph.dots rest c) scale (FPGrid.programs c) s).mem ∧
-      FPGrid.Result (NativeGraph.algebra rest) c scale (NativeGraph.dots rest c) s t :=
-  whole_grid (NativeGraph.algebra rest) c (NativeGraph.dots rest c) h scale s
-
-#specNonCircular output avoiding [FP.Structural.exec,FPGrid.run]
-#axiomsClean whole_grid
-#axiomsClean graph_grid
+#specNonCircular output avoiding [FP.Structural.exec]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end
