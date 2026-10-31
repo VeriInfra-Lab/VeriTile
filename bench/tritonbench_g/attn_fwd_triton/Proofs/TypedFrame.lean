@@ -26,16 +26,23 @@ theorem tail_frame {α : Type} [Inhabited α] (A : Algebra α)
     by_cases hr : region=p.Out
     · exact Or.inr (fun i _ hi he => hnot ⟨hr,i,hi,he⟩)
     · exact Or.inl hr
-  cases r
-  all_goals simp only [tail,source,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    TypedSource.repaired,TypedSource.reciprocal,ComputeKernel.surfaceBody,List.drop_succ_cons,List.drop_zero] at ht
+  cases r <;> cases hd : decide (p.stage=2)
+  all_goals simp only [tail,code,source,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
+    TypedSource.repaired,ComputeKernel.surfaceBody,ControlView.compute,hd,List.drop_succ_cons,List.drop_zero] at ht
   all_goals simp [run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,natLt,numericLt,
     Cell.read,ofFloat,toFloat,Region.cast,State.setReg,hn,ho,hp,hli,hacc] at ht
   all_goals subst t
   all_goals
     apply State.masked_scatter_frame
-    simpa [outputActive,bop] using hmiss
+    rcases hmiss with hr | hf
+    · exact Or.inl hr
+    · apply Or.inr
+      intro i hi active
+      apply hf i hi
+      simp only [outputActive,Bool.and_eq_true,decide_eq_true_eq]
+      simp [bop,Broadcast.leftIndex,Broadcast.rightIndex,Value] at active
+      omega
 
 /-- Complete opaque source run and exact syntactic output footprint. -/
 theorem executes_framed {α : Type} [Inhabited α] (A : Algebra α)
@@ -47,7 +54,7 @@ theorem executes_framed {α : Type} [Inhabited α] (A : Algebra α)
   have hf := tail_frame A p BD (s.pids 0) (s.pids 1) r u t hr ha ht
   refine ⟨t,?_,?_⟩
   · change run (engine A) (source p BD r).surfaceBody s=some t
-    rw [←List.take_append_drop 41 (source p BD r).surfaceBody,run_append,hu]
+    rw [←code_run A p BD r s,←List.take_append_drop 41 (code p BD),run_append,hu]
     exact ht
   · intro region offset hnot
     exact (hf region offset hnot).trans (congrFun (congrFun hm region) offset)

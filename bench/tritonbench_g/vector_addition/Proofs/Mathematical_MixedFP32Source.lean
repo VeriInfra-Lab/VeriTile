@@ -114,51 +114,12 @@ theorem eval_integerToFloat (rest : Algebra Word) (cfg : FP.Config)
         unsigned_cast_eq_bitvec, -BitVec.toNat_ofInt, -BitVec.toInt_ofInt,
         ofFloat, toFloat]
 
-def storeInteger (d : Storage) (p : Parameters) : ComputeStmt :=
-  let off := Op.ref .nat [p.block] "offsets"
-  let mask := Op.ref .bool [p.block] "mask"
-  let value := Op.ref .fp32 [p.block] "output"
-  match d with
-  | .boolean => .store .int [p.block] (.region p.output off)
-      (.alg (.floatToInt none .fp32 8 value)) (.mask mask)
-  | .signed width => .store .int [p.block] (.region p.output off)
-      (.alg (.floatToInt none .fp32 width value)) (.mask mask)
-  | .unsigned width => .store .nat [p.block] (.region p.output off)
-      (.alg (.floatToNat none .fp32 width value)) (.mask mask)
-
 def convertedCell (us : Nat → Word → Int) (uu : Nat → Word → Nat)
     (d : Storage) (v : Word) : Cell Word :=
   match d with
   | .boolean => .mk .int (totalSigned (us 8) 8 v)
   | .signed width => .mk .int (totalSigned (us width) width v)
   | .unsigned width => .mk .nat (totalUnsigned (uu width) width v)
-
-/-- The original eight source statements, in their original order for both
-operand orientations. Output always has the dtype of the x pointer. -/
-def source (integerFirst : Bool) (d : Storage) (p : Parameters) : ComputeKernel :=
-  let off := Op.ref .nat [p.block] "offsets"
-  let mask := Op.ref .bool [p.block] "mask"
-  let integerLoad name region := ComputeStmt.assign .int [p.block] name
-    (.alg (IntegerSource.loadOp d region off mask))
-  let floatLoad name region := ComputeStmt.assign .fp32 [p.block] name
-    (.alg (.load .fp32 (.region region off) (.mask mask)))
-  let x := if integerFirst then integerToFloat d (.ref .int [p.block] "x")
-    else Op.ref .fp32 [p.block] "x"
-  let y := if integerFirst then Op.ref .fp32 [p.block] "y"
-    else integerToFloat d (.ref .int [p.block] "y")
-  .mk [p.x,p.y] [p.output] [
-    .assign .nat [] "pid" (.alg (.programId 0)),
-    .assign .nat [] "block_start" (.alg (.mul .nat .nil
-      (.ref .nat [] "pid") (.constNat p.block))),
-    .assign .nat [p.block] "offsets" (.alg (.add .nat .scalarL
-      (.ref .nat [] "block_start") (.arange p.block))),
-    .assign .bool [p.block] "mask" (.alg (.lt .nat .scalarR off (.constNat p.n))),
-    if integerFirst then integerLoad "x" p.x else floatLoad "x" p.x,
-    if integerFirst then floatLoad "y" p.y else integerLoad "y" p.y,
-    .assign .fp32 [p.block] "output" (.alg (.add .fp32 (.consSame .nil) x y)),
-    if integerFirst then storeInteger d p
-    else .store .fp32 [p.block] (.region p.output off)
-      (.alg (.ref .fp32 [p.block] "output")) (.mask mask) ]
 
 def sumValue (cfg : FP.Config) (integerFirst : Bool) (d : Storage)
     (p : Parameters) (mem : RegionName → Nat → Cell Word) (o : Nat) : Word :=

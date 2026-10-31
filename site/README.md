@@ -82,15 +82,16 @@ The language comparison shows only the kernel bodies, with corresponding names
 matched for readability and the aligned, unmasked scope stated in the caption.
 The interactive demo retains the exact verified kernel text.
 The View proof links open the full Lean contracts and proofs in
-`bench/tritonbench_g/logsumexp_fwd/LogsumexpFwd.lean` and
-`bench/examples/StableLogSumExp/Proofs/LegacyRealEquiv.lean`.
+`bench/tritonbench_g/logsumexp_fwd/Correct.lean` and
+`bench/examples/StableLogSumExp/FPEquiv.lean`.
 Both cards use log-sum-exp. The correctness formula is explicitly the unscaled,
-per-block active-lane case. The equivalence example compares direct and
-maximum-shifted LSE, with real intermediate arithmetic and a shared rounded bf16
-output store; it has no private scratch.
+per-block active-lane case. The equivalence example compares direct LSE and the
+current conditional optimization under its explicit FP rules, intermediate-value
+domain and shared reduction schedule. The source keeps both fallback branches
+and the scalar bf16 output store; it has no private scratch.
 The Correctness and Equivalence cards share one template and matching
 Computation / Memory rows. Their short relations use explicitly schematic names:
-`lse_kernel ⊨ lse_spec` on the left and `direct_lse ≡ stable_lse` on the right.
+`lse_kernel ⊨ lse_spec` on the left and `direct_lse ≡ optimized_lse` on the right.
 These are presentation labels, not aliases defined in Lean. Both LSE examples
 have matching Proof details and View proof controls. Example
 visuals, model assumptions, and preconditions are inside the details; full Lean

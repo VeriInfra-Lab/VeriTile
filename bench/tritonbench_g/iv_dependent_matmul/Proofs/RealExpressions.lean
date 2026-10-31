@@ -41,7 +41,7 @@ structure Ready (p : Parameters) (s t : State ℝ) (a : Accumulator p) : Prop wh
 theorem prologue_run (rest : Algebra ℝ) (p : Parameters) (s : State ℝ) :
     ∃ t, run (backend rest) (prologue p) s=some t ∧
       Ready p s t (fun _ => 0) := by
-  simp [prologue,source,typed,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [prologue,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,backend,
     sumDot]
@@ -54,7 +54,7 @@ theorem body_run (rest : Algebra ℝ) (g : Graph) (p : Parameters) (s t : State 
     ∃ u, run (backend rest) (body g p) (t.setReg "k" .nat [] (fun _ => cur))=some u ∧
       Ready p s u (update g p s cur a) := by
   cases g <;>
-    simp [body,source,typed,fusedTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    simp [body,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
       integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,
       h.mem,h.pids,h.undef,h.pm,h.pn,h.offk,h.aptr,h.bptr,h.acc,backend,
@@ -82,7 +82,7 @@ theorem loop_run (rest : Algebra ℝ) (g : Graph) (p : Parameters) (s t : State 
 
 theorem suffix_run (rest : Algebra ℝ) (p : Parameters) (s t : State ℝ) (a : Accumulator p) (h : Ready p s t a) :
     ∃ u, run (backend rest) (suffix p) t=some u ∧ u.mem=(written p s a).mem := by
-  simp [suffix,source,typed,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [suffix,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     Region.cast,ofFloat,toFloat,State.setReg,store,h.mem,h.pids,h.undef,h.pm,h.pn,h.offk,h.aptr,h.bptr,h.acc,
     backend,sumDot]

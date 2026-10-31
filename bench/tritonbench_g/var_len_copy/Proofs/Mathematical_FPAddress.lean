@@ -23,14 +23,14 @@ theorem signed_add_commutes {α : Type} [Inhabited α] (M : Algebra α)
   .castIntToNat (.add .int .scalarL
     (if v then .add .int .nil (.ref .int [] "i") (.ref .int [] "old_start")
      else .add .int .nil (.ref .int [] "old_start") (.ref .int [] "i"))
-    (.castNatToInt (.ref .nat [B] "old_offset")))
+    (.ref .int [B] "old_offset"))
 
  theorem offsets_commute {α : Type} [Inhabited α] (M : Algebra α)
     (p : Option ComputeDType) (s : State α) (B : Nat) :
     evalOp M p (offsets Bool.false B) s = evalOp M p (offsets Bool.true B) s := by
   simp only [offsets, Bool.false_eq_true, ↓reduceIte]
   change ((evalOp M p (.add .int .nil (.ref .int [] "old_start") (.ref .int [] "i")) s
-      >>= fun x ↦ evalOp M p (.castNatToInt (.ref .nat [B] "old_offset")) s
+      >>= fun x ↦ evalOp M p (.ref .int [B] "old_offset") s
       >>= fun y ↦ some (bop Int.add .scalarL x y)) >>= fun z ↦
         some (fun i ↦ (z i).toNat)) = _
   rw [signed_add_commutes M p s (.ref .int [] "old_start") (.ref .int [] "i")]
@@ -53,10 +53,10 @@ theorem load_commutes_expanded {α : Type} [Inhabited α] (M : Algebra α)
     (B : Nat) (mask : Op .bool [B]) (padding : PaddingOption) :
     evalOp M p (.load d (.region src (.castIntToNat (.add .int .scalarL
       (.add .int .nil (.ref .int [] "old_start") (.ref .int [] "i"))
-      (.castNatToInt (.ref .nat [B] "old_offset"))))) (.mask mask) padding) s =
+      (.ref .int [B] "old_offset")))) (.mask mask) padding) s =
     evalOp M p (.load d (.region src (.castIntToNat (.add .int .scalarL
       (.add .int .nil (.ref .int [] "i") (.ref .int [] "old_start"))
-      (.castNatToInt (.ref .nat [B] "old_offset"))))) (.mask mask) padding) s :=
+      (.ref .int [B] "old_offset")))) (.mask mask) padding) s :=
   load_commutes M p s d src B mask padding
 
 end VeriTile.Bench.TritonBenchG.VarLenCopy.FPProof

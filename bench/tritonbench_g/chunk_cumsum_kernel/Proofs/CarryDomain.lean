@@ -64,7 +64,7 @@ theorem body_next (ops : FPRow.Ops α) (input output : RegionName) (T BT pid q :
       Ready ops input T BT pid (q+1) xs t := by
   have values := loaded_values ops input T BT pid q xs s ready hfull
   obtain ⟨hp,hz,reads⟩ := ready
-  simp (config := {maxSteps := 300000}) [FPIndexBridge.parts,repairedKernel,
+  simp (config := {maxSteps := 300000}) [FPIndexBridge.parts,FPRow.parts,repairedKernel,
     ComputeKernel.surfaceBody,Source.intRange?,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,engine,Algebra.withDefaultPrecision,
     resolvePrecision,FPRow.Ops.algebra,ComputeDType.eraseDType,numeric,numericLt,bop,ofFloat,toFloat,
@@ -94,7 +94,7 @@ theorem site_iff (ops : FPRow.Ops α) (D : FP.Guarded.Domain α)
       D .finite (carry ops BT xs q) ∧ D .finite (chunkSum ops BT xs q) := by
   have values := loaded_values ops input T BT pid q xs s ready hfull
   obtain ⟨hp,hz,_⟩ := ready
-  simp (config := {maxSteps := 300000}) [Rewrite.additionSite,Rewrite.parts,FPIndexBridge.parts,
+  simp (config := {maxSteps := 300000}) [Rewrite.additionSite,Rewrite.parts,FPIndexBridge.parts,FPRow.parts,
     repairedKernel,Source.prefixBefore,ComputeKernel.surfaceBody,Source.intRange?,Site.Holds,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,FPRow.Ops.algebra,
@@ -122,7 +122,7 @@ private theorem prelude_ready (ops : FPRow.Ops α) (input output : RegionName)
     (reads : ∀ j,j<T → (s.mem input (s.pids 0*T+j)).read .fp32=xs j)
     (ran : run (engine ops.algebra) (FPIndexBridge.parts input output T BT).before s=some first) :
     Ready ops input T BT (s.pids 0) 0 xs first := by
-  simp [FPIndexBridge.parts,repairedKernel,ComputeKernel.surfaceBody,Source.intRange?,
+  simp [FPIndexBridge.parts,FPRow.parts,repairedKernel,ComputeKernel.surfaceBody,Source.intRange?,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,FPRow.Ops.algebra] at ran
   subst first
@@ -190,7 +190,7 @@ theorem iff_inputs (ops : FPRow.Ops α) (D : FP.Guarded.Domain α)
     Rewrite.FiniteCarry ops.algebra D input output T cfg.block s ↔ Finite ops D T cfg.block xs := by
   refine ⟨?_,of_inputs ops D input output T cfg xs s reads⟩
   intro raw q later
-  obtain ⟨first,pre,_,_⟩ := FPRow.prelude ops .fp32 .fp32 input output T cfg.block s
+  obtain ⟨first,pre,_,_⟩ := FPRow.prelude ops input output T cfg.block s
   have pre' : run (engine ops.algebra) (FPIndexBridge.parts input output T cfg.block).before s=some first := by
     rw [FPIndexBridge.before]
     exact pre

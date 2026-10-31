@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.Sources.Mathematical_Kernels
+import bench.tritonbench_g.layer_norm_fwd.Sources.Selected
 import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Contracts
 
 /-! Symbolic complete-source fp32 checkpoint. Other storage profiles remain
@@ -11,8 +11,7 @@ abbrev sourceType := Flags → Regions → Strides → Nat → Nat → ℝ → �
 
 def original : sourceType :=
   fun f r stride M N eps p block hBlock =>
-    (layerNormFwdSource%[tl.float32, tl.float32, tl.float32, tl.float32,
-      tl.float32, tl.float32, tl.float32, tl.float32, tl.float32, tl.float32, original])
+    VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal
     r.x r.y r.weight r.bias r.residual r.x1 r.weight1 r.bias1 r.y1
     r.residualOut r.rowscale r.seeds.cast r.dropoutMask.cast r.mean r.rstd
     stride.x stride.y stride.residual stride.residualOut stride.x1 stride.y1
@@ -21,8 +20,7 @@ def original : sourceType :=
 
 def candidate : sourceType :=
   fun f r stride M N eps p block hBlock =>
-    (layerNormFwdSource%[tl.float32, tl.float32, tl.float32, tl.float32,
-      tl.float32, tl.float32, tl.float32, tl.float32, tl.float32, tl.float32, indexCommuted])
+    VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted
     r.x r.y r.weight r.bias r.residual r.x1 r.weight1 r.bias1 r.y1
     r.residualOut r.rowscale r.seeds.cast r.dropoutMask.cast r.mean r.rstd
     stride.x stride.y stride.residual stride.residualOut stride.x1 stride.y1

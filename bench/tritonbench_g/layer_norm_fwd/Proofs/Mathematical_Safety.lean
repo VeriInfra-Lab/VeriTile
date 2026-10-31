@@ -94,26 +94,5 @@ theorem append_tail (bounds : RegionBounds) (first rest : List Stmt) (s t : Bloc
       simp only [List.cons_append, Stmt.TraceSafeList, hv] at h
       exact ih v h.2 ht
 
-theorem candidate_safe (f : Flags) (r : Regions) (stride : Strides)
-    (M N : Nat) (eps p : ℝ) (block : Nat) (hBlock : Random.ArangeSizeDomain block)
-    (u : BlockState) (hN : N ≤ block) (hsep : Domain.ReadWriteSeparated f r)
-    (bounds : RegionBounds) (hb : FlatDomain.RowBounds f r stride M N u.pid bounds) :
-    (CandidateExecution.source f r stride M N eps p block hBlock).TraceSafe bounds u := by
-  have hs := source_safe f r stride M N eps p block hBlock u hN hsep bounds hb
-  change Stmt.TraceSafeList bounds (Execution.source f r stride M N eps p block hBlock).body u at hs
-  have ht : Stmt.TraceSafeList bounds
-      ((Execution.source f r stride M N eps p block hBlock).body.drop 10)
-      (Execution.loadState f r stride N block u) := by
-    apply append_tail bounds ((Execution.source f r stride M N eps p block hBlock).body.take 10)
-      _ u (Execution.loadState f r stride N block u)
-    · simpa only [List.take_append_drop] using hs
-    · exact Execution.source_initial_load f r stride M N eps p block hBlock u
-  change Stmt.TraceSafeList bounds (CandidateExecution.source f r stride M N eps p block hBlock).body u
-  rw [← List.take_append_drop 10 (CandidateExecution.source f r stride M N eps p block hBlock).body,
-    CandidateExecution.source_loadPrefix, CandidateExecution.common_suffix]
-  exact append_after bounds _ _ u (Execution.loadState f r stride N block u)
-    (candidate_loadPrefix_safe f r stride N block u bounds hb.x)
-    (CandidateExecution.loadPrefix_exec f r stride N block u) ht
-
 end
 end VeriTile.Bench.TritonBenchG.LayerNormFwd.Safety

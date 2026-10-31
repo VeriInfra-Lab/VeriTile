@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_matmul.Proofs.Mathematical_FPTypedSource
+import bench.tritonbench_g.triton_matmul.Sources.Numerics
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.FPValue
 open VeriTile.Triton FP.Structural
 open ParallelAttention.FPStages (foldRange)
@@ -57,7 +57,7 @@ def accumulation {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
 
 def outputValue {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
     (p : Parameters) (st : Storage) (s : State α) (i : CIndex p) : α :=
-  M.cast none .real (dtype st) (accumulation M D p st s i)
+  M.cast none (dtype st) (dtype st) (M.cast none .real (dtype st) (accumulation M D p st s i))
 
 end
 end VeriTile.Bench.TritonBenchG.TritonMatmul.FPValue

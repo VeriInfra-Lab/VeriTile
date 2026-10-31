@@ -80,9 +80,6 @@ theorem writeOutput_inputs (M : Algebra α) (p : Parameters) (pid : PID) (block 
     (values : Matrix α p.BT p.BM) (m : Memory α) : Inputs (writeOutput M p pid block values m) m :=
   scatter_inputs _ _ (by decide) _ _ _ _
 
-def fwdParts (p : Parameters) : Source.DynamicRange :=
-  (Source.dynamicRange? (forward p).surfaceBody "i").getD ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
-
 #axiomsClean scatter_inputs
 #axiomsClean writeOutput_inputs
 end

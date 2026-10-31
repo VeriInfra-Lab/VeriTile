@@ -4,7 +4,7 @@ open VeriTile.Triton FP.Structural
 open FPValue (Word OutputFormat)
 open FP.Equational (ReductionPlan)
 noncomputable section
-attribute [local simp] VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.length VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.inputFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.weightFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.effectiveFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.promote VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.productFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.resultFormat
+attribute [local simp] VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.length VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.inputFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.weightFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.effectiveFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.promote VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.productFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.resultFormat
 set_option maxRecDepth 40000
 set_option maxHeartbeats 80000000
 set_option linter.unusedSimpArgs false
@@ -25,7 +25,7 @@ def bodyExecution (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, Reduct
     simp [dtype, effectiveFormat, inputFormat, weightFormat, FloatDType.toTileDType, ofFloat] at hav
     refine ⟨?_, ?_⟩
     swap
-    simp [body, castBranch, active, source, ComputeKernel.surfaceBody,
+    simp [body, castBranch, active, source, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
       bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
       FloatDType.numericDType, FloatDType.toTileDType, Region.cast, Option.bind,

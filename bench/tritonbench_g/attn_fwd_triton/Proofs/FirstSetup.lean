@@ -9,33 +9,40 @@ open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealScores (Frame)
 noncomputable section
 set_option maxHeartbeats 800000
 
-abbrev copies := RealFirstSetup.copies
+def copies (BM BN BD : Nat) : List Stmt :=
+  [.assign .nat [] "first_lo" (.constNat 0),
+   .assign .int [] "first_hi" (Setup.lowerExpr BM),
+   .assign .ptr [BD,BN] "K_ptrs_first" (.ref .ptr [BD,BN] "K_ptrs"),
+   .assign .ptr [] "K_scale_ptr_first" (.ref .ptr [] "K_scale_ptr"),
+   .assign .ptr [BN,BD] "V_ptrs_first" (.ref .ptr [BN,BD] "V_ptrs")]
 abbrev firstLower := RealLoopFormula.firstLower
 
 def firstUpper (startM BM N : Nat) (diagonal : Bool) : Nat :=
   if diagonal then min ((startM+1)*BM) N else startM*BM
 
 structure Caller (s : BlockState) (c : Config) (BN BD : Nat) : Prop where
-  row : s.regs .nat [] "start_m" = some (Tile.scalar c.startM)
+  row : s.regs .int [] "start_m" = some (Tile.scalar c.startM)
   key : s.regs .ptr [BD,BN] "K_ptrs" = some (keyPointer c BD BN 0)
   scale : s.regs .ptr [] "K_scale_ptr" = some (keyScalePointer c BN 0)
   value : s.regs .ptr [BN,BD] "V_ptrs" = some (valuePointer c BN BD 0)
 
 def code (BM BN BD : Nat) (diagonal : Bool) : List Stmt :=
-  copies BM BN BD ++ [.ifThen (.constBool diagonal) (Setup.code BM BN BD Bool.false)]
+  copies BM BN BD ++ [.ifThenElse (.constBool diagonal) (Setup.code BM BN BD Bool.false) []]
 
 theorem copies_execute (s : BlockState) (c : Config) (BM BN BD : Nat)
     (caller : Caller s c BN BD) :
     ∃ t, stepStmts (copies BM BN BD) s = some t ∧
       t.regs .nat [] "first_lo" = some (Tile.scalar 0) ∧
-      t.regs .nat [] "first_hi" = some (Tile.scalar (c.startM*BM)) ∧
+      t.regs .int [] "first_hi" = some (Tile.scalar ((c.startM*BM : Nat) : Int)) ∧
       Pointers t c BN BD 0 Bool.false ∧ Frame (Setup.writes Bool.false) s t := by
   let sl := s.setReg "first_lo" .nat [] (Tile.scalar 0)
-  let sh := sl.setReg "first_hi" .nat [] (Tile.scalar (c.startM*BM))
+  let sh := sl.setReg "first_hi" .int [] (Tile.scalar ((c.startM*BM : Nat) : Int))
   let sk := sh.setReg "K_ptrs_first" .ptr [BD,BN] (keyPointer c BD BN 0)
   let ss := sk.setReg "K_scale_ptr_first" .ptr [] (keyScalePointer c BN 0)
-  have hhigh : evalOp (RealSetup.lowerExpr BM) sl = some (Tile.scalar (c.startM*BM)) := by
-    simp [RealSetup.lowerExpr, evalOp.eq_def, sl, caller.row]; rfl
+  have hhigh : evalOp (Setup.lowerExpr BM) sl = some (Tile.scalar ((c.startM*BM : Nat) : Int)) := by
+    simp [Setup.lowerExpr,wide,evalOp.eq_def,sl,caller.row]
+    simp only [←Int.natCast_mul]
+    rfl
   have hk : evalOp (.ref .ptr [BD,BN] "K_ptrs") sh = some (keyPointer c BD BN 0) := by
     simp [sh, sl, caller.key]
   have hs : evalOp (.ref .ptr [] "K_scale_ptr") sk = some (keyScalePointer c BN 0) := by
@@ -58,12 +65,13 @@ theorem copies_execute (s : BlockState) (c : Config) (BM BN BD : Nat)
 
 theorem executes (s : BlockState) (c : Config) (BM BN BD : Nat) (diagonal : Bool)
     (caller : Caller s c BN BD)
-    (hctx : s.regs .nat [] "n_ctx" = some (Tile.scalar c.p.context))
-    (hkr : s.regs .nat [] "stride_kn64" = some (Tile.scalar c.p.keyRow))
-    (hvr : s.regs .nat [] "stride_vk64" = some (Tile.scalar c.p.valueRow)) :
+    (hctx : s.regs .int [] "n_ctx" = some (Tile.scalar c.p.context))
+    (hkr : s.regs .int [] "stride_kn64" = some (Tile.scalar c.p.keyRow))
+    (hvr : s.regs .int [] "stride_vk64" = some (Tile.scalar c.p.valueRow)) :
     ∃ t, stepStmts (code BM BN BD diagonal) s = some t ∧
-      t.regs .nat [] "first_lo" = some (Tile.scalar (firstLower c.startM BM diagonal)) ∧
-      t.regs .nat [] "first_hi" = some (Tile.scalar (firstUpper c.startM BM c.p.context diagonal)) ∧
+      (if diagonal then t.regs .int [] "first_lo" = some (Tile.scalar (firstLower c.startM BM diagonal))
+        else t.regs .nat [] "first_lo" = some (Tile.scalar (firstLower c.startM BM diagonal))) ∧
+      t.regs .int [] "first_hi" = some (Tile.scalar (firstUpper c.startM BM c.p.context diagonal)) ∧
       Pointers t c BN BD (firstLower c.startM BM diagonal) Bool.false ∧
       Frame (Setup.writes Bool.false) s t := by
   obtain ⟨sc, hcopy, hlo, hhi, hp, hf⟩ := copies_execute s c BM BN BD caller
@@ -71,9 +79,9 @@ theorem executes (s : BlockState) (c : Config) (BM BN BD : Nat) (diagonal : Bool
   | «false» =>
     refine ⟨sc, ?_, hlo, hhi, hp, hf⟩
     rw [code, stepStmts.append_some hcopy]
-    have hskip : stepStmt (.ifThen (.constBool Bool.false) (Setup.code BM BN BD Bool.false)) sc = some sc := by
+    have hskip : stepStmt (.ifThenElse (.constBool Bool.false) (Setup.code BM BN BD Bool.false) []) sc = some sc := by
       conv_lhs => unfold stepStmt
-      simp only [evalOp.eq_def, bind, Option.bind, Tile.scalar, Bool.false_eq_true, ↓reduceIte]
+      simp only [evalOp.eq_def,bind,Option.bind,Tile.scalar,Bool.false_eq_true,↓reduceIte,stepStmts.nil]
     rw [stepStmts.cons_some hskip, stepStmts.nil]
   | «true» =>
     obtain ⟨t, ht, hl, hh, hptr, hframe⟩ := Setup.executes sc c BM BN BD Bool.false
@@ -83,7 +91,7 @@ theorem executes (s : BlockState) (c : Config) (BM BN BD : Nat) (diagonal : Bool
       ((hf.regs _ _ "stride_vk64" (by decide)).trans hvr)
     refine ⟨t, ?_, hl, hh, hptr, hf.trans hframe⟩
     rw [code, stepStmts.append_some hcopy]
-    have hbranch : stepStmt (.ifThen (.constBool Bool.true) (Setup.code BM BN BD Bool.false)) sc = some t := by
+    have hbranch : stepStmt (.ifThenElse (.constBool Bool.true) (Setup.code BM BN BD Bool.false) []) sc = some t := by
       conv_lhs => unfold stepStmt
       simpa only [evalOp.eq_def, bind, Option.bind, Tile.scalar, Bool.true_eq, ↓reduceIte] using ht
     rw [stepStmts.cons_some hbranch, stepStmts.nil]

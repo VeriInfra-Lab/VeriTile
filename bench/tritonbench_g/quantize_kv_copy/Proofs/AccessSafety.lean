@@ -36,8 +36,12 @@ theorem source_safe [Inhabited α] (op : Ops α) (p : Parameters)
     ← Int.natCast_mul, ← Int.natCast_add, Int.ofNat_lt, Int.toNat_natCast]
   refine ⟨hD, ?_, ?_, ?_⟩
   · intro g c hg
+    simp only [Value] at *
+    norm_cast
     simpa only [inputOffset, Nat.add_mul, Nat.mul_assoc, Nat.add_assoc] using hK g.val c.val hg c.isLt
   · intro g c hg
+    simp only [Value] at *
+    norm_cast
     simpa only [codeOffset, Nat.add_mul, Nat.mul_assoc, Nat.add_assoc] using hO g.val c.val hg c.isLt
   · intro g hg
     simpa only [scaleOffset, Nat.add_mul, Nat.mul_assoc, Nat.add_assoc] using hS g.val hg

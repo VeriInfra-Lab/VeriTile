@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_Kernels
+import VeriTile.Triton.DSL
 import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_RealFormula
 import VeriTile.Triton.Semantics.EvalOp
 import VeriTile.Triton.Source
@@ -70,29 +70,6 @@ section
 variable (Q K V QS KS Out : RegionName)
     (sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son
       Z H N HD BM BN BD HA stage : Nat) (hs : stage = 2 ∨ stage = 3)
-
-/-- Extract the second qk write in the second helper from the complete source,
-then relate that exact operation to the real expression above. -/
-theorem source_penalty (candidate : Bool) :
-    ((Source.dynamicRange? ((if candidate then TypedSource.reciprocal else TypedSource.original) Q K V QS KS Out
-      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son
-      Z H N HD BM BN BD HA stage hs).surfaceBody "start_n" 1).map
-      (fun r => assignment? r.body "qk" 1)) =
-        some (some (.assign .real [BM,BN] "qk" (.compute (.alg .fp32
-          (penaltyExpr BM BN "mask"))))) := by
-  cases candidate
-  all_goals
-    simp [TypedSource.original, TypedSource.reciprocal, ComputeKernel.surfaceBody,
-      Source.dynamicRange?, Source.prefixBefore, assignment?, penaltyExpr]
-    rfl
-
-theorem source_mask (candidate : Bool) :
-    ((Source.dynamicRange? ((if candidate then TypedSource.reciprocal else TypedSource.original)
-      Q K V QS KS Out sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son
-      Z H N HD BM BN BD HA stage hs).surfaceBody "start_n" 1).map
-      (fun r => assignment? r.body "mask")) = some (some
-        (.assign .bool [BM,BN] "mask" (.alg (maskExpr BM BN)))) := by
-  cases candidate <;> rfl
 
 end
 #guard_msgs (drop info) in

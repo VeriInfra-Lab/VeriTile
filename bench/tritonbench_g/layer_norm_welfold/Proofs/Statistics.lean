@@ -133,40 +133,10 @@ theorem recurrence_congr {α : Type} [Inhabited α] (M : Algebra α) (phase : Bo
     funext i
     simp only [advance,loaded,hm,hp]
 
-theorem whole_statistics {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
-    (X Mean Rstd : RegionName) (S D B : Nat) (tree : ReductionTree B) (hX : X≠Mean) :
-    ∃ t,FP.Structural.exec M (statisticsKernel X Mean Rstd S D B tree) s=some t ∧
-      StatisticsReady s t Mean Rstd (meanValue M s X D B tree) (inverseValue M s X D B tree) := by
-  obtain ⟨a,ha,hia⟩ := init_run M s S B
-  obtain ⟨b,hb,hib⟩ := chunks_run M Bool.false s a X D B 0 (blockCount D B) _ _ hia
-  obtain ⟨c,hc,hic⟩ := sum_run M s b _ _ hib tree
-  obtain ⟨d,hd,hid⟩ := mean_run M s c Mean D _ _ hic
-  obtain ⟨e,he,hie⟩ := reset_mean_run M s d Mean B _ hid
-  obtain ⟨f,hf,hif⟩ := chunks_run M Bool.true _ e X D B 0 (blockCount D B) _ _ hie
-  obtain ⟨g,hg,hig⟩ := sum_run M _ f _ _ hif tree
-  obtain ⟨t,ht,hit⟩ := inverse_run M _ g Rstd D _ _ hig
-  have hxmem : (s.write Mean (s.pids 0) (.mk .real (meanValue M s X D B tree))).mem X=s.mem X := by
-    funext off
-    exact State.write_other _ _ _ _ _ _ (.inl hX)
-  have hv := recurrence_congr M Bool.true
-    (s.write Mean (s.pids 0) (.mk .real (meanValue M s X D B tree))) s X D B
-    0 (blockCount D B) (meanValue M s X D B tree) (fun _ => zero M) hxmem rfl
-  refine ⟨t,?_,?_⟩
-  · simp only [FP.Structural.exec,statisticsKernel,ComputeKernel.surfaceBody,run_append,
-      ha,hb,hc,hd,he,hf,hg,ht,Option.bind]
-  · change InverseStored (s.write Mean (s.pids 0) (.mk .real (meanValue M s X D B tree))) t Rstd
-      (meanValue M s X D B tree)
-      (inverseFromTotal M D (treeValue M
-        (recurrence M Bool.true (s.write Mean (s.pids 0) (.mk .real (meanValue M s X D B tree)))
-          X D B (meanValue M s X D B tree) 0 (blockCount D B) (fun _ => zero M)) tree)) at hit
-    rw [hv] at hit
-    exact ⟨hit.mem,hit.pids,hit.undef,hit.row,hit.mean,hit.inverse⟩
-
 #axiomsClean init_run
 #axiomsClean reset_run
 #axiomsClean sum_run
 #axiomsClean mean_run
 #axiomsClean inverse_run
-#axiomsClean whole_statistics
 end
 end VeriTile.Bench.Repairs.LayerNormWelfold

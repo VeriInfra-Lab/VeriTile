@@ -47,6 +47,9 @@ def update (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Parameter
   M.binary (some .fp32) .real .add (acc col)
     (M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false (probability M dot B D p s row) (col,()))
 
+private theorem signed_row_lt (row lane stop : Nat) :
+    ((row:Int)+(lane:Int)<(stop:Int)) ↔ row+lane<stop := by omega
+
 theorem body_context (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Parameters)
     (initial current : State α) (row : Nat) (acc : Fin B → α)
     (ctx : Context M B D p initial row acc current) :
@@ -74,7 +77,8 @@ theorem body_context (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource
       Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
     all_goals delta FPValues.query
     all_goals simp [hm,FPContext.zero,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
-    all_goals try rfl
+    all_goals rcases j with ⟨r,c,⟨⟩⟩
+    all_goals simpa only [signed_row_lt,Nat.add_comm]
 
 #specNonCircular update avoiding [FP.Structural.run,FP.Structural.exec,FPBody.executes]
 #guard_msgs (drop info) in

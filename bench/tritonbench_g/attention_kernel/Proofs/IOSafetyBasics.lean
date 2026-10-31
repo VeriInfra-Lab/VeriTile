@@ -9,6 +9,23 @@ open FP.Structural.Safety
 noncomputable section
 variable {α : Type} [Inhabited α]
 
+theorem source_base_int (ph heads batch head : Nat) :
+    (ph:Int)/(heads:Int)*(batch:Int)+((ph:Int)-(heads:Int)*((ph:Int)/(heads:Int)))*(head:Int) =
+      ((ph/heads*batch+ph%heads*head:Nat):Int) := by
+  rw [←Int.emod_def]
+  norm_cast
+
+theorem source_bias_offset (base pm bm lane stride col : Nat) :
+    ((base:Int)+((pm:Int)*(bm:Int)+(lane:Int))*(stride:Int)+((col:Int)%64+64)).toNat =
+      base+(pm*bm+lane)*stride+(col%64+64) := by
+  have hc : (col:Int)%64=((col%64:Nat):Int) := by norm_cast
+  rw [hc]
+  norm_cast
+
+theorem source_row_lt (pm bm lane stop : Nat) :
+    ((pm:Int)*(bm:Int)+(lane:Int)<(stop:Int)) ↔ pm*bm+lane<stop := by
+  norm_cast
+
 /-- Actual active source windows in one launch, derived from logical IO bounds. -/
 structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) : Prop where
   query : ∀ row<p.length,∀ d<p.dim,base p s p.q+row*p.q.row+d*p.q.dim<bounds p.Q

@@ -1,10 +1,7 @@
-import bench.tritonbench_g.swiglu_fwd.Sources.Mathematical_Kernels
+import VeriTile.Triton
 
 namespace VeriTile.Bench.Repairs.SwigluFwd
 open VeriTile.Triton
-
-/-- Historical independently typed storage family, retained for compatibility. -/
-abbrev sourceKernel := VeriTile.Bench.TritonBenchG.SwigluFwd.typedKernel
 
 /-- Complete selected original FP32 source, including explicit input casts,
 sigmoid, left-associated products, source masks and kernel ports. -/

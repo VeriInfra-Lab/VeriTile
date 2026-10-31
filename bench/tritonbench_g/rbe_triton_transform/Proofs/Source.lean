@@ -11,18 +11,6 @@ noncomputable section
 set_option maxHeartbeats 6000000
 set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
-def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
-    {t : State α // FP.Structural.exec M (source p) s = some t} := by
-  refine ⟨?_, ?_⟩
-  swap
-  simp [source, typed, FP.Structural.exec, ComputeKernel.surfaceBody,
-    FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
-    FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
-    FP.Structural.evalOffsets, FP.Structural.store, FP.Structural.numeric,
-    FP.Structural.bop, FP.Structural.natLt, FP.Structural.numericEq, ComputeDType.eraseDType,
-    FP.Structural.ofFloat, FP.Structural.toFloat, FloatDType.numericDType, FloatDType.toTileDType,
-    Region.cast, Option.bind, integralFloorDiv, integralMod]
-  rfl
 
 def parts (p : Parameters) : Nat := (p.columns + p.blockColumns - 1) / p.blockColumns
 abbrev Index (p : Parameters) := TileIndex [p.blockRows, p.blockColumns / 2]
@@ -84,14 +72,5 @@ def halfScatter {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s 
 def written {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) : State α :=
   halfScatter M p s Bool.true (halfScatter M p s Bool.false s)
 
-theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
-    (execution M p s).val.mem = (written M p s).mem := by
-  simp +contextual [execution, written, halfScatter, masked_scatter_memory, value, component, phase,
-    active, inputOffset, outputOffset, row, column, parts, FP.Structural.bop,
-    Broadcast.leftIndex, Broadcast.rightIndex, Region.cast, integralFloorDiv, integralMod,
-    and_assoc, and_left_comm, and_comm]
-
-#axiomsClean execution
-#axiomsClean execution_memory
 end
 end VeriTile.Bench.Repairs.RbeTritonTransform.Source

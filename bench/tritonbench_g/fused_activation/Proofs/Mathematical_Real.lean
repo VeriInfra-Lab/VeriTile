@@ -53,7 +53,7 @@ theorem fused_add_mul_activation_kernel_correct
         else s.readMem x_ptr outAddr := by
   intro i
   cases ACTIVATION_SIGMOID
-  · simp [exec, fused_add_mul_activation_kernel, stepStmts, stepStmt, evalOp.eq_def,
+  · simp [exec, fused_add_mul_activation_kernel, VeriTile.Bench.Repairs.FusedActivation.kernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, stepStmts, stepStmt, evalOp.eq_def,
           tile_elementwise] at hExec
     subst s'
     simp only [fusedActivationOffset]
@@ -70,7 +70,7 @@ theorem fused_add_mul_activation_kernel_correct
       · exact max_eq_left (le_of_lt h)
       · exact max_eq_right (le_of_not_gt h)
     · simp [hi]
-  · simp [exec, fused_add_mul_activation_kernel, stepStmts, stepStmt, evalOp.eq_def,
+  · simp [exec, fused_add_mul_activation_kernel, VeriTile.Bench.Repairs.FusedActivation.kernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, stepStmts, stepStmt, evalOp.eq_def,
           tile_elementwise] at hExec
     subst s'
     simp only [fusedActivationOffset]
@@ -101,7 +101,7 @@ private theorem fused_add_mul_activation_kernel_frame
       ¬(x_ptr = r ∧ s.pids 0 * BLOCK_SIZE + i.val = o)) :
     s1.mem r o = s.mem r o := by
   cases ACTIVATION_SIGMOID <;>
-  · simp [exec, fused_add_mul_activation_kernel, ComputeKernel.toAlgKernel, stepStmts,
+  · simp [exec, fused_add_mul_activation_kernel, VeriTile.Bench.Repairs.FusedActivation.kernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.toAlgKernel, stepStmts,
       stepStmt, evalOp.eq_def, tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
     subst hExec
     refine Eq.trans (foldl_store_preserve_cell _ _ _ r o _ _ ?_) rfl
@@ -119,7 +119,7 @@ private theorem fused_add_mul_activation_kernel_exec_isSome
         num_weights xnumel BLOCK_SIZE multiplier ACTIVATION_SIGMOID).toAlgKernel) s
       = some s1 := by
   cases ACTIVATION_SIGMOID <;>
-  simp [exec, fused_add_mul_activation_kernel, ComputeKernel.toAlgKernel, stepStmts,
+  simp [exec, fused_add_mul_activation_kernel, VeriTile.Bench.Repairs.FusedActivation.kernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.toAlgKernel, stepStmts,
     stepStmt, evalOp.eq_def, tile_elementwise, ComputeExpr.toAlgorithm?]
 
 /-- **The region-model masked in-place Hoare triple** — termination,
@@ -154,7 +154,7 @@ theorem fused_add_mul_activation_kernel_region_run
     in_ptr num_weights xnumel BLOCK_SIZE multiplier ACTIVATION_SIGMOID s₀
   have hs1' : exec (fused_add_mul_activation_kernel x_ptr bias_ptr in_ptr
       num_weights xnumel BLOCK_SIZE multiplier ACTIVATION_SIGMOID) s₀ = some s1 := by
-    simpa [ComputeKernel.toAlgKernel, fused_add_mul_activation_kernel,
+    simpa [ComputeKernel.toAlgKernel, fused_add_mul_activation_kernel, VeriTile.Bench.Repairs.FusedActivation.kernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType,
       ComputeExpr.toAlgorithm?] using hs1
   refine ⟨s1, hs1, fun j hj => ?_, fun r o hcond => ?_⟩
   · have h := fused_add_mul_activation_kernel_correct x_ptr bias_ptr in_ptr
@@ -193,7 +193,7 @@ theorem fused_add_mul_activation_kernel_traceSafe
         BLOCK_SIZE multiplier ACTIVATION_SIGMOID).toAlgKernel) s := by
   unfold Kernel.TraceSafe
   cases ACTIVATION_SIGMOID <;>
-  · simp [fused_add_mul_activation_kernel, ComputeKernel.toAlgKernel,
+  · simp [fused_add_mul_activation_kernel, VeriTile.Bench.Repairs.FusedActivation.kernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.toAlgKernel,
       ComputeExpr.toAlgorithm?,
       Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
       MaskOpt.SafeAt, MemAccess.SafeAt, stepStmts, stepStmt, evalOp.eq_def,
@@ -215,7 +215,7 @@ theorem fused_add_mul_activation_kernel_flattenOk
         BLOCK_SIZE multiplier ACTIVATION_SIGMOID).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
   cases ACTIVATION_SIGMOID <;>
-  simp [fused_add_mul_activation_kernel, ComputeKernel.toAlgKernel,
+  simp [fused_add_mul_activation_kernel, VeriTile.Bench.Repairs.FusedActivation.kernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.toAlgKernel,
     ComputeExpr.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 set_option maxHeartbeats 3000000
@@ -223,39 +223,5 @@ set_option maxHeartbeats 3000000
 private theorem optional_add_comm (a b : Option ℝ) :
     Option.map₂ (fun x y => x + y) a b = Option.map₂ (fun x y => x + y) b a :=
   Option.map₂_comm add_comm
-
-/-- Real execution equality follows from real addition commutativity. -/
-theorem commuted_exec (x b i : RegionName) (W N B : Nat) (m : ℝ) (a : Bool)
-    (s : BlockState) :
-    exec (fused_add_mul_activation_commuted_kernel x b i W N B m a).toAlgKernel s =
-      exec (fused_add_mul_activation_kernel x b i W N B m a).toAlgKernel s := by
-  cases a <;>
-    simp [fused_add_mul_activation_commuted_kernel, fused_add_mul_activation_kernel,
-      exec, stepStmts, stepStmt, evalOp.eq_def, tile_elementwise, add_comm, optional_add_comm]
-
-theorem commuted_flattenOk (x b i : RegionName) (W N B : Nat) (m : ℝ) (a : Bool) :
-    (fused_add_mul_activation_commuted_kernel x b i W N B m a).toAlgKernel.FlattenOk := by
-  cases a <;>
-    simp [fused_add_mul_activation_commuted_kernel, Kernel.FlattenOk,
-      StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
-
-theorem commuted_traceSafe (x b i : RegionName) (W N B : Nat) (m : ℝ) (a : Bool)
-    (bounds : RegionBounds) (s : BlockState)
-    (hx : ∀ j : Fin B, s.pids 0 * B + j.val < N → s.pids 0 * B + j.val < bounds x)
-    (hb : ∀ j : Fin B, s.pids 0 * B + j.val < N →
-      (s.pids 0 * B + j.val) % W < bounds b)
-    (hi : ∀ j : Fin B, s.pids 0 * B + j.val < N → s.pids 0 * B + j.val < bounds i) :
-    Kernel.TraceSafe bounds
-      (fused_add_mul_activation_commuted_kernel x b i W N B m a).toAlgKernel s := by
-  unfold Kernel.TraceSafe
-  cases a <;>
-  · simp [fused_add_mul_activation_commuted_kernel, ComputeKernel.toAlgKernel,
-      ComputeExpr.toAlgorithm?, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
-      MaskOpt.SafeAt, MemAccess.SafeAt, stepStmts, stepStmt, evalOp.eq_def,
-      MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe, MaskOpt.Active,
-      BlockState.setReg, tile_elementwise, Tile.bop, Tile.cop, Tile.uop, Tile.select,
-      NumericDType.add, NumericDType.mul, ComparableDType.lt]
-    exact ⟨fun j hj => hx j hj, fun j hj => hb j hj, fun j hj => hi j hj,
-      fun j hj => hx j hj⟩
 
 end VeriTile.Bench.TritonBenchG.FusedActivation

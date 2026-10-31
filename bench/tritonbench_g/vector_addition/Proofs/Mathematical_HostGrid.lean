@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Sources.Mathematical_Value
 
 /-! The wrapper's ceil-divided grid, with every program reading memory left
@@ -17,15 +18,6 @@ def programState {α : Type} (p : Parameters) (initial : State α)
     regs := fun _ _ _ => none
     pids := fun ax => if ax = 0 then k else 0
     numPids := fun ax => if ax = 0 then gridCount p else 1 }
-
-def runGridPrefix {α : Type} [Inhabited α] (M : Algebra α)
-    (p : Parameters) (initial : State α) : Nat → Option (State α)
-  | 0 => some initial
-  | k+1 => (runGridPrefix M p initial k).bind fun previous =>
-      FP.Structural.exec M (source p) (programState p initial previous.mem k)
-
-def runGrid {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (initial : State α) :=
-  runGridPrefix M p initial (gridCount p)
 
 /-- Independent whole-vector prefix formula, not a fold over executions. -/
 def prefixMemory {α : Type} [Inhabited α] (M : Algebra α)
@@ -58,19 +50,6 @@ theorem reference_step {α : Type} [Inhabited α] (M : Algebra α)
     rw [next_tile_inputs M p initial k o lower]
     simp [prefixMemory, before, lower, Nat.add_mul]
 
-theorem grid_prefix_correct {α : Type} [Inhabited α] (M : Algebra α)
-    (p : Parameters) (initial : State α) (k : Nat) :
-    ∃ final, runGridPrefix M p initial k = some final ∧ final.mem = prefixMemory M p initial k := by
-  induction k with
-  | zero => exact ⟨initial, rfl, by funext r o; simp [prefixMemory]⟩
-  | succ k ih =>
-    obtain ⟨previous, hr, hm⟩ := ih
-    obtain ⟨final, he, hf⟩ := complete_correct M p (programState p initial previous.mem k)
-    refine ⟨final, ?_, ?_⟩
-    · simp only [runGridPrefix, hr, Option.bind_some]
-      exact he
-    · rw [hf, hm, reference_step]
-
 theorem grid_covers (p : Parameters) (positive : 0 < p.block) :
     p.n ≤ gridCount p * p.block := by
   have decomposition := Nat.mod_add_div (p.n+p.block-1) p.block
@@ -89,18 +68,10 @@ theorem grid_reference_complete {α : Type} [Inhabited α] (M : Algebra α)
     simp [prefixMemory, gridExpectedMemory, ho, hgrid]
   · simp [prefixMemory, gridExpectedMemory, ho]
 
-theorem grid_correct {α : Type} [Inhabited α] (M : Algebra α)
-    (p : Parameters) (initial : State α) (positive : 0 < p.block) :
-    ∃ final, runGrid M p initial = some final ∧ final.mem = gridExpectedMemory M p initial := by
-  obtain ⟨final, he, hm⟩ := grid_prefix_correct M p initial (gridCount p)
-  exact ⟨final, he, hm.trans (grid_reference_complete M p initial positive)⟩
-
-#specNonCircular gridExpectedMemory avoiding [source, runGrid, runGridPrefix, FP.Structural.exec]
+#specNonCircular gridExpectedMemory avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 #axiomsClean next_tile_inputs
 #axiomsClean reference_step
-#axiomsClean grid_prefix_correct
 #axiomsClean grid_covers
 #axiomsClean grid_reference_complete
-#axiomsClean grid_correct
 end
 end VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs

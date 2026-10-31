@@ -105,16 +105,5 @@ def inverseCode (Rstd : RegionName) (D : Nat) : List ComputeStmt :=
   } : ComputeKernel).surfaceBody).drop 2 ++
   [ .assign .real [1,1] "tmp10" (.alg (.ref .real [1,1] "inverse")) ]
 
-def statisticsKernel (X Mean Rstd : RegionName) (S D B : Nat)
-    (tree : ReductionTree B) : ComputeKernel :=
-  .mk [X] [Mean,Rstd] (init S B ++ chunks Bool.false X D B 0 (blockCount D B) ++
-    sumCode tree ++ meanCode Mean D ++ reset B ++
-    chunks Bool.true X D B 0 (blockCount D B) ++ sumCode tree ++ inverseCode Rstd D)
-
-def rowKernel (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
-    (tree : ReductionTree B) : ComputeKernel :=
-  .mk [X,W,Bias] [Y,Mean,Rstd] ((statisticsKernel X Mean Rstd S D B tree).surfaceBody ++
-    normalizeCode X W Bias Y D B 0 (blockCount D B))
-
 end
 end VeriTile.Bench.Repairs.LayerNormWelfold

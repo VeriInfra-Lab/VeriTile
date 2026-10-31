@@ -47,6 +47,10 @@ theorem schedule_safe (g : Geometry) (M : Algebra α) (D : DotAcc α)
     change TraceSafe (backend M D) bounds (Source.typed g.request.parameters g.storage)
       (instanceState g.request pid s)
     apply SourceSafety.source_safe
+    · exact SourceLaunch.request_m g.request
+    · exact SourceLaunch.request_n g.request
+    · exact SourceLaunch.request_first g.request pid s active
+    · exact SourceLaunch.request_count g.request
     · intro q i hk
       have rowBound : aRow g.request.parameters (instanceState g.request pid s) i.1<g.rows := by
         unfold aRow

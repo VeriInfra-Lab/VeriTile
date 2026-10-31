@@ -38,7 +38,11 @@ theorem preludePrepared (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed
     · intro hn; simp [preludeExecution,ctx.di hn]
   · simpa [HasCarry,preludeExecution] using ha
   · simp [preludeExecution,keyPointer]
+    funext u
+    congr 1
   · simp [preludeExecution,valuePointer]
+    funext u
+    congr 1
   · simp [preludeExecution]
 
 def keyLoad (M : Algebra α) (c : Shape) (s : State α) (n : Nat) :
@@ -74,7 +78,7 @@ def suffixExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed fin
     simp [suffix,parts,kernel,Kernels.forwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
-      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,numericEq,
+      resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,
       natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
       ctx.pk,ctx.pv,ctx.it,ctx.context.bb,ctx.context.oi,ctx.context.db hn,ctx.context.di hn,ha,last]
     rfl

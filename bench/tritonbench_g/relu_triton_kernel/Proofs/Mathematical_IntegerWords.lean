@@ -1,3 +1,4 @@
+import bench.tritonbench_g.relu_triton_kernel.Kernels
 import bench.tritonbench_g.relu_triton_kernel.Proofs.Mathematical_TypedGrid
 
 /-! Finite source-word decoding for the nine integer/bool ReLU profiles.
@@ -142,8 +143,7 @@ theorem scalar_refines {α : Type} [Inhabited α] (M : Algebra α)
     Cell.read, wordValue]
   all_goals rfl
 
-#specNonCircular wordValue avoiding [TypedValue.source, materialized,
-  runPrefix, runGrid, FP.Structural.exec]
+#specNonCircular wordValue avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel,runPrefix,runGrid,FP.Structural.exec]
 #axiomsClean signed_extension_value
 #axiomsClean decoded_signed_bounds
 #axiomsClean decoded_unsigned_bound

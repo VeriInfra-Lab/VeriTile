@@ -1,3 +1,4 @@
+import bench.tritonbench_g.pow_scalar_tensor.Kernels
 import bench.tritonbench_g.pow_scalar_tensor.Proofs.Mathematical_WholeSource
 
 namespace VeriTile.Bench.TritonBenchG.PowScalarTensor.WholeTile
@@ -59,25 +60,6 @@ def sourceFinal {α : Type} [Inhabited α] (M : Algebra α) (c : Config) (T : Na
         (.mk .fp32 (scalarResult M c.base (rawValues c T s i)))
     else current) (beforeStore M c T s)
 
-/-- Successful execution of the complete installed source perTile list. No
-output state or scalar result is provided as a premise. -/
-theorem perTile_exact {α : Type} [Inhabited α] (M : Algebra α) (c : Config) (T : Nat) (s : State α)
-    (ht : s.regs .nat [] "tile_id" = some (fun _ => T)) :
-    run M c.perTile s = some (sourceFinal M c T s) := by
-  cases hc : c.candidate <;>
-    simp [Config.perTile, offset, hc, run, step, stepAlg, evalExpr, evalComputeOp,
-      evalOp_unfold, dynamicAddress, dynamicIndex, dynamicMask,
-      numeric, natLt, FP.Structural.bop, store, ht, sourceFinal, beforeStore, rawValues,
-      inputValues, selectedValues, scalarResult, scalarBase, View.address,
-      View.signedAddress, Region.cast, ofFloat, toFloat, Nat.mul_comm]
-  all_goals try rfl
-  have hm : (FP.Structural.bop (fun x y : Nat => x * y) Broadcast.nil
-      (fun _ => c.B) (fun _ => T)) = (fun _ => T * c.B) := by
-    funext i
-    exact Nat.mul_comm c.B T
-  rw [hm]
-  rfl
-
 theorem scatter_mem {α ι : Type} (r : RegionName) (off : ι → Nat)
     (value : ι → Cell α) (active : ι → Prop) [DecidablePred active]
     (lanes : List ι) (s : State α) :
@@ -113,30 +95,6 @@ theorem scatter_control {α ι : Type} (r : RegionName) (off : ι → Nat)
     by_cases hi : active i
     · simpa only [hi, if_true, State.write] using ih (s.write r (off i) (value i))
     · simpa only [hi, if_false] using ih s
-
-/-- The complete perTile contract consumed by source loop/grid composition.
-The power primitive is unchanged and opaque; all three scalar casts stay explicit. -/
-theorem perTile_run {α : Type} [Inhabited α] (M : Algebra α) (c : Config) (T : Nat) (s : State α)
-    (ht : s.regs .nat [] "tile_id" = some (fun _ => T)) :
-    ∃ final, run M c.perTile s = some final ∧
-      final.mem = tileOutput M c T s.mem ∧ final.undef = s.undef ∧
-      final.regs .nat [] "pid" = s.regs .nat [] "pid" ∧
-      final.regs .nat [] "num_ctas" = s.regs .nat [] "num_ctas" ∧
-      final.pids = s.pids ∧ final.numPids = s.numPids := by
-  have control := scatter_control c.outputView.region
-    (fun i : TileIndex [c.B] => c.outputView.address (T * c.B + i.1.val))
-    (fun i => Cell.mk .fp32 (scalarResult M c.base (rawValues c T s i)))
-    (fun i => T * c.B + i.1.val < c.n) (TileShape.allIndices [c.B]) (beforeStore M c T s)
-  refine ⟨sourceFinal M c T s, perTile_exact M c T s ht,
-    sourceFinal_mem M c T s, ?_, ?_, ?_, ?_, ?_⟩
-  · exact control.2.1
-  · change (sourceFinal M c T s).regs .nat [] "pid" = _
-    rw [show (sourceFinal M c T s).regs = (beforeStore M c T s).regs from control.1]
-    simp [beforeStore]
-  · rw [show (sourceFinal M c T s).regs = (beforeStore M c T s).regs from control.1]
-    simp [beforeStore]
-  · exact control.2.2.1
-  · exact control.2.2.2
 
 private theorem fold_written {α ι : Type} (r : RegionName) (off : ι → Nat)
     (value : ι → Cell α) (active : ι → Prop) [DecidablePred active]
@@ -214,7 +172,7 @@ theorem tileOutput_frame {α : Type} [Inhabited α] (M : Algebra α)
   exact fold_frame _ _ _ _ _ _ _ _ outside
 
 #guard_msgs (drop info) in
-#specNonCircular scalarResult avoiding [WholeSource.kernel, WholeSource.runHost, FP.Structural.exec]
+#specNonCircular scalarResult avoiding [VeriTile.Bench.Repairs.PowScalarTensor.Checked.kernel, FP.Structural.exec]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

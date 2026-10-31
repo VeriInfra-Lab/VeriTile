@@ -44,7 +44,7 @@ theorem source_loadPrefix (f : Flags) (r : Regions) (stride : Strides)
   have hproj : (original f r stride M N eps p block hBlock).toAlgorithm? =
       .ok (original f r stride M N eps p block hBlock).toAlgKernel := rfl
   simp only [source, ComputeKernel.eraseDType, hproj, ComputeKernel.toAlgKernel_fromKernelBody]
-  simp only [original, loadPrefix, baseStmt, ComputeKernel.surfaceBody,
+  simp only [original, loadPrefix, baseStmt, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind,

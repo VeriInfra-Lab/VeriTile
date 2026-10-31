@@ -295,6 +295,11 @@ def flattenOp (A : FlatAlloc) :
       .makeBlockPtrDynOffsets A.flat
         (.add .nat .nil (.constNat (A.base r)) (A.flattenOp bo)) ps bs strides
         (offs.attach.map fun ⟨o, _⟩ => A.flattenOp o)
+  | _, _, .makeBlockPtrDynMetadata r bo ps bs strides offs =>
+      .makeBlockPtrDynMetadata A.flat
+        (.add .nat .nil (.constNat (A.base r)) (A.flattenOp bo)) ps bs
+        (strides.attach.map fun ⟨stride,_⟩ => A.flattenOp stride)
+        (offs.attach.map fun ⟨off,_⟩ => A.flattenOp off)
   | _, _, .advanceBlockPtr p ds => .advanceBlockPtr (A.flattenOp p) ds
   | _, _, .advanceBlockPtrDyn p ds =>
       .advanceBlockPtrDyn (A.flattenOp p) (ds.map A.flattenOp)
@@ -611,6 +616,9 @@ def Op.FlattenOk : Op dtype shape → Prop
   | .makeBlockPtrDyn _ base _ _ _ _ => base.FlattenOk
   | .makeBlockPtrDynOffsets _ base _ _ _ offsets =>
       base.FlattenOk ∧ ∀ off ∈ offsets, off.FlattenOk
+  | .makeBlockPtrDynMetadata _ base _ _ strides offsets =>
+      base.FlattenOk ∧ (∀ stride ∈ strides,stride.FlattenOk) ∧
+        ∀ off ∈ offsets,off.FlattenOk
   | .advanceBlockPtr ptr _ => ptr.FlattenOk
   | .advanceBlockPtrDyn ptr deltas =>
       ptr.FlattenOk ∧ ∀ delta ∈ deltas, delta.FlattenOk
@@ -743,6 +751,9 @@ def Op.FlattenOkR : Op dtype shape → Prop
   | .makeBlockPtrDyn _ base _ _ _ _ => base.FlattenOkR
   | .makeBlockPtrDynOffsets _ base _ _ _ offsets =>
       base.FlattenOkR ∧ ∀ off ∈ offsets, off.FlattenOkR
+  | .makeBlockPtrDynMetadata _ base _ _ strides offsets =>
+      base.FlattenOkR ∧ (∀ stride ∈ strides,stride.FlattenOkR) ∧
+        ∀ off ∈ offsets,off.FlattenOkR
   | .advanceBlockPtr ptr _ => ptr.FlattenOkR
   | .advanceBlockPtrDyn ptr deltas =>
       ptr.FlattenOkR ∧ ∀ delta ∈ deltas, delta.FlattenOkR
@@ -1028,6 +1039,9 @@ def Op.SafeAt (bounds : RegionBounds) (s : BlockState) : Op dtype shape → Prop
   | .makeBlockPtrDyn _ base _ _ _ _ => base.SafeAt bounds s
   | .makeBlockPtrDynOffsets _ base _ _ _ offsets =>
       base.SafeAt bounds s ∧ ∀ off ∈ offsets, off.SafeAt bounds s
+  | .makeBlockPtrDynMetadata _ base _ _ strides offsets =>
+      base.SafeAt bounds s ∧ (∀ stride ∈ strides,stride.SafeAt bounds s) ∧
+        ∀ off ∈ offsets,off.SafeAt bounds s
   | .advanceBlockPtr ptr _ => ptr.SafeAt bounds s
   | .advanceBlockPtrDyn ptr deltas =>
       ptr.SafeAt bounds s ∧ ∀ delta ∈ deltas, delta.SafeAt bounds s
@@ -1880,6 +1894,42 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
           | some offlist =>
               simp [Tile.bop, NumericDType.nat_add, FlatAlloc.trTile,
                 FlatAlloc.trCarrier, FlatAlloc.addr]
+  | _, _, .makeBlockPtrDynMetadata r bo ps bs strides offs,s,hms,hok,hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      obtain ⟨hkb,hkstrides,hkoffs⟩ := hok
+      obtain ⟨hmb,hmstrides,hmoffs⟩ := hms
+      have hstrides : ∀ stride ∈ strides,
+          evalOp (A.flattenOp stride) (A.flattenState s)=evalOp stride s :=
+        fun stride member => by
+          rw [evalOp_flatten A hd hcov stride s (hmstrides stride member) (hkstrides stride member) hu,
+            A.trTileFun_data (d:=.nat) (by decide) (by decide),Option.map_id,id_eq]
+      have hoffsets : ∀ off ∈ offs,
+          evalOp (A.flattenOp off) (A.flattenState s)=evalOp off s :=
+        fun off member => by
+          rw [evalOp_flatten A hd hcov off s (hmoffs off member) (hkoffs off member) hu,
+            A.trTileFun_data (d:=.nat) (by decide) (by decide),Option.map_id,id_eq]
+      have hattachS : (strides.attach.map fun value => A.flattenOp value.1)=strides.map A.flattenOp := by simp
+      have hattachO : (offs.attach.map fun value => A.flattenOp value.1)=offs.map A.flattenOp := by simp
+      simp only [flattenOp,evalOp,
+        evalOp_flatten A hd hcov bo s hmb hkb hu,
+        A.trTileFun_data (d:=.nat) (by decide) (by decide),Option.map_id,id_eq]
+      cases hbase : evalOp bo s with
+      | none => rfl
+      | some base =>
+          rw [hattachS,mapM_data_flatten A (A.flattenState s) s strides hstrides]
+          cases hstride : strides.mapM (fun stride => do
+              let value ← evalOp stride s
+              some (value.data PUnit.unit)) with
+          | none => rfl
+          | some strideValues =>
+              rw [hattachO,mapM_data_flatten A (A.flattenState s) s offs hoffsets]
+              cases hoffset : offs.mapM (fun off => do
+                  let value ← evalOp off s
+                  some (value.data PUnit.unit)) with
+              | none => rfl
+              | some offsetValues =>
+                  simp [Tile.bop,NumericDType.nat_add,FlatAlloc.trTile,FlatAlloc.trCarrier,FlatAlloc.addr]
   | _, _, .advanceBlockPtr p ds, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms
       simp only [Op.FlattenOk] at hok

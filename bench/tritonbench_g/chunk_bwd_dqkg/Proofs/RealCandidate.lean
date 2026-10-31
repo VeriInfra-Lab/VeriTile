@@ -37,7 +37,7 @@ theorem original_split :
         (.add .real (.consSame (.consSame .nil)) (.ref .real [BT,BK] "b_dq")
           (.dot (batch := []) (.ref .real [BT,BT] "b_ds") (.ref .real [BT,BK] "b_k"))) ::
       after q k dq dk dg s_k_h s_k_t scale T K BT BK := by
-  rw [RealSource.real_body_matches, cbd_body_eq]
+  rw [RealSource.real_body_matches]
   rfl
 
 theorem candidate_split :
@@ -54,7 +54,7 @@ theorem candidate_split :
     simp only [RealSource.source, TypedSource.specialize, before, after,
         cbdPreLoop, cbdLoopBody, cbdPostLoop, cbdStopOp, List.take, List.drop, List.append, TypedSource.Storage.dtype,
         VeriTile.Triton.eraseDType, Region.cast, ComputeKernel.surfaceBody,
-        ComputeKernel.eraseDType, chunk_bwd_dqkg_surface,
+        ComputeKernel.eraseDType,
         ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
         ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
         ComputeOp.toAlgorithm?, ComputeDType.eraseDType, List.map_cons, List.map_nil,

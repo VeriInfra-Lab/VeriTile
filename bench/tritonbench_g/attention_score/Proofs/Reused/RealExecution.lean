@@ -14,7 +14,7 @@ noncomputable section
 theorem correct (s : BlockState) (Q K M Out : RegionName)
     (sqz sqh sqm sqk skz skh skn skk soz soh H HK N RN NK B D : Nat)
     (offset size : Int) (scale : ℝ) (window complement evenM evenN candidate : Bool)
-    (hB : 0 < B) :
+    (hB : 0 < B) (keyRange : s.pids 0*B<2147483648) :
     let c := RealPrelude.config s Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk
       offset size scale window complement evenM evenN candidate
     let base := s.pids 1 / H * soz + s.pids 1 % H * soh
@@ -29,20 +29,20 @@ theorem correct (s : BlockState) (Q K M Out : RegionName)
   let c := RealPrelude.config s Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk
     offset size scale window complement evenM evenN candidate
   obtain ⟨sp,hp,ip,hlo,hhi,hz,hh,_,fp⟩ := RealPrelude.correct s Q K M H HK N RN NK B D
-    sqz sqh sqm sqk skz skh skn skk offset size scale window complement evenM evenN candidate
+    sqz sqh sqm sqk skz skh skn skk offset size scale window complement evenM evenN candidate keyRange
   obtain ⟨sl,hl,il,fl⟩ := RealLoop.correct c s sp N hB ip
-  have hloop : stepStmt (.forRangeDyn "start_m" (.ref .nat [] "lo") (.ref .nat [] "hi")
+  have hloop : stepStmt (.forRangeInt "start_m" (.castNatToInt (.ref .nat [] "lo")) (.ref .int [] "hi")
       (.constNat B) c.body) sp = some sl := by
-    simp only [stepForRangeAux.forRangeDyn_unfold, evalOp_ref, hlo, hhi, evalOp_constNat,
+    simp only [stepForRangeIntAux.forRangeInt_unfold, evalOp.eq_def, hlo, hhi, evalOp_constNat,
       Option.bind_some, Tile.scalar_data]
     exact hl
-  have hzL := (fl.regs .nat [] "off_z" (by simp [RealIteration.writes])).trans hz
-  have hhL := (fl.regs .nat [] "off_h" (by simp [RealIteration.writes])).trans hh
+  have hzL := (fl.regs .int [] "off_z" (by simp [RealIteration.writes])).trans hz
+  have hhL := (fl.regs .int [] "off_h" (by simp [RealIteration.writes])).trans hh
   obtain ⟨t,ht,hread,hframe⟩ := RealOutput.executes sl Out B NK soz soh (s.pids 1 / H)
     (s.pids 1 % H) (s.pids 0) (c.column s (RealLoop.tripCount N B)) hzL hhL il.startN il.output
   refine ⟨t, ?_, ?_, ?_⟩
   · simp only [RealProgram.program, ProgramRewrite.append, hp, Option.bind_some]
-    change stepStmt (.forRangeDyn "start_m" (.ref .nat [] "lo") (.ref .nat [] "hi")
+    change stepStmt (.forRangeInt "start_m" (.castNatToInt (.ref .nat [] "lo")) (.ref .int [] "hi")
       (.constNat B) (RealBody.body B D N offset size window complement evenM evenN candidate)) sp = some sl at hloop
     rw [stepStmts.cons_some hloop, stepStmts.nil, Option.bind_some]
     exact ht
@@ -57,7 +57,7 @@ and neither block size nor loop stop is fixed to an experimental shape. -/
 theorem source_correct (s : BlockState) (Q K M Out : RegionName)
     (sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BM BD BN : Nat)
     (offset size : Int) (scale : ℝ) (window complement evenM evenN candidate : Bool)
-    (hBlock : BM = BN) (hB : 0 < BN) :
+    (hBlock : BM = BN) (hB : 0 < BN) (keyRange : s.pids 0*BN<2147483648) :
     let source := if candidate then TypedSource.scalarLeft Q K M Out
         sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BM BD BN
         offset size scale window complement evenM evenN hBlock
@@ -78,7 +78,7 @@ theorem source_correct (s : BlockState) (Q K M Out : RegionName)
     dsimp only
     simp only [Bool.false_eq_true, ↓reduceIte, RealProgram.original_source, RealProgram.candidate_source]
     exact correct s Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh H HK N RN NK BN BD
-      offset size scale window complement evenM evenN _ hB
+      offset size scale window complement evenM evenN _ hB keyRange
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

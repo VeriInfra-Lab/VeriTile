@@ -6,7 +6,7 @@
 # id<TAB>file<TAB>theorem<TAB>kind<TAB>status<TAB>source<TAB>source_ref<TAB>config<TAB>label<TAB>notes
 #
 # `file` is the path where the theorem is DEFINED (post-refactor: kernel
-# examples live in bench/examples/<Family>/{Correct,FPEquiv}.lean and Proofs/LegacyRealEquiv.lean). `theorem` is the FULLY-
+# examples live in bench/examples/<Family>/{Correct,FPEquiv}.lean and required Proofs/ helpers). `theorem` is the FULLY-
 # QUALIFIED name so downstream trust tooling (VeriTile/Meta/TrustReport.lean,
 # scripts/bench/audit_trust.sh) resolves it unambiguously regardless of open namespaces.
 #
@@ -17,7 +17,6 @@
 # proven, projected, test-gap, blocked, smoke
 id	file	theorem	kind	status	source	source_ref	config	label	notes
 softmax_stable_refine	bench/examples/SoftmaxStable/Proofs/LegacyRealEquiv.lean	VeriTile.Bench.Examples.Softmax.softmax_stable_equiv	refine	proven	internal	-	-	Naive softmax vs stable softmax	Legacy abstract-rounding/erased relation; two-gates FP proof in ../FPEquiv.lean
-log_sum_exp_shift_refine	bench/examples/StableLogSumExp/Proofs/LegacyRealEquiv.lean	VeriTile.Bench.Examples.LogSumExp.log_sum_exp_equiv	refine	proven	internal	-	-	Direct LSE vs shift-trick LSE	Legacy abstract-rounding/erased relation; general unconditional FP shift refuted by a logical countermodel in Unconditional.lean; conditional candidate proved in ../FPEquiv.lean
 softmax_reciprocal_refine	bench/examples/SoftmaxReciprocal/Proofs/LegacyRealEquiv.lean	VeriTile.Bench.Examples.SoftmaxReciprocal.softmax_reciprocal_equiv	refine	proven	internal	-	-	Stable softmax division vs reciprocal	Legacy abstract-rounding/erased relation; two-gates FP proof in ../FPEquiv.lean
 vector_add_aligned	bench/examples/VectorAdd/Correct.lean	VeriTile.Bench.Examples.VectorAdd.add_kernel_correctness	correct	proven	internal	-	BLOCK_SIZE=N	Vector add aligned correctness	aligned single-block elementwise add
 vector_add_masked	bench/examples/FlatVectorAdd/Correct.lean	VeriTile.Bench.Examples.FlatVectorAdd.add_kernel_masked_correctness	correct	proven	internal	-	BLOCK_SIZE, n_elements	Vector add correctness	masked boundary variant
@@ -168,7 +167,6 @@ tritonbench_vector_addition_example_correct	bench/examples/TritonBenchVectorAddi
 softmax_naive_correct	bench/examples/SoftmaxStable/Correct.lean	VeriTile.Bench.Examples.SoftmaxStableCorrect.naive_softmax_correct	correct	proven	internal	-	real projection; positive symbolic block size	Naive softmax real correctness	Original bf16-store kernel with dtype erased; explicit softmax formula
 softmax_stable_correct	bench/examples/SoftmaxStable/Correct.lean	VeriTile.Bench.Examples.SoftmaxStableCorrect.stable_softmax_correct	correct	proven	internal	-	real projection; positive symbolic block size	Stable softmax real correctness	Original shifted bf16-store kernel with dtype erased; explicit softmax formula
 logsumexp_direct_correct	bench/examples/StableLogSumExp/Correct.lean	VeriTile.Bench.Examples.StableLogSumExpCorrect.direct_logsumexp_correct	correct	proven	internal	-	real projection; positive symbolic block size	Direct logsumexp real correctness	Original bf16-store kernel with dtype erased; log of sum of exponentials
-logsumexp_stable_correct	bench/examples/StableLogSumExp/Proofs/LegacyCorrect.lean	VeriTile.Bench.Examples.StableLogSumExpCorrect.stable_logsumexp_correct	correct	proven	internal	-	real projection; positive symbolic block size	Stable logsumexp real correctness	Historical shifted bf16-store kernel with dtype erased; log of sum of exponentials
 logsumexp_candidate_correct	bench/examples/StableLogSumExp/Correct.lean	VeriTile.Bench.Examples.StableLogSumExpCorrect.optimized_logsumexp_correct	correct	proven	internal	-	real projection; positive symbolic block size	Conditional logsumexp real correctness	Exact tl.log/libdevice.exp candidate with both branch selectors and bf16 store erased only for real interpretation
 softmax_div_correct	bench/examples/SoftmaxReciprocal/Correct.lean	VeriTile.Bench.Examples.SoftmaxReciprocalCorrect.softmax_div_correct	correct	proven	internal	-	real projection; positive symbolic block size	Division softmax real correctness	Original division kernel with dtype erased; explicit softmax formula
 softmax_recip_correct	bench/examples/SoftmaxReciprocal/Correct.lean	VeriTile.Bench.Examples.SoftmaxReciprocalCorrect.softmax_reciprocal_correct	correct	proven	internal	-	real projection; positive symbolic block size	Reciprocal softmax real correctness	Original reciprocal kernel with dtype erased; explicit softmax formula

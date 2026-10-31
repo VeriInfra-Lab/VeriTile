@@ -59,7 +59,6 @@ def source
     tl.store(dA_cs_ptrs, dA_cs, mask=(offs_h[:, None] < nheads) & (offs_c[None, :] < chunk_size))
   }
 
-
 /-- Existing scale-first multiplication candidate, retaining the runtime bounds and scan. -/
 def scaleFirst
     (dt_ptr A_ptr dt_bias_ptr dt_out_ptr dA_cumsum_ptr : RegionName)
@@ -113,6 +112,5 @@ def scaleFirst
 end VeriTile.Bench.Repairs.ChunkedCumsumFwd.Kernel
 
 namespace VeriTile.Bench.Repairs.ChunkedCumsumFwd
-/-- Historical literal-bound wrapper source retained for compatibility. -/
-abbrev fp32Source := VeriTile.Bench.TritonBenchG.ChunkedCumsumFwd.original .fp32 .fp32 .fp32
+
 end VeriTile.Bench.Repairs.ChunkedCumsumFwd

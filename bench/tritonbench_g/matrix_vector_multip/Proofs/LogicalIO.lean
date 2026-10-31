@@ -31,9 +31,9 @@ theorem headline_iff (N M BN BM pid : Nat) :
   change (IO.io _ _ _ _ _ _ _ _).Implements _ ↔ _
   rw [formula]
 
-theorem implements (N M BN BM pid : Nat) (width : 0<BM) :
+theorem implements (N M BN BM pid : Nat) (width : 0<BM) (scope : SourceBounds N M BN BM) (pidSmall : pid<2^64) :
     (IO.logicalIO WholeMath.algebra N M BN BM pid ⊨ target N M BN pid) :=
-  (headline_iff N M BN BM pid).2 (KernelRealResult.io_correct N M BN BM pid width)
+  (headline_iff N M BN BM pid).2 (KernelRealResult.io_correct N M BN BM pid width scope pidSmall)
 
 #axiomsClean headline_iff
 #axiomsClean implements

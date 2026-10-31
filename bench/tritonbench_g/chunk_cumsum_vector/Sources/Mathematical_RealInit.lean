@@ -34,19 +34,6 @@ theorem triangular_eval (p : Layout) (u : BlockState)
   simp [Tile.cop, Tile.expandDim, TileShape.dropInsertedIndex, Broadcast.leftIndex,
     Broadcast.rightIndex, ComparableDType.ge, lowerTriTile, Tile.select]
 
-theorem executes (p : Layout) (u : BlockState) :
-    stepStmts (initCode p) u = some (initial p u) := by
-  unfold initCode
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 0 u))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 1 _))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.arange p.BT) _ = some
-    (⟨fun i : TileIndex [p.BT] => i.1.val⟩ : Tile .nat [p.BT]) from by rw [evalOp]; rfl))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (triangular_eval p _ (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.full [p.BS] (.const 0)) _ =
-    some (Tile.vec fun _ => some (0 : ℝ)) from by simp [evalOp_full, evalOp_const]; rfl))]
-  rw [stepStmts.nil]
-  rfl
-
 theorem invariant (p : Layout) (u : BlockState) (s o : RegionName) (a : Nat → ℝ)
     (hm : ∀ off, u.readMem s off = a off) :
     Holds u p (launch u) s o a 0 (initial p u) := by
@@ -65,23 +52,6 @@ theorem chunks_cover (p : Layout) (hBT : 0 < p.BT) : p.T ≤ numChunks p * p.BT 
   have hm := Nat.mod_lt (p.T + p.BT - 1) hBT
   rw [Nat.mul_comm]
   omega
-
-theorem original_executes (p : Layout) (u : BlockState) (s o : RegionName)
-    (dtype out_dtype : FloatDType) (a : Nat → ℝ) (hm : ∀ off, u.readMem s off = a off)
-    (hSO : s ≠ o) (hBT : 0 < p.BT) (hinj : NoCollision p (launch u)) :
-    ∃ v, exec (RealSource.source Bool.false dtype out_dtype s o
-      p.headStride p.timeStride p.channelStride p.T p.S p.BT p.BS).eraseDType.toAlgKernel u = some v ∧
-      (∀ (t : Nat) (j : Fin p.BS), RealStep.active p (launch u) t j.val →
-        v.readMem o (address p (launch u) t j.val) = RealLoop.expected p (launch u) a t j) ∧
-      BlockState.WriteWithin (footprint p (launch u) o) u v := by
-  obtain ⟨v, he, h⟩ := RealLoop.executes u p (launch u) s o a hSO hBT hinj
-    (initial p u) (invariant p u s o a hm)
-  refine ⟨v, ?_, ?_, h.frame⟩
-  · rw [exec, source_body, body, ProgramRewrite.append, executes]
-    change stepStmts [RealLoop.statement p s o] (initial p u) = some v
-    rw [stepStmts.cons_some he, stepStmts.nil]
-  · intro t j ha
-    exact h.output t j ha (lt_of_lt_of_le ha.1 (chunks_cover p hBT))
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

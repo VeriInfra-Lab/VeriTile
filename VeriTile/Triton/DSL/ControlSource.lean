@@ -49,8 +49,8 @@ syntax "tl.static_assert(" tritonExpr ")" : controlSourceStmt
 syntax "tl.debug_barrier()" : controlSourceStmt
 syntax "tl.atomic_xchg(" tritonExpr ", " tritonExpr ")" : controlSourceStmt
 syntax "tl.store(" tritonExpr ", " tritonExpr ")" : controlSourceStmt
-syntax "tl.store(" tritonExpr ", " tritonExpr "," "mask=" tritonExpr ")" : controlSourceStmt
-syntax "tl.atomic_add(" tritonExpr ", " tritonExpr "," "mask=" tritonExpr ")" : controlSourceStmt
+syntax "tl.store(" tritonExpr ", " tritonExpr "," tritonMemKwarg ")" : controlSourceStmt
+syntax "tl.atomic_add(" tritonExpr ", " tritonExpr "," tritonMemKwarg ")" : controlSourceStmt
 syntax "if " tritonExpr " { " controlSourceStmt* " }" : controlSourceStmt
 syntax "if " tritonExpr " { " controlSourceStmt* " }" "else" "{" controlSourceStmt* " }" : controlSourceStmt
 syntax "while " tritonExpr " { " controlSourceStmt* " }" : controlSourceStmt
@@ -62,9 +62,6 @@ syntax "pass" : controlSourceStmt
 syntax:40 tritonExpr:41 " or " tritonExpr:41 : tritonExpr
 syntax "end" : tritonExpr
 syntax "tl.full(" "(" ")" ", " tritonExpr ", " tritonDType ")" : tritonExpr
--- The effect grammar reserves the combined mask token; retain the same
--- keyword spelling in the generic load argument grammar.
-syntax "mask=" tritonExpr : tritonMemKwarg
 syntax "source_program " "triton" "{" controlSourceStmt* " }" : term
 
 private partial def quoteExpr (s : Syntax) : MacroM (TSyntax `term) := do
@@ -98,6 +95,16 @@ private def call (name : String) (args : Array (TSyntax `tritonExpr))
   let name := quote name
   `(Statement.call $name [$args,*])
 
+/-- Reuse the ordinary memory keyword grammar so importing this frontend
+keeps masked loads and stores available to the ordinary Triton quotation. -/
+private def maskValue (arg : TSyntax `tritonMemKwarg) : MacroM (TSyntax `tritonExpr) := do
+  match arg with
+  | `(tritonMemKwarg| $name:ident = $value:tritonExpr) =>
+    unless name.getId.eraseMacroScopes.toString == "mask" do
+      Macro.throwErrorAt arg "control source effects require mask=expression"
+    pure value
+  | _ => Macro.throwErrorAt arg "control source effects require mask=expression"
+
 private partial def quoteStatement (s : TSyntax `controlSourceStmt) : MacroM (TSyntax `term) := do
   match s with
   | `(controlSourceStmt| $target:controlSourceName = $value:tritonExpr) =>
@@ -124,8 +131,10 @@ private partial def quoteStatement (s : TSyntax `controlSourceStmt) : MacroM (TS
   | `(controlSourceStmt| tl.debug_barrier()) => call "tl.debug_barrier" #[]
   | `(controlSourceStmt| tl.atomic_xchg($p:tritonExpr, $v:tritonExpr)) => call "tl.atomic_xchg" #[p,v]
   | `(controlSourceStmt| tl.store($p:tritonExpr, $v:tritonExpr)) => call "tl.store" #[p,v]
-  | `(controlSourceStmt| tl.store($p:tritonExpr, $v:tritonExpr, mask=$m:tritonExpr)) => call "tl.store" #[p,v] m
-  | `(controlSourceStmt| tl.atomic_add($p:tritonExpr, $v:tritonExpr, mask=$m:tritonExpr)) => call "tl.atomic_add" #[p,v] m
+  | `(controlSourceStmt| tl.store($p:tritonExpr, $v:tritonExpr, $kw:tritonMemKwarg)) => do
+    call "tl.store" #[p,v] (some (← maskValue kw))
+  | `(controlSourceStmt| tl.atomic_add($p:tritonExpr, $v:tritonExpr, $kw:tritonMemKwarg)) => do
+    call "tl.atomic_add" #[p,v] (some (← maskValue kw))
   | `(controlSourceStmt| if $c:tritonExpr { $yes:controlSourceStmt* } else { $no:controlSourceStmt* }) =>
     let c ← quoteExpr c.raw
     let yes ← yes.mapM quoteStatement

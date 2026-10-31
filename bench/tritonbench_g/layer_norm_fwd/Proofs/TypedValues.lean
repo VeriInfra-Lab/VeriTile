@@ -22,7 +22,7 @@ theorem prefix_value {α : Type} [Inhabited α] (A : Algebra α)
       t.regs .real [block] "x" = some (fun j => raw A s r.x ((s.pids 0)*stride.x) N j.1.val) := by
   rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
   cases res <;> cases resout <;> cases x1 <;> cases w1
-  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,bop,natLt,
     numericLt,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,

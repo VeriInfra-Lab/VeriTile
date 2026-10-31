@@ -36,14 +36,14 @@ def a1 {α : Type} (c : Invocation α) := (a0 c).setReg "pid" .int [] (fun _ => 
 def a2 {α : Type} (c : Invocation α) := (a1 c).setReg "y_ptr" .ptr [] (fun _ => ("y_ptr", c.initial.pids 0 * c.sy))
 def a3 {α : Type} (c : Invocation α) := (a2 c).setReg "gt_ptr" .ptr [] (fun _ => ("gt_ptr", c.initial.pids 0 * c.st))
 def a4 {α : Type} (c : Invocation α) := (a3 c).setReg "loss_ptr" .ptr [] (fun _ => ("loss_ptr", c.initial.pids 0 * c.so))
-def a5 {α : Type} (c : Invocation α) := (a4 c).setReg "base_offsets" .nat [c.B] (fun j => j.1.val)
+def a5 {α : Type} (c : Invocation α) := (a4 c).setReg "base_offsets" .int [c.B] (fun j => (j.1.val : Int))
 
 structure Ready {α : Type} (c : Invocation α) : Prop where
   i : c.initial.regs .int [] "i" = some (fun _ => (c.current : Int))
   y : c.initial.regs .ptr [] "y_ptr" = some (fun _ => (("y_ptr" : RegionName), c.yBase))
   t : c.initial.regs .ptr [] "gt_ptr" = some (fun _ => (("gt_ptr" : RegionName), c.tBase))
   o : c.initial.regs .ptr [] "loss_ptr" = some (fun _ => (("loss_ptr" : RegionName), c.oBase))
-  base : c.initial.regs .nat [c.B] "base_offsets" = some (fun j => j.1.val)
+  base : c.initial.regs .int [c.B] "base_offsets" = some (fun j => (j.1.val : Int))
 
 def b0 {α : Type} (c : Invocation α) := c.initial
 def b1 {α : Type} (c : Invocation α) := f1 c.initial c.B c.current

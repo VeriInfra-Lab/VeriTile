@@ -21,7 +21,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α)
   simp [source, body, arguments, ComputeKernel.withScalarArguments,
     ScalarArgument.statement, ScalarArgument.fp32, ScalarArgument.integer, ComputeKernel.surfaceBody, FP.Structural.exec,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-    numeric, natLt, bop, ofFloat, toFloat, Region.cast, store, ComputeDType.eraseDType]
+    numeric, numericLt, numericEq, natLt, bop, ofFloat, toFloat, Region.cast, store, ComputeDType.eraseDType]
   rfl
 
 private def beforeCode (x scale out : RegionName) (inv : ℝ) (n block lanes : Nat) :=

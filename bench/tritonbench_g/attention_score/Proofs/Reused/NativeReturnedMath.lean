@@ -29,7 +29,7 @@ theorem inputs_eq (decode : BitVec 32 → ℝ) (c : Shape) (abi : ABI c) (physic
 
 /-- The complete native graph's exact-real interpretation is the same
 independent logical sum proved for the erased source. -/
-theorem target_ideal (decode : BitVec 32 → ℝ) (hz : decode 0=0) (c : Shape) (abi : ABI c)
+theorem target_ideal (decode : BitVec 32 → ℝ) (hz : decode 0=0) (c : Shape) (keyRange : c.programs*c.B<2147483648) (abi : ABI c)
     (physical : Nat → BitVec 32) (offset size : Int) (scale : ℝ) (window complement : Bool)
     (z : Fin c.Z) (h : Fin c.H) (j : Fin c.NK) :
     (NativePhysical.target c abi physical offset size scale window complement z h j).eval (isa decode)=
@@ -37,19 +37,21 @@ theorem target_ideal (decode : BitVec 32 → ℝ) (hz : decode 0=0) (c : Shape) 
         offset size scale window complement z h j := by
   have howner := (owner c j).2.2
   unfold NativePhysical.target NativeLoop.returnedGraph
-  rw [NativeColumn.logical_column decode hz c.B c.D c.block _ _ _
+  rw [NativeColumn.logical_column decode hz c.B c.D c.block _ _
+    (by simpa [FPGrid.programState,FPReturned.ownerJob] using
+      lt_of_le_of_lt (Nat.mul_le_mul_right c.B (Nat.le_of_lt (owner c j).1)) keyRange) _
     (by simpa [FPGrid.programState,FPReturned.ownerJob,FPReturned.ownerLane,parameters,howner] using j.isLt)
     (by simp [parameters])]
   rw [inputs_eq]
   simp [RealReturned.target,parameters,FPGrid.programState,FPReturned.ownerJob,FPReturned.ownerLane,howner]
 
-theorem target_logical (decode : BitVec 32 → ℝ) (hz : decode 0=0) (c : Shape) (abi : ABI c)
+theorem target_logical (decode : BitVec 32 → ℝ) (hz : decode 0=0) (c : Shape) (keyRange : c.programs*c.B<2147483648) (abi : ABI c)
     (physical : Nat → BitVec 32) (xs : LogicalInputs ℝ c)
     (normalized : Normalized c abi (fun a => decode (physical a)) xs)
     (offset size : Int) (scale : ℝ) (window complement : Bool) (z : Fin c.Z) (h : Fin c.H) (j : Fin c.NK) :
     (NativePhysical.target c abi physical offset size scale window complement z h j).eval (isa decode)=
       RealPhysical.logicalTarget c xs offset size scale window complement z h j :=
-  (target_ideal decode hz c abi physical offset size scale window complement z h j).trans
+  (target_ideal decode hz c keyRange abi physical offset size scale window complement z h j).trans
     (RealPhysical.target_logical c abi (fun a => decode (physical a)) xs normalized offset size scale window complement z h j)
 
 #axiomsClean target_logical

@@ -31,7 +31,7 @@ theorem math_body (v : Bool) (X W O : RegionName)
       [.forRange "block_n_start_idx" 0 N B (powiVarBody X sxk N B)] ++
       postStmts N B eps ++
       [.forRange "block_n_start_idx" 0 N B (wbBody X W O sxb sxm sxk sw sob som sok N B)] := by
-  cases v <;> simp [mathKernel, typedKernel, originalTyped, indexPrefix, powiVarBody,
+  cases v <;> simp [mathKernel, typedKernel, originalTyped,VeriTile.Bench.Repairs.RmsnormTriton.kernel, indexPrefix, powiVarBody,
     prefixStmts, varBody, postStmts, wbBody, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     ComputeKernel.surfaceBody, ComputeKernel.inputs, ComputeKernel.outputs,
     ComputeKernel.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,

@@ -2,8 +2,6 @@ import bench.tritonbench_g.token_softmax_llama.Kernels
 
 namespace VeriTile.Bench.Repairs.TokenSoftmaxBloom
 open VeriTile.Triton
-/-- The two benchmark kernels have the same source and mutation API. -/
-abbrev source := TokenSoftmaxLlama.Strided.source
 
 /-- The complete candidate changes exactly one integer metadata address product. -/
 def indexCommutedSource (dtype : FloatDType)

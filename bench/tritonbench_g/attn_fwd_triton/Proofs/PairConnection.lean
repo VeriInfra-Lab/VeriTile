@@ -44,17 +44,17 @@ theorem no_underflow (a b : Nat) : (a/b)*b≤a := Nat.div_mul_le_self a b
 
 theorem step_remainder (M : Algebra A) (out dividend : RegName) (width : Nat) :
     StepEq M
-      (.assign .nat [] out (.alg (.mod .nat .nil (.ref .nat [] dividend) (.constNat width))))
-      (.assign .nat [] out (.alg (.sub .nat .nil (.ref .nat [] dividend)
-        (.mul .nat .nil (.tritonDiv .nat .nil (.ref .nat [] dividend) (.constNat width))
-          (.constNat width))))) := by
+      (.assign .int [] out (.alg (.tritonMod .int .nil (.ref .int [] dividend) (.castNatToInt (.constNat width)))))
+      (.assign .int [] out (.alg (.sub .int .nil (.ref .int [] dividend)
+        (.mul .int .nil (.tritonDiv .int .nil (.ref .int [] dividend) (.castNatToInt (.constNat width)))
+          (.castNatToInt (.constNat width)))))) := by
   constructor
   · intro s
     simp only [step,evalExpr,evalOp_unfold]
-    cases ha : s.regs .nat [] dividend
-    all_goals simp [ha,bind,Option.bind,numeric,integralMod,integralFloorDiv,bop,←remainder]
+    cases ha : s.regs .int [] dividend
+    all_goals simp [ha,bind,Option.bind,numeric,integralMod,integralFloorDiv,bop]
     all_goals unfold bop
-    all_goals simp only [Broadcast.leftIndex,Broadcast.rightIndex,←remainder]
+    all_goals simp [Broadcast.leftIndex,Broadcast.rightIndex,Int.mul_comm]
   · intro bounds s
     simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold]
 

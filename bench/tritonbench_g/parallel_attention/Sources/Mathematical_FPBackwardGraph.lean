@@ -16,11 +16,6 @@ structure BackwardConfig extends ForwardConfig where
   i_v : Nat
   i_h : Nat
 
-def backwardKernel (c : BackwardConfig) : ComputeKernel :=
-  backwardSource c.q c.k c.v c.do_ c.dz c.dk c.dv c.i_bh c.i_c c.i_k c.i_v c.i_h
-    c.s_qk_h c.s_qk_t c.s_qk_d c.s_vo_h c.s_vo_t c.s_vo_d c.scale
-    c.B c.H c.T c.K c.V c.BTL c.BTS c.BK c.BV
-
 def backwardKey {α : Type} [Inhabited α] (M : Algebra α) (c : BackwardConfig) (s : State α) :=
   matrixRead M s c.k (c.i_bh*c.s_qk_h) c.T c.K c.s_qk_t c.s_qk_d
     (c.i_c*c.BTL) (c.i_k*c.BK) c.BTL c.BK

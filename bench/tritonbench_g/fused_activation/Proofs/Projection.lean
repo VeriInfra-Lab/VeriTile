@@ -10,16 +10,10 @@ theorem original (x b i : RegionName) (W N B : Nat) (m : ℝ) (a : Bool) :
       (VeriTile.Bench.TritonBenchG.FusedActivation.fused_add_mul_activation_kernel
         x b i W N B m a).toAlgKernel := by cases a <;> rfl
 
-theorem commuted (x b i : RegionName) (W N B : Nat) (m : ℝ) (a : Bool) :
-    (commutedKernel x b i W N B m a).toAlgKernel =
-      (VeriTile.Bench.TritonBenchG.FusedActivation.fused_add_mul_activation_commuted_kernel
-        x b i W N B m a).toAlgKernel := by cases a <;> rfl
-
 theorem original_projection (x b i : RegionName) (W N B : Nat) (m : ℝ) (a : Bool) :
     (kernel x b i W N B m a).toAlgorithm? = .ok (kernel x b i W N B m a).toAlgKernel := by
   cases a <;> rfl
 
 #axiomsClean original
-#axiomsClean commuted
 #axiomsClean original_projection
 end VeriTile.Bench.Repairs.FusedActivation.Projection

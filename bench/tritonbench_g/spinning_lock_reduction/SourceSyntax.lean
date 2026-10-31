@@ -1,1 +1,3 @@
-import bench.tritonbench_g.spinning_lock_reduction.Proofs.LegacySyntax
+import VeriTile.Triton.DSL.ControlSource
+
+/-! Compatibility import for the shared source grammar; no independent source implementation. -/

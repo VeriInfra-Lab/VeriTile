@@ -37,7 +37,7 @@ theorem prefix_success {α : Type} [Inhabited α] (A : Algebra α)
       Ready f r stride block (s.pids 0) t := by
   rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
   cases res <;> cases resout <;> cases x1 <;> cases w1
-  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,
+  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,bop,natLt,
     numericLt,Cell.read,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,

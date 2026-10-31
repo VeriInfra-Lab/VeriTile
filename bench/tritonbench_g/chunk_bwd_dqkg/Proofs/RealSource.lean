@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_bwd_dqkg.Kernels
-import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.LegacyReal
+import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.RealFragments
 import VeriTile.Triton.Float.Erasure
 import VeriTile.Meta.StatementAudit
 
@@ -32,13 +32,16 @@ including both flattened whole-tile sums and the actual history mask. -/
 theorem real_body_matches :
     (source qk value hist dhist Bool.false q k v h g do_ dh dq dk dg
       s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV NT).eraseDType.toAlgKernel.body =
-    (chunk_bwd_dqkg_surface q k v h g do_ dh dq dk dg
-      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV NT).toAlgKernel.body := by
+    cbdPreLoop g T BT BK ++
+      [Stmt.forRangeDyn "i_v" (Op.constNat 0) (cbdStopOp V BV) (Op.constNat 1)
+        (cbdLoopBody v h do_ dh s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT)] ++
+      cbdPostLoop q k dq dk dg s_k_h s_k_t scale T K BT BK := by
   cases hist <;> cases dhist
   all_goals
     simp only [source, TypedSource.specialize, TypedSource.Storage.dtype,
         VeriTile.Triton.eraseDType, Region.cast, ComputeKernel.surfaceBody,
-        ComputeKernel.eraseDType, chunk_bwd_dqkg_surface,
+        ComputeKernel.eraseDType, cbdPreLoop, cbdLoopBody, cbdPostLoop, cbdStopOp,
+        List.append,
         ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
         ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
         ComputeOp.toAlgorithm?, ComputeDType.eraseDType, List.map_cons, List.map_nil,
@@ -46,7 +49,7 @@ theorem real_body_matches :
         Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
         NumericDType.eraseDType, ComparableDType.eraseDType,
         IntegralDType.eraseDType, Except.bind, bind, eraseDType_float]
-    simp only [List.cons.injEq, and_true]
+    try simp only [List.cons.injEq, and_true]
     repeat' apply And.intro
     all_goals simp [FloatDType.toTileDType, Op.eraseDType,
       NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType,

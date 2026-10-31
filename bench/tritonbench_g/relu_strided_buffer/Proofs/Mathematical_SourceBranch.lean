@@ -48,17 +48,6 @@ theorem dynamicPtr_eval (region : RegionName) (base stride n start B : Nat)
     Option.pure_def]
   rfl
 
-def NatViews.perTile (c : NatViews) : List Stmt :=
-  [.assign .nat [] "tile_id0" (.ref .nat [] "tile_id"),
-   .assign .nat [] "offset0" (.mul .nat .nil (.ref .nat [] "tile_id0") (.constNat c.B)),
-   .assign .blockPtr [c.B] "in0_bptr" (dynamicPtr c.input c.inputBase c.inputStride c.n c.B),
-   .assign .fp32 [c.B] "in0" (.castFloat .fp32 .fp32
-     (.load .fp32 (.blockPtr (.ref .blockPtr [c.B] "in0_bptr") [0]) .none .unspecified)),
-   .assign .fp32 [c.B] "out0" (reluOp c.B),
-   .assign .blockPtr [c.B] "out0_bptr" (dynamicPtr c.output c.outputBase c.outputStride c.n c.B),
-   .store .fp32 [c.B] (.blockPtr (.ref .blockPtr [c.B] "out0_bptr") [0])
-     (.castFloat .fp32 .fp32 (.ref .fp32 [c.B] "out0")) .none]
-
 def NatViews.indexState (c : NatViews) (T : Nat) (s : BlockState) : BlockState :=
   (s.setReg "tile_id0" .nat [] (Tile.scalar T)).setReg "offset0" .nat [] (Tile.scalar (T * c.B))
 
@@ -86,65 +75,6 @@ theorem pointer_load (region : RegionName) (base stride n start B : Nat) (s : Bl
     simp only [natBlockLoad, evalOp, h, natBlockPtr_eval, ptrValue]
   exact he.trans ((natBlockLoad_eq region base stride n start B s).trans
     (load32_eval ⟨region, base, stride⟩ n start B s))
-
-theorem pointer_store (region : RegionName) (base stride n start B : Nat) (s : BlockState)
-    (values : Tile .fp32 [B])
-    (hp : s.regs .blockPtr [B] "out0_bptr" = some (ptrValue region base stride n start B))
-    (hv : s.regs .fp32 [B] "out0" = some values) :
-    stepStmt (.store .fp32 [B] (.blockPtr (.ref .blockPtr [B] "out0_bptr") [0])
-      (.castFloat .fp32 .fp32 (.ref .fp32 [B] "out0")) .none) s =
-      some (scatter32 ⟨region, base, stride⟩ n start B values s) := by
-  have he : stepStmt (.store .fp32 [B] (.blockPtr (.ref .blockPtr [B] "out0_bptr") [0])
-      (.castFloat .fp32 .fp32 (.ref .fp32 [B] "out0")) .none) s =
-      stepStmt (natBlockStore region base stride n start B) s := by
-    simp only [natBlockStore, stepStmt, evalOp_ref, hp, natBlockPtr_eval, ptrValue]
-  exact he.trans ((natBlockStore_eq region base stride n start B s).trans
-    ((store_step ⟨region, base, stride⟩ n start B s).trans
-      (store32_step ⟨region, base, stride⟩ n start B "out0" values s hv)))
-
-theorem sourceTile_exec (c : NatViews) (T : Nat) (s : BlockState)
-    (ht : s.regs .nat [] "tile_id" = some (Tile.scalar T)) :
-    stepStmts c.perTile s = some (c.sourceFinal T s) := by
-  have hindex : stepStmts
-      [.assign .nat [] "tile_id0" (.ref .nat [] "tile_id"),
-       .assign .nat [] "offset0" (.mul .nat .nil (.ref .nat [] "tile_id0") (.constNat c.B))] s =
-      some (c.indexState T s) := by
-    simp only [stepStmts, stepStmt, evalOp_ref, ht, bind, Option.bind,
-      evalOp_mul, evalOp_constNat, BlockState.setReg_same]
-    rfl
-  have hptr : stepStmt (.assign .blockPtr [c.B] "in0_bptr"
-      (dynamicPtr c.input c.inputBase c.inputStride c.n c.B)) (c.indexState T s) =
-      some (c.pointerState T s) := by
-    simp only [stepStmt]
-    rw [dynamicPtr_eval _ _ _ _ (T * c.B) _ _ (by simp [NatViews.indexState])]
-    rfl
-  have hload : stepStmt (.assign .fp32 [c.B] "in0" (.castFloat .fp32 .fp32
-      (.load .fp32 (.blockPtr (.ref .blockPtr [c.B] "in0_bptr") [0]) .none .unspecified)))
-      (c.pointerState T s) = some (afterLoad c.inputView c.n (T * c.B) c.B (c.pointerState T s)) := by
-    simp only [stepStmt]
-    have he := pointer_load c.input c.inputBase c.inputStride c.n (T * c.B) c.B
-      (c.pointerState T s) (by simp [NatViews.pointerState])
-    exact congrArg (fun value : Option (Tile .fp32 [c.B]) =>
-      value.bind (fun value => some ((c.pointerState T s).setReg "in0" .fp32 [c.B] value))) he
-  have houtptr : stepStmt (.assign .blockPtr [c.B] "out0_bptr"
-      (dynamicPtr c.output c.outputBase c.outputStride c.n c.B))
-      (afterValue c.inputView c.n (T * c.B) c.B (c.pointerState T s)) =
-      some (c.storeState T s) := by
-    simp only [stepStmt]
-    rw [dynamicPtr_eval _ _ _ _ (T * c.B) _ _
-      (by simp [afterValue, afterLoad, NatViews.pointerState, NatViews.indexState])]
-    rfl
-  have hstore := pointer_store c.output c.outputBase c.outputStride c.n (T * c.B) c.B
-    (c.storeState T s) (resultTile c.inputView c.n (T * c.B) c.B (c.pointerState T s))
-    (by simp [NatViews.storeState]) (by simp [NatViews.storeState, afterValue])
-  rw [show c.perTile =
-      [.assign .nat [] "tile_id0" (.ref .nat [] "tile_id"),
-       .assign .nat [] "offset0" (.mul .nat .nil (.ref .nat [] "tile_id0") (.constNat c.B))] ++
-      c.perTile.drop 2 by rfl]
-  simp only [stepStmts.append_some hindex]
-  simp only [NatViews.perTile, List.drop, stepStmts, hptr, hload, value_step,
-    houtptr, hstore]
-  rfl
 
 theorem resultTile_obs (input : View) (n start B : Nat) {s t : BlockState}
     (h : ObsEq s t) : resultTile input n start B s = resultTile input n start B t := by

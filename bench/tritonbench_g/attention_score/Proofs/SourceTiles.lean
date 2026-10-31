@@ -48,7 +48,7 @@ theorem quotation_shapes_bounded
     omega
   have transpose : D*B≤1048576 := by simpa [Nat.mul_comm] using tile
   cases window <;> cases complement <;> cases evenM <;> cases evenN <;>
-    simp [Reused.Whole002.TypedSource.widened,ComputeKernel.surfaceBody,statementListShapes,
+    simp [Reused.Whole002.TypedSource.widened,Reused.TypedSource.original,ComputeKernel.surfaceBody,statementListShapes,
       statementShapes,algorithmShapes,algorithmListShapes,List.mem_append,smallBlock,tile,
       transpose,square] <;> omega
 

@@ -116,40 +116,11 @@ theorem eval_loadOp {α : Type} [Inhabited α] (M : Algebra α)
       numericEq, Region.cast, loadValue, bop,
       IntegerExpr.same_left, IntegerExpr.same_right]
 
-def storeStmt (d : Storage) (region : RegionName) (off : Op .nat shape)
-    (value : Op .int shape) (mask : Op .bool shape) : ComputeStmt :=
-  match d with
-  | .boolean => .store .int shape (.region region off)
-      (.alg (castOp ⟨8, Bool.true⟩ value)) (.mask mask)
-  | .signed width => .store .int shape (.region region off)
-      (.alg (castOp ⟨width, Bool.true⟩ value)) (.mask mask)
-  | .unsigned width => .store .nat shape (.region region off)
-      (.alg (.intToUnsigned width value)) (.mask mask)
-
 def stored {α : Type} (d : Storage) (v : Int) : Cell α :=
   match d with
   | .boolean => .mk .int (BitVec.ofInt 8 v).toInt
   | .signed width => .mk .int (BitVec.ofInt width v).toInt
   | .unsigned width => .mk .nat (BitVec.ofInt width v).toNat
-
-theorem eval_storeStmt {α : Type} [Inhabited α] (M : Algebra α)
-    (d : Storage) (region : RegionName) (off : Op .nat shape)
-    (value : Op .int shape) (mask : Op .bool shape) (s : State α) :
-    FP.Structural.step M (storeStmt d region off value mask) s = (do
-      let values ← FP.Structural.evalOp M none value s
-      let offsets ← FP.Structural.evalOp M none off s
-      let active ← FP.Structural.evalOp M none mask s
-      pure ((TileShape.allIndices shape).foldl (fun t i =>
-        if active i then t.write region (offsets i) (stored d (values i)) else t) s)) := by
-  cases d
-  all_goals simp only [storeStmt]
-  all_goals rw [FP.Structural.step, FP.Structural.evalExpr]
-  all_goals first | rw [eval_castOp] | rw [FP.Structural.eval_intToUnsigned]
-  all_goals cases hv : FP.Structural.evalOp M none value s <;>
-    cases ho : FP.Structural.evalOp M none off s <;>
-    cases hm : FP.Structural.evalOp M none mask s <;>
-    simp [FP.Structural.store, hv, ho, hm, bind, pure,
-      castValue, stored, Region.cast, unsigned_cast_eq_bitvec, -BitVec.toNat_ofInt, -BitVec.toInt_ofInt]
 
 @[simp] theorem loadValue_setReg {α : Type} [Inhabited α]
     (d : Storage) (s : State α) (name : RegName) (dtype : TileDType)
@@ -165,30 +136,8 @@ def resultCell {α : Type} [Inhabited α] (x y : Storage) (p : Parameters)
   stored x (castValue c
     (castValue c (loaded x (mem p.x o)) + castValue c (loaded y (mem p.y o))))
 
-/-- The original eight source statements. Width/signedness remain explicit
-in the elaborated load/promotion/add/store expressions. No new host guard. -/
-def source (x y : Storage) (p : Parameters) : ComputeKernel :=
-  let c := promote x y
-  let off := Op.ref .nat [p.block] "offsets"
-  let mask := Op.ref .bool [p.block] "mask"
-  .mk [p.x,p.y] [p.output] [
-    .assign .nat [] "pid" (.alg (.programId 0)),
-    .assign .nat [] "block_start" (.alg (.mul .nat .nil
-      (.ref .nat [] "pid") (.constNat p.block))),
-    .assign .nat [p.block] "offsets" (.alg (.add .nat .scalarL
-      (.ref .nat [] "block_start") (.arange p.block))),
-    .assign .bool [p.block] "mask" (.alg (.lt .nat .scalarR off (.constNat p.n))),
-    .assign .int [p.block] "x" (.alg (loadOp x p.x off mask)),
-    .assign .int [p.block] "y" (.alg (loadOp y p.y off mask)),
-    .assign .int [p.block] "output" (.alg (castOp c
-      (.add .int (.consSame .nil)
-        (castOp c (.ref .int [p.block] "x"))
-        (castOp c (.ref .int [p.block] "y"))))),
-    storeStmt x p.output off (.ref .int [p.block] "output") mask ]
-
 #axiomsClean eval_castOp
 #axiomsClean eval_loadOp
-#axiomsClean eval_storeStmt
 #axiomsClean loadValue_setReg
 end
 end VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource

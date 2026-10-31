@@ -50,7 +50,7 @@ specification whole_shared_real (r : Request) (d : Domain r) :
   intro j _ version pid
   exact LogicalIO.real_implements r d j version pid
 
-#specNonCircular formula avoiding [FP.Structural.exec, Shared.original, Shared.candidate,
+#specNonCircular formula avoiding [FP.Structural.exec,
   SharedTarget.value, QuantProfile.row4, QuantProfile.row8]
 #axiomsClean whole_shared_real
 #stmtSurfaceSubset whole_shared_real ⊆

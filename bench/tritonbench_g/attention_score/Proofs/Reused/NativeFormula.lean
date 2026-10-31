@@ -17,8 +17,8 @@ def query (B D : Nat) (p : RealSource.Parameters) (s : State Expr) (row : Nat) (
   else zero32
 
 def key (B D : Nat) (p : RealSource.Parameters) (s : State Expr) (i : TileIndex [D,B]) : Graph :=
-  if p.evenN || decide (s.pids 0*B+i.2.1.val<p.keyContext) then
-    lower ((s.mem p.K (FPContext.baseK p s+i.1.val*p.keyDim+(s.pids 0*B+i.2.1.val)*p.keyRow)).read .real)
+  if p.evenN || decide (FPContext.keyStart B s+i.2.1.val<p.keyContext) then
+    lower ((s.mem p.K (FPContext.baseK p s+i.1.val*p.keyDim+(FPContext.keyStart B s+i.2.1.val)*p.keyRow)).read .real)
   else zero32
 
 def normalizer (B : Nat) (p : RealSource.Parameters) (s : State Expr) (row : Nat) (i : Fin B) : Graph :=

@@ -3,6 +3,66 @@
     "python": "bench/tritonbench_g/matmul_triton1/matmul_triton1.py",
     "lean": "bench/tritonbench_g/matmul_triton1/Kernels.lean",
     "python_function": "matmul_kernel",
-    "lean_definition": "pythonBody"
+    "lean_definition": "body",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "z_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "m_size",
+          "integer"
+        ],
+        [
+          "k_size",
+          "integer"
+        ],
+        [
+          "n_size",
+          "integer"
+        ],
+        [
+          "stride_xm",
+          "integer"
+        ],
+        [
+          "stride_xk",
+          "integer"
+        ],
+        [
+          "stride_yk",
+          "integer"
+        ],
+        [
+          "stride_yn",
+          "integer"
+        ],
+        [
+          "stride_zm",
+          "integer"
+        ],
+        [
+          "stride_zn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "m_block_size",
+        "k_block_size",
+        "n_block_size"
+      ]
+    }
   }
 ]

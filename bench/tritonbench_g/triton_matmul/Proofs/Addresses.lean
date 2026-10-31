@@ -3,6 +3,12 @@ import bench.tritonbench_g.triton_matmul.Proofs.Execution
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.Repair
 open VeriTile.Triton FP.Structural FPValue
 noncomputable section
+
+private theorem clamp_add (limit base lane : Nat) :
+    (if lane<limit-base then base else 0)+(if lane<limit-base then lane else 0)=
+      (if base+lane<limit then base+lane else 0) := by
+  split_ifs <;> omega
+
 set_option maxHeartbeats 4000000
 
 /-- Actual quotient/remainder ceiling, with no dimension+block intermediate. -/
@@ -132,7 +138,7 @@ theorem candidate_a_pointer {α : Type} (r : Request) (s : State α)
       ((if i.2.1.val<r.inner-block*SourceScope.blockK r.storage then block*SourceScope.blockK r.storage else 0)+
        (if i.2.1.val<r.inner-block*SourceScope.blockK r.storage then i.2.1.val else 0))*r.strideAK=
       safeAOffset r (row r.parameters s i.1) (block*SourceScope.blockK r.storage+i.2.1.val) := by
-  rw [Source.clamp_add]
+  rw [clamp_add]
   simp [safeAOffset,safeCoordinate,aRow,Request.parameters,SourceScope.parameters]
 
 theorem candidate_b_pointer {α : Type} (r : Request) (s : State α)
@@ -141,7 +147,7 @@ theorem candidate_b_pointer {α : Type} (r : Request) (s : State α)
      (if i.1.val<r.inner-block*SourceScope.blockK r.storage then i.1.val else 0))*r.strideBK+
       bCol r.parameters s i.2.1*r.strideBN=
       safeBOffset r (block*SourceScope.blockK r.storage+i.1.val) (col r.parameters s i.2.1) := by
-  rw [Source.clamp_add]
+  rw [clamp_add]
   simp [safeBOffset,safeCoordinate,bCol,Request.parameters,SourceScope.parameters]
 
 structure AddressSafety {α : Type} (r : Request) (s : State α) (t : TensorAPI r s) : Prop where

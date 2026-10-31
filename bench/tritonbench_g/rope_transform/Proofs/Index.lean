@@ -1,6 +1,7 @@
 import bench.tritonbench_g.rope_transform.Proofs.Settings
 import bench.tritonbench_g.rope_transform.Proofs.Mathematical_TypedFrame
-import bench.tritonbench_g.rope_transform.Proofs.Mathematical_TypedShape
+import bench.tritonbench_g.rope_transform.Proofs.Mathematical_TypedProof
+import bench.tritonbench_g.rope_transform.Proofs.Mathematical_RopeTransform
 namespace VeriTile.Bench.Repairs.RopeTransform
 open VeriTile Triton FP.Structural
 namespace T

@@ -11,3 +11,5 @@ The public entries state the input conditions, execution scope and numerical ass
 [Proof helpers](Proofs/)
 
 [Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+
+The source retains its explicit signed integer conversions, including the signed32 K descriptor offset. The Real initialization and grid proofs use the existing public launch bound to prove that descriptor offset exact; the empty-input return still needs no launch bound. Symbolic FP execution retains the actual descriptor conversion for unrestricted metadata. The scalar-left comparison candidate changes only score-scaling multiplication order.

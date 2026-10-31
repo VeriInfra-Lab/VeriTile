@@ -51,7 +51,7 @@ theorem source_safe (s : BlockState) (p : Layout)
     ((hi.fixed .nat [] "i_t" (by decide)).trans hit),
     ((hi.fixed .nat [] "i_bh" (by decide)).trans hib),
     ((hi.fixed .nat [] "n_bh" (by decide)).trans hnb)⟩
-  rw [Kernel.TraceSafe, RealSource.real_body_matches, cbd_body_eq]
+  rw [Kernel.TraceSafe, RealSource.real_body_matches]
   change Stmt.TraceSafeList bounds
     ((cbdPreLoop g p.T p.BT p.BK ++ [RealLoop.statement p regions]) ++
       cbdPostLoop q k dqOut dkOut dgOut p.s_k_h p.s_k_t p.scale p.T p.K p.BT p.BK) s
@@ -67,7 +67,7 @@ theorem source_flatten_ok (p : Layout)
     (RealSource.source qk valueStorage hist dhist Bool.false q k v h g dout dh dqOut dkOut dgOut
       p.s_k_h p.s_k_t p.s_v_h p.s_v_t p.s_h_h p.s_h_t p.scale
       p.T p.K p.V p.BT p.BK p.BV p.NT).eraseDType.toAlgKernel.FlattenOk := by
-  rw [Kernel.FlattenOk, RealSource.real_body_matches, cbd_body_eq]
+  rw [Kernel.FlattenOk, RealSource.real_body_matches]
   simp [StmtList.FlattenOk, Stmt.FlattenOk, cbdPreLoop, cbdLoopBody, cbdPostLoop,
     cbdStopOp, Op.FlattenOk]
   all_goals simp [Op.FlattenOk.eq_def]

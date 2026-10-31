@@ -1,3 +1,4 @@
+import bench.tritonbench_g.vector_addition.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_HostGrid
 
 /-! Source-corresponding logical host control flow for `vector_addition.py`.
@@ -133,31 +134,6 @@ theorem launch_error_after_metadata {α σ : Type} (rt : Runtime α σ)
        .error reason failed⟩ := by
   simp [add, perform, Run.bind, ha, hc, hl]
 
-/-- An explicit logical instantiation of the launch primitive. It deliberately
-ignores tensor dtype/device/layout metadata and executes the legacy scalar
-kernel at the supplied logical regions. This is not an implementation of
-Torch allocation or Triton's native launch; native callbacks receive all
-three Tensor descriptors explicitly so they can dispatch or reject metadata. -/
-def logicalLaunch {α σ : Type} [Inhabited α] (M : Algebra α)
-    (_x _y _output : Tensor) (p : Parameters)
-    (initial : World α σ) : Result (World α σ) Unit :=
-  match runGrid M p initial.kernel with
-  | none => .error .logicalInterpreter initial
-  | some final => .ok () {initial with kernel := final}
-
-theorem add_logical_correct {α σ : Type} [Inhabited α] (M : Algebra α)
-    (rt : Runtime α σ) (x y output : Tensor) (initial allocated : World α σ)
-    (ha : rt.emptyLike x initial = .ok output allocated)
-    (hc : cudaGuard x y output = Bool.true) :
-    ∃ final,
-      add {rt with launch := logicalLaunch M} x y initial =
-        ⟨successTrace x y output, .ok output {allocated with kernel := final}⟩ ∧
-      final.mem = gridExpectedMemory M (parameters x y output) allocated.kernel := by
-  obtain ⟨final, he, hm⟩ := grid_correct M (parameters x y output) allocated.kernel
-    (by change 0 < (1024 : Nat); decide)
-  refine ⟨final, ?_, hm⟩
-  simp [add, perform, Run.bind, logicalLaunch, ha, hc, he, successTrace]
-
 /-- One harness case: x random draw, then y random draw, then the wrapper. -/
 def testCase {α σ : Type} (rt : Runtime α σ) (size : Nat)
     (initial : World α σ) : Run (World α σ) Tensor :=
@@ -239,11 +215,10 @@ theorem harness_result_keys {α σ : Type} (rt : Runtime α σ) (initial : World
   intro fourth finished
   rfl
 
-#specNonCircular successTrace avoiding [add, logicalLaunch, runGrid, FP.Structural.exec]
+#specNonCircular successTrace avoiding [VeriTile.Bench.Repairs.VectorAddition.Contiguous.add_kernel, FP.Structural.exec, FP.Structural.run]
 #axiomsClean allocation_error_first
 #axiomsClean cuda_error_after_allocation
 #axiomsClean launch_error_after_metadata
-#axiomsClean add_logical_correct
 #axiomsClean seed_error_stops_harness
 #axiomsClean first_random_error_stops_case
 #axiomsClean second_random_error_stops_case

@@ -20,7 +20,8 @@ def body (x y : RegionName) (batch dim block : Nat) : List Stmt :=
 theorem source_body (s x y l : RegionName) (length batch dim block : Nat) :
     (Erasure.complexForward Bool.false s x y l length batch dim block).toAlgKernel.body =
       prelude s l batch dim block ++ [.forLoop "t" length (body x y batch dim block)] := by
-  rfl
+  simp only [Bool.false_eq_true,↓reduceIte,prelude,body,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,Except.bind,bind]
+  try rfl
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

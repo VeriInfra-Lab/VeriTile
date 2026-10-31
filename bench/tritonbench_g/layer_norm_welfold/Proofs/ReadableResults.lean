@@ -6,7 +6,7 @@ noncomputable section
 set_option maxHeartbeats 3000000
 variable {α : Type} [Inhabited α]
 
-/-- Transport an existing formula only after proving complete old/new memory
+/-- Transport an existing formula only after proving complete source/candidate memory
 preservation and independent safety for the actual readable source. -/
 theorem implements (M : Algebra α) (observe : α → α) (reuse : Bool)
     (Y Mean Rstd : RegionName) (S D : Nat) (c : Configuration)
@@ -16,10 +16,10 @@ theorem implements (M : Algebra α) (observe : α → α) (reuse : Bool)
     (PairIO.layerNormIO M observe reuse Y Mean Rstd S D c.block c.tree).Implements f := by
   intro vals _ bounds bounded initial binding
   obtain ⟨_,oldFinal,oldRan,values,frame⟩ := old vals trivial bounds bounded initial binding
-  obtain ⟨historical,final,ho,hf,hm⟩ := preserve M reuse initial Y Mean Rstd S D c sep
-  have histRan : runSchedule ((IO.layerNormIO M observe Y Mean Rstd S D c.block c.tree).schedule vals) initial=some historical :=
+  obtain ⟨referenceFinal,final,ho,hf,hm⟩ := preserve M reuse initial Y Mean Rstd S D c sep
+  have referenceRan : runSchedule ((IO.layerNormIO M observe Y Mean Rstd S D c.block c.tree).schedule vals) initial=some referenceFinal :=
     (IOProof.schedule_eq M Y Mean Rstd S D c.block c.tree (List.range S) initial).trans ho
-  have eq : oldFinal=historical := Option.some.inj (oldRan.symm.trans histRan)
+  have eq : oldFinal=referenceFinal := Option.some.inj (oldRan.symm.trans referenceRan)
   subst oldFinal
   refine ⟨schedule_safe M observe reuse Y Mean Rstd S D c.block c.tree
       (sep.inputs "X" (.inl rfl)).1 vals bounds bounded (List.range S)

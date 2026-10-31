@@ -285,6 +285,15 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
         , blockShape := blockShape
         , strides := strides
         , offsets := offsets }⟩
+  | .makeBlockPtrDynMetadata region baseOffset parentShape blockShape strides offsets, s => do
+      let base ← evalOp baseOffset s
+      let strides ← strides.mapM (fun stride => do
+        let value ← evalOp stride s
+        some (value.data PUnit.unit))
+      let offsets ← offsets.mapM (fun off => do
+        let value ← evalOp off s
+        some (value.data PUnit.unit))
+      some ⟨fun _ => ⟨region,base.data PUnit.unit,parentShape,blockShape,strides,offsets⟩⟩
   | .advanceBlockPtr ptr deltas, s => do
       let p ← evalOp ptr s
       some ⟨fun i => (p.data i).advance deltas⟩

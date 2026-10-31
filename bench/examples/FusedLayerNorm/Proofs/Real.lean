@@ -13,6 +13,17 @@ open VeriTile.Examples (InputRowLoadedAt onlineWelfordLoopBody)
 open WelfordCorrect (stepStmt_assign_inv welfordLoop_traceSafe welfordBody_pid_preserved)
 open scoped VeriTile.Triton.KernelIO₃
 
+/- Only the current shared source is executable. Mathematical views below are
+its dtype erasure; these local reductions expose that view to execution proofs. -/
+attribute [local simp] ComputeKernel.eraseDType ComputeKernel.toAlgorithm?
+  ComputeKernel.toAlgKernel ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm?
+  ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm?
+  Kernel.eraseDType Stmt.eraseDTypeList Stmt.eraseDType Op.eraseDType.eq_def
+  MemAccess.eraseDType.eq_def MaskOpt.eraseDType.eq_def
+  VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
+  IntegralDType.eraseDType ComputeDType.eraseDType
+attribute [local simp] twoPassLayerNormKernel fusedLayerNormKernel
+
 @[simp] private theorem except_ok_bind {α β ε : Type _} (a : α)
     (f : α → Except ε β) :
     (Except.ok a : Except ε α) >>= f = f a := rfl
@@ -20,72 +31,23 @@ open scoped VeriTile.Triton.KernelIO₃
 /-- Executable real counterpart of the two-pass implementation. -/
 def twoPassMathKernel
     (xReg γReg βReg yReg : RegionName) (N rowStride : Nat) (ε : ℝ) :
-    ComputeKernel := triton {
-  pid    := tl.program_id(0)
-  offs   := pid * $(rowStride) + tl.arange($(N))
-  x      := tl.load($(xReg) + offs)
-  s_x    := tl.sum(x)
-  μ      := s_x / tl.toReal($(N))
-  d      := x - μ
-  s_d2   := tl.sum(d * d)
-  v      := s_d2 / tl.toReal($(N))
-  γ      := tl.load($(γReg) + tl.arange($(N)))
-  β      := tl.load($(βReg) + tl.arange($(N)))
-  σ_inv  := 1 / tl.sqrt(v + $(ε))
-  y      := (x - μ) * σ_inv * γ + β
-  tl.store($(yReg) + offs, y)
-}
+    ComputeKernel :=
+  (twoPassLayerNormKernel xReg γReg βReg yReg N rowStride ε).eraseDType
 
 def fusedMathKernel
     (xReg γReg βReg yReg : RegionName) (N rowStride : Nat) (ε : ℝ) :
-    ComputeKernel := triton {
-  pid := tl.program_id(0)
-  M   := 0
-  S   := 0
-  tl.for i in $(N) {
-    xi      := tl.load($(xReg) + (pid * $(rowStride) + i))
-    delta   := xi - M
-    M       := M + delta / (tl.toReal(i) + 1)
-    delta2  := xi - M
-    S       := S + delta * delta2
-  }
-  μ       := M
-  v       := S / tl.toReal($(N))
-  σ_inv   := 1 / tl.sqrt(v + $(ε))
-  -- Second pass to compute Y. The "fused" gain is that μ/var were
-  -- computed in a single pass over `x`; the residual `(x − μ)` still
-  -- needs the second read of x.
-  offs    := pid * $(rowStride) + tl.arange($(N))
-  x       := tl.load($(xReg) + offs)
-  γ       := tl.load($(γReg) + tl.arange($(N)))
-  β       := tl.load($(βReg) + tl.arange($(N)))
-  y       := (x - μ) * σ_inv * γ + β
-  tl.store($(yReg) + offs, y)
-}
+    ComputeKernel :=
+  (fusedLayerNormKernel xReg γReg βReg yReg N rowStride ε).eraseDType
 
 theorem twoPass_projection (xReg γReg βReg yReg : RegionName) (N stride : Nat) (ε : ℝ) :
     (twoPassLayerNormKernel xReg γReg βReg yReg N stride ε).eraseDType.toAlgorithm? =
       Except.ok (twoPassMathKernel xReg γReg βReg yReg N stride ε).toAlgKernel := by
-  simp [twoPassLayerNormKernel, twoPassMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
-  repeat' apply And.intro
-  all_goals
-    rw [Op.eraseDType.eq_def]
-    simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType]
+  simp [twoPassMathKernel, fusedMathKernel]
 
 theorem fused_projection (xReg γReg βReg yReg : RegionName) (N stride : Nat) (ε : ℝ) :
     (fusedLayerNormKernel xReg γReg βReg yReg N stride ε).eraseDType.toAlgorithm? =
       Except.ok (fusedMathKernel xReg γReg βReg yReg N stride ε).toAlgKernel := by
-  simp [fusedLayerNormKernel, fusedMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
-    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
-    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
-  rw [Op.eraseDType.eq_def]
-  simp [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType]
+  simp [twoPassMathKernel, fusedMathKernel]
 
 theorem twoPass_region_run (N stride : Nat) (ε : ℝ) (s : BlockState)
     (xs gs bs : Fin N → ℝ)
@@ -203,6 +165,7 @@ theorem twoPass_traceSafe (bounds : RegionBounds)
       ((twoPassMathKernel xReg γReg βReg yReg N rowStride ε).toAlgKernel)
       s := by
   unfold Kernel.TraceSafe
+  try simp only [twoPassMathKernel, fusedMathKernel, twoPassLayerNormKernel, fusedLayerNormKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
   intro s1 hs1
   obtain ⟨v1, hv1, rfl⟩ := stepStmt_assign_inv hs1
@@ -261,7 +224,7 @@ theorem twoPass_traceSafe (bounds : RegionBounds)
   obtain ⟨v12, hv12, rfl⟩ := stepStmt_assign_inv hs12
   refine Stmt.TraceSafeList.cons_intro ?_ (fun _ _ => .nil_intro)
   simp only [Stmt.TraceSafe, MemAccess.SafeAt, MaskOpt.SafeAt, Op.SafeAt]
-  refine ⟨trivial, by simp, trivial,
+  refine ⟨trivial, by simp [Op.SafeAt.eq_def], trivial,
     offs_activeAddressSafe N rowStride  bounds (s.pids 0) _ _ ?_
       (Region.cast yReg) (by simpa [Region.cast_self] using hyb)⟩
   simp [BlockState.setReg]
@@ -312,6 +275,7 @@ theorem fused_traceSafe (bounds : RegionBounds)
       ((fusedMathKernel xReg γReg βReg yReg N rowStride ε).toAlgKernel)
       s := by
   unfold Kernel.TraceSafe
+  try simp only [twoPassMathKernel, fusedMathKernel, twoPassLayerNormKernel, fusedLayerNormKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
   intro s1 hs1
   obtain ⟨v1, hv1, rfl⟩ := stepStmt_assign_inv hs1
@@ -376,7 +340,7 @@ theorem fused_traceSafe (bounds : RegionBounds)
   obtain ⟨v12, hv12, rfl⟩ := stepStmt_assign_inv hs12
   refine Stmt.TraceSafeList.cons_intro ?_ (fun _ _ => .nil_intro)
   simp only [Stmt.TraceSafe, MemAccess.SafeAt, MaskOpt.SafeAt, Op.SafeAt]
-  refine ⟨trivial, by simp, trivial,
+  refine ⟨trivial, by simp [Op.SafeAt.eq_def], trivial,
     offs_activeAddressSafe N rowStride  bounds (s.pids 0) _ _ ?_
       (Region.cast yReg) (by simpa [Region.cast_self] using hyb)⟩
   simp [BlockState.setReg]

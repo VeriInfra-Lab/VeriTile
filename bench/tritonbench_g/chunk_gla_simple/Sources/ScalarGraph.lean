@@ -76,17 +76,6 @@ def value (c : Shape) (s : State Expr) (scale : BitVec 32)
   lower scale (FPValue.outputValue algebra c (dots c)
     (FPGrid.launch c s (owner c bt h t v)) scaleTag (lane c bt t v))
 
-theorem complete (c : Shape) (bt : 0<c.BT) (s : State Expr) (scale : BitVec 32) :
-    ∃ final,FPGrid.run algebra c scaleTag (FPGrid.programs c) s=some final ∧
-      FPGrid.Result algebra c scaleTag (dots c) s final ∧
-      (∀ h t v,lower scale ((final.mem "o" (h.val*(c.T*c.V)+t.val*c.V+v.val)).read .fp32)=
-        value c s scale h t v bt) := by
-  obtain ⟨final,source,values⟩:=FPGrid.whole_grid algebra c scaleTag (dots c) s
-  refine ⟨final,source,values,?_⟩
-  intro h t v
-  rw [FPGrid.returned algebra c bt scaleTag (dots c) s final values h t v]
-  simp only [Cell.read_same,value]
-
 /-- Generic representation transport plus five fixed scalar arithmetic
 families. Concrete native words use `WordPrimitives`, whose bit leaves are
 structurally the identity. No dot, reduction or output numerical port exists. -/
@@ -144,8 +133,7 @@ theorem transport {α β : Type} (f : α→β) (A : Primitives α) (B : Primitiv
   apply VeriTile.Bench.Repairs.ChunkGlaFwd.NativeInstructions.transport
   exact ⟨ports.bits,ports.literal,ports.binary,ports.unary,ports.cast,ports.fma,fun _ _ _ _ _=>rfl⟩
 
-#specNonCircular value avoiding [FPGrid.run,FP.Structural.exec]
-#axiomsClean complete
+#specNonCircular value avoiding [FP.Structural.exec]
 #axiomsClean transport
 end
 end VeriTile.Bench.Repairs.ChunkGlaSimple.ScalarGraph

@@ -1,8 +1,9 @@
-import bench.tritonbench_g.mean_reduction.Sources.Mathematical_Kernels
+import VeriTile.Triton.DSL
+import VeriTile.Triton.Float.Erasure
 
 /-! Complete selected FP32 streaming source. Both ordinary quotations retain
 all casts, accumulation, reduction, division, masks and explicit source ports.
-The generic historical storage family remains available from the import. -/
+Both interpretations use these same repaired FP32 sources. -/
 namespace VeriTile.Bench.Repairs.MeanReduction
 open VeriTile.Triton
 

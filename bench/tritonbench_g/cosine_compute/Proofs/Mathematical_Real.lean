@@ -1,4 +1,4 @@
-import bench.tritonbench_g.cosine_compute.Proofs.Mathematical_Kernels
+import bench.tritonbench_g.cosine_compute.Kernels
 import VeriTile.Triton
 import VeriTile.Examples.Common
 import VeriTile.Meta.StatementAudit
@@ -9,48 +9,18 @@ set_option maxHeartbeats 2000000
 set_option maxRecDepth 5000
 set_option linter.unusedSimpArgs false
 
-/-- Executable real projection: precision erasure removes the conversions. -/
-def realKernel (swapped : Bool) (a b : RegionName) (n_elements BLOCK_SIZE : Nat) : ComputeKernel :=
-  if swapped then ComputeKernel.mk [a] [b] (triton {
-    offset = $(BLOCK_SIZE) * tl.program_id(0) + tl.arange(0, $(BLOCK_SIZE))
-    mask = offset < $(n_elements)
-    a_value = tl.load(a + offset, mask=mask)
-    b_value = tl.cos(a_value)
-    tl.store(b + offset, b_value, mask=mask)
-  }).surfaceBody else ComputeKernel.mk [a] [b] (triton {
-    offset = tl.program_id(0) * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-    mask = offset < $(n_elements)
-    a_value = tl.load(a + offset, mask=mask)
-    b_value = tl.cos(a_value)
-    tl.store(b + offset, b_value, mask=mask)
-  }).surfaceBody
+/-- Algorithm projection generated from the complete current repair/candidate.
+The explicit source conversion is retained until its Real semantics is evaluated. -/
+def realKernel (swapped : Bool) (a b : RegionName) (n B : Nat) : ComputeKernel :=
+  let source := if swapped then VeriTile.Bench.Repairs.CosineCompute.indexCommutedKernel a b n B
+    else VeriTile.Bench.Repairs.CosineCompute.kernel a b n B
+  let k := source.toAlgKernel
+  ComputeKernel.fromKernelBody k.inputs k.outputs k.body
 
-theorem source_projects (storage : Storage) (swapped : Bool) (a b : RegionName) (n B : Nat) :
-    (kernel storage swapped a b n B).toAlgorithm? = .ok (kernel storage swapped a b n B).toAlgKernel := by
-  cases storage <;> cases swapped <;> rfl
-
-theorem projection (storage : Storage) (swapped : Bool) (a b : RegionName) (n B : Nat) :
-    (kernel storage swapped a b n B).eraseDType.toAlgorithm? =
-      .ok (kernel storage swapped a b n B).eraseDType.toAlgKernel := by
-  simp only [ComputeKernel.eraseDType,source_projects,ComputeKernel.toAlgorithm?_fromKernelBody,
-    ComputeKernel.toAlgKernel_fromKernelBody]
-
-/-- Every storage branch erases to this same source projection. -/
-theorem projects (storage : Storage) (swapped : Bool) (a b : RegionName) (n B : Nat) :
-    (kernel storage swapped a b n B).eraseDType.toAlgKernel =
-      (realKernel swapped a b n B).toAlgKernel := by
-  cases storage <;> cases swapped
-  all_goals simp only [kernel,original,indexCommuted,realKernel,
-    Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
-    ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
-    ComputeDType.eraseDType,List.map_cons,List.map_nil,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
-    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
-    IntegralDType.eraseDType,Except.bind,bind,eraseDType_float]
-  all_goals simp only [Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType,FloatDType.toTileDType,NumericDType.eraseDType,ComparableDType.eraseDType,
-    IntegralDType.eraseDType]
-  all_goals rfl
+attribute [local simp] VeriTile.Bench.Repairs.CosineCompute.kernel
+  VeriTile.Bench.Repairs.CosineCompute.indexCommutedKernel Region.cast
+  ComputeKernel.toAlgorithm? ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm?
+  ComputeStmt.toAlgorithm? Except.bind bind ComputeDType.eraseDType
 
 theorem cos_func_correct
     (a b : RegionName)
@@ -165,7 +135,6 @@ theorem cos_func_flattenOk
   unfold Kernel.FlattenOk
   simp [realKernel, ComputeKernel.surfaceBody, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeKernel.toAlgKernel,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
-
 
 /-- Exact integer arithmetic makes the two real executions coincide. -/
 theorem commuted_exec (a b : RegionName) (n B : Nat) (s : BlockState) :

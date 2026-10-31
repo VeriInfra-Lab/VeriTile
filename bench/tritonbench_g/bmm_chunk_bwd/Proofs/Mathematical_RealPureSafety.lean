@@ -15,7 +15,7 @@ theorem setup_safe (BM BN BCS : Nat) (p : RealProgram.Parameters) (bounds : Regi
     Stmt.TraceSafeList bounds (RealSetup.code BM BN BCS p) s := by
   apply TraceProofs.all_safe
   simp [RealSetup.code, RealProgram.realPart, RealProgram.parts, RealProgram.source,
-    TypedSource.specialize, Source.dynamicRange?, ComputeKernel.surfaceBody,
+    TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.quotedOriginal, Source.dynamicRange?, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,

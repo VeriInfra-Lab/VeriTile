@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layernorm_fwd_triton.Proofs.Mathematical_FPComplete
+import bench.tritonbench_g.layernorm_fwd_triton.Proofs.Mathematical_FPOutput
 namespace VeriTile.Bench.TritonBenchG.LayernormFwdTriton.FPStages
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange)

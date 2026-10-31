@@ -22,7 +22,7 @@ specification kernel_correct (c : Layout) (eps : ℝ)
     (GridPublic.implements realAlgebra id (fun _ => id) c eps rows schedule
       xSeparate wSeparate (realFormula c.N eps) (rowValue_real c eps))
 
-#specNonCircular formula avoiding [RmsNormTriton.kernel,rowValue,sourceRun,runRows]
+#specNonCircular formula avoiding [rowValue,sourceRun,runRows]
 #axiomsClean kernel_correct
 #stmtSurfaceSubset kernel_correct ⊆
   [Layout,Layout.X,Layout.W,Layout.Y,Layout.M,Layout.N,RegionName,Spec.Real,

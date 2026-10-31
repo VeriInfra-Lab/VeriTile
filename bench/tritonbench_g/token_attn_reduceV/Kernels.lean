@@ -2,7 +2,7 @@ import bench.tritonbench_g.token_attn_reduceV.Sources.Source
 
 namespace VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked
 open VeriTile.Triton TokenAttnReduceV
-abbrev source := TokenAttnReduceV.source
+
 abbrev kernel := TokenAttnReduceV.kernel
 
 /-- Full affine-address candidate: compute uniform P origin scalarly,

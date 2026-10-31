@@ -47,8 +47,7 @@ private theorem arithmetic_safe (M : Algebra α) (a : IntegerDot.Arithmetic)
     (current : State α) (bounds : RegionName → Nat) :
     IntegerDot.traceSafeList M a context bounds (arithmeticPrefix s c bias) current := by
   apply traceSafe_of_pointwise
-  simp [arithmeticPrefix,epilogue,source,TypedSource.kernel,TypedSource.skeleton,
-    TypedSource.bindRuntime,TypedSource.runtimeScaled,ComputeKernel.surfaceBody]
+  simp [arithmeticPrefix,epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody]
   all_goals simp only [IntegerDot.stepSafe_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   all_goals simp [Safety.safeOp_unfold]
@@ -60,8 +59,7 @@ private theorem arithmetic_coordinates (M : Algebra α) (a : IntegerDot.Arithmet
     Coordinates c base next := by
   apply run_invariant M a context (arithmeticPrefix s c bias) (Coordinates c base) ?_ current next coords ran
   intro st member before after h executed
-  simp [arithmeticPrefix,epilogue,source,TypedSource.kernel,TypedSource.skeleton,
-    TypedSource.bindRuntime,TypedSource.runtimeScaled,ComputeKernel.surfaceBody] at member
+  simp [arithmeticPrefix,epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody] at member
   rcases member with rfl | rfl
   all_goals
     simp only [IntegerDot.step,IntegerDot.arithmeticStep,FP.Structural.step] at executed
@@ -81,8 +79,7 @@ private theorem bias_safe (M : Algebra α) (a : IntegerDot.Arithmetic)
   cases hasBias
   all_goals by_cases first : register base .int [] "pid_z" PUnit.unit = 0
   all_goals
-    simp [biasStage,epilogue,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-      ComputeKernel.surfaceBody,IntegerDot.traceSafeList_cons,IntegerDot.stepSafe_unfold,
+    simp [biasStage,epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,IntegerDot.traceSafeList_cons,IntegerDot.stepSafe_unfold,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
       Safety.safeOp_unfold,Safety.addressSafe,Safety.maskActive,
       IntegerDot.step,IntegerDot.arithmeticStep,IntegerDot.run,FP.Structural.step,
@@ -99,8 +96,7 @@ private theorem bias_coordinates (M : Algebra α) (a : IntegerDot.Arithmetic)
   cases hasBias
   all_goals by_cases first : register base .int [] "pid_z" PUnit.unit = 0
   all_goals
-    simp [biasStage,epilogue,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-      ComputeKernel.surfaceBody,IntegerDot.step,IntegerDot.arithmeticStep,IntegerDot.run,
+    simp [biasStage,epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,IntegerDot.step,IntegerDot.arithmeticStep,IntegerDot.run,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,bop,numericLt,numericEq,
       coords.rn,coords.pz,first,mode,Broadcast.leftIndex,Broadcast.rightIndex] at ran
   all_goals try (subst next; exact coords)
@@ -120,8 +116,7 @@ private theorem write_safe (M : Algebra α) (a : IntegerDot.Arithmetic)
     IntegerDot.traceSafeList M a context bounds (writeStage s c hasBias) current := by
   by_cases split : c.S = 1
   all_goals
-    simp [writeStage,epilogue,source,TypedSource.kernel,TypedSource.skeleton,TypedSource.bindRuntime,
-      ComputeKernel.surfaceBody,IntegerDot.traceSafeList_cons,IntegerDot.stepSafe_unfold,
+    simp [writeStage,epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,IntegerDot.traceSafeList_cons,IntegerDot.stepSafe_unfold,
       IntegerDot.step,IntegerDot.arithmeticStep,IntegerDot.run,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
       Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

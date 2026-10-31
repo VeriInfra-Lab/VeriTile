@@ -11,9 +11,6 @@ abbrev Word := FP.Value .fp32
 local instance : Inhabited Word := ⟨FP.Value.zero .fp32⟩
 abbrev Memory := RegionName → Nat → Cell Word
 
-
-def source (p : Parameters) := TypedSource.original p.A p.B p.output p.M p.N p.K p.BM p.BN p.BK
-
 /-- Every product and explicit seed is retained. The plan asserts leaf
 multiplicity only, with no real-sum or reassociation identity. -/
 def treeValue (cfg : FP.Config) (xs : Fin n → Word) : ReductionTree n → Word
@@ -80,9 +77,6 @@ structure Invariant (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
   blocks : current.regs .nat [] "k_blocks" = some (fun _ => p.K / p.BK)
   memory : current.mem = initial.mem
 
-theorem source_admitted (p : Parameters) :
-    (source p).toAlgorithm? = .ok (source p).toAlgKernel := by rfl
-
 theorem expectedMemory_frame (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
     (p : Parameters) (s : State Word) (r : RegionName) (o : Nat) (h : Outside p s r o) :
     expectedMemory cfg plans p s r o = s.mem r o := by
@@ -103,8 +97,7 @@ theorem expectedMemory_frame (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
       exact if_neg hn
   exact aux _ _
 
-#specNonCircular expectedMemory avoiding [source, FP.Structural.exec, FP.Structural.run]
-#axiomsClean source_admitted
+#specNonCircular expectedMemory avoiding [ FP.Structural.exec, FP.Structural.run]
 #axiomsClean expectedMemory_frame
 end
 end VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs

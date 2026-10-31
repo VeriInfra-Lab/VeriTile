@@ -20,7 +20,7 @@ end Graph
 namespace SharedLoop
 open SharedStep
 def initial (c : Shape) (head : Nat) (s : State (Term α)) : State (Term α) :=
-  (s.setReg "i_bh" .nat [] (fun _ => head)).setReg "b_h" .real [c.D,c.D] (fun _ => num 0)
+  (s.setReg "i_bh" .int [] (fun _ => (head : Int))).setReg "b_h" .real [c.D,c.D] (fun _ => num 0)
 def state [Inhabited α] (c : Shape) (scale : ℝ) (head : Nat) (storeFlag ifcond : Bool)
     (s : State (Term α)) : Nat → State (Term α)
   | 0 => initial c head s
@@ -44,7 +44,7 @@ theorem reads [Inhabited α] (c : Shape) (scale : ℝ) (head : Nat) (storeFlag i
 
 theorem head_reg [Inhabited α] (c : Shape) (scale : ℝ) (head : Nat) (storeFlag ifcond : Bool)
     (s : State (Term α)) (n : Nat) :
-    (state c scale head storeFlag ifcond s n).regs .nat [] "i_bh"=some (fun _ => head) := by
+    (state c scale head storeFlag ifcond s n).regs .int [] "i_bh"=some (fun _ => (head : Int)) := by
   induction n with
   | zero => simp [state,initial]
   | succ n ih => simp only [state,finished_head]; simpa using ih

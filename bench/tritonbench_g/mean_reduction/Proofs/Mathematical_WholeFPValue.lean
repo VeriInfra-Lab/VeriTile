@@ -35,7 +35,7 @@ def prefixState {α : Type} (A : Algebra α) (X Mean : RegionName) (M N : Nat)
 theorem prefix_runs {α : Type} [Inhabited α] (A : Algebra α) (X Mean : RegionName)
     (M N : Nat) (s : State α) :
     run A (codePrefix X Mean M N) s = some (prefixState A X Mean M N (s.pids 0) s) := by
-  simp [codePrefix,source,typedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [codePrefix,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp_unfold,numeric,numericLt,natLt,FP.Structural.bop,
     Region.cast,prefixState,Option.bind]
   congr 10 <;> (first | rfl | (funext i; simp [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex]))
@@ -76,7 +76,7 @@ theorem body_runs {α : Type} [Inhabited α] (A : Algebra α) (X Mean : RegionNa
     run A (body N) (s.setReg "off" .nat [] (fun _ => off)) =
       some (bodyState A X M N pid off memory acc s) := by
   rcases ctx with ⟨hX,hMean,hRow,hAcc,hMem⟩
-  simp [body,source,typedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [body,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp_unfold,numeric,numericLt,natLt,FP.Structural.bop,
     Region.cast,bodyState,chunk,nextAcc,Option.bind,hX,hMean,hRow,hAcc,hMem]
   simp [ComputeDType.eraseDType,ofFloat,toFloat,hAcc,Option.bind,chunk,nextAcc]
@@ -143,7 +143,7 @@ theorem suffix_runs {α : Type} [Inhabited α] (A : Algebra α) (X Mean : Region
     (ctx : Context X Mean M N pid memory acc s) :
     run A (suffix N) s = some (suffixState A Mean M N pid acc s) := by
   rcases ctx with ⟨hX,hMean,hRow,hAcc,hMem⟩
-  simp [suffix,source,typedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [suffix,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp_unfold,numeric,numericLt,natLt,FP.Structural.bop,store,
     Region.cast,suffixState,meanValues,Option.bind,hMean,hRow,hAcc]
   simp [ComputeDType.eraseDType,Option.bind,hMean,hRow,meanValues]
