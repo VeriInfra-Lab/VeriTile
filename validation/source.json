@@ -62368,11 +62368,11 @@
     "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/PublicIO.lean": "124a86a07e956d3e872ad324cae3369e586b3aae8f8aa72c19056b77fca8b1d5",
     "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/Real.lean": "44c0645384d49551bbb642e9368b6ba1da34e217b56fd7a01e3fa3504f2315bf",
     "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RealFormula.lean": "34b91a072cc940c02ca27a05ca844c45ee2183d30545c3ba9450e14ba01516ba",
-    "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RebasedSafety.lean": "a89f8a1202c3e036856fa8477ceb598cd988817392fb38c33dde89d768d7efaf",
+    "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RebasedSafety.lean": "e2a8a795aca3e3022a2710ce73d96213104e5c8e99efb1f9345ee32a4d51791c",
     "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/RebasedSourceSafety.lean": "0d7c526aae702a05c51de8e985eb278031719f80c5f43437d0dca52a6e8e26dd",
     "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/ScalarTree.lean": "1438623ff38bf20062d941875cef9fadf91d343088c6e71a208e2683a0c59e07",
     "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/TargetBridge.lean": "5ac088084a92757283bf1182e9612417b7f7e0ded383bb3dca820ad1783bb1e1",
-    "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/TransportBody.lean": "7505a8a91b816856faabcbc1bddfff8f5a79de6b080182ad1f40b61057d484ee",
+    "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/TransportBody.lean": "5844a43fae7ec26839de21ac3dcf5797a9f2ebd4e9d707308c6e48cfeb9bb0dc",
     "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/TransportComplete.lean": "6c5145146a6b5b1cfbda9c6b965b4c24de65ab5976ae992e04d11e05b1a9acb6",
     "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/TransportLoop.lean": "02d56290af0b932330cbf33c0f73fa63f713235a0f30ecd026e3f60035fa67bd",
     "bench/tritonbench_g/bgmv_shrink_kernel/Proofs/TransportTail.lean": "116f278953ca8d033f618df304cf488a37b134cc39b4f3358031a6c802387c1a",
@@ -70046,7 +70046,7 @@
     "tests/lean/UnsignedLoopBinding.lean": "edbe1db2a00a2f75468465924556555f588b8b9dca779425216ae859a1050501",
     "tests/lean/WelfordSourceContexts.lean": "f62e2138c4cfe983f10fade716f33eb4bdcf049374bad30225883a7da7c7a544",
     "validation/bench-layout.json": "0811e2b0f1d456687e23d144a7700d486d05e0cec9ee55c616e62cc8d05dc1c4",
-    "validation/contracts.json": "4277c607bc4f0dd780c2227e8760a18ade272c231f5a7fd17b3b01cbaa9fd137",
+    "validation/contracts.json": "d3884a8d0a5ca02f0a0381f1d846d11d165d9c553b8cc87ed10e916327384bc0",
     "validation/task_progress.json": "c00d05f4f17beabf26887bf9dcba850fc0b3b2ff194db595a81c0b92709225e8"
   },
   "validation_boundary": "Membership and reviewed scope only; requires Lean build, axiom/spec gates and official replay. Imported benchmark proof goals and Python/native correspondence gaps remain separate."
