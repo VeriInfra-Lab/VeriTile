@@ -62,7 +62,7 @@ theorem forward_types (storage : Storage) (swapped : Bool) :
     stores (loopBody code) = [dtype storage] := by
   cases storage <;> cases swapped
   all_goals refine ⟨?_,rfl,rfl,?_⟩
-  all_goals simp [stores,loopBody,fwd,forward,ComputeKernel.surfaceBody,assignedLoadType?,loadType?,dtype,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption,Option.bind]
+  all_goals simp [stores,loopBody,fwd,forward,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedForward,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedForwardIndexCommuted,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedPrepare,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedPrepareIndexCommuted,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedBackward,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedBackwardIndexCommuted,ComputeKernel.surfaceBody,assignedLoadType?,loadType?,dtype,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption,Option.bind]
 
 /-- Query/key and gate storage are independent, including the unmasked final
 gate load. Neither the explicit fp32 conversion nor output casts are erased. -/
@@ -76,7 +76,7 @@ theorem prepare_types (source gate : Storage) (swapped : Bool) :
     stores (loopBody code) = [dtype source,dtype source] := by
   cases source <;> cases gate <;> cases swapped
   all_goals refine ⟨?_,?_,?_,?_,rfl,?_⟩
-  all_goals simp [stores,loopBody,prep,prepare,ComputeKernel.surfaceBody,assignedLoadType?,loadType?,dtype,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption,Option.bind]
+  all_goals simp [stores,loopBody,prep,prepare,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedForward,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedForwardIndexCommuted,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedPrepare,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedPrepareIndexCommuted,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedBackward,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedBackwardIndexCommuted,ComputeKernel.surfaceBody,assignedLoadType?,loadType?,dtype,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption,Option.bind]
 
 theorem backward_types (source gate : Storage) (swapped : Bool) :
     let code := (bwd source gate swapped).surfaceBody
@@ -91,7 +91,7 @@ theorem backward_types (source gate : Storage) (swapped : Bool) :
     stores (loopBody code) = [dtype source,dtype source,dtype gate] := by
   cases source <;> cases gate <;> cases swapped
   all_goals refine ⟨?_,?_,?_,?_,?_,?_,?_,rfl,?_⟩
-  all_goals simp [stores,loopBody,bwd,backward,ComputeKernel.surfaceBody,assignedLoadType?,loadType?,dtype,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption,Option.bind]
+  all_goals simp [stores,loopBody,bwd,backward,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedForward,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedForwardIndexCommuted,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedPrepare,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedPrepareIndexCommuted,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedBackward,VeriTile.Bench.Repairs.DecayCumsum.Kernels.quotedBackwardIndexCommuted,ComputeKernel.surfaceBody,assignedLoadType?,loadType?,dtype,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption,Option.bind]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

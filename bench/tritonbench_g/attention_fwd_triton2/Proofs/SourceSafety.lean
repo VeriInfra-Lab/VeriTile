@@ -46,7 +46,9 @@ theorem entry_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : Re
     TileShape.axisDim,Region.cast,State.setReg]
   refine ⟨?_,hb.queryScale⟩
   intro i d hr hd
-  simpa only [source_offset,base] using hb.query i d (by exact_mod_cast hr) hd
+  have hrow : (s.pids 0:Int)*128+(i.val:Int)<(p.length:Int) := hr
+  have hn : s.pids 0*128+i.val<p.length := by omega
+  simpa only [source_offset,base] using hb.query i d hn hd
 
 theorem body_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : RegionName → Nat)
     (initial current : State α) (row : Nat) (a : Acc α)
@@ -80,7 +82,9 @@ theorem post_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : Reg
     ctx.memory,ctx.rows,ctx.outputPointer,ctx.normalizer,ctx.value]
   refine ⟨?_,by split <;> trivial⟩
   intro i d hr hd
-  exact hb.output i d (by exact_mod_cast hr) hd
+  have hrow : ((initial.pids 0*128+i.val:Nat):Int)<(p.length:Int) := hr
+  have hn : initial.pids 0*128+i.val<p.length := by omega
+  exact hb.output i d hn hd
 
 end
 end VeriTile.Bench.Repairs.AttentionFwdTriton2.SourceSafety

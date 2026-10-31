@@ -48,7 +48,9 @@ theorem body_accesses (M : Algebra α) (dot : Dot α) (p : Parameters)
       simp only [Bool.and_true,decide_eq_true_eq] at hi
       simpa [base,Nat.add_assoc] using hv _ hi j.val j.isLt
     · intro i hi
-      simpa [base,Nat.add_assoc] using hbi _ hi (row/bn) column
+      have hrow : (initial.pids 0:Int)*(bm:Int)+(i.val:Int)<(length:Int) := hi
+      have hn : initial.pids 0*bm+i.val<length := (source_row_lt _ _ _ _).mp hrow
+      simpa only [base,source_base_int,←Int.natCast_ediv,←Int.natCast_emod,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Nat.add_mul,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm] using hbi _ hn (row/bn) column
 
 theorem body_pure (M : Algebra α) (dot : Dot α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α) :

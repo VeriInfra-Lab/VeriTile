@@ -58,7 +58,7 @@ theorem iteration_ready (M : Algebra α) (P : Primitives α) (h : Call)
 
   all_goals
     norm_cast
-    simp only [Int.toNat_natCast,Int.ofNat_lt]
+    simp only [Int.toNat_natCast,Int.ofNat_lt,Nat.mul_comm]
 
 #axiomsClean setup_ready
 #axiomsClean iteration_ready
