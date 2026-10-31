@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-! Existing full-loop real execution, independent GEMV formula and streamed
 flat-memory IO foundation. The .real source here is the precision-erased
@@ -48,7 +49,7 @@ noncomputable def vecmatProdTile
           some (s.readMem B (bOffset s dim_n dim_k BLOCK_N ni kj))
         else some (0.0 : ℝ)) }
 
-noncomputable def vecmatSpec
+@[standalone_spec] noncomputable def vecmatSpec
     (s : BlockState) (A B : RegionName)
     (dim_n dim_k N K BLOCK_N BLOCK_K : Nat)
     (i : Fin BLOCK_N) : ℝ :=
@@ -106,7 +107,7 @@ noncomputable def vecmatAccumSpecK
 def withKIndex (s : BlockState) (kIdx : Nat) : BlockState :=
   { s with pids := fun ax => if ax = 2 then kIdx else s.pids ax }
 
-noncomputable def vecmatConstKAccumSpec
+@[standalone_spec] noncomputable def vecmatConstKAccumSpec
     (s : BlockState) (AccPre A B : RegionName)
     (dim_n dim_k N K BLOCK_N BLOCK_K kIdx : Nat)
     (i : Fin BLOCK_N) : ℝ :=
@@ -120,7 +121,7 @@ def blockOutOffset (s : BlockState) (dim_n BLOCK_M BLOCK_N : Nat)
     (idx : TileIndex [BLOCK_M, BLOCK_N]) : Nat :=
   mIndex s BLOCK_M idx.1 * dim_n + nIndex s BLOCK_N idx.2.1
 
-noncomputable def blockOutputStoreSpec
+@[standalone_spec] noncomputable def blockOutputStoreSpec
     (s : BlockState) (VecmatPre : RegionName) (dim_n BLOCK_M BLOCK_N : Nat)
     (idx : TileIndex [BLOCK_M, BLOCK_N]) : ℝ :=
   s.readMem VecmatPre (blockOutOffset s dim_n BLOCK_M BLOCK_N idx)
@@ -182,7 +183,7 @@ noncomputable def bElem (s : BlockState) (B : RegionName)
   s.readMem B (gRow s BLOCK_M i * dim_n * dim_k + gCol s BLOCK_N j * dim_k + kk)
 
 /-- **Genuine GEMV spec**: `out[i,j] = Σ_{kk < BLOCK_K·numKBlocks} A[i,kk] · B[i,j,kk]`. -/
-noncomputable def gemvSpec (s : BlockState) (A B : RegionName)
+@[standalone_spec] noncomputable def gemvSpec (s : BlockState) (A B : RegionName)
     (dim_n dim_k BLOCK_M BLOCK_N BLOCK_K numKBlocks : Nat)
     (i : Fin BLOCK_M) (j : Fin BLOCK_N) : ℝ :=
   (Finset.range (BLOCK_K * numKBlocks)).sum

@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-!
 # `lora_expand_gemv` — strict per-kernel correctness
@@ -106,7 +107,7 @@ noncomputable def bElem (s : BlockState) (lora_ptr : RegionName)
       m * lora_k_stride + k * lora_n_stride)
 
 /-- **Genuine GEMV spec**: output lane `m` equals `Σ_{k<K} x[k]·W[m,k]`. -/
-noncomputable def gemvSpec (s : BlockState) (input_ptr lora_ptr : RegionName)
+@[standalone_spec] noncomputable def gemvSpec (s : BlockState) (input_ptr lora_ptr : RegionName)
     (lora_indices : Region .nat)
     (K split_n_length xm_stride xk_stride l0_stride lora_k_stride
       lora_n_stride : Nat) (m : Nat) : ℝ :=

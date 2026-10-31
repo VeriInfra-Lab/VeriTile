@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-! Exact-real prefix, per-chunk carry, active-address and full-cell frame
 lemmas. No separate whole kernel is defined here. RealIndexBridge checks the
@@ -862,7 +863,7 @@ window `(t, j)` holds the **guarded prefix sum** of the whole curried stream
 window's flat index `t·BT + j` and lies inside the row (`< T`). The guard is
 the skin's `mask1`, so the spec never reads an unmasked lane (the contract
 pins `xs` only where `mask1` holds). -/
-noncomputable def ccStreamSpec (NT BT : Nat)
+@[standalone_spec] noncomputable def ccStreamSpec (NT BT : Nat)
     (xs : Fin (ccNumChunks NT BT) → Fin BT → ℝ)
     (t : Fin (ccNumChunks NT BT)) (j : Fin BT) : ℝ :=
   ∑ u : Fin (ccNumChunks NT BT), ∑ e : Fin BT,

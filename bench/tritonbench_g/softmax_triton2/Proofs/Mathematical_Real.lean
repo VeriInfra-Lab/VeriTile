@@ -1,4 +1,5 @@
 import VeriTile.Triton.DSL
+import VeriTile.Meta.StatementAudit
 import VeriTile.Triton
 import VeriTile.Triton.Semantics.MaskedReduction
 
@@ -14,7 +15,7 @@ noncomputable def softmaxInputTile (n_cols BLOCK_SIZE : Nat)
 /-- Exact stable-softmax value computed by the kernel at lane `idx`, as a pure
 function of the active row prefix `xs j`, `j < n_cols` (masked lanes enter the
 reductions as `⊥`, neutral for both `max` and the `exp`-sum). -/
-noncomputable def softmaxSpec (n_cols BLOCK_SIZE : Nat)
+@[standalone_spec] noncomputable def softmaxSpec (n_cols BLOCK_SIZE : Nat)
     (xs : Fin BLOCK_SIZE → ℝ) (idx : Fin BLOCK_SIZE) : ℝ :=
   let row := softmaxInputTile n_cols BLOCK_SIZE xs
   match Tile.reduceMax (shape := [BLOCK_SIZE]) ⟨0, by simp⟩ Bool.false row with

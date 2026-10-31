@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 import VeriTile.Triton.Float.SignedCast
 
 /-!
@@ -177,7 +178,7 @@ noncomputable def scElem (s : BlockState) (b_scale_ptr : RegionName)
 /-- **The stored value** at absolute cell `(k, n)`: the **signed** nibble
 difference (ℤ-subtraction — this is what the `.int` hop of disclosure (1)
 buys; ℕ subtraction would truncate), embedded into ℝ and scaled. -/
-noncomputable def dequantSpec (s : BlockState) (b_scale_ptr : RegionName)
+@[standalone_spec] noncomputable def dequantSpec (s : BlockState) (b_scale_ptr : RegionName)
     (b_ptr b_zp_ptr : Region .nat)
     (group_size stride_bk stride_bn stride_bsk stride_bsn
       stride_bzpk stride_bzpn : Nat) (k n : Nat) : ℝ :=

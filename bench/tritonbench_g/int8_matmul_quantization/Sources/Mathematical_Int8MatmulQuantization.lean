@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 import VeriTile.Triton.Float.LegacyRealInt8
 import VeriTile.Triton.Float.MaximumPrimitive
 
@@ -184,12 +185,12 @@ noncomputable def qMaxPartial (K BK : Nat) (f : Nat → ℝ) : Nat → ℝ
   | i + 1 => max (qMaxPartial K BK f i) (qBlockMax K BK f i)
 
 /-- `a_scale = a_max / 127.` after the full first loop. -/
-noncomputable def qScaleSpec (K BK numKBlocks : Nat) (f : Nat → ℝ) : ℝ :=
+@[standalone_spec] noncomputable def qScaleSpec (K BK numKBlocks : Nat) (f : Nat → ℝ) : ℝ :=
   qMaxPartial K BK f numKBlocks / 127
 
 /-- **The stored int8 value**: `castRealToInt8`'s own truncation-toward-zero of
 `fpa[row, kg] / a_scale[row]`. -/
-noncomputable def qInt8Spec (K BK numKBlocks : Nat) (f : Nat → ℝ) (kg : Nat) : ℤ :=
+@[standalone_spec] noncomputable def qInt8Spec (K BK numKBlocks : Nat) (f : Nat → ℝ) (kg : Nat) : ℤ :=
   tritonTruncTowardZero (f kg / qScaleSpec K BK numKBlocks f)
 
 /-! ## Offset / pointer / value tiles -/
@@ -1235,7 +1236,7 @@ def mmAccStep (s : BlockState) (A B : Region .int)
     else 0
 
 /-- The full ℤ accumulator: `accumulator` after all `numKBlocks` K steps. -/
-def mmAccSpec (s : BlockState) (A B : Region .int)
+@[standalone_spec] def mmAccSpec (s : BlockState) (A B : Region .int)
     (stride_am stride_ak stride_bk stride_bn K BK numKBlocks : Nat)
     (row col : Nat) : ℤ :=
   ∑ kb : Fin numKBlocks,

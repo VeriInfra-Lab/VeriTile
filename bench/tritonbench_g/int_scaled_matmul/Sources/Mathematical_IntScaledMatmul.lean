@@ -1,5 +1,6 @@
 import VeriTile.Triton
 import VeriTile.Meta.StatementAudit
+import VeriTile.Meta.StatementAudit
 
 /-!
 # Complete execution of the two int_scaled_matmul source programs
@@ -546,7 +547,7 @@ noncomputable def mmAccVal (s : BlockState) (a_ptr b_ptr : Region .int)
 
 /-- The ordinary, unpadded GEMM term. The actual source additionally
 contributes `mmPaddingTail` when K is ragged. -/
-def mmSpec (s : BlockState) (a_ptr b_ptr : Region .int)
+@[standalone_spec] def mmSpec (s : BlockState) (a_ptr b_ptr : Region .int)
     (K sam sak sbk sbn : Nat) (row col : Nat) : ℤ :=
   ∑ kk : Fin K, mmAElem s a_ptr sam sak row kk.val
     * mmBElem s b_ptr sbk sbn kk.val col
@@ -560,7 +561,7 @@ noncomputable def mmPaddingTail (s : BlockState) (a_ptr b_ptr : Region .int)
       mmPad s (Region.cast b_ptr) ((K+e)*sbk+col*sbn)
 
 /-- The actual source result is GEMM plus the unspecified padded tail. -/
-noncomputable def mmPaddedSpec (s : BlockState) (a_ptr b_ptr : Region .int)
+@[standalone_spec] noncomputable def mmPaddedSpec (s : BlockState) (a_ptr b_ptr : Region .int)
     (K F sam sak sbk sbn row col : Nat) : Int :=
   mmSpec s a_ptr b_ptr K sam sak sbk sbn row col +
     mmPaddingTail s a_ptr b_ptr K F sam sak sbk sbn row col
@@ -1038,7 +1039,7 @@ def smAccVal (s : BlockState) (a_ptr b_ptr : Region .int)
   ∑ kk ∈ Finset.range c, smG s a_ptr b_ptr K sam sak sbk sbn row col kk
 
 /-- **The kernel-2 integer accumulator value**: the genuine ℤ GEMM. -/
-def smSpec (s : BlockState) (a_ptr b_ptr : Region .int)
+@[standalone_spec] def smSpec (s : BlockState) (a_ptr b_ptr : Region .int)
     (K sam sak sbk sbn : Nat) (row col : Nat) : ℤ :=
   ∑ kk : Fin K, smAElem s a_ptr sam sak row kk.val
     * smBElem s b_ptr sbk sbn kk.val col
