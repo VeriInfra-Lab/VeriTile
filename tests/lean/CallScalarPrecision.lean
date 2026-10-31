@@ -116,5 +116,58 @@ theorem count_semantics {α : Type} [Inhabited α] (M : FP.Structural.Algebra α
 #axiomsClean scalar_operand_precision
 #axiomsClean scale_source
 #axiomsClean epsilon_source
+
+def runtimeCountSignature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  scalars := [("N",.i32)]
+
+def runtimeCount (X Y : RegionName) (N : Nat) : ComputeKernel :=
+  with_triton_call runtimeCountSignature call_args [N := N] in triton {
+    x = tl.load(X)
+    value = x / N
+    tl.store(Y + N, value)
+  }
+
+/-- An invocation integer uses the model's integer conversion, even when
+literal conversion has a different meaning. Its address use remains exact. -/
+theorem runtime_count_semantics {α : Type} [Inhabited α] (M : FP.Structural.Algebra α)
+    (X Y : RegionName) (N : Nat) (s : FP.Structural.State α) :
+    ∃ t, FP.Structural.exec M (runtimeCount X Y N) s = some t ∧
+      t.mem Y N = FP.Structural.Cell.mk .real
+        (M.binary (some .fp32) .real .div
+          (M.fp32Load ((s.mem X 0).read .real)) (M.fromNat (some .fp32) N)) := by
+  simp [runtimeCount, FP.Structural.exec, ComputeKernel.surfaceBody,
+    FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
+    FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
+    ComputeDType.eraseDType, FP.Structural.bop, FP.Structural.numeric,
+    FP.Structural.store, FP.Structural.State.setReg, FP.Structural.State.write,
+    TileShape.allIndices, Region.cast, DSL.CallValue.natural]
+
+def runtimeSignedSignature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  scalars := [("N",.i64)]
+
+def runtimeSigned (X Y : RegionName) (N : Int) : ComputeKernel :=
+  with_triton_call runtimeSignedSignature call_args [N := N] in triton {
+    x = tl.load(X)
+    value = x / N
+    tl.store(Y, value)
+  }
+
+theorem runtime_signed_semantics {α : Type} [Inhabited α] (M : FP.Structural.Algebra α)
+    (X Y : RegionName) (N : Int) (s : FP.Structural.State α) :
+    ∃ t, FP.Structural.exec M (runtimeSigned X Y N) s = some t ∧
+      t.mem Y 0 = FP.Structural.Cell.mk .real
+        (M.binary (some .fp32) .real .div
+          (M.fp32Load ((s.mem X 0).read .real)) (M.fromInt (some .fp32) N)) := by
+  simp [runtimeSigned, FP.Structural.exec, ComputeKernel.surfaceBody,
+    FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
+    FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
+    ComputeDType.eraseDType, FP.Structural.bop, FP.Structural.numeric,
+    FP.Structural.store, FP.Structural.State.setReg, FP.Structural.State.write,
+    TileShape.allIndices, Region.cast, DSL.CallValue.integer]
+
+#axiomsClean runtime_count_semantics
+#axiomsClean runtime_signed_semantics
 end
 end VeriTile.Tests.CallScalarPrecision

@@ -153,6 +153,14 @@ def suppliedFP32Literal? (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
 
 def expandLeanAntiquoteAs? (dtype : DInfo) (e : TSyntax `tritonExpr) :
     MacroM (Option EOut) := do
+  match e with
+  | `(tritonExpr| $((VeriTile.Triton.DSL.CallValue.natural $value:term : Nat))) =>
+      if dtype != .nat then return none
+      return some ⟨← `(Op.constNat $value), .nat, SInfo.scalar, none, none⟩
+  | `(tritonExpr| $((VeriTile.Triton.DSL.CallValue.integer $value:term : Int))) =>
+      if dtype != .int then return none
+      return some ⟨← `(Op.constInt $value), .int, SInfo.scalar, none, none⟩
+  | _ => pure ()
   if dtype == .real then
     if let some out ← suppliedFP32Literal? e then return some out
   match e with

@@ -335,6 +335,8 @@ partial def expandIntegralArith (expandExpr : ExprExpander) (env : Env) (ctx : S
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let b' ← literalInIntegerContext a'.dtype b b'
+  let a' ← literalInIntegerContext b'.dtype a a'
   let (a', b') ← coerceNatIntOperands ctx a' b'
   ensureAlgorithmOnly ctx a'
   ensureAlgorithmOnly ctx b'

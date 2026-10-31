@@ -37,7 +37,7 @@ def tupleBody (Y : RegionName) (n : Nat) : ComputeKernel :=
 
 theorem parenthesized_tuple (Y : RegionName) (n : Nat) : tupleBody Y n = (triton {
     tl.region Y = tl.uint8
-    a, b = $((n : Nat)) + 1, $((n : Nat)) + 2
+    a, b = $((n : Nat)) + $((1 : Nat)), $((n : Nat)) + $((2 : Nat))
     tl.store(Y, (a + b).to(tl.uint8))
   }) := rfl
 

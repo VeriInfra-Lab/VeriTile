@@ -810,6 +810,123 @@
           "VeriTile.Bench.Repairs.FusedRecurrentHgrn.stride_folded_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/rms_norm_triton",
+      "python": "bench/tritonbench_g/rms_norm_triton/rms_norm_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rms_norm_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.RmsNormTriton.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/rms_norm_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsNormTriton.index_commuted_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/rowwise_quantization_triton",
+      "python": "bench/tritonbench_g/rowwise_quantization_triton/rowwise_quantization_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rowwise_quantization_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.RowwiseQuantizationTriton.Specification.rowwise_grid_real"
+        ],
+        "bench/tritonbench_g/rowwise_quantization_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RowwiseQuantizationTriton.FPEquiv.rowwise_grid_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/rope_transform",
+      "python": "bench/tritonbench_g/rope_transform/rope_transform.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rope_transform/Correct.lean": [
+          "VeriTile.Bench.Repairs.RopeTransform.Correct.rope_forward_correct"
+        ],
+        "bench/tritonbench_g/rope_transform/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RopeTransform.FPEquiv.source_candidate_equivalence"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/rope_backward_transform",
+      "python": "bench/tritonbench_g/rope_backward_transform/rope_backward_transform.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rope_backward_transform/Correct.lean": [
+          "VeriTile.Bench.Repairs.RopeBackwardTransform.rope_backward_kernel_correct"
+        ],
+        "bench/tritonbench_g/rope_backward_transform/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RopeBackwardTransform.source_candidate_equivalence"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/quantize_copy_kv",
+      "python": "bench/tritonbench_g/quantize_copy_kv/quantize_copy_kv.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/quantize_copy_kv/Correct.lean": [
+          "VeriTile.Bench.Repairs.QuantizeCopyKv.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/quantize_copy_kv/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.QuantizeCopyKv.FPEquiv.kernel_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/quantize_kv_copy",
+      "python": "bench/tritonbench_g/quantize_kv_copy/quantize_kv_copy.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/quantize_kv_copy/Correct.lean": [
+          "VeriTile.Bench.Repairs.QuantizeKvCopy.Correct.mathematical"
+        ],
+        "bench/tritonbench_g/quantize_kv_copy/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.QuantizeKvCopy.FPEquiv.address_early_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/quantize_kv_transform",
+      "python": "bench/tritonbench_g/quantize_kv_transform/quantize_kv_transform.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/quantize_kv_transform/Correct.lean": [
+          "VeriTile.Bench.Repairs.QuantizeKvTransform.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/quantize_kv_transform/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.QuantizeKvTransform.FPEquiv.address_early_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/rotary_emb",
+      "python": "bench/tritonbench_g/rotary_emb/rotary_emb.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rotary_emb/Correct.lean": [
+          "VeriTile.Bench.Repairs.RotaryEmb.Correct.rotary_emb_real"
+        ],
+        "bench/tritonbench_g/rotary_emb/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RotaryEmb.FPEquiv.rotary_emb_native_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/fused_activation",
+      "python": "bench/tritonbench_g/fused_activation/fused_activation.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_activation/Correct.lean": [
+          "VeriTile.Bench.Repairs.FusedActivation.Correct.fused_activation_kernel_correctness"
+        ],
+        "bench/tritonbench_g/fused_activation/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedActivation.FPEquiv.fused_activation_commuted_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -945,6 +1062,11 @@
     "bench/tritonbench_g/kcache_copy_triton/Proofs/KernelFP.lean",
     "bench/tritonbench_g/kcache_copy_triton/Proofs/SourceSafety.lean",
     "bench/tritonbench_g/kldiv_compute/Kernels.lean",
+    "bench/tritonbench_g/kldiv_compute/Parameters.lean",
+    "bench/tritonbench_g/kldiv_compute/Proofs/HistoricalKernels.lean",
+    "bench/tritonbench_g/kldiv_compute/Proofs/LogicalExecution.lean",
+    "bench/tritonbench_g/kldiv_compute/Proofs/Program.lean",
+    "bench/tritonbench_g/kldiv_compute/Sources/Selected.lean",
     "bench/tritonbench_g/kldiv_triton/Kernels.lean",
     "bench/tritonbench_g/l2_norm_bwd/Kernels.lean",
     "bench/tritonbench_g/l2_norm_bwd/Proofs/Scalar.lean",
@@ -973,10 +1095,26 @@
     "bench/tritonbench_g/mean_reduction/Proofs/Mathematical_Real.lean",
     "bench/tritonbench_g/mean_reduction/Proofs/Mathematical_Source.lean",
     "bench/tritonbench_g/mean_reduction/Proofs/Mathematical_WholeFPValue.lean",
+    "bench/tritonbench_g/quantize_copy_kv/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/quantize_copy_kv/Proofs/KernelExecution.lean",
     "bench/tritonbench_g/quantize_global/Kernels.lean",
     "bench/tritonbench_g/quantize_global/Model.lean",
     "bench/tritonbench_g/quantize_global/Proofs/KernelSafety.lean",
     "bench/tritonbench_g/quantize_global/Proofs/Source.lean",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/ActualGrid.lean",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/ActualRow.lean",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/Layout.lean",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/Mathematical_Observed.lean",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/Mathematical_WholeTile.lean",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/Pair.lean",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/RuntimeObserved.lean",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/RuntimeReal.lean",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/rowwise_quantization_triton/Proofs/KernelResult.lean",
+    "bench/tritonbench_g/rowwise_quantization_triton/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/rowwise_quantization_triton/Proofs/StoreSafety.lean",
+    "bench/tritonbench_g/rowwise_quantization_triton/Proofs/StoreSchedule.lean",
     "bench/tritonbench_g/sin_computation/Kernels.lean",
     "bench/tritonbench_g/sin_kernel/Kernels.lean",
     "bench/tritonbench_g/square_matrix/Kernels.lean",
@@ -996,15 +1134,19 @@
     "bench/tritonbench_g/var_len_copy/Proofs/KernelRealStep.lean",
     "bench/tritonbench_g/var_len_copy/Proofs/SourceProjection.lean",
     "bench/tritonbench_g/vector_addition/Kernels.lean",
+    "bench/tritonbench_g/vector_addition/Parameters.lean",
+    "bench/tritonbench_g/vector_addition/Sources/Mathematical_Value.lean",
     "bench/tritonbench_g/vector_addition_custom/Kernels.lean",
     "tests/lean/CallArguments.lean",
     "tests/lean/CallScalarPrecision.lean",
     "tests/lean/CallSignature.lean",
+    "tests/lean/IntegerDivisionLiterals.lean",
     "tests/lean/PreciseDivisionAndInfinity.lean",
     "tests/lean/PythonLiteralArithmetic.lean",
     "tests/lean/RawBodyControlNames.lean",
     "tests/lean/RawBodySurface.lean",
     "tests/lean/RawPythonTuplesAndStores.lean",
+    "tests/lean/RawStringDispatch.lean",
     "tests/lean/SourceModuleBindings.lean"
   ]
 }

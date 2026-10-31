@@ -121,6 +121,56 @@ def case_sources(root: Path, case: dict) -> set[str]:
     return files
 
 
+def select_shard(cases: list[dict], builds: list[str], replay: list[str],
+                 index: int, count: int) -> tuple[list[dict], list[str], list[str]]:
+    if not 1 <= count <= len(cases) or not 0 <= index < count:
+        raise ValueError('Invalid shard index/count')
+    selected = cases[index::count]
+    def include(path: str) -> bool:
+        owners = [case for case in cases if path.startswith(case['path'] + '/')]
+        return not owners or owners[0] in selected
+    return selected, [p for p in builds if include(p)], [p for p in replay if include(p)]
+
+
+def merge_reports(root: Path, cases: list[dict], replay: list[str], manifest: Path,
+                  directory: Path) -> dict:
+    paths = sorted(directory.rglob('body-migration-replay*.json'))
+    if not paths:
+        raise ValueError('No official shard reports')
+    reports = [json.loads(path.read_text()) for path in paths]
+    count = reports[0].get('shard', {}).get('count')
+    if not isinstance(count, int) or len(reports) != count or {
+            r.get('shard', {}).get('index') for r in reports} != set(range(count)):
+        raise ValueError('Missing or repeated official shard reports')
+    before = fingerprint(root, cases, manifest)
+    for report in reports:
+        if (report.get('schema') != 1 or report.get('scope') != 'explicit_body_migration_batch'
+                or report.get('shard', {}).get('count') != count
+                or report.get('source_commit') != os.environ.get('GITHUB_SHA')
+                or report.get('source_sha256') != before or not report.get('source_unchanged')):
+            raise ValueError('Shard source snapshot or scope differs from this checkout')
+    joined = [case for report in reports for case in report['cases']]
+    if len(joined) != len(cases) or {c['path'] for c in joined} != {c['path'] for c in cases}:
+        raise ValueError('Shard cases do not cover the complete batch exactly once')
+    results = [result for report in reports for result in report['replay_results']]
+    for path in replay:
+        checks = [r for r in results if r['source'] == path]
+        if not checks or any(not r.get('accepted') for r in checks):
+            raise ValueError(f'Missing or failed official replay: {path}')
+    required = {path: names for case in cases for path, names in case['public_theorems'].items()}
+    for path, names in required.items():
+        if any(not set(names).issubset(r.get('theorems', []))
+               for r in results if r['source'] == path):
+            raise ValueError(f'Required public proofs were not replayed: {path}')
+    if any(not report.get('accepted') for report in reports) or any(not c.get('accepted') for c in joined):
+        raise ValueError('An official shard did not accept its cases')
+    return {'schema': 1, 'scope': 'explicit_body_migration_batch', 'accepted': True,
+            'source_unchanged': True, 'source_sha256': before,
+            'source_commit': os.environ.get('GITHUB_SHA'), 'cases': joined,
+            'replay_results': results, 'official_shards': count,
+            'boundary': 'All listed cases and shared checks replayed on one unchanged source snapshot. No native-execution or full-corpus certificate.'}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--manifest', type=Path, default=DEFAULT)
@@ -128,6 +178,9 @@ def main() -> int:
     action.add_argument('--check', action='store_true')
     action.add_argument('--build', action='store_true')
     action.add_argument('--replay', action='store_true')
+    action.add_argument('--merge-reports', type=Path)
+    parser.add_argument('--shard-index', type=int, default=0)
+    parser.add_argument('--shard-count', type=int, default=1)
     parser.add_argument('--workspace', type=Path)
     parser.add_argument('--report', type=Path)
     args = parser.parse_args()
@@ -135,6 +188,15 @@ def main() -> int:
     if not manifest.is_relative_to(ROOT):
         raise ValueError('Manifest must be in this checkout')
     cases, builds, replay = load_batch(ROOT, manifest)
+    if args.merge_reports:
+        if args.report is None or args.workspace or args.shard_count != 1 or args.shard_index != 0:
+            raise ValueError('Merging requires --report and no workspace or shard selection')
+        report = merge_reports(ROOT, cases, replay, manifest, args.merge_reports)
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
+        print(f'Official shard receipts accepted {len(cases)} cases on the current source snapshot.')
+        return 0
+    cases, builds, replay = select_shard(cases, builds, replay, args.shard_index, args.shard_count)
     if not args.replay and (args.report or args.workspace):
         raise ValueError('Only official proof replay may produce a completion receipt')
     print(f'Explicit batch: {len(cases)} cases, {len(builds)} build modules, {len(replay)} proof/audit files.', flush=True)
@@ -180,6 +242,7 @@ def main() -> int:
         case['required_replay_sources'] = required
         case['source_sha256'] = {path: before[path] for path in sorted(dependencies[case['path']])}
     report = {'schema': 1, 'scope': 'explicit_body_migration_batch',
+              'shard': {'index': args.shard_index, 'count': args.shard_count},
               'accepted': stable and all(c['accepted'] for c in cases),
               'source_unchanged': stable, 'source_sha256': before,
               'source_commit': os.environ.get('GITHUB_SHA'),

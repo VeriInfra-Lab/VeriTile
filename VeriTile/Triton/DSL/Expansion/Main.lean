@@ -2674,6 +2674,18 @@ private partial def annotateMachineLoadCasts (regions : Inference.RegionDTypes)
       return ← annotateFloatingLoadStorage regions pointers raw
   return raw
 
+/-- Signed-use propagation must not turn arithmetic on an already typed
+floating register into integer arithmetic merely because its other operand
+is an invocation integer. -/
+private partial def hasFloatingRegister (env : Env) (raw : Syntax) : Bool :=
+  if raw.isIdent then
+    env.any (fun entry =>
+      (entry.1 == raw.getId.toString || entry.1 == raw.getId.eraseMacroScopes.toString) &&
+      match entry.2.1 with
+      | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => Bool.true
+      | _ => Bool.false)
+  else raw.getArgs.any (hasFloatingRegister env)
+
 mutual
 
 partial def expandStmt (env : Env) (pinned intPinned : List String)
@@ -2991,6 +3003,11 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
       | _ => pure ()
     if intPinned.contains dest.getId.toString then
+      if hasFloatingRegister env e.raw then
+        let inferred ← expandExpr env e
+        match inferred.dtype with
+        | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
+        | _ => pure ()
       -- A packed signed word keeps its machine width through shifts and bit
       -- operations. Address inference must not turn it into an unbounded Int
       -- before the next bitwise operation or bitcast.
