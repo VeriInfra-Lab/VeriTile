@@ -61,7 +61,7 @@ jobs:
         uses: leanprover/lean-action@v1
         with:
           build: true
-          build-args: "VeriTile VeriTileFull bench.examples.VectorAdd.Kernels bench.tritonbench_g.softmax_triton1.Proofs.Mathematical_Kernels"
+          build-args: "VeriTile VeriTileFull bench.examples.VectorAdd.Kernels bench.tritonbench_g.softmax_triton1.Kernels"
           test: false
           lint: false
           use-mathlib-cache: auto
