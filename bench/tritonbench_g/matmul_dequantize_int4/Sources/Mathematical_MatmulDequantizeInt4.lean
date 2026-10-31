@@ -1,5 +1,6 @@
 import VeriTile.Triton
 import VeriTile.Meta.StatementAudit
+import VeriTile.Meta.StatementAudit
 
 /-!
 # `matmul_dequantize_int4` — strict per-kernel correctness
@@ -224,7 +225,7 @@ noncomputable def accStep (s : BlockState) (a scales : RegionName)
 /-- **The stored value.** `accumulator` after all `num_pid_k` K steps. (The source
 also computes `c = accumulator.to(...)` but stores `accumulator`, so this is what
 lands in memory.) -/
-noncomputable def accSpec (s : BlockState) (a scales : RegionName)
+@[standalone_spec] noncomputable def accSpec (s : BlockState) (a scales : RegionName)
     (b zeros : Region .nat) (NO_GROUPS : Bool)
     (M K groupsize stride_am stride_ak stride_bk stride_bn
       stride_scales_g stride_scales_n stride_zeros_g stride_zeros_n

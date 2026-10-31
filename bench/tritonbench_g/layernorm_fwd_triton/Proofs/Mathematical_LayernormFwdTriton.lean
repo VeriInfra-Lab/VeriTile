@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-!
 # `layernorm_fwd_triton` — strict per-kernel correctness
@@ -124,7 +125,7 @@ noncomputable def layernormInvVarCarrier
       (Option.map (fun a => a + eps)
         (layernormVarCarrier s X stride_x_N stride_x_hn N BLOCK_SIZE)))
 
-noncomputable def layernormYSpec
+@[standalone_spec] noncomputable def layernormYSpec
     (s : BlockState) (X W : RegionName)
     (stride_x_N stride_x_hn stride_w_hn N BLOCK_SIZE : Nat) (eps : ℝ)
     (i : Fin BLOCK_SIZE) : ℝ :=
@@ -149,14 +150,14 @@ def wColOffset (s : BlockState) (stride_w_hn : Nat) (col : Nat) : Nat :=
   s.pids 1 * stride_w_hn + col
 
 /-- Full-N mean used by the Python `for off in range(0, N, BLOCK_SIZE)` path. -/
-noncomputable def layernormMeanFullNSpec
+@[standalone_spec] noncomputable def layernormMeanFullNSpec
     (s : BlockState) (X : RegionName)
     (stride_x_N stride_x_hn N _BLOCK_SIZE : Nat) : ℝ :=
   (∑ j : Fin N, s.readMem X (xColOffset s stride_x_N stride_x_hn j.val)) /
     (N : ℝ)
 
 /-- Full-N variance after subtracting the full-N mean. -/
-noncomputable def layernormVarFullNSpec
+@[standalone_spec] noncomputable def layernormVarFullNSpec
     (s : BlockState) (X : RegionName)
     (stride_x_N stride_x_hn N BLOCK_SIZE : Nat) : ℝ :=
   (∑ j : Fin N,
@@ -164,14 +165,14 @@ noncomputable def layernormVarFullNSpec
         layernormMeanFullNSpec s X stride_x_N stride_x_hn N BLOCK_SIZE)^2) /
     (N : ℝ)
 
-noncomputable def layernormRstdFullNSpec
+@[standalone_spec] noncomputable def layernormRstdFullNSpec
     (s : BlockState) (X : RegionName)
     (stride_x_N stride_x_hn N BLOCK_SIZE : Nat) (eps : ℝ) : ℝ :=
   (Real.sqrt
     (layernormVarFullNSpec s X stride_x_N stride_x_hn N BLOCK_SIZE + eps))⁻¹
 
 /-- Full-N output spec for every Python-observable output column. -/
-noncomputable def layernormYFullNSpec
+@[standalone_spec] noncomputable def layernormYFullNSpec
     (s : BlockState) (X W : RegionName)
     (stride_x_N stride_x_hn stride_w_hn N BLOCK_SIZE : Nat) (eps : ℝ)
     (i : Fin N) : ℝ :=
@@ -188,7 +189,7 @@ noncomputable def layernormMeanLanePrefix
   ((Finset.range off).filter fun col => col < N ∧ col % BLOCK_SIZE = j.val).sum
     fun col => s.readMem X (xColOffset s stride_x_N stride_x_hn col)
 
-noncomputable def layernormMeanAccumulatorSpec
+@[standalone_spec] noncomputable def layernormMeanAccumulatorSpec
     (s : BlockState) (X : RegionName)
     (stride_x_N stride_x_hn N BLOCK_SIZE off : Nat) :
     Tile .real [BLOCK_SIZE] :=
@@ -283,7 +284,7 @@ theorem layernormMeanAccumulatorSpec_reduceSum
     TileShape.eraseAxis, TileShape.insertAxisIndex, layernormMeanAccumulatorSpec]
   rfl
 
-noncomputable def layernormMeanChunkSpec
+@[standalone_spec] noncomputable def layernormMeanChunkSpec
     (s : BlockState) (X : RegionName)
     (stride_x_N stride_x_hn N BLOCK_SIZE off : Nat) :
     Tile .real [BLOCK_SIZE] :=
@@ -506,7 +507,7 @@ noncomputable def layernormVarLanePrefix
       (s.readMem X (xColOffset s stride_x_N stride_x_hn col) -
         layernormMeanFullNSpec s X stride_x_N stride_x_hn N BLOCK_SIZE)^2
 
-noncomputable def layernormVarAccumulatorSpec
+@[standalone_spec] noncomputable def layernormVarAccumulatorSpec
     (s : BlockState) (X : RegionName)
     (stride_x_N stride_x_hn N BLOCK_SIZE off : Nat) :
     Tile .real [BLOCK_SIZE] :=
@@ -609,7 +610,7 @@ theorem layernormVarAccumulatorSpec_reduceSum
     TileShape.eraseAxis, TileShape.insertAxisIndex, layernormVarAccumulatorSpec]
   rfl
 
-noncomputable def layernormVarChunkSpec
+@[standalone_spec] noncomputable def layernormVarChunkSpec
     (s : BlockState) (X : RegionName)
     (stride_x_N stride_x_hn N BLOCK_SIZE off : Nat) :
     Tile .real [BLOCK_SIZE] :=
@@ -1003,7 +1004,7 @@ window `(t, j)` holds `((x[t,j] - mean) · rstd) · w[t,j]`, where `mean` and
 `rstd = 1/√(var + eps)` are folds over the *entire* `x` stream.
 Algebraically `layernormYFullNSpec` with the `Fin N` sums re-blocked to the
 guarded stream double sums. -/
-noncomputable def lnStreamSpec (N B : Nat) (eps : ℝ)
+@[standalone_spec] noncomputable def lnStreamSpec (N B : Nat) (eps : ℝ)
     (xs ws : Fin (lnNumSteps N B) → Fin B → ℝ)
     (t : Fin (lnNumSteps N B)) (j : Fin B) : ℝ :=
   ((xs t j - lnStreamMean N B xs) *

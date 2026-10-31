@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 import VeriTile.Triton.Semantics.WholeReduction
 import VeriTile.Triton.Semantics.BlockPadding
 
@@ -134,7 +135,7 @@ noncomputable def dgLastFinal (s : BlockState) (g k v h dh : RegionName)
 /-! ## The three stored gradients -/
 
 /-- `dq[r, e]` — the gated accumulator plus the masked-score contraction. -/
-noncomputable def dqSpec (s : BlockState) (g k v h do_ : RegionName)
+@[standalone_spec] noncomputable def dqSpec (s : BlockState) (g k v h do_ : RegionName)
     (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat) (scale : ℝ)
     (T K V BT BK BV NT : Nat) (r e : Nat) : ℝ :=
   dqGated s g h do_ s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV NT r e
@@ -143,7 +144,7 @@ noncomputable def dqSpec (s : BlockState) (g k v h do_ : RegionName)
           * qkElem s k s_k_h s_k_t T K BT BK r'.val e
 
 /-- `dk[r, e]` — the gated accumulator plus the transposed contraction. -/
-noncomputable def dkSpec (s : BlockState) (g q v do_ dh : RegionName)
+@[standalone_spec] noncomputable def dkSpec (s : BlockState) (g q v do_ dh : RegionName)
     (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat) (scale : ℝ)
     (T K V BT BK BV NT : Nat) (r e : Nat) : ℝ :=
   dkGated s g v dh s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT r e
@@ -153,7 +154,7 @@ noncomputable def dkSpec (s : BlockState) (g q v do_ dh : RegionName)
 
 /-- `dg[r]` — the row reduction of `q*dq - k*dk` over the key block, with the
 chunk's last in-range row additionally receiving `b_dg_last`. -/
-noncomputable def dgSpec (s : BlockState) (g q k v h do_ dh : RegionName)
+@[standalone_spec] noncomputable def dgSpec (s : BlockState) (g q k v h do_ dh : RegionName)
     (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat) (scale : ℝ)
     (T K V BT BK BV NT : Nat) (r : Nat) : ℝ :=
   (Finset.univ.sum fun e : Fin BK =>

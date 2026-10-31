@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 import VeriTile.Triton.Float.SignedCast
 import VeriTile.Meta.StatementAudit
 
@@ -341,7 +342,7 @@ noncomputable def accStep (s : BlockState) (a scales : RegionName)
 /-- **The stored value.** `accumulator` after all `num_pid_k` K steps. (The source
 also computes `c = accumulator.to(...)` but stores `accumulator`, so this is what
 lands in memory.) -/
-noncomputable def accSpec (s : BlockState) (a scales : RegionName)
+@[standalone_spec] noncomputable def accSpec (s : BlockState) (a scales : RegionName)
     (b zeros : Region .nat) (NO_GROUPS : Bool)
     (M K groupsize stride_am stride_ak stride_bk stride_bn
       stride_scales_g stride_scales_n stride_zeros_g stride_zeros_n
@@ -1918,7 +1919,7 @@ noncomputable def i4AccStep (s : BlockState) (a bs : RegionName)
 
 /-- **The stored value.** `accumulator` after all `numKBlocks` K steps (the
 kernel stores `c = accumulator.to(...)`, which erases to `accumulator`). -/
-noncomputable def i4AccSpec (s : BlockState) (a bs : RegionName)
+@[standalone_spec] noncomputable def i4AccSpec (s : BlockState) (a bs : RegionName)
     (b bzp : Region .nat)
     (group_size stride_am stride_ak stride_bk stride_bn stride_bsk stride_bsn
       stride_bzpk stride_bzpn BK numKBlocks : Nat) (row col : Nat) : ℝ :=
@@ -3343,7 +3344,7 @@ noncomputable def dqScElem (s : BlockState) (b_scale_ptr : RegionName)
 /-- **The stored value** at absolute cell `(k, n)`: the **signed** nibble
 difference (ℤ-subtraction — this is what the `.int` hop of disclosure (1)
 buys; ℕ subtraction would truncate), embedded into ℝ and scaled. -/
-noncomputable def dequantSpec (s : BlockState) (b_scale_ptr : RegionName)
+@[standalone_spec] noncomputable def dequantSpec (s : BlockState) (b_scale_ptr : RegionName)
     (b_ptr b_zp_ptr : Region .nat)
     (group_size stride_bk stride_bn stride_bsk stride_bsn
       stride_bzpk stride_bzpn : Nat) (k n : Nat) : ℝ :=

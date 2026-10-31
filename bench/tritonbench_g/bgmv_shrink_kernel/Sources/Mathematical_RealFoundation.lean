@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-! Mathematical foundation from the earlier active-surface proof.
 
@@ -96,7 +97,7 @@ def numKIters (K S : Nat) : Nat := (K + S - 1) / S
 /-- **Genuine spec**: this program's scaled rank-slice contribution at output
 lane `n` — `scaling · Σ_{c<⌈K/S⌉} Σ_{e<BLOCK_K} [k(c,e)<K] · x[k(c,e)] ·
 W[n,k(c,e)]`, a closed form over INPUT memory. -/
-noncomputable def shrinkSpec (s : BlockState) (input_ptr lora_ptr : RegionName)
+@[standalone_spec] noncomputable def shrinkSpec (s : BlockState) (input_ptr lora_ptr : RegionName)
     (lora_indices : Region .nat) (scaling : ℝ)
     (K xm_stride l0_stride lora_k_stride lora_n_stride
       BLOCK_K SPLIT_K n : Nat) : ℝ :=

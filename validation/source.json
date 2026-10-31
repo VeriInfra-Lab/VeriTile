@@ -27573,6 +27573,7 @@
       "bench.tritonbench_g.batched_vecmat_mult.Proofs.Mathematical_RealSource"
     ],
     "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_RealFoundation.lean": [
+      "VeriTile.Meta.StatementAudit",
       "VeriTile.Triton"
     ],
     "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_RealSource.lean": [
@@ -28109,6 +28110,7 @@
       "VeriTile.Triton.Source"
     ],
     "bench/tritonbench_g/bgmv_shrink_kernel/Sources/Mathematical_RealFoundation.lean": [
+      "VeriTile.Meta.StatementAudit",
       "VeriTile.Triton"
     ],
     "bench/tritonbench_g/bgmv_shrink_kernel/Sources/Mathematical_RealLoop.lean": [
@@ -29286,6 +29288,7 @@
       "bench.tritonbench_g.chunk_bwd_dqkg.Target"
     ],
     "bench/tritonbench_g/chunk_bwd_dqkg/Proofs/RealFragments.lean": [
+      "VeriTile.Meta.StatementAudit",
       "VeriTile.Triton",
       "VeriTile.Triton.Semantics.BlockPadding",
       "VeriTile.Triton.Semantics.WholeReduction"
@@ -29475,6 +29478,7 @@
       "bench.tritonbench_g.chunk_cumsum_kernel.Proofs.SourceSafety"
     ],
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/ChunkMath.lean": [
+      "VeriTile.Meta.StatementAudit",
       "VeriTile.Triton"
     ],
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/FPIndexBridge.lean": [
@@ -39923,6 +39927,7 @@
       "VeriTile.Triton.Source"
     ],
     "bench/tritonbench_g/int8_matmul_quantization/Sources/Mathematical_Int8MatmulQuantization.lean": [
+      "VeriTile.Meta.StatementAudit",
       "VeriTile.Triton",
       "VeriTile.Triton.Float.LegacyRealInt8",
       "VeriTile.Triton.Float.MaximumPrimitive"
@@ -43101,6 +43106,7 @@
       "VeriTile.Triton"
     ],
     "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_LayernormFwdTriton.lean": [
+      "VeriTile.Meta.StatementAudit",
       "VeriTile.Triton"
     ],
     "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Memory.lean": [
@@ -44159,6 +44165,7 @@
       "bench.tritonbench_g.lora_expand_gemv.Sources.Mathematical_BranchSource"
     ],
     "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_LoraExpandGemv.lean": [
+      "VeriTile.Meta.StatementAudit",
       "VeriTile.Triton"
     ],
     "bench/tritonbench_g/lora_expand_gemv/Sources/Parameters.lean": [
@@ -44472,6 +44479,7 @@
       "bench.tritonbench_g.matmul_dequant_int4.Sources.Mathematical_FPContract"
     ],
     "bench/tritonbench_g/matmul_dequant_int4/Sources/Mathematical_MatmulDequantInt4.lean": [
+      "VeriTile.Meta.StatementAudit",
       "VeriTile.Triton",
       "VeriTile.Triton.Float.SignedCast"
     ],
@@ -52715,6 +52723,7 @@
       "bench.tritonbench_g.softmax_triton1.Proofs.RealIO"
     ],
     "bench/tritonbench_g/softmax_triton1/Proofs/Mathematical_Real.lean": [
+      "VeriTile.Meta.StatementAudit",
       "VeriTile.Triton",
       "VeriTile.Triton.DSL",
       "VeriTile.Triton.Semantics.MaskedReduction"
@@ -52785,6 +52794,7 @@
       "bench.tritonbench_g.softmax_triton2.Kernels"
     ],
     "bench/tritonbench_g/softmax_triton2/Proofs/Mathematical_Real.lean": [
+      "VeriTile.Meta.StatementAudit",
       "VeriTile.Triton",
       "VeriTile.Triton.DSL",
       "VeriTile.Triton.Semantics.MaskedReduction"
@@ -52862,6 +52872,7 @@
       "bench.tritonbench_g.softmax_triton3.Proofs.Mathematical_Kernels"
     ],
     "bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Spec.lean": [
+      "VeriTile.Meta.StatementAudit",
       "VeriTile.Triton",
       "VeriTile.Triton.Semantics.MaskedReduction",
       "bench.tritonbench_g.softmax_triton2.Proofs.Mathematical_Real"
@@ -62250,7 +62261,7 @@
     "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_HostGrid.lean": "3455e396bbb072c9bbbbca9c572d54dcf9fd3016621dabab2375b7103da1f633",
     "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_HostPrepare.lean": "1e07a919034e91e6ef3238345bf4d96aba7212aab5e059640d78eeed7abb6c67",
     "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_Real.lean": "0e2e87dbb04be9c76eb12a84c1c79b9f3765c137ad48991b6d46aff287dcb36a",
-    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_RealFoundation.lean": "33924e3d2720bb4da9e8f4fb9521c3767f66cf296cb7de2fc8b44cb63a0c4fce",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_RealFoundation.lean": "5274b8f5700909717b89a415d4397505dfded5b0605bfbe5541c62f3e40db7c4",
     "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_RealSource.lean": "e328af6f67ce86070ea3d3695405a8ca6a10030b81e364de1de23994a1740af6",
     "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraph.lean": "6d47fc25b907af66a1d19bd716c7ff452999c9597d91fdf3bc2fe5bed36f2473",
     "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphAccess.lean": "9b02897d8605f79e38bd5a60b4341ed61e13145b96a47ee7f35f605a3304c2be",
@@ -62388,7 +62399,7 @@
     "bench/tritonbench_g/bgmv_shrink_kernel/Sources/Direct_Workset.lean": "d9861d8ccf8d23a98d18ac8220bb03b7c254deac2148678d953e658f8f920641",
     "bench/tritonbench_g/bgmv_shrink_kernel/Sources/Kernels.lean": "8e7093d2d7c03af4298c364425e85ebafb2c61becdd93d54673c211f8964be92",
     "bench/tritonbench_g/bgmv_shrink_kernel/Sources/Mathematical_Kernels.lean": "1e2642e6aa51be7da8ccf18b8e2d41f3d71c8d4a0e83823d47c67af6484973e7",
-    "bench/tritonbench_g/bgmv_shrink_kernel/Sources/Mathematical_RealFoundation.lean": "86d85388b34d93d7f1ab3d9122eccf1a0b2f68f8bace3f7ed32a0f2662dbe086",
+    "bench/tritonbench_g/bgmv_shrink_kernel/Sources/Mathematical_RealFoundation.lean": "120e63e1b3791c71c66d300b04b4ab1cfdd26be634e52874765f3ef29b410693",
     "bench/tritonbench_g/bgmv_shrink_kernel/Sources/Mathematical_RealLoop.lean": "840e03428b784d2c9ecec23a5a4e289311838b0373d8a9cda3b9dd39b5b3278c",
     "bench/tritonbench_g/bgmv_shrink_kernel/Sources/Mathematical_RealProgram.lean": "0f172d30c2ee2b7d3226df1a7b2f85cd6fa6acfd02f85552de3f37f491d5fd79",
     "bench/tritonbench_g/bgmv_shrink_kernel/Sources/Mathematical_RealSetup.lean": "bb24f4fa739a50be8a05aa26f8524f43157a4dacf4eefa1d8a0fdf1c8d7fcfe2",
@@ -62708,7 +62719,7 @@
     "bench/tritonbench_g/chunk_bwd_dqkg/Proofs/RealCandidate.lean": "aa499bc31db44d4acd2d49f577a81f86c047d6a26a3ecf929ae3ffdca2868348",
     "bench/tritonbench_g/chunk_bwd_dqkg/Proofs/RealFlat.lean": "fe9a3357e9e544c4b42d43db86e8724333df66b8166cffcb6e9763a4d7fbcb0f",
     "bench/tritonbench_g/chunk_bwd_dqkg/Proofs/RealFormulaBinding.lean": "ef550d31f75c094f448c0877f40e10de3bed6fdd3b2c956a5f08229f31fdb28c",
-    "bench/tritonbench_g/chunk_bwd_dqkg/Proofs/RealFragments.lean": "31a8e6c7af06f9b7ad6853929d29d22cfa21cd169296269b255c3489a750a270",
+    "bench/tritonbench_g/chunk_bwd_dqkg/Proofs/RealFragments.lean": "b6cf14049dd2c4ecc273eace987b715af1197f12ccb260d9fd67c9f0c3b65301",
     "bench/tritonbench_g/chunk_bwd_dqkg/Proofs/RealFrame.lean": "5bd2a1058f9aed462e878e402d6f6e8b448c4919fc9a513f6315da3d423395b0",
     "bench/tritonbench_g/chunk_bwd_dqkg/Proofs/RealIOResults.lean": "c358230c172de412ab2c3af9862bafbe2ad52a08d43450961258e343bd34232c",
     "bench/tritonbench_g/chunk_bwd_dqkg/Proofs/RealLoop.lean": "1b88d88dd4b7874c907d0e27fd3453166c28c4fce0863a3f4d642ff287d0cb66",
@@ -62758,7 +62769,7 @@
     "bench/tritonbench_g/chunk_cumsum_kernel/IO.lean": "a54becb6fd626e28022581f24f4580be35a7706ff223cb6cfa4c4cd9f9d57599",
     "bench/tritonbench_g/chunk_cumsum_kernel/Kernels.lean": "5b2db3145e961e477982b0d07ef212f4878ecdab8b546d3e0d00219f744a646e",
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/CarryDomain.lean": "b6ed4ee23b714a3104a6b45453fa43c59d500b88755b72856de6504d7fa8601f",
-    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/ChunkMath.lean": "d36a8bd2e4cafc8ab82878244f0c0c1cf77a737ac757990255fdca6438f0b01d",
+    "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/ChunkMath.lean": "3c466d61cb430a3be7e4b017b1f56c0c2450f93cbc96204f546ca4281a5ffe82",
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/FPIndexBridge.lean": "1682729aecd6b55204ef3370cfb7c21a6f14e64cbd93a6a3bcc56fe1caa420a8",
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/FPRow.lean": "7e073c874f6f8f7e61692a68156829f5a45a9b16eb144bd0387a9dfcd62e7337",
     "bench/tritonbench_g/chunk_cumsum_kernel/Proofs/Geometry.lean": "aedb11efc24ba94b1541d3a6dc6a6d5cf80b8e4e43e91f78b4421c2eb764b849",
@@ -65494,7 +65505,7 @@
     "bench/tritonbench_g/int8_matmul_quantization/Source.lean": "29e80bbf8c962684e58c58a919e6275e48e9db4fe6b6b36325f32a609c490f1d",
     "bench/tritonbench_g/int8_matmul_quantization/Sources/KernelSourceBridge.lean": "fb5622a2a55117c48ae7ea98e923cdf2a618902c912c72402459ba8cdfcc6b29",
     "bench/tritonbench_g/int8_matmul_quantization/Sources/Kernels.lean": "85f6780ac2b67893f5b1b82fcad9bd0ef43805fdd5be9076f35edf2edab25923",
-    "bench/tritonbench_g/int8_matmul_quantization/Sources/Mathematical_Int8MatmulQuantization.lean": "7dcfa0e52fdd714f604f6495c4de7e7c120679a4632ef3a8c931b2f2fbd1f80c",
+    "bench/tritonbench_g/int8_matmul_quantization/Sources/Mathematical_Int8MatmulQuantization.lean": "f5c9648b1aa4b2738b95b39ba3a79c0093d996bc0dec87e6d14e489958b900a9",
     "bench/tritonbench_g/int8_matmul_quantization/Sources/Mathematical_QuantizeSource.lean": "b04d121ecc1a95790017e037dc7022c2134c5de911eca54e545c120bdacbbe6f",
     "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization.py": "40f60586b85bd6abccd7fcf1c704d6c80e3b09badc9394aa3afc0d7a3ef2db99",
     "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization_indices.py": "2e2e67cd03cd556b937354845e75be9ac1a1dc8a2a160312a438cc1269d1f9db",
@@ -65595,7 +65606,7 @@
     "bench/tritonbench_g/int_scaled_matmul/Sources/GroupedGrid.lean": "735e9a8adadfb4f3db7eddadeadb628d0c1ddfd4c079f6b35e98e89966c7a60a",
     "bench/tritonbench_g/int_scaled_matmul/Sources/Kernels.lean": "55a2aa9b256295b4fa09165ebc5180310127644d6f43f8a41010e4499d8a24d0",
     "bench/tritonbench_g/int_scaled_matmul/Sources/LogicalSum.lean": "fd215f0f832054892071761155459ca17af1ff8418282fb17cefc1bc782eb3d8",
-    "bench/tritonbench_g/int_scaled_matmul/Sources/Mathematical_IntScaledMatmul.lean": "f22b9777972c687f135a67bf8acee82608e5de6a2d083bb82e3db69bbeb1e059",
+    "bench/tritonbench_g/int_scaled_matmul/Sources/Mathematical_IntScaledMatmul.lean": "063502486aa79acbd5b8f05de5f0fc1ad5872f838eddcb9456bfd671476e5af7",
     "bench/tritonbench_g/int_scaled_matmul/Sources/Parameters.lean": "3f420695661b79dd999d464043ee3cdf27aa0a1b9a7ade89c4e8952105dfc65e",
     "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul.py": "17bd051b849369e11f3c2b57440052a8c304722b32985499300ab572c553a33b",
     "bench/tritonbench_g/isfinite_kernel/Contract.lean": "e76e9e3d60cbf4c33f75d8d991ca2c60553cd9f54fd567e88891501b0218ae00",
@@ -66311,7 +66322,7 @@
     "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_FPModel.lean": "5e08046621d85f0e46a3078ffef30b1cca7e838c0a2c7d27c8aa84032c2aa4bd",
     "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_FPOutput.lean": "795723db4c168743b26bf3bfc80c8ae52707c7c7f6b1e69901cb950baf303017",
     "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_FPTypedSource.lean": "65404f7da5bdafc41c81c8f25593819959ebcec801904308d3dea7b94ba9c1f6",
-    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_LayernormFwdTriton.lean": "33973bf82aeecc3bd764753c2362a522213c709b619407bf1010c6290f2e8cb4",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_LayernormFwdTriton.lean": "de010d78f6aff4d204c889efa8b8054bf44547204f7e78e5408b2a6a2d1a6095",
     "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Memory.lean": "d7b719af6874e95fbf3c5ea3039d38e54061a2da9a3867f02fa0aae836ae1185",
     "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Model.lean": "12d06f5bf251a99a2aa9014abe853875c9923539a1e71af3f42d6ca10da9cad2",
     "bench/tritonbench_g/layernorm_fwd_triton/Proofs/NativeAddress.lean": "d7ce2c91138d48d77ca90f4fd410b7bbaafd61bbb50e0a55c86d54ce0d7fb335",
@@ -66589,7 +66600,7 @@
     "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_FPModel.lean": "7e9b8851cc759f97c8877dda2ff031d8d5f865d4530d549dfd34c4ff2f795432",
     "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_FPTypedSource.lean": "cdea7442c62ab53db8920fa158279cc9a9cbbd6cc8ad547c3f3b345bb92434de",
     "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_HostMetadata.lean": "32abd26e54ebf2e8178298cedb371052f815f89cfb4105cd2df38508d1a0154b",
-    "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_LoraExpandGemv.lean": "e89111d47b94db21f536fd168e0d4aee9821a74e33a554cd4b339f7de72ebfe0",
+    "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_LoraExpandGemv.lean": "8ca52d6bfc3cb595d05f1eaecf3ab79030b78a9ca5828dde604c810127856760",
     "bench/tritonbench_g/lora_expand_gemv/Sources/Parameters.lean": "2a1441be3760efcac7ede7d2e436c8b3bd109f29979bb051794d4914bb7c98cb",
     "bench/tritonbench_g/lora_expand_gemv/Sources/Selected.lean": "b28c1be769e168906f249638b2a891723f8571126f717c984df779aada6d40a5",
     "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py": "85f452b177066c749577b51a730ac49b81acd153ed4f5fc6d141762b4075ae03",
@@ -66674,7 +66685,7 @@
     "bench/tritonbench_g/matmul_dequant_int4/Sources/Mathematical_FPShape.lean": "f7ea4daaba40dd52789c75dbc5286da1ae174d4f3c96112d89ec18bd40da3e10",
     "bench/tritonbench_g/matmul_dequant_int4/Sources/Mathematical_FPTyped.lean": "f89855927f08e194f79ebd210975832a7457d773cf675acc6936e619c8107dbb",
     "bench/tritonbench_g/matmul_dequant_int4/Sources/Mathematical_FPWitness.lean": "d8f2a340430239acaca92f845e9d7042d3f0122e23ad731f8bf677c06886bbfe",
-    "bench/tritonbench_g/matmul_dequant_int4/Sources/Mathematical_MatmulDequantInt4.lean": "a003d0d3052458800dbf81cd3af8979c07f5084a91fc1e799c59b7b99fa12f72",
+    "bench/tritonbench_g/matmul_dequant_int4/Sources/Mathematical_MatmulDequantInt4.lean": "4cecff7d3131af73a5db3d40e7aec8102ac91aad8ad1b3851442b25dc31cdae2",
     "bench/tritonbench_g/matmul_dequant_int4/Sources/Memory.lean": "018838772ea676ca5b970f41a7d25954b0864c5090f9fa982eda4a13f0a0614c",
     "bench/tritonbench_g/matmul_dequant_int4/Sources/Native.lean": "4ccb3683012e0e16423ea7d7f676b814d8e1e50b3657d40cee7c92f6b4921107",
     "bench/tritonbench_g/matmul_dequant_int4/Sources/Packing.lean": "36ebcf9f0d23911a973dbcd059390d38af1463793f3f6a56c051725751a1c079",
@@ -66732,7 +66743,7 @@
     "bench/tritonbench_g/matmul_dequantize/Sources/Kernels.lean": "d01e084149e9684859d2769cbba402c31da185ecd864e414cc674db3126108ed",
     "bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_FPDequant.lean": "3d5d5890397c5a6e7590446231822afd54919fe68c4b9cf308904e0389d87025",
     "bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_FPTypedSource.lean": "94fa063cd8dc34c56df21468dec9a6eb5b0d9f9744a0ede2c1b935a23bdb4b7e",
-    "bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_MatmulDequantize.lean": "875aba0e6e82d728ec15c57416a7e4d260a8ff77c632ac2f1fc594a38eae4c85",
+    "bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_MatmulDequantize.lean": "011e7f3b7bd5092d47518670778def865f697e7addd4daeebd4bd4842e7933de",
     "bench/tritonbench_g/matmul_dequantize/matmul_dequantize.py": "8aead7bf90ca37c06d10382702dd47072db7614a55b33e0940c2a33da1f64283",
     "bench/tritonbench_g/matmul_dequantize/matmul_dequantize_scalar_address.py": "2d7a1cb11f03b6d017e611031138f88e22e2174b12b84ac4a5aedb2624c6eb1a",
     "bench/tritonbench_g/matmul_dequantize_int4/Candidate.lean": "bc2a7e6851360ac625a3c3f737a962971d16d091dc62011c3eba92d586266fec",
@@ -66790,7 +66801,7 @@
     "bench/tritonbench_g/matmul_dequantize_int4/Proofs/Setup.lean": "888fb2a5cdeb5a57ea9df58b20341f2c5548a92c7d253f4de8102978d4b3c3f0",
     "bench/tritonbench_g/matmul_dequantize_int4/Sources/Mathematical_FPReference.lean": "c0f5e0791639572c931c4448f3aad87b886ecc6428f534130ef4ed3f1d90f04c",
     "bench/tritonbench_g/matmul_dequantize_int4/Sources/Mathematical_FPTypedSource.lean": "220ac0312c1cb95709db735e9275203f1036b6e24e7fa3211cb2b0ee23ce2654",
-    "bench/tritonbench_g/matmul_dequantize_int4/Sources/Mathematical_MatmulDequantizeInt4.lean": "9a06703bfb9eb4d656b8eea48a5080e6a59dec9ec40288081ab7b0af59aa6174",
+    "bench/tritonbench_g/matmul_dequantize_int4/Sources/Mathematical_MatmulDequantizeInt4.lean": "f61e0c13bed84867eb3967f30356b940782036aa16ccc42ef5437c2171db99c0",
     "bench/tritonbench_g/matmul_dequantize_int4/Whole.lean": "bb91e6b641f458019631973bd231b7ac4406dde5c2e81ba4720172a64dbd134c",
     "bench/tritonbench_g/matmul_dequantize_int4/matmul_dequantize_int4.py": "3ffe3eae0fa2022409cf3d868ffc071ffec1950d5971a815a55b279162505a57",
     "bench/tritonbench_g/matmul_dequantize_int4/matmul_dequantize_int4_group_extent.py": "71349c4fedebab951392c56debebe9fa3bb018ae71c50734d13a06140e989238",
@@ -68822,7 +68833,7 @@
     "bench/tritonbench_g/softmax_triton1/Proofs/InputBinding.lean": "021ea66900a61080be404c0c585edb806bb51b1d847a2a15bb93d6f958bb6bd0",
     "bench/tritonbench_g/softmax_triton1/Proofs/KernelMath.lean": "9d28e3e1aa00a763131b2c05037dde4f0982b3c0f8c71f0c2856aefacde874c6",
     "bench/tritonbench_g/softmax_triton1/Proofs/LogicalIO.lean": "c32935af40655e09906af4e862a30d2ce0c625909542ad4a0c8d0fe05debcceb",
-    "bench/tritonbench_g/softmax_triton1/Proofs/Mathematical_Real.lean": "1747165f81cbfd08b925f34afeff1aba06ad3e63c8d9d86afc0c58c6dd945466",
+    "bench/tritonbench_g/softmax_triton1/Proofs/Mathematical_Real.lean": "d1c7297b53774e13044b79469ff8cce6af776dc1c10575b50767064c33431979",
     "bench/tritonbench_g/softmax_triton1/Proofs/Native.lean": "6c2280e6323ef9913f4378f69008c1ce12d24c8abb04a2e80215738e91bf83fb",
     "bench/tritonbench_g/softmax_triton1/Proofs/NativeGraph.lean": "a0aef02206da8bf50f8df040415cf11a0d09377854785a7722e1da746a62001f",
     "bench/tritonbench_g/softmax_triton1/Proofs/Real.lean": "81517329bd9499447bc8b7f07af792fe40e3f18391554da07a342e732dea90c3",
@@ -68839,7 +68850,7 @@
     "bench/tritonbench_g/softmax_triton2/Proofs/Binding.lean": "ef103feac98b95f86db1df9c667455437454c1591b7ec3ed20755293194bb01f",
     "bench/tritonbench_g/softmax_triton2/Proofs/GridPair.lean": "3d891f68714ae9f9d36b4fcaefc084a0479a89dd1fa4ab70f45b6fdb44735ff2",
     "bench/tritonbench_g/softmax_triton2/Proofs/GuardedReciprocal.lean": "167b7c34fee6688b87dfea468ab84334c4c071165907c27ffdae4ee00bc09214",
-    "bench/tritonbench_g/softmax_triton2/Proofs/Mathematical_Real.lean": "d2036153310ad51102a5eec5d5082c2a783f790af76e56b8be63641ddb4184f2",
+    "bench/tritonbench_g/softmax_triton2/Proofs/Mathematical_Real.lean": "3505a9ea403fab1c5997f9f4f2094befc5bdaa86581727301ff0a9bfc8d93809",
     "bench/tritonbench_g/softmax_triton2/Proofs/Pair.lean": "02dd2e166cd195d31b7eeb209a21795f3b80a7f4b98e7359834246218541d960",
     "bench/tritonbench_g/softmax_triton2/Proofs/PairSafety.lean": "f48375cfe3dcbbe21fb6f888b9761fc311ace408f6b090ed61a98d755a1c598d",
     "bench/tritonbench_g/softmax_triton2/Proofs/ReaderFormat.lean": "0b1e61a9748decf766bb00f3399e183e425385e486d5acf40c6a53285c0663d4",
@@ -68858,7 +68869,7 @@
     "bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Kernels.lean": "0f921c9e41614ef36aeddd9ffc890edbeab071f83549412219d52d992badbf7b",
     "bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Real.lean": "25619b299f93f1fe1e851207c9b1f6eb4755fd88c2c217f4d6b289d877856ce2",
     "bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Source.lean": "3e1bb13164d0df3c4209bc2185ff2a2685759e4808220bde122b173a2f91acd8",
-    "bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Spec.lean": "9e48a035a137bef3b8f8a7158bd9ec0f47c65cfbe8f8624fe25ee557af86cef4",
+    "bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Spec.lean": "de1aed9a0e77f72e62bf03b802af63d93263e9e5c2119f7bfa5ef47d22ff90bd",
     "bench/tritonbench_g/softmax_triton3/Proofs/Model.lean": "f8babfc34395a4fa4c257d79a934da463098783342b99bf6b97d9f670d0e9a30",
     "bench/tritonbench_g/softmax_triton3/Proofs/NativeGraph.lean": "3ee290387c08396a8d4a2d9cd33c82a162513b4eb5ac791281a63156168be872",
     "bench/tritonbench_g/softmax_triton3/Proofs/Pair.lean": "56874f56136ce4bcb45770b1bf62be69d5dd40b77fe1d8121345e219118d4c6f",
@@ -70046,7 +70057,7 @@
     "tests/lean/UnsignedLoopBinding.lean": "edbe1db2a00a2f75468465924556555f588b8b9dca779425216ae859a1050501",
     "tests/lean/WelfordSourceContexts.lean": "f62e2138c4cfe983f10fade716f33eb4bdcf049374bad30225883a7da7c7a544",
     "validation/bench-layout.json": "0811e2b0f1d456687e23d144a7700d486d05e0cec9ee55c616e62cc8d05dc1c4",
-    "validation/contracts.json": "d3884a8d0a5ca02f0a0381f1d846d11d165d9c553b8cc87ed10e916327384bc0",
+    "validation/contracts.json": "dc4347876cc2b4f8f7a14897aa0383c1063a1365f2b9ab6053990ea77912797a",
     "validation/task_progress.json": "c00d05f4f17beabf26887bf9dcba850fc0b3b2ff194db595a81c0b92709225e8"
   },
   "validation_boundary": "Membership and reviewed scope only; requires Lean build, axiom/spec gates and official replay. Imported benchmark proof goals and Python/native correspondence gaps remain separate."
