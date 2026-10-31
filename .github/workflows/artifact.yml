@@ -86,6 +86,8 @@ jobs:
             bench/tritonbench_g/matmul_dequant_int4/Sources/Mathematical_MatmulDequantInt4.lean \
             bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_MatmulDequantize.lean \
             bench/tritonbench_g/matmul_dequantize_int4/Sources/Mathematical_MatmulDequantizeInt4.lean \
+            bench/tritonbench_g/rope_transform/Proofs/Mathematical_RopeTransform.lean \
+            bench/tritonbench_g/softmax_optimize/Proofs/Mathematical_LegacyReal.lean \
             bench/tritonbench_g/softmax_triton1/Proofs/Mathematical_Real.lean \
             bench/tritonbench_g/softmax_triton2/Proofs/Mathematical_Real.lean \
             bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Spec.lean; do

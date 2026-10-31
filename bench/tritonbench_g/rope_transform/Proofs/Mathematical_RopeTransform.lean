@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 import VeriTile.Examples.AttentionForwardClosedForm
 
 /-!
@@ -399,7 +400,7 @@ def cosOffset (COS_ROW_IDX cos_row_stride : Nat) (i : Fin BLOCK_HALF) : Nat :=
 def sinOffset (COS_ROW_IDX sin_row_stride : Nat) (i : Fin BLOCK_HALF) : Nat :=
   COS_ROW_IDX * sin_row_stride + dimIndex i
 
-noncomputable def ropeQ0Spec
+@[standalone_spec] noncomputable def ropeQ0Spec
     (s : BlockState) (Q COS SIN : RegionName)
     (HEAD_IDX COS_ROW_IDX q_row_stride cos_row_stride sin_row_stride hd
       HEAD_HALF : Nat) (i : Fin BLOCK_HALF) : ℝ :=
@@ -418,7 +419,7 @@ def q1WriteOffset
     (i : Fin BLOCK_HALF) : Nat :=
   s.pid * q_row_stride + HEAD_IDX * hd + dimIndex i + HEAD_HALF
 
-noncomputable def ropeQ1Spec
+@[standalone_spec] noncomputable def ropeQ1Spec
     (s : BlockState) (Q COS SIN : RegionName)
     (HEAD_IDX COS_ROW_IDX q_row_stride cos_row_stride sin_row_stride hd
       HEAD_HALF : Nat) (i : Fin BLOCK_HALF) : ℝ :=
@@ -489,7 +490,7 @@ instance activeQFullDecidable (n_qh hd : Nat)
 
 /-- Spec for the Q first-half output under `BACKWARD_PASS = false`:
 `new_q_tile_1 = q_tile_1 * cos - q_tile_2 * sin`. -/
-noncomputable def ropeForwardKernelQ0Spec
+@[standalone_spec] noncomputable def ropeForwardKernelQ0Spec
     (s : BlockState) (q_ptr cos sin : RegionName)
     (q_row_stride sl cos_row_stride sin_row_stride hd : Nat)
     (idx : TileIndex [pad_n_qh, pad_hd_half]) : ℝ :=
@@ -500,7 +501,7 @@ noncomputable def ropeForwardKernelQ0Spec
 
 /-- Spec for the Q second-half output under `BACKWARD_PASS = false`:
 `new_q_tile_2 = q_tile_2 * cos + q_tile_1 * sin`. -/
-noncomputable def ropeForwardKernelQ1Spec
+@[standalone_spec] noncomputable def ropeForwardKernelQ1Spec
     (s : BlockState) (q_ptr cos sin : RegionName)
     (q_row_stride sl cos_row_stride sin_row_stride hd : Nat)
     (idx : TileIndex [pad_n_qh, pad_hd_half]) : ℝ :=
@@ -534,7 +535,7 @@ instance activeKFullDecidable (n_kh hd : Nat)
 
 /-- Spec for the K first-half output under `BACKWARD_PASS = false`:
 `new_k_tile_1 = k_tile_1 * cos - k_tile_2 * sin`. -/
-noncomputable def ropeForwardKernelK0Spec
+@[standalone_spec] noncomputable def ropeForwardKernelK0Spec
     (s : BlockState) (k_ptr cos sin : RegionName)
     (k_row_stride sl cos_row_stride sin_row_stride hd : Nat)
     (idx : TileIndex [pad_n_kh, pad_hd_half]) : ℝ :=
@@ -545,7 +546,7 @@ noncomputable def ropeForwardKernelK0Spec
 
 /-- Spec for the K second-half output under `BACKWARD_PASS = false`:
 `new_k_tile_2 = k_tile_2 * cos + k_tile_1 * sin`. -/
-noncomputable def ropeForwardKernelK1Spec
+@[standalone_spec] noncomputable def ropeForwardKernelK1Spec
     (s : BlockState) (k_ptr cos sin : RegionName)
     (k_row_stride sl cos_row_stride sin_row_stride hd : Nat)
     (idx : TileIndex [pad_n_kh, pad_hd_half]) : ℝ :=
@@ -634,7 +635,7 @@ def ropeRotOffset (s : BlockState) (SEQLEN_OFFSETS rotary_dim_half BLOCK_M : Nat
     (i : Fin BLOCK_HALF) : Nat :=
   (ropeRowIndex s BLOCK_M + SEQLEN_OFFSETS) * rotary_dim_half + ropeDimIndex i
 
-noncomputable def ropeO0Spec
+@[standalone_spec] noncomputable def ropeO0Spec
     (s : BlockState) (X COS SIN : RegionName)
     (SEQLEN_OFFSETS seqlen_ro stride_x_batch stride_x_seqlen stride_x_nheads
       stride_x_headdim rotary_dim_half BLOCK_M : Nat)
@@ -660,7 +661,7 @@ noncomputable def ropeO0Spec
         stride_x_headdim rotary_dim_half BLOCK_M i) *
     sinVal
 
-noncomputable def ropeO1Spec
+@[standalone_spec] noncomputable def ropeO1Spec
     (s : BlockState) (X COS SIN : RegionName)
     (SEQLEN_OFFSETS seqlen_ro stride_x_batch stride_x_seqlen stride_x_nheads
       stride_x_headdim rotary_dim_half BLOCK_M : Nat)

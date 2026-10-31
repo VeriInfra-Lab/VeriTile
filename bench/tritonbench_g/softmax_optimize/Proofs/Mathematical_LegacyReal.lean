@@ -1,4 +1,5 @@
 import VeriTile.Triton.Math.MaximumProjection
+import VeriTile.Meta.StatementAudit
 import bench.tritonbench_g.softmax_optimize.Proofs.Mathematical_Kernels
 
 /-!
@@ -71,7 +72,7 @@ noncomputable def softmaxOptimizeInputTile
         some (s.readMem input_ptr (linearOffset s N idx.1))
       else none }
 
-noncomputable def softmaxOptimizeSpec
+@[standalone_spec] noncomputable def softmaxOptimizeSpec
     (s : BlockState) (input_ptr : RegionName)
     (N TILE_N : Nat) (idx : Fin TILE_N) : ℝ :=
   let row := softmaxOptimizeInputTile s input_ptr N TILE_N
@@ -139,7 +140,7 @@ numerically-stabilized softmax over the `N` loaded inputs:
 `rowMax = max_{j'<N} input[j']`. This is exactly `TiledSoftmax.naiveSpec`
 (`= stableSpec`, the numerically stabilized form). It is a function of the
 loaded `input` memory, not of the kernel's own output. -/
-noncomputable def softmaxOptimizeFullSpec
+@[standalone_spec] noncomputable def softmaxOptimizeFullSpec
     (s : BlockState) (input_ptr : RegionName) (N : Nat) (j : Fin N) : ℝ :=
   Real.exp (softmaxOptimizeRow s input_ptr N j)
     / ∑ j' : Fin N, Real.exp (softmaxOptimizeRow s input_ptr N j')
@@ -2126,7 +2127,7 @@ section IOFace
 /-- `softmaxOptimizeSpec`'s reduction chain, read over the **loaded lane values**
 instead of over memory. Masked-out lanes are `⊥`, exactly as the kernel's
 `other = -float("inf")` load leaves them. -/
-noncomputable def softmaxTileSpec (N TILE_N : Nat)
+@[standalone_spec] noncomputable def softmaxTileSpec (N TILE_N : Nat)
     (xs : TileIndex [TILE_N] → ℝ) (idx : Fin TILE_N) : ℝ :=
   let row : Tile .real [TILE_N] :=
     { data := fun j => if j.1.val < N then some (xs j) else none }
