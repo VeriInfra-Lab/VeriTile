@@ -24,19 +24,19 @@ def withSum {α : Type} (M : Algebra α) (R : SumPrimitive α) : Algebra α :=
 
 
 def count {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem (Region.cast p.attentionLength) (s.pids 0*p.attentionLengthStride)).read .nat
+  ((s.mem (Region.cast p.attentionLength) (s.pids 0*p.attentionLengthStride)).read .int).toNat
 
 def sequenceLength {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem (Region.cast p.length) (s.pids 0*p.sequenceStride)).read .nat
+  ((s.mem (Region.cast p.length) (s.pids 0*p.sequenceStride)).read .int).toNat
 
 def windowStart {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
   max (sequenceLength p s-p.window) 0
 
 def startIndex {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem (Region.cast p.start) (s.pids 0*p.attentionStartStride)).read .nat
+  ((s.mem (Region.cast p.start) (s.pids 0*p.attentionStartStride)).read .int).toNat
 
 def requestIndex {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem (Region.cast p.request) (s.pids 0*p.requestStride)).read .nat
+  ((s.mem (Region.cast p.request) (s.pids 0*p.requestStride)).read .int).toNat
 
 def probOffset {α : Type} [Inhabited α] (p : Parameters) (s : State α) (n : Nat) :=
   s.pids 1 * p.probHeadStride + (startIndex p s + n) * p.probTokenStride
@@ -57,7 +57,7 @@ def probability {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s 
 
 def gather {α : Type} [Inhabited α] (p : Parameters) (s : State α) (start n : Nat) : Nat :=
   if start+n+windowStart p s < sequenceLength p s then
-    (s.mem (Region.cast p.tokens) (gatherOffset p s n+start*p.requestTokenStride)).read .nat
+    ((s.mem (Region.cast p.tokens) (gatherOffset p s n+start*p.requestTokenStride)).read .int).toNat
   else 0
 
 def value {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)
@@ -65,6 +65,27 @@ def value {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : Stat
   if start+n+windowStart p s < sequenceLength p s then
     (s.mem p.value (valueOffset p s d+gather p s start n*p.valueBatchStride)).read .fp32
   else padding M
+
+/-- The inherited natural metadata domain, on actual signed storage words.
+Only token words read in visited blocks under the value mask are constrained. -/
+structure ValidMetadata {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Prop where
+  sequence : 0≤(s.mem (Region.cast p.length) (s.pids 0*p.sequenceStride)).read .int
+  start : 0≤(s.mem (Region.cast p.start) (s.pids 0*p.attentionStartStride)).read .int
+  request : 0≤(s.mem (Region.cast p.request) (s.pids 0*p.requestStride)).read .int
+  attention : 0≤(s.mem (Region.cast p.attentionLength) (s.pids 0*p.attentionLengthStride)).read .int
+  tokens : ∀ n,n<count p s → n%p.block=0 → ∀ lane : Fin p.block,
+    n+lane.val+windowStart p s<sequenceLength p s →
+    0≤(s.mem (Region.cast p.tokens) (gatherOffset p s (n+lane.val))).read .int
+
+theorem ValidMetadata.congr {α : Type} [Inhabited α] {p : Parameters} {s t : State α}
+    (v : ValidMetadata p s) (memory : t.mem=s.mem) (pids : t.pids=s.pids) : ValidMetadata p t := by
+  rcases v with ⟨vl,vs,vr,va,vt⟩
+  constructor
+  · simpa only [memory,pids] using vl
+  · simpa only [memory,pids] using vs
+  · simpa only [memory,pids] using vr
+  · simpa only [memory,pids] using va
+  · simpa only [count,gatherOffset,windowStart,sequenceLength,requestIndex,memory,pids] using vt
 
 /-- All BLOCK_N products are evaluated, including padded lanes. In particular
 there is no cancellation of zero products or zero block contributions. -/

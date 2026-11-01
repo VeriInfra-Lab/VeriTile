@@ -1084,3 +1084,36 @@ class KvCacheCopyBodyTests(unittest.TestCase):
         for before, after in mutations:
             with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
                 self.verify(self.lean.replace(before, after, 1))
+
+class TokenAttnMistralBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/token_attn_mistral'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+
+    def verify(self, lean):
+        r = self.record
+        return check((ROOT / r['python']).read_text(), lean,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
+
+    def test_both_complete_sliding_window_bodies(self):
+        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual(len(results), 2)
+        self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 20 for r in results))
+
+    def test_distinct_value_mask_must_not_be_replaced_by_probability_mask(self):
+        with self.assertRaisesRegex(ValueError, 'statement correspondence'):
+            self.verify(self.lean.replace(
+                'mask=(start_n + offs_n + cur_batch_start_index) < cur_batch_seq_len',
+                'mask=(start_n + offs_n) < cur_att_seq_len', 1))
+
+    def test_sliding_origin_hint_and_output_cast_are_preserved(self):
+        mutations = [
+            ('tl.maximum(cur_batch_seq_len - sliding_window, 0)', 'cur_batch_seq_len - sliding_window'),
+            ('start_n = tl.multiple_of(start_n, BLOCK_N)', 'start_n = start_n'),
+            ('acc = acc.to(Out.dtype.element_ty)', 'acc = acc'),
+        ]
+        for before, after in mutations:
+            with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
+                self.verify(self.lean.replace(before, after, 1))
