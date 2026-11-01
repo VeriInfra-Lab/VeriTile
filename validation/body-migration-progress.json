@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 80,
+  "completed_count": 82,
   "staged_count": 87,
-  "pending_count": 116,
+  "pending_count": 114,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 2052,
-    "official_comparator": "Current-source receipts accept 80 of 196 targets. Each accepted case matches the exact current source/import closure, reviewed source pairs, fully-qualified public Real/FP theorem names and every required independent replay. Accepted evidence covers the unchanged cases from all six original shards, F8ConversionUtils, the three RMS incrementals, all three destination copies, FastCrossEntropy, MatrixReduction and its three target clients, all three softmax cases, both RoPE cases and MulExponentCompensator. Shared replay dependency closures match. The accepted triton_matmul regression is not counted as a target. Seven locally staged targets, including the corrected AdamUpdateGridLaunch, still need current independent replay; they are not complete. Individual proof jobs have succeeded for accepted incrementals; queued aggregate jobs are not reported as whole-workflow successes. Compilation alone never counts as completion.",
+    "official_comparator": "Current-source receipts accept 82 of 196 targets. Each accepted case matches the exact current source/import closure, reviewed source pairs, fully-qualified public Real/FP theorem names and every required independent replay. Accepted evidence covers the unchanged cases from all six original shards, F8ConversionUtils, the three RMS incrementals, all three destination copies, FastCrossEntropy, MatrixReduction and its three target clients, all three softmax cases, both RoPE cases and MulExponentCompensator. Shared replay dependency closures match. The accepted triton_matmul regression is not counted as a target. Five locally staged targets still need current independent replay; they are not complete. Individual proof jobs have succeeded for accepted incrementals; queued aggregate jobs are not reported as whole-workflow successes. Compilation alone never counts as completion. The corrected AdamUpdateTriton task, AdamUpdateGridLaunch example and the shared Boolean-arithmetic replay dependencies are accepted by their current-source receipt; all 19 examples now have current independent replay receipts.",
     "python_tests": 329,
     "offline_example_compilations": {
       "cases": 19,
@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "validated_source_commit": "401e9af8389afabcd5ce98dc29b8074bb0cb1bc5",
-    "working_tree": "All 87 locally staged targets (68 task targets and all 19 examples) pass complete body checks, actual public Real/FP proofs and the joint 2052-retained-module build. MaskedSelect now has one literal original Python quotation with an external finite storage signature covering all seven retained payload storage profiles and the actual Bool/Int64 metadata ports. Old source imports only forward to the canonical kernel. The prefix load and subtraction execute in Int, and actual register theorems prove the complete signed out_offset tile and zero-prefix -1 value before masked address conversion. Full-source execution, exact inclusive-prefix input cells, host preparation, stable selection over every complete grid, all 20 autotune configurations, memory collision exclusion, trace safety and exterior frames are re-proved. The full configuration-to-configuration equivalence uses no numerical assumptions or new guards. All 18 task modules, current body correspondence, 329 Python tests and inventory checks pass. Current source/import receipt audits verify all 80 completed targets. Seven staged targets await independent replay; 109 target tasks are not migrated.",
+    "working_tree": "All 87 locally staged targets (68 task targets and all 19 examples) pass complete body checks, actual public Real/FP proofs and the joint 2052-retained-module build. MaskedSelect now has one literal original Python quotation with an external finite storage signature covering all seven retained payload storage profiles and the actual Bool/Int64 metadata ports. Old source imports only forward to the canonical kernel. The prefix load and subtraction execute in Int, and actual register theorems prove the complete signed out_offset tile and zero-prefix -1 value before masked address conversion. Full-source execution, exact inclusive-prefix input cells, host preparation, stable selection over every complete grid, all 20 autotune configurations, memory collision exclusion, trace safety and exterior frames are re-proved. The full configuration-to-configuration equivalence uses no numerical assumptions or new guards. All 18 task modules, current body correspondence, 329 Python tests and inventory checks pass. Current source/import receipt audits verify all 82 completed targets. Five staged targets await independent replay; 109 target tasks are not migrated.",
     "official_replay_sources": 1032,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -173,12 +173,13 @@
   "targets": [
     {
       "path": "bench/tritonbench_g/adam_update_triton",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "401e9af8389afabcd5ce98dc29b8074bb0cb1bc5"
+      "validated_source_commit": "401e9af8389afabcd5ce98dc29b8074bb0cb1bc5",
+      "receipt": "validation/body_receipts/adam_update.json"
     },
     {
       "path": "bench/tritonbench_g/add_example",
@@ -1396,14 +1397,15 @@
     },
     {
       "path": "bench/examples/AdamUpdateGridLaunch",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "401e9af8389afabcd5ce98dc29b8074bb0cb1bc5",
       "superseded_receipt": "validation/body_receipts/stage9-shard3.json",
-      "reason": "Correct numeric Boolean promotion and all Real/FP proofs pass; the old receipt is historical and fresh independent replay is required."
+      "reason": "Correct numeric Boolean promotion and all Real/FP proofs pass; the old receipt is historical and fresh independent replay is required.",
+      "receipt": "validation/body_receipts/adam_update.json"
     },
     {
       "path": "bench/examples/FlatVectorAdd",
