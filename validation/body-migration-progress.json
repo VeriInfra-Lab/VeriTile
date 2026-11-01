@@ -11,7 +11,7 @@
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 3318,
-    "official_comparator": "117 targets have exact current-source/import-closure official receipts, including all 19 examples. Pending: KldivOps run 41339690975; IsfiniteKernel run 41340937182 attempt two after a dependency-download network failure; BmmOptimized awaits dispatch. Successful local compilation and body comparison alone do not certify completion.",
+    "official_comparator": "117 targets have exact current-source/import-closure official receipts, including all 19 examples. Pending: KldivOps run 41339690975; IsfiniteKernel run 41340937182 attempt two after a dependency-download network failure; BmmOptimized run 41342846625. Successful local compilation and body comparison alone do not certify completion.",
     "python_tests": 436,
     "offline_example_compilations": {
       "cases": 19,
@@ -53,8 +53,8 @@
       "cases": 1,
       "retained_modules": 45,
       "replay_sources": 45,
-      "official_run": "pending_dispatch",
-      "source_commit": "pending_snapshot"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41342846625",
+      "source_commit": "e0b5b8cbd37cb75e78935bb1380d6ec9f3362c7f"
     },
     "previous_incremental_replays": [
       {
