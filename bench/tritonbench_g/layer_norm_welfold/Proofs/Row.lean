@@ -1,4 +1,5 @@
 import bench.tritonbench_g.layer_norm_welfold.Proofs.Statistics
+import bench.tritonbench_g.layer_norm_welfold.Proofs.NormalizeModel
 namespace VeriTile.Bench.Repairs.LayerNormWelfold
 open VeriTile.Triton FP.Structural Reuse
 noncomputable section

@@ -298,7 +298,10 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_pure_functions: dict[str, str] | None = None,
           expected_integer_args: dict[str, str] | None = None,
           expected_arange_args: dict[str, str] | None = None,
-          expected_binary_functions: dict[str, str] | None = None) -> dict:
+          expected_binary_functions: dict[str, str] | None = None,
+          expected_ordered_sum_trees: dict[str, str] | None = None,
+          expected_namespace_imports: dict[str, str] | None = None,
+          expected_constexpr_bindings: dict[str, str] | None = None) -> dict:
     if expected_pure_functions is not None and expected_binary_functions is not None:
         raise ValueError("unary and binary helper clauses cannot be mixed")
     helper_functions = expected_binary_functions if expected_binary_functions is not None else expected_pure_functions
@@ -364,6 +367,10 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 raise ValueError("integer/arange arguments require a reviewed scalar-only call")
             offset_clause = (r"\s+integer_args\s*\[([^\]]*)\]"
                              r"\s+arange_args\s*\[([^\]]*)\]")
+        if expected_ordered_sum_trees is not None:
+            if (not expected_ordered_sum_trees or expected_call_bindings is None or offset_clause):
+                raise ValueError("ordered sum trees require a reviewed scalar-only call")
+            offset_clause = r"\s+ordered_sum_trees\s*\[([^\]]*)\]"
         if expected_call_bindings is None:
             invocation = r"\bwith_triton_signature\s+" + selected_signature + offset_clause + r"\s+in\b"
             calls = list(re.finditer(invocation, signature))
@@ -389,6 +396,42 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             if (not handled <= integer_args or not (integer_args-handled) <= set(bindings)
                     or set(bindings) & handled or not set(bindings) <= integer_args | fp32_args):
                 raise ValueError("runtime call bindings must include all integer parameters and only supported scalar parameters")
+        if expected_ordered_sum_trees is not None:
+            trees = {}
+            for entry in calls[0][2].split(','):
+                pair = re.fullmatch(r"\s*([A-Za-z_]\w*)\s*:=\s*([A-Za-z_]\w*)\s*", entry)
+                if not pair or pair[1] in trees:
+                    raise ValueError("ordered sum trees require distinct named destinations")
+                trees[pair[1]] = pair[2]
+            if trees != expected_ordered_sum_trees:
+                raise ValueError("ordered sum trees differ from the reviewed call")
+            sums = [n for n in ast.walk(function) if isinstance(n, ast.Call)
+                    and ast.unparse(n.func) == 'tl.sum']
+            destinations = []
+            for statement in ast.walk(function):
+                if not (isinstance(statement, ast.Assign) and len(statement.targets) == 1
+                        and isinstance(statement.targets[0], ast.Name)
+                        and isinstance(statement.value, ast.Subscript)):
+                    continue
+                view = statement.value
+                if not (isinstance(view.value, ast.Call) and view.value in sums):
+                    continue
+                call = view.value
+                if (ast.unparse(view.slice) != '(:, None)' or len(call.args) != 2
+                        or call.keywords or not isinstance(call.args[1], ast.Constant)
+                        or type(call.args[1].value) is not int or call.args[1].value != 1):
+                    raise ValueError("ordered tree requires the original single-row axis-one sum and view")
+                destinations.append(statement.targets[0].id)
+            if (len(destinations) != len(sums) or len(destinations) != len(set(destinations))
+                    or set(destinations) != set(trees)):
+                raise ValueError("every source sum must have exactly one reviewed ordered tree")
+        if expected_constexpr_bindings is not None:
+            for name, value in expected_constexpr_bindings.items():
+                if (name not in constants or not re.fullmatch(r"[0-9]+", value)
+                        or len(re.findall(r"\b(?:let|have)\s+" + re.escape(name) + r"\b", signature)) != 1
+                        or len(re.findall(r"\blet\s+" + re.escape(name) +
+                                          r"\s*:\s*Nat\s*:=\s*" + re.escape(value) + r"\b", signature)) != 1):
+                    raise ValueError("closed constexpr binding differs from the reviewed specialization")
         if expected_integer_args is not None:
             for group, reviewed, label in [(2, expected_integer_args, "integer"),
                                              (3, expected_arange_args, "arange")]:
@@ -519,6 +562,29 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 self.names.append(node.name)
         writes = ModuleWrites()
         writes.visit(module)
+        for name, target in (expected_namespace_imports or {}).items():
+            if name != 'libdevice' or target not in {
+                    'torch._inductor.runtime.triton_helpers.libdevice',
+                    'triton.language.extra.libdevice', 'triton.language.extra.cuda.libdevice'}:
+                raise ValueError("unsupported source intrinsic namespace")
+            imports = [node.module + '.' + alias.name for node in module.body
+                       if isinstance(node, ast.ImportFrom) and node.level == 0 and node.module
+                       and node.lineno < function.lineno for alias in node.names
+                       if (alias.asname or alias.name) == name]
+            def namespace_root(node):
+                while isinstance(node, ast.Attribute):
+                    node = node.value
+                return node.id if isinstance(node, ast.Name) else None
+            mutated = any(isinstance(node, ast.Attribute) and isinstance(node.ctx, (ast.Store, ast.Del))
+                          and namespace_root(node) == name for node in ast.walk(module))
+            local_writes = any(isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del))
+                               and node.id == name for node in ast.walk(function))
+            local_imports = any((alias.asname or alias.name.split('.')[0]) == name
+                                for node in ast.walk(function) if isinstance(node, (ast.Import, ast.ImportFrom))
+                                for alias in node.names)
+            if (imports != [target] or writes.wildcard_import or writes.names.count(name) != 1
+                    or mutated or local_writes or local_imports or name in {a.arg for a in function.args.args}):
+                raise ValueError("source intrinsic namespace differs, is shadowed or is rebound")
         module_names = [pair[0] for field in ("sourceConstants", "unaryImports")
                         for pair in profile.get(field, [])]
         if module_names and writes.wildcard_import:
@@ -714,7 +780,9 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                              r.get("expected_call_bindings"), r.get("expected_pointer_offsets"),
                              r.get("expected_pointer_cells"), r.get("expected_optional_pointers"),
                              r.get("expected_static_strides"), r.get("expected_pure_functions"),
-                             r.get("expected_integer_args"), r.get("expected_arange_args"), r.get("expected_binary_functions")))
+                             r.get("expected_integer_args"), r.get("expected_arange_args"), r.get("expected_binary_functions"),
+                             r.get("expected_ordered_sum_trees"), r.get("expected_namespace_imports"),
+                             r.get("expected_constexpr_bindings")))
         helper_kind = "binary_pure_jit_function" if "expected_binary_functions" in r else "pure_jit_function"
         for name, definition in r.get("expected_binary_functions", r.get("expected_pure_functions", {})).items():
             helpers = [h for h in records if h.get("kind") == helper_kind

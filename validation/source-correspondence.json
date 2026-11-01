@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 108,
-      "uncovered_jit_functions": 75
+      "selected_body_copy_checked": 109,
+      "uncovered_jit_functions": 74
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 161,
-    "inventoried_jit_functions": 523,
-    "uncovered_inventoried_jit_functions": 214,
+    "uncovered_selected_jit_functions": 160,
+    "inventoried_jit_functions": 524,
+    "uncovered_inventoried_jit_functions": 213,
     "checked_pair_modes": {
-      "pasted_body": 309
+      "pasted_body": 311
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 108,
-        "uncovered_jit_functions": 75
+        "selected_body_copy_checked": 109,
+        "uncovered_jit_functions": 74
       }
     },
     "primary_files_with_int64_screen_warning": 16,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 47,
-        "antiquotes": 389,
+        "in_body_type_directives": 46,
+        "antiquotes": 388,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -25184,12 +25184,12 @@
       "lean": "bench/tritonbench_g/layer_norm_welfold/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 65,
-        "dsl_assignment": 7,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 24,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 6
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -25210,27 +25210,65 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+        },
         {
-          "python": "bench/tritonbench_g/layer_norm_welfold/layer_norm_welfold.py",
-          "function": "triton_red_fused_native_layer_norm_no_welford"
+          "path": "bench/tritonbench_g/layer_norm_welfold/layer_norm_welfold_candidates.py",
+          "jits": [
+            {
+              "function": "triton_red_fused_native_layer_norm_row_offset_reused",
+              "line": 7,
+              "statements": 23,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "triton_red_fused_native_layer_norm_no_welford",
+          "lean_definition": "sourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 23,
+          "runtime_parameters": {
+            "xnumel": "integer",
+            "rnumel": "integer"
+          },
+          "constexpr_parameters": [
+            "RBLOCK",
+            "XBLOCK"
+          ],
           "python": "bench/tritonbench_g/layer_norm_welfold/layer_norm_welfold.py",
-          "function": "triton_red_fused_native_layer_norm_no_welford"
+          "lean": "bench/tritonbench_g/layer_norm_welfold/Kernels.lean"
+        },
+        {
+          "python_function": "triton_red_fused_native_layer_norm_row_offset_reused",
+          "lean_definition": "candidateSourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 23,
+          "runtime_parameters": {
+            "xnumel": "integer",
+            "rnumel": "integer"
+          },
+          "constexpr_parameters": [
+            "RBLOCK",
+            "XBLOCK"
+          ],
+          "python": "bench/tritonbench_g/layer_norm_welfold/layer_norm_welfold_candidates.py",
+          "lean": "bench/tritonbench_g/layer_norm_welfold/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/layer_norm_welfold/Kernels.lean": "8caa811644ab46b76e6f4b9e2f004c7eeb74e6409128c188cba7dd049d0b3619",
-        "bench/tritonbench_g/layer_norm_welfold/layer_norm_welfold.py": "73275d9885b7f63480d94dfeb2f9312f92266d030d2482061a3c41d9c9171742"
+        "bench/tritonbench_g/layer_norm_welfold/Kernels.lean": "cc9d7974d2250b6eea2f98cb6faa06686adcf7a0d870bd43b7e441cbd6bdb7aa",
+        "bench/tritonbench_g/layer_norm_welfold/jit-correspondence.json": "a7d49bf4f118198154ad029622e2670bbcbbe81c0696ce01c730f73c16f27010",
+        "bench/tritonbench_g/layer_norm_welfold/layer_norm_welfold.py": "73275d9885b7f63480d94dfeb2f9312f92266d030d2482061a3c41d9c9171742",
+        "bench/tritonbench_g/layer_norm_welfold/layer_norm_welfold_candidates.py": "ad55d77304ad89e22c30821785322d353bb07be61b68d4033c10404497508bc5"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/layer_norm_welfold"

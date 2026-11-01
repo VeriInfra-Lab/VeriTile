@@ -1960,3 +1960,70 @@ class BmmChunkBwdBodyCorrespondenceTests(unittest.TestCase):
                          ('("res_ptr",dtype)', '("res_ptr",out_dtype)')]:
             with self.subTest(old=old), self.assertRaises(ValueError):
                 self.verify(self.source.replace(old, new, 1))
+
+
+class LayerNormWelfoldBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/layer_norm_welfold'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.python = (ROOT / self.record['python']).read_text()
+
+    def verify(self, source=None, python=None):
+        r = self.record
+        return check(self.python if python is None else python,
+                     self.source if source is None else source,
+                     r['python_function'], r['lean_definition'], r['signature_definition'],
+                     r['expected_signature'], expected_call_bindings=r['expected_call_bindings'],
+                     expected_ordered_sum_trees=r['expected_ordered_sum_trees'],
+                     expected_namespace_imports=r['expected_namespace_imports'],
+                     expected_constexpr_bindings=r['expected_constexpr_bindings'])
+
+    def test_complete_original_and_existing_address_candidate(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [23, 23])
+
+    def test_unused_source_assignments_and_dynamic_loops_are_retained(self):
+        for old, new in [('xmask = xindex < xnumel', ''),
+                         ('rbase = tl.arange(0, RBLOCK)[None, :]', ''),
+                         ('for roffset in range(0, rnumel, RBLOCK):',
+                          'for roffset in range(0, rnumel):')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_explicit_casts_and_original_cache_hints_are_retained(self):
+        for old, new in [('tmp1 = tmp0.to(tl.float32)', 'tmp1 = tmp0'),
+                         ('tmp20 = tmp19.to(tl.float32)', 'tmp20 = tmp19'),
+                         ('eviction_policy="evict_first"', 'eviction_policy="evict_last"')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_source_sum_view_and_none_store_are_retained(self):
+        for old, new in [('tmp3 = tl.sum(_tmp3, 1)[:, None]', 'tmp3 = tl.sum(_tmp3, 1)'),
+                         ('tl.store(in_out_ptr0 + (x0), tmp6, None)',
+                          'tl.store(in_out_ptr0 + (x0), tmp6)')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_libdevice_is_not_replaced_by_the_tl_intrinsic(self):
+        with self.assertRaises(ValueError):
+            self.verify(self.source.replace('libdevice.rsqrt(tmp17)', 'tl.rsqrt(tmp17)', 1))
+
+    def test_external_trees_and_closed_xblock_are_checked(self):
+        for old, new in [('tmp12 := reductionTree', 'tmp12 := otherTree'),
+                         ('let XBLOCK : Nat := 1', 'let XBLOCK : Nat := 2'),
+                         ('let XBLOCK : Nat := 1', 'let XBLOCK : Nat := 1\n  let XBLOCK : Nat := 2')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_namespace_import_and_rebinding_are_checked(self):
+        for python in [self.python.replace('from torch._inductor.runtime.triton_helpers import libdevice',
+                                            'from somewhere_else import libdevice'),
+                       self.python + '\nlibdevice = None\n',
+                       self.python + '\nlibdevice.rsqrt = lambda x: x\n']:
+            with self.subTest(python=python[-70:]), self.assertRaises(ValueError):
+                self.verify(python=python)
+
+    def test_no_tree_can_be_silently_omitted(self):
+        with self.assertRaises(ValueError):
+            self.verify(self.source.replace(', tmp12 := reductionTree', '', 1))

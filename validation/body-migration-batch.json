@@ -1721,6 +1721,19 @@
           "VeriTile.Bench.Repairs.BmmChunkBwd.FPEquiv.bmm_chunk_bwd_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_welfold",
+      "python": "bench/tritonbench_g/layer_norm_welfold/layer_norm_welfold.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/layer_norm_welfold/Correct.lean": [
+          "VeriTile.Bench.Repairs.LayerNormWelfold.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/layer_norm_welfold/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.row_offset_reused_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1741,6 +1754,7 @@
     "VeriTile/Triton/DSL/Metadata.lean",
     "VeriTile/Triton/DSL/NamedFloatDTypeCasts.lean",
     "VeriTile/Triton/DSL/OptionalStringConstants.lean",
+    "VeriTile/Triton/DSL/OrderedSumCalls.lean",
     "VeriTile/Triton/DSL/PointerDTypeConstants.lean",
     "VeriTile/Triton/DSL/PureJitFunctions.lean",
     "VeriTile/Triton/DSL/PythonCallSyntax.lean",
@@ -2850,6 +2864,46 @@
     "bench/tritonbench_g/layer_norm_liger/Proofs/Wrapper.lean",
     "bench/tritonbench_g/layer_norm_liger/Sources/Backward.lean",
     "bench/tritonbench_g/layer_norm_liger/Sources/Forward.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Contract.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Correct.lean",
+    "bench/tritonbench_g/layer_norm_welfold/FPEquiv.lean",
+    "bench/tritonbench_g/layer_norm_welfold/IO.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Kernels.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/Accumulate.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/Bounds.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/Contract.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/Grid.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/Host.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/IOImplements.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/InputBinding.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/KernelBoundary.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/KernelRealResult.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/LoweringPlan.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/Mathematics.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/NativeABI.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/NativeHost.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/NativeTree.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/NormalizeModel.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/PairEquivalence.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableAccumulate.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableBoundary.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableGrid.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableNormalize.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableResults.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableRow.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableSafety.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableStatistics.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableSyntax.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/Real.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/Row.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/ScalarTransport.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/Source.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/SourceBinding.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/SourceGraph.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/Statistics.lean",
+    "bench/tritonbench_g/layer_norm_welfold/Proofs/Trials.lean",
     "bench/tritonbench_g/layernorm_fwd_triton/Contract.lean",
     "bench/tritonbench_g/layernorm_fwd_triton/Correct.lean",
     "bench/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean",
@@ -3931,6 +3985,8 @@
     "tests/lean/OptionalPointers.lean",
     "tests/lean/OptionalStringConstants.lean",
     "tests/lean/OptionalStringReference.lean",
+    "tests/lean/OrderedSumCalls.lean",
+    "tests/lean/OrderedSumReference.lean",
     "tests/lean/PointerArguments.lean",
     "tests/lean/PointerCells.lean",
     "tests/lean/PointerDTypeConstantReference.lean",
