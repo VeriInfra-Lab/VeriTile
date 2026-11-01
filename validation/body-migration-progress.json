@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 117,
+  "completed_count": 118,
   "staged_count": 120,
-  "pending_count": 79,
+  "pending_count": 78,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 3318,
-    "official_comparator": "117 targets have exact current-source/import-closure official receipts, including all 19 examples. Pending: KldivOps run 41339690975; IsfiniteKernel run 41340937182 attempt two after a dependency-download network failure; BmmOptimized run 41342846625. Successful local compilation and body comparison alone do not certify completion.",
+    "official_comparator": "118 targets have exact current-source/import-closure official receipts, including all 19 examples. Pending: IsfiniteKernel run 41340937182 attempt two after a dependency-download network failure; BmmOptimized run 41342846625. Successful local compilation and body comparison alone do not certify completion.",
     "python_tests": 436,
     "offline_example_compilations": {
       "cases": 19,
@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "validated_source_commit": "aa1efe6a263f3235d2273fea67614b43cc3ae588",
-    "working_tree": "At validated_source_commit all 126 selected cases (120 targets and six regressions), 3318 retained/supporting Lean modules, 2321 selected proof/audit sources and 436 Python tests pass locally, including qualified public-name checks. BmmOptimized replaces eight expanded source copies with one literal original body and one literal existing integer-CSE candidate body. All eight constexpr mask choices, None aliases, positional masks, original tuple assignment, anonymous loop counter, batch pointer updates, FP32 loads, live accumulator order and allow_tf32=False remain in source. The optional Boolean frontend specializes only declared immutable Boolean constexpr arguments and resolves compile-time None masks, retaining every runtime branch, loop and floating instruction. Independent complete-program equalities cover all masked/unmasked read/write combinations and source loops; refusal tests cover constexpr mutation/shadowing and runtime or rebound None aliases. Full source execution, every access and complete grid/frame results are re-proved and connected to the independent batched matrix-product formula. Both actual source schedules are equivalent without numerical rewrite assumptions; the conservative closed structural public audit prints none. The prefix safety proof now composes actual no-access statements and both runtime grouping branches in every predecessor state. All 42 task modules and three supporting frontend/reference/unit modules are required in the incremental replay. All 117 completed current source/import closures remain unchanged. BmmOptimized, KldivOps and IsfiniteKernel remain incomplete pending exact independent receipts.",
+    "working_tree": "At validated_source_commit all 126 selected cases (120 targets and six regressions), 3318 retained/supporting Lean modules, 2321 selected proof/audit sources and 436 Python tests pass locally, including qualified public-name checks. BmmOptimized replaces eight expanded source copies with one literal original body and one literal existing integer-CSE candidate body. All eight constexpr mask choices, None aliases, positional masks, original tuple assignment, anonymous loop counter, batch pointer updates, FP32 loads, live accumulator order and allow_tf32=False remain in source. The optional Boolean frontend specializes only declared immutable Boolean constexpr arguments and resolves compile-time None masks, retaining every runtime branch, loop and floating instruction. Independent complete-program equalities cover all masked/unmasked read/write combinations and source loops; refusal tests cover constexpr mutation/shadowing and runtime or rebound None aliases. Full source execution, every access and complete grid/frame results are re-proved and connected to the independent batched matrix-product formula. Both actual source schedules are equivalent without numerical rewrite assumptions; the conservative closed structural public audit prints none. The prefix safety proof now composes actual no-access statements and both runtime grouping branches in every predecessor state. All 42 task modules and three supporting frontend/reference/unit modules are required in the incremental replay. KldivOps now has an accepted exact-current official receipt for all 49 retained modules. All 118 completed current source/import closures remain unchanged. BmmOptimized and IsfiniteKernel remain incomplete pending exact independent receipts. BmmChunkBwd is unvalidated work in progress and is not counted as staged or complete.",
     "official_replay_sources": 2321,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -1006,13 +1006,13 @@
     },
     {
       "path": "bench/tritonbench_g/kldiv_ops",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All four complete source bodies, independent Real KL/derivative formulas, complete FP program pairs, every signed loop iteration and active access, output masks and exterior frames have been re-proved locally. All 49 retained modules pass. Await exact-current-source independent proof replay; compilation alone is not completion.",
-      "validated_source_commit": "aa1efe6a263f3235d2273fea67614b43cc3ae588"
+      "validated_source_commit": "aa1efe6a263f3235d2273fea67614b43cc3ae588",
+      "receipt": "validation/body_receipts/kldiv_ops.json"
     },
     {
       "path": "bench/tritonbench_g/kldiv_triton",
