@@ -3,83 +3,38 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/flash_decode2_llama",
-      "python": "bench/tritonbench_g/flash_decode2_llama/flash_decode2_llama.py",
+      "path": "bench/tritonbench_g/relu_triton_kernel",
+      "python": "bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/flash_decode2_llama/Correct.lean": [
-          "VeriTile.Bench.Repairs.FlashDecode2Llama.Correct.kernel_real"
+        "bench/tritonbench_g/relu_triton_kernel/Correct.lean": [
+          "VeriTile.Bench.Repairs.ReluTritonKernel.Correct.relu_kernel_correctness"
         ],
-        "bench/tritonbench_g/flash_decode2_llama/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.FlashDecode2Llama.FPEquiv.kernel_equivalent"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/flash_decode2_phi",
-      "python": "bench/tritonbench_g/flash_decode2_phi/flash_decode2_phi.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/flash_decode2_phi/Correct.lean": [
-          "VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.Correct.kernel_real"
-        ],
-        "bench/tritonbench_g/flash_decode2_phi/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.FPEquiv.kernel_equivalent"
+        "bench/tritonbench_g/relu_triton_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ReluTritonKernel.FPEquiv.relu_inlined_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/flash_decode2_llama/Contract.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Correct.lean",
-    "bench/tritonbench_g/flash_decode2_llama/FPEquiv.lean",
-    "bench/tritonbench_g/flash_decode2_llama/IO.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Kernels.lean",
-    "bench/tritonbench_g/flash_decode2_llama/PairIO.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/AccessSafety.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/IOPair.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/KernelModel.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/KernelTensor.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/LogicalIO.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/NativeIO.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/PublicIO.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/RawKernel.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/RawNative.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/RealIO.lean",
-    "bench/tritonbench_g/flash_decode2_llama/Proofs/SourcePair.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Contract.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Correct.lean",
-    "bench/tritonbench_g/flash_decode2_phi/FPEquiv.lean",
-    "bench/tritonbench_g/flash_decode2_phi/IO.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Kernels.lean",
-    "bench/tritonbench_g/flash_decode2_phi/PairIO.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Admission.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Bounds.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Contract.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Coordinates.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Execution.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Geometry.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Grid.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Host.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/IOPair.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/KernelModel.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/KernelNative.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/KernelTensor.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/LogicalIO.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Native.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/NativeHost.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/NativeIO.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/NativeSafety.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Numerical.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Physical.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/PublicIO.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/RawInterface.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/RealIO.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/Reference.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/SourceConnection.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/SourcePair.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Proofs/TensorBinding.lean",
-    "bench/tritonbench_g/flash_decode2_phi/Sources/Kernels.lean"
+    "bench/tritonbench_g/relu_triton_kernel/Contract.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Correct.lean",
+    "bench/tritonbench_g/relu_triton_kernel/FPEquiv.lean",
+    "bench/tritonbench_g/relu_triton_kernel/IO.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Kernels.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/FPObservations.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/KernelReal.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_ByteAddress.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_FP.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_FiniteAddress.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_GatedGrid.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_IntegerWords.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_SoftwareFP32.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_TypedGrid.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_TypedValue.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_WordGrid.lean",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/Structural.lean",
+    "tests/lean/PointerCells.lean"
   ]
 }
