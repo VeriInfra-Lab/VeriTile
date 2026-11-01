@@ -10,6 +10,14 @@ set_option maxRecDepth 25000
 set_option linter.unusedSimpArgs false
 set_option linter.unusedVariables false
 
+@[simp] private theorem signed_product_address (a b : Nat) :
+    ((a : Int)*(b : Int)).toNat=a*b := by
+  simp only [← Int.natCast_mul,Int.toNat_natCast]
+
+@[simp] private theorem signed_sum_address (a b : Nat) :
+    ((a : Int)+(b : Int)).toNat=a+b := by
+  simp only [← Int.natCast_add,Int.toNat_natCast]
+
 def rms_layernorm_forward (Y X W r : RegionName) (YR XR WR RR N : Nat) (eps : ℝ) (B : Nat) : ComputeKernel :=
   (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource Y X W r YR XR WR RR N B eps).eraseDType
 
@@ -199,7 +207,7 @@ theorem rms_layernorm_forward_y_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -245,7 +253,7 @@ theorem gemma_rms_layernorm_forward_y_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -337,7 +345,7 @@ theorem gemma_rms_layernorm_backward_dy_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.sub, NumericDType.div, ComparableDType.lt,
           FloatDType.cast, FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -377,7 +385,7 @@ theorem rms_layernorm_forward_inv_var_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -400,7 +408,7 @@ theorem rms_layernorm_forward_inv_var_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -436,7 +444,7 @@ theorem gemma_rms_layernorm_forward_inv_var_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -459,7 +467,7 @@ theorem gemma_rms_layernorm_forward_inv_var_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -616,7 +624,7 @@ theorem rms_layernorm_forward_exec_isSome
         stepStmt, evalOp, evalOp.eq_def,
         Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
         Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-        TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+        TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
         NumericDType.div, ComparableDType.lt, FloatDType.cast,
         FloatDType.ofWithBot, FloatDType.toWithBot,
         ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
@@ -640,7 +648,7 @@ theorem gemma_rms_layernorm_forward_exec_isSome
         stepStmt, evalOp, evalOp.eq_def,
         Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
         Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-        TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+        TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
         NumericDType.div, ComparableDType.lt, FloatDType.cast,
         FloatDType.ofWithBot, FloatDType.toWithBot,
         ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
@@ -694,7 +702,7 @@ theorem rms_layernorm_forward_frame
         stepStmt, evalOp, evalOp.eq_def,
         Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
         Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-        TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+        TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
         NumericDType.div, ComparableDType.lt, FloatDType.cast,
         FloatDType.ofWithBot, FloatDType.toWithBot,
         ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -730,7 +738,7 @@ theorem gemma_rms_layernorm_forward_frame
         stepStmt, evalOp, evalOp.eq_def,
         Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
         Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-        TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+        TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
         NumericDType.div, ComparableDType.lt, FloatDType.cast,
         FloatDType.ofWithBot, FloatDType.toWithBot,
         ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -818,7 +826,7 @@ theorem rms_layernorm_forward_traceSafe
     MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
     BlockState.setReg,
     Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
-    NumericDType.add, NumericDType.mul, NumericDType.div,
+    signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul, NumericDType.div,
     ComparableDType.lt, FloatDType.cast, FloatDType.ofWithBot,
     FloatDType.toWithBot,
     Tile.reduceSum, Tile.reduceSumDrop,
@@ -857,7 +865,7 @@ theorem gemma_rms_layernorm_forward_traceSafe
     MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
     BlockState.setReg,
     Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
-    NumericDType.add, NumericDType.mul, NumericDType.div,
+    signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul, NumericDType.div,
     ComparableDType.lt, FloatDType.cast, FloatDType.ofWithBot,
     FloatDType.toWithBot,
     Tile.reduceSum, Tile.reduceSumDrop,
