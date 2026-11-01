@@ -26,14 +26,13 @@ def result (mode : Mode) (s : BlockState) (Y X : RegionName) (N B start row : Na
 theorem run (mode : Mode) (s : BlockState) (Y X : RegionName) (N B start row : Nat)
     (shift total : ℝ)
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
     (hm : s.regs .real [] "m" = some (Tile.scalar (shift : WithBot ℝ)))
     (hz : s.regs .real [] "z" = some (Tile.scalar ((Real.exp (-shift) * total : ℝ) : WithBot ℝ))) :
     stepStmts (body mode Y X N B) (s.setReg "start_n" .int [] (Tile.scalar (start : Int))) =
       some (result mode s Y X N B start row shift total) := by
   cases mode
-  · exact OutputBodies.full_run _ _ _ _ _ _ _ _ _ hpid hcols hm hz
-  · exact OutputBodies.tail_run _ _ _ _ _ _ _ _ _ hpid hcols hm hz
+  · exact OutputBodies.full_run _ _ _ _ _ _ _ _ _ hpid hm hz
+  · exact OutputBodies.tail_run _ _ _ _ _ _ _ _ _ hpid hm hz
 
 theorem keeps (mode : Mode) (s : BlockState) (Y X : RegionName) (N B start row : Nat)
     (shift total : ℝ) (dtype : TileDType) (shape : TileShape) (name : RegName) (hn : kept name) :
@@ -78,7 +77,6 @@ structure Stable (Y : RegionName) (N B : Nat) (shift total : ℝ)
   numPids : current.numPids = initial.numPids
   undef : current.undef = initial.undef
   pidReg : current.regs .int [] "pid_m" = some (Tile.scalar (initial.pid : Int))
-  colsReg : current.regs .int [] "cols" = some (Tile.scalar (N : Int))
   previousReg : current.regs .int [] "prev_multiple" = some (Tile.scalar (Config.previous N B : Int))
   m : current.regs .real [] "m" = some (Tile.scalar (shift : WithBot ℝ))
   z : current.regs .real [] "z" = some (Tile.scalar ((Real.exp (-shift) * total : ℝ) : WithBot ℝ))
@@ -117,9 +115,8 @@ theorem advance (mode : Mode) (Y X : RegionName) (N B count : Nat) (shift total 
       · omega
       · omega
   refine ⟨⟨hmeta.1.trans h.pids, hmeta.2.1.trans h.numPids, hmeta.2.2.trans h.undef,
-    ?_, ?_, ?_, ?_, ?_, hframe⟩, ?_⟩
+    ?_, ?_, ?_, ?_, hframe⟩, ?_⟩
   · rw [hkeep _ _ _ (by simp [kept])]; exact h.pidReg
-  · rw [hkeep _ _ _ (by simp [kept])]; exact h.colsReg
   · rw [hkeep _ _ _ (by simp [kept])]; exact h.previousReg
   · rw [hkeep _ _ _ (by simp [kept])]; exact h.m
   · rw [hkeep _ _ _ (by simp [kept])]; exact h.z
@@ -151,7 +148,7 @@ theorem full_step (Y X : RegionName) (N B count : Nat) (shift total : ℝ)
       (current.setReg "start_n" .int [] (Tile.scalar ((count * B : Nat) : Int))) = some next ∧
       Invariant Y X N B shift total initial (count + 1) next := by
   exact ⟨result .full current Y X N B (count * B) initial.pid shift total,
-    run .full _ _ _ _ _ _ _ _ _ h.pidReg h.colsReg h.m h.z,
+    run .full _ _ _ _ _ _ _ _ _ h.pidReg h.m h.z,
     advance .full _ _ _ _ _ _ _ _ _ hYX h (fun i _ => Config.full_tile_active hN hc i.1.isLt)⟩
 
 theorem tail_step (Y X : RegionName) (N B count : Nat) (shift total : ℝ)
@@ -161,7 +158,7 @@ theorem tail_step (Y X : RegionName) (N B count : Nat) (shift total : ℝ)
       (current.setReg "start_n" .int [] (Tile.scalar ((count * B : Nat) : Int))) = some next ∧
       Invariant Y X N B shift total initial (count + 1) next := by
   exact ⟨result .tail current Y X N B (count * B) initial.pid shift total,
-    run .tail _ _ _ _ _ _ _ _ _ h.pidReg h.colsReg h.m h.z,
+    run .tail _ _ _ _ _ _ _ _ _ h.pidReg h.m h.z,
     advance .tail _ _ _ _ _ _ _ _ _ hYX h (fun _ hi => hi)⟩
 
 #guard_msgs (drop info) in

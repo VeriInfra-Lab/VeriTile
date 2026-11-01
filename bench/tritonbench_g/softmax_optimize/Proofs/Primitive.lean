@@ -13,9 +13,8 @@ local instance : DecidableEq (WithBot ℝ) := Classical.decEq _
 /-- Exact execution of the widened signed address statements, from the actual
 source's two scalar integer registers. No successful-execution premise. -/
 theorem prefix_run (X : RegionName) (N B start row : Nat) (s : BlockState)
-    (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int))) :
-    stepStmts (Source.indexPrefix X B) (s.setReg "start_n" .int [] (Tile.scalar (start : Int))) =
+    (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int))) :
+    stepStmts (Source.indexPrefix X N B) (s.setReg "start_n" .int [] (Tile.scalar (start : Int))) =
       some (prefixIntState X N B start row s) := by
   simp only [Source.indexPrefix]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (v := castIndex (columns B start)) (by
@@ -26,7 +25,7 @@ theorem prefix_run (X : RegionName) (N B start row : Nat) (s : BlockState)
     change (start : Int) + (lane.1.val : Int) = ((start + lane.1.val : Nat) : Int)
     exact (Int.natCast_add _ _).symm))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (v := castIndex (offsets N B start row)) (by
-    simp only [evalOp.eq_def, BlockState.setReg_ne_name, BlockState.setReg_same, hpid, hcols,
+    simp only [evalOp.eq_def, BlockState.setReg_ne_name, BlockState.setReg_same, hpid,
       ne_eq, String.reduceEq, not_false_eq_true, Option.bind_some, Option.bind_eq_bind]
     apply congrArg some
     apply Tile.ext
