@@ -1,0 +1,414 @@
+[
+  {
+    "python": "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py",
+    "lean": "bench/tritonbench_g/fused_rotary_embedding/Kernels.lean",
+    "python_function": "decoding_fused_rotary_embedding_kernel",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "cos",
+          "fp32"
+        ],
+        [
+          "sin",
+          "fp32"
+        ],
+        [
+          "k_cache",
+          "fp32"
+        ],
+        [
+          "v_cache",
+          "fp32"
+        ],
+        [
+          "BLOCK_TABLES",
+          "i32"
+        ],
+        [
+          "context_lengths",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "x",
+          "i64"
+        ],
+        [
+          "q_token_stride",
+          "i64"
+        ],
+        [
+          "q_head_stride",
+          "i64"
+        ],
+        [
+          "q_dim_stride",
+          "i64"
+        ],
+        [
+          "k_token_stride",
+          "i64"
+        ],
+        [
+          "k_head_stride",
+          "i64"
+        ],
+        [
+          "k_dim_stride",
+          "i64"
+        ],
+        [
+          "v_token_stride",
+          "i64"
+        ],
+        [
+          "v_head_stride",
+          "i64"
+        ],
+        [
+          "v_dim_stride",
+          "i64"
+        ],
+        [
+          "cos_token_stride",
+          "i64"
+        ],
+        [
+          "cos_stride",
+          "i64"
+        ],
+        [
+          "sin_token_stride",
+          "i64"
+        ],
+        [
+          "sin_stride",
+          "i64"
+        ],
+        [
+          "length_stride",
+          "i64"
+        ],
+        [
+          "kcb_stride",
+          "i64"
+        ],
+        [
+          "kch_stride",
+          "i64"
+        ],
+        [
+          "kcsplit_x_stride",
+          "i64"
+        ],
+        [
+          "kcs_stride",
+          "i64"
+        ],
+        [
+          "kcd_stride",
+          "i64"
+        ],
+        [
+          "vcb_stride",
+          "i64"
+        ],
+        [
+          "vch_stride",
+          "i64"
+        ],
+        [
+          "vcs_stride",
+          "i64"
+        ],
+        [
+          "vcd_stride",
+          "i64"
+        ],
+        [
+          "bts_stride",
+          "i64"
+        ],
+        [
+          "btb_stride",
+          "i64"
+        ],
+        [
+          "block_size",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "KV_GROUP_NUM",
+        "HEAD_DIM",
+        "BLOCK_HALF",
+        "BLOCK_DIM"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "cos",
+        "sin",
+        "BLOCK_TABLES",
+        "context_lengths"
+      ],
+      "writePorts": [
+        "q",
+        "k_cache",
+        "v_cache"
+      ]
+    },
+    "expected_call_bindings": {
+      "x": "x",
+      "q_token_stride": "q_token_stride",
+      "q_head_stride": "q_head_stride",
+      "q_dim_stride": "q_dim_stride",
+      "k_token_stride": "k_token_stride",
+      "k_head_stride": "k_head_stride",
+      "k_dim_stride": "k_dim_stride",
+      "v_token_stride": "v_token_stride",
+      "v_head_stride": "v_head_stride",
+      "v_dim_stride": "v_dim_stride",
+      "cos_token_stride": "cos_token_stride",
+      "cos_stride": "cos_stride",
+      "sin_token_stride": "sin_token_stride",
+      "sin_stride": "sin_stride",
+      "length_stride": "length_stride",
+      "kcb_stride": "kcb_stride",
+      "kch_stride": "kch_stride",
+      "kcsplit_x_stride": "kcsplit_x_stride",
+      "kcs_stride": "kcs_stride",
+      "kcd_stride": "kcd_stride",
+      "vcb_stride": "vcb_stride",
+      "vch_stride": "vch_stride",
+      "vcs_stride": "vcs_stride",
+      "vcd_stride": "vcd_stride",
+      "bts_stride": "bts_stride",
+      "btb_stride": "btb_stride",
+      "block_size": "block_size"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding_shared.py",
+    "lean": "bench/tritonbench_g/fused_rotary_embedding/Kernels.lean",
+    "python_function": "decoding_fused_rotary_embedding_kernel_shared",
+    "lean_definition": "kernelSharedQOffset",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "cos",
+          "fp32"
+        ],
+        [
+          "sin",
+          "fp32"
+        ],
+        [
+          "k_cache",
+          "fp32"
+        ],
+        [
+          "v_cache",
+          "fp32"
+        ],
+        [
+          "BLOCK_TABLES",
+          "i32"
+        ],
+        [
+          "context_lengths",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "x",
+          "i64"
+        ],
+        [
+          "q_token_stride",
+          "i64"
+        ],
+        [
+          "q_head_stride",
+          "i64"
+        ],
+        [
+          "q_dim_stride",
+          "i64"
+        ],
+        [
+          "k_token_stride",
+          "i64"
+        ],
+        [
+          "k_head_stride",
+          "i64"
+        ],
+        [
+          "k_dim_stride",
+          "i64"
+        ],
+        [
+          "v_token_stride",
+          "i64"
+        ],
+        [
+          "v_head_stride",
+          "i64"
+        ],
+        [
+          "v_dim_stride",
+          "i64"
+        ],
+        [
+          "cos_token_stride",
+          "i64"
+        ],
+        [
+          "cos_stride",
+          "i64"
+        ],
+        [
+          "sin_token_stride",
+          "i64"
+        ],
+        [
+          "sin_stride",
+          "i64"
+        ],
+        [
+          "length_stride",
+          "i64"
+        ],
+        [
+          "kcb_stride",
+          "i64"
+        ],
+        [
+          "kch_stride",
+          "i64"
+        ],
+        [
+          "kcsplit_x_stride",
+          "i64"
+        ],
+        [
+          "kcs_stride",
+          "i64"
+        ],
+        [
+          "kcd_stride",
+          "i64"
+        ],
+        [
+          "vcb_stride",
+          "i64"
+        ],
+        [
+          "vch_stride",
+          "i64"
+        ],
+        [
+          "vcs_stride",
+          "i64"
+        ],
+        [
+          "vcd_stride",
+          "i64"
+        ],
+        [
+          "bts_stride",
+          "i64"
+        ],
+        [
+          "btb_stride",
+          "i64"
+        ],
+        [
+          "block_size",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "KV_GROUP_NUM",
+        "HEAD_DIM",
+        "BLOCK_HALF",
+        "BLOCK_DIM"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "cos",
+        "sin",
+        "BLOCK_TABLES",
+        "context_lengths"
+      ],
+      "writePorts": [
+        "q",
+        "k_cache",
+        "v_cache"
+      ]
+    },
+    "expected_call_bindings": {
+      "x": "x",
+      "q_token_stride": "q_token_stride",
+      "q_head_stride": "q_head_stride",
+      "q_dim_stride": "q_dim_stride",
+      "k_token_stride": "k_token_stride",
+      "k_head_stride": "k_head_stride",
+      "k_dim_stride": "k_dim_stride",
+      "v_token_stride": "v_token_stride",
+      "v_head_stride": "v_head_stride",
+      "v_dim_stride": "v_dim_stride",
+      "cos_token_stride": "cos_token_stride",
+      "cos_stride": "cos_stride",
+      "sin_token_stride": "sin_token_stride",
+      "sin_stride": "sin_stride",
+      "length_stride": "length_stride",
+      "kcb_stride": "kcb_stride",
+      "kch_stride": "kch_stride",
+      "kcsplit_x_stride": "kcsplit_x_stride",
+      "kcs_stride": "kcs_stride",
+      "kcd_stride": "kcd_stride",
+      "vcb_stride": "vcb_stride",
+      "vch_stride": "vch_stride",
+      "vcs_stride": "vcs_stride",
+      "vcd_stride": "vcd_stride",
+      "bts_stride": "bts_stride",
+      "btb_stride": "btb_stride",
+      "block_size": "block_size"
+    }
+  }
+]

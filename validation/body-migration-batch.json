@@ -1549,6 +1549,19 @@
           "VeriTile.Bench.Repairs.RotaryEmbNopad.FPEquiv.cached_source_candidate_equivalence"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/fused_rotary_embedding",
+      "python": "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_rotary_embedding/Correct.lean": [
+          "VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.Correct.fused_rotary_real"
+        ],
+        "bench/tritonbench_g/fused_rotary_embedding/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.FPEquiv.kernel_equivalent"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -3168,6 +3181,52 @@
     "bench/tritonbench_g/rotary_emb_nopad/Proofs/UncachedInterface.lean",
     "bench/tritonbench_g/rotary_emb_nopad/Proofs/Vector.lean",
     "bench/tritonbench_g/rotary_emb_nopad/Proofs/Whole.lean",
-    "bench/tritonbench_g/rotary_emb_nopad/Spec.lean"
+    "bench/tritonbench_g/rotary_emb_nopad/Spec.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Contract.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Correct.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/FPEquiv.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/IO.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/InvocationIO.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Kernels.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/PairIO.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Addresses.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Arena.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Bounds.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Connection.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Contract.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Core.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Execution.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/FusedRotaryEmbedding_Grid.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/FusedRotaryEmbedding_Native_Native.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Geometry.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Grid.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/HistoricalFPEquiv.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Host.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/IOBounds.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/IOInterpretation.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/IOLayout.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/IOPair.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/IOResults.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Kernels.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Layout.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Logical.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/LogicalCoordinates.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Memory.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Metadata.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Native.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/NativeHost.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Natural.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Physical.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Program.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/RawGrid.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/RawMemory.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/RawProgram.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Real.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Scatter.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Source.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/SourcePair.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/fused_rotary_embedding/Proofs/Vector.lean"
   ]
 }
