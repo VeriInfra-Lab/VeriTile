@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 105,
-      "uncovered_jit_functions": 78
+      "selected_body_copy_checked": 106,
+      "uncovered_jit_functions": 77
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 166,
+    "uncovered_selected_jit_functions": 163,
     "inventoried_jit_functions": 521,
-    "uncovered_inventoried_jit_functions": 219,
+    "uncovered_inventoried_jit_functions": 216,
     "checked_pair_modes": {
-      "pasted_body": 302
+      "pasted_body": 305
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 105,
-        "uncovered_jit_functions": 78
+        "selected_body_copy_checked": 106,
+        "uncovered_jit_functions": 77
       }
     },
     "primary_files_with_int64_screen_warning": 17,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 50,
-        "antiquotes": 392,
+        "in_body_type_directives": 49,
+        "antiquotes": 391,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -22004,10 +22004,10 @@
       "python": "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py",
       "lean": "bench/tritonbench_g/isfinite_kernel/Kernels.lean",
       "lean_screen": {
-        "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 28,
-        "dsl_assignment": 14,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 28,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -22109,41 +22109,65 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "isfinite_func",
+          "lean_definition": "isfiniteHelper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "pure_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py",
-          "function": "isfinite_func"
+          "lean": "bench/tritonbench_g/isfinite_kernel/Kernels.lean"
         },
         {
+          "python_function": "isfinite_strided_chunk",
+          "lean_definition": "sourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "in0_stride": "integer",
+            "out0_stride": "integer",
+            "n": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py",
-          "function": "isfinite_strided_chunk"
+          "lean": "bench/tritonbench_g/isfinite_kernel/Kernels.lean"
         },
         {
+          "python_function": "isfinite_strided_chunk_index_commuted",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "in0_stride": "integer",
+            "out0_stride": "integer",
+            "n": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py",
-          "function": "isfinite_strided_chunk_index_commuted"
+          "lean": "bench/tritonbench_g/isfinite_kernel/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py",
-          "function": "isfinite_func"
-        },
-        {
-          "python": "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py",
-          "function": "isfinite_strided_chunk"
-        },
-        {
-          "python": "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py",
-          "function": "isfinite_strided_chunk_index_commuted"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/isfinite_kernel/Kernels.lean": "870b0bd55a670b7b5f20a4070a5bab4e4ced8816332e3d35e2450ef0e76c18b8",
-        "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py": "4c668f34fd9a1dbb12725599202e1c3ef2206ec209c2a10e0ed2b31b76a0dd43"
+        "bench/tritonbench_g/isfinite_kernel/Kernels.lean": "c1dc6d5f8b1e37b7fb6f446347158225d3a8faa5db1fe256b92a029f9a11c6f7",
+        "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py": "4c668f34fd9a1dbb12725599202e1c3ef2206ec209c2a10e0ed2b31b76a0dd43",
+        "bench/tritonbench_g/isfinite_kernel/jit-correspondence.json": "29e28a27b8417c5a16a2f9a855ab5a6a6caafb18c5913484ca22678d72ed68e4"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/isfinite_kernel"

@@ -347,12 +347,15 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 raise ValueError("static strides require the reviewed scalar-only invocation")
             offset_clause = r"\s+static_strides"
         if helper_functions is not None:
-            if (expected_call_bindings is None or expected_pointer_offsets is not None
+            if (expected_call_bindings is None
+                    or (expected_pointer_offsets is not None and expected_binary_functions is not None)
                     or expected_pointer_cells is not None or expected_optional_pointers is not None
                     or expected_static_strides is not None or not helper_functions):
                 raise ValueError("pure JIT helpers require a reviewed scalar-only call")
-            offset_clause = (r"\s+binary_functions\s*\[([^\]]*)\]" if expected_binary_functions is not None
-                             else r"\s+pure_functions\s*\[([^\]]*)\]")
+            if expected_pointer_offsets is not None:
+                offset_clause = offset_clause.replace("pointer_offsets", "signed_pointer_offsets")
+            offset_clause += (r"\s+binary_functions\s*\[([^\]]*)\]" if expected_binary_functions is not None
+                              else r"\s+pure_functions\s*\[([^\]]*)\]")
         if expected_integer_args is not None or expected_arange_args is not None:
             if (expected_integer_args is None or expected_arange_args is None
                     or expected_call_bindings is None or expected_pointer_offsets is not None
@@ -410,7 +413,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                     raise ValueError("arange arguments require their checked constexpr-size proof")
         if helper_functions is not None:
             bindings = {}
-            for item in calls[0][2].split(","):
+            helper_group = 3 if expected_pointer_offsets is not None else 2
+            for item in calls[0][helper_group].split(","):
                 pair = re.fullmatch(r"\s*([A-Za-z_]\w*)\s*:=\s*([A-Za-z_]\w*)\s*", item)
                 if not pair or pair[1] in bindings:
                     raise ValueError("pure JIT functions require distinct named source definitions")
@@ -623,7 +627,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
 
 
 def check_pure_function(python_text: str, lean_text: str, python_function: str,
-                        lean_definition: str, arity: int = 1) -> dict:
+                        lean_definition: str, arity: int = 1,
+                        expected_imports: dict[str, list[str]] | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
@@ -638,6 +643,52 @@ def check_pure_function(python_text: str, lean_text: str, python_function: str,
     parameters = r"\s*,\s*".join(map(re.escape, arguments))
     if not re.search(r"\btriton_function\s*\(\s*" + parameters + r"\s*\)\s*$", header):
         raise ValueError("pure JIT quotation parameter differs from Python")
+    if expected_imports is not None:
+        if arity != 1 or not expected_imports:
+            raise ValueError("imported helper requires nonempty unary extern bindings")
+        clause = re.search(r'with_triton_imports\s*\[([^\]]*)\]\s+in\s+triton_function', header)
+        if not clause:
+            raise ValueError("imported helper must declare its source aliases outside the body")
+        declared = {}
+        for item in clause[1].split(','):
+            match = re.fullmatch(r'\s*([A-Za-z_]\w*)\s*:=\s*("[^"\n]*")\s*', item)
+            if not match or match[1] in declared:
+                raise ValueError("imported helper aliases must be distinct static strings")
+            declared[match[1]] = json.loads(match[2])
+        if declared != {name: targets[0] for name, targets in expected_imports.items() if targets}:
+            raise ValueError("imported helper aliases differ from reviewed primary imports")
+        module = ast.parse(python_text)
+        def import_chain(node, name):
+            if isinstance(node, ast.ImportFrom) and node.level == 0 and node.module:
+                if len(node.names) != 1 or (node.names[0].asname or node.names[0].name) != name:
+                    raise ValueError("extern fallback requires one exact import alias")
+                return [node.module + '.' + node.names[0].name]
+            if (isinstance(node, ast.Try) and len(node.body) == len(node.handlers) == 1
+                    and not node.orelse and not node.finalbody
+                    and isinstance(node.handlers[0].type, ast.Name)
+                    and node.handlers[0].type.id == 'ImportError'
+                    and node.handlers[0].name is None and len(node.handlers[0].body) == 1):
+                return import_chain(node.body[0], name) + import_chain(node.handlers[0].body[0], name)
+            raise ValueError("extern alias requires a direct ImportError fallback chain")
+        for name, targets in expected_imports.items():
+            statements = [node for node in module.body if any(
+                isinstance(child, ast.ImportFrom) and any((a.asname or a.name) == name for a in child.names)
+                for child in ast.walk(node))]
+            writes = [node for node in ast.walk(module) if
+                      (isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del)) and node.id == name)
+                      or (isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.name == name)]
+            other_imports = [node for node in ast.walk(module) if
+                            (isinstance(node, ast.Import) and any((a.asname or a.name.split('.')[0]) == name for a in node.names))
+                            or (isinstance(node, ast.ImportFrom) and any(a.name == '*' for a in node.names))]
+            if len(statements) != 1 or writes or other_imports or import_chain(statements[0], name) != targets:
+                raise ValueError("imported helper extern chain differs from Python")
+            intrinsic = targets[0].rsplit('.', 1)[-1]
+            if intrinsic not in {'finitef', 'isfinited'} or targets != [
+                    'triton.language.' + location + '.' + intrinsic
+                    for location in ('extra.cuda.libdevice', 'math', 'libdevice')]:
+                raise ValueError("unsupported finite extern import chain")
+    elif re.search(r'\bwith_triton_imports\b', header):
+        raise ValueError("imported helper requires independently reviewed extern imports")
     if "$" in body or re.search(r"\btl\.(region|param|source_helper|call_signature)\b", body):
         raise ValueError("pure JIT body must contain only pasted Python")
     if ast.dump(ast.Module(fn.body, [])) != ast.dump(ast.Module(ast.parse("def __veritile_pasted__():\n" + body).body[0].body, [])):
@@ -653,10 +704,10 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
     for r in records:
         py, lean = (root / r["python"]).read_text(), (root / r["lean"]).read_text()
         if r.get("kind") in {"pure_jit_function", "binary_pure_jit_function"}:
-            if set(r) != {"kind", "python", "lean", "python_function", "lean_definition"}:
+            if (set(r) - {"expected_imports"}) != {"kind", "python", "lean", "python_function", "lean_definition"}:
                 raise ValueError("pure JIT helper record cannot override kernel call metadata")
             results.append(check_pure_function(py, lean, r["python_function"], r["lean_definition"],
-                                               2 if r["kind"] == "binary_pure_jit_function" else 1))
+                                               2 if r["kind"] == "binary_pure_jit_function" else 1, r.get("expected_imports")))
             continue
         results.append(check(py, lean, r["python_function"], r["lean_definition"],
                              r.get("signature_definition"), r.get("expected_signature"),

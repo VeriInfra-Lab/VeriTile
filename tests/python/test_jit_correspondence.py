@@ -1797,3 +1797,68 @@ class KldivBodyCorrespondenceTests(unittest.TestCase):
                 self.assertIn(old, after)
                 with self.assertRaises(ValueError):
                     self.verify(self.records[2], before + 'def backwardSourceBody' + after.replace(old, '', 1))
+
+
+class ImportedFiniteCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/isfinite_kernel'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.python = (self.directory / 'isfinite_kernel.py').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, source):
+        r = self.records[1]
+        return check(self.python, source, r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'],
+                     expected_pointer_offsets=r['expected_pointer_offsets'],
+                     expected_pure_functions=r['expected_pure_functions'])
+
+    def helper(self, python=None, source=None):
+        from scripts.bench.jit_correspondence import check_pure_function
+        r = self.records[0]
+        return check_pure_function(python or self.python, source or self.source,
+                                   r['python_function'], r['lean_definition'],
+                                   expected_imports=r['expected_imports'])
+
+    def test_helper_and_both_complete_callers(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [1, 7, 7])
+
+    def test_source_stride_and_pointer_element_casts_cannot_disappear(self):
+        for old, new in [('indices = offsets.to(tl.int64)', 'indices = offsets'),
+                         ('tl.cast(in0_stride, tl.int64)', 'in0_stride'),
+                         ('tl.cast(out0_stride, tl.int64)', 'out0_stride'),
+                         ('out0.to(out0_ptr.type.element_ty)', 'out0')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_signed_base_and_helper_bindings_are_checked(self):
+        for old, new in [('in0_ptr := inputOffset', 'in0_ptr := outputOffset'),
+                         ('signed_pointer_offsets', 'pointer_offsets'),
+                         ('isfinite_func := isfiniteHelper', 'isfinite_func := unreviewed')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_helper_dtype_dispatch_and_explicit_narrow_cast_are_exact(self):
+        for old, new in [('x.dtype.is_fp64()', 'x.dtype.is_fp32()'),
+                         ('_finitef(x.to(tl.float32))', '_finitef(x)'),
+                         ('return _isfinited(x)', 'return _finitef(x)')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.helper(source=self.source.replace(old, new, 1))
+
+    def test_every_import_fallback_is_verified(self):
+        for old, new in [('from triton.language.math import isfinited as _isfinited',
+                          'from triton.language.math import finitef as _isfinited'),
+                         ('from triton.language.libdevice import finitef as _finitef',
+                          'from triton.language.libdevice import isfinited as _finitef'),
+                         ('except ImportError:', 'except Exception:')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.helper(python=self.python.replace(old, new, 1))
+
+    def test_import_rebinding_and_wrong_declared_target_are_rejected(self):
+        with self.assertRaises(ValueError):
+            self.helper(python=self.python + '\n_isfinited = _finitef\n')
+        with self.assertRaises(ValueError):
+            self.helper(source=self.source.replace('extra.cuda.libdevice.isfinited"',
+                                                   'extra.cuda.libdevice.finitef"', 1))
