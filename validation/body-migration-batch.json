@@ -1269,6 +1269,32 @@
           "VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.FPEquiv.chunk_delta_addressFold_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/token_softmax_llama",
+      "python": "bench/tritonbench_g/token_softmax_llama/token_softmax_llama.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/token_softmax_llama/Correct.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxLlama.Correct.token_softmax_grid_real"
+        ],
+        "bench/tritonbench_g/token_softmax_llama/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxLlama.FPEquiv.token_softmax_source_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/token_softmax_bloom",
+      "python": "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/token_softmax_bloom/Correct.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxBloom.Correct.token_softmax_grid_real"
+        ],
+        "bench/tritonbench_g/token_softmax_bloom/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxBloom.FPEquiv.token_softmax_source_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -2111,6 +2137,38 @@
     "bench/tritonbench_g/swiglu_backward/Proofs/Mathematical_WholeTile.lean",
     "bench/tritonbench_g/swiglu_fwd/Kernels.lean",
     "bench/tritonbench_g/swiglu_fwd/Proofs/Mathematical_WholeTile.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Contract.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Correct.lean",
+    "bench/tritonbench_g/token_softmax_bloom/FPEquiv.lean",
+    "bench/tritonbench_g/token_softmax_bloom/IO.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Kernels.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOBinding.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOResults.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOScalar.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOSchedule.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/KernelCore.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/KernelRewrite.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/KernelSafety.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/KernelTensor.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/token_softmax_llama/Contract.lean",
+    "bench/tritonbench_g/token_softmax_llama/Correct.lean",
+    "bench/tritonbench_g/token_softmax_llama/FPEquiv.lean",
+    "bench/tritonbench_g/token_softmax_llama/IO.lean",
+    "bench/tritonbench_g/token_softmax_llama/Kernels.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Admission.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Grid.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/KernelSource.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/LogicalColumns.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Model.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Native.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Real.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/RowContract.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Stores.lean",
     "bench/tritonbench_g/triton_matmul/CandidateKernels.lean",
     "bench/tritonbench_g/triton_matmul/Contract.lean",
     "bench/tritonbench_g/triton_matmul/Correct.lean",

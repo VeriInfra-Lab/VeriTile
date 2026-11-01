@@ -124,6 +124,11 @@ def params (c : TensorCall) : Parameters where
   outputTokenStride := c.output.colStride
   width := block c.maximum
 
+/-- Every signed Int32 metadata word widens exactly, including both endpoints. -/
+theorem int32_widen_int64 (word : Word) :
+    (word.signExtend 64).toInt = word.toInt :=
+  BitVec.toInt_signExtend_of_le (by decide)
+
 def observedStart (c : TensorCall) (metadataRead : Nat → Word) (b : Nat) : Int :=
   (metadataRead (c.start.metadata.dataPtr.toNat+4*(b*c.start.stride))).toInt
 
@@ -140,8 +145,8 @@ Output cells come from the supplied caller memory with no allocation or copy. -/
 def view {α} [Inhabited α] (c : TensorCall) (read : Nat → α) (metadataRead : Nat → Word)
     (before : NativeCells α) : Grid.Memory α := fun r i =>
   if r="input" then .mk .fp32 (read (c.input.tensor.dataPtr.toNat+4*i))
-  else if r="start" then .mk .nat ((metadataRead (c.start.metadata.dataPtr.toNat+4*i)).toInt.toNat)
-  else if r="length" then .mk .nat ((metadataRead (c.length.metadata.dataPtr.toNat+4*i)).toInt.toNat)
+  else if r="start" then .mk .int ((metadataRead (c.start.metadata.dataPtr.toNat+4*i)).toInt)
+  else if r="length" then .mk .int ((metadataRead (c.length.metadata.dataPtr.toNat+4*i)).toInt)
   else if r="output" then before (c.output.tensor.dataPtr.toNat+4*i)
   else .mk .nat 0
 
@@ -152,7 +157,7 @@ def view {α} [Inhabited α] (c : TensorCall) (read : Nat → α) (metadataRead 
 
 @[simp] theorem start_view {α} [Inhabited α] (c : TensorCall) (read : Nat → α)
     (metadataRead : Nat → Word) (before : NativeCells α) (b h : Nat) :
-    startIndex (params c) (Grid.state (view c read metadataRead before) (b,h))=start c metadataRead b := by
+    startIndex (params c) (Grid.state (view c read metadataRead before) (b,h))=observedStart c metadataRead b := by
   simp [startIndex,params,Grid.state,view,start,observedStart]
 
 /-- Logical coordinate read from the original Tensor's physical index. -/
@@ -195,6 +200,7 @@ def project {α} [Inhabited α] (c : TensorCall) (before : NativeCells α)
     project c before after (c.output.tensor.dataPtr.toNat+4*i)=after "output" i := by
   simp [project,Nat.add_sub_cancel_left,Nat.mul_div_right]
 
+#axiomsClean int32_widen_int64
 #axiomsClean source_load
 #axiomsClean project_read
 end

@@ -3,73 +3,64 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/chunk_delta_fwd",
-      "python": "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py",
+      "path": "bench/tritonbench_g/token_softmax_llama",
+      "python": "bench/tritonbench_g/token_softmax_llama/token_softmax_llama.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/chunk_delta_fwd/Correct.lean": [
-          "VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.Correct.chunk_delta_kernel_correct"
+        "bench/tritonbench_g/token_softmax_llama/Correct.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxLlama.Correct.token_softmax_grid_real"
         ],
-        "bench/tritonbench_g/chunk_delta_fwd/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.FPEquiv.chunk_delta_addressFold_equiv"
+        "bench/tritonbench_g/token_softmax_llama/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxLlama.FPEquiv.token_softmax_source_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/token_softmax_bloom",
+      "python": "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/token_softmax_bloom/Correct.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxBloom.Correct.token_softmax_grid_real"
+        ],
+        "bench/tritonbench_g/token_softmax_bloom/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxBloom.FPEquiv.token_softmax_source_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "VeriTile/Triton/Float/CountedLoop.lean",
-    "VeriTile/Triton/Source/CountedLoop.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Contract.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Correct.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/FPEquiv.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/IO.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Kernels.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/PairIO.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/Admission.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/Bounds.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/Contract.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/Grid.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/GridOutputs.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/GridSchedule.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/HostCall.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/HostMetadata.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/IOBinding.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/IOImplements.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/IOSafety.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/LogicalIO.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/NativeGraph.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/NativeIOBinding.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/NativeReference.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/Ownership.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/PairContext.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/PairCorrect.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/PairSource.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/ProgramReadback.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealBinding.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealOutputs.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealValues.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/ReferenceTargets.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/SourceSafety.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/SourceSafetyBlockPointer.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/SourceSafetyEdges.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/SourceSafetyInner.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Proofs/SourceSafetyPrefix.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Entry.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Finish.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Geometry.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Inner.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/InnerLoop.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Kernels.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Mathematical_RealMath.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Memory.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Model.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/OuterEdges.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/OuterLoop.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Parameters.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Program.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Range.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/Readback.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/RealModel.lean",
-    "bench/tritonbench_g/chunk_delta_fwd/Sources/StoreRange.lean"
+    "bench/tritonbench_g/token_softmax_bloom/Contract.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Correct.lean",
+    "bench/tritonbench_g/token_softmax_bloom/FPEquiv.lean",
+    "bench/tritonbench_g/token_softmax_bloom/IO.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Kernels.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOBinding.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOResults.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOScalar.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/IOSchedule.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/KernelCore.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/KernelRewrite.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/KernelSafety.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/KernelTensor.lean",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/token_softmax_llama/Contract.lean",
+    "bench/tritonbench_g/token_softmax_llama/Correct.lean",
+    "bench/tritonbench_g/token_softmax_llama/FPEquiv.lean",
+    "bench/tritonbench_g/token_softmax_llama/IO.lean",
+    "bench/tritonbench_g/token_softmax_llama/Kernels.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Admission.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Grid.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/KernelSource.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/LogicalColumns.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Model.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Native.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Real.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/RowContract.lean",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/Stores.lean"
   ]
 }

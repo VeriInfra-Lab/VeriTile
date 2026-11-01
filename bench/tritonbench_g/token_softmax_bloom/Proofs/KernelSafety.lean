@@ -16,9 +16,9 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (hs : s.pids 0*p.startStride < bounds (Region.cast p.start))
     (hn : s.pids 0*p.lengthStride < bounds (Region.cast p.length))
     (hx : ∀ i : Fin p.width, i.val < count p s →
-      s.pids 1*p.inputHeadStride+(startIndex p s+i.val)*p.inputTokenStride < bounds p.input)
+      ((s.pids 1 : Int)*p.inputHeadStride+(startIndex p s+i.val)*p.inputTokenStride).toNat < bounds p.input)
     (ho : ∀ i : Fin p.width, i.val < count p s →
-      s.pids 1*p.outputHeadStride+(startIndex p s+i.val)*p.outputTokenStride < bounds p.output) :
+      ((s.pids 1 : Int)*p.outputHeadStride+(startIndex p s+i.val)*p.outputTokenStride).toNat < bounds p.output) :
     TraceSafe M bounds (kernel .fp32 p) s := by
   simp (config := {maxSteps := 1000000}) [TraceSafe, kernel, source, ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
@@ -27,6 +27,7 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store,
     State.setReg, numeric, bop, numericLt, natLt, ofFloat, toFloat, Region.cast,
     Option.bind, ComputeDType.eraseDType, TileShape.axisDim, positive]
+  simp only [count, startIndex, Int.lt_toNat, Region.cast] at hx ho
   exact ⟨hn,hs,hx,ho⟩
 
 #axiomsClean source_safe
