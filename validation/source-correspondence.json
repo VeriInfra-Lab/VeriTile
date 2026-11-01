@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 73,
-      "uncovered_jit_functions": 108
+      "selected_body_copy_checked": 74,
+      "uncovered_jit_functions": 107
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 217,
+    "uncovered_selected_jit_functions": 216,
     "inventoried_jit_functions": 497,
-    "uncovered_inventoried_jit_functions": 282,
+    "uncovered_inventoried_jit_functions": 281,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 209
+      "pasted_body": 210
     },
     "collection_status": {
       "bug_detection": {
@@ -43,8 +43,8 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 73,
-        "uncovered_jit_functions": 108
+        "selected_body_copy_checked": 74,
+        "uncovered_jit_functions": 107
       }
     },
     "primary_files_with_int64_screen_warning": 27,
@@ -24784,10 +24784,10 @@
       "python": "bench/tritonbench_g/masked_select/masked_select.py",
       "lean": "bench/tritonbench_g/masked_select/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 1,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 1,
+        "dsl_assignment": 19,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -24813,24 +24813,31 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "masked_select_kernel",
+          "lean_definition": "sourceFor",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/masked_select/masked_select.py",
-          "function": "masked_select_kernel"
+          "lean": "bench/tritonbench_g/masked_select/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/masked_select/masked_select.py",
-          "function": "masked_select_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/masked_select/Kernels.lean": "bab659ea0e89c4bc9e6e5a7d40e3c9b968845833df4295d0f4f45b8b3250de8f",
+        "bench/tritonbench_g/masked_select/Kernels.lean": "c6cb04408c4dcf442b3c4fd5efd39fcc9fe9ee4516fce0141b48231e1b884369",
+        "bench/tritonbench_g/masked_select/jit-correspondence.json": "658739974d0266bee049fd101cf1b974b73ead314f2e7d1a37c8b2714a3388e3",
         "bench/tritonbench_g/masked_select/masked_select.py": "9b28fdd896227daab5970493602f5d580a94be1f8979484f613cfb8aa41f47fe"
       },
       "collection": "tritonbench_g",
