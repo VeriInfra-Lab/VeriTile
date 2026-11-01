@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 100,
+  "completed_count": 102,
   "staged_count": 104,
-  "pending_count": 96,
+  "pending_count": 94,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 2545,
-    "official_comparator": "100 targets retain exact current-source/import-closure official receipts, including all 19 examples. All 100 accepted case closures were checked unchanged. FastRmsLayernorm, TokenAttnReduceV, KvCacheCopy and TokenAttnMistral remain incomplete pending their current independent replays. Body comparison and compilation alone are never completion.",
+    "official_comparator": "102 targets have exact current-source/import-closure official receipts, including all 19 examples. TokenAttnReduceV and KvCacheCopy passed their required independent replays; exact current case closures, public theorem names and complete shared replay import closures are verified. FastRmsLayernorm and TokenAttnMistral remain pending current independent replay. SoftmaxReduceV is being migrated and is not complete. Compilation and source checks alone never establish completion.",
     "python_tests": 373,
     "offline_example_compilations": {
       "cases": 19,
@@ -875,13 +875,13 @@
     },
     {
       "path": "bench/tritonbench_g/kv_cache_copy",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete original/candidate Python JIT bodies are copied, including static_range and aligned nonzero-start arange. Actual source execution, complete Real/FP K/V copy results, safety and frames are locally re-verified. Current independent proof replay is still required.",
-      "validated_source_commit": "fed8fb8469749c639f7d3326b7b6b65c645d67b1"
+      "validated_source_commit": "fed8fb8469749c639f7d3326b7b6b65c645d67b1",
+      "receipt": "validation/body_receipts/kv_cache_copy.json"
     },
     {
       "path": "bench/tritonbench_g/kv_cache_filling",
@@ -1516,13 +1516,13 @@
     },
     {
       "path": "bench/tritonbench_g/token_attn_reduceV",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both existing production/candidate JIT bodies are copied without source edits. Actual signed metadata storage and range execution, complete Real/FP grids, source safety and frames are locally re-proved. Current independent proof replay is still required.",
-      "validated_source_commit": "fed8fb8469749c639f7d3326b7b6b65c645d67b1"
+      "validated_source_commit": "fed8fb8469749c639f7d3326b7b6b65c645d67b1",
+      "receipt": "validation/body_receipts/token_attn_reduceV.json"
     },
     {
       "path": "bench/tritonbench_g/token_softmax_bloom",
