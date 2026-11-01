@@ -14,40 +14,41 @@ class JITCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.python = (DIRECTORY / "triton_argmax.py").read_text()
         self.lean = (DIRECTORY / "Kernels.lean").read_text()
+        self.record = json.loads((DIRECTORY / "jit-correspondence.json").read_text())[0]
+
+    def compare(self, python, lean):
+        return check(python, lean, "argmax_kernel_1_repaired", "stage1",
+                     self.record["signature_definition"], self.record["expected_signature"])
 
     def test_all_original_and_candidate_bodies(self):
         self.assertEqual(len(check_manifest(ROOT, DIRECTORY / "jit-correspondence.json")), 6)
 
     def test_cast_nan_clamp_store_and_parameter_changes_are_rejected(self):
         mutations = [
-            ("(pid).to(tl.int64)", "pid"),
+            ("pid.to(tl.int64)", "pid"),
             ("tl.maximum(stored_value,", "tl.minimum(stored_value,"),
-            ("tl.where((max_val == max_val), max_val, 0.0)", "max_val"),
+            ("tl.where(max_val == max_val, max_val, 0.0)", "max_val"),
             ("tl.store(mid_value_ptr, stored_value)", "tl.store(mid_value_ptr, max_val)"),
-            ("tl.param M : tl.int64", "tl.param M : tl.float32"),
-            ("(offset < M)", "(offset <= M)"),
+            ('("M",.i64)', '("M",.fp32)'),
+            ("offset < M", "offset <= M"),
         ]
         for before, after in mutations:
             with self.subTest(before=before):
                 self.assertIn(before, self.lean)
                 with self.assertRaises(ValueError):
-                    check(self.python, self.lean.replace(before, after, 1),
-                          "argmax_kernel_1_repaired", "stage1")
+                    self.compare(self.python, self.lean.replace(before, after, 1))
 
     def test_jit_decorator_is_required(self):
         with self.assertRaisesRegex(ValueError, "expected one explicitly selected"):
-            check(self.python.replace("@triton.jit", "", 1), self.lean,
-                  "argmax_kernel_1_repaired", "stage1")
+            self.compare(self.python.replace("@triton.jit", "", 1), self.lean)
 
     def test_runtime_parameter_cannot_be_replaced_by_antiquote(self):
-        with self.assertRaisesRegex(ValueError, "not a constexpr"):
-            check(self.python, self.lean.replace("(offset < M)", "(offset < $(M))", 1),
-                  "argmax_kernel_1_repaired", "stage1")
+        with self.assertRaisesRegex(ValueError, "antiquot"):
+            self.compare(self.python, self.lean.replace("offset < M", "offset < $(M)", 1))
 
     def test_unsupported_splice_cannot_hide_arithmetic(self):
-        with self.assertRaisesRegex(ValueError, "unsupported antiquotation"):
-            check(self.python, self.lean.replace("$(BLOCK_SIZE)", "$(BLOCK_SIZE + 1)", 1),
-                  "argmax_kernel_1_repaired", "stage1")
+        with self.assertRaisesRegex(ValueError, "antiquot"):
+            self.compare(self.python, self.lean.replace(" * BLOCK_SIZE", " * $(BLOCK_SIZE + 1)", 1))
 
 
 class PastedBodyTests(unittest.TestCase):
@@ -1385,3 +1386,69 @@ class LayerNormLigerBodyCorrespondenceTests(unittest.TestCase):
             with self.subTest(new=new), self.assertRaises(ValueError):
                 self.assertIn(old, source)
                 self.compare(r, source.replace(old, new, 1))
+
+
+class TritonArgmaxBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/triton_argmax'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, record, source):
+        return check((ROOT / record['python']).read_text(), source,
+                     record['python_function'], record['lean_definition'], record['signature_definition'],
+                     record['expected_signature'])
+
+    def test_three_complete_original_kernels(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [20, 9, 12, 20, 12, 9])
+
+    def test_nan_selection_original_address_reload_and_clamp_are_preserved(self):
+        changes = [('pid = tl.program_id(0).to(tl.int64) + program_base',
+                    'pid = tl.program_id(0) + program_base'),
+                   ('max_val = tl.load(inp + max_index)', 'max_val = max_logits'),
+                   ('width - 1 if signed else width', 'width if signed else width'),
+                   ('(1 << (exponent - 24)) if exponent > 24 else 1',
+                    '(1 << (exponent - 23)) if exponent > 23 else 1'),
+                   ('stored_value = tl.where(max_val == max_val, max_val, 0.0)',
+                    'stored_value = max_val')]
+        for old, new in changes:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[0], self.source.replace(old, new, 1))
+
+    def test_dimension_tie_order_and_metadata_types_are_checked(self):
+        changes = [('return_indices_tie_break_left=True', 'return_indices_tie_break_left=False'),
+                   ('local_max = tl.load(inp + selected_offset, mask=selected_mask, other=-float("inf"))',
+                    'local_max = tl.load(inp + selected_offset, other=-float("inf"))'),
+                   ('("K",.i64)', '("K",.integer)')]
+        for old, new in changes:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[2], self.source.replace(old, new, 1))
+
+
+    def test_existing_candidates_only_replace_the_selected_integer_product(self):
+        def functions(name):
+            return {n.name: n for n in ast.parse((self.directory / name).read_text()).body
+                    if isinstance(n, ast.FunctionDef)}
+        original = functions('triton_argmax.py')
+        shifted = functions('triton_argmax_shifted.py')
+        for before_name, after_name, target, block, value, shift in [
+                ('argmax_kernel_1_repaired', 'argmax_kernel_1_shifted', 'offset', 'BLOCK_SIZE', 1024, 10),
+                ('argmax_kernel_repaired', 'argmax_kernel_shifted', 'm_offset', 'BLOCK_M', 128, 7)]:
+            before, after = original[before_name], shifted[after_name]
+            self.assertEqual(ast.dump(before.args), ast.dump(after.args))
+            self.assertEqual(len(before.body), len(after.body))
+            changes = [(a, b) for a, b in zip(before.body, after.body) if ast.dump(a) != ast.dump(b)]
+            self.assertEqual(len(changes), 1)
+            assignment, branch = changes[0]
+            self.assertEqual([t.id for t in assignment.targets], [target])
+            self.assertIsInstance(branch, ast.If)
+            self.assertEqual(ast.unparse(branch.test), f'{block} == {value}')
+            self.assertEqual(ast.dump(branch.orelse[0]), ast.dump(assignment))
+            self.assertIn(f'<< {shift}', ast.unparse(branch.body[0]))
+        self.assertEqual([ast.dump(n) for n in original['argmax_kernel_2_repaired'].body],
+                         [ast.dump(n) for n in shifted['argmax_kernel_2_repaired'].body])
