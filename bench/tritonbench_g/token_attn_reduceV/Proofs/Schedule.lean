@@ -16,16 +16,24 @@ theorem invocation_reference (M : Algebra A) (R : SumPrimitive A) (p : Parameter
   rw [reference,fold_write_memory,reference,fold_write_memory,hv,ho]
   rfl
 
-theorem invocation_complete (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
+/-- Only source memory and program ids determine the signed input domain. -/
+theorem invocation_metadata (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
     (pid : Grid.PID) (s : State A) :
+    ValidMetadata p ((invocation M R p pid).initial s) ↔ ValidMetadata p (Grid.state s.mem pid) := by
+  constructor <;> intro v <;> rcases v with ⟨vl,vs,vr,vt⟩ <;> constructor
+  all_goals assumption
+
+theorem invocation_complete (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
+    (pid : Grid.PID) (s : State A) (valid : ValidMetadata p (Grid.state s.mem pid)) :
     ∃ t, (invocation M R p pid).run s=some t ∧ t.mem=(reference M R p (Grid.state s.mem pid)).mem := by
-  obtain ⟨t,ran,mem⟩ := complete_run M R p ((invocation M R p pid).initial s)
+  obtain ⟨t,ran,mem⟩ := complete_run M R p ((invocation M R p pid).initial s) ((invocation_metadata M R p pid s).mpr valid)
   exact ⟨t,ran,mem.trans (invocation_reference M R p pid s)⟩
 
 theorem invocation_frame (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
     (separate : Grid.Separate p) (pid : Grid.PID) (s t : State A)
-    (ran : (invocation M R p pid).run s=some t) : ∀ r, Grid.Reads p r → t.mem r=s.mem r := by
-  obtain ⟨u,execution,mem⟩ := invocation_complete M R p pid s
+    (ran : (invocation M R p pid).run s=some t)
+    (valid : ValidMetadata p (Grid.state s.mem pid)) : ∀ r, Grid.Reads p r → t.mem r=s.mem r := by
+  obtain ⟨u,execution,mem⟩ := invocation_complete M R p pid s valid
   have eq : t=u := Option.some.inj (ran.symm.trans execution)
   subst u
   intro r hr
@@ -34,13 +42,19 @@ theorem invocation_frame (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
   exact reference_frame M R p (Grid.state s.mem pid) r o (Or.inl (separate r hr))
 
 theorem schedule_complete (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
-    (jobs : List Grid.PID) (s : State A) :
+    (jobs : List Grid.PID) (s : State A) (separate : Grid.Separate p)
+    (valid : ∀ pid∈jobs, ValidMetadata p (Grid.state s.mem pid)) :
     ∃ t, runSchedule (jobs.map (invocation M R p)) s=some t ∧ t.mem=Grid.graph M R p jobs s.mem := by
   induction jobs generalizing s with
   | nil => exact ⟨s,rfl,rfl⟩
   | cons pid rest ih =>
-    obtain ⟨middle,ran,mem⟩ := invocation_complete M R p pid s
-    obtain ⟨t,restRun,restMem⟩ := ih middle
+    obtain ⟨middle,ran,mem⟩ := invocation_complete M R p pid s (valid pid (by simp))
+    have next : ∀ q∈rest, ValidMetadata p (Grid.state middle.mem q) := by
+      intro q hq
+      rw [mem]
+      exact (Grid.metadata_agree p _ s.mem q (Grid.block_agrees M R p pid s.mem separate)).mpr
+        (valid q (List.mem_cons_of_mem pid hq))
+    obtain ⟨t,restRun,restMem⟩ := ih middle next
     refine ⟨t,?_,?_⟩
     · simp only [List.map_cons,runSchedule,ran,Option.bind_some,restRun]
     · simpa only [Grid.graph,mem] using restMem
@@ -61,11 +75,11 @@ theorem schedule_safe (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
     have inputs := call_inputs M R p B H counts (pid::rest) v domain
       ((invocation M R p pid).initial s) bound b h rfl rfl
     refine ⟨SourceSafety.source_safe M R p _ bounds
-      (call_bounds M R p B H counts (pid::rest) v bounds bounded _ b h inputs),?_⟩
+      (call_bounds M R p B H counts (pid::rest) v bounds bounded _ b h inputs) inputs.valid,?_⟩
     intro t ran
     apply ih (fun q hq => valid q (List.mem_cons_of_mem pid hq)) bounded t
     exact bound_after_frame M R p B H counts (pid::rest) v s t bound
-      (invocation_frame M R p separate pid s t ran)
+      (invocation_frame M R p separate pid s t ran ((invocation_metadata M R p pid s).mp inputs.valid))
 
 #axiomsClean schedule_complete
 #axiomsClean schedule_safe

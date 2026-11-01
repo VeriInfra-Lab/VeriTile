@@ -28,16 +28,17 @@ theorem postlude_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimiti
   rfl
 
 theorem source_split (p : Parameters) : (kernel p).surfaceBody = prelude p ++
-    [ComputeStmt.forRangeDyn "start_n" (Op.constNat 0)
-      (Op.ref .nat [] "cur_batch_seq_len") (Op.constNat p.block) (body p)] ++ postlude p := by
+    [ComputeStmt.forRangeInt "start_n" (Op.constInt 0)
+      (Op.ref .int [] "cur_batch_seq_len") (Op.constNat p.block) (body p)] ++ postlude p := by
   rfl
 
 theorem complete_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
-    (p : Parameters) (s : State α) :
+    (p : Parameters) (s : State α) (valid : ValidMetadata p s) :
     ∃ t, FP.Structural.exec (withSum M R) (kernel p) s = some t ∧
       t.mem = (reference M R p s).mem := by
-  obtain ⟨a,ha,hr⟩ := prelude_run M R p s
+  obtain ⟨a,ha,hr⟩ := prelude_run M R p s valid
   obtain ⟨b,hb,hs⟩ := range_run M R p s a 0 (count p s) (initial M p) hr
+  simp only [Nat.cast_zero] at hb
   obtain ⟨c,hc,hm⟩ := postlude_run M R p s b hs
   refine ⟨c,?_,hm⟩
   change run (withSum M R) (kernel p).surfaceBody s = some c

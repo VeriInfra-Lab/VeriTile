@@ -23,13 +23,13 @@ def withSum {α : Type} (M : Algebra α) (R : SumPrimitive α) : Algebra α :=
       | .f8e5 => M.reduceSumTyped pr .f8e5 ax keep xs }
 
 def count {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem (Region.cast p.length) (s.pids 0*p.lengthStride)).read .nat
+  ((s.mem (Region.cast p.length) (s.pids 0*p.lengthStride)).read .int).toNat
 
 def startIndex {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem (Region.cast p.start) (s.pids 0*p.startStride)).read .nat
+  ((s.mem (Region.cast p.start) (s.pids 0*p.startStride)).read .int).toNat
 
 def requestIndex {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem (Region.cast p.request) (s.pids 0*p.requestStride)).read .nat
+  ((s.mem (Region.cast p.request) (s.pids 0*p.requestStride)).read .int).toNat
 
 def probOffset {α : Type} [Inhabited α] (p : Parameters) (s : State α) (n : Nat) :=
   s.pids 1 * p.probHeadStride + (startIndex p s + n) * p.probTokenStride
@@ -50,7 +50,7 @@ def probability {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s 
 
 def gather {α : Type} [Inhabited α] (p : Parameters) (s : State α) (start n : Nat) : Nat :=
   if start+n < count p s then
-    (s.mem (Region.cast p.tokens) (gatherOffset p s n+start*p.requestTokenStride)).read .nat
+    ((s.mem (Region.cast p.tokens) (gatherOffset p s n+start*p.requestTokenStride)).read .int).toNat
   else 0
 
 def value {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)
@@ -58,6 +58,16 @@ def value {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : Stat
   if start+n < count p s then
     (s.mem p.value (valueOffset p s d+gather p s start n*p.valueBatchStride)).read .fp32
   else padding M
+
+/-- The inherited nonnegative metadata domain, now stated on actual signed
+cells rather than silently changing the input storage to Nat. Unused token
+slots impose no condition. -/
+structure ValidMetadata {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Prop where
+  length : 0≤(s.mem (Region.cast p.length) (s.pids 0*p.lengthStride)).read .int
+  start : 0≤(s.mem (Region.cast p.start) (s.pids 0*p.startStride)).read .int
+  request : 0≤(s.mem (Region.cast p.request) (s.pids 0*p.requestStride)).read .int
+  tokens : ∀ n,n<count p s → p.block≠0 →
+    0≤(s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .int
 
 /-- All BLOCK_N products are evaluated, including padded lanes. In particular
 there is no cancellation of zero products or zero block contributions. -/

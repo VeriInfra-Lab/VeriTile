@@ -1,15 +1,37 @@
 # token_attn_reduceV
 
-Current repaired Python implementation: [token_attn_reduceV.py](token_attn_reduceV.py).
+The selected repair is [token_attn_reduceV.py](token_attn_reduceV.py). Both
+`source` and the existing probability-address candidate `affineSource` in
+[Kernels.lean](Kernels.lean) contain complete copied function bodies. Invocation
+types and runtime scalar bindings precede each `triton { ... }` quotation.
+[token_attn_reduceV_affine.py](token_attn_reduceV_affine.py) is the existing Python candidate;
+its only change distributes the integer probability-address expression.
+[jit-correspondence.json](jit-correspondence.json) checks both complete bodies.
 
-[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+[IO.lean](IO.lean) retains signed length, start, request and token words, including
+inactive metadata. The mathematical input domain explicitly requires nonnegative
+length/start/request words for launched rows and nonnegative token words actually
+read by a nonzero block. Runtime lengths equal the arbitrary logical `counts`.
+Channel padding capacity is derived from those counts and adds no length cap.
+The parser and prelude keep negative integer words; admissibility belongs to the
+public mathematical domain.
 
-fun xs b h d => sum n in range (counts b), xs.probAt b h n * xs.valueAt b h n d
+[Correct.lean](Correct.lean) proves the complete grid's gathered weighted sum on
+named probability/value tensors:
 
-The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+`sum n in range(counts b), probability[b,h,n] * value[b,h,n,d]`.
 
-[Proof helpers](Proofs/)
+The theorem retains positive block size, full grid coverage, read/output buffer
+separation and unique output addresses. Its proof includes actual source success,
+all source access bounds, output values and the exterior memory frame.
 
-[Source and mathematical adapters](Sources/)
+[FPEquiv.lean](FPEquiv.lean) compares the complete original and existing affine
+candidate grids, retaining every FP32 product, padded lane, reduction, accumulator
+update and explicit output cast. Only integer address arithmetic changes; no
+numerical rule is assumed. Zero-block behavior remains in the FP comparison.
+[Proofs/](Proofs/) connects these specifications to the actual signed metadata
+loads, signed loop counter, distinct masks and unmasked final store.
 
-[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+[Validation records](../../../validation/body-migration-progress.json) distinguish
+body checking, local proof checking and independent replay. Compilation alone does
+not complete this task.
