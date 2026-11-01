@@ -25,7 +25,7 @@ def grid {α : Type} [Inhabited α] (A : Algebra α) (X Y W : RegionName)
     (rows N B : Nat) (eps : α) (initial : State α) : Nat → Option (State α)
   | 0=>some initial
   | c+1=>(grid A X Y W rows N B eps initial c).bind
-      (fun s=>FP.Structural.exec A (runtimeCandidate X Y W N B) ((RuntimeGrid.setup rows c s).setReg "eps_arg" .real [] (fun _=>eps)))
+      (fun s=>FP.Structural.exec A (runtimeCandidate X Y W N B) ((RuntimeGrid.setup rows c s).setReg "eps" .real [] (fun _=>eps)))
 
 theorem grid_eq {α : Type} [Inhabited α] (A : Algebra α) (X Y W : RegionName)
     (rows N B : Nat) (eps : α) (initial : State α) (count : Nat) :

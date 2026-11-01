@@ -16,7 +16,7 @@ def launch (A : Algebra α) (candidate : Bool) (X Y W : RegionName)
     (rows N B : Nat) (epsilon : α) (row : Nat) : Invocation α where
   kernel := source candidate X Y W N B
   backend := A
-  arguments := [⟨"eps_arg",.real,[],fun _ => epsilon⟩]
+  arguments := [⟨"eps",.real,[],fun _ => epsilon⟩]
   clearRegisters := Bool.true
   pids := fun ax => if ax=0 then row else 0
   numPids := some (fun ax => if ax=0 then rows else 1)

@@ -7,7 +7,7 @@ set_option maxRecDepth 12000
 
 structure VarInv (s0 : BlockState) (X Y : RegionName)
     (stride N B c : Nat) (eps : ℝ) (s : BlockState) : Prop where
-  epsilon : s.regs .real [] "eps_arg" = some (Tile.scalar (some eps))
+  epsilon : s.regs .real [] "eps" = some (Tile.scalar (some eps))
   mem : s.mem = s0.mem
   pids : s.pids = s0.pids
   xptr : s.regs .ptr [] "X" = some (Tile.scalar (X, s0.pids 0 * stride))
@@ -16,7 +16,7 @@ structure VarInv (s0 : BlockState) (X Y : RegionName)
     some ⟨fun i => some (accumulator s0 X stride N B c i.1)⟩
 
 noncomputable def preState (s : BlockState) (X Y : RegionName) (stride B : Nat) (eps : ℝ) : BlockState :=
-  ((((s.setReg "eps_arg" .real [] (Tile.scalar (some eps))).setReg "row" .nat [] (Tile.scalar (s.pids 0))).setReg "Y" .ptr []
+  ((((s.setReg "eps" .real [] (Tile.scalar (some eps))).setReg "row" .nat [] (Tile.scalar (s.pids 0))).setReg "Y" .ptr []
     (Tile.scalar (Y, s.pids 0 * stride))).setReg "X" .ptr []
     (Tile.scalar (X, s.pids 0 * stride))).setReg "_var" .real [B]
       ⟨fun _ => some 0⟩
@@ -44,10 +44,11 @@ noncomputable def inputTile (s : BlockState) (X : RegionName)
 
 noncomputable def varState (s0 s : BlockState) (X : RegionName)
     (stride N B c : Nat) : BlockState :=
-  (((s.setReg "off" .nat [] (Tile.scalar (c * B))).setReg "cols" .nat [B]
-    (Tile.vec (fun j => c * B + j.val))).setReg "x" .real [B]
-    (inputTile s0 X stride N B c)).setReg "_var" .real [B]
-    ⟨fun i => some (accumulator s0 X stride N B (c+1) i.1)⟩
+  let s := s.setReg "off" .nat [] (Tile.scalar (c * B))
+  let s := s.setReg "cols" .nat [B] (Tile.vec (fun j => c * B + j.val))
+  let s := s.setReg "__veritile_load_0" .real [B] (inputTile s0 X stride N B c)
+  let s := s.setReg "x" .real [B] (inputTile s0 X stride N B c)
+  s.setReg "_var" .real [B] ⟨fun i => some (accumulator s0 X stride N B (c+1) i.1)⟩
 
 theorem var_exec (s0 s : BlockState) (X Y : RegionName)
     (stride N B c : Nat) (eps : ℝ) (h : VarInv s0 X Y stride N B c eps s) :
