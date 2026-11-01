@@ -11,7 +11,7 @@
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 3168,
-    "official_comparator": "112 targets have exact current-source/import-closure official receipts, including all 19 examples. Pending: CrossEntropy1, DequantizeMatmul and FastCELoss run 41324559599; FastLayernorm awaits its exact-source incremental run. Successful local compilation and body comparison alone do not certify completion.",
+    "official_comparator": "112 targets have exact current-source/import-closure official receipts, including all 19 examples. Pending: CrossEntropy1, DequantizeMatmul and FastCELoss run 41324559599; FastLayernorm run 41334450486. Successful local compilation and body comparison alone do not certify completion.",
     "python_tests": 414,
     "offline_example_compilations": {
       "cases": 19,
@@ -46,8 +46,8 @@
       "cases": 1,
       "retained_modules": 45,
       "replay_sources": 45,
-      "official_run": null,
-      "source_commit": null
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41334450486",
+      "source_commit": "8306eda2f484d4f6145e8cab53577b02f9ed67bf"
     },
     "previous_incremental_replays": [
       {
