@@ -12,9 +12,11 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
@@ -80,6 +82,24 @@ def load_batch(root: Path, manifest: Path) -> tuple[list[dict], list[str], list[
     builds.update(extra)
     replay.update(extra)
     return cases, sorted(builds), sorted(replay)
+
+
+def verify_public_targets(root: Path, cases: list[dict]) -> None:
+    """Resolve full public names before spending time on independent replay.
+
+    The source inventory checks declaration spelling. Lean checks namespaces;
+    the comparator remains responsible for actually accepting every proof.
+    """
+    targets = {path: names for case in cases for path, names in case['public_theorems'].items()}
+    names = sorted({name for values in targets.values() for name in values})
+    if any(not re.fullmatch(r"[A-Za-z_][\w'.]*", name) for name in names):
+        raise ValueError('Invalid public theorem name')
+    source = ''.join(f'import {path[:-5].replace("/", ".")}\n' for path in sorted(targets))
+    source += ''.join(f'#check {name}\n' for name in names)
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.lean', prefix='veritile-public-targets-') as probe:
+        probe.write(source)
+        probe.flush()
+        subprocess.run(['lake', 'env', 'lean', probe.name], cwd=root, check=True)
 
 
 def fingerprint(root: Path, cases: list[dict], manifest: Path) -> dict[str, str]:
@@ -205,7 +225,11 @@ def main() -> int:
         return 0
     modules = [p[:-5].replace('/', '.') for p in builds]
     if args.build:
-        return subprocess.run(['lake', 'build', *modules], cwd=ROOT).returncode
+        result = subprocess.run(['lake', 'build', *modules], cwd=ROOT)
+        if result.returncode:
+            return result.returncode
+        verify_public_targets(ROOT, cases)
+        return 0
     if args.report is None or args.workspace is None:
         raise ValueError('Replay requires --report and --workspace')
     if args.workspace.exists() and any(args.workspace.iterdir()):
@@ -217,6 +241,7 @@ def main() -> int:
     build = subprocess.run(['lake', 'build', *modules], cwd=ROOT)
     if build.returncode:
         raise ValueError('Batch build failed; no completion receipt was written')
+    verify_public_targets(ROOT, cases)
     results = []
     required = {path: names for case in cases for path, names in case['public_theorems'].items()}
     args.workspace.mkdir(parents=True, exist_ok=True)

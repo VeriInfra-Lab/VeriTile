@@ -16,7 +16,7 @@ instance {α : Type} [Inhabited α] (p : Parameters) (s : State α) (i : TileInd
     Decidable (active p s i) := by unfold active; infer_instance
 
 def alphaValue {α : Type} (M : Algebra α) (alpha : ℝ) : α :=
-  M.cast (some .fp32) .real .real (M.literal (some .fp32) .real alpha)
+  M.literal (some .fp32) .real alpha
 
 def updateValue {α : Type} (M : Algebra α) (alpha : ℝ) (grad data : α) : α :=
   M.binary (some .fp32) .real .add grad

@@ -84,6 +84,13 @@ private def integerDType (dtype : TSyntax `tritonDType) : Bool :=
   | `(tritonDType| tl.uint32) | `(tritonDType| tl.uint64) => Bool.true
   | _ => Bool.false
 
+/-- Keep direct integer/Boolean load casts recognizable by the typed load
+lowering before any floating receiver-parenthesization is applied. -/
+private def directLoadCast (dtype : TSyntax `tritonDType) : Bool :=
+  integerDType dtype || (match dtype with
+    | `(tritonDType| tl.int1) => Bool.true
+    | _ => Bool.false)
+
 private partial def loadOperand (value : TSyntax `tritonExpr) : Bool :=
   match value with
   | `(tritonExpr| ($value:tritonExpr)) => loadOperand value
@@ -97,10 +104,10 @@ private partial def normalizeRawBody (parserEnv : Environment) (raw : Syntax) : 
   | `(tritonStmt| $a:ident, $b:ident $[, $more:ident]* = ($x:tritonExpr, $y:tritonExpr $[, $rest:tritonExpr]*)) =>
       return (← `(tritonStmt| $a:ident, $b:ident $[, $more:ident]* = $x:tritonExpr, $y:tritonExpr $[, $rest:tritonExpr]*)).raw
   | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) => do
-      if integerDType dt then return raw
+      if directLoadCast dt then return raw
       return (← `(tritonExpr| (tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dt:tritonDType))).raw
   | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) => do
-      if integerDType dt then return raw
+      if directLoadCast dt then return raw
       return (← `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dt:tritonDType))).raw
   | `(tritonExpr| tl.cast($value:tritonExpr, $dtype:tritonDType)) => do
       unless integerDType dtype do return raw
