@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 69,
-      "uncovered_jit_functions": 112
+      "selected_body_copy_checked": 70,
+      "uncovered_jit_functions": 111
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 223,
+    "uncovered_selected_jit_functions": 221,
     "inventoried_jit_functions": 495,
-    "uncovered_inventoried_jit_functions": 288,
+    "uncovered_inventoried_jit_functions": 286,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 201
+      "pasted_body": 203
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 69,
-        "uncovered_jit_functions": 112
+        "selected_body_copy_checked": 70,
+        "uncovered_jit_functions": 111
       }
     },
-    "primary_files_with_int64_screen_warning": 29,
+    "primary_files_with_int64_screen_warning": 28,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 81,
-        "antiquotes": 425,
+        "in_body_type_directives": 80,
+        "antiquotes": 424,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -29867,9 +29867,9 @@
       "lean": "bench/tritonbench_g/reversed_cumsum_scalar/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 38,
-        "dsl_assignment": 15,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 39,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -29975,32 +29975,58 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "chunk_global_reversed_cumsum_scalar_kernel",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BT",
+            "H",
+            "T",
+            "stride_ob",
+            "stride_oh",
+            "stride_ot",
+            "stride_sb",
+            "stride_sh",
+            "stride_st"
+          ],
           "python": "bench/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar.py",
-          "function": "chunk_global_reversed_cumsum_scalar_kernel"
+          "lean": "bench/tritonbench_g/reversed_cumsum_scalar/Kernels.lean"
         },
         {
+          "python_function": "chunk_global_reversed_cumsum_scalar_kernel_index_commuted",
+          "lean_definition": "indexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BT",
+            "H",
+            "T",
+            "stride_ob",
+            "stride_oh",
+            "stride_ot",
+            "stride_sb",
+            "stride_sh",
+            "stride_st"
+          ],
           "python": "bench/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar.py",
-          "function": "chunk_global_reversed_cumsum_scalar_kernel_index_commuted"
+          "lean": "bench/tritonbench_g/reversed_cumsum_scalar/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar.py",
-          "function": "chunk_global_reversed_cumsum_scalar_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar.py",
-          "function": "chunk_global_reversed_cumsum_scalar_kernel_index_commuted"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/reversed_cumsum_scalar/Kernels.lean": "79130487b1d82ce04e8ef1774aaca1558264b998ebd6bcdbfb346b05202f1e89",
+        "bench/tritonbench_g/reversed_cumsum_scalar/Kernels.lean": "778a8a318a7a8dca1c4a7c9fce94cc01e303b1747c864f318e200816e98d6e80",
+        "bench/tritonbench_g/reversed_cumsum_scalar/jit-correspondence.json": "e9d627f3d3150519e6c07cf7b51281388d76f782999ae7dcca807e6ee0c6be65",
         "bench/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar.py": "b9b7ba2b1887a33a96c822cd76bb0818e75f0b63955df89c9250c5b294f009a1"
       },
       "collection": "tritonbench_g",
