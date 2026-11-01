@@ -53,8 +53,22 @@ theorem partition (h : Shape) (cfg : Config) (d : InputContract h cfg) (k : Fin 
 def algebra (rest : Algebra Word) (I : Instructions) : Algebra Word :=
   {rest with cast := fun p src dst x => match src,dst with
     | .fp32,.fp16 => cast I Bool.true x
-    | .fp32,.fp32 => x
+    | .fp32,.fp32 | .fp16,.fp16 => x
     | src,dst => rest.cast p src dst x}
+
+/-- Writing an already-encoded same-format FP16 value preserves its payload. -/
+theorem half_store_identity (rest : Algebra Word) (I : Instructions)
+    (precision : Option ComputeDType) (x : Word) :
+    (algebra rest I).cast precision .fp16 .fp16 x = x := rfl
+
+/-- Both source positions select the same native FP32-to-FP16 instruction;
+the surrounding expression's precision context does not change that cast. -/
+theorem half_cast_context (rest : Algebra Word) (I : Instructions)
+    (p q : Option ComputeDType) (x : Word) :
+    (algebra rest I).cast p .fp32 .fp16 x = (algebra rest I).cast q .fp32 .fp16 x := rfl
+
+#axiomsClean half_store_identity
+#axiomsClean half_cast_context
 
 def contraction (I : Instructions) (profile : Profile) {batch : TileShape} {m k n : Nat}
     (a : TileIndex (batch++[m,k]) → Word) (b : TileIndex (batch++[k,n]) → Word) :
@@ -82,7 +96,7 @@ theorem output_expected (rest : Algebra Word) (I : Instructions) (profile : Prof
   have inputs := source_inputs read h f a b c abi s input
   funext i
   cases hf : f.half <;>
-    simp only [outputValues,sourceDot,contraction,algebra,expected,outputDType,hf,
+    simp only [outputValues,outputValue,sourceDot,contraction,algebra,expected,outputDType,hf,
       Bool.false_eq_true,↓reduceIte,cast,inputs.1,inputs.2] <;> rfl
 
 /-- The independent reference exposes only fixed instruction and conversion

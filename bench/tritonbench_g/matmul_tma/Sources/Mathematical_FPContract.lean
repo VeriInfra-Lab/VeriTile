@@ -35,7 +35,7 @@ theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α
     simp [source, typed, FP.Structural.exec, ComputeKernel.surfaceBody, run, step,
       evalExpr, evalComputeOp, evalOp_unfold, store, Option.bind, ComputeDType.eraseDType,
       numeric, bop, Region.cast, BlockPtr.inBounds, BlockPtr.address_2d_zero_offsets,
-      TileShape.indexToList, backend, outputValues, aValues, bValues,
+      TileShape.indexToList, backend, outputValues, outputValue, aValues, bValues,
       aOffset, bOffset, cOffset, outputDType, scatter, ofFloat, toFloat]
   · exact scatter_memory_congr (half := Bool.false) _ _ _ _ rfl
   · exact scatter_memory_congr (half := Bool.true) _ _ _ _ rfl

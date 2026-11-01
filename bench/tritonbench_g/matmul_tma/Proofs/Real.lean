@@ -24,8 +24,9 @@ theorem output_product (rest : Algebra ℝ) (read : Nat → ℝ) (h : Shape) (f 
     outputValues (algebra rest) dot (params h f) f.half s = product read h f a b := by
   have inputs := source_inputs read h f a b c abi s input
   funext i
-  simp only [outputValues,algebra,dot,contraction,product,inputs.1,inputs.2]
-  rfl
+  cases hf : f.half <;>
+    simp [outputValues,outputValue,algebra,dot,contraction,product,inputs.1,inputs.2,hf]
+  all_goals rfl
 
 /-- Physical interpretation of the source's completed stores at element starts.
 Arbitrary mathematical Reals are not assigned a floating-point byte encoding. -/

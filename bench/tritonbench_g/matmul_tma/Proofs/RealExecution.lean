@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_tma.Kernels
+import bench.tritonbench_g.matmul_tma.Contract
 import bench.tritonbench_g.matmul_tma.Proofs.Real
 
 namespace VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.RealExecution

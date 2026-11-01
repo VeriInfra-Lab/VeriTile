@@ -31,11 +31,13 @@ theorem implements (rest : Algebra ℝ) (h : Shape) (f : Flags) :
   refine PublicIO.implements (StaticChecked.RealModel.algebra rest) StaticChecked.RealModel.dot
     (params h f) f.half (c_injective h f StaticChecked.regions) _ ?_
   intro a b i
-  simp only [StaticChecked.RealModel.algebra,StaticChecked.RealModel.dot,
+  simp only [outputValue,StaticChecked.RealModel.algebra,StaticChecked.RealModel.dot,
     StaticChecked.RealModel.contraction]
-  apply Finset.sum_congr rfl
-  intro k _
-  rfl
+  split
+  all_goals
+    apply Finset.sum_congr rfl
+    intro k _
+    rfl
 
 #axiomsClean headline_iff
 #axiomsClean implements
