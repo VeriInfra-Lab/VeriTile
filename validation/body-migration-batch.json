@@ -1061,6 +1061,45 @@
           "VeriTile.Bench.TritonBenchG.MatrixReduction.FPEquiv.matrix_reduction_pair"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/destindex_copy_kv1",
+      "python": "bench/tritonbench_g/destindex_copy_kv1/destindex_copy_kv1.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/destindex_copy_kv1/Correct.lean": [
+          "VeriTile.Bench.Repairs.DestindexCopyKv1.Correct.destindex_copy_kv1_kernel_real"
+        ],
+        "bench/tritonbench_g/destindex_copy_kv1/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.DestindexCopyKv1.FPEquiv.index_commuted_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/destindex_copy_kv2",
+      "python": "bench/tritonbench_g/destindex_copy_kv2/destindex_copy_kv2.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/destindex_copy_kv2/Correct.lean": [
+          "VeriTile.Bench.Repairs.DestindexCopyKv2.Correct.destindex_copy_kv2_real"
+        ],
+        "bench/tritonbench_g/destindex_copy_kv2/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.DestindexCopyKv2.FPEquiv.index_commuted_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/destindex_copy",
+      "python": "bench/tritonbench_g/destindex_copy/destindex_copy.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/destindex_copy/Correct.lean": [
+          "VeriTile.Bench.Repairs.DestindexCopy.Correct.destindex_copy_real"
+        ],
+        "bench/tritonbench_g/destindex_copy/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.DestindexCopy.FPEquiv.index_commuted_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1176,6 +1215,42 @@
     "bench/tritonbench_g/dequantize_matmul/Proofs/AccessSafety.lean",
     "bench/tritonbench_g/dequantize_matmul/Proofs/KernelEquivalence.lean",
     "bench/tritonbench_g/dequantize_matmul/Proofs/KernelExecution.lean",
+    "bench/tritonbench_g/destindex_copy/Contract.lean",
+    "bench/tritonbench_g/destindex_copy/Correct.lean",
+    "bench/tritonbench_g/destindex_copy/FPEquiv.lean",
+    "bench/tritonbench_g/destindex_copy/IO.lean",
+    "bench/tritonbench_g/destindex_copy/Kernels.lean",
+    "bench/tritonbench_g/destindex_copy/Proofs/Mathematical_IndexRewrite.lean",
+    "bench/tritonbench_g/destindex_copy/Proofs/RawResults.lean",
+    "bench/tritonbench_g/destindex_copy/Proofs/ReaderFP.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Contract.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Correct.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/FPEquiv.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/IO.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Kernels.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Proofs/Grid.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Proofs/KernelInterface.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Proofs/KernelRealResult.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Proofs/LogicalGrid.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Proofs/ReaderFP.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Proofs/Rewrite.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/destindex_copy_kv1/Proofs/Tile.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/Contract.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/Correct.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/FPEquiv.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/IO.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/Kernels.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/LogicalGrid.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/ReaderFP.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/Rewrite.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/SourceAgreement.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/Tile.lean",
     "bench/tritonbench_g/dropout_triton/Kernels.lean",
     "bench/tritonbench_g/dropout_triton/Proofs/Mathematical_Erasure.lean",
     "bench/tritonbench_g/dropout_triton/Proofs/Mathematical_Real.lean",
