@@ -1299,3 +1299,46 @@ class RotaryEmbNopadBodyCorrespondenceTests(unittest.TestCase):
             before, after = differences[0]
             self.assertEqual([t.id for t in before.targets], ['off_q1'])
             self.assertEqual(ast.unparse(after), 'off_q1 = off_q0 + HEAD_DIM // 2 * head_dim_stride')
+
+class FusedRotaryBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/fused_rotary_embedding'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, lean):
+        r = self.records[0]
+        return check((ROOT / r['python']).read_text(), lean,
+                     r['python_function'], r['lean_definition'], r['signature_definition'],
+                     r['expected_signature'], r['expected_call_bindings'])
+
+    def test_complete_q_k_v_sources(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [21, 21])
+
+    def test_metadata_widenings_cache_pitches_and_grouped_v_branch_are_checked(self):
+        mutations = [('tl.load(context_lengths + cur_token_idx * length_stride).to(tl.int64)',
+                      'tl.load(context_lengths + cur_token_idx * length_stride)'),
+                     ('dim_range0 // x', 'dim_range0 % x'),
+                     ('dim_range1 % x', 'dim_range1 // x'),
+                     ('handle_kv = cur_head_idx % KV_GROUP_NUM == 0',
+                      'handle_kv = cur_head_idx % KV_GROUP_NUM != 0'),
+                     ('v_cache + v_range, loaded_v', 'v_cache + v_range, loaded_v.to(tl.float32)')]
+        for old, new in mutations:
+            with self.subTest(new=new), self.assertRaises(ValueError):
+                self.assertIn(old, self.lean)
+                self.verify(self.lean.replace(old, new, 1))
+
+    def test_derived_python_candidate_changes_only_q_address_reuse(self):
+        def selected(name):
+            return next(n for n in ast.parse((self.directory / name).read_text()).body
+                        if isinstance(n, ast.FunctionDef) and
+                        n.name.startswith('decoding_fused_rotary_embedding_kernel'))
+        original = selected('fused_rotary_embedding.py')
+        candidate = selected('fused_rotary_embedding_shared.py')
+        self.assertEqual(ast.dump(original.args), ast.dump(candidate.args))
+        self.assertEqual(len(original.body), len(candidate.body))
+        changes = [(a, b) for a, b in zip(original.body, candidate.body) if ast.dump(a) != ast.dump(b)]
+        self.assertEqual(len(changes), 1)
+        self.assertEqual([t.id for t in changes[0][0].targets], ['off_q1'])
+        self.assertEqual(ast.unparse(changes[0][1]), 'off_q1 = off_q0 + HEAD_DIM // 2 * q_dim_stride')
