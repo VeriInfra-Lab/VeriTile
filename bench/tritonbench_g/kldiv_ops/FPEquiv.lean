@@ -1,5 +1,6 @@
 import bench.tritonbench_g.kldiv_ops.Proofs.GridPair
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
+import VeriTile.Triton.Float.ClosedStructuralAudit
 
 /-! Actual complete FP32 forward/backward programs. The existing candidate
 commutes the signed output-row pointer product; every floating instruction,
@@ -34,6 +35,8 @@ specification backward_pair (M : Algebra α) (p : Parameters) (flag : Bool)
   ProgramIO.Implementation.of_equivalent (backwardCandidate M p flag id id)
     (backward_equivalence M p flag block targetSeparate id id)
 
+#print_fp_assumptions forward_pair closed_structural
+#print_fp_assumptions backward_pair closed_structural
 #axiomsClean forward_pair
 #axiomsClean backward_pair
 #guard_msgs (drop info) in

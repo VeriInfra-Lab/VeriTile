@@ -1748,3 +1748,52 @@ class MultinomialBodyCorrespondenceTests(unittest.TestCase):
         self.assertIn(old, after)
         with self.assertRaises(ValueError):
             self.verify(self.records[1], before + 'def unrolledBody' + after.replace(old, 'b_idx = b_idx', 1))
+
+
+class KldivBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/kldiv_ops'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, record, source):
+        return check((ROOT / record['python']).read_text(), source,
+                     record['python_function'], record['lean_definition'], record['signature_definition'],
+                     record['expected_signature'], expected_call_bindings=record['expected_call_bindings'],
+                     expected_pointer_offsets=record['expected_pointer_offsets'])
+
+    def test_complete_original_and_candidate_bodies(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [12, 12, 9, 9])
+
+    def test_forward_int64_casts_are_not_erased(self):
+        for name in ['n_cols', 'y_stride', 'gt_stride', 'loss_stride']:
+            old = f'{name} = tl.cast({name}, tl.int64)'
+            with self.subTest(name=name):
+                self.assertIn(old, self.source)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[0], self.source.replace(old, f'{name} = {name}', 1))
+
+    def test_epsilon_has_no_added_source_cast(self):
+        old = 'tl.maximum(y_true, eps)'
+        self.assertIn(old, self.source)
+        with self.assertRaises(ValueError):
+            self.verify(self.records[0], self.source.replace(old, 'tl.maximum(y_true, eps.to(tl.float32))', 1))
+
+    def test_forward_padding_and_reduction_branch_are_exact(self):
+        for old, new in [('loss = tl.where(mask, loss, 0.0)', 'loss = loss'),
+                         ('if reduction != 0:', 'if reduction == 0:'),
+                         ('loss_ptr += pid * loss_stride', 'loss_ptr += loss_stride * pid')]:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[0], self.source.replace(old, new, 1))
+
+    def test_backward_retains_initial_unused_offsets_and_masks(self):
+        before, after = self.source.split('def backwardSourceBody', 1)
+        for old in ['    offsets = tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)\n',
+                    '    mask = offsets < n_cols\n']:
+            with self.subTest(statement=old):
+                self.assertIn(old, after)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[2], before + 'def backwardSourceBody' + after.replace(old, '', 1))

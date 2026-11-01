@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 104,
-      "uncovered_jit_functions": 79
+      "selected_body_copy_checked": 105,
+      "uncovered_jit_functions": 78
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 168,
-    "inventoried_jit_functions": 519,
-    "uncovered_inventoried_jit_functions": 221,
+    "uncovered_selected_jit_functions": 166,
+    "inventoried_jit_functions": 521,
+    "uncovered_inventoried_jit_functions": 219,
     "checked_pair_modes": {
-      "pasted_body": 298
+      "pasted_body": 302
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 104,
-        "uncovered_jit_functions": 79
+        "selected_body_copy_checked": 105,
+        "uncovered_jit_functions": 78
       }
     },
     "primary_files_with_int64_screen_warning": 17,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 51,
-        "antiquotes": 393,
+        "in_body_type_directives": 50,
+        "antiquotes": 392,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -22666,10 +22666,10 @@
       "python": "bench/tritonbench_g/kldiv_ops/kldiv_ops.py",
       "lean": "bench/tritonbench_g/kldiv_ops/Kernels.lean",
       "lean_screen": {
-        "quotations": 100,
-        "in_body_type_directives": 104,
-        "antiquotes": 812,
-        "dsl_assignment": 30,
+        "quotations": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 56,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -22740,6 +22740,73 @@
       ],
       "python_sources": [
         {
+          "path": "bench/tritonbench_g/kldiv_ops/kldiv_candidates.py",
+          "jits": [
+            {
+              "function": "_kldiv_kernel_forward_index_commuted",
+              "line": 9,
+              "statements": 12,
+              "explicit_int64_casts": [
+                {
+                  "line": 22,
+                  "expression": "tl.cast(n_cols, tl.int64)"
+                },
+                {
+                  "line": 23,
+                  "expression": "tl.cast(y_stride, tl.int64)"
+                },
+                {
+                  "line": 24,
+                  "expression": "tl.cast(gt_stride, tl.int64)"
+                },
+                {
+                  "line": 25,
+                  "expression": "tl.cast(loss_stride, tl.int64)"
+                },
+                {
+                  "line": 26,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 31,
+                  "expression": "tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "_kldiv_kernel_backward_index_commuted",
+              "line": 57,
+              "statements": 9,
+              "explicit_int64_casts": [
+                {
+                  "line": 66,
+                  "expression": "tl.cast(n_cols, tl.int64)"
+                },
+                {
+                  "line": 67,
+                  "expression": "tl.cast(target_stride, tl.int64)"
+                },
+                {
+                  "line": 68,
+                  "expression": "tl.cast(new_grads_stride, tl.int64)"
+                },
+                {
+                  "line": 69,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 74,
+                  "expression": "tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)"
+                },
+                {
+                  "line": 78,
+                  "expression": "tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "path": "bench/tritonbench_g/kldiv_ops/kldiv_ops.py",
           "jits": [
             {
@@ -22807,32 +22874,95 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_kldiv_kernel_forward",
+          "lean_definition": "forwardSourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "y_stride": "integer",
+            "gt_stride": "integer",
+            "loss_stride": "integer",
+            "n_cols": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "log_target",
+            "reduction"
+          ],
           "python": "bench/tritonbench_g/kldiv_ops/kldiv_ops.py",
-          "function": "_kldiv_kernel_forward"
+          "lean": "bench/tritonbench_g/kldiv_ops/Kernels.lean"
         },
         {
-          "python": "bench/tritonbench_g/kldiv_ops/kldiv_ops.py",
-          "function": "_kldiv_kernel_backward"
-        }
-      ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/kldiv_ops/kldiv_ops.py",
-          "function": "_kldiv_kernel_forward"
+          "python_function": "_kldiv_kernel_forward_index_commuted",
+          "lean_definition": "forwardCandidateSourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "y_stride": "integer",
+            "gt_stride": "integer",
+            "loss_stride": "integer",
+            "n_cols": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "log_target",
+            "reduction"
+          ],
+          "python": "bench/tritonbench_g/kldiv_ops/kldiv_candidates.py",
+          "lean": "bench/tritonbench_g/kldiv_ops/Kernels.lean"
         },
         {
+          "python_function": "_kldiv_kernel_backward",
+          "lean_definition": "backwardSourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {
+            "target_stride": "integer",
+            "new_grads_stride": "integer",
+            "n_cols": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "log_target"
+          ],
           "python": "bench/tritonbench_g/kldiv_ops/kldiv_ops.py",
-          "function": "_kldiv_kernel_backward"
+          "lean": "bench/tritonbench_g/kldiv_ops/Kernels.lean"
+        },
+        {
+          "python_function": "_kldiv_kernel_backward_index_commuted",
+          "lean_definition": "backwardCandidateSourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {
+            "target_stride": "integer",
+            "new_grads_stride": "integer",
+            "n_cols": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "log_target"
+          ],
+          "python": "bench/tritonbench_g/kldiv_ops/kldiv_candidates.py",
+          "lean": "bench/tritonbench_g/kldiv_ops/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/kldiv_ops/Kernels.lean": "1398ecb124b5d5576fa3790169b5296f6ef9383b09ed4cd2e0705fff60685176",
+        "bench/tritonbench_g/kldiv_ops/Kernels.lean": "40c4b21f84a0c311c4f86c3bea62cc2d3b12a615bb78bf3cc1dc25eee58029d9",
+        "bench/tritonbench_g/kldiv_ops/jit-correspondence.json": "446614a0e90c80365b8f0097cd896ce8797bf4a4828e67a65ebd51176bfde88d",
+        "bench/tritonbench_g/kldiv_ops/kldiv_candidates.py": "33122ca697c8a4d6bbcd7dc7fb4cd613cdb143d68d20fb5311386cd6d1bdef88",
         "bench/tritonbench_g/kldiv_ops/kldiv_ops.py": "5a610a722d441f13cccdf9ef8443f994046b26bd1fbec5f858c12d1f8809a20d"
       },
       "collection": "tritonbench_g",

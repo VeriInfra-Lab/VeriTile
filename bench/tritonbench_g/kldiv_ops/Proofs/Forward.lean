@@ -14,7 +14,7 @@ def writeMemory {α : Type} (mem : Memory α) (region : RegionName) (offset : Na
 def rowModel {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag : Bool)
     (red row : Nat) (eps : α) (mem : Memory α) : Memory α :=
   let result := loopModel M p flag red row eps 0 (mem,zero M)
-  if red=0 then result.1 else writeMemory result.1 p.O row (.mk .real result.2)
+  if red=0 then result.1 else writeMemory result.1 p.O row (.mk .real (M.cast (some .fp32) .real .real result.2))
 
 def finishRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag : Bool)
     (red row : Nat) (eps carry : α) (s : State α) (h : Registers p red row eps carry s) :
@@ -23,7 +23,7 @@ def finishRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [forwardFinish,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,ComputeKernel.surfaceBody,run,step,evalExpr,
+    simp [forwardFinish,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardSourceBody,forwardCandidateSourceBody,KernelDSL.forwardLog,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,Algebra.withDefaultPrecision,resolvePrecision,
       ComputeDType.eraseDType,State.setReg,numeric,numericEq,numericLt,natLt,
       FP.Structural.bop,store,Region.cast,hr,h.o,h.sum]
@@ -32,9 +32,9 @@ def finishRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag
 theorem finish_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag : Bool)
     (red row : Nat) (eps carry : α) (s : State α) (h : Registers p red row eps carry s) :
     (finishRun M p flag red row eps carry s h).val.mem=
-      if red=0 then s.mem else writeMemory s.mem p.O row (.mk .real carry) := by
+      if red=0 then s.mem else writeMemory s.mem p.O row (.mk .real (M.cast (some .fp32) .real .real carry)) := by
   cases flag <;> by_cases hr : red=0
-  all_goals simp [finishRun,hr,TileShape.allIndices,List.finRange_succ,State.write,writeMemory]
+  all_goals simp [finishRun,hr,TileShape.allIndices,List.finRange_succ,State.write,writeMemory,engine,ofFloat,toFloat]
   all_goals rfl
 
 attribute [irreducible] finishRun
@@ -52,10 +52,10 @@ theorem row_complete {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters
   let carry := (loopModel M p flag red (s.pids 0) eps 0 (prepared.mem,zero M)).2
   let final := (finishRun M p flag red (s.pids 0) eps carry looped hr).val
   have hf := (finishRun M p flag red (s.pids 0) eps carry looped hr).property
-  have hs : step (engine M) (.forRangeInt "i" (.constInt 0) (.constInt p.cols)
+  have hs : step (engine M) (.forRangeInt "i" (.constInt 0) (.castNatToInt (.constNat p.cols))
       (.constNat p.block) (forwardBody p flag red)) prepared=some looped := by
     simpa [step,evalOp_unfold] using hl
-  have hloop : run (engine M) [.forRangeInt "i" (.constInt 0) (.constInt p.cols)
+  have hloop : run (engine M) [.forRangeInt "i" (.constInt 0) (.castNatToInt (.constNat p.cols))
       (.constNat p.block) (forwardBody p flag red)] prepared=some looped := by
     simp [run,hs]
   refine ⟨final,?_,?_⟩
