@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 53,
+  "completed_count": 55,
   "staged_count": 78,
-  "pending_count": 143,
+  "pending_count": 141,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 1818,
-    "official_comparator": "Current-source receipts accept 53 of 196 targets. F8ConversionUtils is accepted by run 41257166635; run 41256701308 shards 1\u20135 supply accepted unchanged cases, checked individually against the full current source/import closure, source pairs and fully-qualified public theorem names. Shared 225-file replay dependencies match. Four MatrixReduction clients are explicitly excluded from old receipts and queued in fresh run 41263548794. Shard 0 and other incrementals remain pending. Compilation alone does not count as completion.",
+    "official_comparator": "Current-source receipts accept 55 of 196 targets. F8ConversionUtils is accepted by run 41257166635; run 41256701308 shards 1\u20135 supply accepted unchanged cases, checked individually against the full current source/import closure, source pairs and fully-qualified public theorem names. Shared 225-file replay dependencies match. Four MatrixReduction clients are explicitly excluded from old receipts and queued in fresh run 41263548794. Shard 0 and other incrementals remain pending. Compilation alone does not count as completion. RmsnormFusedLlama (41257794791, 34 proof sources) and RmsnormImplementation (41259258045, 22 proof sources) are also accepted after exact current-closure verification. The fresh 59-source softmax replay is queued in run 41267684915, replacing the superseded 41266672582.",
     "python_tests": 329,
     "offline_example_compilations": {
       "cases": 19,
@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
-    "working_tree": "All 78 locally staged targets (59 task targets and all 19 examples) pass exact source-body comparison, actual public Real/FP proof checks, and the joint 1818-retained-module build. SoftmaxTriton1 and SoftmaxTriton2 retain both original int64 casts, all source arithmetic, masks and runtime scalars; caller allocation offsets remain outside the pasted bodies. The corrected division-site mask reads the actual Int source register, with the existing finite/nonzero domain preserved. The guarded candidate retains finite-count, finite-denominator, >= 1.0 checks and the complete division fallback; all active access, whole-memory/frame and original layout proofs pass. The numerical relation remains DIV-MUL-RCP; no new floating rule was assumed. Their 35 retained files plus the 23 affected TritonSoftmax files and pointer-argument regression require a fresh 59-file independent replay. 329 Python tests and source-inventory drift checks pass. Accepted receipts currently cover 53 targets; 25 staged targets await independent replay and 118 targets are not migrated.",
+    "working_tree": "All 78 locally staged targets (59 task targets and all 19 examples) pass exact source-body comparison, actual public Real/FP proof checks, and the joint 1818-retained-module build. SoftmaxTriton1 and SoftmaxTriton2 retain both original int64 casts, all source arithmetic, masks and runtime scalars; caller allocation offsets remain outside the pasted bodies. The corrected division-site mask reads the actual Int source register, with the existing finite/nonzero domain preserved. The guarded candidate retains finite-count, finite-denominator, >= 1.0 checks and the complete division fallback; all active access, whole-memory/frame and original layout proofs pass. The numerical relation remains DIV-MUL-RCP; no new floating rule was assumed. Their 35 retained files plus the 23 affected TritonSoftmax files and pointer-argument regression require a fresh 59-file independent replay. 329 Python tests and source-inventory drift checks pass. Accepted receipts currently cover 55 targets; 23 staged targets await independent replay and 118 targets are not migrated.",
     "official_replay_sources": 797,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -45,7 +45,8 @@
       "manifest": "validation/body-migration-incremental.json",
       "cases": 3,
       "retained_modules": 59,
-      "replay_sources": 59
+      "replay_sources": 59,
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41267684915"
     },
     "previous_incremental_replays": [
       {
@@ -982,21 +983,23 @@
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_fused_llama",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "receipt": "validation/body_receipts/rmsnorm_fused_llama.json"
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_implementation",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "receipt": "validation/body_receipts/rmsnorm_implementation.json"
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_triton",
