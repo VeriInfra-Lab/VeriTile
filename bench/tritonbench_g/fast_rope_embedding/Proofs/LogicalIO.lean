@@ -8,9 +8,9 @@ noncomputable section
 
 /-- The complete previous invocation judgment, with all inputs and outputs. -/
 theorem judgment_iff (r : Request) (qStride cosineStride sineStride : Nat)
-    (backward : Bool) (row group : Nat) (f : Inputs r → Fin r.heads → Fin (2*r.half) → ℝ) :
-    (view r qStride cosineStride sineStride backward row group ⊨ f) ↔
-      (Interface.programIO ideal r qStride cosineStride sineStride backward row group).Implements
+    (backward : Bool) (row group : Nat) (f : Inputs r → Fin r.heads → Fin (2*r.half) → ℝ) (fast : Bool := Bool.true) :
+    (view r qStride cosineStride sineStride backward row group fast ⊨ f) ↔
+      (Interface.programIO ideal r qStride cosineStride sineStride backward row group fast).Implements
         (fun raw => Interface.result (f ⟨Interface.query raw,Interface.cosine raw,Interface.sine raw⟩)) := Iff.rfl
 end
 end VeriTile.Bench.Repairs.FastRopeEmbedding.LogicalIO

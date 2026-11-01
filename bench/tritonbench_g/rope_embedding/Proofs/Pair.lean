@@ -9,9 +9,7 @@ open scoped VeriTile.Spec
 binding. The sole change is Nat multiplication; no FP rewrite is introduced. -/
 theorem equivalent (p : Source.Parameters) (back : Bool) :
     original p back ≡[assumptions] indexCommuted p back := by
-  exact VeriTile.Bench.TritonBenchG.FastRopeEmbedding.FPProof.equivalent
-    .fp32 .fp32 .fp32 p.input p.cosine p.sine p.rowStride p.cosineStride p.sineStride
-    p.length p.dimension p.heads p.width back
+  cases back <;> unfold original indexCommuted assumptions <;> equiv_decompose <;> fp_prove
 
 #axiomsClean equivalent
 end VeriTile.Bench.Repairs.RopeEmbedding.PairProof

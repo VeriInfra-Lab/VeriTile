@@ -19,9 +19,10 @@ theorem body_safe {A : Type} [Inhabited A] (M : Algebra A) (p : Source.Parameter
       Source.offset p row head side i < bounds p.input) :
     Safety.traceSafeList M bounds (Source.body p backward)
       (s.setReg "k" .nat [] (fun _ => head)) := by
-  cases backward
+  rcases p with ⟨input,cosine,sine,rowStride,cosineStride,sineStride,length,dimension,heads,width,fast⟩
+  cases fast <;> cases backward
   all_goals simp (maxSteps := 1600000) [Source.body, Source.source,
-    RopeEmbedding.Kernels.rope, ComputeKernel.surfaceBody,
+    RopeEmbedding.Kernels.rope,Kernels.rope,Kernels.ropeFor, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
@@ -63,9 +64,10 @@ theorem prelude_safe {A : Type} [Inhabited A] (M : Algebra A) (p : Source.Parame
     (cosine : ∀ i : Source.Lane p, Source.active p i →
       s.pids 0 % p.length * p.cosineStride + i.1.val < bounds p.cosine) :
     Safety.traceSafeList M bounds (Source.prelude p backward) s := by
-  cases backward
+  rcases p with ⟨input,cosine,sine,rowStride,cosineStride,sineStride,length,dimension,heads,width,fast⟩
+  cases fast <;> cases backward
   all_goals simp (maxSteps := 1600000) [Source.prelude, Source.source,
-    RopeEmbedding.Kernels.rope, ComputeKernel.surfaceBody,
+    RopeEmbedding.Kernels.rope,Kernels.rope,Kernels.ropeFor, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,

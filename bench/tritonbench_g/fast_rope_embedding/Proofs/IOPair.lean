@@ -19,7 +19,7 @@ theorem equivalent (cfg : FP.Config) (r : Request) (QR CR SR : Nat) (backward : 
   intro values _ bounds hb s hin
   obtain ⟨safe,final,ran,_,frame⟩ := Interface.implements
     (Numerics.operations (Numerics.softwarePrimitives cfg)) r QR CR SR backward row group
-    launch strideEq cosineEq sineEq values trivial bounds hb s hin
+    launch strideEq cosineEq sineEq Bool.true values trivial bounds hb s hin
   have same := ProgramPair.io_execution (Numerics.operations (Numerics.softwarePrimitives cfg))
     r QR CR SR backward row group values s
   refine ⟨safe,(same.2 bounds).mp safe,final,final,ran,?_,?_,frame,frame⟩
