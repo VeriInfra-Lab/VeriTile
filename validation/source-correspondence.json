@@ -14,19 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 101,
+      "selected_body_copy_checked": 102,
       "uncovered_jit_functions": 81
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
-    "selected_jit_functions": 351,
+    "selected_jit_functions": 353,
     "uncovered_selected_jit_functions": 173,
-    "inventoried_jit_functions": 514,
-    "uncovered_inventoried_jit_functions": 228,
+    "inventoried_jit_functions": 516,
+    "uncovered_inventoried_jit_functions": 226,
     "checked_pair_modes": {
-      "pasted_body": 286
+      "pasted_body": 290
     },
     "collection_status": {
       "bug_detection": {
@@ -39,16 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 101,
+        "selected_body_copy_checked": 102,
         "uncovered_jit_functions": 81
       }
     },
     "primary_files_with_int64_screen_warning": 18,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 54,
-        "antiquotes": 396,
+        "in_body_type_directives": 53,
+        "antiquotes": 395,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -16066,18 +16064,69 @@
     {
       "name": "cross_entropy_ops",
       "kind": "task",
-      "python": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops.py",
+      "python": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py",
       "lean": "bench/tritonbench_g/cross_entropy_ops/Kernels.lean",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 20,
-        "antiquotes": 72,
-        "dsl_assignment": 33,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 71,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
+      "python_jits": [
+        {
+          "function": "cross_entropy_fwd_kernel",
+          "line": 16,
+          "statements": 14,
+          "explicit_int64_casts": [
+            {
+              "line": 35,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 36,
+              "expression": "tl.program_id(1).to(tl.int64)"
+            },
+            {
+              "line": 38,
+              "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+            },
+            {
+              "line": 37,
+              "expression": "logits_row_stride.to(tl.int64)"
+            }
+          ]
+        },
+        {
+          "function": "cross_entropy_bwd_kernel",
+          "line": 86,
+          "statements": 16,
+          "explicit_int64_casts": [
+            {
+              "line": 105,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 106,
+              "expression": "tl.program_id(1).to(tl.int64)"
+            },
+            {
+              "line": 109,
+              "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+            },
+            {
+              "line": 107,
+              "expression": "logits_row_stride.to(tl.int64)"
+            },
+            {
+              "line": 108,
+              "expression": "dlogits_row_stride.to(tl.int64)"
+            }
+          ]
+        }
+      ],
       "python_sources": [
         {
           "path": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops.py",
@@ -16137,27 +16186,176 @@
               ]
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py",
-          "function": "cross_entropy_fwd_kernel"
         },
         {
-          "python": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py",
-          "function": "cross_entropy_bwd_kernel"
+          "path": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_index_commuted.py",
+          "jits": [
+            {
+              "function": "cross_entropy_fwd_kernel_index_commuted",
+              "line": 8,
+              "statements": 14,
+              "explicit_int64_casts": [
+                {
+                  "line": 27,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 28,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 30,
+                  "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+                },
+                {
+                  "line": 29,
+                  "expression": "logits_row_stride.to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "cross_entropy_bwd_kernel_index_commuted",
+              "line": 73,
+              "statements": 16,
+              "explicit_int64_casts": [
+                {
+                  "line": 92,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 93,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 96,
+                  "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+                },
+                {
+                  "line": 94,
+                  "expression": "logits_row_stride.to(tl.int64)"
+                },
+                {
+                  "line": 95,
+                  "expression": "dlogits_row_stride.to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
+      "checked_pairs": [
+        {
+          "python_function": "cross_entropy_fwd_kernel",
+          "lean_definition": "forwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 14,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "n_rows": "i64",
+            "logits_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING",
+            "SPLIT"
+          ],
+          "python": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py",
+          "lean": "bench/tritonbench_g/cross_entropy_ops/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_fwd_kernel_index_commuted",
+          "lean_definition": "forwardIndexCommutedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 14,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "n_rows": "i64",
+            "logits_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING",
+            "SPLIT"
+          ],
+          "python": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_index_commuted.py",
+          "lean": "bench/tritonbench_g/cross_entropy_ops/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_bwd_kernel",
+          "lean_definition": "backwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "logits_row_stride": "i64",
+            "dlogits_row_stride": "i64",
+            "dloss_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING"
+          ],
+          "python": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py",
+          "lean": "bench/tritonbench_g/cross_entropy_ops/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_bwd_kernel_index_commuted",
+          "lean_definition": "backwardIndexCommutedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "integer",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "logits_row_stride": "i64",
+            "dlogits_row_stride": "i64",
+            "dloss_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING"
+          ],
+          "python": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_index_commuted.py",
+          "lean": "bench/tritonbench_g/cross_entropy_ops/Kernels.lean"
+        }
+      ],
+      "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_selected_jit_resolved",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/cross_entropy_ops/Kernels.lean": "f1acd7f8cca72c6296ceee6f0d39aeadf81c67acda44d2b3ff3e6c4a494d099d",
+        "bench/tritonbench_g/cross_entropy_ops/Kernels.lean": "55b3bd570c31ab2d82b58a5e438b7969b2244e9dda244643ae89ba6622cd0c1a",
         "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops.py": "5f106a09beaeb4807b9a8f6409e0f015478be518e8a31d9ca889a32f9cd7e768",
-        "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py": "b690a712bd968686ee78818e81dbbb21a8d15331e132eb1c994d1ed3eb2b4ba5"
+        "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py": "b690a712bd968686ee78818e81dbbb21a8d15331e132eb1c994d1ed3eb2b4ba5",
+        "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_index_commuted.py": "cf79676498c433ad8bd27fa44170d621b2efaf5e17b7e77f76814a1a480108fa",
+        "bench/tritonbench_g/cross_entropy_ops/jit-correspondence.json": "18b5c9773c3fd6275dda6fb6f20cf078cad97deb2f034dd10318c696cf78eba6"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/cross_entropy_ops"

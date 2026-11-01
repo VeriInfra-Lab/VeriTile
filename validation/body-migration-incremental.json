@@ -3,52 +3,49 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/cross_entropy2",
-      "python": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
+      "path": "bench/tritonbench_g/cross_entropy_ops",
+      "python": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/cross_entropy2/Correct.lean": [
-          "VeriTile.Bench.Repairs.CrossEntropy2.Correct.forward",
-          "VeriTile.Bench.Repairs.CrossEntropy2.Correct.backward"
+        "bench/tritonbench_g/cross_entropy_ops/Correct.lean": [
+          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.forward_unsplit",
+          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.forward_split",
+          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.backward"
         ],
-        "bench/tritonbench_g/cross_entropy2/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.CrossEntropy2.FPEquiv.forward_index_commuted_equiv",
-          "VeriTile.Bench.Repairs.CrossEntropy2.FPEquiv.backward_index_commuted_equiv"
+        "bench/tritonbench_g/cross_entropy_ops/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.CrossEntropyOps.FPEquiv.forward_index_commuted_equiv",
+          "VeriTile.Bench.Repairs.CrossEntropyOps.FPEquiv.backward_index_commuted_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "VeriTile/Triton/DSL/PythonConditionGrouping.lean",
-    "bench/tritonbench_g/cross_entropy2/Contract.lean",
-    "bench/tritonbench_g/cross_entropy2/Correct.lean",
-    "bench/tritonbench_g/cross_entropy2/FPEquiv.lean",
-    "bench/tritonbench_g/cross_entropy2/IO.lean",
-    "bench/tritonbench_g/cross_entropy2/Kernels.lean",
-    "bench/tritonbench_g/cross_entropy2/PairIO.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/BackwardReal.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/IOBinding.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/KernelAccess.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/KernelBackward.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/KernelContract.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/KernelMath.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/KernelNative.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/KernelReal.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/KernelSafety.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/KernelTailSafety.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/LogicalInputs.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/LogicalReader.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/Math.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/OrderedReference.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/PairEquivalence.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/PublicBackward.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/PublicIO.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/RawCorrect.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/Real.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/RealIO.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/SourcePair.lean",
-    "bench/tritonbench_g/cross_entropy2/Proofs/SourceResults.lean",
-    "tests/lean/PythonConditionGrouping.lean",
-    "tests/lean/PythonConditionGroupingReference.lean"
+    "bench/tritonbench_g/cross_entropy_ops/Contract.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Correct.lean",
+    "bench/tritonbench_g/cross_entropy_ops/FPEquiv.lean",
+    "bench/tritonbench_g/cross_entropy_ops/IO.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Kernels.lean",
+    "bench/tritonbench_g/cross_entropy_ops/PairIO.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/Execution.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/Grid.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/Host.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/Interface.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/KernelBackward.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/KernelBinding.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/KernelContract.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/KernelInterface.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/KernelNative.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/KernelReal.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/LogicalExecution.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/Math.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/OrderedFormula.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/PairEquivalence.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/ReaderTargets.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/Real.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/RealIO.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/Source.lean",
+    "bench/tritonbench_g/cross_entropy_ops/Proofs/SourcePair.lean"
   ]
 }
