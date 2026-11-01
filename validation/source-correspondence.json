@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 68,
-      "uncovered_jit_functions": 113
+      "selected_body_copy_checked": 69,
+      "uncovered_jit_functions": 112
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 224,
-    "inventoried_jit_functions": 494,
-    "uncovered_inventoried_jit_functions": 289,
+    "uncovered_selected_jit_functions": 223,
+    "inventoried_jit_functions": 495,
+    "uncovered_inventoried_jit_functions": 288,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 199
+      "pasted_body": 201
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 68,
-        "uncovered_jit_functions": 113
+        "selected_body_copy_checked": 69,
+        "uncovered_jit_functions": 112
       }
     },
     "primary_files_with_int64_screen_warning": 29,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 82,
-        "antiquotes": 426,
+        "in_body_type_directives": 81,
+        "antiquotes": 425,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -9757,9 +9757,9 @@
       "lean": "bench/tritonbench_g/adam_update_triton/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 8,
-        "antiquotes": 10,
-        "dsl_assignment": 9,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 20,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -9783,27 +9783,71 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+        },
         {
-          "python": "bench/tritonbench_g/adam_update_triton/adam_update_triton.py",
-          "function": "update_fn_kernel"
+          "path": "bench/tritonbench_g/adam_update_triton/candidate_kernels.py",
+          "jits": [
+            {
+              "function": "commuted_update",
+              "line": 9,
+              "statements": 19,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "update_fn_kernel",
+          "lean_definition": "sourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 19,
+          "runtime_parameters": {
+            "lr": "fp32",
+            "wd": "fp32",
+            "beta1": "fp32",
+            "beta2": "fp32",
+            "n_elements": "integer",
+            "chunk_elements": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/adam_update_triton/adam_update_triton.py",
-          "function": "update_fn_kernel"
+          "lean": "bench/tritonbench_g/adam_update_triton/Kernels.lean"
+        },
+        {
+          "python_function": "commuted_update",
+          "lean_definition": "commutedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 19,
+          "runtime_parameters": {
+            "lr": "fp32",
+            "wd": "fp32",
+            "beta1": "fp32",
+            "beta2": "fp32",
+            "n_elements": "integer",
+            "chunk_elements": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/adam_update_triton/candidate_kernels.py",
+          "lean": "bench/tritonbench_g/adam_update_triton/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/adam_update_triton/Kernels.lean": "f13ec4c08d9641b77fc501a8d9e40da2be73226716be90166ae2a3415a85e87a",
-        "bench/tritonbench_g/adam_update_triton/adam_update_triton.py": "0a9e638a151a19cacce590512938f65c64a753d67d22a29cd88e601ccca4404f"
+        "bench/tritonbench_g/adam_update_triton/Kernels.lean": "25e3d7f47aab69506b5dd2f6176a35fb3926a3d339907a264b7ac825e09beac8",
+        "bench/tritonbench_g/adam_update_triton/adam_update_triton.py": "0a9e638a151a19cacce590512938f65c64a753d67d22a29cd88e601ccca4404f",
+        "bench/tritonbench_g/adam_update_triton/candidate_kernels.py": "8c38ad2db83b60c42c3ff69c1eda1b8c7a9a03c539355ea3b6ed8117bce3ef0a",
+        "bench/tritonbench_g/adam_update_triton/jit-correspondence.json": "817d9a625e4ebbf489aefadcd234066d23897e37bbfa7f5b3cb0ec9359b22ede"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/adam_update_triton"
@@ -37332,7 +37376,7 @@
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
       "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/AdamUpdateGridLaunch/Kernels.lean": "6f6cf50bc11177be9e830c8093c4f547df6639d4c1918b52c9b7bce4dcb37185",
+        "bench/examples/AdamUpdateGridLaunch/Kernels.lean": "c1e8db98e5d8f520da1f8ef6b9c6419d04172a8b19f6e101f08f9c1489b92731",
         "bench/examples/AdamUpdateGridLaunch/candidate_kernels.py": "513d7327479e1746ba9b5e6ab86aa581f0cbbbe242454490df7fbfe71d2a28fc",
         "bench/examples/AdamUpdateGridLaunch/jit-correspondence.json": "c2e453a26986581f144f210f79d2236828fb0cf0ea01bd52168849d837d58007",
         "bench/tritonbench_g/adam_update_triton/adam_update_triton.py": "0a9e638a151a19cacce590512938f65c64a753d67d22a29cd88e601ccca4404f"
