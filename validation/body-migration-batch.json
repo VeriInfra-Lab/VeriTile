@@ -1454,6 +1454,19 @@
           "VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.FPEquiv.affine_address_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/kv_cache_copy",
+      "python": "bench/tritonbench_g/kv_cache_copy/kv_cache_copy.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/kv_cache_copy/Correct.lean": [
+          "VeriTile.Bench.Repairs.KvCacheCopy.Correct.kv_cache_copy_real"
+        ],
+        "bench/tritonbench_g/kv_cache_copy/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.KvCacheCopy.FPEquiv.source_equivalence"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1468,6 +1481,7 @@
     "VeriTile/Triton/DSL/RawBodyNestedLoads.lean",
     "VeriTile/Triton/DSL/RawSourceText.lean",
     "VeriTile/Triton/DSL/SourceBindings.lean",
+    "VeriTile/Triton/DSL/StaticRanges.lean",
     "VeriTile/Triton/DSL/Syntax.lean",
     "VeriTile/Triton/Float/ClosedStructuralAudit.lean",
     "VeriTile/Triton/Float/CountedLoop.lean",
@@ -2037,6 +2051,19 @@
     "bench/tritonbench_g/kldiv_compute/Sources/Mathematical_Kernels.lean",
     "bench/tritonbench_g/kldiv_compute/Sources/Selected.lean",
     "bench/tritonbench_g/kldiv_triton/Kernels.lean",
+    "bench/tritonbench_g/kv_cache_copy/Contract.lean",
+    "bench/tritonbench_g/kv_cache_copy/Correct.lean",
+    "bench/tritonbench_g/kv_cache_copy/FPEquiv.lean",
+    "bench/tritonbench_g/kv_cache_copy/IO.lean",
+    "bench/tritonbench_g/kv_cache_copy/Kernels.lean",
+    "bench/tritonbench_g/kv_cache_copy/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/kv_cache_copy/Proofs/KernelFP.lean",
+    "bench/tritonbench_g/kv_cache_copy/Proofs/KernelNativeResults.lean",
+    "bench/tritonbench_g/kv_cache_copy/Proofs/KernelSafety.lean",
+    "bench/tritonbench_g/kv_cache_copy/Proofs/KernelValues.lean",
+    "bench/tritonbench_g/kv_cache_copy/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/kv_cache_copy/Proofs/Model.lean",
+    "bench/tritonbench_g/kv_cache_copy/Sources/Parameters.lean",
     "bench/tritonbench_g/l2_norm_bwd/Kernels.lean",
     "bench/tritonbench_g/l2_norm_bwd/Proofs/Scalar.lean",
     "bench/tritonbench_g/l2_norm_bwd/Proofs/Statement.lean",
@@ -2805,6 +2832,8 @@
     "tests/lean/RawStringDispatch.lean",
     "tests/lean/SourceDType.lean",
     "tests/lean/SourceModuleBindings.lean",
+    "tests/lean/StaticRanges.lean",
+    "tests/lean/StaticRangesReference.lean",
     "tests/lean/StaticSignedStrides.lean",
     "tests/lean/TokenAttnReduceVSignedMetadata.lean",
     "tests/lean/UnsignedCallArguments.lean"

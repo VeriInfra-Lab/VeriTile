@@ -1,13 +1,26 @@
 # kv_cache_copy
 
-Current repaired Python implementation: [kv_cache_copy.py](kv_cache_copy.py).
+[kv_cache_copy.py](kv_cache_copy.py) contains the selected repaired copy and its
+existing K-source-offset candidate. Both complete JIT function bodies appear in
+[Kernels.lean](Kernels.lean), including the original nonzero-start `tl.arange`,
+`tl.static_range`, signed metadata reads and both K/V loads and stores. Invocation
+types and scalar bindings stay outside the quotations.
+[jit-correspondence.json](jit-correspondence.json) checks both bodies.
 
-[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+The optional [static range frontend](../../../VeriTile/Triton/DSL/StaticRanges.lean)
+accepts natural constexpr trip counts. It checks immutable bounds and translates
+aligned arange partitions with their exact width; executable source text remains
+unchanged. An independently elaborated complete typed-program equality checks
+both trip count and lane/store addresses in [the regression](../../../tests/lean/StaticRanges.lean).
 
-LogicalIO.io ⊨{length/block OutputUnique} fun a => ⟨a.key,a.value⟩
+[Correct.lean](Correct.lean) proves both complete logical K/V tiles are copied
+through the metadata-dependent windows, with the existing output-injectivity
+condition. [FPEquiv.lean](FPEquiv.lean) proves the two complete static-loop kernels
+have identical full typed memory for unrestricted payloads. Only the two scalar
+K-source offsets are commuted; FP32 load behavior, every split, alias semantics,
+source access bounds and exterior memory frames remain in the proof.
 
-The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
-
-[Proof helpers](Proofs/)
-
-[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+[IO.lean](IO.lean), [Contract.lean](Contract.lean) and [proof helpers](Proofs/)
+record the existing interfaces, conditions and actual source execution.
+[Validation status](../../../validation/body-migration-progress.json) distinguishes
+local checks from independent replay; compilation alone is not completion.

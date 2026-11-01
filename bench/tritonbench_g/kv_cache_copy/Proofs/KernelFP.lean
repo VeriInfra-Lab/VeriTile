@@ -48,6 +48,7 @@ def copied {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : Sta
 def preludeState {α : Type} [Inhabited α] (p : Parameters) (s : State α) : State α :=
   let z := s.setReg "cur_seq_idx" .nat [] (fun _ => s.pids 0)
   let z := z.setReg "cur_kv_head_idx" .nat [] (fun _ => s.pids 1)
+  let z := z.setReg "__veritile_load_0" .int [] (fun _ => (s.mem "lengths" (s.pids 0)).read .int)
   let z := z.setReg "past_kv_seq_len" .int [] (fun _ => position s)
   let z := z.setReg "last_bt_block_idx" .int [] (fun _ => (position s).tdiv p.blockSize)
   let z := z.setReg "block_table_ptr" .ptr [] (fun _ => ("table",s.pids 0*p.strideBts))
@@ -81,9 +82,9 @@ def finalStep {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : 
   let z := z.setReg "offsets_vcache" .int [p.width] (targetInt p s Bool.false q)
   scatterOne M p s Bool.false q z
 
-def prelude (p : Parameters) := (originalKernel p).surfaceBody.take 9
+def prelude (p : Parameters) := (originalKernel p).surfaceBody.take 10
 def body (v : Bool) (p : Parameters) :=
-  match (kernel v p).surfaceBody[9]? with
+  match (kernel v p).surfaceBody[10]? with
   | some (.forLoop _ _ body) => body
   | _ => []
 
@@ -93,7 +94,7 @@ theorem decomposition (v : Bool) (p : Parameters) :
 
 theorem prelude_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     run M (prelude p) s=some (preludeState p s) := by
-  simp [prelude,originalKernel,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [prelude,originalKernel,kernel,quotedOriginal,quotedCommuted,source,commutedSource,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,numeric,numericLt,bop,Region.cast,Option.bind,
     FP.Structural.eval_truncDiv,FP.Structural.eval_truncMod,preludeState,position,selectedBlock,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -107,7 +108,7 @@ theorem body_run {α : Type} [Inhabited α] (M : Algebra α) (v : Bool) (p : Par
     run M (body v p) (t.setReg "split_x" .nat [] (fun _ => q))=some (finalStep M p s q t) := by
   rcases hc with ⟨hs,hh,hb,hslot,hl⟩
   rcases hf with ⟨hk,hv⟩
-  cases v <;> simp [body,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,run,step,evalExpr,
+  cases v <;> simp [body,kernel,quotedOriginal,quotedCommuted,source,commutedSource,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,store,numeric,bop,ComputeDType.eraseDType,Region.cast,Option.bind,
     finalStep,preparedState,scatterOne,sourceOffset,targetInt,outputRegion,inputRegion,
     hs,hh,hb,hslot,hl,hk,hv,Broadcast.leftIndex,Broadcast.rightIndex]
