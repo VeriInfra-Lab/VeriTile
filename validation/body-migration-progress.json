@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 82,
+  "completed_count": 83,
   "staged_count": 90,
-  "pending_count": 114,
+  "pending_count": 113,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 2138,
-    "official_comparator": "Current-source receipts accept 82 of 196 targets. Each accepted case matches the exact current source/import closure, reviewed source pairs, fully-qualified public Real/FP theorem names and every required independent replay. Accepted evidence covers the unchanged cases from all six original shards, F8ConversionUtils, the three RMS incrementals, all three destination copies, FastCrossEntropy, MatrixReduction and its three target clients, all three softmax cases, both RoPE cases and MulExponentCompensator. Shared replay dependency closures match. The accepted triton_matmul regression is not counted as a target. Eight locally staged targets still need current independent replay; they are not complete. Individual proof jobs have succeeded for accepted incrementals; queued aggregate jobs are not reported as whole-workflow successes. Compilation alone never counts as completion. The corrected AdamUpdateTriton task, AdamUpdateGridLaunch example and the shared Boolean-arithmetic replay dependencies are accepted by their current-source receipt; all 19 examples now have current independent replay receipts.",
+    "official_comparator": "Current-source receipts accept 83 of 196 targets. Each accepted case matches the exact current source/import closure, reviewed source pairs, fully-qualified public Real/FP theorem names and every required independent replay. Accepted evidence covers the unchanged cases from all six original shards, F8ConversionUtils, the three RMS incrementals, all three destination copies, FastCrossEntropy, MatrixReduction and its three target clients, all three softmax cases, both RoPE cases and MulExponentCompensator. Shared replay dependency closures match. The accepted triton_matmul regression is not counted as a target. Seven locally staged targets still need current independent replay; they are not complete. Individual proof jobs have succeeded for accepted incrementals; queued aggregate jobs are not reported as whole-workflow successes. Compilation alone never counts as completion. The corrected AdamUpdateTriton task, AdamUpdateGridLaunch example and the shared Boolean-arithmetic replay dependencies are accepted by their current-source receipt; all 19 examples now have current independent replay receipts. ReversedCumsumScalar is accepted by a current-source receipt covering all 37 retained proof files and unchanged shared dependencies.",
     "python_tests": 329,
     "offline_example_compilations": {
       "cases": 19,
@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "validated_source_commit": "13eb094bdf4084c5671a483abdc11ae4b2306bd5",
-    "working_tree": "All 90 locally staged targets (71 task targets and all 19 examples) pass complete body correspondence, actual public Real/FP proofs and the joint 2138-retained-module build. TokenSoftmaxLlama and TokenSoftmaxBloom share the same complete original/candidate Python bodies and now explicitly reuse the canonical quotations. All program-id/arange and metadata int64 casts, typed FP storage profiles, pointer arithmetic, maximum, exp, sum, division and store are preserved. The actual Int32 metadata ports and exact Int32-to-Int64 widening replace the old Nat cells. Address arithmetic stays signed through the final pointer-index projection; independent integer-address, complete execution, all six storage profiles, ordered native instruction graph, finite Real segment sums, exact input/output bindings, full schedules, source safety and exterior frames are re-proved. Public readers retain the entire signed metadata, and nonnegative metadata conditions formerly implicit in the Nat input type are now explicit in the input domain; original nonnegative inputs and all numerical domains remain. The candidate changes only the integer length-address multiplication, with complete program/context and grid equivalence under the original empty numerical context. All 32 retained task modules, four actual public Real/FP theorem targets, 329 Python tests and source inventory checks pass. Current source/import receipts and shared replay dependency closures still certify all 82 completed targets, including all 19 examples. Eight staged targets await independent replay; 106 target tasks are not migrated.",
+    "working_tree": "All 90 locally staged targets (71 task targets and all 19 examples) pass complete body correspondence, actual public Real/FP proofs and the joint 2138-retained-module build. TokenSoftmaxLlama and TokenSoftmaxBloom share the same complete original/candidate Python bodies and now explicitly reuse the canonical quotations. All program-id/arange and metadata int64 casts, typed FP storage profiles, pointer arithmetic, maximum, exp, sum, division and store are preserved. The actual Int32 metadata ports and exact Int32-to-Int64 widening replace the old Nat cells. Address arithmetic stays signed through the final pointer-index projection; independent integer-address, complete execution, all six storage profiles, ordered native instruction graph, finite Real segment sums, exact input/output bindings, full schedules, source safety and exterior frames are re-proved. Public readers retain the entire signed metadata, and nonnegative metadata conditions formerly implicit in the Nat input type are now explicit in the input domain; original nonnegative inputs and all numerical domains remain. The candidate changes only the integer length-address multiplication, with complete program/context and grid equivalence under the original empty numerical context. All 32 retained task modules, four actual public Real/FP theorem targets, 329 Python tests and source inventory checks pass. Current source/import receipts and shared replay dependency closures still certify all 83 completed targets, including all 19 examples. Seven staged targets await independent replay; 106 target tasks are not migrated.",
     "official_replay_sources": 1118,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -1064,12 +1064,13 @@
     },
     {
       "path": "bench/tritonbench_g/reversed_cumsum_scalar",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "13eb094bdf4084c5671a483abdc11ae4b2306bd5"
+      "validated_source_commit": "13eb094bdf4084c5671a483abdc11ae4b2306bd5",
+      "receipt": "validation/body_receipts/reversed_cumsum_scalar.json"
     },
     {
       "path": "bench/tritonbench_g/rms_matmul_rbe",
