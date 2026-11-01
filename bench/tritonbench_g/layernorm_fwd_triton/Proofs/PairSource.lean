@@ -2,6 +2,7 @@ import bench.tritonbench_g.layernorm_fwd_triton.Proofs.SourceSafety
 
 namespace VeriTile.Bench.Repairs.LayernormFwdTriton.PairSource
 open VeriTile.Triton FP.Structural Source
+open VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits (fold_writes_mem fold_writes_regs)
 noncomputable section
 set_option maxHeartbeats 5000000
 set_option maxRecDepth 24000
@@ -26,27 +27,42 @@ theorem setReg_comm {α : Type} (s : State α) (a b : RegName)
     · simp [State.setReg, ha, hb]
 
 def outputBody (p : Parameters) : List ComputeStmt :=
-  match ((candidateKernel p).surfaceBody : List ComputeStmt)[12]? with
-  | some (ComputeStmt.forRange _ _ _ _ body) => body
+  match ((candidateKernel p).surfaceBody : List ComputeStmt)[24]? with
+  | some (ComputeStmt.forRangeInt _ _ _ _ body) => body
   | _ => []
 
-/-- The weight vector is loaded after x_hat, shortening its lifetime. Every
-operand, cast, arithmetic operation, mask and store remains the same. -/
-theorem output_body_eq {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
+/-- The scheduled load has its own successful final state. Both versions
+follow the same ordered arithmetic and update the same complete memory;
+generated load temporaries are private and need not contain the same values. -/
+theorem candidate_output_body_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (s t : State α) (off : Nat) (mem : RegionName → Nat → Cell α)
-    (ready : OutputReady M p s t mem) :
-    run M (loopBody p 12) (t.setReg "off" .nat [] (fun _ => off)) =
-      run M (outputBody p) (t.setReg "off" .nat [] (fun _ => off)) := by
-  simp [outputBody, candidateKernel, runtimeSourceCandidate, loopBody, kernel,
-    runtimeSource, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
-    evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
+    (hx : p.x ≠ p.y) (hw : p.weight ≠ p.y) (h : OutputReady M p s t mem) :
+    ∃ u, run M (outputBody p) (t.setReg "off" .int [] (fun _ => (off : Int))) = some u ∧
+      OutputReady M p s u (outputStep M p s off mem) := by
+  simp [outputBody, candidateKernel, runtimeSourceCandidate, ComputeKernel.surfaceBody, run, step, evalExpr,
+    evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, numericLt, natLt, Region.cast,
-    ready.x, ready.y, ready.w, ready.mean, ready.rstd]
-  rw [setReg_comm _ "w" "x" _ _ _ _ _ _ (by decide)]
-  rw [setReg_comm _ "w" "x_hat" _ _ _ _ _ _ (by decide)]
+    h.integers.1, h.integers.2.1, h.integers.2.2, h.readX, h.readW, h.pids, h.undef, h.x, h.y, h.w, h.mean, h.rstd]
+  constructor
+  · simp only [fold_writes_mem, State.setReg_mem, h.memory]
+    rfl
+  · funext o
+    rw [State.masked_scatter_frame _ _ _ _ _ _ _ (Or.inl hx)]
+    simp [h.readX]
+  · funext o
+    rw [State.masked_scatter_frame _ _ _ _ _ _ _ (Or.inl hw)]
+    simp [h.readW]
+  · simp [h.pids]
+  · simp only [fold_writes_undef, State.setReg_undef, h.undef]
+  · simp [fold_writes_regs, h.x]
+  · simp [fold_writes_regs, h.y]
+  · simp [fold_writes_regs, h.w]
+  · simp [fold_writes_regs, h.mean]
+  · simp [fold_writes_regs, h.rstd]
+  · simp [integerSetup, fold_writes_regs, h.integers.1, h.integers.2.1, h.integers.2.2]
 
 #axiomsClean setReg_comm
-#axiomsClean output_body_eq
+#axiomsClean candidate_output_body_run
 end
 end VeriTile.Bench.Repairs.LayernormFwdTriton.PairSource

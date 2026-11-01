@@ -36,17 +36,17 @@ all regional memory outside that row. -/
 theorem row_complete (M : Algebra α) (injective : Function.Injective (fun q : Coordinate shape => yOffset st q.1 q.2.val)) (eps : α)
     (s : State α) (row : Row shape) :
     ∃ t, FP.Structural.exec M (Source.kernel (Source.parameters st shape.columns))
-        (Source.atRow (s.setReg "eps_arg" .real [] (fun _ => eps)) row)=some t ∧ Effect M st eps [row] s t := by
+        (Source.atRow (s.setReg "eps" .real [] (fun _ => eps)) row)=some t ∧ Effect M st eps [row] s t := by
   let p := Source.parameters st shape.columns
-  obtain ⟨t,run,mem⟩ := Source.complete_run M p (Source.atRow (s.setReg "eps_arg" .real [] (fun _ => eps)) row) eps (by simp [Source.atRow]) (by simp [p,Source.parameters]) (by simp [p,Source.parameters])
+  obtain ⟨t,run,mem⟩ := Source.complete_run M p (Source.atRow (s.setReg "eps" .real [] (fun _ => eps)) row) eps (by simp [Source.atRow]) (by simp [p,Source.parameters]) (by simp [p,Source.parameters])
   refine ⟨t,run,?_,?_⟩
   · intro q hq col
     have heq : q=row := by simpa using hq
     subst q
     rw [mem]
-    have hr := Source.reference_readback M p (Source.atRow (s.setReg "eps_arg" .real [] (fun _ => eps)) row) (by simp [p,Source.parameters])
+    have hr := Source.reference_readback M p (Source.atRow (s.setReg "eps" .real [] (fun _ => eps)) row) (by simp [p,Source.parameters])
       col.val col.isLt (injective_columns injective row)
-    have hg := Graph.source_output M p (Source.atRow (s.setReg "eps_arg" .real [] (fun _ => eps)) row) rfl
+    have hg := Graph.source_output M p (Source.atRow (s.setReg "eps" .real [] (fun _ => eps)) row) rfl
       (xValues s st row) (wValues s st row) (by
         intro j _; simp [p,Source.parameters,Source.xBase,Source.atRow,xValues,xOffset,offset]) (by
         intro j _; simp [p,Source.parameters,Source.wBase,Source.atRow,wValues,wOffset,offset]) col.val col.isLt
@@ -54,7 +54,7 @@ theorem row_complete (M : Algebra α) (injective : Function.Injective (fun q : C
     simpa [p,Source.parameters,Source.yBase,Source.atRow,Source.epsilonValue,State.setReg,yOffset,offset] using hr
   · intro r o outside
     rw [mem]
-    apply Source.reference_frame M p (Source.atRow (s.setReg "eps_arg" .real [] (fun _ => eps)) row) r o
+    apply Source.reference_frame M p (Source.atRow (s.setReg "eps" .real [] (fun _ => eps)) row) r o
     rcases outside with h|h
     · exact .inl h
     · right

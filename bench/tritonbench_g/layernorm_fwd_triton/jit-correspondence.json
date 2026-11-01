@@ -1,0 +1,188 @@
+[
+  {
+    "lean": "bench/tritonbench_g/layernorm_fwd_triton/Kernels.lean",
+    "lean_definition": "runtimeSource",
+    "python": "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py",
+    "python_function": "_layer_norm_fwd_kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [],
+      "floatingPointers": [
+        [
+          "X",
+          "dtype"
+        ],
+        [
+          "W",
+          "dtype"
+        ],
+        [
+          "Y",
+          "dtype"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_N",
+          "integer"
+        ],
+        [
+          "stride_x_hn",
+          "integer"
+        ],
+        [
+          "stride_x_hd",
+          "integer"
+        ],
+        [
+          "stride_y_N",
+          "integer"
+        ],
+        [
+          "stride_y_hn",
+          "integer"
+        ],
+        [
+          "stride_y_hd",
+          "integer"
+        ],
+        [
+          "stride_w_hn",
+          "integer"
+        ],
+        [
+          "stride_w_hd",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_N": "stride_x_N",
+      "stride_x_hn": "stride_x_hn",
+      "stride_x_hd": "stride_x_hd",
+      "stride_y_N": "stride_y_N",
+      "stride_y_hn": "stride_y_hn",
+      "stride_y_hd": "stride_y_hd",
+      "stride_w_hn": "stride_w_hn",
+      "stride_w_hd": "stride_w_hd",
+      "N": "N"
+    },
+    "expected_static_strides": {
+      "step": "BLOCK_SIZE"
+    }
+  },
+  {
+    "lean": "bench/tritonbench_g/layernorm_fwd_triton/Kernels.lean",
+    "lean_definition": "runtimeSourceCandidate",
+    "python": "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_scheduled.py",
+    "python_function": "_layer_norm_fwd_kernel_scheduled",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [],
+      "floatingPointers": [
+        [
+          "X",
+          "dtype"
+        ],
+        [
+          "W",
+          "dtype"
+        ],
+        [
+          "Y",
+          "dtype"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_N",
+          "integer"
+        ],
+        [
+          "stride_x_hn",
+          "integer"
+        ],
+        [
+          "stride_x_hd",
+          "integer"
+        ],
+        [
+          "stride_y_N",
+          "integer"
+        ],
+        [
+          "stride_y_hn",
+          "integer"
+        ],
+        [
+          "stride_y_hd",
+          "integer"
+        ],
+        [
+          "stride_w_hn",
+          "integer"
+        ],
+        [
+          "stride_w_hd",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_N": "stride_x_N",
+      "stride_x_hn": "stride_x_hn",
+      "stride_x_hd": "stride_x_hd",
+      "stride_y_N": "stride_y_N",
+      "stride_y_hn": "stride_y_hn",
+      "stride_y_hd": "stride_y_hd",
+      "stride_w_hn": "stride_w_hn",
+      "stride_w_hd": "stride_w_hd",
+      "N": "N"
+    },
+    "expected_static_strides": {
+      "step": "BLOCK_SIZE"
+    }
+  }
+]

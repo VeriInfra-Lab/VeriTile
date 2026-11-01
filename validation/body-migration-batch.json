@@ -730,6 +730,19 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/layernorm_fwd_triton",
+      "python": "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/layernorm_fwd_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.LayernormFwdTriton.Correctness.layernorm_fwd_triton_kernel_real"
+        ],
+        "bench/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LayernormFwdTriton.FPEquiv.source_equivalence"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/log_softmax",
       "python": "bench/tritonbench_g/log_softmax/log_softmax.py",
       "purpose": "migration",
@@ -1386,6 +1399,7 @@
     "VeriTile/Triton/DSL/RawSourceText.lean",
     "VeriTile/Triton/DSL/SourceBindings.lean",
     "VeriTile/Triton/DSL/Syntax.lean",
+    "VeriTile/Triton/Float/ClosedStructuralAudit.lean",
     "VeriTile/Triton/Float/CountedLoop.lean",
     "VeriTile/Triton/Float/Erasure.lean",
     "VeriTile/Triton/Float/EvalOpR.lean",
@@ -1869,6 +1883,48 @@
     "bench/tritonbench_g/l2_norm_triton1/Proofs/Scalar.lean",
     "bench/tritonbench_g/l2_norm_triton2/Proofs/Real.lean",
     "bench/tritonbench_g/l2_norm_triton2/Proofs/Scalar.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Contract.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Correct.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/IO.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Kernels.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/PairIO.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Address.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Compiler.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/CompilerControl.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Execution.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Grid.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/HostLayout.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/HostPrelude.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/HostPrepared.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGraph.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGrid.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/KernelMath.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_FPAccumulate.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_FPContract.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_FPModel.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_FPOutput.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_FPTypedSource.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Mathematical_LayernormFwdTriton.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Memory.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Model.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/NativeAddress.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/PairExecution.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/PairSource.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Real.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Runtime.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/SignedRange.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/SourceComplete.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/SourceContract.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/SourceModel.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/SourceOutput.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafetySteps.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Storage.lean",
+    "bench/tritonbench_g/layernorm_fwd_triton/Proofs/Torch.lean",
     "bench/tritonbench_g/log_softmax/Proofs/Kernel.lean",
     "bench/tritonbench_g/log_softmax/Proofs/KernelGrid.lean",
     "bench/tritonbench_g/log_softmax/Proofs/KernelMath.lean",
@@ -2481,6 +2537,7 @@
     "tests/lean/CallArguments.lean",
     "tests/lean/CallScalarPrecision.lean",
     "tests/lean/CallSignature.lean",
+    "tests/lean/ClosedStructuralAudit.lean",
     "tests/lean/FP32BooleanArithmetic.lean",
     "tests/lean/FiniteCallProfiles.lean",
     "tests/lean/IntegerDivisionLiterals.lean",
@@ -2498,6 +2555,7 @@
     "tests/lean/RawStringDispatch.lean",
     "tests/lean/SourceDType.lean",
     "tests/lean/SourceModuleBindings.lean",
+    "tests/lean/StaticSignedStrides.lean",
     "tests/lean/UnsignedCallArguments.lean"
   ]
 }

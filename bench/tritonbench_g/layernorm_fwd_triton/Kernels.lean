@@ -1,85 +1,122 @@
 import VeriTile.Triton
 import VeriTile.Triton.Float.Structural
+import VeriTile.Triton.DSL.StaticSignedStrides
 namespace VeriTile.Bench.Repairs.LayernormFwdTriton
 open VeriTile.Triton
 
-/-- Actual runtime epsilon is supplied by the invocation; tl.param emits no
-assignment. The three loops retain every load, FP32 operation and strided store. -/
+/-- Input storage and all runtime scalars come from the call. The original
+signed constructor, casts, registers and loops remain in the pasted body. -/
+def callSignature (dtype : FloatDType) : CallSignature where
+  pointers := []
+  floatingPointers := [("X",dtype),("W",dtype),("Y",dtype)]
+  scalars := [("stride_x_N",.integer),("stride_x_hn",.integer),("stride_x_hd",.integer),
+    ("stride_y_N",.integer),("stride_y_hn",.integer),("stride_y_hd",.integer),
+    ("stride_w_hn",.integer),("stride_w_hd",.integer),("N",.integer),("eps",.fp32)]
+  constexpr := ["BLOCK_SIZE"]
+  readPorts := ["X","W"]
+  writePorts := ["Y"]
+
 def runtimeSource (dtype : FloatDType) (X W Y : RegionName)
     (stride_x_N stride_x_hn stride_x_hd stride_y_N stride_y_hn stride_y_hd
-      stride_w_hn stride_w_hd N BLOCK_SIZE : Nat) : ComputeKernel := triton {
-  tl.region X = DTYPE, W = DTYPE, Y = DTYPE
-  tl.param eps_arg : tl.float32
-  Seq = tl.program_id(0)
-  H = tl.program_id(1)
-  X += Seq * $(stride_x_N) + H * $(stride_x_hn)
-  Y += Seq * $(stride_y_N) + H * $(stride_y_hn)
-  W += H * $(stride_w_hn)
-  _mean = tl.zeros([$(BLOCK_SIZE)], dtype=tl.float32)
-  for off in range(0, $(N), $(BLOCK_SIZE)) {
-    cols = off + tl.arange(0, $(BLOCK_SIZE))
-    a = tl.load(X + cols * $(stride_x_hd), mask=cols < $(N), other=0.0).to(tl.float32)
-    _mean += a
-  }
-  mean = tl.sum(_mean, axis=0) / $(N)
-  _var = tl.zeros([$(BLOCK_SIZE)], dtype=tl.float32)
-  for off in range(0, $(N), $(BLOCK_SIZE)) {
-    cols = off + tl.arange(0, $(BLOCK_SIZE))
-    x = tl.load(X + cols * $(stride_x_hd), mask=cols < $(N), other=0.0).to(tl.float32)
-    x = tl.where(cols < $(N), x - mean, 0.0)
-    _var += x * x
-  }
-  var = tl.sum(_var, axis=0) / $(N)
-  rstd = 1 / tl.sqrt(var + eps_arg)
-  for off in range(0, $(N), $(BLOCK_SIZE)) {
-    cols = off + tl.arange(0, $(BLOCK_SIZE))
-    mask = cols < $(N)
-    w = tl.load(W + cols * $(stride_w_hd), mask=mask).to(tl.float32)
-    x = tl.load(X + cols * $(stride_x_hd), mask=mask, other=0.0).to(tl.float32)
-    x_hat = (x - mean) * rstd
-    y = x_hat * w
-    tl.store(Y + cols * $(stride_y_hd), (y).to(X.dtype.element_ty), mask=mask)
-  }
-}
+      stride_w_hn stride_w_hd N BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_call (callSignature dtype) call_args
+    [stride_x_N := stride_x_N, stride_x_hn := stride_x_hn, stride_x_hd := stride_x_hd,
+     stride_y_N := stride_y_N, stride_y_hn := stride_y_hn, stride_y_hd := stride_y_hd,
+     stride_w_hn := stride_w_hn, stride_w_hd := stride_w_hd, N := N] static_strides in triton {
+    Seq = tl.program_id(0).to(tl.int64)
+    H = tl.program_id(1).to(tl.int64)
+    stride_x_N = tl.cast(stride_x_N, tl.int64)
+    stride_x_hn = tl.cast(stride_x_hn, tl.int64)
+    stride_x_hd = tl.cast(stride_x_hd, tl.int64)
+    stride_y_N = tl.cast(stride_y_N, tl.int64)
+    stride_y_hn = tl.cast(stride_y_hn, tl.int64)
+    stride_y_hd = tl.cast(stride_y_hd, tl.int64)
+    stride_w_hn = tl.cast(stride_w_hn, tl.int64)
+    stride_w_hd = tl.cast(stride_w_hd, tl.int64)
+    N = tl.cast(N, tl.int64)
+    zero = tl.full((), 0, tl.int64)
+    step = tl.full((), BLOCK_SIZE, tl.int64)
+    lanes = tl.arange(0, BLOCK_SIZE).to(tl.int64)
+    X += Seq * stride_x_N + H * stride_x_hn
+    Y += Seq * stride_y_N + H * stride_y_hn
+    W += H * stride_w_hn
 
-/-- Schedule the weight load after normalization, shortening the lifetime of
-its vector register. Arithmetic, masks and all source iterations are unchanged. -/
+    _mean = tl.zeros([BLOCK_SIZE], dtype=tl.float32)
+    for off in range(zero, N, step):
+        cols = off + lanes
+        a = tl.load(X + cols * stride_x_hd, mask=cols < N, other=0.0).to(tl.float32)
+        _mean += a
+    mean = tl.sum(_mean, axis=0) / N
+
+    _var = tl.zeros([BLOCK_SIZE], dtype=tl.float32)
+    for off in range(zero, N, step):
+        cols = off + lanes
+        x = tl.load(X + cols * stride_x_hd, mask=cols < N, other=0.0).to(tl.float32)
+        x = tl.where(cols < N, x - mean, 0.0)
+        _var += x * x
+    var = tl.sum(_var, axis=0) / N
+    rstd = 1 / tl.sqrt(var + eps)
+
+    for off in range(zero, N, step):
+        cols = off + lanes
+        mask = cols < N
+        w = tl.load(W + cols * stride_w_hd, mask=mask).to(tl.float32)
+        x = tl.load(X + cols * stride_x_hd, mask=mask, other=0.0).to(tl.float32)
+        x_hat = (x - mean) * rstd
+        y = x_hat * w
+        tl.store(Y + cols * stride_y_hd, y.to(X.dtype.element_ty), mask=mask)
+  }
+
 def runtimeSourceCandidate (dtype : FloatDType) (X W Y : RegionName)
     (stride_x_N stride_x_hn stride_x_hd stride_y_N stride_y_hn stride_y_hd
-      stride_w_hn stride_w_hd N BLOCK_SIZE : Nat) : ComputeKernel := triton {
-  tl.region X = DTYPE, W = DTYPE, Y = DTYPE
-  tl.param eps_arg : tl.float32
-  Seq = tl.program_id(0)
-  H = tl.program_id(1)
-  X += Seq * $(stride_x_N) + H * $(stride_x_hn)
-  Y += Seq * $(stride_y_N) + H * $(stride_y_hn)
-  W += H * $(stride_w_hn)
-  _mean = tl.zeros([$(BLOCK_SIZE)], dtype=tl.float32)
-  for off in range(0, $(N), $(BLOCK_SIZE)) {
-    cols = off + tl.arange(0, $(BLOCK_SIZE))
-    a = tl.load(X + cols * $(stride_x_hd), mask=cols < $(N), other=0.0).to(tl.float32)
-    _mean += a
+      stride_w_hn stride_w_hd N BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_call (callSignature dtype) call_args
+    [stride_x_N := stride_x_N, stride_x_hn := stride_x_hn, stride_x_hd := stride_x_hd,
+     stride_y_N := stride_y_N, stride_y_hn := stride_y_hn, stride_y_hd := stride_y_hd,
+     stride_w_hn := stride_w_hn, stride_w_hd := stride_w_hd, N := N] static_strides in triton {
+    Seq = tl.program_id(0).to(tl.int64)
+    H = tl.program_id(1).to(tl.int64)
+    stride_x_N = tl.cast(stride_x_N, tl.int64)
+    stride_x_hn = tl.cast(stride_x_hn, tl.int64)
+    stride_x_hd = tl.cast(stride_x_hd, tl.int64)
+    stride_y_N = tl.cast(stride_y_N, tl.int64)
+    stride_y_hn = tl.cast(stride_y_hn, tl.int64)
+    stride_y_hd = tl.cast(stride_y_hd, tl.int64)
+    stride_w_hn = tl.cast(stride_w_hn, tl.int64)
+    stride_w_hd = tl.cast(stride_w_hd, tl.int64)
+    N = tl.cast(N, tl.int64)
+    zero = tl.full((), 0, tl.int64)
+    step = tl.full((), BLOCK_SIZE, tl.int64)
+    lanes = tl.arange(0, BLOCK_SIZE).to(tl.int64)
+    X += Seq * stride_x_N + H * stride_x_hn
+    Y += Seq * stride_y_N + H * stride_y_hn
+    W += H * stride_w_hn
+
+    _mean = tl.zeros([BLOCK_SIZE], dtype=tl.float32)
+    for off in range(zero, N, step):
+        cols = off + lanes
+        a = tl.load(X + cols * stride_x_hd, mask=cols < N, other=0.0).to(tl.float32)
+        _mean += a
+    mean = tl.sum(_mean, axis=0) / N
+
+    _var = tl.zeros([BLOCK_SIZE], dtype=tl.float32)
+    for off in range(zero, N, step):
+        cols = off + lanes
+        x = tl.load(X + cols * stride_x_hd, mask=cols < N, other=0.0).to(tl.float32)
+        x = tl.where(cols < N, x - mean, 0.0)
+        _var += x * x
+    var = tl.sum(_var, axis=0) / N
+    rstd = 1 / tl.sqrt(var + eps)
+
+    for off in range(zero, N, step):
+        cols = off + lanes
+        mask = cols < N
+        x = tl.load(X + cols * stride_x_hd, mask=mask, other=0.0).to(tl.float32)
+        x_hat = (x - mean) * rstd
+        w = tl.load(W + cols * stride_w_hd, mask=mask).to(tl.float32)
+        y = x_hat * w
+        tl.store(Y + cols * stride_y_hd, y.to(X.dtype.element_ty), mask=mask)
   }
-  mean = tl.sum(_mean, axis=0) / $(N)
-  _var = tl.zeros([$(BLOCK_SIZE)], dtype=tl.float32)
-  for off in range(0, $(N), $(BLOCK_SIZE)) {
-    cols = off + tl.arange(0, $(BLOCK_SIZE))
-    x = tl.load(X + cols * $(stride_x_hd), mask=cols < $(N), other=0.0).to(tl.float32)
-    x = tl.where(cols < $(N), x - mean, 0.0)
-    _var += x * x
-  }
-  var = tl.sum(_var, axis=0) / $(N)
-  rstd = 1 / tl.sqrt(var + eps_arg)
-  for off in range(0, $(N), $(BLOCK_SIZE)) {
-    cols = off + tl.arange(0, $(BLOCK_SIZE))
-    mask = cols < $(N)
-    x = tl.load(X + cols * $(stride_x_hd), mask=mask, other=0.0).to(tl.float32)
-    x_hat = (x - mean) * rstd
-    w = tl.load(W + cols * $(stride_w_hd), mask=mask).to(tl.float32)
-    y = x_hat * w
-    tl.store(Y + cols * $(stride_y_hd), (y).to(X.dtype.element_ty), mask=mask)
-  }
-}
 
 /-- Immutable source pin; no original-source equivalence is claimed. -/
 def originalSHA256 := "9ad4b038ee7d5fff373705d8ef8c0a4a9a3100a064db07703f89d61b32de6c88"
@@ -126,7 +163,7 @@ noncomputable def runRows {α : Type} [Inhabited α] {shape : Shape} (M : Algebr
     List (Fin shape.sequences × Fin shape.heads) → State α → Option (State α)
   | [], s => some s
   | row :: rows, s => do
-      let t ← FP.Structural.exec M (kernel p) (atRow (s.setReg "eps_arg" .real [] (fun _ => epsilon)) row)
+      let t ← FP.Structural.exec M (kernel p) (atRow (s.setReg "eps" .real [] (fun _ => epsilon)) row)
       runRows M p epsilon rows t
 
 noncomputable def launch {α : Type} [Inhabited α] (M : Algebra α) (shape : Shape)
