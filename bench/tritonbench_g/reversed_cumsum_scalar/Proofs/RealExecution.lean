@@ -18,7 +18,7 @@ structure Holds (initial : BlockState) (h : Call) (c : Config) (row : Nat)
     (input : Nat → ℝ) (remaining : Nat) (u : BlockState) : Prop where
   undef : u.undef=initial.undef
   count_le : remaining≤numChunks h c
-  head : u.regs .nat [] "i_bh"=some (Tile.scalar row)
+  head : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int))
   carry : u.regs .real [] "b_z"=some (Tile.scalar (some (accumulated h c input remaining)))
   reads : ∀ t, t<h.T → u.readMem h.input (h.inputStrides.address h.H row t)=input t
   output : ∀ t, t<h.T → remaining*c.BT≤t →
@@ -85,8 +85,20 @@ theorem iteration (initial : BlockState) (h : Call) (layout : Geometry.OutputLay
     intro r off hn
     exact (inv.frame r off hn).trans (frame r off hn)
 
-abbrev initial := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealInit.initial
-abbrev init_executes := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealInit.executes
+def initial (u : BlockState) : BlockState :=
+  (u.setReg "i_bh" .int [] (Tile.scalar (u.pids 0 : Int))).setReg "b_z" .real [] (Tile.scalar (some 0))
+
+theorem init_executes (u : BlockState) : stepStmts initCode u = some (initial u) := by
+  unfold initCode
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (show evalOp (.castNatToInt (.programId 0)) u =
+      some (Tile.scalar (u.pids 0 : Int)) from by simp [evalOp]))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (show evalOp (.full [] (.const 0)) _ = some (Tile.scalar (some (0 : ℝ))) from by
+      simp [evalOp_full,evalOp_const]))]
+  rw [stepStmts.nil]
+  rfl
+
 
 theorem invariant (h : Call) (c : Config) (positive : 0<c.BT) (u : BlockState) :
     Holds u h c (u.pids 0) (fun t => u.readMem h.input (h.inputStrides.address h.H (u.pids 0) t))
