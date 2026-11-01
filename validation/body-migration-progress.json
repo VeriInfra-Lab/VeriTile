@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 83,
+  "completed_count": 85,
   "staged_count": 93,
-  "pending_count": 113,
+  "pending_count": 111,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 2206,
-    "official_comparator": "Current-source receipts accept 83 of 196 targets. Each accepted case matches the exact current source/import closure, reviewed source pairs, fully-qualified public Real/FP theorem names and every required independent replay. Accepted evidence covers the unchanged cases from all six original shards, F8ConversionUtils, the three RMS incrementals, all three destination copies, FastCrossEntropy, MatrixReduction and its three target clients, all three softmax cases, both RoPE cases and MulExponentCompensator. Shared replay dependency closures match. The accepted triton_matmul regression is not counted as a target. Ten locally staged targets still need current independent replay; they are not complete. Individual proof jobs have succeeded for accepted incrementals; queued aggregate jobs are not reported as whole-workflow successes. Compilation alone never counts as completion. The corrected AdamUpdateTriton task, AdamUpdateGridLaunch example and the shared Boolean-arithmetic replay dependencies are accepted by their current-source receipt; all 19 examples now have current independent replay receipts. ReversedCumsumScalar is accepted by a current-source receipt covering all 37 retained proof files and unchanged shared dependencies.",
+    "official_comparator": "Current-source receipts accept 85 of 196 targets. Each accepted case matches the exact current source/import closure, reviewed source pairs, fully-qualified public Real/FP theorem names and every required independent replay. Accepted evidence covers the unchanged cases from all six original shards, F8ConversionUtils, the three RMS incrementals, all three destination copies, FastCrossEntropy, MatrixReduction and its three target clients, all three softmax cases, both RoPE cases and MulExponentCompensator. Shared replay dependency closures match. The accepted triton_matmul regression is not counted as a target. Eight locally staged targets still need current independent replay; they are not complete. Individual proof jobs have succeeded for accepted incrementals; queued aggregate jobs are not reported as whole-workflow successes. Compilation alone never counts as completion. The corrected AdamUpdateTriton task, AdamUpdateGridLaunch example and the shared Boolean-arithmetic replay dependencies are accepted by their current-source receipt; all 19 examples now have current independent replay receipts. ReversedCumsumScalar is accepted by a current-source receipt covering all 37 retained proof files and unchanged shared dependencies. ReversedCumsum and ChunkedCumsumFwd are accepted by exact current-source receipts covering all 29 and 30 required replays respectively, including the unchanged 73-file shared replay closure of ChunkedCumsumFwd.",
     "python_tests": 329,
     "offline_example_compilations": {
       "cases": 19,
@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "validated_source_commit": "aa89edfa96e3f2692683684fe50482f24b5308ce",
-    "working_tree": "All 93 locally staged targets (74 task targets and all 19 examples) pass complete body correspondence, actual public Real/FP proofs and the joint 2206-retained-module build. FlashDecode2 Llama and Phi now paste the complete Python bodies, including int64 program-id casts, signed int32 length loads widened to int64, the original nonpositive-length clamp, signed ceil-count arithmetic, signed loop counters, online softmax update order, division and Phi padding masks. Pointer storage, all runtime strides, head dimension and constexpr launch data are bound outside the bodies. Existing integer address candidates and both raw kernels are connected to the full execution, independent Real weighted-summary specifications, native ordered FP graphs, exact tensor and memory bindings, source safety and exterior frames on the unchanged public domains. Signed length readback and all-word int32-to-int64 widening are proved. All 51 retained modules, public Real/FP targets, 329 Python tests and inventory checks pass. Current source/import and shared replay closure audits still certify all 83 completed targets, including all 19 examples. Ten staged targets await independent replay; 103 target tasks are not migrated.",
+    "working_tree": "All 93 locally staged targets (74 task targets and all 19 examples) pass complete body correspondence, actual public Real/FP proofs and the joint 2206-retained-module build. FlashDecode2 Llama and Phi now paste the complete Python bodies, including int64 program-id casts, signed int32 length loads widened to int64, the original nonpositive-length clamp, signed ceil-count arithmetic, signed loop counters, online softmax update order, division and Phi padding masks. Pointer storage, all runtime strides, head dimension and constexpr launch data are bound outside the bodies. Existing integer address candidates and both raw kernels are connected to the full execution, independent Real weighted-summary specifications, native ordered FP graphs, exact tensor and memory bindings, source safety and exterior frames on the unchanged public domains. Signed length readback and all-word int32-to-int64 widening are proved. All 51 retained modules, public Real/FP targets, 329 Python tests and inventory checks pass. Current source/import and shared replay closure audits still certify all 85 completed targets, including all 19 examples. Eight staged targets await independent replay; 103 target tasks are not migrated.",
     "official_replay_sources": 1186,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -46,7 +46,7 @@
       "cases": 2,
       "retained_modules": 51,
       "replay_sources": 51,
-      "official_run": null
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41280091170"
     },
     "previous_incremental_replays": [
       {
@@ -398,12 +398,13 @@
     },
     {
       "path": "bench/tritonbench_g/chunked_cumsum_fwd",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "aa89edfa96e3f2692683684fe50482f24b5308ce"
+      "validated_source_commit": "aa89edfa96e3f2692683684fe50482f24b5308ce",
+      "receipt": "validation/body_receipts/chunked_cumsum_fwd.json"
     },
     {
       "path": "bench/tritonbench_g/context_attn_bloom",
@@ -1082,12 +1083,13 @@
     },
     {
       "path": "bench/tritonbench_g/reversed_cumsum",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "aa89edfa96e3f2692683684fe50482f24b5308ce"
+      "validated_source_commit": "aa89edfa96e3f2692683684fe50482f24b5308ce",
+      "receipt": "validation/body_receipts/reversed_cumsum.json"
     },
     {
       "path": "bench/tritonbench_g/reversed_cumsum_scalar",
