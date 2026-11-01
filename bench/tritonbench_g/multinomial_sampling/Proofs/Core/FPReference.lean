@@ -32,18 +32,27 @@ def scoreOffset (p : Parameters) (s : State α) (b : Nat) (i : Lane p) :=
 def padding (P : Primitives α) : Storage → α
   | .fp32 => P.zero (some .fp32) .real
   | .fp64 => P.zero (some .fp64) .real
-  | .fp16 => P.cast (some .fp32) .real .fp16 (P.zero (some .fp32) .real)
-  | .bf16 => P.cast (some .fp32) .real .bf16 (P.zero (some .fp32) .real)
+  | .fp16 => P.cast none .real .fp16 (P.zero none .real)
+  | .bf16 => P.cast none .real .bf16 (P.zero none .real)
 
 def readScore (d : Storage) (c : Cell α) : α :=
   match d with
   | .fp32 | .fp64 => c.read .real | .fp16 => c.read .fp16 | .bf16 => c.read .bf16
 
-def scores (P : Primitives α) (d : Storage) (p : Parameters) (s : State α)
+def storageLoad (P : Primitives α) : Storage → α → α
+  | .fp32 => P.load32
+  | .fp16 | .bf16 | .fp64 => id
+
+/-- The actual typed load, including masked padding, precedes `.to(float32)`. -/
+def loadedScores (P : Primitives α) (d : Storage) (p : Parameters) (s : State α)
     (b : Nat) (i : Lane p) : α :=
-  P.cast (some .fp32) d.dtype .real
+  storageLoad P d
     (if active p s (i.1,PUnit.unit) ∧ b+i.2.1.val<p.tokens then
       readScore d (s.mem p.scores (scoreOffset p s b i)) else padding P d)
+
+def scores (P : Primitives α) (d : Storage) (p : Parameters) (s : State α)
+    (b : Nat) (i : Lane p) : α :=
+  P.cast (some .fp32) d.dtype .real (loadedScores P d p s b i)
 
 def scanned (P : Primitives α) (d : Storage) (p : Parameters) (s : State α) (b : Nat) : Lane p → α :=
   P.scan none .sum ⟨1,by simp⟩ .forward (scores P d p s b)

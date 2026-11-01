@@ -1654,6 +1654,19 @@
           "VeriTile.Bench.Repairs.FastLayernorm.FPEquiv.kernel_equivalent"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/multinomial_sampling",
+      "python": "bench/tritonbench_g/multinomial_sampling/multinomial_sampling.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/multinomial_sampling/Correct.lean": [
+          "VeriTile.Bench.Repairs.MultinomialSampling.multinomial_categorical_correctness"
+        ],
+        "bench/tritonbench_g/multinomial_sampling/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MultinomialSampling.FPEquiv.static_unroll_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1664,6 +1677,7 @@
     "VeriTile/Triton/DSL/Expansion/Main.lean",
     "VeriTile/Triton/DSL/FloatDTypeConstants.lean",
     "VeriTile/Triton/DSL/IntegerCallArguments.lean",
+    "VeriTile/Triton/DSL/IntegerCallSyntax.lean",
     "VeriTile/Triton/DSL/IntegerMinMaxLiterals.lean",
     "VeriTile/Triton/DSL/IntegerWhereLiterals.lean",
     "VeriTile/Triton/DSL/OptionalStringConstants.lean",
@@ -2768,6 +2782,37 @@
     "bench/tritonbench_g/mul_exponent_compensator/Proofs/Source.lean",
     "bench/tritonbench_g/mul_exponent_compensator/Proofs/SourceSafety.lean",
     "bench/tritonbench_g/mul_exponent_compensator/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/multinomial_sampling/Contract.lean",
+    "bench/tritonbench_g/multinomial_sampling/Correct.lean",
+    "bench/tritonbench_g/multinomial_sampling/FPEquiv.lean",
+    "bench/tritonbench_g/multinomial_sampling/IO.lean",
+    "bench/tritonbench_g/multinomial_sampling/Kernels.lean",
+    "bench/tritonbench_g/multinomial_sampling/PairIO.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/CDFBridge.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/Core/FPBackend.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/Core/FPBody.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/Core/FPComplete.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/Core/FPInvariant.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/Core/FPPrologue.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/Core/FPReference.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/Core/FPSource.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/IOComplete.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/IOFacts.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/IORealResult.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/IOResult.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/IOUndef.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/KernelCompatibility.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/KernelMemory.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/KernelSource.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/LogicalTransport.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/ReaderBefore.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/Real.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/Spec.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/Unrolled.lean",
+    "bench/tritonbench_g/multinomial_sampling/Proofs/UnrolledPair.lean",
     "bench/tritonbench_g/nested_loops_processing/Kernels.lean",
     "bench/tritonbench_g/nested_loops_processing/Proofs/SourceSafety.lean",
     "bench/tritonbench_g/nested_loops_processing/Proofs/TypedFP.lean",
@@ -3658,6 +3703,10 @@
     "tests/lean/FloatDTypeConstantReference.lean",
     "tests/lean/FloatDTypeConstants.lean",
     "tests/lean/IntegerCallArguments.lean",
+    "tests/lean/IntegerCallStaticLoads.lean",
+    "tests/lean/IntegerCallStaticLoadsReference.lean",
+    "tests/lean/IntegerCallSyntax.lean",
+    "tests/lean/IntegerCallSyntaxReference.lean",
     "tests/lean/IntegerDivisionLiterals.lean",
     "tests/lean/IntegerMinMaxLiterals.lean",
     "tests/lean/IntegerMinMaxReference.lean",
