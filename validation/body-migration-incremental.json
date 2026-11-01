@@ -3,55 +3,53 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/f8_conversion_utils",
-      "python": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
+      "path": "bench/tritonbench_g/rmsnorm_fused_llama",
+      "python": "bench/tritonbench_g/rmsnorm_fused_llama/rmsnorm_fused_llama.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/f8_conversion_utils/Correct.lean": [
-          "VeriTile.Bench.Repairs.F8ConversionUtils.Correct.complete_kernel_real_formula"
+        "bench/tritonbench_g/rmsnorm_fused_llama/Correct.lean": [
+          "VeriTile.Bench.Repairs.RmsnormFusedLlama.Correct.rmsnorm_kernel_real"
         ],
-        "bench/tritonbench_g/f8_conversion_utils/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.F8ConversionUtils.FPEquiv.conversion_index_equiv"
+        "bench/tritonbench_g/rmsnorm_fused_llama/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsnormFusedLlama.FPEquiv.rmsnorm_kernel_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/f8_conversion_utils/Contract.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Correct.lean",
-    "bench/tritonbench_g/f8_conversion_utils/FPEquiv.lean",
-    "bench/tritonbench_g/f8_conversion_utils/IO.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Kernels.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/BitAlgebra.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/ByteStore.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Bytes.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Cells.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/CheckedResults.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Chunks.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Contract.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Host.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/KernelContract.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Lowering.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Mathematical_Erasure.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Mathematical_FP.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Mathematical_Real.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Memory.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Native.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/NativeGrid.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Numerics.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Observation.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/PublicReal.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/RealProjection.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/RealSource.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/RealStorage.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/Source.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceBridge.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceEquivalence.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceFrame.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceNative.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceReadback.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceStorage.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Sources/Mathematical_Kernels.lean",
-    "bench/tritonbench_g/f8_conversion_utils/Sources/Parameters.lean"
+    "bench/tritonbench_g/rmsnorm_fused_llama/Contract.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Correct.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/FPEquiv.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/IO.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Kernels.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/NativeIO.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/PairIO.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/FPGrid.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/FPRow.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Host.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/KernelCandidate.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_Candidate.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_FullContracts.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_FullExecution.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_FullMath.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_FullPost.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_FullSafety.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_FullSource.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_FullVariance.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_FullWrite.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_Precision.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_Safety.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Mathematical_Source.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/Native.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/NativePublicIO.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/NativeSafety.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/PairEquivalence.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/RealGrid.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/RealPublicIO.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeCandidate.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeGrid.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeRow.lean",
+    "bench/tritonbench_g/rmsnorm_fused_llama/Sources/Mathematical_Kernels.lean"
   ]
 }

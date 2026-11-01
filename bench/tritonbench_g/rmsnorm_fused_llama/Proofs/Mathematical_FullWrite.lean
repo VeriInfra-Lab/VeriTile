@@ -7,17 +7,21 @@ set_option maxRecDepth 12000
 
 noncomputable def writeRegisters (s0 s : BlockState) (X W : RegionName)
     (stride N B c : Nat) (eps : ℝ) : BlockState :=
-  ((((((s.setReg "off" .nat [] (Tile.scalar (c * B))).setReg "cols" .nat [B]
-    (Tile.vec (fun j => c * B + j.val))).setReg "mask" .bool [B]
-    (Tile.vec (fun j => decide (c * B + j.val < N)))).setReg "w" .real [B]
-    ⟨fun i => some (if c * B + i.1.val < N then s0.readMem W (c * B + i.1.val)
-      else s.undef W (c * B + i.1.val))⟩).setReg "x" .real [B]
-    (inputTile s0 X stride N B c)).setReg "x_hat" .real [B]
+  let s := s.setReg "off" .nat [] (Tile.scalar (c * B))
+  let s := s.setReg "cols" .nat [B] (Tile.vec (fun j => c * B + j.val))
+  let s := s.setReg "mask" .bool [B] (Tile.vec (fun j => decide (c * B + j.val < N)))
+  let weights : Tile .real [B] := ⟨fun i => some (if c * B + i.1.val < N then
+    s0.readMem W (c * B + i.1.val) else s.undef W (c * B + i.1.val))⟩
+  let s := s.setReg "__veritile_load_1" .real [B] weights
+  let s := s.setReg "w" .real [B] weights
+  let s := s.setReg "__veritile_load_2" .real [B] (inputTile s0 X stride N B c)
+  let s := s.setReg "x" .real [B] (inputTile s0 X stride N B c)
+  let s := s.setReg "x_hat" .real [B]
     ⟨fun i => some ((if c * B + i.1.val < N then
       s0.readMem X (s0.pids 0 * stride + (c * B + i.1.val)) else 0) *
-      inverseStd s0 X stride N eps)⟩).setReg "y" .real [B]
-    ⟨fun i => some (if c * B + i.1.val < N then
-      rowSpec s0 X W stride N eps (c * B + i.1.val) else 0)⟩
+      inverseStd s0 X stride N eps)⟩
+  s.setReg "y" .real [B] ⟨fun i => some (if c * B + i.1.val < N then
+    rowSpec s0 X W stride N eps (c * B + i.1.val) else 0)⟩
 
 noncomputable def writeState (s0 s : BlockState) (X Y W : RegionName)
     (stride N B c : Nat) (eps : ℝ) : BlockState :=
@@ -27,7 +31,7 @@ noncomputable def writeState (s0 s : BlockState) (X Y W : RegionName)
         (rowSpec s0 X W stride N eps (c * B + i.1.val)) else st)
     (writeRegisters s0 s X W stride N B c eps)
 
-/-- The actual seven-statement writeback body executes on its source-derived context. -/
+/-- The actual nine-statement writeback body executes on its source-derived context. -/
 theorem write_exec (s0 s : BlockState) (X Y W : RegionName)
     (stride N B c : Nat) (eps : ℝ) (h : WriteContext s0 X Y W stride N eps s) :
     stepStmts (writeBody W N B) (s.setReg "off" .nat [] (Tile.scalar (c * B))) =

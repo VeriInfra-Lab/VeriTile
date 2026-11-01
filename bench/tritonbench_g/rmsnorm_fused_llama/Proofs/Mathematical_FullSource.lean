@@ -4,7 +4,7 @@ namespace VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.General
 open VeriTile.Triton
 
 def pre (X Y : RegionName) (stride B : Nat) (eps : ℝ) : List Stmt :=
-  [ Stmt.assign .real [] "eps_arg" (Op.const eps),
+  [ Stmt.assign .real [] "eps" (Op.const eps),
     Stmt.assign .nat [] "row" (Op.programId 0),
     Stmt.assign .ptr [] "Y"
       (Op.ptrAdd Broadcast.nil (Op.ptrBase Y)
@@ -19,13 +19,14 @@ def pre (X Y : RegionName) (stride B : Nat) (eps : ℝ) : List Stmt :=
 def varBody (N B : Nat) : List Stmt :=
   [ Stmt.assign .nat [B] "cols"
       (Op.add .nat Broadcast.scalarL (Op.ref .nat [] "off") (Op.arange B)),
-    Stmt.assign .real [B] "x"
+    Stmt.assign .real [B] "__veritile_load_0"
       (Op.load .real
         (MemAccess.ptr
           (Op.ptrAdd Broadcast.scalarL (Op.ref .ptr [] "X") (Op.ref .nat [B] "cols")))
         (MaskOpt.maskOther
           (Op.lt .nat Broadcast.scalarR (Op.ref .nat [B] "cols") (Op.constNat N))
           ((Op.const 0.0).broadcast [B]))),
+    Stmt.assign .real [B] "x" (Op.ref .real [B] "__veritile_load_0"),
     Stmt.assign .real [B] "_var"
       (Op.add .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [B] "_var")
         (Op.mul .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [B] "x")
@@ -36,10 +37,10 @@ def post (N B : Nat) (eps : ℝ) : List Stmt :=
   [ Stmt.assign .real [] "var"
       (Op.div .real Broadcast.nil
         (Op.reduceSum (shape := [B]) ⟨0, by simp⟩ Bool.false (Op.ref .real [B] "_var"))
-        (Op.const (N : ℝ))),
+        (Op.natToReal (Op.constNat N))),
     Stmt.assign .real [] "rstd"
       (Op.div .real Broadcast.nil (Op.const 1)
-        (Op.sqrt (Op.add .real Broadcast.nil (Op.ref .real [] "var") (Op.ref .real [] "eps_arg")))) ]
+        (Op.sqrt (Op.add .real Broadcast.nil (Op.ref .real [] "var") (Op.ref .real [] "eps")))) ]
 
 /-- Pass 2's body — the **emit** body: two masked loads, the affine scaling,
 and the in-loop masked `.real` store into `Y`. -/
@@ -48,15 +49,17 @@ def writeBody (W : RegionName) (N B : Nat) : List Stmt :=
       (Op.add .nat Broadcast.scalarL (Op.ref .nat [] "off") (Op.arange B)),
     Stmt.assign .bool [B] "mask"
       (Op.lt .nat Broadcast.scalarR (Op.ref .nat [B] "cols") (Op.constNat N)),
-    Stmt.assign .real [B] "w"
+    Stmt.assign .real [B] "__veritile_load_1"
       (Op.load .real (MemAccess.region W (Op.ref .nat [B] "cols"))
         (MaskOpt.mask (Op.ref .bool [B] "mask"))),
-    Stmt.assign .real [B] "x"
+    Stmt.assign .real [B] "w" (Op.ref .real [B] "__veritile_load_1"),
+    Stmt.assign .real [B] "__veritile_load_2"
       (Op.load .real
         (MemAccess.ptr
           (Op.ptrAdd Broadcast.scalarL (Op.ref .ptr [] "X") (Op.ref .nat [B] "cols")))
         (MaskOpt.maskOther (Op.ref .bool [B] "mask")
           ((Op.const 0.0).broadcast [B]))),
+    Stmt.assign .real [B] "x" (Op.ref .real [B] "__veritile_load_2"),
     Stmt.assign .real [B] "x_hat"
       (Op.mul .real Broadcast.scalarR (Op.ref .real [B] "x") (Op.ref .real [] "rstd")),
     Stmt.assign .real [B] "y"

@@ -15,14 +15,14 @@ def div (A : Algebra α) := A.binary (some .fp32) .real .div
 def cast (A : Algebra α) := A.cast (some .fp32) .real .real
 def read (s : State α) (r : RegionName) (o : Nat) := (s.mem r o).read .real
 def xload (A : Algebra α) (s : State α) (X : RegionName) (row N k : Nat) :=
-  cast A (if k<N then read s X (row*N+k) else lit A 0)
+  cast A (A.fp32Load (if k<N then read s X (row*N+k) else lit A 0))
 def wload (A : Algebra α) (s : State α) (W : RegionName) (N k : Nat) :=
-  cast A (if k<N then read s W k else s.undef .real W k)
+  cast A (A.fp32Load (if k<N then read s W k else s.undef .real W k))
 def square (A : Algebra α) (s : State α) (X : RegionName) (row N B : Nat) : Values α .real [B] :=
   fun i => add A (lit A 0) (mul A (xload A s X row N i.1.val) (xload A s X row N i.1.val))
 def variance (A : Algebra α) (s : State α) (X : RegionName) (row N B : Nat) :=
   div A (A.reduceSum (some .fp32) (shape:=[B]) ⟨0,by simp⟩ Bool.false
-    (square A s X row N B) PUnit.unit) (lit A (N : ℝ))
+    (square A s X row N B) PUnit.unit) (A.fromNat (some .fp32) N)
 def rstd (A : Algebra α) (s : State α) (X : RegionName) (row N B : Nat) (eps : α) :=
   div A (lit A 1) (A.unary (some .fp32) .sqrt (add A (variance A s X row N B) eps))
 def value (A : Algebra α) (s : State α) (X W : RegionName) (row N B : Nat) (eps : α) (k : Nat) :=
@@ -48,7 +48,7 @@ theorem write_congr {ι : Type} (xs : List ι) (Y : RegionName) (off : ι → Na
 single-tile regime, executes and emits this typed scalar graph. -/
 theorem complete (A : Algebra α) (s : State α) (X Y W : RegionName)
     (N B : Nat) (eps : α) (hN : 0<N) (hNB : N≤B) :
-    ∃ t, exec A (runtimeKernel X Y W N B) (s.setReg "eps_arg" .real [] (fun _=>eps))=some t ∧
+    ∃ t, exec A (runtimeKernel X Y W N B) (s.setReg "eps" .real [] (fun _=>eps))=some t ∧
       t.mem=(block A s X Y W (s.pids 0) N B eps).mem := by
   have hB : B≠0 := by omega
   have hz : (0.0 : ℝ)=0 := by norm_num

@@ -6,7 +6,7 @@ open VeriTile.Triton
 set_option maxHeartbeats 2000000
 
 def pointerPrefix (v : Bool) (Y : RegionName) (stride : Nat) (eps : ℝ) : List Stmt :=
-  [.assign .real [] "eps_arg" (.const eps),
+  [.assign .real [] "eps" (.const eps),
    .assign .nat [] "row" (.programId 0),
    .assign .ptr [] "Y" (.ptrAdd .nil (.ptrBase Y)
      (if v then .mul .nat .nil (.constNat stride) (.ref .nat [] "row")

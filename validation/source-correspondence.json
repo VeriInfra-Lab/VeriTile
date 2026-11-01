@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 54,
-      "uncovered_jit_functions": 126
+      "selected_body_copy_checked": 55,
+      "uncovered_jit_functions": 125
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 348,
-    "uncovered_selected_jit_functions": 239,
-    "inventoried_jit_functions": 482,
-    "uncovered_inventoried_jit_functions": 309,
+    "uncovered_selected_jit_functions": 238,
+    "inventoried_jit_functions": 483,
+    "uncovered_inventoried_jit_functions": 308,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 167
+      "pasted_body": 169
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 2,
-        "selected_body_copy_checked": 54,
-        "uncovered_jit_functions": 126
+        "selected_body_copy_checked": 55,
+        "uncovered_jit_functions": 125
       }
     },
     "primary_files_with_int64_screen_warning": 33,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 94,
-        "antiquotes": 438,
+        "in_body_type_directives": 93,
+        "antiquotes": 437,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -30491,9 +30491,9 @@
       "lean": "bench/tritonbench_g/rmsnorm_fused_llama/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 4,
-        "antiquotes": 24,
-        "dsl_assignment": 6,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -30508,6 +30508,17 @@
       ],
       "python_sources": [
         {
+          "path": "bench/tritonbench_g/rmsnorm_fused_llama/candidate_kernels.py",
+          "jits": [
+            {
+              "function": "_rms_norm_fwd_fused_index_commuted",
+              "line": 8,
+              "statements": 8,
+              "explicit_int64_casts": []
+            }
+          ]
+        },
+        {
           "path": "bench/tritonbench_g/rmsnorm_fused_llama/rmsnorm_fused_llama.py",
           "jits": [
             {
@@ -30519,24 +30530,51 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_rms_norm_fwd_fused",
+          "lean_definition": "runtimeKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "stride": "integer",
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/rmsnorm_fused_llama/rmsnorm_fused_llama.py",
-          "function": "_rms_norm_fwd_fused"
+          "lean": "bench/tritonbench_g/rmsnorm_fused_llama/Kernels.lean"
+        },
+        {
+          "python_function": "_rms_norm_fwd_fused_index_commuted",
+          "lean_definition": "runtimeCandidate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "stride": "integer",
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/rmsnorm_fused_llama/candidate_kernels.py",
+          "lean": "bench/tritonbench_g/rmsnorm_fused_llama/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/rmsnorm_fused_llama/rmsnorm_fused_llama.py",
-          "function": "_rms_norm_fwd_fused"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/rmsnorm_fused_llama/Kernels.lean": "f0dac2a4096a19acffbb620cdda335ae9658cc4cdcd8d764511e8e994a1c1a17",
+        "bench/tritonbench_g/rmsnorm_fused_llama/Kernels.lean": "bdea546d653bf524c4b3a7fb6065109ba7cb2911bfde964fc65043bb372aa36f",
+        "bench/tritonbench_g/rmsnorm_fused_llama/candidate_kernels.py": "a68feb8d9a20d961a6a86a738306be83da9d81cfa8dbf1e0b531af4322bd1a3f",
+        "bench/tritonbench_g/rmsnorm_fused_llama/jit-correspondence.json": "ec8a8a1cc1260f29268d06a8ac68a1cafce7bd58d406dbae9578be23ef7c35c7",
         "bench/tritonbench_g/rmsnorm_fused_llama/rmsnorm_fused_llama.py": "74728350fa4edb13fb1548218e87f262671af134532e2be19dec38fb3fdc113e"
       },
       "collection": "tritonbench_g",

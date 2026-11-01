@@ -15,7 +15,7 @@ theorem row (A : Algebra α) (candidate : Bool) (X Y W : RegionName) (N B : Nat)
     (hw : ∀ k, k<N → k<bounds W)
     (hy : ∀ k, k<N → s.pids 0*N+k<bounds Y) :
     TraceSafe A bounds (NativeIO.source candidate X Y W N B)
-      (s.setReg "eps_arg" .real [] (fun _ => eps)) := by
+      (s.setReg "eps" .real [] (fun _ => eps)) := by
   have hB : B≠0 := by omega
   have hz : (0.0 : ℝ)=0 := by norm_num
   cases candidate
