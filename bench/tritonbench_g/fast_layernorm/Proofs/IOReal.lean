@@ -41,12 +41,12 @@ theorem forward_real (N B pid : Nat) (covered : N≤B) (eps : ℝ) (bias : Bool)
     simpa only [forwardGraph,forwardMath,forwardResult,Cell.read_same] using congrArg (Cell.mk .real) read
   · have formula := KernelMath.inverse_real N B covered eps (extend (forwardX vals))
     simp only [extend_fin] at formula
-    change Cell.mk .real (KernelReference.cast KernelMath.algebra (KernelReference.inverse KernelMath.algebra N eps (forwardX vals))) = _
+    change Cell.mk .real (KernelReference.inverse KernelMath.algebra N eps (forwardX vals)) = _
     rw [formula]
     rfl
   · have formula := KernelMath.mean_real N B covered (extend (forwardX vals))
     simp only [extend_fin] at formula
-    change Cell.mk .real (KernelReference.cast KernelMath.algebra (KernelReference.mean KernelMath.algebra N (forwardX vals))) = _
+    change Cell.mk .real (KernelReference.mean KernelMath.algebra N (forwardX vals)) = _
     rw [formula]
     rfl
 

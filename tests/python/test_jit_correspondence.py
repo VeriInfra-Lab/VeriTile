@@ -1625,3 +1625,77 @@ class CrossEntropyOpsBodyCorrespondenceTests(unittest.TestCase):
             self.assertEqual([t.id for t in assignment.targets], ['col_offsets'])
             self.assertEqual(ast.unparse(replacement),
                              'col_offsets = BLOCK_SIZE * col_block_idx + tl.arange(0, BLOCK_SIZE).to(tl.int64)')
+
+
+class FastLayernormBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/fast_layernorm'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, record, source):
+        return check((ROOT / record['python']).read_text(), source,
+                     record['python_function'], record['lean_definition'], record['signature_definition'],
+                     record['expected_signature'], expected_pointer_offsets=record['expected_pointer_offsets'])
+
+    def test_six_complete_bodies(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [19, 19, 20, 20, 12, 12])
+
+    def test_forward_casts_constructor_and_store_statements_are_exact(self):
+        for old, new in [('n_cols = tl.cast(n_cols, tl.int64)', 'n_cols = n_cols'),
+                         ('tl.cast(X_row_stride, tl.int64)', 'X_row_stride'),
+                         ('tl.full((BLOCK_SIZE,), 0, tl.float32)', 'tl.zeros((BLOCK_SIZE,), tl.float32)'),
+                         ('tl.store(r, inv_var)', 'tl.store(r, inv_var.to(tl.float32))')]:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[0], self.source.replace(old, new, 1))
+
+    def test_backward_padding_and_operation_order_are_retained(self):
+        prefix, body = self.source.split('def backwardBody', 1)
+        for old, new in [('tl.where(mask, dY_W * normed, 0.0)', 'dY_W * normed'),
+                         ('normed * tl.sum(product, axis=0) / n_cols', '(normed / n_cols) * tl.sum(product, axis=0)'),
+                         ('tl.cast(dY_row_stride, tl.int64)', 'dY_row_stride')]:
+            with self.subTest(new=new):
+                self.assertIn(old, body)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[2], prefix + 'def backwardBody' + body.replace(old, new, 1))
+
+    def test_affine_original_while_counter_and_output_masks_are_retained(self):
+        prefix, body = self.source.split('def affineBody', 1)
+        for old, new in [('while row < tl.cast(n_rows, tl.int64):', 'for row in range(n_rows):'),
+                         ('row += tl.full((), 1, tl.int64)', 'row += 1'),
+                         ('row = tl.full((), 0, tl.int64)', 'row = 0'),
+                         ('mask=columns < weight_count', 'mask=columns < n_cols'),
+                         ('tl.where(active, columns, 0)', 'columns')]:
+            with self.subTest(new=new):
+                self.assertIn(old, body)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[4], prefix + 'def affineBody' + body.replace(old, new, 1))
+
+    def test_derived_candidates_change_only_their_existing_integer_address(self):
+        def selected(name):
+            return [n for n in ast.parse((self.directory / name).read_text()).body
+                    if isinstance(n, ast.FunctionDef) and n.name.startswith('layernorm_')]
+        original = selected('fast_layernorm.py')
+        candidates = selected('fast_layernorm_candidates.py')
+        self.assertEqual(len(original), len(candidates))
+        for before, after in zip(original, candidates):
+            self.assertEqual(ast.dump(before.args), ast.dump(after.args))
+            self.assertEqual(len(before.body), len(after.body))
+            if before.name == 'layernorm_affine_backward':
+                left_loop = next(n for n in before.body if isinstance(n, ast.While))
+                right_loop = next(n for n in after.body if isinstance(n, ast.While))
+                self.assertEqual(ast.dump(left_loop.test), ast.dump(right_loop.test))
+                self.assertEqual(len(left_loop.body), len(right_loop.body))
+                changes = [(a, b) for a, b in zip(left_loop.body, right_loop.body) if ast.dump(a) != ast.dump(b)]
+                self.assertEqual(len(changes), 1)
+                self.assertEqual(ast.unparse(changes[0][1]), 'offsets = row * tl.cast(n_cols, tl.int64) + columns')
+                left = [n for n in before.body if n is not left_loop]
+                right = [n for n in after.body if n is not right_loop]
+                self.assertEqual([ast.dump(n) for n in left], [ast.dump(n) for n in right])
+            else:
+                changes = [(a, b) for a, b in zip(before.body, after.body) if ast.dump(a) != ast.dump(b)]
+                self.assertEqual(len(changes), 1)
+                self.assertEqual(ast.unparse(changes[0][1]), 'X += tl.cast(X_row_stride, tl.int64) * row_idx')

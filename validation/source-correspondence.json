@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 102,
-      "uncovered_jit_functions": 81
+      "selected_body_copy_checked": 103,
+      "uncovered_jit_functions": 80
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 173,
-    "inventoried_jit_functions": 516,
-    "uncovered_inventoried_jit_functions": 226,
+    "uncovered_selected_jit_functions": 170,
+    "inventoried_jit_functions": 519,
+    "uncovered_inventoried_jit_functions": 223,
     "checked_pair_modes": {
-      "pasted_body": 290
+      "pasted_body": 296
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 102,
-        "uncovered_jit_functions": 81
+        "selected_body_copy_checked": 103,
+        "uncovered_jit_functions": 80
       }
     },
-    "primary_files_with_int64_screen_warning": 18,
+    "primary_files_with_int64_screen_warning": 17,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 53,
-        "antiquotes": 395,
+        "in_body_type_directives": 52,
+        "antiquotes": 394,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -18154,12 +18154,12 @@
       "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean",
       "lean_screen": {
         "quotations": 6,
-        "in_body_type_directives": 6,
-        "antiquotes": 49,
-        "dsl_assignment": 9,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 76,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 6
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -18362,43 +18362,236 @@
               ]
             }
           ]
+        },
+        {
+          "path": "bench/tritonbench_g/fast_layernorm/fast_layernorm_candidates.py",
+          "jits": [
+            {
+              "function": "layernorm_forward_index_commuted",
+              "line": 10,
+              "statements": 19,
+              "explicit_int64_casts": [
+                {
+                  "line": 12,
+                  "expression": "tl.cast(n_cols, tl.int64)"
+                },
+                {
+                  "line": 13,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 14,
+                  "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+                },
+                {
+                  "line": 16,
+                  "expression": "tl.cast(Y_row_stride, tl.int64)"
+                },
+                {
+                  "line": 17,
+                  "expression": "tl.cast(X_row_stride, tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "layernorm_backward_index_commuted",
+              "line": 36,
+              "statements": 20,
+              "explicit_int64_casts": [
+                {
+                  "line": 38,
+                  "expression": "tl.cast(n_cols, tl.int64)"
+                },
+                {
+                  "line": 39,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 40,
+                  "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+                },
+                {
+                  "line": 42,
+                  "expression": "tl.cast(dX_row_stride, tl.int64)"
+                },
+                {
+                  "line": 43,
+                  "expression": "tl.cast(dY_row_stride, tl.int64)"
+                },
+                {
+                  "line": 44,
+                  "expression": "tl.cast(X_row_stride, tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "layernorm_affine_backward_direct_offsets",
+              "line": 61,
+              "statements": 12,
+              "explicit_int64_casts": [
+                {
+                  "line": 64,
+                  "expression": "tl.cast(n_rows, tl.int64)"
+                },
+                {
+                  "line": 65,
+                  "expression": "tl.cast(n_cols, tl.int64)"
+                },
+                {
+                  "line": 66,
+                  "expression": "tl.cast(weight_count, tl.int64)"
+                },
+                {
+                  "line": 67,
+                  "expression": "tl.cast(bias_count, tl.int64)"
+                },
+                {
+                  "line": 68,
+                  "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+                },
+                {
+                  "line": 73,
+                  "expression": "tl.cast(n_rows, tl.int64)"
+                },
+                {
+                  "line": 68,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 74,
+                  "expression": "tl.cast(n_cols, tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "layernorm_forward",
+          "lean_definition": "forwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 19,
+          "runtime_parameters": {
+            "Y_row_stride": "integer",
+            "X_row_stride": "integer",
+            "n_cols": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_BIAS"
+          ],
           "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
-          "function": "layernorm_forward"
+          "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean"
         },
         {
-          "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
-          "function": "layernorm_backward"
+          "python_function": "layernorm_forward_index_commuted",
+          "lean_definition": "forwardCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 19,
+          "runtime_parameters": {
+            "Y_row_stride": "integer",
+            "X_row_stride": "integer",
+            "n_cols": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_BIAS"
+          ],
+          "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm_candidates.py",
+          "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean"
         },
         {
+          "python_function": "layernorm_backward",
+          "lean_definition": "backwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 20,
+          "runtime_parameters": {
+            "dX_row_stride": "integer",
+            "dY_row_stride": "integer",
+            "X_row_stride": "integer",
+            "n_cols": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
-          "function": "layernorm_affine_backward"
+          "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean"
+        },
+        {
+          "python_function": "layernorm_backward_index_commuted",
+          "lean_definition": "backwardCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 20,
+          "runtime_parameters": {
+            "dX_row_stride": "integer",
+            "dY_row_stride": "integer",
+            "X_row_stride": "integer",
+            "n_cols": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm_candidates.py",
+          "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean"
+        },
+        {
+          "python_function": "layernorm_affine_backward",
+          "lean_definition": "affineBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "n_rows": "integer",
+            "n_cols": "integer",
+            "weight_count": "integer",
+            "bias_count": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_BIAS"
+          ],
+          "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
+          "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean"
+        },
+        {
+          "python_function": "layernorm_affine_backward_direct_offsets",
+          "lean_definition": "affineCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "n_rows": "integer",
+            "n_cols": "integer",
+            "weight_count": "integer",
+            "bias_count": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_BIAS"
+          ],
+          "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm_candidates.py",
+          "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
-          "function": "layernorm_forward"
-        },
-        {
-          "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
-          "function": "layernorm_backward"
-        },
-        {
-          "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
-          "function": "layernorm_affine_backward"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/fast_layernorm/Kernels.lean": "d5de34ed237178ec9b74f90711c2f3b2505f7542d1d86226e272e3dce8a6fc77",
-        "bench/tritonbench_g/fast_layernorm/fast_layernorm.py": "ca518babd0de189bce565bce2c0456ae94883c32cd5b844f0044df994bd4a636"
+        "bench/tritonbench_g/fast_layernorm/Kernels.lean": "6e835eb72118e487daf3bfcc0efd0ff2c0cdd1bc0552fb6c8adcf22afd01657b",
+        "bench/tritonbench_g/fast_layernorm/fast_layernorm.py": "ca518babd0de189bce565bce2c0456ae94883c32cd5b844f0044df994bd4a636",
+        "bench/tritonbench_g/fast_layernorm/fast_layernorm_candidates.py": "58c72a8c800f0f9c5f1d0c34e5590a16b75a1414f4455c640efb10040c3fbeb7",
+        "bench/tritonbench_g/fast_layernorm/jit-correspondence.json": "8fe4bb5a4bd7abc9f28c943466a99dad8664505a492d7eb4371cb56f6464060b"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/fast_layernorm"

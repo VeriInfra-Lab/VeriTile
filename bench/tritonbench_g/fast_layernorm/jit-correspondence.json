@@ -1,0 +1,458 @@
+[
+  {
+    "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
+    "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean",
+    "python_function": "layernorm_forward",
+    "lean_definition": "forwardBody",
+    "signature_definition": "forwardCallSignature",
+    "expected_pointer_offsets": {
+      "Y": "0",
+      "X": "0",
+      "W": "0",
+      "b": "0",
+      "r": "0",
+      "mu": "0"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "b",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ],
+        [
+          "mu",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Y_row_stride",
+          "integer"
+        ],
+        [
+          "X_row_stride",
+          "integer"
+        ],
+        [
+          "n_cols",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "HAS_BIAS"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "b"
+      ],
+      "writePorts": [
+        "Y",
+        "r",
+        "mu"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm_candidates.py",
+    "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean",
+    "python_function": "layernorm_forward_index_commuted",
+    "lean_definition": "forwardCandidateBody",
+    "signature_definition": "forwardCallSignature",
+    "expected_pointer_offsets": {
+      "Y": "0",
+      "X": "0",
+      "W": "0",
+      "b": "0",
+      "r": "0",
+      "mu": "0"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "b",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ],
+        [
+          "mu",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "Y_row_stride",
+          "integer"
+        ],
+        [
+          "X_row_stride",
+          "integer"
+        ],
+        [
+          "n_cols",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "HAS_BIAS"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "b"
+      ],
+      "writePorts": [
+        "Y",
+        "r",
+        "mu"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
+    "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean",
+    "python_function": "layernorm_backward",
+    "lean_definition": "backwardBody",
+    "signature_definition": "backwardCallSignature",
+    "expected_pointer_offsets": {
+      "dX": "0",
+      "dY": "0",
+      "X": "0",
+      "W": "0",
+      "r": "0",
+      "mu": "0"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "dX",
+          "fp32"
+        ],
+        [
+          "dY",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ],
+        [
+          "mu",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "dX_row_stride",
+          "integer"
+        ],
+        [
+          "dY_row_stride",
+          "integer"
+        ],
+        [
+          "X_row_stride",
+          "integer"
+        ],
+        [
+          "n_cols",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "dY",
+        "X",
+        "W",
+        "r",
+        "mu"
+      ],
+      "writePorts": [
+        "dX"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm_candidates.py",
+    "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean",
+    "python_function": "layernorm_backward_index_commuted",
+    "lean_definition": "backwardCandidateBody",
+    "signature_definition": "backwardCallSignature",
+    "expected_pointer_offsets": {
+      "dX": "0",
+      "dY": "0",
+      "X": "0",
+      "W": "0",
+      "r": "0",
+      "mu": "0"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "dX",
+          "fp32"
+        ],
+        [
+          "dY",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ],
+        [
+          "mu",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "dX_row_stride",
+          "integer"
+        ],
+        [
+          "dY_row_stride",
+          "integer"
+        ],
+        [
+          "X_row_stride",
+          "integer"
+        ],
+        [
+          "n_cols",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "dY",
+        "X",
+        "W",
+        "r",
+        "mu"
+      ],
+      "writePorts": [
+        "dX"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
+    "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean",
+    "python_function": "layernorm_affine_backward",
+    "lean_definition": "affineBody",
+    "signature_definition": "affineCallSignature",
+    "expected_pointer_offsets": {
+      "dW": "0",
+      "db": "0",
+      "dY": "0",
+      "X": "0",
+      "r": "0",
+      "mu": "0"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "dW",
+          "fp32"
+        ],
+        [
+          "db",
+          "fp32"
+        ],
+        [
+          "dY",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ],
+        [
+          "mu",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_rows",
+          "integer"
+        ],
+        [
+          "n_cols",
+          "integer"
+        ],
+        [
+          "weight_count",
+          "integer"
+        ],
+        [
+          "bias_count",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "HAS_BIAS"
+      ],
+      "readPorts": [
+        "dY",
+        "X",
+        "r",
+        "mu"
+      ],
+      "writePorts": [
+        "dW",
+        "db"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm_candidates.py",
+    "lean": "bench/tritonbench_g/fast_layernorm/Kernels.lean",
+    "python_function": "layernorm_affine_backward_direct_offsets",
+    "lean_definition": "affineCandidateBody",
+    "signature_definition": "affineCallSignature",
+    "expected_pointer_offsets": {
+      "dW": "0",
+      "db": "0",
+      "dY": "0",
+      "X": "0",
+      "r": "0",
+      "mu": "0"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "dW",
+          "fp32"
+        ],
+        [
+          "db",
+          "fp32"
+        ],
+        [
+          "dY",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "r",
+          "fp32"
+        ],
+        [
+          "mu",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_rows",
+          "integer"
+        ],
+        [
+          "n_cols",
+          "integer"
+        ],
+        [
+          "weight_count",
+          "integer"
+        ],
+        [
+          "bias_count",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE",
+        "HAS_BIAS"
+      ],
+      "readPorts": [
+        "dY",
+        "X",
+        "r",
+        "mu"
+      ],
+      "writePorts": [
+        "dW",
+        "db"
+      ]
+    }
+  }
+]

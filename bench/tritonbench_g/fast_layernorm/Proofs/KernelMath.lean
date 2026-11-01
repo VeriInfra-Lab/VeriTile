@@ -46,7 +46,7 @@ theorem center_real (N B : Nat) (covered : N≤B) (x : Nat → ℝ) (j : Fin B) 
     KernelReference.centered algebra N (fun j : Fin B => x j.val) j=
       if j.val<N then x j.val-RealProof.meanSpec N x else 0 := by
   rw [KernelReference.centered,mean_real N B covered]
-  by_cases hj : j.val<N <;> simp [hj,KernelReference.input,KernelReference.cast,KernelReference.sub,KernelReference.literal,algebra]
+  by_cases hj : j.val<N <;> simp [hj,KernelReference.input,KernelReference.cast,KernelReference.loaded,KernelReference.count,KernelReference.sub,KernelReference.literal,algebra]
 
 theorem inverse_real (N B : Nat) (covered : N≤B) (eps : ℝ) (x : Nat → ℝ) :
     KernelReference.inverse algebra N eps (fun j : Fin B => x j.val)=RealProof.invSpec N x eps := by
@@ -70,7 +70,7 @@ theorem output_real (N B : Nat) (covered : N≤B) (eps : ℝ) (bias : Bool)
       Cell.mk .real (RealProof.outputSpec N x w (fun k => if bias then b k else 0) eps j.val) := by
   unfold KernelReference.output
   rw [center_real N B covered,inverse_real N B covered]
-  cases bias <;> simp [active,KernelReference.cast,KernelReference.add,KernelReference.mul,
+  cases bias <;> simp [active,KernelReference.cast,KernelReference.loaded,KernelReference.count,KernelReference.add,KernelReference.mul,
     KernelReference.input,KernelReference.literal,algebra,RealProof.outputSpec]
 
 theorem gradient_real (N B : Nat) (covered : N≤B) (x dy w : Nat → ℝ) (avg inv : ℝ)
@@ -80,7 +80,7 @@ theorem gradient_real (N B : Nat) (covered : N≤B) (x dy w : Nat → ℝ) (avg 
   have weighted : KernelReference.weighted algebra N (fun j : Fin B => dy j.val) (fun j => w j.val)=
       fun j : Fin B => if j.val<N then dy j.val*w j.val else 0 := by
     funext j
-    by_cases hj : j.val<N <;> simp [KernelReference.weighted,KernelReference.input,KernelReference.cast,
+    by_cases hj : j.val<N <;> simp [KernelReference.weighted,KernelReference.input,KernelReference.cast,KernelReference.loaded,KernelReference.count,
       KernelReference.mul,KernelReference.literal,algebra,hj]
   have product : KernelReference.product algebra N (fun j : Fin B => x j.val)
       (fun j => dy j.val) (fun j => w j.val) avg inv=
@@ -88,13 +88,13 @@ theorem gradient_real (N B : Nat) (covered : N≤B) (x dy w : Nat → ℝ) (avg 
     funext j
     rw [KernelReference.product,weighted]
     by_cases hj : j.val<N <;> simp [hj,KernelReference.normalized,KernelReference.input,
-      KernelReference.cast,KernelReference.mul,KernelReference.sub,KernelReference.literal,algebra]
+      KernelReference.cast,KernelReference.loaded,KernelReference.count,KernelReference.mul,KernelReference.sub,KernelReference.literal,algebra]
   unfold KernelReference.gradient
   rw [weighted,product]
   simp only [reduce_real]
   rw [sum_padding N B covered (fun j => dy j*w j),
     sum_padding N B covered (fun j => dy j*w j*((x j-avg)*inv))]
-  simp [active,KernelReference.normalized,KernelReference.input,KernelReference.cast,KernelReference.mul,
+  simp [active,KernelReference.normalized,KernelReference.input,KernelReference.cast,KernelReference.loaded,KernelReference.count,KernelReference.mul,
     KernelReference.sub,KernelReference.div,KernelReference.literal,algebra,RealProof.gradientSpec]
 
 theorem affine_real (active : Bool) (x dy avg inv : Nat → ℝ) (rows : Nat) :
@@ -106,7 +106,7 @@ theorem affine_real (active : Bool) (x dy avg inv : Nat → ℝ) (rows : Nat) :
   | succ rows ih =>
     rw [KernelReference.affineCarry,ih]
     cases active <;> simp [KernelReference.affineTerm,KernelReference.add,KernelReference.sub,
-      KernelReference.mul,KernelReference.cast,KernelReference.literal,algebra,Finset.sum_range_succ]
+      KernelReference.mul,KernelReference.cast,KernelReference.loaded,KernelReference.count,KernelReference.literal,algebra,Finset.sum_range_succ]
 
 #axiomsClean output_real
 #axiomsClean gradient_real
