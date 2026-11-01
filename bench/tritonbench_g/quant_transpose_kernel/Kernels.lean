@@ -1,6 +1,7 @@
 import bench.tritonbench_g.quant_transpose_kernel.Sources.Mathematical_Kernels
+import VeriTile.Triton.DSL.CallSignature
 
-/-! The checked revision preserves the original scalar, grouped schedule,
+/-! The repair preserves the original scalar, grouped schedule,
 strided load/store graph, two configurations and wrapper metadata. -/
 namespace VeriTile.Bench.Repairs.QuantTransposeKernel
 
@@ -12,62 +13,102 @@ namespace VeriTile.Bench.Repairs.QuantTransposeKernel.KernelSource
 open Lean VeriTile.Triton
 abbrev Parameters := QuantTransposeFinite.Parameters
 
-/-! The actual selected 128x128/G8 source, including its grouped one-dimensional
-schedule, rematerialized coordinates, llrint64 and implicit int8 store. The
-candidate only commutes an integer input-row address product. -/
+/-! Complete original Python body and the existing integer-address candidate.
+The grouped schedule, rematerialization, masks, pointer updates and integer
+conversion remain in the quotation. All runtime arguments are bound outside. -/
+def callSignature : CallSignature where
+  pointers := [("A",.fp32),("absmax_inv_ptr",.fp32),("B",.i8)]
+  scalars := [("stride_am",.integer),("stride_an",.integer),("stride_bn",.integer),
+    ("stride_bm",.integer),("M",.integer),("N",.integer)]
+  constexpr := ["BLOCK_M","BLOCK_N","GROUP_M"]
+  readPorts := ["A","absmax_inv_ptr"]
+  writePorts := ["B"]
+
 def quotedOriginal (p : Parameters) : ComputeKernel :=
   let A : RegionName := ⟨p.x⟩
-  let AbsmaxInv : RegionName := ⟨p.scale⟩
+  let absmax_inv_ptr : RegionName := ⟨p.scale⟩
   let B : RegionName := ⟨p.output⟩
-  triton {
-    tl.region A = tl.float32, AbsmaxInv = tl.float32, B = tl.int8
+  let BLOCK_M : Nat := 128
+  let BLOCK_N : Nat := 128
+  let GROUP_M : Nat := 8
+  let M := p.M
+  let N := p.N
+  let stride_am := p.sam
+  let stride_an := p.san
+  let stride_bm : Nat := 1
+  let stride_bn := p.M
+  with_triton_call callSignature call_args
+    [stride_am := stride_am,stride_an := stride_an,stride_bn := stride_bn,
+      stride_bm := stride_bm,M := M,N := N] in triton {
     pid = tl.program_id(0)
-    grid_m = ($((p.M : Nat)) + $(128) - $(1)) // $(128)
-    grid_n = ($((p.N : Nat)) + $(128) - $(1)) // $(128)
-    width = $(8) * grid_n
+    grid_m = (M + BLOCK_M - 1) // BLOCK_M
+    grid_n = (N + BLOCK_N - 1) // BLOCK_N
+
+    width = GROUP_M * grid_n
     group_id = pid // width
-    group_size = min(grid_m - group_id * $(8), $(8))
-    pid_m = group_id * $(8) + (pid % group_size)
+    group_size = min(grid_m - group_id * GROUP_M, GROUP_M)
+    pid_m = group_id * GROUP_M + (pid % group_size)
     pid_n = (pid % width) // group_size
-    rm = pid_m * $(128) + tl.arange(0, $(128))
-    rn = pid_n * $(128) + tl.arange(0, $(128))
-    A = A + (rm[:, None] * $((p.sam : Nat)) + rn[None, :] * $((p.san : Nat)))
-    mask = (rm < $((p.M : Nat)))[:, None] & (rn < $((p.N : Nat)))[None, :]
+
+    rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    rn = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)
+    A = A + (rm[:, None] * stride_am + rn[None, :] * stride_an)
+    mask = (rm < M)[:, None] & (rn < N)[None, :]
     a = tl.load(A, mask=mask)
-    absmax_inv = tl.load(AbsmaxInv)
-    rm = pid_m * $(128) + tl.arange(0, $(128))
-    rn = pid_n * $(128) + tl.arange(0, $(128))
-    B = B + (rm[:, None] * $(1) + rn[None, :] * $((p.M : Nat)))
-    mask = (rm < $((p.M : Nat)))[:, None] & (rn < $((p.N : Nat)))[None, :]
+    absmax_inv = tl.load(absmax_inv_ptr)
+
+    # rematerialize to save registers
+    rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    rn = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)
+    B = B + (rm[:, None] * stride_bm + rn[None, :] * stride_bn)
+    mask = (rm < M)[:, None] & (rn < N)[None, :]
+
     output = tl.extra.cuda.libdevice.llrint(127.0 * (a * absmax_inv))
+
     tl.store(B, output, mask=mask)
   }
 
 def quotedCommuted (p : Parameters) : ComputeKernel :=
   let A : RegionName := ⟨p.x⟩
-  let AbsmaxInv : RegionName := ⟨p.scale⟩
+  let absmax_inv_ptr : RegionName := ⟨p.scale⟩
   let B : RegionName := ⟨p.output⟩
-  triton {
-    tl.region A = tl.float32, AbsmaxInv = tl.float32, B = tl.int8
+  let BLOCK_M : Nat := 128
+  let BLOCK_N : Nat := 128
+  let GROUP_M : Nat := 8
+  let M := p.M
+  let N := p.N
+  let stride_am := p.sam
+  let stride_an := p.san
+  let stride_bm : Nat := 1
+  let stride_bn := p.M
+  with_triton_call callSignature call_args
+    [stride_am := stride_am,stride_an := stride_an,stride_bn := stride_bn,
+      stride_bm := stride_bm,M := M,N := N] in triton {
     pid = tl.program_id(0)
-    grid_m = ($((p.M : Nat)) + $(128) - $(1)) // $(128)
-    grid_n = ($((p.N : Nat)) + $(128) - $(1)) // $(128)
-    width = $(8) * grid_n
+    grid_m = (M + BLOCK_M - 1) // BLOCK_M
+    grid_n = (N + BLOCK_N - 1) // BLOCK_N
+
+    width = GROUP_M * grid_n
     group_id = pid // width
-    group_size = min(grid_m - group_id * $(8), $(8))
-    pid_m = group_id * $(8) + (pid % group_size)
+    group_size = min(grid_m - group_id * GROUP_M, GROUP_M)
+    pid_m = group_id * GROUP_M + (pid % group_size)
     pid_n = (pid % width) // group_size
-    rm = pid_m * $(128) + tl.arange(0, $(128))
-    rn = pid_n * $(128) + tl.arange(0, $(128))
-    A = A + ($((p.sam : Nat)) * rm[:, None] + rn[None, :] * $((p.san : Nat)))
-    mask = (rm < $((p.M : Nat)))[:, None] & (rn < $((p.N : Nat)))[None, :]
+
+    rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    rn = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)
+    A = A + (stride_am * rm[:, None] + rn[None, :] * stride_an)
+    mask = (rm < M)[:, None] & (rn < N)[None, :]
     a = tl.load(A, mask=mask)
-    absmax_inv = tl.load(AbsmaxInv)
-    rm = pid_m * $(128) + tl.arange(0, $(128))
-    rn = pid_n * $(128) + tl.arange(0, $(128))
-    B = B + (rm[:, None] * $(1) + rn[None, :] * $((p.M : Nat)))
-    mask = (rm < $((p.M : Nat)))[:, None] & (rn < $((p.N : Nat)))[None, :]
+    absmax_inv = tl.load(absmax_inv_ptr)
+
+    # rematerialize to save registers
+    rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    rn = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)
+    B = B + (rm[:, None] * stride_bm + rn[None, :] * stride_bn)
+    mask = (rm < M)[:, None] & (rn < N)[None, :]
+
     output = tl.extra.cuda.libdevice.llrint(127.0 * (a * absmax_inv))
+
     tl.store(B, output, mask=mask)
   }
 

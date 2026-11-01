@@ -1295,6 +1295,19 @@
           "VeriTile.Bench.Repairs.TokenSoftmaxBloom.FPEquiv.token_softmax_source_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/quant_transpose_kernel",
+      "python": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/quant_transpose_kernel/Correct.lean": [
+          "VeriTile.Bench.Repairs.QuantTransposeKernel.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/quant_transpose_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.QuantTransposeKernel.FPEquiv.kernel_native_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1825,6 +1838,23 @@
     "bench/tritonbench_g/nested_loops_processing/Proofs/TypedMiddle.lean",
     "bench/tritonbench_g/nested_loops_processing/Proofs/TypedOuter.lean",
     "bench/tritonbench_g/nested_loops_processing/Proofs/TypedStep.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Contract.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Correct.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/FPEquiv.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/IO.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Kernels.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/ByteIO.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/KernelExecution.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/KernelGrid.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/KernelModels.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/KernelResult.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/KernelSafety.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/Mathematical_GroupedGrid.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/Mathematical_GroupedMapping.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/ReaderBefore.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Sources/Mathematical_Kernels.lean",
     "bench/tritonbench_g/quantize_copy_kv/Contract.lean",
     "bench/tritonbench_g/quantize_copy_kv/Correct.lean",
     "bench/tritonbench_g/quantize_copy_kv/FPEquiv.lean",
