@@ -53,7 +53,10 @@
       "cases": 1,
       "retained_modules": 34,
       "replay_sources": 34,
-      "state": "local_proofs_pass_official_replay_pending"
+      "state": "official_replay_running",
+      "validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41359684034",
+      "source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67"
     },
     "previous_incremental_replays": [
       {
@@ -435,8 +438,8 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Dispatch UniformSampling independent replay, verify shared/current receipts, then continue remaining source/proof migrations. No merge.",
-    "previous_validated_source_commit": "be54d8566aa6d3a11c82633f5b18b22de394f67f",
+    "current_work": "Repair literal AttentionFwdTriton1 source and retained proofs; audit exact-current independent receipts before marking any target complete. No merge.",
+    "previous_validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0",
     "shared_model_revalidation": {
       "state": "reshape_precision_full_local_pass_official_replay_running",
       "cases": 127,
@@ -488,7 +491,7 @@
         "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942"
       }
     },
-    "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0"
+    "validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67"
   },
   "targets": [
     {
@@ -2084,7 +2087,9 @@
         22,
         22
       ],
-      "reason": "Literal source, caller ABI words and complete copied fallback helper are connected to the full retained proof chain. Local proof and audit checks pass; exact independent replay is still required."
+      "reason": "Literal source, caller ABI words and complete copied fallback helper are connected to the full retained proof chain. Local proof and audit checks pass; exact independent replay is still required.",
+      "validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41359684034"
     },
     {
       "path": "bench/tritonbench_g/var_len_copy",
