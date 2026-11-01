@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 120,
+  "completed_count": 0,
   "staged_count": 121,
-  "pending_count": 76,
+  "pending_count": 196,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "PASS",
-    "staged_and_regression_retained_modules": 3361,
-    "official_comparator": "120 targets have exact current-source/import-closure official receipts, including all 19 examples. BmmChunkBwd run 41347223281 replays the exact c5bb57dff0873783f7df0a67c58832e9ccfd8bcd snapshot and all 43 task/support files. It remains incomplete pending its accepted current-source receipt.",
+    "staged_public_proofs": "CURRENT_SNAPSHOT_FULL_BUILD_AND_REPLAY_PENDING",
+    "staged_and_regression_retained_modules": 3365,
+    "official_comparator": "120 targets were accepted on the previous dependency snapshot, including all 19 examples. Their receipts are preserved as previous_receipt. The distinct libdevice.rsqrt model extension changes shared dependency hashes, so current completion awaits full proof rebuild and independent replay. BmmChunkBwd run 41347223281 targets the earlier c5bb57dff0873783f7df0a67c58832e9ccfd8bcd snapshot.",
     "python_tests": 442,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,9 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-    "working_tree": "At validated_source_commit all 127 selected cases (121 targets and six regressions), 3361 retained/supporting Lean modules, 2364 selected proof/audit sources and 442 Python tests pass locally, including fully-qualified public theorem checks. BmmChunkBwd replaces the whole-kernel source macro, three source locations and obsolete residual-order implementation with one literal repaired body and one literal existing integer head-index candidate in Kernels.lean. All 21 scalar self-casts, program-ID conversions, signed loop bound, dtype aliases, output cast, original masks, pointer advances and residual order remain in the copied body. The optional named-dtype adapter resolves complete load casts and exposes the exact cdiv expression for signed-loop inference. Six independent literal reference programs check every dtype, signed bound, source mask and destination conversion; mutation/shadowing/free-dtype tests fail closed. Every actual load/cast temporary, loop step, access and final store is included in the execution and safety proofs. Signed negative chunk limits and empty loops are connected to natural logical coordinates by proved integer identities. The independent Real contraction-plus-residual formula, complete three-axis grid, output readback and exterior frame are re-proved. Both complete source programs are equivalent for an arbitrary floating algebra without numerical rewrite assumptions; the public FP audit prints none. All 40 task modules and three frontend/reference/test modules are required in incremental replay. All 120 completed current source/import closures remain unchanged. BmmChunkBwd remains incomplete pending its exact independent receipt.",
-    "official_replay_sources": 2364,
+    "working_tree": "The libdevice.rsqrt model extension and literal None memory masks are locally checked, including complete-program and distinct-backend regressions. The initial 127-case full retained-module build passed (12069 jobs); the subsequent metadata and None-mask fixes require the current exact snapshot to be rebuilt and independently replayed. No target is currently marked complete. Previously accepted receipts remain historical evidence. LayerNormWelfold source/proof migration is still in progress and is not included in this batch.",
+    "official_replay_sources": 2368,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -415,49 +414,76 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Dispatch BmmOptimized independent replay, audit exact-current receipts and continue BmmChunkBwd. No merge."
+    "current_work": "Dispatch BmmOptimized independent replay, audit exact-current receipts and continue BmmChunkBwd. No merge.",
+    "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+    "shared_model_revalidation": {
+      "state": "current_full_build_and_official_replay_pending",
+      "cases": 127,
+      "retained_modules": 3365,
+      "replay_sources": 2368,
+      "reason": "Distinct libdevice.rsqrt FP backend, input-port collection and exact Python None masks change shared dependency hashes.",
+      "initial_full_build": {
+        "passed": true,
+        "jobs": 12069,
+        "current_source_snapshot": false
+      },
+      "current_frontend_regressions": [
+        "tests/lean/LibdeviceRsqrt.lean",
+        "tests/lean/NoneMemoryMasks.lean"
+      ],
+      "python_tests": 442,
+      "body_corpus_check": "pass"
+    }
   },
   "targets": [
     {
       "path": "bench/tritonbench_g/adam_update_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/adam_update.json",
-      "receipt": "validation/body_receipts/swiglu_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/swiglu_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/add_example",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard5.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard5.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/add_value",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard0.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard0.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/apply_penalty",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/apply_penalty.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/apply_penalty.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/attention_forward_triton",
@@ -511,13 +537,15 @@
     },
     {
       "path": "bench/tritonbench_g/batched_vecmat_mult",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/batched_vecmat_mult.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/batched_vecmat_mult.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/bgmv_expand_slice",
@@ -551,23 +579,27 @@
     },
     {
       "path": "bench/tritonbench_g/bmm_optimized",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/bmm_optimized.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/bmm_optimized.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/cache_transform_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/chunk_bwd_dqkg",
@@ -576,33 +608,39 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_cumsum_kernel",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard1.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard1.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/chunk_cumsum_vector",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard0.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard0.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/chunk_delta_fwd",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/chunk_delta_fwd.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/chunk_delta_fwd.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/chunk_gate_recurrence",
@@ -636,13 +674,15 @@
     },
     {
       "path": "bench/tritonbench_g/chunked_cumsum_fwd",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/chunked_cumsum_fwd.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/chunked_cumsum_fwd.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/context_attn_bloom",
@@ -671,43 +711,51 @@
     },
     {
       "path": "bench/tritonbench_g/cosine_compute",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard1.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard1.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/cross_entropy1",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "receipt": "validation/body_receipts/cross_entropy1.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/cross_entropy1.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/cross_entropy2",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "receipt": "validation/body_receipts/cross_entropy2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/cross_entropy2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/cross_entropy_ops",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "receipt": "validation/body_receipts/cross_entropy_ops.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/cross_entropy_ops.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/decay_cumsum",
@@ -716,44 +764,51 @@
     },
     {
       "path": "bench/tritonbench_g/dequantize_matmul",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "previous_receipt": "validation/body_receipts/stage9-shard4.json",
-      "receipt": "validation/body_receipts/cross_entropy1.json"
+      "previous_receipt": "validation/body_receipts/cross_entropy1.json",
+      "previously_complete": true,
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/destindex_copy",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/destindex_copy.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/destindex_copy.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/destindex_copy_kv1",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/destindex_copy.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/destindex_copy.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/destindex_copy_kv2",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/destindex_copy.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/destindex_copy.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/diag_ssm_triton",
@@ -762,75 +817,88 @@
     },
     {
       "path": "bench/tritonbench_g/dropout_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "retained_configurations": 12,
-      "receipt": "validation/body_receipts/stage9-shard3.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard3.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/embedding_triton_kernel",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard1.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard1.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/f8_conversion_utils",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/f8_conversion_utils.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/f8_conversion_utils.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/fast_ce_loss",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "previous_receipt": "validation/body_receipts/fast_ce_loss.json",
-      "receipt": "validation/body_receipts/cross_entropy1.json"
+      "previous_receipt": "validation/body_receipts/cross_entropy1.json",
+      "previously_complete": true,
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/fast_layernorm",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "receipt": "validation/body_receipts/fast_layernorm.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/fast_layernorm.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/fast_rms_layernorm",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/fast_rms_layernorm.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/fast_rms_layernorm.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/fast_rope_embedding",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/rope_embeddings.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/rope_embeddings.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/fifth_order_sph_harmonics",
@@ -844,23 +912,27 @@
     },
     {
       "path": "bench/tritonbench_g/flash_decode2_llama",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/flash_decode2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/flash_decode2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/flash_decode2_phi",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/flash_decode2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/flash_decode2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/fp4_to_bf16",
@@ -869,13 +941,15 @@
     },
     {
       "path": "bench/tritonbench_g/fused_activation",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard1.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard1.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/fused_layernorm_triton",
@@ -889,13 +963,15 @@
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_hgrn",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard4.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard4.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_retention",
@@ -904,13 +980,15 @@
     },
     {
       "path": "bench/tritonbench_g/fused_rotary_embedding",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/fused_rotary_embedding.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/fused_rotary_embedding.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/fused_rwkv6_kernel",
@@ -919,34 +997,40 @@
     },
     {
       "path": "bench/tritonbench_g/geglu_tanh_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/stage9-shard3.json",
-      "receipt": "validation/body_receipts/swiglu_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/swiglu_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/index_select_bwd",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/index_select_cat",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/int4_matmul",
@@ -980,13 +1064,15 @@
     },
     {
       "path": "bench/tritonbench_g/isfinite_kernel",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/isfinite_kernel.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/isfinite_kernel.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/iv_dependent_matmul",
@@ -995,18 +1081,20 @@
     },
     {
       "path": "bench/tritonbench_g/kcache_copy_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/kldiv_compute",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
@@ -1015,48 +1103,58 @@
       "retained_dtype_combinations": 216,
       "source_transition_evidence": "validation/kldiv-source-transition.json",
       "superseded_receipt": "validation/body_receipts/stage9-shard3.json",
-      "receipt": "validation/body_receipts/swiglu_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/swiglu_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/kldiv_ops",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/kldiv_ops.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/kldiv_ops.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/kldiv_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
-      "receipt": "validation/body_receipts/swiglu_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/swiglu_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/ksoftmax_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/ksoftmax_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/ksoftmax_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/kv_cache_copy",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/kv_cache_copy.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/kv_cache_copy.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/kv_cache_filling",
@@ -1065,36 +1163,42 @@
     },
     {
       "path": "bench/tritonbench_g/l2_norm_bwd",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/stage9-shard1.json",
-      "receipt": "validation/body_receipts/swiglu_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/swiglu_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/l2_norm_triton1",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/stage9-shard4.json",
-      "receipt": "validation/body_receipts/swiglu_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/swiglu_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/l2_norm_triton2",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
-      "receipt": "validation/body_receipts/swiglu_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/swiglu_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/layer_norm_fwd",
@@ -1103,13 +1207,15 @@
     },
     {
       "path": "bench/tritonbench_g/layer_norm_liger",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/layer_norm_liger.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/layer_norm_liger.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/layer_norm_ops",
@@ -1128,13 +1234,15 @@
     },
     {
       "path": "bench/tritonbench_g/layernorm_fwd_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/layernorm_fwd_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/layernorm_fwd_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/lightning_attention",
@@ -1148,24 +1256,28 @@
     },
     {
       "path": "bench/tritonbench_g/log_softmax",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/stage9-shard1.json",
-      "receipt": "validation/body_receipts/layernorm_fwd_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/layernorm_fwd_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/logsumexp_fwd",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard5.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard5.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/lora_expand_gemv",
@@ -1174,23 +1286,27 @@
     },
     {
       "path": "bench/tritonbench_g/masked_add_cuda",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard4.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard4.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/masked_select",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/masked_select.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/masked_select.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/matmul_dequant_int4",
@@ -1209,13 +1325,15 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_kernel",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard3.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard3.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/matmul_leakyrelu",
@@ -1234,13 +1352,15 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_tma",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/matmul_tma.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/matmul_tma.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/matmul_triton_autotune",
@@ -1249,43 +1369,51 @@
     },
     {
       "path": "bench/tritonbench_g/matrix_reduction",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/matrix_reduction.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/matrix_reduction.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/matrix_transpose",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard5.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard5.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/max_reduction",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard1.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard1.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/mean_reduction",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard0.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard0.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/mixed_sparse_attention",
@@ -1294,34 +1422,40 @@
     },
     {
       "path": "bench/tritonbench_g/mul_exponent_compensator",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/mul_exponent_compensator.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/mul_exponent_compensator.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/multinomial_sampling",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "receipt": "validation/body_receipts/multinomial_sampling.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/multinomial_sampling.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/nested_loops_processing",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
-      "receipt": "validation/body_receipts/layernorm_fwd_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/layernorm_fwd_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/parallel_attention",
@@ -1340,53 +1474,63 @@
     },
     {
       "path": "bench/tritonbench_g/quant_transpose_kernel",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/quant_transpose_kernel.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/quant_transpose_kernel.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/quantize_copy_kv",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/matrix_reduction.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/matrix_reduction.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/quantize_global",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard4.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard4.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/quantize_kv_copy",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/matrix_reduction.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/matrix_reduction.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/quantize_kv_transform",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/matrix_reduction.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/matrix_reduction.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rbe_triton_transform",
@@ -1400,33 +1544,39 @@
     },
     {
       "path": "bench/tritonbench_g/relu_triton_kernel",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/relu_triton_kernel.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/relu_triton_kernel.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/reversed_cumsum",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/reversed_cumsum.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/reversed_cumsum.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/reversed_cumsum_scalar",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/reversed_cumsum_scalar.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/reversed_cumsum_scalar.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rms_matmul_rbe",
@@ -1435,13 +1585,15 @@
     },
     {
       "path": "bench/tritonbench_g/rms_norm_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard5.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard5.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rms_rbe_matmul",
@@ -1450,94 +1602,112 @@
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_fused",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard5.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard5.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_fused_llama",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/rmsnorm_fused_llama.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/rmsnorm_fused_llama.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_implementation",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/rmsnorm_implementation.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/rmsnorm_implementation.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/rmsnorm_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/rmsnorm_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rope_backward_transform",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rope_embedding",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/rope_embeddings.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/rope_embeddings.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rope_transform",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard1.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard1.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rotary_emb",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/stage9-shard0.json",
-      "receipt": "validation/body_receipts/swiglu_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/swiglu_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rotary_emb_nopad",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/rotary_emb_nopad.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/rotary_emb_nopad.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/rotary_transform",
@@ -1551,23 +1721,27 @@
     },
     {
       "path": "bench/tritonbench_g/rowwise_quantization_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard0.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard0.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/seeded_dropout",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/seeded_dropout.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/seeded_dropout.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/sgmv_expand_slice",
@@ -1576,23 +1750,27 @@
     },
     {
       "path": "bench/tritonbench_g/sin_computation",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard0.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard0.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/sin_kernel",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard1.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard1.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/softmax_flaggems",
@@ -1601,53 +1779,63 @@
     },
     {
       "path": "bench/tritonbench_g/softmax_optimize",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/softmax_optimize.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/softmax_optimize.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/softmax_reducev",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/softmax_reducev.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/softmax_reducev.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/softmax_triton1",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/softmax_family.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/softmax_family.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/softmax_triton2",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/softmax_family.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/softmax_family.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/softmax_triton3",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/softmax_triton3.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/softmax_triton3.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/spinning_lock_reduction",
@@ -1656,13 +1844,15 @@
     },
     {
       "path": "bench/tritonbench_g/square_matrix",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/streamk_matmul",
@@ -1671,93 +1861,111 @@
     },
     {
       "path": "bench/tritonbench_g/swiglu_backward",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard3.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard3.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/swiglu_fwd",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard3.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard3.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/swiglu_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/swiglu_triton.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/swiglu_triton.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/token_attn_llama2",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/token_attn_llama2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/token_attn_llama2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/token_attn_mistral",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/token_attn_mistral.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/token_attn_mistral.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/token_attn_reduceV",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/token_attn_reduceV.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/token_attn_reduceV.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/token_softmax_bloom",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/token_softmax.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/token_softmax.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/token_softmax_llama",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/token_softmax.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/token_softmax.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/triton_argmax",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/triton_argmax.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/triton_argmax.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/triton_attention",
@@ -1776,23 +1984,27 @@
     },
     {
       "path": "bench/tritonbench_g/triton_mul2",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard5.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard5.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/triton_softmax",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/softmax_family.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/softmax_family.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/uniform_sampling",
@@ -1801,225 +2013,268 @@
     },
     {
       "path": "bench/tritonbench_g/var_len_copy",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard0.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard0.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/vector_addition",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard4.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard4.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/tritonbench_g/vector_addition_custom",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard5.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard5.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/AdamUpdateGridLaunch",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/stage9-shard3.json",
-      "reason": "Correct numeric Boolean promotion and all Real/FP proofs pass; the old receipt is historical and fresh independent replay is required.",
-      "receipt": "validation/body_receipts/adam_update.json"
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay.",
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/adam_update.json"
     },
     {
       "path": "bench/examples/FlatVectorAdd",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard4.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard4.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/FloatDTypeAdd",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard5.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard5.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/FloatDTypeSoftmax",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard4.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard4.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/FusedLayerNorm",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard0.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard0.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/FusedSiLU",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard3.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard3.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/FusedSwiglu",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard4.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard4.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/HyperConnectionsDepth",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard4.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard4.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/HyperConnectionsWidth",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard5.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard5.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/LogExp",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/OnlineSoftmax",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard5.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard5.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/RowWiseMax",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard0.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard0.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/RowWiseSum",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard1.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard1.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/SoftmaxReciprocal",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard3.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard3.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/SoftmaxStable",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard1.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard1.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/StableLogSumExp",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard2.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard2.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/TritonBenchVectorAddition",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard0.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard0.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/VectorAdd",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard3.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard3.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     },
     {
       "path": "bench/examples/Welford",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "receipt": "validation/body_receipts/stage9-shard0.json"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/stage9-shard0.json",
+      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
     }
   ],
   "historical_official_validation": [
@@ -2035,5 +2290,6 @@
       "replay_sources": 152,
       "current_source_certificate": false
     }
-  ]
+  ],
+  "previously_completed_count": 120
 }

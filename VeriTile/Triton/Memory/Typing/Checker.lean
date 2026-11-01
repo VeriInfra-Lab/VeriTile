@@ -392,6 +392,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .sigmoid a => a.check ctx
   | .sqrt a => a.check ctx
   | .rsqrt a => a.check ctx
+  | .libdeviceRsqrt a => a.check ctx
   | .tanh a => a.check ctx
   | .sin a => a.check ctx
   | .cos a => a.check ctx

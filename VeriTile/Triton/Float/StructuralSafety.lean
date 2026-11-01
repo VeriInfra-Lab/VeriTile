@@ -111,6 +111,7 @@ def safeOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option ComputeDType)
   | .sigmoid a => safeOp M p bounds s a
   | .sqrt a => safeOp M p bounds s a
   | .rsqrt a => safeOp M p bounds s a
+  | .libdeviceRsqrt a => safeOp M p bounds s a
   | .tanh a => safeOp M p bounds s a
   | .sin a => safeOp M p bounds s a
   | .cos a => safeOp M p bounds s a

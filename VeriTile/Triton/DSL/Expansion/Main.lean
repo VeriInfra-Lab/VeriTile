@@ -1513,6 +1513,13 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       let term ← `(Op.rsqrt $eTerm)
       let (ct, cp) ← floatingComputeArith? "tl.rsqrt" term e' e'
       pure ⟨term, .real, e'.shape, ct, cp⟩
+  | `(tritonExpr| libdevice.rsqrt($e:tritonExpr))
+  | `(tritonExpr| tl.extra.cuda.libdevice.rsqrt($e:tritonExpr)) => do
+      let e' ← expandExpr env e
+      let eTerm ← realMathTerm "libdevice.rsqrt" e'
+      let term ← `(Op.libdeviceRsqrt $eTerm)
+      let (ct, cp) ← floatingComputeArith? "libdevice.rsqrt" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.tanh($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.tanh" e'

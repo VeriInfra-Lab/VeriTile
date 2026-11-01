@@ -134,6 +134,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .sigmoid a => .sigmoid a.eraseDType
   | .sqrt a => .sqrt a.eraseDType
   | .rsqrt a => .rsqrt a.eraseDType
+  | .libdeviceRsqrt a => .libdeviceRsqrt a.eraseDType
   | .tanh a => .tanh a.eraseDType
   | .sin a => .sin a.eraseDType
   | .cos a => .cos a.eraseDType
