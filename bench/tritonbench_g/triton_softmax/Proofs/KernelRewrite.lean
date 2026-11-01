@@ -7,6 +7,15 @@ open scoped VeriTile.Spec
 set_option maxHeartbeats 6000000
 set_option maxRecDepth 16000
 
+@[spec_rule] private theorem int_to_nat {α : Type} [Inhabited α]
+    (M : FP.Structural.Algebra α) (s : FP.Structural.State α)
+    (before : List ComputeStmt) (a b : Op .int shape)
+    (h : OpEquivalent M s before a b) :
+    OpEquivalent M s before (.castIntToNat a) (.castIntToNat b) := by
+  intro t ht
+  simp only [FP.Structural.evalOp]
+  rw [h t ht]
+
 def program (k : ComputeKernel) : Program := ⟨k,[]⟩
 
 /-- A genuine source candidate: exact integer commutation in the input

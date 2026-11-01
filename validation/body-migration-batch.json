@@ -1100,6 +1100,19 @@
           "VeriTile.Bench.Repairs.DestindexCopy.FPEquiv.index_commuted_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/triton_softmax",
+      "python": "bench/tritonbench_g/triton_softmax/triton_softmax.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/triton_softmax/Correct.lean": [
+          "VeriTile.Bench.Repairs.TritonSoftmax.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/triton_softmax/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TritonSoftmax.FPEquiv.kernel_native"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1678,6 +1691,29 @@
     "bench/tritonbench_g/triton_matmul/Sources/Mathematical_Kernels.lean",
     "bench/tritonbench_g/triton_matmul/Sources/Numerics.lean",
     "bench/tritonbench_g/triton_matmul/Sources/Parameters.lean",
+    "bench/tritonbench_g/triton_softmax/Contract.lean",
+    "bench/tritonbench_g/triton_softmax/Correct.lean",
+    "bench/tritonbench_g/triton_softmax/FPEquiv.lean",
+    "bench/tritonbench_g/triton_softmax/IO.lean",
+    "bench/tritonbench_g/triton_softmax/Kernels.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/FP.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/IntegerAddresses.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/KernelInterface.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/KernelNative.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/KernelReal.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/KernelRewrite.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/LogicalColumns.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/Mathematical_IndexRewrite.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/Memory.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/NativeGraph.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/NativeIO.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/NativeIOImplements.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/NativeSource.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/Pair.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/RealIOImplements.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/RowIO.lean",
+    "bench/tritonbench_g/triton_softmax/Proofs/StructuralAccess.lean",
     "bench/tritonbench_g/var_len_copy/Kernels.lean",
     "bench/tritonbench_g/var_len_copy/Proofs/KernelFP.lean",
     "bench/tritonbench_g/var_len_copy/Proofs/KernelFPBody.lean",
@@ -1699,6 +1735,7 @@
     "tests/lean/CallSignature.lean",
     "tests/lean/FiniteCallProfiles.lean",
     "tests/lean/IntegerDivisionLiterals.lean",
+    "tests/lean/PointerArguments.lean",
     "tests/lean/PreciseDivisionAndInfinity.lean",
     "tests/lean/PythonCallSyntax.lean",
     "tests/lean/PythonInlineSuites.lean",
