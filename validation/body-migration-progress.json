@@ -9,10 +9,10 @@
   "pending_count": 196,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "LOCAL_PASS_OFFICIAL_REPLAY_PENDING",
-    "staged_and_regression_retained_modules": 3365,
+    "staged_public_proofs": "RESHAPE_PRECISION_REVALIDATION_PENDING",
+    "staged_and_regression_retained_modules": 3367,
     "official_comparator": "120 targets were accepted on the previous dependency snapshot, including all 19 examples. Their receipts are preserved as previous_receipt. The distinct libdevice.rsqrt model extension changes shared dependency hashes, so current completion awaits full proof rebuild and independent replay. BmmChunkBwd run 41347223281 targets the earlier c5bb57dff0873783f7df0a67c58832e9ccfd8bcd snapshot.",
-    "python_tests": 442,
+    "python_tests": 450,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "All 127 selected cases, 3365 retained/supporting Lean modules and 2368 proof/audit source targets pass the current local full build (12070 jobs) on the unchanged 9096006a1 source closures. Shared libdevice.rsqrt, inferred input ports and literal None masks have dedicated regressions. Six official replay shards are running on that exact commit. Completion remains pending those receipts. The literal LayerNormWelfold original and address-reuse candidate have matching 23-statement Python bodies, independently checked ordered-tree frontend tests and canonical-source fragment binding proofs; their execution, safety and output proofs are still being migrated and are excluded from this batch.",
-    "official_replay_sources": 2368,
+    "working_tree": "The 9096006a1 snapshot passed its local full build, but its replay was cancelled before acceptance after LayerNormWelfold re-proof exposed a precision-loss bug in reshape. The new view fix and independent FP32/FP64 complete typed-program regressions require fresh local and official revalidation. No targets are marked complete. LayerNormWelfold remains in source/proof migration.",
+    "official_replay_sources": 2370,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -417,10 +417,10 @@
     "current_work": "Dispatch BmmOptimized independent replay, audit exact-current receipts and continue BmmChunkBwd. No merge.",
     "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
     "shared_model_revalidation": {
-      "state": "local_full_build_pass_official_replay_running",
+      "state": "reshape_precision_regressions_pass_full_revalidation_pending",
       "cases": 127,
-      "retained_modules": 3365,
-      "replay_sources": 2368,
+      "retained_modules": 3367,
+      "replay_sources": 2370,
       "reason": "Distinct libdevice.rsqrt FP backend, input-port collection and exact Python None masks change shared dependency hashes.",
       "initial_full_build": {
         "passed": true,
@@ -443,6 +443,20 @@
         "retained_modules": 3365,
         "replay_sources": 2368,
         "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942"
+      },
+      "superseded_runs": [
+        {
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41351075260",
+          "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942",
+          "reason": "Cancelled before acceptance: source re-proof exposed a reshape precision-loss bug. A corrected exact dependency snapshot needs a fresh build and replay."
+        }
+      ],
+      "reshape_precision_regressions": {
+        "source": "tests/lean/ReshapePrecision.lean",
+        "fp32_typed_program": true,
+        "fp64_typed_program": true,
+        "nested_fp32_to_fp64_cast_context": true,
+        "axioms": "standard_base"
       }
     },
     "validated_source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942"
