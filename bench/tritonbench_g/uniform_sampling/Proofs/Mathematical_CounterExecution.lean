@@ -14,9 +14,9 @@ set_option maxHeartbeats 2000000
 set_option maxRecDepth 10000
 
 def boundState (seed offset : Int) (B : Nat) (u : BlockState) : BlockState :=
-  let s := u.setReg "philox_seed_arg" .int [] (Tile.scalar seed)
-  let s := s.setReg "philox_offset_arg" .int [] (Tile.scalar offset)
-  let s := s.setReg "BLOCK_arg" .nat [] (Tile.scalar B)
+  let s := u.setReg "philox_seed" .int [] (Tile.scalar seed)
+  let s := s.setReg "philox_offset" .int [] (Tile.scalar offset)
+  let s := s.setReg "BLOCK" .nat [] (Tile.scalar B)
   let s := s.setReg "philox_seed" .int [] (Tile.scalar seed)
   s.setReg "philox_offset" .int [] (Tile.scalar offset)
 

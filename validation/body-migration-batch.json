@@ -1734,6 +1734,19 @@
           "VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.row_offset_reused_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/uniform_sampling",
+      "python": "bench/tritonbench_g/uniform_sampling/uniform_sampling.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/uniform_sampling/Correct.lean": [
+          "VeriTile.Bench.Repairs.UniformSampling.Correct.uniform_sampling_kernel_correctness"
+        ],
+        "bench/tritonbench_g/uniform_sampling/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.UniformSampling.FPEquiv.index_commuted_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1755,6 +1768,7 @@
     "VeriTile/Triton/DSL/NamedFloatDTypeCasts.lean",
     "VeriTile/Triton/DSL/OptionalStringConstants.lean",
     "VeriTile/Triton/DSL/OrderedSumCalls.lean",
+    "VeriTile/Triton/DSL/PhiloxCallArguments.lean",
     "VeriTile/Triton/DSL/PointerDTypeConstants.lean",
     "VeriTile/Triton/DSL/PureJitFunctions.lean",
     "VeriTile/Triton/DSL/PythonCallSyntax.lean",
@@ -1770,6 +1784,7 @@
     "VeriTile/Triton/DSL/SourceBindings.lean",
     "VeriTile/Triton/DSL/StaticRanges.lean",
     "VeriTile/Triton/DSL/Syntax.lean",
+    "VeriTile/Triton/DSL/UniformJitFunctions.lean",
     "VeriTile/Triton/Float/ClosedStructuralAudit.lean",
     "VeriTile/Triton/Float/CountedLoop.lean",
     "VeriTile/Triton/Float/Erasure.lean",
@@ -3933,6 +3948,37 @@
     "bench/tritonbench_g/triton_softmax/Proofs/RealIOImplements.lean",
     "bench/tritonbench_g/triton_softmax/Proofs/RowIO.lean",
     "bench/tritonbench_g/triton_softmax/Proofs/StructuralAccess.lean",
+    "bench/tritonbench_g/uniform_sampling/Contract.lean",
+    "bench/tritonbench_g/uniform_sampling/Correct.lean",
+    "bench/tritonbench_g/uniform_sampling/FPEquiv.lean",
+    "bench/tritonbench_g/uniform_sampling/IO.lean",
+    "bench/tritonbench_g/uniform_sampling/Kernels.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelAffine.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelExecution.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelMath.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelOffsets.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelPrefix.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelStores.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_Algorithm.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_CounterExecution.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_CounterOperands.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_Erasure.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_FP.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_RandomDomain.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_ScalarSpec.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_SourceDomain.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TupleExecution.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedAffine.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedBindings.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedCounterOperands.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedRandom.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedTuple.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Projection.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/UniformDecoder.lean",
     "bench/tritonbench_g/var_len_copy/Kernels.lean",
     "bench/tritonbench_g/var_len_copy/Proofs/KernelFP.lean",
     "bench/tritonbench_g/var_len_copy/Proofs/KernelFPBody.lean",
@@ -3987,6 +4033,7 @@
     "tests/lean/OptionalStringReference.lean",
     "tests/lean/OrderedSumCalls.lean",
     "tests/lean/OrderedSumReference.lean",
+    "tests/lean/PhiloxCallArguments.lean",
     "tests/lean/PointerArguments.lean",
     "tests/lean/PointerCells.lean",
     "tests/lean/PointerDTypeConstantReference.lean",

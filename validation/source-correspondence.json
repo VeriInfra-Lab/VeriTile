@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 109,
-      "uncovered_jit_functions": 74
+      "selected_body_copy_checked": 110,
+      "uncovered_jit_functions": 73
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 160,
+    "uncovered_selected_jit_functions": 157,
     "inventoried_jit_functions": 524,
-    "uncovered_inventoried_jit_functions": 213,
+    "uncovered_inventoried_jit_functions": 210,
     "checked_pair_modes": {
-      "pasted_body": 311
+      "pasted_body": 314
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 109,
-        "uncovered_jit_functions": 74
+        "selected_body_copy_checked": 110,
+        "uncovered_jit_functions": 73
       }
     },
     "primary_files_with_int64_screen_warning": 16,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 46,
-        "antiquotes": 388,
+        "in_body_type_directives": 45,
+        "antiquotes": 387,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -39396,12 +39396,12 @@
       "lean": "bench/tritonbench_g/uniform_sampling/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 34,
-        "dsl_assignment": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 23,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 0
+        "load_dtype_extension": 4
       },
       "python_jits": [
         {
@@ -39526,40 +39526,68 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "uint_to_uniform_float",
+          "lean_definition": "uniformDecoder",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "uniform_jit_function",
+          "statements": 3,
+          "runtime_parameters": {
+            "x": "uint32 selected by Philox4x32"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/uniform_sampling/uniform_sampling.py",
-          "function": "uint_to_uniform_float"
+          "lean": "bench/tritonbench_g/uniform_sampling/Kernels.lean"
         },
         {
+          "python_function": "uniform_sampling_repaired_kernel",
+          "lean_definition": "runtimeSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 22,
+          "runtime_parameters": {
+            "N": "integer",
+            "philox_seed": "i64",
+            "philox_offset": "i64",
+            "from_": "fp32",
+            "to": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK"
+          ],
           "python": "bench/tritonbench_g/uniform_sampling/uniform_sampling.py",
-          "function": "uniform_sampling_repaired_kernel"
+          "lean": "bench/tritonbench_g/uniform_sampling/Kernels.lean"
         },
         {
+          "python_function": "uniform_sampling_index_commuted_kernel",
+          "lean_definition": "runtimeCandidate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 22,
+          "runtime_parameters": {
+            "N": "integer",
+            "philox_seed": "i64",
+            "philox_offset": "i64",
+            "from_": "fp32",
+            "to": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK"
+          ],
           "python": "bench/tritonbench_g/uniform_sampling/uniform_sampling.py",
-          "function": "uniform_sampling_index_commuted_kernel"
+          "lean": "bench/tritonbench_g/uniform_sampling/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/uniform_sampling/uniform_sampling.py",
-          "function": "uint_to_uniform_float"
-        },
-        {
-          "python": "bench/tritonbench_g/uniform_sampling/uniform_sampling.py",
-          "function": "uniform_sampling_repaired_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/uniform_sampling/uniform_sampling.py",
-          "function": "uniform_sampling_index_commuted_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/uniform_sampling/Kernels.lean": "34c1b277b3700f0f0aecdf5949ba16e53b09f5f24e5bd4ce189628d3946e0084",
+        "bench/tritonbench_g/uniform_sampling/Kernels.lean": "af7c31788225035522fb782df0fccaaa2f86b62047b7e1a1d871a5e2417a40e2",
+        "bench/tritonbench_g/uniform_sampling/jit-correspondence.json": "77b7bdf128e08857909990d934b945469dd101e62a06bb4c4f7afb53a4bfb0a4",
         "bench/tritonbench_g/uniform_sampling/uniform_sampling.py": "d2b5a74be5614a7eba8668418dae451ff393076cdf7c2524a811cd315fbdb92f"
       },
       "collection": "tritonbench_g",

@@ -3,63 +3,54 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/layer_norm_welfold",
-      "python": "bench/tritonbench_g/layer_norm_welfold/layer_norm_welfold.py",
+      "path": "bench/tritonbench_g/uniform_sampling",
+      "python": "bench/tritonbench_g/uniform_sampling/uniform_sampling.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/layer_norm_welfold/Correct.lean": [
-          "VeriTile.Bench.Repairs.LayerNormWelfold.Correct.kernel_real"
+        "bench/tritonbench_g/uniform_sampling/Correct.lean": [
+          "VeriTile.Bench.Repairs.UniformSampling.Correct.uniform_sampling_kernel_correctness"
         ],
-        "bench/tritonbench_g/layer_norm_welfold/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.row_offset_reused_equiv"
+        "bench/tritonbench_g/uniform_sampling/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.UniformSampling.FPEquiv.index_commuted_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/layer_norm_welfold/Contract.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Correct.lean",
-    "bench/tritonbench_g/layer_norm_welfold/FPEquiv.lean",
-    "bench/tritonbench_g/layer_norm_welfold/IO.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Kernels.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/Accumulate.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/Bounds.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/Contract.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/Grid.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/Host.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/IOImplements.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/InputBinding.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/KernelBoundary.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/KernelRealResult.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/LogicalIO.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/LoweringPlan.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/Mathematics.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/NativeABI.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/NativeHost.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/NativeTree.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/NormalizeModel.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/PairEquivalence.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableAccumulate.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableBoundary.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableGrid.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableNormalize.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableResults.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableRow.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableSafety.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableStatistics.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/ReadableSyntax.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/Real.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/Row.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/ScalarTransport.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/Source.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/SourceBinding.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/SourceGraph.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/SourceSafety.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/Statistics.lean",
-    "bench/tritonbench_g/layer_norm_welfold/Proofs/Trials.lean",
-    "VeriTile/Triton/DSL/OrderedSumCalls.lean",
-    "tests/lean/OrderedSumReference.lean",
-    "tests/lean/OrderedSumCalls.lean"
+    "bench/tritonbench_g/uniform_sampling/Contract.lean",
+    "bench/tritonbench_g/uniform_sampling/Correct.lean",
+    "bench/tritonbench_g/uniform_sampling/FPEquiv.lean",
+    "bench/tritonbench_g/uniform_sampling/IO.lean",
+    "bench/tritonbench_g/uniform_sampling/Kernels.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelAffine.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelExecution.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelMath.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelOffsets.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelPrefix.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/KernelStores.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_Algorithm.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_CounterExecution.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_CounterOperands.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_Erasure.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_FP.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_RandomDomain.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_ScalarSpec.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_SourceDomain.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TupleExecution.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedAffine.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedBindings.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedCounterOperands.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedRandom.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedTuple.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Projection.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/uniform_sampling/Proofs/UniformDecoder.lean",
+    "VeriTile/Triton/DSL/PhiloxCallArguments.lean",
+    "VeriTile/Triton/DSL/UniformJitFunctions.lean",
+    "tests/lean/PhiloxCallArguments.lean"
   ],
-  "description": "Literal LayerNormWelfold original and address-reuse source, exact dynamic ranges, distinct libdevice rsqrt, full FP32 reads/casts and BF16 stores, independent Real specification, complete FP grid, safety and every retained native/lowering module. Completion requires the exact independent receipt."
+  "description": "Literal UniformSampling original, candidate and complete fallback helper; source ABI words, Int64/uint32 counters, all four Philox fields, selected decoder with both FP32 rounding steps, affine FMA and direct FP32 stores. Independent Real formula, complete FP comparison, memory safety and all retained modules. Completion requires an exact independent receipt."
 }

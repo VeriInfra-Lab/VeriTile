@@ -2027,3 +2027,66 @@ class LayerNormWelfoldBodyCorrespondenceTests(unittest.TestCase):
     def test_no_tree_can_be_silently_omitted(self):
         with self.assertRaises(ValueError):
             self.verify(self.source.replace(', tmp12 := reductionTree', '', 1))
+
+
+class UniformSamplingBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/uniform_sampling'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.python = (ROOT / self.records[1]['python']).read_text()
+
+    def verify(self, source=None, python=None, arguments=None):
+        r = self.records[1]
+        return check(self.python if python is None else python,
+                     self.source if source is None else source, r['python_function'],
+                     r['lean_definition'], r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'],
+                     expected_philox_call=r['expected_philox_call'] if arguments is None else arguments)
+
+    def test_complete_helper_original_and_index_candidate(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([row['statements'] for row in rows], [3, 22, 22])
+
+    def test_signed_casts_counter_widths_and_all_fields_are_retained(self):
+        for old, new in [('philox_seed = philox_seed.to(tl.int64)', ''),
+                         ('lane = tl.arange(0, BLOCK).to(tl.int64)', 'lane = tl.arange(0, BLOCK)'),
+                         ('c0 += i4.to(tl.uint32)', 'c0 += i4'),
+                         ('tl.philox(philox_seed, c0, c1, _O, _O)', 'tl.philox(philox_seed, c0, _O, _O, _O)')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_fma_order_masks_and_source_store_values_are_retained(self):
+        for old, new in [('tl.fma(uint_to_uniform_float(r0), to - from_, from_)',
+                          'uint_to_uniform_float(r0) * (to - from_) + from_'),
+                         ('tl.minimum(off_3, N - 1)', 'off_3'),
+                         ('mask=off_2 < N', 'mask=off_2 <= N'),
+                         ('r1, mask=off_1 < N', 'r1.to(tl.float32), mask=off_1 < N')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_word_bindings_cannot_be_swapped_or_retyped(self):
+        for old, new in [('from_ := lower', 'from_ := upper'),
+                         ('philox_offset := offset', 'philox_offset := seed'),
+                         ('BLOCK := hBlock', 'BLOCK := anotherProof'),
+                         ('lower upper : Float32Bits', 'lower upper : ℝ')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_builtin_fallback_selection_and_helper_rebinding_are_checked(self):
+        for python in [self.python.replace('tl.uint_to_uniform_float\n', 'tl.rand\n', 1),
+                       self.python.replace('except AttributeError:', 'except ImportError:', 1),
+                       self.python + '\nuint_to_uniform_float = lambda x: x\n']:
+            with self.subTest(python=python[-70:]), self.assertRaises(ValueError):
+                self.verify(python=python)
+
+    def test_helper_retains_both_dtype_branches_and_bitcast(self):
+        from scripts.bench.jit_correspondence import check_uniform_function
+        r = self.records[0]
+        for old, new in [('bitcast=True', 'bitcast=False'),
+                         ('4.6566127342e-10', '4.656612873e-10'),
+                         ('tl.uint64', 'tl.uint32'),
+                         ('-x - 1', '-x')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                check_uniform_function(self.python, self.source.replace(old, new, 1),
+                                       r['python_function'], r['lean_definition'])

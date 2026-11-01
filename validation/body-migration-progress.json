@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 0,
-  "staged_count": 122,
+  "staged_count": 123,
   "pending_count": 196,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_OFFICIAL_REPLAY_PENDING",
-    "staged_and_regression_retained_modules": 3410,
+    "staged_and_regression_retained_modules": 3444,
     "official_comparator": "120 targets were accepted on the previous dependency snapshot, including all 19 examples. Their receipts are preserved as previous_receipt. The distinct libdevice.rsqrt model extension changes shared dependency hashes, so current completion awaits full proof rebuild and independent replay. BmmChunkBwd run 41347223281 targets the earlier c5bb57dff0873783f7df0a67c58832e9ccfd8bcd snapshot.",
-    "python_tests": 450,
+    "python_tests": 456,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "All 128 selected cases (122 targets and six regressions), 3410 retained/supporting Lean modules, 2413 required proof/audit sources and 450 Python tests pass locally, including actual fully-qualified Real and FP public targets. LayerNormWelfold now copies both complete 23-statement JIT bodies. The three original dynamic ranges, unused xmask/rbase, both source reductions/views, every cast/cache hint/barrier/None store and distinct libdevice.rsqrt remain. Ordered addition trees and XBLOCK=1 belong to reviewed call-side metadata. Independent typed-program/precision tests and mutation refusals cover the frontend. Every proof fragment comes from the canonical repaired source with kernel-checked decomposition equalities, retaining FP32 storage interpretation, all source cast temporaries, the original [1,B] output and BF16 conversion. Full execution, success, each output, exterior frame, actual source safety, population mean/variance/inverse/affine Real formula, all native ABI and local lowering proofs pass. The full FP comparison uses an arbitrary algebra and prints no numerical assumptions. This is local validation, not a completion certificate: exact independent receipts remain required for all current targets.",
-    "official_replay_sources": 2413,
+    "working_tree": "All 129 selected cases (123 targets and six regressions), 3444 retained/supporting modules, 2447 required replay/audit sources and 456 Python tests pass locally, including qualified public Real/FP names. UniformSampling retains both literal 22-statement bodies and its complete three-statement fallback helper. FP32 scalar ABI words, Int64 casts, modular uint32 counter operations, all four Philox outputs, FP32 affine FMAs, clamped masks/cache hints and direct stores remain. The copied helper selects its uint32 branch at actual Philox4x32 call sites; source sign folding and both rounding operations are proved equal to the fixed canonical decoder and used in the actual execution proof. Removed four extra casts absent from Python and reconnected complete execution, Real formula, FP comparison, safety/output/frame and all retained modules. No completion is claimed without exact independent replay.",
+    "official_replay_sources": 2447,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -48,15 +48,12 @@
       }
     ],
     "incremental_replay": {
+      "case": "bench/tritonbench_g/uniform_sampling",
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 43,
-      "replay_sources": 43,
-      "state": "official_replay_running",
-      "case": "bench/tritonbench_g/layer_norm_welfold",
-      "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41358544189",
-      "source_commit": "75df3c770d3461f53e8bf2c0ab6a97dda7bcd931"
+      "retained_modules": 34,
+      "replay_sources": 34,
+      "state": "local_proofs_pass_official_replay_pending"
     },
     "previous_incremental_replays": [
       {
@@ -412,6 +409,17 @@
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41347223281",
         "source_commit": "c5bb57dff0873783f7df0a67c58832e9ccfd8bcd",
         "superseded_by_current_shared_model_replay": true
+      },
+      {
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 43,
+        "replay_sources": 43,
+        "state": "official_replay_running",
+        "case": "bench/tritonbench_g/layer_norm_welfold",
+        "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41358544189",
+        "source_commit": "75df3c770d3461f53e8bf2c0ab6a97dda7bcd931"
       }
     ],
     "pending_client_regressions": {
@@ -427,7 +435,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Dispatch LayerNormWelfold independent replay, verify exact-current receipts for the shared-model rebuild, then continue remaining source/proof migrations. No merge.",
+    "current_work": "Dispatch UniformSampling independent replay, verify shared/current receipts, then continue remaining source/proof migrations. No merge.",
     "previous_validated_source_commit": "be54d8566aa6d3a11c82633f5b18b22de394f67f",
     "shared_model_revalidation": {
       "state": "reshape_precision_full_local_pass_official_replay_running",
@@ -2065,8 +2073,18 @@
     },
     {
       "path": "bench/tritonbench_g/uniform_sampling",
-      "status": "pending",
-      "complete": false
+      "status": "official_replay_pending",
+      "complete": false,
+      "body_correspondence": "pass",
+      "public_real_and_fp_proofs": "local_pass",
+      "retained_modules": "local_pass",
+      "retained_module_count": 31,
+      "python_source_statements": [
+        3,
+        22,
+        22
+      ],
+      "reason": "Literal source, caller ABI words and complete copied fallback helper are connected to the full retained proof chain. Local proof and audit checks pass; exact independent replay is still required."
     },
     {
       "path": "bench/tritonbench_g/var_len_copy",
