@@ -18,7 +18,7 @@ def inputOffset {α : Type} (p : Parameters) (s : State α) (i : TileIndex [p.wi
 
 def outputOffset {α : Type} [Inhabited α] (p : Parameters) (s : State α)
     (i : TileIndex [p.width]) : Nat :=
-  (s.mem p.prefixSum.cast (inputOffset p s i)).read .nat - 1
+  ((s.mem p.prefixSum.cast (inputOffset p s i)).read .int - 1).toNat
 
 def active {α : Type} [Inhabited α] (p : Parameters) (s : State α)
     (i : TileIndex [p.width]) : Prop :=
@@ -40,13 +40,36 @@ def execution {α : Type} [Inhabited α] (rest : Algebra α) (d : Storage)
   cases d <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [source,VeriTile.Bench.Repairs.MaskedSelect.kernel, FP.Structural.exec, ComputeKernel.surfaceBody,
+     simp [source,
+       VeriTile.Bench.Repairs.MaskedSelect.kernel,
+       VeriTile.Bench.Repairs.MaskedSelect.sourceFor, FP.Structural.exec, ComputeKernel.surfaceBody,
        FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
        FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
        FP.Structural.evalOffsets, FP.Structural.store, FP.Structural.numeric,
        FP.Structural.bop, FP.Structural.natLt, copyBackend, ComputeDType.eraseDType,
        FP.Structural.ofFloat, FP.Structural.toFloat, Region.cast, Option.bind]
      try rfl)
+
+
+/-- Check the actual final register, including inactive lanes: subtraction is
+signed and zero prefixes produce -1 before address conversion. -/
+theorem out_offset_signed {α : Type} [Inhabited α] (rest : Algebra α) (d : Storage)
+    (p : Parameters) (s : State α) :
+    (execution rest d p s).val.regs .int [p.width] "out_offset" = some (fun i =>
+      (if inputOffset p s i < p.size then
+        (s.mem p.prefixSum.cast (inputOffset p s i)).read .int else 0) - 1) := by
+  cases d <;> simp [execution, State.setReg, FP.Structural.bop, inputOffset,
+    Broadcast.leftIndex, Broadcast.rightIndex, Region.cast]
+  all_goals rfl
+
+theorem zero_prefix_signed {α : Type} [Inhabited α] (rest : Algebra α) (d : Storage)
+    (p : Parameters) (s : State α) (i : TileIndex [p.width])
+    (hi : inputOffset p s i < p.size)
+    (hz : (s.mem p.prefixSum.cast (inputOffset p s i)).read .int = 0) :
+    ((execution rest d p s).val.regs .int [p.width] "out_offset").map (fun v => v i) =
+      some (-1 : Int) := by
+  rw [out_offset_signed]
+  simp [hi, hz]
 
 private def payloadDType : ComputeStmt → Option TileDType
   | .assign dtype _ _ _ => some dtype
@@ -114,6 +137,8 @@ theorem correctness {α : Type} [Inhabited α] (rest : Algebra α) (d : Storage)
   ⟨(execution rest d p s).val, (execution rest d p s).property,
     fun i hi => readback rest d p s i hi hinj, frame rest d p s⟩
 
+#axiomsClean out_offset_signed
+#axiomsClean zero_prefix_signed
 #axiomsClean int64_payload_dtype
 #axiomsClean execution
 #axiomsClean execution_memory

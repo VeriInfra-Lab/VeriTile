@@ -1243,6 +1243,19 @@
           "VeriTile.Bench.Repairs.BatchedVecmatMult.Equivalence.block_first_strict"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/masked_select",
+      "python": "bench/tritonbench_g/masked_select/masked_select.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/masked_select/Correct.lean": [
+          "VeriTile.Bench.Repairs.MaskedSelect.Correct.masked_select_stable_correctness"
+        ],
+        "bench/tritonbench_g/masked_select/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MaskedSelect.FPEquiv.masked_select_configuration_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1642,6 +1655,24 @@
     "bench/tritonbench_g/logsumexp_fwd/Proofs/Real.lean",
     "bench/tritonbench_g/masked_add_cuda/Kernels.lean",
     "bench/tritonbench_g/masked_add_cuda/Proofs/Typed.lean",
+    "bench/tritonbench_g/masked_select/Contract.lean",
+    "bench/tritonbench_g/masked_select/Correct.lean",
+    "bench/tritonbench_g/masked_select/FPEquiv.lean",
+    "bench/tritonbench_g/masked_select/IO.lean",
+    "bench/tritonbench_g/masked_select/Kernels.lean",
+    "bench/tritonbench_g/masked_select/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/masked_select/Proofs/Kernel.lean",
+    "bench/tritonbench_g/masked_select/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/masked_select/Proofs/Mathematical_HostSource.lean",
+    "bench/tritonbench_g/masked_select/Proofs/Mathematical_MaskedSelect.lean",
+    "bench/tritonbench_g/masked_select/Proofs/Mathematical_NativeDomain.lean",
+    "bench/tritonbench_g/masked_select/Proofs/Mathematical_StableSelection.lean",
+    "bench/tritonbench_g/masked_select/Proofs/Mathematical_TypedCopy.lean",
+    "bench/tritonbench_g/masked_select/Proofs/Mathematical_WholeExecution.lean",
+    "bench/tritonbench_g/masked_select/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/masked_select/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/masked_select/Sources/Parameters.lean",
+    "bench/tritonbench_g/masked_select/Sources/Selected.lean",
     "bench/tritonbench_g/matmul_kernel/Kernels.lean",
     "bench/tritonbench_g/matrix_reduction/Contract.lean",
     "bench/tritonbench_g/matrix_reduction/Correct.lean",

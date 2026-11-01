@@ -95,18 +95,18 @@ def materialize {α : Type} (s : State α) (region : RegionName) (n : Nat)
   { s with mem := fun r i => if r = region ∧ i < n then value i else s.mem r i }
 
 /-- Host producer wiring: broadcast + input contiguous; mask contiguous and
-ravel; then inclusive Bool→Int64 cumsum. The Nat cells are the exact nonnegative
-Int64 projection justified by the finite-domain theorem. -/
+ravel; then inclusive Bool→Int64 cumsum. The actual Int cells contain the nonnegative Int64 counts;
+the finite-domain theorem proves exact encoding. -/
 def prepare {α : Type} (p : Parameters) (input : Nat → α) (mask : Nat → Bool)
     (s : State α) : State α :=
   let inp := materialize s p.input p.size (fun i => .mk .real (input i))
   let sel := materialize inp p.selection.cast p.size (fun i => .mk .bool (mask i))
-  materialize sel p.prefixSum.cast p.size (fun i => .mk .nat (StableSelection.count mask (i + 1)))
+  materialize sel p.prefixSum.cast p.size (fun i => .mk .int (StableSelection.count mask (i + 1)))
 
 /-- The host scalar is read from the actual produced cumulative buffer.
 The zero-size case is rejected by runHost before this last-element access. -/
 def prefixLast {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem p.prefixSum.cast (p.size - 1)).read .nat
+  ((s.mem p.prefixSum.cast (p.size - 1)).read .int).toNat
 
 structure Returned where
   output : RegionName
