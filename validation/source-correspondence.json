@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 74,
-      "uncovered_jit_functions": 107
+      "selected_body_copy_checked": 75,
+      "uncovered_jit_functions": 106
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 216,
-    "inventoried_jit_functions": 497,
-    "uncovered_inventoried_jit_functions": 281,
+    "uncovered_selected_jit_functions": 215,
+    "inventoried_jit_functions": 498,
+    "uncovered_inventoried_jit_functions": 280,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 210
+      "pasted_body": 212
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 74,
-        "uncovered_jit_functions": 107
+        "selected_body_copy_checked": 75,
+        "uncovered_jit_functions": 106
       }
     },
     "primary_files_with_int64_screen_warning": 27,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 78,
-        "antiquotes": 422,
+        "in_body_type_directives": 77,
+        "antiquotes": 421,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -13382,13 +13382,13 @@
       "python": "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py",
       "lean": "bench/tritonbench_g/chunk_delta_fwd/Kernels.lean",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 82,
-        "dsl_assignment": 13,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 95,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 4
       },
       "python_jits": [
         {
@@ -13399,6 +13399,17 @@
         }
       ],
       "python_sources": [
+        {
+          "path": "bench/tritonbench_g/chunk_delta_fwd/candidate_kernels.py",
+          "jits": [
+            {
+              "function": "chunk_delta_rule_fwd_kernel_h_address_fold",
+              "line": 6,
+              "statements": 5,
+              "explicit_int64_casts": []
+            }
+          ]
+        },
         {
           "path": "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py",
           "jits": [
@@ -13411,25 +13422,90 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "chunk_delta_rule_fwd_kernel_h",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_w_b": "integer",
+            "s_w_h": "integer",
+            "s_w_t": "integer",
+            "s_w_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer"
+          },
+          "constexpr_parameters": [
+            "BC",
+            "BK",
+            "BT",
+            "BV",
+            "H",
+            "K",
+            "NT",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
           "python": "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py",
-          "function": "chunk_delta_rule_fwd_kernel_h"
+          "lean": "bench/tritonbench_g/chunk_delta_fwd/Kernels.lean"
+        },
+        {
+          "python_function": "chunk_delta_rule_fwd_kernel_h_address_fold",
+          "lean_definition": "addressFold",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_w_b": "integer",
+            "s_w_h": "integer",
+            "s_w_t": "integer",
+            "s_w_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer"
+          },
+          "constexpr_parameters": [
+            "BC",
+            "BK",
+            "BT",
+            "BV",
+            "H",
+            "K",
+            "NT",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "python": "bench/tritonbench_g/chunk_delta_fwd/candidate_kernels.py",
+          "lean": "bench/tritonbench_g/chunk_delta_fwd/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py",
-          "function": "chunk_delta_rule_fwd_kernel_h"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/chunk_delta_fwd/Kernels.lean": "8503bbd46ea6215a9b04c14644ee370ddadabbd0c351d8c7fa5b7acdd11212bf",
-        "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py": "591848f81de55559a1c48131f7bbe30bb865f742d342202862ff9fcf6aa7f523"
+        "bench/tritonbench_g/chunk_delta_fwd/Kernels.lean": "ae84c3c7129ceae41819cc03eae62003015f607fe0af258ece6cfda6ee491692",
+        "bench/tritonbench_g/chunk_delta_fwd/candidate_kernels.py": "1ea3edbeabb5e2be10da883753253532ab20f56715e107a267bcd98ac7db442d",
+        "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py": "591848f81de55559a1c48131f7bbe30bb865f742d342202862ff9fcf6aa7f523",
+        "bench/tritonbench_g/chunk_delta_fwd/jit-correspondence.json": "a03732a76d112a34d142a0eba42602d64667c9c1ef6b3d71a77ffc984f54ddc1"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/chunk_delta_fwd"
