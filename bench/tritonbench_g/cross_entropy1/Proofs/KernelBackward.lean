@@ -80,13 +80,13 @@ theorem backward_executes (M : Algebra α) (p : Parameters) (initial : State α)
       simp only [target,Region.cast] at ignored
       refine ⟨?_,?_,?_⟩
       rotate_left
-      · simp [exec,backwardSyntax,hs,ComputeKernel.surfaceBody,run,step,
+      · simp [exec,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,ComputeKernel.surfaceBody,run,step,
           evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
           Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
           numeric,numericEq,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
           State.setReg,FP.Structural.store,Region.cast,ignored,abi.smoothing,abi.squareScale,abi.totalClasses]
         rfl
-      · simp only [gradientMemory,gradientValue,inputLSE,inputUpstream,logits,
+      · simp only [gradientMemory,gradientValue,inputLSE,inputUpstream,logits,loadedLogits,
           hs,target,Region.cast,ignored,if_true,if_false,Bool.false_eq_true,gradientOffset,activeLane,
           RuntimeArgs.fp,RuntimeArgs.classes,abi.smoothing,abi.squareScale,abi.totalClasses,Option.getD_some]
         apply masked_memory_congr

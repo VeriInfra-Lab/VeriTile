@@ -10,7 +10,7 @@ variable {α : Type}
 def logits (M : Algebra α) (p : Parameters) (args : RuntimeArgs.Values α)
     (x : Nat → α) (block : Nat) : Values α .real [p.block] := fun j =>
   M.cast (some .fp32) .real .real
-    (if block*p.block+j.1.val<p.cols then x (block*p.block+j.1.val) else M.negInf)
+    (M.fp32Load (if block*p.block+j.1.val<p.cols then x (block*p.block+j.1.val) else M.negInf))
 
 def maximum (M : Algebra α) (p : Parameters) (args : RuntimeArgs.Values α)
     (x : Nat → α) (block : Nat) : α :=
