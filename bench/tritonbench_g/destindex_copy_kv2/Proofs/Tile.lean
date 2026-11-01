@@ -28,8 +28,8 @@ def loaded {α : Type} [Inhabited α] (p : Layout) (s : State α)
     (i : TileIndex [p.BLOCK_HEAD,p.BLOCK_DMODEL]) : Cell α :=
   .mk .real ((s.mem p.K (inputOffset p s i)).read .real)
 
-/-- The explicit same-storage cast in the reused typed surface is raw identity.
-This is the defined homogeneous memory-copy backend, not a numerical axiom. -/
+/-- Homogeneous FP32 memory is interpreted as opaque words. Loads and
+same-storage conversions are identity operations in this copy backend. -/
 def rawBackend {α : Type} (rest : Algebra α) : Algebra α :=
   { copyBackend rest with
     cast := fun precision src dst value =>
@@ -47,7 +47,7 @@ def execution {α : Type} [Inhabited α] (rest : Algebra α)
     {t : State α // FP.Structural.exec (rawBackend rest) (kernel p) s = some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [kernel,
+  simp [kernel, sourceBody,
     ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,evalOffsets,evalDeltas,Option.bind,copyBackend,rawBackend,natLt,
     ComputeDType.eraseDType,numeric,bop,ofFloat,toFloat,Region.cast,
