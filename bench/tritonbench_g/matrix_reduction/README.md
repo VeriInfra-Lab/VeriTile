@@ -2,6 +2,10 @@
 
 Current repaired Python implementation: [matrix_reduction.py](matrix_reduction.py).
 
+The original block-pointer body and the existing [affine-address candidate](matrix_reduction_optimized.py)
+are copied into `Kernels.lean`. Both FP16 and FP32 caller profiles are retained.
+The mathematical view is derived from that source through [a checked projection](Proofs/Projection.lean).
+
 [Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
 
 fun xs row _ => sup′ (Fin N) (fun col => xs row col)
