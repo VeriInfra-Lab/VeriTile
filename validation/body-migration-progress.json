@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 110,
+  "completed_count": 112,
   "staged_count": 115,
-  "pending_count": 86,
+  "pending_count": 84,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 3123,
-    "official_comparator": "110 targets have exact current-source/import-closure official receipts, including all 19 examples and TritonArgmax. Argmax snapshot 25335224ec790114ee8b8e141d7ab0ee3f8328b0, artifact 13091522961 and its digest, all 106 independent replay results, every public theorem and all 54 shared dependency files were checked against current sources; none were excluded. Still pending: CrossEntropy1 and its two revoked dependents in run 41324559599, CrossEntropy2 in run 41326066265, and CrossEntropyOps in run 41326917967.",
+    "official_comparator": "112 targets have exact current-source/import-closure official receipts, including all 19 examples, Argmax, CrossEntropy2 and CrossEntropyOps. The two new artifact ZIP SHA256 digests were checked against GitHub metadata; their exact current case/import closures, every public entry, all 31 and 27 independent replay results, and 54 shared dependencies for CrossEntropy2 were verified with no exclusions. CrossEntropy1 and its two revoked dependents still await run 41324559599. FastLayernorm remains under repair and is not certified.",
     "python_tests": 409,
     "offline_example_compilations": {
       "cases": 19,
@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "validated_source_commit": "69a11aa652c5d7e5930911b2c6ca2fb119dd5013",
-    "working_tree": "At validated_source_commit all 121 selected cases (115 targets and six regressions), 3123 retained Lean modules, 2126 selected proof/audit sources and 409 Python tests pass locally, including public qualified-name checks. CrossEntropyOps quotes both actual resident repaired JIT bodies from cross_entropy_ops_conditional.py and both explicitly derived existing integer-index candidates. The selected-source inventory now resolves the resident module imported by the checked host entry, and still checks all task-local Python JITs. Every source cast, FP32 load, scale, mask, smoothing/split branch and operation order is retained; the split z-loss store remains conditional and the unused backward smooth_positive assignment remains present. Caller bases, geometry and flags stay outside; runtime FP words and total_classes preserve existing public domains. Complete successful execution, independent Real formulas, source-pair equivalences, all accesses, output cells and exterior frames are re-proved, including untouched split z-loss storage. Public axiom/specification gates pass and both FP assumption printers report none. All 27 retained task modules are required in the independent incremental replay. The 109 previously completed current source/import closures remain unchanged. Argmax is now additionally accepted after its exact current closure, shared dependencies and all 106 official replay sources were audited. CrossEntropy1, its two revoked dependents, CrossEntropy2 and CrossEntropyOps remain incomplete pending exact independent receipts.",
+    "working_tree": "At validated_source_commit all 121 selected cases (115 targets and six regressions), 3123 retained Lean modules, 2126 selected proof/audit sources and 409 Python tests pass locally, including public qualified-name checks. CrossEntropyOps quotes both actual resident repaired JIT bodies from cross_entropy_ops_conditional.py and both explicitly derived existing integer-index candidates. The selected-source inventory now resolves the resident module imported by the checked host entry, and still checks all task-local Python JITs. Every source cast, FP32 load, scale, mask, smoothing/split branch and operation order is retained; the split z-loss store remains conditional and the unused backward smooth_positive assignment remains present. Caller bases, geometry and flags stay outside; runtime FP words and total_classes preserve existing public domains. Complete successful execution, independent Real formulas, source-pair equivalences, all accesses, output cells and exterior frames are re-proved, including untouched split z-loss storage. Public axiom/specification gates pass and both FP assumption printers report none. All 27 retained task modules are required in the independent incremental replay. The 109 previously completed current source/import closures remain unchanged. Argmax is now additionally accepted after its exact current closure, shared dependencies and all 106 official replay sources were audited. CrossEntropy2 and CrossEntropyOps are now additionally accepted after ZIP-digest verification, exact current source/import-closure audits and all 31 and 27 official independent replays. CrossEntropy1 and its two revoked dependents remain incomplete pending their exact independent receipts.",
     "official_replay_sources": 2126,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -631,23 +631,23 @@
     },
     {
       "path": "bench/tritonbench_g/cross_entropy2",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "validated_source_commit": "69a11aa652c5d7e5930911b2c6ca2fb119dd5013",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current complete source bodies, public Real/FP theorems, axiom/specification gates and all retained modules pass locally. Await exact-current-source official independent replay; compilation alone is not completion."
+      "receipt": "validation/body_receipts/cross_entropy2.json"
     },
     {
       "path": "bench/tritonbench_g/cross_entropy_ops",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "validated_source_commit": "69a11aa652c5d7e5930911b2c6ca2fb119dd5013",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current complete source bodies, public Real/FP theorems, axiom/specification gates and all retained modules pass locally. Await exact-current-source official independent replay; compilation alone is not completion."
+      "receipt": "validation/body_receipts/cross_entropy_ops.json"
     },
     {
       "path": "bench/tritonbench_g/decay_cumsum",
