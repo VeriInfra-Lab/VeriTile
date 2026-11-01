@@ -53,7 +53,10 @@
       "cases": 1,
       "retained_modules": 45,
       "replay_sources": 45,
-      "state": "local_proofs_pass_official_replay_pending"
+      "state": "official_replay_running",
+      "validated_source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41360550987",
+      "source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345"
     },
     "previous_incremental_replays": [
       {
@@ -447,7 +450,7 @@
       "completion_certificate": false
     },
     "current_work": "Dispatch AttentionFwdTriton1 independent replay, audit exact-current receipts and continue the remaining source/proof migrations. No merge.",
-    "previous_validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0",
+    "previous_validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67",
     "shared_model_revalidation": {
       "state": "reshape_precision_full_local_pass_official_replay_running",
       "cases": 127,
@@ -499,7 +502,7 @@
         "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942"
       }
     },
-    "validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67"
+    "validated_source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345"
   },
   "targets": [
     {
@@ -568,7 +571,9 @@
         3,
         4
       ],
-      "reason": "Both complete bodies copied, canonical source centralized, compile-time shape/assertion handling and full retained Real/FP/safety/IO proof chain locally checked. Exact independent replay is still required."
+      "reason": "Both complete bodies copied, canonical source centralized, compile-time shape/assertion handling and full retained Real/FP/safety/IO proof chain locally checked. Exact independent replay is still required.",
+      "validated_source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41360550987"
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton2",
