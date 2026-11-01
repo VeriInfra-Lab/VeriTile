@@ -31,6 +31,7 @@ specification softmax_reciprocal_equiv (R : Rules) (out inp mask : RegionName)
   · rfl
   exact io_equivalent R out inp mask stride n B hasMask p hB countBound
 
+#print_fp_assumptions softmax_reciprocal_equiv
 #axiomsClean softmax_reciprocal_equiv
 end
 end VeriTile.Bench.Repairs.SoftmaxTriton3.FPEquiv

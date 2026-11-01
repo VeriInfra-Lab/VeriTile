@@ -748,3 +748,47 @@ def kernel (x y : RegionName) (MODE : Nat) : ComputeKernel :=
     def test_wildcard_import_cannot_silently_replace_a_module_binding(self):
         with self.assertRaisesRegex(ValueError, 'wildcard imports'):
             self.compare(python=self.python + '\nfrom another_module import *\n')
+
+
+class OptionalPointerArgumentTests(unittest.TestCase):
+    def setUp(self):
+        self.python = '''@triton.jit
+def k(X, Y, B: tl.constexpr):
+    if X is not None:
+        values = tl.load(X + tl.arange(0, B))
+        tl.store(Y + tl.arange(0, B), values)
+'''
+        self.lean = '''def sig : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  scalars := []
+  constexpr := ["B"]
+  readPorts := ["X"]
+  writePorts := ["Y"]
+def kernel (X Y : RegionName) (B : Nat) (present : Bool) : ComputeKernel :=
+  with_triton_signature sig optional_pointers [X := present] in triton {
+    if X is not None:
+        values = tl.load(X + tl.arange(0, B))
+        tl.store(Y + tl.arange(0, B), values)
+  }
+'''
+        self.signature = {'pointers': [['X', 'fp32'], ['Y', 'fp32']], 'scalars': [],
+                          'constexpr': ['B'], 'readPorts': ['X'], 'writePorts': ['Y']}
+
+    def compare(self, lean=None):
+        return check(self.python, lean or self.lean, 'k', 'kernel', 'sig', self.signature,
+                     expected_optional_pointers={'X': 'present'})
+
+    def test_source_none_guard_is_preserved(self):
+        self.assertEqual(self.compare()['mode'], 'pasted_body')
+
+    def test_presence_binding_must_be_reviewed(self):
+        for changed in ['Y := present', 'X := absent', 'X := present, X := present',
+                        'X := present, Z := present']:
+            with self.subTest(binding=changed), self.assertRaisesRegex(ValueError, 'optional pointer'):
+                self.compare(self.lean.replace('X := present', changed))
+        with self.assertRaisesRegex(ValueError, 'declared call signature'):
+            check(self.python, self.lean, 'k', 'kernel', 'sig', self.signature)
+
+    def test_guard_cannot_be_replaced_by_a_lean_condition(self):
+        with self.assertRaisesRegex(ValueError, 'statement correspondence'):
+            self.compare(self.lean.replace('X is not None', 'present'))

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.softmax_triton3.Proofs.Addresses
 import bench.tritonbench_g.softmax_triton3.Kernels
 import bench.tritonbench_g.softmax_triton2.Proofs.GridPair
 
@@ -12,12 +13,12 @@ set_option linter.unusedSimpArgs false
 def numeratorValue {α : Type} [Inhabited α] (M : Algebra α)
     (inp mask : RegionName) (stride n B : Nat) (hasMask : Bool) (s : State α) : Values α .real [B] :=
   let row : Values α .real [B] := fun j => M.cast (some .fp32) .real .real
-    (if j.1.val < n then (s.mem inp (s.pids 0*stride+j.1.val)).read .real else M.negInf)
+    (M.fp32Load (if j.1.val < n then (s.mem inp (s.pids 0*stride+j.1.val)).read .real else M.negInf))
   let maximum := M.reduceMax (some .fp32) ⟨0,by simp⟩ Bool.false row PUnit.unit
   let shifted := fun j => M.binary (some .fp32) .real .sub (row j) maximum
   let shifted := if hasMask then fun j => M.binary (some .fp32) .real .add (shifted j)
-    (M.cast (some .fp32) .real .real (if j.1.val < n then
-      (s.mem mask (s.pids 0*stride+j.1.val)).read .real else M.literal (some .fp32) .real 0))
+    (M.cast (some .fp32) .real .real (M.fp32Load (if j.1.val < n then
+      (s.mem mask (s.pids 0*stride+j.1.val)).read .real else M.literal (some .fp32) .real 0)))
     else shifted
   fun j => M.unary (some .fp32) .exp (shifted j)
 
@@ -36,7 +37,7 @@ def originalExecution {α : Type} [Inhabited α] (M : Algebra α)
     refine ⟨?_,?_⟩
     swap
     simp [FP.Structural.exec,softmax_kernel,ComputeKernel.surfaceBody,run,step,
-      evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,natLt,bop,
+      evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,numericLt,natLt,bop,
       TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeDType.eraseDType]
     rfl
 
@@ -60,10 +61,10 @@ def candidateExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Domain �
     swap
     dsimp [num,den,numeratorValue,denominatorValue] at hc hf hz
     simp [FP.Structural.exec,guarded_reciprocal_kernel,ComputeKernel.surfaceBody,run,step,
-      evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,natLt,bop,
+      evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,numericLt,natLt,bop,
       TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeDType.eraseDType,
       ports.finite_bind,ports.order_bind,numericEq,numericLe,FP.ProfiledRewrite.engine,
-      Algebra.withDefaultPrecision,resolvePrecision,ofFloat,toFloat,hc,hf,hz]
+      Algebra.withDefaultPrecision,resolvePrecision,ofFloat,toFloat,hc,hf,hz, show (1.0 : ℝ) = 1 by norm_num]
     rfl
 
 #axiomsClean originalExecution
