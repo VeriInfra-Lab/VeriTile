@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 84,
-      "uncovered_jit_functions": 97
+      "selected_body_copy_checked": 85,
+      "uncovered_jit_functions": 96
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 204,
-    "inventoried_jit_functions": 502,
-    "uncovered_inventoried_jit_functions": 266,
+    "uncovered_selected_jit_functions": 201,
+    "inventoried_jit_functions": 504,
+    "uncovered_inventoried_jit_functions": 263,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 230
+      "pasted_body": 235
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 84,
-        "uncovered_jit_functions": 97
+        "selected_body_copy_checked": 85,
+        "uncovered_jit_functions": 96
       }
     },
     "primary_files_with_int64_screen_warning": 21,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 70,
-        "antiquotes": 412,
+        "in_body_type_directives": 69,
+        "antiquotes": 411,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -35345,9 +35345,9 @@
       "lean": "bench/tritonbench_g/swiglu_triton/Kernels.lean",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 20,
-        "dsl_assignment": 19,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 28,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -35384,6 +35384,33 @@
       ],
       "python_sources": [
         {
+          "path": "bench/tritonbench_g/swiglu_triton/index_commuted.py",
+          "jits": [
+            {
+              "function": "_swiglu_forward_kernel_index_commuted",
+              "line": 9,
+              "statements": 10,
+              "explicit_int64_casts": [
+                {
+                  "line": 12,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "_swiglu_backward_kernel_index_commuted",
+              "line": 29,
+              "statements": 15,
+              "explicit_int64_casts": [
+                {
+                  "line": 32,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "path": "bench/tritonbench_g/swiglu_triton/swiglu_triton.py",
           "jits": [
             {
@@ -35417,40 +35444,95 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "silu",
+          "lean_definition": "siluFunction",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "pure_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/swiglu_triton/swiglu_triton.py",
-          "function": "silu"
+          "lean": "bench/tritonbench_g/swiglu_triton/Kernels.lean"
         },
         {
+          "python_function": "_swiglu_forward_kernel",
+          "lean_definition": "forwardTyped",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "n_cols"
+          ],
           "python": "bench/tritonbench_g/swiglu_triton/swiglu_triton.py",
-          "function": "_swiglu_forward_kernel"
+          "lean": "bench/tritonbench_g/swiglu_triton/Kernels.lean"
         },
         {
+          "python_function": "_swiglu_forward_kernel_index_commuted",
+          "lean_definition": "forwardCommutedTyped",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "n_cols"
+          ],
+          "python": "bench/tritonbench_g/swiglu_triton/index_commuted.py",
+          "lean": "bench/tritonbench_g/swiglu_triton/Kernels.lean"
+        },
+        {
+          "python_function": "_swiglu_backward_kernel",
+          "lean_definition": "backwardTyped",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "n_cols"
+          ],
           "python": "bench/tritonbench_g/swiglu_triton/swiglu_triton.py",
-          "function": "_swiglu_backward_kernel"
+          "lean": "bench/tritonbench_g/swiglu_triton/Kernels.lean"
+        },
+        {
+          "python_function": "_swiglu_backward_kernel_index_commuted",
+          "lean_definition": "backwardCommutedTyped",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "n_cols"
+          ],
+          "python": "bench/tritonbench_g/swiglu_triton/index_commuted.py",
+          "lean": "bench/tritonbench_g/swiglu_triton/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/swiglu_triton/swiglu_triton.py",
-          "function": "silu"
-        },
-        {
-          "python": "bench/tritonbench_g/swiglu_triton/swiglu_triton.py",
-          "function": "_swiglu_forward_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/swiglu_triton/swiglu_triton.py",
-          "function": "_swiglu_backward_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/swiglu_triton/Kernels.lean": "f74f4c67e5ba3bd756339d093216e3f5079a0d9e9c8f79a31305e5217caeebfd",
+        "bench/tritonbench_g/swiglu_triton/Kernels.lean": "d2b14d00b983be94a4165160179d8f9d05e65859dcc3ed69b344686685ee1332",
+        "bench/tritonbench_g/swiglu_triton/index_commuted.py": "b1d991bafad8aef1487f36003da3fc0cfbd3dd2a6e89f998ae2176b8a2d40111",
+        "bench/tritonbench_g/swiglu_triton/jit-correspondence.json": "aa1bfca3a0c0ed8fb9a3add30513cabfef0bb386b253e1471c0f8844e5618b24",
         "bench/tritonbench_g/swiglu_triton/swiglu_triton.py": "e6604497013fdd698c6d2894a19d3d6520766501e410e6e246b49c5b9c192df7"
       },
       "collection": "tritonbench_g",
