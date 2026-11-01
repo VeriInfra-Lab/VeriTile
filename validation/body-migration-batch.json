@@ -1005,12 +1005,26 @@
           "VeriTile.Bench.Repairs.RmsnormFusedLlama.FPEquiv.rmsnorm_kernel_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/rmsnorm_implementation",
+      "python": "bench/tritonbench_g/rmsnorm_implementation/rmsnorm_implementation.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rmsnorm_implementation/Correct.lean": [
+          "VeriTile.Bench.Repairs.RmsnormImplementation.Correct.rmsnorm_kernel_correctness"
+        ],
+        "bench/tritonbench_g/rmsnorm_implementation/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsnormImplementation.FPEquiv.rmsnorm_index_commuted_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
     "VeriTile/Triton/Core/Ast.lean",
     "VeriTile/Triton/DSL/CallSignature.lean",
     "VeriTile/Triton/DSL/Expansion/Main.lean",
+    "VeriTile/Triton/DSL/PythonCallSyntax.lean",
     "VeriTile/Triton/DSL/PythonConstants.lean",
     "VeriTile/Triton/DSL/RawBodyNestedLoads.lean",
     "VeriTile/Triton/DSL/RawSourceText.lean",
@@ -1282,6 +1296,26 @@
     "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeGrid.lean",
     "bench/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeRow.lean",
     "bench/tritonbench_g/rmsnorm_fused_llama/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Contract.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Correct.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/FPEquiv.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/IO.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Kernels.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/PairIO.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/ActiveOutput.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/FPInterface.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/FPSuccess.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/IOResults.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/Mathematical_Candidate.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/Mathematical_Real.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/Mathematical_Safety.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/Mathematical_Source.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/RawCorrect.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/Source.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/rmsnorm_implementation/Sources/Parameters.lean",
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/KernelResult.lean",
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/SourceSafety.lean",
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/StoreSafety.lean",
@@ -1315,6 +1349,7 @@
     "tests/lean/FiniteCallProfiles.lean",
     "tests/lean/IntegerDivisionLiterals.lean",
     "tests/lean/PreciseDivisionAndInfinity.lean",
+    "tests/lean/PythonCallSyntax.lean",
     "tests/lean/PythonLiteralArithmetic.lean",
     "tests/lean/RawBodyControlNames.lean",
     "tests/lean/RawBodySurface.lean",
