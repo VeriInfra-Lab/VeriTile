@@ -1401,12 +1401,26 @@
           "VeriTile.Bench.Repairs.SwigluTriton.backward_index_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/seeded_dropout",
+      "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/seeded_dropout/Correct.lean": [
+          "VeriTile.Bench.Repairs.SeededDropout.Correct.seeded_dropout_kernel_correctness"
+        ],
+        "bench/tritonbench_g/seeded_dropout/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SeededDropout.FPEquiv.index_commuted_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
     "VeriTile/Triton/Core/Ast.lean",
     "VeriTile/Triton/DSL/CallSignature.lean",
     "VeriTile/Triton/DSL/Expansion/Main.lean",
+    "VeriTile/Triton/DSL/IntegerCallArguments.lean",
     "VeriTile/Triton/DSL/PureJitFunctions.lean",
     "VeriTile/Triton/DSL/PythonCallSyntax.lean",
     "VeriTile/Triton/DSL/PythonConstants.lean",
@@ -2353,6 +2367,32 @@
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/SourceSafety.lean",
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/StoreSafety.lean",
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/StoreSchedule.lean",
+    "bench/tritonbench_g/seeded_dropout/Contract.lean",
+    "bench/tritonbench_g/seeded_dropout/Correct.lean",
+    "bench/tritonbench_g/seeded_dropout/FPEquiv.lean",
+    "bench/tritonbench_g/seeded_dropout/IO.lean",
+    "bench/tritonbench_g/seeded_dropout/Kernels.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/KernelExecution.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/LogicalResult.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Algorithm.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Execution.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_FP.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_FlatMemory.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Formula.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Index.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Memory.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_RandomDomain.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Safety.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_SourceDomain.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_TypedExecution.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_WholeMath.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_WholeTile.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/ProgramPair.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/Projection.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/seeded_dropout/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/seeded_dropout/Sources/Parameters.lean",
     "bench/tritonbench_g/sin_computation/Kernels.lean",
     "bench/tritonbench_g/sin_kernel/Kernels.lean",
     "bench/tritonbench_g/softmax_triton1/Contract.lean",
@@ -2582,6 +2622,7 @@
     "tests/lean/ClosedStructuralAudit.lean",
     "tests/lean/FP32BooleanArithmetic.lean",
     "tests/lean/FiniteCallProfiles.lean",
+    "tests/lean/IntegerCallArguments.lean",
     "tests/lean/IntegerDivisionLiterals.lean",
     "tests/lean/OptionalPointers.lean",
     "tests/lean/PointerArguments.lean",

@@ -891,3 +891,40 @@ class PureJITFunctionCorrespondenceTests(unittest.TestCase):
         p.write_text(p.read_text() + '\nsilu = lambda x: x\n')
         with self.assertRaisesRegex(ValueError, 'one static binding'):
             check_manifest(self.root, self.manifest)
+
+class IntegerCallArgumentCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/seeded_dropout'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.python = (self.directory / 'seeded_dropout.py').read_text()
+        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+
+    def verify(self, lean):
+        r = self.record
+        return check(self.python, lean, r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'], r['expected_call_bindings'],
+                     expected_integer_args=r['expected_integer_args'], expected_arange_args=r['expected_arange_args'])
+
+    def test_original_and_candidate_bodies_and_call_profiles(self):
+        result = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual(len(result), 2)
+        self.assertTrue(all(p['mode'] == 'pasted_body' for p in result))
+
+    def test_unboxed_integer_caller_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'explicit IntegerArgument'):
+            self.verify(self.lean.replace('(seed : IntegerArgument)', '(seed : Int)'))
+
+    def test_unchecked_arange_size_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'checked constexpr-size proof'):
+            self.verify(self.lean.replace('(hBlock : Random.ArangeSizeDomain BLOCK_SIZE)', '(hBlock : True)'))
+
+    def test_wrong_bound_integer_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'integer arguments differ'):
+            self.verify(self.lean.replace('integer_args [seed := seed]', 'integer_args [seed := other]'))
+
+    def test_probability_comparison_or_eager_division_cannot_change(self):
+        for before, after in [('random > p', 'random >= p'),
+                              ('tl.where(x_keep, x / (1 - p), 0.0)',
+                               '(x / (1 - p) if x_keep else 0.0)')]:
+            with self.subTest(after=after), self.assertRaisesRegex(ValueError, 'statement correspondence'):
+                self.verify(self.lean.replace(before, after, 1))

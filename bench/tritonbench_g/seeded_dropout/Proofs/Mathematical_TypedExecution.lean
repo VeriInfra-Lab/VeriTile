@@ -28,16 +28,15 @@ def initial {α : Type} [Inhabited α] (storage : Storage) (value : α) : State 
 
 theorem one_legal : SourceDomain.LegalBlock 1 := ⟨0, by decide, by decide⟩
 
-def seedState {α : Type} [Inhabited α] (storage : Storage) (kind : Random.IntegerType)
+def seedState {α : Type} [Inhabited α] (M : Algebra α) (p : ℝ) (storage : Storage) (kind : Random.IntegerType)
     (seed : SeedCarrier kind) (value : α) : State α :=
   match kind, seed with
-  | .i32, seed | .i64, seed => (initial storage value).setReg "seed_arg" .int [] (fun _ => seed)
-  | .u32, seed | .u64, seed => (initial storage value).setReg "seed_arg" .nat [] (fun _ => seed)
+  | .i32, seed | .i64, seed => ((initial storage value).setReg "p" .real [] (fun _ => M.literal (some .fp32) .real p)).setReg "seed" .int [] (fun _ => seed)
+  | .u32, seed | .u64, seed => ((initial storage value).setReg "p" .real [] (fun _ => M.literal (some .fp32) .real p)).setReg "seed" .nat [] (fun _ => seed)
 
-def prefixState {α : Type} [Inhabited α] (M : Algebra α) (storage : Storage)
+def prefixState {α : Type} [Inhabited α] (M : Algebra α) (p : ℝ) (storage : Storage)
     (kind : Random.IntegerType) (seed : SeedCarrier kind) (value : α) : State α :=
-  let s := seedState storage kind seed value
-  let s := s.setReg "BLOCK_SIZE_arg" .nat [] (fun _ => 1)
+  let s := seedState M p storage kind seed value
   let s := s.setReg "pid" .nat [] (fun _ => 0)
   let s := s.setReg "block_start" .nat [] (fun _ => 0)
   let s := s.setReg "offsets" .nat [1] (fun _ => 0)
@@ -54,40 +53,40 @@ theorem prefix_executes (storage : Storage) (kind : Random.IntegerType)
     (p : ℝ) (seed : SeedCarrier kind) {α : Type} [Inhabited α]
     (M : Algebra α) (value : α) :
     run M ((source storage kind Bool.false "x" "y" 1 p seed 1 one_legal).surfaceBody.take 7)
-      (initial storage value) = some (prefixState M storage kind seed value) := by
+      (initial storage value) = some (prefixState M p storage kind seed value) := by
   cases storage <;> cases kind
-  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
+  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeSource, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidate, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, Option.bind, numeric, natLt, numericLt, bop, initial, stored,
     Region.cast, Random.i32ArangeSize, prefixState, seedState]
   all_goals rfl
 
 def seedOp : Random.IntegerType → Op .int []
-  | .i32 | .i64 => .ref .int [] "seed_arg"
-  | .u32 | .u64 => .castNatToInt (.ref .nat [] "seed_arg")
+  | .i32 | .i64 => .ref .int [] "seed"
+  | .u32 | .u64 => .castNatToInt (.ref .nat [] "seed")
 
 def randomTile {α : Type} (M : Algebra α) (kind : Random.IntegerType)
     (seed : SeedCarrier kind) : Values α .real [1] :=
   fun _ => M.fp32Bits ⟨(Random.rand (seedInt kind seed) 0 .bits32 10).bits⟩
 
-theorem prefix_seed (storage : Storage) (kind : Random.IntegerType)
+theorem prefix_seed (storage : Storage) (kind : Random.IntegerType) (p : ℝ)
     (seed : SeedCarrier kind) {α : Type} [Inhabited α] (M : Algebra α) (value : α) :
-    evalOp M (some .fp32) (seedOp kind) (prefixState M storage kind seed value) =
+    evalOp M (some .fp32) (seedOp kind) (prefixState M p storage kind seed value) =
       some (fun _ => seedInt kind seed) := by
   cases storage <;> cases kind
   all_goals simp [evalOp_unfold, seedOp, prefixState, seedState, seedInt]
 
-theorem prefix_offsets (storage : Storage) (kind : Random.IntegerType)
+theorem prefix_offsets (storage : Storage) (kind : Random.IntegerType) (p : ℝ)
     (seed : SeedCarrier kind) {α : Type} [Inhabited α] (M : Algebra α) (value : α) :
-    evalOp M (some .fp32) (.castNatToInt (.ref .nat [1] "offsets")) (prefixState M storage kind seed value) =
+    evalOp M (some .fp32) (.castNatToInt (.ref .nat [1] "offsets")) (prefixState M p storage kind seed value) =
       some (fun _ => 0) := by
   cases storage
   all_goals simp [evalOp_unfold, prefixState]
 
-theorem prefix_rand (storage : Storage) (kind : Random.IntegerType)
+theorem prefix_rand (storage : Storage) (kind : Random.IntegerType) (p : ℝ)
     (seed : SeedCarrier kind) (hseed : kind.inRange (seedInt kind seed) = Bool.true)
     {α : Type} [Inhabited α] (M : Algebra α) (value : α) :
     evalOp M (some .fp32) (.rand (RandomDomain.profile kind) (seedOp kind)
-      (.castNatToInt (.ref .nat [1] "offsets"))) (prefixState M storage kind seed value) =
+      (.castNatToInt (.ref .nat [1] "offsets"))) (prefixState M p storage kind seed value) =
       some (randomTile M kind seed) := by
   have hzero : Random.IntegerType.i32.inRange 0 = Bool.true := by decide
   have hvalid : (RandomDomain.profile kind).inputsValid (shape := [1])
@@ -104,11 +103,11 @@ theorem suffix_executes (storage : Storage) (kind : Random.IntegerType)
     (compare : Option ComputeDType → FloatDType → α → α → Bool)
     (hcompare : M.compareLt = fun precision dtype => some (compare precision dtype)) :
     ∃ v, run M ((source storage kind Bool.false "x" "y" 1 p seed 1 one_legal).surfaceBody.drop 8)
-      ((prefixState M storage kind seed value).setReg "random" .real [1] random) = some v := by
+      ((prefixState M p storage kind seed value).setReg "random" .real [1] random) = some v := by
   cases storage <;> cases kind
-  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, ComputeKernel.surfaceBody, run, step, store, evalExpr, evalComputeOp,
+  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeSource, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidate, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, run, step, store, evalExpr, evalComputeOp,
     evalOp_unfold, ComputeDType.eraseDType, Option.bind, hcompare, numeric, numericLt,
-    ofFloat, toFloat, Region.cast, prefixState, Random.i32ArangeSize]
+    ofFloat, toFloat, Region.cast, prefixState, seedState, initial, Random.i32ArangeSize]
 
 theorem original_executes (storage : Storage) (kind : Random.IntegerType)
     (p : ℝ) (seed : SeedCarrier kind) (hseed : kind.inRange (seedInt kind seed) = Bool.true)
@@ -119,7 +118,7 @@ theorem original_executes (storage : Storage) (kind : Random.IntegerType)
     ∃ v, FP.Structural.exec M (source storage kind Bool.false "x" "y" 1 p seed 1 one_legal)
       (initial storage value) = some v := by
   have hp := prefix_executes storage kind p seed M value
-  have hr := prefix_rand storage kind seed hseed M value
+  have hr := prefix_rand storage kind p seed hseed M value
   obtain ⟨v, hv⟩ := suffix_executes storage kind p seed M value
     (randomTile M kind seed) compare hcompare
   refine ⟨v, ?_⟩
@@ -131,8 +130,8 @@ theorem original_executes (storage : Storage) (kind : Random.IntegerType)
   cases storage <;> cases kind
   all_goals
     simp only [seedOp, RandomDomain.profile] at hr
-    simp only [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, ComputeKernel.surfaceBody, List.drop_succ_cons, List.drop_zero, Random.i32ArangeSize] at hv ⊢
-    simp only [run, step, evalExpr, evalComputeOp] at ⊢
+    simp only [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeSource, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidate, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, List.drop_succ_cons, List.drop_zero, Random.i32ArangeSize] at hv ⊢
+    try simp only [run, step, evalExpr, evalComputeOp] at ⊢
     erw [hr]
     simpa only [run, step, evalExpr, evalComputeOp, bind, Option.bind] using hv
 
