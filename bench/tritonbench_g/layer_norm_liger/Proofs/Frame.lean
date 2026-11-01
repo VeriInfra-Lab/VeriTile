@@ -1,7 +1,7 @@
 import bench.tritonbench_g.layer_norm_liger.Proofs.BackwardResult
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Backward
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive)
 noncomputable section
 
 def Outside {α : Type} (p : Parameters) (s : State α) (r : RegionName) (o : Nat) :=

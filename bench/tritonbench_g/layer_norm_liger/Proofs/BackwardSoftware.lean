@@ -5,7 +5,7 @@ open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (softwareSum)
 open VeriTile.Bench.TritonBenchG.MatrixVectorMultip.Typed (sequentialSum)
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange)
-open VeriTile.Bench.Repairs.LayerNormLiger.Forward (software literal32)
+open VeriTile.Bench.Repairs.LayerNormLiger.Forward (software literal32 integer32)
 noncomputable section
 set_option maxHeartbeats 5000000
 set_option maxRecDepth 24000
@@ -13,7 +13,7 @@ set_option linter.unusedSimpArgs false
 
 def bitLoad [Inhabited (FP.Value .fp32)] (p : Parameters) (a : Acc (FP.Value .fp32) p)
     (r : RegionName) (base : Nat) (i : TileIndex [p.block]) :=
-  if i.1.val < p.columns then (a.state.mem r (base+i.1.val)).read .fp32 else FP.Value.zero .fp32
+  if i.1.val < p.columns then (a.state.mem r (base+i.1.val)).read .real else FP.Value.zero .fp32
 
 def bitXhat [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (p : Parameters)
     (a : Acc (FP.Value .fp32) p) (row : Nat) (i : TileIndex [p.block]) :=
@@ -29,12 +29,12 @@ def bitC1 [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (literal : ℝ → FP.V
     (p : Parameters) (a : Acc (FP.Value .fp32) p) (row : Nat) :=
   FP.div cfg (sequentialSum cfg ⟨0,by simp⟩ Bool.false (fun i =>
     FP.mul cfg (bitXhat cfg p a row i) (bitWdy cfg p a row i)) PUnit.unit)
-    (literal32 literal p.columns)
+    (integer32 cfg (p.columns : Int))
 
 def bitC2 [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (literal : ℝ → FP.Value .fp32)
     (p : Parameters) (a : Acc (FP.Value .fp32) p) (row : Nat) :=
   FP.div cfg (sequentialSum cfg ⟨0,by simp⟩ Bool.false (bitWdy cfg p a row) PUnit.unit)
-    (literal32 literal p.columns)
+    (integer32 cfg (p.columns : Int))
 
 def bitDX [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (literal : ℝ → FP.Value .fp32)
     (p : Parameters) (a : Acc (FP.Value .fp32) p) (row : Nat) (i : TileIndex [p.block]) :=
@@ -46,7 +46,7 @@ def bitUpdate [Inhabited (FP.Value .fp32)] (cfg : FP.Config) (literal : ℝ → 
     (p : Parameters) (row : Nat) (a : Acc (FP.Value .fp32) p) : Acc (FP.Value .fp32) p where
   state := (TileShape.allIndices [p.block]).foldl (fun s i =>
     if i.1.val < p.columns then s.write p.dx (row*p.dxStride+i.1.val)
-      (.mk .fp32 (bitDX cfg literal p a row i)) else s) a.state
+      (.mk .real (bitDX cfg literal p a row i)) else s) a.state
   dw := fun i => FP.add cfg (a.dw i)
     (FP.mul cfg (bitLoad p a p.dy (row*p.dyStride) i) (bitXhat cfg p a row i))
   db := fun i => FP.add cfg (a.db i) (bitLoad p a p.dy (row*p.dyStride) i)

@@ -1,7 +1,8 @@
+import bench.tritonbench_g.layer_norm_liger.Proofs.SignedRows
 import bench.tritonbench_g.layer_norm_liger.Proofs.BackwardRun
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Backward
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive)
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange range_values)
 open VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits (fold_writes_mem fold_writes_regs)
 noncomputable section
@@ -12,11 +13,10 @@ set_option linter.unusedSimpArgs false
 theorem range_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s t : State α) (row finishRow : Nat) (a : Acc α p)
     (h : Ready p s t row a) :
-    ∃ u, FP.Structural.range (withSum M R) "_row" row finishRow 1 (body p) t = some u ∧
+    ∃ u, FP.Structural.rangeInt (withSum M R) "_" (row : Int) (finishRow : Int) 1 (body p) t = some u ∧
       ∃ k, Ready p s u k (foldRange (update M R p) row finishRow 1 a) := by
-  apply range_values (withSum M R) "_row" (body p) (update M R p)
-    (fun n a t => Ready p s t n a) (fun a t => ∃ k, Ready p s t k a)
-    row finishRow 1 a t
+  apply SignedRows.range_values (withSum M R) "_" (body p) (update M R p)
+    (fun n a t => Ready p s t n a) (fun a t => ∃ k, Ready p s t k a) finishRow
   · intro n a u hu _
     exact body_run M R p s u n a hu
   · intro n a u hu
@@ -31,8 +31,9 @@ theorem postlude_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimiti
   simp [postlude, kernel, source, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
-    numeric, FP.Structural.bop, numericLt, natLt, Region.cast, withSum,
-    h.mem, h.pid, h.cols, h.mask, h.dw, h.db]
+    numeric, FP.Structural.bop, numericLt, natLt, Region.cast, withSum, VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.withSum,
+    h.mem, h.pid, h.cols, h.sdw, h.sdb, h.mask, h.dw, h.db]
+  try simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast]
   simp only [finish, fold_writes_mem, State.setReg_mem]
   simp [stored, h.mem]
 

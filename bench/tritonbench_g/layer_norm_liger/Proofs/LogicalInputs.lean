@@ -37,7 +37,7 @@ theorem row (s : State ℝ) (x w b dy : Tensor ℝ) (p : Prepared ℝ) (a : Wrap
     have bound := Nat.mul_le_mul_right (Contract.width x.metadata) hr
     nlinarith
   have cell := input_cells s x w b dy p prepared ready h.rank _ hi
-  simpa [rowX,Wrapper.forward,atPid,cell] using congrArg (fun c => c.read .fp32) cell
+  simpa [rowX,Wrapper.forward,atPid,cell] using congrArg (fun c => c.read .real) cell
 
 theorem weight (s : State ℝ) (x w b dy : Tensor ℝ) (p : Prepared ℝ) (a : Wrapper.Allocations)
     (eps : Contract.Epsilon) (h : Contract.InputContract x.metadata w.metadata b.metadata eps)
@@ -47,7 +47,7 @@ theorem weight (s : State ℝ) (x w b dy : Tensor ℝ) (p : Prepared ℝ) (a : W
   have size : p.weight.metadata.numel = w.metadata.numel := by simp [TensorMetadata.numel,prepared.weightShape]
   have cell := ready.weight col (by simpa [size] using hw)
   rw [prepared.weight col hw] at cell
-  exact congrArg (fun c => c.read .fp32) cell
+  exact congrArg (fun c => c.read .real) cell
 
 theorem bias (s : State ℝ) (x w b dy : Tensor ℝ) (p : Prepared ℝ) (a : Wrapper.Allocations)
     (eps : Contract.Epsilon) (h : Contract.InputContract x.metadata w.metadata b.metadata eps)
@@ -57,7 +57,7 @@ theorem bias (s : State ℝ) (x w b dy : Tensor ℝ) (p : Prepared ℝ) (a : Wra
   have size : p.bias.metadata.numel = b.metadata.numel := by simp [TensorMetadata.numel,prepared.biasShape]
   have cell := ready.bias col (by simpa [size] using hb)
   rw [prepared.bias col hb] at cell
-  exact congrArg (fun c => c.read .fp32) cell
+  exact congrArg (fun c => c.read .real) cell
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

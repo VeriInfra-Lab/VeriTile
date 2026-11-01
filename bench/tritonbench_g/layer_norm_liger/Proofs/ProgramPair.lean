@@ -1,10 +1,11 @@
 import bench.tritonbench_g.layer_norm_liger.Proofs.IOBindings
 import bench.tritonbench_g.layer_norm_liger.Proofs.ForwardContract
+import bench.tritonbench_g.layer_norm_liger.Proofs.CandidateForward
 import bench.tritonbench_g.layer_norm_liger.Proofs.CandidateSafety
 
 namespace VeriTile.Bench.Repairs.LayerNormLiger.LayerIO.ProgramPair
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive)
 noncomputable section
 set_option maxHeartbeats 2000000
 set_option maxRecDepth 24000

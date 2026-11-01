@@ -2,13 +2,13 @@ import bench.tritonbench_g.layer_norm_liger.Kernels
 import bench.tritonbench_g.token_attn_reduceV.Proofs.Mathematical_FPContract
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Forward
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive)
 noncomputable section
 
-def padding {α : Type} (M : Algebra α) : α := M.cast none .real .fp32 (M.literal none .real 0)
+def padding {α : Type} (M : Algebra α) : α := M.literal (some .fp32) .real 0
 def input {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)
     (region : RegionName) (base : Nat) : TileIndex [p.block] → α := fun i =>
-  if i.1.val < p.columns then (s.mem region (base+i.1.val)).read .fp32 else padding M
+  M.fp32Load (if i.1.val < p.columns then (s.mem region (base+i.1.val)).read .real else padding M)
 
 def xValues {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :=
   input M p s p.x (s.pids 0*p.xStride)
@@ -18,21 +18,20 @@ def bValues {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : St
   input M p s p.bias 0
 
 def denominator {α : Type} (M : Algebra α) (p : Parameters) : α :=
-  M.cast (some .fp32) .real .real (M.literal (some .fp32) .real (p.columns : ℝ))
+  M.fromInt (some .fp32) (p.columns : Int)
 def meanValue {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s : State α) : α :=
   M.binary (some .fp32) .real .div
-    (M.cast (some .fp32) .fp32 .real
-      (R.apply (some .fp32) ⟨0, by simp⟩ Bool.false (xValues M p s) PUnit.unit)) (denominator M p)
+    (R.apply (some .fp32) ⟨0, by simp⟩ Bool.false (xValues M p s) PUnit.unit) (denominator M p)
 def centered {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s : State α) (i : TileIndex [p.block]) : α :=
   M.binary (some .fp32) .real .sub
-    (M.cast (some .fp32) .fp32 .real (xValues M p s i)) (meanValue M R p s)
+    (xValues M p s i) (meanValue M R p s)
 /-- The repaired variance has zero contribution from padded lanes. -/
 def varianceValue {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s : State α) : α :=
   M.binary (some .fp32) .real .div
-    (M.reduceSum (some .fp32) ⟨0, by simp⟩ Bool.false
+    (R.apply (some .fp32) ⟨0, by simp⟩ Bool.false
       (fun i : TileIndex [p.block] => if i.1.val < p.columns then
         M.binary (some .fp32) .real .mul (centered M R p s i) (centered M R p s i)
         else M.literal (some .fp32) .real 0) PUnit.unit) (denominator M p)
@@ -45,10 +44,10 @@ def yValue {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
   M.binary (some .fp32) .real .add
     (M.binary (some .fp32) .real .mul
       (M.binary (some .fp32) .real .mul (centered M R p s i) (rstdValue M R p s))
-      (M.cast (some .fp32) .fp32 .real (wValues M p s i)))
-    (M.cast (some .fp32) .fp32 .real (bValues M p s i))
+      (wValues M p s i))
+    (bValues M p s i)
 def stored {α : Type} (M : Algebra α) (v : α) : Cell α :=
-  .mk .fp32 (M.cast none .real .fp32 v)
+  .mk .real v
 def meanOffset {α : Type} (p : Parameters) (s : State α) := s.pids 0*p.meanStride
 def rstdOffset {α : Type} (p : Parameters) (s : State α) := s.pids 0*p.rstdStride
 def outputOffset {α : Type} (p : Parameters) (s : State α) (i : TileIndex [p.block]) :=
