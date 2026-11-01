@@ -301,7 +301,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_binary_functions: dict[str, str] | None = None,
           expected_ordered_sum_trees: dict[str, str] | None = None,
           expected_namespace_imports: dict[str, str] | None = None,
-          expected_constexpr_bindings: dict[str, str] | None = None) -> dict:
+          expected_constexpr_bindings: dict[str, str] | None = None,
+          expected_philox_call: dict | None = None) -> dict:
     if expected_pure_functions is not None and expected_binary_functions is not None:
         raise ValueError("unary and binary helper clauses cannot be mixed")
     helper_functions = expected_binary_functions if expected_binary_functions is not None else expected_pure_functions
@@ -371,6 +372,14 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             if (not expected_ordered_sum_trees or expected_call_bindings is None or offset_clause):
                 raise ValueError("ordered sum trees require a reviewed scalar-only call")
             offset_clause = r"\s+ordered_sum_trees\s*\[([^\]]*)\]"
+        if expected_philox_call is not None:
+            if (set(expected_philox_call) != {"fp32_bits", "i64_args", "arange_args", "uniform_helpers"}
+                    or expected_call_bindings is None or offset_clause):
+                raise ValueError("Philox arguments require a reviewed scalar-only call")
+            offset_clause = (r"\s+fp32_bits\s*\[([^\]]*)\]"
+                             r"\s+i64_args\s*\[([^\]]*)\]"
+                             r"\s+arange_args\s*\[([^\]]*)\]"
+                             r"\s+uniform_helpers\s*\[([^\]]*)\]")
         if expected_call_bindings is None:
             invocation = r"\bwith_triton_signature\s+" + selected_signature + offset_clause + r"\s+in\b"
             calls = list(re.finditer(invocation, signature))
@@ -392,10 +401,48 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 raise ValueError("runtime call bindings differ from the reviewed invocation")
             integer_args = {n for n, t in profile["scalars"] if t in {"integer", "i32", "i64"}}
             fp32_args = {n for n, t in profile["scalars"] if t == "fp32"}
-            handled = set(expected_integer_args or {})
+            handled = set(expected_integer_args or {}) | set((expected_philox_call or {}).get("i64_args", {}))
             if (not handled <= integer_args or not (integer_args-handled) <= set(bindings)
                     or set(bindings) & handled or not set(bindings) <= integer_args | fp32_args):
                 raise ValueError("runtime call bindings must include all integer parameters and only supported scalar parameters")
+        if expected_philox_call is not None:
+            for group, label in enumerate(["fp32_bits", "i64_args", "arange_args", "uniform_helpers"], start=2):
+                values = {}
+                for entry in calls[0][group].replace("«to»", "to").split(","):
+                    pair = re.fullmatch(r"\s*([A-Za-z_]\w*)\s*:=\s*([A-Za-z_]\w*)\s*", entry)
+                    if not pair or pair[1] in values:
+                        raise ValueError("Philox arguments require distinct named bindings")
+                    values[pair[1]] = pair[2]
+                if values != expected_philox_call[label]:
+                    raise ValueError("Philox arguments differ from the reviewed call")
+            for label, dtype, caller_type in [("fp32_bits", "fp32", "Float32Bits"), ("i64_args", "i64", "Int")]:
+                for name, caller in expected_philox_call[label].items():
+                    if (dict(profile["scalars"]).get(name) != dtype or not any(
+                            caller in names.split() for names in re.findall(
+                                r"\(([A-Za-z_][\w\s]*)\s*:\s*"+caller_type+r"\s*\)", signature))):
+                        raise ValueError("Philox caller type differs from the reviewed ABI")
+            for size, proof in expected_philox_call['arange_args'].items():
+                if size not in constants or not re.search(r"\([^()\n]*\b"+re.escape(proof)+
+                        r"\s*:\s*Random\.ArangeSizeDomain\s+"+re.escape(size)+r"\s*\)", signature):
+                    raise ValueError("Philox arange requires its checked source size")
+            module = ast.parse(python_text)
+            for helper in expected_philox_call['uniform_helpers']:
+                declarations = [n for n in ast.walk(module) if isinstance(n, ast.FunctionDef) and n.name == helper]
+                if len(declarations) != 1:
+                    raise ValueError("uniform helper requires one retained fallback body")
+                selected = [n for n in module.body if isinstance(n, ast.Try) and len(n.body) == 1
+                            and len(n.handlers) == 1 and not n.orelse and not n.finalbody
+                            and isinstance(n.body[0], ast.Assign) and len(n.body[0].targets) == 1
+                            and ast.unparse(n.body[0].targets[0]) == helper
+                            and ast.unparse(n.body[0].value) == 'tl.uint_to_uniform_float'
+                            and isinstance(n.handlers[0].type, ast.Name) and n.handlers[0].type.id == 'AttributeError'
+                            and n.handlers[0].name is None and n.handlers[0].body == declarations]
+                writes = [n for n in ast.walk(module) if isinstance(n, ast.Name)
+                          and isinstance(n.ctx, (ast.Store, ast.Del)) and n.id == helper]
+                if len(selected) != 1 or writes != selected[0].body[0].targets:
+                    raise ValueError("uniform helper must retain the exact builtin/AttributeError fallback selection")
+                if any(isinstance(n, ast.arg) and n.arg == helper for n in ast.walk(function)):
+                    raise ValueError("uniform helper cannot be shadowed")
         if expected_ordered_sum_trees is not None:
             trees = {}
             for entry in calls[0][2].split(','):
@@ -764,11 +811,38 @@ def check_pure_function(python_text: str, lean_text: str, python_function: str,
             "statements": 1, "runtime_parameters": {a: "inferred" for a in arguments}, "constexpr_parameters": []}
 
 
+def check_uniform_function(python_text: str, lean_text: str, python_function: str, lean_definition: str) -> dict:
+    module = ast.parse(python_text)
+    functions = [n for n in ast.walk(module) if isinstance(n, ast.FunctionDef) and n.name == python_function]
+    if len(functions) != 1 or not any(ast.unparse(d) == 'triton.jit' for d in functions[0].decorator_list):
+        raise ValueError("uniform decoder requires one copied JIT helper")
+    fn = functions[0]
+    if (len(fn.args.args) != 1 or fn.args.args[0].arg != 'x' or fn.args.args[0].annotation
+            or fn.args.posonlyargs or fn.args.kwonlyargs or fn.args.vararg or fn.args.kwarg
+            or fn.args.defaults or fn.args.kw_defaults):
+        raise ValueError("uniform decoder requires its original scalar argument")
+    header, body = quotation(lean_text, lean_definition, raw_python=True)
+    if not re.search(r"\btriton_function\s*\(\s*x\s*\)\s*$", header):
+        raise ValueError("uniform decoder quotation parameter differs")
+    pasted = ast.parse('def helper():\n' + body).body[0].body
+    if '$' in body or ast.dump(ast.Module(fn.body, [])) != ast.dump(ast.Module(pasted, [])):
+        raise ValueError("uniform decoder complete body differs from Python")
+    return {"python_function": python_function, "lean_definition": lean_definition,
+            "status": "PASS", "mode": "pasted_body", "kind": "uniform_jit_function",
+            "statements": len(fn.body), "runtime_parameters": {"x": "uint32 selected by Philox4x32"},
+            "constexpr_parameters": []}
+
+
 def check_manifest(root: Path, manifest: Path) -> list[dict]:
     records = json.loads(manifest.read_text())
     results = []
     for r in records:
         py, lean = (root / r["python"]).read_text(), (root / r["lean"]).read_text()
+        if r.get("kind") == "uniform_jit_function":
+            if set(r) != {"kind", "python", "lean", "python_function", "lean_definition"}:
+                raise ValueError("uniform helper cannot override invocation metadata")
+            results.append(check_uniform_function(py, lean, r['python_function'], r['lean_definition']))
+            continue
         if r.get("kind") in {"pure_jit_function", "binary_pure_jit_function"}:
             if (set(r) - {"expected_imports"}) != {"kind", "python", "lean", "python_function", "lean_definition"}:
                 raise ValueError("pure JIT helper record cannot override kernel call metadata")
@@ -782,7 +856,13 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                              r.get("expected_static_strides"), r.get("expected_pure_functions"),
                              r.get("expected_integer_args"), r.get("expected_arange_args"), r.get("expected_binary_functions"),
                              r.get("expected_ordered_sum_trees"), r.get("expected_namespace_imports"),
-                             r.get("expected_constexpr_bindings")))
+                             r.get("expected_constexpr_bindings"), r.get("expected_philox_call")))
+        for name, definition in r.get('expected_philox_call', {}).get('uniform_helpers', {}).items():
+            helpers = [h for h in records if h.get('kind') == 'uniform_jit_function'
+                       and h['python'] == r['python'] and h['lean'] == r['lean']
+                       and h['python_function'] == name and h['lean_definition'] == definition]
+            if len(helpers) != 1:
+                raise ValueError("uniform call requires its separately checked complete helper")
         helper_kind = "binary_pure_jit_function" if "expected_binary_functions" in r else "pure_jit_function"
         for name, definition in r.get("expected_binary_functions", r.get("expected_pure_functions", {})).items():
             helpers = [h for h in records if h.get("kind") == helper_kind

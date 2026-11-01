@@ -12,11 +12,11 @@ set_option maxHeartbeats 1500000
 set_option maxRecDepth 10000
 
 def body (seed offset : Int) (B : Nat) : List ComputeStmt := [
-  .assign .int [] "philox_seed_arg" (.alg (.constInt seed)),
-  .assign .int [] "philox_offset_arg" (.alg (.constInt offset)),
-  .assign .nat [] "BLOCK_arg" (.alg (.constNat B)),
-  .assign .int [] "philox_seed" (.alg (.ref .int [] "philox_seed_arg")),
-  .assign .int [] "philox_offset" (.alg (.ref .int [] "philox_offset_arg")),
+  .assign .int [] "philox_seed" (.alg (.constInt seed)),
+  .assign .int [] "philox_offset" (.alg (.constInt offset)),
+  .assign .nat [] "BLOCK" (.alg (.constNat B)),
+  .assign .int [] "philox_seed" (.alg (.ref .int [] "philox_seed")),
+  .assign .int [] "philox_offset" (.alg (.ref .int [] "philox_offset")),
   .assign .nat [] "c0" (.alg (.intToUnsigned 32
     (.intBitAnd 64 .nil (.ref .int [] "philox_offset") (.constInt 0xffffffff)))),
   .assign .nat [] "c1" (.alg (.intToUnsigned 32
@@ -24,9 +24,9 @@ def body (seed offset : Int) (B : Nat) : List ComputeStmt := [
       (.constInt 0xffffffff))))]
 
 def boundState {α : Type} (seed offset : Int) (B : Nat) (u : State α) : State α :=
-  let s := u.setReg "philox_seed_arg" .int [] (fun _ => seed)
-  let s := s.setReg "philox_offset_arg" .int [] (fun _ => offset)
-  let s := s.setReg "BLOCK_arg" .nat [] (fun _ => B)
+  let s := u.setReg "philox_seed" .int [] (fun _ => seed)
+  let s := s.setReg "philox_offset" .int [] (fun _ => offset)
+  let s := s.setReg "BLOCK" .nat [] (fun _ => B)
   let s := s.setReg "philox_seed" .int [] (fun _ => seed)
   s.setReg "philox_offset" .int [] (fun _ => offset)
 

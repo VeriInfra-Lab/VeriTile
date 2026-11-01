@@ -19,7 +19,7 @@ def original {α : Type} (M : Algebra α) (y : RegionName) (N : Nat)
   ProgramIO.Implementation.original (originalIO M y N seed offset lower upper B hB pid) (fun _ => True)
 
 /-- Existing candidate: only the widened integer tuple-index product is
-commuted. RNG, subtraction, four FP32 FMAs and four store casts are unchanged. -/
+commuted. RNG, subtraction, four FP32 FMAs and four FP32 stores are unchanged. -/
 def indexCommuted {α : Type} (M : Algebra α) (y : RegionName) (N : Nat)
     (seed offset : Int) (lower upper : Float32Bits)
     (B : Nat) (hB : Random.ArangeSizeDomain B) (pid : Nat) :=
