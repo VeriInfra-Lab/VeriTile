@@ -22,7 +22,7 @@ def sourceRun {α : Type} [Inhabited α] (sem : Semantics α) (params : Scalars 
       (programState params pid s)=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp (maxSteps := 1400000) [commutedSource,commutedWithArguments,ComputeKernel.surfaceBody,
+  simp (maxSteps := 1400000) [commutedSource,commutedWithArguments,commutedBody,ComputeKernel.surfaceBody,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
     store,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,numericEq,
     programState,bindArguments,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
@@ -35,6 +35,9 @@ def outputRegion : Output → RegionName
 /-- Source expression order, including the comparison and bool-to-FP32
 multiplication. Floating negation here is a source node, not a sign-XOR law. -/
 def scalar (sem : Semantics α) (params : Scalars α) (output : Output) (p g m : α) : α :=
+  let p := sem.algebra.fp32Load p
+  let g := sem.algebra.fp32Load g
+  let m := sem.algebra.fp32Load m
   let bin := sem.algebra.binary (some .fp32) .real
   let lit := sem.algebra.literal (some .fp32) .real
   let diff := bin .sub m g
@@ -69,7 +72,8 @@ def memory {α : Type} [Inhabited α] (sem : Semantics α) (params : Scalars α)
 theorem sourceRun_mem {α : Type} [Inhabited α] (sem : Semantics α) (params : Scalars α)
     (total chunk block pid : Nat) (s : State α) :
     (sourceRun sem params total chunk block pid s).val.mem=memory sem params chunk block pid s := by
-  simp only [sourceRun,scatter_mem]
+  simp only [sourceRun,scatter_mem,show (1.0 : ℝ) = 1 by norm_num,
+    show (0.0 : ℝ) = 0 by norm_num]
   rfl
 
 theorem scatter_readback {α : Type} [Inhabited α] (sem : Semantics α) (params : Scalars α)

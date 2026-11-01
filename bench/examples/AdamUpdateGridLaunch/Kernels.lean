@@ -1,4 +1,4 @@
-import VeriTile.Triton.DSL.CallSignature
+import VeriTile.Triton.DSL.FP32BooleanArithmetic
 
 /-! Original source: bench/tritonbench_g/adam_update_triton/adam_update_triton.py,
 update_fn_kernel. Candidate commutes only the final momentum addition.

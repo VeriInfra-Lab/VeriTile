@@ -1178,6 +1178,19 @@
           "VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.FPEquiv.scalar_left_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/adam_update_triton",
+      "python": "bench/tritonbench_g/adam_update_triton/adam_update_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/adam_update_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.AdamUpdateTriton.Correct.lion_kernel_correctness"
+        ],
+        "bench/tritonbench_g/adam_update_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AdamUpdateTriton.FPEquiv.lion_kernel_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1203,6 +1216,9 @@
     "VeriTile/Triton/Memory/Typing/Checker.lean",
     "VeriTile/Triton/Memory/Typing/Contracts.lean",
     "VeriTile/Triton/Semantics/EvalOp.lean",
+    "bench/examples/AdamUpdateGridLaunch/Correct.lean",
+    "bench/examples/AdamUpdateGridLaunch/FPEquiv.lean",
+    "bench/examples/AdamUpdateGridLaunch/Kernels.lean",
     "bench/examples/AdamUpdateGridLaunch/Proofs/Real.lean",
     "bench/examples/FlatVectorAdd/Correct.lean",
     "bench/examples/FlatVectorAdd/Kernels.lean",
@@ -1250,6 +1266,27 @@
     "bench/examples/Welford/Proofs/FP.lean",
     "bench/examples/Welford/Proofs/LegacyRealEquiv.lean",
     "bench/examples/Welford/Proofs/Real.lean",
+    "bench/tritonbench_g/adam_update_triton/Contract.lean",
+    "bench/tritonbench_g/adam_update_triton/Correct.lean",
+    "bench/tritonbench_g/adam_update_triton/FPEquiv.lean",
+    "bench/tritonbench_g/adam_update_triton/IO.lean",
+    "bench/tritonbench_g/adam_update_triton/Kernels.lean",
+    "bench/tritonbench_g/adam_update_triton/PairIO.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/CommutedGrid.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/CommutedSafety.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/CommutedTile.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/Grid.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/IOReal.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/Interface.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/Math.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/Native.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/NativeWords.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/Real.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/Scalar.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/Tile.lean",
+    "bench/tritonbench_g/adam_update_triton/Proofs/WholePair.lean",
     "bench/tritonbench_g/add_example/Kernels.lean",
     "bench/tritonbench_g/add_value/Kernels.lean",
     "bench/tritonbench_g/cache_transform_triton/IO.lean",
@@ -1885,6 +1922,7 @@
     "tests/lean/CallArguments.lean",
     "tests/lean/CallScalarPrecision.lean",
     "tests/lean/CallSignature.lean",
+    "tests/lean/FP32BooleanArithmetic.lean",
     "tests/lean/FiniteCallProfiles.lean",
     "tests/lean/IntegerDivisionLiterals.lean",
     "tests/lean/PointerArguments.lean",
