@@ -82,13 +82,13 @@ theorem backward_executes (M : Algebra α) (p : Parameters) (initial : State α)
       simp only [target,Region.cast] at ignored
       refine ⟨?_,?_,?_⟩
       rotate_left
-      · simp [exec,backwardSyntax,hs,ComputeKernel.surfaceBody,run,step,
+      · simp [exec,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,ComputeKernel.surfaceBody,run,step,
           evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
           Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
           numeric,numericEq,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
           State.setReg,FP.Structural.store,Region.cast,ignored,owner,abi.smoothing,abi.squareScale,abi.totalClasses,abi.logitScale]
         rfl
-      · simp only [gradientMemory,gradientValue,inputLSE,inputUpstream,logits,
+      · simp only [gradientMemory,gradientValue,inputLSE,inputUpstream,logits,loadedLogits,
           hs,target,ownsTarget,Region.cast,owner,ignored,if_true,if_false,Bool.false_eq_true,gradientOffset,activeLane,
           RuntimeArgs.fp,CrossEntropy1.RuntimeArgs.fp,RuntimeArgs.classes,CrossEntropy1.RuntimeArgs.classes,abi.smoothing,abi.squareScale,abi.totalClasses,abi.logitScale,Option.getD_some,true_and,false_and]
         apply masked_memory_congr
@@ -138,7 +138,7 @@ theorem backward_outputs (M : Algebra α) (p : Parameters) (initial : State α)
 #axiomsClean backward_outputs
 
 #axiomsClean backward_executes
-#specNonCircular gradientValue avoiding [forwardSyntax,backwardSyntax,Source.forward,Source.backward,exec,run]
+#specNonCircular gradientValue avoiding [forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

@@ -29,20 +29,22 @@ def ownsTarget (p : Parameters) (initial : State α) : Prop :=
 instance (p : Parameters) (initial : State α) : Decidable (ownsTarget p initial) :=
   inferInstanceAs (Decidable (_ ∧ _))
 
-def front (p : Parameters) := (forwardSyntax p).surfaceBody.take 12
-def tailCode (p : Parameters) := (forwardSyntax p).surfaceBody.drop 12
+def front (p : Parameters) := (forwardSyntax p).surfaceBody.take 18
+def tailCode (p : Parameters) := (forwardSyntax p).surfaceBody.drop 18
 
 theorem body_split (p : Parameters) :
     (forwardSyntax p).surfaceBody=front p++tailCode p := by
-  exact (List.take_append_drop 12 _).symm
+  exact (List.take_append_drop 18 _).symm
+
+def loadedLogits (M : Algebra α) (p : Parameters) (initial : State α) : Values α .real [p.block] :=
+  fun i => M.fp32Load (if initial.pids 1*p.block+i.1.val<p.cols then
+    (initial.mem p.logits (p.logitsBase+initial.pids 0*p.logitsStride+
+      (initial.pids 1*p.block+i.1.val))).read .real else M.literal (some .fp32) .real 0.0)
 
 def logits (M : Algebra α) (p : Parameters) (initial : State α) : Values α .real [p.block] :=
   fun i => if initial.pids 1*p.block+i.1.val<p.cols then
     M.binary (some .fp32) .real .mul
-      (M.cast (some .fp32) .real .real
-        (if initial.pids 1*p.block+i.1.val<p.cols then
-          (initial.mem p.logits (p.logitsBase+initial.pids 0*p.logitsStride+
-            (initial.pids 1*p.block+i.1.val))).read .real else M.literal (some .fp32) .real 0.0))
+      (M.cast (some .fp32) .real .real (loadedLogits M p initial i))
       (RuntimeArgs.fp initial "logit_scale")
     else M.negInf
 
@@ -85,16 +87,26 @@ def lseValue (M : Algebra α) (p : Parameters) (initial : State α) : α :=
 @[simp] theorem nat_output_offset (a b c d : Nat) : ((a : Int)+(b : Int)*c+d).toNat=a+b*c+d := by
   norm_cast
 
+/-- Actual caller integer bindings; FP inputs and total_classes retain the
+existing unrestricted runtime register contract. -/
+def arguments (p : Parameters) (initial : State α) : State α :=
+  let s:=initial.setReg "ignored_index" .int [] (fun _=>p.ignored)
+  let s:=s.setReg "class_start_idx" .int [] (fun _=>p.classStart)
+  let s:=s.setReg "n_cols" .int [] (fun _=>(p.cols : Int))
+  let s:=s.setReg "logits_row_stride" .int [] (fun _=>(p.logitsStride : Int))
+  s.setReg "n_rows" .int [] (fun _=>(p.rows : Int))
+
 def ready (M : Algebra α) (p : Parameters) (initial : State α) : State α :=
   let row := initial.pids 0
   let block := initial.pids 1
-  let s := initial.setReg "row_idx" .int [] (fun _ => (row : Int))
+  let s := (arguments p initial).setReg "row_idx" .int [] (fun _ => (row : Int))
   let s := s.setReg "col_block_idx" .int [] (fun _ => (block : Int))
   let s := s.setReg "logits_ptr" .ptr [] (fun _ => (p.logits,p.logitsBase+row*p.logitsStride))
   let s := s.setReg "col_offsets" .int [p.block] (fun (lane,_) => (block : Int)*p.block+lane.val)
   let s := s.setReg "label_idx" .int [] (fun _ =>
     (initial.mem (Region.cast p.labels) (p.labelsBase+row)).read .int)
   let s := s.setReg "owns_target" .bool [] (fun _ => decide (ownsTarget p initial))
+  let s := s.setReg "__veritile_load_0" .real [p.block] (loadedLogits M p initial)
   let s := s.setReg "logits" .real [p.block] (logits M p initial)
   let s := s.setReg "max_logits" .real [] (maxTile M p initial)
   let s := if p.hasSmoothing then s.setReg "sum_logits" .real [] (sumTile M p initial) else s
@@ -110,7 +122,7 @@ theorem forwardPrefix (M : Algebra α) (p : Parameters)
     simp [CrossEntropy1.RuntimeArgs.fp,abi.logitScale]
   cases hs : p.hasSmoothing
   all_goals
-    simp [front,forwardSyntax,hs,ComputeKernel.surfaceBody,ready,logits,maxValue,sumValue,lseValue,maxTile,sumTile,lseTile,
+    simp [front,forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,ComputeKernel.surfaceBody,ready,arguments,logits,loadedLogits,maxValue,sumValue,lseValue,maxTile,sumTile,lseTile,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,natLt,numericLt,numericLe,bop,ofFloat,toFloat,Region.cast,
@@ -125,10 +137,10 @@ theorem forwardPrefix (M : Algebra α) (p : Parameters)
         by_cases scalar : sh=[]
         · subst sh
           cases d <;>
-            simp (config := {maxSteps := 1000000}) [bop,logits,lseTile,maxTile,sumTile,maxValue,sumValue,
+            simp (config := {maxSteps := 1000000}) [bop,logits,loadedLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
               Broadcast.leftIndex,Broadcast.rightIndex,scaleReg]
           all_goals
-            congr <;> first | rfl | simp (config := {failIfUnchanged := Bool.false}) [bop,logits,lseTile,maxTile,sumTile,maxValue,sumValue,
+            congr <;> first | rfl | simp (config := {failIfUnchanged := Bool.false}) [bop,logits,loadedLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
               Broadcast.leftIndex,Broadcast.rightIndex,scaleReg]
           all_goals
             funext i
@@ -136,10 +148,10 @@ theorem forwardPrefix (M : Algebra α) (p : Parameters)
         · by_cases vector : sh=[p.block]
           · subst sh
             cases d <;>
-              simp (config := {maxSteps := 1000000}) [bop,logits,lseTile,maxTile,sumTile,maxValue,sumValue,
+              simp (config := {maxSteps := 1000000}) [bop,logits,loadedLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
                 Broadcast.leftIndex,Broadcast.rightIndex,scaleReg]
             all_goals
-              congr <;> first | rfl | simp (config := {failIfUnchanged := Bool.false}) [bop,logits,lseTile,maxTile,sumTile,maxValue,sumValue,
+              congr <;> first | rfl | simp (config := {failIfUnchanged := Bool.false}) [bop,logits,loadedLogits,lseTile,maxTile,sumTile,maxValue,sumValue,
                 Broadcast.leftIndex,Broadcast.rightIndex,scaleReg]
           · have reversed : [p.block]≠sh := Ne.symm vector
             simp [scalar,reversed]
@@ -149,11 +161,11 @@ theorem ready_memory (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).mem=
       (initial.write p.lse (p.lseBase+initial.pids 1*p.rows+initial.pids 0)
         (.mk .real (lseValue M p initial))).mem := by
-  cases hs : p.hasSmoothing <;> simp [ready,hs,State.write]
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write]
 
 theorem ready_lse (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .real [] "lse"=some (fun _ => lseValue M p initial) := by
-  simp only [ready,State.write,State.setReg_same]
+  simp only [ready,arguments,State.write,State.setReg_same]
   apply congrArg some
   funext i
   cases i
@@ -171,8 +183,8 @@ theorem owns_local (p : Parameters) (initial : State α) (hit : owns p initial) 
 
 def gathered (M : Algebra α) (p : Parameters) (initial : State α) : α :=
   M.binary (some .fp32) .real .mul
-    ((initial.mem p.logits (p.logitsBase+initial.pids 0*p.logitsStride+
-      (target p initial-p.classStart).toNat)).read .real) (RuntimeArgs.fp initial "logit_scale")
+    (M.fp32Load ((initial.mem p.logits (p.logitsBase+initial.pids 0*p.logitsStride+
+      (target p initial-p.classStart).toNat)).read .real)) (RuntimeArgs.fp initial "logit_scale")
 
 def coreLoss (M : Algebra α) (p : Parameters) (initial : State α) : α := by
   classical
@@ -208,56 +220,76 @@ def lossValue (M : Algebra α) (p : Parameters) (initial : State α) : α :=
 
 @[simp] theorem ready_row (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .int [] "row_idx"=some (fun _ => (initial.pids 0 : Int)) := by
-  cases hs : p.hasSmoothing <;> simp [ready,hs,State.write,State.setReg]
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
 
 @[simp] theorem ready_block (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .int [] "col_block_idx"=some (fun _ => (initial.pids 1 : Int)) := by
-  cases hs : p.hasSmoothing <;> simp [ready,hs,State.write,State.setReg]
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
 
 @[simp] theorem ready_label (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .int [] "label_idx"=some (fun _ => target p initial) := by
-  cases hs : p.hasSmoothing <;> simp [ready,hs,State.write,State.setReg,target]
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg,target]
 
 @[simp] theorem ready_pointer (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .ptr [] "logits_ptr"=
       some (fun _ => (p.logits,p.logitsBase+initial.pids 0*p.logitsStride)) := by
-  cases hs : p.hasSmoothing <;> simp [ready,hs,State.write,State.setReg]
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
 
 @[simp] theorem ready_owns (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .bool [] "owns_target"=some (fun _ => decide (ownsTarget p initial)) := by
-  cases hs : p.hasSmoothing <;> simp [ready,hs,State.write,State.setReg]
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
 
 @[simp] theorem ready_logitScale (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .real [] "logit_scale"=initial.regs .real [] "logit_scale" := by
-  cases hs : p.hasSmoothing <;> simp [ready,hs,State.write,State.setReg]
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
 
 @[simp] theorem ready_smoothing (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .real [] "smoothing"=initial.regs .real [] "smoothing" := by
-  cases hs : p.hasSmoothing <;> simp [ready,hs,State.write,State.setReg]
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
 
 @[simp] theorem ready_scale (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .real [] "lse_square_scale"=initial.regs .real [] "lse_square_scale" := by
-  cases hs : p.hasSmoothing <;> simp [ready,hs,State.write,State.setReg]
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
 
 @[simp] theorem ready_classes (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .int [] "total_classes"=initial.regs .int [] "total_classes" := by
-  cases hs : p.hasSmoothing <;> simp [ready,hs,State.write,State.setReg]
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
 
 theorem ready_sum (M : Algebra α) (p : Parameters) (initial : State α)
     (enabled : p.hasSmoothing=Bool.true) :
     (ready M p initial).regs .real [] "sum_logits"=some (sumTile M p initial) := by
-  simp [ready,enabled,State.write,State.setReg]
+  simp [ready,arguments,enabled,State.write,State.setReg]
 
 @[simp] theorem ready_sum_cases (M : Algebra α) (p : Parameters) (initial : State α) :
     (ready M p initial).regs .real [] "sum_logits"=
       if p.hasSmoothing then some (sumTile M p initial) else initial.regs .real [] "sum_logits" := by
-  cases hs : p.hasSmoothing <;> simp [ready,hs,State.write,State.setReg]
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
 
 theorem ready_logits (M : Algebra α) (p : Parameters) (initial : State α)
     (separate : p.lse≠p.logits) (offset : Nat) :
     (ready M p initial).mem p.logits offset=initial.mem p.logits offset := by
   rw [ready_memory]
   simp [State.write,separate.symm]
+
+@[simp] theorem ready_ignored (M : Algebra α) (p : Parameters) (initial : State α) :
+    (ready M p initial).regs .int [] "ignored_index"=some (fun _=>p.ignored) := by
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
+
+@[simp] theorem ready_class_start (M : Algebra α) (p : Parameters) (initial : State α) :
+    (ready M p initial).regs .int [] "class_start_idx"=some (fun _=>p.classStart) := by
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
+
+@[simp] theorem ready_columns (M : Algebra α) (p : Parameters) (initial : State α) :
+    (ready M p initial).regs .int [] "n_cols"=some (fun _=>(p.cols : Int)) := by
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
+
+@[simp] theorem ready_stride (M : Algebra α) (p : Parameters) (initial : State α) :
+    (ready M p initial).regs .int [] "logits_row_stride"=some (fun _=>(p.logitsStride : Int)) := by
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
+
+@[simp] theorem ready_rows (M : Algebra α) (p : Parameters) (initial : State α) :
+    (ready M p initial).regs .int [] "n_rows"=some (fun _=>(p.rows : Int)) := by
+  cases hs : p.hasSmoothing <;> simp [ready,arguments,hs,State.write,State.setReg]
 
 /-- Remaining actual source statements, including both loss and z-loss stores. -/
 theorem forwardTail (M : Algebra α) (p : Parameters) (initial : State α)
@@ -272,7 +304,7 @@ theorem forwardTail (M : Algebra α) (p : Parameters) (initial : State α)
     by_cases ignored : target p initial=p.ignored
     · refine ⟨?_,?_,?_⟩
       rotate_left
-      · simp [tailCode,forwardSyntax,hs,sp,ComputeKernel.surfaceBody,run,step,
+      · simp [tailCode,forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,sp,ComputeKernel.surfaceBody,run,step,
           evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
           Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
           numeric,numericEq,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -287,7 +319,7 @@ theorem forwardTail (M : Algebra α) (p : Parameters) (initial : State α)
           rotate_left
           · have condition := hit
             simp only [owns,lt_min_iff] at condition
-            simp [tailCode,forwardSyntax,hs,sp,ComputeKernel.surfaceBody,run,step,
+            simp [tailCode,forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,sp,ComputeKernel.surfaceBody,run,step,
               evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
               Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
               numeric,numericEq,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -299,7 +331,7 @@ theorem forwardTail (M : Algebra α) (p : Parameters) (initial : State α)
       · have miss : ¬owns p initial := fun h => owner (owns_local p initial h)
         refine ⟨?_,?_,?_⟩
         rotate_left
-        · simp [tailCode,forwardSyntax,hs,sp,ComputeKernel.surfaceBody,run,step,
+        · simp [tailCode,forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,sp,ComputeKernel.surfaceBody,run,step,
             evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
             Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
             numeric,numericEq,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -355,9 +387,9 @@ theorem forward_outputs (M : Algebra α) (p : Parameters) (initial : State α)
 
 #axiomsClean forward_executes
 #axiomsClean forward_outputs
-#specNonCircular lseValue avoiding [forwardSyntax,backwardSyntax,Source.forward,Source.backward,exec,run]
-#specNonCircular lossValue avoiding [forwardSyntax,backwardSyntax,Source.forward,Source.backward,exec,run]
-#specNonCircular zValue avoiding [forwardSyntax,backwardSyntax,Source.forward,Source.backward,exec,run]
+#specNonCircular lseValue avoiding [forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
+#specNonCircular lossValue avoiding [forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
+#specNonCircular zValue avoiding [forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

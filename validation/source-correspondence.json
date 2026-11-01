@@ -15,18 +15,18 @@
     "task_status": {
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 100,
-      "uncovered_jit_functions": 82
+      "selected_body_copy_checked": 101,
+      "uncovered_jit_functions": 81
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 175,
-    "inventoried_jit_functions": 512,
-    "uncovered_inventoried_jit_functions": 230,
+    "uncovered_selected_jit_functions": 173,
+    "inventoried_jit_functions": 514,
+    "uncovered_inventoried_jit_functions": 228,
     "checked_pair_modes": {
-      "pasted_body": 282
+      "pasted_body": 286
     },
     "collection_status": {
       "bug_detection": {
@@ -40,15 +40,15 @@
       },
       "tritonbench_g": {
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 100,
-        "uncovered_jit_functions": 82
+        "selected_body_copy_checked": 101,
+        "uncovered_jit_functions": 81
       }
     },
     "primary_files_with_int64_screen_warning": 18,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 55,
-        "antiquotes": 397,
+        "in_body_type_directives": 54,
+        "antiquotes": 396,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -15752,9 +15752,9 @@
       "lean": "bench/tritonbench_g/cross_entropy2/Kernels.lean",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 20,
-        "antiquotes": 82,
-        "dsl_assignment": 76,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 114,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -15882,35 +15882,183 @@
               ]
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
-          "function": "cross_entropy_fwd_kernel"
         },
         {
-          "python": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
-          "function": "cross_entropy_bwd_kernel"
+          "path": "bench/tritonbench_g/cross_entropy2/cross_entropy2_index_commuted.py",
+          "jits": [
+            {
+              "function": "cross_entropy_fwd_kernel_index_commuted",
+              "line": 8,
+              "statements": 15,
+              "explicit_int64_casts": [
+                {
+                  "line": 27,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 28,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 31,
+                  "expression": "tl.load(labels_ptr + row_idx).to(tl.int64)"
+                },
+                {
+                  "line": 30,
+                  "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+                },
+                {
+                  "line": 29,
+                  "expression": "logits_row_stride.to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "cross_entropy_bwd_kernel_index_commuted",
+              "line": 75,
+              "statements": 17,
+              "explicit_int64_casts": [
+                {
+                  "line": 94,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 95,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 99,
+                  "expression": "tl.load(labels_ptr + row_idx).to(tl.int64)"
+                },
+                {
+                  "line": 98,
+                  "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+                },
+                {
+                  "line": 96,
+                  "expression": "logits_row_stride.to(tl.int64)"
+                },
+                {
+                  "line": 97,
+                  "expression": "dlogits_row_stride.to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "cross_entropy_fwd_kernel",
+          "lean_definition": "forwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "i64",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "n_rows": "i64",
+            "logits_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING",
+            "SPLIT"
+          ],
           "python": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
-          "function": "cross_entropy_fwd_kernel"
+          "lean": "bench/tritonbench_g/cross_entropy2/Kernels.lean"
         },
         {
+          "python_function": "cross_entropy_fwd_kernel_index_commuted",
+          "lean_definition": "forwardIndexCommutedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "i64",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "n_rows": "i64",
+            "logits_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING",
+            "SPLIT"
+          ],
+          "python": "bench/tritonbench_g/cross_entropy2/cross_entropy2_index_commuted.py",
+          "lean": "bench/tritonbench_g/cross_entropy2/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_bwd_kernel",
+          "lean_definition": "backwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "i64",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "logits_row_stride": "i64",
+            "dlogits_row_stride": "i64",
+            "dloss_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING"
+          ],
           "python": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
-          "function": "cross_entropy_bwd_kernel"
+          "lean": "bench/tritonbench_g/cross_entropy2/Kernels.lean"
+        },
+        {
+          "python_function": "cross_entropy_bwd_kernel_index_commuted",
+          "lean_definition": "backwardIndexCommutedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "smoothing": "fp32",
+            "logit_scale": "fp32",
+            "lse_square_scale": "fp32",
+            "ignored_index": "i64",
+            "total_classes": "i64",
+            "class_start_idx": "i64",
+            "n_cols": "i64",
+            "logits_row_stride": "i64",
+            "dlogits_row_stride": "i64",
+            "dloss_row_stride": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "HAS_SMOOTHING"
+          ],
+          "python": "bench/tritonbench_g/cross_entropy2/cross_entropy2_index_commuted.py",
+          "lean": "bench/tritonbench_g/cross_entropy2/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/cross_entropy2/Kernels.lean": "ba6c6bc2f7fe8b61c67f7142738ab9dac751b317cc8c835b17be98526596875c",
-        "bench/tritonbench_g/cross_entropy2/cross_entropy2.py": "628b6d679381ed6d1353fc070a313cc7587ca52676a84eacf16637323c575ba9"
+        "bench/tritonbench_g/cross_entropy2/Kernels.lean": "aa3eaf0f4af6677e843c99d7e912ca8739079cefa47e89457023853f39764a33",
+        "bench/tritonbench_g/cross_entropy2/cross_entropy2.py": "628b6d679381ed6d1353fc070a313cc7587ca52676a84eacf16637323c575ba9",
+        "bench/tritonbench_g/cross_entropy2/cross_entropy2_index_commuted.py": "44fbe947bd938925ae0369b3209a01f664f3c75aa46208024683aa4352086240",
+        "bench/tritonbench_g/cross_entropy2/jit-correspondence.json": "b1d220657e880b19344f81e4e55facf4f2c3ef6850b45fdf69d277ecbe1880c0"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/cross_entropy2"
