@@ -47,7 +47,7 @@ structure Preparation (α : Type) [Inhabited α] (q : Request) where
   disjoint : 0<q.g.rows → out.allocation≠mid.allocation ∧ out.allocation≠log.allocation ∧
     out.allocation≠lengths.allocation ∧ lengths.allocation≠mid.allocation ∧ lengths.allocation≠log.allocation
   lengthValues : ∀ b,b<q.g.batches → 0<q.g.heads →
-    let l := (before.mem "L" b).read .nat
+    let l := ((before.mem "L" b).read .int).toNat
     0<l ∧ l≤q.g.capacity*q.g.sequenceBlock ∧ l≤2^31-1
 
 structure Result (α : Type) where
@@ -77,7 +77,7 @@ theorem row_count {α : Type} [Inhabited α] (q : Request) (call : Preparation �
   obtain ⟨hH,hb,hh⟩ := row_indices q row hr
   obtain ⟨hl,hcap,hint⟩ := call.lengthValues _ hb hH
   have he := count_eq (Grid.setup q.g.batches q.g.heads row call.before) q.g.sequenceBlock
-    ((call.before.mem "L" (row/q.g.heads)).read .nat) rfl hl
+    (((call.before.mem "L" (row/q.g.heads)).read .int).toNat) rfl hl
   rw [he]
   exact ⟨ceil_positive _ _ hl q.valid.2.2.2.1,ceil_capacity _ _ _ q.valid.2.2.2.1 hcap⟩
 

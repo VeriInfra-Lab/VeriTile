@@ -94,7 +94,7 @@ theorem apart_names (allocations : RegionName → VeriTile.Torch.FP32.Storage)
 def preparation (c : Call) (t : Tensors c allocations) (memory : Physical.Bytes)
     (h : InputContract c (lengthValues t memory))
     (before : State α) [Inhabited α]
-    (lengths : ∀ b,(before.mem "L" b).read .nat = (lengthValues t memory b).toNat) :
+    (lengths : ∀ b,((before.mem "L" b).read .int).toNat = (lengthValues t memory b).toNat) :
     Host.Preparation α (request c h) where
   before := before
   mid := observationHost c.mid t.names.mid "float32"

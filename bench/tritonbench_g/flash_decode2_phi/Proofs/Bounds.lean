@@ -17,6 +17,10 @@ theorem positive_int32 (word : BitVec 32) (bound : word.toNat≤2^31-1) :
     word.toInt=(word.toNat : Int) := by
   exact BitVec.toInt_eq_toNat_of_lt (by omega)
 
+theorem int32_widen_int64 (word : BitVec 32) :
+    (word.signExtend 64).toInt = word.toInt :=
+  BitVec.toInt_signExtend_of_le (by decide)
+
 /-- Actual loaded length, dynamic iteration, formed padded addresses, and
 active memory accesses are all tied to the checked host geometry. -/
 theorem source_addresses {α : Type} [Inhabited α] (q : Host.Request) (call : Host.Preparation α q)
@@ -80,6 +84,7 @@ theorem input_bytes (I : Native.Instructions) (S : Native.Schedule) (q : Host.Re
     · simpa [h] using Ne.symm hM
     · simpa [h] using Ne.symm hE
 
+#axiomsClean int32_widen_int64
 #axiomsClean signed64
 #axiomsClean positive_int32
 #axiomsClean source_addresses
