@@ -1173,3 +1173,34 @@ class TokenAttnLlama2BodyTests(unittest.TestCase):
         for before, after in mutations:
             with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
                 self.verify(self.lean.replace(before, after, 1))
+
+class KsoftmaxBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/ksoftmax_triton'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, lean, backward=False):
+        r = self.records[1 if backward else 0]
+        return check((ROOT / r['python']).read_text(), lean,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
+
+    def test_both_complete_forward_backward_bodies(self):
+        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in results], [17, 15])
+        self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))
+
+    def test_widening_optional_mask_and_absence_of_output_cast(self):
+        mutations = [
+            ('m = tl.program_id(0).to(tl.int64)', 'm = tl.program_id(0)'),
+            ('if MASK_TYPE is not None:', 'if True:'),
+            ('tl.store(y_ptrs, y, mask=k < K)', 'tl.store(y_ptrs, y.to(tl.float32), mask=k < K)'),
+        ]
+        for before, after in mutations:
+            with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
+                self.verify(self.lean.replace(before, after, 1))
+
+    def test_backward_fp16_branch_cannot_be_omitted(self):
+        with self.assertRaisesRegex(ValueError, 'statement correspondence'):
+            self.verify(self.lean.replace('        if IS_FP16:\n            o = o.to(tl.float32)\n', '', 1), True)
