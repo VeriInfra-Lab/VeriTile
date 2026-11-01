@@ -2,8 +2,7 @@ import bench.tritonbench_g.rmsnorm_triton.Sources.Mathematical_Kernels
 
 /-! ## Whole-wrapper observed FP32 source graph
 
-The original typed source above and every historical declaration are retained.
-This additional two-pass machine uses the observed 1024-wide four-warp FP32
+The canonical source is in Kernels.lean. This native graph uses the observed 1024-wide four-warp FP32
 native graph: integer power two lowers to mul.rn.ftz(x,x), then mul.rn.ftz(1,p);
 accumulation and reduction are explicit ordered adds, followed by division,
 epsilon addition, rsqrt.approx.ftz, and two ordered multiplies. The reduction
@@ -12,34 +11,6 @@ to the pinned source/compiler profile is audited separately from scalar numerics
 -/
 namespace VeriTile.Bench.TritonBenchG.RmsnormTriton.Whole
 noncomputable section
-
-abbrev Memory (α : Type) := Nat → Nat → α
-
-structure Tensor where
-  shape : List Nat
-  stride : Nat → Nat
-  allocation : Nat
-  base : Nat
-  device : Nat
-  dtype : Storage
-
-structure Parameters where
-  batches : Nat
-  rows : Nat
-  width : Nat
-  input : Tensor
-  weights : Tensor
-  output : Tensor
-  eps : ℝ
-
-def inputOffset (p : Parameters) (b m k : Nat) : Nat :=
-  p.input.base + b*p.input.stride 0 + m*p.input.stride 1 + k*p.input.stride 2
-
-def weightOffset (p : Parameters) (k : Nat) : Nat :=
-  p.weights.base + k*p.weights.stride 0
-
-def outputOffset (p : Parameters) (b m k : Nat) : Nat :=
-  p.output.base + b*p.output.stride 0 + m*p.output.stride 1 + k*p.output.stride 2
 
 def trips (p : Parameters) : Nat := (p.width+1023)/1024
 

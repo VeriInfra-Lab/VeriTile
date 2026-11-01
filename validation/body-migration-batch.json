@@ -1018,6 +1018,19 @@
           "VeriTile.Bench.Repairs.RmsnormImplementation.FPEquiv.rmsnorm_index_commuted_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/rmsnorm_triton",
+      "python": "bench/tritonbench_g/rmsnorm_triton/rmsnorm_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rmsnorm_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.RmsnormTriton.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/rmsnorm_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsnormTriton.FPEquiv.source_candidate_equivalence"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1316,6 +1329,40 @@
     "bench/tritonbench_g/rmsnorm_implementation/Proofs/Source.lean",
     "bench/tritonbench_g/rmsnorm_implementation/Sources/Mathematical_Kernels.lean",
     "bench/tritonbench_g/rmsnorm_implementation/Sources/Parameters.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Contract.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Correct.lean",
+    "bench/tritonbench_g/rmsnorm_triton/FPEquiv.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Geometry.lean",
+    "bench/tritonbench_g/rmsnorm_triton/IO.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Kernels.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/ActiveOutput.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Contract.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/IOGeometry.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/IOGrid.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/IORow.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/KernelPublic.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/KernelRewrite.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Mathematical_Candidate.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Mathematical_NativeReduction.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Mathematical_Real.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Mathematical_Safety.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Mathematical_Source.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Mathematical_WholeFinite.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Mathematical_WholeHost.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Mathematical_WholeIndex.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Mathematical_WholeMath.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Mathematical_WholePublic.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Mathematical_WholeStructure.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Native.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Proofs/Source.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Sources/Mathematical_WholeSource.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Sources/Parameters.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Sources/RealSquareView.lean",
+    "bench/tritonbench_g/rmsnorm_triton/Sources/Selected.lean",
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/KernelResult.lean",
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/SourceSafety.lean",
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/StoreSafety.lean",
