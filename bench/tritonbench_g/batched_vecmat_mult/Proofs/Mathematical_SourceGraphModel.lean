@@ -45,8 +45,16 @@ def engine (rest : Algebra Word) (plans : PlanSelector) : Algebra Word :=
       | .real, .add | .fp32, .add => Expr.add x y
       | .real, .mul | .fp32, .mul => Expr.mul x y
       | _, _ => rest.binary pr d op x y
+    /- Both channels represent already rounded FP32 words in this source view.
+       Other format conversions remain supplied by the caller's algebra. -/
+    cast := fun pr src dst x => match src,dst with
+      | .real,.real | .real,.fp32 | .fp32,.real | .fp32,.fp32 => x
+      | _,_ => rest.cast pr src dst x
     fp32Load := id
-    reduceSum := fun _ => sumValues plans }
+    reduceSum := fun _ => sumValues plans
+    reduceSumTyped := fun pr dtype {shape} => match dtype with
+      | .fp32 => fun ax keep xs => some (sumValues plans ax keep xs)
+      | dtype => rest.reduceSumTyped pr dtype (shape := shape) }
 
 def row (p : Parameters) (s : State Word) (i : Nat) := s.pids 0 * p.BM + i
 def col (p : Parameters) (s : State Word) (j : Nat) := s.pids 1 * p.BN + j
@@ -60,8 +68,8 @@ def bOffset (p : Parameters) (s : State Word) (i j c k : Nat) :=
 def blockSum (plans : PlanSelector) (p : Parameters)
     (s : State Word) (c : Nat) (i : TileIndex [p.BM,p.BN]) : Word :=
   let args := fun k : Fin p.BK => Expr.mul
-    ((s.mem p.A (aOffset p s i.1.val c k.val)).read .real)
-    ((s.mem p.B (bOffset p s i.1.val i.2.1.val c k.val)).read .real)
+    ((s.mem p.A (aOffset p s i.1.val c k.val)).read .fp32)
+    ((s.mem p.B (bOffset p s i.1.val i.2.1.val c k.val)).read .fp32)
   treeValue args (plans p.BK args).tree
 
 /-- Source operation graph with the initial +0 and every carry addition. -/
@@ -74,18 +82,18 @@ def expectedMemory (plans : PlanSelector)
     (p : Parameters) (s : State Word) : Memory :=
   (TileShape.allIndices [p.BM,p.BN]).foldl (fun mem i =>
     fun r o => if r = p.output ∧ o = outputOffset p s i then
-      .mk .real (accumulated plans p s (p.K / p.BK) i) else mem r o) s.mem
+      .mk .fp32 (accumulated plans p s (p.K / p.BK) i) else mem r o) s.mem
 
 def Outside (p : Parameters) (s : State Word) (r : RegionName) (o : Nat) : Prop :=
   r ≠ p.output ∨ ∀ i : TileIndex [p.BM,p.BN], o ≠ outputOffset p s i
 
 structure Invariant (plans : PlanSelector)
     (p : Parameters) (initial : State Word) (c : Nat) (current : State Word) : Prop where
-  mi : current.regs .nat [] "m_index" = some (fun _ => initial.pids 0)
-  ni : current.regs .nat [] "n_index" = some (fun _ => initial.pids 1)
-  offsets : current.regs .nat [p.BM,p.BN] "output_tile" = some (outputOffset p initial)
+  mi : current.regs .int [] "m_index" = some (fun _ => (initial.pids 0:Int))
+  ni : current.regs .int [] "n_index" = some (fun _ => (initial.pids 1:Int))
+  offsets : current.regs .int [p.BM,p.BN] "output_tile" = some (fun i => (outputOffset p initial i:Int))
   carry : current.regs .real [p.BM,p.BN] "vecmat" = some (accumulated plans p initial c)
-  blocks : current.regs .nat [] "k_blocks" = some (fun _ => p.K / p.BK)
+  blocks : current.regs .int [] "k_blocks" = some (fun _ => ((p.K / p.BK:Nat):Int))
   memory : current.mem = initial.mem
 
 theorem source_admitted (p : Parameters) :
@@ -96,7 +104,7 @@ theorem expectedMemory_frame (plans : PlanSelector)
     expectedMemory plans p s r o = s.mem r o := by
   have aux : ∀ (xs : List (TileIndex [p.BM,p.BN])) (acc : Memory),
       xs.foldl (fun mem i => fun r o => if r = p.output ∧ o = outputOffset p s i then
-        .mk .real (accumulated plans p s (p.K / p.BK) i) else mem r o) acc r o = acc r o := by
+        .mk .fp32 (accumulated plans p s (p.K / p.BK) i) else mem r o) acc r o = acc r o := by
     intro xs
     induction xs with
     | nil => intro acc; rfl
