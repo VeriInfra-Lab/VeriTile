@@ -43,7 +43,7 @@ theorem forward_implements (rest : Algebra ℝ) (p : Forward.Parameters) (pid : 
     · exact (runSchedule_singleton _ _).trans ran
     · intro o i active
       fin_cases o
-      · change mapCell id (t.mem p.y (pid*p.yStride+i.1.val)) = .mk .fp32 _
+      · change mapCell id (t.mem p.y (pid*p.yStride+i.1.val)) = .mk .real _
         have cell := y i active
         have formula := LogicalInputs.y_congr p.columns i.1.val p.epsilon
           (Logical.rowX p initial) (Logical.weight p initial) (Logical.bias p initial)
@@ -51,11 +51,11 @@ theorem forward_implements (rest : Algebra ℝ) (p : Forward.Parameters) (pid : 
         simp only [Forward.outputOffset,initial,f_pid] at cell
         rw [cell,formula]
         rfl
-      · change mapCell id (t.mem p.mean (pid*p.meanStride)) = .mk .fp32 _
+      · change mapCell id (t.mem p.mean (pid*p.meanStride)) = .mk .real _
         simp only [Forward.meanOffset,initial,f_pid] at mean
         rw [mean,LogicalInputs.mean_congr p.columns _ _ hx]
         rfl
-      · change mapCell id (t.mem p.rstd (pid*p.rstdStride)) = .mk .fp32 _
+      · change mapCell id (t.mem p.rstd (pid*p.rstdStride)) = .mk .real _
         simp only [Forward.rstdOffset,initial,f_pid] at rstd
         rw [rstd,LogicalInputs.rstd_congr p.columns p.epsilon _ _ hx]
         rfl
@@ -125,20 +125,20 @@ theorem backward_implements (rest : Algebra ℝ) (p : Backward.Parameters) (pid 
     · exact (runSchedule_singleton _ _).trans ran
     · intro o i active
       fin_cases o
-      · change mapCell id (t.mem p.dx (i.1.val*p.dxStride+i.2.1.val)) = .mk .fp32 _
+      · change mapCell id (t.mem p.dx (i.1.val*p.dxStride+i.2.1.val)) = .mk .real _
         have cell := Logical.reference_dx rest p initial fresh hxd hxb hb hs i.1.val
           (by simpa [start] using active.1.1) (by simpa [stop] using active.1.2) i.2 active.2
         rw [memory,cell]
         obtain ⟨hx,hw,hdy,hm,hr⟩ := b_inputs rest p pid v s hin hb i.1.val active.1
-        change Cell.mk .fp32 (Logical.rowDX p initial i.1.val i.2.1.val)=_
+        change Cell.mk .real (Logical.rowDX p initial i.1.val i.2.1.val)=_
         unfold Logical.rowDX
         rw [hm,hr,dx_congr p.columns i.2.1.val _ _ _ _ _ _ _ _ active.2 hx hw hdy]
         rfl
-      · change mapCell id (t.mem p.dw (pid*p.dwStride+i.1.val)) = .mk .fp32 _
+      · change mapCell id (t.mem p.dw (pid*p.dwStride+i.1.val)) = .mk .real _
         have cell := Logical.reference_dw rest p initial fresh hwd i active
         simp only [initial,b_pid] at cell
         rw [memory,cell]
-        change Cell.mk .fp32 (Logical.groupDW p initial i.1.val)=.mk .fp32 (dwFormula p pid v i.1.val)
+        change Cell.mk .real (Logical.groupDW p initial i.1.val)=.mk .real (dwFormula p pid v i.1.val)
         congr 1
         unfold Logical.groupDW dwFormula
         rw [start,stop]
@@ -148,11 +148,11 @@ theorem backward_implements (rest : Algebra ℝ) (p : Backward.Parameters) (pid 
         rw [hdy _ active,hm,hr]
         unfold Logical.xhat
         rw [hx _ active]
-      · change mapCell id (t.mem p.db (pid*p.dbStride+i.1.val)) = .mk .fp32 _
+      · change mapCell id (t.mem p.db (pid*p.dbStride+i.1.val)) = .mk .real _
         have cell := Logical.reference_db rest p initial fresh i active
         simp only [initial,b_pid] at cell
         rw [memory,cell]
-        change Cell.mk .fp32 (Logical.groupDB p initial i.1.val)=.mk .fp32 (dbFormula p pid v i.1.val)
+        change Cell.mk .real (Logical.groupDB p initial i.1.val)=.mk .real (dbFormula p pid v i.1.val)
         congr 1
         unfold Logical.groupDB dbFormula
         rw [start,stop]

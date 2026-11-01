@@ -29,6 +29,8 @@ specification backward_pair (M : Algebra α) (R : SumPrimitive α) (p : Backward
     backwardOriginal M R p pid ≡[[]] backwardHoistedDenominator M R p pid :=
   ProgramIO.Implementation.of_equivalent (backwardCandidate M R p pid) (ProgramPair.backward M R p pid)
 
+#print_fp_assumptions forward_pair
+#print_fp_assumptions backward_pair
 #axiomsClean forward_pair
 #axiomsClean backward_pair
 #guard_msgs (drop info) in

@@ -8,10 +8,10 @@ set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
 def bx (p : Backward.Parameters) (a : Backward.Acc ℝ p) (row i : Nat) :=
-  (a.state.mem p.x (row*p.xStride+i)).read .fp32
-def bw (p : Backward.Parameters) (a : Backward.Acc ℝ p) (i : Nat) := (a.state.mem p.weight i).read .fp32
+  (a.state.mem p.x (row*p.xStride+i)).read .real
+def bw (p : Backward.Parameters) (a : Backward.Acc ℝ p) (i : Nat) := (a.state.mem p.weight i).read .real
 def bdy (p : Backward.Parameters) (a : Backward.Acc ℝ p) (row i : Nat) :=
-  (a.state.mem p.dy (row*p.dyStride+i)).read .fp32
+  (a.state.mem p.dy (row*p.dyStride+i)).read .real
 
 theorem backward_xhat (rest : Algebra ℝ) (p : Backward.Parameters) (a : Backward.Acc ℝ p)
     (row : Nat) (i : TileIndex [p.block]) :
@@ -29,7 +29,7 @@ theorem backward_wdy (rest : Algebra ℝ) (p : Backward.Parameters) (a : Backwar
 
 theorem backward_c1 (rest : Algebra ℝ) (p : Backward.Parameters) (a : Backward.Acc ℝ p)
     (row : Nat) (hb : p.columns ≤ p.block) :
-    Backward.c1 (algebra rest) p a row =
+    Backward.c1 (algebra rest) sumPrimitive p a row =
       sum p.columns (fun i => xhat (bx p a row) (Backward.mean p a row) (Backward.rstd p a row) i *
         (bw p a i*bdy p a row i)) / p.columns := by
   change ((∑ i : Fin p.block, Backward.xhat (algebra rest) p a row (i,PUnit.unit) *

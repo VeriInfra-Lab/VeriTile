@@ -1342,3 +1342,46 @@ class FusedRotaryBodyCorrespondenceTests(unittest.TestCase):
         self.assertEqual(len(changes), 1)
         self.assertEqual([t.id for t in changes[0][0].targets], ['off_q1'])
         self.assertEqual(ast.unparse(changes[0][1]), 'off_q1 = off_q0 + HEAD_DIM // 2 * q_dim_stride')
+
+
+class LayerNormLigerBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/layer_norm_liger'
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def compare(self, record, lean):
+        return check((ROOT / record['python']).read_text(), lean,
+                     record['python_function'], record['lean_definition'], record['signature_definition'],
+                     record['expected_signature'], record['expected_call_bindings'])
+
+    def test_all_four_complete_sources(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [23, 22, 25, 24])
+
+    def test_backward_signed_range_casts_and_scalar_divisions_are_preserved(self):
+        r = self.records[3]
+        source = (ROOT / r['lean']).read_text()
+        changes = [('tl.program_id(0).to(tl.int64)', 'tl.program_id(0)'),
+                   ('tl.full((), 1, tl.int64)', 'tl.full((), 1, tl.int32)'),
+                   ('for _ in range(row_start, row_end, one):', 'for row in range(row_start, row_end, one):'),
+                   (' / n_cols', ' / n_cols.to(tl.float32)'),
+                   ('dx.to(dtype)', 'dx'),
+                   ('tl.store(DB_ptr + row_block_id * stride_db + cols, db_row.to(dtype), mask=mask)',
+                    'tl.store(DB_ptr + row_block_id * stride_db + cols, db_row, mask=mask)')]
+        for old, new in changes:
+            with self.subTest(new=new):
+                self.assertIn(old, source)
+                with self.assertRaises(ValueError):
+                    self.compare(r, source.replace(old, new, 1))
+
+    def test_forward_implicit_conversion_and_raw_storage_are_preserved(self):
+        r = self.records[1]
+        source = (ROOT / r['lean']).read_text()
+        for old, new in [('col_offsets = tl.arange(0, BLOCK_SIZE).to(tl.int64)',
+                          'col_offsets = tl.arange(0, BLOCK_SIZE)'),
+                         ('mean = tl.sum(X_row, axis=0) / n_cols',
+                          'mean = tl.sum(X_row, axis=0) / n_cols.to(tl.float32)'),
+                         ('tl.store(Mean_ptr, mean)', 'tl.store(Mean_ptr, mean.to(tl.float32))')]:
+            with self.subTest(new=new), self.assertRaises(ValueError):
+                self.assertIn(old, source)
+                self.compare(r, source.replace(old, new, 1))

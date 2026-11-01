@@ -34,15 +34,15 @@ theorem statistics (rest : Algebra ℝ) (p : Forward.Parameters) (s : State ℝ)
     (hmy : p.mean≠p.y) (hmr : p.mean≠p.rstd) (hry : p.rstd≠p.y)
     (hms : p.meanStride=1) (hrs : p.rstdStride=1) :
     (Grid.reference (Forward.reference (algebra rest) sumPrimitive p) s rows).mem p.mean row=
-      .mk .fp32 (mean p.columns (rowX p (atPid s row))) ∧
+      .mk .real (mean p.columns (rowX p (atPid s row))) ∧
     (Grid.reference (Forward.reference (algebra rest) sumPrimitive p) s rows).mem p.rstd row=
-      .mk .fp32 (rstd p.columns p.epsilon (rowX p (atPid s row))) := by
+      .mk .real (rstd p.columns p.epsilon (rowX p (atPid s row))) := by
   have hm := Grid.forward_mean (algebra rest) sumPrimitive p s rows row hr hmy hmr (by omega)
   have hv := Grid.forward_rstd (algebra rest) sumPrimitive p s rows row hr hry hmr.symm (by omega)
   simp only [hms,hrs,Nat.mul_one] at hm hv
   rw [hm,hv]
-  change Cell.mk .fp32 (Forward.meanValue (algebra rest) sumPrimitive p (before rest p s row))=_ ∧
-    Cell.mk .fp32 (Forward.rstdValue (algebra rest) sumPrimitive p (before rest p s row))=_
+  change Cell.mk .real (Forward.meanValue (algebra rest) sumPrimitive p (before rest p s row))=_ ∧
+    Cell.mk .real (Forward.rstdValue (algebra rest) sumPrimitive p (before rest p s row))=_
   rw [Logical.forward_mean rest p _ hb,Logical.forward_rstd rest p _ hb,
     (inputs rest p s row fresh).1]
   exact ⟨rfl,rfl⟩
@@ -52,10 +52,10 @@ theorem output (rest : Algebra ℝ) (p : Forward.Parameters) (s : State ℝ)
     (hym : p.y≠p.mean) (hyr : p.y≠p.rstd) (hs : p.columns≤p.yStride)
     (i : TileIndex [p.block]) (hi : i.1.val<p.columns) :
     (Grid.reference (Forward.reference (algebra rest) sumPrimitive p) s rows).mem
-      p.y (row*p.yStride+i.1.val)=.mk .fp32
+      p.y (row*p.yStride+i.1.val)=.mk .real
         (y p.columns p.epsilon (rowX p (atPid s row)) (weight p s) (bias p s) i.1.val) := by
   rw [Grid.forward_y _ _ p s rows row hr hym hyr hs i hi]
-  change Cell.mk .fp32 (Forward.yValue (algebra rest) sumPrimitive p (before rest p s row) i)=_
+  change Cell.mk .real (Forward.yValue (algebra rest) sumPrimitive p (before rest p s row) i)=_
   rw [Logical.forward_y rest p _ hb i hi]
   obtain ⟨hx,hw,hb⟩ := inputs rest p s row fresh
   rw [hx,hw,hb]

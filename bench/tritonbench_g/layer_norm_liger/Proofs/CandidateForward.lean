@@ -2,7 +2,7 @@ import bench.tritonbench_g.layer_norm_liger.Proofs.ForwardModel
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Forward.Candidate
 open VeriTile.Triton FP.Structural
 open LayerNormLiger.Forward
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive)
 open VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits (fold_writes_mem)
 noncomputable section
 set_option maxHeartbeats 5000000
@@ -20,6 +20,7 @@ theorem complete_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimiti
   simp only [reference, fold_writes_mem, State.setReg_mem]
   simp [stored, meanOffset, rstdOffset, outputOffset, yValue, rstdValue, varianceValue,
     centered, meanValue, denominator, xValues, wValues, bValues, input, padding, State.write]
+  simp only [←Int.natCast_mul, Int.toNat_natCast]
   norm_num only
   rfl
 

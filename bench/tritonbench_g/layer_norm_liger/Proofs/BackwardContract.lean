@@ -80,7 +80,7 @@ theorem update_dx_cell (rest : Algebra ℝ) (p : Backward.Parameters) (a ref : B
     (h : InputEq p a ref) (hb : p.columns ≤ p.block) (hs : p.columns ≤ p.dxStride)
     (n row : Nat) (i : TileIndex [p.block]) (hi : i.1.val < p.columns) :
     (Backward.update (algebra rest) sumPrimitive p n a).state.mem p.dx (row*p.dxStride+i.1.val) =
-      if n=row then .mk .fp32 (dx p.columns (bx p ref row) (bw p ref) (bdy p ref row)
+      if n=row then .mk .real (dx p.columns (bx p ref row) (bw p ref) (bdy p ref row)
         (Backward.mean p ref row) (Backward.rstd p ref row) i.1.val)
       else a.state.mem p.dx (row*p.dxStride+i.1.val) := by
   by_cases hn : n=row
@@ -111,9 +111,9 @@ theorem loop_dx (rest : Algebra ℝ) (p : Backward.Parameters) (a ref : Backward
     (cur stop row : Nat) (lo : cur ≤ row) (hr : row < stop)
     (i : TileIndex [p.block]) (hi : i.1.val < p.columns) :
     (foldRange (Backward.update (algebra rest) sumPrimitive p) cur stop 1 a).state.mem p.dx (row*p.dxStride+i.1.val) =
-      .mk .fp32 (dx p.columns (bx p ref row) (bw p ref) (bdy p ref row)
+      .mk .real (dx p.columns (bx p ref row) (bw p ref) (bdy p ref row)
         (Backward.mean p ref row) (Backward.rstd p ref row) i.1.val) := by
-  rw [Folds.project _ (fun n z => if n=row then .mk .fp32
+  rw [Folds.project _ (fun n z => if n=row then .mk .real
       (dx p.columns (bx p ref row) (bw p ref) (bdy p ref row)
         (Backward.mean p ref row) (Backward.rstd p ref row) i.1.val) else z)
     (InputEq p · ref) (fun a => a.state.mem p.dx (row*p.dxStride+i.1.val))
