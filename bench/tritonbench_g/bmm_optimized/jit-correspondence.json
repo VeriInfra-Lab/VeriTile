@@ -1,0 +1,118 @@
+[
+  {
+    "python": "bench/tritonbench_g/bmm_optimized/bmm_optimized.py",
+    "lean": "bench/tritonbench_g/bmm_optimized/Kernels.lean",
+    "python_function": "bmm_kernel",
+    "lean_definition": "sourceBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "O",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "TILE_M",
+        "TILE_N",
+        "TILE_K",
+        "GROUP_M",
+        "DIVISIBLE_M",
+        "DIVISIBLE_N",
+        "DIVISIBLE_K"
+      ],
+      "readPorts": [
+        "A",
+        "B"
+      ],
+      "writePorts": [
+        "O"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/bmm_optimized/bmm_optimized_candidates.py",
+    "lean": "bench/tritonbench_g/bmm_optimized/Kernels.lean",
+    "python_function": "bmm_kernel_quotient_remainder",
+    "lean_definition": "candidateSourceBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "O",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "TILE_M",
+        "TILE_N",
+        "TILE_K",
+        "GROUP_M",
+        "DIVISIBLE_M",
+        "DIVISIBLE_N",
+        "DIVISIBLE_K"
+      ],
+      "readPorts": [
+        "A",
+        "B"
+      ],
+      "writePorts": [
+        "O"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    }
+  }
+]

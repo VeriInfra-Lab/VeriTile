@@ -1695,11 +1695,25 @@
           "VeriTile.Bench.Repairs.IsfiniteKernel.FPEquiv.isfinite_index_commuted_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/bmm_optimized",
+      "python": "bench/tritonbench_g/bmm_optimized/bmm_optimized.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/bmm_optimized/Correct.lean": [
+          "VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.kernel_real"
+        ],
+        "bench/tritonbench_g/bmm_optimized/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Equivalence.quotient_remainder_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
     "VeriTile/Triton/Core/Ast.lean",
     "VeriTile/Triton/DSL/BinaryPureJitFunctions.lean",
+    "VeriTile/Triton/DSL/BooleanCallControl.lean",
     "VeriTile/Triton/DSL/CallSignature.lean",
     "VeriTile/Triton/DSL/ChainedSourceCasts.lean",
     "VeriTile/Triton/DSL/Expansion/Main.lean",
@@ -1879,6 +1893,48 @@
     "bench/tritonbench_g/batched_vecmat_mult/Proofs/Real.lean",
     "bench/tritonbench_g/batched_vecmat_mult/Sources/Mathematical_Kernels.lean",
     "bench/tritonbench_g/batched_vecmat_mult/Sources/Parameters.lean",
+    "bench/tritonbench_g/bmm_optimized/Contract.lean",
+    "bench/tritonbench_g/bmm_optimized/Correct.lean",
+    "bench/tritonbench_g/bmm_optimized/FPEquiv.lean",
+    "bench/tritonbench_g/bmm_optimized/IO.lean",
+    "bench/tritonbench_g/bmm_optimized/Kernels.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/Body.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/Complete.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/Execution.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/GraphExecution.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/GraphRun.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/GraphSafety.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/GraphWholeSafety.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/Grid.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/IOComplete.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/Invariant.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/Numerical.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/Operands.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/Ownership.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/PairConnection.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/PairIO.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/Prologue.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/PublicResults.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/ReadGrid.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/Reference.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/SourceDecomposition.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/SourceGraph.lean",
+    "bench/tritonbench_g/bmm_optimized/Proofs/Writes.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Arithmetic.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Bounds.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Contract.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Grid.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Host.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Kernels.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Mathematical_RealGrid.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Mathematical_RealMath.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Memory.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Native.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Scatter.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/SourceIndex.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Spec.lean",
+    "bench/tritonbench_g/bmm_optimized/Sources/Whole.lean",
     "bench/tritonbench_g/cache_transform_triton/IO.lean",
     "bench/tritonbench_g/cache_transform_triton/Kernels.lean",
     "bench/tritonbench_g/cache_transform_triton/Proofs/AccessSafety.lean",
@@ -3785,6 +3841,8 @@
     "tests/lean/BinaryPowerConstants.lean",
     "tests/lean/BinaryPureJitFunctions.lean",
     "tests/lean/BinaryPureJitReference.lean",
+    "tests/lean/BooleanCallControl.lean",
+    "tests/lean/BooleanCallControlReference.lean",
     "tests/lean/CallArgumentCapture.lean",
     "tests/lean/CallArguments.lean",
     "tests/lean/CallScalarPrecision.lean",

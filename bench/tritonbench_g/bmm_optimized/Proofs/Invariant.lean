@@ -31,7 +31,7 @@ theorem preludeInvariant (o : BmmOptimized.Scalar α) (p : Parameters) (s : Regi
 
 theorem loopRegister (o : BmmOptimized.Scalar α) (p : Parameters)
     (initial current : RegisterState α) (k : Nat) (h : Invariant o p initial k current) :
-    Invariant o p initial k (current.setReg "_i" .nat [] (fun _=>k)) := by
+    Invariant o p initial k (current.setReg "_" .nat [] (fun _=>k)) := by
   constructor <;> simp [h.memory,h.pids,h.numPids,h.offsk,h.aptrs,h.bptrs,h.optrs,h.iterations,h.acc]
   · exact h.maskM
   · exact h.maskN

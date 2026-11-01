@@ -1862,3 +1862,51 @@ class ImportedFiniteCorrespondenceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.helper(source=self.source.replace('extra.cuda.libdevice.isfinited"',
                                                    'extra.cuda.libdevice.finitef"', 1))
+
+
+class BmmOptimizedBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/bmm_optimized'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, source):
+        r = self.records[0]
+        return check((ROOT / r['python']).read_text(), source, r['python_function'],
+                     r['lean_definition'], r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'])
+
+    def test_complete_original_and_existing_candidate(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [20, 20])
+
+    def test_original_tuple_assignment_and_counter_spelling_are_retained(self):
+        for old, new in [('pid_m, pid_n = pidx, pidy', 'pid_m = pidx\n        pid_n = pidy'),
+                         ('for _ in range(num_iters):', 'for _i in range(num_iters):')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_none_and_all_mask_branches_are_retained(self):
+        for old, new in [('mask_a = None', 'mask_a = True'),
+                         ('if not DIVISIBLE_M:', 'if DIVISIBLE_M:'),
+                         ('elif DIVISIBLE_M and not DIVISIBLE_N:', 'elif DIVISIBLE_M:')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_positional_load_masks_and_padding_are_retained(self):
+        for old, new in [('tl.load(a_ptrs, mask_a, other=0.0)', 'tl.load(a_ptrs)'),
+                         ('tl.load(b_ptrs, mask_b, other=0.0)', 'tl.load(b_ptrs, mask_b)')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_float_profile_and_pointer_advance_order_are_retained(self):
+        for old, new in [('allow_tf32=False', 'allow_tf32=True'),
+                         ('offs_k += TILE_K', 'offs_k += TILE_K * 2'),
+                         ('b_ptrs += TILE_K * N', 'b_ptrs += TILE_K')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_original_group_remainder_is_not_replaced_by_candidate(self):
+        old = 'inner_group_id = pid % num_CTA_per_group'
+        with self.assertRaises(ValueError):
+            self.verify(self.source.replace(old, 'inner_group_id = pid - (pid // num_CTA_per_group) * num_CTA_per_group', 1))
