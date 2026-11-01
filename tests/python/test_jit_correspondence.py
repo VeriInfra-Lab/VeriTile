@@ -842,3 +842,52 @@ def kernel (X Y : RegionName) (stop : Int) (B : Nat) : ComputeKernel :=
             lean = self.lean.replace('(), B, tl.int64','(), '+value+', tl.int64')
             with self.subTest(value=value), self.assertRaisesRegex(ValueError, 'constructors'):
                 self.compare(python, lean)
+
+class PureJITFunctionCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        import tempfile
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        self.directory = self.root / 'bench/tritonbench_g/swiglu_triton'
+        self.directory.mkdir(parents=True)
+        original = ROOT / 'bench/tritonbench_g/swiglu_triton'
+        for name in ['Kernels.lean', 'swiglu_triton.py', 'index_commuted.py', 'jit-correspondence.json']:
+            (self.directory / name).write_text((original / name).read_text())
+        self.manifest = self.directory / 'jit-correspondence.json'
+
+    def test_original_helper_both_kernels_and_candidates_are_checked(self):
+        results = check_manifest(self.root, self.manifest)
+        self.assertEqual(len(results), 5)
+        self.assertEqual(results[0]['kind'], 'pure_jit_function')
+        self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))
+
+    def test_changed_helper_operation_order_is_rejected(self):
+        p = self.directory / 'Kernels.lean'
+        p.write_text(p.read_text().replace('return x * tl.sigmoid(x)', 'return tl.sigmoid(x) * x'))
+        with self.assertRaisesRegex(ValueError, 'return body differs'):
+            check_manifest(self.root, self.manifest)
+
+    def test_helper_parameter_must_match(self):
+        p = self.directory / 'Kernels.lean'
+        p.write_text(p.read_text().replace('triton_function (x)', 'triton_function (value)'))
+        with self.assertRaisesRegex(ValueError, 'parameter differs'):
+            check_manifest(self.root, self.manifest)
+
+    def test_missing_helper_body_cannot_be_certified_by_a_binding(self):
+        rows = json.loads(self.manifest.read_text())
+        self.manifest.write_text(json.dumps(rows[1:]))
+        with self.assertRaisesRegex(ValueError, 'separately checked helper body'):
+            check_manifest(self.root, self.manifest)
+
+    def test_import_of_a_different_helper_is_rejected(self):
+        p = self.directory / 'index_commuted.py'
+        p.write_text(p.read_text().replace('from swiglu_triton import silu', 'from another_kernel import silu'))
+        with self.assertRaisesRegex(ValueError, 'import differs'):
+            check_manifest(self.root, self.manifest)
+
+    def test_global_helper_rebinding_is_rejected(self):
+        p = self.directory / 'index_commuted.py'
+        p.write_text(p.read_text() + '\nsilu = lambda x: x\n')
+        with self.assertRaisesRegex(ValueError, 'one static binding'):
+            check_manifest(self.root, self.manifest)
