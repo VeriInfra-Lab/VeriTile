@@ -1056,3 +1056,31 @@ class TokenAttnReduceVCopiedBodyTests(unittest.TestCase):
         for before, after in mutations:
             with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
                 self.verify(self.lean.replace(before, after, 1))
+
+class KvCacheCopyBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/kv_cache_copy'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+
+    def verify(self, lean):
+        r = self.record
+        return check((ROOT / r['python']).read_text(), lean,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
+
+    def test_both_complete_copy_bodies(self):
+        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual(len(results), 2)
+        self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 11 for r in results))
+
+    def test_static_count_and_original_nonzero_arange_cannot_change(self):
+        mutations = [
+            ('tl.static_range(HEAD_DIM // KCACHE_X)', 'range(HEAD_DIM // KCACHE_X)'),
+            ('tl.arange(split_x * KCACHE_X, (split_x + 1) * KCACHE_X)',
+             'split_x * KCACHE_X + tl.arange(0, KCACHE_X)'),
+            ('tl.store(VCache + offsets_vcache, v)', 'tl.store(VCache + offsets_vcache, k)'),
+        ]
+        for before, after in mutations:
+            with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
+                self.verify(self.lean.replace(before, after, 1))
