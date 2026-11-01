@@ -547,6 +547,70 @@ class FloatingCallBindingTests(unittest.TestCase):
                       record['expected_call_bindings'])
 
 
+class PointerArgumentTests(unittest.TestCase):
+    def setUp(self):
+        self.python = '''@triton.jit
+def k(X, Y, B: tl.constexpr):
+    offsets = tl.arange(0, B)
+    values = tl.load(X + offsets)
+    tl.store(Y + offsets, values)
+'''
+        self.lean = '''def sig : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  scalars := []
+  constexpr := ["B"]
+  readPorts := ["X"]
+  writePorts := ["Y"]
+def kernel (X Y : RegionName) (x0 y0 B : Nat) : ComputeKernel :=
+  with_triton_signature sig pointer_offsets [X := x0, Y := y0] in triton {
+    offsets = tl.arange(0, B)
+    values = tl.load(X + offsets)
+    tl.store(Y + offsets, values)
+  }
+'''
+        self.signature = {'pointers': [['X', 'fp32'], ['Y', 'fp32']],
+                          'scalars': [], 'constexpr': ['B'],
+                          'readPorts': ['X'], 'writePorts': ['Y']}
+        self.offsets = {'X': 'x0', 'Y': 'y0'}
+
+    def compare(self, lean=None, offsets=None):
+        return check(self.python, lean or self.lean, 'k', 'kernel', 'sig',
+                     self.signature, expected_pointer_offsets=offsets or self.offsets)
+
+    def test_reviewed_pointer_arguments_preserve_the_original_body(self):
+        self.assertEqual(self.compare()['mode'], 'pasted_body')
+
+    def test_unreviewed_offsets_are_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'declared call signature'):
+            check(self.python, self.lean, 'k', 'kernel', 'sig', self.signature)
+
+    def test_empty_reviewed_offset_bindings(self):
+        lean = self.lean.replace('pointer_offsets [X := x0, Y := y0]', 'pointer_offsets []')
+        self.assertEqual(check(self.python, lean, 'k', 'kernel', 'sig', self.signature,
+                               expected_pointer_offsets={})['mode'], 'pasted_body')
+
+    def test_changed_duplicate_and_unknown_offsets_are_rejected(self):
+        for changed in (self.lean.replace('X := x0', 'X := y0'),
+                        self.lean.replace('Y := y0', 'X := y0'),
+                        self.lean.replace('Y := y0', 'Z := y0')):
+            with self.subTest(lean=changed), self.assertRaisesRegex(ValueError, 'pointer offset'):
+                self.compare(lean=changed)
+
+    def test_offsets_cannot_be_added_to_the_pasted_body(self):
+        with self.assertRaisesRegex(ValueError, 'statement correspondence'):
+            self.compare(lean=self.lean.replace('tl.load(X + offsets)', 'tl.load(X + x0 + offsets)'))
+
+    def test_scalar_bindings_and_offsets_are_both_checked(self):
+        python = self.python.replace('X, Y, B:', 'X, Y, stride: tl.int64, B:')
+        lean = self.lean.replace('scalars := []', 'scalars := [("stride",.i64)]').replace(
+            'with_triton_signature sig pointer_offsets',
+            'with_triton_call sig call_args [stride := stride_value] pointer_offsets')
+        signature = {**self.signature, 'scalars': [['stride', 'i64']]}
+        result = check(python, lean, 'k', 'kernel', 'sig', signature,
+                       {'stride': 'stride_value'}, self.offsets)
+        self.assertEqual(result['mode'], 'pasted_body')
+
+
 class SourceModuleBindingTests(unittest.TestCase):
     def setUp(self):
         self.python = '''from triton.language.extra.libdevice import tanh
