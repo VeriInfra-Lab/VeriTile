@@ -12,7 +12,7 @@ def Storage.tag : Storage → TileDType
 structure Parameters where
   (input output : RegionName)
   selection : Region .bool
-  prefixSum : Region .nat
+  prefixSum : Region .int
   (size width : Nat)
 
 end VeriTile.Bench.TritonBenchG.MaskedSelect.TypedCopy
