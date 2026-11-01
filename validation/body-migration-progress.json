@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 86,
+  "completed_count": 90,
   "staged_count": 100,
-  "pending_count": 110,
+  "pending_count": 106,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 2392,
-    "official_comparator": "86 targets retain exact current-source/import-closure official receipts, including all 19 examples. Their current case closures were rechecked after this source change; existing shared replay dependencies were not changed or newly imported. Fourteen locally staged targets remain incomplete pending current independent replay. The eight task receipts revoked by the SwiGLU dependency change remain superseded until the new batch is accepted. Source comparison and compilation alone are never completion.",
+    "official_comparator": "90 targets retain exact current-source/import-closure official receipts, including all 19 examples. LayernormFwdTriton, LogSoftmax, NestedLoopsProcessing and SeededDropout have now passed their independent replays, with current case and shared replay closures checked. Ten locally staged targets remain incomplete pending independent replay: the nine SwiGLU/affected-client cases and ApplyPenalty. FastRmsLayernorm is still being migrated and is not in the locally validated batch. Source comparison and compilation alone are never completion.",
     "python_tests": 360,
     "offline_example_compilations": {
       "cases": 19,
@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "validated_source_commit": "11ca274633df8894f244f8f8f7b1559db6bf9535",
-    "working_tree": "At validated_source_commit, all 106 selected cases (100 targets plus six regressions), 2392 retained Lean modules, 1372 selected proof/audit sources and 360 Python tests pass local verification. ApplyPenalty contains only the two complete copied 17-statement Python bodies, with FP32 payloads and signed int32 metadata supplied outside the quotations. All explicit int64 widening, masks, eager arithmetic, pointer grouping and stores remain. Real IO now pins nonnegative mathematical metadata to actual signed cells; nonnegativity follows from the unchanged int32 host contract. Successful execution, access safety, flat allocation transport, active scatter readback and exterior frame are re-proved, and the retained full-grid host proof is rebuilt against actual signed input words. FP equivalence still uses only the existing active positive-arm DIV-MUL-RCP domain, preserves repeated token IDs and actual ordered stores, and converts counts with fromInt at FP32 precision. Exact-body, changed-cast/mask/pointer/dtype rejection tests and a signed-count register regression pass. All 86 accepted target source/import closures remain unchanged, including all 19 examples. ApplyPenalty is incomplete pending its 19-source independent replay.",
+    "working_tree": "At validated_source_commit, all 106 selected cases (100 targets plus six regressions), 2392 retained Lean modules, 1372 selected proof/audit sources and 360 Python tests pass local verification. ApplyPenalty contains only the two complete copied 17-statement Python bodies, with FP32 payloads and signed int32 metadata supplied outside the quotations. All explicit int64 widening, masks, eager arithmetic, pointer grouping and stores remain. Real IO now pins nonnegative mathematical metadata to actual signed cells; nonnegativity follows from the unchanged int32 host contract. Successful execution, access safety, flat allocation transport, active scatter readback and exterior frame are re-proved, and the retained full-grid host proof is rebuilt against actual signed input words. FP equivalence still uses only the existing active positive-arm DIV-MUL-RCP domain, preserves repeated token IDs and actual ordered stores, and converts counts with fromInt at FP32 precision. Exact-body, changed-cast/mask/pointer/dtype rejection tests and a signed-count register regression pass. The previously accepted 86 target source/import closures remain unchanged, including all 19 examples. ApplyPenalty is incomplete pending its 19-source independent replay. Current independent receipts additionally accept LayernormFwdTriton, LogSoftmax, NestedLoopsProcessing and SeededDropout (90 complete total). FastRmsLayernorm is in progress and is not part of this locally validated batch.",
     "official_replay_sources": 1372,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -913,13 +913,13 @@
     },
     {
       "path": "bench/tritonbench_g/layernorm_fwd_triton",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "11ca274633df8894f244f8f8f7b1559db6bf9535",
-      "reason": "Literal current Python bodies and actual public Real/FP proofs pass local verification. Fresh independent replay remains required; compilation is not completion."
+      "receipt": "validation/body_receipts/layernorm_fwd_triton.json"
     },
     {
       "path": "bench/tritonbench_g/lightning_attention",
@@ -933,14 +933,14 @@
     },
     {
       "path": "bench/tritonbench_g/log_softmax",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "11ca274633df8894f244f8f8f7b1559db6bf9535",
       "superseded_receipt": "validation/body_receipts/stage9-shard1.json",
-      "reason": "Literal current Python bodies and actual public Real/FP proofs pass local verification. Fresh independent replay remains required; compilation is not completion."
+      "receipt": "validation/body_receipts/layernorm_fwd_triton.json"
     },
     {
       "path": "bench/tritonbench_g/logsumexp_fwd",
@@ -1094,14 +1094,14 @@
     },
     {
       "path": "bench/tritonbench_g/nested_loops_processing",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "11ca274633df8894f244f8f8f7b1559db6bf9535",
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
-      "reason": "Literal current Python bodies and actual public Real/FP proofs pass local verification. Fresh independent replay remains required; compilation is not completion."
+      "receipt": "validation/body_receipts/layernorm_fwd_triton.json"
     },
     {
       "path": "bench/tritonbench_g/parallel_attention",
@@ -1336,13 +1336,13 @@
     },
     {
       "path": "bench/tritonbench_g/seeded_dropout",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both original/candidate pasted bodies and all retained Real/FP proofs pass local verification; current independent proof replay remains required.",
-      "validated_source_commit": "11ca274633df8894f244f8f8f7b1559db6bf9535"
+      "validated_source_commit": "11ca274633df8894f244f8f8f7b1559db6bf9535",
+      "receipt": "validation/body_receipts/seeded_dropout.json"
     },
     {
       "path": "bench/tritonbench_g/sgmv_expand_slice",
