@@ -68,6 +68,29 @@ class MigrationReceiptTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'not a proved specification'):
             self.invoke('--check')
 
+    def test_public_preflight_uses_fully_qualified_names(self):
+        cases, _, _ = runner.load_batch(self.root, self.root / runner.DEFAULT)
+        def probe(command, **kwargs):
+            self.assertEqual(command[:3], ['lake', 'env', 'lean'])
+            source = Path(command[3]).read_text()
+            self.assertIn('#check FixtureCorrect.proved\n', source)
+            self.assertIn('#check FixtureFPEquiv.proved\n', source)
+            self.assertNotIn('#check proved\n', source)
+            return subprocess.CompletedProcess(command, 0)
+        with patch.object(runner.subprocess, 'run', side_effect=probe):
+            runner.verify_public_targets(self.root, cases)
+
+    def test_missing_public_namespace_stops_before_comparator(self):
+        receipt = self.root / 'receipt.json'
+        with patch.object(runner, 'require_tools'), \
+                patch.object(runner.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0)), \
+                patch.object(runner, 'verify_public_targets', side_effect=ValueError('unknown identifier')), \
+                patch.object(runner.check_comparator, 'check') as replay:
+            with self.assertRaisesRegex(ValueError, 'unknown identifier'):
+                self.invoke('--replay', '--workspace', str(self.root / 'judge'), '--report', str(receipt))
+            replay.assert_not_called()
+        self.assertFalse(receipt.exists())
+
     def test_comparator_empty_module_dummy_cannot_replace_required_proofs(self):
         receipt = self.root / 'receipt.json'
         dummy = {'accepted': True, 'theorem_count': 0, 'theorems': []}

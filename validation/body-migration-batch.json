@@ -820,7 +820,7 @@
           "VeriTile.Bench.Repairs.RmsNormTriton.Correct.kernel_correct"
         ],
         "bench/tritonbench_g/rms_norm_triton/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.RmsNormTriton.index_commuted_equiv"
+          "VeriTile.Bench.Repairs.RmsNormTriton.FPEquiv.index_commuted_equiv"
         ]
       }
     },
@@ -951,6 +951,32 @@
         ],
         "bench/tritonbench_g/dropout_triton/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.DropoutTriton.FPEquiv.dropout_index_commuted_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/masked_add_cuda",
+      "python": "bench/tritonbench_g/masked_add_cuda/masked_add_cuda.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/masked_add_cuda/Correct.lean": [
+          "VeriTile.Bench.Repairs.MaskedAddCuda.Correct.masked_add_kernel_correctness"
+        ],
+        "bench/tritonbench_g/masked_add_cuda/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MaskedAddCuda.FPEquiv.masked_add_commuted_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/rmsnorm_fused",
+      "python": "bench/tritonbench_g/rmsnorm_fused/rmsnorm_fused.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rmsnorm_fused/Correct.lean": [
+          "VeriTile.Bench.Repairs.RmsnormFused.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/rmsnorm_fused/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsnormFused.FPEquiv.source_equivalence"
         ]
       }
     }
@@ -1118,6 +1144,8 @@
     "bench/tritonbench_g/log_softmax/Proofs/Rewrite.lean",
     "bench/tritonbench_g/logsumexp_fwd/Kernels.lean",
     "bench/tritonbench_g/logsumexp_fwd/Proofs/Real.lean",
+    "bench/tritonbench_g/masked_add_cuda/Kernels.lean",
+    "bench/tritonbench_g/masked_add_cuda/Proofs/Typed.lean",
     "bench/tritonbench_g/matmul_kernel/Kernels.lean",
     "bench/tritonbench_g/matrix_transpose/Kernels.lean",
     "bench/tritonbench_g/matrix_vector_multip/Proofs/SourceBodyExecution.lean",
@@ -1155,6 +1183,9 @@
     "bench/tritonbench_g/rms_norm_triton/Proofs/RuntimeObserved.lean",
     "bench/tritonbench_g/rms_norm_triton/Proofs/RuntimeReal.lean",
     "bench/tritonbench_g/rms_norm_triton/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/rmsnorm_fused/Kernels.lean",
+    "bench/tritonbench_g/rmsnorm_fused/Proofs/KernelInterface.lean",
+    "bench/tritonbench_g/rmsnorm_fused/Proofs/Runtime.lean",
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/KernelResult.lean",
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/SourceSafety.lean",
     "bench/tritonbench_g/rowwise_quantization_triton/Proofs/StoreSafety.lean",
@@ -1191,6 +1222,7 @@
     "tests/lean/PythonLiteralArithmetic.lean",
     "tests/lean/RawBodyControlNames.lean",
     "tests/lean/RawBodySurface.lean",
+    "tests/lean/RawBooleanLoadCast.lean",
     "tests/lean/RawPythonTuplesAndStores.lean",
     "tests/lean/RawStringDispatch.lean",
     "tests/lean/SourceDType.lean",
