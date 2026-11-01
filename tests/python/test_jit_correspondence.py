@@ -611,6 +611,47 @@ def kernel (X Y : RegionName) (x0 y0 B : Nat) : ComputeKernel :=
         self.assertEqual(result['mode'], 'pasted_body')
 
 
+class PointerCellArgumentTests(PointerArgumentTests):
+    def setUp(self):
+        super().setUp()
+        self.lean = self.lean.replace('pointer_offsets [X := x0, Y := y0]',
+            'pointer_cells [X := (x0, width), Y := (y0, width)]')
+        self.cells = {'X': ['x0', 'width'], 'Y': ['y0', 'width']}
+
+    def compare(self, lean=None, offsets=None):
+        return check(self.python, lean or self.lean, 'k', 'kernel', 'sig',
+                     self.signature, expected_pointer_cells=self.cells)
+
+    def test_cell_width_and_base_are_both_reviewed(self):
+        for before, after in [('x0, width', 'y0, width'), ('y0, width', 'y0, 1'),
+                              ('Y :=', 'X :='), ('Y :=', 'Z :=')]:
+            with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'pointer cell'):
+                self.compare(self.lean.replace(before, after))
+
+    def test_cell_expressions_require_named_caller_values(self):
+        with self.assertRaisesRegex(ValueError, 'pointer cell'):
+            self.compare(self.lean.replace('x0, width', 'x0 + 1, width'))
+
+    def test_offset_and_cell_metadata_cannot_be_mixed(self):
+        with self.assertRaisesRegex(ValueError, 'pointer cell views'):
+            check(self.python, self.lean, 'k', 'kernel', 'sig', self.signature,
+                  expected_pointer_offsets=self.offsets, expected_pointer_cells=self.cells)
+
+    def test_empty_reviewed_offset_bindings(self):
+        # This API deliberately rejects offset metadata for a cell-view invocation.
+        with self.assertRaises(ValueError):
+            check(self.python, self.lean, 'k', 'kernel', 'sig', self.signature,
+                  expected_pointer_offsets={})
+
+    def test_changed_duplicate_and_unknown_offsets_are_rejected(self):
+        self.test_cell_width_and_base_are_both_reviewed()
+
+    def test_scalar_bindings_and_offsets_are_both_checked(self):
+        with self.assertRaisesRegex(ValueError, 'pointer cell views'):
+            check(self.python, self.lean, 'k', 'kernel', 'sig', self.signature,
+                  expected_call_bindings={}, expected_pointer_cells=self.cells)
+
+
 class SourceModuleBindingTests(unittest.TestCase):
     def setUp(self):
         self.python = '''from triton.language.extra.libdevice import tanh

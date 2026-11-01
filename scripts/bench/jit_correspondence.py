@@ -290,7 +290,8 @@ def call_signature(text: str, name: str) -> dict:
 def check(python_text: str, lean_text: str, python_function: str, lean_definition: str,
           signature_definition: str | None = None, expected_signature: dict | None = None,
           expected_call_bindings: dict[str, str] | None = None,
-          expected_pointer_offsets: dict[str, str] | None = None) -> dict:
+          expected_pointer_offsets: dict[str, str] | None = None,
+          expected_pointer_cells: dict[str, list[str]] | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1 or not any(ast.unparse(d.func if isinstance(d, ast.Call) else d) == "triton.jit"
@@ -322,6 +323,10 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                               if dtype_arguments else re.escape(signature_definition))
         offset_clause = (r"\s+pointer_offsets\s*\[([^\]]*)\]"
                          if expected_pointer_offsets is not None else "")
+        if expected_pointer_cells is not None:
+            if expected_pointer_offsets is not None or expected_call_bindings is not None:
+                raise ValueError("pointer cell views require a signature without scalar bindings or pointer offsets")
+            offset_clause = r"\s+pointer_cells\s*\[([^\]]*)\]"
         if expected_call_bindings is None:
             invocation = r"\bwith_triton_signature\s+" + selected_signature + offset_clause + r"\s+in\b"
             calls = list(re.finditer(invocation, signature))
@@ -357,6 +362,21 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             pointers = {n for n, _ in profile['pointers'] + profile.get('floatingPointers', [])}
             if offsets != expected_pointer_offsets or not set(offsets) <= pointers:
                 raise ValueError("pointer offset bindings differ from the reviewed invocation")
+        if expected_pointer_cells is not None:
+            cells = {}
+            source = calls[0][1].strip()
+            caller = r"([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*|[0-9]+)"
+            entry = re.compile(r"\s*([A-Za-z_]\w*)\s*:=\s*\(\s*" + caller +
+                               r"\s*,\s*" + caller + r"\s*\)\s*(?:,|$)")
+            while source:
+                pair = entry.match(source)
+                if not pair or pair[1] in cells:
+                    raise ValueError("pointer cell bindings require distinct named caller base/width pairs")
+                cells[pair[1]] = [pair[2], pair[3]]
+                source = source[pair.end():].strip()
+            pointers = {n for n, _ in profile['pointers'] + profile.get('floatingPointers', [])}
+            if cells != expected_pointer_cells or not set(cells) <= pointers:
+                raise ValueError("pointer cell bindings differ from the reviewed invocation")
         if expected_signature is not None and profile != expected_signature:
             raise ValueError("call signature differs from the reviewed launch types")
         module = ast.parse(python_text)
@@ -483,7 +503,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
     return [check((root / r["python"]).read_text(), (root / r["lean"]).read_text(),
                   r["python_function"], r["lean_definition"],
                   r.get("signature_definition"), r.get("expected_signature"),
-                  r.get("expected_call_bindings"), r.get("expected_pointer_offsets")) for r in records]
+                  r.get("expected_call_bindings"), r.get("expected_pointer_offsets"),
+                  r.get("expected_pointer_cells")) for r in records]
 
 
 if __name__ == "__main__":
