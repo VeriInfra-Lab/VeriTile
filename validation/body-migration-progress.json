@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 116,
+  "completed_count": 117,
   "staged_count": 117,
-  "pending_count": 80,
+  "pending_count": 79,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 3204,
-    "official_comparator": "116 targets have exact current-source/import-closure official receipts, including all 19 examples. FastLayernorm was accepted after all 45 replay sources, 61 shared dependency files, its complete current case closure and the actual artifact ZIP digest were verified. Pending: MultinomialSampling run 41336818906. Successful local compilation and body comparison alone do not certify completion.",
+    "official_comparator": "117 targets have exact current-source/import-closure official receipts, including all 19 examples. MultinomialSampling was accepted after all 36 replay sources, 56 shared dependency files, its complete current case closure and the actual artifact ZIP digest were verified. No current staged target awaits an official replay. Successful local compilation and body comparison alone do not certify completion.",
     "python_tests": 419,
     "offline_example_compilations": {
       "cases": 19,
@@ -381,7 +381,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "KldivOps literal original/candidate forward/backward bodies are aligned; source execution, safety and public theorem proofs are being migrated and have not yet passed the full retained build or independent replay. MultinomialSampling independent run 41336818906 remains pending. No merge."
+    "current_work": "KldivOps literal original/candidate forward/backward bodies, full source execution and safety, independent Real formulas and complete FP program equivalences pass the retained 49-module build. The full migration/regression batch and exact-source independent replay are still required; KldivOps remains incomplete. No merge."
   },
   "targets": [
     {
@@ -1250,13 +1250,13 @@
     },
     {
       "path": "bench/tritonbench_g/multinomial_sampling",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "validated_source_commit": "3f88a8ee423d523779e09126f5954da339df1dfc",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete original/candidate bodies, independent Real inverse-CDF formula, actual typed RNG/load/scan loop execution, static-unroll execution and access-safety equivalence, output masks and exterior frames pass locally. Await exact-current-source official independent replay; compilation alone is not completion."
+      "receipt": "validation/body_receipts/multinomial_sampling.json"
     },
     {
       "path": "bench/tritonbench_g/nested_loops_processing",
