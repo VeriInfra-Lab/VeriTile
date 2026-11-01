@@ -8,7 +8,8 @@ namespace VeriTile.Bench.Repairs.RopeEmbedding.PairIO
 open VeriTile.Triton FP.ProfiledRewrite
 
 def original (p : Source.Parameters) (back : Bool) : Program :=
-  ⟨Source.source p back, []⟩
+  ⟨Kernels.rope p.input p.cosine p.sine p.rowStride p.cosineStride p.sineStride
+    p.length p.dimension p.heads p.width back, []⟩
 
 def indexCommuted (p : Source.Parameters) (back : Bool) : Program :=
   ⟨Kernels.indexCommuted p.input p.cosine p.sine p.rowStride p.cosineStride p.sineStride

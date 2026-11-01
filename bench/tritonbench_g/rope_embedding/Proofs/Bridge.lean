@@ -5,7 +5,7 @@ noncomputable section
 set_option maxHeartbeats 3000000
 
 def parameters (r : Request) : Source.Parameters :=
-  ⟨"Q","C","S",r.heads*r.dimension,r.half,r.half,r.sequence,r.dimension,r.heads,r.block⟩
+  ⟨"Q","C","S",r.heads*r.dimension,r.half,r.half,r.sequence,r.dimension,r.heads,r.block,Bool.false⟩
 def programState {α : Type} (s : State α) (a g : Nat) : State α :=
   {s with pids:=fun axisId => if axisId=0 then a else if axisId=1 then g else s.pids axisId}
 

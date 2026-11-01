@@ -1,6 +1,7 @@
 import bench.tritonbench_g.rope_embedding.Kernels
 import bench.tritonbench_g.rotary_emb_nopad.Proofs.Mathematical_Pair
 import VeriTile.Triton.Float.Control
+import bench.tritonbench_g.fast_rope_embedding.Kernels
 namespace VeriTile.Bench.Repairs.RopeEmbedding.Source
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG
@@ -13,15 +14,19 @@ set_option linter.unusedSimpArgs false
 structure Parameters where
   (input cosine sine : RegionName)
   (rowStride cosineStride sineStride length dimension heads width : Nat)
+  /-- Selects the actual fast/ordinary task body; it is not a Python argument. -/
+  fast : Bool := Bool.false
 
 /-- The unchanged four-head body, including both loaded halves, both stores,
-the backwards sign, load-to-sine casts and FP32 output conversion. -/
+the backwards sign, load-to-sine casts and original stores. -/
 def source (p : Parameters) (backward : Bool) : ComputeKernel :=
-  Kernels.rope p.input p.cosine p.sine
+  if p.fast then VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.rope p.input p.cosine p.sine
     p.rowStride p.cosineStride p.sineStride p.length p.dimension p.heads p.width backward
-def prelude (p : Parameters) (backward : Bool) := (source p backward).surfaceBody.take 11
+  else Kernels.rope p.input p.cosine p.sine
+    p.rowStride p.cosineStride p.sineStride p.length p.dimension p.heads p.width backward
+def prelude (p : Parameters) (backward : Bool) := (source p backward).surfaceBody.take (if p.fast then 11 else 10)
 def body (p : Parameters) (backward : Bool) : List ComputeStmt :=
-  match (source p backward).surfaceBody.drop 11 with
+  match (source p backward).surfaceBody.drop (if p.fast then 11 else 10) with
   | [.forRangeDyn _ _ _ _ stmts] => stmts
   | _ => []
 
@@ -29,7 +34,8 @@ theorem decomposition (p : Parameters) (backward : Bool) :
     (source p backward).surfaceBody = prelude p backward ++
       [.forRangeDyn "k" (.ref .nat [] "head_start") (.ref .nat [] "head_end") (.constNat 1)
         (body p backward)] := by
-  cases backward <;> rfl
+  rcases p with ⟨input,cosine,sine,rowStride,cosineStride,sineStride,length,dimension,heads,width,fast⟩
+  cases fast <;> cases backward <;> simp only [source, prelude, body, Bool.false_eq_true, ↓reduceIte] <;> rfl
 
 abbrev Lane (p : Parameters) := TileIndex [p.width]
 def active (p : Parameters) (i : Lane p) : Prop := i.1.val < p.dimension/2
@@ -51,10 +57,12 @@ structure Context {α : Type} (p : Parameters) (row : Nat) (cs ss : Lane p → �
 
 def prepared {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (backward : Bool) (s : State α) :
     {v : State α // run M (prelude p backward) s=some v} := by
-  cases backward <;>
+  rcases p with ⟨input,cosine,sine,rowStride,cosineStride,sineStride,length,dimension,heads,width,fast⟩
+  cases fast <;> cases backward <;>
     (refine ⟨?_,?_⟩
      swap
-     simp [prelude,source,Kernels.rope,ComputeKernel.surfaceBody,
+     simp [prelude,source,Kernels.rope,VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.rope,
+       VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.ropeFor,ComputeKernel.surfaceBody,
        run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
        Region.cast,Option.bind,integralFloorDiv,integralMod]
@@ -68,7 +76,8 @@ theorem prepared_facts {α : Type} [Inhabited α] (M : Algebra α) (p : Paramete
     (prepared M p backward s).val.mem=s.mem ∧
     (prepared M p backward s).val.regs .nat [] "head_start"=some (fun _ => s.pids 1*4) ∧
     (prepared M p backward s).val.regs .nat [] "head_end"=some (fun _ => min (s.pids 1*4+4) p.heads) := by
-  cases backward <;> refine ⟨?_,rfl,?_,?_⟩
+  rcases p with ⟨input,cosine,sine,rowStride,cosineStride,sineStride,length,dimension,heads,width,fast⟩
+  cases fast <;> cases backward <;> refine ⟨?_,rfl,?_,?_⟩
   all_goals try constructor
   all_goals simp [prepared,coefficient,active,State.setReg,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Region.cast,integralMod,min_def_lt]
@@ -76,13 +85,13 @@ theorem prepared_facts {α : Type} [Inhabited α] (M : Algebra α) (p : Paramete
 
 def value {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (row head : Nat) (cs ss : Lane p → α) (s : State α) (second : Bool) (i : Lane p) : α :=
-  let a := M.cast (some .fp32) .real .real ((s.mem p.input (offset p row head Bool.false i)).read .real)
-  let b := M.cast (some .fp32) .real .real ((s.mem p.input (offset p row head Bool.true i)).read .real)
+  let a := (s.mem p.input (offset p row head Bool.false i)).read .real
+  let b := (s.mem p.input (offset p row head Bool.true i)).read .real
   let v := if second then M.binary (some .fp32) .real .add
       (M.binary (some .fp32) .real .mul b (cs i)) (M.binary (some .fp32) .real .mul a (ss i))
     else M.binary (some .fp32) .real .sub
       (M.binary (some .fp32) .real .mul a (cs i)) (M.binary (some .fp32) .real .mul b (ss i))
-  M.cast (some .fp32) .real .real v
+  v
 
 def written {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (row head : Nat) (cs ss : Lane p → α) (s : State α) : State α :=
@@ -92,10 +101,12 @@ def written {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
 def oneHead {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (backward : Bool)
     (row head : Nat) (cs ss : Lane p → α) (s : State α) (h : Context p row cs ss s) :
     {v : State α // run M (body p backward) (s.setReg "k" .nat [] (fun _ => head))=some v} := by
-  cases backward <;>
+  rcases p with ⟨input,cosine,sine,rowStride,cosineStride,sineStride,length,dimension,heads,width,fast⟩
+  cases fast <;> cases backward <;>
     (refine ⟨?_,?_⟩
      swap
-     simp [body,source,Kernels.rope,ComputeKernel.surfaceBody,
+     simp [body,source,Kernels.rope,VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.rope,
+       VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.ropeFor,ComputeKernel.surfaceBody,
        run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
        Region.cast,Option.bind,State.setReg,h.row,h.columns,h.half,h.mask,h.cosine,h.sine]
@@ -106,8 +117,10 @@ theorem oneHead_facts {α : Type} [Inhabited α] (M : Algebra α) (p : Parameter
     Context p row cs ss (oneHead M p backward row head cs ss s h).val ∧
     (oneHead M p backward row head cs ss s h).val.mem=(written M p row head cs ss s).mem := by
   constructor
-  · cases backward <;> constructor <;> simp [oneHead,State.setReg,h.row,h.columns,h.half,h.mask,h.cosine,h.sine]
-  · cases backward <;> simp +contextual [oneHead,written,RotaryEmbNopad.Pair.written,
+  · rcases p with ⟨input,cosine,sine,rowStride,cosineStride,sineStride,length,dimension,heads,width,fast⟩
+    cases fast <;> cases backward <;> constructor <;> simp [oneHead,State.setReg,h.row,h.columns,h.half,h.mask,h.cosine,h.sine]
+  · rcases p with ⟨input,cosine,sine,rowStride,cosineStride,sineStride,length,dimension,heads,width,fast⟩
+    cases fast <;> cases backward <;> simp +contextual [oneHead,written,RotaryEmbNopad.Pair.written,
       RotaryEmbNopad.Pair.halfScatter,masked_scatter_memory,value,offset,active,
       FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,State.setReg,Region.cast,
       h.row,h.columns,h.half,h.mask,h.cosine,h.sine]
