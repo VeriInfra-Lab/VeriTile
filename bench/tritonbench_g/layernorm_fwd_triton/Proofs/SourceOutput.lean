@@ -47,30 +47,31 @@ structure OutputReady {α : Type} [Inhabited α] (M : Algebra α) (p : Parameter
   w : t.regs .ptr [] "W" = some (fun _ => (p.weight,wBase p s))
   mean : t.regs .real [] "mean" = some (fun _ => meanValue M p s)
   rstd : t.regs .real [] "rstd" = some (fun _ => rstdValue M p s)
+  integers : integerSetup p t
 
 theorem var_post_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (s t : State α)
-    (epsilon : α) (heps : s.regs .real [] "eps_arg"=some (fun _ => epsilon))
+    (epsilon : α) (heps : s.regs .real [] "eps"=some (fun _ => epsilon))
     (h : VarReady M p s t (foldRange (varStep M p s) 0 p.columns p.block (initial M p))) :
     ∃ u, run M (varPost p) t = some u ∧ OutputReady M p s u s.mem := by
   simp [varPost, kernel, runtimeSource, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
-    numeric, bop, Region.cast, h.epsilon, heps, h.mem, h.pids, h.undef, h.x, h.y, h.w, h.accumulator]
-  constructor <;> simp [State.setReg, h.mem, h.pids, h.undef, h.x, h.y, h.w, h.mean,
+    numeric, bop, Region.cast, h.integers.1, h.integers.2.1, h.integers.2.2, h.epsilon, heps, h.mem, h.pids, h.undef, h.x, h.y, h.w, h.accumulator]
+  constructor <;> simp [integerSetup, h.integers.1, h.integers.2.1, h.integers.2.2, State.setReg, h.mem, h.pids, h.undef, h.x, h.y, h.w, h.mean,
     varianceValue, rstdValue, epsilonValue, heps, bop, numeric]
   all_goals try rfl
 
 theorem output_body_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (s t : State α) (off : Nat) (mem : RegionName → Nat → Cell α)
     (hx : p.x ≠ p.y) (hw : p.weight ≠ p.y) (h : OutputReady M p s t mem) :
-    ∃ u, run M (loopBody p 12) (t.setReg "off" .nat [] (fun _ => off)) = some u ∧
+    ∃ u, run M (loopBody p 24) (t.setReg "off" .int [] (fun _ => (off : Int))) = some u ∧
       OutputReady M p s u (outputStep M p s off mem) := by
   simp [loopBody, kernel, runtimeSource, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, numericLt, natLt, Region.cast,
-    h.readX, h.readW, h.pids, h.undef, h.x, h.y, h.w, h.mean, h.rstd]
+    h.integers.1, h.integers.2.1, h.integers.2.2, h.readX, h.readW, h.pids, h.undef, h.x, h.y, h.w, h.mean, h.rstd]
   constructor
   · simp only [fold_writes_mem, State.setReg_mem, h.memory]
     rfl
@@ -87,6 +88,7 @@ theorem output_body_run {α : Type} [Inhabited α] (M : Algebra α) (p : Paramet
   · simp [fold_writes_regs, h.w]
   · simp [fold_writes_regs, h.mean]
   · simp [fold_writes_regs, h.rstd]
+  · simp [integerSetup, fold_writes_regs, h.integers.1, h.integers.2.1, h.integers.2.2]
 
 #axiomsClean scatter_memory
 #axiomsClean outputStep_frame

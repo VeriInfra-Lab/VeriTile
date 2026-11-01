@@ -292,7 +292,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_call_bindings: dict[str, str] | None = None,
           expected_pointer_offsets: dict[str, str] | None = None,
           expected_pointer_cells: dict[str, list[str]] | None = None,
-          expected_optional_pointers: dict[str, str] | None = None) -> dict:
+          expected_optional_pointers: dict[str, str] | None = None,
+          expected_static_strides: dict[str, str] | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1 or not any(ast.unparse(d.func if isinstance(d, ast.Call) else d) == "triton.jit"
@@ -332,6 +333,11 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             if expected_pointer_offsets is not None or expected_pointer_cells is not None:
                 raise ValueError("optional pointer metadata cannot be mixed with coordinate bindings")
             offset_clause = r"\s+optional_pointers\s*\[([^\]]*)\]"
+        if expected_static_strides is not None:
+            if (expected_call_bindings is None or expected_pointer_offsets is not None
+                    or expected_pointer_cells is not None or expected_optional_pointers is not None):
+                raise ValueError("static strides require the reviewed scalar-only invocation")
+            offset_clause = r"\s+static_strides"
         if expected_call_bindings is None:
             invocation = r"\bwith_triton_signature\s+" + selected_signature + offset_clause + r"\s+in\b"
             calls = list(re.finditer(invocation, signature))
@@ -355,6 +361,39 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             fp32_args = {n for n, t in profile["scalars"] if t == "fp32"}
             if not integer_args <= set(bindings) or not set(bindings) <= integer_args | fp32_args:
                 raise ValueError("runtime call bindings must include all integer parameters and only supported scalar parameters")
+        if expected_static_strides is not None:
+            strides = {}
+            definitions = {}
+            for index, statement in enumerate(function.body):
+                if (isinstance(statement, ast.Assign) and len(statement.targets) == 1
+                        and isinstance(statement.targets[0], ast.Name)
+                        and isinstance(statement.value, ast.Call)
+                        and ast.unparse(statement.value.func) == "tl.full"):
+                    call = statement.value
+                    if (len(call.args) == 3 and not call.keywords
+                            and isinstance(call.args[0], ast.Tuple) and not call.args[0].elts
+                            and isinstance(call.args[1], ast.Name) and call.args[1].id in constants
+                            and ast.unparse(call.args[2]) == "tl.int64"):
+                        name = statement.targets[0].id
+                        if name in strides:
+                            raise ValueError("duplicate static signed stride definition")
+                        strides[name] = call.args[1].id
+                        definitions[name] = index
+            if not strides or strides != expected_static_strides:
+                raise ValueError("static signed strides differ from the reviewed constructors")
+            stores = [n.id for statement in function.body for n in ast.walk(statement)
+                      if isinstance(n, ast.Name) and isinstance(n.ctx, (ast.Store, ast.Del))]
+            if (any(stores.count(name) != 1 for name in strides)
+                    or any(stores.count(name) != 0 for name in strides.values())):
+                raise ValueError("static strides and their constexpr values must be immutable")
+            for index, statement in enumerate(function.body):
+                for node in ast.walk(statement):
+                    if (isinstance(node, ast.For) and isinstance(node.iter, ast.Call)
+                            and ast.unparse(node.iter.func) == "range" and len(node.iter.args) == 3
+                            and isinstance(node.iter.args[2], ast.Name)):
+                        name = node.iter.args[2].id
+                        if name in definitions and index <= definitions[name]:
+                            raise ValueError("static signed stride definition must dominate its range")
         if expected_pointer_offsets is not None:
             offsets = {}
             group = 1 if expected_call_bindings is None else 2
@@ -521,7 +560,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                   r["python_function"], r["lean_definition"],
                   r.get("signature_definition"), r.get("expected_signature"),
                   r.get("expected_call_bindings"), r.get("expected_pointer_offsets"),
-                  r.get("expected_pointer_cells"), r.get("expected_optional_pointers")) for r in records]
+                  r.get("expected_pointer_cells"), r.get("expected_optional_pointers"),
+                  r.get("expected_static_strides")) for r in records]
 
 
 if __name__ == "__main__":

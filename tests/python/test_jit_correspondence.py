@@ -792,3 +792,53 @@ def kernel (X Y : RegionName) (B : Nat) (present : Bool) : ComputeKernel :=
     def test_guard_cannot_be_replaced_by_a_lean_condition(self):
         with self.assertRaisesRegex(ValueError, 'statement correspondence'):
             self.compare(self.lean.replace('X is not None', 'present'))
+
+
+class StaticSignedStrideTests(unittest.TestCase):
+    def setUp(self):
+        self.python = """@triton.jit
+def k(X, Y, N, B: tl.constexpr):
+    N = tl.cast(N, tl.int64)
+    zero = tl.full((), 0, tl.int64)
+    step = tl.full((), B, tl.int64)
+    for off in range(zero, N, step):
+        value = tl.load(X + off)
+        tl.store(Y + off, value)
+"""
+        self.signature = {'pointers': [['X','fp32'],['Y','fp32']],
+                          'scalars': [['N','integer']], 'constexpr': ['B'],
+                          'readPorts': ['X'], 'writePorts': ['Y']}
+        self.lean = """def sig : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  scalars := [("N",.integer)]
+  constexpr := ["B"]
+  readPorts := ["X"]
+  writePorts := ["Y"]
+def kernel (X Y : RegionName) (stop : Int) (B : Nat) : ComputeKernel :=
+  with_triton_call sig call_args [N := stop] static_strides in triton {
+""" + self.python.split('B: tl.constexpr):\n')[1] + '  }\n'
+
+    def compare(self, python=None, lean=None):
+        return check(python or self.python, lean or self.lean, 'k', 'kernel', 'sig',
+                     self.signature, {'N':'stop'}, expected_static_strides={'step':'B'})
+
+    def test_original_signed_constructor_and_range_are_retained(self):
+        self.assertEqual(self.compare()['mode'], 'pasted_body')
+
+    def test_static_pass_requires_reviewed_invocation(self):
+        with self.assertRaisesRegex(ValueError, 'reviewed runtime call bindings'):
+            check(self.python, self.lean, 'k', 'kernel', 'sig', self.signature, {'N':'stop'})
+
+    def test_reassigned_stride_or_constexpr_is_rejected_even_if_bodies_match(self):
+        for inserted in ['    step += 1\n','    B = 2\n']:
+            python = self.python.replace('    for off', inserted+'    for off')
+            lean = self.lean.replace('    for off', inserted+'    for off')
+            with self.subTest(inserted=inserted), self.assertRaisesRegex(ValueError, 'immutable'):
+                self.compare(python, lean)
+
+    def test_runtime_and_negative_constructors_are_rejected_even_if_bodies_match(self):
+        for value in ['N','-1']:
+            python = self.python.replace('(), B, tl.int64','(), '+value+', tl.int64')
+            lean = self.lean.replace('(), B, tl.int64','(), '+value+', tl.int64')
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, 'constructors'):
+                self.compare(python, lean)
