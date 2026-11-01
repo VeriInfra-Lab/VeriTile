@@ -3,70 +3,39 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/kldiv_ops",
-      "python": "bench/tritonbench_g/kldiv_ops/kldiv_ops.py",
+      "path": "bench/tritonbench_g/isfinite_kernel",
+      "python": "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/kldiv_ops/Correct.lean": [
-          "VeriTile.Bench.Repairs.KldivOps.Kernel.Correct.forward",
-          "VeriTile.Bench.Repairs.KldivOps.Kernel.Correct.backward"
+        "bench/tritonbench_g/isfinite_kernel/Correct.lean": [
+          "VeriTile.Bench.Repairs.IsfiniteKernel.Correct.isfinite_real_correctness"
         ],
-        "bench/tritonbench_g/kldiv_ops/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.forward_pair",
-          "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.backward_pair"
+        "bench/tritonbench_g/isfinite_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.IsfiniteKernel.FPEquiv.isfinite_index_commuted_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/kldiv_ops/Contract.lean",
-    "bench/tritonbench_g/kldiv_ops/Correct.lean",
-    "bench/tritonbench_g/kldiv_ops/FPEquiv.lean",
-    "bench/tritonbench_g/kldiv_ops/IO.lean",
-    "bench/tritonbench_g/kldiv_ops/Kernels.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Backward.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/BackwardCoverage.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/BackwardValues.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Broadcast.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Checked/Binding.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Checked/Contract.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Chunk.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Coverage.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/FPGraph.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Forward.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/ForwardValues.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Frames.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/GridPair.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/HistoricalKernels.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Host.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/HostBackward.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/HostBackwardFinish.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/HostContract.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/HostForward.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/IOInterface.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/IOReal.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/IOSchedule.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/KernelResults.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Launch.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Library.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/LogicalReader.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Loop.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Mathematical_FP.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Mathematical_Kernels.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Mathematical_Math.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Native.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/NativeBinding.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Preparation.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Real.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/RealFormula.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/RealGrid.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/SafetyBackward.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/SafetyForward.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/SourcePair.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Storage.lean",
-    "bench/tritonbench_g/kldiv_ops/Proofs/Tile.lean",
-    "bench/tritonbench_g/kldiv_ops/Sources/Parameters.lean"
+    "VeriTile/Triton/DSL/ImportedFiniteJitFunctions.lean",
+    "bench/tritonbench_g/isfinite_kernel/Contract.lean",
+    "bench/tritonbench_g/isfinite_kernel/Correct.lean",
+    "bench/tritonbench_g/isfinite_kernel/FPEquiv.lean",
+    "bench/tritonbench_g/isfinite_kernel/IO.lean",
+    "bench/tritonbench_g/isfinite_kernel/Kernels.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/Contract.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/EquivIO.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/IO.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/Kernel.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/Mathematical_BitBackend.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/Mathematical_BitClassification.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/Mathematical_MemoryProjection.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/Memory.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/Source.lean",
+    "bench/tritonbench_g/isfinite_kernel/Proofs/Storage.lean",
+    "tests/lean/ImportedFiniteJitFunctions.lean",
+    "tests/lean/ImportedFiniteJitReference.lean"
   ]
 }
