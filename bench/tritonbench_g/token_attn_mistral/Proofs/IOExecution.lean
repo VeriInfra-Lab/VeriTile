@@ -26,31 +26,38 @@ theorem reference_mem (M : Algebra α) (R : SumPrimitive α) (p : Parameters) (s
   simp only [reference,fold_write_memory,values_congr M R p s t memory pids,outputOffset,pids,memory]
 
 theorem launch_complete (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
-    (pid : Grid.PID) (s : State α) :
+    (pid : Grid.PID) (s : State α) (valid : ValidMetadata p (Grid.state s.mem pid)) :
     ∃ t,(IO.launch M R p pid).run s=some t ∧
       t.mem=(reference M R p (Grid.state s.mem pid)).mem := by
-  obtain ⟨t,ran,mem⟩ := complete_run M R p ((IO.launch M R p pid).initial s)
+  obtain ⟨t,ran,mem⟩ := complete_run M R p ((IO.launch M R p pid).initial s) (valid.congr rfl rfl)
   refine ⟨t,ran,mem.trans ?_⟩
   apply reference_mem
   · rfl
   · rfl
 
 theorem complete (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
-    (work : List Grid.PID) (s : State α) :
+    (work : List Grid.PID) (s : State α) (separate : Grid.Separate p)
+    (valid : ∀ pid∈work,ValidMetadata p (Grid.state s.mem pid)) :
     ∃ t,runSchedule (work.map (IO.launch M R p)) s=some t ∧ t.mem=Grid.graph M R p work s.mem := by
   induction work generalizing s with
   | nil => exact ⟨s,rfl,rfl⟩
   | cons pid rest ih =>
-    obtain ⟨middle,ran,mem⟩ := launch_complete M R p pid s
-    obtain ⟨final,tail,eq⟩ := ih middle
+    obtain ⟨middle,ran,mem⟩ := launch_complete M R p pid s (valid pid (by simp))
+    have next : ∀ q∈rest,ValidMetadata p (Grid.state middle.mem q) := by
+      intro q hq
+      rw [mem]
+      exact (Grid.metadata_agree p _ s.mem q (Grid.block_agrees M R p pid s.mem separate)).mpr
+        (valid q (List.mem_cons_of_mem pid hq))
+    obtain ⟨final,tail,eq⟩ := ih middle next
     refine ⟨final,?_,?_⟩
     · simp only [List.map_cons,runSchedule,ran,Option.bind_some,tail]
     · simpa only [Grid.graph,mem] using eq
 
 theorem launch_agree (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (pid : Grid.PID) (s t : State α) (separate : Grid.Separate p)
-    (ran : (IO.launch M R p pid).run s=some t) : Grid.Agree p t.mem s.mem := by
-  obtain ⟨u,hu,mem⟩ := launch_complete M R p pid s
+    (ran : (IO.launch M R p pid).run s=some t)
+    (valid : ValidMetadata p (Grid.state s.mem pid)) : Grid.Agree p t.mem s.mem := by
+  obtain ⟨u,hu,mem⟩ := launch_complete M R p pid s valid
   rw [ran] at hu
   injection hu with eq
   subst u

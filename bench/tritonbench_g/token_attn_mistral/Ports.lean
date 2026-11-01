@@ -12,33 +12,44 @@ def span (p : Parameters) (work : List Grid.PID) (counts : Fin work.length → N
   (∑ j, counts j)+p.block
 
 def inputs (p : Parameters) (work : List Grid.PID) (counts : Fin work.length → Nat) : List IOChannel :=
-  [⟨.nat,[work.length],p.length.cast⟩,⟨.nat,[work.length],p.start.cast⟩,
-   ⟨.nat,[work.length],p.request.cast⟩,⟨.nat,[work.length],p.attentionLength.cast⟩,
-   ⟨.nat,[work.length,span p work counts],p.tokens.cast⟩,
+  [⟨.int,[work.length],p.length.cast⟩,⟨.int,[work.length],p.start.cast⟩,
+   ⟨.int,[work.length],p.request.cast⟩,⟨.int,[work.length],p.attentionLength.cast⟩,
+   ⟨.int,[work.length,span p work counts],p.tokens.cast⟩,
    ⟨.fp32,[work.length,span p work counts],p.prob⟩,
    ⟨.fp32,[work.length,span p work counts,p.width],p.value⟩]
 def outputs (p : Parameters) (work : List Grid.PID) : List IOChannel :=
   [⟨.fp32,[work.length,p.width],p.output⟩]
 
 structure Logical (α : Type) (jobs extent width : Nat) where
-  sequence : Fin jobs → Nat
-  start : Fin jobs → Nat
-  request : Fin jobs → Nat
-  attention : Fin jobs → Nat
-  token : Fin jobs → Fin extent → Nat
+  sequenceWord : Fin jobs → Int
+  startWord : Fin jobs → Int
+  requestWord : Fin jobs → Int
+  attentionWord : Fin jobs → Int
+  tokenWord : Fin jobs → Fin extent → Int
   probability : Fin jobs → Fin extent → α
   value : Fin jobs → Fin extent → Fin width → α
+
+def Logical.sequence {α : Type} {jobs extent width : Nat} (x : Logical α jobs extent width)
+    (j : Fin jobs) : Nat := (x.sequenceWord j).toNat
+def Logical.start {α : Type} {jobs extent width : Nat} (x : Logical α jobs extent width)
+    (j : Fin jobs) : Nat := (x.startWord j).toNat
+def Logical.request {α : Type} {jobs extent width : Nat} (x : Logical α jobs extent width)
+    (j : Fin jobs) : Nat := (x.requestWord j).toNat
+def Logical.attention {α : Type} {jobs extent width : Nat} (x : Logical α jobs extent width)
+    (j : Fin jobs) : Nat := (x.attentionWord j).toNat
+def Logical.token {α : Type} {jobs extent width : Nat} (x : Logical α jobs extent width)
+    (j : Fin jobs) (n : Fin extent) : Nat := (x.tokenWord j n).toNat
 
 abbrev Values (α : Type) (p : Parameters) (work : List Grid.PID) (counts : Fin work.length → Nat) :=
   ChannelValues α (inputs p work counts)
 
 def logical {α : Type} (p : Parameters) (work : List Grid.PID) (counts : Fin work.length → Nat)
     (vals : Values α p work counts) : Logical α work.length (span p work counts) p.width where
-  sequence := fun j=>vals ⟨0,by simp [inputs]⟩ (j,())
-  start := fun j=>vals ⟨1,by simp [inputs]⟩ (j,())
-  request := fun j=>vals ⟨2,by simp [inputs]⟩ (j,())
-  attention := fun j=>vals ⟨3,by simp [inputs]⟩ (j,())
-  token := fun j n=>vals ⟨4,by simp [inputs]⟩ (j,n,())
+  sequenceWord := fun j=>vals ⟨0,by simp [inputs]⟩ (j,())
+  startWord := fun j=>vals ⟨1,by simp [inputs]⟩ (j,())
+  requestWord := fun j=>vals ⟨2,by simp [inputs]⟩ (j,())
+  attentionWord := fun j=>vals ⟨3,by simp [inputs]⟩ (j,())
+  tokenWord := fun j n=>vals ⟨4,by simp [inputs]⟩ (j,n,())
   probability := fun j n=>vals ⟨5,by simp [inputs]⟩ (j,n,())
   value := fun j n d=>vals ⟨6,by simp [inputs]⟩ (j,n,d,())
 
@@ -48,8 +59,25 @@ def window {α : Type} (p : Parameters) {jobs extent width : Nat}
 def visited (p : Parameters) (attention n : Nat) : Prop :=
   0<p.block ∧ n/p.block*p.block<attention
 
+/-- The inherited nonnegative domain is explicit on actual signed words.
+Inactive token slots impose no condition; all their words remain in Logical. -/
+structure Admissible {α : Type} {jobs extent width : Nat} (p : Parameters)
+    (counts : Fin jobs → Nat) (x : Logical α jobs extent width) : Prop where
+  attention : ∀ j,x.attentionWord j=(counts j : Int)
+  sequence : ∀ j,0≤x.sequenceWord j
+  start : ∀ j,0≤x.startWord j
+  request : ∀ j,0≤x.requestWord j
+  token : ∀ j (n : Fin extent),visited p (counts j) n.val →
+    n.val+window p x j<x.sequence j → 0≤x.tokenWord j n
+
+theorem Admissible.counts {α : Type} {jobs extent width : Nat} {p : Parameters}
+    {counts : Fin jobs → Nat} {x : Logical α jobs extent width} (h : Admissible p counts x) :
+    ∀ j,x.attention j=counts j := by
+  intro j
+  simpa only [Logical.attention,Int.toNat_natCast] using congrArg Int.toNat (h.attention j)
+
 def Domain {α : Type} (p : Parameters) (work : List Grid.PID) (counts : Fin work.length → Nat)
-    (vals : Values α p work counts) : Prop := ∀ j,(logical p work counts vals).attention j=counts j
+    (vals : Values α p work counts) : Prop := Admissible p counts (logical p work counts vals)
 
 /-- Simultaneous finite inputs preserve arbitrary read/read aliases. The
 probability and page/value masks deliberately differ on the final block. -/

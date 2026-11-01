@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 90,
-      "uncovered_jit_functions": 91
+      "selected_body_copy_checked": 91,
+      "uncovered_jit_functions": 90
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 190,
+    "uncovered_selected_jit_functions": 189,
     "inventoried_jit_functions": 507,
-    "uncovered_inventoried_jit_functions": 251,
+    "uncovered_inventoried_jit_functions": 249,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 250
+      "pasted_body": 252
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 90,
-        "uncovered_jit_functions": 91
+        "selected_body_copy_checked": 91,
+        "uncovered_jit_functions": 90
       }
     },
     "primary_files_with_int64_screen_warning": 19,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 64,
-        "antiquotes": 406,
+        "in_body_type_directives": 63,
+        "antiquotes": 405,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -35850,13 +35850,13 @@
       "python": "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py",
       "lean": "bench/tritonbench_g/token_attn_mistral/Kernels.lean",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 26,
-        "dsl_assignment": 3,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 43,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 1
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -35890,28 +35890,78 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel_token_att2",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 20,
+          "runtime_parameters": {
+            "stride_b_req_idx": "integer",
+            "stride_b_seq_len": "integer",
+            "stride_b_att_start": "integer",
+            "stride_b_att_len": "integer",
+            "stride_req_to_tokens_b": "integer",
+            "stride_req_to_tokens_s": "integer",
+            "stride_ph": "integer",
+            "stride_pbs": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "kv_group_num": "integer",
+            "sliding_window": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py",
-          "function": "_fwd_kernel_token_att2"
+          "lean": "bench/tritonbench_g/token_attn_mistral/Kernels.lean"
         },
         {
+          "python_function": "_fwd_kernel_token_att2_affine",
+          "lean_definition": "affineSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 20,
+          "runtime_parameters": {
+            "stride_b_req_idx": "integer",
+            "stride_b_seq_len": "integer",
+            "stride_b_att_start": "integer",
+            "stride_b_att_len": "integer",
+            "stride_req_to_tokens_b": "integer",
+            "stride_req_to_tokens_s": "integer",
+            "stride_ph": "integer",
+            "stride_pbs": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "kv_group_num": "integer",
+            "sliding_window": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/token_attn_mistral/token_attn_mistral_affine.py",
-          "function": "_fwd_kernel_token_att2_affine"
+          "lean": "bench/tritonbench_g/token_attn_mistral/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py",
-          "function": "_fwd_kernel_token_att2"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/token_attn_mistral/Kernels.lean": "756671fbb50d96b8b279ce10bed3e40bbd3fe2ce9f36be5772a6d42325815704",
+        "bench/tritonbench_g/token_attn_mistral/Kernels.lean": "3281a72d577c257cd8af19cda2da3192f6ba85d57e89e688e66567f09446feee",
+        "bench/tritonbench_g/token_attn_mistral/jit-correspondence.json": "bf2210674c8f358462722bddb8949d1d265aa84fd2a16fbb76e5dd25ac338124",
         "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py": "0c5cf97e58ab9539ba589afa4bda50e033222236826001b1ab7019c3d49bbabe",
         "bench/tritonbench_g/token_attn_mistral/token_attn_mistral_affine.py": "1493c32c4c3cdc7840b9df5f75c7ae295144d330d011658cf125a559ba721b45"
       },

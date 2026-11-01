@@ -27,6 +27,32 @@ variable {p : Parameters} {work : List Grid.PID} {counts : Fin work.length → N
     TokenAttnMistral.windowStart p (Grid.state m work[j])=Ports.window p x j := by
   exact congrArg (fun n=>max (n-p.window) 0) (f.sequenceLength j)
 
+theorem Facts.valid (f : Facts p work counts x m) (j : Fin work.length) :
+    ValidMetadata p (Grid.state m work[j]) := by
+  refine ⟨?_,?_,?_,?_,?_⟩
+  · change 0≤(m p.length.cast (work[j].1*p.sequenceStride)).read .int
+    rw [f.sequenceWord]
+    exact f.domain.sequence j
+  · change 0≤(m p.start.cast (work[j].1*p.attentionStartStride)).read .int
+    rw [f.startWord]
+    exact f.domain.start j
+  · change 0≤(m p.request.cast (work[j].1*p.requestStride)).read .int
+    rw [f.requestWord]
+    exact f.domain.request j
+  · change 0≤(m p.attentionLength.cast (work[j].1*p.attentionLengthStride)).read .int
+    rw [f.attentionWord]
+    exact Int.natCast_nonneg _
+  · intro n active aligned lane live
+    rw [f.count] at active
+    simp only [f.windowStart,f.sequenceLength] at live
+    have hspan := lane_bound p work counts j n active lane
+    have visit : Ports.visited p (counts j) (n+lane.val) :=
+      ⟨by have:=lane.isLt; omega,by rw [visited_lane p n aligned lane]; exact active⟩
+    have word := f.tokenWord j ⟨n+lane.val,hspan⟩ visit live
+    change 0≤(m p.tokens.cast (gatherOffset p (Grid.state m work[j]) (n+lane.val))).read .int
+    rw [gatherOffset,f.requestIndex,f.windowStart,word]
+    exact f.domain.token j ⟨n+lane.val,hspan⟩ visit live
+
 theorem Facts.probability_eq (f : Facts p work counts x m) (M : Algebra α)
     (domain : ∀ j,x.attention j=counts j) (j : Fin work.length)
     (n : Nat) (active : n<counts j) (lane : Fin p.block) :

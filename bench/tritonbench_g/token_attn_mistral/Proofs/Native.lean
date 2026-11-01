@@ -183,13 +183,14 @@ def observe (I : Instructions) (S : Schedule) (m : Grid.Memory Term) (r : Region
 
 theorem complete (I : Instructions) (R : Reductions) (S : Schedule)
     (p : Parameters) (work : List Grid.PID) (memory : Grid.Memory Word)
-    (separate : Grid.Separate p) (unique : Grid.Unique p work) :
+    (separate : Grid.Separate p) (unique : Grid.Unique p work)
+    (valid : ∀ pid∈work,ValidMetadata p (Grid.state (entry memory) pid)) :
     ∃ final, Grid.run algebra (reduction R) p work (entry memory)=some final ∧
       (∀ e∈Grid.events p work, observe I S final p.output (Grid.offset p e.1 e.2)=
         eval I S (Grid.values algebra (reduction R) p (entry memory) e)) ∧
       (∀ r o, (r≠p.output ∨ ∀ e∈Grid.events p work,o≠Grid.offset p e.1 e.2) →
         final r o=entry memory r o) := by
-  obtain ⟨final,run,_,readback,frame⟩ := Grid.whole algebra (reduction R) p work (entry memory) separate unique
+  obtain ⟨final,run,_,readback,frame⟩ := Grid.whole algebra (reduction R) p work (entry memory) separate unique valid
   refine ⟨final,run,?_,frame⟩
   intro e live
   simp only [observe,readback e live,Cell.read_same]

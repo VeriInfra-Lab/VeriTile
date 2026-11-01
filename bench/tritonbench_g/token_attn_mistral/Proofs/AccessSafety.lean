@@ -29,7 +29,7 @@ private theorem natural_window (n : Nat) : (if 0<n then n else 0)=n := by split 
 theorem prelude_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (s : State α) (bounds : RegionName → Nat) (inside : Bounds p s bounds) :
     traceSafeList (withSum M R) bounds (prelude p) s := by
-  simp (config := {maxSteps:=500000}) [prelude,kernel,source,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps:=500000}) [prelude,kernel,TokenAttnMistral.kernel,source,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,
@@ -40,8 +40,8 @@ theorem body_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (s t : State α) (n : Nat) (a : TileIndex [p.width] → α)
     (ready : Ready p s t a) (bounds : RegionName → Nat) (inside : Bounds p s bounds)
     (active : n<count p s) (aligned : n%p.block=0) :
-    traceSafeList (withSum M R) bounds (body p) (t.setReg "start_n" .nat [] (fun _=>n)) := by
-  simp (config := {maxSteps:=500000}) [body,kernel,source,ComputeKernel.surfaceBody,
+    traceSafeList (withSum M R) bounds (body p) (t.setReg "start_n" .int [] (fun _=>(n : Int))) := by
+  simp (config := {maxSteps:=500000}) [body,kernel,TokenAttnMistral.kernel,source,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,
@@ -49,6 +49,7 @@ theorem body_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     numeric,bop,numericLt,natLt,Region.cast,withSum,State.setReg,
     ready.mem,ready.pids,ready.undef,ready.batch,ready.head,ready.offsN,ready.offsD,
     ready.length,ready.sequence,ready.window,ready.prob,ready.gather,ready.value,ready.accumulator]
+  simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.ofNat_lt]
   refine ⟨?_,?_,?_⟩
   · intro j live
     have h := inside.probability (by have:=j.isLt; omega) (n+j.val) live
@@ -59,23 +60,32 @@ theorem body_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     simp only [gatherOffset,Nat.add_mul] at h ⊢
     convert h using 1 <;> ring
   · intro j d live
-    simpa only [gather,ready.mem,ite_mul,zero_mul] using inside.value n active aligned j live d
+    have shifted : gatherOffset p s j.val+n*p.requestTokenStride=gatherOffset p s (n+j.val) := by
+      unfold gatherOffset; ring
+    have nonnegative := ready.valid.tokens n active aligned j live
+    rw [←shifted] at nonnegative
+    simp only [Region.cast] at nonnegative
+    have word := Int.toNat_of_nonneg nonnegative
+    simp only [live,if_true,max_eq_left nonnegative]
+    rw [←word]
+    simpa only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,gather,live,if_true] using inside.value n active aligned j live d
 
 theorem loop_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (s t : State α) (n : Nat) (a : TileIndex [p.width] → α)
     (ready : Ready p s t a) (bounds : RegionName → Nat) (inside : Bounds p s bounds)
     (aligned : n%p.block=0) :
-    rangeSafe (withSum M R) bounds "start_n" n (count p s) p.block (body p) t := by
-  rw [rangeSafe_unfold]
+    rangeIntSafe (withSum M R) bounds "start_n" n (count p s) p.block (body p) t := by
+  rw [rangeIntSafe_unfold]
   by_cases zero : p.block=0
   · simp [zero]
   · simp only [zero,if_false]
     by_cases active : n<count p s
-    · simp only [active,if_true]
+    · have ai : (n : Int)<count p s := by exact_mod_cast active
+      simp only [ai,if_true]
       refine ⟨body_safe M R p s t n a ready bounds inside active aligned,?_⟩
-      obtain ⟨next,ran,inv⟩ := body_run M R p s t n a ready
+      obtain ⟨next,ran,inv⟩ := body_run M R p s t n a ready active aligned
       rw [ran]
-      exact loop_safe M R p s next (n+p.block) _ inv bounds inside (by simp [Nat.add_mod,aligned])
+      simpa only [Nat.cast_add] using loop_safe M R p s next (n+p.block) _ inv bounds inside (by simp [Nat.add_mod,aligned])
     · simp [active]
 termination_by count p s-n
 
@@ -83,7 +93,7 @@ theorem postlude_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (s t : State α) (a : TileIndex [p.width] → α) (ready : Ready p s t a)
     (bounds : RegionName → Nat) (inside : Bounds p s bounds) :
     traceSafeList (withSum M R) bounds (postlude p) t := by
-  simp (config := {maxSteps:=500000}) [postlude,kernel,source,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps:=500000}) [postlude,kernel,TokenAttnMistral.kernel,source,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
@@ -94,13 +104,13 @@ theorem postlude_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
   exact inside.output
 
 theorem complete (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
-    (s : State α) (bounds : RegionName → Nat) (inside : Bounds p s bounds) :
+    (s : State α) (bounds : RegionName → Nat) (inside : Bounds p s bounds) (valid : ValidMetadata p s) :
     TraceSafe (withSum M R) bounds (kernel p) s := by
   unfold TraceSafe
   rw [source_split,List.append_assoc,traceSafeList_append]
   refine ⟨prelude_safe M R p s bounds inside,?_⟩
   intro after ran
-  obtain ⟨middle,executed,ready⟩ := prelude_run M R p s
+  obtain ⟨middle,executed,ready⟩ := prelude_run M R p s valid
   rw [executed] at ran
   injection ran with eq
   subst after
@@ -108,9 +118,10 @@ theorem complete (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
   · simp only [stepSafe_unfold,safeExpr_unfold,safeOp_unfold,evalOp_unfold,ready.length]
     exact ⟨trivial,trivial,trivial,loop_safe M R p s middle 0 _ ready bounds inside (by simp)⟩
   · intro final ran
-    obtain ⟨next,executed,inv⟩ := range_run M R p s middle 0 (count p s) _ ready
+    obtain ⟨next,executed,inv⟩ := range_run M R p s middle 0 (count p s) _ ready (Nat.le_refl _) (by simp)
+    simp only [Nat.cast_zero] at executed
     simp only [step,evalOp_unfold,ready.length,Option.bind] at ran
-    change FP.Structural.range (withSum M R) "start_n" 0 (count p s) p.block (body p) middle=some final at ran
+    change FP.Structural.rangeInt (withSum M R) "start_n" 0 (count p s) p.block (body p) middle=some final at ran
     rw [executed] at ran
     injection ran with eq
     subst final

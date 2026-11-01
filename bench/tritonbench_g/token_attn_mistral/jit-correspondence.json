@@ -1,0 +1,306 @@
+[
+  {
+    "python": "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py",
+    "lean": "bench/tritonbench_g/token_attn_mistral/Kernels.lean",
+    "python_function": "_fwd_kernel_token_att2",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Req_to_tokens",
+          "i32"
+        ],
+        [
+          "B_req_idx",
+          "i32"
+        ],
+        [
+          "B_Start_Loc",
+          "i32"
+        ],
+        [
+          "B_Seqlen",
+          "i32"
+        ],
+        [
+          "B_Att_Start_Loc",
+          "i32"
+        ],
+        [
+          "B_Att_Seqlen",
+          "i32"
+        ]
+      ],
+      "floatingPointers": [
+        [
+          "Prob",
+          "dtype"
+        ],
+        [
+          "V",
+          "dtype"
+        ],
+        [
+          "Out",
+          "dtype"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_b_req_idx",
+          "integer"
+        ],
+        [
+          "stride_b_seq_len",
+          "integer"
+        ],
+        [
+          "stride_b_att_start",
+          "integer"
+        ],
+        [
+          "stride_b_att_len",
+          "integer"
+        ],
+        [
+          "stride_req_to_tokens_b",
+          "integer"
+        ],
+        [
+          "stride_req_to_tokens_s",
+          "integer"
+        ],
+        [
+          "stride_ph",
+          "integer"
+        ],
+        [
+          "stride_pbs",
+          "integer"
+        ],
+        [
+          "stride_vbs",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vd",
+          "integer"
+        ],
+        [
+          "stride_obs",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_od",
+          "integer"
+        ],
+        [
+          "kv_group_num",
+          "integer"
+        ],
+        [
+          "sliding_window",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_DMODEL",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "B_Seqlen",
+        "B_Att_Start_Loc",
+        "B_req_idx",
+        "B_Att_Seqlen",
+        "Prob",
+        "Req_to_tokens",
+        "V"
+      ],
+      "writePorts": [
+        "Out"
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_b_req_idx": "stride_b_req_idx",
+      "stride_b_seq_len": "stride_b_seq_len",
+      "stride_b_att_start": "stride_b_att_start",
+      "stride_b_att_len": "stride_b_att_len",
+      "stride_req_to_tokens_b": "stride_req_to_tokens_b",
+      "stride_req_to_tokens_s": "stride_req_to_tokens_s",
+      "stride_ph": "stride_ph",
+      "stride_pbs": "stride_pbs",
+      "stride_vbs": "stride_vbs",
+      "stride_vh": "stride_vh",
+      "stride_vd": "stride_vd",
+      "stride_obs": "stride_obs",
+      "stride_oh": "stride_oh",
+      "stride_od": "stride_od",
+      "kv_group_num": "kv_group_num",
+      "sliding_window": "sliding_window"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/token_attn_mistral/token_attn_mistral_affine.py",
+    "lean": "bench/tritonbench_g/token_attn_mistral/Kernels.lean",
+    "python_function": "_fwd_kernel_token_att2_affine",
+    "lean_definition": "affineSource",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Req_to_tokens",
+          "i32"
+        ],
+        [
+          "B_req_idx",
+          "i32"
+        ],
+        [
+          "B_Start_Loc",
+          "i32"
+        ],
+        [
+          "B_Seqlen",
+          "i32"
+        ],
+        [
+          "B_Att_Start_Loc",
+          "i32"
+        ],
+        [
+          "B_Att_Seqlen",
+          "i32"
+        ]
+      ],
+      "floatingPointers": [
+        [
+          "Prob",
+          "dtype"
+        ],
+        [
+          "V",
+          "dtype"
+        ],
+        [
+          "Out",
+          "dtype"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_b_req_idx",
+          "integer"
+        ],
+        [
+          "stride_b_seq_len",
+          "integer"
+        ],
+        [
+          "stride_b_att_start",
+          "integer"
+        ],
+        [
+          "stride_b_att_len",
+          "integer"
+        ],
+        [
+          "stride_req_to_tokens_b",
+          "integer"
+        ],
+        [
+          "stride_req_to_tokens_s",
+          "integer"
+        ],
+        [
+          "stride_ph",
+          "integer"
+        ],
+        [
+          "stride_pbs",
+          "integer"
+        ],
+        [
+          "stride_vbs",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vd",
+          "integer"
+        ],
+        [
+          "stride_obs",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_od",
+          "integer"
+        ],
+        [
+          "kv_group_num",
+          "integer"
+        ],
+        [
+          "sliding_window",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_DMODEL",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "B_Seqlen",
+        "B_Att_Start_Loc",
+        "B_req_idx",
+        "B_Att_Seqlen",
+        "Prob",
+        "Req_to_tokens",
+        "V"
+      ],
+      "writePorts": [
+        "Out"
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_b_req_idx": "stride_b_req_idx",
+      "stride_b_seq_len": "stride_b_seq_len",
+      "stride_b_att_start": "stride_b_att_start",
+      "stride_b_att_len": "stride_b_att_len",
+      "stride_req_to_tokens_b": "stride_req_to_tokens_b",
+      "stride_req_to_tokens_s": "stride_req_to_tokens_s",
+      "stride_ph": "stride_ph",
+      "stride_pbs": "stride_pbs",
+      "stride_vbs": "stride_vbs",
+      "stride_vh": "stride_vh",
+      "stride_vd": "stride_vd",
+      "stride_obs": "stride_obs",
+      "stride_oh": "stride_oh",
+      "stride_od": "stride_od",
+      "kv_group_num": "kv_group_num",
+      "sliding_window": "sliding_window"
+    }
+  }
+]
