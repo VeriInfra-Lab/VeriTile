@@ -52,9 +52,11 @@
       "cases": 1,
       "retained_modules": 43,
       "replay_sources": 43,
-      "state": "local_proofs_pass_official_replay_pending",
+      "state": "official_replay_running",
       "case": "bench/tritonbench_g/layer_norm_welfold",
-      "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0"
+      "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41358544189",
+      "source_commit": "75df3c770d3461f53e8bf2c0ab6a97dda7bcd931"
     },
     "previous_incremental_replays": [
       {
