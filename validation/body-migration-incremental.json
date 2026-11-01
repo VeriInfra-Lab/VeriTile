@@ -3,49 +3,65 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/chunked_cumsum_fwd",
-      "python": "bench/tritonbench_g/chunked_cumsum_fwd/chunked_cumsum_fwd.py",
+      "path": "bench/tritonbench_g/batched_vecmat_mult",
+      "python": "bench/tritonbench_g/batched_vecmat_mult/batched_vecmat_mult.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/chunked_cumsum_fwd/Correct.lean": [
-          "VeriTile.Bench.Repairs.ChunkedCumsumFwd.Correct.kernel_correct"
+        "bench/tritonbench_g/batched_vecmat_mult/Correct.lean": [
+          "VeriTile.Bench.Repairs.BatchedVecmatMult.Correctness.batched_vecmat_grid_real"
         ],
-        "bench/tritonbench_g/chunked_cumsum_fwd/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.ChunkedCumsumFwd.KernelOnly.FPEquiv.chunked_cumsum_scaleFirst_equiv"
+        "bench/tritonbench_g/batched_vecmat_mult/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.BatchedVecmatMult.Equivalence.block_first_strict"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Correct.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/FPEquiv.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Kernels.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/AccessSafety.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/IO.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/IOCorrect.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/IOReal.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/Interface.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelExecution.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelGeometry.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelGrid.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelIO.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelIndex.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelMath.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelMemory.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelObserved.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelScalar.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelSource.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelValues.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/LogicalIO.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairCorrect.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairIO.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairNumeric.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairSafety.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairSemantics.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairSource.lean",
-    "bench/tritonbench_g/chunked_cumsum_fwd/Sources/Mathematical_Kernels.lean",
-    "tests/lean/UnsignedCallArguments.lean"
+    "bench/tritonbench_g/batched_vecmat_mult/Contract.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Correct.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/FPEquiv.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/IO.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Kernels.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/AdmissionCore.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/FiniteIndex.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/IOResults.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/IOSchedule.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/IndexModel.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/KernelProfile.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/KernelSafety.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_HostAccess.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_HostGrid.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_HostPrepare.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_Real.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_RealFoundation.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_RealSource.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraph.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphAccess.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphComplete.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphExecution.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphGrid.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphModel.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphOutputBounds.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphReadback.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphReal.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphSchedule.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphScheduleInputs.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_SourceGraphTensor.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_ValueComplete.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_ValueCorrect.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_ValueExecution.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Mathematical_ValueModel.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/PairComplete.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/PairExecution.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/PairIO.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/PairModel.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/PairNumerics.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/PairSafety.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Real.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/batched_vecmat_mult/Sources/Parameters.lean"
   ]
 }

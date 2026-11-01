@@ -12,9 +12,9 @@ attribute [local irreducible] FP.add FP.mul treeValue
 
 theorem fold_write_memory (p : Parameters) (initial s : State Word)
     (values : TileIndex [p.BM,p.BN] → Word) (xs : List (TileIndex [p.BM,p.BN])) :
-    (xs.foldl (fun t i => t.write p.output (outputOffset p initial i) (.mk .real (values i))) s).mem =
+    (xs.foldl (fun t i => t.write p.output (outputOffset p initial i) (.mk .fp32 (values i))) s).mem =
       xs.foldl (fun mem i => fun r o => if r = p.output ∧ o = outputOffset p initial i then
-        .mk .real (values i) else mem r o) s.mem := by
+        .mk .fp32 (values i) else mem r o) s.mem := by
   induction xs generalizing s with
   | nil => rfl
   | cons i xs ih =>

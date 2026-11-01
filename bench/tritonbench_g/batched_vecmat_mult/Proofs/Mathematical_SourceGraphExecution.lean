@@ -10,16 +10,16 @@ set_option linter.unusedSimpArgs false
 local instance : Inhabited Word := ⟨Expr.zero⟩
 attribute [local irreducible] treeValue
 
-def prologue (p : Parameters) := (source p).surfaceBody.take 5
+def prologue (p : Parameters) := (source p).surfaceBody.take 7
 def body (p : Parameters) : List ComputeStmt :=
-  match (source p).surfaceBody[5]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ b) => b
+  match (source p).surfaceBody[7]? with
+  | some (ComputeStmt.forRangeInt _ _ _ _ b) => b
   | _ => []
-def tail (p : Parameters) := (source p).surfaceBody.drop 6
+def tail (p : Parameters) := (source p).surfaceBody.drop 8
 
 theorem source_split (p : Parameters) :
     (source p).surfaceBody = prologue p ++
-      [.forRangeDyn "k_index" (.constNat 0) (.ref .nat [] "k_blocks") (.constNat 1) (body p)] ++
+      [.forRangeInt "k_index" (.constInt 0) (.ref .int [] "k_blocks") (.constNat 1) (body p)] ++
       tail p := by rfl
 
 def prologueExecution (rest : Algebra Word) (plans : PlanSelector)
@@ -27,7 +27,7 @@ def prologueExecution (rest : Algebra Word) (plans : PlanSelector)
     {t : State Word // run (engine rest plans) (prologue p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [prologue, source, TypedSource.original, ComputeKernel.surfaceBody,
+  simp [prologue, source, TypedSource.original, VeriTile.Bench.Repairs.BatchedVecmatMult.kernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     engine, numeric, integralFloorDiv, ComputeDType.eraseDType,
     State.setReg, bop]
@@ -46,10 +46,10 @@ def bodyExecution (rest : Algebra Word) (plans : PlanSelector)
     (p : Parameters) (initial current : State Word) (c : Nat)
     (h : Invariant plans p initial c current) :
     {t : State Word // run (engine rest plans) (body p)
-      (current.setReg "k_index" .nat [] (fun _ => c)) = some t} := by
+      (current.setReg "k_index" .int [] (fun _ => (c:Int))) = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [body, source, TypedSource.original, ComputeKernel.surfaceBody,
+  simp [body, source, TypedSource.original, VeriTile.Bench.Repairs.BatchedVecmatMult.kernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     engine, numeric, integralFloorDiv, ComputeDType.eraseDType,
     State.setReg, bop, h.mi, h.ni, h.offsets, h.carry, h.blocks, h.memory, Region.cast]
