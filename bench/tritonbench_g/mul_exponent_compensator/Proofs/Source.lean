@@ -1,5 +1,6 @@
 import bench.tritonbench_g.mul_exponent_compensator.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_TypedFloat
+import Mathlib.Tactic.NormNum
 
 namespace VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous
 open VeriTile.Triton FP.Structural
@@ -10,6 +11,12 @@ set_option maxHeartbeats 6000000
 set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
+theorem signed_offset (pid B i : Nat) :
+    ((pid : Int) * (B : Int) + (i : Int)).toNat = pid*B+i := by norm_cast
+
+theorem signed_mask (pid B i n : Nat) :
+    ((pid : Int) * (B : Int) + (i : Int) < (n : Int)) ↔ pid*B+i<n := by norm_cast
+
 def active {α : Type} [Inhabited α] (p : Parameters) (s : State α) (i : TileIndex [p.block]) : Prop :=
   offset p s i < p.n
 
@@ -17,7 +24,7 @@ instance {α : Type} [Inhabited α] (p : Parameters) (s : State α) (i : TileInd
     Decidable (active p s i) := by unfold active; infer_instance
 
 def scalar {α : Type} (M : Algebra α) (x : α) : α :=
-  M.binary (some .fp32) .real .mul (M.fp32Load x) (M.literal none .real exponentCompensator)
+  M.binary (some .fp32) .real .mul (M.fp32Load x) (M.literal (some .fp32) .real exponentCompensator)
 
 def resultCell {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (mem : RegionName → Nat → Cell α) (o : Nat) : Cell α :=
@@ -36,7 +43,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // FP.Structural.exec M (candidateKernel p.x p.output p.n p.block) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [candidateKernel,FP.Structural.exec,ComputeKernel.surfaceBody,
+  simp [candidateKernel,sourceBody,FP.Structural.exec,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     numericLt,natLt,bop,store,Region.cast,ComputeDType.eraseDType]
   rfl
@@ -44,7 +51,9 @@ def execution {α : Type} [Inhabited α] (M : Algebra α)
 theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α)
     (p : Parameters) (s : State α) :
     (execution M p s).val.mem = expectedMemory M p s := by
-  simp [execution,expectedMemory,offset,active,resultCell,scalar,bop,
+  simp [execution,expectedMemory,offset,active,resultCell,scalar,bop,numeric,
+    signed_offset,signed_mask,Region.cast,exponentCompensator,
+    VeriTile.Bench.TritonBenchG.MulExponentCompensator.exponentCompensator,
     Broadcast.leftIndex,Broadcast.rightIndex,VeriTile.Bench.TritonBenchG.VectorAddition.ValueProofs.masked_scatter_memory,State.setReg]
   congr 1
   funext mem i
@@ -110,7 +119,7 @@ theorem complete_correct {α : Type} [Inhabited α] (M : Algebra α)
   ⟨(execution M p s).val, (execution M p s).property,
     execution_memory M p s⟩
 
-#specNonCircular expectedMemory avoiding [candidateKernel, FP.Structural.exec]
+#specNonCircular expectedMemory avoiding [candidateKernel,sourceBody, FP.Structural.exec]
 #axiomsClean expected_cell
 #axiomsClean complete_correct
 #axiomsClean execution

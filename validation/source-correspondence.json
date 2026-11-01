@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 67,
-      "uncovered_jit_functions": 114
+      "selected_body_copy_checked": 68,
+      "uncovered_jit_functions": 113
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 226,
+    "uncovered_selected_jit_functions": 224,
     "inventoried_jit_functions": 494,
-    "uncovered_inventoried_jit_functions": 291,
+    "uncovered_inventoried_jit_functions": 289,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 197
+      "pasted_body": 199
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 67,
-        "uncovered_jit_functions": 114
+        "selected_body_copy_checked": 68,
+        "uncovered_jit_functions": 113
       }
     },
-    "primary_files_with_int64_screen_warning": 30,
+    "primary_files_with_int64_screen_warning": 29,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 83,
-        "antiquotes": 427,
+        "in_body_type_directives": 82,
+        "antiquotes": 426,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -26965,9 +26965,9 @@
       "lean": "bench/tritonbench_g/mul_exponent_compensator/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 8,
-        "dsl_assignment": 6,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -27041,32 +27041,46 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "mul_kernel_repaired",
+          "lean_definition": "sourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {
+            "n_elements": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator.py",
-          "function": "mul_kernel_repaired"
+          "lean": "bench/tritonbench_g/mul_exponent_compensator/Kernels.lean"
         },
         {
+          "python_function": "mul_kernel_scalar_left",
+          "lean_definition": "scalarLeftBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator.py",
-          "function": "mul_kernel_scalar_left"
+          "lean": "bench/tritonbench_g/mul_exponent_compensator/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator.py",
-          "function": "mul_kernel_repaired"
-        },
-        {
-          "python": "bench/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator.py",
-          "function": "mul_kernel_scalar_left"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/mul_exponent_compensator/Kernels.lean": "4001f51554e80199587f8a9d61cd5098762f5a42977b7a30a1e85cab8809dd79",
+        "bench/tritonbench_g/mul_exponent_compensator/Kernels.lean": "ceaeb3413e5259e3e3c511f616a1ea4f32a1cb9b1303ee03b55a8c8f41ddc2d3",
+        "bench/tritonbench_g/mul_exponent_compensator/jit-correspondence.json": "aa8df998e96b760a11c6e878ee4c2bf4b7d5b2efcb90eeb61fef99c64ead48d4",
         "bench/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator.py": "8c10c8966ec6bb16ee5701779329c2dd8922d3cae434ee620652d29c1fcaa7b4"
       },
       "collection": "tritonbench_g",
