@@ -11,7 +11,7 @@
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 3361,
-    "official_comparator": "120 targets have exact current-source/import-closure official receipts, including all 19 examples. BmmChunkBwd is locally validated and awaits a fresh exact-source independent replay. Successful compilation and body correspondence alone do not certify completion.",
+    "official_comparator": "120 targets have exact current-source/import-closure official receipts, including all 19 examples. BmmChunkBwd run 41347223281 replays the exact c5bb57dff0873783f7df0a67c58832e9ccfd8bcd snapshot and all 43 task/support files. It remains incomplete pending its accepted current-source receipt.",
     "python_tests": 442,
     "offline_example_compilations": {
       "cases": 19,
@@ -54,7 +54,9 @@
       "retained_modules": 43,
       "replay_sources": 43,
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "state": "awaiting_official_dispatch"
+      "state": "official_replay_running",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41347223281",
+      "source_commit": "c5bb57dff0873783f7df0a67c58832e9ccfd8bcd"
     },
     "previous_incremental_replays": [
       {
