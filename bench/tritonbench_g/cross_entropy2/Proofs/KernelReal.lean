@@ -19,7 +19,7 @@ theorem logits_scalar (p : Parameters) (initial : State (WithBot ℝ))
       CrossEntropy1.Source.loadedLogits (Source.scaled RealSource.algebra p.logitScale) p.toParameters
         (scalarMemory initial) (initial.pids 0) (initial.pids 1) lane := by
   by_cases active : initial.pids 1*p.block+lane.val<p.cols
-  all_goals simp [active,KernelNative.logits,Source.scaled,CrossEntropy1.Source.loadedLogits,CrossEntropy1.Source.load,
+  all_goals simp [active,KernelNative.logits,KernelNative.loadedLogits,Source.scaled,CrossEntropy1.Source.loadedLogits,CrossEntropy1.Source.load,
     CrossEntropy1.Source.column,CrossEntropy1.Source.logitAddress,
     RuntimeArgs.fp,CrossEntropy1.RuntimeArgs.fp,abi.logitScale,arguments,algebra,CrossEntropy1.KernelReal.algebra,
     RealSource.algebra,CrossEntropy1.RealSource.algebra,scalarMemory,CrossEntropy1.Source.Cell.read]
@@ -104,7 +104,7 @@ theorem gradient_scalar (p : Parameters) (initial : State (WithBot ℝ))
     all_goals
       simp [KernelNative.gradientValue,hit,
         KernelNative.inputLSE,KernelNative.inputUpstream,Source.backwardValues,hs,ignored,
-        ← target_scalar,KernelNative.logits,CrossEntropy1.Source.loadedLogits,CrossEntropy1.Source.column,
+        ← target_scalar,KernelNative.logits,KernelNative.loadedLogits,CrossEntropy1.Source.loadedLogits,CrossEntropy1.Source.column,
         Source.scaled,Source.load,CrossEntropy1.Source.logitAddress,
         Source.fp,Source.nat,Source.binary,Source.unary,
         CrossEntropy1.Source.fp,CrossEntropy1.Source.nat,CrossEntropy1.Source.binary,CrossEntropy1.Source.unary,CrossEntropy1.Source.load,

@@ -1507,3 +1507,63 @@ class CrossEntropy1BodyCorrespondenceTests(unittest.TestCase):
             self.assertEqual([t.id for t in assignment.targets], ['col_offsets'])
             self.assertEqual(ast.unparse(replacement),
                              'col_offsets = BLOCK_SIZE * col_block_idx + tl.arange(0, BLOCK_SIZE).to(tl.int64)')
+
+
+class CrossEntropy2BodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/cross_entropy2'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, record, source):
+        return check((ROOT / record['python']).read_text(), source,
+                     record['python_function'], record['lean_definition'], record['signature_definition'],
+                     record['expected_signature'], expected_pointer_offsets=record['expected_pointer_offsets'])
+
+    def test_all_four_complete_bodies_and_signed_label_width(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [15, 15, 17, 17])
+        with self.assertRaises(ValueError):
+            self.verify(self.records[0], self.source.replace('("labels_ptr",.i32)', '("labels_ptr",.i64)', 1))
+
+    def test_class_ownership_padding_casts_and_z_loss_address_are_preserved(self):
+        changes = [('label_idx < class_start_idx + n_cols', 'label_idx <= class_start_idx + n_cols'),
+                   ('logits_row_stride.to(tl.int64)', 'logits_row_stride'),
+                   ('other=0.0', 'other=-float("inf")'),
+                   ('z_loss_ptr := p.zLossBase', 'z_loss_ptr := p.lossBase'),
+                   ('lse_square_scale * lse * lse', 'lse_square_scale * (lse * lse)')]
+        for old, new in changes:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[0], self.source.replace(old, new, 1))
+
+    def test_backward_owner_selection_and_multiplication_order_are_preserved(self):
+        changes = [('tl.where(owns_target, label_idx, class_start_idx)', 'label_idx'),
+                   ('(dloss * logit_scale) * probs', 'dloss * (logit_scale * probs)'),
+                   ('tl.where(is_ignored, 0.0, (dloss * logit_scale) * probs)', '(dloss * logit_scale) * probs'),
+                   ('dlogits_ptr := p.gradientBase', 'dlogits_ptr := p.logitsBase')]
+        for old, new in changes:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                # Only mutate the backward quotation, after the two forward bodies.
+                prefix, backward = self.source.split('def backwardBody', 1)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[2], prefix + 'def backwardBody' + backward.replace(old, new, 1))
+
+    def test_candidates_change_only_the_existing_integer_product(self):
+        def functions(name):
+            return [n for n in ast.parse((self.directory / name).read_text()).body
+                    if isinstance(n, ast.FunctionDef) and n.name.startswith('cross_entropy_')][:2]
+        original = functions('cross_entropy2.py')
+        candidates = functions('cross_entropy2_index_commuted.py')
+        self.assertEqual(len(original), len(candidates))
+        for before, after in zip(original, candidates):
+            self.assertEqual(ast.dump(before.args), ast.dump(after.args))
+            self.assertEqual(len(before.body), len(after.body))
+            differences = [(a, b) for a, b in zip(before.body, after.body) if ast.dump(a) != ast.dump(b)]
+            self.assertEqual(len(differences), 1)
+            assignment, replacement = differences[0]
+            self.assertEqual([t.id for t in assignment.targets], ['col_offsets'])
+            self.assertEqual(ast.unparse(replacement),
+                             'col_offsets = BLOCK_SIZE * col_block_idx + tl.arange(0, BLOCK_SIZE).to(tl.int64)')
