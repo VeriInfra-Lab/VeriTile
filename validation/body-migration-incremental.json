@@ -3,68 +3,35 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/fast_rope_embedding",
-      "python": "bench/tritonbench_g/fast_rope_embedding/fast_rope_embedding.py",
+      "path": "bench/tritonbench_g/mul_exponent_compensator",
+      "python": "bench/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/fast_rope_embedding/Correct.lean": [
-          "VeriTile.Bench.Repairs.FastRopeEmbedding.fast_rope_kernel_correctness"
+        "bench/tritonbench_g/mul_exponent_compensator/Correct.lean": [
+          "VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.Correct.kernel_real"
         ],
-        "bench/tritonbench_g/fast_rope_embedding/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.FastRopeEmbedding.FPEquiv.fast_rope_kernel_equivalent"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/rope_embedding",
-      "python": "bench/tritonbench_g/rope_embedding/rope_embedding.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/rope_embedding/Correct.lean": [
-          "VeriTile.Bench.Repairs.RopeEmbedding.rope_embedding_kernel_correct"
-        ],
-        "bench/tritonbench_g/rope_embedding/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.RopeEmbedding.rope_embedding_index_commuted_equiv"
+        "bench/tritonbench_g/mul_exponent_compensator/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.FPEquiv.scalar_left_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/fast_rope_embedding/Contract.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Correct.lean",
-    "bench/tritonbench_g/fast_rope_embedding/FPEquiv.lean",
-    "bench/tritonbench_g/fast_rope_embedding/IO.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Kernels.lean",
-    "bench/tritonbench_g/fast_rope_embedding/PairIO.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Proofs/AccessSafety.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Proofs/IOPair.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Proofs/Interface.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Proofs/InvocationBindings.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Proofs/KernelInterface.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Proofs/LogicalIO.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Proofs/Mathematical_FP.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Proofs/ProgramPair.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Proofs/RealIO.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Proofs/SourcePair.lean",
-    "bench/tritonbench_g/fast_rope_embedding/Sources/Mathematical_Kernels.lean",
-    "bench/tritonbench_g/rope_embedding/Contract.lean",
-    "bench/tritonbench_g/rope_embedding/Correct.lean",
-    "bench/tritonbench_g/rope_embedding/FPEquiv.lean",
-    "bench/tritonbench_g/rope_embedding/IO.lean",
-    "bench/tritonbench_g/rope_embedding/Kernels.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/Bridge.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/Contract.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/Group.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/Kernel.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/KernelAccess.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/KernelBinding.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/KernelFP.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/NativeGraph.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/Pair.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/RealBinding.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/Schedule.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/Source.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/SourceBinding.lean",
-    "bench/tritonbench_g/rope_embedding/Proofs/Spec.lean"
+    "bench/tritonbench_g/mul_exponent_compensator/Contract.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Correct.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/FPEquiv.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/IO.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Kernels.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/PairIO.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/Commuted.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/Grid.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/IOComplete.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/KernelArithmetic.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/ScheduledSource.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/Source.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Sources/Mathematical_Kernels.lean",
+    "tests/lean/BinaryPowerConstants.lean"
   ]
 }

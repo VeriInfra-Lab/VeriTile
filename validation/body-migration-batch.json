@@ -1165,6 +1165,19 @@
           "VeriTile.Bench.Repairs.RopeEmbedding.rope_embedding_index_commuted_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/mul_exponent_compensator",
+      "python": "bench/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/mul_exponent_compensator/Correct.lean": [
+          "VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/mul_exponent_compensator/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.FPEquiv.scalar_left_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1499,6 +1512,21 @@
     "bench/tritonbench_g/mean_reduction/Proofs/Mathematical_Real.lean",
     "bench/tritonbench_g/mean_reduction/Proofs/Mathematical_Source.lean",
     "bench/tritonbench_g/mean_reduction/Proofs/Mathematical_WholeFPValue.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Contract.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Correct.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/FPEquiv.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/IO.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Kernels.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/PairIO.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/Commuted.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/Grid.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/IOComplete.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/KernelArithmetic.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/ScheduledSource.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/Source.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/mul_exponent_compensator/Sources/Mathematical_Kernels.lean",
     "bench/tritonbench_g/nested_loops_processing/Kernels.lean",
     "bench/tritonbench_g/nested_loops_processing/Proofs/SourceSafety.lean",
     "bench/tritonbench_g/nested_loops_processing/Proofs/TypedFP.lean",
@@ -1852,6 +1880,7 @@
     "bench/tritonbench_g/vector_addition/Parameters.lean",
     "bench/tritonbench_g/vector_addition/Sources/Mathematical_Value.lean",
     "bench/tritonbench_g/vector_addition_custom/Kernels.lean",
+    "tests/lean/BinaryPowerConstants.lean",
     "tests/lean/CallArgumentCapture.lean",
     "tests/lean/CallArguments.lean",
     "tests/lean/CallScalarPrecision.lean",
