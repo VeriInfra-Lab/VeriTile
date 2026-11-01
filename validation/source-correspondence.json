@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 83,
-      "uncovered_jit_functions": 98
+      "selected_body_copy_checked": 84,
+      "uncovered_jit_functions": 97
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 205,
+    "uncovered_selected_jit_functions": 204,
     "inventoried_jit_functions": 502,
-    "uncovered_inventoried_jit_functions": 268,
+    "uncovered_inventoried_jit_functions": 266,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 228
+      "pasted_body": 230
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 83,
-        "uncovered_jit_functions": 98
+        "selected_body_copy_checked": 84,
+        "uncovered_jit_functions": 97
       }
     },
-    "primary_files_with_int64_screen_warning": 22,
+    "primary_files_with_int64_screen_warning": 21,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 71,
-        "antiquotes": 413,
+        "in_body_type_directives": 70,
+        "antiquotes": 412,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -23748,9 +23748,9 @@
       "lean": "bench/tritonbench_g/layernorm_fwd_triton/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 4,
-        "antiquotes": 54,
-        "dsl_assignment": 12,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 36,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 4
@@ -23934,28 +23934,64 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_layer_norm_fwd_kernel",
+          "lean_definition": "runtimeSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 25,
+          "runtime_parameters": {
+            "stride_x_N": "integer",
+            "stride_x_hn": "integer",
+            "stride_x_hd": "integer",
+            "stride_y_N": "integer",
+            "stride_y_hn": "integer",
+            "stride_y_hd": "integer",
+            "stride_w_hn": "integer",
+            "stride_w_hd": "integer",
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py",
-          "function": "_layer_norm_fwd_kernel"
+          "lean": "bench/tritonbench_g/layernorm_fwd_triton/Kernels.lean"
         },
         {
+          "python_function": "_layer_norm_fwd_kernel_scheduled",
+          "lean_definition": "runtimeSourceCandidate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 25,
+          "runtime_parameters": {
+            "stride_x_N": "integer",
+            "stride_x_hn": "integer",
+            "stride_x_hd": "integer",
+            "stride_y_N": "integer",
+            "stride_y_hn": "integer",
+            "stride_y_hd": "integer",
+            "stride_w_hn": "integer",
+            "stride_w_hd": "integer",
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_scheduled.py",
-          "function": "_layer_norm_fwd_kernel_scheduled"
+          "lean": "bench/tritonbench_g/layernorm_fwd_triton/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py",
-          "function": "_layer_norm_fwd_kernel"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/layernorm_fwd_triton/Kernels.lean": "7f6267077cd7a050b9a48714d5ba9c5b869a8e9a0dd6512ace6b9655e60ca93f",
+        "bench/tritonbench_g/layernorm_fwd_triton/Kernels.lean": "4004ee6fc6f3fca03b968a8ca9ec041f789e56fc83667e4a748c40a605146025",
+        "bench/tritonbench_g/layernorm_fwd_triton/jit-correspondence.json": "d69edf36d809d7136ae44667d2363473e577f1696393d3aa4b60f2f23b789b52",
         "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py": "a22618b08165692510fbf836cd2f7ad87943610902d3ee85016824e34e82aae9",
         "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_scheduled.py": "c63ae9678e16f68584814ef1521f00ea679c67f84008cb9c4eb9c81d8a70b274"
       },
