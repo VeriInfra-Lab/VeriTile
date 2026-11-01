@@ -13,10 +13,10 @@ local notation "x" => data rest P p pid vals
 theorem scores_eq (b : Nat) :
     SourceValue.scores P .fp32 p s b=Logical.scores P p pid x b := by
   funext i
-  simp only [SourceValue.scores,Logical.scores,readScore,Storage.dtype,SourceValue.active,
+  simp only [SourceValue.scores,loadedScores,storageLoad,Logical.scores,readScore,Storage.dtype,SourceValue.active,
     SourceValue.row,scoreOffset,Logical.row,IOUndef.row,samePid]
   split_ifs with h
-  · exact congrArg (P.cast (some .fp32) .real .real)
+  · exact congrArg (fun loaded=>P.cast (some .fp32) .real .real (P.load32 loaded))
       (IOFacts.score_read rest P p pid vals s bound _ _ h.1 h.2)
   · rfl
 

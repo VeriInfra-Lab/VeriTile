@@ -7,13 +7,13 @@ set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
-def headCode (p : Parameters) := (prologue .fp32 p).take 7
+def headCode (p : Parameters) := (prologue .fp32 p).take 5
 def offsetExpr (p : Parameters) : Op .int [p.block] :=
   Op.intToSigned 32 (.load .int (.region p.offsets (.ref .nat [p.block] "off"))
     (.mask (.ref .bool [p.block] "off_mask")))
 def offsetCode (p : Parameters) : List ComputeStmt :=
   [.assign .int [p.block] "offset" (.alg (offsetExpr p))]
-def lastCode (p : Parameters) := (prologue .fp32 p).drop 8
+def lastCode (p : Parameters) := (prologue .fp32 p).drop 6
 
 theorem prologue_decomposition (d : Storage) (p : Parameters) :
     prologue d p = headCode p ++ offsetCode p ++ lastCode p := by cases d <;> rfl
@@ -36,7 +36,7 @@ def headExecution (rest : Algebra α) (P : Primitives α) (p : Parameters) (s : 
     {t : State α // run (backend rest P) (headCode p) s = some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [headCode, prologue, source, original, Source.original, ComputeKernel.surfaceBody,
+  simp [headCode, prologue, source, original, Source.original,Source.originalBody, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, FP.Structural.evalOp, backend,
     FP.Structural.numeric, FP.Structural.natLt, FP.Structural.bop,
     Broadcast.leftIndex, Broadcast.rightIndex, Region.cast, Option.bind,
@@ -118,7 +118,7 @@ def lastExecution (rest : Algebra α) (P : Primitives α) (p : Parameters) (s : 
       Random.IntegerType.i64.inRange (seedValue p s (a,b)) = Bool.true := h (a,b)
   refine ⟨?_,?_⟩
   swap
-  simp [lastCode, prologue, source, original, Source.original, ComputeKernel.surfaceBody,
+  simp [lastCode, prologue, source, original, Source.original,Source.originalBody, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, FP.Structural.evalOp, backend,
     hs, narrowed32_bmod_inRange, offsetValue, FP.Structural.numeric, FP.Structural.bop,
     Broadcast.leftIndex, Broadcast.rightIndex, Region.cast, Option.bind,

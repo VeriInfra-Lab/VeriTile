@@ -1699,3 +1699,52 @@ class FastLayernormBodyCorrespondenceTests(unittest.TestCase):
                 changes = [(a, b) for a, b in zip(before.body, after.body) if ast.dump(a) != ast.dump(b)]
                 self.assertEqual(len(changes), 1)
                 self.assertEqual(ast.unparse(changes[0][1]), 'X += tl.cast(X_row_stride, tl.int64) * row_idx')
+
+
+class MultinomialBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/multinomial_sampling'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, record, source):
+        return check((ROOT / record['python']).read_text(), source,
+                     record['python_function'], record['lean_definition'], record['signature_definition'],
+                     record['expected_signature'], expected_call_bindings=record['expected_call_bindings'],
+                     expected_integer_args=record['expected_integer_args'],
+                     expected_arange_args=record['expected_arange_args'])
+
+    def test_complete_original_and_static_unroll_bodies(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [12, 12])
+
+    def test_seed_offset_and_score_conversions_are_retained(self):
+        for old, new in [('tl.load(Offsets + off, mask=off_mask).to(tl.int32)',
+                          'tl.load(Offsets + off, mask=off_mask)'),
+                         ('other=0.0).to(tl.float32)', 'other=0.0)')]:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[0], self.source.replace(old, new, 1))
+
+    def test_dynamic_token_loop_is_not_replaced_by_static_loop(self):
+        old = 'for b_idx in range(0, num_tokens, BLOCK_N):'
+        self.assertIn(old, self.source)
+        with self.assertRaises(ValueError):
+            self.verify(self.records[0], self.source.replace(old,
+                        'for b_idx in tl.static_range(tl.cdiv(num_tokens, BLOCK_N)):', 1))
+
+    def test_label_clamp_and_combined_load_mask_are_retained(self):
+        for old, new in [('tl.minimum(valid_pos, num_tokens - 1)', 'valid_pos'),
+                         ('mask=found_mask & off_mask', 'mask=found_mask')]:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[0], self.source.replace(old, new, 1))
+
+    def test_static_candidate_retains_its_counter_remapping(self):
+        before, after = self.source.split('def unrolledBody', 1)
+        old = 'b_idx = b_idx * BLOCK_N'
+        self.assertIn(old, after)
+        with self.assertRaises(ValueError):
+            self.verify(self.records[1], before + 'def unrolledBody' + after.replace(old, 'b_idx = b_idx', 1))

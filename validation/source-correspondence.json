@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 103,
-      "uncovered_jit_functions": 80
+      "selected_body_copy_checked": 104,
+      "uncovered_jit_functions": 79
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 170,
+    "uncovered_selected_jit_functions": 168,
     "inventoried_jit_functions": 519,
-    "uncovered_inventoried_jit_functions": 223,
+    "uncovered_inventoried_jit_functions": 221,
     "checked_pair_modes": {
-      "pasted_body": 296
+      "pasted_body": 298
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 103,
-        "uncovered_jit_functions": 80
+        "selected_body_copy_checked": 104,
+        "uncovered_jit_functions": 79
       }
     },
     "primary_files_with_int64_screen_warning": 17,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 52,
-        "antiquotes": 394,
+        "in_body_type_directives": 51,
+        "antiquotes": 393,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -28685,13 +28685,13 @@
       "python": "bench/tritonbench_g/multinomial_sampling/multinomial_sampling.py",
       "lean": "bench/tritonbench_g/multinomial_sampling/Kernels.lean",
       "lean_screen": {
-        "quotations": 5,
-        "in_body_type_directives": 5,
-        "antiquotes": 69,
-        "dsl_assignment": 5,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 32,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 5
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -28726,32 +28726,58 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_multinomial_sampling_kernel",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "stride_sb": "integer",
+            "stride_st": "integer",
+            "stride_ib": "integer",
+            "stride_it": "integer",
+            "num_batchs": "integer",
+            "num_tokens": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/multinomial_sampling/multinomial_sampling.py",
-          "function": "_multinomial_sampling_kernel"
+          "lean": "bench/tritonbench_g/multinomial_sampling/Kernels.lean"
         },
         {
+          "python_function": "_multinomial_sampling_unrolled_kernel",
+          "lean_definition": "unrolledBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "stride_sb": "integer",
+            "stride_st": "integer",
+            "stride_ib": "integer",
+            "stride_it": "integer",
+            "num_batchs": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK",
+            "BLOCK_N",
+            "num_tokens"
+          ],
           "python": "bench/tritonbench_g/multinomial_sampling/multinomial_sampling.py",
-          "function": "_multinomial_sampling_unrolled_kernel"
+          "lean": "bench/tritonbench_g/multinomial_sampling/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/multinomial_sampling/multinomial_sampling.py",
-          "function": "_multinomial_sampling_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/multinomial_sampling/multinomial_sampling.py",
-          "function": "_multinomial_sampling_unrolled_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/multinomial_sampling/Kernels.lean": "cba8923091a91921a53313317c8b29b530126dd6978a164b67fbd83d9a775bab",
+        "bench/tritonbench_g/multinomial_sampling/Kernels.lean": "eb2fdee1383175eb54587f90fd5236a577117686988f5794e9257153f0c97663",
+        "bench/tritonbench_g/multinomial_sampling/jit-correspondence.json": "52071b3c16720573d9eaa4e53bf22e3e6cf3ba20bf6d3f14abdafa12ad47503b",
         "bench/tritonbench_g/multinomial_sampling/multinomial_sampling.py": "88b41d56a241c2427f65eea76606b6ca9d2fa41fd272e205cb3b245a7b99aa61"
       },
       "collection": "tritonbench_g",
