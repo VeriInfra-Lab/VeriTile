@@ -291,7 +291,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           signature_definition: str | None = None, expected_signature: dict | None = None,
           expected_call_bindings: dict[str, str] | None = None,
           expected_pointer_offsets: dict[str, str] | None = None,
-          expected_pointer_cells: dict[str, list[str]] | None = None) -> dict:
+          expected_pointer_cells: dict[str, list[str]] | None = None,
+          expected_optional_pointers: dict[str, str] | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1 or not any(ast.unparse(d.func if isinstance(d, ast.Call) else d) == "triton.jit"
@@ -327,6 +328,10 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             if expected_pointer_offsets is not None or expected_call_bindings is not None:
                 raise ValueError("pointer cell views require a signature without scalar bindings or pointer offsets")
             offset_clause = r"\s+pointer_cells\s*\[([^\]]*)\]"
+        if expected_optional_pointers is not None:
+            if expected_pointer_offsets is not None or expected_pointer_cells is not None:
+                raise ValueError("optional pointer metadata cannot be mixed with coordinate bindings")
+            offset_clause = r"\s+optional_pointers\s*\[([^\]]*)\]"
         if expected_call_bindings is None:
             invocation = r"\bwith_triton_signature\s+" + selected_signature + offset_clause + r"\s+in\b"
             calls = list(re.finditer(invocation, signature))
@@ -362,6 +367,18 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             pointers = {n for n, _ in profile['pointers'] + profile.get('floatingPointers', [])}
             if offsets != expected_pointer_offsets or not set(offsets) <= pointers:
                 raise ValueError("pointer offset bindings differ from the reviewed invocation")
+        if expected_optional_pointers is not None:
+            presence = {}
+            group = 1 if expected_call_bindings is None else 2
+            source = calls[0][group].strip()
+            for entry in source.split(",") if source else []:
+                pair = re.fullmatch(r"\s*([A-Za-z_]\w*)\s*:=\s*([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)\s*", entry)
+                if not pair or pair[1] in presence:
+                    raise ValueError("optional pointer bindings require distinct named caller presence values")
+                presence[pair[1]] = pair[2]
+            pointers = {n for n, _ in profile['pointers'] + profile.get('floatingPointers', [])}
+            if presence != expected_optional_pointers or not set(presence) <= pointers:
+                raise ValueError("optional pointer bindings differ from the reviewed invocation")
         if expected_pointer_cells is not None:
             cells = {}
             source = calls[0][1].strip()
@@ -504,7 +521,7 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                   r["python_function"], r["lean_definition"],
                   r.get("signature_definition"), r.get("expected_signature"),
                   r.get("expected_call_bindings"), r.get("expected_pointer_offsets"),
-                  r.get("expected_pointer_cells")) for r in records]
+                  r.get("expected_pointer_cells"), r.get("expected_optional_pointers")) for r in records]
 
 
 if __name__ == "__main__":

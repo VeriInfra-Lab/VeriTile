@@ -1,0 +1,102 @@
+[
+  {
+    "lean": "bench/tritonbench_g/softmax_triton3/Kernels.lean",
+    "lean_definition": "softmax_kernel",
+    "python": "bench/tritonbench_g/softmax_triton3/softmax_triton3.py",
+    "python_function": "softmax_kernel",
+    "signature_definition": "sourceSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "mask_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "row_stride",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "mask_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "row_stride": "row_stride_value",
+      "n_cols": "n_cols_value"
+    },
+    "expected_optional_pointers": {
+      "mask_ptr": "HAS_MASK"
+    }
+  },
+  {
+    "lean": "bench/tritonbench_g/softmax_triton3/Kernels.lean",
+    "lean_definition": "guarded_reciprocal_kernel",
+    "python": "bench/tritonbench_g/softmax_triton3/softmax_triton3.py",
+    "python_function": "guarded_reciprocal_kernel",
+    "signature_definition": "sourceSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "mask_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "row_stride",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "mask_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "row_stride": "row_stride_value",
+      "n_cols": "n_cols_value"
+    },
+    "expected_optional_pointers": {
+      "mask_ptr": "HAS_MASK"
+    }
+  }
+]

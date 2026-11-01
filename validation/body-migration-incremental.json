@@ -3,38 +3,44 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/relu_triton_kernel",
-      "python": "bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py",
+      "path": "bench/tritonbench_g/softmax_triton3",
+      "python": "bench/tritonbench_g/softmax_triton3/softmax_triton3.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/relu_triton_kernel/Correct.lean": [
-          "VeriTile.Bench.Repairs.ReluTritonKernel.Correct.relu_kernel_correctness"
+        "bench/tritonbench_g/softmax_triton3/Correct.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxTriton3.Correct.softmax_kernel_correct",
+          "VeriTile.Bench.Repairs.SoftmaxTriton3.Correct.softmax_masked_kernel_correct"
         ],
-        "bench/tritonbench_g/relu_triton_kernel/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.ReluTritonKernel.FPEquiv.relu_inlined_equiv"
+        "bench/tritonbench_g/softmax_triton3/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxTriton3.FPEquiv.softmax_reciprocal_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/relu_triton_kernel/Contract.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Correct.lean",
-    "bench/tritonbench_g/relu_triton_kernel/FPEquiv.lean",
-    "bench/tritonbench_g/relu_triton_kernel/IO.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Kernels.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/FPObservations.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/KernelReal.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/LogicalReader.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_ByteAddress.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_FP.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_FiniteAddress.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_GatedGrid.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_IntegerWords.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_SoftwareFP32.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_TypedGrid.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_TypedValue.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/Mathematical_WordGrid.lean",
-    "bench/tritonbench_g/relu_triton_kernel/Proofs/Structural.lean",
-    "tests/lean/PointerCells.lean"
+    "bench/tritonbench_g/softmax_triton3/Contract.lean",
+    "bench/tritonbench_g/softmax_triton3/Correct.lean",
+    "bench/tritonbench_g/softmax_triton3/FPEquiv.lean",
+    "bench/tritonbench_g/softmax_triton3/IO.lean",
+    "bench/tritonbench_g/softmax_triton3/Kernels.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/Addresses.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/FP.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/KernelRealResult.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/KernelSource.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Real.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Source.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/Mathematical_Spec.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/Model.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/NativeGraph.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/Pair.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/PairExecution.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/PairSafety.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/Real.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/RealIO.lean",
+    "bench/tritonbench_g/softmax_triton3/Proofs/SourceIO.lean",
+    "bench/tritonbench_g/softmax_triton3/SourceIO.lean",
+    "tests/lean/OptionalPointers.lean"
   ]
 }
