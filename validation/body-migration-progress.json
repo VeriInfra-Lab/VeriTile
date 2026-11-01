@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 55,
+  "completed_count": 66,
   "staged_count": 80,
-  "pending_count": 141,
+  "pending_count": 130,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 1854,
-    "official_comparator": "Current-source receipts accept 55 of 196 targets. F8ConversionUtils is accepted by run 41257166635; run 41256701308 shards 1\u20135 supply accepted unchanged cases, checked individually against the full current source/import closure, source pairs and fully-qualified public theorem names. Shared 225-file replay dependencies match. Four MatrixReduction clients are explicitly excluded from old receipts and queued in fresh run 41263548794. Shard 0 and other incrementals remain pending. Compilation alone does not count as completion. RmsnormFusedLlama (41257794791, 34 proof sources) and RmsnormImplementation (41259258045, 22 proof sources) are also accepted after exact current-closure verification. The fresh 59-source softmax replay is queued in run 41267684915, replacing the superseded 41266672582.",
+    "official_comparator": "Current-source receipts accept 66 of 196 targets. All six shards of run 41256701308 succeeded. Every accepted case was checked against the complete current source/import closure, reviewed source pairs and fully-qualified public theorem names; all required independent proof replays passed. Shared 225-file replay dependencies match. The four changed MatrixReduction clients remain excluded from the old receipts and queued in fresh run 41263548794. F8ConversionUtils (41257166635), RmsnormFusedLlama (41257794791) and RmsnormImplementation (41259258045) also have accepted current-source receipts. Other incrementals, including softmax 41267684915 and RoPE 41268457209, remain pending. Compilation alone does not count as completion.",
     "python_tests": 329,
     "offline_example_compilations": {
       "cases": 19,
@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
-    "working_tree": "All 80 locally staged targets (61 task targets and all 19 examples) pass complete source-body checks, actual public Real/FP proof checks and the joint 1854-retained-module build. FastRopeEmbedding and RopeEmbedding each retain their own literal original/candidate bodies: the fast task assigns ROPE_GROUP_SIZE inside Python; the ordinary task uses its original default constexpr argument. No task-specific source-generation macro remains. All 27 retained fast-task storage triples use the same two canonical quotations. The shared full-loop proof explicitly selects the corresponding task source; both actual IO invocation-to-quotation equalities are proved. The ordinary Real interface now executes its own body. Original casts, directions, mask, head loop and both stores remain; source-absent explicit FP32 store casts and redundant self-cast model operations were removed from the execution formulas. Successful Real/native execution, both-half output, trace safety, complete frames and empty-assumption FP equivalence are re-proved. All 36 retained task files, all fully-qualified public theorem targets, 329 Python tests and source-inventory checks pass. Current-source closure checks still validate all 55 accepted targets. 25 staged targets await independent replay and 116 target tasks are not migrated.",
+    "working_tree": "All 80 locally staged targets (61 task targets and all 19 examples) pass complete source-body checks, actual public Real/FP proof checks and the joint 1854-retained-module build. FastRopeEmbedding and RopeEmbedding each retain their own literal original/candidate bodies: the fast task assigns ROPE_GROUP_SIZE inside Python; the ordinary task uses its original default constexpr argument. No task-specific source-generation macro remains. All 27 retained fast-task storage triples use the same two canonical quotations. The shared full-loop proof explicitly selects the corresponding task source; both actual IO invocation-to-quotation equalities are proved. The ordinary Real interface now executes its own body. Original casts, directions, mask, head loop and both stores remain; source-absent explicit FP32 store casts and redundant self-cast model operations were removed from the execution formulas. Successful Real/native execution, both-half output, trace safety, complete frames and empty-assumption FP equivalence are re-proved. All 36 retained task files, all fully-qualified public theorem targets, 329 Python tests and source-inventory checks pass. Current-source closure checks still validate all 66 accepted targets. 14 staged targets await independent replay and 116 target tasks are not migrated.",
     "official_replay_sources": 833,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -45,7 +45,8 @@
       "manifest": "validation/body-migration-incremental.json",
       "cases": 2,
       "retained_modules": 36,
-      "replay_sources": 36
+      "replay_sources": 36,
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41268457209"
     },
     "previous_incremental_replays": [
       {
@@ -139,12 +140,13 @@
     },
     {
       "path": "bench/tritonbench_g/add_value",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+      "receipt": "validation/body_receipts/stage9-shard0.json"
     },
     {
       "path": "bench/tritonbench_g/apply_penalty",
@@ -263,12 +265,13 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_cumsum_vector",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+      "receipt": "validation/body_receipts/stage9-shard0.json"
     },
     {
       "path": "bench/tritonbench_g/chunk_delta_fwd",
@@ -850,12 +853,13 @@
     },
     {
       "path": "bench/tritonbench_g/mean_reduction",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+      "receipt": "validation/body_receipts/stage9-shard0.json"
     },
     {
       "path": "bench/tritonbench_g/mixed_sparse_attention",
@@ -1054,12 +1058,13 @@
     },
     {
       "path": "bench/tritonbench_g/rotary_emb",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+      "receipt": "validation/body_receipts/stage9-shard0.json"
     },
     {
       "path": "bench/tritonbench_g/rotary_emb_nopad",
@@ -1078,12 +1083,13 @@
     },
     {
       "path": "bench/tritonbench_g/rowwise_quantization_triton",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+      "receipt": "validation/body_receipts/stage9-shard0.json"
     },
     {
       "path": "bench/tritonbench_g/seeded_dropout",
@@ -1097,12 +1103,13 @@
     },
     {
       "path": "bench/tritonbench_g/sin_computation",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+      "receipt": "validation/body_receipts/stage9-shard0.json"
     },
     {
       "path": "bench/tritonbench_g/sin_kernel",
@@ -1268,12 +1275,13 @@
     },
     {
       "path": "bench/tritonbench_g/var_len_copy",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+      "receipt": "validation/body_receipts/stage9-shard0.json"
     },
     {
       "path": "bench/tritonbench_g/vector_addition",
@@ -1337,12 +1345,13 @@
     },
     {
       "path": "bench/examples/FusedLayerNorm",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+      "receipt": "validation/body_receipts/stage9-shard0.json"
     },
     {
       "path": "bench/examples/FusedSiLU",
@@ -1406,12 +1415,13 @@
     },
     {
       "path": "bench/examples/RowWiseMax",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+      "receipt": "validation/body_receipts/stage9-shard0.json"
     },
     {
       "path": "bench/examples/RowWiseSum",
@@ -1455,12 +1465,13 @@
     },
     {
       "path": "bench/examples/TritonBenchVectorAddition",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+      "receipt": "validation/body_receipts/stage9-shard0.json"
     },
     {
       "path": "bench/examples/VectorAdd",
@@ -1474,12 +1485,13 @@
     },
     {
       "path": "bench/examples/Welford",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+      "receipt": "validation/body_receipts/stage9-shard0.json"
     }
   ],
   "historical_official_validation": [
