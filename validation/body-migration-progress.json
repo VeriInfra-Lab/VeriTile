@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 112,
+  "completed_count": 115,
   "staged_count": 116,
-  "pending_count": 84,
+  "pending_count": 81,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 3168,
-    "official_comparator": "112 targets have exact current-source/import-closure official receipts, including all 19 examples. Pending: CrossEntropy1, DequantizeMatmul and FastCELoss run 41324559599; FastLayernorm run 41334450486. Successful local compilation and body comparison alone do not certify completion.",
+    "official_comparator": "115 targets have exact current-source/import-closure official receipts, including all 19 examples. CrossEntropy1 and its two dependents were accepted after all 158 replay sources, 56 shared dependency files, current complete case closures and the artifact ZIP digest were verified. FastLayernorm run 41334450486 remains pending. Successful local compilation and body comparison alone do not certify completion.",
     "python_tests": 414,
     "offline_example_compilations": {
       "cases": 19,
@@ -373,7 +373,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "FastLayernorm complete local verification is finished; independent replay is pending. Continue the remaining TritonBench tasks, retaining every original Python statement and re-proving the existing public Real/FP scope. No merge."
+    "current_work": "MultinomialSampling original/candidate source bodies, independent Real inverse-CDF theorem, full loop execution and static-unroll execution/safety equivalence pass locally, including the actual FP32 load before explicit cast and private load state. All 31 retained task modules and five supporting frontend/reference/unit modules pass. Stage its exact-source independent replay next. FastLayernorm independent run 41334450486 is pending. No merge."
   },
   "targets": [
     {
@@ -629,13 +629,13 @@
     },
     {
       "path": "bench/tritonbench_g/cross_entropy1",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "validated_source_commit": "c06b007e9ba16a68653d59c9642940f72476cd5f",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current complete source bodies, public Real/FP theorems, axiom/specification gates and all retained modules pass locally. Await exact-current-source official independent replay; compilation alone is not completion."
+      "receipt": "validation/body_receipts/cross_entropy1.json"
     },
     {
       "path": "bench/tritonbench_g/cross_entropy2",
@@ -664,14 +664,14 @@
     },
     {
       "path": "bench/tritonbench_g/dequantize_matmul",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "c06b007e9ba16a68653d59c9642940f72476cd5f",
       "previous_receipt": "validation/body_receipts/stage9-shard4.json",
-      "reason": "Current complete source bodies, public Real/FP theorems, axiom/specification gates and all retained modules pass locally. Await exact-current-source official independent replay; compilation alone is not completion."
+      "receipt": "validation/body_receipts/cross_entropy1.json"
     },
     {
       "path": "bench/tritonbench_g/destindex_copy",
@@ -741,14 +741,14 @@
     },
     {
       "path": "bench/tritonbench_g/fast_ce_loss",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "c06b007e9ba16a68653d59c9642940f72476cd5f",
       "previous_receipt": "validation/body_receipts/fast_ce_loss.json",
-      "reason": "Current complete source bodies, public Real/FP theorems, axiom/specification gates and all retained modules pass locally. Await exact-current-source official independent replay; compilation alone is not completion."
+      "receipt": "validation/body_receipts/cross_entropy1.json"
     },
     {
       "path": "bench/tritonbench_g/fast_layernorm",
