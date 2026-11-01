@@ -8,26 +8,32 @@ set_option maxRecDepth 20000
 
 def toHalf (swapped : Bool) : sourceType :=
   match swapped with
-  | Bool.false => fun Y X N B => (f8Forward%[tl.float64,tl.float64,original] Y X N B).eraseDType
-  | Bool.true => fun Y X N B => (f8Forward%[tl.float64,tl.float64,indexCommuted] Y X N B).eraseDType
+  | Bool.false => fun Y X N B => (realForward Bool.false Y X N B).eraseDType
+  | Bool.true => fun Y X N B => (realForward Bool.true Y X N B).eraseDType
 
 def toFP8 (swapped : Bool) : sourceType :=
   match swapped with
-  | Bool.false => fun Y X N B => (f8Reverse%[tl.float64,tl.float64,original] Y X N B).eraseDType
-  | Bool.true => fun Y X N B => (f8Reverse%[tl.float64,tl.float64,indexCommuted] Y X N B).eraseDType
+  | Bool.false => fun Y X N B => (realReverse Bool.false Y X N B).eraseDType
+  | Bool.true => fun Y X N B => (realReverse Bool.true Y X N B).eraseDType
 
 theorem to_half_body (format : Format) (swapped : Bool) (Y X : RegionName) (N B : Nat) :
     (TypedSource.toHalf format swapped Y X N B).eraseDType.toAlgKernel.body =
       (toHalf swapped Y X N B).toAlgKernel.body := by
   cases format <;> cases swapped
   all_goals simp only [TypedSource.toHalf,toHalf,realForward,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.toHalf,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.toFP8,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.decodeOriginal,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.decodeCandidate,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.encodeOriginal,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.encodeCandidate,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType,List.map_cons,List.map_nil,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
-    Except.bind,bind]
-  all_goals simp only [Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,FloatDType.toTileDType]
+    Except.bind,bind,Bool.false_eq_true,↓reduceIte]
+  all_goals try simp only [Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,FloatDType.toTileDType]
   all_goals rfl
 
 theorem to_fp8_body (input : Input) (format : Format) (swapped : Bool) (Y X : RegionName) (N B : Nat) :
@@ -35,13 +41,19 @@ theorem to_fp8_body (input : Input) (format : Format) (swapped : Bool) (Y X : Re
       (toFP8 swapped Y X N B).toAlgKernel.body := by
   cases input <;> cases format <;> cases swapped
   all_goals simp only [TypedSource.toFP8,toFP8,realReverse,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.toHalf,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.toFP8,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.decodeOriginal,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.decodeCandidate,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.encodeOriginal,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.encodeCandidate,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType,List.map_cons,List.map_nil,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
-    Except.bind,bind]
-  all_goals simp only [Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,FloatDType.toTileDType]
+    Except.bind,bind,Bool.false_eq_true,↓reduceIte]
+  all_goals try simp only [Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,FloatDType.toTileDType]
   all_goals rfl
 
 #guard_msgs (drop info) in

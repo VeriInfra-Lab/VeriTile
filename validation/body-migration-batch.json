@@ -979,6 +979,19 @@
           "VeriTile.Bench.Repairs.RmsnormFused.FPEquiv.source_equivalence"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/f8_conversion_utils",
+      "python": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/f8_conversion_utils/Correct.lean": [
+          "VeriTile.Bench.Repairs.F8ConversionUtils.Correct.complete_kernel_real_formula"
+        ],
+        "bench/tritonbench_g/f8_conversion_utils/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.F8ConversionUtils.FPEquiv.conversion_index_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1103,6 +1116,42 @@
     "bench/tritonbench_g/embedding_triton_kernel/Proofs/ProgramSafety.lean",
     "bench/tritonbench_g/embedding_triton_kernel/Proofs/Rewrite.lean",
     "bench/tritonbench_g/embedding_triton_kernel/Proofs/StructuralAccess.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Contract.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Correct.lean",
+    "bench/tritonbench_g/f8_conversion_utils/FPEquiv.lean",
+    "bench/tritonbench_g/f8_conversion_utils/IO.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Kernels.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/BitAlgebra.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/ByteStore.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Bytes.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Cells.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/CheckedResults.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Chunks.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Contract.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Host.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/KernelContract.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Lowering.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Mathematical_Erasure.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Mathematical_FP.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Mathematical_Real.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Memory.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Native.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/NativeGrid.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Numerics.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Observation.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/PublicReal.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/RealProjection.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/RealSource.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/RealStorage.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/Source.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceBridge.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceEquivalence.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceFrame.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceNative.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceReadback.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Proofs/SourceStorage.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/f8_conversion_utils/Sources/Parameters.lean",
     "bench/tritonbench_g/fused_recurrent_hgrn/Kernels.lean",
     "bench/tritonbench_g/fused_recurrent_hgrn/Proofs/Base.lean",
     "bench/tritonbench_g/fused_recurrent_hgrn/Proofs/Execution.lean",
