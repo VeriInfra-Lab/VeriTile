@@ -145,7 +145,7 @@ def row (plan : Plan) (ops : Instructions) (c : Host.Call) (x : Host.Input Word)
 
 def observe (plan : Plan) (ops : Instructions) (c : Host.Call) (j : Host.Job)
     (t : State Node) (a : Nat) : Word :=
-  eval ops ((t.mem "Out" a).read .fp32 (plan.storeReplica c.dimensions (a-Host.address c j 0)))
+  eval ops ((t.mem "Out" a).read .real (plan.storeReplica c.dimensions (a-Host.address c j 0)))
 
 def evaluate (plan : Plan) (ops : Instructions) (c : Host.Call) (x : Host.Input Word)
     (j : Host.Job) (out : Nat → Word) : Option (Nat → Word) :=

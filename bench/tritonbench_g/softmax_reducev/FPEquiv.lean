@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.ClosedStructuralAudit
 import bench.tritonbench_g.softmax_reducev.Proofs.AddressIO
 import bench.tritonbench_g.softmax_reducev.Proofs.IONative
 
@@ -29,6 +30,8 @@ specification reducev_grid_equiv (profiles : Host.Job → NativeGraph.Profile)
     (AddressIO.equivalent (PublicIO.nativeModel profiles) NativeGraph.atom c
       (PublicIO.nativeObserve profiles ops c) counts work complete)
 
+set_option maxHeartbeats 4000000 in
+#print_fp_assumptions reducev_grid_equiv closed_structural
 #axiomsClean reducev_grid_equiv
 end
 end VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.FPEquiv

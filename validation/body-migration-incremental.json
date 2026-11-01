@@ -3,49 +3,57 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/token_attn_mistral",
-      "python": "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py",
+      "path": "bench/tritonbench_g/softmax_reducev",
+      "python": "bench/tritonbench_g/softmax_reducev/softmax_reducev.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/token_attn_mistral/Correct.lean": [
-          "VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.kernel_correct"
+        "bench/tritonbench_g/softmax_reducev/Correct.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.Correct.kernel_real"
         ],
-        "bench/tritonbench_g/token_attn_mistral/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.FPEquiv.affine_address_equiv"
+        "bench/tritonbench_g/softmax_reducev/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.FPEquiv.reducev_grid_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/token_attn_mistral/Contract.lean",
-    "bench/tritonbench_g/token_attn_mistral/Correct.lean",
-    "bench/tritonbench_g/token_attn_mistral/FPEquiv.lean",
-    "bench/tritonbench_g/token_attn_mistral/IO.lean",
-    "bench/tritonbench_g/token_attn_mistral/Kernels.lean",
-    "bench/tritonbench_g/token_attn_mistral/Ports.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/AccessSafety.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/AffineEquivalence.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/Binding.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/Contract.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/Execution.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/Grid.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/IOExecution.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/IOSafety.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/LogicalIO.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/Model.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/Native.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/PublicIO.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/Range.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/Real.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/ReferenceBinding.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/SourceFormula.lean",
-    "bench/tritonbench_g/token_attn_mistral/Proofs/Stores.lean",
-    "bench/tritonbench_g/token_attn_mistral/Sources/Parameters.lean",
-    "bench/tritonbench_g/token_attn_mistral/Sources/Source.lean",
-    "VeriTile/Triton/DSL/IntegerMinMaxLiterals.lean",
+    "bench/tritonbench_g/softmax_reducev/AddressIO.lean",
+    "bench/tritonbench_g/softmax_reducev/Candidate.lean",
+    "bench/tritonbench_g/softmax_reducev/Contract.lean",
+    "bench/tritonbench_g/softmax_reducev/Correct.lean",
+    "bench/tritonbench_g/softmax_reducev/FPEquiv.lean",
+    "bench/tritonbench_g/softmax_reducev/IO.lean",
+    "bench/tritonbench_g/softmax_reducev/Kernels.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/ABI.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/AddressIO.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/AddressSchedule.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/Completion.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/Domain.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/FPContract.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/FPLoop.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/FPPrefix.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/FPReference.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/FPSource.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/Host.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/IOBindings.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/IOGrid.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/IONative.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/IOReal.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/IOSourceSafety.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/IOValues.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/KernelInterface.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/KernelRealResults.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/LogicalResult.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/NativeGraph.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/NativeProfile.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/Range.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/RealMath.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/RealPublic.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/RealSource.lean",
+    "bench/tritonbench_g/softmax_reducev/Proofs/WholeHost.lean",
+    "bench/tritonbench_g/softmax_reducev/Sources/Parameters.lean",
+    "bench/tritonbench_g/softmax_reducev/Targets.lean",
     "VeriTile/Triton/Float/ClosedStructuralAudit.lean",
-    "tests/lean/IntegerMinMaxReference.lean",
-    "tests/lean/IntegerMinMaxLiterals.lean",
-    "tests/lean/TokenAttnMistralSignedWindow.lean"
+    "tests/lean/SoftmaxReduceVSignedLoads.lean"
   ]
 }

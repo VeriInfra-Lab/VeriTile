@@ -43,6 +43,35 @@ theorem range_values {α β : Type} [Inhabited α] (M : Algebra α)
 termination_by stop-cur
 decreasing_by omega
 
+/-- A loop starting at a natural index uses the signed source bound
+exactly, including an empty interval for every negative bound. -/
+theorem range_int_values {α β : Type} [Inhabited α] (M : Algebra α)
+    (idx : RegName) (body : List ComputeStmt) (update : Nat → β → β)
+    (I : Nat → β → State α → Prop) (Done : β → State α → Prop)
+    (cur : Nat) (stop : Int) (stride : Nat) (initial : β) (s : State α)
+    (hstep : ∀ n a t,I n a t → n<stop.toNat →
+      ∃ u,run M body (t.setReg idx .int [] (fun _=>(n : Int)))=some u ∧ I (n+stride) (update n a) u)
+    (hdone : ∀ n a t,I n a t → Done a t) (h : I cur initial s) :
+    ∃ final,FP.Structural.rangeInt M idx cur stop stride body s=some final ∧
+      Done (foldRange update cur stop.toNat stride initial) final := by
+  by_cases hz : stride=0
+  · exact ⟨s,by simp [FP.Structural.rangeInt,hz],by simpa [foldRange,hz] using hdone cur initial s h⟩
+  by_cases hc : cur<stop.toNat
+  · have hi : (cur : Int)<stop := by omega
+    obtain ⟨next,he,hn⟩ := hstep cur initial s h hc
+    obtain ⟨final,hf,hd⟩ := range_int_values M idx body update I Done
+      (cur+stride) stop stride (update cur initial) next hstep hdone hn
+    refine ⟨final,?_,?_⟩
+    · rw [FP.Structural.rangeInt]
+      simpa only [hz,hi,if_false,if_true,he,Option.bind_some,Nat.cast_add] using hf
+    · rw [foldRange]
+      simpa only [hz,hc,if_false,if_true] using hd
+  · have hi : ¬(cur : Int)<stop := by omega
+    exact ⟨s,by simp [FP.Structural.rangeInt,hz,hi],by simpa [foldRange,hz,hc] using hdone cur initial s h⟩
+termination_by stop.toNat-cur
+ decreasing_by omega
+
+#axiomsClean range_int_values
 #axiomsClean range_values
 end
 end VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.Range

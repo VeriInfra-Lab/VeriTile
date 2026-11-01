@@ -16,11 +16,11 @@ structure Ready {α : Type} [Inhabited α] (p : Parameters) (s t : State α)
   undef : t.undef = s.undef
   batch : t.regs .nat [] "cur_batch" = some (fun _ => s.pids 0)
   head : t.regs .nat [] "cur_head" = some (fun _ => s.pids 1)
-  seqlen : t.regs .nat [] "cur_batch_seq_len" = some (fun _ => sequenceLength p s)
-  start : t.regs .nat [] "cur_batch_start_loc" = some (fun _ => sequenceStart p s)
+  seqlen : t.regs .int [] "cur_batch_seq_len" = some (fun _ => sequenceWord p s)
+  start : t.regs .int [] "cur_batch_start_loc" = some (fun _ => sequenceStart p s)
   lanes : t.regs .nat [p.tokens] "offs_n" = some (fun i => i.1.val)
   dimensions : t.regs .nat [p.dimensions] "offs_d" = some (fun i => i.1.val)
-  locbase : t.regs .nat [] "off_b_loc" = some (fun _ => locationBase p s)
+  locbase : t.regs .int [] "off_b_loc" = some (fun _ => locationBase p s)
   valueptr : t.regs .ptr [1,p.dimensions] "v_ptrs" = some (valuePointer p s)
   maximum : t.regs .real [] "e_max" = some (fun _ => a.maximum)
   normalizer : t.regs .real [] "e_sum" = some (fun _ => a.normalizer)
@@ -31,8 +31,8 @@ theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) 
   simp [prelude,source,typed,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat]
-  constructor <;> simp [State.setReg,sequenceLength,sequenceStart,locationBase,valuePointer,
-    initialAccumulator,bop]
+  constructor <;> try simp (config := {unfoldPartialApp := Bool.true}) [State.setReg,sequenceWord,sequenceLength,sequenceStart,locationBase,valuePointer,
+    initialAccumulator,bop,Int.natCast_mul,Int.natCast_add]
   all_goals first | rfl | (funext i; simp [bop,valuePointer,Region.cast])
 #axiomsClean prefix_run
 end
