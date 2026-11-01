@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 106,
+  "completed_count": 110,
   "staged_count": 110,
-  "pending_count": 90,
+  "pending_count": 86,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 2812,
-    "official_comparator": "106 targets have exact current-source/import-closure official receipts, including all 19 examples. All 106 accepted case closures remain unchanged. Ksoftmax, SoftmaxOptimize, RotaryEmbNopad and FusedRotaryEmbedding remain incomplete pending their current independent replays. Body comparison and compilation alone never establish completion.",
+    "official_comparator": "110 targets have exact current-source/import-closure official receipts, including all 19 examples. Ksoftmax, SoftmaxOptimize, RotaryEmbNopad and FusedRotaryEmbedding passed current independent replay; artifact digests, complete case closures, qualified public theorem names and all required proof replays were verified. Body comparison and compilation alone never establish completion.",
     "python_tests": 390,
     "offline_example_compilations": {
       "cases": 19,
@@ -785,13 +785,13 @@
     },
     {
       "path": "bench/tritonbench_g/fused_rotary_embedding",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Complete original Q/K/V decoding body and existing address-CSE candidate are copied statement for statement. Both complete-grid Real and FP proofs, signed metadata binding, both cache layouts, full-width V copy, actual source safety and frames are locally re-proved. Current independent replay remains required.",
-      "validated_source_commit": "117122ac165efb4ebd12d35017d9e3263b2b588d"
+      "validated_source_commit": "117122ac165efb4ebd12d35017d9e3263b2b588d",
+      "receipt": "validation/body_receipts/fused_rotary_embedding.json"
     },
     {
       "path": "bench/tritonbench_g/fused_rwkv6_kernel",
@@ -911,13 +911,13 @@
     },
     {
       "path": "bench/tritonbench_g/ksoftmax_triton",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete existing forward/backward Python bodies are copied, retaining all signed64 casts, optional strings, source precision and both IS_FP16 branches. Complete softmax/log-softmax and derivative Real grids, FP row-schedule equivalence, source safety and frames are locally re-proved. Current independent proof replay is still required.",
-      "validated_source_commit": "117122ac165efb4ebd12d35017d9e3263b2b588d"
+      "validated_source_commit": "117122ac165efb4ebd12d35017d9e3263b2b588d",
+      "receipt": "validation/body_receipts/ksoftmax_triton.json"
     },
     {
       "path": "bench/tritonbench_g/kv_cache_copy",
@@ -1392,13 +1392,13 @@
     },
     {
       "path": "bench/tritonbench_g/rotary_emb_nopad",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Complete 19/32-statement repaired uncached/cached bodies copied with original early return, signed64 casts, metadata accesses and store order. Existing Lean address-reuse candidates now have explicitly derived Python sources with all other statements unchanged. Both Real judgments, both FP equivalences, full safety and exterior frames locally re-proved; current independent replay remains required.",
-      "validated_source_commit": "117122ac165efb4ebd12d35017d9e3263b2b588d"
+      "validated_source_commit": "117122ac165efb4ebd12d35017d9e3263b2b588d",
+      "receipt": "validation/body_receipts/rotary_emb_nopad.json"
     },
     {
       "path": "bench/tritonbench_g/rotary_transform",
@@ -1462,13 +1462,13 @@
     },
     {
       "path": "bench/tritonbench_g/softmax_optimize",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete original main bodies and both original binary helper return bodies match statement for statement. Actual signed helper calls and all loops, reductions, guarded recurrences, stores and frames have locally re-proved Real and FP proofs. Independent replay of all current required sources is still required.",
-      "validated_source_commit": "117122ac165efb4ebd12d35017d9e3263b2b588d"
+      "validated_source_commit": "117122ac165efb4ebd12d35017d9e3263b2b588d",
+      "receipt": "validation/body_receipts/softmax_optimize.json"
     },
     {
       "path": "bench/tritonbench_g/softmax_reducev",
