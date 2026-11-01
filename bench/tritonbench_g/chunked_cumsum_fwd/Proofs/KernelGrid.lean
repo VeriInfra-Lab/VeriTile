@@ -55,11 +55,11 @@ def Values {α : Type} [Inhabited α] (c : Geometry) (p : Primitives α c)
     (a : State α) (ls : List Launch) (v : State α) : Prop :=
   ∀ l ∈ ls, ∀ i : TileIndex [c.BH,c.BC], activeOutput c.layout l i.1.val i.2.1.val →
     v.mem "out" (outAddress c.layout l i.1.val i.2.1.val) =
-      .mk .real (logicalPrepared c p hasBias useSoftplus lower upper a
-        l.batch (head c.layout l i.1.val) l.chunk i.2.1.val) ∧
+      .mk .fp32 (p.model.cast (some .fp32) .real .fp32 (logicalPrepared c p hasBias useSoftplus lower upper a
+        l.batch (head c.layout l i.1.val) l.chunk i.2.1.val)) ∧
     v.mem "sum" (outAddress c.layout l i.1.val i.2.1.val) =
-      .mk .real (logicalCumulative c p hasBias useSoftplus lower upper a
-        l.batch (head c.layout l i.1.val) l.chunk i.2.1)
+      .mk .fp32 (p.model.cast (some .fp32) .real .fp32 (logicalCumulative c p hasBias useSoftplus lower upper a
+        l.batch (head c.layout l i.1.val) l.chunk i.2.1))
 
 def Frame {α : Type} (c : Geometry) (ls : List Launch) (s v : State α) : Prop :=
   ∀ rg off, ¬ footprint c ls (rg,off) → v.mem rg off = s.mem rg off
@@ -157,10 +157,10 @@ theorem complete {α : Type} [Inhabited α] (c : Geometry) (p : Primitives α c)
     ∃ v, launch p.model c hasBias useSoftplus lower upper s = some v ∧
       (∀ b h k j, b<c.batches → h<c.heads → k<c.chunks → ∀ hj : j<c.chunk,
         v.mem "out" (packed c b h k j) =
-          .mk .real (logicalPrepared c p hasBias useSoftplus lower upper s b h k j) ∧
+          .mk .fp32 (p.model.cast (some .fp32) .real .fp32 (logicalPrepared c p hasBias useSoftplus lower upper s b h k j)) ∧
         v.mem "sum" (packed c b h k j) =
-          .mk .real (logicalCumulative c p hasBias useSoftplus lower upper s b h k
-            ⟨j,lt_of_lt_of_le hj c.chunk_le_BC⟩)) ∧ Frame c c.grid s v := by
+          .mk .fp32 (p.model.cast (some .fp32) .real .fp32 (logicalCumulative c p hasBias useSoftplus lower upper s b h k
+            ⟨j,lt_of_lt_of_le hj c.chunk_le_BC⟩))) ∧ Frame c c.grid s v := by
   obtain ⟨v,ran,values,frame⟩ := grid_correct c p sizes hasBias useSoftplus lower upper
     c.grid (List.Perm.refl _) s
   refine ⟨v,ran,?_,frame⟩

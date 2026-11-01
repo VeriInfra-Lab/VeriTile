@@ -21,6 +21,7 @@ specification chunked_cumsum_scaleFirst_equiv (cfg : FP.Config)
     (scaleFirstIO cfg M c plan hasBias useSoftplus lower upper)
     (PairCorrect.equivalent cfg M c sizes plan hasBias useSoftplus lower upper)
 
+#print_fp_assumptions chunked_cumsum_scaleFirst_equiv
 #axiomsClean chunked_cumsum_scaleFirst_equiv
 end
 end VeriTile.Bench.Repairs.ChunkedCumsumFwd.KernelOnly.FPEquiv

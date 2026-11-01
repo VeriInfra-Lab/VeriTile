@@ -52,7 +52,7 @@ theorem input_bias {α : Type} [Inhabited α] (M : NativeModel α) (c : Geometry
     (values : Inputs α c) (s : State (Term α))
     (hin : (programIO M c plan hasBias useSoftplus lower upper).InputBinding values s)
     (enabled : hasBias = Bool.true) (h : Nat) (hh : h < c.heads) :
-    (s.mem "bias" (h*c.biasHead)).read .real = .input ((logicalInputs c values).bias h) := by
+    (s.mem "bias" (h*c.biasHead)).read .fp32 = .input ((logicalInputs c values).bias h) := by
   simpa [programIO, memory, inputs, inputAddress, inputMask, logicalInputs, hh, mapValue] using
     hin ⟨2, by simp [programIO, memory, inputs]⟩ (⟨h,hh⟩,PUnit.unit) enabled
 

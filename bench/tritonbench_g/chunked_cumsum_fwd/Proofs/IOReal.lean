@@ -12,6 +12,7 @@ theorem real_target (c : Geometry) (plan : PrefixPlan c.BH c.BC)
     nativeTarget (RealTarget.model reverseBias upper) c plan hasBias useSoftplus lower (RealTarget.upperWord upper) values =
       result c (RealTarget.prepared c (logicalInputs c values) hasBias useSoftplus lower upper)
         (RealTarget.cumulative c (logicalInputs c values) hasBias useSoftplus lower upper) := by
+  simp only [nativeTarget,RealTarget.output_cast]
   funext o j
   fin_cases o
   · exact RealTarget.preparation reverseBias c (logicalInputs c values) hasBias useSoftplus lower upper _ _ _ _
