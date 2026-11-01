@@ -18,7 +18,7 @@ port identities are typed views; an allocation adapter can map distinct input
 views to the same physical input allocation. Outputs are fresh. -/
 def InputGraph {α : Type} (s : State (Term α)) (a : InputWords α) : Prop :=
   (∀ off, (s.mem "dt" off).read .fp32 = .input (a.dt off)) ∧
-  (∀ off, (s.mem "bias" off).read .real = .input (a.bias off)) ∧
+  (∀ off, (s.mem "bias" off).read .fp32 = .input (a.bias off)) ∧
   (∀ off, (s.mem "rate" off).read .fp32 = .input (a.rate off))
 
 def referenceLogicalPrepared (M : NativeModel α) (c : Geometry) (a : InputWords α)
@@ -60,11 +60,11 @@ def LogicalOutputs (M : NativeModel α) (c : Geometry) (plan : PrefixPlan c.BH c
     (a : InputWords α) (hasBias useSoftplus : Bool) (lower upper : α)
     (v : State (Term α)) : Prop :=
   ∀ b h k j, b < c.batches → h < c.heads → k < c.chunks → ∀ hj : j < c.chunk,
-    interpret M ((v.mem "out" (Kernel.packed c b h k j)).read .real) =
-      referenceLogicalPrepared M c a hasBias useSoftplus lower upper b h k j ∧
-    interpret M ((v.mem "sum" (Kernel.packed c b h k j)).read .real) =
-      referenceLogicalCumulative M c plan a hasBias useSoftplus lower upper b h k
-        ⟨j,lt_of_lt_of_le hj c.chunk_le_BC⟩
+    interpret M ((v.mem "out" (Kernel.packed c b h k j)).read .fp32) =
+      M.cast .real .fp32 (referenceLogicalPrepared M c a hasBias useSoftplus lower upper b h k j) ∧
+    interpret M ((v.mem "sum" (Kernel.packed c b h k j)).read .fp32) =
+      M.cast .real .fp32 (referenceLogicalCumulative M c plan a hasBias useSoftplus lower upper b h k
+        ⟨j,lt_of_lt_of_le hj c.chunk_le_BC⟩)
 
 theorem logical_outputs (M : NativeModel α) (c : Geometry) (plan : PrefixPlan c.BH c.BC)
     (s : State (Term α)) (a : InputWords α) (read : InputGraph s a)
@@ -74,9 +74,12 @@ theorem logical_outputs (M : NativeModel α) (c : Geometry) (plan : PrefixPlan c
   intro b h k j hb hh hk hj
   obtain ⟨l,hl,i,t,active,hb',hh',hk',hj'⟩ := Kernel.cover c b h k j hb hh hk hj
   have val := values l hl (i,t,PUnit.unit) active
-  have hout := congrArg (fun cell : Cell (Term α) => interpret M (cell.read .real)) val.1
-  have hsum := congrArg (fun cell : Cell (Term α) => interpret M (cell.read .real)) val.2
-  simp only [Cell.read_same,logical_preparation M c plan s a read,logical_cumulative M c plan s a read,
+  have cast_eval (x : Term α) :
+      interpret M ((primitives M c plan).model.cast (some .fp32) .real .fp32 x) =
+        M.cast .real .fp32 (interpret M x) := rfl
+  have hout := congrArg (fun cell : Cell (Term α) => interpret M (cell.read .fp32)) val.1
+  have hsum := congrArg (fun cell : Cell (Term α) => interpret M (cell.read .fp32)) val.2
+  simp only [Cell.read_same,cast_eval,logical_preparation M c plan s a read,logical_cumulative M c plan s a read,
     Kernel.out_packed,hb',hh',hk',hj'] at hout hsum
   have ht : t = (⟨j,lt_of_lt_of_le hj c.chunk_le_BC⟩ : Fin c.BC) := Fin.ext hj'
   rw [ht] at hsum
@@ -87,7 +90,7 @@ theorem logical_outputs (M : NativeModel α) (c : Geometry) (plan : PrefixPlan c
 def initial (a : InputWords α) : State (Term α) where
   mem := fun r off => if r="dt" then .mk .fp32 (.input (a.dt off))
     else if r="rate" then .mk .fp32 (.input (a.rate off))
-    else if r="bias" then .mk .real (.input (a.bias off)) else .mk .real .unused
+    else if r="bias" then .mk .fp32 (.input (a.bias off)) else .mk .fp32 .unused
   regs := fun _ _ _ => none
   pids := fun _ => 0
   numPids := fun _ => 1

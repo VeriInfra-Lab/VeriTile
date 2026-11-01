@@ -12,11 +12,11 @@ noncomputable section
 
 def inputs (c : Geometry) : List IOChannel :=
   [⟨.fp32, [c.batches, c.sequence, c.heads], "dt"⟩,
-   ⟨.fp32, [c.heads], "rate"⟩, ⟨.real, [c.heads], "bias"⟩]
+   ⟨.fp32, [c.heads], "rate"⟩, ⟨.fp32, [c.heads], "bias"⟩]
 
 def outputs (c : Geometry) : List IOChannel :=
-  [⟨.real, [c.batches, c.heads, c.chunks, c.chunk], "out"⟩,
-   ⟨.real, [c.batches, c.heads, c.chunks, c.chunk], "sum"⟩]
+  [⟨.fp32, [c.batches, c.heads, c.chunks, c.chunk], "out"⟩,
+   ⟨.fp32, [c.batches, c.heads, c.chunks, c.chunk], "sum"⟩]
 
 abbrev Inputs (α : Type) (c : Geometry) := ChannelValues α (inputs c)
 abbrev Outputs (α : Type) (c : Geometry) := ChannelValues α (outputs c)
@@ -85,10 +85,11 @@ def result {α : Type} (c : Geometry)
 def nativeTarget {α : Type} [Inhabited α] (M : NativeModel α) (c : Geometry)
     (plan : PrefixPlan c.BH c.BC) (hasBias useSoftplus : Bool) (lower upper : α)
     (values : Inputs α c) : Outputs α c :=
-  result c (preparedValue M c (logicalInputs c values) hasBias useSoftplus lower upper)
-    (fun b h k j => if hj : j < c.BC then
+  result c (fun b h k j => M.cast .real .fp32
+    (preparedValue M c (logicalInputs c values) hasBias useSoftplus lower upper b h k j))
+    (fun b h k j => M.cast .real .fp32 (if hj : j < c.BC then
       cumulativeValue M c plan (logicalInputs c values) hasBias useSoftplus lower upper b h k ⟨j,hj⟩
-      else default)
+      else default))
 
 end
 end VeriTile.Bench.Repairs.ChunkedCumsumFwd.Interface
@@ -111,11 +112,11 @@ structure Outputs (c : Geometry) where
 def inputs (c : Geometry) : Interface.Inputs ℝ c ≃ Inputs c where
   toFun := fun values => ⟨Values.curryEquiv ℝ .fp32 [c.batches,c.sequence,c.heads] (values (0 : Fin 3)),
     Values.curryEquiv ℝ .fp32 [c.heads] (values (1 : Fin 3)),
-    Values.curryEquiv ℝ .real [c.heads] (values (2 : Fin 3))⟩
+    Values.curryEquiv ℝ .fp32 [c.heads] (values (2 : Fin 3))⟩
   invFun := fun values channel => match channel with
     | ⟨0,_⟩ => (Values.curryEquiv ℝ .fp32 [c.batches,c.sequence,c.heads]).symm values.dt
     | ⟨1,_⟩ => (Values.curryEquiv ℝ .fp32 [c.heads]).symm values.rate
-    | ⟨2,_⟩ => (Values.curryEquiv ℝ .real [c.heads]).symm values.bias
+    | ⟨2,_⟩ => (Values.curryEquiv ℝ .fp32 [c.heads]).symm values.bias
   left_inv := by
     intro values
     funext channel j
@@ -127,11 +128,11 @@ def inputs (c : Geometry) : Interface.Inputs ℝ c ≃ Inputs c where
     congr 1 <;> apply Equiv.apply_symm_apply
 
 def outputs (c : Geometry) : Interface.Outputs ℝ c ≃ Outputs c where
-  toFun := fun values => ⟨Values.curryEquiv ℝ .real [c.batches,c.heads,c.chunks,c.chunk] (values (0 : Fin 2)),
-    Values.curryEquiv ℝ .real [c.batches,c.heads,c.chunks,c.chunk] (values (1 : Fin 2))⟩
+  toFun := fun values => ⟨Values.curryEquiv ℝ .fp32 [c.batches,c.heads,c.chunks,c.chunk] (values (0 : Fin 2)),
+    Values.curryEquiv ℝ .fp32 [c.batches,c.heads,c.chunks,c.chunk] (values (1 : Fin 2))⟩
   invFun := fun values channel => match channel with
-    | ⟨0,_⟩ => (Values.curryEquiv ℝ .real [c.batches,c.heads,c.chunks,c.chunk]).symm values.prepared
-    | ⟨1,_⟩ => (Values.curryEquiv ℝ .real [c.batches,c.heads,c.chunks,c.chunk]).symm values.cumulative
+    | ⟨0,_⟩ => (Values.curryEquiv ℝ .fp32 [c.batches,c.heads,c.chunks,c.chunk]).symm values.prepared
+    | ⟨1,_⟩ => (Values.curryEquiv ℝ .fp32 [c.batches,c.heads,c.chunks,c.chunk]).symm values.cumulative
   left_inv := by
     intro values
     funext channel j

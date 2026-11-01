@@ -3,48 +3,49 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/reversed_cumsum",
-      "python": "bench/tritonbench_g/reversed_cumsum/reversed_cumsum.py",
+      "path": "bench/tritonbench_g/chunked_cumsum_fwd",
+      "python": "bench/tritonbench_g/chunked_cumsum_fwd/chunked_cumsum_fwd.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/reversed_cumsum/Correct.lean": [
-          "VeriTile.Bench.Repairs.ReversedCumsum.Correctness.kernel_correct"
+        "bench/tritonbench_g/chunked_cumsum_fwd/Correct.lean": [
+          "VeriTile.Bench.Repairs.ChunkedCumsumFwd.Correct.kernel_correct"
         ],
-        "bench/tritonbench_g/reversed_cumsum/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.ReversedCumsum.Equivalence.reversed_cumsum_compare_right_equiv"
+        "bench/tritonbench_g/chunked_cumsum_fwd/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ChunkedCumsumFwd.KernelOnly.FPEquiv.chunked_cumsum_scaleFirst_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/reversed_cumsum/Contract.lean",
-    "bench/tritonbench_g/reversed_cumsum/Correct.lean",
-    "bench/tritonbench_g/reversed_cumsum/FPEquiv.lean",
-    "bench/tritonbench_g/reversed_cumsum/IO.lean",
-    "bench/tritonbench_g/reversed_cumsum/Kernels.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/FPProgram.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/FPPrograms.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Geometry.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/IOComplete.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/IndexProgram.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Mathematical_Formula.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Mathematical_Memory.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Mathematical_RealBody.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Mathematical_RealExecution.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Mathematical_RealInit.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Mathematical_RealLoop.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Mathematical_RealMath.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Mathematical_RealProgram.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Mathematical_RealStep.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Mathematical_SignedRange.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/ReaderFormat.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/RealBridge.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/RealExecution.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/RealProgram.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/RealStep.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/RealValues.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Rewrite.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/Source.lean",
-    "bench/tritonbench_g/reversed_cumsum/Proofs/SourceSafety.lean"
+    "bench/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Correct.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/FPEquiv.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Kernels.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/IO.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/IOReal.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/Interface.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelExecution.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelGeometry.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelGrid.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelIO.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelIndex.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelMath.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelMemory.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelObserved.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelScalar.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelSource.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelValues.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairCorrect.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairIO.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairNumeric.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairSafety.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairSemantics.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/PairSource.lean",
+    "bench/tritonbench_g/chunked_cumsum_fwd/Sources/Mathematical_Kernels.lean",
+    "tests/lean/UnsignedCallArguments.lean"
   ]
 }
