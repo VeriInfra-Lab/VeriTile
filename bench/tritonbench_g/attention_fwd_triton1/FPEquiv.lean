@@ -27,6 +27,7 @@ specification grid_equiv {α : Type} [Inhabited α] (ops : Ops α) (literal : �
   ProgramIO.Implementation.of_equivalent (Pair.variant ops literal c scale storeFlag ifcond)
     (Pair.equivalent ops literal c scale storeFlag ifcond)
 
+#print_fp_assumptions grid_equiv
 #axiomsClean grid_equiv
 #guard_msgs (drop info) in
 #auditModuleAxioms

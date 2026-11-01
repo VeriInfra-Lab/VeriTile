@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 110,
-      "uncovered_jit_functions": 73
+      "selected_body_copy_checked": 111,
+      "uncovered_jit_functions": 72
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 157,
+    "uncovered_selected_jit_functions": 155,
     "inventoried_jit_functions": 524,
-    "uncovered_inventoried_jit_functions": 210,
+    "uncovered_inventoried_jit_functions": 208,
     "checked_pair_modes": {
-      "pasted_body": 314
+      "pasted_body": 316
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 110,
-        "uncovered_jit_functions": 73
+        "selected_body_copy_checked": 111,
+        "uncovered_jit_functions": 72
       }
     },
     "primary_files_with_int64_screen_warning": 16,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 45,
-        "antiquotes": 387,
+        "in_body_type_directives": 44,
+        "antiquotes": 386,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -10391,13 +10391,13 @@
       "python": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
       "lean": "bench/tritonbench_g/attention_fwd_triton1/Kernels.lean",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 45,
-        "dsl_assignment": 3,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 26,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 1
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -10452,33 +10452,67 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "attention_fwd_kernel",
+          "lean_definition": "runtimeSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {
+            "s_qh": "integer",
+            "s_qt": "integer",
+            "s_qd": "integer",
+            "s_hh": "integer",
+            "s_ht": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BD",
+            "BT",
+            "IFCOND",
+            "NT",
+            "STORE"
+          ],
           "python": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
-          "function": "attention_fwd_kernel"
+          "lean": "bench/tritonbench_g/attention_fwd_triton1/Kernels.lean"
         },
         {
+          "python_function": "attention_fwd_shifted_kernel",
+          "lean_definition": "runtimeCandidate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 4,
+          "runtime_parameters": {
+            "s_qh": "integer",
+            "s_qt": "integer",
+            "s_qd": "integer",
+            "s_hh": "integer",
+            "s_ht": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BD",
+            "BT",
+            "IFCOND",
+            "NT",
+            "STORE"
+          ],
           "python": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
-          "function": "attention_fwd_shifted_kernel"
+          "lean": "bench/tritonbench_g/attention_fwd_triton1/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
-          "function": "attention_fwd_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
-          "function": "attention_fwd_shifted_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/attention_fwd_triton1/Kernels.lean": "3b89258c8e180a681183b0f881a60b070e245edba5955b524c30e5fa6601a768",
-        "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py": "9e86c1181e244ac76107f52c5c0d14e976390746685ebbbe4b9144615b2e0b6d"
+        "bench/tritonbench_g/attention_fwd_triton1/Kernels.lean": "575aedbecb82d2d013df82b3f3c71ed675623e71feaf1ecaab9d62928a17bee9",
+        "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py": "9e86c1181e244ac76107f52c5c0d14e976390746685ebbbe4b9144615b2e0b6d",
+        "bench/tritonbench_g/attention_fwd_triton1/jit-correspondence.json": "c9b62be8e1f781427cd7ecefec7f0667d982f87247e1687162e85a076085811a"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/attention_fwd_triton1"

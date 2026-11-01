@@ -11,7 +11,7 @@ set_option maxRecDepth 32000
 
 def body (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) : List ComputeStmt :=
   match ((kernel c scale storeFlag ifcond).surfaceBody[2]? : Option ComputeStmt) with
-  | some (.forRangeDyn _ _ _ _ b) => b
+  | some (.forRange _ _ _ _ b) => b
   | _ => []
 
 def pointers (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :=
@@ -34,7 +34,7 @@ theorem offset_eval {α : Type} [Inhabited α] (M : Algebra α)
 theorem pointer_run {α : Type} [Inhabited α] (M : Algebra α)
     (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) (s : State α) :
     run M (Program.pointers c) s = run M (pointers c scale storeFlag ifcond) s := by
-  simp only [pointers,body,kernel,shiftedSource,ComputeKernel.surfaceBody,
+  simp only [pointers,body,kernel,shiftedSource,runtimeCandidate,ComputeKernel.surfaceBody,
     List.getElem?_cons_zero,List.getElem?_cons_succ,List.take_succ_cons,List.take_zero]
   simp only [Program.pointers,Program.pointer,Program.times,Program.headTimes,run,step,evalExpr,evalOp_unfold]
   simp only [evalOffsets]
@@ -81,7 +81,7 @@ theorem pointer_safe {α : Type} [Inhabited α] (M : Algebra α)
     all_goals simp only [Program.times,Program.headTimes,Safety.safeOp_unfold,true_and,and_true]
   · apply pure_list_safe
     intro st member t
-    simp only [pointers,body,kernel,shiftedSource,ComputeKernel.surfaceBody,
+    simp only [pointers,body,kernel,shiftedSource,runtimeCandidate,ComputeKernel.surfaceBody,
       List.getElem?_cons_zero,List.getElem?_cons_succ,List.take_succ_cons,List.take_zero,
       List.mem_cons,List.not_mem_nil,or_false] at member
     rcases member with rfl|rfl|rfl|rfl|rfl
@@ -139,13 +139,13 @@ def codePrefix (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :=
 theorem original_quoted (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :
     Program.kernel c scale storeFlag ifcond =
       .mk ["q","k","v"] ["h","o"] (codePrefix c scale storeFlag ifcond ++
-        [.forRangeDyn "i" (.constNat 0) (.constNat c.chunks) (.constNat 1)
+        [.forRange "i" 0 c.chunks 1
           (Program.body c scale storeFlag ifcond)]) := rfl
 
 theorem candidate_quoted (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) :
     kernel c scale storeFlag ifcond =
       .mk ["q","k","v"] ["h","o"] (codePrefix c scale storeFlag ifcond ++
-        [.forRangeDyn "i" (.constNat 0) (.constNat c.chunks) (.constNat 1)
+        [.forRange "i" 0 c.chunks 1
           (body c scale storeFlag ifcond)]) := rfl
 
 theorem kernel_run {α : Type} [Inhabited α] (M : Algebra α)

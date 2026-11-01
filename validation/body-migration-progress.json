@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 0,
-  "staged_count": 123,
+  "staged_count": 124,
   "pending_count": 196,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_OFFICIAL_REPLAY_PENDING",
-    "staged_and_regression_retained_modules": 3444,
+    "staged_and_regression_retained_modules": 3489,
     "official_comparator": "120 targets were accepted on the previous dependency snapshot, including all 19 examples. Their receipts are preserved as previous_receipt. The distinct libdevice.rsqrt model extension changes shared dependency hashes, so current completion awaits full proof rebuild and independent replay. BmmChunkBwd run 41347223281 targets the earlier c5bb57dff0873783f7df0a67c58832e9ccfd8bcd snapshot.",
-    "python_tests": 456,
+    "python_tests": 462,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "All 129 selected cases (123 targets and six regressions), 3444 retained/supporting modules, 2447 required replay/audit sources and 456 Python tests pass locally, including qualified public Real/FP names. UniformSampling retains both literal 22-statement bodies and its complete three-statement fallback helper. FP32 scalar ABI words, Int64 casts, modular uint32 counter operations, all four Philox outputs, FP32 affine FMAs, clamped masks/cache hints and direct stores remain. The copied helper selects its uint32 branch at actual Philox4x32 call sites; source sign folding and both rounding operations are proved equal to the fixed canonical decoder and used in the actual execution proof. Removed four extra casts absent from Python and reconnected complete execution, Real formula, FP comparison, safety/output/frame and all retained modules. No completion is claimed without exact independent replay.",
-    "official_replay_sources": 2447,
+    "working_tree": "All 130 selected cases (124 targets and six regressions), 3489 retained/supporting modules, 2492 required replay/audit sources and 462 Python tests pass locally, including qualified public Real/FP names. AttentionFwdTriton1 copies both complete original and shifted Python bodies at the canonical task entry; Sources/Kernels is a thin compatibility import. Every block-pointer constructor, Int64 head cast, pointer/value dtype cast, zero-padding axis, precise dot, history store and STORE/IFCOND branch remains. Its compile-time shape products are checked over immutable call metadata; runtime offsets remain instructions and its BT=32 assertion is checked from the caller before compile-time erasure. Independent full typed-program and mutation-refusal tests pass. The retained manual proof program is kernel-checked equal to the entire copied source. All-head/chunk success, pre-update history, mathematical linear-attention formula, source safety, exterior frame and complete FP comparison pass. The FP comparison prints no numerical assumptions. Exact independent receipts remain required; compilation is not completion.",
+    "official_replay_sources": 2492,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -48,15 +48,12 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/uniform_sampling",
+      "case": "bench/tritonbench_g/attention_fwd_triton1",
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 34,
-      "replay_sources": 34,
-      "state": "official_replay_running",
-      "validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41359684034",
-      "source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67"
+      "retained_modules": 45,
+      "replay_sources": 45,
+      "state": "local_proofs_pass_official_replay_pending"
     },
     "previous_incremental_replays": [
       {
@@ -423,6 +420,17 @@
         "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41358544189",
         "source_commit": "75df3c770d3461f53e8bf2c0ab6a97dda7bcd931"
+      },
+      {
+        "case": "bench/tritonbench_g/uniform_sampling",
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 34,
+        "replay_sources": 34,
+        "state": "official_replay_running",
+        "validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41359684034",
+        "source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67"
       }
     ],
     "pending_client_regressions": {
@@ -438,7 +446,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Repair literal AttentionFwdTriton1 source and retained proofs; audit exact-current independent receipts before marking any target complete. No merge.",
+    "current_work": "Dispatch AttentionFwdTriton1 independent replay, audit exact-current receipts and continue the remaining source/proof migrations. No merge.",
     "previous_validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0",
     "shared_model_revalidation": {
       "state": "reshape_precision_full_local_pass_official_replay_running",
@@ -550,8 +558,17 @@
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton1",
-      "status": "pending",
-      "complete": false
+      "status": "official_replay_pending",
+      "complete": false,
+      "body_correspondence": "pass",
+      "public_real_and_fp_proofs": "local_pass",
+      "retained_modules": "local_pass",
+      "retained_module_count": 43,
+      "python_source_statements": [
+        3,
+        4
+      ],
+      "reason": "Both complete bodies copied, canonical source centralized, compile-time shape/assertion handling and full retained Real/FP/safety/IO proof chain locally checked. Exact independent replay is still required."
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton2",

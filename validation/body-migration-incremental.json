@@ -3,54 +3,65 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/uniform_sampling",
-      "python": "bench/tritonbench_g/uniform_sampling/uniform_sampling.py",
+      "path": "bench/tritonbench_g/attention_fwd_triton1",
+      "python": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/uniform_sampling/Correct.lean": [
-          "VeriTile.Bench.Repairs.UniformSampling.Correct.uniform_sampling_kernel_correctness"
+        "bench/tritonbench_g/attention_fwd_triton1/Correct.lean": [
+          "VeriTile.Bench.Repairs.AttentionFwdTriton1TileChecked.Correct.kernel_real"
         ],
-        "bench/tritonbench_g/uniform_sampling/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.UniformSampling.FPEquiv.index_commuted_equiv"
+        "bench/tritonbench_g/attention_fwd_triton1/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttentionFwdTriton1TileChecked.FPEquiv.grid_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/uniform_sampling/Contract.lean",
-    "bench/tritonbench_g/uniform_sampling/Correct.lean",
-    "bench/tritonbench_g/uniform_sampling/FPEquiv.lean",
-    "bench/tritonbench_g/uniform_sampling/IO.lean",
-    "bench/tritonbench_g/uniform_sampling/Kernels.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/KernelAffine.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/KernelExecution.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/KernelMath.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/KernelOffsets.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/KernelPrefix.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/KernelStores.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/LogicalIO.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_Algorithm.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_CounterExecution.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_CounterOperands.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_Erasure.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_FP.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_Kernels.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_RandomDomain.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_ScalarSpec.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_SourceDomain.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TupleExecution.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedAffine.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedBindings.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedCounterOperands.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedRandom.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Mathematical_TypedTuple.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/Projection.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/PublicIO.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/SourceSafety.lean",
-    "bench/tritonbench_g/uniform_sampling/Proofs/UniformDecoder.lean",
-    "VeriTile/Triton/DSL/PhiloxCallArguments.lean",
-    "VeriTile/Triton/DSL/UniformJitFunctions.lean",
-    "tests/lean/PhiloxCallArguments.lean"
+    "bench/tritonbench_g/attention_fwd_triton1/Admission.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Contract.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Correct.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/FPEquiv.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/IO.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Kernels.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Arithmetic.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/ArrayAgreement.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/AttentionFwdTriton1_Grid.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/AttentionFwdTriton1_Loop.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Body.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Contract.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Correct.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Execution.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/FPEquiv.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Geometry.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Grid.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Host.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOComputeSafety.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOGeometry.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOInterface.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOPhaseSafety.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOProgramSafety.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOResult.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Loop.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/LoopOutput.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Machine.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Math.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Memory.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Pair.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Program.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Projection.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealInterface.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealOutput.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Source.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Step.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/StepFacts.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Stores.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Terms.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Transport.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/RealIO.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Sources/Kernels.lean",
+    "VeriTile/Triton/DSL/PythonShapeExpressions.lean",
+    "tests/lean/PythonShapeExpressions.lean"
   ],
-  "description": "Literal UniformSampling original, candidate and complete fallback helper; source ABI words, Int64/uint32 counters, all four Philox fields, selected decoder with both FP32 rounding steps, affine FMA and direct FP32 stores. Independent Real formula, complete FP comparison, memory safety and all retained modules. Completion requires an exact independent receipt."
+  "description": "Both literal AttentionFwdTriton1 bodies: full pointer geometry, alias casts, zero-padded loads, precise dots and every STORE/IFCOND branch. Compile-time shape products and checked fixed-BT assertion retain runtime offsets. Full independent Real math, complete FP comparison, source safety and all retained modules. Exact independent receipt is required for completion."
 }
