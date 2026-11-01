@@ -1,3 +1,4 @@
+import bench.tritonbench_g.triton_softmax.Proofs.IntegerAddresses
 import bench.tritonbench_g.softmax_triton1.Kernels
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
@@ -60,7 +61,7 @@ theorem row_exec {α} [Inhabited α] (M : Algebra α)
     (out inp : RegionName) (ib ob ir ic orow oc n B : Nat) (hB : 0<B) (s : State α) :
     ∃ t, exec (backend M) (softmax_kernel out inp ib ob ir ic orow oc n B) s=some t := by
   simp [exec,softmax_kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalOp,store,
-    State.setReg,numeric,natLt,bop,TileShape.axisDim,hB,Option.bind,Function.comp_def,
+    State.setReg,numeric,numericLt,numericLe,numericEq,natLt,bop,TileShape.axisDim,hB,Option.bind,Function.comp_def,
     evalComputeOp,backend,ComputeDType.eraseDType]
 
 theorem row_value {α} [Inhabited α] (M : Algebra α)
@@ -71,7 +72,7 @@ theorem row_value {α} [Inhabited α] (M : Algebra α)
     t.mem out (ob+s.pids 0*orow+i.val*oc)=.mk .real
       (rowExpression M n B (fun j => (s.mem inp (ib+s.pids 0*ir+j.val*ic)).read .real) i) := by
   simp [exec,softmax_kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalOp,store,
-    State.setReg,numeric,natLt,bop,TileShape.axisDim,hB,Option.bind,Function.comp_def,
+    State.setReg,numeric,numericLt,numericLe,numericEq,natLt,bop,TileShape.axisDim,hB,Option.bind,Function.comp_def,
     evalComputeOp,backend,ComputeDType.eraseDType] at runEq
   subst t
   rw [masked_readback_active (shape := [B]) out
@@ -89,7 +90,7 @@ theorem row_frame {α} [Inhabited α] (M : Algebra α)
     (miss : ∀ i : Fin B, i.val<n → ¬(out=r ∧ ob+s.pids 0*orow+i.val*oc=a)) :
     t.mem r a=s.mem r a := by
   simp [exec,softmax_kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalOp,store,
-    State.setReg,numeric,natLt,bop,TileShape.axisDim,hB,Option.bind,Function.comp_def,
+    State.setReg,numeric,numericLt,numericLe,numericEq,natLt,bop,TileShape.axisDim,hB,Option.bind,Function.comp_def,
     evalComputeOp,backend,ComputeDType.eraseDType] at runEq
   subst t
   apply State.masked_scatter_frame

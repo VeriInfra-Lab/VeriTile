@@ -14,9 +14,70 @@
           "VeriTile.Bench.Repairs.TritonSoftmax.FPEquiv.kernel_native"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_triton1",
+      "python": "bench/tritonbench_g/softmax_triton1/softmax_triton1.py",
+      "purpose": "target",
+      "public_theorems": {
+        "bench/tritonbench_g/softmax_triton1/Correct.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxTriton1.Correct.softmax_kernel_correctness"
+        ],
+        "bench/tritonbench_g/softmax_triton1/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxTriton1.FPEquiv.softmax_reciprocal_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_triton2",
+      "python": "bench/tritonbench_g/softmax_triton2/softmax_triton2.py",
+      "purpose": "target",
+      "public_theorems": {
+        "bench/tritonbench_g/softmax_triton2/Correct.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxTriton2.Correct.softmax_kernel_correctness"
+        ],
+        "bench/tritonbench_g/softmax_triton2/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxTriton2.FPEquiv.softmax_reciprocal_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
+    "bench/tritonbench_g/softmax_triton1/Contract.lean",
+    "bench/tritonbench_g/softmax_triton1/Correct.lean",
+    "bench/tritonbench_g/softmax_triton1/FPEquiv.lean",
+    "bench/tritonbench_g/softmax_triton1/IO.lean",
+    "bench/tritonbench_g/softmax_triton1/Kernels.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/Addresses.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/Contract.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/FP.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/FPKernel.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/Grid.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/InputBinding.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/KernelMath.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/Mathematical_Real.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/Native.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/NativeGraph.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/Real.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/RealIO.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/Rewrite.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/SourceContract.lean",
+    "bench/tritonbench_g/softmax_triton1/Proofs/Storage.lean",
+    "bench/tritonbench_g/softmax_triton2/Contract.lean",
+    "bench/tritonbench_g/softmax_triton2/Correct.lean",
+    "bench/tritonbench_g/softmax_triton2/FPEquiv.lean",
+    "bench/tritonbench_g/softmax_triton2/IO.lean",
+    "bench/tritonbench_g/softmax_triton2/Kernels.lean",
+    "bench/tritonbench_g/softmax_triton2/Proofs/Binding.lean",
+    "bench/tritonbench_g/softmax_triton2/Proofs/GridPair.lean",
+    "bench/tritonbench_g/softmax_triton2/Proofs/GuardedReciprocal.lean",
+    "bench/tritonbench_g/softmax_triton2/Proofs/Mathematical_Real.lean",
+    "bench/tritonbench_g/softmax_triton2/Proofs/Pair.lean",
+    "bench/tritonbench_g/softmax_triton2/Proofs/PairSafety.lean",
+    "bench/tritonbench_g/softmax_triton2/Proofs/ReaderFormat.lean",
+    "bench/tritonbench_g/softmax_triton2/Proofs/Real.lean",
+    "bench/tritonbench_g/softmax_triton2/Proofs/SourceIO.lean",
     "bench/tritonbench_g/triton_softmax/Contract.lean",
     "bench/tritonbench_g/triton_softmax/Correct.lean",
     "bench/tritonbench_g/triton_softmax/FPEquiv.lean",

@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 63,
-      "uncovered_jit_functions": 118
+      "selected_body_copy_checked": 65,
+      "uncovered_jit_functions": 116
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 231,
-    "inventoried_jit_functions": 491,
-    "uncovered_inventoried_jit_functions": 296,
+    "uncovered_selected_jit_functions": 228,
+    "inventoried_jit_functions": 492,
+    "uncovered_inventoried_jit_functions": 293,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 189
+      "pasted_body": 193
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 63,
-        "uncovered_jit_functions": 118
+        "selected_body_copy_checked": 65,
+        "uncovered_jit_functions": 116
       }
     },
-    "primary_files_with_int64_screen_warning": 32,
+    "primary_files_with_int64_screen_warning": 30,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 87,
-        "antiquotes": 431,
+        "in_body_type_directives": 85,
+        "antiquotes": 429,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -33489,9 +33489,9 @@
       "lean": "bench/tritonbench_g/softmax_triton1/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 18,
-        "dsl_assignment": 3,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 32,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -33515,6 +33515,26 @@
       ],
       "python_sources": [
         {
+          "path": "bench/tritonbench_g/softmax_triton1/reciprocal_candidate.py",
+          "jits": [
+            {
+              "function": "reciprocal_kernel",
+              "line": 11,
+              "statements": 12,
+              "explicit_int64_casts": [
+                {
+                  "line": 12,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 14,
+                  "expression": "tl.arange(0, BLOCK_SIZE).to(tl.int64)"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "path": "bench/tritonbench_g/softmax_triton1/softmax_triton1.py",
           "jits": [
             {
@@ -33535,24 +33555,55 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "softmax_kernel",
+          "lean_definition": "softmax_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "input_row_stride": "i64",
+            "input_col_stride": "i64",
+            "output_row_stride": "i64",
+            "output_col_stride": "i64",
+            "n_cols": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/softmax_triton1/softmax_triton1.py",
-          "function": "softmax_kernel"
+          "lean": "bench/tritonbench_g/softmax_triton1/Kernels.lean"
+        },
+        {
+          "python_function": "reciprocal_kernel",
+          "lean_definition": "reciprocal_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "input_row_stride": "i64",
+            "input_col_stride": "i64",
+            "output_row_stride": "i64",
+            "output_col_stride": "i64",
+            "n_cols": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/softmax_triton1/reciprocal_candidate.py",
+          "lean": "bench/tritonbench_g/softmax_triton1/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/softmax_triton1/softmax_triton1.py",
-          "function": "softmax_kernel"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/softmax_triton1/Kernels.lean": "ae60d687de2439e4e56793a9782c2f4ff4d4079d3601f99a70286a92cbf4a400",
+        "bench/tritonbench_g/softmax_triton1/Kernels.lean": "ce43239f519c7765415553e6ffa29ff8018168b1b19345f5eab17ec3b500bfa1",
+        "bench/tritonbench_g/softmax_triton1/jit-correspondence.json": "fe118881c787083f3725deaada03326b0ac6080b00359fd2c6ed8e5a6404b3a8",
+        "bench/tritonbench_g/softmax_triton1/reciprocal_candidate.py": "8fa535041af30c6bda512e33075e2e04fd3c8b8ef9f593bf656a5d217be66ba0",
         "bench/tritonbench_g/softmax_triton1/softmax_triton1.py": "fb022c4236f77d2d3d39daacf961f2b73e90be889430669f5c921c020e8db691"
       },
       "collection": "tritonbench_g",
@@ -33565,9 +33616,9 @@
       "lean": "bench/tritonbench_g/softmax_triton2/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 19,
-        "dsl_assignment": 3,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 32,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -33641,32 +33692,54 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "softmax_kernel",
+          "lean_definition": "softmax_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "input_row_stride": "i64",
+            "input_col_stride": "i64",
+            "output_row_stride": "i64",
+            "output_col_stride": "i64",
+            "n_cols": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/softmax_triton2/softmax_triton2.py",
-          "function": "softmax_kernel"
+          "lean": "bench/tritonbench_g/softmax_triton2/Kernels.lean"
         },
         {
+          "python_function": "guarded_reciprocal_kernel",
+          "lean_definition": "guarded_reciprocal_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "input_row_stride": "i64",
+            "input_col_stride": "i64",
+            "output_row_stride": "i64",
+            "output_col_stride": "i64",
+            "n_cols": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/softmax_triton2/softmax_triton2.py",
-          "function": "guarded_reciprocal_kernel"
+          "lean": "bench/tritonbench_g/softmax_triton2/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/softmax_triton2/softmax_triton2.py",
-          "function": "softmax_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/softmax_triton2/softmax_triton2.py",
-          "function": "guarded_reciprocal_kernel"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/softmax_triton2/Kernels.lean": "dcdbfd78a85a5e5b64292db9dc09d50d38a0f473048b686f0462d463bdf7de5a",
+        "bench/tritonbench_g/softmax_triton2/Kernels.lean": "33397f44cd9db257171069072d1ebf8f2127b91bb007864a3a3b9ac3974d7162",
+        "bench/tritonbench_g/softmax_triton2/jit-correspondence.json": "5df16704a120bfc0ec2667ea5d9ed59a83e2ab8e563266c6a074ad5944e41b73",
         "bench/tritonbench_g/softmax_triton2/softmax_triton2.py": "69abc9b36a0ee55a2064e09e5ab42eb4c816afa03b7511aa1f6ff0b81fb6c45d"
       },
       "collection": "tritonbench_g",
