@@ -1910,3 +1910,53 @@ class BmmOptimizedBodyCorrespondenceTests(unittest.TestCase):
         old = 'inner_group_id = pid % num_CTA_per_group'
         with self.assertRaises(ValueError):
             self.verify(self.source.replace(old, 'inner_group_id = pid - (pid // num_CTA_per_group) * num_CTA_per_group', 1))
+
+
+class BmmChunkBwdBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/bmm_chunk_bwd'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, source):
+        r = self.records[0]
+        return check((ROOT / r['python']).read_text(), source, r['python_function'],
+                     r['lean_definition'], r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'])
+
+    def test_original_and_existing_index_candidate(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [45, 45])
+
+    def test_all_twenty_one_argument_casts_are_required(self):
+        for name in self.records[0]['expected_call_bindings']:
+            old = f'{name} = tl.cast({name}, tl.int64)'
+            with self.subTest(name=name), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, f'{name} = {name}', 1))
+
+    def test_explicit_dot_and_output_casts_are_required(self):
+        for old, new in [('.to(dot_dtype)', '.to(tl.float32)'),
+                         ('db = acc.to(db_ptr.dtype.element_ty)', 'db = acc')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_signed_limit_and_all_tail_masks_are_retained(self):
+        for old, new in [('min(chunk_size, seqlen - pid_c * chunk_size)', 'chunk_size'),
+                         ('offs_cs[None, :] < chunk_size_limit - cs * BLOCK_SIZE_CS',
+                          'offs_cs[None, :] < chunk_size_limit'),
+                         ('offs_m[:, None] < chunk_size_limit', 'offs_m[:, None] < chunk_size')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_residual_addition_order_and_pointer_advance_are_retained(self):
+        for old, new in [('acc += res', 'acc = res + acc'),
+                         ('dout_ptrs += BLOCK_SIZE_CS * stride_dout_csize_m',
+                          'dout_ptrs += stride_dout_csize_m')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_original_index_and_caller_storage_profile_are_checked(self):
+        for old, new in [('pid_h = pid_ch - pid_c * ngroups', 'pid_h = pid_ch - ngroups * pid_c'),
+                         ('("res_ptr",dtype)', '("res_ptr",out_dtype)')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))

@@ -1708,6 +1708,19 @@
           "VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Equivalence.quotient_remainder_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/bmm_chunk_bwd",
+      "python": "bench/tritonbench_g/bmm_chunk_bwd/bmm_chunk_bwd.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/bmm_chunk_bwd/Correct.lean": [
+          "VeriTile.Bench.Repairs.BmmChunkBwd.Correct.bmm_chunk_bwd_real"
+        ],
+        "bench/tritonbench_g/bmm_chunk_bwd/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.BmmChunkBwd.FPEquiv.bmm_chunk_bwd_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1723,6 +1736,7 @@
     "VeriTile/Triton/DSL/IntegerCallSyntax.lean",
     "VeriTile/Triton/DSL/IntegerMinMaxLiterals.lean",
     "VeriTile/Triton/DSL/IntegerWhereLiterals.lean",
+    "VeriTile/Triton/DSL/NamedFloatDTypeCasts.lean",
     "VeriTile/Triton/DSL/OptionalStringConstants.lean",
     "VeriTile/Triton/DSL/PointerDTypeConstants.lean",
     "VeriTile/Triton/DSL/PureJitFunctions.lean",
@@ -1893,6 +1907,46 @@
     "bench/tritonbench_g/batched_vecmat_mult/Proofs/Real.lean",
     "bench/tritonbench_g/batched_vecmat_mult/Sources/Mathematical_Kernels.lean",
     "bench/tritonbench_g/batched_vecmat_mult/Sources/Parameters.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Contract.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Correct.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/FPEquiv.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/IO.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Kernels.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Parameters.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/HostContract.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/HostGrid.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/IOResult.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/IOSource.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/IntegerIndices.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/KernelRewrite.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealAccess.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealContract.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealDot.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealFinish.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealFinishSafety.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealIO.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealIOBridge.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealInputs.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealLoads.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealLoop.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealLoopSafety.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealMemory.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealProgram.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealPureSafety.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealResidual.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealResidualSafety.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealSafety.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealSetup.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealSource.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealStep.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealStore.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/Mathematical_RealViews.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/SignedLoop.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Source.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Sources/Mathematical_RealMath.lean",
+    "bench/tritonbench_g/bmm_chunk_bwd/Sources/Selected.lean",
     "bench/tritonbench_g/bmm_optimized/Contract.lean",
     "bench/tritonbench_g/bmm_optimized/Correct.lean",
     "bench/tritonbench_g/bmm_optimized/FPEquiv.lean",
@@ -3867,6 +3921,8 @@
     "tests/lean/IntegerMinMaxReference.lean",
     "tests/lean/IntegerWhereLiterals.lean",
     "tests/lean/IntegerWhereReference.lean",
+    "tests/lean/NamedFloatDTypeCastReference.lean",
+    "tests/lean/NamedFloatDTypeCasts.lean",
     "tests/lean/OptionalPointers.lean",
     "tests/lean/OptionalStringConstants.lean",
     "tests/lean/OptionalStringReference.lean",
