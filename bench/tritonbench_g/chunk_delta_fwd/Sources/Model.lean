@@ -32,8 +32,8 @@ def valueLoad (M : Algebra α) (p : Parameters) (pid : PID) (m : Memory α)
   M.fp32Load (if time p c b i.1.val<p.T ∧ column p pid i.2.1.val<p.V then
     (m "value" (pid.2*(p.T*p.V)+time p c b i.1.val*p.V+column p pid i.2.1.val)).read .real else zero M)
 def initial (M : Algebra α) (p : Parameters) (pid : PID) (m : Memory α) : HValues p α :=
-  fun i => if p.useSeed then cast M (if i.1.val<p.K ∧ column p pid i.2.1.val<p.V then
-    (m "initial" (pid.2*p.K*p.V+i.1.val*p.V+column p pid i.2.1.val)).read .real else zero M) else zero M
+  fun i => if p.useSeed then cast M (M.fp32Load (if i.1.val<p.K ∧ column p pid i.2.1.val<p.V then
+    (m "initial" (pid.2*p.K*p.V+i.1.val*p.V+column p pid i.2.1.val)).read .real else zero M)) else zero M
 
 def corrected (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (pid : PID)
     (m : Memory α) (c b : Nat) (frozen : HValues p α) : CIndex p → α :=

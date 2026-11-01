@@ -21,15 +21,18 @@ def entryState (M : Algebra α) (p : Parameters) (s : State α) : State α :=
   let base := (((s.setReg "i_k" .nat [] (fun _ => s.pids 0)).setReg "i_v" .nat [] (fun _ => s.pids 1)).setReg "i_bh" .nat [] (fun _ => s.pids 2)).setReg "b_h" .real [p.BK,p.BV] (fun _ => zero M)
   if p.useSeed then
     let pointer := BlockPtr.mk "initial" (s.pids 2*p.K*p.V) [p.K,p.V] [p.BK,p.BV] [p.V,1] [s.pids 0*p.BK,s.pids 1*p.BV]
-    (base.setReg "p_h0" .blockPtr [p.BK,p.BV] (fun _ => pointer)).setReg "b_h" .real [p.BK,p.BV]
-      (fun i => cast M (if s.pids 0*p.BK+i.1.val<p.K ∧ s.pids 1*p.BV+i.2.1.val<p.V then
-        (s.mem "initial" (s.pids 2*p.K*p.V+(s.pids 0*p.BK+i.1.val)*p.V+(s.pids 1*p.BV+i.2.1.val))).read .real else zero M))
+    let loaded := fun i : HIndex p => M.fp32Load
+      (if s.pids 0*p.BK+i.1.val<p.K ∧ s.pids 1*p.BV+i.2.1.val<p.V then
+        (s.mem "initial" (s.pids 2*p.K*p.V+(s.pids 0*p.BK+i.1.val)*p.V+(s.pids 1*p.BV+i.2.1.val))).read .real else zero M)
+    ((base.setReg "p_h0" .blockPtr [p.BK,p.BV] (fun _ => pointer)).setReg
+      "__veritile_load_0" .real [p.BK,p.BV] loaded).setReg "b_h" .real [p.BK,p.BV]
+      (fun i => cast M (loaded i))
   else base
 
 theorem entry_run (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s : State α) :
     run (engine (withDot M D)) (outer p).before s=some (entryState M p s) := by
   cases hp : p.useSeed <;>
-     simp [outer,kernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+     simp [outer,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
        run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
        Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
        numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

@@ -58,13 +58,13 @@ theorem seed (p : Parameters) (xs : Inputs (BitVec 32) p) (m : Memory Expr)
     initial Native.algebra p (tile,head) m i =
       NativeReference.seed p (nativeInputs p xs) head tile i.1 i.2.1 := by
   cases hon : p.useSeed
-  · simp [initial,NativeReference.seed,hon,zero,NativeReference.zero,Native.algebra,
+  · simp [initial,NativeReference.seed,NativeReference.loaded,hon,zero,NativeReference.zero,Native.algebra,
       VeriTile.Bench.Repairs.ChunkGlaFwd.NativeStaging.algebra]
   · by_cases h : i.1.val < p.K ∧ tile*p.BV+i.2.1.val < p.V
     · have he := hb.seed hon head i.1.val (tile*p.BV+i.2.1.val) hh h.1 h.2
-      simp [initial,NativeReference.seed,hon,column,h,ChunkDeltaFwd.cast,NativeReference.cast32,
+      simp [initial,NativeReference.seed,NativeReference.loaded,hon,column,h,ChunkDeltaFwd.cast,NativeReference.cast32,
         Native.algebra,VeriTile.Bench.Repairs.ChunkGlaFwd.NativeStaging.algebra,nativeInputs,he]
-    · simp [initial,NativeReference.seed,hon,column,h,ChunkDeltaFwd.cast,NativeReference.cast32,
+    · simp [initial,NativeReference.seed,NativeReference.loaded,hon,column,h,ChunkDeltaFwd.cast,NativeReference.cast32,
         zero,NativeReference.zero,Native.algebra,VeriTile.Bench.Repairs.ChunkGlaFwd.NativeStaging.algebra]
 
 theorem correction (p : Parameters) (xs : Inputs (BitVec 32) p) (m : Memory Expr)

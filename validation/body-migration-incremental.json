@@ -3,37 +3,73 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/masked_select",
-      "python": "bench/tritonbench_g/masked_select/masked_select.py",
+      "path": "bench/tritonbench_g/chunk_delta_fwd",
+      "python": "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/masked_select/Correct.lean": [
-          "VeriTile.Bench.Repairs.MaskedSelect.Correct.masked_select_stable_correctness"
+        "bench/tritonbench_g/chunk_delta_fwd/Correct.lean": [
+          "VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.Correct.chunk_delta_kernel_correct"
         ],
-        "bench/tritonbench_g/masked_select/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.MaskedSelect.FPEquiv.masked_select_configuration_equiv"
+        "bench/tritonbench_g/chunk_delta_fwd/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.FPEquiv.chunk_delta_addressFold_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/masked_select/Contract.lean",
-    "bench/tritonbench_g/masked_select/Correct.lean",
-    "bench/tritonbench_g/masked_select/FPEquiv.lean",
-    "bench/tritonbench_g/masked_select/IO.lean",
-    "bench/tritonbench_g/masked_select/Kernels.lean",
-    "bench/tritonbench_g/masked_select/Proofs/AccessSafety.lean",
-    "bench/tritonbench_g/masked_select/Proofs/Kernel.lean",
-    "bench/tritonbench_g/masked_select/Proofs/LogicalReader.lean",
-    "bench/tritonbench_g/masked_select/Proofs/Mathematical_HostSource.lean",
-    "bench/tritonbench_g/masked_select/Proofs/Mathematical_MaskedSelect.lean",
-    "bench/tritonbench_g/masked_select/Proofs/Mathematical_NativeDomain.lean",
-    "bench/tritonbench_g/masked_select/Proofs/Mathematical_StableSelection.lean",
-    "bench/tritonbench_g/masked_select/Proofs/Mathematical_TypedCopy.lean",
-    "bench/tritonbench_g/masked_select/Proofs/Mathematical_WholeExecution.lean",
-    "bench/tritonbench_g/masked_select/Proofs/PublicIO.lean",
-    "bench/tritonbench_g/masked_select/Sources/Mathematical_Kernels.lean",
-    "bench/tritonbench_g/masked_select/Sources/Parameters.lean",
-    "bench/tritonbench_g/masked_select/Sources/Selected.lean"
+    "VeriTile/Triton/Float/CountedLoop.lean",
+    "VeriTile/Triton/Source/CountedLoop.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Contract.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Correct.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/FPEquiv.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/IO.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Kernels.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/PairIO.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/Admission.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/Bounds.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/Contract.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/Grid.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/GridOutputs.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/GridSchedule.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/HostCall.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/HostMetadata.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/IOBinding.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/IOImplements.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/NativeGraph.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/NativeIOBinding.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/NativeReference.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/Ownership.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/PairContext.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/PairCorrect.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/PairSource.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/ProgramReadback.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealBinding.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealOutputs.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealValues.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/ReferenceTargets.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/SourceSafetyBlockPointer.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/SourceSafetyEdges.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/SourceSafetyInner.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Proofs/SourceSafetyPrefix.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Entry.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Finish.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Geometry.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Inner.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/InnerLoop.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Kernels.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Mathematical_RealMath.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Memory.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Model.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/OuterEdges.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/OuterLoop.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Parameters.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Program.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Range.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/Readback.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/RealModel.lean",
+    "bench/tritonbench_g/chunk_delta_fwd/Sources/StoreRange.lean"
   ]
 }

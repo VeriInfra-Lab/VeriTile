@@ -12,31 +12,24 @@ variable {α : Type} [Inhabited α]
 theorem entry_tail (M : Algebra α) (p : Parameters) (s : State α)
     (hk : s.pids 0 = 0) (bounds : RegionName → Nat)
     (hb : Bounds p (s.pids 1,s.pids 2) bounds) :
-    traceSafeList M bounds ((outer p).before.drop 4) (entryStart M p s) := by
-  simp [outer,kernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
-  rw [singleton]
-  cases hp : p.useSeed
-  · simp [stepSafe_unfold,safeOp_unfold,evalOp_unfold,hp]
-  · simp [stepSafe_unfold,safeOp_unfold,evalOp_unfold,hp]
-    apply traceSafeList_cons_intro
-    · simp [stepSafe_unfold,safeExpr_unfold,safeOp_unfold]
-    · intro next ran
-      simp [step,evalExpr,evalOp_unfold,evalOffsets,Option.bind,numeric,bop,
-        entryStart,Region.cast,hk] at ran
-      cases ran
-      rw [singleton]
-      simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
-        safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
-        evalOp_unfold,Option.bind,entryStart,Region.cast,hk,
-        BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList]
-      intro k v hk' hv
-      exact hb.seed hp k.val (s.pids 1*p.BV+v.val) hk' hv
+    traceSafeList M bounds ((outer p).before.drop 2) (entryStart M p s) := by
+  cases hp : p.useSeed <;>
+    simp [outer,ChunkDeltaFwd.kernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
+      traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
+      safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
+      step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,
+      numeric,bop,entryStart,Region.cast,hk,hp,State.setReg,
+      BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList]
+  constructor
+  · intro k v hk' hv
+    exact hb.seed hp k.val (s.pids 1*p.BV+v.val) hk' hv
+  · split <;> trivial
 
 theorem entry (M : Algebra α) (p : Parameters) (s : State α)
     (hk : s.pids 0 = 0) (bounds : RegionName → Nat)
     (hb : Bounds p (s.pids 1,s.pids 2) bounds) :
     traceSafeList M bounds (outer p).before s := by
-  rw [← List.take_append_drop 4 (outer p).before,traceSafeList_append]
+  rw [← List.take_append_drop 2 (outer p).before,traceSafeList_append]
   refine ⟨entry_prefix_safe M p s bounds,?_⟩
   intro next ran
   rw [entry_prefix_run] at ran
@@ -49,7 +42,7 @@ theorem history (M : Algebra α) (p : Parameters)
     (bounds : RegionName → Nat) (hb : Bounds p pid bounds) (hc : c < p.NT) :
     traceSafeList M bounds (inner p).before
       (current.setReg "i_t" .nat [] (fun _ => c)) := by
-  simp [ChunkDeltaFwd.inner,outer,kernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+  simp [ChunkDeltaFwd.inner,outer,ChunkDeltaFwd.kernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
   apply traceSafeList_cons_intro
   · simp [stepSafe_unfold,safeExpr_unfold,safeOp_unfold]
   · intro next ran
@@ -72,7 +65,7 @@ theorem finish (M : Algebra α) (p : Parameters)
     (ctx : Ready pid input s) (hh : HasH p frozen s)
     (bounds : RegionName → Nat) (hb : Bounds p pid bounds) :
     traceSafeList M bounds (outer p).after s := by
-  simp [outer,kernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+  simp [outer,ChunkDeltaFwd.kernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
   rw [singleton]
   cases hp : p.storeFinal
   · simp [stepSafe_unfold,safeOp_unfold,evalOp_unfold,hp]
@@ -93,7 +86,7 @@ theorem finish (M : Algebra α) (p : Parameters)
 
 theorem update (M : Algebra α) (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
     traceSafeList M bounds (inner p).after s := by
-  simp [ChunkDeltaFwd.inner,outer,kernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+  simp [ChunkDeltaFwd.inner,outer,ChunkDeltaFwd.kernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
   rw [singleton]
   simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]
 

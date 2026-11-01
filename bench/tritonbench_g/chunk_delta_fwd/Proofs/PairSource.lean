@@ -38,6 +38,7 @@ theorem complete (M : Algebra α) (p : Parameters) :
     | apply stmt_refl
     | apply branch
     | apply range_stmt
+    | apply loop_stmt
   all_goals
     constructor
     · intro s
