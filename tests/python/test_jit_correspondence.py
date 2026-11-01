@@ -928,3 +928,48 @@ class IntegerCallArgumentCorrespondenceTests(unittest.TestCase):
                                '(x / (1 - p) if x_keep else 0.0)')]:
             with self.subTest(after=after), self.assertRaisesRegex(ValueError, 'statement correspondence'):
                 self.verify(self.lean.replace(before, after, 1))
+
+class ApplyPenaltyBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/apply_penalty'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.python = (self.directory / 'apply_penalty.py').read_text()
+        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+
+    def verify(self, lean):
+        r = self.record
+        return check(self.python, lean, r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
+
+    def test_both_complete_bodies(self):
+        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual(len(results), 2)
+        self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 17 for r in results))
+
+    def test_signed_metadata_profile_cannot_become_natural_or_unsigned(self):
+        with self.assertRaisesRegex(ValueError, 'signature'):
+            self.verify(self.lean.replace('("p_token_counts",.i32)', '("p_token_counts",.u32)'))
+
+    def test_original_widening_cannot_be_removed(self):
+        mutations = [
+            ('tl.program_id(0).to(tl.int64)', 'tl.program_id(0)'),
+            ('tl.arange(0, BLOCK_P).to(tl.int64)', 'tl.arange(0, BLOCK_P)'),
+            ('tl.cast(stride_logit_b, tl.int64)', 'stride_logit_b'),
+            ('tl.load(p_cumsum_seq_len + cur_batch).to(tl.int64)',
+             'tl.load(p_cumsum_seq_len + cur_batch)'),
+        ]
+        for before, after in mutations:
+            with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
+                self.verify(self.lean.replace(before, after, 1))
+
+    def test_count_cast_mask_and_pointer_grouping_are_preserved(self):
+        mutations = [
+            ('mask=cur_batch_id_offset < cur_batch_end_index, other=0)',
+             'mask=cur_batch_id_offset <= cur_batch_end_index, other=0)'),
+            ('batch_ids_count * cur_freqency', 'batch_ids_count.to(tl.float32) * cur_freqency'),
+            ('cur_offset = row_start_ptr + batch_ids',
+             'cur_offset = Logits + (cur_batch * tl.cast(stride_logit_b, tl.int64) + batch_ids)'),
+        ]
+        for before, after in mutations:
+            with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
+                self.verify(self.lean.replace(before, after, 1))
