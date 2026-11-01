@@ -29,7 +29,8 @@ theorem source_bounds (M : Program → Algebra β) (c : Call) (m : Metadata c) (
     have hn := (active_eq h v scale pid hbatch i).mp hi
     have hlb := v.locationBounds pid.1 hbatch (c.maxLength-m.len pid.1+(pid.2.2*32+i.1.val))
       (by omega)
-    simp only [windowIndex,length_eq h scale pid hbatch]
+    rw [window_eq h v scale pid hbatch i]
+    simp only [Call.parameters,start,ids,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,↓reduceIte]
     exact hb.2.1 ⟨4,by simp [Interface.io,Interface.inputs]⟩
       (⟨_,hlb⟩,PUnit.unit) trivial
   · intro i hi d
@@ -41,7 +42,7 @@ theorem source_bounds (M : Program → Algebra β) (c : Call) (m : Metadata c) (
   · intro i hi
     have hn := (active_eq h v scale pid hbatch i).mp hi
     have hnMax : pid.2.2*32+i.1.val<c.maxLength := by omega
-    rw [offset_eq h scale pid hbatch i]
+    rw [offset_eq h v scale pid hbatch i]
     exact hb.2.2.1 ⟨0,by simp [Interface.io,Interface.outputs]⟩
       (⟨pid.1,hbatch⟩,⟨pid.2.1,hhead⟩,⟨_,hnMax⟩,PUnit.unit) hn
 

@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.ClosedStructuralAudit
 import bench.tritonbench_g.token_attn_llama2.Proofs.ReuseEquivalence
 
 namespace VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.FPEquiv
@@ -26,6 +27,8 @@ specification block_origin_reuse_equiv (trees : Program → Native.Reductions)
   ProgramIO.Implementation.of_equivalentOn _
     (ReuseEquivalence.equivalent (KernelNative.algebras trees) c m (hostScale c.dim) valid work order)
 
+set_option maxHeartbeats 4000000 in
+#print_fp_assumptions block_origin_reuse_equiv closed_structural
 #axiomsClean block_origin_reuse_equiv
 end
 end VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.FPEquiv
