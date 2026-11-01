@@ -4,7 +4,7 @@ import bench.tritonbench_g.fast_layernorm.Proofs.KernelMath
 
 /-! Kernel-only mathematical correctness. Every theorem constructs canonical
 source execution, every active output, complete memory and the exterior frame.
-Raw states provide all initial input values. Real inputs are arbitrary. Historical host/autograd results remain in Proofs/HostCorrect. -/
+Raw states provide all initial input values. Real inputs are arbitrary. The existing host wrapper is checked separately in Proofs/Host.lean. -/
 namespace VeriTile.Bench.Repairs.FastLayernorm.Correctness
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
 noncomputable section
@@ -33,11 +33,9 @@ theorem forward_kernel_correct_raw (N B : Nat) (covered : N≤B) (eps : ℝ) (bi
   · rw [hr]
     unfold KernelReference.savedInverse
     rw [KernelMath.inverse_real N B covered eps (fun k => RawValues.value u "x" (u.pids 0*N+k))]
-    rfl
   · rw [hmu]
     unfold KernelReference.savedMean
     rw [KernelMath.mean_real N B covered (fun k => RawValues.value u "x" (u.pids 0*N+k))]
-    rfl
 
 theorem backward_kernel_correct_raw (N B : Nat) (covered : N≤B)
     (u : State ℝ) :
@@ -86,10 +84,8 @@ theorem affine_kernel_correct_raw (rows N wc bc : Nat) (bias : Bool)
   refine ⟨v,he,hm,?_,?_,hf⟩
   · intro j hj
     rw [hw j hj,RawValues.carry,affine_values_real]
-    rfl
   · intro h j hj
     rw [hb h j hj,RawValues.carry,affine_values_real]
-    rfl
 
 #axiomsClean forward_kernel_correct_raw
 #axiomsClean backward_kernel_correct_raw

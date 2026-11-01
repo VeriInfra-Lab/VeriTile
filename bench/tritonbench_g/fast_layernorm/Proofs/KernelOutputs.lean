@@ -83,13 +83,13 @@ theorem affine_complete (M : Algebra α) (rows N wc bc : Nat) (bias : Bool) (u :
     ∃ v, FP.Structural.exec (engine M) (KernelAffine.kernel rows N wc bc bias) u=some v ∧
       v.mem=KernelAffine.heap M rows N wc bc (u.pids 0) bias u ∧
       (∀ j : Fin 128,u.pids 0*128+j.val<wc → v.mem "dw" (u.pids 0*128+j.val)=
-        Cell.mk .real (KernelReference.cast M (KernelAffine.carry M N (u.pids 0) u rows (j,PUnit.unit)).1)) ∧
+        Cell.mk .real (KernelAffine.carry M N (u.pids 0) u rows (j,PUnit.unit)).1) ∧
       (bias=Bool.true → ∀ j : Fin 128,u.pids 0*128+j.val<bc → v.mem "db" (u.pids 0*128+j.val)=
-        Cell.mk .real (KernelReference.cast M (KernelAffine.carry M N (u.pids 0) u rows (j,PUnit.unit)).2)) ∧
+        Cell.mk .real (KernelAffine.carry M N (u.pids 0) u rows (j,PUnit.unit)).2) ∧
       (∀ q o,¬affineFootprint wc bc (u.pids 0) bias q o → v.mem q o=u.mem q o) := by
   obtain ⟨v,he,hm⟩ := KernelAffine.source_memory M rows N wc bc bias u
   let midmem := commit "dw" (fun i : TileIndex [128] => u.pids 0*128+i.1.val)
-      (fun i => Cell.mk .real (KernelReference.cast M (KernelAffine.carry M N (u.pids 0) u rows i).1))
+      (fun i => Cell.mk .real (KernelAffine.carry M N (u.pids 0) u rows i).1)
       (fun i => u.pids 0*128+i.1.val<wc) (TileShape.allIndices [128]) u.mem
   let middle : State α := {u with mem := midmem}
   refine ⟨v,he,hm,?_,?_,?_⟩
@@ -97,18 +97,18 @@ theorem affine_complete (M : Algebra α) (rows N wc bc : Nat) (bias : Bool) (u :
     rw [hm]
     cases bias
     · exact commit_readback "dw" (fun i : TileIndex [128] => u.pids 0*128+i.1.val)
-        (fun i => Cell.mk .real (KernelReference.cast M (KernelAffine.carry M N (u.pids 0) u rows i).1))
+        (fun i => Cell.mk .real (KernelAffine.carry M N (u.pids 0) u rows i).1)
         (fun i => u.pids 0*128+i.1.val<wc) u (j,PUnit.unit) hj (row_injective _ _)
     · change commit "db" _ _ _ _ middle.mem _ _=_
       rw [commit_frame _ _ _ _ _ middle _ _ (Or.inl (by decide))]
       exact commit_readback "dw" (fun i : TileIndex [128] => u.pids 0*128+i.1.val)
-        (fun i => Cell.mk .real (KernelReference.cast M (KernelAffine.carry M N (u.pids 0) u rows i).1))
+        (fun i => Cell.mk .real (KernelAffine.carry M N (u.pids 0) u rows i).1)
         (fun i => u.pids 0*128+i.1.val<wc) u (j,PUnit.unit) hj (row_injective _ _)
   · intro hb j hj
     subst bias
     rw [hm]
     exact commit_readback "db" (fun i : TileIndex [128] => u.pids 0*128+i.1.val)
-      (fun i => Cell.mk .real (KernelReference.cast M (KernelAffine.carry M N (u.pids 0) u rows i).2))
+      (fun i => Cell.mk .real (KernelAffine.carry M N (u.pids 0) u rows i).2)
       (fun i => u.pids 0*128+i.1.val<bc) middle (j,PUnit.unit) hj (row_injective _ _)
   · intro q o outside
     have fw : middle.mem q o=u.mem q o := by

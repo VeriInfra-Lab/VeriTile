@@ -19,7 +19,7 @@ def affineGraph (M : Algebra α) (rows N pid : Nat) (v : AffineValues α rows) :
   let carry := fun j : Fin 128 => KernelReference.affineCarry M (decide (pid*128+j.val<N))
     (extend (fun row => affineX v row j)) (extend (fun row => affineDY v row j))
     (extend (affineMean v)) (extend (affineInverse v)) rows
-  affineResult (fun j => KernelReference.cast M (carry j).1) (fun j => KernelReference.cast M (carry j).2)
+  affineResult (fun j => (carry j).1) (fun j => (carry j).2)
 
 namespace Congruence
 open KernelReference
