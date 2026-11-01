@@ -5,12 +5,12 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 55,
-  "staged_count": 78,
+  "staged_count": 80,
   "pending_count": 141,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
-    "staged_and_regression_retained_modules": 1818,
+    "staged_and_regression_retained_modules": 1854,
     "official_comparator": "Current-source receipts accept 55 of 196 targets. F8ConversionUtils is accepted by run 41257166635; run 41256701308 shards 1\u20135 supply accepted unchanged cases, checked individually against the full current source/import closure, source pairs and fully-qualified public theorem names. Shared 225-file replay dependencies match. Four MatrixReduction clients are explicitly excluded from old receipts and queued in fresh run 41263548794. Shard 0 and other incrementals remain pending. Compilation alone does not count as completion. RmsnormFusedLlama (41257794791, 34 proof sources) and RmsnormImplementation (41259258045, 22 proof sources) are also accepted after exact current-closure verification. The fresh 59-source softmax replay is queued in run 41267684915, replacing the superseded 41266672582.",
     "python_tests": 329,
     "offline_example_compilations": {
@@ -20,9 +20,9 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
-    "working_tree": "All 78 locally staged targets (59 task targets and all 19 examples) pass exact source-body comparison, actual public Real/FP proof checks, and the joint 1818-retained-module build. SoftmaxTriton1 and SoftmaxTriton2 retain both original int64 casts, all source arithmetic, masks and runtime scalars; caller allocation offsets remain outside the pasted bodies. The corrected division-site mask reads the actual Int source register, with the existing finite/nonzero domain preserved. The guarded candidate retains finite-count, finite-denominator, >= 1.0 checks and the complete division fallback; all active access, whole-memory/frame and original layout proofs pass. The numerical relation remains DIV-MUL-RCP; no new floating rule was assumed. Their 35 retained files plus the 23 affected TritonSoftmax files and pointer-argument regression require a fresh 59-file independent replay. 329 Python tests and source-inventory drift checks pass. Accepted receipts currently cover 55 targets; 23 staged targets await independent replay and 118 targets are not migrated.",
-    "official_replay_sources": 797,
+    "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
+    "working_tree": "All 80 locally staged targets (61 task targets and all 19 examples) pass complete source-body checks, actual public Real/FP proof checks and the joint 1854-retained-module build. FastRopeEmbedding and RopeEmbedding each retain their own literal original/candidate bodies: the fast task assigns ROPE_GROUP_SIZE inside Python; the ordinary task uses its original default constexpr argument. No task-specific source-generation macro remains. All 27 retained fast-task storage triples use the same two canonical quotations. The shared full-loop proof explicitly selects the corresponding task source; both actual IO invocation-to-quotation equalities are proved. The ordinary Real interface now executes its own body. Original casts, directions, mask, head loop and both stores remain; source-absent explicit FP32 store casts and redundant self-cast model operations were removed from the execution formulas. Successful Real/native execution, both-half output, trace safety, complete frames and empty-assumption FP equivalence are re-proved. All 36 retained task files, all fully-qualified public theorem targets, 329 Python tests and source-inventory checks pass. Current-source closure checks still validate all 55 accepted targets. 25 staged targets await independent replay and 116 target tasks are not migrated.",
+    "official_replay_sources": 833,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -43,10 +43,9 @@
     ],
     "incremental_replay": {
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 3,
-      "retained_modules": 59,
-      "replay_sources": 59,
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41267684915"
+      "cases": 2,
+      "retained_modules": 36,
+      "replay_sources": 36
     },
     "previous_incremental_replays": [
       {
@@ -109,6 +108,16 @@
         "source_commit": "fb48fbd27890031ffc0f6cae39687e7c51c709a2",
         "replay_sources": 24,
         "superseded_by_current_incremental_manifest": true
+      },
+      {
+        "cases": [
+          "bench/tritonbench_g/softmax_triton1",
+          "bench/tritonbench_g/softmax_triton2",
+          "bench/tritonbench_g/triton_softmax"
+        ],
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41267684915",
+        "source_commit": "9eb13bba897d6dad78220fd780a63fde9d10c0fc",
+        "replay_sources": 59
       }
     ]
   },
@@ -125,7 +134,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard5.json"
     },
     {
@@ -135,7 +144,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/apply_penalty",
@@ -234,7 +243,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard2.json"
     },
     {
@@ -249,7 +258,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard1.json"
     },
     {
@@ -259,7 +268,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/chunk_delta_fwd",
@@ -333,7 +342,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard1.json"
     },
     {
@@ -363,7 +372,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard4.json"
     },
     {
@@ -373,7 +382,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/destindex_copy_kv1",
@@ -382,7 +391,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/destindex_copy_kv2",
@@ -391,7 +400,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/diag_ssm_triton",
@@ -405,7 +414,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "retained_configurations": 12,
       "receipt": "validation/body_receipts/stage9-shard3.json"
     },
@@ -416,7 +425,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard1.json"
     },
     {
@@ -426,7 +435,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/f8_conversion_utils.json"
     },
     {
@@ -436,7 +445,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/fast_layernorm",
@@ -450,8 +459,12 @@
     },
     {
       "path": "bench/tritonbench_g/fast_rope_embedding",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/fifth_order_sph_harmonics",
@@ -485,7 +498,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard1.json"
     },
     {
@@ -505,7 +518,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard4.json"
     },
     {
@@ -530,7 +543,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard3.json"
     },
     {
@@ -540,7 +553,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard2.json"
     },
     {
@@ -550,7 +563,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard2.json"
     },
     {
@@ -600,7 +613,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard2.json"
     },
     {
@@ -610,7 +623,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "source_organization": "PASS",
       "retained_dtype_combinations": 216,
       "source_transition_evidence": "validation/kldiv-source-transition.json",
@@ -628,7 +641,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard2.json"
     },
     {
@@ -653,7 +666,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard1.json"
     },
     {
@@ -663,7 +676,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard4.json"
     },
     {
@@ -673,7 +686,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard2.json"
     },
     {
@@ -723,7 +736,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard1.json"
     },
     {
@@ -733,7 +746,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard5.json"
     },
     {
@@ -748,7 +761,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard4.json"
     },
     {
@@ -778,7 +791,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard3.json"
     },
     {
@@ -813,7 +826,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/matrix_transpose",
@@ -822,7 +835,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard5.json"
     },
     {
@@ -832,7 +845,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard1.json"
     },
     {
@@ -842,7 +855,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/mixed_sparse_attention",
@@ -866,7 +879,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard2.json"
     },
     {
@@ -896,7 +909,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/quantize_global",
@@ -905,7 +918,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard4.json"
     },
     {
@@ -915,7 +928,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/quantize_kv_transform",
@@ -924,7 +937,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/rbe_triton_transform",
@@ -963,7 +976,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard5.json"
     },
     {
@@ -978,7 +991,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard5.json"
     },
     {
@@ -988,7 +1001,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/rmsnorm_fused_llama.json"
     },
     {
@@ -998,7 +1011,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/rmsnorm_implementation.json"
     },
     {
@@ -1008,7 +1021,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/rope_backward_transform",
@@ -1017,13 +1030,17 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard2.json"
     },
     {
       "path": "bench/tritonbench_g/rope_embedding",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/rope_transform",
@@ -1032,7 +1049,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard1.json"
     },
     {
@@ -1042,7 +1059,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/rotary_emb_nopad",
@@ -1066,7 +1083,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/seeded_dropout",
@@ -1085,7 +1102,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/sin_kernel",
@@ -1094,7 +1111,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard1.json"
     },
     {
@@ -1119,7 +1136,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/softmax_triton2",
@@ -1128,7 +1145,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/softmax_triton3",
@@ -1147,7 +1164,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard2.json"
     },
     {
@@ -1162,7 +1179,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard3.json"
     },
     {
@@ -1172,7 +1189,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard3.json"
     },
     {
@@ -1232,7 +1249,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard5.json"
     },
     {
@@ -1242,7 +1259,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/uniform_sampling",
@@ -1256,7 +1273,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/tritonbench_g/vector_addition",
@@ -1265,7 +1282,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard4.json"
     },
     {
@@ -1275,7 +1292,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard5.json"
     },
     {
@@ -1285,7 +1302,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard3.json"
     },
     {
@@ -1295,7 +1312,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard4.json"
     },
     {
@@ -1305,7 +1322,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard5.json"
     },
     {
@@ -1315,7 +1332,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard4.json"
     },
     {
@@ -1325,7 +1342,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/examples/FusedSiLU",
@@ -1334,7 +1351,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard3.json"
     },
     {
@@ -1344,7 +1361,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard4.json"
     },
     {
@@ -1354,7 +1371,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard4.json"
     },
     {
@@ -1364,7 +1381,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard5.json"
     },
     {
@@ -1374,7 +1391,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard2.json"
     },
     {
@@ -1384,7 +1401,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard5.json"
     },
     {
@@ -1394,7 +1411,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/examples/RowWiseSum",
@@ -1403,7 +1420,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard1.json"
     },
     {
@@ -1413,7 +1430,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard3.json"
     },
     {
@@ -1423,7 +1440,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard1.json"
     },
     {
@@ -1433,7 +1450,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard2.json"
     },
     {
@@ -1443,7 +1460,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     },
     {
       "path": "bench/examples/VectorAdd",
@@ -1452,7 +1469,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459",
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1",
       "receipt": "validation/body_receipts/stage9-shard3.json"
     },
     {
@@ -1462,7 +1479,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "bc8f5d468e1142c698c52b0828751fb048997459"
+      "validated_source_commit": "d20440d2cc831f37dcd58acbdfe978ec3d380ad1"
     }
   ],
   "historical_official_validation": [
