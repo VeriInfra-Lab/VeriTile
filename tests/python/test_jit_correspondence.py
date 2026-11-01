@@ -1452,3 +1452,58 @@ class TritonArgmaxBodyCorrespondenceTests(unittest.TestCase):
             self.assertIn(f'<< {shift}', ast.unparse(branch.body[0]))
         self.assertEqual([ast.dump(n) for n in original['argmax_kernel_2_repaired'].body],
                          [ast.dump(n) for n in shifted['argmax_kernel_2_repaired'].body])
+
+
+class CrossEntropy1BodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/cross_entropy1'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, record, source):
+        return check((ROOT / record['python']).read_text(), source,
+                     record['python_function'], record['lean_definition'], record['signature_definition'],
+                     record['expected_signature'], expected_pointer_offsets=record['expected_pointer_offsets'])
+
+    def test_complete_forward_backward_and_both_existing_candidates(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [12, 15, 12, 15])
+
+    def test_caller_offsets_ignored_branch_and_original_scalar_division_are_preserved(self):
+        changes = [('logits_ptr := p.logitsBase', 'logits_ptr := p.lseBase'),
+                   ('logits_row_stride.to(tl.int64)', 'logits_row_stride'),
+                   ('smoothing * sum_logits / total_classes', 'smoothing * sum_logits / n_cols'),
+                   ('if label_idx == ignored_index:', 'if label_idx != ignored_index:'),
+                   ('lse_square_scale * lse * lse', 'lse_square_scale * (lse * lse)')]
+        for old, new in changes:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[0], self.source.replace(old, new, 1))
+
+    def test_backward_safe_shift_and_final_zero_selection_are_preserved(self):
+        changes = [('tl.where(is_ignored, class_start_idx, label_idx)', 'label_idx'),
+                   ('tl.where(is_ignored, 0.0, dloss * probs)', 'dloss * probs'),
+                   ('dlogits_ptr := p.gradientBase', 'dlogits_ptr := p.logitsBase')]
+        for old, new in changes:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[1], self.source.replace(old, new, 1))
+
+    def test_derived_candidates_change_only_the_column_index_product(self):
+        def selected(name):
+            return [n for n in ast.parse((self.directory / name).read_text()).body
+                    if isinstance(n, ast.FunctionDef) and n.name.startswith('cross_entropy_')]
+        original = selected('cross_entropy1.py')[:2]
+        candidates = selected('cross_entropy1_index_commuted.py')
+        self.assertEqual(len(original), len(candidates))
+        for before, after in zip(original, candidates):
+            self.assertEqual(ast.dump(before.args), ast.dump(after.args))
+            self.assertEqual(len(before.body), len(after.body))
+            differences = [(a, b) for a, b in zip(before.body, after.body) if ast.dump(a) != ast.dump(b)]
+            self.assertEqual(len(differences), 1)
+            assignment, replacement = differences[0]
+            self.assertEqual([t.id for t in assignment.targets], ['col_offsets'])
+            self.assertEqual(ast.unparse(replacement),
+                             'col_offsets = BLOCK_SIZE * col_block_idx + tl.arange(0, BLOCK_SIZE).to(tl.int64)')

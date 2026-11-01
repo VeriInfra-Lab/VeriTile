@@ -15,9 +15,9 @@ theorem logits (M : Algebra α) (p : Parameters) (initial : State α)
     KernelNative.logits M p initial=Reference.logits M p args x (initial.pids 1) := by
   funext i
   by_cases active : initial.pids 1*p.block+i.1.val<p.cols
-  · simp [KernelNative.logits,Reference.logits,active,binding _ active,
+  · simp [KernelNative.logits,KernelNative.loadedLogits,Reference.logits,active,binding _ active,
       RuntimeArgs.fp]
-  · simp [KernelNative.logits,Reference.logits,active]
+  · simp [KernelNative.logits,KernelNative.loadedLogits,Reference.logits,active]
 
 theorem lse (M : Algebra α) (p : Parameters) (initial : State α)
     (args : RuntimeArgs.Values α) (abi : RuntimeArgs.Bound p initial args)
