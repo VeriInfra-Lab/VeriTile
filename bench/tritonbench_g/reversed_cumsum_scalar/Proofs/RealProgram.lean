@@ -6,25 +6,29 @@ open VeriTile.Triton
 set_option maxHeartbeats 2400000
 set_option maxRecDepth 24000
 
-abbrev initCode := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealProgram.initCode
+def initCode : List Stmt :=
+  [.assign .int [] "i_bh" (.castNatToInt (.programId 0)),
+   .assign .real [] "b_z" (.full [] (.const 0))]
 abbrev numChunks := Geometry.chunks
 
 def startOp (c : Config) : Op .int [] :=
-  .mul .int .nil (.ref .int [] "i_t") (.constInt c.BT)
+  .mul .int .nil (.ref .int [] "i_t") (.castNatToInt (.constNat c.BT))
 def activeOp (h : Call) (c : Config) : Op .bool [c.BT] :=
-  .lt .int .scalarR (.castNatToInt (.ref .nat [c.BT] "lanes"))
+  .lt .int .scalarR (.ref .int [c.BT] "lanes")
     (.sub .int .nil (.castNatToInt (.constNat h.T)) (.ref .int [] "start_t"))
 def timeOp (c : Config) : Op .int [c.BT] :=
   .add .int .scalarL (.ref .int [] "start_t")
-    (.castNatToInt (.where (.ref .bool [c.BT] "active") (.ref .nat [c.BT] "lanes")
-      (.broadcast (.constNat 0) [c.BT])))
-def baseOp (H : Nat) (strides : Strides) : Op .nat [] :=
-  .add .nat .nil
-    (.mul .nat .nil (.floorDiv .nat .nil (.ref .nat [] "i_bh") (.constNat H)) (.constNat strides.batch))
-    (.mul .nat .nil (.mod .nat .nil (.ref .nat [] "i_bh") (.constNat H)) (.constNat strides.head))
+    (.where (.ref .bool [c.BT] "active") (.ref .int [c.BT] "lanes")
+      (.broadcast (.constInt 0) [c.BT]))
+def baseOp (H : Nat) (strides : Strides) : Op .int [] :=
+  .add .int .nil
+    (.mul .int .nil (.tritonDiv .int .nil (.ref .int [] "i_bh") (.castNatToInt (.constNat H)))
+      (.castNatToInt (.constNat strides.batch)))
+    (.mul .int .nil (.tritonMod .int .nil (.ref .int [] "i_bh") (.castNatToInt (.constNat H)))
+      (.castNatToInt (.constNat strides.head)))
 def pointerOp (h : Call) (c : Config) (r : RegionName) (strides : Strides) : Op .ptr [c.BT] :=
   .ptrAdd .scalarL (.ptrBase r)
-    (.castIntToNat (.add .int .scalarL (.castNatToInt (baseOp h.H strides))
+    (.castIntToNat (.add .int .scalarL (baseOp h.H strides)
       (.mul .int .scalarR (.ref .int [c.BT] "times") (.castNatToInt (.constNat strides.time)))))
 def loadOp (c : Config) : Op .real [c.BT] :=
   .load .real (.ptr (.ref .ptr [c.BT] "p_s"))
@@ -33,12 +37,13 @@ def loadOp (c : Config) : Op .real [c.BT] :=
 def loopBody (h : Call) (c : Config) : List Stmt :=
   [.assign .int [] "i_t" (.sub .int .nil (.constInt 0) (.ref .int [] "__rev_i_t")),
    .assign .int [] "start_t" (startOp c),
-   .assign .nat [c.BT] "lanes" (.arange c.BT),
+   .assign .int [c.BT] "lanes" (.castNatToInt (.arange c.BT)),
    .assign .bool [c.BT] "active" (activeOp h c),
    .assign .int [c.BT] "times" (timeOp c),
    .assign .ptr [c.BT] "p_s" (pointerOp h c h.input h.inputStrides),
    .assign .ptr [c.BT] "p_o" (pointerOp h c h.output h.outputStrides),
-   .assign .real [c.BT] "b_s" (loadOp c),
+   .assign .real [c.BT] "__veritile_load_0" (loadOp c),
+   .assign .real [c.BT] "b_s" (.ref .real [c.BT] "__veritile_load_0"),
    .assign .real [] "b_zz" (.reduceSum ⟨0,by simp⟩ Bool.false (.ref .real [c.BT] "b_s")),
    .assign .real [] "b_z" (.add .real .nil (.ref .real [] "b_z") (.ref .real [] "b_zz")),
    .assign .real [c.BT] "b_o" (VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealValues.outputOp c.BT),
