@@ -3,47 +3,38 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/seeded_dropout",
-      "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
+      "path": "bench/tritonbench_g/apply_penalty",
+      "python": "bench/tritonbench_g/apply_penalty/apply_penalty.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/seeded_dropout/Correct.lean": [
-          "VeriTile.Bench.Repairs.SeededDropout.Correct.seeded_dropout_kernel_correctness"
+        "bench/tritonbench_g/apply_penalty/Correct.lean": [
+          "VeriTile.Bench.Repairs.ApplyPenalty.Correct.apply_penalty_correctness"
         ],
-        "bench/tritonbench_g/seeded_dropout/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.SeededDropout.FPEquiv.index_commuted_equiv"
+        "bench/tritonbench_g/apply_penalty/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ApplyPenalty.FPEquiv.apply_penalty_reciprocal_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "VeriTile/Triton/DSL/IntegerCallArguments.lean",
-    "bench/tritonbench_g/seeded_dropout/Contract.lean",
-    "bench/tritonbench_g/seeded_dropout/Correct.lean",
-    "bench/tritonbench_g/seeded_dropout/FPEquiv.lean",
-    "bench/tritonbench_g/seeded_dropout/IO.lean",
-    "bench/tritonbench_g/seeded_dropout/Kernels.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/KernelExecution.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/LogicalResult.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Algorithm.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Execution.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_FP.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_FlatMemory.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Formula.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Index.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Kernels.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Memory.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_RandomDomain.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_Safety.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_SourceDomain.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_TypedExecution.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_WholeMath.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Mathematical_WholeTile.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/ProgramPair.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/Projection.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/PublicIO.lean",
-    "bench/tritonbench_g/seeded_dropout/Proofs/SourceSafety.lean",
-    "bench/tritonbench_g/seeded_dropout/Sources/Parameters.lean",
-    "tests/lean/IntegerCallArguments.lean"
+    "bench/tritonbench_g/apply_penalty/Contract.lean",
+    "bench/tritonbench_g/apply_penalty/Correct.lean",
+    "bench/tritonbench_g/apply_penalty/FPEquiv.lean",
+    "bench/tritonbench_g/apply_penalty/IO.lean",
+    "bench/tritonbench_g/apply_penalty/Kernels.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Contract.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Execution.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/KernelResults.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Mathematical_Real.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Projection.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Real.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/RealIO.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Rewrite.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Scatter.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Schedule.lean",
+    "VeriTile/Triton/Memory/SignedScatterIO.lean",
+    "tests/lean/ApplyPenaltySignedMetadata.lean"
   ]
 }

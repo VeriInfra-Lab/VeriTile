@@ -1414,6 +1414,19 @@
           "VeriTile.Bench.Repairs.SeededDropout.FPEquiv.index_commuted_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/apply_penalty",
+      "python": "bench/tritonbench_g/apply_penalty/apply_penalty.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/apply_penalty/Correct.lean": [
+          "VeriTile.Bench.Repairs.ApplyPenalty.Correct.apply_penalty_correctness"
+        ],
+        "bench/tritonbench_g/apply_penalty/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ApplyPenalty.FPEquiv.apply_penalty_reciprocal_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1440,6 +1453,7 @@
     "VeriTile/Triton/Memory/Flatten.lean",
     "VeriTile/Triton/Memory/FlattenR.lean",
     "VeriTile/Triton/Memory/Locality.lean",
+    "VeriTile/Triton/Memory/SignedScatterIO.lean",
     "VeriTile/Triton/Memory/Typing/Checker.lean",
     "VeriTile/Triton/Memory/Typing/Contracts.lean",
     "VeriTile/Triton/Semantics/EvalOp.lean",
@@ -1517,6 +1531,23 @@
     "bench/tritonbench_g/adam_update_triton/Proofs/WholePair.lean",
     "bench/tritonbench_g/add_example/Kernels.lean",
     "bench/tritonbench_g/add_value/Kernels.lean",
+    "bench/tritonbench_g/apply_penalty/Contract.lean",
+    "bench/tritonbench_g/apply_penalty/Correct.lean",
+    "bench/tritonbench_g/apply_penalty/FPEquiv.lean",
+    "bench/tritonbench_g/apply_penalty/IO.lean",
+    "bench/tritonbench_g/apply_penalty/Kernels.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Contract.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Execution.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/KernelResults.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Mathematical_Real.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Projection.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Real.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/RealIO.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Rewrite.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Scatter.lean",
+    "bench/tritonbench_g/apply_penalty/Proofs/Schedule.lean",
     "bench/tritonbench_g/batched_vecmat_mult/Contract.lean",
     "bench/tritonbench_g/batched_vecmat_mult/Correct.lean",
     "bench/tritonbench_g/batched_vecmat_mult/FPEquiv.lean",
@@ -2614,6 +2645,7 @@
     "bench/tritonbench_g/vector_addition/Parameters.lean",
     "bench/tritonbench_g/vector_addition/Sources/Mathematical_Value.lean",
     "bench/tritonbench_g/vector_addition_custom/Kernels.lean",
+    "tests/lean/ApplyPenaltySignedMetadata.lean",
     "tests/lean/BinaryPowerConstants.lean",
     "tests/lean/CallArgumentCapture.lean",
     "tests/lean/CallArguments.lean",

@@ -16,7 +16,7 @@ As in the source, stride_logit_s is unused: each row is contiguous. -/
 namespace VeriTile.Bench.Repairs.ApplyPenalty.RealIOProof
 open VeriTile.Triton PublicIO
 open VeriTile.Bench.TritonBenchG.ApplyPenalty
-open scoped VeriTile.Triton.MetaScatterMasked2DKernelIO₁
+open scoped VeriTile.Triton.SignedScatterIO
 
 /-- The masked contract requires distinct scatter addresses on active lanes.
 Inactive padded ids may repeat. Bounds apply to the five scalar-slot loads and
@@ -30,7 +30,7 @@ theorem apply_penalty_correctness
       stride_logit_b stride_logit_s BLOCK_P
       ⊨ fun _ _ presence frequency repetition _ _ _ counts logits j =>
         TiledOptimizer.lionPenalty (logits j) (counts j : ℝ) repetition frequency presence) := by
-  refine MetaScatterMasked2DKernelIO₁.Implements.intro _ ?_ ?_ ?_
+  refine SignedScatterIO.Implements.intro _ ?_ ?_ ?_
   · exact apply_penalty_flattenOk Logits presence_penalty freqency_penalty
       repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
       stride_logit_b stride_logit_s BLOCK_P
