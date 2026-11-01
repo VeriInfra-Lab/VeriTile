@@ -11,7 +11,7 @@
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 3253,
-    "official_comparator": "117 targets have exact current-source/import-closure official receipts, including all 19 examples. KldivOps passes all local gates and awaits exact-source independent replay dispatch. Successful local compilation and body comparison alone do not certify completion.",
+    "official_comparator": "117 targets have exact current-source/import-closure official receipts, including all 19 examples. KldivOps passes all local gates and awaits exact-source independent replay run 41339690975. Successful local compilation and body comparison alone do not certify completion.",
     "python_tests": 424,
     "offline_example_compilations": {
       "cases": 19,
@@ -46,8 +46,8 @@
       "cases": 1,
       "retained_modules": 49,
       "replay_sources": 49,
-      "official_run": "pending_dispatch",
-      "source_commit": "pending_snapshot"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41339690975",
+      "source_commit": "af39018cafa3c99688708778e0a2ed44dcd6caa1"
     },
     "previous_incremental_replays": [
       {
