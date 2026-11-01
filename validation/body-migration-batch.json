@@ -1667,6 +1667,21 @@
           "VeriTile.Bench.Repairs.MultinomialSampling.FPEquiv.static_unroll_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/kldiv_ops",
+      "python": "bench/tritonbench_g/kldiv_ops/kldiv_ops.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/kldiv_ops/Correct.lean": [
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.Correct.forward",
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.Correct.backward"
+        ],
+        "bench/tritonbench_g/kldiv_ops/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.forward_pair",
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.backward_pair"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -2512,6 +2527,55 @@
     "bench/tritonbench_g/kldiv_compute/Proofs/Program.lean",
     "bench/tritonbench_g/kldiv_compute/Sources/Mathematical_Kernels.lean",
     "bench/tritonbench_g/kldiv_compute/Sources/Selected.lean",
+    "bench/tritonbench_g/kldiv_ops/Contract.lean",
+    "bench/tritonbench_g/kldiv_ops/Correct.lean",
+    "bench/tritonbench_g/kldiv_ops/FPEquiv.lean",
+    "bench/tritonbench_g/kldiv_ops/IO.lean",
+    "bench/tritonbench_g/kldiv_ops/Kernels.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Backward.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/BackwardCoverage.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/BackwardValues.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Broadcast.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Checked/Binding.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Checked/Contract.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Chunk.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Coverage.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/FPGraph.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Forward.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/ForwardValues.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Frames.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/GridPair.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/HistoricalKernels.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Host.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/HostBackward.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/HostBackwardFinish.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/HostContract.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/HostForward.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/IOInterface.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/IOReal.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/IOSchedule.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/KernelResults.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Launch.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Library.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Loop.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Mathematical_FP.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Mathematical_Math.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Native.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/NativeBinding.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Preparation.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Real.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/RealFormula.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/RealGrid.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/SafetyBackward.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/SafetyForward.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/SourcePair.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Storage.lean",
+    "bench/tritonbench_g/kldiv_ops/Proofs/Tile.lean",
+    "bench/tritonbench_g/kldiv_ops/Sources/Parameters.lean",
     "bench/tritonbench_g/kldiv_triton/Kernels.lean",
     "bench/tritonbench_g/ksoftmax_triton/Contract.lean",
     "bench/tritonbench_g/ksoftmax_triton/Correct.lean",
