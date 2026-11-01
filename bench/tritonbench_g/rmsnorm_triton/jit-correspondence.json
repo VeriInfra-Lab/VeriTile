@@ -1,0 +1,338 @@
+[
+  {
+    "python": "bench/tritonbench_g/rmsnorm_triton/rmsnorm_triton.py",
+    "python_function": "rmsnorm_triton",
+    "lean": "bench/tritonbench_g/rmsnorm_triton/Kernels.lean",
+    "lean_definition": "originalFor",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          {
+            "on": "input",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ],
+        [
+          "rms_w_ptr",
+          {
+            "on": "weight",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ],
+        [
+          "output_ptr",
+          {
+            "on": "output",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_m",
+          "integer"
+        ],
+        [
+          "stride_x_k",
+          "integer"
+        ],
+        [
+          "stride_rms_w",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_m",
+          "integer"
+        ],
+        [
+          "stride_out_k",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "N_SIZE",
+        "eps",
+        "BLOCK_N_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr",
+        "rms_w_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ],
+      "dtype_parameters": [
+        "input",
+        "weight",
+        "output"
+      ],
+      "dtype_parameter_types": {
+        "input": "Storage",
+        "weight": "Storage",
+        "output": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "stride_x_batch": "sxb",
+      "stride_x_m": "sxm",
+      "stride_x_k": "sxk",
+      "stride_rms_w": "sw",
+      "stride_out_batch": "sob",
+      "stride_out_m": "som",
+      "stride_out_k": "sok"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/rmsnorm_triton/candidate_kernels.py",
+    "python_function": "rmsnorm_triton_index_commuted",
+    "lean": "bench/tritonbench_g/rmsnorm_triton/Kernels.lean",
+    "lean_definition": "commutedFor",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          {
+            "on": "input",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ],
+        [
+          "rms_w_ptr",
+          {
+            "on": "weight",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ],
+        [
+          "output_ptr",
+          {
+            "on": "output",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_m",
+          "integer"
+        ],
+        [
+          "stride_x_k",
+          "integer"
+        ],
+        [
+          "stride_rms_w",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_m",
+          "integer"
+        ],
+        [
+          "stride_out_k",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "N_SIZE",
+        "eps",
+        "BLOCK_N_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr",
+        "rms_w_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ],
+      "dtype_parameters": [
+        "input",
+        "weight",
+        "output"
+      ],
+      "dtype_parameter_types": {
+        "input": "Storage",
+        "weight": "Storage",
+        "output": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "stride_x_batch": "sxb",
+      "stride_x_m": "sxm",
+      "stride_x_k": "sxk",
+      "stride_rms_w": "sw",
+      "stride_out_batch": "sob",
+      "stride_out_m": "som",
+      "stride_out_k": "sok"
+    }
+  }
+]
