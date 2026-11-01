@@ -81,6 +81,15 @@ private partial def isNoneSyntax (stx : Syntax) : Bool :=
 private def isNoneExpr (e : TSyntax `tritonExpr) : Bool :=
   isNoneSyntax e.raw
 
+/-- A missing Python mask is exactly None (possibly parenthesized), never an
+arbitrary expression containing that token. -/
+private partial def isNoneMask (e : TSyntax `tritonExpr) : Bool :=
+  if e.raw.getKind == choiceKind then isNoneMask ⟨e.raw[0]⟩ else
+  match e with
+  | `(tritonExpr| None) => Bool.true
+  | `(tritonExpr| ($inner:tritonExpr)) => isNoneMask inner
+  | _ => Bool.false
+
 private def dtypeName : DInfo → String
   | .fp32Argument => "external fp32 argument"
   | .real => "real"
@@ -105,12 +114,14 @@ partial def expandLoad (expandExpr : ExprExpander)
     (positionalMask : Option (TSyntax `tritonExpr) := none) :
     MacroM EOut := do
   let mut maskTerm : Option (TSyntax `term × SInfo) := none
+  let mut maskSeen := positionalMask.isSome
   match positionalMask with
   | none => pure ()
   | some mask => do
-      let mask' ← expandExpr env mask
-      ensureDType .bool mask'.dtype "tl.load mask"
-      maskTerm := some (mask'.term, mask'.shape)
+      unless isNoneMask mask do
+        let mask' ← expandExpr env mask
+        ensureDType .bool mask'.dtype "tl.load mask"
+        maskTerm := some (mask'.term, mask'.shape)
   let mut otherSyntax : Option (TSyntax `tritonExpr) := none
   let mut dtype? : Option DInfo := none
   let mut boundaryCheck? : Option (TSyntax `term) := none
@@ -155,9 +166,12 @@ partial def expandLoad (expandExpr : ExprExpander)
     | `(tritonMemKwarg| $name:ident = $val:tritonExpr) =>
         match name.getId.getString! with
         | "mask"  =>
-            let val' ← expandExpr env val
-            ensureDType .bool val'.dtype "tl.load mask"
-            maskTerm := some (val'.term, val'.shape)
+            if maskSeen then Macro.throwError "tl.load: duplicate `mask=` argument"
+            maskSeen := Bool.true
+            unless isNoneMask val do
+              let val' ← expandExpr env val
+              ensureDType .bool val'.dtype "tl.load mask"
+              maskTerm := some (val'.term, val'.shape)
         | "other" =>
             otherSyntax := some val
         | "dtype" =>
@@ -301,12 +315,14 @@ partial def expandStore (expandExpr : ExprExpander)
     (positionalMask : Option (TSyntax `tritonExpr) := none) :
     MacroM StmtExpansion := do
   let mut maskTerm : Option (TSyntax `term × SInfo) := none
+  let mut maskSeen := positionalMask.isSome
   match positionalMask with
   | none => pure ()
   | some mask => do
-      let mask' ← expandExpr env mask
-      ensureDType .bool mask'.dtype "tl.store mask"
-      maskTerm := some (mask'.term, mask'.shape)
+      unless isNoneMask mask do
+        let mask' ← expandExpr env mask
+        ensureDType .bool mask'.dtype "tl.store mask"
+        maskTerm := some (mask'.term, mask'.shape)
   let mut dtype? : Option DInfo := none
   let mut boundaryCheck? : Option (TSyntax `term) := none
   let mut evictionPolicySeen := Bool.false
@@ -353,11 +369,13 @@ partial def expandStore (expandExpr : ExprExpander)
     | `(tritonMemKwarg| $name:ident = $kval:tritonExpr) =>
         match name.getId.getString! with
         | "mask"  =>
-            if maskTerm.isSome then
+            if maskSeen then
               Macro.throwError "tl.store: duplicate `mask=` kwarg"
-            let kval' ← expandExpr env kval
-            ensureDType .bool kval'.dtype "tl.store mask"
-            maskTerm := some (kval'.term, kval'.shape)
+            maskSeen := Bool.true
+            unless isNoneMask kval do
+              let kval' ← expandExpr env kval
+              ensureDType .bool kval'.dtype "tl.store mask"
+              maskTerm := some (kval'.term, kval'.shape)
         | "dtype" =>
             if dtype?.isSome then
               Macro.throwError "tl.store: duplicate `dtype=` kwarg"

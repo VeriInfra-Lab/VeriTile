@@ -107,6 +107,7 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .sigmoid a => a.MemorySafe bounds
   | .sqrt a => a.MemorySafe bounds
   | .rsqrt a => a.MemorySafe bounds
+  | .libdeviceRsqrt a => a.MemorySafe bounds
   | .tanh a => a.MemorySafe bounds
   | .sin a => a.MemorySafe bounds
   | .cos a => a.MemorySafe bounds
