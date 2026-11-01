@@ -14,9 +14,32 @@ def program (k : ComputeKernel) : Program := ⟨k,[]⟩
 /-- Equal integer offsets preserve the signed-metadata source load. -/
 @[spec_rule] theorem op_load_region {α} [Inhabited α] (M : FP.Structural.Algebra α)
     (s : FP.Structural.State α) (before : List ComputeStmt)
-    (r : Region .nat) (a b : Op .nat [])
+    (r : Region .int) (a b : Op .nat [])
     (same : OpEquivalent M s before a b) :
-    OpEquivalent M s before (.load .nat (.region r a) .none) (.load .nat (.region r b) .none) := by
+    OpEquivalent M s before (.load .int (.region r a) .none) (.load .int (.region r b) .none) := by
+  intro t ht
+  simp only [FP.Structural.evalOp]
+  rw [same t ht]
+
+@[spec_rule] theorem signed_index_product_commutes {α : Type} [Inhabited α]
+    (M : FP.Structural.Algebra α) (s : FP.Structural.State α) (before : List ComputeStmt)
+    (a b : Op .int []) :
+    OpEquivalent M s before (.mul .int .nil a b) (.mul .int .nil b a) := by
+  intro t _
+  change (FP.Structural.evalOp (engine M) none a t >>= fun x =>
+    FP.Structural.evalOp (engine M) none b t >>= fun y =>
+      some (FP.Structural.bop Int.mul .nil x y)) =
+    (FP.Structural.evalOp (engine M) none b t >>= fun y =>
+      FP.Structural.evalOp (engine M) none a t >>= fun x =>
+        some (FP.Structural.bop Int.mul .nil y x))
+  cases ha : FP.Structural.evalOp (engine M) none a t <;>
+    cases hb : FP.Structural.evalOp (engine M) none b t
+  all_goals first | rfl | (apply congrArg some; funext i; exact Int.mul_comm _ _)
+
+@[spec_rule] theorem signed_address_projection {α : Type} [Inhabited α]
+    (M : FP.Structural.Algebra α) (s : FP.Structural.State α) (before : List ComputeStmt)
+    (a b : Op .int []) (same : OpEquivalent M s before a b) :
+    OpEquivalent M s before (.castIntToNat a) (.castIntToNat b) := by
   intro t ht
   simp only [FP.Structural.evalOp]
   rw [same t ht]
@@ -38,10 +61,10 @@ theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
       FP.Structural.exec (engine algebra) (candidateKernel p) s := by
   change Contextual algebra s ((kernel .fp32 p).surfaceBody.take 3)
     ((kernel .fp32 p).surfaceBody.drop 4)
-    (.assign .nat [] "cur_batch_seq_len" (.alg (.load .nat (.region p.length
-      (.mul .nat .nil (.ref .nat [] "cur_batch") (.constNat p.lengthStride))) .none)))
-    (.assign .nat [] "cur_batch_seq_len" (.alg (.load .nat (.region p.length
-      (.mul .nat .nil (.constNat p.lengthStride) (.ref .nat [] "cur_batch"))) .none)))
+    (.assign .int [] "cur_batch_seq_len" (.alg (.load .int (.region p.length
+      (.castIntToNat (.mul .int .nil (.ref .int [] "cur_batch") (.castNatToInt (.constNat p.lengthStride))))) .none)))
+    (.assign .int [] "cur_batch_seq_len" (.alg (.load .int (.region p.length
+      (.castIntToNat (.mul .int .nil (.castNatToInt (.constNat p.lengthStride)) (.ref .int [] "cur_batch")))) .none)))
   fp_prove
 
 def candidateLaunch {α} [Inhabited α] (M : FP.Structural.Algebra α) (p : Parameters)

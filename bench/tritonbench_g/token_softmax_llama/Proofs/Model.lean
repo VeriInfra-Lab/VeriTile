@@ -4,10 +4,17 @@ namespace VeriTile.Bench.Repairs.TokenSoftmaxLlama.Strided
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits
 noncomputable section
-set_option maxHeartbeats 5000000
+set_option maxHeartbeats 300000
 set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false
 /- Source Parameters and kernel retain their names in Kernels.lean. -/
+
+@[simp] theorem natural_product_address (a b : Nat) :
+    ((a : Int) * b).toNat = a * b := by
+  rw [← Int.natCast_mul, Int.toNat_natCast]
+
+theorem nat_lt_signed_count (i : Nat) (n : Int) :
+    (i : Int) < n ↔ i < n.toNat := by omega
 
 def execution {α : Type} [Inhabited α] (M : Algebra α) (d : FloatDType)
     (p : Parameters) (s : State α) (hwidth : 0  <  p.width) : {t : State α // FP.Structural.exec M (kernel d p) s = some t} := by
@@ -21,23 +28,23 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (d : FloatDType)
       FloatDType.numericDType, ComputeDType.eraseDType, TileShape.axisDim, hwidth]
     try rfl
 
-def startIndex {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem (Region.cast p.start) (s.pids 0*p.startStride)).read .nat
+def startIndex {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Int :=
+  (s.mem (Region.cast p.start) (s.pids 0*p.startStride)).read .int
 
 def count {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem (Region.cast p.length) (s.pids 0*p.lengthStride)).read .nat
+  ((s.mem (Region.cast p.length) (s.pids 0*p.lengthStride)).read .int).toNat
 
 def outputOffset {α : Type} [Inhabited α] (p : Parameters) (s : State α) (i : TileIndex [p.width]) : Nat :=
-  s.pids 1 * p.outputHeadStride + (startIndex p s + i.1.val) * p.outputTokenStride
+  ((s.pids 1 : Int) * p.outputHeadStride + (startIndex p s + i.1.val) * p.outputTokenStride).toNat
 
 /-- Eager padded lanes, including the conversion of negative infinity, are
 retained before maximum, exp, sum and division. No real exp or sum is used. -/
 def inputRow {α : Type} [Inhabited α] (M : Algebra α) (d : FloatDType)
-    (p : Parameters) (s : State α) (i : TileIndex [p.width]) : α :=
+    (p : Parameters) (s : State α) : TileIndex [p.width] → α := fun i =>
   M.cast (some .fp32) d .real
     (if i.1.val  <  count p s then toFloat d ((s.mem p.input
-      (s.pids 1 * p.inputHeadStride + (startIndex p s + i.1.val) * p.inputTokenStride)).read d.toTileDType)
-     else M.cast (some .fp32) .real d M.negInf)
+      (((s.pids 1 : Int) * p.inputHeadStride + (startIndex p s + i.1.val) * p.inputTokenStride).toNat)).read d.toTileDType)
+     else M.cast none .real d M.negInf)
 
 def numerators {α : Type} [Inhabited α] (M : Algebra α) (d : FloatDType)
     (p : Parameters) (s : State α) : TileIndex [p.width] → α :=
@@ -61,11 +68,10 @@ theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (d : FloatD
     (p : Parameters) (s : State α) (hwidth : 0  <  p.width) : (execution M d p s hwidth).val.mem = (reference M d p s).mem := by
   rcases p with ⟨x,o,st,len,ss,ls,xh,xt,oh,ot,w⟩
   cases d <;>
-    simp [execution, reference, outputValues, numerators, inputRow, outputOffset,
+    simp (config := {unfoldPartialApp := Bool.true}) [execution, reference, outputValues, numerators, inputRow, outputOffset,
       startIndex, count, fold_writes_mem, State.setReg, ofFloat, toFloat, Region.cast,
       FloatDType.toTileDType, FloatDType.numericDType, bop, Function.comp_def,
       Broadcast.leftIndex, Broadcast.rightIndex]
-  all_goals rfl
 
 #axiomsClean execution
 #axiomsClean execution_memory

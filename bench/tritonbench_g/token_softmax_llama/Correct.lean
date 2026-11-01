@@ -12,10 +12,10 @@ its public Cover condition makes every logical denominator term active. -/
 def segmentSoftmax (p : Parameters) (work : List Grid.PID)
     (xs : PublicIO.LogicalInputs p work) (r : Fin work.length) (c : Fin p.width) : ℝ :=
   Real.exp (xs.values r c) /
-    ∑ j : Fin (xs.lengths r), Real.exp (xs.segment p work r j)
+    ∑ j : Fin (xs.lengths r).toNat, Real.exp (xs.segment p work r j)
 
 /-- Complete selected segment/head schedule and independent finite softmax.
-The IO domain states full-segment coverage and output event uniqueness;
+The IO domain states nonnegative signed metadata, full-segment coverage and output event uniqueness;
 repeated identical launches remain admitted. -/
 specification token_softmax_grid_real (p : Parameters) (positive : 0<p.width)
     (separate : Grid.Separate p) (work : List Grid.PID) :
