@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 110,
+  "completed_count": 109,
   "staged_count": 112,
-  "pending_count": 86,
+  "pending_count": 87,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "PASS",
+    "staged_public_proofs": "revalidation_pending",
     "staged_and_regression_retained_modules": 2978,
-    "official_comparator": "110 targets have exact current-source/import-closure official receipts, including all 19 examples. Ksoftmax, SoftmaxOptimize, RotaryEmbNopad and FusedRotaryEmbedding passed current independent replay; artifact digests, complete case closures, qualified public theorem names and all required proof replays were verified. Body comparison and compilation alone never establish completion.",
+    "official_comparator": "109 targets have exact current-source/import-closure official receipts, including all 19 examples and LayerNormLiger. Its exact source snapshot, artifact digest, 60 independent proof/audit replays and every current dependency were verified. TritonArgmax remains pending its replay. DequantizeMatmul and FastCELoss have been returned to pending because their imported CrossEntropy1 source is being migrated; historical receipts are retained.",
     "python_tests": 397,
     "offline_example_compilations": {
       "cases": 19,
@@ -340,7 +340,8 @@
         "context_attn_mistral"
       ],
       "completion_certificate": false
-    }
+    },
+    "current_work": "CrossEntropy1 caller pointer offsets and exact four source bodies are under repair. Its two affected previously accepted dependents are pending; no compilation or source-copy result has been counted as completion."
   },
   "targets": [
     {
@@ -616,13 +617,14 @@
     },
     {
       "path": "bench/tritonbench_g/dequantize_matmul",
-      "status": "complete",
-      "complete": true,
+      "status": "proof_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS",
+      "public_real_fp_proofs": "revalidation_pending",
+      "retained_modules_build": "revalidation_pending",
       "validated_source_commit": "7cf36d614067b7b8a0402ce4764b0ecb58cc4bf6",
-      "receipt": "validation/body_receipts/stage9-shard4.json"
+      "previous_receipt": "validation/body_receipts/stage9-shard4.json",
+      "reason": "The imported CrossEntropy1 kernel source is being migrated. The previous receipt source closure is superseded; current local verification and fresh independent replay are required."
     },
     {
       "path": "bench/tritonbench_g/destindex_copy",
@@ -692,13 +694,14 @@
     },
     {
       "path": "bench/tritonbench_g/fast_ce_loss",
-      "status": "complete",
-      "complete": true,
+      "status": "proof_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS",
+      "public_real_fp_proofs": "revalidation_pending",
+      "retained_modules_build": "revalidation_pending",
       "validated_source_commit": "7cf36d614067b7b8a0402ce4764b0ecb58cc4bf6",
-      "receipt": "validation/body_receipts/fast_ce_loss.json"
+      "previous_receipt": "validation/body_receipts/fast_ce_loss.json",
+      "reason": "The imported CrossEntropy1 kernel source is being migrated. The previous receipt source closure is superseded; current local verification and fresh independent replay are required."
     },
     {
       "path": "bench/tritonbench_g/fast_layernorm",
@@ -986,13 +989,13 @@
     },
     {
       "path": "bench/tritonbench_g/layer_norm_liger",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All four original/candidate forward/backward bodies are copied statement for statement. Actual signed loops, dtype casts, integer denominators, Real formulas, complete FP pairs, safety and frames are re-proved. All 57 retained task modules plus the optional frontend and two independent semantic tests are required in fresh independent replay.",
-      "validated_source_commit": "7cf36d614067b7b8a0402ce4764b0ecb58cc4bf6"
+      "validated_source_commit": "7cf36d614067b7b8a0402ce4764b0ecb58cc4bf6",
+      "receipt": "validation/body_receipts/layer_norm_liger.json"
     },
     {
       "path": "bench/tritonbench_g/layer_norm_ops",
