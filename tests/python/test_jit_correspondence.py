@@ -973,3 +973,54 @@ class ApplyPenaltyBodyCorrespondenceTests(unittest.TestCase):
         for before, after in mutations:
             with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
                 self.verify(self.lean.replace(before, after, 1))
+
+class FastRmsCopiedBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/fast_rms_layernorm'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, index, lean):
+        r = self.records[index]
+        return check((ROOT / r['python']).read_text(), lean,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
+
+    def test_all_stages_and_existing_index_candidates(self):
+        self.assertEqual(len(check_manifest(ROOT, self.directory / 'jit-correspondence.json')), 7)
+
+    def test_docstring_text_and_rebased_indentation(self):
+        self.verify(0, self.lean)
+        start = self.lean.index('    """', self.lean.index('def regularRuntimeSource'))
+        stop = self.lean.index('\n  }', start)
+        rebased = self.lean[:start] + textwrap.indent(self.lean[start:stop], '    ') + self.lean[stop:]
+        self.verify(0, rebased)
+        with self.assertRaisesRegex(ValueError, 'statement correspondence'):
+            self.verify(0, self.lean.replace('Fast RMS Layernorm kernel', 'Different documentation', 1))
+
+    def test_chained_casts_and_weight_dtype_query_are_preserved(self):
+        with self.assertRaisesRegex(ValueError, 'statement correspondence'):
+            self.verify(3, self.lean.replace('normed.to(dW.dtype.element_ty).to(tl.float32)',
+                                           'normed.to(tl.float32)', 1))
+        with self.assertRaisesRegex(ValueError, 'statement correspondence'):
+            self.verify(0, self.lean.replace('normed.to(W_row.dtype)', 'normed.to(tl.float32)', 1))
+
+    def test_backward_gemma_branch_and_signed_loop_cannot_change(self):
+        with self.assertRaisesRegex(ValueError, 'statement correspondence'):
+            self.verify(2, self.lean.replace('if GEMMA: dY_W = dY_row * (W_row + 1.0)',
+                                           'if GEMMA: dY_W = dY_row * W_row', 1))
+        with self.assertRaisesRegex(ValueError, 'statement correspondence'):
+            self.verify(3, self.lean.replace('range(tl.cast(n_rows, tl.int64))', 'range(n_rows)', 1))
+
+    def test_other_multiline_string_constants_keep_their_contents(self):
+        r = self.records[0]
+        old = '    row_idx = tl.program_id(0).to(tl.int64)'
+        literal = '    label = """alpha\n      beta"""\n'
+        py = (ROOT / r['python']).read_text().replace(old, literal + old, 1)
+        lean = self.lean.replace(old, literal + old, 1)
+        def verify(text):
+            return check(py, text, r['python_function'], r['lean_definition'],
+                         r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
+        verify(lean)
+        with self.assertRaisesRegex(ValueError, 'statement correspondence'):
+            verify(lean.replace('      beta"""', '    beta"""', 1))

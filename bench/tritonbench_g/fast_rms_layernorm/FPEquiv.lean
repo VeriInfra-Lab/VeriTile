@@ -1,4 +1,5 @@
 import bench.tritonbench_g.fast_rms_layernorm.Proofs.IOPair
+import VeriTile.Triton.Float.ClosedStructuralAudit
 
 namespace VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv
 open VeriTile Triton FP.Structural NativeGraph
@@ -21,6 +22,8 @@ specification kernel_equivalent (R : Reductions) (h : Call) (backward : Bool) (e
   apply ProgramIO.Implementation.of_equivalentOn
   exact IOPair.equivalent R h backward epsilon
 
+set_option maxHeartbeats 4000000 in
+#print_fp_assumptions kernel_equivalent closed_structural
 #axiomsClean kernel_equivalent
 end
 end VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv

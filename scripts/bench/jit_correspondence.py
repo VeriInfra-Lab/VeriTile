@@ -22,6 +22,7 @@ import json
 from pathlib import Path
 import re
 import textwrap
+import inspect
 
 from scripts.bench.audit_source import lean_code_mask, strip_lean_comments
 
@@ -584,7 +585,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     if profile is not None:
         # Parse the pasted body as Python directly: braces, Lean assignment
         # syntax and other legacy spelling changes cannot become a copy pass.
-        statements, parameters = ast.parse(textwrap.dedent(body)).body, {}
+        statements, parameters = ast.parse("def __veritile_pasted__():\n" + body).body[0].body, {}
     else:
         statements, parameters = source_statements(body, constants)
     if profile is None and parameters != runtime:
@@ -594,6 +595,14 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError(f"missing constexpr binder: {name}")
     left = ast.Module(copy.deepcopy(function.body), [])
     right = ast.Module(statements, [])
+    # A function docstring is compiler metadata. Reindent its descriptive text
+    # with Python's docstring rule, without touching executable string literals.
+    # Wrapping the pasted body above preserves every other multiline string.
+    for program in (left, right):
+        if (program.body and isinstance(program.body[0], ast.Expr)
+                and isinstance(program.body[0].value, ast.Constant)
+                and isinstance(program.body[0].value.value, str)):
+            program.body[0].value.value = inspect.cleandoc(program.body[0].value.value)
     # The legacy mode permits the documented shape spelling adaptations.
     # Body-copy mode preserves the actual Python expressions unchanged.
     if profile is None:
@@ -625,7 +634,7 @@ def check_pure_function(python_text: str, lean_text: str, python_function: str,
         raise ValueError("pure JIT quotation parameter differs from Python")
     if "$" in body or re.search(r"\btl\.(region|param|source_helper|call_signature)\b", body):
         raise ValueError("pure JIT body must contain only pasted Python")
-    if ast.dump(ast.Module(fn.body, [])) != ast.dump(ast.parse(textwrap.dedent(body))):
+    if ast.dump(ast.Module(fn.body, [])) != ast.dump(ast.Module(ast.parse("def __veritile_pasted__():\n" + body).body[0].body, [])):
         raise ValueError("pure JIT return body differs from Python")
     return {"python_function": python_function, "lean_definition": lean_definition,
             "status": "PASS", "mode": "pasted_body", "kind": "pure_jit_function",

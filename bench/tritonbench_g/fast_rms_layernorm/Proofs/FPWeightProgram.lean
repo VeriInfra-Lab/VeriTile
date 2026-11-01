@@ -9,12 +9,13 @@ def loopBody (h : Call) (K : Nat) : List ComputeStmt :=
   match ((Kernels.weightBackward h K).surfaceBody.drop 3).head? with
   | some (.forLoop _ _ body) => body
   | some (.forRangeDyn _ _ _ _ body) => body
+  | some (.forRangeInt _ _ _ _ body) => body
   | _ => []
 def tailCode (h : Call) (K : Nat) := (Kernels.weightBackward h K).surfaceBody.drop 4
 
 theorem source_body (h : Call) (K : Nat) :
     (Kernels.weightBackward h K).surfaceBody = prefixCode h K ++
-      [.forRangeDyn "row" (.constNat 0) (.constNat h.rows) (.constNat 1) (loopBody h K)] ++ tailCode h K := by
+      [.forRangeInt "row" (.constInt 0) (.castNatToInt (.constNat h.rows)) (.constNat 1) (loopBody h K)] ++ tailCode h K := by
   rfl
 
 #axiomsClean source_body

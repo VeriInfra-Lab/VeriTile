@@ -51,6 +51,13 @@ theorem stores :
     storeTypes (backward candidate Y X W r dW YR XR WR RR DWR N B eps isGemma).surfaceBody = [.real] := by
   cases candidate <;> cases isGemma <;> exact ⟨rfl,rfl,rfl⟩
 
+/-- Widening before address products must retain the signed source carrier,
+including when the widened program id is nested in a larger expression. -/
+theorem signed_program_indices :
+    types (regularRuntimeSource Y X W r YR XR WR RR N B).surfaceBody "row_idx"=[.int] ∧
+    types (runtimeWeightSource dW Y X r YR N B isGemma).surfaceBody "col"=[.int] := by
+  cases isGemma <;> exact ⟨rfl,rfl⟩
+
 /-- Binding epsilon adds precisely the call prelude, preserving every JIT statement. -/
 theorem runtime_call :
     (regularSource Y X W r YR XR WR RR N B eps).surfaceBody =

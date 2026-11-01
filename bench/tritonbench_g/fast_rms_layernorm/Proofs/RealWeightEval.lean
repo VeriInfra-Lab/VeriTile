@@ -8,9 +8,9 @@ set_option maxRecDepth 25000
 set_option linter.unusedSimpArgs false
 
 theorem load (h : Call) (K pid row : Nat) (r : RegionName) (u : BlockState)
-    (hc : u.regs .nat [K] "col"=some (Tile.vec fun j => pid*K+j.val))
+    (hc : u.regs .int [K] "col"=some (Tile.vec fun j => ((pid*K+j.val : Nat) : Int)))
     (hm : u.regs .bool [K] "mask"=some (Tile.vec fun j => decide (pid*K+j.val<h.cols)))
-    (hr : u.regs .nat [] "row"=some (Tile.scalar row)) :
+    (hr : u.regs .int [] "row"=some (Tile.scalar (row : Int))) :
     evalOp (loadOp h K r) u=some (Tile.vec fun j => some
       (if pid*K+j.val<h.cols then u.readMem r (row*h.cols+(pid*K+j.val)) else 0)) := by
   simp [loadOp,offsetOp,colOp,maskOp,evalOp,evalOp.eq_def,hc,hm,hr,Option.bind,
@@ -19,8 +19,8 @@ theorem load (h : Call) (K pid row : Nat) (r : RegionName) (u : BlockState)
   split_ifs <;> rfl
 
 theorem inverse (row : Nat) (u : BlockState)
-    (hr : u.regs .nat [] "row"=some (Tile.scalar row)) :
-    evalOp (.load .real (.region "r" (.ref .nat [] "row")) .none) u=
+    (hr : u.regs .int [] "row"=some (Tile.scalar (row : Int))) :
+    evalOp (.load .real (.region "r" (.castIntToNat (.ref .int [] "row"))) .none) u=
       some (Tile.scalar (some (u.readMem "r" row))) := by
   simp [evalOp,evalOp.eq_def,hr,Option.bind]
 
