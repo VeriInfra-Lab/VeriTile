@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 70,
+  "completed_count": 80,
   "staged_count": 85,
-  "pending_count": 126,
+  "pending_count": 116,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 1988,
-    "official_comparator": "Current-source receipts accept 70 of 196 targets. All six shards of run 41256701308 succeeded. Every accepted case was checked against the complete current source/import closure, reviewed source pairs and fully-qualified public theorem names; all required independent proof replays passed. Shared 225-file replay dependencies match. The four changed MatrixReduction clients remain excluded from the old receipts and queued in fresh run 41263548794. F8ConversionUtils (41257166635), RmsnormFusedLlama (41257794791) and RmsnormImplementation (41259258045) also have accepted current-source receipts. Other incrementals, including softmax 41267684915 and RoPE 41268457209, remain pending. Compilation alone does not count as completion. AdamUpdateGridLaunch is temporarily excluded: its numeric Boolean multiplication frontend was corrected and requires fresh proof replay. RmsnormTriton (41260776128) and all three DestIndexCopy cases (41264452968) have accepted official proof jobs and exact current source/import-closure checks; their aggregate jobs remain queued. FastCrossEntropy (41262439645) also has an accepted proof job, exact case closure and matching 48-file shared replay dependency closure.",
+    "official_comparator": "Current-source receipts accept 80 of 196 targets. All six shards of run 41256701308 succeeded. Every accepted case was checked against the complete current source/import closure, reviewed source pairs and fully-qualified public theorem names; all required independent proof replays passed. Shared 225-file replay dependencies match. The four changed MatrixReduction clients remain excluded from the old receipts and queued in fresh run 41263548794. F8ConversionUtils (41257166635), RmsnormFusedLlama (41257794791) and RmsnormImplementation (41259258045) also have accepted current-source receipts. Other incrementals, including softmax 41267684915 and RoPE 41268457209, remain pending. Compilation alone does not count as completion. AdamUpdateGridLaunch is temporarily excluded: its numeric Boolean multiplication frontend was corrected and requires fresh proof replay. RmsnormTriton (41260776128) and all three DestIndexCopy cases (41264452968) have accepted official proof jobs and exact current source/import-closure checks; their aggregate jobs remain queued. FastCrossEntropy (41262439645) also has an accepted proof job, exact case closure and matching 48-file shared replay dependency closure. MatrixReduction and its three target clients (41263548794), all three softmax cases (41267684915), both RoPE cases (41268457209) and MulExponentCompensator (41269069858) have accepted official proof jobs and exact current case/import closures. Shared replay closures of 52 softmax and 49 constant-test files match. The accepted triton_matmul regression is not counted as a target. Aggregate jobs remain queued.",
     "python_tests": 329,
     "offline_example_compilations": {
       "cases": 19,
@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "validated_source_commit": "0496e6e76e1c5dc26be14e429515cf1c1a139a18",
-    "working_tree": "All 85 locally staged targets (66 task targets and all 19 examples) pass complete body checks, actual public Real/FP proofs and the joint 1988-retained-module build. ChunkedCumsumFwd pastes the repaired original and existing scale-first Python bodies with every uint64 cast, runtime clamp, optional bias/softplus branch, remask, product and prefix scan. UnsignedCallArguments is an optional frontend: it specializes supplied integer arguments through one explicit top-level unsigned self-cast, retains that assignment and its modulo conversion, freezes caller expressions and rejects subsequent mutation or loop shadowing. Complete typed-program equalities cover natural and signed arguments; concrete negative and overflow evaluations and three rejection guards pass with standard axiom footprints. Actual FP32 pointer storage now covers dt, rate, bias and both outputs. Independent memory and native formulas retain the input conversion and final store conversion; logical IO uses the corresponding FP32 cells. Complete grid execution, access safety, Real preparation/prefix formulas, native outputs and exterior frames are re-proved on the unchanged profiles, bounds and input ranges. The scale-first full-grid equivalence retains strict concrete multiply/FMA certificates and empty numerical assumptions. All 29 task modules, the frontend regression, public theorem targets, 329 Python tests and source inventory checks pass. Current source/import checks validate all 70 completed targets. Fifteen staged targets await independent replay; 111 target tasks are not migrated. AdamUpdateGridLaunch remains pending until its corrected Boolean-promotion frontend is replayed.",
+    "working_tree": "All 85 locally staged targets (66 task targets and all 19 examples) pass complete body checks, actual public Real/FP proofs and the joint 1988-retained-module build. ChunkedCumsumFwd pastes the repaired original and existing scale-first Python bodies with every uint64 cast, runtime clamp, optional bias/softplus branch, remask, product and prefix scan. UnsignedCallArguments is an optional frontend: it specializes supplied integer arguments through one explicit top-level unsigned self-cast, retains that assignment and its modulo conversion, freezes caller expressions and rejects subsequent mutation or loop shadowing. Complete typed-program equalities cover natural and signed arguments; concrete negative and overflow evaluations and three rejection guards pass with standard axiom footprints. Actual FP32 pointer storage now covers dt, rate, bias and both outputs. Independent memory and native formulas retain the input conversion and final store conversion; logical IO uses the corresponding FP32 cells. Complete grid execution, access safety, Real preparation/prefix formulas, native outputs and exterior frames are re-proved on the unchanged profiles, bounds and input ranges. The scale-first full-grid equivalence retains strict concrete multiply/FMA certificates and empty numerical assumptions. All 29 task modules, the frontend regression, public theorem targets, 329 Python tests and source inventory checks pass. Current source/import checks validate all 80 completed targets. Five staged targets await independent replay; 111 target tasks are not migrated. AdamUpdateGridLaunch remains pending until its corrected Boolean-promotion frontend is replayed.",
     "official_replay_sources": 968,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -46,7 +46,7 @@
       "cases": 1,
       "retained_modules": 30,
       "replay_sources": 30,
-      "official_run": null
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41273712145"
     },
     "previous_incremental_replays": [
       {
@@ -510,12 +510,13 @@
     },
     {
       "path": "bench/tritonbench_g/fast_rope_embedding",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "0496e6e76e1c5dc26be14e429515cf1c1a139a18"
+      "validated_source_commit": "9f85ddd1493ad246c8236262a16a8aee5fe964df",
+      "receipt": "validation/body_receipts/rope_embeddings.json"
     },
     {
       "path": "bench/tritonbench_g/fifth_order_sph_harmonics",
@@ -872,12 +873,13 @@
     },
     {
       "path": "bench/tritonbench_g/matrix_reduction",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "0496e6e76e1c5dc26be14e429515cf1c1a139a18"
+      "validated_source_commit": "9f85ddd1493ad246c8236262a16a8aee5fe964df",
+      "receipt": "validation/body_receipts/matrix_reduction.json"
     },
     {
       "path": "bench/tritonbench_g/matrix_transpose",
@@ -916,12 +918,13 @@
     },
     {
       "path": "bench/tritonbench_g/mul_exponent_compensator",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "0496e6e76e1c5dc26be14e429515cf1c1a139a18"
+      "validated_source_commit": "9f85ddd1493ad246c8236262a16a8aee5fe964df",
+      "receipt": "validation/body_receipts/mul_exponent_compensator.json"
     },
     {
       "path": "bench/tritonbench_g/multinomial_sampling",
@@ -960,12 +963,13 @@
     },
     {
       "path": "bench/tritonbench_g/quantize_copy_kv",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "0496e6e76e1c5dc26be14e429515cf1c1a139a18"
+      "validated_source_commit": "9f85ddd1493ad246c8236262a16a8aee5fe964df",
+      "receipt": "validation/body_receipts/matrix_reduction.json"
     },
     {
       "path": "bench/tritonbench_g/quantize_global",
@@ -979,21 +983,23 @@
     },
     {
       "path": "bench/tritonbench_g/quantize_kv_copy",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "0496e6e76e1c5dc26be14e429515cf1c1a139a18"
+      "validated_source_commit": "9f85ddd1493ad246c8236262a16a8aee5fe964df",
+      "receipt": "validation/body_receipts/matrix_reduction.json"
     },
     {
       "path": "bench/tritonbench_g/quantize_kv_transform",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "0496e6e76e1c5dc26be14e429515cf1c1a139a18"
+      "validated_source_commit": "9f85ddd1493ad246c8236262a16a8aee5fe964df",
+      "receipt": "validation/body_receipts/matrix_reduction.json"
     },
     {
       "path": "bench/tritonbench_g/rbe_triton_transform",
@@ -1100,12 +1106,13 @@
     },
     {
       "path": "bench/tritonbench_g/rope_embedding",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "0496e6e76e1c5dc26be14e429515cf1c1a139a18"
+      "validated_source_commit": "9f85ddd1493ad246c8236262a16a8aee5fe964df",
+      "receipt": "validation/body_receipts/rope_embeddings.json"
     },
     {
       "path": "bench/tritonbench_g/rope_transform",
@@ -1199,21 +1206,23 @@
     },
     {
       "path": "bench/tritonbench_g/softmax_triton1",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "0496e6e76e1c5dc26be14e429515cf1c1a139a18"
+      "validated_source_commit": "9f85ddd1493ad246c8236262a16a8aee5fe964df",
+      "receipt": "validation/body_receipts/softmax_family.json"
     },
     {
       "path": "bench/tritonbench_g/softmax_triton2",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "0496e6e76e1c5dc26be14e429515cf1c1a139a18"
+      "validated_source_commit": "9f85ddd1493ad246c8236262a16a8aee5fe964df",
+      "receipt": "validation/body_receipts/softmax_family.json"
     },
     {
       "path": "bench/tritonbench_g/softmax_triton3",
@@ -1322,12 +1331,13 @@
     },
     {
       "path": "bench/tritonbench_g/triton_softmax",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "0496e6e76e1c5dc26be14e429515cf1c1a139a18"
+      "validated_source_commit": "9f85ddd1493ad246c8236262a16a8aee5fe964df",
+      "receipt": "validation/body_receipts/softmax_family.json"
     },
     {
       "path": "bench/tritonbench_g/uniform_sampling",
