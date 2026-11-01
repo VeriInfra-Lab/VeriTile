@@ -46,7 +46,8 @@
       "cases": 1,
       "retained_modules": 56,
       "replay_sources": 56,
-      "official_run": "not_dispatched_yet"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41309425688",
+      "source_commit": "58b9752f0802932bfbca40c275e56d18f7e76301"
     },
     "previous_incremental_replays": [
       {
