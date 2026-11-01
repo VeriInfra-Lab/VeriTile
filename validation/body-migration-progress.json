@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 88,
+  "completed_count": 89,
   "staged_count": 96,
-  "pending_count": 108,
+  "pending_count": 107,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "RECHECK_REQUIRED_FOR_SHARED_DEPENDENCIES",
     "staged_and_regression_retained_modules": 2271,
-    "official_comparator": "Current-source receipts accept 88 of 196 targets. Each accepted case matches the exact current source/import closure, reviewed source pairs, fully-qualified public Real/FP theorem names and every required independent replay. Accepted evidence covers the unchanged cases from all six original shards, F8ConversionUtils, the three RMS incrementals, all three destination copies, FastCrossEntropy, MatrixReduction and its three target clients, all three softmax cases, both RoPE cases and MulExponentCompensator. Shared replay dependency closures match. The accepted triton_matmul regression is not counted as a target. Eight locally staged targets still need current independent replay; they are not complete. Individual proof jobs have succeeded for accepted incrementals; queued aggregate jobs are not reported as whole-workflow successes. Compilation alone never counts as completion. The corrected AdamUpdateTriton task, AdamUpdateGridLaunch example and the shared Boolean-arithmetic replay dependencies are accepted by their current-source receipt; all 19 examples now have current independent replay receipts. ReversedCumsumScalar is accepted by a current-source receipt covering all 37 retained proof files and unchanged shared dependencies. ReversedCumsum and ChunkedCumsumFwd are accepted by exact current-source receipts covering all 29 and 30 required replays respectively, including the unchanged 73-file shared replay closure of ChunkedCumsumFwd. BatchedVecmatMult is accepted by an exact current-source receipt covering all 46 retained proof files. ReLU remains pending independent replay. MaskedSelect is accepted by an exact current-source receipt covering all 18 retained modules and unchanged shared dependencies. LogSoftmax and NestedLoopsProcessing are temporarily revoked because their shared memory adapter transitively imports the changed LayernormFwdTriton kernel. Their historical receipts are not current-source certificates; both must be rebuilt and independently replayed. ChunkDeltaFwd and both TokenSoftmax variants are accepted by exact current-source receipts covering all 54 and 32 required replays, respectively, with unchanged shared replay closures.",
+    "official_comparator": "Current-source receipts accept 89 of 196 targets. Each accepted case matches the exact current source/import closure, reviewed source pairs, fully-qualified public Real/FP theorem names and every required independent replay. Accepted evidence covers the unchanged cases from all six original shards, F8ConversionUtils, the three RMS incrementals, all three destination copies, FastCrossEntropy, MatrixReduction and its three target clients, all three softmax cases, both RoPE cases and MulExponentCompensator. Shared replay dependency closures match. The accepted triton_matmul regression is not counted as a target. Seven locally staged targets still need current independent replay; they are not complete. Individual proof jobs have succeeded for accepted incrementals; queued aggregate jobs are not reported as whole-workflow successes. Compilation alone never counts as completion. The corrected AdamUpdateTriton task, AdamUpdateGridLaunch example and the shared Boolean-arithmetic replay dependencies are accepted by their current-source receipt; all 19 examples now have current independent replay receipts. ReversedCumsumScalar is accepted by a current-source receipt covering all 37 retained proof files and unchanged shared dependencies. ReversedCumsum and ChunkedCumsumFwd are accepted by exact current-source receipts covering all 29 and 30 required replays respectively, including the unchanged 73-file shared replay closure of ChunkedCumsumFwd. BatchedVecmatMult is accepted by an exact current-source receipt covering all 46 retained proof files. ReLU remains pending independent replay. MaskedSelect is accepted by an exact current-source receipt covering all 18 retained modules and unchanged shared dependencies. LogSoftmax and NestedLoopsProcessing are temporarily revoked because their shared memory adapter transitively imports the changed LayernormFwdTriton kernel. Their historical receipts are not current-source certificates; both must be rebuilt and independently replayed. ChunkDeltaFwd and both TokenSoftmax variants are accepted by exact current-source receipts covering all 54 and 32 required replays, respectively, with unchanged shared replay closures. QuantTransposeKernel is accepted by its exact current-source receipt covering all 17 retained proof files and unchanged shared dependencies.",
     "python_tests": 341,
     "offline_example_compilations": {
       "cases": 19,
@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "validated_source_commit": "6f1189a38eb6b1e6bdab50d4f9f7b599445ed630",
-    "working_tree": "Active LayernormFwdTriton migration: complete pasted bodies, 345 Python checks, signed stride frontend whole-program equality, original/candidate signed-range execution, access safety and both public Real/FP theorems pass. The scheduled load changes private compiler temporary registers; the new proof transports complete memory and undef values through the full grid instead of claiming equal private states. LogSoftmax and NestedLoopsProcessing depend on the changed source through a shared memory adapter and are explicitly pending a fresh joint rebuild and independent replay. Exact case-closure scans leave 88 current completed targets; all 19 examples retain their accepted receipts. The last complete 2271-module build belongs to validated_source_commit; a fresh expanded build and all retained optional Layernorm modules are still required.",
+    "working_tree": "Active LayernormFwdTriton migration: complete pasted bodies, 345 Python checks, signed stride frontend whole-program equality, original/candidate signed-range execution, access safety and both public Real/FP theorems pass. The scheduled load changes private compiler temporary registers; the new proof transports complete memory and undef values through the full grid instead of claiming equal private states. LogSoftmax and NestedLoopsProcessing depend on the changed source through a shared memory adapter and are explicitly pending a fresh joint rebuild and independent replay. Exact case-closure scans leave 89 current completed targets; all 19 examples retain their accepted receipts. The last complete 2271-module build belongs to validated_source_commit; a fresh expanded build and all retained optional Layernorm modules are still required.",
     "official_replay_sources": 1251,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -1049,12 +1049,13 @@
     },
     {
       "path": "bench/tritonbench_g/quant_transpose_kernel",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "6f1189a38eb6b1e6bdab50d4f9f7b599445ed630"
+      "validated_source_commit": "6f1189a38eb6b1e6bdab50d4f9f7b599445ed630",
+      "receipt": "validation/body_receipts/quant_transpose_kernel.json"
     },
     {
       "path": "bench/tritonbench_g/quantize_copy_kv",
