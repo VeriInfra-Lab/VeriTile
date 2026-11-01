@@ -23,7 +23,7 @@ theorem logits_scalar (p : Parameters) (initial : State (WithBot ℝ))
         (Source.scaledReads RealSource.algebra p (scalarMemory initial) backward)
         (initial.pids 0) (initial.pids 1) lane := by
   by_cases active : initial.pids 1*p.block+lane.val<p.cols
-  all_goals simp [KernelNative.logits,KernelNative.rawLogits,Source.arithmetic,Source.scaledReads,
+  all_goals simp [KernelNative.logits,KernelNative.rawLogits,KernelNative.loadedLogits,Source.arithmetic,Source.scaledReads,
     CrossEntropy1.Source.loadedLogits,CrossEntropy1.Source.load,CrossEntropy1.Source.column,
     CrossEntropy1.Source.logitAddress,scalarMemory,CrossEntropy1.Source.Cell.read,
     algebra,CrossEntropy1.KernelReal.algebra,RealSource.algebra,CrossEntropy1.RealSource.algebra,

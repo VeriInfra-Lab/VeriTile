@@ -20,7 +20,7 @@ theorem forwardPrefix_safe (M : Algebra α) (p : Parameters) (s : State α)
     (output : p.lseBase + s.pids 1 * p.rows + s.pids 0 < bounds p.lse) :
     Safety.traceSafeList (engine M) bounds (front p) s := by
   cases hs : p.hasSmoothing
-  all_goals simp (maxSteps := 2200000) [front, forwardSyntax, hs, ComputeKernel.surfaceBody,
+  all_goals simp (maxSteps := 2200000) [front, forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer, hs, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, evalExpr, evalComputeOp, evalOp_unfold,
@@ -41,7 +41,7 @@ theorem forwardTail_safe (M : Algebra α) (p : Parameters) (s : State α)
   cases hs : p.hasSmoothing <;> cases sp : p.split
   all_goals
     by_cases ignored : target p s = p.ignored
-    · simp (maxSteps := 2200000) [tailCode, forwardSyntax, hs, sp, ComputeKernel.surfaceBody,
+    · simp (maxSteps := 2200000) [tailCode, forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer, hs, sp, ComputeKernel.surfaceBody,
         Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
         Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
         Safety.maskActive, run, step, evalExpr, evalComputeOp, evalOp_unfold,
@@ -53,7 +53,7 @@ theorem forwardTail_safe (M : Algebra α) (p : Parameters) (s : State α)
       all_goals
         have condition := hit
         simp only [owns, lt_min_iff] at condition
-        simp (maxSteps := 2200000) [tailCode, forwardSyntax, hs, sp, ComputeKernel.surfaceBody,
+        simp (maxSteps := 2200000) [tailCode, forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer, hs, sp, ComputeKernel.surfaceBody,
           Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
           Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
           Safety.maskActive, run, step, evalExpr, evalComputeOp, evalOp_unfold,
@@ -98,7 +98,7 @@ theorem backward_traceSafe (M : Algebra α) (p : Parameters) (s : State α)
   cases hs : p.hasSmoothing
   all_goals by_cases ignored : target p s = p.ignored
   all_goals simp only [target, Region.cast] at ignored upstream
-  all_goals simp (maxSteps := 2200000) [FP.Structural.TraceSafe, backwardSyntax, hs,
+  all_goals simp (maxSteps := 2200000) [FP.Structural.TraceSafe, backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer, hs,
     ComputeKernel.surfaceBody, Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr,
     Safety.safeCompute, Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask,
     Safety.addressSafe, Safety.maskActive, run, step, evalExpr, evalComputeOp,

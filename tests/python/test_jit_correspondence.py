@@ -1567,3 +1567,61 @@ class CrossEntropy2BodyCorrespondenceTests(unittest.TestCase):
             self.assertEqual([t.id for t in assignment.targets], ['col_offsets'])
             self.assertEqual(ast.unparse(replacement),
                              'col_offsets = BLOCK_SIZE * col_block_idx + tl.arange(0, BLOCK_SIZE).to(tl.int64)')
+
+
+class CrossEntropyOpsBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/cross_entropy_ops'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, record, source):
+        return check((ROOT / record['python']).read_text(), source,
+                     record['python_function'], record['lean_definition'], record['signature_definition'],
+                     record['expected_signature'], expected_pointer_offsets=record['expected_pointer_offsets'])
+
+    def test_both_resident_functions_and_existing_candidates(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [14, 14, 16, 16])
+        with self.assertRaises(ValueError):
+            self.verify(self.records[0], self.source.replace('("ignored_index",.integer)', '("ignored_index",.i64)', 1))
+
+    def test_forward_conditional_z_store_padding_and_source_order(self):
+        changes = [('if not SPLIT:\n        tl.store(z_loss_ptr', 'if SPLIT:\n        tl.store(z_loss_ptr'),
+                   ('other=-float("inf")', 'other=0.0'),
+                   ('z_loss_ptr := p.zlossBase', 'z_loss_ptr := p.lossBase'),
+                   ('lse_square_scale * lse * lse', 'lse_square_scale * (lse * lse)')]
+        for old, new in changes:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[0], self.source.replace(old, new, 1))
+
+    def test_backward_unused_assignment_and_ignored_zero_are_retained(self):
+        changes = [('        smooth_positive = 1.0 - smoothing\n', ''),
+                   ('tl.where(is_ignored, class_start_idx, label_idx)', 'label_idx'),
+                   ('(dloss * logit_scale) * probs', 'dloss * (logit_scale * probs)'),
+                   ('tl.where(is_ignored, 0.0, (dloss * logit_scale) * probs)', '(dloss * logit_scale) * probs')]
+        for old, new in changes:
+            with self.subTest(new=new):
+                self.assertIn(old, self.source)
+                prefix, backward = self.source.split('def backwardBody', 1)
+                with self.assertRaises(ValueError):
+                    self.verify(self.records[2], prefix + 'def backwardBody' + backward.replace(old, new, 1))
+
+    def test_candidates_change_only_the_selected_integer_product(self):
+        def functions(name):
+            return [n for n in ast.parse((self.directory / name).read_text()).body
+                    if isinstance(n, ast.FunctionDef) and n.name.startswith('cross_entropy_')][:2]
+        original = functions('cross_entropy_ops_conditional.py')
+        candidates = functions('cross_entropy_ops_index_commuted.py')
+        self.assertEqual(len(original), len(candidates))
+        for before, after in zip(original, candidates):
+            self.assertEqual(ast.dump(before.args), ast.dump(after.args))
+            self.assertEqual(len(before.body), len(after.body))
+            differences = [(a, b) for a, b in zip(before.body, after.body) if ast.dump(a) != ast.dump(b)]
+            self.assertEqual(len(differences), 1)
+            assignment, replacement = differences[0]
+            self.assertEqual([t.id for t in assignment.targets], ['col_offsets'])
+            self.assertEqual(ast.unparse(replacement),
+                             'col_offsets = BLOCK_SIZE * col_block_idx + tl.arange(0, BLOCK_SIZE).to(tl.int64)')
