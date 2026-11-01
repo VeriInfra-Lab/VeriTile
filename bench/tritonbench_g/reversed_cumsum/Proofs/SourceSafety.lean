@@ -65,8 +65,8 @@ private theorem store_safe (h : Call) (c : Config) (row q : Nat)
 theorem chunk_safe (h : Call) (c : Config) (row q : Nat)
     (f : Geometry.FeatureBlock h) (bounds : RegionBounds) (hb : Bounds h row f.val bounds)
     (u : BlockState) (start : q*c.BT<h.T)
-    (his : u.regs .nat [] "i_s"=some (Tile.scalar f.val))
-    (hih : u.regs .nat [] "i_bh"=some (Tile.scalar row))
+    (his : u.regs .int [] "i_s"=some (Tile.scalar (f.val:Int)))
+    (hih : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int)))
     (hit : u.regs .int [] "i_t"=some (Tile.scalar (q:Int))) :
     Stmt.TraceSafeList bounds (RealStep.chunkCode h c) u := by
   simp only [RealStep.chunkCode,loopBody,List.tail_cons]
@@ -75,10 +75,10 @@ theorem chunk_safe (h : Call) (c : Config) (row q : Nat)
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some (startS_eval f.val _ (by simp [his])))]
   refine ⟨by simp [Stmt.TraceSafe,startSOp,Op.SafeAt],?_⟩
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some
-    (show evalOp (.arange c.BT) _=some (lanes c.BT) from by rw [evalOp]; rfl))]
+    (show evalOp (.castNatToInt (.arange c.BT)) _=some (lanes c.BT) from by simp [evalOp,lanes,Tile.vec]))]
   refine ⟨by simp [Stmt.TraceSafe,Op.SafeAt],?_⟩
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some
-    (show evalOp (.arange BS) _=some (lanes BS) from by rw [evalOp]; rfl))]
+    (show evalOp (.castNatToInt (.arange BS)) _=some (lanes BS) from by simp [evalOp,lanes,Tile.vec]))]
   refine ⟨by simp [Stmt.TraceSafe,Op.SafeAt],?_⟩
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some (activeT_eval h c q _ start (by simp) (by simp)))]
   refine ⟨by simp [Stmt.TraceSafe,activeTOp,Op.SafeAt],?_⟩
@@ -98,6 +98,8 @@ theorem chunk_safe (h : Call) (c : Config) (row q : Nat)
     (by simp [RealStep.indexed,hih]) (by simp [RealStep.indexed]) (by simp [RealStep.indexed])))]
   refine ⟨by simp [Stmt.TraceSafe,pointerOp,Op.SafeAt,Op.SafeAt.eq_def],?_⟩
   apply TraceProofs.assign_cons (load_safe h c row q f bounds _ start hb (by simp) (by simp [RealStep.indexed]))
+  intro raw
+  apply TraceProofs.assign_cons (by simp [Op.SafeAt])
   intro bs
   apply TraceProofs.assign_cons
   · simp [outputOp,Op.SafeAt,Op.SafeAt.eq_def]
@@ -161,21 +163,18 @@ theorem source_safe (h : Call) (c : Config) (row : Nat) (f : Geometry.FeatureBlo
     (pid0 : initial.pids 0=f.val) (pid1 : initial.pids 1=row)
     (bounds : RegionBounds) (hb : Bounds h row f.val bounds) :
     Kernel.TraceSafe bounds (Kernels.source h c).eraseDType.toAlgKernel initial := by
-  have inv : Holds initial h c row f.val (initial.readMem h.input) (Geometry.chunks h c)
-      (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.initial (layout h c) initial) := by
-    have v := VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.invariant (layout h c)
-      (zeroUndef initial) h.input h.output (initial.readMem h.input) (fun _ => rfl) positive
-    have launches : VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.launch (zeroUndef initial)=launch row f.val := by
-      simp [VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.launch,zeroUndef,launch,pid0,pid1]
-    rw [launches] at v
-    exact v
+  have inv := RealExecution.initial_invariant h c row f initial positive pid0 pid1
   rw [Kernel.TraceSafe,source_body,body]
   apply TraceProofs.append_safe
   · apply TraceProofs.all_safe
     simp [initCode,VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.initCode,
-      VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.maskOp,Stmt.TraceSafe,Op.SafeAt,Op.SafeAt.eq_def]
+      VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.maskOp,Stmt.TraceSafe,Op.SafeAt,Op.SafeAt.eq_def,
+      evalOp]
+    intro t
+    apply TraceProofs.all_safe
+    simp [Stmt.TraceSafe,Op.SafeAt]
   · intro v he
-    rw [initCode,VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.executes] at he
+    rw [RealExecution.init_executes] at he
     cases he
     apply Stmt.TraceSafeList.cons_intro
     · exact loop_safe initial h c row f (initial.readMem h.input) distinct positive bounds hb _ inv
