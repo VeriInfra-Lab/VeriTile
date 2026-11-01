@@ -53,7 +53,8 @@
       "retained_modules": 43,
       "replay_sources": 43,
       "state": "local_proofs_pass_official_replay_pending",
-      "case": "bench/tritonbench_g/layer_norm_welfold"
+      "case": "bench/tritonbench_g/layer_norm_welfold",
+      "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0"
     },
     "previous_incremental_replays": [
       {
@@ -476,7 +477,8 @@
         "replay_sources": 2368,
         "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942"
       }
-    }
+    },
+    "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0"
   },
   "targets": [
     {
@@ -1282,7 +1284,8 @@
         23,
         23
       ],
-      "reason": "The complete literal original/candidate, independent population formula, full arbitrary-algebra FP grid, exact dynamic ranges, all loads/casts/stores, actual access safety and retained native/lowering modules pass locally. Completion awaits the exact independent receipt."
+      "reason": "The complete literal original/candidate, independent population formula, full arbitrary-algebra FP grid, exact dynamic ranges, all loads/casts/stores, actual access safety and retained native/lowering modules pass locally. Completion awaits the exact independent receipt.",
+      "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0"
     },
     {
       "path": "bench/tritonbench_g/layernorm_fwd_triton",
