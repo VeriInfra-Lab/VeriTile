@@ -9,7 +9,7 @@
   "pending_count": 196,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "CURRENT_SNAPSHOT_FULL_BUILD_AND_REPLAY_PENDING",
+    "staged_public_proofs": "LOCAL_PASS_OFFICIAL_REPLAY_PENDING",
     "staged_and_regression_retained_modules": 3365,
     "official_comparator": "120 targets were accepted on the previous dependency snapshot, including all 19 examples. Their receipts are preserved as previous_receipt. The distinct libdevice.rsqrt model extension changes shared dependency hashes, so current completion awaits full proof rebuild and independent replay. BmmChunkBwd run 41347223281 targets the earlier c5bb57dff0873783f7df0a67c58832e9ccfd8bcd snapshot.",
     "python_tests": 442,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "The libdevice.rsqrt model extension and literal None memory masks are locally checked, including complete-program and distinct-backend regressions. The initial 127-case full retained-module build passed (12069 jobs); the subsequent metadata and None-mask fixes require the current exact snapshot to be rebuilt and independently replayed. No target is currently marked complete. Previously accepted receipts remain historical evidence. LayerNormWelfold source/proof migration is still in progress and is not included in this batch.",
+    "working_tree": "All 127 selected cases, 3365 retained/supporting Lean modules and 2368 proof/audit source targets pass the current local full build (12070 jobs) on the unchanged 9096006a1 source closures. Shared libdevice.rsqrt, inferred input ports and literal None masks have dedicated regressions. Six official replay shards are running on that exact commit. Completion remains pending those receipts. The literal LayerNormWelfold original and address-reuse candidate have matching 23-statement Python bodies, independently checked ordered-tree frontend tests and canonical-source fragment binding proofs; their execution, safety and output proofs are still being migrated and are excluded from this batch.",
     "official_replay_sources": 2368,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -417,7 +417,7 @@
     "current_work": "Dispatch BmmOptimized independent replay, audit exact-current receipts and continue BmmChunkBwd. No merge.",
     "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
     "shared_model_revalidation": {
-      "state": "current_full_build_and_official_replay_pending",
+      "state": "local_full_build_pass_official_replay_running",
       "cases": 127,
       "retained_modules": 3365,
       "replay_sources": 2368,
@@ -432,8 +432,20 @@
         "tests/lean/NoneMemoryMasks.lean"
       ],
       "python_tests": 442,
-      "body_corpus_check": "pass"
-    }
+      "body_corpus_check": "pass",
+      "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41351075260",
+      "official_shards": 6,
+      "current_full_build": {
+        "passed": true,
+        "jobs": 12070,
+        "cases": 127,
+        "retained_modules": 3365,
+        "replay_sources": 2368,
+        "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942"
+      }
+    },
+    "validated_source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942"
   },
   "targets": [
     {
