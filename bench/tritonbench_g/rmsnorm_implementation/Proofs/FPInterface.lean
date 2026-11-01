@@ -22,7 +22,10 @@ theorem source_runs_equal {α : Type} [Inhabited α] (M : FP.Structural.Algebra 
       (kernel "x" "weights" "out" sxb sxm sxk sw sob som sok n B eps) s =
     FP.Structural.exec (FP.ProfiledRewrite.engine M)
       (indexCommutedKernel "x" "weights" "out" sxb sxm sxk sw sob som sok n B eps) s := by
-  simp [kernel,indexCommutedKernel,ComputeKernel.surfaceBody,FP.Structural.exec,FP.Structural.run,FP.Structural.step,
+  simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalFor,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedFor,
+    VeriTile.Bench.Repairs.RmsnormImplementation.family,
+    kernel,indexCommutedKernel,ComputeKernel.surfaceBody,FP.Structural.exec,FP.Structural.run,FP.Structural.step,
     FP.Structural.evalExpr,FP.Structural.evalOp_unfold,FP.Structural.numeric,
     FP.Structural.bop,FP.Structural.State.setReg,Option.bind,Nat.mul_comm]
   unfold FP.Structural.bop

@@ -19,7 +19,10 @@ theorem prefix_source (v : Bool) (X W O : RegionName)
     (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) :
     (mathKernel v X W O sxb sxm sxk sw sob som sok N B eps).body.take 3 =
       indexPrefix v sxb sxm := by
-  cases v <;> simp [mathKernel,uncastMathKernel,commutedMathKernel,
+  cases v <;> simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalFor,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedFor,
+    VeriTile.Bench.Repairs.RmsnormImplementation.family,
+    mathKernel,uncastMathKernel,commutedMathKernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
     ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
@@ -47,7 +50,10 @@ theorem source_tail (X W O : RegionName)
     (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) :
     (mathKernel Bool.true X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 =
       (mathKernel Bool.false X W O sxb sxm sxk sw sob som sok N B eps).body.drop 3 := by
-  simp [mathKernel,uncastMathKernel,commutedMathKernel,
+  simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalFor,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedFor,
+    VeriTile.Bench.Repairs.RmsnormImplementation.family,
+    mathKernel,uncastMathKernel,commutedMathKernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
     ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
@@ -114,7 +120,10 @@ theorem uncast_flat_exec (A : FlatAlloc) (X W O : RegionName)
       [.forRange "block_n_strart_ptr" 0 N B (uncastVarBody X sxk N B)] ++
       rmsStdPostLoop N B eps ++
       [.forRange "block_n_strart_ptr" 0 N B (rmsOutLoopBody X W O sxk sw sob som sok N B)] := by
-    simp [uncastMathKernel, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
+    simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalFor,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedFor,
+    VeriTile.Bench.Repairs.RmsnormImplementation.family,
+    uncastMathKernel, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
     RealCastView.ofKernel,RealCastView.castBindings,RealCastView.castBinding,
     ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?_fromKernelBody,
