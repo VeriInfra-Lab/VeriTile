@@ -14,22 +14,64 @@ private theorem singleton_safe (M : Algebra α) (bounds : RegionName → Nat)
   rw [Safety.traceSafeList_cons]
   simp
 
-/-- The actual source prelude only forms pointers and scalar registers. -/
+private theorem pure_trace (M : Algebra α) (bounds : RegionName → Nat)
+    (code : List ComputeStmt) (pure : ∀ cmd∈code,∀ s,Safety.stepSafe M bounds cmd s)
+    (s : State α) : Safety.traceSafeList M bounds code s := by
+  induction code generalizing s with
+  | nil => exact Safety.traceSafeList_nil _ _ _
+  | cons cmd rest ih =>
+    apply Safety.traceSafeList_cons_intro (pure cmd (by simp) s)
+    intro next _
+    exact ih (fun st h => pure st (by simp [h])) next
+
+private theorem pure_if_else (M : Algebra α) (bounds : RegionName → Nat)
+    (condition : Op .bool []) (yes no : List ComputeStmt)
+    (safeCondition : ∀ s,Safety.safeOp M none bounds s condition)
+    (safeYes : ∀ s,Safety.traceSafeList M bounds yes s)
+    (safeNo : ∀ s,Safety.traceSafeList M bounds no s) (s : State α) :
+    Safety.stepSafe M bounds (.ifThenElse condition yes no) s := by
+  rw [Safety.stepSafe_unfold]
+  refine ⟨safeCondition s,?_⟩
+  split
+  · split
+    · exact safeYes s
+    · exact safeNo s
+  · trivial
+
+private theorem pure_if (M : Algebra α) (bounds : RegionName → Nat)
+    (condition : Op .bool []) (body : List ComputeStmt)
+    (safeCondition : ∀ s,Safety.safeOp M none bounds s condition)
+    (safeBody : ∀ s,Safety.traceSafeList M bounds body s) (s : State α) :
+    Safety.stepSafe M bounds (.ifThen condition body) s := by
+  rw [Safety.stepSafe_unfold]
+  refine ⟨safeCondition s,?_⟩
+  split
+  · split
+    · exact safeBody s
+    · trivial
+  · trivial
+
+/-- Each actual prefix statement and both runtime grouping branches are safe
+in every predecessor state. No register execution is expanded to establish
+this purely syntactic absence of memory accesses. -/
 theorem prelude_safe (p : Scalar α) (rest : Algebra α) (cfg : Parameters)
     (bounds : RegionName → Nat) (s : State (Node α)) :
     Safety.traceSafeList (engine p rest) bounds (prelude cfg) s := by
   cases dm : cfg.divM <;> cases dn : cfg.divN <;> cases dk : cfg.divK
-  all_goals by_cases hg : cfg.GROUP=1
-  all_goals by_cases ht : s.numPids 0 <
-    (s.pids 0+s.pids 1*s.numPids 0)/(s.numPids 1*cfg.GROUP)*cfg.GROUP+cfg.GROUP
-  all_goals
-    simp [prelude,parts,kernel,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
-      dm,dn,dk,hg,ht,singleton_safe,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,
-      Safety.safeCompute,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
-      FP.Structural.step,FP.Structural.run,evalExpr,evalComputeOp,evalOp_unfold,
-      numeric,bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
-      FloatDType.numericDType,FloatDType.toTileDType,Region.cast,Option.bind,
-      integralFloorDiv,integralMod]
+  all_goals simp only [prelude,parts,kernel,sourceBody,candidateSourceBody,
+    Bool.false_eq_true,Bool.true_eq,dm,dn,dk,ite_true,ite_false,
+    VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,Option.map,Option.getD,
+    beq_self_eq_true,↓reduceIte]
+  all_goals repeat' first
+    | (apply pure_trace
+       intro cmd member state
+       simp only [List.mem_cons,List.not_mem_nil,or_false] at member
+       repeat' first | (rcases member with rfl | member) | (subst cmd))
+    | apply pure_if_else
+    | apply pure_if
+    | (intro state)
+    | simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
+        Safety.safeOp_unfold,Safety.precisionContext,true_and,and_true]
 
 /-- Actual evaluated input masks and pointers are bounded at each reached
 iteration. Bounds are physical window facts, not numerical assumptions. -/
@@ -51,7 +93,7 @@ theorem body_safe (p : Scalar α) (rest : Algebra α) (cfg : Parameters)
   all_goals
     simp only [dm,dn,dk,Bool.false_eq_true,false_or,true_or,true_and,and_true,
       false_implies,true_implies] at hm hn ha hb
-    simp [body,parts,kernel,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp [body,parts,kernel,sourceBody,candidateSourceBody,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
       dm,dn,dk,singleton_safe,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,
       Safety.safeCompute,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
       Safety.addressSafe,Safety.maskActive,
@@ -91,7 +133,7 @@ theorem epilogue_safe (p : Scalar α) (rest : Algebra α) (cfg : Parameters)
   all_goals
     simp only [active,dm,dn,Bool.false_eq_true,false_or,true_or,true_and,and_true,
       false_implies,true_implies] at hm hn ho
-    simp [epilogue,parts,kernel,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp [epilogue,parts,kernel,sourceBody,candidateSourceBody,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
       dm,dn,dk,singleton_safe,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,
       Safety.safeCompute,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
       Safety.addressSafe,Safety.maskActive,

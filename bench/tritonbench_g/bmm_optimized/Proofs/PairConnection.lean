@@ -98,10 +98,10 @@ theorem step_remainder (M : Algebra A) (out dividend divisor : RegName) :
 registers, source failures, access traces and memory. No FP numerical law. -/
 theorem source_pair (M : Algebra A) (p : Source.Parameters) :
     CodeEq M (Source.kernel p).surfaceBody (Source.quotientRemainder p).surfaceBody := by
-  unfold Source.kernel Source.quotientRemainder
+  unfold Source.kernel Source.quotientRemainder Source.sourceBody Source.candidateSourceBody
   cases dm : p.divM <;> cases dn : p.divN <;> cases dk : p.divK
   all_goals
-    simp only [dm,dn,dk]
+    simp only [dm,dn,dk,Bool.false_eq_true,Bool.true_eq,ite_true,ite_false]
     unfold ComputeKernel.surfaceBody
     repeat' first
       | exact code_refl M _
