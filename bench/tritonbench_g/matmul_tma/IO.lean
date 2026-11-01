@@ -1,5 +1,5 @@
 import VeriTile.Triton.Float.LogicalProgramIO
-import bench.tritonbench_g.matmul_tma.Kernels
+import bench.tritonbench_g.matmul_tma.Contract
 import bench.tritonbench_g.matmul_tma.Sources.Native
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 

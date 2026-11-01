@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_tma.Kernels
+import bench.tritonbench_g.matmul_tma.Contract
 import VeriTile.Triton.Float.StructuralSafety
 
 namespace VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.SourceSafety

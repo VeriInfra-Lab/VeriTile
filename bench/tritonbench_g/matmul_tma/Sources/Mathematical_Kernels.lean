@@ -1,4 +1,4 @@
-import VeriTile.Triton
+import bench.tritonbench_g.matmul_tma.Kernels
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
 
@@ -8,36 +8,6 @@ noncomputable section
 set_option maxHeartbeats 4000000
 set_option maxRecDepth 18000
 set_option linter.unusedSimpArgs false
-
-structure Parameters where
-  (a b c : RegionName)
-  (rows columns inner aRow aInner bInner bColumn cRow cColumn
-    blockRows blockColumns blockInner : Nat)
-
-/-- Both constexpr output branches of the original one-tile kernel. The explicit
-load dtypes recover the block-pointer element types. The output annotation
-materializes the storage conversion, including the fp32 same-format case.
-No boundary checks, masks, zero padding, or additional tiles are introduced. -/
-def typed (dtype out_dtype : FloatDType) (p : Parameters) : ComputeKernel := triton {
-  a_block_ptr = tl.make_block_ptr(base=$(p.a), shape=($(p.rows), $(p.inner)),
-    strides=($(p.aRow), $(p.aInner)), offsets=($(0), $(0)),
-    block_shape=($(p.blockRows), $(p.blockInner)), order=(1, 0))
-  b_block_ptr = tl.make_block_ptr(base=$(p.b), shape=($(p.inner), $(p.columns)),
-    strides=($(p.bInner), $(p.bColumn)), offsets=($(0), $(0)),
-    block_shape=($(p.blockInner), $(p.blockColumns)), order=(0, 1))
-  c_block_ptr = tl.make_block_ptr(base=$(p.c), shape=($(p.rows), $(p.columns)),
-    strides=($(p.cRow), $(p.cColumn)), offsets=($(0), $(0)),
-    block_shape=($(p.blockRows), $(p.blockColumns)), order=(1, 0))
-  a = tl.load(a_block_ptr, dtype=DTYPE)
-  b = tl.load(b_block_ptr, dtype=DTYPE)
-  c = (tl.dot(a, b)).to(OUT_DTYPE)
-  tl.store(c_block_ptr, c)
-}
-
-def outputDType (half : Bool) : FloatDType := if half then .fp16 else .fp32
-
-def source (p : Parameters) (half : Bool) : ComputeKernel :=
-  typed .fp16 (outputDType half) p
 
 abbrev AIndex (p : Parameters) := TileIndex [p.blockRows, p.blockInner]
 abbrev BIndex (p : Parameters) := TileIndex [p.blockInner, p.blockColumns]
@@ -67,13 +37,19 @@ def aValues {α : Type} [Inhabited α] (p : Parameters) (s : State α) (i : AInd
 def bValues {α : Type} [Inhabited α] (p : Parameters) (s : State α) (i : BIndex p) : α :=
   (s.mem p.b (bOffset p i)).read .fp16
 
+/-- Source-ordered explicit FP16 conversion (when selected), followed by the
+implicit typed store conversion. Both retain their actual precision context. -/
+def outputValue (M : Algebra α) (half : Bool) (value : α) : α :=
+  if half then M.cast none .fp16 .fp16 (M.cast none .fp32 .fp16 value)
+  else M.cast none .fp32 .fp32 value
+
 /-- Independent initial-memory value, for every tile cell and both output
 formats. The dot sees the original inputs even if an output region aliases one
 of them, because both complete source tiles are loaded before the first store. -/
 def outputValues {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     (p : Parameters) (half : Bool) (s : State α) (i : CIndex p) : α :=
-  M.cast none .fp32 (outputDType half)
-    (D.apply (some .fp32) {} (batch := []) (aValues p s) (bValues p s) i)
+  outputValue M half
+    (D.apply none {} (batch := []) (aValues p s) (bValues p s) i)
 
 end
 end VeriTile.Bench.TritonBenchG.MatmulTma.FPValue

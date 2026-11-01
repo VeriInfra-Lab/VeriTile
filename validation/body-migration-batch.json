@@ -797,6 +797,19 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/matmul_tma",
+      "python": "bench/tritonbench_g/matmul_tma/matmul_tma.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_tma/Correct.lean": [
+          "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.kernel_math"
+        ],
+        "bench/tritonbench_g/matmul_tma/FPEquiv.lean": [
+          "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.FPEquiv.kernel_equivalent"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/matmul_triton1",
       "python": "bench/tritonbench_g/matmul_triton1/matmul_triton1.py",
       "purpose": "regression",
@@ -1884,6 +1897,28 @@
     "bench/tritonbench_g/masked_select/Sources/Parameters.lean",
     "bench/tritonbench_g/masked_select/Sources/Selected.lean",
     "bench/tritonbench_g/matmul_kernel/Kernels.lean",
+    "bench/tritonbench_g/matmul_tma/Contract.lean",
+    "bench/tritonbench_g/matmul_tma/Correct.lean",
+    "bench/tritonbench_g/matmul_tma/FPEquiv.lean",
+    "bench/tritonbench_g/matmul_tma/IO.lean",
+    "bench/tritonbench_g/matmul_tma/Kernels.lean",
+    "bench/tritonbench_g/matmul_tma/Proofs/IOPair.lean",
+    "bench/tritonbench_g/matmul_tma/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/matmul_tma/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/matmul_tma/Proofs/Real.lean",
+    "bench/tritonbench_g/matmul_tma/Proofs/RealExecution.lean",
+    "bench/tritonbench_g/matmul_tma/Proofs/SourcePair.lean",
+    "bench/tritonbench_g/matmul_tma/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/matmul_tma/Sources/Addresses.lean",
+    "bench/tritonbench_g/matmul_tma/Sources/Contract.lean",
+    "bench/tritonbench_g/matmul_tma/Sources/Kernels.lean",
+    "bench/tritonbench_g/matmul_tma/Sources/Mathematical_FPContract.lean",
+    "bench/tritonbench_g/matmul_tma/Sources/Mathematical_FPSource.lean",
+    "bench/tritonbench_g/matmul_tma/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/matmul_tma/Sources/Mathematical_Layout.lean",
+    "bench/tritonbench_g/matmul_tma/Sources/Native.lean",
+    "bench/tritonbench_g/matmul_tma/Sources/Parameters.lean",
+    "bench/tritonbench_g/matmul_tma/Sources/Tensor.lean",
     "bench/tritonbench_g/matrix_reduction/Contract.lean",
     "bench/tritonbench_g/matrix_reduction/Correct.lean",
     "bench/tritonbench_g/matrix_reduction/FPEquiv.lean",

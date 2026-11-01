@@ -15,24 +15,25 @@ theorem equivalent (rest : Algebra Word) (I : Instructions) (profile : Profile) 
   let D := sourceDot I profile
   have original := PublicIO.implements M D (params h f) f.half
     (c_injective h f StaticChecked.regions)
-    (fun a b i => M.cast none .fp32 (outputDType f.half)
-      (D.apply (some .fp32) {} (batch := []) a b i)) (fun _ _ _ => rfl)
+    (fun a b i => outputValue M f.half
+      (D.apply none {} (batch := []) a b i)) (fun _ _ _ => rfl)
   intro values _ bounds hb s hin
   obtain ⟨safe,final,ran,_,frame⟩ := original values trivial bounds hb s hin
-  have same : ∀ initial, (PublicIO.invocation M D (params h f) f.half).run initial =
-      ({ PublicIO.invocation M D (params h f) f.half with kernel := kernelDirectOutput h f } : Invocation Word).run initial := by
-    intro initial
-    exact SourcePair.source_exec rest I profile (params h f) f.half _
+  obtain ⟨other,candidateRun,sameMem⟩ := SourcePair.source_exec rest I D (params h f) f.half _ final
+    (by simpa only [runSchedule_singleton] using ran)
   have safeSame : ∀ initial, (PublicIO.invocation M D (params h f) f.half).Safe bounds initial ↔
       ({ PublicIO.invocation M D (params h f) f.half with kernel := kernelDirectOutput h f } : Invocation Word).Safe bounds initial := by
     intro initial
     exact SourcePair.source_safe M D (params h f) f.half _ bounds
-  refine ⟨safe,?_,final,final,ran,?_,?_,frame,frame⟩
+  refine ⟨safe,?_,final,other,ran,?_,?_,frame,?_⟩
   · apply (scheduleSafe_singleton bounds _ s).mpr
     exact (safeSame s).mp ((scheduleSafe_singleton bounds _ s).mp safe)
-  · rw [runSchedule_singleton] at ran
-    simpa only [variant,runSchedule_singleton] using (same s).symm.trans ran
+  · simpa only [variant,runSchedule_singleton] using candidateRun
   · intro o j active
-    rfl
+    change mapCell id (final.mem _ _) = mapCell id (other.mem _ _)
+    rw [sameMem]
+  · intro r offset outside
+    rw [sameMem]
+    exact frame r offset outside
 end
 end VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.IOPair

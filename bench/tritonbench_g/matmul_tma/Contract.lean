@@ -3,6 +3,12 @@ import bench.tritonbench_g.matmul_tma.Sources.Addresses
 namespace VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2
 open Host
 
+noncomputable abbrev params := StaticChecked.params
+
+noncomputable def kernelDirectOutput (h : Shape) (f : Flags) : VeriTile.Triton.ComputeKernel :=
+  sourceDirectOutput (params h f) f.half
+
+
 /-- The complete frontend-static domain: original five explicit guards plus
 the three complete block-tensor element limits imposed by Triton. -/
 structure InputContract (h : Shape) (cfg : Config) extends StaticChecked.InputContract h cfg : Prop where
