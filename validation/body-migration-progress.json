@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 104,
+  "completed_count": 106,
   "staged_count": 107,
-  "pending_count": 92,
+  "pending_count": 90,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 2672,
-    "official_comparator": "104 targets have exact current-source/import-closure official receipts, including all 19 examples. All 104 accepted case closures remain unchanged. SoftmaxReduceV, TokenAttnLlama2 and Ksoftmax remain incomplete pending their current independent replays. Body comparison and compilation alone never establish completion.",
+    "official_comparator": "106 targets have exact current-source/import-closure official receipts, including all 19 examples. SoftmaxReduceV and TokenAttnLlama2 receipts verified all required proof sources, exact public names and complete shared dependency closures. Ksoftmax remains incomplete pending its independent replay; softmax_optimize is still under migration. Body comparison and compilation alone never establish completion.",
     "python_tests": 380,
     "offline_example_compilations": {
       "cases": 19,
@@ -1439,13 +1439,13 @@
     },
     {
       "path": "bench/tritonbench_g/softmax_reducev",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete existing Python bodies are copied. Actual signed metadata and loop, complete signed page origin, FP32 loads without invented casts, complete Real weighted-sum grids, FP address-scheduling equivalence, all source safety and exterior frames are locally re-proved. Current independent proof replay is still required.",
-      "validated_source_commit": "14736eafd50e65f3c3b266cf21a82d4e8259d544"
+      "validated_source_commit": "14736eafd50e65f3c3b266cf21a82d4e8259d544",
+      "receipt": "validation/body_receipts/softmax_reducev.json"
     },
     {
       "path": "bench/tritonbench_g/softmax_triton1",
@@ -1529,13 +1529,13 @@
     },
     {
       "path": "bench/tritonbench_g/token_attn_llama2",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete existing original/reuse Python bodies are copied. Actual signed metadata, 0/1 loop, complete signed addresses and FP32 loads without invented casts are retained. Complete Real grouped-head dot-product grids, FP block-origin reuse, all access safety and exterior frames are locally re-proved. Current independent proof replay is still required.",
-      "validated_source_commit": "14736eafd50e65f3c3b266cf21a82d4e8259d544"
+      "validated_source_commit": "14736eafd50e65f3c3b266cf21a82d4e8259d544",
+      "receipt": "validation/body_receipts/token_attn_llama2.json"
     },
     {
       "path": "bench/tritonbench_g/token_attn_mistral",
