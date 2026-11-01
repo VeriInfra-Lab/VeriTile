@@ -3,7 +3,7 @@ import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Mathematical_RealStore
 
 /-! Assemble the exact post-loop source and then the full kernel execution.
 The loop state is constructed from initial memory by RealLoop; the residual
-branch and final masked store execute in both source variants. These execution
+branch and final masked store execute in the current canonical source. These execution
 lemmas are internal preparation for the independent formula and flat IO proof. -/
 namespace VeriTile.Bench.TritonBenchG.BmmChunkBwd.RealFinish
 open VeriTile.Triton
@@ -16,35 +16,35 @@ def rows (BM pm : Nat) : Fin BM → Nat := fun i => pm * BM + i.val
 def columns (BN pn : Nat) : Fin BN → Nat := fun j => pn * BN + j.val
 
 def refreshCode (BM BN : Nat) : List Stmt :=
-  [.assign .nat [BM] "offs_m" (RealResidual.rowOffsets BM),
-   .assign .nat [BN] "offs_n" (RealResidual.columnOffsets BN)]
+  [.assign .int [BM] "offs_m" (RealResidual.rowOffsets BM),
+   .assign .int [BN] "offs_n" (RealResidual.columnOffsets BN)]
 
 def refreshed (s : BlockState) (BM BN pm pn : Nat) : BlockState :=
-  (s.setReg "offs_m" .nat [BM] (Tile.vec (rows BM pm))).setReg
-    "offs_n" .nat [BN] (Tile.vec (columns BN pn))
+  (s.setReg "offs_m" .int [BM] (Tile.vec fun i => (rows BM pm i : Int))).setReg
+    "offs_n" .int [BN] (Tile.vec fun i => (columns BN pn i : Int))
 
 theorem refresh_executes (s : BlockState) (BM BN pm pn : Nat)
-    (hm : s.regs .nat [] "pid_m" = some (Tile.scalar pm))
-    (hn : s.regs .nat [] "pid_n" = some (Tile.scalar pn)) :
+    (hm : s.regs .int [] "pid_m" = some (Tile.scalar (pm : Int)))
+    (hn : s.regs .int [] "pid_n" = some (Tile.scalar (pn : Int))) :
     stepStmts (refreshCode BM BN) s = some (refreshed s BM BN pm pn) := by
   simp [refreshCode, RealResidual.rowOffsets, RealResidual.columnOffsets,
     stepStmts, stepStmt, evalOp.eq_def, hm, hn, bind, Option.bind]
   rfl
 
 def afterResidual (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
-    (pb pc ph length : Nat) (rs : Fin BM → Nat) (ns : Fin BN → Nat)
+    (pb pc ph : Nat) (length : Int) (rs : Fin BM → Nat) (ns : Fin BN → Nat)
     (carry : Fin BM → Fin BN → ℝ) : BlockState :=
   if p.hasResidual then RealResidual.residualResult s BM BN p pb pc ph length rs ns carry else s
 
 theorem residual_branch (swapped : Bool) (s : BlockState) (BM BN : Nat)
-    (p : RealProgram.Parameters) (pb pc ph length : Nat)
+    (p : RealProgram.Parameters) (pb pc ph : Nat) (length : Int)
     (rs : Fin BM → Nat) (ns : Fin BN → Nat) (carry : Fin BM → Fin BN → ℝ)
-    (hb : s.regs .nat [] "pid_b" = some (Tile.scalar pb))
-    (hc : s.regs .nat [] "pid_c" = some (Tile.scalar pc))
-    (hh : s.regs .nat [] "pid_h" = some (Tile.scalar ph))
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rs))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec ns))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length))
+    (hb : s.regs .int [] "pid_b" = some (Tile.scalar (pb : Int)))
+    (hc : s.regs .int [] "pid_c" = some (Tile.scalar (pc : Int)))
+    (hh : s.regs .int [] "pid_h" = some (Tile.scalar (ph : Int)))
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec fun i => (rs i : Int)))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec fun i => (ns i : Int)))
+    (hl : s.regs .int [] "chunk_size_limit" = some (Tile.scalar length))
     (ha : s.regs .real [BM, BN] "acc" = some (Tile.mat fun i j => some (carry i j))) :
     stepStmt (.ifThen (.constBool p.hasResidual) (RealResidual.residual swapped BM BN p)) s =
       some (afterResidual s BM BN p pb pc ph length rs ns carry) := by
@@ -75,11 +75,11 @@ def outputPrepared (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
 
 theorem output_preparation (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
     (pb pc ph : Nat) (rs : Fin BM → Nat) (ns : Fin BN → Nat) (values : Fin BM → Fin BN → ℝ)
-    (hb : s.regs .nat [] "pid_b" = some (Tile.scalar pb))
-    (hc : s.regs .nat [] "pid_c" = some (Tile.scalar pc))
-    (hh : s.regs .nat [] "pid_h" = some (Tile.scalar ph))
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rs))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec ns))
+    (hb : s.regs .int [] "pid_b" = some (Tile.scalar (pb : Int)))
+    (hc : s.regs .int [] "pid_c" = some (Tile.scalar (pc : Int)))
+    (hh : s.regs .int [] "pid_h" = some (Tile.scalar (ph : Int)))
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec fun i => (rs i : Int)))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec fun i => (ns i : Int)))
     (hv : s.regs .real [BM, BN] "acc" = some (Tile.mat fun i j => some (values i j))) :
     stepStmts (outputCode BM BN p) s = some (outputPrepared s BM BN p pb pc ph rs ns values) := by
   let sd := s.setReg "db" .real [BM, BN] (Tile.mat fun i j => some (values i j))
@@ -102,15 +102,15 @@ theorem output_preparation (s : BlockState) (BM BN : Nat) (p : RealProgram.Param
 
 
 def values (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
-    (pb pc ph length : Nat) (rs : Fin BM → Nat) (ns : Fin BN → Nat)
+    (pb pc ph : Nat) (length : Int) (rs : Fin BM → Nat) (ns : Fin BN → Nat)
     (carry : Fin BM → Fin BN → ℝ) (i : Fin BM) (j : Fin BN) : ℝ :=
   if p.hasResidual then carry i j + RealResidual.residualValue s
     (RealResidual.pointerValues p.Res BM BN
       (RealResidual.baseValue p.chunk p.rBatch p.rRow p.rHead pb pc ph) p.rRow p.rColumn rs ns)
-    rs ns length p.K i j else carry i j
+    rs ns length.toNat p.K i j else carry i j
 
 theorem after_residual_acc (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
-    (pb pc ph length : Nat) (rs : Fin BM → Nat) (ns : Fin BN → Nat)
+    (pb pc ph : Nat) (length : Int) (rs : Fin BM → Nat) (ns : Fin BN → Nat)
     (carry : Fin BM → Fin BN → ℝ)
     (ha : s.regs .real [BM, BN] "acc" = some (Tile.mat fun i j => some (carry i j))) :
     (afterResidual s BM BN p pb pc ph length rs ns carry).regs .real [BM, BN] "acc" =
@@ -118,9 +118,9 @@ theorem after_residual_acc (s : BlockState) (BM BN : Nat) (p : RealProgram.Param
   cases hf : p.hasResidual <;> simp [afterResidual, values, hf, RealResidual.residualResult, ha]
 
 theorem after_residual_fixed (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
-    (pb pc ph length : Nat) (rs : Fin BM → Nat) (ns : Fin BN → Nat)
+    (pb pc ph : Nat) (length : Int) (rs : Fin BM → Nat) (ns : Fin BN → Nat)
     (carry : Fin BM → Fin BN → ℝ) (dtype : TileDType) (shape : TileShape) (name : RegName)
-    (hn : name ∉ ["res_ptr", "res_ptrs", "res", "acc"]) :
+    (hn : name ∉ ["res_ptr", "res_ptrs", "__veritile_load_2", "res", "acc"]) :
     (afterResidual s BM BN p pb pc ph length rs ns carry).regs dtype shape name =
       s.regs dtype shape name := by
   cases hf : p.hasResidual
@@ -129,22 +129,22 @@ theorem after_residual_fixed (s : BlockState) (BM BN : Nat) (p : RealProgram.Par
       RealResidual.residual_register_frame s BM BN p pb pc ph length rs ns carry dtype shape name hn
 
 def result (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
-    (pb pc ph pm pn length : Nat) (carry : Fin BM → Fin BN → ℝ) : BlockState :=
+    (pb pc ph pm pn : Nat) (length : Int) (carry : Fin BM → Fin BN → ℝ) : BlockState :=
   let r := refreshed s BM BN pm pn
   let v := values r BM BN p pb pc ph length (rows BM pm) (columns BN pn) carry
   let t := afterResidual r BM BN p pb pc ph length (rows BM pm) (columns BN pn) carry
   let u := outputPrepared t BM BN p pb pc ph (rows BM pm) (columns BN pn) v
   RealStore.write u p.Db BM BN (RealResidual.baseValue p.chunk p.oBatch p.oRow p.oHead pb pc ph)
-    p.oRow p.oColumn length p.K (rows BM pm) (columns BN pn) v
+    p.oRow p.oColumn length.toNat p.K (rows BM pm) (columns BN pn) v
 
 theorem executes (swapped : Bool) (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
-    (pb pc ph pm pn length : Nat) (carry : Fin BM → Fin BN → ℝ)
-    (hb : s.regs .nat [] "pid_b" = some (Tile.scalar pb))
-    (hc : s.regs .nat [] "pid_c" = some (Tile.scalar pc))
-    (hh : s.regs .nat [] "pid_h" = some (Tile.scalar ph))
-    (hm : s.regs .nat [] "pid_m" = some (Tile.scalar pm))
-    (hn : s.regs .nat [] "pid_n" = some (Tile.scalar pn))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length))
+    (pb pc ph pm pn : Nat) (length : Int) (carry : Fin BM → Fin BN → ℝ)
+    (hb : s.regs .int [] "pid_b" = some (Tile.scalar (pb : Int)))
+    (hc : s.regs .int [] "pid_c" = some (Tile.scalar (pc : Int)))
+    (hh : s.regs .int [] "pid_h" = some (Tile.scalar (ph : Int)))
+    (hm : s.regs .int [] "pid_m" = some (Tile.scalar (pm : Int)))
+    (hn : s.regs .int [] "pid_n" = some (Tile.scalar (pn : Int)))
+    (hl : s.regs .int [] "chunk_size_limit" = some (Tile.scalar length))
     (ha : s.regs .real [BM, BN] "acc" = some (Tile.mat fun i j => some (carry i j))) :
     stepStmts (RealResidual.code swapped BM BN p) s =
       some (result s BM BN p pb pc ph pm pn length carry) := by
@@ -152,29 +152,29 @@ theorem executes (swapped : Bool) (s : BlockState) (BM BN : Nat) (p : RealProgra
   let v := values r BM BN p pb pc ph length (rows BM pm) (columns BN pn) carry
   let t := afterResidual r BM BN p pb pc ph length (rows BM pm) (columns BN pn) carry
   let u := outputPrepared t BM BN p pb pc ph (rows BM pm) (columns BN pn) v
-  have hb' : r.regs .nat [] "pid_b" = some (Tile.scalar pb) := by simpa [r, refreshed] using hb
-  have hc' : r.regs .nat [] "pid_c" = some (Tile.scalar pc) := by simpa [r, refreshed] using hc
-  have hh' : r.regs .nat [] "pid_h" = some (Tile.scalar ph) := by simpa [r, refreshed] using hh
-  have hl' : r.regs .nat [] "chunk_size_limit" = some (Tile.scalar length) := by simpa [r, refreshed] using hl
+  have hb' : r.regs .int [] "pid_b" = some (Tile.scalar (pb : Int)) := by simpa [r, refreshed] using hb
+  have hc' : r.regs .int [] "pid_c" = some (Tile.scalar (pc : Int)) := by simpa [r, refreshed] using hc
+  have hh' : r.regs .int [] "pid_h" = some (Tile.scalar (ph : Int)) := by simpa [r, refreshed] using hh
+  have hl' : r.regs .int [] "chunk_size_limit" = some (Tile.scalar length) := by simpa [r, refreshed] using hl
   have ha' : r.regs .real [BM, BN] "acc" = some (Tile.mat fun i j => some (carry i j)) := by
     simpa [r, refreshed] using ha
-  have hr' : r.regs .nat [BM] "offs_m" = some (Tile.vec (rows BM pm)) := by simp [r, refreshed]
-  have hn' : r.regs .nat [BN] "offs_n" = some (Tile.vec (columns BN pn)) := by simp [r, refreshed]
+  have hr' : r.regs .int [BM] "offs_m" = some (Tile.vec fun i => (rows BM pm i : Int)) := by simp [r, refreshed]
+  have hn' : r.regs .int [BN] "offs_n" = some (Tile.vec fun i => (columns BN pn i : Int)) := by simp [r, refreshed]
   have hrefresh := refresh_executes s BM BN pm pn hm hn
   have hbranch := residual_branch swapped r BM BN p pb pc ph length (rows BM pm) (columns BN pn) carry
     hb' hc' hh' hr' hn' hl' ha'
   have hfixed (dtype : TileDType) (shape : TileShape) (name : RegName)
-      (hnm : name ∉ ["res_ptr", "res_ptrs", "res", "acc"]) :
+      (hnm : name ∉ ["res_ptr", "res_ptrs", "__veritile_load_2", "res", "acc"]) :
       t.regs dtype shape name = r.regs dtype shape name :=
     after_residual_fixed r BM BN p pb pc ph length (rows BM pm) (columns BN pn) carry dtype shape name hnm
   have hv : t.regs .real [BM, BN] "acc" = some (Tile.mat fun i j => some (v i j)) :=
     after_residual_acc r BM BN p pb pc ph length (rows BM pm) (columns BN pn) carry ha'
-  have htb := (hfixed .nat [] "pid_b" (by decide)).trans hb'
-  have htc := (hfixed .nat [] "pid_c" (by decide)).trans hc'
-  have hth := (hfixed .nat [] "pid_h" (by decide)).trans hh'
-  have htr := (hfixed .nat [BM] "offs_m" (by decide)).trans hr'
-  have htn := (hfixed .nat [BN] "offs_n" (by decide)).trans hn'
-  have htl := (hfixed .nat [] "chunk_size_limit" (by decide)).trans hl'
+  have htb := (hfixed .int [] "pid_b" (by decide)).trans hb'
+  have htc := (hfixed .int [] "pid_c" (by decide)).trans hc'
+  have hth := (hfixed .int [] "pid_h" (by decide)).trans hh'
+  have htr := (hfixed .int [BM] "offs_m" (by decide)).trans hr'
+  have htn := (hfixed .int [BN] "offs_n" (by decide)).trans hn'
+  have htl := (hfixed .int [] "chunk_size_limit" (by decide)).trans hl'
   have hout := output_preparation t BM BN p pb pc ph (rows BM pm) (columns BN pn) v htb htc hth htr htn hv
   have hstore := RealStore.executes u p.Db BM BN
     (RealResidual.baseValue p.chunk p.oBatch p.oRow p.oHead pb pc ph) p.oRow p.oColumn length p.K
@@ -196,31 +196,31 @@ theorem kernel_executes (swapped : Bool) (s : BlockState) (BM BN BCS : Nat)
     ∃ t, RealLoop.Holds s BM BN BCS p (RealMath.blocks (RealSetup.limit s p) BCS) t ∧
       stepStmts (RealProgram.kernel swapped BM BN BCS p).toAlgKernel.body s =
         some (result t BM BN p (s.pids 1) (RealSetup.chunk s p) (RealSetup.head s p)
-          (RealSetup.tileM s BN p) (RealSetup.tileN s BN p) (RealSetup.limit s p)
+          (RealSetup.tileM s BN p) (RealSetup.tileN s BN p) (RealSetup.limitInt s p)
           (RealLoop.carry s BM BN BCS p (RealMath.blocks (RealSetup.limit s p) BCS))) := by
   obtain ⟨t, hp, h⟩ := RealLoop.prefix_executes swapped s BM BN BCS p
-  have hb : t.regs .nat [] "pid_b" = some (Tile.scalar (s.pids 1)) := by
-    have hv := h.fixed .nat [] "pid_b" (by decide)
+  have hb : t.regs .int [] "pid_b" = some (Tile.scalar (s.pids 1 : Int)) := by
+    have hv := h.fixed .int [] "pid_b" (by decide)
     simpa [RealSetup.result] using hv
-  have hc : t.regs .nat [] "pid_c" = some (Tile.scalar (RealSetup.chunk s p)) := by
-    have hv := h.fixed .nat [] "pid_c" (by decide)
+  have hc : t.regs .int [] "pid_c" = some (Tile.scalar (RealSetup.chunk s p : Int)) := by
+    have hv := h.fixed .int [] "pid_c" (by decide)
     simpa [RealSetup.result] using hv
-  have hh : t.regs .nat [] "pid_h" = some (Tile.scalar (RealSetup.head s p)) := by
-    have hv := h.fixed .nat [] "pid_h" (by decide)
+  have hh : t.regs .int [] "pid_h" = some (Tile.scalar (RealSetup.head s p : Int)) := by
+    have hv := h.fixed .int [] "pid_h" (by decide)
     simpa [RealSetup.result] using hv
-  have hm : t.regs .nat [] "pid_m" = some (Tile.scalar (RealSetup.tileM s BN p)) := by
-    have hv := h.fixed .nat [] "pid_m" (by decide)
+  have hm : t.regs .int [] "pid_m" = some (Tile.scalar (RealSetup.tileM s BN p : Int)) := by
+    have hv := h.fixed .int [] "pid_m" (by decide)
     simpa [RealSetup.result] using hv
-  have hn : t.regs .nat [] "pid_n" = some (Tile.scalar (RealSetup.tileN s BN p)) := by
-    have hv := h.fixed .nat [] "pid_n" (by decide)
+  have hn : t.regs .int [] "pid_n" = some (Tile.scalar (RealSetup.tileN s BN p : Int)) := by
+    have hv := h.fixed .int [] "pid_n" (by decide)
     simpa [RealSetup.result] using hv
-  have hl : t.regs .nat [] "chunk_size_limit" = some (Tile.scalar (RealSetup.limit s p)) := by
-    have hv := h.fixed .nat [] "chunk_size_limit" (by decide)
+  have hl : t.regs .int [] "chunk_size_limit" = some (Tile.scalar (RealSetup.limitInt s p)) := by
+    have hv := h.fixed .int [] "chunk_size_limit" (by decide)
     simpa [RealSetup.result] using hv
   refine ⟨t, h, ?_⟩
   rw [RealProgram.body_split, stepStmts.append_some hp, RealResidual.matches_source]
   exact executes swapped t BM BN p (s.pids 1) (RealSetup.chunk s p) (RealSetup.head s p)
-    (RealSetup.tileM s BN p) (RealSetup.tileN s BN p) (RealSetup.limit s p)
+    (RealSetup.tileM s BN p) (RealSetup.tileN s BN p) (RealSetup.limitInt s p)
     (RealLoop.carry s BM BN BCS p (RealMath.blocks (RealSetup.limit s p) BCS)) hb hc hh hm hn hl h.acc
 
 #guard_msgs (drop info) in

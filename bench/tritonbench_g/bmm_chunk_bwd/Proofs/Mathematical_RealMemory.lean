@@ -28,7 +28,7 @@ def formula (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
 
 def final (initial current : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameters) : BlockState :=
   RealFinish.result current BM BN p (initial.pids 1) (RealSetup.chunk initial p) (RealSetup.head initial p)
-    (RealSetup.tileM initial BN p) (RealSetup.tileN initial BN p) (RealSetup.limit initial p)
+    (RealSetup.tileM initial BN p) (RealSetup.tileN initial BN p) (RealSetup.limitInt initial p)
     (RealLoop.carry initial BM BN BCS p (RealMath.blocks (RealSetup.limit initial p) BCS))
 
 theorem stored_value (initial current : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameters)
@@ -36,7 +36,7 @@ theorem stored_value (initial current : BlockState) (BM BN BCS : Nat) (p : RealP
     (hi : active initial BM BN p i) :
     RealFinish.values
       (RealFinish.refreshed current BM BN (RealSetup.tileM initial BN p) (RealSetup.tileN initial BN p))
-      BM BN p (initial.pids 1) (RealSetup.chunk initial p) (RealSetup.head initial p) (RealSetup.limit initial p)
+      BM BN p (initial.pids 1) (RealSetup.chunk initial p) (RealSetup.head initial p) (RealSetup.limitInt initial p)
       (RealFinish.rows BM (RealSetup.tileM initial BN p)) (RealFinish.columns BN (RealSetup.tileN initial BN p))
       (RealLoop.carry initial BM BN BCS p (RealMath.blocks (RealSetup.limit initial p) BCS)) i.1 i.2.1 =
       formula initial BM BN p i := by
@@ -51,6 +51,7 @@ theorem stored_value (initial current : BlockState) (BM BN BCS : Nat) (p : RealP
     unfold RealLoop.carry
     rw [if_pos hmask, RealMath.partial_complete _ _ hBCS]
   unfold RealFinish.values
+  simp only [RealSetup.limitInt_toNat]
   rw [hc]
   cases hf : p.hasResidual
   · simp [hf, formula]
@@ -70,6 +71,7 @@ theorem readback (initial current : BlockState) (BM BN BCS : Nat) (p : RealProgr
       (address initial BM BN p p.oBatch p.oRow p.oHead p.oColumn i) =
       MemCell.real (formula initial BM BN p i) := by
   unfold final RealFinish.result
+  simp only [RealSetup.limitInt_toNat]
   apply Eq.trans (RealStore.readback _ _ _ _ _ _ _ _ _ _ _ _ i hi hinj)
   exact congrArg MemCell.real (stored_value initial current BM BN BCS p hBCS hm i hi)
 
@@ -79,12 +81,13 @@ theorem frame (initial current : BlockState) (BM BN BCS : Nat) (p : RealProgram.
       ¬ (p.Db = r ∧ address initial BM BN p p.oBatch p.oRow p.oHead p.oColumn i = a)) :
     (final initial current BM BN BCS p).mem r a = initial.mem r a := by
   unfold final RealFinish.result
+  simp only [RealSetup.limitInt_toNat]
   apply Eq.trans (RealStore.frame _ _ _ _ _ _ _ _ _ _ _ _ r a h)
   simp only [RealFinish.outputPrepared, BlockState.setReg_mem]
   cases hf : p.hasResidual <;>
     simp [RealFinish.afterResidual, hf, RealResidual.residualResult, RealFinish.refreshed, hm]
 
-/-- Both full source variants terminate, store the initial-memory formula at
+/-- The complete canonical source terminates, stores the initial-memory formula at
 every live output lane, and preserve every other tagged memory cell. -/
 theorem executes (swapped : Bool) (initial : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameters)
     (hBCS : 0 < BCS)

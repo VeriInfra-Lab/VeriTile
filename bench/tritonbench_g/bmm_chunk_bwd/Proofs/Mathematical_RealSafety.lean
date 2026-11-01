@@ -23,21 +23,21 @@ theorem safe (swapped : Bool) (s : BlockState) (BM BN BCS : Nat) (p : RealProgra
     (bounds : RegionBounds) (hbounds : Bounds s BM BN p bounds) :
     (RealProgram.kernel swapped BM BN BCS p).toAlgKernel.TraceSafe bounds s := by
   obtain ⟨t, hp, h⟩ := RealLoop.prefix_executes swapped s BM BN BCS p
-  have hb : t.regs .nat [] "pid_b" = some (Tile.scalar (s.pids 1)) := by
-    simpa [RealSetup.result] using h.fixed .nat [] "pid_b" (by decide)
-  have hc : t.regs .nat [] "pid_c" = some (Tile.scalar (RealSetup.chunk s p)) := by
-    simpa [RealSetup.result] using h.fixed .nat [] "pid_c" (by decide)
-  have hh : t.regs .nat [] "pid_h" = some (Tile.scalar (RealSetup.head s p)) := by
-    simpa [RealSetup.result] using h.fixed .nat [] "pid_h" (by decide)
-  have hm : t.regs .nat [] "pid_m" = some (Tile.scalar (RealSetup.tileM s BN p)) := by
-    simpa [RealSetup.result] using h.fixed .nat [] "pid_m" (by decide)
-  have hn : t.regs .nat [] "pid_n" = some (Tile.scalar (RealSetup.tileN s BN p)) := by
-    simpa [RealSetup.result] using h.fixed .nat [] "pid_n" (by decide)
-  have hl : t.regs .nat [] "chunk_size_limit" = some (Tile.scalar (RealSetup.limit s p)) := by
-    simpa [RealSetup.result] using h.fixed .nat [] "chunk_size_limit" (by decide)
+  have hb : t.regs .int [] "pid_b" = some (Tile.scalar (s.pids 1 : Int)) := by
+    simpa [RealSetup.result] using h.fixed .int [] "pid_b" (by decide)
+  have hc : t.regs .int [] "pid_c" = some (Tile.scalar (RealSetup.chunk s p : Int)) := by
+    simpa [RealSetup.result] using h.fixed .int [] "pid_c" (by decide)
+  have hh : t.regs .int [] "pid_h" = some (Tile.scalar (RealSetup.head s p : Int)) := by
+    simpa [RealSetup.result] using h.fixed .int [] "pid_h" (by decide)
+  have hm : t.regs .int [] "pid_m" = some (Tile.scalar (RealSetup.tileM s BN p : Int)) := by
+    simpa [RealSetup.result] using h.fixed .int [] "pid_m" (by decide)
+  have hn : t.regs .int [] "pid_n" = some (Tile.scalar (RealSetup.tileN s BN p : Int)) := by
+    simpa [RealSetup.result] using h.fixed .int [] "pid_n" (by decide)
+  have hl : t.regs .int [] "chunk_size_limit" = some (Tile.scalar (RealSetup.limitInt s p)) := by
+    simpa [RealSetup.result] using h.fixed .int [] "chunk_size_limit" (by decide)
   have hs : Stmt.TraceSafeList bounds
       (RealProgram.realPart (RealProgram.parts swapped BM BN BCS p).before ++
-        [.forRangeDyn "cs" (.constNat 0) (RealProgram.loopBound BCS) (.constNat 1)
+        [.forRangeInt "cs" (.constInt 0) (RealProgram.loopBound BCS) (.constNat 1)
           (RealProgram.realPart (RealProgram.parts swapped BM BN BCS p).body)]) s := by
     rw [RealSetup.original_candidate_setup, RealLoads.matches_source]
     apply TraceProofs.append_safe _ s (RealPureSafety.setup_safe BM BN BCS p bounds s)
@@ -55,11 +55,11 @@ theorem safe (swapped : Bool) (s : BlockState) (BM BN BCS : Nat) (p : RealProgra
   cases he
   rw [RealResidual.matches_source]
   exact RealFinishSafety.safe swapped t BM BN p (s.pids 1) (RealSetup.chunk s p) (RealSetup.head s p)
-    (RealSetup.tileM s BN p) (RealSetup.tileN s BN p) (RealSetup.limit s p)
+    (RealSetup.tileM s BN p) (RealSetup.tileN s BN p) (RealSetup.limitInt s p)
     (RealLoop.carry s BM BN BCS p (RealMath.blocks (RealSetup.limit s p) BCS)) bounds
     hb hc hh hm hn hl h.acc
-    (fun hr i j hi hj => hbounds.residual hr (i,j,PUnit.unit) ⟨hi,hj⟩)
-    (fun i j hi hj => hbounds.output (i,j,PUnit.unit) ⟨hi,hj⟩)
+    (fun hr i j hi hj => hbounds.residual hr (i,j,PUnit.unit) ⟨by simpa only [RealSetup.limitInt_toNat] using hi, hj⟩)
+    (fun i j hi hj => hbounds.output (i,j,PUnit.unit) ⟨by simpa only [RealSetup.limitInt_toNat] using hi, hj⟩)
 
 /-- All operations in the actual complete source belong to the shared
 region-to-flat-memory bridge's supported fragment. -/
@@ -67,7 +67,9 @@ theorem flatten_ok (swapped : Bool) (BM BN BCS : Nat) (p : RealProgram.Parameter
     (RealProgram.kernel swapped BM BN BCS p).toAlgKernel.FlattenOk := by
   cases swapped
   all_goals
-    simp [RealProgram.kernel, RealProgram.source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.quotedOriginal,
+    simp [RealProgram.kernel, RealProgram.source, TypedSource.specialize, VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.family,
+      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.sourceBody,
+      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.dotDType,
       ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?_map_alg, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType,
