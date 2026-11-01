@@ -17,11 +17,11 @@ structure Geometry where
   positiveQ : 0<Q
 
 def steps [Inhabited α] (g : KernelInterface.Geometry) (s : State α) (row : Nat) : Nat :=
-  ((s.mem "L" (row/g.H)).read .nat+g.Q-1)/g.Q
+  (((s.mem "L" (row/g.H)).read .int).toNat+g.Q-1)/g.Q
 
 def LengthBounds [Inhabited α] (g : KernelInterface.Geometry) (s : State α) : Prop :=
-  ∀ row,row<g.B*g.H → 0<(s.mem "L" (row/g.H)).read .nat ∧
-    (s.mem "L" (row/g.H)).read .nat ≤ g.S*g.Q
+  ∀ row,row<g.B*g.H → 0<((s.mem "L" (row/g.H)).read .int).toNat ∧
+    ((s.mem "L" (row/g.H)).read .int).toNat ≤ g.S*g.Q
 
 /-- Input observations on the raw E/M regions; all other cells, including
 length metadata and arbitrary surrounding storage, retain their entry values. -/

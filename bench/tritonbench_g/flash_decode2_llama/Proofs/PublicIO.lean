@@ -36,8 +36,8 @@ theorem length_binding {α β : Type} [Inhabited β] (A : Algebra β)
     (vals : IO.Inputs α g) (s : State β)
     (pins : (IO.decodeIO A g order encode observe).InputBinding vals s)
     (batch : Nat) (hb : batch < g.B) :
-    (s.mem "L" batch).read .nat = IO.lengths vals batch := by
-  simpa [IO.lengths, hb, mapValue] using pins (2 : Fin 3) (⟨batch, hb⟩, PUnit.unit) trivial
+    ((s.mem "L" batch).read .int).toNat = IO.lengths vals batch := by
+  simpa [IO.lengths, hb, mapValue] using congrArg Int.toNat (pins (2 : Fin 3) (⟨batch, hb⟩, PUnit.unit) trivial)
 
 theorem lengths_bound {α β : Type} [Inhabited β] (A : Algebra β)
     (g : KernelInterface.Geometry) (order : List Nat) (encode : α → β) (observe : β → α)

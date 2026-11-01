@@ -74,7 +74,7 @@ def iterations (c : Call) (lengths : Nat → Int) (row : Nat) : Nat :=
 
 theorem count_bound {α : Type} [Inhabited α] (c : Call) (lengths : Nat → Int)
     (h : InputContract c lengths) (before : State α)
-    (binding : ∀ b,(before.mem "L" b).read .nat = (lengths b).toNat)
+    (binding : ∀ b,((before.mem "L" b).read .int).toNat = (lengths b).toNat)
     (row : Nat) (hr : row < rows c) :
     count (Grid.setup (Checked.batches c.val) (Checked.heads c.val) row before) c.val.blockSeq =
       iterations c lengths row ∧

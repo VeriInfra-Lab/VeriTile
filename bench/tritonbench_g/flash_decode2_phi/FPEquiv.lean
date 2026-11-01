@@ -19,6 +19,7 @@ specification kernel_equivalent (g : PhiIO.Geometry) (width : g.D ≤ g.BD)
   apply ProgramIO.Implementation.of_equivalentOn
   exact IOPair.equivalent g width order coverage
 
+#print_fp_assumptions kernel_equivalent
 #axiomsClean kernel_equivalent
 end
 end VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.FPEquiv
