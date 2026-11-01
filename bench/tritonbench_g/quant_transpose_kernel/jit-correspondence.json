@@ -1,0 +1,140 @@
+[
+  {
+    "python": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+    "lean": "bench/tritonbench_g/quant_transpose_kernel/Kernels.lean",
+    "python_function": "_quantize_global_transpose",
+    "lean_definition": "quotedOriginal",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "absmax_inv_ptr",
+          "fp32"
+        ],
+        [
+          "B",
+          "i8"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_an",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_bm",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "GROUP_M"
+      ],
+      "readPorts": [
+        "A",
+        "absmax_inv_ptr"
+      ],
+      "writePorts": [
+        "B"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_am": "stride_am",
+      "stride_an": "stride_an",
+      "stride_bn": "stride_bn",
+      "stride_bm": "stride_bm",
+      "M": "M",
+      "N": "N"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/quant_transpose_kernel/candidate_kernels.py",
+    "lean": "bench/tritonbench_g/quant_transpose_kernel/Kernels.lean",
+    "python_function": "_quantize_global_transpose_index_commuted",
+    "lean_definition": "quotedCommuted",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "absmax_inv_ptr",
+          "fp32"
+        ],
+        [
+          "B",
+          "i8"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_an",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_bm",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "GROUP_M"
+      ],
+      "readPorts": [
+        "A",
+        "absmax_inv_ptr"
+      ],
+      "writePorts": [
+        "B"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_am": "stride_am",
+      "stride_an": "stride_an",
+      "stride_bn": "stride_bn",
+      "stride_bm": "stride_bm",
+      "M": "M",
+      "N": "N"
+    }
+  }
+]
