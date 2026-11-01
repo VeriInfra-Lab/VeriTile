@@ -11,11 +11,11 @@ def orderedStep (M : Algebra A) (D count : Nat)
     (q : Nat → A) (v : Nat → Fin D → A) (n : Nat) (old : FPValue.Accumulator A D) :
     FPValue.Accumulator A D :=
   let logits : Values A .real [64] := fun i =>
-    M.cast (some .fp32) .fp32 .real (if n+i.1.val < count then q (n+i.1.val)
-      else M.cast (some .fp32) .real .fp32 M.negInf)
+    M.fp32Load (if n+i.1.val < count then q (n+i.1.val)
+      else M.negInf)
   let vals : Values A .real [64,D] := fun i =>
-    M.cast (some .fp32) .fp32 .real (if n+i.1.val < count then v (n+i.1.val) i.2.1
-      else M.cast (some .fp32) .real .fp32 (M.literal (some .fp32) .real 0.0))
+    M.fp32Load (if n+i.1.val < count then v (n+i.1.val) i.2.1
+      else M.literal (some .fp32) .real 0.0)
   let next := M.binary (some .fp32) .real .max
     (M.reduceMax (some .fp32) ⟨0,by simp⟩ Bool.false logits ()) old.maximum
   let next := M.binary (some .fp32) .real .max next
@@ -37,7 +37,7 @@ def orderedRow (M : Algebra A) (D count : Nat) (q : Nat → A) (v : Nat → Fin 
     (d : Fin D) : A :=
   let final := Range.foldRange (orderedStep M D count q v) 0 count 64
     ⟨M.negInf,M.literal none .real 0.0,fun _ => M.literal (some .fp32) .real 0⟩
-  M.cast none .real .fp32 (M.binary (some .fp32) .real .div (final.output (d,())) final.normalizer)
+  M.binary (some .fp32) .real .div (final.output (d,())) final.normalizer
 
 def orderedTarget [Inhabited A] (M : Host.Job → Algebra B) (encode : A → B) (c : Host.Call)
     (observe : Fin c.batch → Fin c.heads → Fin c.dimensions → B → A)

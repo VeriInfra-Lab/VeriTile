@@ -27,14 +27,14 @@ theorem real_inputs (c : Call) (x : Input (WithBot ℝ)) (logics : Nat → WithB
       (fun k d => values (valueAddress c x j k d.val)) := by
   constructor
   · intro k hk
-    have hk' : k < x.counts j.batch := by simpa [FPValue.sequenceLength,parameters,launch,Region.cast] using hk
-    simpa [RealModel.keyLogicOffset,FPValue.sequenceStart,parameters,launch,Region.cast,logicAddress,Nat.add_assoc] using
+    have hk' : k < x.counts j.batch := by simpa [FPValue.sequenceLength,FPValue.sequenceWord,parameters,launch,Region.cast] using hk
+    simpa [RealModel.keyLogicOffset,FPValue.sequenceStart,parameters,launch,Region.cast,logicAddress,Int.natCast_add,Int.natCast_mul,Nat.add_assoc] using
       finite.logics j hj k hk'
   · intro k hk d
-    have hk' : k < x.counts j.batch := by simpa [FPValue.sequenceLength,parameters,launch,Region.cast] using hk
-    simpa [RealModel.keyValueOffset,FPValue.locationBase,FPValue.sequenceLength,parameters,launch,Region.cast,
-      valueAddress,pageOffset,Nat.add_mul,Nat.mul_assoc,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm] using
-      finite.values j hj k hk' d.val d.isLt
+    have hk' : k < x.counts j.batch := by simpa [FPValue.sequenceLength,FPValue.sequenceWord,parameters,launch,Region.cast] using hk
+    simpa [RealModel.keyValueOffset,FPValue.locationBase,FPValue.sequenceWord,parameters,launch,Region.cast,
+      valueAddress,pageOffset,Int.natCast_add,Int.natCast_mul,Int.toNat_mul,Nat.add_mul,Nat.mul_assoc,Nat.add_assoc,
+      Nat.add_comm,Nat.add_left_comm] using finite.values j hj k hk' d.val d.isLt
 
 theorem real_row (c : Call) (x : Input (WithBot ℝ)) (valid : Admissible c x) (logics : Nat → WithBot ℝ) (values : Nat → ℝ)
     (finite : NormalizableInputs c x logics values) (j : Job) (hj : Legal c j) (d : Nat) (hd : d < c.dimensions) :
@@ -42,9 +42,9 @@ theorem real_row (c : Call) (x : Input (WithBot ℝ)) (valid : Admissible c x) (
   have result := RealModel.source_value (parameters c) (launch c x (fun _ => default) j)
     (fun k => logics (logicAddress c x j k)) (fun k d => values (valueAddress c x j k d.val))
     (real_inputs c x logics values finite j hj) (by change 0 < 64;decide)
-    (by simpa [FPValue.sequenceLength,parameters,launch,Region.cast] using (valid.lengths j.batch hj.1).1)
+    (by simpa [FPValue.sequenceLength,FPValue.sequenceWord,parameters,launch,Region.cast] using (valid.lengths j.batch hj.1).1)
     ((⟨d,hd⟩ : Fin c.dimensions),())
-  simpa only [row,dif_pos hd,mathematical,FPValue.sequenceLength,parameters,launch,Region.cast,Cell.read_same,
+  simpa only [row,dif_pos hd,mathematical,FPValue.sequenceLength,FPValue.sequenceWord,parameters,launch,Region.cast,Cell.read_same,
     ↓reduceIte,reduceCtorEq] using result
 
 /-- Every result channel of the actual complete (batch,head) launch satisfies

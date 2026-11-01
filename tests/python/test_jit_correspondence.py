@@ -1117,3 +1117,31 @@ class TokenAttnMistralBodyTests(unittest.TestCase):
         for before, after in mutations:
             with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
                 self.verify(self.lean.replace(before, after, 1))
+
+class SoftmaxReduceVBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/softmax_reducev'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+
+    def verify(self, lean):
+        r = self.record
+        return check((ROOT / r['python']).read_text(), lean,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
+
+    def test_both_complete_original_bodies(self):
+        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual(len(results), 2)
+        self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 18 for r in results))
+
+    def test_signed_origin_masks_and_absence_of_extra_casts(self):
+        mutations = [
+            ('(max_input_len - cur_batch_seq_len)', 'tl.maximum(max_input_len - cur_batch_seq_len, 0)'),
+            ('mask=start_n + offs_n < cur_batch_seq_len', 'mask=start_n + offs_n <= cur_batch_seq_len'),
+            ('acc = acc / e_sum', 'acc = (acc / e_sum).to(Out.dtype.element_ty)'),
+            ('e_max = n_e_max', 'e_max = n_e_max.to(tl.float32)'),
+        ]
+        for before, after in mutations:
+            with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
+                self.verify(self.lean.replace(before, after, 1))
