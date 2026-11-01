@@ -1252,3 +1252,50 @@ class BinaryPureJITFunctionCorrespondenceTests(unittest.TestCase):
             with self.subTest(new=new), self.assertRaises(ValueError):
                 p.write_text(source.replace(old, new, 1))
                 check_manifest(self.root, self.manifest)
+
+class RotaryEmbNopadBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/rotary_emb_nopad'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def compare(self, record, lean):
+        r = record
+        return check((ROOT / r['python']).read_text(), lean,
+                     r['python_function'], r['lean_definition'], r['signature_definition'],
+                     r['expected_signature'], r['expected_call_bindings'])
+
+    def test_all_four_complete_sources(self):
+        self.assertEqual([r['statements'] for r in check_manifest(
+            ROOT, self.directory / 'jit-correspondence.json')], [19, 19, 32, 32])
+
+    def test_early_return_casts_metadata_and_store_order_are_preserved(self):
+        cached = self.records[2]
+        mutations = [('if block_head_index >= Q_HEAD_NUM:\n        return',
+                      'if block_head_index > Q_HEAD_NUM:\n        return'),
+                     ('block_head_index = tl.program_id(0).to(tl.int64)', 'block_head_index = tl.program_id(0)'),
+                     ('past_kv_seq_len = tl.load(context_lengths + block_token_index) - 1',
+                      'past_kv_seq_len = tl.load(context_lengths + block_token_index)'),
+                     ('block_ids * cacheb_stride', 'block_ids * cacheh_stride'),
+                     ('out_k0, mask=(block_head_index < K_HEAD_NUM)',
+                      'out_k0.to(tl.float32), mask=(block_head_index < K_HEAD_NUM)')]
+        for old, new in mutations:
+            with self.subTest(new=new), self.assertRaises(ValueError):
+                self.assertIn(old, self.lean)
+                self.compare(cached, self.lean.replace(old, new, 1))
+
+    def test_new_python_candidates_change_only_existing_q_address_reuse(self):
+        original = ast.parse((self.directory / 'rotary_emb_nopad.py').read_text())
+        candidate = ast.parse((self.directory / 'rotary_emb_nopad_shared.py').read_text())
+        originals = [n for n in original.body if isinstance(n, ast.FunctionDef) and
+                     any('jit' in ast.unparse(d) for d in n.decorator_list)]
+        candidates = [n for n in candidate.body if isinstance(n, ast.FunctionDef)]
+        self.assertEqual(len(originals), len(candidates))
+        for source, changed in zip(originals, candidates):
+            self.assertEqual(ast.dump(source.args), ast.dump(changed.args))
+            self.assertEqual(len(source.body), len(changed.body))
+            differences = [(a, b) for a, b in zip(source.body, changed.body) if ast.dump(a) != ast.dump(b)]
+            self.assertEqual(len(differences), 1)
+            before, after = differences[0]
+            self.assertEqual([t.id for t in before.targets], ['off_q1'])
+            self.assertEqual(ast.unparse(after), 'off_q1 = off_q0 + HEAD_DIM // 2 * head_dim_stride')

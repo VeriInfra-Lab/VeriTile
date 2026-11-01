@@ -27,6 +27,8 @@ specification cached_source_candidate_equivalence (rest : Algebra Native.Node)
   exact ProgramIO.Implementation.of_equivalentOn (PairIO.cached _ _ g p q)
     (PairIO.cached_equivalent _ _ g p q token)
 
+#print_fp_assumptions uncached_source_candidate_equivalence
+#print_fp_assumptions cached_source_candidate_equivalence
 #axiomsClean uncached_source_candidate_equivalence
 #axiomsClean cached_source_candidate_equivalence
 end

@@ -1534,6 +1534,21 @@
           "VeriTile.Bench.Repairs.SoftmaxOptimize.FPEquiv.softmax_source_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/rotary_emb_nopad",
+      "python": "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rotary_emb_nopad/Correct.lean": [
+          "VeriTile.Bench.Repairs.RotaryEmbNopad.Correct.rotary_uncached_correct",
+          "VeriTile.Bench.Repairs.RotaryEmbNopad.Correct.rotary_cached_correct"
+        ],
+        "bench/tritonbench_g/rotary_emb_nopad/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RotaryEmbNopad.FPEquiv.uncached_source_candidate_equivalence",
+          "VeriTile.Bench.Repairs.RotaryEmbNopad.FPEquiv.cached_source_candidate_equivalence"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -3115,6 +3130,44 @@
     "tests/lean/BinaryPureJitReference.lean",
     "tests/lean/BinaryPureJitFunctions.lean",
     "tests/lean/PythonShapeTupleReference.lean",
-    "tests/lean/PythonShapeTuples.lean"
+    "tests/lean/PythonShapeTuples.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Contract.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Correct.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/FPEquiv.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/IO.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Kernels.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/PairIO.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/ABI.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/AddressCSE.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/CachedIOBindings.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/CachedInterface.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Execution.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Geometry.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Grid.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Guards.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/IOBindings.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/KernelInterface.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/LogicalResult.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Mathematical_Pair.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Metadata.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Model.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Native.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Ownership.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Physical.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/ProgramPair.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/RealInterface.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/RealRaw.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Typed.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/TypedCachedMemory.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/TypedDefinitions.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/TypedGeometry.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/TypedMemory.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/TypedNative.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/TypedResult.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/UncachedInterface.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Vector.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Proofs/Whole.lean",
+    "bench/tritonbench_g/rotary_emb_nopad/Spec.lean"
   ]
 }

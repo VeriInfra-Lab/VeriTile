@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 95,
-      "uncovered_jit_functions": 86
+      "selected_body_copy_checked": 96,
+      "uncovered_jit_functions": 85
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 182,
-    "inventoried_jit_functions": 507,
-    "uncovered_inventoried_jit_functions": 239,
+    "uncovered_selected_jit_functions": 180,
+    "inventoried_jit_functions": 509,
+    "uncovered_inventoried_jit_functions": 237,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 262
+      "pasted_body": 266
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 95,
-        "uncovered_jit_functions": 86
+        "selected_body_copy_checked": 96,
+        "uncovered_jit_functions": 85
       }
     },
     "primary_files_with_int64_screen_warning": 19,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 60,
-        "antiquotes": 402,
+        "in_body_type_directives": 59,
+        "antiquotes": 401,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -32693,9 +32693,9 @@
       "lean": "bench/tritonbench_g/rotary_emb_nopad/Kernels.lean",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 188,
-        "dsl_assignment": 26,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 162,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -32791,35 +32791,191 @@
               ]
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad.py",
-          "function": "rotary_embedding_kernel"
         },
         {
-          "python": "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad.py",
-          "function": "fused_rotary_embedding_kernel_v2"
+          "path": "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad_shared.py",
+          "jits": [
+            {
+              "function": "rotary_embedding_kernel_shared",
+              "line": 12,
+              "statements": 19,
+              "explicit_int64_casts": [
+                {
+                  "line": 33,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 34,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 37,
+                  "expression": "tl.arange(0, BLOCK_PAIRS).to(tl.int64)"
+                },
+                {
+                  "line": 36,
+                  "expression": "tl.arange(0, BLOCK_TOKENS).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "fused_rotary_embedding_kernel_v2_shared",
+              "line": 112,
+              "statements": 32,
+              "explicit_int64_casts": [
+                {
+                  "line": 142,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 145,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 147,
+                  "expression": "tl.arange(0, BLOCK_PAIRS).to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "rotary_embedding_kernel",
+          "lean_definition": "uncached",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 19,
+          "runtime_parameters": {
+            "q_token_stride": "i64",
+            "q_head_stride": "i64",
+            "k_token_stride": "i64",
+            "k_head_stride": "i64",
+            "head_dim_stride": "i64",
+            "cos_token_stride": "i64",
+            "cos_stride": "i64",
+            "sin_token_stride": "i64",
+            "sin_stride": "i64",
+            "q_total_tokens": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_PAIRS",
+            "BLOCK_TOKENS",
+            "HEAD_DIM",
+            "KV_GROUP_NUM",
+            "Q_HEAD_NUM"
+          ],
           "python": "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad.py",
-          "function": "rotary_embedding_kernel"
+          "lean": "bench/tritonbench_g/rotary_emb_nopad/Kernels.lean"
         },
         {
+          "python_function": "rotary_embedding_kernel_shared",
+          "lean_definition": "uncachedShared",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 19,
+          "runtime_parameters": {
+            "q_token_stride": "i64",
+            "q_head_stride": "i64",
+            "k_token_stride": "i64",
+            "k_head_stride": "i64",
+            "head_dim_stride": "i64",
+            "cos_token_stride": "i64",
+            "cos_stride": "i64",
+            "sin_token_stride": "i64",
+            "sin_stride": "i64",
+            "q_total_tokens": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_PAIRS",
+            "BLOCK_TOKENS",
+            "HEAD_DIM",
+            "KV_GROUP_NUM",
+            "Q_HEAD_NUM"
+          ],
+          "python": "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad_shared.py",
+          "lean": "bench/tritonbench_g/rotary_emb_nopad/Kernels.lean"
+        },
+        {
+          "python_function": "fused_rotary_embedding_kernel_v2",
+          "lean_definition": "cached",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 32,
+          "runtime_parameters": {
+            "q_token_stride": "i64",
+            "q_head_stride": "i64",
+            "k_token_stride": "i64",
+            "k_head_stride": "i64",
+            "head_dim_stride": "i64",
+            "cos_token_stride": "i64",
+            "cos_stride": "i64",
+            "sin_token_stride": "i64",
+            "sin_stride": "i64",
+            "cacheb_stride": "i64",
+            "cacheh_stride": "i64",
+            "cachebs_stride": "i64",
+            "cached_stride": "i64",
+            "bts_stride": "i64",
+            "btb_stride": "i64",
+            "block_size": "i64",
+            "q_total_tokens": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_PAIRS",
+            "HEAD_DIM",
+            "K_HEAD_NUM",
+            "Q_HEAD_NUM"
+          ],
           "python": "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad.py",
-          "function": "fused_rotary_embedding_kernel_v2"
+          "lean": "bench/tritonbench_g/rotary_emb_nopad/Kernels.lean"
+        },
+        {
+          "python_function": "fused_rotary_embedding_kernel_v2_shared",
+          "lean_definition": "cachedShared",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 32,
+          "runtime_parameters": {
+            "q_token_stride": "i64",
+            "q_head_stride": "i64",
+            "k_token_stride": "i64",
+            "k_head_stride": "i64",
+            "head_dim_stride": "i64",
+            "cos_token_stride": "i64",
+            "cos_stride": "i64",
+            "sin_token_stride": "i64",
+            "sin_stride": "i64",
+            "cacheb_stride": "i64",
+            "cacheh_stride": "i64",
+            "cachebs_stride": "i64",
+            "cached_stride": "i64",
+            "bts_stride": "i64",
+            "btb_stride": "i64",
+            "block_size": "i64",
+            "q_total_tokens": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_PAIRS",
+            "HEAD_DIM",
+            "K_HEAD_NUM",
+            "Q_HEAD_NUM"
+          ],
+          "python": "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad_shared.py",
+          "lean": "bench/tritonbench_g/rotary_emb_nopad/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/rotary_emb_nopad/Kernels.lean": "7e232ba90037c9c9e7484111147957c3246391036ff4161bd826aca6ee02c6d0",
-        "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad.py": "9171b8655230023043d8792045f1a8a912f8c0627641be20076167fc1eecb842"
+        "bench/tritonbench_g/rotary_emb_nopad/Kernels.lean": "fcd83fae3c55596eed22476d77056f2885336779bce177c60b8bb3932a4aacf1",
+        "bench/tritonbench_g/rotary_emb_nopad/jit-correspondence.json": "0c3df97f383ed1e9f7e75e2d69d2aed0f5c840eeaf4d8991eaf27a9017ff77f4",
+        "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad.py": "9171b8655230023043d8792045f1a8a912f8c0627641be20076167fc1eecb842",
+        "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad_shared.py": "96898eddb3b86c177709acb84a2383e500a8109dd061c18b520ab91c48cfa9e2"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/rotary_emb_nopad"
