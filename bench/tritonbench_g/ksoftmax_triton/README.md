@@ -10,6 +10,10 @@ The public entries state the input conditions, execution scope and numerical ass
 
 [Proof helpers](Proofs/)
 
-[Source and mathematical adapters](Sources/)
+[Compatibility source imports](Sources/)
 
 [Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+
+Both complete existing forward/backward Python bodies are copied into `Kernels.lean`, including all three int64 index conversions, optional mask-string guards, both forward/backward IS_FP16 branches, causal repair and original stores without invented output casts. Caller scalar widths and constexpr values remain outside the quotations. The selected host ABI is FP32; the backward compatibility wrapper supplies the corresponding false IS_FP16 flag outside the body.
+
+The optional-string frontend freezes the supplied constexpr value and supports only None guards or equality with literal strings. It rejects writes, loop shadowing and unsupported uses; an independent complete typed-program equality covers absence, recognized strings and other string values. The native compiler metadata records the exact current Python source hash. Local source/build checks never establish completion; the validation progress record requires current independent proof replay.
