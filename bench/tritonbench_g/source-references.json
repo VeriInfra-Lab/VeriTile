@@ -1,0 +1,3 @@
+{
+  "fast_ce_loss": "bench/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py"
+}

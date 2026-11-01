@@ -349,7 +349,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 self.names = []
                 self.wildcard_import = False
             def visit_Name(self, node):
-                if isinstance(node.ctx, ast.Store):
+                if isinstance(node.ctx, (ast.Store, ast.Del)):
                     self.names.append(node.id)
             def visit_ImportFrom(self, node):
                 self.wildcard_import |= any(alias.name == "*" for alias in node.names)
@@ -391,6 +391,28 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             imports = [node.module + "." + alias.name for node in module.body
                        if isinstance(node, ast.ImportFrom) and node.module and node.level == 0
                        for alias in node.names if (alias.asname or alias.name) == name]
+            # Preserve the original module spelling, e.g. the FastCE source's
+            # `from ...extra import libdevice; triton_tanh = libdevice.tanh`.
+            # Only one direct, preceding import and one attribute assignment
+            # are admissible; expressions and mutable module aliases fail closed.
+            assignments = [node for node in module.body if isinstance(node, ast.Assign)
+                           and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
+                           and node.targets[0].id == name]
+            if not imports and len(assignments) == 1:
+                assignment = assignments[0]
+                value = assignment.value
+                if isinstance(value, ast.Attribute) and isinstance(value.value, ast.Name):
+                    base = value.value.id
+                    roots = [node.module + "." + alias.name for node in module.body
+                             if isinstance(node, ast.ImportFrom) and node.module and node.level == 0
+                             and node.lineno < assignment.lineno
+                             for alias in node.names if (alias.asname or alias.name) == base]
+                    mutated = any(isinstance(node, ast.Attribute)
+                                  and isinstance(node.ctx, (ast.Store, ast.Del))
+                                  and isinstance(node.value, ast.Name) and node.value.id == base
+                                  for node in ast.walk(module))
+                    if len(roots) == 1 and writes.names.count(base) == 1 and not mutated:
+                        imports = [roots[0] + "." + value.attr]
             if imports != [target]:
                 raise ValueError("source intrinsic import differs from the Python module")
         pointer_bindings = profile["pointers"] + profile.get("floatingPointers", [])

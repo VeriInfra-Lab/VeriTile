@@ -17,10 +17,10 @@ variable {α : Type} [Inhabited α]
 
 def chunkedMemory (M : Algebra α) (p : Parameters) (initial : State α) : State α :=
   let afterLoss := if initial.pids 1=0 then
-    initial.write p.loss (initial.pids 0) (.mk .real (KernelModel.cast M (chunkLoss M p initial)))
+    initial.write p.loss (initial.pids 0) (.mk .real (chunkLoss M p initial))
     else initial
   afterLoss.write p.lse (initial.pids 0*p.chunks+initial.pids 1)
-    (.mk .real (KernelModel.cast M (lseValue M p initial (initial.pids 1))))
+    (.mk .real (lseValue M p initial (initial.pids 1)))
 
 /-- Every chunk writes its LSE. The first chunk alone writes the negative
 target contribution, with literal zero for ignored labels. -/

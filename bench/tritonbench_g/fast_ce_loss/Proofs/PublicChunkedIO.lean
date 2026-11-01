@@ -47,7 +47,7 @@ theorem chunked_implements (M : Algebra α) (p : Parameters) (row chunk : Nat)
     · change mapCell id (final.mem p.lse (row*p.chunks+chunk))=_
       simp only [start,chunked_chunk] at lse
       simpa only [start,forward_row] using congrArg (mapCell id)
-        (lse.trans (congrArg (Cell.mk .real ∘ KernelModel.cast M) lseFormula))
+        (lse.trans (congrArg (Cell.mk .real) lseFormula))
     · have first : chunk=0 := active.resolve_left (by decide)
       have gather := forward_gather M p row chunk Bool.true wholeRow xs initial binding (Or.inr first)
       have lossFormula := LogicalModel.chunk_loss_binding M p start (xs (2 : Fin 3) PUnit.unit)
@@ -55,7 +55,7 @@ theorem chunked_implements (M : Algebra α) (p : Parameters) (row chunk : Nat)
           gather (by simpa only [start,ht] using active))
       change mapCell id (final.mem p.loss row)=_
       simpa only [start,forward_row,ht] using congrArg (mapCell id)
-        ((loss first).trans (congrArg (Cell.mk .real ∘ KernelModel.cast M) lossFormula))
+        ((loss first).trans (congrArg (Cell.mk .real) lossFormula))
   · intro r o outside
     exact frame r o (fun first => outside.1 (1 : Fin 2) PUnit.unit (Or.inr first))
       (outside.1 (0 : Fin 2) PUnit.unit trivial)
