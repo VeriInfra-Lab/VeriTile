@@ -17,6 +17,7 @@ specification chunk_delta_addressFold_equiv (I : WordPrimitives) (p : Parameters
     PairIO.original I p schedule ≡[[]] PairIO.addressFold I p schedule :=
   ProgramIO.Implementation.of_equivalent _ (PairCorrect.equivalent I p shape schedule order)
 
+#print_fp_assumptions chunk_delta_addressFold_equiv
 #axiomsClean chunk_delta_addressFold_equiv
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -18,7 +18,7 @@ theorem inner_body (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (bounds : RegionName → Nat) (hb : Bounds p pid bounds) :
     traceSafeList (engine (withDot M D)) bounds (inner p).body
       (current.setReg "i_c" .nat [] (fun _ => b)) := by
-  simp [ChunkDeltaFwd.inner,outer,kernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+  simp [ChunkDeltaFwd.inner,outer,ChunkDeltaFwd.kernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
   simp only [HasH] at hh
   simp only [HasAcc] at ha
   simp [

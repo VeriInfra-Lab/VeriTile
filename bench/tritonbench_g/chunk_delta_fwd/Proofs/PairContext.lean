@@ -1,6 +1,8 @@
 import bench.tritonbench_g.chunk_delta_fwd.Kernels
 import VeriTile.Triton.Float.StructuralSafety
 import VeriTile.Triton.Float.Loop
+import VeriTile.Triton.Float.CountedLoop
+import VeriTile.Meta.StatementAudit
 
 /-! Exact source connection for specialization-time address product folding.
 Only natural-number address arithmetic changes. Every floating primitive and
@@ -80,6 +82,17 @@ theorem range_stmt (M : Algebra α) (idx : RegName) (start stop stride : Nat)
           | some t => simp only; rw [ih (cur+stride) (by simp_wf; omega) t]
         · simp [hc]
     exact go start s
+
+
+theorem loop_stmt (M : Algebra α) (idx : RegName) (stop : Nat)
+    {xs ys : List ComputeStmt} (body : CodeAgree M xs ys) :
+    StmtAgree M (.forLoop idx stop xs) (.forLoop idx stop ys) := by
+  have h := range_stmt M idx 0 stop 1 body
+  constructor
+  · intro s
+    simpa only [FP.Structural.step, loop_eq_range_one] using h.runs s
+  · intro bounds s
+    simpa only [stepSafe_unfold, loopSafe_iff_rangeSafe_one] using h.safe bounds s
 
 
 end
