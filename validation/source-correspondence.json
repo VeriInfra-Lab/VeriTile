@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 1,
-      "selected_body_copy_checked": 85,
-      "uncovered_jit_functions": 96
+      "selected_body_copy_checked": 86,
+      "uncovered_jit_functions": 95
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 351,
-    "uncovered_selected_jit_functions": 201,
+    "uncovered_selected_jit_functions": 199,
     "inventoried_jit_functions": 504,
-    "uncovered_inventoried_jit_functions": 263,
+    "uncovered_inventoried_jit_functions": 261,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 235
+      "pasted_body": 237
     },
     "collection_status": {
       "bug_detection": {
@@ -43,15 +43,15 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 1,
-        "selected_body_copy_checked": 85,
-        "uncovered_jit_functions": 96
+        "selected_body_copy_checked": 86,
+        "uncovered_jit_functions": 95
       }
     },
     "primary_files_with_int64_screen_warning": 21,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 69,
-        "antiquotes": 411,
+        "in_body_type_directives": 68,
+        "antiquotes": 410,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -32834,10 +32834,10 @@
       "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
       "lean": "bench/tritonbench_g/seeded_dropout/Kernels.lean",
       "lean_screen": {
-        "quotations": 48,
-        "in_body_type_directives": 48,
-        "antiquotes": 240,
-        "dsl_assignment": 6,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 22,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -32875,32 +32875,50 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_seeded_dropout",
+          "lean_definition": "runtimeSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {
+            "n_elements": "integer",
+            "p": "fp32",
+            "seed": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
-          "function": "_seeded_dropout"
+          "lean": "bench/tritonbench_g/seeded_dropout/Kernels.lean"
         },
         {
+          "python_function": "_seeded_dropout_index_commuted",
+          "lean_definition": "runtimeCandidate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {
+            "n_elements": "integer",
+            "p": "fp32",
+            "seed": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
-          "function": "_seeded_dropout_index_commuted"
+          "lean": "bench/tritonbench_g/seeded_dropout/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
-          "function": "_seeded_dropout"
-        },
-        {
-          "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
-          "function": "_seeded_dropout_index_commuted"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/seeded_dropout/Kernels.lean": "f20e1d78c28bc9c504b38e9e141f02f46cf8737d73dd728054522df00f99bf0d",
+        "bench/tritonbench_g/seeded_dropout/Kernels.lean": "27490919cb49e29e0d3c9aa4e42f05d783a378a2df67db398c9cb8b023f76364",
+        "bench/tritonbench_g/seeded_dropout/jit-correspondence.json": "363d6de02bd691e8e4f410c9377434e81814036845f11243013ca867bd2ea7f2",
         "bench/tritonbench_g/seeded_dropout/seeded_dropout.py": "f716d15192552746f3797d82ca6fb97a63114f0f8576e00f7fcbdc18ba40ba6f"
       },
       "collection": "tritonbench_g",
