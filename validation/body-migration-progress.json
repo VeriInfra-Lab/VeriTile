@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 0,
+  "completed_count": 1,
   "staged_count": 70,
-  "pending_count": 196,
+  "pending_count": 195,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 1656,
-    "official_comparator": "PENDING: run 41256701308 checks 66 earlier targets; 41257166635 checks F8ConversionUtils; 41257794791 checks RmsnormFusedLlama; 41259258045 checks RmsnormImplementation and its frontend regression. The new 34-file RmsnormTriton batch will be dispatched separately. No target is marked complete before accepted evidence is checked against its current source/import closure.",
+    "official_comparator": "F8ConversionUtils ACCEPTED: run 41257166635 replayed all 36 files; the current 296-file source/import closure, body pairs and required public names match its receipt. Pending: run 41256701308 checks 66 earlier targets; 41257794791 checks RmsnormFusedLlama; 41259258045 checks RmsnormImplementation and its frontend regression; 41260776128 checks RmsnormTriton. No other target is marked complete before current-closure receipt verification.",
     "python_tests": 322,
     "offline_example_compilations": {
       "cases": 19,
@@ -46,7 +46,7 @@
       "cases": 1,
       "retained_modules": 34,
       "replay_sources": 34,
-      "official_run": null
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41260776128"
     },
     "previous_incremental_replays": [
       {
@@ -359,12 +359,13 @@
     },
     {
       "path": "bench/tritonbench_g/f8_conversion_utils",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "5f2ffb43a652290e238baf1a15ce35b45d3114d8"
+      "validated_source_commit": "5f2ffb43a652290e238baf1a15ce35b45d3114d8",
+      "receipt": "validation/body_receipts/f8_conversion_utils.json"
     },
     {
       "path": "bench/tritonbench_g/fast_ce_loss",
