@@ -16,19 +16,19 @@
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 53,
-      "uncovered_jit_functions": 127
+      "selected_body_copy_checked": 54,
+      "uncovered_jit_functions": 126
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 348,
-    "uncovered_selected_jit_functions": 241,
-    "inventoried_jit_functions": 480,
-    "uncovered_inventoried_jit_functions": 311,
+    "uncovered_selected_jit_functions": 239,
+    "inventoried_jit_functions": 482,
+    "uncovered_inventoried_jit_functions": 309,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 163
+      "pasted_body": 167
     },
     "collection_status": {
       "bug_detection": {
@@ -43,8 +43,8 @@
       "tritonbench_g": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 2,
-        "selected_body_copy_checked": 53,
-        "uncovered_jit_functions": 127
+        "selected_body_copy_checked": 54,
+        "uncovered_jit_functions": 126
       }
     },
     "primary_files_with_int64_screen_warning": 33,
@@ -16747,10 +16747,10 @@
       "python": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
       "lean": "bench/tritonbench_g/f8_conversion_utils/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 4,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 9,
+        "dsl_assignment": 29,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -16786,35 +16786,97 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
-          "function": "kernel_f8_to_f16"
         },
         {
-          "python": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
-          "function": "kernel_f16_to_f8"
+          "path": "bench/tritonbench_g/f8_conversion_utils/index_commuted.py",
+          "jits": [
+            {
+              "function": "kernel_f8_to_f16_index_commuted",
+              "line": 11,
+              "statements": 6,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "kernel_f16_to_f8_index_commuted",
+              "line": 20,
+              "statements": 5,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "kernel_f8_to_f16",
+          "lean_definition": "decodeOriginal",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {
+            "N": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
-          "function": "kernel_f8_to_f16"
+          "lean": "bench/tritonbench_g/f8_conversion_utils/Kernels.lean"
         },
         {
+          "python_function": "kernel_f8_to_f16_index_commuted",
+          "lean_definition": "decodeCandidate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 6,
+          "runtime_parameters": {
+            "N": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/f8_conversion_utils/index_commuted.py",
+          "lean": "bench/tritonbench_g/f8_conversion_utils/Kernels.lean"
+        },
+        {
+          "python_function": "kernel_f16_to_f8",
+          "lean_definition": "encodeOriginal",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {
+            "N": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py",
-          "function": "kernel_f16_to_f8"
+          "lean": "bench/tritonbench_g/f8_conversion_utils/Kernels.lean"
+        },
+        {
+          "python_function": "kernel_f16_to_f8_index_commuted",
+          "lean_definition": "encodeCandidate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 5,
+          "runtime_parameters": {
+            "N": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/f8_conversion_utils/index_commuted.py",
+          "lean": "bench/tritonbench_g/f8_conversion_utils/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/f8_conversion_utils/Kernels.lean": "9a61da5c73d7b9dec40af0e9a9700e5356a4248ffe78e89369e7ee3f19dbc1b3",
-        "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py": "b31af35fe05efb458c3f1b3a88bf91fc6658323c70a241fd24bb3c6f0ec065a2"
+        "bench/tritonbench_g/f8_conversion_utils/Kernels.lean": "7880e14452411667a12b30120c646381fbe195b11e12b246bc23a23825df991a",
+        "bench/tritonbench_g/f8_conversion_utils/f8_conversion_utils.py": "b31af35fe05efb458c3f1b3a88bf91fc6658323c70a241fd24bb3c6f0ec065a2",
+        "bench/tritonbench_g/f8_conversion_utils/index_commuted.py": "f245ae7df6948698fbf78bbd4393334dcd09716e6b72ff423ce8a9378ecd43ee",
+        "bench/tritonbench_g/f8_conversion_utils/jit-correspondence.json": "6c958d2a3fa7912afa7050c5e48d31cac382362e33590ac5797282100c0bb05a"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/f8_conversion_utils"

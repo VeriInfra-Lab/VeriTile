@@ -21,6 +21,7 @@ theorem source_projection (p : Source.Profile) (Y X : RegionName) (N B : Nat) :
     (Source.kernel p Y X N B).eraseDType.toAlgorithm? =
       .ok (Source.kernel p Y X N B).eraseDType.toAlgKernel := by
   cases p <;> simp [Source.kernel,Source.toHalf,Source.toFP8,TypedSource.toHalf,TypedSource.toFP8,
+    Body.toHalf,Body.toFP8,Body.decodeOriginal,Body.decodeCandidate,Body.encodeOriginal,Body.encodeCandidate,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind]
