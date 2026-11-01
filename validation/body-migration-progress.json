@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 115,
+  "completed_count": 116,
   "staged_count": 117,
-  "pending_count": 81,
+  "pending_count": 80,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 3204,
-    "official_comparator": "115 targets have exact current-source/import-closure official receipts, including all 19 examples. CrossEntropy1 and two dependents have accepted exact receipts after all 158 replay sources and 56 shared dependency files were verified. Pending: FastLayernorm run 41334450486; MultinomialSampling run 41336818906. Successful local compilation and body comparison alone do not certify completion.",
+    "official_comparator": "116 targets have exact current-source/import-closure official receipts, including all 19 examples. FastLayernorm was accepted after all 45 replay sources, 61 shared dependency files, its complete current case closure and the actual artifact ZIP digest were verified. Pending: MultinomialSampling run 41336818906. Successful local compilation and body comparison alone do not certify completion.",
     "python_tests": 419,
     "offline_example_compilations": {
       "cases": 19,
@@ -381,7 +381,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "MultinomialSampling complete local verification is finished; stage its exact independent replay, then continue the remaining TritonBench tasks. FastLayernorm independent run 41334450486 is pending. No merge."
+    "current_work": "KldivOps literal original/candidate forward/backward bodies are aligned; source execution, safety and public theorem proofs are being migrated and have not yet passed the full retained build or independent replay. MultinomialSampling independent run 41336818906 remains pending. No merge."
   },
   "targets": [
     {
@@ -760,13 +760,13 @@
     },
     {
       "path": "bench/tritonbench_g/fast_layernorm",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "validated_source_commit": "3f88a8ee423d523779e09126f5954da339df1dfc",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All six complete source bodies, successful signed source while execution, independent Real formulas, complete FP source-pair equivalences, all accesses, output masks and exterior frames have been re-proved locally. Await exact-current-source official independent replay; compilation alone is not completion."
+      "receipt": "validation/body_receipts/fast_layernorm.json"
     },
     {
       "path": "bench/tritonbench_g/fast_rms_layernorm",
