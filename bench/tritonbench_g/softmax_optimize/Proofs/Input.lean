@@ -18,7 +18,6 @@ def fullState (s : BlockState) (X : RegionName) (N B start row : Nat)
 theorem full_run (s : BlockState) (X : RegionName) (N B start row : Nat)
     (m z : Tile .real [B])
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
     (hm : s.regs .real [B] "m" = some m)
     (hz : s.regs .real [B] "z" = some z) :
     stepStmts (Source.inputFull X N B)
@@ -26,7 +25,7 @@ theorem full_run (s : BlockState) (X : RegionName) (N B start row : Nat)
       some (fullState s X N B start row m z) := by
   unfold Source.inputFull
   simp only [List.append_assoc]
-  rw [ProgramRewrite.append, prefix_run X N B start row s hpid hcols]
+  rw [ProgramRewrite.append, prefix_run X N B start row s hpid]
   simp only [Option.bind_some, loopAbody, List.drop, List.take, List.singleton_append]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (v := fullLoad s X N B start row) (by
     rw [evalOp_load_ptrRef_none "input_ptrs" _ (pointers X N B start row)
@@ -59,13 +58,12 @@ def tailState (s : BlockState) (X : RegionName) (N B start row : Nat)
   updateState ((maskedPrefix s X N B start row).setReg "inp" .real [B]
     (tailLoad s X N B start row)) m z (tailLoad s X N B start row)
 
-theorem mask_run (s : BlockState) (X : RegionName) (N B start row : Nat)
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int))) :
-    stepStmt (Source.maskStatement B) (prefixIntState X N B start row s) =
+theorem mask_run (s : BlockState) (X : RegionName) (N B start row : Nat) :
+    stepStmt (Source.maskStatement N B) (prefixIntState X N B start row s) =
       some (maskedPrefix s X N B start row) := by
   apply stepStmt_assign_eq_some
   simp only [Source.maskStatement, evalOp.eq_def, prefixIntState,
-    BlockState.setReg_ne_name, BlockState.setReg_same, hcols,
+    BlockState.setReg_ne_name, BlockState.setReg_same,
     ne_eq, String.reduceEq, not_false_eq_true, Option.bind_some, Option.bind_eq_bind]
   apply congrArg some
   apply Tile.ext
@@ -76,7 +74,6 @@ theorem mask_run (s : BlockState) (X : RegionName) (N B start row : Nat)
 theorem tail_run (s : BlockState) (X : RegionName) (N B start row : Nat)
     (m z : Tile .real [B])
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
     (hm : s.regs .real [B] "m" = some m)
     (hz : s.regs .real [B] "z" = some z) :
     stepStmts (Source.inputTail X N B)
@@ -84,9 +81,9 @@ theorem tail_run (s : BlockState) (X : RegionName) (N B start row : Nat)
       some (tailState s X N B start row m z) := by
   unfold Source.inputTail
   simp only [List.append_assoc]
-  rw [ProgramRewrite.append, prefix_run X N B start row s hpid hcols]
+  rw [ProgramRewrite.append, prefix_run X N B start row s hpid]
   simp only [Option.bind_some, List.singleton_append, loopBbody, List.drop, List.take]
-  rw [stepStmts.cons_some (mask_run s X N B start row hcols)]
+  rw [stepStmts.cons_some (mask_run s X N B start row)]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (v := tailLoad s X N B start row) (by
     rw [evalOp_load_ptrRef_maskOther "input_ptrs" _ _ _ (pointers X N B start row)
       (tailMask N B start) (⟨fun _ => (⊥ : WithBot ℝ)⟩ : Tile .real [B])

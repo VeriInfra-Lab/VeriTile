@@ -297,7 +297,11 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_static_strides: dict[str, str] | None = None,
           expected_pure_functions: dict[str, str] | None = None,
           expected_integer_args: dict[str, str] | None = None,
-          expected_arange_args: dict[str, str] | None = None) -> dict:
+          expected_arange_args: dict[str, str] | None = None,
+          expected_binary_functions: dict[str, str] | None = None) -> dict:
+    if expected_pure_functions is not None and expected_binary_functions is not None:
+        raise ValueError("unary and binary helper clauses cannot be mixed")
+    helper_functions = expected_binary_functions if expected_binary_functions is not None else expected_pure_functions
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1 or not any(ast.unparse(d.func if isinstance(d, ast.Call) else d) == "triton.jit"
@@ -342,17 +346,18 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                     or expected_pointer_cells is not None or expected_optional_pointers is not None):
                 raise ValueError("static strides require the reviewed scalar-only invocation")
             offset_clause = r"\s+static_strides"
-        if expected_pure_functions is not None:
+        if helper_functions is not None:
             if (expected_call_bindings is None or expected_pointer_offsets is not None
                     or expected_pointer_cells is not None or expected_optional_pointers is not None
-                    or expected_static_strides is not None or not expected_pure_functions):
+                    or expected_static_strides is not None or not helper_functions):
                 raise ValueError("pure JIT helpers require a reviewed scalar-only call")
-            offset_clause = r"\s+pure_functions\s*\[([^\]]*)\]"
+            offset_clause = (r"\s+binary_functions\s*\[([^\]]*)\]" if expected_binary_functions is not None
+                             else r"\s+pure_functions\s*\[([^\]]*)\]")
         if expected_integer_args is not None or expected_arange_args is not None:
             if (expected_integer_args is None or expected_arange_args is None
                     or expected_call_bindings is None or expected_pointer_offsets is not None
                     or expected_pointer_cells is not None or expected_optional_pointers is not None
-                    or expected_static_strides is not None or expected_pure_functions is not None):
+                    or expected_static_strides is not None or helper_functions is not None):
                 raise ValueError("integer/arange arguments require a reviewed scalar-only call")
             offset_clause = (r"\s+integer_args\s*\[([^\]]*)\]"
                              r"\s+arange_args\s*\[([^\]]*)\]")
@@ -403,14 +408,14 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                         r"\s*:\s*(?:VeriTile\.Triton\.)?Random\.ArangeSizeDomain\s+"+
                         re.escape(size)+r"\s*\)", signature):
                     raise ValueError("arange arguments require their checked constexpr-size proof")
-        if expected_pure_functions is not None:
+        if helper_functions is not None:
             bindings = {}
             for item in calls[0][2].split(","):
                 pair = re.fullmatch(r"\s*([A-Za-z_]\w*)\s*:=\s*([A-Za-z_]\w*)\s*", item)
                 if not pair or pair[1] in bindings:
                     raise ValueError("pure JIT functions require distinct named source definitions")
                 bindings[pair[1]] = pair[2]
-            if bindings != expected_pure_functions:
+            if bindings != helper_functions:
                 raise ValueError("pure JIT function bindings differ from the reviewed call")
             actual = {n.func.id for n in ast.walk(function) if isinstance(n, ast.Call)
                       and isinstance(n.func, ast.Name) and n.func.id not in {"range", "float", "int"}}
@@ -618,27 +623,28 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
 
 
 def check_pure_function(python_text: str, lean_text: str, python_function: str,
-                        lean_definition: str) -> dict:
+                        lean_definition: str, arity: int = 1) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
         raise ValueError("expected one explicitly selected @triton.jit helper")
     fn = functions[0]
-    if (len(fn.args.args) != 1 or fn.args.posonlyargs or fn.args.kwonlyargs or fn.args.vararg
+    if (arity not in (1, 2) or len(fn.args.args) != arity or fn.args.posonlyargs or fn.args.kwonlyargs or fn.args.vararg
             or fn.args.kwarg or fn.args.defaults or fn.args.kw_defaults
-            or fn.args.args[0].annotation or len(fn.body) != 1 or not isinstance(fn.body[0], ast.Return)):
+            or any(arg.annotation for arg in fn.args.args) or len(fn.body) != 1 or not isinstance(fn.body[0], ast.Return)):
         raise ValueError("pure JIT helper requires one unannotated parameter and one return")
     header, body = quotation(lean_text, lean_definition, raw_python=True)
-    argument = fn.args.args[0].arg
-    if not re.search(r"\btriton_function\s*\(\s*" + re.escape(argument) + r"\s*\)\s*$", header):
+    arguments = [a.arg for a in fn.args.args]
+    parameters = r"\s*,\s*".join(map(re.escape, arguments))
+    if not re.search(r"\btriton_function\s*\(\s*" + parameters + r"\s*\)\s*$", header):
         raise ValueError("pure JIT quotation parameter differs from Python")
     if "$" in body or re.search(r"\btl\.(region|param|source_helper|call_signature)\b", body):
         raise ValueError("pure JIT body must contain only pasted Python")
     if ast.dump(ast.Module(fn.body, [])) != ast.dump(ast.Module(ast.parse("def __veritile_pasted__():\n" + body).body[0].body, [])):
         raise ValueError("pure JIT return body differs from Python")
     return {"python_function": python_function, "lean_definition": lean_definition,
-            "status": "PASS", "mode": "pasted_body", "kind": "pure_jit_function",
-            "statements": 1, "runtime_parameters": {argument: "inferred"}, "constexpr_parameters": []}
+            "status": "PASS", "mode": "pasted_body", "kind": "binary_pure_jit_function" if arity == 2 else "pure_jit_function",
+            "statements": 1, "runtime_parameters": {a: "inferred" for a in arguments}, "constexpr_parameters": []}
 
 
 def check_manifest(root: Path, manifest: Path) -> list[dict]:
@@ -646,19 +652,21 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
     results = []
     for r in records:
         py, lean = (root / r["python"]).read_text(), (root / r["lean"]).read_text()
-        if r.get("kind") == "pure_jit_function":
+        if r.get("kind") in {"pure_jit_function", "binary_pure_jit_function"}:
             if set(r) != {"kind", "python", "lean", "python_function", "lean_definition"}:
                 raise ValueError("pure JIT helper record cannot override kernel call metadata")
-            results.append(check_pure_function(py, lean, r["python_function"], r["lean_definition"]))
+            results.append(check_pure_function(py, lean, r["python_function"], r["lean_definition"],
+                                               2 if r["kind"] == "binary_pure_jit_function" else 1))
             continue
         results.append(check(py, lean, r["python_function"], r["lean_definition"],
                              r.get("signature_definition"), r.get("expected_signature"),
                              r.get("expected_call_bindings"), r.get("expected_pointer_offsets"),
                              r.get("expected_pointer_cells"), r.get("expected_optional_pointers"),
                              r.get("expected_static_strides"), r.get("expected_pure_functions"),
-                             r.get("expected_integer_args"), r.get("expected_arange_args")))
-        for name, definition in r.get("expected_pure_functions", {}).items():
-            helpers = [h for h in records if h.get("kind") == "pure_jit_function"
+                             r.get("expected_integer_args"), r.get("expected_arange_args"), r.get("expected_binary_functions")))
+        helper_kind = "binary_pure_jit_function" if "expected_binary_functions" in r else "pure_jit_function"
+        for name, definition in r.get("expected_binary_functions", r.get("expected_pure_functions", {})).items():
+            helpers = [h for h in records if h.get("kind") == helper_kind
                        and h["lean"] == r["lean"] and h["lean_definition"] == definition]
             if len(helpers) != 1:
                 raise ValueError("pure JIT call needs a separately checked helper body")

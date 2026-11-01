@@ -1204,3 +1204,51 @@ class KsoftmaxBodyTests(unittest.TestCase):
     def test_backward_fp16_branch_cannot_be_omitted(self):
         with self.assertRaisesRegex(ValueError, 'statement correspondence'):
             self.verify(self.lean.replace('        if IS_FP16:\n            o = o.to(tl.float32)\n', '', 1), True)
+
+class BinaryPureJITFunctionCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        import tempfile
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        self.directory = self.root / 'bench/tritonbench_g/softmax_optimize'
+        self.directory.mkdir(parents=True)
+        original = ROOT / 'bench/tritonbench_g/softmax_optimize'
+        for name in ['Kernels.lean', 'softmax_optimize.py',
+                     'softmax_optimize_index_commuted.py', 'jit-correspondence.json']:
+            (self.directory / name).write_text((original / name).read_text())
+        self.manifest = self.directory / 'jit-correspondence.json'
+
+    def test_two_original_helpers_and_two_complete_callers(self):
+        rows = check_manifest(self.root, self.manifest)
+        self.assertEqual([r['statements'] for r in rows], [1, 12, 1, 12])
+        self.assertEqual(rows[0]['kind'], 'binary_pure_jit_function')
+
+    def test_helper_operand_order_and_parameter_order_are_checked(self):
+        p = self.directory / 'Kernels.lean'
+        source = p.read_text()
+        for old, new in [('tl.cdiv(a, b) * b - b', 'b * tl.cdiv(a, b) - b'),
+                         ('triton_function (a, b)', 'triton_function (b, a)')]:
+            with self.subTest(new=new), self.assertRaises(ValueError):
+                p.write_text(source.replace(old, new, 1))
+                check_manifest(self.root, self.manifest)
+
+    def test_helper_records_are_required_for_each_independent_python_file(self):
+        rows = json.loads(self.manifest.read_text())
+        for index in [0, 2]:
+            self.manifest.write_text(json.dumps([r for i, r in enumerate(rows) if i != index]))
+            with self.subTest(index=index), self.assertRaisesRegex(ValueError, 'separately checked helper body'):
+                check_manifest(self.root, self.manifest)
+
+    def test_call_binding_casts_shapes_and_guard_cannot_be_rewritten(self):
+        p = self.directory / 'Kernels.lean'
+        source = p.read_text()
+        changes = [('prev_multiple_of := previousMultiple', 'prev_multiple_of := commutedPreviousMultiple'),
+                   ('prev_multiple_of(N, TILE_N)', 'tl.cdiv(N, TILE_N) * TILE_N - TILE_N'),
+                   ('tl.program_id(0).to(tl.int64)', 'tl.program_id(0)'),
+                   ('tl.full((TILE_N,),', 'tl.full((TILE_N),'),
+                   ('new_m == -float("inf")', 'inp == -float("inf")')]
+        for old, new in changes:
+            with self.subTest(new=new), self.assertRaises(ValueError):
+                p.write_text(source.replace(old, new, 1))
+                check_manifest(self.root, self.manifest)
