@@ -5,12 +5,12 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 0,
-  "staged_count": 121,
+  "staged_count": 122,
   "pending_count": 196,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_OFFICIAL_REPLAY_PENDING",
-    "staged_and_regression_retained_modules": 3367,
+    "staged_and_regression_retained_modules": 3410,
     "official_comparator": "120 targets were accepted on the previous dependency snapshot, including all 19 examples. Their receipts are preserved as previous_receipt. The distinct libdevice.rsqrt model extension changes shared dependency hashes, so current completion awaits full proof rebuild and independent replay. BmmChunkBwd run 41347223281 targets the earlier c5bb57dff0873783f7df0a67c58832e9ccfd8bcd snapshot.",
     "python_tests": 450,
     "offline_example_compilations": {
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "All 127 selected cases, 3367 retained/supporting Lean modules and 2370 proof/audit targets pass the exact be54d8566 snapshot locally (12071 jobs), including fully-qualified public targets. The new reshape tests independently fix FP32/FP64 computation grids and the nested FP32 cast inside an FP64 result. Six official replay shards run on that same commit. Completion still requires those exact receipts. LayerNormWelfold now has exact 23-statement original/candidate correspondence, canonical source-fragment equalities, actual dynamic-range accumulation, FP32 storage reads and casts, ordered-tree reduction, mean and libdevice.rsqrt proofs. Its remaining normalization, safety, independent Real and retained native/lowering proofs are still being migrated, so it is excluded from the 127-case batch and remains incomplete.",
-    "official_replay_sources": 2370,
+    "working_tree": "All 128 selected cases (122 targets and six regressions), 3410 retained/supporting Lean modules, 2413 required proof/audit sources and 450 Python tests pass locally, including actual fully-qualified Real and FP public targets. LayerNormWelfold now copies both complete 23-statement JIT bodies. The three original dynamic ranges, unused xmask/rbase, both source reductions/views, every cast/cache hint/barrier/None store and distinct libdevice.rsqrt remain. Ordered addition trees and XBLOCK=1 belong to reviewed call-side metadata. Independent typed-program/precision tests and mutation refusals cover the frontend. Every proof fragment comes from the canonical repaired source with kernel-checked decomposition equalities, retaining FP32 storage interpretation, all source cast temporaries, the original [1,B] output and BF16 conversion. Full execution, success, each output, exterior frame, actual source safety, population mean/variance/inverse/affine Real formula, all native ABI and local lowering proofs pass. The full FP comparison uses an arbitrary algebra and prints no numerical assumptions. This is local validation, not a completion certificate: exact independent receipts remain required for all current targets.",
+    "official_replay_sources": 2413,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -52,10 +52,8 @@
       "cases": 1,
       "retained_modules": 43,
       "replay_sources": 43,
-      "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "state": "official_replay_running",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41347223281",
-      "source_commit": "c5bb57dff0873783f7df0a67c58832e9ccfd8bcd"
+      "state": "local_proofs_pass_official_replay_pending",
+      "case": "bench/tritonbench_g/layer_norm_welfold"
     },
     "previous_incremental_replays": [
       {
@@ -399,6 +397,18 @@
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41342846625",
         "source_commit": "e0b5b8cbd37cb75e78935bb1380d6ec9f3362c7f",
         "replay_sources": 45
+      },
+      {
+        "case": "bench/tritonbench_g/bmm_chunk_bwd",
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 43,
+        "replay_sources": 43,
+        "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+        "state": "official_replay_running",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41347223281",
+        "source_commit": "c5bb57dff0873783f7df0a67c58832e9ccfd8bcd",
+        "superseded_by_current_shared_model_replay": true
       }
     ],
     "pending_client_regressions": {
@@ -414,8 +424,8 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Dispatch BmmOptimized independent replay, audit exact-current receipts and continue BmmChunkBwd. No merge.",
-    "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+    "current_work": "Dispatch LayerNormWelfold independent replay, verify exact-current receipts for the shared-model rebuild, then continue remaining source/proof migrations. No merge.",
+    "previous_validated_source_commit": "be54d8566aa6d3a11c82633f5b18b22de394f67f",
     "shared_model_revalidation": {
       "state": "reshape_precision_full_local_pass_official_replay_running",
       "cases": 127,
@@ -466,8 +476,7 @@
         "replay_sources": 2368,
         "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942"
       }
-    },
-    "validated_source_commit": "be54d8566aa6d3a11c82633f5b18b22de394f67f"
+    }
   },
   "targets": [
     {
@@ -1263,8 +1272,17 @@
     },
     {
       "path": "bench/tritonbench_g/layer_norm_welfold",
-      "status": "pending",
-      "complete": false
+      "status": "official_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "retained_lean_modules": 40,
+      "source_statements": [
+        23,
+        23
+      ],
+      "reason": "The complete literal original/candidate, independent population formula, full arbitrary-algebra FP grid, exact dynamic ranges, all loads/casts/stores, actual access safety and retained native/lowering modules pass locally. Completion awaits the exact independent receipt."
     },
     {
       "path": "bench/tritonbench_g/layernorm_fwd_triton",
