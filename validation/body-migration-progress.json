@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 102,
+  "completed_count": 103,
   "staged_count": 104,
-  "pending_count": 94,
+  "pending_count": 93,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 2545,
-    "official_comparator": "102 targets have exact current-source/import-closure official receipts, including all 19 examples. TokenAttnReduceV and KvCacheCopy passed their required independent replays; exact current case closures, public theorem names and complete shared replay import closures are verified. FastRmsLayernorm and TokenAttnMistral remain pending current independent replay. SoftmaxReduceV is being migrated and is not complete. Compilation and source checks alone never establish completion.",
+    "official_comparator": "103 targets have exact current-source/import-closure official receipts, including all 19 examples. FastRmsLayernorm, TokenAttnReduceV and KvCacheCopy passed required independent replays; their exact current case closures, public theorem names and complete shared replay import closures are verified. TokenAttnMistral remains pending current independent replay. SoftmaxReduceV is locally re-proved but not complete. Compilation and source checks alone never establish completion.",
     "python_tests": 373,
     "offline_example_compilations": {
       "cases": 19,
@@ -659,13 +659,13 @@
     },
     {
       "path": "bench/tritonbench_g/fast_rms_layernorm",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All four production JIT bodies and three existing index candidates are copied and locally verified. Complete Real/FP grids, signed weight-gradient loops, source safety, typed memory and frame proofs pass. Current independent proof replay is still required.",
-      "validated_source_commit": "fed8fb8469749c639f7d3326b7b6b65c645d67b1"
+      "validated_source_commit": "fed8fb8469749c639f7d3326b7b6b65c645d67b1",
+      "receipt": "validation/body_receipts/fast_rms_layernorm.json"
     },
     {
       "path": "bench/tritonbench_g/fast_rope_embedding",
