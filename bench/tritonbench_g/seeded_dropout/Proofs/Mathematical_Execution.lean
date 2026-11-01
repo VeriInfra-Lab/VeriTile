@@ -11,8 +11,8 @@ set_option maxRecDepth 3000
 
 def seedState (kind : Random.IntegerType) (seed : SeedCarrier kind) (u : BlockState) : BlockState :=
   match kind, seed with
-  | .i32, s | .i64, s => u.setReg "seed_arg" .int [] (Tile.scalar s)
-  | .u32, s | .u64, s => u.setReg "seed_arg" .nat [] (Tile.scalar s)
+  | .i32, s | .i64, s => u.setReg "seed" .int [] (Tile.scalar s)
+  | .u32, s | .u64, s => u.setReg "seed" .nat [] (Tile.scalar s)
 
 def loaded (u : BlockState) (x : RegionName) (N B : Nat) : Tile .real [B] :=
   ⟨fun j => if Index.offset u.pid B j.1 < N then

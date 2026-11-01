@@ -1,0 +1,228 @@
+[
+  {
+    "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
+    "lean": "bench/tritonbench_g/seeded_dropout/Kernels.lean",
+    "python_function": "_seeded_dropout",
+    "lean_definition": "runtimeSource",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ],
+        [
+          "output_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ],
+        [
+          "p",
+          "fp32"
+        ],
+        [
+          "seed",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ],
+      "dtype_parameters": [
+        "storage"
+      ],
+      "dtype_parameter_types": {
+        "storage": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "n_elements": "n_elements"
+    },
+    "expected_integer_args": {
+      "seed": "seed"
+    },
+    "expected_arange_args": {
+      "BLOCK_SIZE": "hBlock"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
+    "lean": "bench/tritonbench_g/seeded_dropout/Kernels.lean",
+    "python_function": "_seeded_dropout_index_commuted",
+    "lean_definition": "runtimeCandidate",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ],
+        [
+          "output_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ],
+              [
+                "fp64",
+                "fp64"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ],
+              [
+                "f8e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "integer"
+        ],
+        [
+          "p",
+          "fp32"
+        ],
+        [
+          "seed",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ],
+      "dtype_parameters": [
+        "storage"
+      ],
+      "dtype_parameter_types": {
+        "storage": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "n_elements": "n_elements"
+    },
+    "expected_integer_args": {
+      "seed": "seed"
+    },
+    "expected_arange_args": {
+      "BLOCK_SIZE": "hBlock"
+    }
+  }
+]

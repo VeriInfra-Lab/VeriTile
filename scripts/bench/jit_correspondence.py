@@ -294,7 +294,9 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_pointer_cells: dict[str, list[str]] | None = None,
           expected_optional_pointers: dict[str, str] | None = None,
           expected_static_strides: dict[str, str] | None = None,
-          expected_pure_functions: dict[str, str] | None = None) -> dict:
+          expected_pure_functions: dict[str, str] | None = None,
+          expected_integer_args: dict[str, str] | None = None,
+          expected_arange_args: dict[str, str] | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1 or not any(ast.unparse(d.func if isinstance(d, ast.Call) else d) == "triton.jit"
@@ -345,6 +347,14 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                     or expected_static_strides is not None or not expected_pure_functions):
                 raise ValueError("pure JIT helpers require a reviewed scalar-only call")
             offset_clause = r"\s+pure_functions\s*\[([^\]]*)\]"
+        if expected_integer_args is not None or expected_arange_args is not None:
+            if (expected_integer_args is None or expected_arange_args is None
+                    or expected_call_bindings is None or expected_pointer_offsets is not None
+                    or expected_pointer_cells is not None or expected_optional_pointers is not None
+                    or expected_static_strides is not None or expected_pure_functions is not None):
+                raise ValueError("integer/arange arguments require a reviewed scalar-only call")
+            offset_clause = (r"\s+integer_args\s*\[([^\]]*)\]"
+                             r"\s+arange_args\s*\[([^\]]*)\]")
         if expected_call_bindings is None:
             invocation = r"\bwith_triton_signature\s+" + selected_signature + offset_clause + r"\s+in\b"
             calls = list(re.finditer(invocation, signature))
@@ -366,8 +376,32 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 raise ValueError("runtime call bindings differ from the reviewed invocation")
             integer_args = {n for n, t in profile["scalars"] if t in {"integer", "i32", "i64"}}
             fp32_args = {n for n, t in profile["scalars"] if t == "fp32"}
-            if not integer_args <= set(bindings) or not set(bindings) <= integer_args | fp32_args:
+            handled = set(expected_integer_args or {})
+            if (not handled <= integer_args or not (integer_args-handled) <= set(bindings)
+                    or set(bindings) & handled or not set(bindings) <= integer_args | fp32_args):
                 raise ValueError("runtime call bindings must include all integer parameters and only supported scalar parameters")
+        if expected_integer_args is not None:
+            for group, reviewed, label in [(2, expected_integer_args, "integer"),
+                                             (3, expected_arange_args, "arange")]:
+                values = {}
+                text = calls[0][group].strip()
+                for entry in text.split(",") if text else []:
+                    pair = re.fullmatch(r"\s*([A-Za-z_]\w*)\s*:=\s*([A-Za-z_]\w*)\s*", entry)
+                    if not pair or pair[1] in values:
+                        raise ValueError(f"{label} arguments require distinct named caller bindings")
+                    values[pair[1]] = pair[2]
+                if values != reviewed:
+                    raise ValueError(f"{label} arguments differ from the reviewed call")
+            for caller in expected_integer_args.values():
+                if not re.search(r"\([^()\n]*\b"+re.escape(caller)+
+                                 r"\s*:\s*(?:VeriTile\.Triton\.)?IntegerArgument\s*\)", signature):
+                    raise ValueError("integer ABI values require an explicit IntegerArgument caller")
+            for size, proof in expected_arange_args.items():
+                if size not in profile["constexpr"] or not re.search(
+                        r"\([^()\n]*\b"+re.escape(proof)+
+                        r"\s*:\s*(?:VeriTile\.Triton\.)?Random\.ArangeSizeDomain\s+"+
+                        re.escape(size)+r"\s*\)", signature):
+                    raise ValueError("arange arguments require their checked constexpr-size proof")
         if expected_pure_functions is not None:
             bindings = {}
             for item in calls[0][2].split(","):
@@ -612,7 +646,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                              r.get("signature_definition"), r.get("expected_signature"),
                              r.get("expected_call_bindings"), r.get("expected_pointer_offsets"),
                              r.get("expected_pointer_cells"), r.get("expected_optional_pointers"),
-                             r.get("expected_static_strides"), r.get("expected_pure_functions")))
+                             r.get("expected_static_strides"), r.get("expected_pure_functions"),
+                             r.get("expected_integer_args"), r.get("expected_arange_args")))
         for name, definition in r.get("expected_pure_functions", {}).items():
             helpers = [h for h in records if h.get("kind") == "pure_jit_function"
                        and h["lean"] == r["lean"] and h["lean_definition"] == definition]
