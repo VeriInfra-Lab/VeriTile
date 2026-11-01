@@ -32,13 +32,13 @@ def weighted (p : Parameters) (s : State ℝ) (d : Nat) : ℝ :=
   ∑ n ∈ Finset.range (count p s),
     (s.mem p.prob (probOffset p s n)).read .fp32 *
       (s.mem p.value (valueOffset p s d +
-        (s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .nat*p.valueBatchStride)).read .fp32
+        ((s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .int).toNat*p.valueBatchStride)).read .fp32
 
 def term (p : Parameters) (s : State ℝ) (n d : Nat) : ℝ :=
   if n<count p s then
     (s.mem p.prob (probOffset p s n)).read .fp32 *
       (s.mem p.value (valueOffset p s d +
-        (s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .nat*p.valueBatchStride)).read .fp32
+        ((s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .int).toNat*p.valueBatchStride)).read .fp32
   else 0
 
 def partialSum (p : Parameters) (s : State ℝ) (n : Nat) : TileIndex [p.width] → ℝ :=
@@ -98,12 +98,12 @@ theorem output_weighted (p : Parameters) (s : State ℝ) (positive : 0<p.block)
   change foldRange (update algebra sum p s) 0 (count p s) p.block (initial algebra p) i = _
   rw [initial_eq,fold_prefix p s 0 positive]
 
-theorem complete (p : Parameters) (s : State ℝ) (positive : 0<p.block)
+theorem complete (p : Parameters) (s : State ℝ) (positive : 0<p.block) (valid : ValidMetadata p s)
     (injective : Function.Injective (outputOffset p s)) :
     ∃ t, FP.Structural.exec (withSum algebra sum) (kernel p) s=some t ∧
       (∀ i : TileIndex [p.width], (t.mem p.output (outputOffset p s i)).read .fp32=weighted p s i.1.val) ∧
       (∀ r o, Outside p s r o → t.mem r o=s.mem r o) := by
-  obtain ⟨t,run,mem⟩ := complete_run algebra sum p s
+  obtain ⟨t,run,mem⟩ := complete_run algebra sum p s valid
   refine ⟨t,run,?_,?_⟩
   · intro i
     rw [mem,reference_readback algebra sum p s injective i,Cell.read_same,output_weighted p s positive]

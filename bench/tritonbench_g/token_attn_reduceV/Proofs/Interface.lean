@@ -34,9 +34,14 @@ theorem implements (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
     intro pid member
     exact (Grid.mem_fullGrid B H pid).mp (order.mem_iff.mpr member)
   refine ⟨schedule_safe M R p B H counts jobs valid separate v domain bounds bounded initial inputs,?_⟩
-  obtain ⟨final,execution,mem⟩ := schedule_complete M R p jobs initial
-  obtain ⟨after,oldRun,_,values,frame⟩ := Grid.whole M R p jobs initial.mem separate unique
-  have old : after=Grid.graph M R p jobs initial.mem := Option.some.inj (oldRun.symm.trans (Grid.complete M R p jobs initial.mem))
+  have metadata : ∀ pid∈jobs, ValidMetadata p (Grid.state initial.mem pid) := by
+    intro pid member
+    have dims := valid pid member
+    exact (call_inputs M R p B H counts jobs v domain (Grid.state initial.mem pid) inputs
+      ⟨pid.1,dims.1⟩ ⟨pid.2,dims.2⟩ rfl rfl).valid
+  obtain ⟨final,execution,mem⟩ := schedule_complete M R p jobs initial separate metadata
+  obtain ⟨after,oldRun,_,values,frame⟩ := Grid.whole M R p jobs initial.mem separate unique metadata
+  have old : after=Grid.graph M R p jobs initial.mem := Option.some.inj (oldRun.symm.trans (Grid.complete M R p jobs initial.mem separate metadata))
   have finalMem : final.mem=after := mem.trans old.symm
   refine ⟨final,execution,?_,?_⟩
   · intro q j active

@@ -1024,3 +1024,35 @@ class FastRmsCopiedBodyTests(unittest.TestCase):
         verify(lean)
         with self.assertRaisesRegex(ValueError, 'statement correspondence'):
             verify(lean.replace('      beta"""', '    beta"""', 1))
+
+class TokenAttnReduceVCopiedBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/token_attn_reduceV'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+
+    def verify(self, lean):
+        r = self.record
+        return check((ROOT / r['python']).read_text(), lean,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
+
+    def test_original_and_existing_affine_candidate(self):
+        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual(len(results), 2)
+        self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 19 for r in results))
+
+    def test_metadata_signed_storage_is_part_of_call_signature(self):
+        with self.assertRaisesRegex(ValueError, 'signature'):
+            self.verify(self.lean.replace('("Req_to_tokens", .i32)', '("Req_to_tokens", .u32)', 1))
+
+    def test_loop_hint_mask_and_output_cast_cannot_be_removed(self):
+        mutations = [
+            ('range(0, cur_batch_seq_len, BLOCK_N)', 'range(cur_batch_seq_len)'),
+            ('start_n = tl.multiple_of(start_n, BLOCK_N)', 'start_n = start_n'),
+            ('mask=(start_n + offs_n) < cur_batch_seq_len', 'mask=(start_n + offs_n) <= cur_batch_seq_len'),
+            ('acc = acc.to(Out.dtype.element_ty)', 'acc = acc'),
+        ]
+        for before, after in mutations:
+            with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
+                self.verify(self.lean.replace(before, after, 1))

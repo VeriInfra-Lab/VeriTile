@@ -1441,6 +1441,19 @@
           "VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.kernel_equivalent"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/token_attn_reduceV",
+      "python": "bench/tritonbench_g/token_attn_reduceV/token_attn_reduceV.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/token_attn_reduceV/Correct.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.grid_real"
+        ],
+        "bench/tritonbench_g/token_attn_reduceV/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.FPEquiv.affine_address_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -2606,6 +2619,34 @@
     "bench/tritonbench_g/swiglu_triton/Proofs/Tile.lean",
     "bench/tritonbench_g/swiglu_triton/Proofs/Words.lean",
     "bench/tritonbench_g/swiglu_triton/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Contract.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Correct.lean",
+    "bench/tritonbench_g/token_attn_reduceV/FPEquiv.lean",
+    "bench/tritonbench_g/token_attn_reduceV/IO.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Kernels.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/AffineEquivalence.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Bindings.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Contract.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Execution.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Grid.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Interface.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/LogicalValues.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Mathematical_FPComplete.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Mathematical_FPContract.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Mathematical_FPModel.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Mathematical_FPSoftware.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Mathematical_FPTypedSource.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Model.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Native.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Real.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/RealIO.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Schedule.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/SignedRange.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/Stores.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Sources/Parameters.lean",
+    "bench/tritonbench_g/token_attn_reduceV/Sources/Source.lean",
     "bench/tritonbench_g/token_softmax_bloom/Contract.lean",
     "bench/tritonbench_g/token_softmax_bloom/Correct.lean",
     "bench/tritonbench_g/token_softmax_bloom/FPEquiv.lean",
@@ -2765,6 +2806,7 @@
     "tests/lean/SourceDType.lean",
     "tests/lean/SourceModuleBindings.lean",
     "tests/lean/StaticSignedStrides.lean",
+    "tests/lean/TokenAttnReduceVSignedMetadata.lean",
     "tests/lean/UnsignedCallArguments.lean"
   ]
 }
