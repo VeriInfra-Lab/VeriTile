@@ -29,6 +29,7 @@ theorem u_prefix_run (M : Algebra α) (p : Kernels.UncachedLayout) (s : State α
   congr 1
   funext i
   dsimp [bop,TileShape.insertAxis,TileShape.dropInsertedIndex]
+  simp only [show ¬ (p.HEAD_DIM : Int) < 0 by omega, if_false]
   ring
 
 theorem u_prefix_safe (M : Algebra α) (p : Kernels.UncachedLayout)
@@ -100,6 +101,7 @@ theorem c_prefix_run (M : Algebra α) (p : Kernels.CachedLayout) (s : State α) 
     congr 1
     funext i
     dsimp [bop,TileShape.insertAxis,TileShape.dropInsertedIndex]
+    simp only [show ¬ (p.HEAD_DIM : Int) < 0 by omega, if_false]
     ring
 
 theorem c_prefix_safe (M : Algebra α) (p : Kernels.CachedLayout)
