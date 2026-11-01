@@ -13,13 +13,13 @@ open VeriTile Triton FP.Structural Whole
 noncomputable section
 
 def inputs (c : Call) : List IOChannel :=
-  [⟨.fp32,[c.batches,c.heads,c.dim],"Q"⟩,
-   ⟨.fp32,[c.cacheRows,c.kvHeads,c.dim],"K"⟩,
-   ⟨.nat,[c.batches],"Length"⟩,
-   ⟨.nat,[c.batches],"Start"⟩,
-   ⟨.nat,[c.locSize],"Loc"⟩]
+  [⟨.real,[c.batches,c.heads,c.dim],"Q"⟩,
+   ⟨.real,[c.cacheRows,c.kvHeads,c.dim],"K"⟩,
+   ⟨.int,[c.batches],"Length"⟩,
+   ⟨.int,[c.batches],"Start"⟩,
+   ⟨.int,[c.locSize],"Loc"⟩]
 def outputs (c : Call) : List IOChannel :=
-  [⟨.fp32,[c.batches,c.heads,c.maxLength],"Out"⟩]
+  [⟨.real,[c.batches,c.heads,c.maxLength],"Out"⟩]
 abbrev Inputs (α : Type) (c : Call) := ChannelValues α (inputs c)
 abbrev Outputs (α : Type) (c : Call) := ChannelValues α (outputs c)
 
@@ -35,19 +35,19 @@ def query {α : Type} {c : Call} (xs : Inputs α c)
 def key {α : Type} {c : Call} (xs : Inputs α c)
     (row : Fin c.cacheRows) (h : Fin c.kvHeads) (d : Fin c.dim) : α :=
   xs ⟨1,by simp [inputs]⟩ (row,h,d,PUnit.unit)
-def lengths {α : Type} {c : Call} (xs : Inputs α c) (b : Fin c.batches) : Nat :=
+def lengths {α : Type} {c : Call} (xs : Inputs α c) (b : Fin c.batches) : Int :=
   xs ⟨2,by simp [inputs]⟩ (b,PUnit.unit)
-def starts {α : Type} {c : Call} (xs : Inputs α c) (b : Fin c.batches) : Nat :=
+def starts {α : Type} {c : Call} (xs : Inputs α c) (b : Fin c.batches) : Int :=
   xs ⟨3,by simp [inputs]⟩ (b,PUnit.unit)
-def locations {α : Type} {c : Call} (xs : Inputs α c) (o : Fin c.locSize) : Nat :=
+def locations {α : Type} {c : Call} (xs : Inputs α c) (o : Fin c.locSize) : Int :=
   xs ⟨4,by simp [inputs]⟩ (o,PUnit.unit)
 
 /-- Logical metadata equals the original signed data after its proven exact
 nonnegative adapter. This contains no execution or access-safety condition. -/
 def MetadataValues {α : Type} (c : Call) (m : Metadata c) (xs : Inputs α c) : Prop :=
-  (∀ b, lengths xs b = m.len b.val) ∧
-  (∀ b, starts xs b = m.begin b.val) ∧
-  (∀ o, locations xs o = (m.locations o).toNat)
+  (∀ b, lengths xs b = m.lengths b) ∧
+  (∀ b, starts xs b = m.starts b) ∧
+  (∀ o, locations xs o = m.locations o)
 
 def write (c : Call) (m : Metadata c) :
     (o : Fin (outputs c).length) → TileIndex (outputs c)[o].shape → Nat
@@ -119,9 +119,9 @@ noncomputable section
 structure Inputs (c : Call) where
   query : Fin c.batches → Fin c.heads → Fin c.dim → ℝ
   key : Fin c.cacheRows → Fin c.kvHeads → Fin c.dim → ℝ
-  length : Fin c.batches → Nat
-  start : Fin c.batches → Nat
-  location : Fin c.locSize → Nat
+  length : Fin c.batches → Int
+  start : Fin c.batches → Int
+  location : Fin c.locSize → Int
 
 def inputs (c : Call) : Interface.Inputs ℝ c ≃ Inputs c where
   toFun := fun values => ⟨Interface.query values,Interface.key values,
@@ -159,9 +159,9 @@ def Inputs.keyAt {c : Call} (xs : Inputs c) (row head : Nat) (d : Fin c.dim) : �
   if hr : row < c.cacheRows ∧ head < c.kvHeads then xs.key ⟨row,hr.1⟩ ⟨head,hr.2⟩ d else 0
 
 def domain (c : Call) (m : Metadata c) (xs : Inputs c) : Prop :=
-  (∀ b, xs.length b = m.len b.val) ∧
-  (∀ b, xs.start b = m.begin b.val) ∧
-  (∀ o, xs.location o = (m.locations o).toNat)
+  (∀ b, xs.length b = m.lengths b) ∧
+  (∀ b, xs.start b = m.starts b) ∧
+  (∀ o, xs.location o = m.locations o)
 
 def io (c : Call) (m : Metadata c) (work : List Program) :
     LogicalDomainIO (Interface.Inputs ℝ c) (Interface.Outputs ℝ c)

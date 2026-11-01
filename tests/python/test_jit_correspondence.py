@@ -1145,3 +1145,31 @@ class SoftmaxReduceVBodyTests(unittest.TestCase):
         for before, after in mutations:
             with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
                 self.verify(self.lean.replace(before, after, 1))
+
+class TokenAttnLlama2BodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/token_attn_llama2'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+
+    def verify(self, lean):
+        r = self.record
+        return check((ROOT / r['python']).read_text(), lean,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
+
+    def test_both_complete_score_bodies(self):
+        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual(len(results), 2)
+        self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 15 for r in results))
+
+    def test_zero_one_loop_and_absence_of_extra_casts(self):
+        mutations = [
+            ('tl.where(block_stard_index < cur_batch_seq_len, 1, 0)', 'tl.where(block_stard_index <= cur_batch_seq_len, 1, 0)'),
+            ('for start_mark in range(0, block_mask, 1):', 'for start_mark in range(1):'),
+            ('q = tl.load(Q + off_q + start_mark)', 'q = tl.load(Q + off_q + start_mark).to(tl.float32)'),
+            ('tl.store(Att_Out + off_o, att_value,', 'tl.store(Att_Out + off_o, att_value.to(Att_Out.dtype.element_ty),'),
+        ]
+        for before, after in mutations:
+            with self.subTest(before=before), self.assertRaisesRegex(ValueError, 'statement correspondence'):
+                self.verify(self.lean.replace(before, after, 1))

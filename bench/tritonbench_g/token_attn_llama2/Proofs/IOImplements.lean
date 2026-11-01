@@ -18,7 +18,7 @@ theorem graph (M : Program → Algebra β) (c : Call) (m : Metadata c) (scale : 
     ∃ final, runSchedule (work.map (Interface.invocation M c scale)) s=some final ∧
       (∀ (b : Fin c.batches) (h : Fin c.heads) (t : Fin c.maxLength), t.val<m.len b.val →
         final.mem "Out" (h.val*c.outHead+(m.begin b.val+t.val)*c.outSeq) =
-          Cell.mk .fp32 (Reference.score M encode c m scale xs b h t)) ∧
+          Cell.mk .real (Reference.score M encode c m scale xs b h t)) ∧
       (∀ r o, Whole.Outside (c.parameters scale) c.grid work s r o → final.mem r o=s.mem r o) := by
   have within : ∀ pid∈work, pid∈programs c.grid := fun _ hp => order.mem_iff.mpr hp
   obtain ⟨final,ran,values,frame⟩ := NativeGrid.run_correct M (c.parameters scale)
@@ -32,7 +32,7 @@ theorem graph (M : Program → Algebra β) (c : Call) (m : Metadata c) (scale : 
     apply (active_eq bound v scale _ b.isLt _).mpr
     simpa only [lane,covers.2] using ht
   have hv := values (b.val,h.val,t.val/32) member (lane c scale t.val) active
-  rw [offset_eq bound scale _ b.isLt _,FormulaBinding.score_eq M c m scale encode xs s v bound b h t] at hv
+  rw [offset_eq bound v scale _ b.isLt _,FormulaBinding.score_eq M c m scale encode xs s v bound b h t] at hv
   simpa only [lane,covers.2] using hv
 
 theorem observed (M : Program → Algebra β) (c : Call) (m : Metadata c) (scale : ℝ)
@@ -54,7 +54,7 @@ theorem observed (M : Program → Algebra β) (c : Call) (m : Metadata c) (scale
     fin_cases o
     change mapCell observe (final.mem "Out" (j.2.1.val*c.outHead+(m.begin j.1.val+j.2.2.1.val)*c.outSeq)) = _
     rw [values j.1 j.2.1 j.2.2.1 active]
-    change Cell.mk .fp32 (observe (Reference.score M encode c m scale xs j.1 j.2.1 j.2.2.1)) = _
+    change Cell.mk .real (observe (Reference.score M encode c m scale xs j.1 j.2.1 j.2.2.1)) = _
     rw [formula_eq xs j.1 j.2.1 j.2.2.1 active]
     have eta : (j.1,j.2.1,j.2.2.1,PUnit.unit) = j := by
       rcases j with ⟨b,h,t,u⟩

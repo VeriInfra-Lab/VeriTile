@@ -40,7 +40,7 @@ theorem access_bounds (c : Call) (scale : ℝ) (m : Metadata c) (x : Buffers α 
     outputOffset (c.parameters scale) (start c.grid a (initial c m x s)) i < c.outSize := by
   obtain ⟨hb,hh,hn⟩ := (mem_programs c.grid a.1 a.2.1 a.2.2).mp ha
   have hl := length_bound c m v a.1 hb
-  have hact := (initial_active c m x s scale a i).mp hi
+  have hact := (initial_active c m x s scale a i v hb).mp hi
   have ht : a.2.2*32+i.1.val<m.len a.1 := by omega
   have hstart := (v.starts ⟨a.1,hb⟩).2
   dsimp at hstart
@@ -49,9 +49,10 @@ theorem access_bounds (c : Call) (scale : ℝ) (m : Metadata c) (x : Buffers α 
   · simpa [queryOffset,Call.parameters,start,ids] using
       v.queryBounds _ hb _ hh _ d.isLt
   · have hbound := v.keyBounds _ hpage _ (grouped_head c m v _ hh) _ d.isLt
-    simpa [keyOffset,keyLocation,hi,Call.parameters,start,ids,initial,Region.cast,
-      Metadata.page,windowIndex,length,token,active,hact] using hbound
-  · rw [initial_offset]
+    rw [keyOffset,initial_page c m x s scale a i v hb hi]
+    simp only [Call.parameters,start,ids]
+    exact_mod_cast hbound
+  · rw [initial_offset _ _ _ _ _ _ _ v hb]
     exact v.outputBounds _ hh _ (by omega)
 
 /-- Signed lengths, starts and live page IDs reconstruct exactly from the Nat
@@ -91,7 +92,7 @@ def Unwritten (c : Call) (m : Metadata c) (r : RegionName) (o : Nat) : Prop :=
 def Result (c : Call) (m : Metadata c) (value : Nat → Nat → Nat → α)
     (s t : State α) : Prop :=
   (∀ b<c.batches, ∀ h<c.heads, ∀ n<m.len b,
-    t.mem "Out" (h*c.outHead+(m.begin b+n)*c.outSeq) = .mk .fp32 (value b h n)) ∧
+    t.mem "Out" (h*c.outHead+(m.begin b+n)*c.outSeq) = .mk .real (value b h n)) ∧
   (∀ r o, Unwritten c m r o → t.mem r o = s.mem r o)
 
 def query {α : Type} [Inhabited α] (c : Call) (x : Buffers α c) (b h : Nat)

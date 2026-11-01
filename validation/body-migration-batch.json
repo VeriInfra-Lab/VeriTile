@@ -1493,6 +1493,19 @@
           "VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.FPEquiv.reducev_grid_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/token_attn_llama2",
+      "python": "bench/tritonbench_g/token_attn_llama2/token_attn_llama2.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/token_attn_llama2/Correct.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.Correct.token_attention_kernel_correct"
+        ],
+        "bench/tritonbench_g/token_attn_llama2/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.FPEquiv.block_origin_reuse_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1502,6 +1515,7 @@
     "VeriTile/Triton/DSL/Expansion/Main.lean",
     "VeriTile/Triton/DSL/IntegerCallArguments.lean",
     "VeriTile/Triton/DSL/IntegerMinMaxLiterals.lean",
+    "VeriTile/Triton/DSL/IntegerWhereLiterals.lean",
     "VeriTile/Triton/DSL/PureJitFunctions.lean",
     "VeriTile/Triton/DSL/PythonCallSyntax.lean",
     "VeriTile/Triton/DSL/PythonConstants.lean",
@@ -2709,6 +2723,40 @@
     "bench/tritonbench_g/swiglu_triton/Proofs/Tile.lean",
     "bench/tritonbench_g/swiglu_triton/Proofs/Words.lean",
     "bench/tritonbench_g/swiglu_triton/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/token_attn_llama2/Contract.lean",
+    "bench/tritonbench_g/token_attn_llama2/Correct.lean",
+    "bench/tritonbench_g/token_attn_llama2/FPEquiv.lean",
+    "bench/tritonbench_g/token_attn_llama2/IO.lean",
+    "bench/tritonbench_g/token_attn_llama2/Kernels.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/Complete.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/Domain.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPContract.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPExecution.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPProgram.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPReference.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPTypedSource.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FormulaBinding.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/Geometry.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/GridBase.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/GridIO.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/GridRun.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/IOBinding.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/IOImplements.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/Integers.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/Model.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/Native.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/NativeKernel.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/RawCorrect.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/Real.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/ReuseEquivalence.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/Scatter.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/SourceFormula.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/Tensor.lean",
+    "bench/tritonbench_g/token_attn_llama2/Sources/Kernels.lean",
+    "bench/tritonbench_g/token_attn_llama2/Sources/Parameters.lean",
     "bench/tritonbench_g/token_attn_mistral/Contract.lean",
     "bench/tritonbench_g/token_attn_mistral/Correct.lean",
     "bench/tritonbench_g/token_attn_mistral/FPEquiv.lean",
@@ -2907,6 +2955,8 @@
     "tests/lean/IntegerDivisionLiterals.lean",
     "tests/lean/IntegerMinMaxLiterals.lean",
     "tests/lean/IntegerMinMaxReference.lean",
+    "tests/lean/IntegerWhereLiterals.lean",
+    "tests/lean/IntegerWhereReference.lean",
     "tests/lean/OptionalPointers.lean",
     "tests/lean/PointerArguments.lean",
     "tests/lean/PointerCells.lean",

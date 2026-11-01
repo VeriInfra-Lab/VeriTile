@@ -43,8 +43,8 @@ def realAlgebra : Algebra ℝ where
 
 theorem score_real (p : Parameters) (s : State ℝ) (i : Index p) (hi : active p s i) :
     score realAlgebra p s i = dotScore p.dimensions p.scale
-      (fun d => (s.mem p.q (queryOffset p s d)).read .fp32)
-      (fun d => (s.mem p.k (keyOffset p s i d)).read .fp32) := by
+      (fun d => (s.mem p.q (queryOffset p s d)).read .real)
+      (fun d => (s.mem p.k (keyOffset p s i d)).read .real) := by
   rcases i with ⟨i,⟨⟩⟩
   simp only [score,realAlgebra,realSum,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,products,queryValue,keyValue,hi,ite_true,dotScore]
@@ -63,7 +63,7 @@ theorem score_initial_real (c : Call) (scale : ℝ) (m : Metadata c) (x : Buffer
   have hl := length_bound c m v b hb
   have ha : active (c.parameters scale) (start c.grid (b,h,t/32) (initial c m x s))
       (lane c scale t) := by
-    rw [initial_active]
+    rw [initial_active _ _ _ _ _ _ _ v hb]
     change c.maxLength-m.len b+(t/32*32+t%32)<c.maxLength
     omega
   rw [score_real _ _ _ ha]
@@ -72,9 +72,10 @@ theorem score_initial_real (c : Call) (scale : ℝ) (m : Metadata c) (x : Buffer
   · funext d
     simp [query,queryOffset,Call.parameters,start,ids,initial]
   · funext d
-    have hwindow : c.maxLength-m.len b+t<c.maxLength := by omega
-    simp [key,keyOffset,keyLocation,ha,Call.parameters,start,ids,initial,
-      Region.cast,Metadata.page,windowIndex,length,token,lane,hsplit,active,hwindow]
+    rw [keyOffset,initial_page c m x s scale (b,h,t/32) (lane c scale t) v hb ha]
+    simp only [Call.parameters,start,ids]
+    simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
+    simp [key,initial,lane,hsplit]
 
 #axiomsClean score_real
 #axiomsClean score_initial_real
