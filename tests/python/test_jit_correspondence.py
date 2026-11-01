@@ -2090,3 +2090,64 @@ class UniformSamplingBodyCorrespondenceTests(unittest.TestCase):
             with self.subTest(old=old), self.assertRaises(ValueError):
                 check_uniform_function(self.python, self.source.replace(old, new, 1),
                                        r['python_function'], r['lean_definition'])
+
+
+class AttentionFwdTriton1BodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/attention_fwd_triton1'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, source, candidate=False):
+        r = self.records[1 if candidate else 0]
+        return check((ROOT / r['python']).read_text(), source, r['python_function'],
+                     r['lean_definition'], r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'],
+                     expected_constexpr_bindings=r.get('expected_constexpr_bindings'))
+
+    def test_both_complete_sources_and_static_assertion(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([row['statements'] for row in rows], [3, 4])
+
+    def test_pointer_geometry_and_pre_update_history_remain(self):
+        for old, new in [('(NT * BD, BD)', '(T, BD)'),
+                         ('(s_ht, 1)', '(s_ht, s_qd)'),
+                         ('tl.store(p_h, b_h.to(p_h.dtype.element_ty))', 'pass')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_all_alias_casts_and_head_int64_cast_are_retained(self):
+        for old, new in [('i_bh = tl.program_id(0).to(tl.int64)', 'i_bh = tl.program_id(0)'),
+                         ('(b_q * scale).to(b_q.dtype)', 'b_q * scale'),
+                         ('b_s.to(b_q.dtype)', 'b_s'),
+                         ('b_o.to(p_o.dtype.element_ty)', 'b_o')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_boundary_zero_padding_and_dot_options_are_retained(self):
+        for old, new in [('boundary_check=(1,)', 'boundary_check=(0,)'),
+                         ('padding_option="zero"', 'padding_option="nan"'),
+                         ('allow_tf32=False', 'allow_tf32=True')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_initial_and_later_carry_branches_are_retained(self):
+        for old, new in [('if i == 0:', 'if i <= 0:'),
+                         ('b_h += tl.dot(b_k, b_v, allow_tf32=False)',
+                          'b_h = tl.dot(b_k, b_v, allow_tf32=False)'),
+                         ('if STORE:', 'if IFCOND:')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_candidate_assertion_and_fixed_block_are_required(self):
+        for old, new in [('tl.static_assert(BT == 32)', ''),
+                         ('let BT : Nat := 32', 'let BT : Nat := 16'),
+                         ('(i << 5, 0)', '(i * BT, 0)')]:
+            source = self.source
+            if old == '(i << 5, 0)':
+                at = source.index('def runtimeCandidate')
+                source = source[:at] + source[at:].replace(old, new, 1)
+            else:
+                source = source.replace(old, new, 1)
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(source, candidate=True)

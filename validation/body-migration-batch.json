@@ -1747,6 +1747,19 @@
           "VeriTile.Bench.Repairs.UniformSampling.FPEquiv.index_commuted_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton1",
+      "python": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/attention_fwd_triton1/Correct.lean": [
+          "VeriTile.Bench.Repairs.AttentionFwdTriton1TileChecked.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/attention_fwd_triton1/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttentionFwdTriton1TileChecked.FPEquiv.grid_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1775,6 +1788,7 @@
     "VeriTile/Triton/DSL/PythonConditionGrouping.lean",
     "VeriTile/Triton/DSL/PythonConstants.lean",
     "VeriTile/Triton/DSL/PythonFullConstructors.lean",
+    "VeriTile/Triton/DSL/PythonShapeExpressions.lean",
     "VeriTile/Triton/DSL/PythonShapeTuples.lean",
     "VeriTile/Triton/DSL/RawBodyNestedLoads.lean",
     "VeriTile/Triton/DSL/RawSourceText.lean",
@@ -1893,6 +1907,49 @@
     "bench/tritonbench_g/apply_penalty/Proofs/Rewrite.lean",
     "bench/tritonbench_g/apply_penalty/Proofs/Scatter.lean",
     "bench/tritonbench_g/apply_penalty/Proofs/Schedule.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Admission.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Contract.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Correct.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/FPEquiv.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/IO.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Kernels.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Arithmetic.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/ArrayAgreement.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/AttentionFwdTriton1_Grid.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/AttentionFwdTriton1_Loop.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Body.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Contract.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Correct.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Execution.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/FPEquiv.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Geometry.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Grid.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Host.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOComputeSafety.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOGeometry.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOInterface.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOPhaseSafety.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOProgramSafety.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/IOResult.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Loop.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/LoopOutput.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Machine.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Math.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Memory.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Pair.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Program.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Projection.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealInterface.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealOutput.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Source.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Step.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/StepFacts.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Stores.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Terms.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Proofs/Transport.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/RealIO.lean",
+    "bench/tritonbench_g/attention_fwd_triton1/Sources/Kernels.lean",
     "bench/tritonbench_g/batched_vecmat_mult/Contract.lean",
     "bench/tritonbench_g/batched_vecmat_mult/Correct.lean",
     "bench/tritonbench_g/batched_vecmat_mult/FPEquiv.lean",
@@ -4047,6 +4104,7 @@
     "tests/lean/PythonFullConstructors.lean",
     "tests/lean/PythonInlineSuites.lean",
     "tests/lean/PythonLiteralArithmetic.lean",
+    "tests/lean/PythonShapeExpressions.lean",
     "tests/lean/PythonShapeTupleReference.lean",
     "tests/lean/PythonShapeTuples.lean",
     "tests/lean/RawBodyControlNames.lean",

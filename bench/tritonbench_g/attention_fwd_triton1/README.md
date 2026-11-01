@@ -10,6 +10,18 @@ The public entries state the input conditions, execution scope and numerical ass
 
 [Proof helpers](Proofs/)
 
-[Source and mathematical adapters](Sources/)
+[Compatibility imports](Sources/)
 
 [Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+
+`Kernels.lean` now contains both original Python function bodies verbatim,
+including all pointer constructors, pointer/value dtype casts, zero-padding
+axes, `allow_tf32=False`, history stores and complete `STORE`/`IFCOND` branches.
+The candidate keeps its original `BT == 32` static assertion; this is checked
+from the caller's fixed constexpr before lowering. Shape products use immutable
+caller metadata, while the actual `i * BT` / `i << 5` offsets stay executable.
+`Sources/Kernels.lean` is only a compatibility import and contains no second
+implementation. `Proofs/Program.lean` connects the complete typed program to
+the canonical source by kernel-checked equality. Public Real and FP results
+retain the entire grid, history observations, safety and exterior frame.
+Current completion still requires the exact independent proof-replay receipt.
