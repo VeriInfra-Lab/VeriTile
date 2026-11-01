@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 103,
+  "completed_count": 104,
   "staged_count": 105,
-  "pending_count": 93,
+  "pending_count": 92,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PASS",
     "staged_and_regression_retained_modules": 2582,
-    "official_comparator": "103 targets have exact current-source/import-closure official receipts, including all 19 examples. FastRmsLayernorm, TokenAttnReduceV and KvCacheCopy passed required independent replays and complete current case/shared import closure audits. All 103 accepted case closures remain unchanged. TokenAttnMistral and SoftmaxReduceV remain incomplete pending their current independent replays. Body comparison and compilation alone never establish completion.",
+    "official_comparator": "104 targets have exact current-source/import-closure official receipts, including all 19 examples. TokenAttnMistral passed all 30 required independent replays; its exact current case closure, public theorem names and complete 169-file shared replay import closure are verified. SoftmaxReduceV remains pending current independent replay. TokenAttnLlama2 is being migrated and is not complete. Compilation and source checks alone never establish completion.",
     "python_tests": 375,
     "offline_example_compilations": {
       "cases": 19,
@@ -1517,13 +1517,13 @@
     },
     {
       "path": "bench/tritonbench_g/token_attn_mistral",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete existing original/affine Python bodies are copied. Actual integer sliding origin, signed metadata/range, independent probability/value masks, complete Real/FP submitted grids, source safety and frames are locally re-proved. Current independent proof replay is still required.",
-      "validated_source_commit": "a73960f022a21ac004ca6916e9b2d40fcc0417c9"
+      "validated_source_commit": "a73960f022a21ac004ca6916e9b2d40fcc0417c9",
+      "receipt": "validation/body_receipts/token_attn_mistral.json"
     },
     {
       "path": "bench/tritonbench_g/token_attn_reduceV",
