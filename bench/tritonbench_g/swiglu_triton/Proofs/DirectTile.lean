@@ -14,7 +14,7 @@ set_option maxRecDepth 20000
 from B/DC's FP32 load ports. No cast identity, FMA, reassociation or sigmoid
 law is assumed by the structural interpreter. -/
 def scalar (M : Algebra α) (ch : Channel) (a b dc : α) : α :=
-  let a := M.cast (some .fp32) .real .real a
+  let a := M.cast (some .fp32) .real .real (M.fp32Load a)
   let b := M.fp32Load b
   let dc := M.fp32Load dc
   let s := M.unary (some .fp32) .sigmoid a
@@ -40,7 +40,7 @@ def sourceRun {α : Type} [Inhabited α] (M : Algebra α) (backward : Bool)
     refine ⟨?_, ?_⟩
     swap
     simp (maxSteps := 900000) [directSource, forwardKernel, backwardKernel,
-      typedFwd,VeriTile.Bench.Repairs.SwigluTriton.forwardKernel,VeriTile.Bench.Repairs.SwigluTriton.forwardIndexCommuted,VeriTile.Bench.Repairs.SwigluTriton.backwardKernel,VeriTile.Bench.Repairs.SwigluTriton.backwardIndexCommuted, typedBwd, typedBwd_fp32_fp32,VeriTile.Bench.Repairs.SwigluTriton.forwardKernel,VeriTile.Bench.Repairs.SwigluTriton.forwardIndexCommuted,VeriTile.Bench.Repairs.SwigluTriton.backwardKernel,VeriTile.Bench.Repairs.SwigluTriton.backwardIndexCommuted, ComputeKernel.surfaceBody,
+      typedFwd,VeriTile.Bench.Repairs.SwigluTriton.forwardKernel,VeriTile.Bench.Repairs.SwigluTriton.forwardIndexCommuted,VeriTile.Bench.Repairs.SwigluTriton.backwardKernel,VeriTile.Bench.Repairs.SwigluTriton.backwardIndexCommuted, typedBwd, typedBwd_fp32_fp32,VeriTile.Bench.Repairs.SwigluTriton.forwardKernel,VeriTile.Bench.Repairs.SwigluTriton.forwardIndexCommuted,VeriTile.Bench.Repairs.SwigluTriton.backwardKernel,VeriTile.Bench.Repairs.SwigluTriton.backwardIndexCommuted, VeriTile.Bench.Repairs.SwigluTriton.forwardTyped, VeriTile.Bench.Repairs.SwigluTriton.forwardCommutedTyped, VeriTile.Bench.Repairs.SwigluTriton.backwardTyped, VeriTile.Bench.Repairs.SwigluTriton.backwardCommutedTyped, ComputeKernel.surfaceBody,
       run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
       evalOffsets, evalDeltas, store, Option.bind, ComputeDType.eraseDType,
       numeric, bop, natLt, rowState, ofFloat, toFloat, TileShape.axisDim,

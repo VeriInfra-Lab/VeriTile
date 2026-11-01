@@ -1387,12 +1387,27 @@
           "VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.FPEquiv.add_commuted_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/swiglu_triton",
+      "python": "bench/tritonbench_g/swiglu_triton/swiglu_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/swiglu_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.SwigluTriton.swiglu_kernel_correct"
+        ],
+        "bench/tritonbench_g/swiglu_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SwigluTriton.forward_index_equiv",
+          "VeriTile.Bench.Repairs.SwigluTriton.backward_index_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
     "VeriTile/Triton/Core/Ast.lean",
     "VeriTile/Triton/DSL/CallSignature.lean",
     "VeriTile/Triton/DSL/Expansion/Main.lean",
+    "VeriTile/Triton/DSL/PureJitFunctions.lean",
     "VeriTile/Triton/DSL/PythonCallSyntax.lean",
     "VeriTile/Triton/DSL/PythonConstants.lean",
     "VeriTile/Triton/DSL/RawBodyNestedLoads.lean",
@@ -2403,6 +2418,33 @@
     "bench/tritonbench_g/swiglu_backward/Proofs/Mathematical_WholeTile.lean",
     "bench/tritonbench_g/swiglu_fwd/Kernels.lean",
     "bench/tritonbench_g/swiglu_fwd/Proofs/Mathematical_WholeTile.lean",
+    "bench/tritonbench_g/swiglu_triton/Contract.lean",
+    "bench/tritonbench_g/swiglu_triton/Correct.lean",
+    "bench/tritonbench_g/swiglu_triton/FPEquiv.lean",
+    "bench/tritonbench_g/swiglu_triton/IO.lean",
+    "bench/tritonbench_g/swiglu_triton/Kernels.lean",
+    "bench/tritonbench_g/swiglu_triton/Parameters.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/DirectPhysical.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/DirectTile.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/Grid.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/Index.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/IndexEquivalence.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/KernelNative.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/LogicalExecution.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/Math.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/Mathematical_Execution.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/Mathematical_Math.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/Memory.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/Native.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/NativeProfile.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/Physical.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/Source.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/Tile.lean",
+    "bench/tritonbench_g/swiglu_triton/Proofs/Words.lean",
+    "bench/tritonbench_g/swiglu_triton/Sources/Mathematical_Kernels.lean",
     "bench/tritonbench_g/token_softmax_bloom/Contract.lean",
     "bench/tritonbench_g/token_softmax_bloom/Correct.lean",
     "bench/tritonbench_g/token_softmax_bloom/FPEquiv.lean",
@@ -2545,6 +2587,7 @@
     "tests/lean/PointerArguments.lean",
     "tests/lean/PointerCells.lean",
     "tests/lean/PreciseDivisionAndInfinity.lean",
+    "tests/lean/PureJitFunctions.lean",
     "tests/lean/PythonCallSyntax.lean",
     "tests/lean/PythonInlineSuites.lean",
     "tests/lean/PythonLiteralArithmetic.lean",

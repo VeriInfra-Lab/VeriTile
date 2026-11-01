@@ -37,7 +37,7 @@ def quotation(text: str, definition: str, *, raw_python: bool = False) -> tuple[
     next_def = re.search(r"\n(?:(?:noncomputable|private|protected)\s+)*(?:def|abbrev|theorem|specification|inductive|structure|end|set_option)\b", mask[start.end():])
     end = start.end() + next_def.start() if next_def else len(text)
     selected, code = text[start.start():end], mask[start.start():end]
-    begin = re.search(r"\btriton\b", code)
+    begin = re.search(r"\b(?:triton|triton_function)\b", code)
     if not begin:
         raise ValueError(f"definition has no direct quotation: {definition}")
     opening = code.find("{", begin.end())
@@ -293,7 +293,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_pointer_offsets: dict[str, str] | None = None,
           expected_pointer_cells: dict[str, list[str]] | None = None,
           expected_optional_pointers: dict[str, str] | None = None,
-          expected_static_strides: dict[str, str] | None = None) -> dict:
+          expected_static_strides: dict[str, str] | None = None,
+          expected_pure_functions: dict[str, str] | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1 or not any(ast.unparse(d.func if isinstance(d, ast.Call) else d) == "triton.jit"
@@ -338,6 +339,12 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                     or expected_pointer_cells is not None or expected_optional_pointers is not None):
                 raise ValueError("static strides require the reviewed scalar-only invocation")
             offset_clause = r"\s+static_strides"
+        if expected_pure_functions is not None:
+            if (expected_call_bindings is None or expected_pointer_offsets is not None
+                    or expected_pointer_cells is not None or expected_optional_pointers is not None
+                    or expected_static_strides is not None or not expected_pure_functions):
+                raise ValueError("pure JIT helpers require a reviewed scalar-only call")
+            offset_clause = r"\s+pure_functions\s*\[([^\]]*)\]"
         if expected_call_bindings is None:
             invocation = r"\bwith_triton_signature\s+" + selected_signature + offset_clause + r"\s+in\b"
             calls = list(re.finditer(invocation, signature))
@@ -361,6 +368,19 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             fp32_args = {n for n, t in profile["scalars"] if t == "fp32"}
             if not integer_args <= set(bindings) or not set(bindings) <= integer_args | fp32_args:
                 raise ValueError("runtime call bindings must include all integer parameters and only supported scalar parameters")
+        if expected_pure_functions is not None:
+            bindings = {}
+            for item in calls[0][2].split(","):
+                pair = re.fullmatch(r"\s*([A-Za-z_]\w*)\s*:=\s*([A-Za-z_]\w*)\s*", item)
+                if not pair or pair[1] in bindings:
+                    raise ValueError("pure JIT functions require distinct named source definitions")
+                bindings[pair[1]] = pair[2]
+            if bindings != expected_pure_functions:
+                raise ValueError("pure JIT function bindings differ from the reviewed call")
+            actual = {n.func.id for n in ast.walk(function) if isinstance(n, ast.Call)
+                      and isinstance(n.func, ast.Name) and n.func.id not in {"range", "float", "int"}}
+            if actual != set(bindings):
+                raise ValueError("pure JIT binding names differ from the Python callees")
         if expected_static_strides is not None:
             strides = {}
             definitions = {}
@@ -554,14 +574,80 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             "runtime_parameters": dict(profile["scalars"]) if profile is not None else runtime, "constexpr_parameters": sorted(constants)}
 
 
+def check_pure_function(python_text: str, lean_text: str, python_function: str,
+                        lean_definition: str) -> dict:
+    functions = [n for n in ast.parse(python_text).body
+                 if isinstance(n, ast.FunctionDef) and n.name == python_function]
+    if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
+        raise ValueError("expected one explicitly selected @triton.jit helper")
+    fn = functions[0]
+    if (len(fn.args.args) != 1 or fn.args.posonlyargs or fn.args.kwonlyargs or fn.args.vararg
+            or fn.args.kwarg or fn.args.defaults or fn.args.kw_defaults
+            or fn.args.args[0].annotation or len(fn.body) != 1 or not isinstance(fn.body[0], ast.Return)):
+        raise ValueError("pure JIT helper requires one unannotated parameter and one return")
+    header, body = quotation(lean_text, lean_definition, raw_python=True)
+    argument = fn.args.args[0].arg
+    if not re.search(r"\btriton_function\s*\(\s*" + re.escape(argument) + r"\s*\)\s*$", header):
+        raise ValueError("pure JIT quotation parameter differs from Python")
+    if "$" in body or re.search(r"\btl\.(region|param|source_helper|call_signature)\b", body):
+        raise ValueError("pure JIT body must contain only pasted Python")
+    if ast.dump(ast.Module(fn.body, [])) != ast.dump(ast.parse(textwrap.dedent(body))):
+        raise ValueError("pure JIT return body differs from Python")
+    return {"python_function": python_function, "lean_definition": lean_definition,
+            "status": "PASS", "mode": "pasted_body", "kind": "pure_jit_function",
+            "statements": 1, "runtime_parameters": {argument: "inferred"}, "constexpr_parameters": []}
+
+
 def check_manifest(root: Path, manifest: Path) -> list[dict]:
     records = json.loads(manifest.read_text())
-    return [check((root / r["python"]).read_text(), (root / r["lean"]).read_text(),
-                  r["python_function"], r["lean_definition"],
-                  r.get("signature_definition"), r.get("expected_signature"),
-                  r.get("expected_call_bindings"), r.get("expected_pointer_offsets"),
-                  r.get("expected_pointer_cells"), r.get("expected_optional_pointers"),
-                  r.get("expected_static_strides")) for r in records]
+    results = []
+    for r in records:
+        py, lean = (root / r["python"]).read_text(), (root / r["lean"]).read_text()
+        if r.get("kind") == "pure_jit_function":
+            if set(r) != {"kind", "python", "lean", "python_function", "lean_definition"}:
+                raise ValueError("pure JIT helper record cannot override kernel call metadata")
+            results.append(check_pure_function(py, lean, r["python_function"], r["lean_definition"]))
+            continue
+        results.append(check(py, lean, r["python_function"], r["lean_definition"],
+                             r.get("signature_definition"), r.get("expected_signature"),
+                             r.get("expected_call_bindings"), r.get("expected_pointer_offsets"),
+                             r.get("expected_pointer_cells"), r.get("expected_optional_pointers"),
+                             r.get("expected_static_strides"), r.get("expected_pure_functions")))
+        for name, definition in r.get("expected_pure_functions", {}).items():
+            helpers = [h for h in records if h.get("kind") == "pure_jit_function"
+                       and h["lean"] == r["lean"] and h["lean_definition"] == definition]
+            if len(helpers) != 1:
+                raise ValueError("pure JIT call needs a separately checked helper body")
+            helper = helpers[0]
+            module = ast.parse(py)
+            bindings = []
+            class Writes(ast.NodeVisitor):
+                wildcard = False
+                def visit_Name(self, node):
+                    if isinstance(node.ctx, (ast.Store, ast.Del)): bindings.append(node.id)
+                def visit_FunctionDef(self, node): bindings.append(node.name)
+                visit_AsyncFunctionDef = visit_FunctionDef
+                def visit_ClassDef(self, node): bindings.append(node.name)
+                def visit_ImportFrom(self, node):
+                    self.wildcard |= any(a.name == "*" for a in node.names)
+                    bindings.extend(a.asname or a.name for a in node.names)
+                def visit_Import(self, node):
+                    bindings.extend(a.asname or a.name.split('.')[0] for a in node.names)
+            writes = Writes(); writes.visit(module)
+            if writes.wildcard or bindings.count(name) != 1:
+                raise ValueError("pure JIT callee must have one static binding without rebinding")
+            if helper["python"] == r["python"]:
+                if helper["python_function"] != name:
+                    raise ValueError("local pure JIT binding differs from the selected helper")
+            else:
+                selected = next(n for n in module.body if isinstance(n, ast.FunctionDef)
+                                and n.name == r["python_function"])
+                imports = [(n.module, a.name) for n in module.body if isinstance(n, ast.ImportFrom)
+                           and n.level == 0 and n.lineno < selected.lineno for a in n.names
+                           if (a.asname or a.name) == name]
+                if imports != [(Path(helper["python"]).stem, helper["python_function"])]:
+                    raise ValueError("pure JIT import differs from the separately checked helper source")
+    return results
 
 
 if __name__ == "__main__":
