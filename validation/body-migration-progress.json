@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "validated_source_commit": "49d4696763a68cd55e23e44f9e6e242dd309a00d",
-    "working_tree": "At validated_source_commit, all 103 selected cases (97 targets plus six regressions), 2316 retained modules, 1296 selected proof/audit sources and 345 Python tests pass local verification. LayernormFwdTriton now contains only complete pasted repair/candidate bodies, preserving int64 casts, tl.full zero/stride, signed lanes/ranges, runtime epsilon and source FP32 loads/casts. Real population normalization and arbitrary-model FP memory/undef transport cover the full sequence/head grid, arbitrary admitted strides, empty axes and exterior frames. The closed structural audit checks the complete dependency graph and rejects numerical constructors, opaque project dependencies, nonstandard axioms and external FP certificates; its negative regressions pass. All 89 accepted target case closures and all shared replay dependency audits remain current; all 19 examples retain accepted independent receipts. Eight staged targets are explicitly incomplete pending independent replay, including the two shared-dependency revalidations. Additional pending clients are being rebuilt separately and are not claimed complete.",
+    "working_tree": "At validated_source_commit, all 103 selected cases (97 targets plus six regressions), 2316 retained modules, 1296 selected proof/audit sources and 345 Python tests pass local verification. LayernormFwdTriton now contains only complete pasted repair/candidate bodies, preserving int64 casts, tl.full zero/stride, signed lanes/ranges, runtime epsilon and source FP32 loads/casts. Real population normalization and arbitrary-model FP memory/undef transport cover the full sequence/head grid, arbitrary admitted strides, empty axes and exterior frames. The closed structural audit checks the complete dependency graph and rejects numerical constructors, opaque project dependencies, nonstandard axioms and external FP certificates; its negative regressions pass. All 89 accepted target case closures and all shared replay dependency audits remain current; all 19 examples retain accepted independent receipts. Eight staged targets are explicitly incomplete pending independent replay, including the two shared-dependency revalidations. Both public entries of five additional pending clients (fast_layernorm, rms_rbe_matmul, mixed_sparse_attention, block_sparse_attn and context_attn_mistral) also rebuild successfully; this regression check does not mark them complete.",
     "official_replay_sources": 1296,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -222,7 +222,20 @@
         "source_commit": "2e9d036aff9888f8deb225ca4d2644ee0aec1af0",
         "replay_sources": 22
       }
-    ]
+    ],
+    "pending_client_regressions": {
+      "source_commit": "49d4696763a68cd55e23e44f9e6e242dd309a00d",
+      "status": "PASS",
+      "public_modules": 10,
+      "cases": [
+        "fast_layernorm",
+        "rms_rbe_matmul",
+        "mixed_sparse_attention",
+        "block_sparse_attn",
+        "context_attn_mistral"
+      ],
+      "completion_certificate": false
+    }
   },
   "targets": [
     {
