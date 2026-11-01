@@ -585,6 +585,25 @@ def kernel (x y : RegionName) (MODE : Nat) : ComputeKernel :=
     def test_module_values_and_imports_are_checked(self):
         self.assertEqual(self.compare()['mode'], 'pasted_body')
 
+    def test_original_libdevice_module_alias_is_checked(self):
+        python = self.python.replace('from triton.language.extra.libdevice import tanh',
+                                     'from triton.language.extra import libdevice\ntanh = libdevice.tanh')
+        self.assertEqual(self.compare(python=python)['mode'], 'pasted_body')
+        for changed in (
+            python.replace('libdevice.tanh', 'libdevice.exp'),
+            python.replace('libdevice.tanh', 'libdevice.tanh(0)'),
+            python.replace('tanh = libdevice.tanh', 'libdevice = other\ntanh = libdevice.tanh'),
+            python.replace('tanh = libdevice.tanh', 'del libdevice\ntanh = libdevice.tanh'),
+            python.replace('tanh = libdevice.tanh', 'libdevice.tanh = other\ntanh = libdevice.tanh'),
+            python.replace('tanh = libdevice.tanh', 'del libdevice.tanh\ntanh = libdevice.tanh'),
+            python.replace('from triton.language.extra import libdevice',
+                           'from another_module import libdevice'),
+            python.replace('from triton.language.extra import libdevice\ntanh = libdevice.tanh',
+                           'tanh = libdevice.tanh\nfrom triton.language.extra import libdevice'),
+        ):
+            with self.subTest(python=changed), self.assertRaisesRegex(ValueError, 'intrinsic import'):
+                self.compare(python=changed)
+
     def test_unchanged_body_cannot_hide_changed_module_constant(self):
         with self.assertRaisesRegex(ValueError, 'Python module literal'):
             self.compare(python=self.python.replace('tl.constexpr(0)', 'tl.constexpr(1)'))

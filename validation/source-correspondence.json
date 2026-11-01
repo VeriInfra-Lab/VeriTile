@@ -15,20 +15,20 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_independent_python_reference": 334,
-      "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 57,
+      "no_selected_jit_resolved": 1,
+      "selected_body_copy_checked": 58,
       "uncovered_jit_functions": 123
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
-    "selected_jit_functions": 348,
+    "selected_jit_functions": 351,
     "uncovered_selected_jit_functions": 236,
-    "inventoried_jit_functions": 485,
-    "uncovered_inventoried_jit_functions": 306,
+    "inventoried_jit_functions": 488,
+    "uncovered_inventoried_jit_functions": 303,
     "checked_pair_modes": {
       "legacy_ast": 6,
-      "pasted_body": 173
+      "pasted_body": 179
     },
     "collection_status": {
       "bug_detection": {
@@ -42,16 +42,16 @@
       },
       "tritonbench_g": {
         "legacy_ast_only": 1,
-        "no_selected_jit_resolved": 2,
-        "selected_body_copy_checked": 57,
+        "no_selected_jit_resolved": 1,
+        "selected_body_copy_checked": 58,
         "uncovered_jit_functions": 123
       }
     },
     "primary_files_with_int64_screen_warning": 33,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 92,
-        "antiquotes": 436,
+        "in_body_type_directives": 91,
+        "antiquotes": 435,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -16884,19 +16884,155 @@
     {
       "name": "fast_ce_loss",
       "kind": "task",
-      "python": "bench/tritonbench_g/fast_ce_loss/fast_ce_loss.py",
+      "python": "bench/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
       "lean": "bench/tritonbench_g/fast_ce_loss/Kernels.lean",
       "lean_screen": {
-        "quotations": 24,
-        "in_body_type_directives": 24,
-        "antiquotes": 208,
-        "dsl_assignment": 6,
+        "quotations": 6,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 44,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
+      "python_jits": [
+        {
+          "function": "_cross_entropy_forward",
+          "line": 28,
+          "statements": 17,
+          "explicit_int64_casts": [
+            {
+              "line": 40,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 49,
+              "expression": "tl.load(labels_ptr).to(tl.int64)"
+            },
+            {
+              "line": 41,
+              "expression": "logits_row_stride.to(tl.int64)"
+            }
+          ]
+        },
+        {
+          "function": "_chunked_cross_entropy_forward",
+          "line": 74,
+          "statements": 17,
+          "explicit_int64_casts": [
+            {
+              "line": 87,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 88,
+              "expression": "tl.program_id(1).to(tl.int64)"
+            },
+            {
+              "line": 97,
+              "expression": "tl.load(labels_ptr).to(tl.int64)"
+            },
+            {
+              "line": 89,
+              "expression": "logits_row_stride.to(tl.int64)"
+            }
+          ]
+        },
+        {
+          "function": "_cross_entropy_backward",
+          "line": 124,
+          "statements": 17,
+          "explicit_int64_casts": [
+            {
+              "line": 136,
+              "expression": "tl.program_id(0).to(tl.int64)"
+            },
+            {
+              "line": 137,
+              "expression": "tl.program_id(1).to(tl.int64)"
+            },
+            {
+              "line": 143,
+              "expression": "tl.load(labels_ptr + row_idx).to(tl.int64)"
+            },
+            {
+              "line": 139,
+              "expression": "logits_row_stride.to(tl.int64)"
+            }
+          ]
+        }
+      ],
       "python_sources": [
+        {
+          "path": "bench/tritonbench_g/fast_ce_loss/candidate_kernels.py",
+          "jits": [
+            {
+              "function": "_cross_entropy_forward_index_commuted",
+              "line": 12,
+              "statements": 17,
+              "explicit_int64_casts": [
+                {
+                  "line": 24,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 33,
+                  "expression": "tl.load(labels_ptr).to(tl.int64)"
+                },
+                {
+                  "line": 25,
+                  "expression": "logits_row_stride.to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "_chunked_cross_entropy_forward_index_commuted",
+              "line": 58,
+              "statements": 17,
+              "explicit_int64_casts": [
+                {
+                  "line": 71,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 72,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 81,
+                  "expression": "tl.load(labels_ptr).to(tl.int64)"
+                },
+                {
+                  "line": 73,
+                  "expression": "logits_row_stride.to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "_cross_entropy_backward_index_commuted",
+              "line": 107,
+              "statements": 17,
+              "explicit_int64_casts": [
+                {
+                  "line": 119,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 120,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 126,
+                  "expression": "tl.load(labels_ptr + row_idx).to(tl.int64)"
+                },
+                {
+                  "line": 122,
+                  "expression": "logits_row_stride.to(tl.int64)"
+                }
+              ]
+            }
+          ]
+        },
         {
           "path": "bench/tritonbench_g/fast_ce_loss/fast_ce_loss.py",
           "jits": []
@@ -16972,29 +17108,143 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_cross_entropy_forward",
+          "lean_definition": "forward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
           "python": "bench/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
-          "function": "_cross_entropy_forward"
+          "lean": "bench/tritonbench_g/fast_ce_loss/Kernels.lean"
         },
         {
-          "python": "bench/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
-          "function": "_chunked_cross_entropy_forward"
+          "python_function": "_cross_entropy_forward_index_commuted",
+          "lean_definition": "forwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
+          "python": "bench/tritonbench_g/fast_ce_loss/candidate_kernels.py",
+          "lean": "bench/tritonbench_g/fast_ce_loss/Kernels.lean"
         },
         {
+          "python_function": "_chunked_cross_entropy_forward",
+          "lean_definition": "chunked",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "N_CHUNKS",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
           "python": "bench/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
-          "function": "_cross_entropy_backward"
+          "lean": "bench/tritonbench_g/fast_ce_loss/Kernels.lean"
+        },
+        {
+          "python_function": "_chunked_cross_entropy_forward_index_commuted",
+          "lean_definition": "chunkedIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "N_CHUNKS",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
+          "python": "bench/tritonbench_g/fast_ce_loss/candidate_kernels.py",
+          "lean": "bench/tritonbench_g/fast_ce_loss/Kernels.lean"
+        },
+        {
+          "python_function": "_cross_entropy_backward",
+          "lean_definition": "backward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer",
+            "dloss_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
+          "python": "bench/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py",
+          "lean": "bench/tritonbench_g/fast_ce_loss/Kernels.lean"
+        },
+        {
+          "python_function": "_cross_entropy_backward_index_commuted",
+          "lean_definition": "backwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "logits_row_stride": "integer",
+            "dloss_row_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "DO_LOGIT_SCALING",
+            "DO_SOFTCAPPING",
+            "LOGIT_SCALE",
+            "SOFTCAP",
+            "VOCAB_SIZE"
+          ],
+          "python": "bench/tritonbench_g/fast_ce_loss/candidate_kernels.py",
+          "lean": "bench/tritonbench_g/fast_ce_loss/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "no_selected_jit_resolved",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/fast_ce_loss/Kernels.lean": "8f3eaeb86793cdc99503c53072e6354a4d6c0a11fb20216b71c2c6974e44615b",
+        "bench/tritonbench_g/fast_ce_loss/Kernels.lean": "e197f138114a2a7c6ea746f7459994a9e9d386c22880d8fec3a058c70661e2f5",
+        "bench/tritonbench_g/fast_ce_loss/candidate_kernels.py": "be074c3d8b70894582634f88d7c8d55a4d14b4464b19154a5d8d6e5324886f1c",
         "bench/tritonbench_g/fast_ce_loss/fast_ce_loss.py": "c848b2bb538b8b0800a069e564b2a796dcdf23f0b2688e0fc8b6f73a5ecf07ff",
-        "bench/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py": "bd8421753644480fb676f8b76e351be1db156b791376f8b0d5a925febeefc382"
+        "bench/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py": "bd8421753644480fb676f8b76e351be1db156b791376f8b0d5a925febeefc382",
+        "bench/tritonbench_g/fast_ce_loss/jit-correspondence.json": "b8306807e115510715e53f49fd31ff06457b3496d52a70227faf5bc7c0847c26"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/fast_ce_loss"

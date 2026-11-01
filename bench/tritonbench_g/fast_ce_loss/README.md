@@ -2,6 +2,11 @@
 
 Current repaired Python implementation: [fast_ce_loss.py](fast_ce_loss.py).
 
+The checked entry loads [fast_ce_loss_body.py](fast_ce_loss_body.py). Its three
+JIT function bodies are copied directly into `Kernels.lean`, with caller metadata
+outside the quotations. [candidate_kernels.py](candidate_kernels.py) retains the
+row-index multiplication commutation for each complete stage.
+
 [Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
 
 Full-vocabulary log-sum-exp/loss, active-chunk LSE and target term, and saved-LSE input gradient with scaling/softcap derivative.
