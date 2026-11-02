@@ -62,7 +62,9 @@
       "cases": 1,
       "retained_modules": 54,
       "replay_sources": 54,
-      "state": "local_pass_preparing_independent_replay"
+      "state": "official_workflow_queued",
+      "source_commit": "f748aac83d51b8c238294899bf52746171e00ef4",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41450752697"
     },
     "previous_incremental_replays": [
       {
@@ -657,7 +659,7 @@
       "completion_certificate": false
     },
     "current_work": "Continue the remaining 56 TritonBench-G source/proof migrations and collect exact-source official independent receipts for staged cases. Keep numerical admission gaps explicit. No merge.",
-    "previous_validated_source_commit": "ca54364d279081fc610b3eb024d00e906637254a",
+    "previous_validated_source_commit": "17290c3226950daa36c91b363f58f774b0477ded",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
       "cases": 139,
@@ -678,7 +680,7 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "17290c3226950daa36c91b363f58f774b0477ded",
+    "validated_source_commit": "f748aac83d51b8c238294899bf52746171e00ef4",
     "last_full_local_snapshot": {
       "cases": 148,
       "targets": 142,
@@ -687,7 +689,8 @@
       "lake_jobs": 13207,
       "public_theorem_names": "PASS",
       "python_tests": 504,
-      "boundary": "Local checks only. Not an independent replay completion receipt."
+      "boundary": "Local checks only. Not an independent replay completion receipt.",
+      "source_commit": "f748aac83d51b8c238294899bf52746171e00ef4"
     },
     "previous_shared_model_revalidations": [
       {
@@ -1057,7 +1060,8 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete unchanged repaired and existing early-query Python bodies (27 statements each) match direct readable Lean quotations. FP16/BF16 pointer storage, runtime strides and FP32 scale, OUT_DTYPE constructor/cast metadata, original block shapes and boundary tuples, int64 casts, bias windows, both dots, masks and stores remain. Removed the four handwritten storage-specific source copies; compatibility entries invoke the two actual bodies. Independent Real attention formula, full arbitrary-algebra early-query FP equivalence, successful complete-grid execution, outputs/exterior frame and active access safety re-proved. The execution and independent ordered references now retain actual typed FP32 qk arithmetic and casts; native staging retains storage-typed literals and explicit half/BF16 widening. No opaque dtype identity, new numerical assumption or public premise. All 52 retained task modules and the two new shared frontend/test roots pass locally. Exact-current-source official independent replay remains required; compilation does not count as completion."
+      "reason": "Both complete unchanged repaired and existing early-query Python bodies (27 statements each) match direct readable Lean quotations. FP16/BF16 pointer storage, runtime strides and FP32 scale, OUT_DTYPE constructor/cast metadata, original block shapes and boundary tuples, int64 casts, bias windows, both dots, masks and stores remain. Removed the four handwritten storage-specific source copies; compatibility entries invoke the two actual bodies. Independent Real attention formula, full arbitrary-algebra early-query FP equivalence, successful complete-grid execution, outputs/exterior frame and active access safety re-proved. The execution and independent ordered references now retain actual typed FP32 qk arithmetic and casts; native staging retains storage-typed literals and explicit half/BF16 widening. No opaque dtype identity, new numerical assumption or public premise. All 52 retained task modules and the two new shared frontend/test roots pass locally. Exact-current-source official independent replay remains required; compilation does not count as completion.",
+      "validated_source_commit": "f748aac83d51b8c238294899bf52746171e00ef4"
     },
     {
       "path": "bench/tritonbench_g/attention_kernel_aligned",
