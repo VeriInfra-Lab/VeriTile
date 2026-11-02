@@ -87,7 +87,10 @@
       "cases": 1,
       "retained_modules": 66,
       "replay_sources": 66,
-      "state": "ready_for_official_replay"
+      "state": "official_replay_running",
+      "source_commit": "1f196cc6203fb1966901b5d416a99e954bc72c78",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41534915872",
+      "started_at": "2026-11-02T22:10:17Z"
     },
     "previous_incremental_replays": [
       {
@@ -1316,7 +1319,8 @@
       "full_build_modules": 4977,
       "full_lake_jobs": 13688,
       "public_theorem_names": 388,
-      "boundary": "Local source/proof/axiom/specification checks, not an independent completion receipt."
+      "boundary": "Local source/proof/axiom/specification checks, not an independent completion receipt.",
+      "source_commit": "1f196cc6203fb1966901b5d416a99e954bc72c78"
     }
   },
   "targets": [
@@ -1918,7 +1922,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete existing 27-statement Python functions are pasted literally in Kernels.lean. The original AST was checked equal to the prior complete source during migration. Pointer storage, runtime scalar register metadata and integer/constexpr bindings stay outside the bodies; the existing IO still supplies the actual all-word FP32 scale binding. Preserved causal and global tail masks, all block-pointer checks, two ordered dot expressions and additions, FP16/FP32 casts, online max/mass state, denominator/log output, full strides and pointer advances. The existing candidate changes only four natural head/stride multiplication operand orders. All complete independent Real attention and log-mass formulas, execution, active source safety, full native and layout bindings, complete grids, both outputs/readbacks and complete frames pass without new rules, premises or input restrictions. All 62 owned and four shared frontend/test modules, exact-source trust/inventory preflights, 157-case integration, 388 public names, 540 Python tests and body-corpus checks pass. Fresh exact-current independent replay is still required; compilation is not completion."
+      "reason": "Both complete existing 27-statement Python functions are pasted literally in Kernels.lean. The original AST was checked equal to the prior complete source during migration. Pointer storage, runtime scalar register metadata and integer/constexpr bindings stay outside the bodies; the existing IO still supplies the actual all-word FP32 scale binding. Preserved causal and global tail masks, all block-pointer checks, two ordered dot expressions and additions, FP16/FP32 casts, online max/mass state, denominator/log output, full strides and pointer advances. The existing candidate changes only four natural head/stride multiplication operand orders. All complete independent Real attention and log-mass formulas, execution, active source safety, full native and layout bindings, complete grids, both outputs/readbacks and complete frames pass without new rules, premises or input restrictions. All 62 owned and four shared frontend/test modules, exact-source trust/inventory preflights, 157-case integration, 388 public names, 540 Python tests and body-corpus checks pass. Fresh exact-current independent replay is still required; compilation is not completion.",
+      "validated_source_commit": "1f196cc6203fb1966901b5d416a99e954bc72c78",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41534915872"
     },
     {
       "path": "bench/tritonbench_g/flash_decode2_llama",
