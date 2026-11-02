@@ -15,7 +15,7 @@ private theorem prefix_safe (isa : Instructions) (plan : Reduction.ProductPlan 1
       traceSafeList (engine (candidateAlgebra isa plan swap)) bounds (before kind c s seed) u := by
   cases kind <;> cases seed
   all_goals
-    simp only [before,parts,source,Kernels.forward,Kernels.backward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
+    simp only [before,parts,source,Kernels.forward,Kernels.backward,Kernels.forwardBody,Kernels.backwardBody,Kernels.forwardBodySumLeft,Kernels.backwardBodySumLeft,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
       Source.dynamicRange?,Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
     simp (config := {maxSteps:=250000}) [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
       safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -26,7 +26,7 @@ private theorem tail_before_safe (isa : Instructions) (plan : Reduction.ProductP
     (c : Shape) (s : SeedStrides) (seed : Bool) (bounds : RegionName → Nat) (u : State Node) :
     traceSafeList (engine (algebra isa plan swap)) bounds (tailBefore c s seed) u ↔
       traceSafeList (engine (candidateAlgebra isa plan swap)) bounds (tailBefore c s seed) u := by
-  simp only [tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
+  simp only [tailBefore,after,parts,source,Kernels.backward,Kernels.forwardBody,Kernels.backwardBody,Kernels.forwardBodySumLeft,Kernels.backwardBodySumLeft,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
     Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -37,7 +37,7 @@ private theorem tail_after_safe (isa : Instructions) (plan : Reduction.ProductPl
     (c : Shape) (s : SeedStrides) (seed : Bool) (bounds : RegionName → Nat) (u : State Node) :
     traceSafeList (engine (algebra isa plan swap)) bounds (tailAfter c s seed) u ↔
       traceSafeList (engine (candidateAlgebra isa plan swap)) bounds (tailAfter c s seed) u := by
-  simp only [tailAfter,tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
+  simp only [tailAfter,tailBefore,after,parts,source,Kernels.backward,Kernels.forwardBody,Kernels.backwardBody,Kernels.forwardBodySumLeft,Kernels.backwardBodySumLeft,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
     Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -70,8 +70,8 @@ private theorem after_safe (isa : Instructions) (plan : Reduction.ProductPlan 10
 
 private theorem range_safe (isa : Instructions) (plan : Reduction.ProductPlan 1024) (swap : Bool)
     (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) (bounds : RegionName → Nat) (stop stride : Nat) :
-    ∀ start u, rangeSafe (engine (algebra isa plan swap)) bounds "_i" start stop stride (body kind c s seed) u ↔
-      rangeSafe (engine (candidateAlgebra isa plan swap)) bounds "_i" start stop stride
+    ∀ start u, rangeSafe (engine (algebra isa plan swap)) bounds "i" start stop stride (body kind c s seed) u ↔
+      rangeSafe (engine (candidateAlgebra isa plan swap)) bounds "i" start stop stride
         (candidateParts kind c s seed).body u := by
   intro start
   induction start using (measure (fun i => stop-i)).wf.induction with
@@ -84,7 +84,7 @@ private theorem range_safe (isa : Instructions) (plan : Reduction.ProductPlan 10
     · simp only [hz,hc,if_false,if_true,body_safe,body_run]
       apply and_congr Iff.rfl
       cases he : run (engine (candidateAlgebra isa plan swap))
-        (candidateParts kind c s seed).body (u.setReg "_i" .nat [] (fun _ => cur)) with
+        (candidateParts kind c s seed).body (u.setReg "i" .nat [] (fun _ => cur)) with
       | none => rfl
       | some v => exact ih (cur+stride) (by simp_wf; omega) v
     · simp [hz,hc]
@@ -93,7 +93,7 @@ theorem complete_safe (isa : Instructions) (plan : Reduction.ProductPlan 1024) (
     (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) (bounds : RegionName → Nat) (u : State Node) :
     TraceSafe (engine (algebra isa plan swap)) bounds (source kind c s seed) u ↔
       TraceSafe (engine (candidateAlgebra isa plan swap)) bounds (candidateSource kind c s seed) u := by
-  let loopR := ComputeStmt.forRangeDyn "_i" (.constNat 0)
+  let loopR := ComputeStmt.forRangeDyn "i" (.constNat 0)
     (.sub .nat .nil (.constNat c.N) (.constNat 1)) (.constNat 1) (candidateParts kind c s seed).body
   have hp := funext (before_run isa plan swap kind c s seed)
   have he : ∀ v, FP.Structural.step (engine (algebra isa plan swap)) (loop kind c s seed) v =

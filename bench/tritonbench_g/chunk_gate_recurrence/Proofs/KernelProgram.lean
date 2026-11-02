@@ -59,13 +59,13 @@ def source (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) : ComputeKe
   | .forward => Kernels.forward "S" "D" "O" "Seed" c.H c.N c.K c.V s.batch s.head s.key s.value seed
   | .backward => Kernels.backward "S" "D" "DI" "DG" "DL" "DS" c.H c.N c.K c.V 64 16
 def parts (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) : VeriTile.Triton.Source.DynamicRange :=
-  (VeriTile.Triton.Source.dynamicRange? (source kind c s seed).surfaceBody "_i").getD
+  (VeriTile.Triton.Source.dynamicRange? (source kind c s seed).surfaceBody "i").getD
     ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
 def before (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) := (parts kind c s seed).before
 def body (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) := (parts kind c s seed).body
 def after (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) := (parts kind c s seed).after
 def loop (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) : ComputeStmt :=
-  .forRangeDyn "_i" (.constNat 0) (.sub .nat .nil (.constNat c.N) (.constNat 1))
+  .forRangeDyn "i" (.constNat 0) (.sub .nat .nil (.constNat c.N) (.constNat 1))
     (.constNat 1) (body kind c s seed)
 theorem source_body (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) :
     (source kind c s seed).surfaceBody=before kind c s seed++[loop kind c s seed]++after kind c s seed := by

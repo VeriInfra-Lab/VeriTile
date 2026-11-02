@@ -38,17 +38,17 @@ def retreat (name : RegName) (c : Shape) : ComputeStmt :=
   .assign .ptr [64,16] name (.alg (.ptrSub .scalarR (matrixPtr name) (stride c)))
 
 def forwardBody (c : Shape) : List ComputeStmt :=
-  [loadScalar "d_i" "D",loadMatrix "S_i" "S",assign32 "acc" (update "acc" "S_i"),
-   storeMatrix "O" "acc",.assign .ptr [] "D" (.alg (.ptrAdd .nil (scalarPtr "D") (.constNat 1))),
+  [loadScalar "d_i" "d",loadMatrix "S_i" "S",assign32 "acc" (update "acc" "S_i"),
+   storeMatrix "O" "acc",.assign .ptr [] "d" (.alg (.ptrAdd .nil (scalarPtr "d") (.constNat 1))),
    advance "S" c,advance "O" c]
 def backwardBody (c : Shape) : List ComputeStmt :=
   [.assign .fp32 [64,16] "S_i" (.alg (.load .fp32 (.ptr (matrixPtr "S")) .none)),
-   loadMatrix "DS_i" "DS",loadScalar "d_i" "D",assign32 "Dacc" (update "Dacc" "DS_i"),
+   loadMatrix "DS_i" "DS",loadScalar "d_i" "d",assign32 "Dacc" (update "Dacc" "DS_i"),
    .assign .real [] "DG_i" (.compute (.alg .fp32 gradient)),
    storeScalar "DG" "DG_i",storeMatrix "DI" "Dacc",
    retreat "S" c,retreat "DI" c,retreat "DS" c,
    .assign .ptr [] "DG" (.alg (.ptrSub .nil (scalarPtr "DG") tileStride)),
-   .assign .ptr [] "D" (.alg (.ptrSub .nil (scalarPtr "D") (.constNat 1)))]
+   .assign .ptr [] "d" (.alg (.ptrSub .nil (scalarPtr "d") (.constNat 1)))]
 
 theorem forward_body (c : Shape) (s : SeedStrides) (seed : Bool) :
     body .forward c s seed=forwardBody c := by rfl

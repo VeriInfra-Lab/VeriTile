@@ -381,7 +381,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         if expected_optional_pointers is not None:
             if expected_pointer_offsets is not None or expected_pointer_cells is not None:
                 raise ValueError("optional pointer metadata cannot be mixed with coordinate bindings")
-            offset_clause = r"\s+optional_pointers\s*\[([^\]]*)\]"
+            offset_clause = r"\s+(?:guarded_)?optional_pointers\s*\[([^\]]*)\]"
         if expected_static_strides is not None:
             if (expected_call_bindings is None or expected_pointer_offsets is not None
                     or expected_pointer_cells is not None or expected_optional_pointers is not None):

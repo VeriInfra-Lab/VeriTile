@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 127,
-      "uncovered_jit_functions": 56
+      "selected_body_copy_checked": 128,
+      "uncovered_jit_functions": 55
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 132,
-    "inventoried_jit_functions": 531,
-    "uncovered_inventoried_jit_functions": 173,
+    "uncovered_selected_jit_functions": 130,
+    "inventoried_jit_functions": 533,
+    "uncovered_inventoried_jit_functions": 171,
     "checked_pair_modes": {
-      "pasted_body": 358
+      "pasted_body": 362
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 127,
-        "uncovered_jit_functions": 56
+        "selected_body_copy_checked": 128,
+        "uncovered_jit_functions": 55
       }
     },
     "primary_files_with_int64_screen_warning": 15,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 34,
-        "antiquotes": 373,
+        "in_body_type_directives": 33,
+        "antiquotes": 372,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -13982,13 +13982,13 @@
       "python": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
       "lean": "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 84,
-        "dsl_assignment": 4,
+        "quotations": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 31,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 4
       },
       "python_jits": [
         {
@@ -14021,35 +14021,121 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
-          "function": "_fwd_recurrence"
         },
         {
-          "python": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
-          "function": "_bwd_recurrence"
+          "path": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence_sum_left.py",
+          "jits": [
+            {
+              "function": "_fwd_recurrence",
+              "line": 10,
+              "statements": 10,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "_bwd_recurrence",
+              "line": 48,
+              "statements": 17,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_recurrence",
+          "lean_definition": "forwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "NUM_HEAD": "integer",
+            "NUM_BLOCK": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_MODEL_K",
+            "BLOCK_MODEL_V",
+            "D_MODEL_K",
+            "D_MODEL_V",
+            "SEED_B",
+            "SEED_H",
+            "SEED_K",
+            "SEED_V"
+          ],
           "python": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
-          "function": "_fwd_recurrence"
+          "lean": "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean"
         },
         {
+          "python_function": "_bwd_recurrence",
+          "lean_definition": "backwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "NUM_HEAD": "integer",
+            "NUM_BLOCK": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_MODEL_K",
+            "BLOCK_MODEL_V",
+            "D_MODEL_K",
+            "D_MODEL_V"
+          ],
           "python": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
-          "function": "_bwd_recurrence"
+          "lean": "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean"
+        },
+        {
+          "python_function": "_fwd_recurrence",
+          "lean_definition": "forwardBodySumLeft",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "NUM_HEAD": "integer",
+            "NUM_BLOCK": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_MODEL_K",
+            "BLOCK_MODEL_V",
+            "D_MODEL_K",
+            "D_MODEL_V",
+            "SEED_B",
+            "SEED_H",
+            "SEED_K",
+            "SEED_V"
+          ],
+          "python": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence_sum_left.py",
+          "lean": "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean"
+        },
+        {
+          "python_function": "_bwd_recurrence",
+          "lean_definition": "backwardBodySumLeft",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "NUM_HEAD": "integer",
+            "NUM_BLOCK": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_MODEL_K",
+            "BLOCK_MODEL_V",
+            "D_MODEL_K",
+            "D_MODEL_V"
+          ],
+          "python": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence_sum_left.py",
+          "lean": "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean": "fd22c9d8a21fb52cc48ae8a9a1fc49470f500e16854d3f43bd37b40619de254a",
-        "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py": "dfbecac806662178eb8615196fd78193102675b8add6692c0af831d5e5e5dbc1"
+        "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean": "09df2600b55c45e8a6e5bbef591f14d631df7940b9a88d52071077974b98203f",
+        "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py": "dfbecac806662178eb8615196fd78193102675b8add6692c0af831d5e5e5dbc1",
+        "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence_sum_left.py": "26a9af3565795d16359d55f3521684385352a4761a66c820ff67a51efae037e1",
+        "bench/tritonbench_g/chunk_gate_recurrence/jit-correspondence.json": "0f271f9f29594000a13f0fd1395ff4d28f3c0d3a3c297a627d36ed2d33b3497f"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/chunk_gate_recurrence"

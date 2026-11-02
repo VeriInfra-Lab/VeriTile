@@ -70,7 +70,7 @@ theorem forward_range (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Boo
     (p : Program c) (bounds : RegionName → Nat) (backed : ForwardBounds c s seed p bounds)
     (entry : State α) (n : Nat) (u : State α)
     (inv : KernelForwardLoop.Holds M c s seed p entry n u) :
-    rangeSafe (engine M) bounds "_i" n (c.N-1) 1 (KernelOps.forwardBody c) u := by
+    rangeSafe (engine M) bounds "i" n (c.N-1) 1 (KernelOps.forwardBody c) u := by
   by_cases hn : n<c.N-1
   · have initialized := KernelForwardLoop.bind_holds M c s seed p entry n u inv
     obtain ⟨v,ran,held⟩ := KernelForwardLoop.iteration M c s seed p entry n _ hn initialized
@@ -87,7 +87,7 @@ theorem backward_range (M : Algebra α) (c : Shape) (s : SeedStrides)
     (p : Program c) (bounds : RegionName → Nat) (backed : BackwardBounds c p bounds)
     (entry : State α) (n : Nat) (u : State α)
     (inv : KernelReverseLoop.Holds M c s p entry n u) :
-    rangeSafe (engine M) bounds "_i" n (c.N-1) 1 (KernelOps.backwardBody c) u := by
+    rangeSafe (engine M) bounds "i" n (c.N-1) 1 (KernelOps.backwardBody c) u := by
   by_cases hn : n<c.N-1
   · have initialized := KernelReverseLoop.bind_holds M c s p entry n u inv
     obtain ⟨v,ran,held⟩ := KernelReverseLoop.iteration M c s p entry n _ hn initialized
@@ -107,7 +107,7 @@ theorem forward_prefix (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bo
     traceSafeList (engine M) bounds (before .forward c s seed) u := by
   cases seed
   all_goals
-    simp only [before,parts,source,Kernels.forward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
+    simp only [before,parts,source,Kernels.forward,Kernels.forwardBody,Kernels.backwardBody,Kernels.forwardBodySumLeft,Kernels.backwardBodySumLeft,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
       VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,String.reduceEq,
       beq_self_eq_true,↓reduceIte]
     simp (config := {maxSteps:=200000}) [traceSafeList_unfold,stepSafe_unfold,
@@ -127,10 +127,8 @@ theorem backward_prefix (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : B
     (bounds : RegionName → Nat) (u : State α) :
     traceSafeList (engine M) bounds (before .backward c s seed) u := by
   simp only [before,parts,source,Kernels.backward,
-    TritonBenchG.ChunkGateRecurrence.TypedSource.backward,
-    TritonBenchG.ChunkGateRecurrence.TypedSource.specializeBackward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
+    Kernels.forwardBody,Kernels.backwardBody,Kernels.forwardBodySumLeft,Kernels.backwardBodySumLeft,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp (config := {maxSteps:=200000}) [traceSafeList_unfold,stepSafe_unfold,
     safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,
@@ -144,21 +142,19 @@ theorem backward_post (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Boo
     (carry : Lane → α) (u : State α) (nonempty : 0<c.N)
     (fixed : KernelReversePointers.Fixed c p u)
     (hx : u.regs .ptr [64,16] "DS"=some (ptr "DS" (fun e j => address c p 0 e.val j.val)))
-    (hd : u.regs .ptr [] "D"=some (fun _ : TileIndex [] => (("D" : RegionName),gateAddress c p 0)))
+    (hd : u.regs .ptr [] "d"=some (fun _ : TileIndex [] => (("D" : RegionName),gateAddress c p 0)))
     (ha : u.regs .real [64,16] "Dacc"=some carry) :
     traceSafeList (engine M) bounds (after .backward c s seed) u := by
   simp only [after,parts,source,Kernels.backward,
-    TritonBenchG.ChunkGateRecurrence.TypedSource.backward,
-    TritonBenchG.ChunkGateRecurrence.TypedSource.specializeBackward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
+    Kernels.forwardBody,Kernels.backwardBody,Kernels.forwardBodySumLeft,Kernels.backwardBodySumLeft,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp (config := {maxSteps:=200000}) [traceSafeList_unfold,stepSafe_unfold,
     safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,
     addressSafe_unfold,maskActive_unfold,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     engine,Algebra.withDefaultPrecision,resolvePrecision,numeric,bop,ofFloat,toFloat,Option.bind,
     ComputeDType.eraseDType,State.setReg,FP.Structural.store,hx,hd,ha,
-    fixed.head,fixed.key,fixed.value,fixed.offsK,fixed.offsV,ptr,
+    fixed.head,fixed.key,fixed.value,ptr,
     Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex]
   refine ⟨backed.incoming 0 nonempty,backed.gate 0 nonempty,?_⟩
   simpa only [dseedAddress] using backed.seedGradient
