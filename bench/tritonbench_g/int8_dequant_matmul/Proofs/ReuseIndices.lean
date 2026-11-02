@@ -37,7 +37,7 @@ theorem segment_run (M : Algebra α) (q : IntegerModel I F H) (s : Shape) (c : C
   cases hm : initial.regs .int [] "pid_m" <;>
     cases hn : initial.regs .int [] "pid_n" <;>
     cases hz : initial.regs .int [] "pid_z" <;>
-    simp [segmentCode,repeated,Quote.source,TypedSource.kernel,
+    simp [segmentCode,repeated,Quote.source,TypedSource.kernel,TypedSource.sourceBody,
       ComputeKernel.surfaceBody,Quote.run,Quote.step,arithmeticStep,addExpression,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,
       numeric,bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,

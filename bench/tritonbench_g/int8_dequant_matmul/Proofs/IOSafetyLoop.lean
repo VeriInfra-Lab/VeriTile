@@ -14,22 +14,22 @@ theorem loadArm_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic) (cont
     (s : Shape) (c : Config) (hasBias unmasked : Bool) (base current : State α) (t : Nat)
     (ctx : Context s c base t current) (bounds : RegionName → Nat)
     (ha : ∀ i : TileIndex [c.BM,c.BK],
-      (unmasked=Bool.true ∨ register base .int [c.BK] "rk" (i.2.1,())<(s.K-t*(c.BK*c.S) : Nat)) →
+      (unmasked=Bool.true ∨ register base .int [c.BK] "rk" (i.2.1,())<((s.K:Int)-(t*(c.BK*c.S):Nat))) →
       (ap s c base t i).2<bounds (ap s c base t i).1)
     (hb : ∀ i : TileIndex [c.BK,c.BN],
-      (unmasked=Bool.true ∨ register base .int [c.BK] "rk" (i.1,())<(s.K-t*(c.BK*c.S) : Nat)) →
+      (unmasked=Bool.true ∨ register base .int [c.BK] "rk" (i.1,())<((s.K:Int)-(t*(c.BK*c.S):Nat))) →
       (bp s c base t i).2<bounds (bp s c base t i).1) :
     IntegerDot.traceSafeList M arithmetic context bounds (loadArm s c hasBias unmasked)
-      (current.setReg "k" .nat [] (fun _=>t)) := by
+      (current.setReg "k" .int [] (fun _=>(t:Int))) := by
   cases unmasked
   · rw [←List.take_append_drop 1 (loadArm s c hasBias Bool.false),IntegerDot.traceSafeList_append]
     constructor
     · apply traceSafe_of_pointwise
-      simp [loadArm,body,source,TypedSource.kernel,ComputeKernel.surfaceBody]
+      simp [loadArm,body,source,TypedSource.kernel,TypedSource.sourceBody,ComputeKernel.surfaceBody]
       simp only [IntegerDot.stepSafe_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
       simp [Safety.safeOp_unfold]
     · intro next executed
-      simp [loadArm,body,source,TypedSource.kernel,ComputeKernel.surfaceBody,IntegerDot.run,IntegerDot.step,IntegerDot.arithmeticStep,
+      simp [loadArm,body,source,TypedSource.kernel,TypedSource.sourceBody,ComputeKernel.surfaceBody,IntegerDot.run,IntegerDot.step,IntegerDot.arithmeticStep,
         FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,
         Broadcast.leftIndex,Broadcast.rightIndex] at executed
       cases executed
@@ -44,13 +44,13 @@ theorem body_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic) (context
     (s : Shape) (c : Config) (hasBias : Bool) (base current : State α) (t : Nat)
     (ctx : Context s c base t current) (bounds : RegionName → Nat)
     (ha : ∀ i : TileIndex [c.BM,c.BK],
-      (s.K%(c.BK*c.S)=0 ∨ register base .int [c.BK] "rk" (i.2.1,())<(s.K-t*(c.BK*c.S) : Nat)) →
+      (s.K%(c.BK*c.S)=0 ∨ register base .int [c.BK] "rk" (i.2.1,())<((s.K:Int)-(t*(c.BK*c.S):Nat))) →
       (ap s c base t i).2<bounds (ap s c base t i).1)
     (hb : ∀ i : TileIndex [c.BK,c.BN],
-      (s.K%(c.BK*c.S)=0 ∨ register base .int [c.BK] "rk" (i.1,())<(s.K-t*(c.BK*c.S) : Nat)) →
+      (s.K%(c.BK*c.S)=0 ∨ register base .int [c.BK] "rk" (i.1,())<((s.K:Int)-(t*(c.BK*c.S):Nat))) →
       (bp s c base t i).2<bounds (bp s c base t i).1) :
     IntegerDot.traceSafeList M arithmetic context bounds (body s c hasBias)
-      (current.setReg "k" .nat [] (fun _=>t)) := by
+      (current.setReg "k" .int [] (fun _=>(t:Int))) := by
   rw [←List.take_append_drop 1 (body s c hasBias),IntegerDot.traceSafeList_append]
   refine ⟨?_,fun next _ => body_tail_safe M arithmetic context s c hasBias bounds next⟩
   change IntegerDot.traceSafeList M arithmetic context bounds

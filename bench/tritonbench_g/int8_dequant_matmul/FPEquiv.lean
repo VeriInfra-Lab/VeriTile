@@ -20,6 +20,7 @@ specification reuse_indices_equiv (profile : FixedISAProfile) (s : Shape) (c : C
       schedule selected rfl)
 
 -- Pure index-register elimination uses no floating rewrite or experimental rule.
+#print_fp_assumptions reuse_indices_equiv
 #axiomsClean reuse_indices_equiv
 #guard_msgs (drop info) in
 #auditModuleAxioms

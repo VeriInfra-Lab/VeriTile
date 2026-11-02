@@ -79,6 +79,26 @@ theorem loop_uses_actual_context {α : Type} [Inhabited α] (M : Algebra α) (s 
     accumulate,evalOp_unfold,State.setReg,begin,first,second,dotAdd,context,
     scalarPlan,Plan.evalInt,probe,Broadcast.leftIndex,List.finRange_zero]
 
+def signedContext : Context := {context with signedIteration := true}
+def staleNat (s : State α) : State α := s.setReg "iteration" .nat [] (fun _=>0)
+def firstInt (s : State α) : State α :=
+  ((begin (staleNat s)).setReg "iteration" .int [] (fun _=>0)).setReg "acc" .int [1,1] (fun _=>2)
+def secondInt (s : State α) : State α :=
+  ((firstInt s).setReg "iteration" .int [] (fun _=>1)).setReg "acc" .int [1,1] (fun _=>20)
+
+/-- The signed loop must use the selected dot plan in both iterations. Its
+second iteration ignores a stale Nat register with the same source name. -/
+theorem signed_loop_uses_actual_context {α : Type} [Inhabited α]
+    (M : Algebra α) (s : State α) :
+    step M probe signedContext
+      (.forRangeInt "iteration" (.constInt 0) (.constInt 2) (.constNat 1) [accumulate])
+      (begin (staleNat s))=some (secondInt s) := by
+  rw [step_unfold]
+  simp only [evalOp_unfold,bind,pure,Option.bind]
+  simp [rangeInt_unfold,run_unfold,step_unfold,arithmeticStep,addExpression,
+    accumulate,evalOp_unfold,State.setReg,begin,firstInt,secondInt,staleNat,dotAdd,
+    signedContext,context,scalarPlan,Plan.evalInt,probe,Broadcast.leftIndex,List.finRange_zero]
+
 /-- The fused node consumes the actual source children, including the INT8
 operand conversion, rather than a reference result supplied by the context. -/
 theorem actual_source_operands {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
@@ -126,6 +146,7 @@ theorem invocation_uses_same_source_safety {α : Type} [Inhabited α]
 #axiomsClean finite_order_is_observable
 #axiomsClean instruction_tag_and_zero_holes
 #axiomsClean loop_uses_actual_context
+#axiomsClean signed_loop_uses_actual_context
 #axiomsClean actual_source_operands
 #axiomsClean successor_address_exact
 #axiomsClean unsupported_effect_rejected

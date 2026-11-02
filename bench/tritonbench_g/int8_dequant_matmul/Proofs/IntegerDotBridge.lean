@@ -14,6 +14,7 @@ def context (q : IntegerModel I F H) (rows cols : Nat) : IntegerDot.Context wher
   columnRegister := "pid_n"
   iterationRegister := "k"
   splitAxis := 1
+  signedIteration := Bool.true
   plans := fun k row col split iteration => plan (q.plans k row col split iteration)
 
 theorem dotAdd_eq (q : IntegerModel I F H) (rows cols : Nat) {α : Type}
@@ -49,6 +50,15 @@ theorem step_eq {α : Type} [Inhabited α] (M : Algebra α)
   case forRange name start stop stride body =>
     simp only [IntegerDot.step_unfold,Quote.step.eq_def]
     exact range_eq M q rows cols name start stop stride body s
+  case forRangeInt name start stop stride body =>
+    simp only [IntegerDot.step_unfold,Quote.step.eq_def]
+    congr 1
+    funext a
+    congr 1
+    funext b
+    congr 1
+    funext d
+    exact rangeInt_eq M q rows cols name (a ()) (b ()) (d ()) body s
   case ifThen cond body =>
     simp only [IntegerDot.step_unfold,Quote.step.eq_def]
     cases h : FP.Structural.evalOp M none cond s with
@@ -110,6 +120,21 @@ theorem range_eq {α : Type} [Inhabited α] (M : Algebra α)
     exact range_eq M q rows cols name (start+stride) stop stride body t
   · rfl
 termination_by (sizeOf body+1,stop-start)
+decreasing_by all_goals omega
+
+theorem rangeInt_eq {α : Type} [Inhabited α] (M : Algebra α)
+    (q : IntegerModel I F H) (rows cols : Nat)
+    (name : RegName) (start stop : Int) (stride : Nat) (body : List ComputeStmt) (s : State α) :
+    IntegerDot.rangeInt M (arithmetic q) (context q rows cols) name start stop stride body s =
+      rangeInt M q rows cols name start stop stride body s := by
+  rw [IntegerDot.rangeInt,rangeInt]
+  split
+  · rw [run_eq]
+    congr 1
+    funext t
+    exact rangeInt_eq M q rows cols name (start+stride) stop stride body t
+  · rfl
+termination_by (sizeOf body+1,(stop-start).toNat)
 decreasing_by all_goals omega
 end
 

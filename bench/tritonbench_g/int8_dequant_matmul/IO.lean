@@ -103,7 +103,7 @@ def invocation (q : Quote.IntegerModel I F H) (s : Shape) (c : Config)
     IntegerDotInvocation (Sum F H) where
   kernel := Quote.source s c hasBias
   backend := Quote.floating q
-  arguments := [⟨"divfactor",.fp32,[],fun _=>.inl divisor⟩]
+  arguments := [⟨"divfactor",.real,[],fun _=>.inl divisor⟩]
   pids := fun ax=>if ax=0 then p.1.val else if ax=1 then p.2.val else 0
   arithmetic := Quote.SharedInteger.arithmetic q
   context := Quote.SharedInteger.context q s.M s.N

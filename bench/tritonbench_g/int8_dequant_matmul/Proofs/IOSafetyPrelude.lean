@@ -31,7 +31,7 @@ theorem preFactors_safe (M : Algebra α) (a : IntegerDot.Arithmetic)
     (state : State α) (bounds : RegionName → Nat) :
     IntegerDot.traceSafeList M a context bounds (preFactors s c hasBias) state := by
   apply traceSafe_of_pointwise
-  simp [preFactors,prelude,source,TypedSource.kernel,ComputeKernel.surfaceBody]
+  simp [preFactors,prelude,source,TypedSource.kernel,TypedSource.sourceBody,ComputeKernel.surfaceBody]
   all_goals simp only [IntegerDot.stepSafe_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   all_goals simp [Safety.safeOp_unfold]
@@ -39,13 +39,20 @@ theorem preFactors_safe (M : Algebra α) (a : IntegerDot.Arithmetic)
 def preFactorsExecution (M : Algebra α) (q : IntegerModel I F H)
     (s : Shape) (c : Config) (hasBias : Bool) (initial : State α) :
     {final : State α // Quote.run M q s.M s.N (preFactors s c hasBias) initial=some final} := by
+  have nonnegativeM : ¬(s.M:Int)+((c.BM:Int)-1)<0 := by
+    have := c.positiveM
+    omega
+  have nonnegativeN : ¬(s.N:Int)+((c.BN:Int)-1)<0 := by
+    have := c.positiveN
+    omega
   refine ⟨?_,?_⟩
   swap
-  simp [preFactors,prelude,source,TypedSource.kernel,ComputeKernel.surfaceBody,Quote.run,Quote.step,arithmeticStep,addExpression,
+  simp [preFactors,prelude,source,TypedSource.kernel,TypedSource.sourceBody,ComputeKernel.surfaceBody,Quote.run,Quote.step,arithmeticStep,addExpression,
     FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,
     numeric,bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
     FloatDType.numericDType,FloatDType.toTileDType,VeriTile.Triton.Region.cast,
-    Option.bind,integralFloorDiv,integralMod]
+    Option.bind,integralFloorDiv,integralMod,nonnegativeM,nonnegativeN,
+    signed_cdiv_nat _ _ c.positiveM,signed_cdiv_nat _ _ c.positiveN,-Int.natCast_ediv]
   rfl
 
 private theorem signed_rem (a b : Nat) :

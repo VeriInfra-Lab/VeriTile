@@ -11,6 +11,21 @@ syntax (name := positionalFull) "tl.full(" "[" tritonExpr,* "]" ", "
 
 private partial def lower (raw : Syntax) : MacroM Syntax := do
   if raw.getKind == choiceKind then return ← lower raw[0]!
+  -- A direct load followed by a pointer-element cast has a dedicated parser
+  -- node. Group its receiver before pointer dtype resolution; otherwise the
+  -- generic direct-load case can consume the load and discard this cast.
+  let pointerLoadCast? ← match raw with
+    | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($target:ident)) =>
+      pure (some (← `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)),target))
+    | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($target:ident)) =>
+      pure (some (← `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)),target))
+    | _ => pure none
+  if let some (operand,target) := pointerLoadCast? then
+    match target.getId.eraseMacroScopes with
+    | .str (.str _ "dtype") "element_ty" | .str (.str _ "type") "element_ty" =>
+      let target : TSyntax `term := ⟨target.raw⟩
+      return (← `(tritonExpr| ($operand:tritonExpr).to($target:term))).raw
+    | _ => pure ()
   if raw.getKind == ``tritonDottedIdentMethodCast && raw.getNumArgs==4 then
     let callee:=raw[0].getId.eraseMacroScopes.toString
     let dt : TSyntax `tritonDType := ⟨raw[2]⟩
