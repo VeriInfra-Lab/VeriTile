@@ -1,4 +1,5 @@
 import bench.tritonbench_g.matmul_leakyrelu_fp8.ExecutionBody
+import bench.tritonbench_g.matmul_triton_autotune.Sources.Mathematical_FPRange
 
 namespace VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.Execution
 open VeriTile.Triton FP.Structural
@@ -18,10 +19,10 @@ theorem loopExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α
     (p : Problem) (b : Buffers) (initial current : State α)
     (ctx : Context p initial current)
     (ha : HasAcc (fun _ => M.literal (some .fp32) .real 0) current) :
-    ∃ t, FP.Structural.range (backend M D) "k" 0 (trips p) 1 (body p b) current = some t ∧
+    ∃ t, FP.Structural.rangeInt (backend M D) "k" 0 (trips p : Int) 1 (body p b) current = some t ∧
       Context p initial t ∧ HasAcc (accumulation M D p b initial) t := by
   let I := fun (_ : Nat) (a : CIndex → α) (s : State α) => Context p initial s ∧ HasAcc a s
-  exact range_values (backend M D) "k" (body p b) (update M D p b initial)
+  exact VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.FPValue.nat_range_values (backend M D) "k" (body p b) (update M D p b initial)
     I (fun a s => Context p initial s ∧ HasAcc a s) 0 (trips p) 1 _ current
     (by
       intro k a s h hk
@@ -56,11 +57,11 @@ def epilogueExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α
   cases he : p.enabled <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,run,step,evalExpr,
+     simp [epilogue,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,run,step,evalExpr,
        evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericLt,numericEq,numericLe,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
        FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,
-       ctx.memory,ctx.pm,ctx.pn,ctx.lm,ctx.ln,ha,backend,he]
+       ctx.memory,ctx.pm,ctx.pn,ha,backend,he]
      rfl)
 
 /-- Keep the fixed tile's lane list abstract during readback elaboration. -/
@@ -102,6 +103,7 @@ theorem epilogueMemory {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc �
     cases enabled <;> simp [epilogueExecution,written,outputIndices,masked_scatter_memory,ctx.memory,
       active,cOffset,row,col,outputValue,activation,backend,FP.Structural.bop,
       Broadcast.leftIndex,Broadcast.rightIndex]
+    all_goals try simp only [show (0.0 : ℝ)=0 by norm_num]
     all_goals rfl
 
 def Post {α : Type} (p : Problem) (b : Buffers) (initial final : State α) (v : CIndex → α) : Prop :=
@@ -124,9 +126,9 @@ theorem programExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc
   · change run (backend M D) (source p b).surfaceBody initial = some finish.val
     rw [source_decomposition,run_append,run_append,start.property]
     simp only [Option.bind_some]
-    have kt : start.val.regs .nat [] "k_tiles" = some (fun _ => trips p) := context.1.kt
+    have kt : start.val.regs .int [] "k_tiles" = some (fun _ => (trips p : Int)) := context.1.kt
     have hr : run (backend M D)
-        [.forRangeDyn "k" (.constNat 0) (.ref .nat [] "k_tiles") (.constNat 1) (body p b)] start.val = some mid := by
+        [.forRangeInt "k" (.constInt 0) (.ref .int [] "k_tiles") (.constNat 1) (body p b)] start.val = some mid := by
       simpa [run,step,evalOp_unfold,kt] using hm
     rw [hr]
     exact finish.property

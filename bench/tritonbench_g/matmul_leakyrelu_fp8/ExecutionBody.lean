@@ -40,11 +40,11 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
     (p : Problem) (b : Buffers) (initial current : State α) (k : Nat) (a : CIndex → α)
     (ctx : Context p initial current) (ha : HasAcc a current) :
     {t : State α // run (backend M D) (body p b)
-      (current.setReg "k" .nat [] (fun _ => k)) = some t} := by
+      (current.setReg "k" .int [] (fun _ => (k : Int))) = some t} := by
   simp only [HasAcc] at ha
   refine ⟨?_, ?_⟩
   swap
-  simp [body,source,TypedSource.kernel,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [body,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericLt,numericEq,
     ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
     FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,
@@ -58,7 +58,7 @@ theorem bodyContext {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
     Context p initial t ∧ HasAcc (update M D p b initial k a) t := by
   dsimp only
   constructor
-  · constructor <;> simp [bodyExecution,ctx.memory,ctx.pm,ctx.pn,ctx.lm,ctx.ln,ctx.lk,
+  · constructor <;> simp [bodyExecution,ctx.memory,ctx.pm,ctx.pn,ctx.lk,
       ctx.am,ctx.bn,ctx.kt,backend]
   · simp [HasAcc,bodyExecution,ctx.memory,update,aValue,bValue,aOffset,bOffset,safeK,ite_mul,backend,
       bop,Broadcast.leftIndex,Broadcast.rightIndex]

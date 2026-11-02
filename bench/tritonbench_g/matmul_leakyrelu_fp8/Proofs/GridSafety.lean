@@ -28,26 +28,26 @@ private theorem append_safe (M : Algebra α) (bounds : RegionName → Nat)
 private theorem range_safe (M : Algebra α) (bounds : RegionName → Nat)
     (idx : RegName) (body : List ComputeStmt) (stop : Nat) (P : Nat → State α → Prop)
     (one : ∀ i, i<stop → ∀ s, P i s → ∃ q,
-      run M body (s.setReg idx .nat [] (fun _ => i))=some q ∧ P (i+1) q)
+      run M body (s.setReg idx .int [] (fun _ => (i : Int)))=some q ∧ P (i+1) q)
     (safe : ∀ i, i<stop → ∀ s, P i s →
-      Safety.traceSafeList M bounds body (s.setReg idx .nat [] (fun _ => i)))
+      Safety.traceSafeList M bounds body (s.setReg idx .int [] (fun _ => (i : Int))))
     (s : State α) (start : Nat) (bound : start≤stop) (initial : P start s) :
-    Safety.rangeSafe M bounds idx start stop 1 body s := by
-  have go : ∀ n i, i+n=stop → ∀ s, P i s → Safety.rangeSafe M bounds idx i stop 1 body s := by
+    Safety.rangeIntSafe M bounds idx (start : Int) (stop : Int) 1 body s := by
+  have go : ∀ n i, i+n=stop → ∀ s, P i s → Safety.rangeIntSafe M bounds idx (i : Int) (stop : Int) 1 body s := by
     intro n
     induction n with
     | zero =>
       intro i hi s hs
       have eq : i=stop := by omega
       subst i
-      rw [Safety.rangeSafe_unfold]
+      rw [Safety.rangeIntSafe_unfold]
       simp
     | succ n ih =>
       intro i hi s hs
       have lt : i<stop := by omega
       obtain ⟨q,hq,hP⟩ := one i lt s hs
-      rw [Safety.rangeSafe_unfold]
-      simpa only [show ¬(1:Nat)=0 by omega,if_false,lt,if_true,hq] using
+      rw [Safety.rangeIntSafe_unfold]
+      simpa only [show ¬(1:Nat)=0 by omega,if_false,Int.ofNat_lt,lt,if_true,hq,Int.natCast_add,Int.natCast_one] using
         And.intro (safe i lt s hs) (ih (i+1) (by omega) q hP)
   exact go (stop-start) start (by omega) s initial
 
@@ -71,14 +71,14 @@ theorem kernel_safe (M : Algebra α) (D : DotAcc α) (p : Problem) (b : Buffers)
   have ctx := preludeContext M D p b s
   let P := fun (_ : Nat) t => Context p s t ∧ ∃ acc, HasAcc acc t
   have one : ∀ k, k<trips p → ∀ t, P k t → ∃ u,
-      run (backend M D) (body p b) (t.setReg "k" .nat [] (fun _ => k))=some u ∧ P (k+1) u := by
+      run (backend M D) (body p b) (t.setReg "k" .int [] (fun _ => (k : Int)))=some u ∧ P (k+1) u := by
     intro k _ t ⟨hc,acc,ha⟩
     let next := bodyExecution M D p b s t k acc hc ha
     have h := bodyContext M D p b s t k acc hc ha
     exact ⟨next.val,next.property,h.1,_,h.2⟩
   have safe : ∀ k, k<trips p → ∀ t, P k t →
       Safety.traceSafeList (backend M D) bounds (body p b)
-        (t.setReg "k" .nat [] (fun _ => k)) := by
+        (t.setReg "k" .int [] (fun _ => (k : Int))) := by
     intro k _ t ⟨hc,acc,ha⟩
     apply body_safe M D p b s t k acc hc ha bounds
     · intro i hi
@@ -94,12 +94,12 @@ theorem kernel_safe (M : Algebra α) (D : DotAcc α) (p : Problem) (b : Buffers)
   have hs := range_safe (backend M D) bounds "k" (body p b) (trips p) P one safe
     start.val 0 (by omega) ⟨ctx.1,_,ctx.2⟩
   obtain ⟨u,hu,hc,ha⟩ := loopExecution M D p b s start.val ctx.1 ctx.2
-  have kt : start.val.regs .nat [] "k_tiles"=some (fun _ => trips p) := ctx.1.kt
+  have kt : start.val.regs .int [] "k_tiles"=some (fun _ => (trips p : Int)) := ctx.1.kt
   have ran : run (backend M D)
-      [.forRangeDyn "k" (.constNat 0) (.ref .nat [] "k_tiles") (.constNat 1) (body p b)] start.val=some u := by
+      [.forRangeInt "k" (.constInt 0) (.ref .int [] "k_tiles") (.constNat 1) (body p b)] start.val=some u := by
     simpa [run,step,evalOp_unfold,kt] using hu
   have loopSafe : Safety.traceSafeList (backend M D) bounds
-      [.forRangeDyn "k" (.constNat 0) (.ref .nat [] "k_tiles") (.constNat 1) (body p b)] start.val := by
+      [.forRangeInt "k" (.constInt 0) (.ref .int [] "k_tiles") (.constNat 1) (body p b)] start.val := by
     apply Safety.traceSafeList_cons_intro
     · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,kt] using hs
     · intro t _;exact Safety.traceSafeList_nil _ _ _

@@ -14,13 +14,12 @@ variable {α : Type} [Inhabited α]
 theorem prelude_safe (M : Algebra α) (D : DotAcc α) (p : Problem) (b : Buffers)
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList (backend M D) bounds (prelude p b) s := by
-  by_cases hm : p.M%128=0 <;> by_cases hn : p.N%256=0 <;> by_cases hk : p.K%64=0
-  all_goals simp [prelude,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+  simp [prelude,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,bop,natLt,numericLt,numericEq,
     ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
-    FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,State.setReg,hm,hn,hk]
+    FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,State.setReg]
 
 /-- The exact two K masks guard the actual staged A/B pointer loads. -/
 theorem body_safe (M : Algebra α) (D : DotAcc α) (p : Problem) (b : Buffers)
@@ -30,9 +29,9 @@ theorem body_safe (M : Algebra α) (D : DotAcc α) (p : Problem) (b : Buffers)
     (ba : ∀ i : AIndex, (k : Int)*64+i.2.1.val<(p.K : Int) → aOffset p b initial k i<bounds "A")
     (bb : ∀ i : BIndex, (k : Int)*64+i.1.val<(p.K : Int) → bOffset p b initial k i<bounds "B") :
     Safety.traceSafeList (backend M D) bounds (body p b)
-      (current.setReg "k" .nat [] (fun _ => k)) := by
+      (current.setReg "k" .int [] (fun _ => (k : Int))) := by
   simp only [HasAcc] at ha
-  simp [body,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+  simp [body,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -55,14 +54,14 @@ theorem epilogue_safe (M : Algebra α) (D : DotAcc α) (p : Problem) (b : Buffer
     Safety.traceSafeList (backend M D) bounds (epilogue p b) current := by
   simp only [HasAcc] at ha
   cases he : p.enabled
-  all_goals simp [epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+  all_goals simp [epilogue,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,bop,natLt,numericLt,numericEq,numericLe,
     ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
     FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,
-    State.setReg,ctx.memory,ctx.pm,ctx.pn,ctx.lm,ctx.ln,ha,backend,he]
+    State.setReg,ctx.memory,ctx.pm,ctx.pn,ha,backend,he]
   all_goals
     refine ⟨?_,?_⟩
     · intro i j hi hj

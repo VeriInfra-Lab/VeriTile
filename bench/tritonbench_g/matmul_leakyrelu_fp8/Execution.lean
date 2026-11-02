@@ -32,16 +32,16 @@ abbrev AIndex := TileIndex [128,64]
 abbrev BIndex := TileIndex [64,256]
 abbrev CIndex := TileIndex [128,256]
 
-def prelude (p : Problem) (b : Buffers) := (source p b).surfaceBody.take 20
+def prelude (p : Problem) (b : Buffers) := (source p b).surfaceBody.take 24
 def body (p : Problem) (b : Buffers) : List ComputeStmt :=
-  match (source p b).surfaceBody[20]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ code) => code
+  match (source p b).surfaceBody[24]? with
+  | some (ComputeStmt.forRangeInt _ _ _ _ code) => code
   | _ => []
-def epilogue (p : Problem) (b : Buffers) := (source p b).surfaceBody.drop 21
+def epilogue (p : Problem) (b : Buffers) := (source p b).surfaceBody.drop 25
 
 theorem source_decomposition (p : Problem) (b : Buffers) :
     (source p b).surfaceBody = prelude p b ++
-      [.forRangeDyn "k" (.constNat 0) (.ref .nat [] "k_tiles") (.constNat 1) (body p b)] ++ epilogue p b := rfl
+      [.forRangeInt "k" (.constInt 0) (.ref .int [] "k_tiles") (.constNat 1) (body p b)] ++ epilogue p b := rfl
 
 theorem min_form {α : Type} [LinearOrder α] (a b : α) : min a b = if a < b then a else b := by
   by_cases h : a < b
@@ -52,12 +52,10 @@ structure Context {α : Type} (p : Problem) (initial current : State α) : Prop 
   memory : current.mem = initial.mem
   pm : current.regs .int [] "pid_m" = some (fun _ => pidM p initial)
   pn : current.regs .int [] "pid_n" = some (fun _ => pidN p initial)
-  lm : current.regs .int [128] "lanes_m" = some (fun i => (i.1.val : Int))
-  ln : current.regs .int [256] "lanes_n" = some (fun i => (i.1.val : Int))
   lk : current.regs .int [64] "lanes_k" = some (fun i => (i.1.val : Int))
   am : current.regs .int [128] "offs_am" = some (fun i => qMod (row p initial i.1) (p.M : Int))
   bn : current.regs .int [256] "offs_bn" = some (fun i => qMod (col p initial i.1) (p.N : Int))
-  kt : current.regs .nat [] "k_tiles" = some (fun _ => trips p)
+  kt : current.regs .int [] "k_tiles" = some (fun _ => (trips p : Int))
 
 def HasAcc {α : Type} (a : CIndex → α) (s : State α) : Prop :=
   s.regs .real [128,256] "accumulator" = some a
@@ -65,15 +63,13 @@ def HasAcc {α : Type} (a : CIndex → α) (s : State α) : Prop :=
 def preludeExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
     (p : Problem) (b : Buffers) (s : State α) :
     {t : State α // run (backend M D) (prelude p b) s = some t} := by
-  by_cases hm : p.M%128 = 0 <;> by_cases hn : p.N%256 = 0 <;> by_cases hk : p.K%64 = 0
-  all_goals
-    refine ⟨?_, ?_⟩
-    swap
-    simp [prelude,source,TypedSource.kernel,ComputeKernel.surfaceBody,run,step,evalExpr,
+  refine ⟨?_, ?_⟩
+  swap
+  simp [prelude,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
-      FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,hm,hn,hk]
-    rfl
+      FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod]
+  rfl
 
 end
 end VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.Execution
