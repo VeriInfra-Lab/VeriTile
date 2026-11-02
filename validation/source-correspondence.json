@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 134,
-      "uncovered_jit_functions": 49
+      "selected_body_copy_checked": 135,
+      "uncovered_jit_functions": 48
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 121,
+    "uncovered_selected_jit_functions": 119,
     "inventoried_jit_functions": 537,
-    "uncovered_inventoried_jit_functions": 159,
+    "uncovered_inventoried_jit_functions": 155,
     "checked_pair_modes": {
-      "pasted_body": 378
+      "pasted_body": 382
     },
     "collection_status": {
       "bug_detection": {
@@ -38,17 +38,17 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 134,
-        "uncovered_jit_functions": 49
+        "selected_body_copy_checked": 135,
+        "uncovered_jit_functions": 48
       }
     },
-    "primary_files_with_int64_screen_warning": 13,
+    "primary_files_with_int64_screen_warning": 12,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 30,
-        "antiquotes": 367,
+        "in_body_type_directives": 29,
+        "antiquotes": 366,
         "dsl_loop": 1,
-        "dsl_numeric_helpers": 85
+        "dsl_numeric_helpers": 84
       },
       "examples": {
         "in_body_type_directives": 0,
@@ -32868,11 +32868,11 @@
       "lean": "bench/tritonbench_g/rbe_triton_transform/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 47,
-        "dsl_assignment": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 30,
         "dsl_loop": 0,
-        "dsl_numeric_helpers": 4,
+        "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
       "python_jits": [
@@ -33111,40 +33111,102 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "get_freq_multi_tokens",
+          "lean_definition": "frequencyFunction",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 6,
+          "runtime_parameters": {
+            "offs_cn": "inferred",
+            "starting_idx": "inferred"
+          },
+          "constexpr_parameters": [
+            "theta",
+            "NB_TOKENS"
+          ],
           "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform.py",
-          "function": "get_freq_multi_tokens"
+          "lean": "bench/tritonbench_g/rbe_triton_transform/Kernels.lean"
         },
         {
+          "python_function": "rbe_triton",
+          "lean_definition": "typed",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 31,
+          "runtime_parameters": {
+            "M": "integer",
+            "K": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_m": "integer",
+            "stride_x_n": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_m": "integer",
+            "stride_out_n": "integer",
+            "start_token_position": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "THETA"
+          ],
           "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform.py",
-          "function": "rbe_triton"
+          "lean": "bench/tritonbench_g/rbe_triton_transform/Kernels.lean"
         },
         {
+          "python_function": "get_freq_multi_tokens",
+          "lean_definition": "frequencyFunction",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 6,
+          "runtime_parameters": {
+            "offs_cn": "inferred",
+            "starting_idx": "inferred"
+          },
+          "constexpr_parameters": [
+            "theta",
+            "NB_TOKENS"
+          ],
           "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform_mask_reuse.py",
-          "function": "get_freq_multi_tokens"
+          "lean": "bench/tritonbench_g/rbe_triton_transform/Kernels.lean"
         },
         {
+          "python_function": "rbe_triton",
+          "lean_definition": "typedMaskReuse",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 31,
+          "runtime_parameters": {
+            "M": "integer",
+            "K": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_m": "integer",
+            "stride_x_n": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_m": "integer",
+            "stride_out_n": "integer",
+            "start_token_position": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "THETA"
+          ],
           "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform_mask_reuse.py",
-          "function": "rbe_triton"
+          "lean": "bench/tritonbench_g/rbe_triton_transform/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform.py",
-          "function": "get_freq_multi_tokens"
-        },
-        {
-          "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform.py",
-          "function": "rbe_triton"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/rbe_triton_transform/Kernels.lean": "aadd68e0e08bf5709152fad65f4fde6ae4ddb9fcb4f1ada34a84d9dccfb5e932",
+        "bench/tritonbench_g/rbe_triton_transform/Kernels.lean": "5e170e5cc9ca88389c60e0d936576a0c534999b64727671b4e7d41898af4ad31",
+        "bench/tritonbench_g/rbe_triton_transform/jit-correspondence.json": "facca63f5c450e673430bd76e70d2f748a9a1f2d5f5e586be8fcf7b78ae4c221",
         "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform.py": "97d336d7baa78cd4104f114d658760deb16a06f4bb56a68ff3c675ee339aa2fd",
         "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform_mask_reuse.py": "30656a4997985bbba582a46feaad6dc527d333725e8628105b2292e4b570e82e"
       },

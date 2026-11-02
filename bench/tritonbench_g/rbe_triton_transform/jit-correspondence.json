@@ -1,0 +1,188 @@
+[
+  {
+    "kind": "statement_jit_function",
+    "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform.py",
+    "lean": "bench/tritonbench_g/rbe_triton_transform/Kernels.lean",
+    "python_function": "get_freq_multi_tokens",
+    "lean_definition": "frequencyFunction"
+  },
+  {
+    "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform.py",
+    "lean": "bench/tritonbench_g/rbe_triton_transform/Kernels.lean",
+    "python_function": "rbe_triton",
+    "lean_definition": "typed",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_m",
+          "integer"
+        ],
+        [
+          "stride_x_n",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_m",
+          "integer"
+        ],
+        [
+          "stride_out_n",
+          "integer"
+        ],
+        [
+          "start_token_position",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "THETA",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "x_ptr",
+          "dtype"
+        ],
+        [
+          "out_ptr",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "K": "K",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_m": "stride_x_m",
+      "stride_x_n": "stride_x_n",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_m": "stride_out_m",
+      "stride_out_n": "stride_out_n",
+      "start_token_position": "start_token_position"
+    },
+    "expected_jit_functions": {
+      "get_freq_multi_tokens": "frequencyFunction"
+    }
+  },
+  {
+    "kind": "statement_jit_function",
+    "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform_mask_reuse.py",
+    "lean": "bench/tritonbench_g/rbe_triton_transform/Kernels.lean",
+    "python_function": "get_freq_multi_tokens",
+    "lean_definition": "frequencyFunction"
+  },
+  {
+    "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform_mask_reuse.py",
+    "lean": "bench/tritonbench_g/rbe_triton_transform/Kernels.lean",
+    "python_function": "rbe_triton",
+    "lean_definition": "typedMaskReuse",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_m",
+          "integer"
+        ],
+        [
+          "stride_x_n",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_m",
+          "integer"
+        ],
+        [
+          "stride_out_n",
+          "integer"
+        ],
+        [
+          "start_token_position",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "THETA",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "x_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "x_ptr",
+          "dtype"
+        ],
+        [
+          "out_ptr",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "K": "K",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_m": "stride_x_m",
+      "stride_x_n": "stride_x_n",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_m": "stride_out_m",
+      "stride_out_n": "stride_out_n",
+      "start_token_position": "start_token_position"
+    },
+    "expected_jit_functions": {
+      "get_freq_multi_tokens": "frequencyFunction"
+    }
+  }
+]

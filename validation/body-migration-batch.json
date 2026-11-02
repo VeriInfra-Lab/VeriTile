@@ -2064,6 +2064,19 @@
           "VeriTile.Bench.Repairs.IvDependentMatmulDotShape.FPEquiv.kernel_native"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/rbe_triton_transform",
+      "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rbe_triton_transform/Correct.lean": [
+          "VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/rbe_triton_transform/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.FPEquiv.mask_reuse_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -2114,6 +2127,7 @@
     "VeriTile/Triton/DSL/SignedSingleArgumentRange.lean",
     "VeriTile/Triton/DSL/SingleAssignmentPointerOffsets.lean",
     "VeriTile/Triton/DSL/SourceBindings.lean",
+    "VeriTile/Triton/DSL/StatementJitFunctions.lean",
     "VeriTile/Triton/DSL/StaticAssertions.lean",
     "VeriTile/Triton/DSL/StaticRanges.lean",
     "VeriTile/Triton/DSL/StringCallControl.lean",
@@ -4650,6 +4664,33 @@
     "bench/tritonbench_g/quantize_kv_transform/Proofs/Real.lean",
     "bench/tritonbench_g/quantize_kv_transform/Proofs/RealIO.lean",
     "bench/tritonbench_g/quantize_kv_transform/Sources/Mathematical_MixedBits.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Contract.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Correct.lean",
+    "bench/tritonbench_g/rbe_triton_transform/FPEquiv.lean",
+    "bench/tritonbench_g/rbe_triton_transform/IO.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Kernels.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/Bridge.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/Contract.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/IOCorrectness.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/InputContract.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/KernelBinding.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/KernelIndex.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/Pair.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/RbeTritonTransform_Source_Contract.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/ReaderBefore.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/Runtime.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/RuntimeModel.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/Scalar.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/Schedule.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/Selected.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/SelectedExecution.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/SignedIndex.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/Source.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/Spec.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Proofs/TypedGrid.lean",
+    "bench/tritonbench_g/rbe_triton_transform/Sources/Kernels.lean",
     "bench/tritonbench_g/relu_strided_buffer/Contract.lean",
     "bench/tritonbench_g/relu_strided_buffer/Correct.lean",
     "bench/tritonbench_g/relu_strided_buffer/FPEquiv.lean",
@@ -5710,6 +5751,7 @@
     "tests/lean/SoftmaxReduceVSignedLoads.lean",
     "tests/lean/SourceDType.lean",
     "tests/lean/SourceModuleBindings.lean",
+    "tests/lean/StatementJitFunctions.lean",
     "tests/lean/StaticAssertions.lean",
     "tests/lean/StaticRanges.lean",
     "tests/lean/StaticRangesReference.lean",

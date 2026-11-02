@@ -26,10 +26,17 @@ theorem source {α : Type} [Inhabited α] (M : Algebra α) (p : Source.Parameter
     FP.Structural.run,FP.Structural.step,FP.Structural.evalExpr,
     FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
     FP.Structural.evalOffsets,FP.Structural.store,FP.Structural.numeric,
-    FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericEq,ComputeDType.eraseDType,
+    FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericLt,FP.Structural.numericEq,ComputeDType.eraseDType,
     FP.Structural.ofFloat,FP.Structural.toFloat,FloatDType.numericDType,FloatDType.toTileDType,
     Region.cast,Option.bind,integralFloorDiv,integralMod,
+    SignedIndex.ceil_nat,SignedIndex.nat_not_negative,
     Source.active,Source.inputOffset,Source.outputOffset,Source.row,Source.column,Source.parts] at input output ⊢
+  all_goals simp only [← Int.natCast_ediv,← Int.natCast_emod,← Int.natCast_mul,← Int.natCast_add,
+    SignedIndex.twice_nat,SignedIndex.one_add_nat,SignedIndex.mod128_nat,
+    SignedIndex.mod128_nat_pulled,SignedIndex.emod128_nat,
+    Int.toNat_natCast,SignedIndex.nat_not_negative,↓reduceIte,
+    SignedIndex.mod_nat,SignedIndex.mod_nat_pulled,SignedIndex.lt_nat,
+    SignedIndex.ceil_nat]
   all_goals tauto
 
 #axiomsClean source
