@@ -21,6 +21,10 @@ theorem ceil_exact (n d : Nat) (width : d=64 ∨ d=128 ∨ d=256) :
   unfold ceil
   by_cases h : n%d=0 <;> simp [h]
 
+theorem intCeil_eq (n d : Nat) : intCeil n d = (ceil n d : Int) := by
+  have h : ((n : Int) % (d : Int) = 0) ↔ n%d=0 := by norm_cast
+  by_cases hz : n%d=0 <;> simp [intCeil,ceil,h,hz]
+
 variable {α : Type} [Inhabited α]
 
 theorem prelude_invariant (P : Source.Arithmetic α α) (p : Parameters) (s : State α) :
@@ -30,26 +34,15 @@ theorem prelude_invariant (P : Source.Arithmetic α α) (p : Parameters) (s : St
   have hN : RealMath.blocks p.problem.N 256=ceil p.problem.N 256 := (ceil_exact _ _ (by omega)).symm
   have hK : RealMath.blocks p.problem.K p.problem.profile.blockK=ceil p.problem.K p.problem.profile.blockK :=
     (ceil_exact _ _ (by cases p.problem.profile <;> simp [Storage.blockK])).symm
-  by_cases hm : p.problem.M%128=0 <;>
-      by_cases hn : p.problem.N%256=0 <;>
-      by_cases hk : p.problem.K%p.problem.profile.blockK=0 <;>
-      by_cases hs : (s.pids 0 : Int) < ((ceil p.problem.M 128 * ceil p.problem.N 256)%p.problem.SMS : Nat)
-  all_goals
-    have hsN := hs
-    norm_cast at hsN
-    constructor
-    · constructor
-      all_goals
-        simp only [preludeExecution,hm,hn,hk,hs,↓reduceDIte]
-        simp_all [Problem.rows,Problem.columns,Problem.kTiles,Problem.work,Problem.tiles,
-          Problem.group,Schedule.tilesFor,hM,hN,hK,ceil,FP.Structural.bop,
-          Broadcast.leftIndex,Broadcast.rightIndex,min_lt_form]
-      all_goals
-        funext i
-        simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
-        all_goals assumption
-    · simp only [preludeExecution,hm,hn,hk,hs,↓reduceDIte]
-      rfl
+  change Registers p (s.pids 0) (preludeState p s) ∧ (preludeState p s).mem=s.mem
+  constructor
+  · constructor <;> (try apply Arguments.mk)
+    all_goals simp [preludeState,intCeil_eq,Problem.rows,Problem.columns,Problem.kTiles,Problem.work,
+      Problem.tiles,Problem.group,Schedule.tilesFor,hM,hN,hK,FP.Structural.bop,Int.ofNat_lt,
+      Broadcast.leftIndex,Broadcast.rightIndex,min_lt_form]
+    all_goals funext i
+    all_goals norm_cast
+  · simp [preludeState]
 
 end
 end VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core

@@ -60,9 +60,9 @@ theorem suffix_post (P : Source.Arithmetic α α) (p : Parameters) (b : Buffers)
 theorem suffix_registers (P : Source.Arithmetic α α) (p : Parameters)
     (initial current : State α) (pid tile : Nat) (regs : Registers p pid current) :
     Registers p pid (suffixResult P p initial current tile) := by
-  constructor <;>
+  constructor <;> (try apply Arguments.mk) <;>
     simp [suffixResult,masked_scatter_regs,storeRegisters,regs.start,regs.rows,regs.columns,
-      regs.count,regs.work,regs.group,regs.span,regs.lanesM,regs.lanesN,regs.lanesK]
+      regs.count,regs.work,regs.group,regs.span,regs.lanesM,regs.lanesN,regs.lanesK,regs.args.M,regs.args.N,regs.args.K,regs.args.stride_am,regs.args.stride_ak,regs.args.stride_bk,regs.args.stride_bn,regs.args.stride_cm,regs.args.stride_cn]
 
 #axiomsClean written_post
 #axiomsClean suffix_post

@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 123,
-      "uncovered_jit_functions": 60
+      "selected_body_copy_checked": 124,
+      "uncovered_jit_functions": 59
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 138,
+    "uncovered_selected_jit_functions": 137,
     "inventoried_jit_functions": 529,
-    "uncovered_inventoried_jit_functions": 183,
+    "uncovered_inventoried_jit_functions": 181,
     "checked_pair_modes": {
-      "pasted_body": 346
+      "pasted_body": 348
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 123,
-        "uncovered_jit_functions": 60
+        "selected_body_copy_checked": 124,
+        "uncovered_jit_functions": 59
       }
     },
     "primary_files_with_int64_screen_warning": 15,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 37,
-        "antiquotes": 377,
+        "in_body_type_directives": 36,
+        "antiquotes": 376,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -28038,13 +28038,13 @@
       "python": "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton.py",
       "lean": "bench/tritonbench_g/matmul_persistent_triton/Kernels.lean",
       "lean_screen": {
-        "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 212,
-        "dsl_assignment": 5,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 30,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 4
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -28237,28 +28237,70 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel_persistent",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "NUM_SMS"
+          ],
           "python": "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton.py",
-          "function": "matmul_kernel_persistent"
+          "lean": "bench/tritonbench_g/matmul_persistent_triton/Kernels.lean"
         },
         {
+          "python_function": "matmul_kernel_persistent",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "NUM_SMS"
+          ],
           "python": "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton_reordered.py",
-          "function": "matmul_kernel_persistent"
+          "lean": "bench/tritonbench_g/matmul_persistent_triton/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton.py",
-          "function": "matmul_kernel_persistent"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_persistent_triton/Kernels.lean": "f85e179fbaf21f655b0124f622c7db23d5b607f9eb353b621abacddb06cdca01",
+        "bench/tritonbench_g/matmul_persistent_triton/Kernels.lean": "0a8e8c787bd749d66d9d3c8df85d81f0b56e770a78357b1d423e94199c254502",
+        "bench/tritonbench_g/matmul_persistent_triton/jit-correspondence.json": "da3293111541e3225babc71f12cdc24cb7e7cf83eae949272d988bb0b681e8e7",
         "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton.py": "cbc4b8cf640d36422da090fe981e5d84a1d5a7f3e686e6b7842a43271ef875b6",
         "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton_reordered.py": "b06a0018b927fa23f159e92a9084825e8d68865b3f4fc2da64f89143adb4a0ab"
       },

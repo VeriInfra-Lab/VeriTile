@@ -5,12 +5,12 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 13,
-  "staged_count": 136,
+  "staged_count": 137,
   "pending_count": 183,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 4149,
+    "staged_and_regression_retained_modules": 4206,
     "official_comparator": "13 current targets have accepted exact-dependency official receipts, plus the MatmulLeakyrelu regression. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure has been verified. Compilation alone never counts as completion.",
     "python_tests": 478,
     "offline_example_compilations": {
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "142 selected cases (136 targets and 6 regressions), all 4149 retained/supporting modules, 12881 Lake jobs and fully-qualified public theorem names pass locally. Conv2d has two unchanged complete Python bodies with 19/20 top-level statements, including the actual compile-time assertion. All 52 task modules and the static-assert frontend/regressions pass. Original three-loop execution, signed padding, FP16/default compute, both TF32 options, independent Real contraction, complete FP shift equivalence, grids, typed outputs, safety and frames are re-proved. Ten generic/fixture execution and safety theorems and four rejected-source checks validate that successful assertions preserve the whole program and failed assertions cannot execute or pass safety. No new public premise or numerical rewrite. Independent replay remains required; local checks never count as completion.",
-    "official_replay_sources": 3152,
+    "working_tree": "143 selected cases (137 targets and 6 regressions), all 4206 retained/supporting modules, 12930 Lake jobs and 357 fully-qualified public theorem names pass locally. Persistent matmul now has two unchanged complete 16-statement Python bodies; nine int64 argument casts, Boolean ceilings, signed nested loops, immutable pointer dtype branch, FP32 live dot, masks and output conversions are retained. Independent Real, complete FP pair, safety, outputs and frames re-proved. Ten frontend semantic regression theorems and seven rejected-source checks pass. Thirteen targets have current exact-source independent acceptance; other staged targets still require independent replay. No new numerical assumption or public premise.",
+    "official_replay_sources": 3209,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -54,17 +54,15 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/triton_conv2d_fwd",
+      "case": "bench/tritonbench_g/matmul_persistent_triton",
       "case_paths": [
-        "bench/tritonbench_g/triton_conv2d_fwd"
+        "bench/tritonbench_g/matmul_persistent_triton"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 54,
-      "replay_sources": 54,
-      "state": "official_workflow_queued",
-      "source_commit": "cec90c5829579b68185484ad463a473e13aafe40",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41408954048"
+      "retained_modules": 57,
+      "replay_sources": 57,
+      "state": "local_pass_ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -579,6 +577,19 @@
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41400644516",
         "source_commit": "e6f47bf8be995dfd3413d173a1cdc39a089face7",
         "replay_sources": 44
+      },
+      {
+        "case": "bench/tritonbench_g/triton_conv2d_fwd",
+        "case_paths": [
+          "bench/tritonbench_g/triton_conv2d_fwd"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 54,
+        "replay_sources": 54,
+        "state": "official_workflow_queued",
+        "source_commit": "cec90c5829579b68185484ad463a473e13aafe40",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41408954048"
       }
     ],
     "pending_client_regressions": {
@@ -594,7 +605,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 60 TritonBench-G source/proof migrations. Completion requires exact current independent acceptance; preserve numerical admission gaps. No merge.",
+    "current_work": "Continue the remaining 59 TritonBench-G source/proof migrations. Completion requires exact current independent acceptance; preserve numerical admission gaps. No merge.",
     "previous_validated_source_commit": "e6f47bf8be995dfd3413d173a1cdc39a089face7",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -882,6 +893,16 @@
       "boundary": "Only a case with every required shared and owned independent replay, public theorem coverage and matching source/import hashes may be marked complete.",
       "source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742"
+    },
+    "pending_source_snapshot": {
+      "cases": 143,
+      "targets": 137,
+      "retained_modules": 4206,
+      "replay_sources": 3209,
+      "lake_jobs": 12930,
+      "public_theorem_names": "PASS",
+      "python_tests": 478,
+      "boundary": "Local checks only. Not an independent replay completion receipt."
     }
   },
   "targets": [
@@ -1886,8 +1907,12 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_persistent_triton",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Two unchanged 16-statement Python bodies, including all nine tuple argument int64 casts and nested pointer dtype branch, are now canonical quotations. Re-proved actual signed registers, nested loops, independent full-K Real matrix product, whole-program FP integer reordering, successful persistent grids, typed outputs, safety, memory frames and supporting native contracts. All 53 task modules and 4 frontend/regression modules pass locally. Ten generic/fixture semantic theorems and seven rejected-source checks cover tuple self-casts and nested dtype selection. No new public premise or numerical assumption. Exact-source independent replay remains required; local checks do not count as completion."
     },
     {
       "path": "bench/tritonbench_g/matmul_tma",

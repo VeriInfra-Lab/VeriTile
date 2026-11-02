@@ -80,15 +80,15 @@ theorem tile_clamped_columns (P : Source.Arithmetic α α) (p : Parameters)
 theorem tile_registers (P : Source.Arithmetic α α) (p : Parameters)
     (pid ordinal : Nat) (s : State α) (h : Registers p pid s) :
     Registers p pid (tilePreludeExecution P p pid ordinal s h).val := by
-  constructor <;> simp [tilePreludeExecution,h.start,h.rows,h.columns,h.count,h.work,
-    h.group,h.span,h.lanesM,h.lanesN,h.lanesK]
+  constructor <;> (try apply Arguments.mk) <;> simp [tilePreludeExecution,h.start,h.rows,h.columns,h.count,h.work,
+    h.group,h.span,h.lanesM,h.lanesN,h.lanesK,h.args.M,h.args.N,h.args.K,h.args.stride_am,h.args.stride_ak,h.args.stride_bk,h.args.stride_bn,h.args.stride_cm,h.args.stride_cn]
 
 theorem tile_initial (P : Source.Arithmetic α α) (p : Parameters)
     (pid ordinal : Nat) (s : State α) (h : Registers p pid s)
     (ht : p.problem.tile pid ordinal<p.problem.tiles) :
     InnerInvariant P p s (p.problem.tile pid ordinal) 0 (tilePreludeExecution P p pid ordinal s h).val := by
   refine ⟨?_,tile_rows P p pid ordinal s h ht,tile_columns P p pid ordinal s h ht,
-    tile_clamped_rows P p pid ordinal s h ht,tile_clamped_columns P p pid ordinal s h ht,?_,?_⟩
+    tile_clamped_rows P p pid ordinal s h ht,tile_clamped_columns P p pid ordinal s h ht,?_,?_,(tile_registers P p pid ordinal s h).args⟩
   · simp [tilePreludeExecution]
   · exact (tile_registers P p pid ordinal s h).lanesK
   · simp [tilePreludeExecution,accumulation]

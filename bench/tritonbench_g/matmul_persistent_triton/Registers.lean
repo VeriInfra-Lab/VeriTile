@@ -11,15 +11,17 @@ set_option linter.unusedSimpArgs false
 
 structure Registers {α : Type} (p : Parameters) (pid : Nat) (s : State α) : Prop where
   start : s.regs .int [] "start_pid" = some (fun _ => (pid : Int))
-  rows : s.regs .nat [] "num_pid_m" = some (fun _ => p.problem.rows)
-  columns : s.regs .nat [] "num_pid_n" = some (fun _ => p.problem.columns)
-  count : s.regs .nat [] "k_tiles" = some (fun _ => p.problem.kTiles)
-  work : s.regs .nat [] "tiles_per_SM" = some (fun _ => p.problem.work pid)
-  group : s.regs .nat [] "active_group_m" = some (fun _ => p.problem.group)
-  span : s.regs .nat [] "num_pid_in_group" = some (fun _ => p.problem.group*p.problem.columns)
+  rows : s.regs .int [] "num_pid_m" = some (fun _ => (p.problem.rows : Int))
+  columns : s.regs .int [] "num_pid_n" = some (fun _ => (p.problem.columns : Int))
+  count : s.regs .int [] "k_tiles" = some (fun _ => (p.problem.kTiles : Int))
+  work : s.regs .int [] "tiles_per_SM" = some (fun _ => (p.problem.work pid : Int))
+  group : s.regs .int [] "active_group_m" = some (fun _ => (p.problem.group : Int))
+  span : s.regs .int [] "num_pid_in_group" = some (fun _ => (p.problem.group*p.problem.columns : Int))
   lanesM : s.regs .int [128] "lanes_m" = some (fun i => (i.1.val : Int))
   lanesN : s.regs .int [256] "lanes_n" = some (fun i => (i.1.val : Int))
   lanesK : s.regs .int [p.problem.profile.blockK] "offs_k_for_mask" = some (fun i => (i.1.val : Int))
+
+  args : Arguments p s
 
 end
 end VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core

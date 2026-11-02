@@ -13,7 +13,7 @@ set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
 def outerStatement (p : Parameters) : ComputeStmt :=
-  (source p).surfaceBody[15]'(by cases hp : p.problem.profile <;> simp [source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,hp,ComputeKernel.surfaceBody])
+  (source p).surfaceBody[20]'(by cases hp : p.problem.profile <;> simp [source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,TypedSource.candidateBody,hp,ComputeKernel.surfaceBody])
 
 theorem source_decomposition (p : Parameters) :
     (source p).surfaceBody=prelude p++[outerStatement p] := by
@@ -23,9 +23,9 @@ theorem source_decomposition (p : Parameters) :
 theorem dynamicOuter (P : Source.Arithmetic α α) (p : Parameters)
     (s : State α) (pid : Nat) (regs : Registers p pid s) :
     step (backend P) (outerStatement p) s=
-      FP.Structural.range (backend P) "tile_ordinal" 0 (p.problem.work pid) 1 (outer p) s := by
+      rangeInt (backend P) "tile_ordinal" 0 (p.problem.work pid : Int) 1 (outer p) s := by
   cases hp : p.problem.profile <;>
-    simp [outerStatement,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,hp,ComputeKernel.surfaceBody,step,
+    simp [outerStatement,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,TypedSource.candidateBody,hp,ComputeKernel.surfaceBody,step,
       evalOp_unfold,evalExpr,evalComputeOp,Option.bind,regs.work]
 
 def program (P : Source.Arithmetic α α) (p : Parameters) (pid : Nat) (s : State α) : Option (State α) :=
@@ -70,7 +70,7 @@ theorem programExecution (P : Source.Arithmetic α α) (p : Parameters) (b : Buf
   · unfold program
     change run (backend P) (source p).surfaceBody (atProgram initial pid)=some final
     rw [source_decomposition,run_append,prepared.property,Option.bind_some,run,
-      dynamicOuter P p prepared.val pid regs,Compose.range_sequence]
+      dynamicOuter P p prepared.val pid regs,Compose.range_from_zero]
     simp only [Nat.sub_zero,ran,run]
     rfl
   · simpa [Post,ProgramOwns,List.mem_range',memory] using post
