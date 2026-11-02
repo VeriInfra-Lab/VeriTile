@@ -31,7 +31,7 @@ def epilogueExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
   cases st <;> cases he : p.ACTIVATION <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [epilogue,source,typed,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
+     simp [epilogue,source,typed,Pasted.originalBody,Pasted.candidateBody,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
        evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLe,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
        FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,
@@ -52,6 +52,7 @@ theorem epilogueMemory {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
   cases enabled <;> cases st <;> simp [epilogueExecution,written,masked_scatter_memory,ctx.memory,
     active,cOffset,row,col,outputValue,activation,stored,dtype,backend,FP.Structural.bop,
     Broadcast.leftIndex,Broadcast.rightIndex]
+  all_goals try simp only [show (0.0 : ℝ)=0 by norm_num]
   all_goals rfl
 
 def Post {α : Type} (p : Parameters) (st : Storage) (initial final : State α) (v : CIndex p → α) : Prop :=
@@ -71,7 +72,7 @@ theorem correctness {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
   · change run (backend M D) (source p st).surfaceBody initial=some finish.val
     rw [source_decomposition,run_append,run_append,start.property]
     simp only [Option.bind_some]
-    have hr : run (backend M D) [.forRangeDyn "k" (.constNat 0) (tripExpr p) (.constNat 1) (body p st)] start.val=some mid := by
+    have hr : run (backend M D) [.forRange "k" 0 (trips p) 1 (body p st)] start.val=some mid := by
       simpa [run,step,tripExpr,trips,evalOp_unfold,numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex] using hm
     rw [hr]
     exact finish.property

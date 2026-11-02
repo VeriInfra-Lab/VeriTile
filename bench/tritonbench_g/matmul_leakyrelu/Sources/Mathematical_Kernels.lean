@@ -43,7 +43,7 @@ def Request.contractedParameters (r : Request) : FPFused.Parameters where
   GROUP_SIZE_M := 4
   ACTIVATION := r.activation == "leaky_relu"
 
-/-- The observed compiler profile, kept distinct from `kernel`. Its dot takes
+/-- The explicit contracted-graph Python candidate, kept distinct from `kernel`. Its dot takes
 the live accumulator and its slope is on the right. No floating equality of
 the two graphs is assumed; both use the same source geometry and host metadata. -/
 def contractedKernel (r : Request) : ComputeKernel :=

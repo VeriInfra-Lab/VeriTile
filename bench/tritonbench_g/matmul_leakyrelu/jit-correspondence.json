@@ -1,0 +1,204 @@
+[
+  {
+    "kind": "pure_jit_function",
+    "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py",
+    "lean": "bench/tritonbench_g/matmul_leakyrelu/Kernels.lean",
+    "python_function": "leaky_relu",
+    "lean_definition": "leakyRelu"
+  },
+  {
+    "kind": "pure_jit_function",
+    "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu_dotacc.py",
+    "lean": "bench/tritonbench_g/matmul_leakyrelu/Kernels.lean",
+    "python_function": "leaky_relu_rhs",
+    "lean_definition": "leakyReluRhs"
+  },
+  {
+    "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py",
+    "lean": "bench/tritonbench_g/matmul_leakyrelu/Kernels.lean",
+    "python_function": "matmul_kernel",
+    "lean_definition": "originalBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "c_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "ACTIVATION"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "a_ptr",
+          "input_dtype"
+        ],
+        [
+          "b_ptr",
+          "input_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "input_dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "expected_pure_functions": {
+      "leaky_relu": "leakyRelu"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu_dotacc.py",
+    "lean": "bench/tritonbench_g/matmul_leakyrelu/Kernels.lean",
+    "python_function": "matmul_kernel",
+    "lean_definition": "candidateBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "c_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "ACTIVATION"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "a_ptr",
+          "input_dtype"
+        ],
+        [
+          "b_ptr",
+          "input_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "input_dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    },
+    "expected_pure_functions": {
+      "leaky_relu_rhs": "leakyReluRhs"
+    }
+  }
+]

@@ -16,7 +16,7 @@ def tripExpr (p : Parameters) : Op .nat [] :=
 def prelude (p : Parameters) (st : Storage) := (source p st).surfaceBody.take 15
 def body (p : Parameters) (st : Storage) : List ComputeStmt :=
   match (source p st).surfaceBody[15]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ code) => code
+  | some (ComputeStmt.forRange _ _ _ _ code) => code
   | _ => []
 def epilogue (p : Parameters) (st : Storage) := (source p st).surfaceBody.drop 16
 
@@ -35,7 +35,7 @@ def backend {α : Type} (rest : Algebra α) (D : Dot α) : Algebra α :=
 
 theorem source_decomposition (p : Parameters) (st : Storage) :
     (source p st).surfaceBody = prelude p st ++
-      [.forRangeDyn "k" (.constNat 0) (tripExpr p) (.constNat 1) (body p st)] ++ epilogue p st := by
+      [.forRange "k" 0 (trips p) 1 (body p st)] ++ epilogue p st := by
   cases st <;> rfl
 #axiomsClean source_decomposition
 end

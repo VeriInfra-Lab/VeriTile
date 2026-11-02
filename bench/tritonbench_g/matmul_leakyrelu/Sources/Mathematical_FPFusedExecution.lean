@@ -28,7 +28,7 @@ def preludeExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
   cases st <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [prelude,source,typed,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
+     simp [prelude,source,typed,Pasted.originalBody,Pasted.candidateBody,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
        evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
        FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod]
@@ -56,7 +56,7 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
   cases st <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [body,source,typed,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
+     simp [body,source,typed,Pasted.originalBody,Pasted.candidateBody,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
        evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
        FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,

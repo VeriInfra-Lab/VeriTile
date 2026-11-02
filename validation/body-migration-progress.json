@@ -5,12 +5,12 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 0,
-  "staged_count": 129,
+  "staged_count": 130,
   "pending_count": 196,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 3757,
+    "staged_and_regression_retained_modules": 3796,
     "official_comparator": "124 targets have accepted independent receipts on recorded historical source snapshots, including all 19 examples. Historical receipts are preserved; changed shared DSL dependencies require fresh exact-snapshot replay. No current completion is claimed.",
     "python_tests": 473,
     "offline_example_compilations": {
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "135 explicitly selected cases (129 targets and 6 regressions), all 3757 retained/supporting modules, 12491 Lake jobs and qualified public theorem names passed locally. MatmulTritonAutotune has two exact 28-node kernel bodies and its exact 2-node helper; all 32 task modules, the dependent 59-module triton_matmul task and the new frontend regression pass. The copied repaired source is connected to all five retained input profiles, independent matrix formula, complete signed loop, full grid, safety, output and frame. The genuine candidate commutes one integer group-count product, and complete-state execution equivalence requires no numerical relaxation. Completion still requires exact current independent replay; no completion from local build or source comparison.",
-    "official_replay_sources": 2760,
+    "working_tree": "136 selected cases (130 targets and 6 regressions), all 3796 retained/supporting modules, 12515 Lake jobs and qualified public theorem names pass locally. MatmulLeakyrelu has two exact 24-node bodies and two exact 1-node helpers; all 39 retained modules and both affected existing tasks pass. Both separate dot/add and dotAcc loops, five-profile executions, independent matrix formula, full grids, source safety, output and frame are re-proved. The existing matmul_leakyrelu_fp32_k32_dot_add_to_dotacc numerical rule remains explicit and pending numerical admission; no extra rule or public input restriction was added. Current independent proof replay is still required; local checks are not a completion receipt.",
+    "official_replay_sources": 2799,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -48,18 +48,17 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/matmul_triton_autotune",
+      "case": "bench/tritonbench_g/matmul_leakyrelu",
       "case_paths": [
+        "bench/tritonbench_g/matmul_leakyrelu",
         "bench/tritonbench_g/matmul_triton_autotune",
         "bench/tritonbench_g/triton_matmul"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 2,
-      "retained_modules": 93,
-      "replay_sources": 93,
-      "state": "official_workflow_queued",
-      "source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41379347485"
+      "cases": 3,
+      "retained_modules": 132,
+      "replay_sources": 132,
+      "state": "local_checks_passed_awaiting_official_dispatch"
     },
     "previous_incremental_replays": [
       {
@@ -501,6 +500,20 @@
         "state": "official_replay_dispatched",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41372469241",
         "source_commit": "e1ef0c36f875b9b5074aa4fcd785c8edf5f7c16a"
+      },
+      {
+        "case": "bench/tritonbench_g/matmul_triton_autotune",
+        "case_paths": [
+          "bench/tritonbench_g/matmul_triton_autotune",
+          "bench/tritonbench_g/triton_matmul"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 2,
+        "retained_modules": 93,
+        "replay_sources": 93,
+        "state": "official_workflow_queued",
+        "source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41379347485"
       }
     ],
     "pending_client_regressions": {
@@ -516,23 +529,22 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 67 TritonBench-G targets. Keep complete=false until independent current-dependency proof replay is accepted. No merge.",
+    "current_work": "Continue the remaining 66 TritonBench-G targets. Complete=false until exact current independent proof replay is accepted. Existing numerical admission gaps remain explicit. No merge.",
     "previous_validated_source_commit": "a88b5c7f734611f36aa87630d7463cbafc325258",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_regression_replay_pending",
-      "cases": 135,
-      "targets": 129,
-      "retained_modules": 3757,
-      "replay_sources": 2760,
+      "cases": 136,
+      "targets": 130,
+      "retained_modules": 3796,
+      "replay_sources": 2799,
       "current_dependency_snapshot": true,
-      "reason": "MatmulTritonAutotune now uses the complete repaired Python body, including signed casts and the conditional activation helper. The new isolated helper frontend does not change the existing core frontend. All 135 staged cases, retained supporting modules and shared checks pass locally; the affected triton_matmul import closure was rechecked. Fresh independent replay remains required for both changed cases and the new frontend regression.",
+      "reason": "MatmulLeakyrelu now quotes its complete original separate-dot/add body and a new Python realization of the retained dotAcc/right-slope candidate. Both helper sources are copied. All 136 staged cases and shared checks pass locally, including both affected existing tasks importing this mathematical library. The existing conditional contraction rule remains explicit and numerically pending. Fresh independent replay is required; no numerical experiment is claimed.",
       "current_full_build": {
         "passed": true,
-        "jobs": 12491,
-        "cases": 135,
-        "retained_modules": 3757,
-        "replay_sources": 2760,
-        "source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a"
+        "jobs": 12515,
+        "cases": 136,
+        "retained_modules": 3796,
+        "replay_sources": 2799
       },
       "python_tests": 473,
       "body_corpus_check": "PASS",
@@ -655,6 +667,28 @@
           "tests/lean/PythonOptionalConditionals.lean",
           "tests/lean/OptionalPointers.lean",
           "tests/lean/OptionalStringConstants.lean"
+        ]
+      },
+      {
+        "state": "full_local_pass_incremental_regression_replay_pending",
+        "cases": 135,
+        "targets": 129,
+        "retained_modules": 3757,
+        "replay_sources": 2760,
+        "current_dependency_snapshot": false,
+        "reason": "MatmulTritonAutotune now uses the complete repaired Python body, including signed casts and the conditional activation helper. The new isolated helper frontend does not change the existing core frontend. All 135 staged cases, retained supporting modules and shared checks pass locally; the affected triton_matmul import closure was rechecked. Fresh independent replay remains required for both changed cases and the new frontend regression.",
+        "current_full_build": {
+          "passed": true,
+          "jobs": 12491,
+          "cases": 135,
+          "retained_modules": 3757,
+          "replay_sources": 2760,
+          "source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a"
+        },
+        "python_tests": 473,
+        "body_corpus_check": "PASS",
+        "current_frontend_regressions": [
+          "tests/lean/ConditionalPureJitFunctions.lean"
         ]
       }
     ]
@@ -1592,8 +1626,12 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_leakyrelu",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Both complete 24-node Python kernel bodies and both 1-node activation helpers match the canonical quotations. All 39 retained modules, five input profiles, independent Real formula, both source safety judgments, full grids, output/frame and conditional complete-program FP comparison pass locally. The new candidate is explicitly sourced from the retained dotAcc/right-slope graph. No public premise or numerical rule was added. Existing contraction-rule numerical admission remains pending. Fresh current independent replay is required."
     },
     {
       "path": "bench/tritonbench_g/matmul_leakyrelu_fp8",
@@ -1619,12 +1657,12 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_triton_autotune",
-      "status": "proof_replay_pending",
+      "status": "shared_dependency_replay_pending",
       "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The complete repaired original and newly sourced integer-product candidate each copy 28 Python nodes, including their docstrings; their shared helper copies both nodes. All 32 retained task modules, full Real/FP grid, five-profile source execution, actual signed loop, activation, safety and frame are re-proved locally. No extra public input restriction or FP numerical relaxation assumption. The old unsafe quotation is removed. Fresh current independent comparator replay is required.",
+      "reason": "All retained proofs and public specifications pass after the imported MatmulLeakyrelu source/mathematical library migration. Own body pairs remain checked. Exact current import-closure proof replay is required.",
       "validated_source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a",
       "pending_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41379347485"
     },
