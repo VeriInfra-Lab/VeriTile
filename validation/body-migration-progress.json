@@ -12,7 +12,7 @@
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 4095,
     "official_comparator": "9 current targets have accepted exact-dependency official receipts, plus the MatmulLeakyrelu regression. Every official ZIP digest, required independent replay result, public theorem coverage and exact current source/import closure has been verified. All other targets still require current acceptance; compilation alone never counts as completion.",
-    "python_tests": 473,
+    "python_tests": 478,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -822,7 +822,55 @@
       "validation/body_receipts/int8-matmul-source-migration.json",
       "validation/body_receipts/layernorm-softmax-source-migration.json",
       "validation/body_receipts/matmul-source-migration.json"
-    ]
+    ],
+    "full_replay_recovery": {
+      "state": "local_pass_dispatch_pending",
+      "previous_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368655635",
+      "previous_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
+      "previous_artifacts": [
+        {
+          "id": 13122080702,
+          "name": "body-migration-proof-replay-2",
+          "digest": "sha256:17a747995fdd5e4ed9186062d0c310639efc59f3b25c544dc21c0bb3915c793a"
+        },
+        {
+          "id": 13121756438,
+          "name": "body-migration-proof-replay-4",
+          "digest": "sha256:7c693d188216fd41f43d28157dfa09824bbfc6b76212c4cc147866b27c4c938f"
+        },
+        {
+          "id": 13121611813,
+          "name": "body-migration-proof-replay-5",
+          "digest": "sha256:a7b8b4e4dede9e77711b089e5d461114200fc328fec43ba09b4bc7fdece38c52"
+        },
+        {
+          "id": 13121592016,
+          "name": "body-migration-proof-replay-0",
+          "digest": "sha256:a00e963d48a58ed1626709af7da1218342c1078c3e8b38132261504304c8414e"
+        },
+        {
+          "id": 13121269740,
+          "name": "body-migration-proof-replay-1",
+          "digest": "sha256:25c59196b31a8283ebcc2211e19c1f308c6039d73077007d0f954238eea54345"
+        },
+        {
+          "id": 13121093662,
+          "name": "body-migration-proof-replay-3",
+          "digest": "sha256:0aed9a8b89970b84e17b147744fc1db60bf7cf7345c14a505d450f7041f89b28"
+        }
+      ],
+      "previous_zip_digests_verified": true,
+      "previous_batch_receipts_available": false,
+      "reason": "The six-hour run was cancelled. All six verified ZIPs contain individual comparator data but no source-stable batch receipt; no completion is inferred. Replays now run shared obligations first, atomically checkpoint every completed case, reject unfinished global merges, and split the full selected batch into 24 smaller shards.",
+      "cases": 141,
+      "targets": 135,
+      "retained_modules": 4095,
+      "replay_sources": 3098,
+      "shards": 24,
+      "checkpoint_regression_tests": 19,
+      "python_tests": 478,
+      "boundary": "Only a case with every required shared and owned independent replay, public theorem coverage and matching source/import hashes may be marked complete."
+    }
   },
   "targets": [
     {
