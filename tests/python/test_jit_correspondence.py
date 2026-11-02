@@ -2182,3 +2182,82 @@ class AttentionFwdTriton1BodyCorrespondenceTests(unittest.TestCase):
                 source = source.replace(old, new, 1)
             with self.subTest(old=old), self.assertRaises(ValueError):
                 self.verify(source, candidate=True)
+
+
+class PureJitDocstringCorrespondenceTests(unittest.TestCase):
+    python = '''@triton.jit
+def helper(x):
+    """A $value uses no tl.region directive here."""
+    return tl.where(x >= 0, x, 0.01 * x)
+'''
+    lean = '''def copied : PureJitFunction := triton_function (x) {
+    """A $value uses no tl.region directive here."""
+    return tl.where(x >= 0, x, 0.01 * x)
+}
+'''
+
+    def verify(self, python=None, lean=None):
+        from scripts.bench.jit_correspondence import check_pure_function
+        return check_pure_function(self.python if python is None else python,
+                                   self.lean if lean is None else lean, 'helper', 'copied')
+
+    def test_complete_helper_includes_its_docstring(self):
+        self.assertEqual(self.verify()['statements'], 2)
+
+    def test_docstring_cannot_be_removed_or_changed(self):
+        for changed in [self.lean.replace('    """A $value uses no tl.region directive here."""\n', ''),
+                        self.lean.replace('A $value', 'A different value')]:
+            with self.subTest(source=changed), self.assertRaises(ValueError):
+                self.verify(lean=changed)
+
+    def test_extra_executable_statement_is_still_refused(self):
+        python = self.python.replace('    return ', '    extra = x\n    return ')
+        lean = self.lean.replace('    return ', '    extra = x\n    return ')
+        with self.assertRaisesRegex(ValueError, 'one return'):
+            self.verify(python, lean)
+
+
+class MatmulAutotuneBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/matmul_triton_autotune'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.python = (self.directory / 'matmul_triton_autotune.py').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, python=None, source=None):
+        r = self.records[1]
+        return check(self.python if python is None else python,
+                     self.source if source is None else source,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'],
+                     expected_pure_functions=r['expected_pure_functions'])
+
+    def test_both_full_bodies_and_shared_documented_helper(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([row['statements'] for row in rows], [2, 28, 28])
+
+    def test_real_autotune_decorator_and_builtin_min_are_not_helper_calls(self):
+        self.assertIn('configs=get_autotune_config()', self.python)
+        self.assertIn('min(num_pid_m - first_pid_m, GROUP_SIZE_M)', self.python)
+        self.assertEqual(self.verify()['status'], 'PASS')
+
+    def test_builtin_min_rebinding_and_unsupported_arity_are_refused(self):
+        for changed in [self.python + '\nmin = lambda a, b: a\n',
+                        'from arbitrary_module import min\n' + self.python]:
+            with self.subTest(source=changed), self.assertRaisesRegex(ValueError, 'shadowed'):
+                self.verify(python=changed)
+        python = self.python.replace('min(num_pid_m - first_pid_m, GROUP_SIZE_M)',
+                                     'min(num_pid_m - first_pid_m, GROUP_SIZE_M, 1)')
+        source = self.source.replace('min(num_pid_m - first_pid_m, GROUP_SIZE_M)',
+                                     'min(num_pid_m - first_pid_m, GROUP_SIZE_M, 1)', 1)
+        with self.assertRaisesRegex(ValueError, 'exactly two'):
+            self.verify(python, source)
+
+    def test_grouped_casts_helper_call_and_half_conversion_cannot_disappear(self):
+        for old, new in [('M, N, K = tl.cast(M, tl.int64), tl.cast(N, tl.int64), tl.cast(K, tl.int64)',
+                          'M, N, K = M, N, K'),
+                         ('accumulator = leaky_relu(accumulator)', 'accumulator = accumulator'),
+                         ('c = accumulator.to(tl.float16)', 'c = accumulator')]:
+            with self.subTest(source=old), self.assertRaises(ValueError):
+                self.verify(source=self.source.replace(old, new, 1))

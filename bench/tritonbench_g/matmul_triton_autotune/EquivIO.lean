@@ -1,9 +1,9 @@
 import bench.tritonbench_g.matmul_triton_autotune.IO
 import bench.tritonbench_g.matmul_triton_autotune.Proofs.KernelNative
 
-/-! The existing original and safe-address matmul sources, under exactly the
+/-! The repaired source and its integer-index candidate, under exactly the
 same FP32 scalar, live-carry instruction, FP16 output and launch configuration.
-The source definitions remain in the two task Kernels modules. -/
+Both complete source definitions are in this task's Kernels.lean. -/
 namespace VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.FloatingIO
 open VeriTile.Triton FP.Structural Whole
 noncomputable section
@@ -14,6 +14,7 @@ structure Program where
   geometry : Geometry
   ids : List Nat
   complete : ids.Perm (List.range (programs geometry.request))
+  /-- Compatibility selector: true chooses the integer-commuted repaired source. -/
   safeAddresses : Bool
 
 def Program.kernel (p : Program) : ComputeKernel :=

@@ -49,7 +49,8 @@ theorem logicalReference_zero_inner {α : Type} (Q : Numerics α) (r : Request)
     (A : Fin r.rows → Fin r.inner → α) (B : Fin r.inner → Fin r.columns → α)
     (i : Fin r.rows) (j : Fin r.columns) (hk : r.inner=0) :
     logicalReference Q r A B i j=Q.castHalf (Q.activate (r.activation == "leaky_relu") Q.zero) := by
-  cases hh : r.config <;> simp [logicalReference,hk,foldRange,Request.parameters,hh,Config.bk]
+  simp only [logicalReference,FPValue.Parameters.numKBlocks,Request.parameters]
+  cases hh : r.config <;> simp [hk,foldRange,hh,Config.bk]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

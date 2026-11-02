@@ -256,9 +256,26 @@ theorem source_offset {α : Type} (r : Request) (s : State α) (i : FPValue.CInd
       outputOffset r (FPValue.row r.parameters s i.1) (FPValue.col r.parameters s i.2.1) := by
   simp [FPValue.cOffset,outputOffset,Request.parameters]
 
+/-- The signed source's group subtraction is nonnegative for every program
+in the original launch grid. No extra public input restriction is needed. -/
+theorem source_geometry {α : Type} (r : Request) (pid : Nat) (s : State α)
+    (hp : pid<programs r) : FPValue.Geometry r.parameters (instanceState r pid s) := by
+  refine ⟨r.config.positive.1,r.config.positive.2.1,?_⟩
+  have hf : pid/(r.config.gm*tileColumns r)*r.config.gm ≤ tileRows r := by
+    by_contra h
+    have hr : tileRows r ≤ pid/(r.config.gm*tileColumns r)*r.config.gm := by omega
+    have hbad : tileRows r*tileColumns r ≤ pid := calc
+      tileRows r*tileColumns r ≤ (pid/(r.config.gm*tileColumns r)*r.config.gm)*tileColumns r :=
+        Nat.mul_le_mul_right _ hr
+      _ = pid/(r.config.gm*tileColumns r)*(r.config.gm*tileColumns r) := by rw [Nat.mul_assoc]
+      _ ≤ pid := Nat.div_mul_le_self _ _
+    exact (Nat.not_le_of_gt hp) hbad
+  simpa only [FPValue.firstM,FPValue.perGroup,FPValue.blocksN,FPValue.blocksM,
+    Request.parameters,instanceState,↓reduceIte,tileRows,tileColumns] using hf
+
 theorem program_correct {α : Type} [Inhabited α]
     (M : Algebra α) (D : FPValue.DotAcc α) (Q : Numerics α) (law : PrimitiveLaws M D Q)
-    (r : Request) (initial current : State α) (pid : Nat)
+    (r : Request) (initial current : State α) (pid : Nat) (hp : pid<programs r)
     (hCA : r.C≠r.A) (hCB : r.C≠r.B)
     (hA : ∀ o, current.mem r.A o=initial.mem r.A o)
     (hB : ∀ o, current.mem r.B o=initial.mem r.B o) :
@@ -270,7 +287,7 @@ theorem program_correct {α : Type} [Inhabited α]
       (∀ row<r.rows, ∀ col<r.columns, Covered r initial [pid] row col → Good Q r initial next row col) := by
   let start := instanceState r pid current
   obtain ⟨next,he,_,hv,hf⟩ := FPValue.correctness M D r.parameters .single start
-    (active_injective r start)
+    (source_geometry r pid current hp) (active_injective r start)
   have value (i : FPValue.CIndex r.parameters) (hi : FPValue.active r.parameters start i) :
       Good Q r initial next (FPValue.row r.parameters start i.1) (FPValue.col r.parameters start i.2.1) := by
     have h := hv i hi
@@ -316,7 +333,8 @@ theorem programs_correct {α : Type} [Inhabited α]
     (r : Request) (initial current : State α) (ids : List Nat)
     (hCA : r.C≠r.A) (hCB : r.C≠r.B)
     (hA : ∀ o, current.mem r.A o=initial.mem r.A o)
-    (hB : ∀ o, current.mem r.B o=initial.mem r.B o) :
+    (hB : ∀ o, current.mem r.B o=initial.mem r.B o)
+    (valid : ∀ pid ∈ ids,pid<programs r) :
     ∃ final, runPrograms M D r ids current=some final ∧
       (∀ o, final.mem r.A o=initial.mem r.A o) ∧
       (∀ o, final.mem r.B o=initial.mem r.B o) ∧
@@ -330,8 +348,8 @@ theorem programs_correct {α : Type} [Inhabited α]
     obtain ⟨p,hp,_⟩ := hcov
     simp at hp
   | cons pid ids ih =>
-    obtain ⟨next,he,ha,hb,hframe,hkeep,hvalue⟩ := program_correct M D Q law r initial current pid hCA hCB hA hB
-    obtain ⟨final,hfin,ha',hb',hframe',hkeep',hvalue'⟩ := ih next ha hb
+    obtain ⟨next,he,ha,hb,hframe,hkeep,hvalue⟩ := program_correct M D Q law r initial current pid (valid pid (by simp)) hCA hCB hA hB
+    obtain ⟨final,hfin,ha',hb',hframe',hkeep',hvalue'⟩ := ih next ha hb (fun q hq => valid q (List.mem_cons_of_mem _ hq))
     refine ⟨final,?_,ha',hb',?_,?_,?_⟩
     · simp only [runPrograms,he,Option.bind_some,hfin]
     · intro region offset hn
@@ -351,6 +369,7 @@ theorem grid_correct {α : Type} [Inhabited α]
     ∃ final, runPrograms M D r (List.range (programs r)) initial=some final ∧ Result Q r initial final := by
   obtain ⟨final,he,_,_,hf,_,hv⟩ := programs_correct M D Q law r initial initial
     (List.range (programs r)) hCA hCB (fun _ => rfl) (fun _ => rfl)
+    (fun _ h => List.mem_range.mp h)
   refine ⟨final,he,?_,hf⟩
   intro row hr col hc
   obtain ⟨pid,hp,i,hi,hj⟩ := cell_covered r initial row col hr hc
@@ -366,6 +385,7 @@ theorem grid_order_correct {α : Type} [Inhabited α]
     ∃ final, runPrograms M D r ids initial=some final ∧ Result Q r initial final := by
   obtain ⟨final,he,_,_,hf,_,hv⟩ := programs_correct M D Q law r initial initial
     ids hCA hCB (fun _ => rfl) (fun _ => rfl)
+    (fun _ h => List.mem_range.mp (order.mem_iff.mp h))
   refine ⟨final,he,?_,hf⟩
   intro row hr col hc
   obtain ⟨pid,hp,i,hi,hj⟩ := cell_covered r initial row col hr hc

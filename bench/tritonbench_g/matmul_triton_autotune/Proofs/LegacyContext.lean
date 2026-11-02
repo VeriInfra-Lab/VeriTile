@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_triton_autotune.Kernels
+import bench.tritonbench_g.matmul_triton_autotune.SourceBindings
 
 /-! Retained task-local context for the accepted historical proofs. Public
 kernel entries derive this interface from actual Tensor bindings. Host and

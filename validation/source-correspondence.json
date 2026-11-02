@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 111,
-      "uncovered_jit_functions": 72
+      "selected_body_copy_checked": 116,
+      "uncovered_jit_functions": 67
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 155,
-    "inventoried_jit_functions": 524,
-    "uncovered_inventoried_jit_functions": 208,
+    "uncovered_selected_jit_functions": 148,
+    "inventoried_jit_functions": 527,
+    "uncovered_inventoried_jit_functions": 199,
     "checked_pair_modes": {
-      "pasted_body": 316
+      "pasted_body": 328
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 111,
-        "uncovered_jit_functions": 72
+        "selected_body_copy_checked": 116,
+        "uncovered_jit_functions": 67
       }
     },
-    "primary_files_with_int64_screen_warning": 16,
+    "primary_files_with_int64_screen_warning": 15,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 44,
-        "antiquotes": 386,
+        "in_body_type_directives": 40,
+        "antiquotes": 381,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -21394,9 +21394,9 @@
       "lean": "bench/tritonbench_g/int4_matmul/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 121,
-        "dsl_assignment": 41,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 64,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -21433,30 +21433,82 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "sourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 25,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "stride_bsk": "integer",
+            "stride_bsn": "integer",
+            "stride_bzpk": "integer",
+            "stride_bzpn": "integer",
+            "group_size": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "SPLIT_K"
+          ],
           "python": "bench/tritonbench_g/int4_matmul/int4_matmul.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/int4_matmul/Kernels.lean"
         },
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 25,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "stride_bsk": "integer",
+            "stride_bsn": "integer",
+            "stride_bzpk": "integer",
+            "stride_bzpn": "integer",
+            "group_size": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "SPLIT_K"
+          ],
           "python": "bench/tritonbench_g/int4_matmul/int4_matmul_fold_stride.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/int4_matmul/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/int4_matmul/int4_matmul.py",
-          "function": "matmul_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/int4_matmul/Kernels.lean": "a9b4c9eaa026ef6b3d066d1d3f8a1eba966f39cf71bc94f59256cc02d6032186",
+        "bench/tritonbench_g/int4_matmul/Kernels.lean": "aadd0be9ad36694ceb1482ca302545b760d093a287e93517d5c34eb587061f30",
         "bench/tritonbench_g/int4_matmul/int4_matmul.py": "00132e33a59c145f856047e40fcce4a096105815c080ea0d324553ac6cf1a8ae",
-        "bench/tritonbench_g/int4_matmul/int4_matmul_fold_stride.py": "76279a39cc4f22f56e10d0034d7bbd27265e84f358abb741419d8b07416e82d2"
+        "bench/tritonbench_g/int4_matmul/int4_matmul_fold_stride.py": "76279a39cc4f22f56e10d0034d7bbd27265e84f358abb741419d8b07416e82d2",
+        "bench/tritonbench_g/int4_matmul/jit-correspondence.json": "e9dd3bb503ebb02a172e21571dff9c2acdb3a2ebeab222bc11751cc6ec57668d"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/int4_matmul"
@@ -21468,9 +21520,9 @@
       "lean": "bench/tritonbench_g/int8_dequant_matmul/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 4,
-        "antiquotes": 104,
-        "dsl_assignment": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 29,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -21642,30 +21694,80 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_int8_matmul_rowwise_dequantize",
+          "lean_definition": "sourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 37,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "divfactor": "fp32",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "ACC_TYPE",
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "EVEN_K",
+            "GROUP_M",
+            "SPLIT_K",
+            "has_bias"
+          ],
           "python": "bench/tritonbench_g/int8_dequant_matmul/int8_dequant_matmul.py",
-          "function": "_int8_matmul_rowwise_dequantize"
+          "lean": "bench/tritonbench_g/int8_dequant_matmul/Kernels.lean"
         },
         {
+          "python_function": "_int8_matmul_rowwise_dequantize",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 35,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "divfactor": "fp32",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "ACC_TYPE",
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "EVEN_K",
+            "GROUP_M",
+            "SPLIT_K",
+            "has_bias"
+          ],
           "python": "bench/tritonbench_g/int8_dequant_matmul/int8_dequant_matmul_reuse_indices.py",
-          "function": "_int8_matmul_rowwise_dequantize"
+          "lean": "bench/tritonbench_g/int8_dequant_matmul/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/int8_dequant_matmul/int8_dequant_matmul.py",
-          "function": "_int8_matmul_rowwise_dequantize"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/int8_dequant_matmul/Kernels.lean": "d706924371652fba4560eb64dbebc00d3879c52adbccf416257c22992b95bf94",
+        "bench/tritonbench_g/int8_dequant_matmul/Kernels.lean": "a4b9ab758551c7d1b2341f7bef86c3d16192897dc17d6000b2218598985b4777",
         "bench/tritonbench_g/int8_dequant_matmul/int8_dequant_matmul.py": "e7d5d9fd268e2d8933eaf733d8116baf7a9c2111bc2215e0ece4c811e361e8ab",
-        "bench/tritonbench_g/int8_dequant_matmul/int8_dequant_matmul_reuse_indices.py": "36683449d61e498a123985bc6bb67a53295abd99fe26c0c79edce4df1da7406c"
+        "bench/tritonbench_g/int8_dequant_matmul/int8_dequant_matmul_reuse_indices.py": "36683449d61e498a123985bc6bb67a53295abd99fe26c0c79edce4df1da7406c",
+        "bench/tritonbench_g/int8_dequant_matmul/jit-correspondence.json": "27bfcb81cbc5631d4cf5db19be43e19991666986b9e0142534297d7ab0db388a"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/int8_dequant_matmul"
@@ -21677,12 +21779,12 @@
       "lean": "bench/tritonbench_g/int8_matmul_kernel/Kernels.lean",
       "lean_screen": {
         "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 56,
-        "dsl_assignment": 1,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 13,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 3
       },
       "python_jits": [
         {
@@ -21705,25 +21807,43 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "sourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 23,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "K"
+          ],
           "python": "bench/tritonbench_g/int8_matmul_kernel/int8_matmul_kernel.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/int8_matmul_kernel/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/int8_matmul_kernel/int8_matmul_kernel.py",
-          "function": "matmul_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/int8_matmul_kernel/Kernels.lean": "df95f31068da17f237f900e09e1a162aa0bd36aa44d1bcdc5643613736fa2caf",
-        "bench/tritonbench_g/int8_matmul_kernel/int8_matmul_kernel.py": "5fb5ed4e23f10e9e65aba367755153d8562ef7812ca8c64ee753ca9569af5059"
+        "bench/tritonbench_g/int8_matmul_kernel/Kernels.lean": "14a309c23a2410440b5a8a599dd3971b608611e36be6c38ca9bc6f4b5088f0d9",
+        "bench/tritonbench_g/int8_matmul_kernel/int8_matmul_kernel.py": "5fb5ed4e23f10e9e65aba367755153d8562ef7812ca8c64ee753ca9569af5059",
+        "bench/tritonbench_g/int8_matmul_kernel/jit-correspondence.json": "4d3bd83c381ae23cb1d465cbc1581295cf6c7e43feb4544cce9d100035754b86"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/int8_matmul_kernel"
@@ -24805,9 +24925,9 @@
       "lean": "bench/tritonbench_g/layer_norm_ops/Kernels.lean",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 80,
-        "dsl_assignment": 8,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 54,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 4
@@ -24843,35 +24963,147 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py",
-          "function": "_layer_norm_fwd_1pass_kernel"
         },
         {
-          "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py",
-          "function": "_layer_norm_bwd_kernel"
+          "path": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops_candidates.py",
+          "jits": [
+            {
+              "function": "_layer_norm_fwd_1pass_kernel",
+              "line": 11,
+              "statements": 18,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "_layer_norm_bwd_kernel",
+              "line": 50,
+              "statements": 18,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_layer_norm_fwd_1pass_kernel",
+          "lean_definition": "forwardSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 18,
+          "runtime_parameters": {
+            "stride_x_row": "integer",
+            "stride_y_row": "integer",
+            "stride_res_row": "integer",
+            "stride_res_out_row": "integer",
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "HAS_BIAS",
+            "HAS_RESIDUAL",
+            "IS_RMS_NORM",
+            "STORE_RESIDUAL_OUT"
+          ],
           "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py",
-          "function": "_layer_norm_fwd_1pass_kernel"
+          "lean": "bench/tritonbench_g/layer_norm_ops/Kernels.lean"
         },
         {
+          "python_function": "_layer_norm_bwd_kernel",
+          "lean_definition": "backwardSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 18,
+          "runtime_parameters": {
+            "stride_x_row": "integer",
+            "stride_y_row": "integer",
+            "stride_dy_row": "integer",
+            "stride_dx_row": "integer",
+            "stride_dres_row": "integer",
+            "stride_dres_in_row": "integer",
+            "stride_mean": "integer",
+            "stride_rstd": "integer",
+            "M": "integer",
+            "N": "integer",
+            "eps": "fp32",
+            "rows_per_program": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "HAS_BIAS",
+            "HAS_DRESIDUAL",
+            "IS_RMS_NORM",
+            "RECOMPUTE_OUTPUT",
+            "STORE_DRESIDUAL"
+          ],
           "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py",
-          "function": "_layer_norm_bwd_kernel"
+          "lean": "bench/tritonbench_g/layer_norm_ops/Kernels.lean"
+        },
+        {
+          "python_function": "_layer_norm_fwd_1pass_kernel",
+          "lean_definition": "forwardMaskReusedSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 18,
+          "runtime_parameters": {
+            "stride_x_row": "integer",
+            "stride_y_row": "integer",
+            "stride_res_row": "integer",
+            "stride_res_out_row": "integer",
+            "N": "integer",
+            "eps": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "HAS_BIAS",
+            "HAS_RESIDUAL",
+            "IS_RMS_NORM",
+            "STORE_RESIDUAL_OUT"
+          ],
+          "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops_candidates.py",
+          "lean": "bench/tritonbench_g/layer_norm_ops/Kernels.lean"
+        },
+        {
+          "python_function": "_layer_norm_bwd_kernel",
+          "lean_definition": "backwardRowStartReusedSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 18,
+          "runtime_parameters": {
+            "stride_x_row": "integer",
+            "stride_y_row": "integer",
+            "stride_dy_row": "integer",
+            "stride_dx_row": "integer",
+            "stride_dres_row": "integer",
+            "stride_dres_in_row": "integer",
+            "stride_mean": "integer",
+            "stride_rstd": "integer",
+            "M": "integer",
+            "N": "integer",
+            "eps": "fp32",
+            "rows_per_program": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "HAS_BIAS",
+            "HAS_DRESIDUAL",
+            "IS_RMS_NORM",
+            "RECOMPUTE_OUTPUT",
+            "STORE_DRESIDUAL"
+          ],
+          "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops_candidates.py",
+          "lean": "bench/tritonbench_g/layer_norm_ops/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/layer_norm_ops/Kernels.lean": "1a4f0a21f911416310c1aae65b0aa7457d56abd1d8695076c2315ab8ddf7324d",
-        "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py": "a04aa0d8020ac89ab5cd5b5798736532685a8734535e2085f7f81e942d56f795"
+        "bench/tritonbench_g/layer_norm_ops/Kernels.lean": "b2f4d5031f7acaae749f0eace1cb2b9ff618b0e2ea537dc5594e01c72a69a9ec",
+        "bench/tritonbench_g/layer_norm_ops/jit-correspondence.json": "013599e86741d2aebcbe8fd3b07030a5cb3673e7d1c28140099b6c3f3ff4a1bb",
+        "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py": "a04aa0d8020ac89ab5cd5b5798736532685a8734535e2085f7f81e942d56f795",
+        "bench/tritonbench_g/layer_norm_ops/layer_norm_ops_candidates.py": "7be7925fcb5208efd4a4744c0fe1b87452a91e260efc6d2356298bb337139c2d"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/layer_norm_ops"
@@ -27950,13 +28182,13 @@
       "python": "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py",
       "lean": "bench/tritonbench_g/matmul_triton_autotune/Kernels.lean",
       "lean_screen": {
-        "quotations": 1,
+        "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 40,
-        "dsl_assignment": 8,
+        "antiquotes": 0,
+        "dsl_assignment": 32,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 3
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -28111,35 +28343,160 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py",
-          "function": "matmul_kernel"
         },
         {
-          "python": "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py",
-          "function": "leaky_relu"
+          "path": "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune_index_commuted.py",
+          "jits": [
+            {
+              "function": "matmul_kernel",
+              "line": 12,
+              "statements": 28,
+              "explicit_int64_casts": [
+                {
+                  "line": 30,
+                  "expression": "tl.program_id(axis=0).to(tl.int64)"
+                },
+                {
+                  "line": 42,
+                  "expression": "tl.arange(0, BLOCK_SIZE_K).to(tl.int64)"
+                },
+                {
+                  "line": 26,
+                  "expression": "tl.cast(M, tl.int64)"
+                },
+                {
+                  "line": 26,
+                  "expression": "tl.cast(N, tl.int64)"
+                },
+                {
+                  "line": 26,
+                  "expression": "tl.cast(K, tl.int64)"
+                },
+                {
+                  "line": 27,
+                  "expression": "tl.cast(stride_am, tl.int64)"
+                },
+                {
+                  "line": 27,
+                  "expression": "tl.cast(stride_ak, tl.int64)"
+                },
+                {
+                  "line": 28,
+                  "expression": "tl.cast(stride_bk, tl.int64)"
+                },
+                {
+                  "line": 28,
+                  "expression": "tl.cast(stride_bn, tl.int64)"
+                },
+                {
+                  "line": 29,
+                  "expression": "tl.cast(stride_cm, tl.int64)"
+                },
+                {
+                  "line": 29,
+                  "expression": "tl.cast(stride_cn, tl.int64)"
+                },
+                {
+                  "line": 59,
+                  "expression": "tl.arange(0, BLOCK_SIZE_M).to(tl.int64)"
+                },
+                {
+                  "line": 60,
+                  "expression": "tl.arange(0, BLOCK_SIZE_N).to(tl.int64)"
+                },
+                {
+                  "line": 40,
+                  "expression": "tl.arange(0, BLOCK_SIZE_M).to(tl.int64)"
+                },
+                {
+                  "line": 41,
+                  "expression": "tl.arange(0, BLOCK_SIZE_N).to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "leaky_relu",
+          "lean_definition": "leakyRelu",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "pure_jit_function",
+          "statements": 2,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/matmul_triton_autotune/Kernels.lean"
         },
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 28,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "ACTIVATION",
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
           "python": "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py",
-          "function": "leaky_relu"
+          "lean": "bench/tritonbench_g/matmul_triton_autotune/Kernels.lean"
+        },
+        {
+          "python_function": "matmul_kernel",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 28,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "ACTIVATION",
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
+          "python": "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune_index_commuted.py",
+          "lean": "bench/tritonbench_g/matmul_triton_autotune/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_triton_autotune/Kernels.lean": "af1e7e77a6be963212440c1e7bb419e620f450fd2237024cd63d868616fb5983",
-        "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py": "57ef247c2cd52e4300a270ac83707881b15e11d067dad81430c5d0bde1f75e08"
+        "bench/tritonbench_g/matmul_triton_autotune/Kernels.lean": "a65f097e68ee86cd7a6cc196cbf8662d92dfb68e7ce53607bc8e4634ac432260",
+        "bench/tritonbench_g/matmul_triton_autotune/jit-correspondence.json": "a42c1ec75601d41b3c179499ee92b67443b52072552852feb8bcac91f7651716",
+        "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py": "57ef247c2cd52e4300a270ac83707881b15e11d067dad81430c5d0bde1f75e08",
+        "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune_index_commuted.py": "65f14acb26b0e10d0c7ca408dd5575d891f4caf2a6a483e112f9b343aa4120ac"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/matmul_triton_autotune"

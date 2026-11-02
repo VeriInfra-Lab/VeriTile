@@ -1814,6 +1814,19 @@
           "VeriTile.Bench.Repairs.LayerNormOps.FPEquiv.backward_row_start_reused_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_triton_autotune",
+      "python": "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_triton_autotune/Correct.lean": [
+          "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.mathematical_kernel"
+        ],
+        "bench/tritonbench_g/matmul_triton_autotune/FPEquiv.lean": [
+          "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.matmul_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -4415,6 +4428,40 @@
     "bench/tritonbench_g/layer_norm_ops/Proofs/Readback.lean",
     "bench/tritonbench_g/layer_norm_ops/Proofs/SourcePair.lean",
     "bench/tritonbench_g/layer_norm_ops/Proofs/SourceSafety.lean",
-    "tests/lean/PythonOptionalConditionals.lean"
+    "tests/lean/PythonOptionalConditionals.lean",
+    "VeriTile/Triton/DSL/ConditionalPureJitFunctions.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Contract.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Correct.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/EquivIO.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/FPEquiv.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/IO.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Kernels.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/Addresses.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/Equivalence.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/Execution.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/Interface.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/KernelNative.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/KernelRaw.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/LegacyContext.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/Mathematical_FP.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/Mathematical_Real.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/RealIO.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/Refinement.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/Source.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/SourcePair.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/SourceTotal.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/SourceBindings.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Sources/Mathematical_FPComplete.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Sources/Mathematical_FPExecution.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Sources/Mathematical_FPPrelude.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Sources/Mathematical_FPRange.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Sources/Mathematical_FPReference.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Sources/Mathematical_FPTypedSource.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Sources/Mathematical_Host.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Sources/Mathematical_WholeTask.lean",
+    "tests/lean/ConditionalPureJitFunctions.lean"
   ]
 }

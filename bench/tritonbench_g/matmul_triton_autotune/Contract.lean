@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_triton_autotune.Kernels
+import bench.tritonbench_g.matmul_triton_autotune.SourceBindings
 import bench.tritonbench_g.matmul_leakyrelu.Tensor
 
 /-! Kernel admission and ordinary Tensor/launch observations. Generic Matrix
