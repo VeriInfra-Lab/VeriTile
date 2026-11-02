@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 146,
+  "completed_count": 148,
   "staged_count": 149,
-  "pending_count": 50,
+  "pending_count": 48,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 4840,
-    "official_comparator": "146 current targets retain accepted exact-dependency official receipts. Official ZIP digests, required proof roots, public theorem coverage and exact current source/import closures have been audited. Three additional locally verified targets await current independent replay; compilation never counts as completion.",
+    "official_comparator": "148 current targets retain accepted exact-dependency official receipts. Official ZIP digests, required proof roots, public theorem coverage and exact current source/import closures have been audited. One additional locally verified target (FP4-to-BF16) awaits current independent replay; compilation never counts as completion.",
     "python_tests": 534,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "155 cases (149 targets and 6 regressions), all 4840 retained/supporting modules, 13516 Lake jobs, 384 public theorem names, 534 Python tests and body-corpus checks pass. FP4 now copies the complete original caller and helper, retains all source precision/casts/bitcasts/unused statements and preserves the existing public Real/FP specifications and finite-ABI domains. All 31 owned and three shared frontend/test roots pass. Exact-source frontend trust/inventory preflights pass (152 theorems); five semantic regression theorems and five explicit unsupported-width rejection guards pass. Independent completion count remains 146, including all 19 examples.",
+    "working_tree": "155 cases (149 targets and 6 regressions), all 4840 retained/supporting modules, 13516 Lake jobs, 384 public theorem names, 534 Python tests and body-corpus checks pass. FP4 now copies the complete original caller and helper, retains all source precision/casts/bitcasts/unused statements and preserves the existing public Real/FP specifications and finite-ABI domains. All 31 owned and three shared frontend/test roots pass. Exact-source frontend trust/inventory preflights pass (152 theorems); five semantic regression theorems and five explicit unsupported-width rejection guards pass. Independent completion count is now 148, including all 19 examples.",
     "official_replay_sources": 3843,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -808,7 +808,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 47 TritonBench-G source/proof migrations and collect exact-current independent receipts for chunk_gla_simple, chunk_delta_fwd and fp4_to_bf16. All 19 examples are accepted. Attention score is the next source migration. No merge.",
+    "current_work": "Continue the remaining 47 TritonBench-G source/proof migrations; attention_score has both complete source bodies and is being revalidated. Collect the exact-current FP4-to-BF16 independent receipt. All 19 examples are accepted. No merge.",
     "previous_validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1070,6 +1070,7 @@
       "validation/body_receipts/full-recovery-shard-8.json",
       "validation/body_receipts/full-recovery-shard-9.json",
       "validation/body_receipts/gate-source-migration.json",
+      "validation/body_receipts/gla-source-migration.json",
       "validation/body_receipts/int4-matmul-source-migration.json",
       "validation/body_receipts/int8-matmul-source-migration.json",
       "validation/body_receipts/iv-source-migration.json",
@@ -1244,6 +1245,22 @@
       "public_theorem_names": 384,
       "boundary": "Local source/proof/axiom/specification checks, not an independent completion receipt.",
       "source_commit": "c1d8b9aa54c27762f0af3a5204b332803afb4e76"
+    },
+    "gla_official_replay": {
+      "state": "accepted_exact_current_closures",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41487841536",
+      "source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
+      "replay_sources_accepted": 256,
+      "cases_accepted": 3,
+      "target_cases": [
+        "bench/tritonbench_g/chunk_gla_simple",
+        "bench/tritonbench_g/chunk_delta_fwd"
+      ],
+      "regression_cases": [
+        "bench/tritonbench_g/chunk_gated_attention"
+      ],
+      "receipt": "validation/body_receipts/gla-source-migration.json",
+      "artifact_zip_sha256": "38eb83f4f1dae6ebaf204d4cd840b48fe2b604c70b03dd5e0bdd1a220d981503"
     }
   },
   "targets": [
@@ -1510,16 +1527,18 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_delta_fwd",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-2.json",
-      "reason": "The shared chunk_gla_simple source/import closure changed during its full-body migration. Current full local proof/source/trust checks pass, but the old independent receipt is not reused. Fresh exact-closure independent replay is required.",
-      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742"
+      "reason": "Every required owned and shared proof root is accepted in the completed 256-root, three-case official replay. Verified the official merged ZIP SHA256, all accepted roots, current source pairs, fully qualified public Real/FP theorem names, all shared dependencies and exact current transitive source/import closures. The source stayed unchanged during replay. The complete copied source, independent Real specification, actual FP candidate, full-grid execution, outputs, source safety and frames are retained. The affected dependent task and related regression were freshly replayed; the superseded receipt was not reused. Compilation alone is not completion.",
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/gla-source-migration.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41487841536"
     },
     {
       "path": "bench/tritonbench_g/chunk_gate_recurrence",
@@ -1540,13 +1559,15 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_simple",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
-      "reason": "Both complete 23-statement repaired/derived Python bodies match the two literal Lean quotations. All original INT64 casts, tuple stride assignments, signed loop, three typed dot options, causal mask, load tails and source/store casts are retained. The original Python is unchanged; the materialized existing row-CSE candidate records provenance and preserves widening. The entire Real proof decomposition is proved equal to the actual source erasure; all address, signed iteration, independent Real contraction, successful complete grid, output/frame and active source safety proofs reconnect to it. Whole FP equivalence follows both actual sources and preserves opaque ordered FP operations. All 74 owned modules, affected clients, 376 public names and 517 Python tests pass in the 151-case local batch. No new numerical assumption, public premise or input restriction. Exact-current independent replay remains required; compilation does not count as completion."
+      "reason": "Every required owned and shared proof root is accepted in the completed 256-root, three-case official replay. Verified the official merged ZIP SHA256, all accepted roots, current source pairs, fully qualified public Real/FP theorem names, all shared dependencies and exact current transitive source/import closures. The source stayed unchanged during replay. The complete copied source, independent Real specification, actual FP candidate, full-grid execution, outputs, source safety and frames are retained. The affected dependent task and related regression were freshly replayed; the superseded receipt was not reused. Compilation alone is not completion.",
+      "receipt": "validation/body_receipts/gla-source-migration.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41487841536"
     },
     {
       "path": "bench/tritonbench_g/chunk_linear_attn",
