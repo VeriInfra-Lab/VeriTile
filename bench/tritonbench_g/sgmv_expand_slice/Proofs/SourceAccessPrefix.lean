@@ -43,7 +43,7 @@ theorem prelude_tail_safe {α : Type} [Inhabited α] (M : Algebra α)
   apply list_invariant M bounds (fun t=>t.regs .int [] "cur_batch"=some (fun _=>(p.batch : Int))) _ _ _ s initial
   · intro st hs t ht
     simp only [SourceParts.prelude,SourceParts.outer,kernel,primaryHalf,sourceFace,
-      sourceHalfSingle323232,ComputeKernel.surfaceBody,List.take,List.drop,
+      sourceHalfSingle323232,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,List.take,List.drop,
       List.mem_cons,List.not_mem_nil,or_false] at hs
     rcases hs with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
     all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold,
@@ -51,7 +51,7 @@ theorem prelude_tail_safe {α : Type} [Inhabited α] (M : Algebra α)
       evalOp_unfold,ht,Region.cast,bound]
   · intro st hs t u ht hu
     simp only [SourceParts.prelude,SourceParts.outer,kernel,primaryHalf,sourceFace,
-      sourceHalfSingle323232,ComputeKernel.surfaceBody,List.take,List.drop,
+      sourceHalfSingle323232,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,List.take,List.drop,
       List.mem_cons,List.not_mem_nil,or_false] at hs
     rcases hs with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
     all_goals exact assignment_register M _ _ t u (by decide) _ ht hu
@@ -66,13 +66,13 @@ theorem prelude_safe {α : Type} [Inhabited α] (M : Algebra α)
     Safety.traceSafeList_append]
   constructor
   · simp [SourceParts.prelude,SourceParts.outer,kernel,primaryHalf,sourceFace,
-      sourceHalfSingle323232,ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,
+      sourceHalfSingle323232,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold,
       FP.Structural.step,evalExpr,evalOp_unfold,State.setReg]
   · intro t ht
     apply prelude_tail_safe M p t bounds bound
     simp [SourceParts.prelude,SourceParts.outer,kernel,primaryHalf,sourceFace,
-      sourceHalfSingle323232,ComputeKernel.surfaceBody,FP.Structural.run,
+      sourceHalfSingle323232,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,FP.Structural.run,
       FP.Structural.step,evalExpr,evalOp_unfold,State.setReg] at ht
     cases ht
     simp [State.setReg]
@@ -89,7 +89,7 @@ theorem active_prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
   · intro st hs t ht
     simp only [SourceParts.activePrelude,SourceParts.active,SourceParts.afterTile,
       SourceParts.afterLength,SourceParts.thenBody,SourceParts.outer,kernel,primaryHalf,
-      sourceFace,sourceHalfSingle323232,ComputeKernel.surfaceBody,List.take,
+      sourceFace,sourceHalfSingle323232,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,List.take,
       List.getElem?_cons_zero,List.getElem?_cons_succ,List.mem_cons,List.not_mem_nil,or_false] at hs
     rcases hs with rfl|rfl|rfl|rfl|rfl|rfl|rfl
     all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold,
@@ -98,7 +98,7 @@ theorem active_prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
   · intro st hs t u ht hu
     simp only [SourceParts.activePrelude,SourceParts.active,SourceParts.afterTile,
       SourceParts.afterLength,SourceParts.thenBody,SourceParts.outer,kernel,primaryHalf,
-      sourceFace,sourceHalfSingle323232,ComputeKernel.surfaceBody,List.take,
+      sourceFace,sourceHalfSingle323232,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,List.take,
       List.getElem?_cons_zero,List.getElem?_cons_succ,List.mem_cons,List.not_mem_nil,or_false] at hs
     rcases hs with rfl|rfl|rfl|rfl|rfl|rfl|rfl
     all_goals exact assignment_register M _ _ t u (by decide) _ ht hu
@@ -124,7 +124,7 @@ theorem guarded_safe {α : Type} [Inhabited α] (M : Algebra α)
   have ha : (adapter : Int) ≠ -1 := by omega
   simpa (maxSteps := 1000000) [SourceGuards.guarded,SourceParts.condition,
     SourceParts.afterTile,SourceParts.afterLength,SourceParts.thenBody,
-    SourceParts.outer,kernel,primaryHalf,sourceFace,sourceHalfSingle323232,
+    SourceParts.outer,kernel,primaryHalf,sourceFace,sourceHalfSingle323232,Pasted.originalBody,Pasted.candidateBody,
     ComputeKernel.surfaceBody,ScalarFormat.dtype,LowFormat.scalar,
     Safety.traceSafeList_cons,Safety.traceSafeList_nil,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.addressSafe_unfold,

@@ -101,7 +101,7 @@ theorem body_run {α : Type} [Inhabited α] (M : Algebra α) (dot : DotImplement
     cases he : (p.inner % 16 == 0) <;>
     simp [SourceParts.body,SourceParts.loopParts,SourceParts.active,SourceParts.afterTile,
       SourceParts.afterLength,SourceParts.thenBody,SourceParts.outer,Source.intRange?,
-      kernel,sourceFace,sourceHalfSingle323232,sourceBfloatSingle323232,
+      kernel,sourceFace,sourceHalfSingle323232,Pasted.originalBody,Pasted.candidateBody,sourceBfloatSingle323232,
       ScalarFormat.dtype,LowFormat.scalar,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,
       natLt,numericLt,integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,install,

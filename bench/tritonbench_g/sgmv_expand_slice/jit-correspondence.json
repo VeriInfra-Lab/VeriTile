@@ -1,0 +1,392 @@
+[
+  {
+    "python": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py",
+    "lean": "bench/tritonbench_g/sgmv_expand_slice/Kernels.lean",
+    "python_function": "_sgmv_expand_slice_kernel_repaired",
+    "lean_definition": "originalBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "lora_ptr",
+          {
+            "on": "weight_format",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "bfloat",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "out_ptr",
+          {
+            "on": "output_format",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "bfloat",
+                "bf16"
+              ],
+              [
+                "single",
+                "fp32"
+              ]
+            ]
+          }
+        ],
+        [
+          "b_seq_start_loc",
+          {
+            "on": "starts_width",
+            "cases": [
+              [
+                "w32",
+                "i32"
+              ],
+              [
+                "w64",
+                "i64"
+              ]
+            ]
+          }
+        ],
+        [
+          "seq_lens",
+          {
+            "on": "lengths_width",
+            "cases": [
+              [
+                "w32",
+                "i32"
+              ],
+              [
+                "w64",
+                "i64"
+              ]
+            ]
+          }
+        ],
+        [
+          "lora_indices",
+          {
+            "on": "adapters_width",
+            "cases": [
+              [
+                "w32",
+                "i32"
+              ],
+              [
+                "w64",
+                "i64"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "xm_stride",
+          "integer"
+        ],
+        [
+          "xk_stride",
+          "integer"
+        ],
+        [
+          "l0_stride",
+          "integer"
+        ],
+        [
+          "lora_k_stride",
+          "integer"
+        ],
+        [
+          "lora_n_stride",
+          "integer"
+        ],
+        [
+          "cm_stride",
+          "integer"
+        ],
+        [
+          "cn_stride",
+          "integer"
+        ],
+        [
+          "slice_offset",
+          "integer"
+        ],
+        [
+          "batch",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_K",
+        "EVEN_K",
+        "ADD_INPUTS",
+        "CAST_TYPE"
+      ],
+      "readPorts": [
+        "seq_lens",
+        "lora_indices",
+        "b_seq_start_loc",
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "input_ptr",
+          "input_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "input_dtype",
+        "weight_format",
+        "output_format",
+        "starts_width",
+        "lengths_width",
+        "adapters_width"
+      ],
+      "dtype_parameter_types": {
+        "input_dtype": "FloatDType",
+        "weight_format": "LowFormat",
+        "output_format": "ScalarFormat",
+        "starts_width": "MetadataWidth",
+        "lengths_width": "MetadataWidth",
+        "adapters_width": "MetadataWidth"
+      }
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride",
+      "slice_offset": "slice_offset",
+      "batch": "batch"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py",
+    "lean": "bench/tritonbench_g/sgmv_expand_slice/Kernels.lean",
+    "python_function": "_sgmv_expand_slice_kernel_index_reuse",
+    "lean_definition": "candidateBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "lora_ptr",
+          {
+            "on": "weight_format",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "bfloat",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "out_ptr",
+          {
+            "on": "output_format",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "bfloat",
+                "bf16"
+              ],
+              [
+                "single",
+                "fp32"
+              ]
+            ]
+          }
+        ],
+        [
+          "b_seq_start_loc",
+          {
+            "on": "starts_width",
+            "cases": [
+              [
+                "w32",
+                "i32"
+              ],
+              [
+                "w64",
+                "i64"
+              ]
+            ]
+          }
+        ],
+        [
+          "seq_lens",
+          {
+            "on": "lengths_width",
+            "cases": [
+              [
+                "w32",
+                "i32"
+              ],
+              [
+                "w64",
+                "i64"
+              ]
+            ]
+          }
+        ],
+        [
+          "lora_indices",
+          {
+            "on": "adapters_width",
+            "cases": [
+              [
+                "w32",
+                "i32"
+              ],
+              [
+                "w64",
+                "i64"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "xm_stride",
+          "integer"
+        ],
+        [
+          "xk_stride",
+          "integer"
+        ],
+        [
+          "l0_stride",
+          "integer"
+        ],
+        [
+          "lora_k_stride",
+          "integer"
+        ],
+        [
+          "lora_n_stride",
+          "integer"
+        ],
+        [
+          "cm_stride",
+          "integer"
+        ],
+        [
+          "cn_stride",
+          "integer"
+        ],
+        [
+          "slice_offset",
+          "integer"
+        ],
+        [
+          "batch",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_K",
+        "EVEN_K",
+        "ADD_INPUTS",
+        "CAST_TYPE"
+      ],
+      "readPorts": [
+        "seq_lens",
+        "lora_indices",
+        "b_seq_start_loc",
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "input_ptr",
+          "input_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "input_dtype",
+        "weight_format",
+        "output_format",
+        "starts_width",
+        "lengths_width",
+        "adapters_width"
+      ],
+      "dtype_parameter_types": {
+        "input_dtype": "FloatDType",
+        "weight_format": "LowFormat",
+        "output_format": "ScalarFormat",
+        "starts_width": "MetadataWidth",
+        "lengths_width": "MetadataWidth",
+        "adapters_width": "MetadataWidth"
+      }
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride",
+      "slice_offset": "slice_offset",
+      "batch": "batch"
+    }
+  }
+]

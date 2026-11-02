@@ -1,12 +1,624 @@
-import bench.tritonbench_g.sgmv_expand_slice.Sources.Kernels
-import VeriTile.Meta.StatementAudit
+import bench.tritonbench_g.sgmv_expand_slice.SourceTypes
+import VeriTile.Triton.DSL.SignedSingleArgumentRange
+namespace VeriTile.Bench.Repairs.SgmvExpandSlice.Pasted
+open VeriTile.Triton
+noncomputable section
+set_option maxHeartbeats 6000000
+set_option maxRecDepth 40000
+def callSignature (input_dtype : FloatDType) (weight_format : LowFormat) (output_format : ScalarFormat)
+    (starts_width lengths_width adapters_width : MetadataWidth) : CallSignature where
+  pointers := [("lora_ptr",match weight_format with | .half => .fp16 | .bfloat => .bf16),
+    ("out_ptr",match output_format with | .half => .fp16 | .bfloat => .bf16 | .single => .fp32),
+    ("b_seq_start_loc",match starts_width with | .w32 => .i32 | .w64 => .i64),
+    ("seq_lens",match lengths_width with | .w32 => .i32 | .w64 => .i64),
+    ("lora_indices",match adapters_width with | .w32 => .i32 | .w64 => .i64)]
+  floatingPointers := [("input_ptr",input_dtype)]
+  scalars := [("N",.integer),("K",.integer),("xm_stride",.integer),("xk_stride",.integer),("l0_stride",.integer),("lora_k_stride",.integer),("lora_n_stride",.integer),("cm_stride",.integer),("cn_stride",.integer),("slice_offset",.integer),("batch",.integer)]
+  constexpr := ["BLOCK_M","BLOCK_N","BLOCK_K","EVEN_K","ADD_INPUTS","CAST_TYPE"]
+  readPorts := ["seq_lens","lora_indices","b_seq_start_loc","input_ptr","lora_ptr","out_ptr"]
+  writePorts := ["out_ptr"]
+
+def originalBody (input_dtype : FloatDType) (weight_format : LowFormat) (output_format : ScalarFormat)
+    (starts_width lengths_width adapters_width : MetadataWidth)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (BLOCK_M BLOCK_N BLOCK_K : Nat) (EVEN_K ADD_INPUTS CAST_TYPE : Bool) : ComputeKernel :=
+  with_triton_call (callSignature input_dtype weight_format output_format starts_width lengths_width adapters_width)
+    call_args [N := N,K := K,xm_stride := xm_stride,xk_stride := xk_stride,l0_stride := l0_stride,lora_k_stride := lora_k_stride,lora_n_stride := lora_n_stride,cm_stride := cm_stride,cn_stride := cn_stride,slice_offset := slice_offset,batch := batch] in triton {
+    pid = tl.program_id(axis=0).to(tl.int64)
+    cur_batch = tl.cast(batch, tl.int64)
+    N = tl.cast(N, tl.int64)
+    K = tl.cast(K, tl.int64)
+    xm_stride = tl.cast(xm_stride, tl.int64)
+    xk_stride = tl.cast(xk_stride, tl.int64)
+    l0_stride = tl.cast(l0_stride, tl.int64)
+    lora_k_stride = tl.cast(lora_k_stride, tl.int64)
+    lora_n_stride = tl.cast(lora_n_stride, tl.int64)
+    cm_stride = tl.cast(cm_stride, tl.int64)
+    cn_stride = tl.cast(cn_stride, tl.int64)
+    slice_offset = tl.cast(slice_offset, tl.int64)
+    cta_n_num = (N + BLOCK_N - 1) // BLOCK_N
+    pid_m = pid // cta_n_num
+    pid_n = pid % cta_n_num
+    M = tl.load(seq_lens + cur_batch).to(tl.int64)
+    if M <= 0:
+        return
+    if pid_m * BLOCK_M >= M:
+        return
+    lora_index = tl.load(lora_indices + cur_batch).to(tl.int64)
+    if lora_index == -1:
+        return
+    cur_seq_start = tl.load(b_seq_start_loc + cur_batch).to(tl.int64)
+    offset_m = tl.arange(0, BLOCK_M).to(tl.int64) + pid_m * BLOCK_M
+    offset_n = tl.arange(0, BLOCK_N).to(tl.int64) + pid_n * BLOCK_N
+    offset_k = tl.arange(0, BLOCK_K).to(tl.int64)
+    ram = offset_m % M
+    rbn = offset_n % N
+
+    accumulator = tl.zeros((BLOCK_M, BLOCK_N), dtype=tl.float32)
+    for k in range((K + BLOCK_K - 1) // BLOCK_K):
+        global_k = k * BLOCK_K + offset_k
+        safe_k = tl.where(global_k < K, global_k, 0)
+        a_ptr = (input_ptr + cur_seq_start * xm_stride + ram[:, None] * xm_stride +
+                 safe_k[None, :] * xk_stride)
+        b_ptr = (lora_ptr + l0_stride * lora_index +
+                 safe_k[:, None] * lora_n_stride + rbn[None, :] * lora_k_stride)
+        if EVEN_K:
+            tiled_a = tl.load(a_ptr)
+            tiled_b = tl.load(b_ptr)
+        else:
+            tiled_a = tl.load(a_ptr,
+                              mask=global_k[None, :] < K,
+                              other=0)
+            tiled_b = tl.load(b_ptr,
+                              mask=global_k[:, None] < K,
+                              other=0)
+        if CAST_TYPE:
+            tiled_a = tiled_a.to(lora_ptr.dtype.element_ty)
+        accumulator = tl.dot(tiled_a, tiled_b, accumulator)
+    tiled_c = accumulator.to(lora_ptr.dtype.element_ty)
+    offset_cm = cur_seq_start + tl.arange(0, BLOCK_M).to(tl.int64) + pid_m * BLOCK_M
+    offset_cn = tl.arange(0, BLOCK_N).to(tl.int64) + pid_n * BLOCK_N + slice_offset
+    safe_cm = tl.where(offset_cm < cur_seq_start + M, offset_cm, 0)
+    safe_cn = tl.where(offset_cn < slice_offset + N, offset_cn, slice_offset)
+    c_ptr = (out_ptr + safe_cm[:, None] * cm_stride +
+             safe_cn[None, :] * cn_stride)
+    M = tl.load(seq_lens + cur_batch).to(tl.int64)
+    c_mask = (offset_cm[:, None] < cur_seq_start + M) & (offset_cn[None, :] < slice_offset + N)
+    if ADD_INPUTS:
+        tiled_out = tl.load(c_ptr, mask=c_mask)
+        tiled_c += tiled_out
+    tl.store(c_ptr, tiled_c, mask=c_mask)
+  }
+
+def candidateBody (input_dtype : FloatDType) (weight_format : LowFormat) (output_format : ScalarFormat)
+    (starts_width lengths_width adapters_width : MetadataWidth)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (BLOCK_M BLOCK_N BLOCK_K : Nat) (EVEN_K ADD_INPUTS CAST_TYPE : Bool) : ComputeKernel :=
+  with_triton_call (callSignature input_dtype weight_format output_format starts_width lengths_width adapters_width)
+    call_args [N := N,K := K,xm_stride := xm_stride,xk_stride := xk_stride,l0_stride := l0_stride,lora_k_stride := lora_k_stride,lora_n_stride := lora_n_stride,cm_stride := cm_stride,cn_stride := cn_stride,slice_offset := slice_offset,batch := batch] in triton {
+    pid = tl.program_id(axis=0).to(tl.int64)
+    cur_batch = tl.cast(batch, tl.int64)
+    N = tl.cast(N, tl.int64)
+    K = tl.cast(K, tl.int64)
+    xm_stride = tl.cast(xm_stride, tl.int64)
+    xk_stride = tl.cast(xk_stride, tl.int64)
+    l0_stride = tl.cast(l0_stride, tl.int64)
+    lora_k_stride = tl.cast(lora_k_stride, tl.int64)
+    lora_n_stride = tl.cast(lora_n_stride, tl.int64)
+    cm_stride = tl.cast(cm_stride, tl.int64)
+    cn_stride = tl.cast(cn_stride, tl.int64)
+    slice_offset = tl.cast(slice_offset, tl.int64)
+    cta_n_num = (N + BLOCK_N - 1) // BLOCK_N
+    pid_m = pid // cta_n_num
+    pid_n = pid % cta_n_num
+    M = tl.load(seq_lens + cur_batch).to(tl.int64)
+    if M <= 0:
+        return
+    if pid_m * BLOCK_M >= M:
+        return
+    lora_index = tl.load(lora_indices + cur_batch).to(tl.int64)
+    if lora_index == -1:
+        return
+    cur_seq_start = tl.load(b_seq_start_loc + cur_batch).to(tl.int64)
+    offset_m = tl.arange(0, BLOCK_M).to(tl.int64) + pid_m * BLOCK_M
+    offset_n = tl.arange(0, BLOCK_N).to(tl.int64) + pid_n * BLOCK_N
+    offset_k = tl.arange(0, BLOCK_K).to(tl.int64)
+    ram = offset_m % M
+    rbn = offset_n % N
+
+    accumulator = tl.zeros((BLOCK_M, BLOCK_N), dtype=tl.float32)
+    for k in range((K + BLOCK_K - 1) // BLOCK_K):
+        global_k = k * BLOCK_K + offset_k
+        safe_k = tl.where(global_k < K, global_k, 0)
+        a_ptr = (input_ptr + cur_seq_start * xm_stride + ram[:, None] * xm_stride +
+                 safe_k[None, :] * xk_stride)
+        b_ptr = (lora_ptr + l0_stride * lora_index +
+                 safe_k[:, None] * lora_n_stride + rbn[None, :] * lora_k_stride)
+        if EVEN_K:
+            tiled_a = tl.load(a_ptr)
+            tiled_b = tl.load(b_ptr)
+        else:
+            tiled_a = tl.load(a_ptr,
+                              mask=global_k[None, :] < K,
+                              other=0)
+            tiled_b = tl.load(b_ptr,
+                              mask=global_k[:, None] < K,
+                              other=0)
+        if CAST_TYPE:
+            tiled_a = tiled_a.to(lora_ptr.dtype.element_ty)
+        accumulator = tl.dot(tiled_a, tiled_b, accumulator)
+    tiled_c = accumulator.to(lora_ptr.dtype.element_ty)
+    offset_cm = cur_seq_start + offset_m
+    offset_cn = offset_n + slice_offset
+    safe_cm = tl.where(offset_cm < cur_seq_start + M, offset_cm, 0)
+    safe_cn = tl.where(offset_cn < slice_offset + N, offset_cn, slice_offset)
+    c_ptr = (out_ptr + safe_cm[:, None] * cm_stride +
+             safe_cn[None, :] * cn_stride)
+    M = tl.load(seq_lens + cur_batch).to(tl.int64)
+    c_mask = (offset_cm[:, None] < cur_seq_start + M) & (offset_cn[None, :] < slice_offset + N)
+    if ADD_INPUTS:
+        tiled_out = tl.load(c_ptr, mask=c_mask)
+        tiled_c += tiled_out
+    tl.store(c_ptr, tiled_c, mask=c_mask)
+  }
+
+end
+end VeriTile.Bench.Repairs.SgmvExpandSlice.Pasted
+
+namespace VeriTile.Bench.Repairs.SgmvExpandSlice
+open VeriTile.Triton
+def sourceHalfSingle323232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .single .w32 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfSingle323264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .single .w32 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfSingle326432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .single .w32 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfSingle326464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .single .w32 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfSingle643232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .single .w64 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfSingle643264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .single .w64 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfSingle646432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .single .w64 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfSingle646464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .single .w64 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfHalf323232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .half .w32 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfHalf323264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .half .w32 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfHalf326432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .half .w32 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfHalf326464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .half .w32 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfHalf643232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .half .w64 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfHalf643264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .half .w64 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfHalf646432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .half .w64 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfHalf646464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .half .w64 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfBfloat323232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .bfloat .w32 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfBfloat323264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .bfloat .w32 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfBfloat326432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .bfloat .w32 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfBfloat326464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .bfloat .w32 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfBfloat643232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .bfloat .w64 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfBfloat643264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .bfloat .w64 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfBfloat646432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .bfloat .w64 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceHalfBfloat646464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .half .bfloat .w64 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatSingle323232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .single .w32 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatSingle323264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .single .w32 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatSingle326432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .single .w32 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatSingle326464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .single .w32 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatSingle643232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .single .w64 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatSingle643264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .single .w64 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatSingle646432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .single .w64 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatSingle646464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .single .w64 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatHalf323232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .half .w32 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatHalf323264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .half .w32 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatHalf326432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .half .w32 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatHalf326464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .half .w32 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatHalf643232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .half .w64 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatHalf643264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .half .w64 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatHalf646432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .half .w64 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatHalf646464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .half .w64 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatBfloat323232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .bfloat .w32 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatBfloat323264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .bfloat .w32 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatBfloat326432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .bfloat .w32 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatBfloat326464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .bfloat .w32 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatBfloat643232 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .bfloat .w64 .w32 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatBfloat643264 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .bfloat .w64 .w32 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatBfloat646432 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .bfloat .w64 .w64 .w32
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceBfloatBfloat646464 (dtype : FloatDType)
+    (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
+    (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
+  Pasted.originalBody dtype .bfloat .bfloat .w64 .w64 .w64
+    input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
+    N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
+    32 32 16 evenK addInputs castType
+
+def sourceFace (weight : LowFormat) (output : ScalarFormat)
+    (starts lengths adapters : MetadataWidth) :=
+  match weight, output, starts, lengths, adapters with
+  | .half, .single, .w32, .w32, .w32 => sourceHalfSingle323232
+  | .half, .single, .w32, .w32, .w64 => sourceHalfSingle323264
+  | .half, .single, .w32, .w64, .w32 => sourceHalfSingle326432
+  | .half, .single, .w32, .w64, .w64 => sourceHalfSingle326464
+  | .half, .single, .w64, .w32, .w32 => sourceHalfSingle643232
+  | .half, .single, .w64, .w32, .w64 => sourceHalfSingle643264
+  | .half, .single, .w64, .w64, .w32 => sourceHalfSingle646432
+  | .half, .single, .w64, .w64, .w64 => sourceHalfSingle646464
+  | .half, .half, .w32, .w32, .w32 => sourceHalfHalf323232
+  | .half, .half, .w32, .w32, .w64 => sourceHalfHalf323264
+  | .half, .half, .w32, .w64, .w32 => sourceHalfHalf326432
+  | .half, .half, .w32, .w64, .w64 => sourceHalfHalf326464
+  | .half, .half, .w64, .w32, .w32 => sourceHalfHalf643232
+  | .half, .half, .w64, .w32, .w64 => sourceHalfHalf643264
+  | .half, .half, .w64, .w64, .w32 => sourceHalfHalf646432
+  | .half, .half, .w64, .w64, .w64 => sourceHalfHalf646464
+  | .half, .bfloat, .w32, .w32, .w32 => sourceHalfBfloat323232
+  | .half, .bfloat, .w32, .w32, .w64 => sourceHalfBfloat323264
+  | .half, .bfloat, .w32, .w64, .w32 => sourceHalfBfloat326432
+  | .half, .bfloat, .w32, .w64, .w64 => sourceHalfBfloat326464
+  | .half, .bfloat, .w64, .w32, .w32 => sourceHalfBfloat643232
+  | .half, .bfloat, .w64, .w32, .w64 => sourceHalfBfloat643264
+  | .half, .bfloat, .w64, .w64, .w32 => sourceHalfBfloat646432
+  | .half, .bfloat, .w64, .w64, .w64 => sourceHalfBfloat646464
+  | .bfloat, .single, .w32, .w32, .w32 => sourceBfloatSingle323232
+  | .bfloat, .single, .w32, .w32, .w64 => sourceBfloatSingle323264
+  | .bfloat, .single, .w32, .w64, .w32 => sourceBfloatSingle326432
+  | .bfloat, .single, .w32, .w64, .w64 => sourceBfloatSingle326464
+  | .bfloat, .single, .w64, .w32, .w32 => sourceBfloatSingle643232
+  | .bfloat, .single, .w64, .w32, .w64 => sourceBfloatSingle643264
+  | .bfloat, .single, .w64, .w64, .w32 => sourceBfloatSingle646432
+  | .bfloat, .single, .w64, .w64, .w64 => sourceBfloatSingle646464
+  | .bfloat, .half, .w32, .w32, .w32 => sourceBfloatHalf323232
+  | .bfloat, .half, .w32, .w32, .w64 => sourceBfloatHalf323264
+  | .bfloat, .half, .w32, .w64, .w32 => sourceBfloatHalf326432
+  | .bfloat, .half, .w32, .w64, .w64 => sourceBfloatHalf326464
+  | .bfloat, .half, .w64, .w32, .w32 => sourceBfloatHalf643232
+  | .bfloat, .half, .w64, .w32, .w64 => sourceBfloatHalf643264
+  | .bfloat, .half, .w64, .w64, .w32 => sourceBfloatHalf646432
+  | .bfloat, .half, .w64, .w64, .w64 => sourceBfloatHalf646464
+  | .bfloat, .bfloat, .w32, .w32, .w32 => sourceBfloatBfloat323232
+  | .bfloat, .bfloat, .w32, .w32, .w64 => sourceBfloatBfloat323264
+  | .bfloat, .bfloat, .w32, .w64, .w32 => sourceBfloatBfloat326432
+  | .bfloat, .bfloat, .w32, .w64, .w64 => sourceBfloatBfloat326464
+  | .bfloat, .bfloat, .w64, .w32, .w32 => sourceBfloatBfloat643232
+  | .bfloat, .bfloat, .w64, .w32, .w64 => sourceBfloatBfloat643264
+  | .bfloat, .bfloat, .w64, .w64, .w32 => sourceBfloatBfloat646432
+  | .bfloat, .bfloat, .w64, .w64, .w64 => sourceBfloatBfloat646464
+
+/-- Complete source selection. EVEN_K and CAST_TYPE are derived from the actual
+host dimensions and formats. The mandatory low weight formats are retained. -/
+def kernel (abi : SourceABI) (p : KernelArgs) : ComputeKernel :=
+  sourceFace abi.weight abi.output abi.startsWidth abi.lengthsWidth abi.adaptersWidth
+    abi.input.dtype p.input p.weight p.output p.starts p.lengths p.adapters
+    p.columns p.inner p.inputRowStride p.inputInnerStride p.adapterStride
+    p.weightColumnStride p.weightInnerStride p.outputRowStride p.outputColumnStride
+    p.slice p.batch (p.inner % 16 == 0) abi.addInputs (abi.input != abi.weight.scalar)
+
+def primaryHalf : SourceABI :=
+  ⟨.single,.half,.single,.w32,.w32,.w32,Bool.false⟩
+def primaryBfloat : SourceABI :=
+  ⟨.single,.bfloat,.single,.w32,.w32,.w32,Bool.false⟩
+
+end VeriTile.Bench.Repairs.SgmvExpandSlice
 
 namespace VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated
-
-/-- Exact independent candidate source; its kernel AST is unchanged. -/
-def productionAST : String := "Module(body=[Expr(value=Constant(value='Separate SGMV repair; original SHA256: a3643842b99a76379b1a8c8be29b2f531186c776ddc3d0d1583edaccc7e1a281.')), Import(names=[alias(name='torch')]), Import(names=[alias(name='triton')]), Import(names=[alias(name='triton.language', asname='tl')]), FunctionDef(name='_sgmv_expand_slice_kernel_repaired', args=arguments(posonlyargs=[], args=[arg(arg='input_ptr'), arg(arg='lora_ptr'), arg(arg='out_ptr'), arg(arg='N'), arg(arg='K'), arg(arg='b_seq_start_loc'), arg(arg='seq_lens'), arg(arg='lora_indices'), arg(arg='xm_stride'), arg(arg='xk_stride'), arg(arg='l0_stride'), arg(arg='lora_k_stride'), arg(arg='lora_n_stride'), arg(arg='cm_stride'), arg(arg='cn_stride'), arg(arg='slice_offset'), arg(arg='batch'), arg(arg='BLOCK_M', annotation=Attribute(value=Name(id='tl', ctx=Load()), attr='constexpr', ctx=Load())), arg(arg='BLOCK_N', annotation=Attribute(value=Name(id='tl', ctx=Load()), attr='constexpr', ctx=Load())), arg(arg='BLOCK_K', annotation=Attribute(value=Name(id='tl', ctx=Load()), attr='constexpr', ctx=Load())), arg(arg='EVEN_K', annotation=Attribute(value=Name(id='tl', ctx=Load()), attr='constexpr', ctx=Load())), arg(arg='ADD_INPUTS', annotation=Attribute(value=Name(id='tl', ctx=Load()), attr='constexpr', ctx=Load())), arg(arg='CAST_TYPE', annotation=Attribute(value=Name(id='tl', ctx=Load()), attr='constexpr', ctx=Load()))], kwonlyargs=[], kw_defaults=[], defaults=[]), body=[Assign(targets=[Name(id='pid', ctx=Store())], value=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='program_id', ctx=Load()), args=[], keywords=[keyword(arg='axis', value=Constant(value=0))]), attr='to', ctx=Load()), args=[Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='cur_batch', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='cast', ctx=Load()), args=[Name(id='batch', ctx=Load()), Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='N', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='cast', ctx=Load()), args=[Name(id='N', ctx=Load()), Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='K', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='cast', ctx=Load()), args=[Name(id='K', ctx=Load()), Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='xm_stride', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='cast', ctx=Load()), args=[Name(id='xm_stride', ctx=Load()), Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='xk_stride', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='cast', ctx=Load()), args=[Name(id='xk_stride', ctx=Load()), Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='l0_stride', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='cast', ctx=Load()), args=[Name(id='l0_stride', ctx=Load()), Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='lora_k_stride', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='cast', ctx=Load()), args=[Name(id='lora_k_stride', ctx=Load()), Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='lora_n_stride', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='cast', ctx=Load()), args=[Name(id='lora_n_stride', ctx=Load()), Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='cm_stride', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='cast', ctx=Load()), args=[Name(id='cm_stride', ctx=Load()), Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='cn_stride', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='cast', ctx=Load()), args=[Name(id='cn_stride', ctx=Load()), Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='slice_offset', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='cast', ctx=Load()), args=[Name(id='slice_offset', ctx=Load()), Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='cta_n_num', ctx=Store())], value=BinOp(left=BinOp(left=BinOp(left=Name(id='N', ctx=Load()), op=Add(), right=Name(id='BLOCK_N', ctx=Load())), op=Sub(), right=Constant(value=1)), op=FloorDiv(), right=Name(id='BLOCK_N', ctx=Load()))), Assign(targets=[Name(id='pid_m', ctx=Store())], value=BinOp(left=Name(id='pid', ctx=Load()), op=FloorDiv(), right=Name(id='cta_n_num', ctx=Load()))), Assign(targets=[Name(id='pid_n', ctx=Store())], value=BinOp(left=Name(id='pid', ctx=Load()), op=Mod(), right=Name(id='cta_n_num', ctx=Load()))), Assign(targets=[Name(id='M', ctx=Store())], value=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='load', ctx=Load()), args=[BinOp(left=Name(id='seq_lens', ctx=Load()), op=Add(), right=Name(id='cur_batch', ctx=Load()))], keywords=[]), attr='to', ctx=Load()), args=[Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), If(test=Compare(left=Name(id='M', ctx=Load()), ops=[LtE()], comparators=[Constant(value=0)]), body=[Return()], orelse=[]), If(test=Compare(left=BinOp(left=Name(id='pid_m', ctx=Load()), op=Mult(), right=Name(id='BLOCK_M', ctx=Load())), ops=[GtE()], comparators=[Name(id='M', ctx=Load())]), body=[Return()], orelse=[]), Assign(targets=[Name(id='lora_index', ctx=Store())], value=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='load', ctx=Load()), args=[BinOp(left=Name(id='lora_indices', ctx=Load()), op=Add(), right=Name(id='cur_batch', ctx=Load()))], keywords=[]), attr='to', ctx=Load()), args=[Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), If(test=Compare(left=Name(id='lora_index', ctx=Load()), ops=[Eq()], comparators=[UnaryOp(op=USub(), operand=Constant(value=1))]), body=[Return()], orelse=[]), Assign(targets=[Name(id='cur_seq_start', ctx=Store())], value=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='load', ctx=Load()), args=[BinOp(left=Name(id='b_seq_start_loc', ctx=Load()), op=Add(), right=Name(id='cur_batch', ctx=Load()))], keywords=[]), attr='to', ctx=Load()), args=[Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='offset_m', ctx=Store())], value=BinOp(left=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='arange', ctx=Load()), args=[Constant(value=0), Name(id='BLOCK_M', ctx=Load())], keywords=[]), attr='to', ctx=Load()), args=[Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[]), op=Add(), right=BinOp(left=Name(id='pid_m', ctx=Load()), op=Mult(), right=Name(id='BLOCK_M', ctx=Load())))), Assign(targets=[Name(id='offset_n', ctx=Store())], value=BinOp(left=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='arange', ctx=Load()), args=[Constant(value=0), Name(id='BLOCK_N', ctx=Load())], keywords=[]), attr='to', ctx=Load()), args=[Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[]), op=Add(), right=BinOp(left=Name(id='pid_n', ctx=Load()), op=Mult(), right=Name(id='BLOCK_N', ctx=Load())))), Assign(targets=[Name(id='offset_k', ctx=Store())], value=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='arange', ctx=Load()), args=[Constant(value=0), Name(id='BLOCK_K', ctx=Load())], keywords=[]), attr='to', ctx=Load()), args=[Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='ram', ctx=Store())], value=BinOp(left=Name(id='offset_m', ctx=Load()), op=Mod(), right=Name(id='M', ctx=Load()))), Assign(targets=[Name(id='rbn', ctx=Store())], value=BinOp(left=Name(id='offset_n', ctx=Load()), op=Mod(), right=Name(id='N', ctx=Load()))), Assign(targets=[Name(id='accumulator', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='zeros', ctx=Load()), args=[Tuple(elts=[Name(id='BLOCK_M', ctx=Load()), Name(id='BLOCK_N', ctx=Load())], ctx=Load())], keywords=[keyword(arg='dtype', value=Attribute(value=Name(id='tl', ctx=Load()), attr='float32', ctx=Load()))])), For(target=Name(id='k', ctx=Store()), iter=Call(func=Name(id='range', ctx=Load()), args=[BinOp(left=BinOp(left=BinOp(left=Name(id='K', ctx=Load()), op=Add(), right=Name(id='BLOCK_K', ctx=Load())), op=Sub(), right=Constant(value=1)), op=FloorDiv(), right=Name(id='BLOCK_K', ctx=Load()))], keywords=[]), body=[Assign(targets=[Name(id='global_k', ctx=Store())], value=BinOp(left=BinOp(left=Name(id='k', ctx=Load()), op=Mult(), right=Name(id='BLOCK_K', ctx=Load())), op=Add(), right=Name(id='offset_k', ctx=Load()))), Assign(targets=[Name(id='safe_k', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='where', ctx=Load()), args=[Compare(left=Name(id='global_k', ctx=Load()), ops=[Lt()], comparators=[Name(id='K', ctx=Load())]), Name(id='global_k', ctx=Load()), Constant(value=0)], keywords=[])), Assign(targets=[Name(id='a_ptr', ctx=Store())], value=BinOp(left=BinOp(left=BinOp(left=Name(id='input_ptr', ctx=Load()), op=Add(), right=BinOp(left=Name(id='cur_seq_start', ctx=Load()), op=Mult(), right=Name(id='xm_stride', ctx=Load()))), op=Add(), right=BinOp(left=Subscript(value=Name(id='ram', ctx=Load()), slice=Tuple(elts=[Slice(), Constant(value=None)], ctx=Load()), ctx=Load()), op=Mult(), right=Name(id='xm_stride', ctx=Load()))), op=Add(), right=BinOp(left=Subscript(value=Name(id='safe_k', ctx=Load()), slice=Tuple(elts=[Constant(value=None), Slice()], ctx=Load()), ctx=Load()), op=Mult(), right=Name(id='xk_stride', ctx=Load())))), Assign(targets=[Name(id='b_ptr', ctx=Store())], value=BinOp(left=BinOp(left=BinOp(left=Name(id='lora_ptr', ctx=Load()), op=Add(), right=BinOp(left=Name(id='l0_stride', ctx=Load()), op=Mult(), right=Name(id='lora_index', ctx=Load()))), op=Add(), right=BinOp(left=Subscript(value=Name(id='safe_k', ctx=Load()), slice=Tuple(elts=[Slice(), Constant(value=None)], ctx=Load()), ctx=Load()), op=Mult(), right=Name(id='lora_n_stride', ctx=Load()))), op=Add(), right=BinOp(left=Subscript(value=Name(id='rbn', ctx=Load()), slice=Tuple(elts=[Constant(value=None), Slice()], ctx=Load()), ctx=Load()), op=Mult(), right=Name(id='lora_k_stride', ctx=Load())))), If(test=Name(id='EVEN_K', ctx=Load()), body=[Assign(targets=[Name(id='tiled_a', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='load', ctx=Load()), args=[Name(id='a_ptr', ctx=Load())], keywords=[])), Assign(targets=[Name(id='tiled_b', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='load', ctx=Load()), args=[Name(id='b_ptr', ctx=Load())], keywords=[]))], orelse=[Assign(targets=[Name(id='tiled_a', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='load', ctx=Load()), args=[Name(id='a_ptr', ctx=Load())], keywords=[keyword(arg='mask', value=Compare(left=Subscript(value=Name(id='global_k', ctx=Load()), slice=Tuple(elts=[Constant(value=None), Slice()], ctx=Load()), ctx=Load()), ops=[Lt()], comparators=[Name(id='K', ctx=Load())])), keyword(arg='other', value=Constant(value=0))])), Assign(targets=[Name(id='tiled_b', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='load', ctx=Load()), args=[Name(id='b_ptr', ctx=Load())], keywords=[keyword(arg='mask', value=Compare(left=Subscript(value=Name(id='global_k', ctx=Load()), slice=Tuple(elts=[Slice(), Constant(value=None)], ctx=Load()), ctx=Load()), ops=[Lt()], comparators=[Name(id='K', ctx=Load())])), keyword(arg='other', value=Constant(value=0))]))]), If(test=Name(id='CAST_TYPE', ctx=Load()), body=[Assign(targets=[Name(id='tiled_a', ctx=Store())], value=Call(func=Attribute(value=Name(id='tiled_a', ctx=Load()), attr='to', ctx=Load()), args=[Attribute(value=Attribute(value=Name(id='lora_ptr', ctx=Load()), attr='dtype', ctx=Load()), attr='element_ty', ctx=Load())], keywords=[]))], orelse=[]), Assign(targets=[Name(id='accumulator', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='dot', ctx=Load()), args=[Name(id='tiled_a', ctx=Load()), Name(id='tiled_b', ctx=Load()), Name(id='accumulator', ctx=Load())], keywords=[]))], orelse=[]), Assign(targets=[Name(id='tiled_c', ctx=Store())], value=Call(func=Attribute(value=Name(id='accumulator', ctx=Load()), attr='to', ctx=Load()), args=[Attribute(value=Attribute(value=Name(id='lora_ptr', ctx=Load()), attr='dtype', ctx=Load()), attr='element_ty', ctx=Load())], keywords=[])), Assign(targets=[Name(id='offset_cm', ctx=Store())], value=BinOp(left=BinOp(left=Name(id='cur_seq_start', ctx=Load()), op=Add(), right=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='arange', ctx=Load()), args=[Constant(value=0), Name(id='BLOCK_M', ctx=Load())], keywords=[]), attr='to', ctx=Load()), args=[Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), op=Add(), right=BinOp(left=Name(id='pid_m', ctx=Load()), op=Mult(), right=Name(id='BLOCK_M', ctx=Load())))), Assign(targets=[Name(id='offset_cn', ctx=Store())], value=BinOp(left=BinOp(left=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='arange', ctx=Load()), args=[Constant(value=0), Name(id='BLOCK_N', ctx=Load())], keywords=[]), attr='to', ctx=Load()), args=[Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[]), op=Add(), right=BinOp(left=Name(id='pid_n', ctx=Load()), op=Mult(), right=Name(id='BLOCK_N', ctx=Load()))), op=Add(), right=Name(id='slice_offset', ctx=Load()))), Assign(targets=[Name(id='safe_cm', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='where', ctx=Load()), args=[Compare(left=Name(id='offset_cm', ctx=Load()), ops=[Lt()], comparators=[BinOp(left=Name(id='cur_seq_start', ctx=Load()), op=Add(), right=Name(id='M', ctx=Load()))]), Name(id='offset_cm', ctx=Load()), Constant(value=0)], keywords=[])), Assign(targets=[Name(id='safe_cn', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='where', ctx=Load()), args=[Compare(left=Name(id='offset_cn', ctx=Load()), ops=[Lt()], comparators=[BinOp(left=Name(id='slice_offset', ctx=Load()), op=Add(), right=Name(id='N', ctx=Load()))]), Name(id='offset_cn', ctx=Load()), Name(id='slice_offset', ctx=Load())], keywords=[])), Assign(targets=[Name(id='c_ptr', ctx=Store())], value=BinOp(left=BinOp(left=Name(id='out_ptr', ctx=Load()), op=Add(), right=BinOp(left=Subscript(value=Name(id='safe_cm', ctx=Load()), slice=Tuple(elts=[Slice(), Constant(value=None)], ctx=Load()), ctx=Load()), op=Mult(), right=Name(id='cm_stride', ctx=Load()))), op=Add(), right=BinOp(left=Subscript(value=Name(id='safe_cn', ctx=Load()), slice=Tuple(elts=[Constant(value=None), Slice()], ctx=Load()), ctx=Load()), op=Mult(), right=Name(id='cn_stride', ctx=Load())))), Assign(targets=[Name(id='M', ctx=Store())], value=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='load', ctx=Load()), args=[BinOp(left=Name(id='seq_lens', ctx=Load()), op=Add(), right=Name(id='cur_batch', ctx=Load()))], keywords=[]), attr='to', ctx=Load()), args=[Attribute(value=Name(id='tl', ctx=Load()), attr='int64', ctx=Load())], keywords=[])), Assign(targets=[Name(id='c_mask', ctx=Store())], value=BinOp(left=Compare(left=Subscript(value=Name(id='offset_cm', ctx=Load()), slice=Tuple(elts=[Slice(), Constant(value=None)], ctx=Load()), ctx=Load()), ops=[Lt()], comparators=[BinOp(left=Name(id='cur_seq_start', ctx=Load()), op=Add(), right=Name(id='M', ctx=Load()))]), op=BitAnd(), right=Compare(left=Subscript(value=Name(id='offset_cn', ctx=Load()), slice=Tuple(elts=[Constant(value=None), Slice()], ctx=Load()), ctx=Load()), ops=[Lt()], comparators=[BinOp(left=Name(id='slice_offset', ctx=Load()), op=Add(), right=Name(id='N', ctx=Load()))]))), If(test=Name(id='ADD_INPUTS', ctx=Load()), body=[Assign(targets=[Name(id='tiled_out', ctx=Store())], value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='load', ctx=Load()), args=[Name(id='c_ptr', ctx=Load())], keywords=[keyword(arg='mask', value=Name(id='c_mask', ctx=Load()))])), AugAssign(target=Name(id='tiled_c', ctx=Store()), op=Add(), value=Name(id='tiled_out', ctx=Load()))], orelse=[]), Expr(value=Call(func=Attribute(value=Name(id='tl', ctx=Load()), attr='store', ctx=Load()), args=[Name(id='c_ptr', ctx=Load()), Name(id='tiled_c', ctx=Load())], keywords=[keyword(arg='mask', value=Name(id='c_mask', ctx=Load()))]))], decorator_list=[Attribute(value=Name(id='triton', ctx=Load()), attr='jit', ctx=Load())], type_params=[]), FunctionDef(name='_sgmv_expand_slice_repaired', args=arguments(posonlyargs=[], args=[arg(arg='inputs', annotation=Attribute(value=Name(id='torch', ctx=Load()), attr='Tensor', ctx=Load())), arg(arg='lora_b_weights', annotation=Attribute(value=Name(id='torch', ctx=Load()), attr='Tensor', ctx=Load())), arg(arg='output_tensor', annotation=Attribute(value=Name(id='torch', ctx=Load()), attr='Tensor', ctx=Load())), arg(arg='b_seq_start_loc', annotation=Attribute(value=Name(id='torch', ctx=Load()), attr='Tensor', ctx=Load())), arg(arg='seq_len_tensor', annotation=Attribute(value=Name(id='torch', ctx=Load()), attr='Tensor', ctx=Load())), arg(arg='lora_indices_tensor', annotation=Attribute(value=Name(id='torch', ctx=Load()), attr='Tensor', ctx=Load())), arg(arg='batches', annotation=Name(id='int', ctx=Load())), arg(arg='max_seq_length', annotation=Name(id='int', ctx=Load())), arg(arg='token_nums', annotation=Name(id='int', ctx=Load())), arg(arg='slice_offset', annotation=Name(id='int', ctx=Load())), arg(arg='slice_size', annotation=Name(id='int', ctx=Load())), arg(arg='add_inputs', annotation=Name(id='bool', ctx=Load()))], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value=False)]), body=[Assign(targets=[Name(id='metadata', ctx=Store())], value=Tuple(elts=[Name(id='b_seq_start_loc', ctx=Load()), Name(id='seq_len_tensor', ctx=Load()), Name(id='lora_indices_tensor', ctx=Load())], ctx=Load())), Assign(targets=[Name(id='tensors', ctx=Store())], value=BinOp(left=Tuple(elts=[Name(id='inputs', ctx=Load()), Name(id='lora_b_weights', ctx=Load()), Name(id='output_tensor', ctx=Load())], ctx=Load()), op=Add(), right=Name(id='metadata', ctx=Load()))), If(test=UnaryOp(op=Not(), operand=Call(func=Name(id='all', ctx=Load()), args=[GeneratorExp(elt=Call(func=Name(id='isinstance', ctx=Load()), args=[Name(id='t', ctx=Load()), Attribute(value=Name(id='torch', ctx=Load()), attr='Tensor', ctx=Load())], keywords=[]), generators=[comprehension(target=Name(id='t', ctx=Store()), iter=Name(id='tensors', ctx=Load()), ifs=[], is_async=0)])], keywords=[])), body=[Raise(exc=Call(func=Name(id='TypeError', ctx=Load()), args=[Constant(value='SGMV arguments must be tensors')], keywords=[]))], orelse=[]), If(test=Call(func=Name(id='any', ctx=Load()), args=[GeneratorExp(elt=Compare(left=Attribute(value=Name(id='t', ctx=Load()), attr='layout', ctx=Load()), ops=[NotEq()], comparators=[Attribute(value=Name(id='torch', ctx=Load()), attr='strided', ctx=Load())]), generators=[comprehension(target=Name(id='t', ctx=Store()), iter=Name(id='tensors', ctx=Load()), ifs=[], is_async=0)])], keywords=[]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='SGMV requires strided tensors')], keywords=[]))], orelse=[]), If(test=BoolOp(op=Or(), values=[Compare(left=Attribute(value=Name(id='inputs', ctx=Load()), attr='dtype', ctx=Load()), ops=[NotEq()], comparators=[Attribute(value=Name(id='torch', ctx=Load()), attr='float32', ctx=Load())]), Compare(left=Attribute(value=Name(id='lora_b_weights', ctx=Load()), attr='dtype', ctx=Load()), ops=[NotEq()], comparators=[Attribute(value=Name(id='torch', ctx=Load()), attr='float16', ctx=Load())]), Compare(left=Attribute(value=Name(id='output_tensor', ctx=Load()), attr='dtype', ctx=Load()), ops=[NotEq()], comparators=[Attribute(value=Name(id='torch', ctx=Load()), attr='float32', ctx=Load())]), Call(func=Name(id='any', ctx=Load()), args=[GeneratorExp(elt=Compare(left=Attribute(value=Name(id='t', ctx=Load()), attr='dtype', ctx=Load()), ops=[NotIn()], comparators=[Tuple(elts=[Attribute(value=Name(id='torch', ctx=Load()), attr='int32', ctx=Load()), Attribute(value=Name(id='torch', ctx=Load()), attr='int64', ctx=Load())], ctx=Load())]), generators=[comprehension(target=Name(id='t', ctx=Store()), iter=Name(id='metadata', ctx=Load()), ifs=[], is_async=0)])], keywords=[])]), body=[Raise(exc=Call(func=Name(id='TypeError', ctx=Load()), args=[Constant(value='SGMV checked profile is FP32 input/output, FP16 weights and signed integer metadata')], keywords=[]))], orelse=[]), If(test=BoolOp(op=Or(), values=[Compare(left=Attribute(value=Name(id='inputs', ctx=Load()), attr='ndim', ctx=Load()), ops=[NotEq()], comparators=[Constant(value=2)]), Compare(left=Attribute(value=Name(id='output_tensor', ctx=Load()), attr='ndim', ctx=Load()), ops=[NotEq()], comparators=[Constant(value=2)]), Compare(left=Attribute(value=Name(id='lora_b_weights', ctx=Load()), attr='ndim', ctx=Load()), ops=[NotIn()], comparators=[Tuple(elts=[Constant(value=3), Constant(value=4)], ctx=Load())]), Call(func=Name(id='any', ctx=Load()), args=[GeneratorExp(elt=Compare(left=Attribute(value=Name(id='t', ctx=Load()), attr='ndim', ctx=Load()), ops=[NotEq()], comparators=[Constant(value=1)]), generators=[comprehension(target=Name(id='t', ctx=Store()), iter=Name(id='metadata', ctx=Load()), ifs=[], is_async=0)])], keywords=[])]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='SGMV requires input/output matrices, 3D/4D weights and vector metadata')], keywords=[]))], orelse=[]), If(test=BoolOp(op=And(), values=[Compare(left=Attribute(value=Name(id='lora_b_weights', ctx=Load()), attr='ndim', ctx=Load()), ops=[Eq()], comparators=[Constant(value=4)]), Compare(left=Subscript(value=Attribute(value=Name(id='lora_b_weights', ctx=Load()), attr='shape', ctx=Load()), slice=Constant(value=1), ctx=Load()), ops=[NotEq()], comparators=[Constant(value=1)])]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='four-dimensional weights require a singleton dimension')], keywords=[]))], orelse=[]), If(test=UnaryOp(op=Not(), operand=Call(func=Name(id='all', ctx=Load()), args=[GeneratorExp(elt=BoolOp(op=And(), values=[Attribute(value=Name(id='t', ctx=Load()), attr='is_cuda', ctx=Load()), Compare(left=Attribute(value=Name(id='t', ctx=Load()), attr='device', ctx=Load()), ops=[Eq()], comparators=[Attribute(value=Name(id='inputs', ctx=Load()), attr='device', ctx=Load())])]), generators=[comprehension(target=Name(id='t', ctx=Store()), iter=Name(id='tensors', ctx=Load()), ifs=[], is_async=0)])], keywords=[])), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='SGMV tensors must share a CUDA device')], keywords=[]))], orelse=[]), If(test=Call(func=Name(id='any', ctx=Load()), args=[GeneratorExp(elt=BoolOp(op=Or(), values=[UnaryOp(op=Not(), operand=Call(func=Attribute(value=Name(id='t', ctx=Load()), attr='is_contiguous', ctx=Load()), args=[], keywords=[])), Call(func=Attribute(value=Name(id='t', ctx=Load()), attr='is_neg', ctx=Load()), args=[], keywords=[]), Call(func=Attribute(value=Name(id='t', ctx=Load()), attr='is_conj', ctx=Load()), args=[], keywords=[])]), generators=[comprehension(target=Name(id='t', ctx=Store()), iter=Name(id='tensors', ctx=Load()), ifs=[], is_async=0)])], keywords=[]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='SGMV requires contiguous storage without lazy views')], keywords=[]))], orelse=[]), If(test=BoolOp(op=Or(), values=[Call(func=Name(id='any', ctx=Load()), args=[GeneratorExp(elt=BoolOp(op=Or(), values=[Compare(left=Call(func=Name(id='type', ctx=Load()), args=[Name(id='v', ctx=Load())], keywords=[]), ops=[IsNot()], comparators=[Name(id='int', ctx=Load())]), Compare(left=Name(id='v', ctx=Load()), ops=[Lt()], comparators=[Constant(value=0)])]), generators=[comprehension(target=Name(id='v', ctx=Store()), iter=Tuple(elts=[Name(id='batches', ctx=Load()), Name(id='max_seq_length', ctx=Load()), Name(id='token_nums', ctx=Load()), Name(id='slice_offset', ctx=Load()), Name(id='slice_size', ctx=Load())], ctx=Load()), ifs=[], is_async=0)])], keywords=[]), Compare(left=Call(func=Name(id='type', ctx=Load()), args=[Name(id='add_inputs', ctx=Load())], keywords=[]), ops=[IsNot()], comparators=[Name(id='bool', ctx=Load())])]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='SGMV sizes must be nonnegative Python integers and add_inputs a bool')], keywords=[]))], orelse=[]), Assign(targets=[Tuple(elts=[Name(id='L', ctx=Store()), Name(id='N', ctx=Store()), Name(id='K', ctx=Store())], ctx=Store())], value=Tuple(elts=[Subscript(value=Attribute(value=Name(id='lora_b_weights', ctx=Load()), attr='shape', ctx=Load()), slice=Constant(value=0), ctx=Load()), Subscript(value=Attribute(value=Name(id='lora_b_weights', ctx=Load()), attr='shape', ctx=Load()), slice=UnaryOp(op=USub(), operand=Constant(value=2)), ctx=Load()), Subscript(value=Attribute(value=Name(id='lora_b_weights', ctx=Load()), attr='shape', ctx=Load()), slice=UnaryOp(op=USub(), operand=Constant(value=1)), ctx=Load())], ctx=Load())), Assign(targets=[Name(id='C', ctx=Store())], value=Subscript(value=Attribute(value=Name(id='output_tensor', ctx=Load()), attr='shape', ctx=Load()), slice=Constant(value=1), ctx=Load())), If(test=BoolOp(op=Or(), values=[Compare(left=Attribute(value=Name(id='inputs', ctx=Load()), attr='shape', ctx=Load()), ops=[NotEq()], comparators=[Tuple(elts=[Name(id='token_nums', ctx=Load()), Name(id='K', ctx=Load())], ctx=Load())]), Compare(left=Name(id='slice_size', ctx=Load()), ops=[NotEq()], comparators=[Name(id='N', ctx=Load())]), Compare(left=BinOp(left=Name(id='slice_offset', ctx=Load()), op=Add(), right=Name(id='N', ctx=Load())), ops=[Gt()], comparators=[Name(id='C', ctx=Load())]), Compare(left=Call(func=Attribute(value=Name(id='b_seq_start_loc', ctx=Load()), attr='numel', ctx=Load()), args=[], keywords=[]), ops=[NotEq()], comparators=[Name(id='batches', ctx=Load())]), Compare(left=Call(func=Attribute(value=Name(id='lora_indices_tensor', ctx=Load()), attr='numel', ctx=Load()), args=[], keywords=[]), ops=[NotEq()], comparators=[Name(id='batches', ctx=Load())]), Compare(left=Call(func=Attribute(value=Name(id='seq_len_tensor', ctx=Load()), attr='numel', ctx=Load()), args=[], keywords=[]), ops=[Lt()], comparators=[Name(id='batches', ctx=Load())])]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='SGMV shapes, output slice and metadata lengths must match')], keywords=[]))], orelse=[]), If(test=Compare(left=Call(func=Name(id='max', ctx=Load()), args=[Name(id='batches', ctx=Load()), Name(id='token_nums', ctx=Load()), Subscript(value=Attribute(value=Name(id='output_tensor', ctx=Load()), attr='shape', ctx=Load()), slice=Constant(value=0), ctx=Load()), Name(id='L', ctx=Load()), Name(id='N', ctx=Load()), Name(id='K', ctx=Load()), Name(id='C', ctx=Load()), BinOp(left=Name(id='N', ctx=Load()), op=Mult(), right=Name(id='K', ctx=Load())), Name(id='slice_offset', ctx=Load())], keywords=[]), ops=[GtE()], comparators=[BinOp(left=Constant(value=2), op=Pow(), right=Constant(value=31))]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='SGMV scalar strides and coordinates must fit native launch arguments')], keywords=[]))], orelse=[]), If(test=BoolOp(op=Or(), values=[Compare(left=BinOp(left=Constant(value=4), op=Mult(), right=Call(func=Attribute(value=Name(id='inputs', ctx=Load()), attr='numel', ctx=Load()), args=[], keywords=[])), ops=[GtE()], comparators=[BinOp(left=Constant(value=2), op=Pow(), right=Constant(value=63))]), Compare(left=BinOp(left=Constant(value=2), op=Mult(), right=Call(func=Attribute(value=Name(id='lora_b_weights', ctx=Load()), attr='numel', ctx=Load()), args=[], keywords=[])), ops=[GtE()], comparators=[BinOp(left=Constant(value=2), op=Pow(), right=Constant(value=63))]), Compare(left=BinOp(left=Constant(value=4), op=Mult(), right=Call(func=Attribute(value=Name(id='output_tensor', ctx=Load()), attr='numel', ctx=Load()), args=[], keywords=[])), ops=[GtE()], comparators=[BinOp(left=Constant(value=2), op=Pow(), right=Constant(value=63))]), Call(func=Name(id='any', ctx=Load()), args=[GeneratorExp(elt=Compare(left=BinOp(left=Call(func=Attribute(value=Name(id='t', ctx=Load()), attr='numel', ctx=Load()), args=[], keywords=[]), op=Mult(), right=Call(func=Attribute(value=Name(id='t', ctx=Load()), attr='element_size', ctx=Load()), args=[], keywords=[])), ops=[GtE()], comparators=[BinOp(left=Constant(value=2), op=Pow(), right=Constant(value=63))]), generators=[comprehension(target=Name(id='t', ctx=Store()), iter=Name(id='metadata', ctx=Load()), ifs=[], is_async=0)])], keywords=[])]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='SGMV byte extents must fit signed 64-bit arithmetic')], keywords=[]))], orelse=[]), Assign(targets=[Name(id='output_storage', ctx=Store())], value=Call(func=Attribute(value=Name(id='output_tensor', ctx=Load()), attr='untyped_storage', ctx=Load()), args=[], keywords=[])), Assign(targets=[Tuple(elts=[Name(id='output_start', ctx=Store()), Name(id='output_bytes', ctx=Store())], ctx=Store())], value=Tuple(elts=[Call(func=Attribute(value=Name(id='output_storage', ctx=Load()), attr='data_ptr', ctx=Load()), args=[], keywords=[]), Call(func=Attribute(value=Name(id='output_storage', ctx=Load()), attr='nbytes', ctx=Load()), args=[], keywords=[])], ctx=Load())), For(target=Name(id='tensor', ctx=Store()), iter=BinOp(left=Tuple(elts=[Name(id='inputs', ctx=Load()), Name(id='lora_b_weights', ctx=Load())], ctx=Load()), op=Add(), right=Name(id='metadata', ctx=Load())), body=[Assign(targets=[Name(id='read_storage', ctx=Store())], value=Call(func=Attribute(value=Name(id='tensor', ctx=Load()), attr='untyped_storage', ctx=Load()), args=[], keywords=[])), Assign(targets=[Tuple(elts=[Name(id='read_start', ctx=Store()), Name(id='read_bytes', ctx=Store())], ctx=Store())], value=Tuple(elts=[Call(func=Attribute(value=Name(id='read_storage', ctx=Load()), attr='data_ptr', ctx=Load()), args=[], keywords=[]), Call(func=Attribute(value=Name(id='read_storage', ctx=Load()), attr='nbytes', ctx=Load()), args=[], keywords=[])], ctx=Load())), If(test=BoolOp(op=And(), values=[Name(id='output_bytes', ctx=Load()), Name(id='read_bytes', ctx=Load()), Compare(left=Name(id='output_start', ctx=Load()), ops=[Lt()], comparators=[BinOp(left=Name(id='read_start', ctx=Load()), op=Add(), right=Name(id='read_bytes', ctx=Load()))]), Compare(left=Name(id='read_start', ctx=Load()), ops=[Lt()], comparators=[BinOp(left=Name(id='output_start', ctx=Load()), op=Add(), right=Name(id='output_bytes', ctx=Load()))])]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='SGMV output backing bytes must be separate from read operands')], keywords=[]))], orelse=[])], orelse=[]), If(test=BoolOp(op=And(), values=[Name(id='batches', ctx=Load()), Name(id='N', ctx=Load()), Call(func=Name(id='any', ctx=Load()), args=[GeneratorExp(elt=BoolOp(op=And(), values=[Call(func=Attribute(value=Name(id='t', ctx=Load()), attr='numel', ctx=Load()), args=[], keywords=[]), BinOp(left=Call(func=Attribute(value=Name(id='t', ctx=Load()), attr='data_ptr', ctx=Load()), args=[], keywords=[]), op=Mod(), right=Constant(value=16))]), generators=[comprehension(target=Name(id='t', ctx=Store()), iter=Tuple(elts=[Name(id='inputs', ctx=Load()), Name(id='lora_b_weights', ctx=Load()), Name(id='output_tensor', ctx=Load())], ctx=Load()), ifs=[], is_async=0)])], keywords=[])]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='nonempty SGMV data pointers require 16-byte alignment')], keywords=[]))], orelse=[]), If(test=Compare(left=Name(id='batches', ctx=Load()), ops=[Eq()], comparators=[Constant(value=0)]), body=[Return(value=Constant(value=None))], orelse=[]), Assign(targets=[Name(id='start_values', ctx=Store())], value=Call(func=Attribute(value=Name(id='b_seq_start_loc', ctx=Load()), attr='tolist', ctx=Load()), args=[], keywords=[])), Assign(targets=[Name(id='length_values', ctx=Store())], value=Subscript(value=Call(func=Attribute(value=Name(id='seq_len_tensor', ctx=Load()), attr='tolist', ctx=Load()), args=[], keywords=[]), slice=Slice(upper=Name(id='batches', ctx=Load())), ctx=Load())), Assign(targets=[Name(id='index_values', ctx=Store())], value=Call(func=Attribute(value=Name(id='lora_indices_tensor', ctx=Load()), attr='tolist', ctx=Load()), args=[], keywords=[])), For(target=Tuple(elts=[Name(id='start', ctx=Store()), Name(id='length', ctx=Store()), Name(id='adapter', ctx=Store())], ctx=Store()), iter=Call(func=Name(id='zip', ctx=Load()), args=[Name(id='start_values', ctx=Load()), Name(id='length_values', ctx=Load()), Name(id='index_values', ctx=Load())], keywords=[]), body=[If(test=Compare(left=Name(id='length', ctx=Load()), ops=[Lt()], comparators=[Constant(value=0)]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='segment length must be nonnegative')], keywords=[]))], orelse=[]), If(test=BoolOp(op=And(), values=[Name(id='length', ctx=Load()), Compare(left=Name(id='adapter', ctx=Load()), ops=[NotEq()], comparators=[UnaryOp(op=USub(), operand=Constant(value=1))])]), body=[If(test=BoolOp(op=Or(), values=[Compare(left=Name(id='start', ctx=Load()), ops=[Lt()], comparators=[Constant(value=0)]), Compare(left=BinOp(left=Name(id='start', ctx=Load()), op=Add(), right=Name(id='length', ctx=Load())), ops=[Gt()], comparators=[Call(func=Name(id='min', ctx=Load()), args=[Name(id='token_nums', ctx=Load()), Subscript(value=Attribute(value=Name(id='output_tensor', ctx=Load()), attr='shape', ctx=Load()), slice=Constant(value=0), ctx=Load())], keywords=[])]), UnaryOp(op=Not(), operand=Compare(left=Constant(value=0), ops=[LtE(), Lt()], comparators=[Name(id='adapter', ctx=Load()), Name(id='L', ctx=Load())]))]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='active segment or adapter is outside its allocation')], keywords=[]))], orelse=[]), If(test=Compare(left=BinOp(left=Call(func=Attribute(value=Name(id='triton', ctx=Load()), attr='cdiv', ctx=Load()), args=[Name(id='length', ctx=Load()), Constant(value=32)], keywords=[]), op=Mult(), right=Call(func=Attribute(value=Name(id='triton', ctx=Load()), attr='cdiv', ctx=Load()), args=[Name(id='N', ctx=Load()), Constant(value=32)], keywords=[])), ops=[Gt()], comparators=[BinOp(left=BinOp(left=Constant(value=2), op=Pow(), right=Constant(value=31)), op=Sub(), right=Constant(value=1))]), body=[Raise(exc=Call(func=Name(id='ValueError', ctx=Load()), args=[Constant(value='SGMV segment grid exceeds the CUDA x-axis limit')], keywords=[]))], orelse=[])], orelse=[])], orelse=[]), If(test=BoolOp(op=Or(), values=[Compare(left=Name(id='N', ctx=Load()), ops=[Eq()], comparators=[Constant(value=0)]), UnaryOp(op=Not(), operand=Call(func=Name(id='any', ctx=Load()), args=[GeneratorExp(elt=BoolOp(op=And(), values=[Name(id='length', ctx=Load()), Compare(left=Name(id='adapter', ctx=Load()), ops=[NotEq()], comparators=[UnaryOp(op=USub(), operand=Constant(value=1))])]), generators=[comprehension(target=Tuple(elts=[Name(id='length', ctx=Store()), Name(id='adapter', ctx=Store())], ctx=Store()), iter=Call(func=Name(id='zip', ctx=Load()), args=[Name(id='length_values', ctx=Load()), Name(id='index_values', ctx=Load())], keywords=[]), ifs=[], is_async=0)])], keywords=[]))]), body=[Return(value=Constant(value=None))], orelse=[]), Assign(targets=[Name(id='weights', ctx=Store())], value=IfExp(test=Compare(left=Attribute(value=Name(id='lora_b_weights', ctx=Load()), attr='ndim', ctx=Load()), ops=[Eq()], comparators=[Constant(value=4)]), body=Call(func=Attribute(value=Name(id='lora_b_weights', ctx=Load()), attr='squeeze', ctx=Load()), args=[Constant(value=1)], keywords=[]), orelse=Name(id='lora_b_weights', ctx=Load()))), With(items=[withitem(context_expr=Call(func=Attribute(value=Attribute(value=Name(id='torch', ctx=Load()), attr='cuda', ctx=Load()), attr='device', ctx=Load()), args=[Attribute(value=Name(id='inputs', ctx=Load()), attr='device', ctx=Load())], keywords=[]))], body=[For(target=Tuple(elts=[Name(id='batch', ctx=Store()), Tuple(elts=[Name(id='length', ctx=Store()), Name(id='adapter', ctx=Store())], ctx=Store())], ctx=Store()), iter=Call(func=Name(id='enumerate', ctx=Load()), args=[Call(func=Name(id='zip', ctx=Load()), args=[Name(id='length_values', ctx=Load()), Name(id='index_values', ctx=Load())], keywords=[])], keywords=[]), body=[If(test=BoolOp(op=Or(), values=[Compare(left=Name(id='length', ctx=Load()), ops=[Eq()], comparators=[Constant(value=0)]), Compare(left=Name(id='adapter', ctx=Load()), ops=[Eq()], comparators=[UnaryOp(op=USub(), operand=Constant(value=1))])]), body=[Continue()], orelse=[]), Assign(targets=[Name(id='grid', ctx=Store())], value=Tuple(elts=[BinOp(left=Call(func=Attribute(value=Name(id='triton', ctx=Load()), attr='cdiv', ctx=Load()), args=[Name(id='length', ctx=Load()), Constant(value=32)], keywords=[]), op=Mult(), right=Call(func=Attribute(value=Name(id='triton', ctx=Load()), attr='cdiv', ctx=Load()), args=[Name(id='N', ctx=Load()), Constant(value=32)], keywords=[]))], ctx=Load())), Expr(value=Call(func=Subscript(value=Name(id='_sgmv_expand_slice_kernel_repaired', ctx=Load()), slice=Name(id='grid', ctx=Load()), ctx=Load()), args=[Name(id='inputs', ctx=Load()), Name(id='weights', ctx=Load()), Name(id='output_tensor', ctx=Load()), Name(id='N', ctx=Load()), Name(id='K', ctx=Load()), Name(id='b_seq_start_loc', ctx=Load()), Name(id='seq_len_tensor', ctx=Load()), Name(id='lora_indices_tensor', ctx=Load()), Name(id='K', ctx=Load()), Constant(value=1), BinOp(left=Name(id='N', ctx=Load()), op=Mult(), right=Name(id='K', ctx=Load())), Name(id='K', ctx=Load()), Constant(value=1), Name(id='C', ctx=Load()), Constant(value=1), Name(id='slice_offset', ctx=Load()), Name(id='batch', ctx=Load())], keywords=[keyword(arg='BLOCK_M', value=Constant(value=32)), keyword(arg='BLOCK_N', value=Constant(value=32)), keyword(arg='BLOCK_K', value=Constant(value=16)), keyword(arg='EVEN_K', value=Compare(left=BinOp(left=Name(id='K', ctx=Load()), op=Mod(), right=Constant(value=16)), ops=[Eq()], comparators=[Constant(value=0)])), keyword(arg='ADD_INPUTS', value=Name(id='add_inputs', ctx=Load())), keyword(arg='CAST_TYPE', value=Constant(value=True)), keyword(arg='num_warps', value=Constant(value=4)), keyword(arg='num_ctas', value=Constant(value=1))]))], orelse=[])]), Return(value=Constant(value=None))], decorator_list=[Call(func=Attribute(value=Name(id='torch', ctx=Load()), attr='inference_mode', ctx=Load()), args=[], keywords=[])], returns=Constant(value=None), type_params=[])], type_ignores=[])"
-def candidateSHA256 : String := "284def49ac88b5337bd0081c492f2d4e9cd6a0463966c33da9523d03410cc76b"
 abbrev source := VeriTile.Bench.Repairs.SgmvExpandSlice.kernel
-
-#auditModuleAxioms
 end VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated

@@ -26,7 +26,7 @@ theorem suffix_safe {α : Type} [Inhabited α] (M : Algebra α)
   cases add <;>
     simp (maxSteps := 1000000) [SourceParts.suffix,SourceParts.active,SourceParts.afterTile,
       SourceParts.afterLength,SourceParts.thenBody,SourceParts.outer,kernel,sourceFace,
-      sourceHalfSingle323232,ComputeKernel.surfaceBody,ScalarFormat.dtype,LowFormat.scalar,
+      sourceHalfSingle323232,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,ScalarFormat.dtype,LowFormat.scalar,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
