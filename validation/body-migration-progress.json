@@ -87,7 +87,10 @@
       "cases": 1,
       "retained_modules": 75,
       "replay_sources": 75,
-      "state": "ready_for_official_replay"
+      "state": "official_replay_running",
+      "source_commit": "72ec347b6ddda442215140ff6a202776d90f17c2",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41533126901",
+      "started_at": "2026-11-02T21:58:16Z"
     },
     "previous_incremental_replays": [
       {
@@ -1286,7 +1289,8 @@
       "full_build_modules": 4915,
       "full_lake_jobs": 13626,
       "public_theorem_names": 386,
-      "boundary": "Local source/proof/axiom/specification checks, not an independent completion receipt."
+      "boundary": "Local source/proof/axiom/specification checks, not an independent completion receipt.",
+      "source_commit": "72ec347b6ddda442215140ff6a202776d90f17c2"
     }
   },
   "targets": [
@@ -1420,7 +1424,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete 21-statement repaired/original and existing scalar-left Python bodies match literal quotations in Kernels.lean. Removed the old quotation from SourceDefinitions (now a thin import); source-independent public wrappers live in Proofs. Pointer/scalar/constexpr metadata stay outside the body, with actual FP32 sm_scale bound through the standard typed scalar argument before entering the function. Preserved all signed casts, narrowing block-pointer offset, masks, signed sliding/complement windows, hints, dot/default precision, boundary checks, reduction order, output element cast and named block-pointer advance. The existing Python candidate changes only the multiplication operand order and records source provenance. Reproved actual Real erasure, invocation prefix, grouped-head address preparation, signed distance, query loop, complete grids, independent N-term score sum, source safety, output/readback and complete frames. The actual FP comparison and complete native instruction-graph connection pass without new numerical rules, premises or range restrictions. All 73 owned and two shared frontend/test modules, 156-case integration, 386 public names, 537 Python tests, body-corpus checks and exact-source shared trust/inventory preflights pass. Independent exact-current replay is still required; compilation never counts as completion."
+      "reason": "Both complete 21-statement repaired/original and existing scalar-left Python bodies match literal quotations in Kernels.lean. Removed the old quotation from SourceDefinitions (now a thin import); source-independent public wrappers live in Proofs. Pointer/scalar/constexpr metadata stay outside the body, with actual FP32 sm_scale bound through the standard typed scalar argument before entering the function. Preserved all signed casts, narrowing block-pointer offset, masks, signed sliding/complement windows, hints, dot/default precision, boundary checks, reduction order, output element cast and named block-pointer advance. The existing Python candidate changes only the multiplication operand order and records source provenance. Reproved actual Real erasure, invocation prefix, grouped-head address preparation, signed distance, query loop, complete grids, independent N-term score sum, source safety, output/readback and complete frames. The actual FP comparison and complete native instruction-graph connection pass without new numerical rules, premises or range restrictions. All 73 owned and two shared frontend/test modules, 156-case integration, 386 public names, 537 Python tests, body-corpus checks and exact-source shared trust/inventory preflights pass. Independent exact-current replay is still required; compilation never counts as completion.",
+      "validated_source_commit": "72ec347b6ddda442215140ff6a202776d90f17c2",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41533126901"
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_causal",
