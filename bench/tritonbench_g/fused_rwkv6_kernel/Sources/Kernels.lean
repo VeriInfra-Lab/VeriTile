@@ -66,6 +66,8 @@ structure Ops (α : Type) where
   add : α → α → α
   mul : α → α → α
   exp : α → α
+  /-- Initial-state read and its explicit source cast. -/
+  seedLoadCast : α → α
 
 /-- Runtime-selected legal trees may differ by source time, block and output lane.
 Selection is structural and is fixed before values are supplied. -/
@@ -109,7 +111,7 @@ def load {α : Type} (a : Ops α) (m : Memory α) (r : Region) (address : Nat) (
   a.loadCast (if active then m r address else a.zero)
 
 def initialCarry {α : Type} (a : Ops α) (c : Shape) (p : Program) (m : Memory α) : Carry α :=
-  fun l j => if c.initial then a.add a.zero (load a m .h0
+  fun l j => if c.initial then a.add a.zero (load { a with loadCast := a.seedLoadCast } m .h0
     (stateAddress c p.z (keyIndex c p j) (valueIndex c p l))
     (decide (keyIndex c p j < c.K ∧ valueIndex c p l < c.V))) else a.zero
 

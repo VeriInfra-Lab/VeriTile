@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 32,
-  "staged_count": 138,
+  "staged_count": 139,
   "pending_count": 164,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 4249,
+    "staged_and_regression_retained_modules": 4296,
     "official_comparator": "32 current targets and separately listed regression cases have accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure has been verified. Compilation alone never counts as completion.",
-    "python_tests": 484,
+    "python_tests": 489,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "Latest fully validated source snapshot 3285fb9088b0f7e1c963650484eaa1f87286ef3c: 144 selected cases (138 targets and 6 regressions), all 4249 retained/supporting modules, 12968 Lake jobs and 359 fully-qualified public theorem names pass locally. Relu strided buffer now retains both complete original scheduling branches, block pointers, helper calls, boundary checks and pointer element casts. Independent Real, full FP pair, grid output/frame and safety re-proved. Nine positive frontend semantic/safety checks and nine rejected-source checks pass; 484 Python tests pass. Thirty-two current targets have exact-source independent acceptance. Other staged targets remain pending independent replay. No new numerical assumption or public premise. Current fused_rwkv6_kernel edits are in progress and are not covered by that local snapshot or counted complete.",
-    "official_replay_sources": 3252,
+    "working_tree": "145 selected cases (139 targets and 6 regressions), all 4296 retained/supporting modules, 13016 Lake jobs and 361 fully-qualified public theorem names pass locally. RWKV retains both complete 16-statement raw Python bodies, conditional pointer updates, actual typed reads/casts, optional state and reverse/empty traversal. Independent Real recurrence, complete FP pair, safety, outputs/frame and native obligations re-proved. Nine frontend semantic regression theorems and seven rejected-source checks pass. Thirty-two targets have current exact-source independent acceptance. Other staged targets remain pending official replay. No new numerical assumption or public premise.",
+    "official_replay_sources": 3299,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -54,17 +54,15 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/relu_strided_buffer",
+      "case": "bench/tritonbench_g/fused_rwkv6_kernel",
       "case_paths": [
-        "bench/tritonbench_g/relu_strided_buffer"
+        "bench/tritonbench_g/fused_rwkv6_kernel"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 43,
-      "replay_sources": 43,
-      "state": "official_workflow_queued",
-      "source_commit": "3285fb9088b0f7e1c963650484eaa1f87286ef3c",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41433584488"
+      "retained_modules": 47,
+      "replay_sources": 47,
+      "state": "local_pass_preparing_independent_replay"
     },
     "previous_incremental_replays": [
       {
@@ -605,6 +603,19 @@
         "state": "official_workflow_queued",
         "source_commit": "bd120bba68631e46c230ef960fc9aa9e1d9b97b8",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41416753799"
+      },
+      {
+        "case": "bench/tritonbench_g/relu_strided_buffer",
+        "case_paths": [
+          "bench/tritonbench_g/relu_strided_buffer"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 43,
+        "replay_sources": 43,
+        "state": "official_workflow_queued",
+        "source_commit": "3285fb9088b0f7e1c963650484eaa1f87286ef3c",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41433584488"
       }
     ],
     "pending_client_regressions": {
@@ -620,7 +631,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Migrate fused_rwkv6_kernel: preserve both full Python bodies and conditional pointer advances, then reconnect the independent recurrence, full FP pair, execution and safety. Remaining source/proof migrations: 58. No merge.",
+    "current_work": "Continue the remaining 57 TritonBench-G source/proof migrations and collect exact-source independent receipts for staged cases. Keep numerical admission gaps explicit. No merge.",
     "previous_validated_source_commit": "bd120bba68631e46c230ef960fc9aa9e1d9b97b8",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -644,15 +655,14 @@
     },
     "validated_source_commit": "3285fb9088b0f7e1c963650484eaa1f87286ef3c",
     "last_full_local_snapshot": {
-      "cases": 144,
-      "targets": 138,
-      "retained_modules": 4249,
-      "replay_sources": 3252,
-      "lake_jobs": 12968,
+      "cases": 145,
+      "targets": 139,
+      "retained_modules": 4296,
+      "replay_sources": 3299,
+      "lake_jobs": 13016,
       "public_theorem_names": "PASS",
-      "python_tests": 484,
-      "boundary": "Local checks only. Not an independent replay completion receipt.",
-      "source_commit": "3285fb9088b0f7e1c963650484eaa1f87286ef3c"
+      "python_tests": 489,
+      "boundary": "Local checks only. Not an independent replay completion receipt."
     },
     "previous_shared_model_revalidations": [
       {
@@ -918,6 +928,16 @@
         13,
         20
       ]
+    },
+    "local_independent_comparator": {
+      "state": "unavailable_landlock_abi",
+      "systemd_isolation": "PASS",
+      "landlock_kernel_abi": 4,
+      "required_landlock_abi": 5,
+      "comparator_commit": "2a00b30df5e9173e70c4e4ec669fdf03da3163b9",
+      "landrun_commit": "5283024a2f49b28046c3b4a06d7d775c058d4d80",
+      "pinned_binaries_and_replay_backport_sha256_verified": true,
+      "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     }
   },
   "targets": [
@@ -1512,8 +1532,12 @@
     },
     {
       "path": "bench/tritonbench_g/fused_rwkv6_kernel",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Both complete original and early-U Python bodies match unchanged 16-statement Lean quotations. Tuple program axes, conditional signed pointer advances, both traversal directions, optional seed/final state, FP32 reads/casts and runtime scale are retained. Independent Real recurrence, actual ordered FP/native primitives, full grid outputs/frame, access safety and complete FP pair re-proved. All 45 retained task modules plus two optional frontend/check modules pass local checks. Exact-current-source official independent replay remains required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/geglu_tanh_triton",

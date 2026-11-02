@@ -10,7 +10,7 @@ variable {α : Type} [Inhabited α]
 theorem loop_safe (M : Algebra α) (c : Shape) (initial current : State α) (scale : α)
     (n : Nat) (hn : n≤c.T) (ctx : Context M c initial scale n current)
     (bounds : RegionName → Nat) (hb : Bounds c initial bounds) :
-    rangeSafe (engine M) bounds "_i" n c.T 1 (parts c).body current := by
+    rangeSafe (engine M) bounds "_" n c.T 1 (parts c).body current := by
   rw [rangeSafe_unfold]
   by_cases live : n<c.T
   · simp only [show (1 : Nat)≠0 by decide,if_false,if_pos live]
@@ -34,7 +34,7 @@ theorem source_safe (M : Algebra α) (c : Shape) (s : State α) (scale : α)
   intro next hnext
   have heq : next=start.val := Option.some.inj (hnext.symm.trans start.property)
   subst next
-  have ran : FP.Structural.step (engine M) (.forRange "_i" 0 c.T 1 (parts c).body) start.val=some middle := by
+  have ran : FP.Structural.step (engine M) (.forRange "_" 0 c.T 1 (parts c).body) start.val=some middle := by
     simpa only [FP.Structural.step] using run
   apply traceSafeList_cons_of_step (t:=middle) (executed:=ran)
   · rw [stepSafe_unfold]

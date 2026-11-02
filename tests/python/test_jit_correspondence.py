@@ -2328,3 +2328,47 @@ class ReluStridedBodyCorrespondenceTests(unittest.TestCase):
         for value in ['"fp32"', '.i64', 'unknown_dtype']:
             with self.subTest(value=value), self.assertRaises((ValueError, SyntaxError)):
                 self.verify(source=self.source.replace('("in0_ptr",.fp32)', '("in0_ptr",' + value + ')', 1))
+
+class RwkvBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/fused_rwkv6_kernel'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.python = (self.directory / 'fused_rwkv6_kernel.py').read_text()
+        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+
+    def verify(self, source=None):
+        r = self.record
+        return check(self.python, self.source if source is None else source,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'])
+
+    def test_both_complete_sources_keep_sixteen_top_level_statements(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [16, 16])
+
+    def test_tuple_program_axes_and_reverse_pointer_updates_are_exact(self):
+        for old, new in [('tl.program_id(0), tl.program_id(1)', 'tl.program_id(1), tl.program_id(0)'),
+                         ('p_q += -K if REVERSE else K', 'p_q += K if REVERSE else -K'),
+                         ('p_o += -V if REVERSE else V', 'p_o += -K if REVERSE else K')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_all_state_flags_and_output_casts_are_retained(self):
+        for old, new in [('if USE_INITIAL_STATE:', 'if False:'),
+                         ('if STORE_FINAL_STATE:', 'if False:'),
+                         ('b_o.to(p_o.dtype.element_ty)', 'b_o'),
+                         ('b_h.to(p_ht.dtype.element_ty)', 'b_h')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_scalar_abi_and_runtime_strides_cannot_be_rebound(self):
+        for old, new in [('("scale",.fp32)', '("scale",.fp64)'),
+                         ('s_k_h := s_k_h', 's_k_h := s_v_h')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(self.source.replace(old, new, 1))
+
+    def test_repaired_partial_output_pitch_is_not_replaced_by_input_pitch(self):
+        with self.assertRaises(ValueError):
+            self.verify(self.source.replace('(i_bh + i_k * B * H) * (T * V)',
+                                            '(i_bh + i_k * B * H) * s_v_h', 1))

@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 125,
-      "uncovered_jit_functions": 58
+      "selected_body_copy_checked": 126,
+      "uncovered_jit_functions": 57
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 135,
+    "uncovered_selected_jit_functions": 134,
     "inventoried_jit_functions": 531,
-    "uncovered_inventoried_jit_functions": 179,
+    "uncovered_inventoried_jit_functions": 177,
     "checked_pair_modes": {
-      "pasted_body": 352
+      "pasted_body": 354
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 125,
-        "uncovered_jit_functions": 58
+        "selected_body_copy_checked": 126,
+        "uncovered_jit_functions": 57
       }
     },
     "primary_files_with_int64_screen_warning": 15,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 36,
-        "antiquotes": 375,
+        "in_body_type_directives": 35,
+        "antiquotes": 374,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -21025,9 +21025,9 @@
       "lean": "bench/tritonbench_g/fused_rwkv6_kernel/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 4,
-        "antiquotes": 124,
-        "dsl_assignment": 24,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 13,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -21064,30 +21064,70 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "integer",
+            "s_v_h": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
           "python": "bench/tritonbench_g/fused_rwkv6_kernel/fused_rwkv6_kernel.py",
-          "function": "fused_recurrent_rwkv6_fwd_kernel"
+          "lean": "bench/tritonbench_g/fused_rwkv6_kernel/Kernels.lean"
         },
         {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "integer",
+            "s_v_h": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
           "python": "bench/tritonbench_g/fused_rwkv6_kernel/fused_rwkv6_kernel_u_early.py",
-          "function": "fused_recurrent_rwkv6_fwd_kernel"
+          "lean": "bench/tritonbench_g/fused_rwkv6_kernel/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/fused_rwkv6_kernel/fused_rwkv6_kernel.py",
-          "function": "fused_recurrent_rwkv6_fwd_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/fused_rwkv6_kernel/Kernels.lean": "d316c0b5d8cd3f7073ce9f528a997d51b46eb50a58f57ae16e102ceee15f6d7a",
+        "bench/tritonbench_g/fused_rwkv6_kernel/Kernels.lean": "949fdd6ab6f5f272b3d78893d4301555ac53de7bcb366cd8e931241184f5568c",
         "bench/tritonbench_g/fused_rwkv6_kernel/fused_rwkv6_kernel.py": "ed5895a40c59dc093429689d1431364f41736a4889ea159da4a4dda3f7d54047",
-        "bench/tritonbench_g/fused_rwkv6_kernel/fused_rwkv6_kernel_u_early.py": "b3bf3cd49a686c738eb3f21b64619e820dd84dc78cf958b907fe8028969f6255"
+        "bench/tritonbench_g/fused_rwkv6_kernel/fused_rwkv6_kernel_u_early.py": "b3bf3cd49a686c738eb3f21b64619e820dd84dc78cf958b907fe8028969f6255",
+        "bench/tritonbench_g/fused_rwkv6_kernel/jit-correspondence.json": "5bd41c095ad344670d404883a521fdd476992ca9235db76bb28ba273f42abcf2"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/fused_rwkv6_kernel"

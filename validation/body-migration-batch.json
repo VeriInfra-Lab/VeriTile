@@ -1944,6 +1944,19 @@
           "VeriTile.Bench.Repairs.ReluStridedBuffer.relu_strided_buffer_folded_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/fused_rwkv6_kernel",
+      "python": "bench/tritonbench_g/fused_rwkv6_kernel/fused_rwkv6_kernel.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_rwkv6_kernel/Correct.lean": [
+          "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct.rwkv_real"
+        ],
+        "bench/tritonbench_g/fused_rwkv6_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.FPEquiv.u_early_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1952,6 +1965,7 @@
     "VeriTile/Triton/DSL/BooleanCallControl.lean",
     "VeriTile/Triton/DSL/CallSignature.lean",
     "VeriTile/Triton/DSL/ChainedSourceCasts.lean",
+    "VeriTile/Triton/DSL/ConditionalPointerAdvances.lean",
     "VeriTile/Triton/DSL/ConditionalPureJitFunctions.lean",
     "VeriTile/Triton/DSL/Expansion/Compute.lean",
     "VeriTile/Triton/DSL/Expansion/Main.lean",
@@ -3041,6 +3055,51 @@
     "bench/tritonbench_g/fused_rotary_embedding/Proofs/SourcePair.lean",
     "bench/tritonbench_g/fused_rotary_embedding/Proofs/SourceSafety.lean",
     "bench/tritonbench_g/fused_rotary_embedding/Proofs/Vector.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Contract.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Correct.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/FPEquiv.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/IO.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Kernels.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Backends.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Body.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/BodyExec.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Bytes.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Checked.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/CheckedIndices.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Context.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Domain.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Execution.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/FusedRwkv6Kernel_Execution.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Grid.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/HistoricalFPEquiv.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Host.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/IOExecution.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/IOImplements.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/IOResults.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/IOValues.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Index.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/LogicalCoordinates.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/LogicalInputBinding.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Loop.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/ModelBridge.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Native.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Observations.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Output.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Pair.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/PairPrefix.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Real.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/RealReference.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Reference.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/SafetyLoop.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/ScatterBridge.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Source.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/SourceCells.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Specialization.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Storage.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Proofs/Trace.lean",
+    "bench/tritonbench_g/fused_rwkv6_kernel/Sources/Kernels.lean",
     "bench/tritonbench_g/geglu_tanh_triton/Kernels.lean",
     "bench/tritonbench_g/geglu_tanh_triton/Proofs/Scalar.lean",
     "bench/tritonbench_g/index_select_bwd/Kernels.lean",
@@ -4993,6 +5052,7 @@
     "tests/lean/ChainedSourceCasts.lean",
     "tests/lean/ChainedSourceCastsReference.lean",
     "tests/lean/ClosedStructuralAudit.lean",
+    "tests/lean/ConditionalPointerAdvances.lean",
     "tests/lean/ConditionalPureJitFunctions.lean",
     "tests/lean/FP32BooleanArithmetic.lean",
     "tests/lean/FPFastRmsLayernormSource.lean",

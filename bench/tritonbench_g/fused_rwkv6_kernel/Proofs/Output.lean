@@ -46,7 +46,7 @@ def finishExec (M : Algebra α) (c : Shape) (initial current : State α) (scale 
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+    simp [parts,kernel,originalBody,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
       Option.map,Option.getD,run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,Algebra.withDefaultPrecision,
       resolvePrecision,ComputeDType.eraseDType,numeric,integralMod,numericLt,natLt,
@@ -90,7 +90,7 @@ theorem source_memory (M : Algebra α) (c : Shape) (s : State α) (scale : α)
   obtain ⟨mid,hm,hc⟩:=loopExec M c s start.val scale 0 (by omega) (entry_context M c s scale hs)
   let done:=finishExec M c s mid scale (hc.final M c s mid scale)
   refine ⟨done.val,?_,finish_memory M c s mid scale _⟩
-  have hl : FP.Structural.step (engine M) (.forRange "_i" 0 c.T 1 (parts c).body)
+  have hl : FP.Structural.step (engine M) (.forRange "_" 0 c.T 1 (parts c).body)
       start.val=some mid := by simpa only [FP.Structural.step] using hm
   change run (engine M) (kernel c).surfaceBody s=some done.val
   rw [source_body,List.append_assoc,run_append,start.property]
