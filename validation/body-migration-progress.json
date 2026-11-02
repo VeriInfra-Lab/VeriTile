@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 143,
+  "completed_count": 144,
   "staged_count": 148,
-  "pending_count": 53,
+  "pending_count": 52,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 4806,
-    "official_comparator": "143 current targets retain accepted exact-dependency official receipts. Official ZIP digests, required proof roots, public theorem coverage and exact current source/import closures have been audited. Five additional locally verified targets await current independent replay; compilation never counts as completion.",
+    "official_comparator": "144 current targets retain accepted exact-dependency official receipts. Official ZIP digests, required proof roots, public theorem coverage and exact current source/import closures have been audited. Four additional locally verified targets await current independent replay; compilation never counts as completion.",
     "python_tests": 530,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "154 cases (148 targets and 6 regressions), all 4806 retained/supporting modules, 13482 Lake jobs, 382 public theorem names, 530 Python tests and body-corpus checks pass. RBE now copies both complete 31-statement callers and the complete six-statement helper. All signed casts, fixed DIM=128, tuple return, implicit stores, independent dense Real rotation, full-grid execution/readback/safety/frames and the actual mask-reuse FP pair are verified. All 27 owned and two shared frontend/test roots pass. New shared helper trust/specification/inventory preflights pass (six frontend and 100 regression theorems). Independent completion count remains 143, including all 19 examples.",
+    "working_tree": "154 cases (148 targets and 6 regressions), all 4806 retained/supporting modules, 13482 Lake jobs, 382 public theorem names, 530 Python tests and body-corpus checks pass. RBE now copies both complete 31-statement callers and the complete six-statement helper. All signed casts, fixed DIM=128, tuple return, implicit stores, independent dense Real rotation, full-grid execution/readback/safety/frames and the actual mask-reuse FP pair are verified. All 27 owned and two shared frontend/test roots pass. New shared helper trust/specification/inventory preflights pass (six frontend and 100 regression theorems). Independent completion count is now 144, including all 19 examples.",
     "official_replay_sources": 3809,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -87,7 +87,10 @@
       "cases": 1,
       "retained_modules": 29,
       "replay_sources": 29,
-      "state": "ready_for_official_replay"
+      "state": "official_replay_running",
+      "source_commit": "d45fb499833be5c220631156ee78f72f207c66ff",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41519117058",
+      "started_at": "2026-11-02T20:25:52Z"
     },
     "previous_incremental_replays": [
       {
@@ -791,8 +794,8 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 48 TritonBench-G source/proof migrations, next the packed FP4-to-BF16 helper, and collect current independent receipts for chunk_gla_simple, chunk_delta_fwd, pow_scalar_tensor, iv_dependent_matmul and rbe_triton_transform. RBE is locally validated and ready for a 29-root official replay. All 19 examples are accepted. No merge.",
-    "previous_validated_source_commit": "334fab3eb83ea8a0731668fc55a6a5992b08b83f",
+    "current_work": "Continue the remaining 48 TritonBench-G source/proof migrations, next the packed FP4-to-BF16 helper, and collect exact-current independent receipts for chunk_gla_simple, chunk_delta_fwd, iv_dependent_matmul and rbe_triton_transform. RBE 29-root replay is running. Power 25-root replay is independently accepted. All 19 examples are accepted. No merge.",
+    "previous_validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
       "cases": 139,
@@ -813,7 +816,7 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
+    "validated_source_commit": "d45fb499833be5c220631156ee78f72f207c66ff",
     "last_full_local_snapshot": {
       "cases": 154,
       "targets": 148,
@@ -825,8 +828,8 @@
       "public_theorem_count": 382,
       "python_tests": 530,
       "current_dependency_snapshot": true,
-      "state": "locally_verified_worktree_pending_source_commit",
-      "boundary": "Local proof/source/trust checks only, not an independent completion receipt."
+      "boundary": "Local proof/source/trust checks only, not an independent completion receipt.",
+      "source_commit": "d45fb499833be5c220631156ee78f72f207c66ff"
     },
     "previous_shared_model_revalidations": [
       {
@@ -1059,6 +1062,7 @@
       "validation/body_receipts/lora-expand-gemv-source-migration.json",
       "validation/body_receipts/matmul-source-migration.json",
       "validation/body_receipts/persistent-source-migration.json",
+      "validation/body_receipts/power-source-migration.json",
       "validation/body_receipts/relu-source-migration.json",
       "validation/body_receipts/retention-source-migration.json",
       "validation/body_receipts/rwkv-source-migration.json",
@@ -1197,6 +1201,14 @@
         "owned_plus_shared_build_peak_resident_kib": 4121956,
         "all_25_roots": "PASS",
         "fresh_official_replay": "required"
+      },
+      "optimized_official_result": {
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41512420329",
+        "source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
+        "accepted_replay_roots": 25,
+        "artifact_zip_sha256": "281e166f82a90e80034adbf290283478a88930fe0eb43e8c0d99cdb9f292388b",
+        "receipt": "validation/body_receipts/power-source-migration.json",
+        "current_case_closure_unchanged": true
       }
     }
   },
@@ -2522,14 +2534,15 @@
     },
     {
       "path": "bench/tritonbench_g/pow_scalar_tensor",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
-      "reason": "The complete original, retained integer-offset candidate, binary JIT helper and exact three import fallbacks are copied and checked. Both dispatch branches, signed bases/strides, block-pointer boundaries, unused num_tiles0 and every source cast remain. Actual successful tile/grid execution, independent Real.rpow correctness/domain, ordered FP outputs, safety and input/exterior frames reconnect to these quotations. The ordered reference retains the input-element self-cast. A proof-only AST/control-run bridge keeps the actual tile body abstract during control normalization: unchanged source, numerical primitives, public theorem statements and premises. Identical standalone verification dropped from 213.05 seconds / 33611956 KiB to 3.99 seconds / 3995068 KiB. All 23 owned modules plus 2 shared roots, exact trust/inventory preflight, full 4777-module joint validation, 380 public entries and 526 Python tests pass. No new numerical assumption. A fresh exact-source official 25-root receipt remains required; compilation alone is not completion.",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41512420329"
+      "reason": "All 25 owned/shared independent proof roots accepted in the completed official exact-source replay. Verified the official merged ZIP SHA256, every required accepted proof, both public theorem names, complete original/candidate body pairs, shared dependencies and exact current transitive case closure. No source changed during replay and no current closure changed afterward. The optimized control bridge preserves the source and public statements. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41512420329",
+      "receipt": "validation/body_receipts/power-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/quant_transpose_kernel",
@@ -2608,7 +2621,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete 31-statement callers and both Python copies of the six-statement frequency helper match the pasted source. Runtime arguments, pointer types and helper signature metadata stay outside the bodies. All original INT64 casts, signed token positions, the fixed helper DIM=128, tuple return, barriers, floating order, masks and implicit destination casts are retained. Removed the old inlined quotation and its unsupported variable DIM parameter. Proved exact signed-to-natural address/ceil/remainder identities, successful full execution, active access safety, all-grid outputs and input/exterior frames, independent Real rotation with odd and empty shapes, and the actual mask-reuse FP pair. All 27 owned modules and two shared helper/test roots pass. Shared helper argument order, hygiene, simultaneous/repeated returns and constexpr/signed semantics have arbitrary-algebra tests; eleven rejection cases and exact trust/inventory preflights pass. Full 154-case local build, 382 public names, 530 Python tests and body-corpus checks pass. No added numerical rule or public premise. Exact-current official replay is still required; compilation is not completion."
+      "reason": "Both complete 31-statement callers and both Python copies of the six-statement frequency helper match the pasted source. Runtime arguments, pointer types and helper signature metadata stay outside the bodies. All original INT64 casts, signed token positions, the fixed helper DIM=128, tuple return, barriers, floating order, masks and implicit destination casts are retained. Removed the old inlined quotation and its unsupported variable DIM parameter. Proved exact signed-to-natural address/ceil/remainder identities, successful full execution, active access safety, all-grid outputs and input/exterior frames, independent Real rotation with odd and empty shapes, and the actual mask-reuse FP pair. All 27 owned modules and two shared helper/test roots pass. Shared helper argument order, hygiene, simultaneous/repeated returns and constexpr/signed semantics have arbitrary-algebra tests; eleven rejection cases and exact trust/inventory preflights pass. Full 154-case local build, 382 public names, 530 Python tests and body-corpus checks pass. No added numerical rule or public premise. Exact-current official replay is still required; compilation is not completion.",
+      "validated_source_commit": "d45fb499833be5c220631156ee78f72f207c66ff",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41519117058"
     },
     {
       "path": "bench/tritonbench_g/relu_strided_buffer",
