@@ -2747,3 +2747,66 @@ class ScalarTensorPowerBodyTests(unittest.TestCase):
         rhs = undo.visit(ast.Module(body(candidate, self.records[3]['python_function']), []))
         self.assertEqual(undo.count, 2)
         self.assertEqual(ast.dump(lhs), ast.dump(rhs))
+
+
+class IvDependentMatmulBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/iv_dependent_matmul'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, index=0, source=None):
+        record = self.records[index]
+        return check((ROOT / record['python']).read_text(), source or self.source,
+                     record['python_function'], record['lean_definition'],
+                     record['signature_definition'], record['expected_signature'],
+                     expected_call_bindings=record['expected_call_bindings'])
+
+    def test_both_copied_bodies_cover_all_five_schedules(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([row['statements'] for row in rows], [29, 29])
+        self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
+
+    def test_signed_casts_prefetch_branches_tail_mask_and_narrowing_are_required(self):
+        for old, new in [('M = tl.cast(M, tl.int64)', ''),
+                         ('tl.cast(tl.arange(0, BLOCK_SIZE_M), tl.int64)', 'tl.arange(0, BLOCK_SIZE_M)'),
+                         ('k64 = tl.cast(k, tl.int64)', 'k64 = k'),
+                         ('elif type == "post_load_three_iters":', 'elif type == "post_load":'),
+                         ('a_ptrs_next_next = a_ptr + 2 * BLOCK_SIZE_K * stride_ak', ''),
+                         ('K - k64 * BLOCK_SIZE_K', 'K'),
+                         ('c = accumulator.to(tl.float16)', 'c = accumulator')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(source=self.source.replace(old, new))
+        with self.assertRaises(ValueError):
+            self.verify(index=1, source=self.source.replace(
+                'accumulator = tl.dot(a, b, accumulator)', 'accumulator += tl.dot(a, b)'))
+
+    def test_runtime_stride_and_dtype_metadata_cannot_change(self):
+        for old, new in [('("stride_am",.integer)', '("stride_am",.fp32)'),
+                         ('stride_am := stride_am', 'stride_am := stride_bk'),
+                         ('("c_ptr",dtype)', '("c_ptr",.fp16)')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(source=self.source.replace(old, new))
+
+    def test_retained_candidate_changes_only_the_live_dot_operand(self):
+        import hashlib
+        original = (ROOT / self.records[0]['python']).read_text()
+        candidate = (ROOT / self.records[1]['python']).read_text()
+        self.assertIn(hashlib.sha256(original.encode()).hexdigest(), candidate)
+        class Undo(ast.NodeTransformer):
+            count = 0
+            def visit_Assign(self, node):
+                if (len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
+                        and node.targets[0].id == 'accumulator'
+                        and isinstance(node.value, ast.Call)
+                        and ast.unparse(node.value.func) == 'tl.dot'):
+                    assert [ast.unparse(arg) for arg in node.value.args] == ['a', 'b', 'accumulator']
+                    assert not node.value.keywords
+                    self.count += 1
+                    return ast.AugAssign(node.targets[0], ast.Add(),
+                                         ast.Call(node.value.func, node.value.args[:2], []))
+                return self.generic_visit(node)
+        undo = Undo()
+        restored = undo.visit(ast.parse(candidate))
+        self.assertEqual(undo.count, 1)
+        self.assertEqual(ast.dump(ast.parse(original)), ast.dump(restored))

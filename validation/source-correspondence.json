@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 133,
-      "uncovered_jit_functions": 50
+      "selected_body_copy_checked": 134,
+      "uncovered_jit_functions": 49
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 122,
-    "inventoried_jit_functions": 536,
-    "uncovered_inventoried_jit_functions": 160,
+    "uncovered_selected_jit_functions": 121,
+    "inventoried_jit_functions": 537,
+    "uncovered_inventoried_jit_functions": 159,
     "checked_pair_modes": {
-      "pasted_body": 376
+      "pasted_body": 378
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 133,
-        "uncovered_jit_functions": 50
+        "selected_body_copy_checked": 134,
+        "uncovered_jit_functions": 49
       }
     },
     "primary_files_with_int64_screen_warning": 13,
@@ -23340,13 +23340,13 @@
       "python": "bench/tritonbench_g/iv_dependent_matmul/iv_dependent_matmul.py",
       "lean": "bench/tritonbench_g/iv_dependent_matmul/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 3,
+        "dsl_assignment": 36,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 0
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -23497,27 +23497,148 @@
               ]
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+        },
         {
-          "python": "bench/tritonbench_g/iv_dependent_matmul/iv_dependent_matmul.py",
-          "function": "iv_dependent_matmul_kernel_i64"
+          "path": "bench/tritonbench_g/iv_dependent_matmul/iv_dependent_matmul_dotacc.py",
+          "jits": [
+            {
+              "function": "iv_dependent_matmul_kernel_i64",
+              "line": 12,
+              "statements": 29,
+              "explicit_int64_casts": [
+                {
+                  "line": 20,
+                  "expression": "tl.cast(M, tl.int64)"
+                },
+                {
+                  "line": 21,
+                  "expression": "tl.cast(N, tl.int64)"
+                },
+                {
+                  "line": 22,
+                  "expression": "tl.cast(K, tl.int64)"
+                },
+                {
+                  "line": 23,
+                  "expression": "tl.cast(stride_am, tl.int64)"
+                },
+                {
+                  "line": 24,
+                  "expression": "tl.cast(stride_ak, tl.int64)"
+                },
+                {
+                  "line": 25,
+                  "expression": "tl.cast(stride_bk, tl.int64)"
+                },
+                {
+                  "line": 26,
+                  "expression": "tl.cast(stride_bn, tl.int64)"
+                },
+                {
+                  "line": 27,
+                  "expression": "tl.cast(stride_cm, tl.int64)"
+                },
+                {
+                  "line": 28,
+                  "expression": "tl.cast(stride_cn, tl.int64)"
+                },
+                {
+                  "line": 29,
+                  "expression": "tl.cast(tl.program_id(axis=0), tl.int64)"
+                },
+                {
+                  "line": 36,
+                  "expression": "tl.cast(tl.arange(0, BLOCK_SIZE_K), tl.int64)"
+                },
+                {
+                  "line": 52,
+                  "expression": "tl.cast(k, tl.int64)"
+                },
+                {
+                  "line": 80,
+                  "expression": "tl.cast(tl.arange(0, BLOCK_SIZE_M), tl.int64)"
+                },
+                {
+                  "line": 81,
+                  "expression": "tl.cast(tl.arange(0, BLOCK_SIZE_N), tl.int64)"
+                },
+                {
+                  "line": 34,
+                  "expression": "tl.cast(tl.arange(0, BLOCK_SIZE_M), tl.int64)"
+                },
+                {
+                  "line": 35,
+                  "expression": "tl.cast(tl.arange(0, BLOCK_SIZE_N), tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "iv_dependent_matmul_kernel_i64",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 29,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "type"
+          ],
           "python": "bench/tritonbench_g/iv_dependent_matmul/iv_dependent_matmul.py",
-          "function": "iv_dependent_matmul_kernel_i64"
+          "lean": "bench/tritonbench_g/iv_dependent_matmul/Kernels.lean"
+        },
+        {
+          "python_function": "iv_dependent_matmul_kernel_i64",
+          "lean_definition": "nativeBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 29,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "type"
+          ],
+          "python": "bench/tritonbench_g/iv_dependent_matmul/iv_dependent_matmul_dotacc.py",
+          "lean": "bench/tritonbench_g/iv_dependent_matmul/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/iv_dependent_matmul/Kernels.lean": "bba4568a601c4e8eae44bc0dad147b82b01f1b359814b8658d6d52782415bdc7",
-        "bench/tritonbench_g/iv_dependent_matmul/iv_dependent_matmul.py": "9256084fd67ed7b828363cf6b36b9e1ee4d03b4888c5026110faddc3df0ab57b"
+        "bench/tritonbench_g/iv_dependent_matmul/Kernels.lean": "320a60c245bfbec38693d304821604fb06201aa47d8a8675b0b1def9e48c3f8d",
+        "bench/tritonbench_g/iv_dependent_matmul/iv_dependent_matmul.py": "9256084fd67ed7b828363cf6b36b9e1ee4d03b4888c5026110faddc3df0ab57b",
+        "bench/tritonbench_g/iv_dependent_matmul/iv_dependent_matmul_dotacc.py": "e8a1ceb25af04140bf521fbbb91d000612857fa19cde97ee4591eb5ec24190c7",
+        "bench/tritonbench_g/iv_dependent_matmul/jit-correspondence.json": "e5dff41967c3487682c48bbd2d9d7bd68a52f974b4be30f534a015094ed034f6"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/iv_dependent_matmul"

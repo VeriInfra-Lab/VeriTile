@@ -17,6 +17,9 @@ theorem check_iff (r : Request) (defaultFP32 cuda : Bool) :
     rename_i blocks
     split at result
     · contradiction
+    rename_i shape
+    split at result
+    · contradiction
     rename_i control
     split at result
     · contradiction
@@ -28,7 +31,7 @@ theorem check_iff (r : Request) (defaultFP32 cuda : Bool) :
     have cd : cuda=Bool.true := by cases cuda <;> simp_all
     refine ⟨df,cd,?_⟩
     have hb : Block r.blockRows ∧ Block r.blockColumns ∧ Block r.blockInner := by tauto
-    exact ⟨hb.1,hb.2.1,hb.2.2,by omega,by omega,by omega,by omega,by omega,by omega,by omega⟩
+    exact ⟨hb.1,hb.2.1,hb.2.2,by omega,by omega,by omega,by omega,by omega,by omega,by omega,by tauto⟩
   · rintro ⟨df,cd,h⟩
     have control : ¬max (r.rows+r.blockRows) (max (r.columns+r.blockColumns) (r.inner+4*r.blockInner+3))≥2^63 := by
       have := h.rowsControl; have := h.columnsControl; have := h.innerControl; omega
@@ -37,7 +40,7 @@ theorem check_iff (r : Request) (defaultFP32 cuda : Bool) :
     have profile : ¬(defaultFP32=Bool.false ∨ cuda=Bool.false) := by simp [df,cd]
     have blocks : ¬(¬Block r.blockRows ∨ ¬Block r.blockColumns ∨ ¬Block r.blockInner) := by
       have := h.rowsBlock; have := h.columnsBlock; have := h.innerBlock; tauto
-    simp only [check,if_neg profile,if_neg blocks,if_neg control,if_neg bytes,if_neg (Nat.not_le.mpr h.grid)]
+    simp only [check,if_neg profile,if_neg blocks,if_neg (not_not.mpr h.dotShape),if_neg control,if_neg bytes,if_neg (Nat.not_le.mpr h.grid)]
 
 theorem launchable (r : Request) (h : Admitted r) : Index64.Launchable r where
   rowsBlock := by have := h.rowsBlock.2.1; omega
@@ -58,7 +61,7 @@ theorem prepared (r r' : Request) (h : Admitted r)
     (blocks : r'.blockRows=r.blockRows ∧ r'.blockColumns=r.blockColumns ∧ r'.blockInner=r.blockInner) :
     Admitted r' := by
   cases h
-  constructor <;> simp_all [programs,tileRows,tileColumns]
+  constructor <;> simp_all [programs,tileRows,tileColumns,DotShape]
 
 #axiomsClean check_iff
 #axiomsClean launchable

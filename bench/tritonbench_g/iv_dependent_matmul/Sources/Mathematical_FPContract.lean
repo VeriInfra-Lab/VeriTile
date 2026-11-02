@@ -13,13 +13,15 @@ theorem execution_memory [Inhabited Word] (rest : Algebra Word) (cfg : FP.Config
   obtain ⟨u,hu,hur⟩ := loop_run rest cfg D F g p s t 0 _ htr
   obtain ⟨final,hf,hfm⟩ := suffix_run rest cfg D F p s u _ hur
   refine ⟨final,?_,hfm⟩
-  change run (backend rest cfg D F) (source g p).surfaceBody s=_
+  rw [SourceArithmetic.exec_surface]
   rw [source_split]
-  simp only [run_append,ht,Option.bind_some,run,step,stopOp,evalOp_unfold,
-    numeric,bop,Option.bind,bind,pure]
-  change ((do let u ← FP.Structural.range (backend rest cfg D F) "k" 0 (count p) 1 (body g p) t
-              pure u).bind (run (backend rest cfg D F) (suffix p)))=some final
-  simp only [hu,Option.bind,bind,pure]
+  rw [run_append,run_append,ht]
+  dsimp only [Option.bind]
+  have ran : run (backend rest cfg D F)
+      [.forRangeInt "k" (.constInt 0) (stopOp p) (.constNat 1) (body g p)] t=some u := by
+    rw [SourceArithmetic.loop_run (backend rest cfg D F) p (body g p) t]
+    exact hu
+  rw [ran]
   exact hf
 
 def Post [Inhabited Word] (cfg : FP.Config) (p : Parameters) (s final : State Word)
