@@ -70,9 +70,10 @@
       "cases": 2,
       "retained_modules": 81,
       "replay_sources": 81,
-      "state": "prepared_for_official_dispatch",
-      "source_commit": "working_tree",
-      "superseded_failed_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41480356274"
+      "state": "official_workflow_in_progress",
+      "source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
+      "superseded_failed_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41480356274",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41496469164"
     },
     "previous_incremental_replays": [
       {
@@ -754,7 +755,7 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "working_tree",
+    "validated_source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
     "last_full_local_snapshot": {
       "cases": 152,
       "targets": 146,
@@ -766,7 +767,7 @@
       "public_theorem_count": 378,
       "python_tests": 522,
       "current_dependency_snapshot": true,
-      "source_commit": "working_tree",
+      "source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
       "boundary": "Local proof/source/trust checks only, not an independent completion receipt.",
       "protocol_elaboration_inventory_preflight": {
         "WelfordCallMetadata": "PASS after reproducing original reserved-token failure",
@@ -1764,7 +1765,7 @@
         26,
         29
       ],
-      "validated_source_commit": "working_tree",
+      "validated_source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41480356274",
       "reason": "Both complete unchanged repaired/hoisted Python bodies match direct readable Lean quotations. Original statistics and normalization loops, all INT64 casts, unused mask, broadcasts, helper calls and distinct libdevice.rsqrt remain. Source-only metadata supplies storage, immutable strides, fixed XBLOCK and the ordered tree. Removed peeled/flattened authoritative Lean variants and duplicated handwritten proof kernels. Proved the actual signed-prefix/loop execution, ordered Welford recurrence, full Real normalization, complete FP grid equivalence, typed outputs/exterior frames and active access safety; reference formulas retain FP32 load/cast boundaries and signed count conversion. All 39 task modules and the full current selected batch pass locally, without new numerical assumptions or public premises. Exact-current-source independent replay remains required; compilation alone is not completion. The shared frontend local binder full was renamed to avoid syntax imported by the trust-audit preparation. The original protocol failure was reproduced and the corrected audit/inventory elaboration passes locally. Full current local revalidation passes; fresh whole-case independent replay remains required.",
       "latest_replay_failure": "validation/body_receipts/welford-metadata-replay-failure.json"
@@ -2124,7 +2125,7 @@
         23
       ],
       "reason": "Its shared Welford supporting source/import closure changed when fused_layernorm_triton was reconnected to literal Python bodies. All 40 owned modules and public Real/FP proofs pass in the current full batch. The older official shard-7 receipt is explicitly excluded for this changed case; a fresh independent replay includes every owned module. The shared frontend local binder full was renamed to avoid syntax imported by the trust-audit preparation. The original protocol failure was reproduced and the corrected audit/inventory elaboration passes locally. Full current local revalidation passes; fresh whole-case independent replay remains required.",
-      "validated_source_commit": "working_tree",
+      "validated_source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
       "previous_receipt": "validation/body_receipts/layer_norm_welfold-75df3c77.json",
       "previously_complete": true,
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41480356274",
