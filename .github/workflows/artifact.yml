@@ -155,10 +155,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: ${{ fromJSON(inputs.body_migration_batch == 'incremental' && '[0]' || '[0,1,2,3,4,5]') }}
+        shard: ${{ fromJSON(inputs.body_migration_batch == 'incremental' && '[0]' || '[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]') }}
     env:
       BODY_SHARD_INDEX: ${{ matrix.shard }}
-      BODY_SHARD_COUNT: ${{ inputs.body_migration_batch == 'incremental' && 1 || 6 }}
+      BODY_SHARD_COUNT: ${{ inputs.body_migration_batch == 'incremental' && 1 || 24 }}
       BODY_MANIFEST: ${{ inputs.body_migration_batch == 'incremental' && 'validation/body-migration-incremental.json' || 'validation/body-migration-batch.json' }}
     steps:
       - uses: actions/checkout@v4

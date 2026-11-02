@@ -3,6 +3,7 @@ import contextlib
 import io
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -206,6 +207,96 @@ class MigrationReceiptTests(unittest.TestCase):
         self.assertEqual(set(outputs[0][2]) & set(outputs[1][2]), {shared})
         with self.assertRaisesRegex(ValueError, 'Invalid shard'):
             runner.select_shard(cases, files, files, 0, 4)
+
+    def checkpoint_fixture(self):
+        first = 'bench/tritonbench_g/dequantize_rowwise'
+        second = 'bench/tritonbench_g/other'
+        shutil.copytree(self.root / first, self.root / second)
+        manifest = self.root / runner.DEFAULT
+        data = json.loads(manifest.read_text())
+        entry = json.loads(json.dumps(data['cases'][0]))
+        entry['path'] = second
+        entry['python'] = entry['python'].replace(first, second)
+        entry['public_theorems'] = {
+            path.replace(first, second): [name.replace('Fixture', 'FixtureOther') for name in names]
+            for path, names in entry['public_theorems'].items()}
+        data['cases'].append(entry)
+        copied = self.root / second / 'jit-correspondence.json'
+        rows = json.loads(copied.read_text())
+        for row in rows:
+            for key in ('python', 'lean'):
+                row[key] = row[key].replace(first, second)
+        copied.write_text(json.dumps(rows))
+        for name in ('Correct.lean', 'FPEquiv.lean'):
+            path = self.root / second / name
+            path.write_text(path.read_text().replace('Fixture', 'FixtureOther'))
+        shared = 'tests/lean/Shared.lean'
+        retained = first + '/Retained.lean'
+        (self.root / shared).parent.mkdir(parents=True)
+        (self.root / shared).write_text('theorem shared : True := by trivial\n')
+        (self.root / retained).write_text('theorem retained : True := by trivial\n')
+        data['extra_replay_sources'] = [shared, retained]
+        manifest.write_text(json.dumps(data))
+        return first, second, shared, retained
+
+    def interrupted_checkpoint(self, *, stop_at_retained=False, shared_fails=False,
+                               change_source=False):
+        first, second, shared, retained = self.checkpoint_fixture()
+        receipt = self.root / 'checkpoint.json'
+        order = []
+        def replay(_workspace, source, **_kwargs):
+            path = source.relative_to(self.root).as_posix()
+            order.append(path)
+            if path.startswith(second + '/') or (stop_at_retained and path == retained):
+                raise KeyboardInterrupt('simulated runner cancellation')
+            if change_source and path == retained:
+                (self.root / 'lean-toolchain').write_text('changed during replay\n')
+            return {'accepted': not (shared_fails and path == shared), 'theorem_count': 2,
+                    'theorems': ['FixtureCorrect.proved', 'FixtureFPEquiv.proved']}
+        with patch.object(runner, 'require_tools'), \
+                patch.object(runner.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0)), \
+                patch.object(runner.check_comparator, 'check', side_effect=replay):
+            with self.assertRaises(KeyboardInterrupt):
+                self.invoke('--replay', '--workspace', str(self.root / 'judge'),
+                            '--report', str(receipt))
+        return json.loads(receipt.read_text()), order, shared, retained
+
+    def test_interrupted_batch_preserves_only_fully_replayed_cases(self):
+        report, order, shared, retained = self.interrupted_checkpoint()
+        self.assertEqual(order[0], shared)
+        self.assertEqual(order[-2], retained)
+        self.assertTrue(report['source_unchanged'])
+        self.assertFalse(report['accepted'])
+        self.assertFalse(report['replay_complete'])
+        self.assertEqual([c['accepted'] for c in report['cases']], [True, False])
+        self.assertIn(shared, report['cases'][0]['required_replay_sources'])
+        self.assertIn(retained, report['cases'][0]['required_replay_sources'])
+
+    def test_interrupted_case_cannot_accept_only_its_public_entries(self):
+        report, order, _, retained = self.interrupted_checkpoint(stop_at_retained=True)
+        self.assertTrue(any(path.endswith('/Correct.lean') for path in order))
+        self.assertTrue(any(path.endswith('/FPEquiv.lean') for path in order))
+        self.assertEqual(order[-1], retained)
+        self.assertFalse(any(c['accepted'] for c in report['cases']))
+        self.assertFalse(report['accepted'])
+
+    def test_failed_shared_proof_blocks_checkpoint_acceptance(self):
+        report, _, _, _ = self.interrupted_checkpoint(shared_fails=True)
+        self.assertFalse(any(c['accepted'] for c in report['cases']))
+        self.assertFalse(report['accepted'])
+
+    def test_checkpoint_rechecks_source_stability_after_each_case(self):
+        report, _, _, _ = self.interrupted_checkpoint(change_source=True)
+        self.assertFalse(report['source_unchanged'])
+        self.assertFalse(any(c['accepted'] for c in report['cases']))
+
+    def test_merge_rejects_unfinished_checkpoint(self):
+        directory, receipt = self.accepted_report()
+        report = json.loads(receipt.read_text())
+        report['replay_complete'] = False
+        receipt.write_text(json.dumps(report))
+        with self.assertRaisesRegex(ValueError, 'Unfinished'):
+            self.merge(directory)
 
 
 if __name__ == '__main__':

@@ -152,12 +152,49 @@ def select_shard(cases: list[dict], builds: list[str], replay: list[str],
     return selected, [p for p in builds if include(p)], [p for p in replay if include(p)]
 
 
+def replay_order(cases: list[dict], replay: list[str]) -> tuple[list[str], set[str]]:
+    """Finish shared obligations first, then checkpoint each complete case."""
+    groups = [[p for p in replay if p.startswith(case['path'] + '/')]
+              for case in cases]
+    owned = {p for group in groups for p in group}
+    shared = [p for p in replay if p not in owned]
+    groups = [group for group in [shared, *groups] if group]
+    return [p for group in groups for p in group], {group[-1] for group in groups}
+
+
+def replay_report(cases: list[dict], replay: list[str], results: list[dict],
+                  before: dict[str, str], dependencies: dict[str, set[str]],
+                  stable: bool, source_commit: str | None, index: int, count: int) -> dict:
+    """A checkpoint accepts only cases with every shared and owned proof."""
+    passed = {r['source'] for r in results if r['accepted']}
+    shared = [p for p in replay if not any(p.startswith(c['path'] + '/') for c in cases)]
+    checked = []
+    for case in cases:
+        required = [p for p in replay if p.startswith(case['path'] + '/')] + shared
+        item = {**case, 'accepted': stable and all(p in passed for p in required),
+                'required_replay_sources': required,
+                'source_sha256': {p: before[p] for p in sorted(dependencies[case['path']])}}
+        checked.append(item)
+    complete = len(results) == len(replay) and {r['source'] for r in results} == set(replay)
+    return {'schema': 1, 'scope': 'explicit_body_migration_batch',
+            'shard': {'index': index, 'count': count},
+            'accepted': stable and complete and all(c['accepted'] for c in checked),
+            'replay_complete': complete,
+            'source_unchanged': stable, 'source_sha256': before,
+            'source_commit': source_commit, 'cases': checked, 'replay_results': list(results),
+            'boundary': 'Only cases with all required independent replays are accepted. '
+                        'An unfinished batch never certifies its pending cases. '
+                        'Not a full-corpus or native-execution certificate.'}
+
+
 def merge_reports(root: Path, cases: list[dict], replay: list[str], manifest: Path,
                   directory: Path) -> dict:
     paths = sorted(directory.rglob('body-migration-replay*.json'))
     if not paths:
         raise ValueError('No official shard reports')
     reports = [json.loads(path.read_text()) for path in paths]
+    if any(not report.get('replay_complete', True) for report in reports):
+        raise ValueError('Unfinished official shard report')
     count = reports[0].get('shard', {}).get('count')
     if not isinstance(count, int) or len(reports) != count or {
             r.get('shard', {}).get('index') for r in reports} != set(range(count)):
@@ -245,7 +282,25 @@ def main() -> int:
     results = []
     required = {path: names for case in cases for path, names in case['public_theorems'].items()}
     args.workspace.mkdir(parents=True, exist_ok=True)
-    for path in replay:
+    ordered, checkpoints = replay_order(cases, replay)
+
+    def checkpoint() -> dict:
+        stable = before == fingerprint(ROOT, cases, manifest)
+        report = replay_report(cases, replay, results, before, dependencies, stable,
+                               os.environ.get('GITHUB_SHA'), args.shard_index, args.shard_count)
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        temporary = args.report.with_name(args.report.name + '.tmp')
+        temporary.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
+        temporary.replace(args.report)
+        print(json.dumps({'accepted': report['accepted'], 'source_unchanged': stable,
+                          'replay_complete': report['replay_complete'],
+                          'accepted_cases': sum(c['accepted'] for c in report['cases']),
+                          'cases': len(cases), 'replayed_sources': len(results),
+                          'report': str(args.report)}), flush=True)
+        return report
+
+    checkpoint()
+    for path in ordered:
         try:
             proof = check_comparator.check(args.workspace.resolve(), ROOT / path, trust=True)
             if not proof or not proof.get('accepted'):
@@ -258,26 +313,9 @@ def main() -> int:
                             'theorems': proof['theorems'], 'evidence_dir': proof.get('evidence_dir')})
         except (OSError, ValueError, subprocess.CalledProcessError) as error:
             results.append({'source': path, 'accepted': False, 'error': str(error)})
-    stable = before == fingerprint(ROOT, cases, manifest)
-    passed = {r['source'] for r in results if r['accepted']}
-    shared = [p for p in replay if not any(p.startswith(c['path'] + '/') for c in cases)]
-    for case in cases:
-        required = [p for p in replay if p.startswith(case['path'] + '/')] + shared
-        case['accepted'] = stable and all(p in passed for p in required)
-        case['required_replay_sources'] = required
-        case['source_sha256'] = {path: before[path] for path in sorted(dependencies[case['path']])}
-    report = {'schema': 1, 'scope': 'explicit_body_migration_batch',
-              'shard': {'index': args.shard_index, 'count': args.shard_count},
-              'accepted': stable and all(c['accepted'] for c in cases),
-              'source_unchanged': stable, 'source_sha256': before,
-              'source_commit': os.environ.get('GITHUB_SHA'),
-              'cases': cases, 'replay_results': results,
-              'boundary': 'Listed cases only; requires body pairs, retained-module build, axiom/specification gates and official comparator. Not a full-corpus or native-execution certificate.'}
-    args.report.parent.mkdir(parents=True, exist_ok=True)
-    args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
-    print(json.dumps({'accepted': report['accepted'], 'source_unchanged': stable,
-                      'accepted_cases': sum(c['accepted'] for c in cases),
-                      'cases': len(cases), 'report': str(args.report)}), flush=True)
+        if path in checkpoints:
+            checkpoint()
+    report = checkpoint()
     return 0 if report['accepted'] else 1
 
 
