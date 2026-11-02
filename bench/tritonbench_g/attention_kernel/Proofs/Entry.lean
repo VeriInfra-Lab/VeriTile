@@ -13,7 +13,7 @@ def entryAs (M : Algebra α) (dot : Dot α) (storage : TypedSource.Storage) (p :
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [partsAs,kernelAs,TypedSource.repaired,TypedSource.FP16.repaired,TypedSource.BF16.repaired,
+    simp [partsAs,kernelAs,TypedSource.repaired,TypedSource.FP16.repaired,TypedSource.originalBody,TypedSource.queryEarlyBody,TypedSource.Storage.float,TypedSource.BF16.repaired,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

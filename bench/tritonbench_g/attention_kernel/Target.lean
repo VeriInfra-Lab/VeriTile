@@ -59,19 +59,19 @@ def biasDynamic (M : Algebra α) (p : Parameters) (inputs : Views α)
 def scores (M : Algebra α) (dot : Dot α) (p : Parameters) (inputs : Views α) (block : Nat)
     (row : Nat) (i : TileIndex [p.bm,p.bn]) : α :=
   if i.2.1.val<p.length-row then
-    M.binary (some .fp32) .real .add
-      (M.binary (some .fp32) .real .add
-        (M.cast (some .fp32) p.storage.float .real
-          (M.cast (some .fp32) .real p.storage.float (zero M)))
-        (M.cast (some .fp32) .fp32 .real
+    M.cast (some .fp32) .fp32 .real
+      (M.binary (some .fp32) .fp32 .add
+        (M.binary (some .fp32) .fp32 .add
+          (M.cast (some .fp32) p.storage.float .fp32
+            (M.cast (some .fp32) .real p.storage.float (zero M)))
           (dot.apply (some .fp32) p.storage.float p.storage.float .fp32 {} (batch:=[])
-          (fun j=>ofFloat p.storage.float (query M p inputs block j))
-          (fun j=>ofFloat p.storage.float (key M p inputs block row j)) i)))
-      (M.cast (some .fp32) p.storage.float .real
-        (M.binary (some .fp32) p.storage.float .mul
-          (M.binary (some .fp32) p.storage.float .add
-            (biasDynamic M p inputs block row i.1) (biasStatic M p inputs block i))
-          (M.cast (some .fp32) .real p.storage.float (M.literal (some .fp32) .real 1.44269504))))
+            (fun j=>ofFloat p.storage.float (query M p inputs block j))
+            (fun j=>ofFloat p.storage.float (key M p inputs block row j)) i))
+        (M.cast (some .fp32) p.storage.float .fp32
+          (M.binary (some .fp32) p.storage.float .mul
+            (M.binary (some .fp32) p.storage.float .add
+              (biasDynamic M p inputs block row i.1) (biasStatic M p inputs block i))
+            (M.literal (some .fp32) p.storage.float 1.44269504))))
   else M.negInf
 
 def maximum (M : Algebra α) (dot : Dot α) (p : Parameters) (inputs : Views α) (block : Nat)

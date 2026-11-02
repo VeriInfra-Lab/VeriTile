@@ -57,7 +57,7 @@ theorem scale_word (word : BitVec 32) (scale : ℝ) :
 storage arithmetic, scale-first Q product, exp2, normalizer FMA, full division,
 and seeded fixed-MMA lowering. Only the finite row-reduction layout varies. -/
 def algebra (plan : Layout) : Algebra Expr where
-  literal:=fun _ _ x _=>literal x
+  literal:=fun _ dtype x _=>convert .real dtype (literal x)
   negInf:=fun _=>.negInf
   binary:=fun _ dtype op a b u=>binaryWithScale plan.scaleWord dtype op (a u) (b u)
   unary:=fun _ op a u=>match op with
