@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 116,
-      "uncovered_jit_functions": 67
+      "selected_body_copy_checked": 117,
+      "uncovered_jit_functions": 66
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 148,
-    "inventoried_jit_functions": 527,
-    "uncovered_inventoried_jit_functions": 199,
+    "uncovered_selected_jit_functions": 146,
+    "inventoried_jit_functions": 529,
+    "uncovered_inventoried_jit_functions": 197,
     "checked_pair_modes": {
-      "pasted_body": 328
+      "pasted_body": 332
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 116,
-        "uncovered_jit_functions": 67
+        "selected_body_copy_checked": 117,
+        "uncovered_jit_functions": 66
       }
     },
     "primary_files_with_int64_screen_warning": 15,
@@ -27319,13 +27319,13 @@
       "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py",
       "lean": "bench/tritonbench_g/matmul_leakyrelu/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 12,
+        "dsl_assignment": 30,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 0
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -27358,35 +27358,119 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py",
-          "function": "matmul_kernel"
         },
         {
-          "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py",
-          "function": "leaky_relu"
+          "path": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu_dotacc.py",
+          "jits": [
+            {
+              "function": "leaky_relu_rhs",
+              "line": 10,
+              "statements": 1,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "matmul_kernel",
+              "line": 14,
+              "statements": 24,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "leaky_relu",
+          "lean_definition": "leakyRelu",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "pure_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/matmul_leakyrelu/Kernels.lean"
         },
         {
+          "python_function": "leaky_relu_rhs",
+          "lean_definition": "leakyReluRhs",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "pure_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu_dotacc.py",
+          "lean": "bench/tritonbench_g/matmul_leakyrelu/Kernels.lean"
+        },
+        {
+          "python_function": "matmul_kernel",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "ACTIVATION",
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
           "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py",
-          "function": "leaky_relu"
+          "lean": "bench/tritonbench_g/matmul_leakyrelu/Kernels.lean"
+        },
+        {
+          "python_function": "matmul_kernel",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "ACTIVATION",
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
+          "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu_dotacc.py",
+          "lean": "bench/tritonbench_g/matmul_leakyrelu/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_leakyrelu/Kernels.lean": "31c16029c41193387c5cbb5497930248fbdc61ce879e637f21c7fc1a761fc595",
-        "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py": "ca9ec0b702afebc59e4fbed320a55e4784005a361856a0bba10d13e60e2db34a"
+        "bench/tritonbench_g/matmul_leakyrelu/Kernels.lean": "4e47f9a5636887162ca8ab44363a89671d89a2461257925e5a2aa8116571d031",
+        "bench/tritonbench_g/matmul_leakyrelu/jit-correspondence.json": "8354f9a3d5cbdf50a948420455179618ecb174b6a0ccc96e369d64ba0133645c",
+        "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py": "ca9ec0b702afebc59e4fbed320a55e4784005a361856a0bba10d13e60e2db34a",
+        "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu_dotacc.py": "9ab5750874b4aab3e875e3041dac4dd56078009122062fb0310ec8451041c99d"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/matmul_leakyrelu"

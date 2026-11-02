@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_leakyrelu.Kernels
+import bench.tritonbench_g.matmul_leakyrelu.Proofs.Schedule
 
 namespace VeriTile.Bench.Repairs.MatmulLeakyrelu.KernelOnly.KernelInterface
 open VeriTile.Triton

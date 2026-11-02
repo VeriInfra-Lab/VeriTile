@@ -8,7 +8,7 @@ noncomputable section
 set_option maxRecDepth 40000
 set_option maxHeartbeats 6000000
 
-/-- Actual original separate dot/add versus existing live-accumulator dot
+/-- Actual repaired separate dot/add source versus the live-accumulator dot
 candidate. The local TF32/FP32 contraction rule is explicitly pending numerical
 validation; strict FP32 slope commutativity reuses the shared software theorem.
 The conditional conclusion includes both safe successful complete schedules,
