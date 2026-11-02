@@ -2416,3 +2416,51 @@ class RecurrentRetentionBodyCorrespondenceTests(unittest.TestCase):
                          ('("scale",.fp32)', '("scale",.fp64)')]:
             with self.subTest(old=old), self.assertRaises(ValueError):
                 self.verify(1, self.source.replace(old, new))
+
+class ChunkGateRecurrenceBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/chunk_gate_recurrence'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, index, source):
+        r = self.records[index]
+        python = (ROOT / r['python']).read_text()
+        return check(python, source, r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'],
+                     expected_optional_pointers=r.get('expected_optional_pointers'))
+
+    def test_four_complete_bodies_and_storage_profiles(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [10, 17, 10, 17])
+
+    def test_four_seed_strides_and_presence_cannot_change(self):
+        for old, new in [('if last_kv is not None:', 'if last_kv is None:'),
+                         (' * SEED_H', ' * SEED_B'),
+                         (' * SEED_V', ' * SEED_K'),
+                         ('last_kv := hasSeed', 'last_kv := False')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(0, self.source.replace(old, new))
+
+    def test_all_backward_stores_casts_and_counted_loop_remain(self):
+        for old, new in [('DG_i.to(DG.dtype.element_ty)', 'DG_i'),
+                         ('Dacc.to(DL.dtype.element_ty)', 'Dacc'),
+                         ('for i in range(NUM_BLOCK - 1):', 'for i in range(NUM_BLOCK):'),
+                         ('DG -= NUM_K * NUM_V', 'DG -= 1')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(1, self.source.replace(old, new))
+
+    def test_original_and_sum_left_arithmetic_are_separately_checked(self):
+        for index, old, new in [(0, 'acc = acc * d_i + S_i', 'acc = S_i + acc * d_i'),
+                                 (2, 'acc = S_i + acc * d_i', 'acc = acc * d_i + S_i'),
+                                 (3, 'Dacc = DS_i + Dacc * d_i', 'Dacc = Dacc * d_i + DS_i')]:
+            with self.subTest(index=index), self.assertRaises(ValueError):
+                self.verify(index, self.source.replace(old, new))
+
+    def test_scalar_bindings_and_polymorphic_storage_are_checked(self):
+        for index, old, new in [(0, 'NUM_BLOCK := NUM_BLOCK', 'NUM_BLOCK := NUM_HEAD'),
+                                 (1, '("DL",source)', '("DL",incoming)'),
+                                 (1, '| .fp16 => .fp16', '| .fp16 => .fp32')]:
+            with self.subTest(index=index), self.assertRaises(ValueError):
+                self.verify(index, self.source.replace(old, new))

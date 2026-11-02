@@ -48,7 +48,7 @@ theorem source_correct (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bo
     simpa using KernelReversePointers.gate_live c p (c.N-1) (Nat.le_refl _)
   have hx : w.regs .ptr [64,16] "DS"=some (ptr "DS" (fun e j => address c p 0 e.val j.val)) := by
     simpa [incomingOff] using inv.incomingPtr
-  have hd : w.regs .ptr [] "D"=some (fun _ : TileIndex [] => (("D" : RegionName),gateAddress c p 0)) := by
+  have hd : w.regs .ptr [] "d"=some (fun _ : TileIndex [] => (("D" : RegionName),gateAddress c p 0)) := by
     simpa [gateOff] using inv.gatePtr
   let acc := carry M c s p u (c.N-1)
   let v := KernelPost.result M c p acc w

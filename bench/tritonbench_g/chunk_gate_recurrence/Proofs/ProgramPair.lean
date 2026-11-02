@@ -61,7 +61,7 @@ def bodyAfter (kind : Kind) (c : Shape) : List ComputeStmt :=
   (match kind with | .forward => KernelOps.forwardBody c | .backward => KernelOps.backwardBody c).drop
     ((bodyBefore kind c).length+1)
 def candidateParts (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) : Source.DynamicRange :=
-  (Source.dynamicRange? (candidateSource kind c s seed).surfaceBody "_i").getD
+  (Source.dynamicRange? (candidateSource kind c s seed).surfaceBody "i").getD
     ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
 
 theorem body_original (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) :
@@ -152,7 +152,7 @@ theorem tail_before_run (isa : Instructions) (plan : Reduction.ProductPlan 1024)
     (c : Shape) (s : SeedStrides) (seed : Bool) (u : State Node) :
     run (engine (algebra isa plan swap)) (tailBefore c s seed) u =
       run (engine (candidateAlgebra isa plan swap)) (tailBefore c s seed) u := by
-  simp only [tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
+  simp only [tailBefore,after,parts,source,Kernels.backward,Kernels.forwardBody,Kernels.backwardBody,Kernels.forwardBodySumLeft,Kernels.backwardBodySumLeft,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
     Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,String.reduceEq,
     beq_self_eq_true,↓reduceIte]
   simp [run,FP.Structural.step,FP.Structural.store,evalExpr,evalComputeOp,evalOp_unfold,
@@ -162,7 +162,7 @@ theorem tail_after_run (isa : Instructions) (plan : Reduction.ProductPlan 1024) 
     (c : Shape) (s : SeedStrides) (seed : Bool) (u : State Node) :
     run (engine (algebra isa plan swap)) (tailAfter c s seed) u =
       run (engine (candidateAlgebra isa plan swap)) (tailAfter c s seed) u := by
-  simp only [tailAfter,tailBefore,after,parts,source,Kernels.backward,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
+  simp only [tailAfter,tailBefore,after,parts,source,Kernels.backward,Kernels.forwardBody,Kernels.backwardBody,Kernels.forwardBodySumLeft,Kernels.backwardBodySumLeft,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,
     Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,String.reduceEq,
     beq_self_eq_true,↓reduceIte]
   simp [run,FP.Structural.step,FP.Structural.store,evalExpr,evalComputeOp,evalOp_unfold,
@@ -170,8 +170,8 @@ theorem tail_after_run (isa : Instructions) (plan : Reduction.ProductPlan 1024) 
 
 theorem range_run (isa : Instructions) (plan : Reduction.ProductPlan 1024) (swap : Bool)
     (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) (stop stride : Nat) :
-    ∀ start u, range (engine (algebra isa plan swap)) "_i" start stop stride (body kind c s seed) u =
-      range (engine (candidateAlgebra isa plan swap)) "_i" start stop stride
+    ∀ start u, range (engine (algebra isa plan swap)) "i" start stop stride (body kind c s seed) u =
+      range (engine (candidateAlgebra isa plan swap)) "i" start stop stride
         (candidateParts kind c s seed).body u := by
   intro start
   induction start using (measure (fun i => stop-i)).wf.induction with
@@ -184,7 +184,7 @@ theorem range_run (isa : Instructions) (plan : Reduction.ProductPlan 1024) (swap
     · simp only [hz,hc,if_false,if_true]
       rw [body_run]
       cases he : run (engine (candidateAlgebra isa plan swap))
-        (candidateParts kind c s seed).body (u.setReg "_i" .nat [] (fun _ => cur)) with
+        (candidateParts kind c s seed).body (u.setReg "i" .nat [] (fun _ => cur)) with
       | none => rfl
       | some v =>
         simp only [bind,Option.bind_some]

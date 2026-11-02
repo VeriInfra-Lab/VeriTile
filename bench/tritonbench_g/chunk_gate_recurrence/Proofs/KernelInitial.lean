@@ -10,7 +10,7 @@ variable {α : Type} [Inhabited α]
 
 def initialCarry (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool)
     (p : Program c) (u : State α) : Lane → α := fun i =>
-  if seed then M.cast (some .fp32) .real .real (raw "Seed" .real (fun e j => seedAddress c p s e.val j.val) u i)
+  if seed then M.cast (some .fp32) .real .real (M.fp32Load (raw "Seed" .real (fun e j => seedAddress c p s e.val j.val) u i))
   else M.literal (some .fp32) .real 0
 def stored (M : Algebra α) (x : α) : Cell α :=
   .mk .real (M.cast (some .fp32) .real .real x)
@@ -27,7 +27,7 @@ theorem forward_registers (M : Algebra α) (c : Shape) (s : SeedStrides) (seed :
     let v := (KernelPrefix.forward M c s seed u).val
     v.regs .ptr [64,16] "S"=some (ptr "S" (fun e j => address c p 0 e.val j.val)) ∧
     v.regs .ptr [64,16] "O"=some (ptr "O" (fun e j => address c p 1 e.val j.val)) ∧
-    v.regs .ptr [] "D"=some (fun _ : TileIndex [] => (("D" : RegionName),gateAddress c p 0)) ∧
+    v.regs .ptr [] "d"=some (fun _ : TileIndex [] => (("D" : RegionName),gateAddress c p 0)) ∧
     v.regs .real [64,16] "acc"=some (initialCarry M c s seed p u) := by
   cases seed <;>
     simp [KernelPrefix.forward,initialCarry,raw,ptr,address,layout,launch,gateAddress,seedAddress,

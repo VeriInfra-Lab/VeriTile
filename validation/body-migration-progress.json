@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 32,
-  "staged_count": 140,
+  "staged_count": 141,
   "pending_count": 164,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 4377,
+    "staged_and_regression_retained_modules": 4432,
     "official_comparator": "32 current targets and separately listed regression cases have accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure has been verified. Compilation alone never counts as completion.",
-    "python_tests": 494,
+    "python_tests": 499,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "146 selected cases (140 targets and 6 regressions), all 4377 retained/supporting modules, 13097 Lake jobs and 364 fully-qualified public theorem names pass locally. Recurrent retention retains all four complete forward/backward Python bodies (14/23 statements), the do identifier, tuple axes, both backward loops, actual typed reads/casts, barriers and optional state/cotangent paths. Independent Real formulas, full compare-right FP grids, execution, outputs/frame and safety re-proved. All 494 Python tests pass. Thirty-two targets have current exact-source independent acceptance; other staged targets remain pending official replay. No new numerical assumption or public premise.",
-    "official_replay_sources": 3380,
+    "working_tree": "147 selected cases (141 targets and 6 regressions), all 4432 retained/supporting modules, 13152 Lake jobs and 366 fully-qualified public theorem names pass locally. Chunk gate recurrence now retains all four complete forward/backward repaired/candidate Python bodies (10/17 statements), original names, four seed strides, nullable rebasing, destination casts, DG reduction and final DL store. Independent Real formulas, full sum-left FP equivalence, execution, output/raw frames and safety re-proved, including the typed FP32 seed read. All 499 Python tests pass. Thirty-two targets retain accepted exact-current-source/import-closure independent receipts. Other staged targets remain pending official replay. No new numerical assumption or public premise.",
+    "official_replay_sources": 3435,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -54,17 +54,15 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/fused_recurrent_retention",
+      "case": "bench/tritonbench_g/chunk_gate_recurrence",
       "case_paths": [
-        "bench/tritonbench_g/fused_recurrent_retention"
+        "bench/tritonbench_g/chunk_gate_recurrence"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 82,
-      "replay_sources": 82,
-      "state": "official_workflow_queued",
-      "source_commit": "ca54364d279081fc610b3eb024d00e906637254a",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41444579640"
+      "retained_modules": 55,
+      "replay_sources": 55,
+      "state": "local_pass_preparing_independent_replay"
     },
     "previous_incremental_replays": [
       {
@@ -631,6 +629,12 @@
         "state": "official_workflow_queued",
         "source_commit": "835b6ea4934140438f167a149939fac28b06be2a",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41439535277"
+      },
+      {
+        "case": "bench/tritonbench_g/fused_recurrent_retention",
+        "source_commit": "ca54364d279081fc610b3eb024d00e906637254a",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41444579640",
+        "replay_sources": 82
       }
     ],
     "pending_client_regressions": {
@@ -670,15 +674,14 @@
     },
     "validated_source_commit": "ca54364d279081fc610b3eb024d00e906637254a",
     "last_full_local_snapshot": {
-      "cases": 146,
-      "targets": 140,
-      "retained_modules": 4377,
-      "replay_sources": 3380,
-      "lake_jobs": 13097,
+      "cases": 147,
+      "targets": 141,
+      "retained_modules": 4432,
+      "replay_sources": 3435,
+      "lake_jobs": 13152,
       "public_theorem_names": "PASS",
-      "python_tests": 494,
-      "boundary": "Local checks only. Not an independent replay completion receipt.",
-      "source_commit": "ca54364d279081fc610b3eb024d00e906637254a"
+      "python_tests": 499,
+      "boundary": "Local checks only. Not an independent replay completion receipt."
     },
     "previous_shared_model_revalidations": [
       {
@@ -1196,8 +1199,12 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_gate_recurrence",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "All four complete repaired and existing sum-left forward/backward Python bodies (10/17 statements) match direct readable Lean quotations. Original names, single-argument loops, four seed strides, optional seed rebasing, polymorphic backward storage, all casts, DG reduction and final DL store remain. Removed the generated backward source family and extra offs_k/offs_v statements; compatibility entries invoke the same quotations. Independent Real formulas, full original/candidate FP execution, successful execution, output/raw frames and backed-access safety re-proved. The reference explicitly retains the typed FP32 seed read and cast, without a new numerical assumption or public premise. All 53 retained task modules and two new shared frontend/test roots pass locally. Exact-current-source official independent replay remains required; compilation does not count as completion."
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_fwd",

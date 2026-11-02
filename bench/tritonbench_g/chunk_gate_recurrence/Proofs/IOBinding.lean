@@ -84,7 +84,7 @@ theorem forward_eq (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool)
     ·
       have h := hin (2 : Fin 3) i hs
       simpa [KernelReference.forward,KernelReference.initial,KernelReference.read,
-        Reference.forwardInputs,IO.forward,raw,hs,mapValue] using congrArg (M.cast (some .fp32) .real .real) h
+        Reference.forwardInputs,IO.forward,raw,hs,mapValue] using congrArg (fun value => M.cast (some .fp32) .real .real (M.fp32Load value)) h
   | succ t ih =>
     funext i
     have gate := hin (1 : Fin 3) (⟨t,by omega⟩,PUnit.unit) trivial

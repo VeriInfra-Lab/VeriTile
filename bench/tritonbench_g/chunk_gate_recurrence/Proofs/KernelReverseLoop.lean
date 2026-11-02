@@ -25,7 +25,7 @@ structure Holds (M : Algebra α) (c : Shape) (s : SeedStrides) (p : Program c)
   sourcePtr : u.regs .ptr [64,16] "S"=some (ptr "S" (off c p (c.N-2) n))
   targetPtr : u.regs .ptr [64,16] "DI"=some (ptr "DI" (off c p (c.N-2) n))
   incomingPtr : u.regs .ptr [64,16] "DS"=some (ptr "DS" (off c p (c.N-1) n))
-  gatePtr : u.regs .ptr [] "D"=some (fun _ : TileIndex [] => (("D" : RegionName),gate c p n))
+  gatePtr : u.regs .ptr [] "d"=some (fun _ : TileIndex [] => (("D" : RegionName),gate c p n))
   gradientPtr : u.regs .ptr [] "DG"=some (fun _ : TileIndex [] => (("DG" : RegionName),gradient c p n))
   acc : u.regs .real [64,16] "Dacc"=some (carry M c s p initial n)
   readsSource : ∀ o, u.mem "S" o=initial.mem "S" o
@@ -76,7 +76,7 @@ theorem iteration (M : Algebra α) (c : Shape) (s : SeedStrides) (p : Program c)
     Nat.succ_le_of_lt hn,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_⟩
   · constructor <;> simp [v,KernelReverseStep.result,KernelReverseStep.written,
       KernelReverseStep.pre,inv.fixed.head,inv.fixed.key,inv.fixed.value,
-      inv.fixed.numK,inv.fixed.numV,inv.fixed.offsK,inv.fixed.offsV]
+      inv.fixed.numK,inv.fixed.numV]
   · simp [v,KernelReverseStep.result,src,off_next]
   · simp [v,KernelReverseStep.result,src,off_next]
   · simp [v,KernelReverseStep.result,inc,off_next]
@@ -139,20 +139,20 @@ theorem iteration (M : Algebra α) (c : Shape) (s : SeedStrides) (p : Program c)
 
 theorem bind_holds (M : Algebra α) (c : Shape) (s : SeedStrides) (p : Program c)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M c s p initial n u) :
-    Holds M c s p initial n (u.setReg "_i" .nat [] (fun _ => n)) := by
+    Holds M c s p initial n (u.setReg "i" .nat [] (fun _ => n)) := by
   refine ⟨inv.bound,?_,?_,?_,?_,?_,?_,?_,inv.readsSource,inv.readsGate,inv.readsIncoming,
     inv.output,inv.gateOutput,inv.frame⟩
   · constructor <;> simp [inv.fixed.head,inv.fixed.key,inv.fixed.value,inv.fixed.numK,
-      inv.fixed.numV,inv.fixed.offsK,inv.fixed.offsV]
+      inv.fixed.numV]
   all_goals simp [inv.sourcePtr,inv.targetPtr,inv.incomingPtr,inv.gatePtr,inv.gradientPtr,inv.acc]
 
 theorem executes (M : Algebra α) (c : Shape) (s : SeedStrides) (p : Program c)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M c s p initial n u) :
-    ∃ v, FP.Structural.range (engine M) "_i" n (c.N-1) 1 (KernelOps.backwardBody c) u=some v ∧
+    ∃ v, FP.Structural.range (engine M) "i" n (c.N-1) 1 (KernelOps.backwardBody c) u=some v ∧
       Holds M c s p initial (c.N-1) v := by
   by_cases hn : n<c.N-1
   · obtain ⟨v,he,hv⟩ := iteration M c s p initial n
-      (u.setReg "_i" .nat [] (fun _ => n)) hn (bind_holds M c s p initial n u inv)
+      (u.setReg "i" .nat [] (fun _ => n)) hn (bind_holds M c s p initial n u inv)
     obtain ⟨w,hw,hf⟩ := executes M c s p initial (n+1) v hv
     refine ⟨w,?_,hf⟩
     rw [FP.Structural.range]
