@@ -58,7 +58,9 @@
       "cases": 3,
       "retained_modules": 132,
       "replay_sources": 132,
-      "state": "local_checks_passed_awaiting_official_dispatch"
+      "state": "official_workflow_queued",
+      "source_commit": "cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41380850526"
     },
     "previous_incremental_replays": [
       {
@@ -544,7 +546,8 @@
         "jobs": 12515,
         "cases": 136,
         "retained_modules": 3796,
-        "replay_sources": 2799
+        "replay_sources": 2799,
+        "source_commit": "cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14"
       },
       "python_tests": 473,
       "body_corpus_check": "PASS",
@@ -552,14 +555,14 @@
         "tests/lean/ConditionalPureJitFunctions.lean"
       ]
     },
-    "validated_source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a",
+    "validated_source_commit": "cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14",
     "last_full_local_snapshot": {
-      "source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a",
-      "cases": 135,
-      "targets": 129,
-      "retained_modules": 3757,
-      "replay_sources": 2760,
-      "lake_jobs": 12491,
+      "source_commit": "cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14",
+      "cases": 136,
+      "targets": 130,
+      "retained_modules": 3796,
+      "replay_sources": 2799,
+      "lake_jobs": 12515,
       "public_theorem_names": "PASS",
       "python_tests": 473,
       "boundary": "Local checks only. Not an independent replay completion receipt."
@@ -1631,7 +1634,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete 24-node Python kernel bodies and both 1-node activation helpers match the canonical quotations. All 39 retained modules, five input profiles, independent Real formula, both source safety judgments, full grids, output/frame and conditional complete-program FP comparison pass locally. The new candidate is explicitly sourced from the retained dotAcc/right-slope graph. No public premise or numerical rule was added. Existing contraction-rule numerical admission remains pending. Fresh current independent replay is required."
+      "reason": "Both complete 24-node Python kernel bodies and both 1-node activation helpers match the canonical quotations. All 39 retained modules, five input profiles, independent Real formula, both source safety judgments, full grids, output/frame and conditional complete-program FP comparison pass locally. The new candidate is explicitly sourced from the retained dotAcc/right-slope graph. No public premise or numerical rule was added. Existing contraction-rule numerical admission remains pending. Fresh current independent replay is required.",
+      "validated_source_commit": "cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14",
+      "pending_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41380850526"
     },
     {
       "path": "bench/tritonbench_g/matmul_leakyrelu_fp8",
@@ -1663,8 +1668,8 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "All retained proofs and public specifications pass after the imported MatmulLeakyrelu source/mathematical library migration. Own body pairs remain checked. Exact current import-closure proof replay is required.",
-      "validated_source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a",
-      "pending_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41379347485"
+      "validated_source_commit": "cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14",
+      "pending_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41380850526"
     },
     {
       "path": "bench/tritonbench_g/matrix_reduction",
