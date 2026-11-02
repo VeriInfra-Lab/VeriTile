@@ -1,9 +1,9 @@
 import bench.tritonbench_g.bgmv_shrink_kernel.Sources.Mathematical_Kernels
 
-/-! The checked direct host uses `Direct.Kernels.source` below. The earlier
-padded source is retained for archived proof credit. Both reuse the unchanged
-complete typed arithmetic: 64 split programs, 256 rank lanes, arbitrary K.
-The direct wrapper's checks derive its actual native address bounds. -/
+/-! Shared geometry records for mathematical adapters and the direct call.
+The padded geometry record supports existing mathematical lemmas; no alternative
+executable implementation is defined here. The task-level `Kernels.lean` owns
+both complete source quotations for the direct repaired launch. -/
 namespace VeriTile.Bench.Repairs.BgmvShrinkKernel
 open VeriTile.Triton
 abbrev Storage := VeriTile.Bench.TritonBenchG.BgmvShrinkKernel.TypedSource.Storage
