@@ -87,8 +87,10 @@
       "cases": 1,
       "retained_modules": 25,
       "replay_sources": 25,
-      "state": "prepared_for_official_dispatch",
-      "source_commit": "working_tree"
+      "state": "official_replay_running",
+      "source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41512420329",
+      "started_at": "2026-11-02T19:42:23Z"
     },
     "previous_incremental_replays": [
       {
@@ -800,7 +802,7 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "working_tree",
+    "validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
     "last_full_local_snapshot": {
       "cases": 153,
       "targets": 147,
@@ -812,7 +814,7 @@
       "public_theorem_count": 380,
       "python_tests": 526,
       "current_dependency_snapshot": true,
-      "source_commit": "working_tree",
+      "source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
       "boundary": "Local proof/source/trust checks only, not an independent completion receipt."
     },
     "previous_shared_model_revalidations": [
@@ -2514,8 +2516,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "working_tree",
-      "reason": "The complete original, retained integer-offset candidate, binary JIT helper and exact three import fallbacks are copied and checked. Both dispatch branches, signed bases/strides, block-pointer boundaries, unused num_tiles0 and every source cast remain. Actual successful tile/grid execution, independent Real.rpow correctness/domain, ordered FP outputs, safety and input/exterior frames reconnect to these quotations. The ordered reference retains the input-element self-cast. A proof-only AST/control-run bridge keeps the actual tile body abstract during control normalization: unchanged source, numerical primitives, public theorem statements and premises. Identical standalone verification dropped from 213.05 seconds / 33611956 KiB to 3.99 seconds / 3995068 KiB. All 23 owned modules plus 2 shared roots, exact trust/inventory preflight, full 4777-module joint validation, 380 public entries and 526 Python tests pass. No new numerical assumption. A fresh exact-source official 25-root receipt remains required; compilation alone is not completion."
+      "validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
+      "reason": "The complete original, retained integer-offset candidate, binary JIT helper and exact three import fallbacks are copied and checked. Both dispatch branches, signed bases/strides, block-pointer boundaries, unused num_tiles0 and every source cast remain. Actual successful tile/grid execution, independent Real.rpow correctness/domain, ordered FP outputs, safety and input/exterior frames reconnect to these quotations. The ordered reference retains the input-element self-cast. A proof-only AST/control-run bridge keeps the actual tile body abstract during control normalization: unchanged source, numerical primitives, public theorem statements and premises. Identical standalone verification dropped from 213.05 seconds / 33611956 KiB to 3.99 seconds / 3995068 KiB. All 23 owned modules plus 2 shared roots, exact trust/inventory preflight, full 4777-module joint validation, 380 public entries and 526 Python tests pass. No new numerical assumption. A fresh exact-source official 25-root receipt remains required; compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41512420329"
     },
     {
       "path": "bench/tritonbench_g/quant_transpose_kernel",
