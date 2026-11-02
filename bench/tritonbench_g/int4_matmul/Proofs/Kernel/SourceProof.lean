@@ -31,7 +31,7 @@ def preludeExecution [Inhabited α] (o : Ops α) (rest : Algebra α)
     {t : RegisterState α // run o rest (prelude p) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [prelude,kernel,ComputeKernel.surfaceBody,
+  simp [prelude,kernel,KernelSource.sourceBody,ComputeKernel.surfaceBody,
     run,step,localStep,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
     bop,natLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
     FloatDType.numericDType,FloatDType.toTileDType,
@@ -55,8 +55,8 @@ def bodyExecution [Inhabited α] (o : Ops α) (rest : Algebra α)
       (current.setReg "k" .nat [] (fun _ => k))=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [body,kernel,ComputeKernel.surfaceBody,run,step,localStep_dot]
-  simp [body,kernel,ComputeKernel.surfaceBody,
+  simp [body,kernel,KernelSource.sourceBody,ComputeKernel.surfaceBody,run,step,localStep_dot]
+  simp [body,kernel,KernelSource.sourceBody,ComputeKernel.surfaceBody,
     run,step,localStep,localStep_dot,accumulate,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
     bop,natLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
     FloatDType.numericDType,FloatDType.toTileDType,

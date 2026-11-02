@@ -42,7 +42,7 @@ def epilogueExecution [Inhabited α] (o : Ops α) (rest : Algebra α)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [epilogue,kernel,ComputeKernel.surfaceBody,
+    simp [epilogue,kernel,KernelSource.sourceBody,ComputeKernel.surfaceBody,
       run,step,localStep,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,FP.Structural.store,
       FP.Structural.atomicAdd,atomicAddition,numeric,
       FP.Structural.bop,natLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
@@ -121,8 +121,8 @@ theorem correctness_memory [Inhabited α] (o : Ops α) (rest : Algebra α)
   change run o rest (kernel p).surfaceBody initial=some finish.val
   rw [source_decomposition,run_append,run_append,start.property]
   have hsingle (s : RegisterState α) :
-      run o rest [.forRange "k" 0 (steps p) 1 (body p)] s=
-        range o rest "k" 0 (steps p) 1 (body p) s := by simp [run,step]
+      run o rest [loopStatement p] s=
+        range o rest "k" 0 (steps p) 1 (body p) s := by simp [run,step_loop]
   simp only [Option.bind_some,hsingle,hm]
   exact finish.property
 

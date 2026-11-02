@@ -1,4 +1,5 @@
 import bench.tritonbench_g.int4_matmul.Proofs.Kernel.Execution
+import VeriTile.Triton.Float.StructuralSafety
 import bench.tritonbench_g.matmul_dequant_int4.Sources.Mathematical_FPContract
 
 namespace VeriTile.Bench.Repairs.Int4Matmul.KernelExecution
@@ -8,9 +9,34 @@ noncomputable section
 def prelude (p : Parameters) := (kernel p).surfaceBody.take 17
 def body (p : Parameters) : List ComputeStmt :=
   match (kernel p).surfaceBody[17]? with
-  | some (ComputeStmt.forRange _ _ _ _ code) => code
+  | some (ComputeStmt.forRangeDyn _ _ _ _ code) => code
   | _ => []
 def epilogue (p : Parameters) := (kernel p).surfaceBody.drop 18
+
+def loopStatement (p : Parameters) : ComputeStmt :=
+  ((kernel p).surfaceBody[17]?).getD (.effectMarker "missing source loop")
+def loopBound (p : Parameters) : Op .nat [] :=
+  .div .nat .nil (.sub .nat .nil
+    (.add .nat .nil (.constNat p.inner)
+      (.mul .nat .nil (.constNat p.blockInner) (.constNat p.splits))) (.constNat 1))
+    (.mul .nat .nil (.constNat p.blockInner) (.constNat p.splits))
+theorem loop_shape (p : Parameters) :
+    loopStatement p=.forRangeDyn "k" (.constNat 0) (loopBound p) (.constNat 1) (body p) := rfl
+
+theorem loop_bound_value [Inhabited α] (M : Algebra α) (p : Parameters) (s : FP.Structural.State α) :
+    evalOp M none (loopBound p) s=some (fun _=>steps p) := rfl
+
+theorem safe_loopBound [Inhabited α] (M : Algebra α) (p : Parameters)
+    (bounds : RegionName → Nat) (s : FP.Structural.State α) :
+    Safety.safeOp M none bounds s (loopBound p) := by
+  simp [loopBound,Safety.safeOp_unfold]
+
+theorem step_loop [Inhabited α] (o : Ops α) (rest : Algebra α) (p : Parameters) (s : RegisterState α) :
+    step o rest (loopStatement p) s=range o rest "k" 0 (steps p) 1 (body p) s := by
+  rw [loop_shape,step]
+  simp only [loop_bound_value]
+  simp only [evalOp_unfold,bind,pure,Option.bind]
+
 
 abbrev AIndex (p : Parameters) := TileIndex [p.blockRows,p.blockInner]
 abbrev BIndex (p : Parameters) := TileIndex [p.blockInner,p.blockColumns]
@@ -88,7 +114,7 @@ def accumulation [Inhabited α] (o : Ops α) (p : Parameters) (s : RegisterState
   | step+1 => dotTile o (aValue o p s step) (bValue o p s step) (accumulation o p s step)
 
 theorem source_decomposition (p : Parameters) :
-    (kernel p).surfaceBody=prelude p++[.forRange "k" 0 (steps p) 1 (body p)]++epilogue p := rfl
+    (kernel p).surfaceBody=prelude p++[loopStatement p]++epilogue p := rfl
 
 #axiomsClean source_decomposition
 #axiomsClean difference_int32_exact

@@ -1,0 +1,226 @@
+[
+  {
+    "python": "bench/tritonbench_g/int4_matmul/int4_matmul.py",
+    "lean": "bench/tritonbench_g/int4_matmul/Kernels.lean",
+    "python_function": "matmul_kernel",
+    "lean_definition": "sourceBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp32"
+        ],
+        [
+          "b_ptr",
+          "i32"
+        ],
+        [
+          "c_ptr",
+          "fp32"
+        ],
+        [
+          "bs_ptr",
+          "fp32"
+        ],
+        [
+          "bzp_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ],
+        [
+          "stride_bsk",
+          "integer"
+        ],
+        [
+          "stride_bsn",
+          "integer"
+        ],
+        [
+          "stride_bzpk",
+          "integer"
+        ],
+        [
+          "stride_bzpn",
+          "integer"
+        ],
+        [
+          "group_size",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "SPLIT_K"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn",
+      "stride_bsk": "stride_bsk",
+      "stride_bsn": "stride_bsn",
+      "stride_bzpk": "stride_bzpk",
+      "stride_bzpn": "stride_bzpn",
+      "group_size": "group_size"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/int4_matmul/int4_matmul_fold_stride.py",
+    "lean": "bench/tritonbench_g/int4_matmul/Kernels.lean",
+    "python_function": "matmul_kernel",
+    "lean_definition": "candidateBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp32"
+        ],
+        [
+          "b_ptr",
+          "i32"
+        ],
+        [
+          "c_ptr",
+          "fp32"
+        ],
+        [
+          "bs_ptr",
+          "fp32"
+        ],
+        [
+          "bzp_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ],
+        [
+          "stride_bsk",
+          "integer"
+        ],
+        [
+          "stride_bsn",
+          "integer"
+        ],
+        [
+          "stride_bzpk",
+          "integer"
+        ],
+        [
+          "stride_bzpn",
+          "integer"
+        ],
+        [
+          "group_size",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "SPLIT_K"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn",
+      "stride_bsk": "stride_bsk",
+      "stride_bsn": "stride_bsn",
+      "stride_bzpk": "stride_bzpk",
+      "stride_bzpn": "stride_bzpn",
+      "group_size": "group_size"
+    }
+  }
+]

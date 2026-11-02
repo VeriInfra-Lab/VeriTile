@@ -1,7 +1,7 @@
 import VeriTile.Triton.Source
 import Mathlib.Tactic
 import VeriTile.Meta.StatementAudit
-import VeriTile.Triton.DSL
+import VeriTile.Triton.DSL.PythonFullConstructors
 
 namespace VeriTile.Bench.Repairs.Int4Matmul.KernelSource
 open VeriTile.Triton
@@ -17,120 +17,170 @@ structure Parameters where
 def steps (p : Parameters) : Nat :=
   (p.inner + p.blockInner * p.splits - 1) / (p.blockInner * p.splits)
 
-/-- The complete canonical FP32 kernel. All four K masks, split traversal,
-actual tensor strides, packed words and the store/atomic branches are retained.
-The arithmetic interpreter binds the compiler's local dot/add realization;
-no alternate handwritten kernel AST is maintained. -/
-def kernel (p : Parameters) : ComputeKernel :=
-  let a_ptr := p.input
-  let b_ptr := p.weight
-  let c_ptr := p.output
-  let bs_ptr := p.scale
-  let bzp_ptr := p.zero
-  triton {
-    tl.region a_ptr = tl.float32, b_ptr = tl.int32, c_ptr = tl.float32,
-      bs_ptr = tl.float32, bzp_ptr = tl.int32
+/-- Pointer storage, runtime scalars and launch constexprs are caller metadata. -/
+def callSignature : CallSignature where
+  pointers := [("a_ptr",.fp32), ("b_ptr",.i32), ("c_ptr",.fp32), ("bs_ptr",.fp32), ("bzp_ptr",.i32)]
+  scalars := [("M",.integer), ("N",.integer), ("K",.integer), ("stride_am",.integer), ("stride_ak",.integer), ("stride_bk",.integer), ("stride_bn",.integer), ("stride_cm",.integer), ("stride_cn",.integer), ("stride_bsk",.integer), ("stride_bsn",.integer), ("stride_bzpk",.integer), ("stride_bzpn",.integer), ("group_size",.integer)]
+  constexpr := ["BLOCK_SIZE_M", "BLOCK_SIZE_N", "BLOCK_SIZE_K", "GROUP_SIZE_M", "SPLIT_K"]
+
+def sourceBody (a_ptr b_ptr c_ptr bs_ptr bzp_ptr : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      stride_bsk stride_bsn stride_bzpk stride_bzpn group_size
+      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
+  with_triton_call callSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn, stride_bsk := stride_bsk, stride_bsn := stride_bsn, stride_bzpk := stride_bzpk, stride_bzpn := stride_bzpn, group_size := group_size] in triton {
+    """
+    assert K % (BLOCK_SIZE_K * SPLIT_K) == 0
+    """
     pid = tl.program_id(axis=0)
     pid_sp_k = tl.program_id(axis=1)
-    num_pid_m = tl.cdiv($(p.rows), $(p.blockRows))
-    num_pid_n = tl.cdiv($(p.columns), $(p.blockColumns))
-    num_pid_k = tl.cdiv($(p.inner), $(p.blockInner))
-    num_pid_in_group = $(p.groupRows) * num_pid_n
+    num_pid_m = tl.cdiv(M, BLOCK_SIZE_M)
+    num_pid_n = tl.cdiv(N, BLOCK_SIZE_N)
+    num_pid_k = tl.cdiv(K, BLOCK_SIZE_K)
+    num_pid_in_group = GROUP_SIZE_M * num_pid_n
     group_id = pid // num_pid_in_group
-    first_pid_m = group_id * $(p.groupRows)
-    group_size_m = min(num_pid_m - first_pid_m, $(p.groupRows))
+    first_pid_m = group_id * GROUP_SIZE_M
+    group_size_m = min(num_pid_m - first_pid_m, GROUP_SIZE_M)
     pid_m = first_pid_m + (pid % group_size_m)
     pid_n = (pid % num_pid_in_group) // group_size_m
-    offs_am = (pid_m * $(p.blockRows) + tl.arange(0, $(p.blockRows))) % $(p.rows)
-    offs_bn = (pid_n * $(p.blockColumns) + tl.arange(0, $(p.blockColumns))) % $(p.columns)
-    offs_k = pid_sp_k * $(p.blockInner) + tl.arange(0, $(p.blockInner))
-    a_ptrs = a_ptr + (offs_am[:, None] * $(p.inputRowStride) + offs_k[None, :] * $(p.inputInnerStride))
-    b_ptrs = b_ptr + ((offs_k[:, None] // $(8)) * $(p.weightInnerStride) + offs_bn[None, :] * $(p.weightColumnStride))
-    accumulator = tl.zeros([$(p.blockRows), $(p.blockColumns)], dtype=tl.float32)
-    for k in range($(0), $(steps p), $(1)) {
-      bs_ptrs = bs_ptr + (((offs_k[:, None] + k * $(p.blockInner) * $(p.splits)) // $(p.groupSize)) * $(p.scaleGroupStride) + offs_bn[None, :] * $(p.scaleColumnStride))
-      bzp_ptrs = bzp_ptr + (((offs_k[:, None] + k * $(p.blockInner) * $(p.splits)) // $(p.groupSize)) * $(p.zeroGroupStride) + (offs_bn[None, :] // $(8)) * $(p.zeroColumnStride))
-      b_shift_bits = (offs_k[:, None] % $(8)) * $(4)
-      bzp_shift_bits = (offs_bn[None, :] % $(8)) * $(4)
-      k_mask = offs_k + k * $(p.blockInner) * $(p.splits) < $(p.inner)
-      a = tl.load(a_ptrs, mask=k_mask[None, :], other=0)
-      b = tl.load(b_ptrs, mask=k_mask[:, None], other=0)
-      bs = tl.load(bs_ptrs, mask=k_mask[:, None], other=0)
-      bzp = tl.load(bzp_ptrs, mask=k_mask[:, None], other=0)
-      int_b = (b >> b_shift_bits) & 15
-      int_bzp = (bzp >> bzp_shift_bits) & 15
-      b = ((int_b - int_bzp) * bs).to(a.dtype)
-      accumulator += tl.dot(a, (b).to(a.dtype))
-      a_ptrs += $(p.blockInner) * $(p.splits) * $(p.inputInnerStride)
-      b_ptrs += ($(p.blockInner) * $(p.splits) * $(p.weightInnerStride) // $(8))
-    }
-    c = (accumulator).to(c_ptr.dtype.element_ty)
-    offs_cm = pid_m * $(p.blockRows) + tl.arange(0, $(p.blockRows))
-    offs_cn = pid_n * $(p.blockColumns) + tl.arange(0, $(p.blockColumns))
-    c_ptrs = c_ptr + $(p.outputRowStride) * offs_cm[:, None] + $(p.outputColumnStride) * offs_cn[None, :]
-    c_mask = (offs_cm[:, None] < $(p.rows)) & (offs_cn[None, :] < $(p.columns))
-    if $(p.splits) == $(1) {
-      tl.store(c_ptrs, c, mask=c_mask)
-    } else {
-      tl.atomic_add(c_ptrs, c, mask=c_mask)
-    }
+    offs_am = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)) % M
+    offs_bn = (pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)) % N
+    offs_k = pid_sp_k * BLOCK_SIZE_K + tl.arange(0, BLOCK_SIZE_K)
+
+    # [BLOCK_M, BLOCK_K]
+    a_ptrs = a_ptr + offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak
+    # [BLOCK_K, BLOCK_N] but repeated 8 times in N
+    b_ptrs = b_ptr + (offs_k[:, None] // 8) * stride_bk + offs_bn[None, :] * stride_bn
+    # tl.static_print("shape", a_ptrs, b_ptrs, bs_ptrs, bzp_ptrs)
+    # -----------------------------------------------------------
+    # Iterate to compute a block of the C matrix.
+    # We accumulate into a `[BLOCK_SIZE_M, BLOCK_SIZE_N]` block
+    # of fp32 values for higher accuracy.
+    # `accumulator` will be converted back to fp16 after the loop.
+    accumulator = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+    for k in range(0, tl.cdiv(K, BLOCK_SIZE_K * SPLIT_K)):
+        # Load the next block of A and B.
+        # [BLOCK_K, BLOCK_N] but repeated group_size times in K
+        bs_ptrs = bs_ptr + ((offs_k[:, None] + k * BLOCK_SIZE_K * SPLIT_K) // group_size) * stride_bsk \
+            + offs_bn[None, :] * stride_bsn
+        # [BLOCK_K, BLOCK_N] but repeated in K and N
+        bzp_ptrs = bzp_ptr + ((offs_k[:, None] + k * BLOCK_SIZE_K * SPLIT_K) // group_size) * stride_bzpk \
+            + (offs_bn[None, :] // 8) * stride_bzpn
+        b_shift_bits = (offs_k[:, None] % 8) * 4 # assert BLOCK_SIZE_K % 8 == 0
+        bzp_shift_bits = (offs_bn[None, :] % 8) * 4
+        k_mask = offs_k + k * BLOCK_SIZE_K * SPLIT_K < K
+        a = tl.load(a_ptrs, mask=k_mask[None, :], other=0)
+        b = tl.load(b_ptrs, mask=k_mask[:, None], other=0)
+        bs = tl.load(bs_ptrs, mask=k_mask[:, None], other=0)
+        bzp = tl.load(bzp_ptrs, mask=k_mask[:, None], other=0)
+        # We accumulate along the K dimension.
+        int_b = (b >> b_shift_bits) & 0xF
+        int_bzp = (bzp >> bzp_shift_bits) & 0xF
+        b = ((int_b - int_bzp) * bs).to(a.dtype)
+        accumulator += tl.dot(a, b.to(a.dtype))
+        # Advance the ptrs to the next K block.
+        a_ptrs += BLOCK_SIZE_K * SPLIT_K * stride_ak
+        b_ptrs += (BLOCK_SIZE_K * SPLIT_K * stride_bk // 8)  # assert BLOCK_SIZE_K % 8 == 0
+    # You can fuse arbitrary activation functions here
+    # while the accumulator is still in FP32!
+    c = accumulator.to(c_ptr.dtype.element_ty)
+    # -----------------------------------------------------------
+    # Write back the block of the output matrix C with masks.
+    offs_cm = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
+    offs_cn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)
+    c_ptrs = c_ptr + stride_cm * offs_cm[:, None] + stride_cn * offs_cn[None, :]
+    c_mask = (offs_cm[:, None] < M) & (offs_cn[None, :] < N)
+    if SPLIT_K == 1:
+        tl.store(c_ptrs, c, mask=c_mask)
+    else:
+        tl.atomic_add(c_ptrs, c, mask=c_mask)
   }
 
-/-- Precombine the constexpr inner traversal stride in each dynamic k offset. -/
-def foldStrideKernel (p : Parameters) : ComputeKernel :=
-  let a_ptr := p.input
-  let b_ptr := p.weight
-  let c_ptr := p.output
-  let bs_ptr := p.scale
-  let bzp_ptr := p.zero
-  triton {
-    tl.region a_ptr = tl.float32, b_ptr = tl.int32, c_ptr = tl.float32,
-      bs_ptr = tl.float32, bzp_ptr = tl.int32
+def candidateBody (a_ptr b_ptr c_ptr bs_ptr bzp_ptr : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      stride_bsk stride_bsn stride_bzpk stride_bzpn group_size
+      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
+  with_triton_call callSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn, stride_bsk := stride_bsk, stride_bsn := stride_bsn, stride_bzpk := stride_bzpk, stride_bzpn := stride_bzpn, group_size := group_size] in triton {
+    """
+    assert K % (BLOCK_SIZE_K * SPLIT_K) == 0
+    """
     pid = tl.program_id(axis=0)
     pid_sp_k = tl.program_id(axis=1)
-    num_pid_m = tl.cdiv($(p.rows), $(p.blockRows))
-    num_pid_n = tl.cdiv($(p.columns), $(p.blockColumns))
-    num_pid_k = tl.cdiv($(p.inner), $(p.blockInner))
-    num_pid_in_group = $(p.groupRows) * num_pid_n
+    num_pid_m = tl.cdiv(M, BLOCK_SIZE_M)
+    num_pid_n = tl.cdiv(N, BLOCK_SIZE_N)
+    num_pid_k = tl.cdiv(K, BLOCK_SIZE_K)
+    num_pid_in_group = GROUP_SIZE_M * num_pid_n
     group_id = pid // num_pid_in_group
-    first_pid_m = group_id * $(p.groupRows)
-    group_size_m = min(num_pid_m - first_pid_m, $(p.groupRows))
+    first_pid_m = group_id * GROUP_SIZE_M
+    group_size_m = min(num_pid_m - first_pid_m, GROUP_SIZE_M)
     pid_m = first_pid_m + (pid % group_size_m)
     pid_n = (pid % num_pid_in_group) // group_size_m
-    offs_am = (pid_m * $(p.blockRows) + tl.arange(0, $(p.blockRows))) % $(p.rows)
-    offs_bn = (pid_n * $(p.blockColumns) + tl.arange(0, $(p.blockColumns))) % $(p.columns)
-    offs_k = pid_sp_k * $(p.blockInner) + tl.arange(0, $(p.blockInner))
-    a_ptrs = a_ptr + (offs_am[:, None] * $(p.inputRowStride) + offs_k[None, :] * $(p.inputInnerStride))
-    b_ptrs = b_ptr + ((offs_k[:, None] // $(8)) * $(p.weightInnerStride) + offs_bn[None, :] * $(p.weightColumnStride))
-    accumulator = tl.zeros([$(p.blockRows), $(p.blockColumns)], dtype=tl.float32)
-    for k in range($(0), $(steps p), $(1)) {
-      bs_ptrs = bs_ptr + (((offs_k[:, None] + k * $(p.blockInner * p.splits)) // $(p.groupSize)) * $(p.scaleGroupStride) + offs_bn[None, :] * $(p.scaleColumnStride))
-      bzp_ptrs = bzp_ptr + (((offs_k[:, None] + k * $(p.blockInner * p.splits)) // $(p.groupSize)) * $(p.zeroGroupStride) + (offs_bn[None, :] // $(8)) * $(p.zeroColumnStride))
-      b_shift_bits = (offs_k[:, None] % $(8)) * $(4)
-      bzp_shift_bits = (offs_bn[None, :] % $(8)) * $(4)
-      k_mask = offs_k + k * $(p.blockInner * p.splits) < $(p.inner)
-      a = tl.load(a_ptrs, mask=k_mask[None, :], other=0)
-      b = tl.load(b_ptrs, mask=k_mask[:, None], other=0)
-      bs = tl.load(bs_ptrs, mask=k_mask[:, None], other=0)
-      bzp = tl.load(bzp_ptrs, mask=k_mask[:, None], other=0)
-      int_b = (b >> b_shift_bits) & 15
-      int_bzp = (bzp >> bzp_shift_bits) & 15
-      b = ((int_b - int_bzp) * bs).to(a.dtype)
-      accumulator += tl.dot(a, (b).to(a.dtype))
-      a_ptrs += $(p.blockInner) * $(p.splits) * $(p.inputInnerStride)
-      b_ptrs += ($(p.blockInner) * $(p.splits) * $(p.weightInnerStride) // $(8))
-    }
-    c = (accumulator).to(c_ptr.dtype.element_ty)
-    offs_cm = pid_m * $(p.blockRows) + tl.arange(0, $(p.blockRows))
-    offs_cn = pid_n * $(p.blockColumns) + tl.arange(0, $(p.blockColumns))
-    c_ptrs = c_ptr + $(p.outputRowStride) * offs_cm[:, None] + $(p.outputColumnStride) * offs_cn[None, :]
-    c_mask = (offs_cm[:, None] < $(p.rows)) & (offs_cn[None, :] < $(p.columns))
-    if $(p.splits) == $(1) {
-      tl.store(c_ptrs, c, mask=c_mask)
-    } else {
-      tl.atomic_add(c_ptrs, c, mask=c_mask)
-    }
+    offs_am = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)) % M
+    offs_bn = (pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)) % N
+    offs_k = pid_sp_k * BLOCK_SIZE_K + tl.arange(0, BLOCK_SIZE_K)
+
+    # [BLOCK_M, BLOCK_K]
+    a_ptrs = a_ptr + offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak
+    # [BLOCK_K, BLOCK_N] but repeated 8 times in N
+    b_ptrs = b_ptr + (offs_k[:, None] // 8) * stride_bk + offs_bn[None, :] * stride_bn
+    # tl.static_print("shape", a_ptrs, b_ptrs, bs_ptrs, bzp_ptrs)
+    # -----------------------------------------------------------
+    # Iterate to compute a block of the C matrix.
+    # We accumulate into a `[BLOCK_SIZE_M, BLOCK_SIZE_N]` block
+    # of fp32 values for higher accuracy.
+    # `accumulator` will be converted back to fp16 after the loop.
+    accumulator = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+    for k in range(0, tl.cdiv(K, BLOCK_SIZE_K * SPLIT_K)):
+        # Load the next block of A and B.
+        # [BLOCK_K, BLOCK_N] but repeated group_size times in K
+        bs_ptrs = bs_ptr + ((offs_k[:, None] + k * (BLOCK_SIZE_K * SPLIT_K)) // group_size) * stride_bsk \
+            + offs_bn[None, :] * stride_bsn
+        # [BLOCK_K, BLOCK_N] but repeated in K and N
+        bzp_ptrs = bzp_ptr + ((offs_k[:, None] + k * (BLOCK_SIZE_K * SPLIT_K)) // group_size) * stride_bzpk \
+            + (offs_bn[None, :] // 8) * stride_bzpn
+        b_shift_bits = (offs_k[:, None] % 8) * 4 # assert BLOCK_SIZE_K % 8 == 0
+        bzp_shift_bits = (offs_bn[None, :] % 8) * 4
+        k_mask = offs_k + k * (BLOCK_SIZE_K * SPLIT_K) < K
+        a = tl.load(a_ptrs, mask=k_mask[None, :], other=0)
+        b = tl.load(b_ptrs, mask=k_mask[:, None], other=0)
+        bs = tl.load(bs_ptrs, mask=k_mask[:, None], other=0)
+        bzp = tl.load(bzp_ptrs, mask=k_mask[:, None], other=0)
+        # We accumulate along the K dimension.
+        int_b = (b >> b_shift_bits) & 0xF
+        int_bzp = (bzp >> bzp_shift_bits) & 0xF
+        b = ((int_b - int_bzp) * bs).to(a.dtype)
+        accumulator += tl.dot(a, b.to(a.dtype))
+        # Advance the ptrs to the next K block.
+        a_ptrs += BLOCK_SIZE_K * SPLIT_K * stride_ak
+        b_ptrs += (BLOCK_SIZE_K * SPLIT_K * stride_bk // 8)  # assert BLOCK_SIZE_K % 8 == 0
+    # You can fuse arbitrary activation functions here
+    # while the accumulator is still in FP32!
+    c = accumulator.to(c_ptr.dtype.element_ty)
+    # -----------------------------------------------------------
+    # Write back the block of the output matrix C with masks.
+    offs_cm = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
+    offs_cn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)
+    c_ptrs = c_ptr + stride_cm * offs_cm[:, None] + stride_cn * offs_cn[None, :]
+    c_mask = (offs_cm[:, None] < M) & (offs_cn[None, :] < N)
+    if SPLIT_K == 1:
+        tl.store(c_ptrs, c, mask=c_mask)
+    else:
+        tl.atomic_add(c_ptrs, c, mask=c_mask)
   }
+
+def kernel (p : Parameters) : ComputeKernel :=
+  sourceBody p.input p.weight p.output p.scale p.zero
+    p.rows p.columns p.inner p.inputRowStride p.inputInnerStride p.weightInnerStride
+    p.weightColumnStride p.outputRowStride p.outputColumnStride p.scaleGroupStride
+    p.scaleColumnStride p.zeroGroupStride p.zeroColumnStride p.groupSize
+    p.blockRows p.blockColumns p.blockInner p.groupRows p.splits
+
+def foldStrideKernel (p : Parameters) : ComputeKernel :=
+  candidateBody p.input p.weight p.output p.scale p.zero
+    p.rows p.columns p.inner p.inputRowStride p.inputInnerStride p.weightInnerStride
+    p.weightColumnStride p.outputRowStride p.outputColumnStride p.scaleGroupStride
+    p.scaleColumnStride p.zeroGroupStride p.zeroColumnStride p.groupSize
+    p.blockRows p.blockColumns p.blockInner p.groupRows p.splits
+
 
 
 end

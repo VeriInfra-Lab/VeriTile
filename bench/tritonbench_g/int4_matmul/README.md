@@ -1,13 +1,9 @@
 # int4_matmul
 
-Current repaired Python implementation: [int4_matmul.py](int4_matmul.py).
+The repaired [Python source](int4_matmul.py) and [stride-folding candidate](int4_matmul_fold_stride.py) are copied into [Kernels.lean](Kernels.lean). Each pasted body has 25 top-level Python statements, including its docstring. Pointer dtypes, runtime scalar bindings and constexpr parameters are supplied outside the quotations. The source casts, packed nibble operations, scale and zero-point loads, dynamic `tl.cdiv` loop, and store/atomic split branches are retained.
 
-[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+[Correct.lean](Correct.lean) proves the complete grid implements the independent logical formula `sum_k A[row,k] * (Q[k,col] - Z[group(k),col]) * scale[group(k),col]` under the public geometry, matrix-domain and schedule conditions. The proof evaluates the source loop bound, transports the actual loop body to the fixed-K8 accumulation model, and retains access safety and the exterior frame.
 
-matmul_grid_real: logicalIO implements the finite logical-K dequantized sum A[row,k]*(Q[k,col]-Z[group(k),col])*scale[group(k),col] on matrixDomain.
+[FPEquiv.lean](FPEquiv.lean) compares the complete original and stride-folding programs. The candidate precombines the integer block/split stride product; it retains FP32 operations and each output address's split accumulation order. This structural equivalence uses no numerical relaxation assumptions.
 
-The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
-
-[Proof helpers](Proofs/)
-
-[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+[Contract](Contract.lean) · [IO](IO.lean) · [Proof helpers](Proofs/). [Validation records](../../../validation/body-migration-progress.json) distinguish local source/proof checks from current independent replay acceptance. Compilation or source comparison alone does not mark this task complete.
