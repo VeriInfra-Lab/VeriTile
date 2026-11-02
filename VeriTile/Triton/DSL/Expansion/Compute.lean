@@ -456,6 +456,10 @@ partial def expandNatBitwise (expandExpr : ExprExpander) (env : Env) (ctx : Stri
           (Op.intToUnsigned $widthLit $a'.term) (Op.intToUnsigned $widthLit $b'.term))),
           (if width == 32 then .int32 else .int8), outShape, none, none⟩
     | _ => Macro.throwError (ctx ++ ": unsupported signed bitwise operation")
+  -- Bare Python integer literals inherit the natural bitwise channel; they
+  -- are not floating values. Fixed-width signed operands were handled above.
+  let a' ← literalInIntegerContext .nat a a'
+  let b' ← literalInIntegerContext .nat b b'
   ensureDType .nat a'.dtype ctx
   ensureDType .nat b'.dtype ctx
   let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
@@ -477,6 +481,9 @@ partial def expandBoolOrNatBitwise (expandExpr : ExprExpander) (env : Env) (ctx 
     return ⟨← `(Op.unsignedToInt $widthLit ($natOp $bc
       (Op.intToUnsigned $widthLit $a'.term) (Op.intToUnsigned $widthLit $b'.term))),
       (if width == 32 then .int32 else .int8), outShape, none, none⟩
+  let (a',b') ← if a'.dtype == .nat || b'.dtype == .nat then do
+      pure (← literalInIntegerContext .nat a a',← literalInIntegerContext .nat b b')
+    else pure (a',b')
   unless a'.dtype == b'.dtype do
     Macro.throwError (ctx ++ ": dtype mismatch")
   let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx

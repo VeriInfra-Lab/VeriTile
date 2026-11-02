@@ -8,6 +8,7 @@ noncomputable section
 set_option maxHeartbeats 12000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
+attribute [local simp 2000] FP.Structural.eval_intToSigned
 
 theorem innerLoop (cast : Word32 → Byte) (M : Algebra Word32) (p : Parameters)
     (initial current : State Word32) (f k : Nat) (hf : f < 4) (hk : k ≤ p.steps) (defined : InputDefined p initial)
@@ -82,7 +83,7 @@ def epilogueExecution (cast : Word32 → Byte) (M : Algebra Word32) (p : Paramet
     {t : State Word32 // run (backend cast M) (epilogue p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [epilogue, source, compileAssertionProjection, quotedSource, kernel, ComputeKernel.surfaceBody,
+  simp [-BitVec.toInt_ofInt,epilogue, source, compileAssertionProjection, quotedSource, kernel,sourceBody, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -97,7 +98,7 @@ def written (cast : Word32 → Byte) (p : Parameters) (initial : State Word32) :
 theorem epilogueMemory (cast : Word32 → Byte) (M : Algebra Word32) (p : Parameters)
     (initial current : State Word32) (h : OuterInvariant cast p initial 4 current) :
     (epilogueExecution cast M p initial current h).val.mem = (written cast p initial).mem := by
-  simp +contextual [epilogueExecution, written, masked_scatter_memory, h.memory,
+  simp +contextual [-BitVec.toInt_ofInt,epilogueExecution, written, masked_scatter_memory, h.memory,
     active, outputOffset, FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex,
     and_assoc, and_comm, and_left_comm]
 
@@ -119,8 +120,8 @@ theorem correctness (cast : Word32 → Byte) (M : Algebra Word32) (p : Parameter
   · change run (backend cast M) (source p).surfaceBody initial = some finish.val
     rw [source_decomposition]
     rw [run_append, run_append, start.property]
-    have hs (s : State Word32) : run (backend cast M) [.forRangeDyn "i" (.constNat 0) (.constNat 4) (.constNat 1) (outerBody p)] s =
-        FP.Structural.range (backend cast M) "i" 0 4 1 (outerBody p) s := by simp [run, step, evalOp_unfold]
+    have hs (s : State Word32) : run (backend cast M) [.forLoop "i" 4 (outerBody p)] s =
+        FP.Structural.range (backend cast M) "i" 0 4 1 (outerBody p) s := by simp [run, step, evalOp_unfold,loop_eq_range_one]
     simp only [Option.bind_some, hs, hm]
     exact finish.property
   · intro i hi

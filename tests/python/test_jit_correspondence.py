@@ -51,6 +51,37 @@ class JITCorrespondenceTests(unittest.TestCase):
             self.compare(self.python, self.lean.replace(" * BLOCK_SIZE", " * $(BLOCK_SIZE + 1)", 1))
 
 
+class InlineAssemblyBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/tritonbench_g/int8_matmul_kernel"
+        self.python = (self.directory / "int8_matmul_kernel.py").read_text()
+        self.lean = (self.directory / "Kernels.lean").read_text()
+        self.record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+
+    def compare(self, lean):
+        return check(self.python, lean, "matmul_kernel", "sourceBody", "callSignature",
+                     self.record["expected_signature"],
+                     expected_call_bindings=self.record["expected_call_bindings"])
+
+    def test_pure_assembly_placeholders_are_string_data(self):
+        self.assertEqual(self.compare(self.lean)["status"], "PASS")
+
+    def test_complete_assembly_abi_remains_compared(self):
+        for before, after in [("add.u32 $0, $1, $2;", "sub.u32 $0, $1, $2;"),
+                              ('constraints="=r,r,r"', 'constraints="=r,r,l"'),
+                              ("is_pure=True", "is_pure=False"), ("pack=1", "pack=2")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after, 1))
+
+    def test_antiquote_outside_string_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "antiquot"):
+            self.compare(self.lean.replace("pid = tl.program_id(axis=0)", "pid = $(M)", 1))
+
+    def test_source_comment_is_not_a_metadata_directive(self):
+        self.assertEqual(self.compare(self.lean.replace("pid = tl.program_id(axis=0)",
+            "# literal PTX $0 and tl.region appear only in this comment\n    pid = tl.program_id(axis=0)", 1))["status"], "PASS")
+
+
 class PastedBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / "bench/tritonbench_g/dequantize_rowwise"

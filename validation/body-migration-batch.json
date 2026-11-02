@@ -1773,6 +1773,19 @@
           "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.FPEquiv.reuse_indices_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/int8_matmul_kernel",
+      "python": "bench/tritonbench_g/int8_matmul_kernel/int8_matmul_kernel.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/int8_matmul_kernel/Correct.lean": [
+          "VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.kernel_low32"
+        ],
+        "bench/tritonbench_g/int8_matmul_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.FPEquiv.configuration_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -4213,6 +4226,58 @@
     "bench/tritonbench_g/int8_dequant_matmul/Sources/Kernels.lean",
     "tests/lean/FPIntegerDotIO.lean",
     "tests/lean/PointerElementLoadCast.lean",
-    "tests/lean/ReassignedIntegerPointers.lean"
+    "tests/lean/ReassignedIntegerPointers.lean",
+    "VeriTile/Triton/DSL/InlineAsmWordAdd.lean",
+    "VeriTile/Triton/Float/CountedRange.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Contract.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Correct.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/FPEquiv.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/IO.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Kernels.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Arithmetic.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/BlockBound.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/ConfigurationEquivalence.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Contract.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/GridExecution.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/GridIO.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/GridOutput.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Int8MatmulKernel_Contract.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/KernelResults.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Arithmetic.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Autotune.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Bounds.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Config.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Divisibility.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_EventGrid.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Events.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Geometry.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Grid.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Host.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Numeric.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Schedule.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_Source.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/Mathematical_SourceLink.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/NativeArithmetic.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/StorageProfile.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TensorStorage.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TileComplete.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TileConfig.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TileDense.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TileDot.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TileExecution.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TileInnerExecution.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TileInvariant.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TileOutput.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TileReference.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TileSource.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/TileValue.lean",
+    "bench/tritonbench_g/int8_matmul_kernel/Proofs/WordAdd.lean",
+    "tests/lean/InlineAsmWordAdd.lean",
+    "tests/lean/NaturalBitwiseLiterals.lean",
+    "tests/lean/PointerAliasReset.lean"
   ]
 }

@@ -24,7 +24,7 @@ private theorem prelude_safe (cast : Word32 → Byte) (M : Algebra Word32)
     Safety.traceSafeList (backend cast M) bounds (prelude p) s := by
   apply safe_of_steps
   intro st member current
-  simp only [prelude,source,compileAssertionProjection,quotedSource,kernel,
+  simp only [prelude,source,compileAssertionProjection,quotedSource,kernel,sourceBody,
     ComputeKernel.surfaceBody,List.take,List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
@@ -47,7 +47,7 @@ private theorem inner_safe (cast : Word32 → Byte) (M : Algebra Word32)
   simp only [aWord,Parameters.steps] at collected
   rw [←List.take_append_drop 3 (innerBody p),Safety.traceSafeList_append]
   constructor
-  · simp [innerBody,outerBody,source,compileAssertionProjection,quotedSource,kernel,
+  · simp [innerBody,outerBody,source,compileAssertionProjection,quotedSource,kernel,sourceBody,
       ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -69,7 +69,7 @@ private theorem inner_safe (cast : Word32 → Byte) (M : Algebra Word32)
   · intro next _
     apply safe_of_steps
     intro st member current
-    simp [innerBody,outerBody,source,compileAssertionProjection,quotedSource,kernel,
+    simp [innerBody,outerBody,source,compileAssertionProjection,quotedSource,kernel,sourceBody,
       ComputeKernel.surfaceBody] at member
     rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl
     all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
@@ -112,7 +112,7 @@ private theorem outer_step_safe (cast : Word32 → Byte) (M : Algebra Word32)
       (current.setReg "i" .nat [] (fun _ => f)) := by
   rw [outer_decomposition,Safety.traceSafeList_append]
   constructor
-  · simp [outerPrelude,outerBody,source,compileAssertionProjection,quotedSource,kernel,
+  · simp [outerPrelude,outerBody,source,compileAssertionProjection,quotedSource,kernel,sourceBody,
       ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
     split <;> trivial
@@ -123,7 +123,7 @@ private theorem outer_step_safe (cast : Word32 → Byte) (M : Algebra Word32)
       (outerPreludeExecution cast M p initial current f h).val bounds f 0 hf (by omega)
       defined (outerPreludeInvariant cast M p initial current f h) ha hb
     apply Safety.traceSafeList_cons_intro
-    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,
+    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,loopSafe_eq_rangeSafe_one,
       evalOp_unfold,stepsExpr,Parameters.steps,numeric,bop,Broadcast.leftIndex,
         Broadcast.rightIndex,integralFloorDiv] using hs
     · intro next _; exact Safety.traceSafeList_nil _ _ _
@@ -158,7 +158,7 @@ private theorem epilogue_safe (cast : Word32 → Byte) (M : Algebra Word32)
     (h : OuterInvariant cast p initial 4 current)
     (hout : ∀ i,active p initial i → outputOffset p initial i<bounds p.output) :
     Safety.traceSafeList (backend cast M) bounds (epilogue p) current := by
-  simp [epilogue,source,compileAssertionProjection,quotedSource,kernel,ComputeKernel.surfaceBody,
+  simp [epilogue,source,compileAssertionProjection,quotedSource,kernel,sourceBody,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -189,14 +189,14 @@ theorem source_safe (cast : Word32 → Byte) (M : Algebra Word32)
     have hs := outer_range_safe cast M p initial (preludeExecution cast M p initial).val
       bounds 0 (by omega) defined (preludeInvariant cast M p initial) ha hb
     apply Safety.traceSafeList_cons_intro
-    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,
+    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,loopSafe_eq_rangeSafe_one,
         evalOp_unfold] using hs
     · intro next _; exact Safety.traceSafeList_nil _ _ _
   · intro current ran
     obtain ⟨mid,hm,hi⟩ := outerLoop cast M p initial (preludeExecution cast M p initial).val
       0 (by omega) defined (preludeInvariant cast M p initial)
     rw [run_append,(preludeExecution cast M p initial).property] at ran
-    simp only [Option.bind_some,run,step,evalOp_unfold] at ran
+    simp only [Option.bind_some,run,step,evalOp_unfold,loop_eq_range_one] at ran
     change (FP.Structural.range (backend cast M) "i" 0 4 1 (outerBody p)
       (preludeExecution cast M p initial).val).bind (fun x => some x) = some current at ran
     rw [hm] at ran
