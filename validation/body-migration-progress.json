@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 0,
-  "staged_count": 125,
+  "staged_count": 126,
   "pending_count": 196,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 3562,
+    "staged_and_regression_retained_modules": 3614,
     "official_comparator": "124 targets have accepted independent receipts on recorded historical source snapshots, including all 19 examples. Historical receipts are preserved; changed shared DSL dependencies require fresh exact-snapshot replay. No current completion is claimed.",
-    "python_tests": 462,
+    "python_tests": 466,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "131 explicitly selected cases (125 targets and 6 regression cases), all 3562 retained/supporting modules and qualified public targets passed locally after the signed-pointer/cdiv, pointer-element cast and contextual signed-loop corrections. All 68 Int8DequantMatmul modules pass, including independent Real formula, actual-source FP equivalence (no numerical relaxation assumptions), output/frame and safety. Current completion still requires fresh exact-source independent replay. Packed Int8MatmulKernel work has begun separately and is not staged or accepted.",
-    "official_replay_sources": 2565,
+    "working_tree": "132 explicitly selected cases (126 targets and 6 regression cases), all 3614 retained/supporting modules, 12335 Lake jobs and qualified public theorem names passed locally. Int8DequantMatmul (68 modules) and packed Int8MatmulKernel (47 modules) are source/proof checked locally; no current completion without fresh exact-source independent replay. Int4Matmul work is separate and not staged or accepted.",
+    "official_replay_sources": 2617,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -48,13 +48,16 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/int8_dequant_matmul",
+      "case": "bench/tritonbench_g/int8_matmul_kernel",
+      "case_paths": [
+        "bench/tritonbench_g/int8_dequant_matmul",
+        "bench/tritonbench_g/int8_matmul_kernel"
+      ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 1,
-      "retained_modules": 73,
-      "replay_sources": 73,
-      "state": "local_checks_passed_dispatch_deferred_for_known_shared_frontend_fix",
-      "validated_source_commit": "a88b5c7f734611f36aa87630d7463cbafc325258"
+      "cases": 2,
+      "retained_modules": 125,
+      "replay_sources": 125,
+      "state": "local_checks_passed_awaiting_official_dispatch"
     },
     "previous_incremental_replays": [
       {
@@ -447,6 +450,15 @@
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41360550987",
         "source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345",
         "historical_receipt": "validation/body_receipts/attention_fwd_triton1-3c1b5650.json"
+      },
+      {
+        "case": "bench/tritonbench_g/int8_dequant_matmul",
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 73,
+        "replay_sources": 73,
+        "state": "local_checks_passed_dispatch_deferred_for_known_shared_frontend_fix",
+        "validated_source_commit": "a88b5c7f734611f36aa87630d7463cbafc325258"
       }
     ],
     "pending_client_regressions": {
@@ -462,58 +474,29 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Repair Int8DequantMatmul literal source and its signed-index/accumulator proof chain; check the shared pointer-assignment inference fix and revalidate all affected dependencies. No merge.",
+    "current_work": "Migrate Int4Matmul original/candidate bodies and re-prove their actual dynamic cdiv loop, fixed-K8 accumulation, full-grid Real/FP results, safety and frame. No merge.",
     "previous_validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67",
     "shared_model_revalidation": {
-      "state": "reshape_precision_full_local_pass_official_replay_running",
-      "cases": 127,
-      "retained_modules": 3367,
-      "replay_sources": 2370,
-      "reason": "Distinct libdevice.rsqrt FP backend, input-port collection and exact Python None masks change shared dependency hashes.",
-      "initial_full_build": {
-        "passed": true,
-        "jobs": 12069,
-        "current_source_snapshot": false
-      },
-      "current_frontend_regressions": [
-        "tests/lean/LibdeviceRsqrt.lean",
-        "tests/lean/NoneMemoryMasks.lean"
-      ],
-      "python_tests": 442,
-      "body_corpus_check": "pass",
-      "source_commit": "be54d8566aa6d3a11c82633f5b18b22de394f67f",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41355269815",
-      "official_shards": 6,
+      "state": "full_local_pass_official_dispatch_pending",
+      "cases": 132,
+      "targets": 126,
+      "retained_modules": 3614,
+      "replay_sources": 2617,
+      "reason": "Signed pointer/cdiv inference, preserved pointer-element casts, contextual signed loops, type-preserving pointer resets and natural bitwise literal inference change shared dependency hashes. All current staged sources and public theorem names passed locally.",
       "current_full_build": {
         "passed": true,
-        "jobs": 12071,
-        "cases": 127,
-        "retained_modules": 3367,
-        "replay_sources": 2370,
-        "source_commit": "be54d8566aa6d3a11c82633f5b18b22de394f67f"
+        "jobs": 12335,
+        "cases": 132,
+        "retained_modules": 3614,
+        "replay_sources": 2617
       },
-      "superseded_runs": [
-        {
-          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41351075260",
-          "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942",
-          "reason": "Cancelled before acceptance: source re-proof exposed a reshape precision-loss bug. A corrected exact dependency snapshot needs a fresh build and replay."
-        }
-      ],
-      "reshape_precision_regressions": {
-        "source": "tests/lean/ReshapePrecision.lean",
-        "fp32_typed_program": true,
-        "fp64_typed_program": true,
-        "nested_fp32_to_fp64_cast_context": true,
-        "axioms": "standard_base"
-      },
-      "previous_full_build": {
-        "passed": true,
-        "jobs": 12070,
-        "cases": 127,
-        "retained_modules": 3365,
-        "replay_sources": 2368,
-        "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942"
-      }
+      "python_tests": 466,
+      "body_corpus_check": "PASS",
+      "current_frontend_regressions": [
+        "tests/lean/PointerAliasReset.lean",
+        "tests/lean/NaturalBitwiseLiterals.lean",
+        "tests/lean/InlineAsmWordAdd.lean"
+      ]
     },
     "validated_source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345",
     "last_full_local_snapshot": {
@@ -525,7 +508,61 @@
       "lake_jobs": 12283,
       "public_names": "PASS",
       "python_tests": 462
-    }
+    },
+    "previous_shared_model_revalidations": [
+      {
+        "state": "reshape_precision_full_local_pass_official_replay_running",
+        "cases": 127,
+        "retained_modules": 3367,
+        "replay_sources": 2370,
+        "reason": "Distinct libdevice.rsqrt FP backend, input-port collection and exact Python None masks change shared dependency hashes.",
+        "initial_full_build": {
+          "passed": true,
+          "jobs": 12069,
+          "current_source_snapshot": false
+        },
+        "current_frontend_regressions": [
+          "tests/lean/LibdeviceRsqrt.lean",
+          "tests/lean/NoneMemoryMasks.lean"
+        ],
+        "python_tests": 442,
+        "body_corpus_check": "pass",
+        "source_commit": "be54d8566aa6d3a11c82633f5b18b22de394f67f",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41355269815",
+        "official_shards": 6,
+        "current_full_build": {
+          "passed": true,
+          "jobs": 12071,
+          "cases": 127,
+          "retained_modules": 3367,
+          "replay_sources": 2370,
+          "source_commit": "be54d8566aa6d3a11c82633f5b18b22de394f67f"
+        },
+        "superseded_runs": [
+          {
+            "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41351075260",
+            "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942",
+            "reason": "Cancelled before acceptance: source re-proof exposed a reshape precision-loss bug. A corrected exact dependency snapshot needs a fresh build and replay."
+          }
+        ],
+        "reshape_precision_regressions": {
+          "source": "tests/lean/ReshapePrecision.lean",
+          "fp32_typed_program": true,
+          "fp64_typed_program": true,
+          "nested_fp32_to_fp64_cast_context": true,
+          "axioms": "standard_base"
+        },
+        "previous_full_build": {
+          "passed": true,
+          "jobs": 12070,
+          "cases": 127,
+          "retained_modules": 3365,
+          "replay_sources": 2368,
+          "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942"
+        },
+        "current_dependency_snapshot": false
+      }
+    ]
   },
   "targets": [
     {
@@ -1152,8 +1189,9 @@
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_kernel",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "reason": "Complete 23-statement repaired Python body, exact add.u32 assembly ABI, caller bindings and all 47 retained modules pass locally. Full-grid independent signed-low32 formula, two actual retained configurations, original cast domain, source safety and exterior frame are re-proved; FP numerical relaxation assumptions: none. Completion requires current exact-source independent replay."
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_quantization",

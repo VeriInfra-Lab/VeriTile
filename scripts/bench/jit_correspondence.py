@@ -27,6 +27,33 @@ import inspect
 from scripts.bench.audit_source import lean_code_mask, strip_lean_comments
 
 
+def pasted_code_mask(body: str) -> str:
+    """Exclude literal/comment text while rejecting Lean-only pasted syntax.
+
+    PTX placeholders such as $0 are source string data, not Lean antiquotes.
+    The full strings still participate unchanged in the subsequent AST comparison.
+    """
+    body = textwrap.dedent(body)
+    lines = body.splitlines(keepends=True)
+    starts, offset = [], 0
+    for line in lines:
+        starts.append(offset)
+        offset += len(line)
+    masked = list(body)
+    try:
+        for token in tokenize.generate_tokens(io.StringIO(body).readline):
+            if token.type not in (tokenize.STRING, tokenize.COMMENT):
+                continue
+            first = starts[token.start[0] - 1] + token.start[1]
+            last = starts[token.end[0] - 1] + token.end[1]
+            for index in range(first, last):
+                if masked[index] != "\n":
+                    masked[index] = " "
+    except (tokenize.TokenError, IndentationError) as error:
+        raise ValueError("invalid pasted body tokenization") from error
+    return "".join(masked)
+
+
 def quotation(text: str, definition: str, *, raw_python: bool = False) -> tuple[str, str]:
     mask = lean_code_mask(text)
     matches = list(re.finditer(r"(?m)^\s*(?:(?:noncomputable|private|protected)\s+)*def\s+" + re.escape(definition) + r"\b", mask))
@@ -328,7 +355,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     if signature_definition is not None:
         if expected_signature is None:
             raise ValueError("pasted body requires an independently reviewed call signature")
-        if re.search(r"\btl\.(region|param|call_signature)\b|\$", body):
+        if re.search(r"\btl\.(region|param|call_signature)\b|\$", pasted_code_mask(body)):
             raise ValueError("pasted body must not contain metadata directives or Lean antiquotes")
         profile = call_signature(lean_text, signature_definition)
         dtype_arguments = profile.get("dtype_parameters", [])

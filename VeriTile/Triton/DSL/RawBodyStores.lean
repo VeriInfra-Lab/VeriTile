@@ -22,8 +22,8 @@ private partial def hasStore (raw : Syntax) : Bool :=
 /-- An incoming pointer alias may not acquire a different source type along
 one dynamic arm. Fresh aliases are local to that arm/iteration. -/
 private partial def rejectRebind (aliases : List Name) (raw : Syntax) : MacroM Unit := do
-  if let `(tritonStmt| $name:ident = $_:tritonExpr) := raw then
-    if aliases.contains name.getId.eraseMacroScopes then
+  if let `(tritonStmt| $name:ident = $value:tritonExpr) := raw then
+    if aliases.contains name.getId.eraseMacroScopes && !pointer aliases value then
       Macro.throwErrorAt name "pointer alias is rebound under runtime control flow"
   for arg in raw.getArgs do rejectRebind aliases arg
 
