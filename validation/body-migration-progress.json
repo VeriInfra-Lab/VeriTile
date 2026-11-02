@@ -62,7 +62,9 @@
       "cases": 1,
       "retained_modules": 55,
       "replay_sources": 55,
-      "state": "local_pass_preparing_independent_replay"
+      "state": "official_workflow_queued",
+      "source_commit": "17290c3226950daa36c91b363f58f774b0477ded",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41447240623"
     },
     "previous_incremental_replays": [
       {
@@ -651,7 +653,7 @@
       "completion_certificate": false
     },
     "current_work": "Continue the remaining 56 TritonBench-G source/proof migrations and collect exact-source official independent receipts for staged cases. Keep numerical admission gaps explicit. No merge.",
-    "previous_validated_source_commit": "835b6ea4934140438f167a149939fac28b06be2a",
+    "previous_validated_source_commit": "ca54364d279081fc610b3eb024d00e906637254a",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
       "cases": 139,
@@ -672,7 +674,7 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "ca54364d279081fc610b3eb024d00e906637254a",
+    "validated_source_commit": "17290c3226950daa36c91b363f58f774b0477ded",
     "last_full_local_snapshot": {
       "cases": 147,
       "targets": 141,
@@ -681,7 +683,8 @@
       "lake_jobs": 13152,
       "public_theorem_names": "PASS",
       "python_tests": 499,
-      "boundary": "Local checks only. Not an independent replay completion receipt."
+      "boundary": "Local checks only. Not an independent replay completion receipt.",
+      "source_commit": "17290c3226950daa36c91b363f58f774b0477ded"
     },
     "previous_shared_model_revalidations": [
       {
@@ -1204,7 +1207,8 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All four complete repaired and existing sum-left forward/backward Python bodies (10/17 statements) match direct readable Lean quotations. Original names, single-argument loops, four seed strides, optional seed rebasing, polymorphic backward storage, all casts, DG reduction and final DL store remain. Removed the generated backward source family and extra offs_k/offs_v statements; compatibility entries invoke the same quotations. Independent Real formulas, full original/candidate FP execution, successful execution, output/raw frames and backed-access safety re-proved. The reference explicitly retains the typed FP32 seed read and cast, without a new numerical assumption or public premise. All 53 retained task modules and two new shared frontend/test roots pass locally. Exact-current-source official independent replay remains required; compilation does not count as completion."
+      "reason": "All four complete repaired and existing sum-left forward/backward Python bodies (10/17 statements) match direct readable Lean quotations. Original names, single-argument loops, four seed strides, optional seed rebasing, polymorphic backward storage, all casts, DG reduction and final DL store remain. Removed the generated backward source family and extra offs_k/offs_v statements; compatibility entries invoke the same quotations. Independent Real formulas, full original/candidate FP execution, successful execution, output/raw frames and backed-access safety re-proved. The reference explicitly retains the typed FP32 seed read and cast, without a new numerical assumption or public premise. All 53 retained task modules and two new shared frontend/test roots pass locally. Exact-current-source official independent replay remains required; compilation does not count as completion.",
+      "validated_source_commit": "17290c3226950daa36c91b363f58f774b0477ded"
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_fwd",
