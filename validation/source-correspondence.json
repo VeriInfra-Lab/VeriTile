@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 132,
-      "uncovered_jit_functions": 51
+      "selected_body_copy_checked": 133,
+      "uncovered_jit_functions": 50
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 124,
-    "inventoried_jit_functions": 534,
-    "uncovered_inventoried_jit_functions": 162,
+    "uncovered_selected_jit_functions": 122,
+    "inventoried_jit_functions": 536,
+    "uncovered_inventoried_jit_functions": 160,
     "checked_pair_modes": {
-      "pasted_body": 372
+      "pasted_body": 376
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 132,
-        "uncovered_jit_functions": 51
+        "selected_body_copy_checked": 133,
+        "uncovered_jit_functions": 50
       }
     },
     "primary_files_with_int64_screen_warning": 13,
     "primary_lean_file_features": {
       "tasks": {
         "in_body_type_directives": 30,
-        "antiquotes": 368,
+        "antiquotes": 367,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 85
       },
@@ -31890,13 +31890,13 @@
       "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor.py",
       "lean": "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean",
       "lean_screen": {
-        "quotations": 4,
+        "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 60,
-        "dsl_assignment": 18,
+        "antiquotes": 0,
+        "dsl_assignment": 38,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 4
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -31929,35 +31929,113 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor.py",
-          "function": "pow_func_scalar_tensor"
         },
         {
-          "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor.py",
-          "function": "pow_func_scalar_tensor_kernel_rank_1"
+          "path": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_commuted.py",
+          "jits": [
+            {
+              "function": "pow_func_scalar_tensor",
+              "line": 17,
+              "statements": 1,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "pow_func_scalar_tensor_kernel_rank_1_commuted",
+              "line": 21,
+              "statements": 3,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "pow_func_scalar_tensor",
+          "lean_definition": "powFunction",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "binary_pure_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "x": "inferred",
+            "exponent": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor.py",
-          "function": "pow_func_scalar_tensor"
+          "lean": "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean"
         },
         {
+          "python_function": "pow_func_scalar_tensor_kernel_rank_1",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {
+            "val0": "fp32",
+            "in0_stride0": "integer",
+            "out0_stride0": "integer",
+            "s0": "integer",
+            "num_tasks": "integer",
+            "tiles_per_cta": "integer"
+          },
+          "constexpr_parameters": [
+            "in0_stride_order0",
+            "one_tile_per_cta",
+            "out0_stride_order0",
+            "tile_size0"
+          ],
           "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor.py",
-          "function": "pow_func_scalar_tensor_kernel_rank_1"
+          "lean": "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean"
+        },
+        {
+          "python_function": "pow_func_scalar_tensor",
+          "lean_definition": "powFunction",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "binary_pure_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "x": "inferred",
+            "exponent": "inferred"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_commuted.py",
+          "lean": "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean"
+        },
+        {
+          "python_function": "pow_func_scalar_tensor_kernel_rank_1_commuted",
+          "lean_definition": "commutedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {
+            "val0": "fp32",
+            "in0_stride0": "integer",
+            "out0_stride0": "integer",
+            "s0": "integer",
+            "num_tasks": "integer",
+            "tiles_per_cta": "integer"
+          },
+          "constexpr_parameters": [
+            "in0_stride_order0",
+            "one_tile_per_cta",
+            "out0_stride_order0",
+            "tile_size0"
+          ],
+          "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_commuted.py",
+          "lean": "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean": "85e1679ceb328737a3f60a96cc478c2cb2757804407d89617642c59655361c78",
-        "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor.py": "62f28a99074ccd1c44aa7cd7d4a2cbe9c764c1b513c7216754f8e9ff6c09c826"
+        "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean": "7147d8d68929450adb0619e663712e333b0f4137675d9a2830296e66a7ed86d8",
+        "bench/tritonbench_g/pow_scalar_tensor/jit-correspondence.json": "e6d60c7843488dd908310e5f8de4e39ab6e3a21dd7eec4ec1a51efcda7ac2f15",
+        "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor.py": "62f28a99074ccd1c44aa7cd7d4a2cbe9c764c1b513c7216754f8e9ff6c09c826",
+        "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_commuted.py": "36628d88fd9626f002696098406f2a5c73c9d57e3efc5576e20cf2e66f661e45"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/pow_scalar_tensor"

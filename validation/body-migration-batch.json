@@ -1421,6 +1421,19 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/pow_scalar_tensor",
+      "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/pow_scalar_tensor/Correct.lean": [
+          "VeriTile.Bench.Repairs.PowScalarTensor.Checked.Correct.kernel_raw_correctness"
+        ],
+        "bench/tritonbench_g/pow_scalar_tensor/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.PowScalarTensor.Checked.FPEquiv.index_commuted_equiv"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/quant_transpose_kernel",
       "python": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
       "purpose": "migration",
@@ -2054,6 +2067,7 @@
     "VeriTile/Triton/DSL/FloatDTypeConstants.lean",
     "VeriTile/Triton/DSL/GuardedOptionalRebinding.lean",
     "VeriTile/Triton/DSL/ImplicitAtomicOperands.lean",
+    "VeriTile/Triton/DSL/ImportedBinaryJitFunctions.lean",
     "VeriTile/Triton/DSL/ImportedFiniteJitFunctions.lean",
     "VeriTile/Triton/DSL/InlineAsmWordAdd.lean",
     "VeriTile/Triton/DSL/IntegerCallArguments.lean",
@@ -4445,6 +4459,28 @@
     "bench/tritonbench_g/nested_loops_processing/Proofs/TypedMiddle.lean",
     "bench/tritonbench_g/nested_loops_processing/Proofs/TypedOuter.lean",
     "bench/tritonbench_g/nested_loops_processing/Proofs/TypedStep.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Contract.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Correct.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/FPEquiv.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/IO.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/IOInterface.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/IOResults.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/Kernel.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/KernelSafety.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/Mathematical_WholeFP32.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/Mathematical_WholeHost.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/Mathematical_WholeReal.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/Mathematical_WholeScalarABI.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/Mathematical_WholeSource.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/Mathematical_WholeTile.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/PastedTile.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/ReaderBefore.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/SafetySteps.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/Source.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/TileSafety.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/SourceTypes.lean",
     "bench/tritonbench_g/quant_transpose_kernel/Contract.lean",
     "bench/tritonbench_g/quant_transpose_kernel/Correct.lean",
     "bench/tritonbench_g/quant_transpose_kernel/FPEquiv.lean",
@@ -5536,6 +5572,7 @@
     "tests/lean/FloatDTypeConstants.lean",
     "tests/lean/GuardedOptionalRebinding.lean",
     "tests/lean/ImplicitAtomicOperands.lean",
+    "tests/lean/ImportedBinaryJitFunctions.lean",
     "tests/lean/ImportedFiniteJitFunctions.lean",
     "tests/lean/ImportedFiniteJitReference.lean",
     "tests/lean/InlineAsmWordAdd.lean",
