@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 6,
+  "completed_count": 9,
   "staged_count": 134,
-  "pending_count": 190,
+  "pending_count": 187,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 4051,
-    "official_comparator": "6 current targets have accepted exact-dependency official receipts. Each official ZIP digest, required independent replay result, public theorem coverage and exact current source/import closure has been verified. The same receipts also accept the MatmulLeakyrelu regression. Earlier receipts for changed dependencies remain historical. All other targets require current acceptance; compilation alone never counts as completion.",
+    "official_comparator": "9 current targets have accepted exact-dependency official receipts, plus the MatmulLeakyrelu regression. Every official ZIP digest, required independent replay result, public theorem coverage and exact current source/import closure has been verified. All other targets still require current acceptance; compilation alone never counts as completion.",
     "python_tests": 473,
     "offline_example_compilations": {
       "cases": 19,
@@ -814,6 +814,7 @@
       "validation/body_receipts/fp8-matmul-source-migration.json",
       "validation/body_receipts/int4-matmul-source-migration.json",
       "validation/body_receipts/int8-matmul-source-migration.json",
+      "validation/body_receipts/layernorm-softmax-source-migration.json",
       "validation/body_receipts/matmul-source-migration.json"
     ]
   },
@@ -1560,15 +1561,17 @@
     },
     {
       "path": "bench/tritonbench_g/ksoftmax_triton",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "e1ef0c36f875b9b5074aa4fcd785c8edf5f7c16a",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/ksoftmax_triton.json",
-      "reason": "Current source/body pairs and full retained proofs pass after the shared nullable-assignment frontend correction. Exact current optional-frontend dependency replay is required; historical acceptance is not marked current."
+      "reason": "Accepted official merged independent replay. Verified official ZIP digest, every required replay result, actual public theorem coverage, body pairs and exact current transitive source/import closure. Completion is not inferred from compilation.",
+      "receipt": "validation/body_receipts/layernorm-softmax-source-migration.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41372469241"
     },
     {
       "path": "bench/tritonbench_g/kv_cache_copy",
@@ -1645,9 +1648,12 @@
     },
     {
       "path": "bench/tritonbench_g/layer_norm_ops",
-      "status": "proof_replay_pending",
-      "complete": false,
-      "reason": "Four complete 18-node forward/backward body pairs, caller metadata and all 53 retained modules pass locally. New Python candidates explicitly derive from the two existing integer/mask Lean transformations. Original nullable Mean expression, implicit integer-to-FP32 conversion and load padding are preserved; independent mathematical formulas, full source safety/frame and both structural FP comparisons are re-proved without added premises. FP numerical relaxation assumptions: none. Fresh current independent replay is still required."
+      "status": "complete",
+      "complete": true,
+      "reason": "Accepted official merged independent replay. Verified official ZIP digest, every required replay result, actual public theorem coverage, body pairs and exact current transitive source/import closure. Completion is not inferred from compilation.",
+      "receipt": "validation/body_receipts/layernorm-softmax-source-migration.json",
+      "validated_source_commit": "e1ef0c36f875b9b5074aa4fcd785c8edf5f7c16a",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41372469241"
     },
     {
       "path": "bench/tritonbench_g/layer_norm_triton",
@@ -2293,15 +2299,17 @@
     },
     {
       "path": "bench/tritonbench_g/softmax_triton3",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "e1ef0c36f875b9b5074aa4fcd785c8edf5f7c16a",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/softmax_triton3.json",
-      "reason": "Current source/body pairs and full retained proofs pass after the shared nullable-assignment frontend correction. Exact current optional-frontend dependency replay is required; historical acceptance is not marked current."
+      "reason": "Accepted official merged independent replay. Verified official ZIP digest, every required replay result, actual public theorem coverage, body pairs and exact current transitive source/import closure. Completion is not inferred from compilation.",
+      "receipt": "validation/body_receipts/layernorm-softmax-source-migration.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41372469241"
     },
     {
       "path": "bench/tritonbench_g/spinning_lock_reduction",
