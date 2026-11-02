@@ -82,6 +82,11 @@ mutual
 def step [Inhabited α] (p : Ops α) (rest : Algebra α) :
     ComputeStmt → RegisterState α → Option (RegisterState α)
   | .forRange idx start stop stride body, s => range p rest idx start stop stride body s
+  | .forRangeDyn idx start stop stride body, s => do
+      let a←evalOp (algebra p rest) none start s
+      let b←evalOp (algebra p rest) none stop s
+      let d←evalOp (algebra p rest) none stride s
+      range p rest idx (a ()) (b ()) (d ()) body s
   | .ifThenElse cond yes no, s => do
       let choice ← evalOp (algebra p rest) none cond s
       if choice PUnit.unit then run p rest yes s else run p rest no s

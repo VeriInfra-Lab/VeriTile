@@ -5,12 +5,12 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 0,
-  "staged_count": 126,
+  "staged_count": 127,
   "pending_count": 196,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 3614,
+    "staged_and_regression_retained_modules": 3667,
     "official_comparator": "124 targets have accepted independent receipts on recorded historical source snapshots, including all 19 examples. Historical receipts are preserved; changed shared DSL dependencies require fresh exact-snapshot replay. No current completion is claimed.",
     "python_tests": 466,
     "offline_example_compilations": {
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "132 explicitly selected cases (126 targets and 6 regression cases), all 3614 retained/supporting modules, 12335 Lake jobs and qualified public theorem names passed locally. Int8DequantMatmul (68 modules) and packed Int8MatmulKernel (47 modules) are source/proof checked locally; no current completion without fresh exact-source independent replay. Int4Matmul work is separate and not staged or accepted.",
-    "official_replay_sources": 2617,
+    "working_tree": "133 explicitly selected cases (127 targets and 6 regression cases), all 3667 retained/supporting modules, 12394 Lake jobs and qualified public theorem names passed locally. Int4Matmul has two exact 25-node Python bodies and all 53 retained modules locally checked, including actual dynamic-cdiv loop, fixed-K8 accumulation, full-grid independent mathematical result, structural candidate equivalence, safety and frame. Current completion still requires fresh exact-source independent replay.",
+    "official_replay_sources": 2670,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -48,19 +48,12 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/int8_matmul_kernel",
-      "case_paths": [
-        "bench/tritonbench_g/int8_dequant_matmul",
-        "bench/tritonbench_g/int8_matmul_kernel"
-      ],
+      "case": "bench/tritonbench_g/int4_matmul",
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 2,
-      "retained_modules": 125,
-      "replay_sources": 125,
-      "state": "official_replay_running",
-      "source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
-      "validated_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368653214"
+      "cases": 1,
+      "retained_modules": 53,
+      "replay_sources": 53,
+      "state": "local_checks_passed_awaiting_official_dispatch"
     },
     "previous_incremental_replays": [
       {
@@ -462,6 +455,21 @@
         "replay_sources": 73,
         "state": "local_checks_passed_dispatch_deferred_for_known_shared_frontend_fix",
         "validated_source_commit": "a88b5c7f734611f36aa87630d7463cbafc325258"
+      },
+      {
+        "case": "bench/tritonbench_g/int8_matmul_kernel",
+        "case_paths": [
+          "bench/tritonbench_g/int8_dequant_matmul",
+          "bench/tritonbench_g/int8_matmul_kernel"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 2,
+        "retained_modules": 125,
+        "replay_sources": 125,
+        "state": "official_replay_running",
+        "source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
+        "validated_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368653214"
       }
     ],
     "pending_client_regressions": {
@@ -477,7 +485,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Migrate Int4Matmul original/candidate bodies and re-prove their actual dynamic cdiv loop, fixed-K8 accumulation, full-grid Real/FP results, safety and frame. No merge.",
+    "current_work": "Migrate LayerNormOps forward/backward and their retained candidate bodies, then re-prove actual full programs. Keep current exact-source replay separate from local checks. No merge.",
     "previous_validated_source_commit": "a88b5c7f734611f36aa87630d7463cbafc325258",
     "shared_model_revalidation": {
       "state": "full_local_pass_official_replay_running",
@@ -1185,8 +1193,9 @@
     },
     {
       "path": "bench/tritonbench_g/int4_matmul",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "reason": "Original/candidate Python bodies, caller metadata and all 53 retained modules pass locally. The actual dynamic-cdiv loop, fixed-K8 accumulation, independent full-grid dequantized matrix formula, structural stride-folding comparison, safety and frame are re-proved. FP numerical relaxation assumptions: none. Fresh current exact-source independent replay is still required."
     },
     {
       "path": "bench/tritonbench_g/int8_dequant_matmul",

@@ -31,7 +31,7 @@ theorem body_equal (p : Ops α) (rest : Algebra α) (cfg : KernelSource.Paramete
       FP.Structural.run (engine p rest) (KernelExecution.body cfg) s := by
   apply run_congr
   intro st member state
-  simp [KernelExecution.body,KernelSource.kernel,ComputeKernel.surfaceBody] at member
+  simp [KernelExecution.body,KernelSource.kernel,KernelSource.sourceBody,ComputeKernel.surfaceBody] at member
   repeat' first
     | (simpa [KernelExecution.step] using (accumulating_step p rest _ _ state).symm)
     | (simp only [KernelExecution.step,KernelExecution.localStep,engine]; done)
@@ -41,7 +41,7 @@ theorem prelude_equal (p : Ops α) (rest : Algebra α) (cfg : KernelSource.Param
     (s : FP.Structural.State (Node α)) :
     KernelExecution.run (ops p) (base p rest) (KernelExecution.prelude cfg) s =
       FP.Structural.run (engine p rest) (KernelExecution.prelude cfg) s := by
-  simp [KernelExecution.prelude,KernelSource.kernel,ComputeKernel.surfaceBody]
+  simp [KernelExecution.prelude,KernelSource.kernel,KernelSource.sourceBody,ComputeKernel.surfaceBody]
   simp only [KernelExecution.run,KernelExecution.step,KernelExecution.localStep,
     FP.Structural.run,FP.Structural.step,engine]
   rfl
@@ -50,7 +50,7 @@ theorem epilogue_equal (p : Ops α) (rest : Algebra α) (cfg : KernelSource.Para
     (s : FP.Structural.State (Node α)) :
     KernelExecution.run (ops p) (base p rest) (KernelExecution.epilogue cfg) s =
       FP.Structural.run (engine p rest) (KernelExecution.epilogue cfg) s := by
-  simp [KernelExecution.epilogue,KernelSource.kernel,ComputeKernel.surfaceBody]
+  simp [KernelExecution.epilogue,KernelSource.kernel,KernelSource.sourceBody,ComputeKernel.surfaceBody]
   simp only [KernelExecution.run,KernelExecution.step,KernelExecution.localStep,
     FP.Structural.run,FP.Structural.step,engine]
   rfl
@@ -82,10 +82,18 @@ theorem source_equal (p : Ops α) (rest : Algebra α) (cfg : KernelSource.Parame
   change KernelExecution.run (ops p) (base p rest) (KernelSource.kernel cfg).surfaceBody s =
     FP.Structural.run (engine p rest) (KernelSource.kernel cfg).surfaceBody s
   rw [KernelExecution.source_decomposition]
+  have loop_equal (state : FP.Structural.State (Node α)) :
+      KernelExecution.run (ops p) (base p rest) [KernelExecution.loopStatement cfg] state =
+        FP.Structural.run (engine p rest) [KernelExecution.loopStatement cfg] state := by
+    apply run_congr
+    intro st member initial
+    simp only [List.mem_singleton] at member
+    subst st
+    rw [KernelExecution.step_loop,KernelExecution.loop_shape,FP.Structural.step]
+    simp only [KernelExecution.loop_bound_value]
+    simp only [evalOp_unfold,bind,pure,Option.bind,range_equal]
   simp only [KernelExecution.run_append,FP.Structural.run_append,
-    prelude_equal,epilogue_equal,KernelExecution.run,KernelExecution.step,
-    FP.Structural.run,FP.Structural.step,range_equal]
-  rfl
+    prelude_equal,epilogue_equal,loop_equal]
 
 #axiomsClean body_equal
 #axiomsClean prelude_equal

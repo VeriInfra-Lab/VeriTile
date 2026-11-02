@@ -1786,6 +1786,19 @@
           "VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.FPEquiv.configuration_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/int4_matmul",
+      "python": "bench/tritonbench_g/int4_matmul/int4_matmul.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/int4_matmul/Correct.lean": [
+          "VeriTile.Bench.Repairs.Int4Matmul.Correct.matmul_grid_real"
+        ],
+        "bench/tritonbench_g/int4_matmul/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Int4Matmul.FPEquiv.fold_stride_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -4278,6 +4291,59 @@
     "bench/tritonbench_g/int8_matmul_kernel/Proofs/WordAdd.lean",
     "tests/lean/InlineAsmWordAdd.lean",
     "tests/lean/NaturalBitwiseLiterals.lean",
-    "tests/lean/PointerAliasReset.lean"
+    "tests/lean/PointerAliasReset.lean",
+    "bench/tritonbench_g/int4_matmul/Contract.lean",
+    "bench/tritonbench_g/int4_matmul/Correct.lean",
+    "bench/tritonbench_g/int4_matmul/FPEquiv.lean",
+    "bench/tritonbench_g/int4_matmul/Formula.lean",
+    "bench/tritonbench_g/int4_matmul/IO.lean",
+    "bench/tritonbench_g/int4_matmul/Kernels.lean",
+    "bench/tritonbench_g/int4_matmul/PairIO.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Admission.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Bounds.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Contract.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/DirectData.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/FoldStride.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/FoldStrideIO.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Geometry.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Grid.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/GroupedGrid.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/HelperBytes.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/HelperHost.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/HelperNative.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Helpers.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Host.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/IOAccess.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/IOBinding.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/IOCoordinates.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/IOImplements.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/IOOperands.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/IOPrograms.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/IOReference.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/IOSchedule.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/AccessSafety.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/Complete.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/Execution.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/GraphCells.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/GraphExecution.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/GraphResults.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/GraphValues.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/GridExecution.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/OperandBridge.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/RawGridProof.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/RawOperandBridge.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/Reference.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/SourceGraph.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Kernel/SourceProof.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/LogicalCoordinates.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Mathematical_FPMixed.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Memory.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Native.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Packing.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Physical.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Real.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/RealSum.lean",
+    "bench/tritonbench_g/int4_matmul/Proofs/Source.lean",
+    "bench/tritonbench_g/int4_matmul/Spec.lean"
   ]
 }
