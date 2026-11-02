@@ -2008,7 +2008,8 @@ class LayerNormWelfoldBodyCorrespondenceTests(unittest.TestCase):
                      r['expected_signature'], expected_call_bindings=r['expected_call_bindings'],
                      expected_ordered_sum_trees=r['expected_ordered_sum_trees'],
                      expected_namespace_imports=r['expected_namespace_imports'],
-                     expected_constexpr_bindings=r['expected_constexpr_bindings'])
+                     expected_constexpr_bindings=r['expected_constexpr_bindings'],
+                     expected_scalar_infinity_where=r.get('expected_scalar_infinity_where', False))
 
     def test_complete_original_and_existing_address_candidate(self):
         rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
@@ -2279,7 +2280,8 @@ class ReluStridedBodyCorrespondenceTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'],
                      expected_pointer_offsets=r['expected_pointer_offsets'],
                      expected_pure_functions=r['expected_pure_functions'],
-                     expected_constexpr_bindings=r['expected_constexpr_bindings'])
+                     expected_constexpr_bindings=r['expected_constexpr_bindings'],
+                     expected_scalar_infinity_where=r.get('expected_scalar_infinity_where', False))
 
     def test_both_complete_callers_and_copied_helpers(self):
         rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
@@ -2511,3 +2513,51 @@ class AttentionKernelBodyTests(unittest.TestCase):
         self.assertNotEqual(original, candidate)
         with self.assertRaises(ValueError):
             self.verify(0, self.source.replace(original, candidate, 1))
+
+class AlignedAttentionBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/attention_kernel_aligned'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, index, source):
+        r = self.records[index]
+        return check((ROOT / r['python']).read_text(), source, r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'],
+                     expected_constexpr_bindings=r['expected_constexpr_bindings'],
+                     expected_scalar_infinity_where=r.get('expected_scalar_infinity_where', False))
+
+    def test_all_four_complete_storage_specific_bodies(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [27, 27, 27, 27])
+
+    def test_closed_output_dtype_matches_the_reviewed_branch(self):
+        for index, old, new in [(0, 'FloatDType := .fp16', 'FloatDType := .bf16'),
+                                 (1, 'FloatDType := .bf16', 'FloatDType := .fp16'),
+                                 (0, 'FloatDType := .fp16', 'FloatDType := selected_type')]:
+            with self.subTest(index=index), self.assertRaises(ValueError):
+                self.verify(index, self.source.replace(old, new))
+
+    def test_bf16_explicit_dot_narrowing_and_fp16_dot_result_are_separate(self):
+        for index, old, new in [(0, 'out_dtype=OUT_DTYPE', 'out_dtype=tl.float32'),
+                                 (1, 'out_dtype=tl.float32).to(OUT_DTYPE)', 'out_dtype=tl.float32)'),
+                                 (1, 'out_dtype=tl.float32).to(OUT_DTYPE)', 'out_dtype=OUT_DTYPE)')]:
+            with self.subTest(index=index), self.assertRaises(ValueError):
+                self.verify(index, self.source.replace(old, new))
+
+    def test_tail_mask_shape_boundaries_and_runtime_bindings_remain_exact(self):
+        for old, new in [('boundary_check=(0, 1)', 'boundary_check=(0,)'),
+                         ('N_CTX + P_SEQ', 'N_CTX'),
+                         ('< N_CTX', '<= N_CTX'),
+                         ('stride_kn := stride_kn', 'stride_kn := stride_kk'),
+                         ('sm_scale := sm_scale', 'sm_scale := 1')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(0, self.source.replace(old, new))
+
+    def test_scheduled_candidate_and_softmax_operations_are_not_erased(self):
+        for index, old, new in [(0, 'l_i = l_i * alpha + tl.sum(p, 1)', 'l_i = tl.sum(p, 1)'),
+                                 (3, 'acc = acc / l_i[:, None]', 'acc = acc * l_i[:, None]')]:
+            self.assertTrue(old in self.source, old)
+            with self.subTest(index=index), self.assertRaises(ValueError):
+                self.verify(index, self.source.replace(old, new))

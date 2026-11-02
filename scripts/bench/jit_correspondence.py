@@ -339,7 +339,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_ordered_sum_trees: dict[str, str] | None = None,
           expected_namespace_imports: dict[str, str] | None = None,
           expected_constexpr_bindings: dict[str, str] | None = None,
-          expected_philox_call: dict | None = None) -> dict:
+          expected_philox_call: dict | None = None,
+          expected_scalar_infinity_where: bool = False) -> dict:
     if expected_pure_functions is not None and expected_binary_functions is not None:
         raise ValueError("unary and binary helper clauses cannot be mixed")
     helper_functions = expected_binary_functions if expected_binary_functions is not None else expected_pure_functions
@@ -417,6 +418,10 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                              r"\s+i64_args\s*\[([^\]]*)\]"
                              r"\s+arange_args\s*\[([^\]]*)\]"
                              r"\s+uniform_helpers\s*\[([^\]]*)\]")
+        if expected_scalar_infinity_where:
+            if expected_call_bindings is None or offset_clause:
+                raise ValueError("scalar infinity where requires a reviewed scalar-only call")
+            offset_clause = r"\s+scalar_infinity_where"
         if expected_call_bindings is None:
             invocation = r"\bwith_triton_signature\s+" + selected_signature + offset_clause + r"\s+in\b"
             calls = list(re.finditer(invocation, signature))
@@ -511,10 +516,19 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 raise ValueError("every source sum must have exactly one reviewed ordered tree")
         if expected_constexpr_bindings is not None:
             for name, value in expected_constexpr_bindings.items():
-                if (name not in constants or not re.fullmatch(r"[0-9]+", value)
-                        or len(re.findall(r"\b(?:let|have)\s+" + re.escape(name) + r"\b", signature)) != 1
-                        or len(re.findall(r"\blet\s+" + re.escape(name) +
-                                          r"\s*:\s*Nat\s*:=\s*" + re.escape(value) + r"\b", signature)) != 1):
+                binder = r"(?:" + re.escape(name) + r"\b|«" + re.escape(name) + r"»)"
+                prefix = r"\blet\s+" + binder
+                if re.fullmatch(r"[0-9]+", value):
+                    declaration = prefix + r"\s*:\s*Nat\s*:=\s*" + re.escape(value) + r"\b"
+                elif value in {"FloatDType.real", "FloatDType.fp32", "FloatDType.fp16",
+                               "FloatDType.bf16", "FloatDType.f8e4", "FloatDType.f8e5"}:
+                    declaration = (prefix + r"\s*:\s*FloatDType\s*:=\s*(?:\.|FloatDType\.)" +
+                                   re.escape(value.split(".")[1]) + r"\b")
+                else:
+                    raise ValueError("unsupported closed constexpr specialization")
+                if (name not in constants
+                        or len(re.findall(r"\b(?:let|have)\s+" + binder, signature)) != 1
+                        or len(re.findall(declaration, signature)) != 1):
                     raise ValueError("closed constexpr binding differs from the reviewed specialization")
         if expected_integer_args is not None:
             for group, reviewed, label in [(2, expected_integer_args, "integer"),
@@ -923,7 +937,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                              r.get("expected_static_strides"), r.get("expected_pure_functions"),
                              r.get("expected_integer_args"), r.get("expected_arange_args"), r.get("expected_binary_functions"),
                              r.get("expected_ordered_sum_trees"), r.get("expected_namespace_imports"),
-                             r.get("expected_constexpr_bindings"), r.get("expected_philox_call")))
+                             r.get("expected_constexpr_bindings"), r.get("expected_philox_call"),
+                             r.get("expected_scalar_infinity_where", False)))
         for name, definition in r.get('expected_philox_call', {}).get('uniform_helpers', {}).items():
             helpers = [h for h in records if h.get('kind') == 'uniform_jit_function'
                        and h['python'] == r['python'] and h['lean'] == r['lean']

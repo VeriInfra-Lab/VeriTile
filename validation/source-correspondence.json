@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 129,
-      "uncovered_jit_functions": 54
+      "selected_body_copy_checked": 130,
+      "uncovered_jit_functions": 53
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 129,
+    "uncovered_selected_jit_functions": 127,
     "inventoried_jit_functions": 533,
-    "uncovered_inventoried_jit_functions": 169,
+    "uncovered_inventoried_jit_functions": 165,
     "checked_pair_modes": {
-      "pasted_body": 364
+      "pasted_body": 368
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 129,
-        "uncovered_jit_functions": 54
+        "selected_body_copy_checked": 130,
+        "uncovered_jit_functions": 53
       }
     },
     "primary_files_with_int64_screen_warning": 15,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 33,
-        "antiquotes": 371,
+        "in_body_type_directives": 32,
+        "antiquotes": 370,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -11053,9 +11053,9 @@
       "lean": "bench/tritonbench_g/attention_kernel_aligned/Kernels.lean",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 264,
-        "dsl_assignment": 13,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 122,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 16
@@ -11110,42 +11110,190 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel_aligned_fp16",
+          "lean_definition": "originalHalf",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "stride_b0z": "integer",
+            "stride_b0h": "integer",
+            "stride_b0m": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "P_SEQ": "integer",
+            "sm_scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B0_NUMEL",
+            "BIAS_LAST_SIZE",
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "OUT_DTYPE"
+          ],
           "python": "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned.py",
-          "function": "_fwd_kernel_aligned_fp16"
+          "lean": "bench/tritonbench_g/attention_kernel_aligned/Kernels.lean"
         },
         {
+          "python_function": "_fwd_kernel_aligned_bf16",
+          "lean_definition": "originalBF16",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "stride_b0z": "integer",
+            "stride_b0h": "integer",
+            "stride_b0m": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "P_SEQ": "integer",
+            "sm_scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B0_NUMEL",
+            "BIAS_LAST_SIZE",
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "OUT_DTYPE"
+          ],
           "python": "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned.py",
-          "function": "_fwd_kernel_aligned_bf16"
+          "lean": "bench/tritonbench_g/attention_kernel_aligned/Kernels.lean"
         },
         {
+          "python_function": "_fwd_kernel_aligned_fp16",
+          "lean_definition": "earlyHalf",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "stride_b0z": "integer",
+            "stride_b0h": "integer",
+            "stride_b0m": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "P_SEQ": "integer",
+            "sm_scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B0_NUMEL",
+            "BIAS_LAST_SIZE",
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "OUT_DTYPE"
+          ],
           "python": "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_query_early.py",
-          "function": "_fwd_kernel_aligned_fp16"
+          "lean": "bench/tritonbench_g/attention_kernel_aligned/Kernels.lean"
         },
         {
+          "python_function": "_fwd_kernel_aligned_bf16",
+          "lean_definition": "earlyBF16",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "stride_b0z": "integer",
+            "stride_b0h": "integer",
+            "stride_b0m": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "P_SEQ": "integer",
+            "sm_scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B0_NUMEL",
+            "BIAS_LAST_SIZE",
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "OUT_DTYPE"
+          ],
           "python": "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_query_early.py",
-          "function": "_fwd_kernel_aligned_bf16"
+          "lean": "bench/tritonbench_g/attention_kernel_aligned/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned.py",
-          "function": "_fwd_kernel_aligned_fp16"
-        },
-        {
-          "python": "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned.py",
-          "function": "_fwd_kernel_aligned_bf16"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/attention_kernel_aligned/Kernels.lean": "3c21a8743ed5321fb754dd062fa7af85ea7c6f303789aafda0a5f35adb6712c9",
+        "bench/tritonbench_g/attention_kernel_aligned/Kernels.lean": "e904b299bd140e569f5c5c6c8e953bdc0211d87f2d823f939bc37419b0640f16",
         "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned.py": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
-        "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_query_early.py": "2d6c98d46c2f1407aa92760b01d273d13aa08c3b2798a811780d6099df623eb1"
+        "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_query_early.py": "2d6c98d46c2f1407aa92760b01d273d13aa08c3b2798a811780d6099df623eb1",
+        "bench/tritonbench_g/attention_kernel_aligned/jit-correspondence.json": "41f8c3640734b060b5182e8cfaecebe736c1f2d7526bfcfdd091659c28fe3e0b"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/attention_kernel_aligned"

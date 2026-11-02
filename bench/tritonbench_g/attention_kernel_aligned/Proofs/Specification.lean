@@ -37,7 +37,7 @@ def b1Value (P : Primitives α) (p : Parameters) (read : RegionName → Nat → 
 def b0Value (P : Primitives α) (p : Parameters) (read : RegionName → Nat → α) (x b h : Nat) (c : Nat) (i : Fin p.blockM) : α :=
   if row p read x b h i<p.length then read p.bias (b0Offset p read x b h c i) else P.cast none .real .fp16 (P.literal none .real 0)
 def scaleValue (P : Primitives α) (p : Parameters) : α :=
-  P.binary none .real .mul (P.literal none .real p.scale) (P.literal none .real 1.44269504)
+  P.binary (some .fp32) .real .mul (P.literal (some .fp32) .real p.scale) (P.literal (some .fp32) .real 1.44269504)
 def qScaled (P : Primitives α) (p : Parameters) (read : RegionName → Nat → α) (x b h : Nat) (i : QLane p) : α :=
   P.cast none .real .fp16 (P.binary (some .fp32) .real .mul
     (P.cast (some .fp32) .fp16 .real (qValue P p read x b h i)) (scaleValue P p))

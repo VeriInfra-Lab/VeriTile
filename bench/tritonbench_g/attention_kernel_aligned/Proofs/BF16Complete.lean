@@ -56,7 +56,7 @@ theorem epilogueExecution (rest : Algebra α) (P : Primitives α) (p : Parameter
     (initial current : State α)
     (h : Invariant P p initial p.blocks (rounds P p initial p.blocks) current) :
     run (backend rest P) (epilogue p) current=some (epilogueResult P p initial current) := by
-  simp [epilogue,source,typedSurface,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [epilogue,source,typedSurface,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,evalOffsets,numeric,store,backend,h.start,h.qoffset,h.ooffset,h.numerator,h.denominator,
     epilogueResult,epilogueStart,normalized,outputValue,outputPointer,qPointer,
     integralMod,natLt,Fin.isLt,TileShape.indexToList,Region.cast,
