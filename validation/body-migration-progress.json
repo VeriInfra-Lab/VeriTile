@@ -53,7 +53,8 @@
       "cases": 1,
       "retained_modules": 73,
       "replay_sources": 73,
-      "state": "local_checks_passed_awaiting_official_dispatch"
+      "state": "local_checks_passed_dispatch_deferred_for_known_shared_frontend_fix",
+      "validated_source_commit": "a88b5c7f734611f36aa87630d7463cbafc325258"
     },
     "previous_incremental_replays": [
       {
@@ -514,7 +515,17 @@
         "source_commit": "9096006a1c3f051147c05d6c2f09daf92612d942"
       }
     },
-    "validated_source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345"
+    "validated_source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345",
+    "last_full_local_snapshot": {
+      "source_commit": "a88b5c7f734611f36aa87630d7463cbafc325258",
+      "cases": 131,
+      "targets": 125,
+      "retained_modules": 3562,
+      "proof_audit_sources": 2565,
+      "lake_jobs": 12283,
+      "public_names": "PASS",
+      "python_tests": 462
+    }
   },
   "targets": [
     {
