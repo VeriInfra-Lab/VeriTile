@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 124,
-      "uncovered_jit_functions": 59
+      "selected_body_copy_checked": 125,
+      "uncovered_jit_functions": 58
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 137,
-    "inventoried_jit_functions": 529,
-    "uncovered_inventoried_jit_functions": 181,
+    "uncovered_selected_jit_functions": 135,
+    "inventoried_jit_functions": 531,
+    "uncovered_inventoried_jit_functions": 179,
     "checked_pair_modes": {
-      "pasted_body": 348
+      "pasted_body": 352
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 124,
-        "uncovered_jit_functions": 59
+        "selected_body_copy_checked": 125,
+        "uncovered_jit_functions": 58
       }
     },
     "primary_files_with_int64_screen_warning": 15,
     "primary_lean_file_features": {
       "tasks": {
         "in_body_type_directives": 36,
-        "antiquotes": 376,
+        "antiquotes": 375,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -32371,13 +32371,13 @@
       "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer.py",
       "lean": "bench/tritonbench_g/relu_strided_buffer/Kernels.lean",
       "lean_screen": {
-        "quotations": 4,
+        "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 54,
-        "dsl_assignment": 18,
+        "antiquotes": 0,
+        "dsl_assignment": 41,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 4
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -32410,35 +32410,110 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer.py",
-          "function": "relu_forward"
         },
         {
-          "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer.py",
-          "function": "relu_forward_kernel_rank_1"
+          "path": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer_folded.py",
+          "jits": [
+            {
+              "function": "relu_forward",
+              "line": 12,
+              "statements": 1,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "relu_forward_kernel_rank_1_folded",
+              "line": 19,
+              "statements": 3,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "relu_forward",
+          "lean_definition": "reluForward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "pure_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer.py",
-          "function": "relu_forward"
+          "lean": "bench/tritonbench_g/relu_strided_buffer/Kernels.lean"
         },
         {
+          "python_function": "relu_forward_kernel_rank_1",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {
+            "in0_stride0": "integer",
+            "out0_stride0": "integer",
+            "s0": "integer",
+            "num_tasks": "integer",
+            "tiles_per_cta": "integer"
+          },
+          "constexpr_parameters": [
+            "in0_stride_order0",
+            "one_tile_per_cta",
+            "out0_stride_order0",
+            "tile_size0"
+          ],
           "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer.py",
-          "function": "relu_forward_kernel_rank_1"
+          "lean": "bench/tritonbench_g/relu_strided_buffer/Kernels.lean"
+        },
+        {
+          "python_function": "relu_forward",
+          "lean_definition": "reluForward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "pure_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer_folded.py",
+          "lean": "bench/tritonbench_g/relu_strided_buffer/Kernels.lean"
+        },
+        {
+          "python_function": "relu_forward_kernel_rank_1_folded",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {
+            "in0_stride0": "integer",
+            "out0_stride0": "integer",
+            "s0": "integer",
+            "num_tasks": "integer",
+            "tiles_per_cta": "integer"
+          },
+          "constexpr_parameters": [
+            "folded_num_tiles0",
+            "in0_stride_order0",
+            "one_tile_per_cta",
+            "out0_stride_order0",
+            "tile_size0"
+          ],
+          "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer_folded.py",
+          "lean": "bench/tritonbench_g/relu_strided_buffer/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/relu_strided_buffer/Kernels.lean": "a23e3a734e5c2d0c6cfe0b784227216ae2a8ab8f54fbe8a9b7e037601cd0a7f3",
-        "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer.py": "13091e0d2964eeafa7803733ae477504f78b3ba470147a13f5eaa587ac4bb509"
+        "bench/tritonbench_g/relu_strided_buffer/Kernels.lean": "64e6255aefec93ba6aaa9fd42df18e7304cf22ef1700855a6e8dc148df012cc0",
+        "bench/tritonbench_g/relu_strided_buffer/jit-correspondence.json": "86a64e1e316290861460adaf5891a58d34967cecf6cb82e64212a27e85a9c7f5",
+        "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer.py": "13091e0d2964eeafa7803733ae477504f78b3ba470147a13f5eaa587ac4bb509",
+        "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer_folded.py": "55656d6d07de46f149c31777a087071a5b228af809a84937a9ebe7a31849da4e"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/relu_strided_buffer"

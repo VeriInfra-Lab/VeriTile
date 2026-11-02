@@ -2261,3 +2261,70 @@ class MatmulAutotuneBodyCorrespondenceTests(unittest.TestCase):
                          ('c = accumulator.to(tl.float16)', 'c = accumulator')]:
             with self.subTest(source=old), self.assertRaises(ValueError):
                 self.verify(source=self.source.replace(old, new, 1))
+
+class ReluStridedBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.base = 'bench/tritonbench_g/relu_strided_buffer'
+        self.directory = ROOT / self.base
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.python = (self.directory / 'relu_strided_buffer.py').read_text()
+
+    def verify(self, python=None, source=None):
+        r = self.records[1]
+        return check(self.python if python is None else python,
+                     self.source if source is None else source,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'],
+                     expected_pointer_offsets=r['expected_pointer_offsets'],
+                     expected_pure_functions=r['expected_pure_functions'],
+                     expected_constexpr_bindings=r['expected_constexpr_bindings'])
+
+    def test_both_complete_callers_and_copied_helpers(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [1, 3, 1, 3])
+        self.assertEqual(self.records[0]['lean_definition'], self.records[2]['lean_definition'])
+
+    def test_each_python_helper_requires_its_own_checked_body(self):
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            directory = root / self.base
+            directory.mkdir(parents=True)
+            for name in ['Kernels.lean', 'relu_strided_buffer.py', 'relu_strided_buffer_folded.py']:
+                (directory / name).write_text((self.directory / name).read_text())
+            manifest = directory / 'jit-correspondence.json'
+            for index in [0, 2]:
+                manifest.write_text(json.dumps([r for i, r in enumerate(self.records) if i != index]))
+                with self.subTest(index=index), self.assertRaises(ValueError):
+                    check_manifest(root, manifest)
+
+    def test_cast_boundary_order_and_helper_call_are_preserved(self):
+        for old, new in [('.to(in0_ptr.type.element_ty)', ''),
+                         ('out0.to(out0_bptr.type.element_ty)', 'out0'),
+                         ('boundary_check=(in0_stride_order0,)', 'boundary_check=(1,)'),
+                         ('order=(out0_stride_order0,)', 'order=(1,)'),
+                         ('relu_forward(in0)', 'tl.maximum(in0, 0)')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(source=self.source.replace(old, new, 1))
+
+    def test_signed_allocation_bases_and_storage_cannot_change(self):
+        for old, new in [('in0_ptr := input_base', 'in0_ptr := output_base'),
+                         ('out0_ptr := output_base', 'out0_ptr := 0'),
+                         ('("in0_ptr",.fp32)', '("in0_ptr",.fp16)'),
+                         ('relu_forward := reluForward', 'relu_forward := otherHelper')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(source=self.source.replace(old, new, 1))
+
+    def test_builtin_integer_annotation_does_not_accept_an_explicit_int64_abi(self):
+        self.assertEqual(self.verify()['status'], 'PASS')
+        for source in [self.python.replace('in0_stride0: int', 'in0_stride0: tl.int64', 1),
+                       self.python + '\nint = custom_type\n']:
+            with self.subTest(source=source[-40:]), self.assertRaises(ValueError):
+                self.verify(python=source)
+
+    def test_floating_storage_metadata_requires_a_real_dtype_constructor(self):
+        for value in ['"fp32"', '.i64', 'unknown_dtype']:
+            with self.subTest(value=value), self.assertRaises((ValueError, SyntaxError)):
+                self.verify(source=self.source.replace('("in0_ptr",.fp32)', '("in0_ptr",' + value + ')', 1))

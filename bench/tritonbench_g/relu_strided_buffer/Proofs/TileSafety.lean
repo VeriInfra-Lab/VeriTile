@@ -18,17 +18,24 @@ theorem tile_safe {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → α �
     (input : ∀ i,i<c.n → (views c).inputView.address i<bounds c.input.region)
     (output : ∀ i,i<c.n → (views c).outputView.address i<bounds c.output.region) :
     Safety.traceSafeList M bounds (perTile c) s := by
-  simp [perTile,oneTileKernel,ComputeKernel.surfaceBody,
+  cases branch : c.oneTile
+  all_goals
+    simp only [perTile,PastedTile.body,branch,Bool.false_eq_true,if_false,if_true,
+      PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,oneTileKernel,gridStrideKernel,originalBody,ComputeKernel.surfaceBody]
+    simp [
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     step,stepAlg,evalExpr,evalOp_unfold,numeric,numericLt,natLt,FP.Structural.bop,
-    store,hc,ht,FloatDType.comparableDType,Region.cast,ofFloat,toFloat]
-  constructor
-  · intro i active
-    exact input (T*c.B+i.val) active
-  · intro i active
-    exact output (T*c.B+i.val) active
+    store,hc,ht,numericLe,numericEq,ComputeDType.eraseDType,Int.not_ofNat_neg,
+    Broadcast.leftIndex,Broadcast.rightIndex,
+    ← Int.natCast_add,← Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul,
+    FloatDType.comparableDType,Region.cast,ofFloat,toFloat]
+    constructor
+    · intro i active
+      exact input (T*c.B+i.val) active
+    · intro i active
+      exact output (T*c.B+i.val) active
 
 #axiomsClean tile_safe
 end

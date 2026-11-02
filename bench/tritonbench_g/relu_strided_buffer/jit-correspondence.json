@@ -1,0 +1,161 @@
+[
+  {
+    "kind": "pure_jit_function",
+    "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer.py",
+    "lean": "bench/tritonbench_g/relu_strided_buffer/Kernels.lean",
+    "python_function": "relu_forward",
+    "lean_definition": "reluForward"
+  },
+  {
+    "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer.py",
+    "lean": "bench/tritonbench_g/relu_strided_buffer/Kernels.lean",
+    "python_function": "relu_forward_kernel_rank_1",
+    "lean_definition": "originalBody",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [],
+      "floatingPointers": [
+        [
+          "in0_ptr",
+          "fp32"
+        ],
+        [
+          "out0_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "in0_stride0",
+          "integer"
+        ],
+        [
+          "out0_stride0",
+          "integer"
+        ],
+        [
+          "s0",
+          "integer"
+        ],
+        [
+          "num_tasks",
+          "integer"
+        ],
+        [
+          "tiles_per_cta",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "in0_stride_order0",
+        "out0_stride_order0",
+        "tile_size0",
+        "one_tile_per_cta"
+      ],
+      "readPorts": [
+        "in0_ptr"
+      ],
+      "writePorts": [
+        "out0_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "in0_stride0": "in0_stride0",
+      "out0_stride0": "out0_stride0",
+      "s0": "s0",
+      "num_tasks": "num_tasks",
+      "tiles_per_cta": "tiles_per_cta"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "input_base",
+      "out0_ptr": "output_base"
+    },
+    "expected_pure_functions": {
+      "relu_forward": "reluForward"
+    },
+    "expected_constexpr_bindings": {
+      "in0_stride_order0": "0",
+      "out0_stride_order0": "0"
+    }
+  },
+  {
+    "kind": "pure_jit_function",
+    "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer_folded.py",
+    "lean": "bench/tritonbench_g/relu_strided_buffer/Kernels.lean",
+    "python_function": "relu_forward",
+    "lean_definition": "reluForward"
+  },
+  {
+    "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer_folded.py",
+    "lean": "bench/tritonbench_g/relu_strided_buffer/Kernels.lean",
+    "python_function": "relu_forward_kernel_rank_1_folded",
+    "lean_definition": "candidateBody",
+    "signature_definition": "candidateSignature",
+    "expected_signature": {
+      "pointers": [],
+      "floatingPointers": [
+        [
+          "in0_ptr",
+          "fp32"
+        ],
+        [
+          "out0_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "in0_stride0",
+          "integer"
+        ],
+        [
+          "out0_stride0",
+          "integer"
+        ],
+        [
+          "s0",
+          "integer"
+        ],
+        [
+          "num_tasks",
+          "integer"
+        ],
+        [
+          "tiles_per_cta",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "in0_stride_order0",
+        "out0_stride_order0",
+        "tile_size0",
+        "one_tile_per_cta",
+        "folded_num_tiles0"
+      ],
+      "readPorts": [
+        "in0_ptr"
+      ],
+      "writePorts": [
+        "out0_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "in0_stride0": "in0_stride0",
+      "out0_stride0": "out0_stride0",
+      "s0": "s0",
+      "num_tasks": "num_tasks",
+      "tiles_per_cta": "tiles_per_cta"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "input_base",
+      "out0_ptr": "output_base"
+    },
+    "expected_pure_functions": {
+      "relu_forward": "reluForward"
+    },
+    "expected_constexpr_bindings": {
+      "in0_stride_order0": "0",
+      "out0_stride_order0": "0"
+    }
+  }
+]
