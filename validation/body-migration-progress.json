@@ -87,7 +87,10 @@
       "cases": 1,
       "retained_modules": 34,
       "replay_sources": 34,
-      "state": "ready_for_official_replay"
+      "state": "official_replay_running",
+      "source_commit": "c1d8b9aa54c27762f0af3a5204b332803afb4e76",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41529278438",
+      "started_at": "2026-11-02T21:32:33Z"
     },
     "previous_incremental_replays": [
       {
@@ -1239,7 +1242,8 @@
       "full_build_modules": 4840,
       "full_lake_jobs": 13516,
       "public_theorem_names": 384,
-      "boundary": "Local source/proof/axiom/specification checks, not an independent completion receipt."
+      "boundary": "Local source/proof/axiom/specification checks, not an independent completion receipt.",
+      "source_commit": "c1d8b9aa54c27762f0af3a5204b332803afb4e76"
     }
   },
   "targets": [
@@ -1864,7 +1868,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The complete 22-statement packed converter helper and 13-statement caller match the unchanged repaired Python. Pointer/scalar types, helper metadata and all ten E2M1 host format constants stay outside the bodies; host constants match the actual launch. Preserved unused output assignment, all INT64/INT32 casts, both separate uint8 arithmetic wraps, signed32 shifts/where promotion, FP32 bitcast, BF16 conversion, masks and helper return. Removed the old inlined quotation. All 16 nibbles, 256 packed bytes, high-first ordering and signed zeros are rechecked; independent Real values, full finite-ABI grids, actual schedule-permutation FP pair, source safety, output/readback and complete frames pass without new assumptions or public premises. All 31 owned and three shared frontend/test roots pass local build, source/specification/axiom gates, 155-case integration, 384 public names, 534 Python tests and body-corpus checks. Shared frontend exact-source trust/inventory preflights cover 152 theorems; regressions include per-operation uint8 wrap, signed32 selection/bitcast, constexpr shape alias, metadata hygiene, pointer inference and five unsupported-width rejection cases. Fresh exact-current independent replay is still required; compilation is not completion."
+      "reason": "The complete 22-statement packed converter helper and 13-statement caller match the unchanged repaired Python. Pointer/scalar types, helper metadata and all ten E2M1 host format constants stay outside the bodies; host constants match the actual launch. Preserved unused output assignment, all INT64/INT32 casts, both separate uint8 arithmetic wraps, signed32 shifts/where promotion, FP32 bitcast, BF16 conversion, masks and helper return. Removed the old inlined quotation. All 16 nibbles, 256 packed bytes, high-first ordering and signed zeros are rechecked; independent Real values, full finite-ABI grids, actual schedule-permutation FP pair, source safety, output/readback and complete frames pass without new assumptions or public premises. All 31 owned and three shared frontend/test roots pass local build, source/specification/axiom gates, 155-case integration, 384 public names, 534 Python tests and body-corpus checks. Shared frontend exact-source trust/inventory preflights cover 152 theorems; regressions include per-operation uint8 wrap, signed32 selection/bitcast, constexpr shape alias, metadata hygiene, pointer inference and five unsupported-width rejection cases. Fresh exact-current independent replay is still required; compilation is not completion.",
+      "validated_source_commit": "c1d8b9aa54c27762f0af3a5204b332803afb4e76",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41529278438"
     },
     {
       "path": "bench/tritonbench_g/fused_activation",
