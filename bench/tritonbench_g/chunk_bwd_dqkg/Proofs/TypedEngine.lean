@@ -1,6 +1,6 @@
 import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.WholeStep
 import VeriTile.Triton.Float.ProfiledRewrite
-import VeriTile.Triton.Source
+import VeriTile.Triton.Source.CountedLoop
 
 namespace VeriTile.Bench.Repairs.ChunkBwdDqkg.Typed
 open VeriTile Triton FP.Structural FP.ProfiledRewrite Whole
@@ -27,15 +27,15 @@ def withDot {α : Type} (M : Algebra α) (D : Dot α) : Algebra α :=
 
 
 def parts (c : Config) : VeriTile.Triton.Source.DynamicRange :=
-  (VeriTile.Triton.Source.dynamicRange? (kernel c).surfaceBody "i_v").getD
+  (VeriTile.Triton.Source.countedLoop? (kernel c).surfaceBody "i_v").getD
     ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
 
 def entry (M : Algebra α) (dot : Dot α) (c : Config) (s : State α) :
     {t : State α // run (engine (withDot M dot)) (parts c).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,TypedSource.original,TypedSource.specialize,TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
+  simp [parts,kernel,TypedSource.original,TypedSource.originalBody,TypedSource.Storage.dtype,
+    ComputeKernel.surfaceBody,Triton.Source.countedLoop?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

@@ -8,6 +8,8 @@ Independent dQ/dK contractions over all logical V with causal 64-token score ter
 
 The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
 
+The Lean quotation copies all 33 repaired Python statements. Invocation types and constexpr bindings stay outside the body. The existing FP candidate changes only the final integer tail bound; its [Python source](chunk_bwd_dqkg_tail_bound.py) and [provenance](candidate-provenance.json) are retained. The former real-only dot-add reorder and repeated implementation blocks have been removed.
+
 [Proof helpers](Proofs/)
 
 [Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.

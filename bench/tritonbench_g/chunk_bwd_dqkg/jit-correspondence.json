@@ -1,0 +1,320 @@
+[
+  {
+    "python": "bench/tritonbench_g/chunk_bwd_dqkg/chunk_bwd_dqkg.py",
+    "lean": "bench/tritonbench_g/chunk_bwd_dqkg/Kernels.lean",
+    "python_function": "chunk_simple_gla_bwd_kernel_dqkg",
+    "lean_definition": "originalBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "g",
+          "fp32"
+        ],
+        [
+          "dg",
+          "fp32"
+        ],
+        [
+          "h",
+          {
+            "on": "hist",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "dh",
+          {
+            "on": "dhist",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "s_v_h",
+          "integer"
+        ],
+        [
+          "s_v_t",
+          "integer"
+        ],
+        [
+          "s_h_h",
+          "integer"
+        ],
+        [
+          "s_h_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "V",
+        "BT",
+        "BK",
+        "BV",
+        "NT"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "h",
+        "g",
+        "do",
+        "dh"
+      ],
+      "writePorts": [
+        "dq",
+        "dk",
+        "dg"
+      ],
+      "floatingPointers": [
+        [
+          "q",
+          "dtype"
+        ],
+        [
+          "k",
+          "dtype"
+        ],
+        [
+          "dq",
+          "dtype"
+        ],
+        [
+          "dk",
+          "dtype"
+        ],
+        [
+          "v",
+          "out_dtype"
+        ],
+        [
+          "do",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype",
+        "out_dtype",
+        "hist",
+        "dhist"
+      ],
+      "dtype_parameter_types": {
+        "dtype": "FloatDType",
+        "out_dtype": "FloatDType",
+        "hist": "Storage",
+        "dhist": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "s_v_h": "s_v_h",
+      "s_v_t": "s_v_t",
+      "s_h_h": "s_h_h",
+      "s_h_t": "s_h_t",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_bwd_dqkg/chunk_bwd_dqkg_tail_bound.py",
+    "lean": "bench/tritonbench_g/chunk_bwd_dqkg/Kernels.lean",
+    "python_function": "chunk_simple_gla_bwd_kernel_dqkg",
+    "lean_definition": "tailBoundBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "g",
+          "fp32"
+        ],
+        [
+          "dg",
+          "fp32"
+        ],
+        [
+          "h",
+          {
+            "on": "hist",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "dh",
+          {
+            "on": "dhist",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "s_v_h",
+          "integer"
+        ],
+        [
+          "s_v_t",
+          "integer"
+        ],
+        [
+          "s_h_h",
+          "integer"
+        ],
+        [
+          "s_h_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "V",
+        "BT",
+        "BK",
+        "BV",
+        "NT"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "h",
+        "g",
+        "do",
+        "dh"
+      ],
+      "writePorts": [
+        "dq",
+        "dk",
+        "dg"
+      ],
+      "floatingPointers": [
+        [
+          "q",
+          "dtype"
+        ],
+        [
+          "k",
+          "dtype"
+        ],
+        [
+          "dq",
+          "dtype"
+        ],
+        [
+          "dk",
+          "dtype"
+        ],
+        [
+          "v",
+          "out_dtype"
+        ],
+        [
+          "do",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype",
+        "out_dtype",
+        "hist",
+        "dhist"
+      ],
+      "dtype_parameter_types": {
+        "dtype": "FloatDType",
+        "out_dtype": "FloatDType",
+        "hist": "Storage",
+        "dhist": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "s_v_h": "s_v_h",
+      "s_v_t": "s_v_t",
+      "s_h_h": "s_h_h",
+      "s_h_t": "s_h_t",
+      "scale": "scale"
+    }
+  }
+]

@@ -222,7 +222,7 @@ theorem original_frame (s sf : BlockState) (p : Layout)
     (q k v h g dout dh dqOut dkOut dgOut : RegionName)
     (hu : s.undef = fun _ _ => 0)
     (hrun : exec
-      (RealSource.source qk valueStorage hist dhist Bool.false q k v h g dout dh dqOut dkOut dgOut
+      (RealSource.source qk valueStorage hist dhist q k v h g dout dh dqOut dkOut dgOut
         p.s_k_h p.s_k_t p.s_v_h p.s_v_t p.s_h_h p.s_h_t p.scale
         p.T p.K p.V p.BT p.BK p.BV p.NT).eraseDType.toAlgKernel s = some sf) :
     BlockState.WriteWithin (footprint p (RealLoop.launch s) dqOut dkOut dgOut) s sf := by

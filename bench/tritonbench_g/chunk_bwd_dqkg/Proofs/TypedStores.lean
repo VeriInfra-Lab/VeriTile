@@ -32,8 +32,8 @@ def stores (M : Algebra α) (dot : Dot α) (c : Config) (s : State α)
   generalize hvpg : Classical.choose ready.pg = vpg at hpg
   refine ⟨?_,?_⟩
   swap
-  simp only [parts,kernel,TypedSource.original,TypedSource.specialize,TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
+  simp only [parts,kernel,TypedSource.original,TypedSource.originalBody,TypedSource.Storage.dtype,
+    ComputeKernel.surfaceBody,Triton.Source.countedLoop?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte,List.take,List.drop]
   simp [run,step.eq_3,evalExpr,evalComputeOp,evalOp_unfold,FP.Structural.store,
     Option.bind,engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,
@@ -53,7 +53,7 @@ def finalState (M : Algebra α) (dot : Dot α) (c : Config) (s : State α) : Sta
   finish M dot c (loopState M dot c s).val (loopState M dot c s).property
 
 theorem source_parts (c : Config) : (kernel c).surfaceBody=(parts c).before++
-    [.forRangeDyn "i_v" (parts c).start (parts c).stop (parts c).stride (parts c).body]++(parts c).after := by rfl
+    [.forLoop "i_v" (valueBlocks c) (parts c).body]++(parts c).after := by rfl
 
 theorem source_runs (M : Algebra α) (dot : Dot α) (c : Config) (s : State α) :
     FP.Structural.exec (engine (withDot M dot)) (kernel c) s=some (finalState M dot c s) := by

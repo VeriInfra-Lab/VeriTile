@@ -25,8 +25,8 @@ def pointers (M : Algebra α) (dot : Dot α) (c : Config) (s : State α)
   generalize hvhead : Classical.choose ready.head = head at hhead
   refine ⟨?_,?_⟩
   swap
-  simp only [parts,kernel,TypedSource.original,TypedSource.specialize,TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
+  simp only [parts,kernel,TypedSource.original,TypedSource.originalBody,TypedSource.Storage.dtype,
+    ComputeKernel.surfaceBody,Triton.Source.countedLoop?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte,List.take,List.drop]
   simp only [run,step.eq_2,evalExpr,evalComputeOp]
   simp [eval_block,eval_mul,eval_add,eval_nat,eval_ref,evalOffsets,

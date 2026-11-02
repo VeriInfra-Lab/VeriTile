@@ -245,6 +245,60 @@ class BlockSparseBodyCorrespondenceTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance['original_sha256'])
         self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])
 
+
+class ChunkBwdDqkgBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/chunk_bwd_dqkg'
+        self.python = (self.directory / 'chunk_bwd_dqkg.py').read_text()
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, lean):
+        r = self.records[0]
+        return check(self.python, lean, r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'])
+
+    def test_original_and_existing_tail_bound_candidate(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([row['statements'] for row in rows], [33, 33])
+        self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
+
+    def test_tuple_ids_full_value_loop_casts_reductions_and_stores_are_preserved(self):
+        for before, after in [
+                ('tl.program_id(0), tl.program_id(1), tl.program_id(2)',
+                 'tl.program_id(0), tl.program_id(2), tl.program_id(1)'),
+                ('range(tl.cdiv(V, BV))', 'range(1)'),
+                ('i_t * (K * s_h_t)', 'i_t * K'),
+                ('tl.sum(b_h * b_dh)', 'tl.sum(b_h * b_dh, 1)'),
+                ('b_h.to(b_do.dtype)', 'b_h'),
+                ('b_ds = b_ds.to(b_k.dtype)', 'b_ds = b_ds'),
+                ('b_dg_last *= tl.exp(b_g_last)', 'b_dg_last = tl.exp(b_g_last)'),
+                ('b_dq.to(p_dq.dtype.element_ty)', 'b_dq'),
+                ('min(BT, T-i_t*BT) - 1', 'BT - 1')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                self.verify(self.lean.replace(before, after, 1))
+
+    def test_candidate_changes_only_the_existing_integer_tail_bound(self):
+        original_path = self.directory / 'chunk_bwd_dqkg.py'
+        candidate_path = self.directory / 'chunk_bwd_dqkg_tail_bound.py'
+        original = ast.parse(original_path.read_text())
+        candidate = ast.parse(candidate_path.read_text())
+        fn = next(n for n in candidate.body if isinstance(n, ast.FunctionDef)
+                  and n.name == 'chunk_simple_gla_bwd_kernel_dqkg')
+        stmt = next(n for n in fn.body if isinstance(n, ast.Assign)
+                    and ast.unparse(n.targets[0]) == 'b_dg'
+                    and isinstance(n.value, ast.Call) and ast.unparse(n.value.func) == 'tl.where')
+        self.assertEqual(ast.unparse(stmt.value.args[0]),
+                         'o_i < min(i_t * BT + BT, T) - i_t * BT - 1')
+        stmt.value.args[0] = ast.parse('o_i < min(BT, T-i_t*BT) - 1', mode='eval').body
+        self.assertEqual(ast.dump(original), ast.dump(candidate))
+        import hashlib
+        provenance = json.loads((self.directory / 'candidate-provenance.json').read_text())
+        self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance['original_sha256'])
+        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])
+
 if __name__ == "__main__":
     unittest.main()
 
