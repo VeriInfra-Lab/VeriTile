@@ -53,7 +53,9 @@
       "cases": 1,
       "retained_modules": 53,
       "replay_sources": 53,
-      "state": "local_checks_passed_awaiting_official_dispatch"
+      "state": "official_replay_dispatched",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41369918059",
+      "source_commit": "82d078df01236b3570c219d4205e1d2b4d2ca9da"
     },
     "previous_incremental_replays": [
       {
@@ -515,14 +517,15 @@
     },
     "validated_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
     "last_full_local_snapshot": {
-      "source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
-      "cases": 132,
-      "targets": 126,
-      "retained_modules": 3614,
-      "proof_audit_sources": 2617,
-      "lake_jobs": 12335,
-      "public_names": "PASS",
-      "python_tests": 466
+      "source_commit": "82d078df01236b3570c219d4205e1d2b4d2ca9da",
+      "cases": 133,
+      "targets": 127,
+      "retained_modules": 3667,
+      "replay_sources": 2670,
+      "lake_jobs": 12394,
+      "public_theorem_names": "PASS",
+      "python_tests": 466,
+      "boundary": "Local checks only. Not an independent replay completion receipt."
     },
     "previous_shared_model_revalidations": [
       {
