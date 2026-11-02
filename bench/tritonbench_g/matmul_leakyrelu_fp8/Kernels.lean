@@ -1,115 +1,156 @@
-import bench.tritonbench_g.matmul_leakyrelu_fp8.Sources.Kernels
-import VeriTile.Triton.Float.Structural
+import VeriTile.Triton.DSL.SignedBooleanAddition
+import VeriTile.Meta.StatementAudit
+namespace VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.Pasted
+open VeriTile.Triton
+noncomputable section
+set_option maxHeartbeats 3000000
+set_option maxRecDepth 32000
 
+def callSignature : CallSignature where
+  pointers := [("a_ptr",.fp32),("b_ptr",.fp32),("c_ptr",.fp16)]
+  scalars := [("M",.integer), ("N",.integer), ("K",.integer), ("stride_am",.integer), ("stride_ak",.integer), ("stride_bk",.integer), ("stride_bn",.integer), ("stride_cm",.integer), ("stride_cn",.integer)]
+  constexpr := ["BLOCK_SIZE_M", "BLOCK_SIZE_N", "BLOCK_SIZE_K", "GROUP_SIZE_M", "ACTIVATION"]
+  readPorts := ["a_ptr","b_ptr"]
+  writePorts := ["c_ptr"]
+
+def leakyRelu : PureJitFunction := triton_function (x) {
+    return tl.where(x >= 0, x, 0.01 * x)
+  }
+
+def leakyReluRhs : PureJitFunction := triton_function (x) {
+    return tl.where(x >= 0, x, x * 0.01)
+  }
+
+def originalBody (a_ptr b_ptr c_ptr : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
+    (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (ACTIVATION : String) : ComputeKernel :=
+  with_triton_call callSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn]
+    pure_functions [leaky_relu := leakyRelu] in triton {
+    """Kernel for computing the matmul C = A x B.
+    A has shape (M, K), B has shape (K, N) and C has shape (M, N)
+    """
+    M = tl.cast(M, tl.int64)
+    N = tl.cast(N, tl.int64)
+    K = tl.cast(K, tl.int64)
+    stride_am = tl.cast(stride_am, tl.int64)
+    stride_ak = tl.cast(stride_ak, tl.int64)
+    stride_bk = tl.cast(stride_bk, tl.int64)
+    stride_bn = tl.cast(stride_bn, tl.int64)
+    stride_cm = tl.cast(stride_cm, tl.int64)
+    stride_cn = tl.cast(stride_cn, tl.int64)
+    pid = tl.program_id(axis=0).to(tl.int64)
+    num_pid_m = (M // BLOCK_SIZE_M + (M % BLOCK_SIZE_M != 0))
+    num_pid_n = (N // BLOCK_SIZE_N + (N % BLOCK_SIZE_N != 0))
+    active_group_m = min(GROUP_SIZE_M, num_pid_m)
+    num_pid_in_group = active_group_m * num_pid_n
+    group_id = pid // num_pid_in_group
+    first_pid_m = group_id * active_group_m
+    group_size_m = min(num_pid_m - first_pid_m, active_group_m)
+    pid_m = first_pid_m + ((pid % num_pid_in_group) % group_size_m)
+    pid_n = (pid % num_pid_in_group) // group_size_m
+
+    offs_am = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M).to(tl.int64)) % M
+    offs_bn = (pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N).to(tl.int64)) % N
+    lanes_k = tl.arange(0, BLOCK_SIZE_K).to(tl.int64)
+    accumulator = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+    k_tiles = K // BLOCK_SIZE_K + (K % BLOCK_SIZE_K != 0)
+    for k in range(0, k_tiles):
+        offs_k = k * BLOCK_SIZE_K + lanes_k
+        safe_k = tl.where(offs_k < K, offs_k, 0)
+        a_ptrs = a_ptr + offs_am[:, None] * stride_am + safe_k[None, :] * stride_ak
+        b_ptrs = b_ptr + safe_k[:, None] * stride_bk + offs_bn[None, :] * stride_bn
+        a = tl.load(a_ptrs, mask=offs_k[None, :] < K, other=0.0)
+        b = tl.load(b_ptrs, mask=offs_k[:, None] < K, other=0.0)
+        accumulator = tl.dot(a, b, accumulator)
+
+    if ACTIVATION == "leaky_relu":
+        accumulator = leaky_relu(accumulator)
+    c = accumulator.to(tl.float16)
+
+    offs_cm = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M).to(tl.int64)
+    offs_cn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N).to(tl.int64)
+    safe_cm = tl.where(offs_cm < M, offs_cm, 0)
+    safe_cn = tl.where(offs_cn < N, offs_cn, 0)
+    c_ptrs = c_ptr + stride_cm * safe_cm[:, None] + stride_cn * safe_cn[None, :]
+    c_mask = (offs_cm[:, None] < M) & (offs_cn[None, :] < N)
+    tl.store(c_ptrs, c, mask=c_mask)
+  }
+
+def candidateBody (a_ptr b_ptr c_ptr : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
+    (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (ACTIVATION : String) : ComputeKernel :=
+  with_triton_call callSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn]
+    pure_functions [leaky_relu := leakyReluRhs] in triton {
+    """Kernel for computing the matmul C = A x B.
+    A has shape (M, K), B has shape (K, N) and C has shape (M, N)
+    """
+    M = tl.cast(M, tl.int64)
+    N = tl.cast(N, tl.int64)
+    K = tl.cast(K, tl.int64)
+    stride_am = tl.cast(stride_am, tl.int64)
+    stride_ak = tl.cast(stride_ak, tl.int64)
+    stride_bk = tl.cast(stride_bk, tl.int64)
+    stride_bn = tl.cast(stride_bn, tl.int64)
+    stride_cm = tl.cast(stride_cm, tl.int64)
+    stride_cn = tl.cast(stride_cn, tl.int64)
+    pid = tl.program_id(axis=0).to(tl.int64)
+    num_pid_m = (M // BLOCK_SIZE_M + (M % BLOCK_SIZE_M != 0))
+    num_pid_n = (N // BLOCK_SIZE_N + (N % BLOCK_SIZE_N != 0))
+    active_group_m = min(GROUP_SIZE_M, num_pid_m)
+    num_pid_in_group = active_group_m * num_pid_n
+    group_id = pid // num_pid_in_group
+    first_pid_m = group_id * active_group_m
+    group_size_m = min(num_pid_m - first_pid_m, active_group_m)
+    pid_m = first_pid_m + ((pid % num_pid_in_group) % group_size_m)
+    pid_n = (pid % num_pid_in_group) // group_size_m
+
+    offs_am = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M).to(tl.int64)) % M
+    offs_bn = (pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N).to(tl.int64)) % N
+    lanes_k = tl.arange(0, BLOCK_SIZE_K).to(tl.int64)
+    accumulator = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+    k_tiles = K // BLOCK_SIZE_K + (K % BLOCK_SIZE_K != 0)
+    for k in range(0, k_tiles):
+        offs_k = k * BLOCK_SIZE_K + lanes_k
+        safe_k = tl.where(offs_k < K, offs_k, 0)
+        a_ptrs = a_ptr + offs_am[:, None] * stride_am + safe_k[None, :] * stride_ak
+        b_ptrs = b_ptr + safe_k[:, None] * stride_bk + offs_bn[None, :] * stride_bn
+        a = tl.load(a_ptrs, mask=offs_k[None, :] < K, other=0.0)
+        b = tl.load(b_ptrs, mask=offs_k[:, None] < K, other=0.0)
+        accumulator = tl.dot(a, b, accumulator)
+
+    if ACTIVATION == "leaky_relu":
+        accumulator = leaky_relu(accumulator)
+    c = accumulator.to(tl.float16)
+
+    offs_cm = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M).to(tl.int64)
+    offs_cn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N).to(tl.int64)
+    safe_cm = tl.where(offs_cm < M, offs_cm, 0)
+    safe_cn = tl.where(offs_cn < N, offs_cn, 0)
+    c_ptrs = c_ptr + stride_cm * safe_cm[:, None] + stride_cn * safe_cn[None, :]
+    c_mask = (offs_cm[:, None] < M) & (offs_cn[None, :] < N)
+    tl.store(c_ptrs, c, mask=c_mask)
+  }
+
+end
+end VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.Pasted
+
+/-! Complete copied repaired source and its right-slope candidate. The caller
+fixes FP32 input storage and FP16 output; all nine int64 casts and the Boolean
+remainder counts remain in the Python body. -/
 namespace VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.TypedSource
 open VeriTile.Triton
-set_option maxHeartbeats 8000000
-set_option maxRecDepth 20000
-
-/-- The shared DSL uses the method spelling of signed integer casts.
-Python candidate uses tl.cast(x,tl.int64) for its nine external scalars.
-On the signed representable Tensor domain, these denote the same local cast;
-this quotation does not assert the original Python method call compiles.
-Selected production profile: raw FP32 inputs, default TF32 dot behavior,
-FP32 supplied accumulator and original activation, then explicit FP16 output.
-There is one autotune configuration and both constexpr activation branches. -/
+noncomputable section
 def kernel (A B C : RegionName)
-    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
-    (ACTIVATION : Bool) : ComputeKernel :=
-  triton {
-    tl.region A = tl.float32, B = tl.float32, C = tl.float16
-    pid = tl.program_id(axis=0).to(tl.int64)
-    num_pid_m = ($(M)).to(tl.int64) // $(128)
-    if $(M) % $(128) != $(0) { num_pid_m += $(1) }
-    num_pid_n = ($(N)).to(tl.int64) // $(256)
-    if $(N) % $(256) != $(0) { num_pid_n += $(1) }
-    active_group_m = min($(8),num_pid_m)
-    num_pid_in_group = active_group_m * num_pid_n
-    group_id = pid // num_pid_in_group
-    first_pid_m = group_id * active_group_m
-    group_size_m = min(num_pid_m - first_pid_m,active_group_m)
-    pid_m = first_pid_m + ((pid % num_pid_in_group) % group_size_m)
-    pid_n = (pid % num_pid_in_group) // group_size_m
-    lanes_m = tl.arange(0,$(128)).to(tl.int64)
-    lanes_n = tl.arange(0,$(256)).to(tl.int64)
-    offs_am = (pid_m * $(128) + lanes_m) % ($(M)).to(tl.int64)
-    offs_bn = (pid_n * $(256) + lanes_n) % ($(N)).to(tl.int64)
-    lanes_k = tl.arange(0,$(64)).to(tl.int64)
-    accumulator = tl.zeros([$(128),$(256)],dtype=tl.float32)
-    k_tiles = ($(K)).to(tl.int64) // $(64)
-    if $(K) % $(64) != $(0) { k_tiles += $(1) }
-    for k in range($(0),k_tiles,$(1)) {
-      offs_k = k.to(tl.int64) * $(64) + lanes_k
-      safe_k = tl.where(offs_k < $(K),offs_k,$((0 : Int)))
-      a_ptrs = A + offs_am[:,None] * ($(stride_am)).to(tl.int64) + safe_k[None,:] * ($(stride_ak)).to(tl.int64)
-      b_ptrs = B + safe_k[:,None] * ($(stride_bk)).to(tl.int64) + offs_bn[None,:] * ($(stride_bn)).to(tl.int64)
-      a = tl.load(a_ptrs,mask=offs_k[None,:] < $(K),other=0.0)
-      b = tl.load(b_ptrs,mask=offs_k[:,None] < $(K),other=0.0)
-      accumulator = tl.dot(a,b,accumulator)
-    }
-    if ACTIVATION {
-      accumulator = tl.where(accumulator >= 0.0,accumulator,0.01 * accumulator)
-    }
-    c = accumulator.to(tl.float16)
-    offs_cm = pid_m * $(128) + lanes_m
-    offs_cn = pid_n * $(256) + lanes_n
-    safe_cm = tl.where(offs_cm < $(M),offs_cm,$((0 : Int)))
-    safe_cn = tl.where(offs_cn < $(N),offs_cn,$((0 : Int)))
-    c_ptrs = C + ($(stride_cm)).to(tl.int64) * safe_cm[:,None] + ($(stride_cn)).to(tl.int64) * safe_cn[None,:]
-    c_mask = (offs_cm[:,None] < $(M)) & (offs_cn[None,:] < $(N))
-    tl.store(c_ptrs,c,mask=c_mask)
-  }
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat) (ACTIVATION : Bool) : ComputeKernel :=
+  Pasted.originalBody A B C M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn 128 256 64 8
+    (if ACTIVATION then "leaky_relu" else "")
 
-/-- Existing activation scale canonicalization, transported to the complete
-selected safe-index source. Only the operand order of FP32 slope multiplication
-changes; the grouped schedule, K64 live dot, casts and masked pointers remain. -/
 def rightSlope (A B C : RegionName)
-    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
-    (ACTIVATION : Bool) : ComputeKernel :=
-  triton {
-    tl.region A = tl.float32, B = tl.float32, C = tl.float16
-    pid = tl.program_id(axis=0).to(tl.int64)
-    num_pid_m = ($(M)).to(tl.int64) // $(128)
-    if $(M) % $(128) != $(0) { num_pid_m += $(1) }
-    num_pid_n = ($(N)).to(tl.int64) // $(256)
-    if $(N) % $(256) != $(0) { num_pid_n += $(1) }
-    active_group_m = min($(8),num_pid_m)
-    num_pid_in_group = active_group_m * num_pid_n
-    group_id = pid // num_pid_in_group
-    first_pid_m = group_id * active_group_m
-    group_size_m = min(num_pid_m - first_pid_m,active_group_m)
-    pid_m = first_pid_m + ((pid % num_pid_in_group) % group_size_m)
-    pid_n = (pid % num_pid_in_group) // group_size_m
-    lanes_m = tl.arange(0,$(128)).to(tl.int64)
-    lanes_n = tl.arange(0,$(256)).to(tl.int64)
-    offs_am = (pid_m * $(128) + lanes_m) % ($(M)).to(tl.int64)
-    offs_bn = (pid_n * $(256) + lanes_n) % ($(N)).to(tl.int64)
-    lanes_k = tl.arange(0,$(64)).to(tl.int64)
-    accumulator = tl.zeros([$(128),$(256)],dtype=tl.float32)
-    k_tiles = ($(K)).to(tl.int64) // $(64)
-    if $(K) % $(64) != $(0) { k_tiles += $(1) }
-    for k in range($(0),k_tiles,$(1)) {
-      offs_k = k.to(tl.int64) * $(64) + lanes_k
-      safe_k = tl.where(offs_k < $(K),offs_k,$((0 : Int)))
-      a_ptrs = A + offs_am[:,None] * ($(stride_am)).to(tl.int64) + safe_k[None,:] * ($(stride_ak)).to(tl.int64)
-      b_ptrs = B + safe_k[:,None] * ($(stride_bk)).to(tl.int64) + offs_bn[None,:] * ($(stride_bn)).to(tl.int64)
-      a = tl.load(a_ptrs,mask=offs_k[None,:] < $(K),other=0.0)
-      b = tl.load(b_ptrs,mask=offs_k[:,None] < $(K),other=0.0)
-      accumulator = tl.dot(a,b,accumulator)
-    }
-    if ACTIVATION {
-      accumulator = tl.where(accumulator >= 0.0,accumulator,accumulator * 0.01)
-    }
-    c = accumulator.to(tl.float16)
-    offs_cm = pid_m * $(128) + lanes_m
-    offs_cn = pid_n * $(256) + lanes_n
-    safe_cm = tl.where(offs_cm < $(M),offs_cm,$((0 : Int)))
-    safe_cn = tl.where(offs_cn < $(N),offs_cn,$((0 : Int)))
-    c_ptrs = C + ($(stride_cm)).to(tl.int64) * safe_cm[:,None] + ($(stride_cn)).to(tl.int64) * safe_cn[None,:]
-    c_mask = (offs_cm[:,None] < $(M)) & (offs_cn[None,:] < $(N))
-    tl.store(c_ptrs,c,mask=c_mask)
-  }
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat) (ACTIVATION : Bool) : ComputeKernel :=
+  Pasted.candidateBody A B C M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn 128 256 64 8
+    (if ACTIVATION then "leaky_relu" else "")
 
 def configuration : Nat × Nat × Nat × Nat × Nat × Nat := (128,256,64,8,2,8)
 def activationEnabled (activation : String) : Bool := activation == "leaky_relu"
+end
 end VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.TypedSource

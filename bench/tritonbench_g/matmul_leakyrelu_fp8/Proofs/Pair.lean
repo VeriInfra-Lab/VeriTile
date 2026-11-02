@@ -13,8 +13,8 @@ variable {α : Type} [Inhabited α]
 
 
 /-- Proof-only decomposition of two already complete ordinary quotations. -/
-def commonPrefix (p : Problem) (b : Buffers) := (source p b).surfaceBody.take 21
-def suffix (p : Problem) (b : Buffers) := (candidate p b).surfaceBody.drop 21
+def commonPrefix (p : Problem) (b : Buffers) := (source p b).surfaceBody.take 25
+def suffix (p : Problem) (b : Buffers) := (candidate p b).surfaceBody.drop 25
 
 theorem original_decomposition (p : Problem) (b : Buffers) :
     (source p b).surfaceBody = commonPrefix p b ++ epilogue p b := rfl
@@ -28,13 +28,13 @@ def MulCommutes (M : Algebra α) : Prop := ∀ x y,
   M.binary (some .fp32) .real .mul x y = M.binary (some .fp32) .real .mul y x
 
 theorem mul_eval_equal (M : Algebra α) (D : DotAcc α) (h : MulCommutes M)
-    (s : State α) :
+    (s : State α) (name : String) :
     evalOp (backend M D) (some .fp32)
-      (.mul .real .scalarL (.const 0.01) (.ref .real [128,256] "accumulator")) s =
+      (.mul .real .scalarL (.const 0.01) (.ref .real [128,256] name)) s =
     evalOp (backend M D) (some .fp32)
-      (.mul .real .scalarR (.ref .real [128,256] "accumulator") (.const 0.01)) s := by
+      (.mul .real .scalarR (.ref .real [128,256] name) (.const 0.01)) s := by
   simp only [evalOp_unfold]
-  cases ha : s.regs .real [128,256] "accumulator" with
+  cases ha : s.regs .real [128,256] name with
   | none => rfl
   | some a =>
     try simp only [ha,Option.bind_some]
@@ -47,27 +47,27 @@ theorem mul_eval_equal (M : Algebra α) (D : DotAcc α) (h : MulCommutes M)
 theorem epilogue_equal (M : Algebra α) (D : DotAcc α) (h : MulCommutes M)
     (p : Problem) (b : Buffers) (s : State α) :
     run (backend M D) (epilogue p b) s = run (backend M D) (suffix p b) s := by
-  have hm := mul_eval_equal M D h s
   simp only [epilogue,suffix,source,candidate,TypedSource.kernel,TypedSource.rightSlope,
-    ComputeKernel.surfaceBody,List.drop]
-  simp only [run,step,evalExpr,evalComputeOp,evalOp_unfold]
-  simp only [evalOp_unfold] at hm
-  erw [hm]
-  rfl
+    Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,List.drop]
+  simp only [run,step,evalExpr,evalComputeOp,evalOp_unfold,
+    numeric,backend,bop,Broadcast.leftIndex,Broadcast.rightIndex]
+  simp only [MulCommutes] at h
+  cases ha : s.regs .real [128,256] "accumulator" <;>
+    cases he : p.enabled <;> simp [ha,he,h,ComputeDType.eraseDType,bop,Broadcast.leftIndex,Broadcast.rightIndex]
 
 theorem epilogue_safety_equal (M : Algebra α) (D : DotAcc α) (h : MulCommutes M)
     (p : Problem) (b : Buffers) (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList (backend M D) bounds (epilogue p b) s ↔
       Safety.traceSafeList (backend M D) bounds (suffix p b) s := by
-  have hm := mul_eval_equal M D h s
   simp only [epilogue,suffix,source,candidate,TypedSource.kernel,TypedSource.rightSlope,
-    ComputeKernel.surfaceBody,List.drop]
+    Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,List.drop]
   simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,
-    run,step,evalExpr,evalComputeOp,evalOp_unfold]
-  simp only [evalOp_unfold] at hm
-  erw [hm]
-  rfl
+    run,step,evalExpr,evalComputeOp,evalOp_unfold,
+    numeric,backend,bop,Broadcast.leftIndex,Broadcast.rightIndex]
+  simp only [MulCommutes] at h
+  cases ha : s.regs .real [128,256] "accumulator" <;>
+    cases he : p.enabled <;> simp [ha,he,h,ComputeDType.eraseDType,bop,Broadcast.leftIndex,Broadcast.rightIndex]
 
 /-- Complete kernel execution, including every K iteration and both branches. -/
 theorem kernel_equal (M : Algebra α) (D : DotAcc α) (h : MulCommutes M)

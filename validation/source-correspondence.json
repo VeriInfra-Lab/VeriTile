@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 117,
-      "uncovered_jit_functions": 66
+      "selected_body_copy_checked": 118,
+      "uncovered_jit_functions": 65
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 146,
+    "uncovered_selected_jit_functions": 144,
     "inventoried_jit_functions": 529,
-    "uncovered_inventoried_jit_functions": 197,
+    "uncovered_inventoried_jit_functions": 193,
     "checked_pair_modes": {
-      "pasted_body": 332
+      "pasted_body": 336
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 117,
-        "uncovered_jit_functions": 66
+        "selected_body_copy_checked": 118,
+        "uncovered_jit_functions": 65
       }
     },
     "primary_files_with_int64_screen_warning": 15,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 40,
-        "antiquotes": 381,
+        "in_body_type_directives": 39,
+        "antiquotes": 380,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -27482,9 +27482,9 @@
       "lean": "bench/tritonbench_g/matmul_leakyrelu_fp8/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 98,
-        "dsl_assignment": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 33,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -27722,40 +27722,98 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "leaky_relu",
+          "lean_definition": "leakyRelu",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "pure_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/matmul_leakyrelu_fp8/Kernels.lean"
         },
         {
+          "python_function": "leaky_relu",
+          "lean_definition": "leakyReluRhs",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "pure_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8_right_slope.py",
+          "lean": "bench/tritonbench_g/matmul_leakyrelu_fp8/Kernels.lean"
+        },
+        {
+          "python_function": "matmul_kernel",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 35,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "ACTIVATION",
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
           "python": "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8.py",
-          "function": "leaky_relu"
+          "lean": "bench/tritonbench_g/matmul_leakyrelu_fp8/Kernels.lean"
         },
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 35,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "ACTIVATION",
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M"
+          ],
           "python": "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8_right_slope.py",
-          "function": "matmul_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8_right_slope.py",
-          "function": "leaky_relu"
+          "lean": "bench/tritonbench_g/matmul_leakyrelu_fp8/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8.py",
-          "function": "matmul_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8.py",
-          "function": "leaky_relu"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/matmul_leakyrelu_fp8/Kernels.lean": "7d41a67f091685ec9a70e83d1ccbc5497c540d108f7ef1d928249920b28ae4fd",
+        "bench/tritonbench_g/matmul_leakyrelu_fp8/Kernels.lean": "22046d01efd77d48387c6dca64e597bb7b9b615b0631ae5357ca2dfece5fe86c",
+        "bench/tritonbench_g/matmul_leakyrelu_fp8/jit-correspondence.json": "2adbfabec2f91237218e02a98fa24c72e823538bd29d372186ad1ba6f4085471",
         "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8.py": "185ae6684de33dfff4c28b33c11f824338e585f3a283712bf4f32f2d76829457",
         "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8_right_slope.py": "e7e9da186bdd6d0725ebf99070a69c5894f6dcc0beecaf35a0bf1ae29f84c3c1"
       },
