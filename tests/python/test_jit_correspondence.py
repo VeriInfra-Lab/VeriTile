@@ -2372,3 +2372,47 @@ class RwkvBodyCorrespondenceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.verify(self.source.replace('(i_bh + i_k * B * H) * (T * V)',
                                             '(i_bh + i_k * B * H) * s_v_h', 1))
+
+class RecurrentRetentionBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/fused_recurrent_retention'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.python = (self.directory / 'fused_recurrent_retention.py').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, index, source):
+        r = self.records[index]
+        return check(self.python, source, r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'])
+
+    def test_all_four_complete_forward_backward_bodies(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [14, 23, 14, 23])
+
+    def test_python_do_pointer_and_all_runtime_strides_are_preserved(self):
+        for old, new in [('p_do = do +', 'p_do = q +'),
+                         ('s_do_t := s_do_t', 's_do_t := s_vo_t'),
+                         ('s_df_k := s_df_k', 's_df_k := s_df_v')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(1, self.source.replace(old, new))
+
+    def test_reverse_counted_loop_and_barrier_cannot_be_changed(self):
+        for old, new in [('for _ in range(T):', 'for _ in range(0, T):'),
+                         ('tl.debug_barrier()', 'tl.debug_barrier(0)'),
+                         ('d_h *= b_b', 'd_h += b_b')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(1, self.source.replace(old, new))
+
+    def test_forward_seed_and_final_state_and_tuple_axes_are_exact(self):
+        for old, new in [('if USE_INITIAL_STATE:', 'if False:'),
+                         ('if STORE_FINAL_STATE:', 'if False:'),
+                         ('tl.program_id(0), tl.program_id(1)', 'tl.program_id(1), tl.program_id(0)')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(0, self.source.replace(old, new))
+
+    def test_reverse_output_cast_and_scalar_abi_are_exact(self):
+        for old, new in [('d_v.to(p_dv.dtype.element_ty)', 'd_v'),
+                         ('("scale",.fp32)', '("scale",.fp64)')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(1, self.source.replace(old, new))

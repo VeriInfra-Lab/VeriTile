@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 32,
-  "staged_count": 139,
+  "staged_count": 140,
   "pending_count": 164,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 4296,
+    "staged_and_regression_retained_modules": 4377,
     "official_comparator": "32 current targets and separately listed regression cases have accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure has been verified. Compilation alone never counts as completion.",
-    "python_tests": 489,
+    "python_tests": 494,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "145 selected cases (139 targets and 6 regressions), all 4296 retained/supporting modules, 13016 Lake jobs and 361 fully-qualified public theorem names pass locally. RWKV retains both complete 16-statement raw Python bodies, conditional pointer updates, actual typed reads/casts, optional state and reverse/empty traversal. Independent Real recurrence, complete FP pair, safety, outputs/frame and native obligations re-proved. Nine frontend semantic regression theorems and seven rejected-source checks pass. Thirty-two targets have current exact-source independent acceptance. Other staged targets remain pending official replay. No new numerical assumption or public premise.",
-    "official_replay_sources": 3299,
+    "working_tree": "146 selected cases (140 targets and 6 regressions), all 4377 retained/supporting modules, 13097 Lake jobs and 364 fully-qualified public theorem names pass locally. Recurrent retention retains all four complete forward/backward Python bodies (14/23 statements), the do identifier, tuple axes, both backward loops, actual typed reads/casts, barriers and optional state/cotangent paths. Independent Real formulas, full compare-right FP grids, execution, outputs/frame and safety re-proved. All 494 Python tests pass. Thirty-two targets have current exact-source independent acceptance; other staged targets remain pending official replay. No new numerical assumption or public premise.",
+    "official_replay_sources": 3380,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -54,17 +54,15 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/fused_rwkv6_kernel",
+      "case": "bench/tritonbench_g/fused_recurrent_retention",
       "case_paths": [
-        "bench/tritonbench_g/fused_rwkv6_kernel"
+        "bench/tritonbench_g/fused_recurrent_retention"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 47,
-      "replay_sources": 47,
-      "state": "official_workflow_queued",
-      "source_commit": "835b6ea4934140438f167a149939fac28b06be2a",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41439535277"
+      "retained_modules": 82,
+      "replay_sources": 82,
+      "state": "local_pass_preparing_independent_replay"
     },
     "previous_incremental_replays": [
       {
@@ -618,6 +616,19 @@
         "state": "official_workflow_queued",
         "source_commit": "3285fb9088b0f7e1c963650484eaa1f87286ef3c",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41433584488"
+      },
+      {
+        "case": "bench/tritonbench_g/fused_rwkv6_kernel",
+        "case_paths": [
+          "bench/tritonbench_g/fused_rwkv6_kernel"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 47,
+        "replay_sources": 47,
+        "state": "official_workflow_queued",
+        "source_commit": "835b6ea4934140438f167a149939fac28b06be2a",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41439535277"
       }
     ],
     "pending_client_regressions": {
@@ -633,7 +644,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 57 TritonBench-G source/proof migrations and collect exact-source independent receipts for staged cases. Keep numerical admission gaps explicit. No merge.",
+    "current_work": "Continue the remaining 56 TritonBench-G source/proof migrations and collect exact-source official independent receipts for staged cases. Keep numerical admission gaps explicit. No merge.",
     "previous_validated_source_commit": "3285fb9088b0f7e1c963650484eaa1f87286ef3c",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -657,15 +668,14 @@
     },
     "validated_source_commit": "835b6ea4934140438f167a149939fac28b06be2a",
     "last_full_local_snapshot": {
-      "cases": 145,
-      "targets": 139,
-      "retained_modules": 4296,
-      "replay_sources": 3299,
-      "lake_jobs": 13016,
+      "cases": 146,
+      "targets": 140,
+      "retained_modules": 4377,
+      "replay_sources": 3380,
+      "lake_jobs": 13097,
       "public_theorem_names": "PASS",
-      "python_tests": 489,
-      "boundary": "Local checks only. Not an independent replay completion receipt.",
-      "source_commit": "835b6ea4934140438f167a149939fac28b06be2a"
+      "python_tests": 494,
+      "boundary": "Local checks only. Not an independent replay completion receipt."
     },
     "previous_shared_model_revalidations": [
       {
@@ -1518,8 +1528,12 @@
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_retention",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "All four unchanged complete repaired/candidate forward/backward Python bodies (14/23 statements) match readable Lean quotations, with original do identifiers, tuple axes, scalar/stride bindings, casts, barrier, optional state/cotangent paths and both backward loops. Independent forward/backward Real formulas, all actual execution states including typed load temporaries, output/raw frames, access safety and complete compare-right FP grids re-proved. The actual range(T) counted loop is connected by existing universal execution/safety equalities. All 81 retained task modules and the required shared loop helper pass locally. Official exact-current-source independent replay remains required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/fused_rotary_embedding",
