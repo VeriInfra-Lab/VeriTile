@@ -4,9 +4,9 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 116,
+  "completed_count": 132,
   "staged_count": 144,
-  "pending_count": 80,
+  "pending_count": 64,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
@@ -921,6 +921,7 @@
       "validation/body_receipts/conv-source-migration.json",
       "validation/body_receipts/fp8-matmul-source-migration.json",
       "validation/body_receipts/full-recovery-shard-0.json",
+      "validation/body_receipts/full-recovery-shard-1.json",
       "validation/body_receipts/full-recovery-shard-11.json",
       "validation/body_receipts/full-recovery-shard-12.json",
       "validation/body_receipts/full-recovery-shard-13.json",
@@ -933,7 +934,9 @@
       "validation/body_receipts/full-recovery-shard-20.json",
       "validation/body_receipts/full-recovery-shard-21.json",
       "validation/body_receipts/full-recovery-shard-22.json",
+      "validation/body_receipts/full-recovery-shard-23.json",
       "validation/body_receipts/full-recovery-shard-3.json",
+      "validation/body_receipts/full-recovery-shard-4.json",
       "validation/body_receipts/full-recovery-shard-5.json",
       "validation/body_receipts/full-recovery-shard-6.json",
       "validation/body_receipts/full-recovery-shard-7.json",
@@ -1002,8 +1005,10 @@
       "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "accepted_completed_shards": [
         0,
+        1,
         2,
         3,
+        4,
         5,
         6,
         8,
@@ -1018,7 +1023,8 @@
         19,
         20,
         21,
-        22
+        22,
+        23
       ],
       "partially_current_shards": [
         7
@@ -1259,15 +1265,17 @@
     },
     {
       "path": "bench/tritonbench_g/cache_transform_triton",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/stage9-shard2.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-23.json"
     },
     {
       "path": "bench/tritonbench_g/chunk_bwd_dqkg",
@@ -1290,15 +1298,17 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_cumsum_vector",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/stage9-shard0.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-1.json"
     },
     {
       "path": "bench/tritonbench_g/chunk_delta_fwd",
@@ -1353,15 +1363,17 @@
     },
     {
       "path": "bench/tritonbench_g/chunked_cumsum_fwd",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/chunked_cumsum_fwd.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-4.json"
     },
     {
       "path": "bench/tritonbench_g/context_attn_bloom",
@@ -1418,15 +1430,17 @@
     },
     {
       "path": "bench/tritonbench_g/cross_entropy2",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/cross_entropy2.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-23.json"
     },
     {
       "path": "bench/tritonbench_g/cross_entropy_ops",
@@ -1565,15 +1579,17 @@
     },
     {
       "path": "bench/tritonbench_g/fast_layernorm",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/fast_layernorm.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-1.json"
     },
     {
       "path": "bench/tritonbench_g/fast_rms_layernorm",
@@ -1825,15 +1841,17 @@
     },
     {
       "path": "bench/tritonbench_g/isfinite_kernel",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/isfinite_kernel.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-4.json"
     },
     {
       "path": "bench/tritonbench_g/iv_dependent_matmul",
@@ -1842,15 +1860,17 @@
     },
     {
       "path": "bench/tritonbench_g/kcache_copy_triton",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/stage9-shard2.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-23.json"
     },
     {
       "path": "bench/tritonbench_g/kldiv_compute",
@@ -1886,8 +1906,8 @@
     },
     {
       "path": "bench/tritonbench_g/kldiv_triton",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
@@ -1895,7 +1915,9 @@
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/swiglu_triton.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-1.json"
     },
     {
       "path": "bench/tritonbench_g/ksoftmax_triton",
@@ -1962,8 +1984,8 @@
     },
     {
       "path": "bench/tritonbench_g/l2_norm_triton2",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
@@ -1971,7 +1993,9 @@
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/swiglu_triton.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-4.json"
     },
     {
       "path": "bench/tritonbench_g/layer_norm_fwd",
@@ -2355,15 +2379,17 @@
     },
     {
       "path": "bench/tritonbench_g/quantize_global",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/stage9-shard4.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-23.json"
     },
     {
       "path": "bench/tritonbench_g/quantize_kv_copy",
@@ -2381,15 +2407,17 @@
     },
     {
       "path": "bench/tritonbench_g/quantize_kv_transform",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/matrix_reduction.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-1.json"
     },
     {
       "path": "bench/tritonbench_g/rbe_triton_transform",
@@ -2438,15 +2466,17 @@
     },
     {
       "path": "bench/tritonbench_g/reversed_cumsum_scalar",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/reversed_cumsum_scalar.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-4.json"
     },
     {
       "path": "bench/tritonbench_g/rms_matmul_rbe",
@@ -2856,15 +2886,17 @@
     },
     {
       "path": "bench/tritonbench_g/token_softmax_bloom",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/token_softmax.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-23.json"
     },
     {
       "path": "bench/tritonbench_g/token_softmax_llama",
@@ -2969,15 +3001,17 @@
     },
     {
       "path": "bench/tritonbench_g/var_len_copy",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/stage9-shard0.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-4.json"
     },
     {
       "path": "bench/tritonbench_g/vector_addition",
@@ -3024,15 +3058,17 @@
     },
     {
       "path": "bench/examples/FlatVectorAdd",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/stage9-shard4.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-1.json"
     },
     {
       "path": "bench/examples/FloatDTypeAdd",
@@ -3064,15 +3100,17 @@
     },
     {
       "path": "bench/examples/FusedLayerNorm",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/stage9-shard0.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-4.json"
     },
     {
       "path": "bench/examples/FusedSiLU",
