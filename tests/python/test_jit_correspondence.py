@@ -2987,3 +2987,48 @@ class AttentionScoreBodyCorrespondenceTests(unittest.TestCase):
         provenance = json.loads((self.directory / 'candidate-provenance.json').read_text())
         self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance['original_sha256'])
         self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])
+
+
+class FlashAttentionBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/flash_attn'
+        self.python = (self.directory / 'flash_attn.py').read_text()
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, lean):
+        r = self.records[0]
+        return check(self.python, lean, r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'])
+
+    def test_both_complete_existing_sources(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([row['statements'] for row in rows], [27, 27])
+        self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
+
+    def test_tail_causal_bound_casts_log_output_and_advances_are_retained(self):
+        for before, after in [
+                ('tl.minimum((start_m + 1) * BLOCK_M, SEQLEN)', '(start_m + 1) * BLOCK_M'),
+                ('start_n + off_n[None, :] < SEQLEN', 'start_n + off_n[None, :] <= SEQLEN'),
+                ('q.to(tl.float32)', 'q'),
+                ('nume.to(tl.float16).to(tl.float32)', 'nume.to(tl.float32)'),
+                ('max + tl.math.log2(denom)', 'tl.math.log2(denom)'),
+                ('tl.advance(V_block_ptr, (BLOCK_N, 0))', 'tl.advance(V_block_ptr, (0, BLOCK_N))'),
+                ('out_buffer.to(tl.float16).to(tl.float32)', 'out_buffer.to(tl.float32)')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                self.verify(self.lean.replace(before, after, 1))
+
+    def test_existing_candidate_only_commutes_four_head_products(self):
+        functions = {n.name: n for n in ast.parse(self.python).body if isinstance(n, ast.FunctionDef)}
+        a, b = functions['_fwd_kernel'], functions['_fwd_kernel_index_commuted']
+        self.assertEqual(ast.dump(a.args), ast.dump(b.args))
+        differences = [(x, y) for x, y in zip(a.body, b.body) if ast.dump(x) != ast.dump(y)]
+        self.assertEqual(len(differences), 4)
+        self.assertEqual([x.targets[0].id for x, _ in differences],
+                         ['q_base_offset', 'k_base_offset', 'v_base_offset', 'o_base_offset'])
+        for x, y in differences:
+            self.assertIsInstance(x.value.right.op, ast.Mult)
+            y.value.right.left, y.value.right.right = y.value.right.right, y.value.right.left
+            self.assertEqual(ast.dump(x), ast.dump(y))

@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 148,
-  "staged_count": 150,
+  "staged_count": 151,
   "pending_count": 48,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 4915,
-    "official_comparator": "148 current targets retain accepted exact-dependency official receipts. Official ZIP digests, required proof roots, public theorem coverage and exact current source/import closures have been audited. Two additional locally verified targets (FP4-to-BF16 and attention_score) await current independent replay; compilation never counts as completion.",
-    "python_tests": 537,
+    "staged_and_regression_retained_modules": 4977,
+    "official_comparator": "148 current targets retain accepted exact-dependency official receipts. Official ZIP digests, required proof roots, public theorem coverage and exact current source/import closures have been audited. Three additional locally verified targets (FP4-to-BF16, attention_score and flash_attn) await current independent replay; compilation never counts as completion.",
+    "python_tests": 540,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "156 cases (150 targets and 6 regressions), all 4915 retained/supporting modules, 13626 Lake jobs, 386 public theorem names, 537 Python tests and body-corpus checks pass. Attention score now copies both complete 21-statement functions in Kernels.lean. All source casts, signed windows, boundary checks, named pointer advance, actual FP32 scalar invocation, native instruction graph, complete independent Real output, source safety, full grids and frames are reverified. All 73 owned and two shared frontend/test roots and exact-source trust/inventory preflights pass. Independent completion count remains 148, including all 19 examples.",
-    "official_replay_sources": 3918,
+    "working_tree": "157 cases (151 targets and 6 regressions), all 4977 retained/supporting modules, 13688 Lake jobs, 388 public theorem names, 540 Python tests and body-corpus checks pass. Flash attention now copies both complete 27-statement sources, with only invocation metadata outside the bodies. Independent complete Real attention/log-mass, actual integer-address FP candidate, all-word native scale binding, source safety, layouts, complete grids, both outputs and frames are reverified. All 62 owned and four shared frontend/test modules and exact-source trust/inventory preflights pass. Independent completion count remains 148, including all 19 examples.",
+    "official_replay_sources": 3980,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -79,18 +79,15 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/attention_score",
+      "case": "bench/tritonbench_g/flash_attn",
       "case_paths": [
-        "bench/tritonbench_g/attention_score"
+        "bench/tritonbench_g/flash_attn"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 75,
-      "replay_sources": 75,
-      "state": "official_replay_running",
-      "source_commit": "72ec347b6ddda442215140ff6a202776d90f17c2",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41533126901",
-      "started_at": "2026-11-02T21:58:16Z"
+      "retained_modules": 66,
+      "replay_sources": 66,
+      "state": "ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -807,6 +804,20 @@
         "source_commit": "c1d8b9aa54c27762f0af3a5204b332803afb4e76",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41529278438",
         "started_at": "2026-11-02T21:32:33Z"
+      },
+      {
+        "case": "bench/tritonbench_g/attention_score",
+        "case_paths": [
+          "bench/tritonbench_g/attention_score"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 75,
+        "replay_sources": 75,
+        "state": "official_replay_running",
+        "source_commit": "72ec347b6ddda442215140ff6a202776d90f17c2",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41533126901",
+        "started_at": "2026-11-02T21:58:16Z"
       }
     ],
     "pending_client_regressions": {
@@ -822,7 +833,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 46 TritonBench-G source/proof migrations, next flash_attn. Collect exact-current independent receipts for FP4-to-BF16 and attention_score. All 19 examples are accepted. No merge.",
+    "current_work": "Continue the remaining 45 TritonBench-G source/proof migrations, next block_sparse_attn. Collect exact-current independent receipts for FP4-to-BF16, attention_score and flash_attn. All 19 examples are accepted. No merge.",
     "previous_validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1291,6 +1302,21 @@
       "public_theorem_names": 386,
       "boundary": "Local source/proof/axiom/specification checks, not an independent completion receipt.",
       "source_commit": "72ec347b6ddda442215140ff6a202776d90f17c2"
+    },
+    "flash_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "body_statements": [
+        27,
+        27
+      ],
+      "owned_modules": 62,
+      "shared_frontend_test_modules": 4,
+      "python_tests": 540,
+      "full_cases": 157,
+      "full_build_modules": 4977,
+      "full_lake_jobs": 13688,
+      "public_theorem_names": 388,
+      "boundary": "Local source/proof/axiom/specification checks, not an independent completion receipt."
     }
   },
   "targets": [
@@ -1887,8 +1913,12 @@
     },
     {
       "path": "bench/tritonbench_g/flash_attn",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Both complete existing 27-statement Python functions are pasted literally in Kernels.lean. The original AST was checked equal to the prior complete source during migration. Pointer storage, runtime scalar register metadata and integer/constexpr bindings stay outside the bodies; the existing IO still supplies the actual all-word FP32 scale binding. Preserved causal and global tail masks, all block-pointer checks, two ordered dot expressions and additions, FP16/FP32 casts, online max/mass state, denominator/log output, full strides and pointer advances. The existing candidate changes only four natural head/stride multiplication operand orders. All complete independent Real attention and log-mass formulas, execution, active source safety, full native and layout bindings, complete grids, both outputs/readbacks and complete frames pass without new rules, premises or input restrictions. All 62 owned and four shared frontend/test modules, exact-source trust/inventory preflights, 157-case integration, 388 public names, 540 Python tests and body-corpus checks pass. Fresh exact-current independent replay is still required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/flash_decode2_llama",

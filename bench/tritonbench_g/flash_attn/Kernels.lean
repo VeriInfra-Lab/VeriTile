@@ -1,4 +1,4 @@
-import VeriTile.Triton.DSL
+import VeriTile.Triton.DSL.PythonOptionalConditionals
 import VeriTile.Triton.Source
 import VeriTile.Triton.Float.Control
 import VeriTile.Meta.StatementAudit
@@ -8,6 +8,7 @@ open VeriTile.Triton
 noncomputable section
 set_option maxRecDepth 30000
 set_option maxHeartbeats 8000000
+set_option linter.unusedVariables false
 
 structure Parameters where
   (stride_q_bs stride_q_head stride_q_seqlen stride_q_dim : Nat)
@@ -17,143 +18,190 @@ structure Parameters where
   (BS HEAD SEQLEN DIM : Nat)
   IS_CAUSAL : Bool
 
-/-! Complete repaired FP32 attention source. The incoming scalar is metadata,
-not an executed placeholder. The retained candidate commutes the exact natural
-head/stride products; every floating expression and all four strides are retained. -/
-def kernel (p : Parameters) : ComputeKernel :=
-  let Q : RegionName := "Q"
-  let K : RegionName := "K"
-  let V : RegionName := "V"
-  let L : RegionName := "L"
-  let O : RegionName := "O"
-  let IS_CAUSAL := p.IS_CAUSAL
-  triton {
-  tl.ports inputs=["Q","K","V"], outputs=["L","O"]
-  tl.region Q = tl.float32, K = tl.float32, V = tl.float32, L = tl.float32, O = tl.float32
-  tl.param sm_scale : tl.float32
-  start_m = tl.program_id(0)
-  off_bs_head = tl.program_id(1)
-  off_bs = off_bs_head // $((p.HEAD : Nat))
-  off_head = off_bs_head % $((p.HEAD : Nat))
-  q_base_offset = off_bs * $((p.stride_q_bs : Nat)) + off_head * $((p.stride_q_head : Nat))
-  k_base_offset = off_bs * $((p.stride_k_bs : Nat)) + off_head * $((p.stride_k_head : Nat))
-  v_base_offset = off_bs * $((p.stride_v_bs : Nat)) + off_head * $((p.stride_v_head : Nat))
-  o_base_offset = off_bs * $((p.stride_o_bs : Nat)) + off_head * $((p.stride_o_head : Nat))
-  Q_block_ptr = tl.make_block_ptr(base=Q + q_base_offset,
-    shape=($((p.SEQLEN : Nat)), $((p.DIM : Nat))), strides=($((p.stride_q_seqlen : Nat)), $((p.stride_q_dim : Nat))),
-    offsets=(start_m * $(128), 0), block_shape=(128, $((p.DIM : Nat))), order=(1, 0))
-  K_block_ptr = tl.make_block_ptr(base=K + k_base_offset,
-    shape=($((p.DIM : Nat)), $((p.SEQLEN : Nat))), strides=($((p.stride_k_dim : Nat)), $((p.stride_k_seqlen : Nat))),
-    offsets=(0, 0), block_shape=($((p.DIM : Nat)), 64), order=(0, 1))
-  V_block_ptr = tl.make_block_ptr(base=V + v_base_offset,
-    shape=($((p.SEQLEN : Nat)), $((p.DIM : Nat))), strides=($((p.stride_v_seqlen : Nat)), $((p.stride_v_dim : Nat))),
-    offsets=(0, 0), block_shape=(64, $((p.DIM : Nat))), order=(1, 0))
-  off_m = start_m * $(128) + tl.arange(0, 128)
-  off_n = tl.arange(0, 64)
-  max = tl.zeros([128], dtype=tl.float32) - float("inf")
-  denom = tl.zeros([128], dtype=tl.float32)
-  out_buffer = tl.zeros([128, $((p.DIM : Nat))], dtype=tl.float32)
-  qk_scale = sm_scale * 1.44269504
-  q = tl.load(Q_block_ptr, boundary_check=([0] : List Nat), padding_option="zero")
-  q = (q * qk_scale).to(tl.float16)
-  lo = 0
-  hi = (tl.minimum((start_m + $(1)) * $(128), $((p.SEQLEN : Nat))) if IS_CAUSAL else $((p.SEQLEN : Nat)))
-  for start_n in range(lo, hi, 64) {
-    k = tl.load(K_block_ptr, boundary_check=([1] : List Nat), padding_option="zero")
-    v = tl.load(V_block_ptr, boundary_check=([0] : List Nat), padding_option="zero")
-    qk = tl.zeros([128, 64], dtype=tl.float32)
-    if IS_CAUSAL {
-      qk = tl.where(off_m[:, None] >= (start_n + off_n[None, :]), qk, float("-inf"))
-    }
-    qk = tl.where(start_n + off_n[None, :] < $((p.SEQLEN : Nat)), qk, float("-inf"))
-    qk += tl.dot(q.to(tl.float32), k)
-    max_new = tl.maximum(max, tl.max(qk, 1))
-    alpha = tl.math.exp2(max - max_new)
-    nume = tl.math.exp2(qk - max_new[:, None])
-    out_scale = denom * 0 + alpha
-    out_buffer *= out_scale[:, None]
-    out_buffer += tl.dot(nume.to(tl.float16).to(tl.float32), v)
-    denom = denom * alpha + tl.sum(nume, 1)
-    max = max_new
-    K_block_ptr = tl.advance(K_block_ptr, (0, 64))
-    V_block_ptr = tl.advance(V_block_ptr, (64, 0))
-  }
-  out_buffer = out_buffer / denom[:, None]
-  l_ptr = L + off_bs_head * $((p.SEQLEN : Nat)) + off_m
-  tl.store(l_ptr, max + tl.math.log2(denom), mask=off_m < $((p.SEQLEN : Nat)))
-  O_block_ptr = tl.make_block_ptr(base=O + o_base_offset,
-    shape=($((p.SEQLEN : Nat)), $((p.DIM : Nat))), strides=($((p.stride_o_seqlen : Nat)), $((p.stride_o_dim : Nat))),
-    offsets=(start_m * $(128), 0), block_shape=(128, $((p.DIM : Nat))), order=(1, 0))
-  tl.store(O_block_ptr, out_buffer.to(tl.float16).to(tl.float32), boundary_check=([0] : List Nat))
-}
+def callSignature : CallSignature where
+  pointers := [("Q",.fp32),("K",.fp32),("V",.fp32),("L",.fp32),("O",.fp32)]
+  scalars := [("stride_q_bs",.integer),("stride_q_head",.integer),("stride_q_seqlen",.integer),("stride_q_dim",.integer),("stride_k_bs",.integer),("stride_k_head",.integer),("stride_k_seqlen",.integer),("stride_k_dim",.integer),("stride_v_bs",.integer),("stride_v_head",.integer),("stride_v_seqlen",.integer),("stride_v_dim",.integer),("stride_o_bs",.integer),("stride_o_head",.integer),("stride_o_seqlen",.integer),("stride_o_dim",.integer),("BS",.integer),("HEAD",.integer),("SEQLEN",.integer),("sm_scale",.fp32)]
+  constexpr := ["BLOCK_M","DIM","BLOCK_N","IS_CAUSAL"]
+  readPorts := ["Q","K","V"]
+  writePorts := ["L","O"]
 
-/-- Existing integer head-offset normalization, lifted to the repaired independent strides. -/
-def indexCommuted (p : Parameters) : ComputeKernel :=
-  let Q : RegionName := "Q"
-  let K : RegionName := "K"
-  let V : RegionName := "V"
-  let L : RegionName := "L"
-  let O : RegionName := "O"
-  let IS_CAUSAL := p.IS_CAUSAL
-  triton {
-  tl.ports inputs=["Q","K","V"], outputs=["L","O"]
-  tl.region Q = tl.float32, K = tl.float32, V = tl.float32, L = tl.float32, O = tl.float32
-  tl.param sm_scale : tl.float32
-  start_m = tl.program_id(0)
-  off_bs_head = tl.program_id(1)
-  off_bs = off_bs_head // $((p.HEAD : Nat))
-  off_head = off_bs_head % $((p.HEAD : Nat))
-  q_base_offset = off_bs * $((p.stride_q_bs : Nat)) + $((p.stride_q_head : Nat)) * off_head
-  k_base_offset = off_bs * $((p.stride_k_bs : Nat)) + $((p.stride_k_head : Nat)) * off_head
-  v_base_offset = off_bs * $((p.stride_v_bs : Nat)) + $((p.stride_v_head : Nat)) * off_head
-  o_base_offset = off_bs * $((p.stride_o_bs : Nat)) + $((p.stride_o_head : Nat)) * off_head
-  Q_block_ptr = tl.make_block_ptr(base=Q + q_base_offset,
-    shape=($((p.SEQLEN : Nat)), $((p.DIM : Nat))), strides=($((p.stride_q_seqlen : Nat)), $((p.stride_q_dim : Nat))),
-    offsets=(start_m * $(128), 0), block_shape=(128, $((p.DIM : Nat))), order=(1, 0))
-  K_block_ptr = tl.make_block_ptr(base=K + k_base_offset,
-    shape=($((p.DIM : Nat)), $((p.SEQLEN : Nat))), strides=($((p.stride_k_dim : Nat)), $((p.stride_k_seqlen : Nat))),
-    offsets=(0, 0), block_shape=($((p.DIM : Nat)), 64), order=(0, 1))
-  V_block_ptr = tl.make_block_ptr(base=V + v_base_offset,
-    shape=($((p.SEQLEN : Nat)), $((p.DIM : Nat))), strides=($((p.stride_v_seqlen : Nat)), $((p.stride_v_dim : Nat))),
-    offsets=(0, 0), block_shape=(64, $((p.DIM : Nat))), order=(1, 0))
-  off_m = start_m * $(128) + tl.arange(0, 128)
-  off_n = tl.arange(0, 64)
-  max = tl.zeros([128], dtype=tl.float32) - float("inf")
-  denom = tl.zeros([128], dtype=tl.float32)
-  out_buffer = tl.zeros([128, $((p.DIM : Nat))], dtype=tl.float32)
-  qk_scale = sm_scale * 1.44269504
-  q = tl.load(Q_block_ptr, boundary_check=([0] : List Nat), padding_option="zero")
-  q = (q * qk_scale).to(tl.float16)
-  lo = 0
-  hi = (tl.minimum((start_m + $(1)) * $(128), $((p.SEQLEN : Nat))) if IS_CAUSAL else $((p.SEQLEN : Nat)))
-  for start_n in range(lo, hi, 64) {
-    k = tl.load(K_block_ptr, boundary_check=([1] : List Nat), padding_option="zero")
-    v = tl.load(V_block_ptr, boundary_check=([0] : List Nat), padding_option="zero")
-    qk = tl.zeros([128, 64], dtype=tl.float32)
-    if IS_CAUSAL {
-      qk = tl.where(off_m[:, None] >= (start_n + off_n[None, :]), qk, float("-inf"))
-    }
-    qk = tl.where(start_n + off_n[None, :] < $((p.SEQLEN : Nat)), qk, float("-inf"))
-    qk += tl.dot(q.to(tl.float32), k)
-    max_new = tl.maximum(max, tl.max(qk, 1))
-    alpha = tl.math.exp2(max - max_new)
-    nume = tl.math.exp2(qk - max_new[:, None])
-    out_scale = denom * 0 + alpha
-    out_buffer *= out_scale[:, None]
-    out_buffer += tl.dot(nume.to(tl.float16).to(tl.float32), v)
-    denom = denom * alpha + tl.sum(nume, 1)
-    max = max_new
-    K_block_ptr = tl.advance(K_block_ptr, (0, 64))
-    V_block_ptr = tl.advance(V_block_ptr, (64, 0))
+def body (Q K V L O : RegionName) (stride_q_bs stride_q_head stride_q_seqlen stride_q_dim stride_k_bs stride_k_head stride_k_seqlen stride_k_dim stride_v_bs stride_v_head stride_v_seqlen stride_v_dim stride_o_bs stride_o_head stride_o_seqlen stride_o_dim BS HEAD SEQLEN BLOCK_M DIM BLOCK_N : Nat) (IS_CAUSAL : Bool) : ComputeKernel :=
+  with_triton_call callSignature call_args [stride_q_bs := stride_q_bs, stride_q_head := stride_q_head, stride_q_seqlen := stride_q_seqlen, stride_q_dim := stride_q_dim, stride_k_bs := stride_k_bs, stride_k_head := stride_k_head, stride_k_seqlen := stride_k_seqlen, stride_k_dim := stride_k_dim, stride_v_bs := stride_v_bs, stride_v_head := stride_v_head, stride_v_seqlen := stride_v_seqlen, stride_v_dim := stride_v_dim, stride_o_bs := stride_o_bs, stride_o_head := stride_o_head, stride_o_seqlen := stride_o_seqlen, stride_o_dim := stride_o_dim, BS := BS, HEAD := HEAD, SEQLEN := SEQLEN] in triton {
+    start_m = tl.program_id(0)
+    off_bs_head = tl.program_id(1)
+
+    off_bs = off_bs_head // HEAD
+    off_head = off_bs_head % HEAD
+    q_base_offset = off_bs * stride_q_bs + off_head * stride_q_head
+    k_base_offset = off_bs * stride_k_bs + off_head * stride_k_head
+    v_base_offset = off_bs * stride_v_bs + off_head * stride_v_head
+    o_base_offset = off_bs * stride_o_bs + off_head * stride_o_head
+    Q_block_ptr = tl.make_block_ptr(
+        base=Q + q_base_offset,
+        shape=(SEQLEN, DIM),
+        strides=(stride_q_seqlen, stride_q_dim),
+        offsets=(start_m * BLOCK_M, 0),
+        block_shape=(BLOCK_M, DIM),
+        order=(1, 0),
+    )
+    K_block_ptr = tl.make_block_ptr(
+        base=K + k_base_offset,
+        shape=(DIM, SEQLEN),
+        strides=(stride_k_dim, stride_k_seqlen),
+        offsets=(0, 0),
+        block_shape=(DIM, BLOCK_N),
+        order=(0, 1),
+    )
+    V_block_ptr = tl.make_block_ptr(
+        base=V + v_base_offset,
+        shape=(SEQLEN, DIM),
+        strides=(stride_v_seqlen, stride_v_dim),
+        offsets=(0, 0),
+        block_shape=(BLOCK_N, DIM),
+        order=(1, 0),
+    )
+    off_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    off_n = tl.arange(0, BLOCK_N)
+    max = tl.zeros([BLOCK_M], dtype=tl.float32) - float('inf')
+    denom = tl.zeros([BLOCK_M], dtype=tl.float32)
+    out_buffer = tl.zeros([BLOCK_M, DIM], dtype=tl.float32)
+    qk_scale = sm_scale * 1.44269504
+    q = tl.load(Q_block_ptr, boundary_check=(0,), padding_option="zero")
+    q = (q * qk_scale).to(tl.float16)
+    lo = 0
+    hi = tl.minimum((start_m + 1) * BLOCK_M, SEQLEN) if IS_CAUSAL else SEQLEN
+    for start_n in range(lo, hi, BLOCK_N):
+        k = tl.load(K_block_ptr, boundary_check=(1,), padding_option="zero")
+        v = tl.load(V_block_ptr, boundary_check=(0,), padding_option="zero")
+
+        qk = tl.zeros([BLOCK_M, BLOCK_N], dtype=tl.float32)
+        if IS_CAUSAL:
+            qk = tl.where(off_m[:, None] >= (start_n + off_n[None, :]), qk, float("-inf"))
+        qk = tl.where(start_n + off_n[None, :] < SEQLEN, qk, float("-inf"))
+        qk += tl.dot(q.to(tl.float32), k)
+
+        max_new = tl.maximum(max, tl.max(qk, 1))
+        alpha = tl.math.exp2(max - max_new)
+        nume = tl.math.exp2(qk - max_new[:, None])
+        out_scale = denom * 0 + alpha
+        out_buffer *= out_scale[:, None]
+        out_buffer += tl.dot(nume.to(tl.float16).to(tl.float32), v)
+        denom = denom * alpha + tl.sum(nume, 1)
+        max = max_new
+        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))
+        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))
+
+    out_buffer = out_buffer / denom[:, None]
+    l_ptr = L + off_bs_head * SEQLEN + off_m
+    tl.store(l_ptr, max + tl.math.log2(denom), mask=off_m < SEQLEN)
+    O_block_ptr = tl.make_block_ptr(
+        base=O + o_base_offset,
+        shape=(SEQLEN, DIM),
+        strides=(stride_o_seqlen, stride_o_dim),
+        offsets=(start_m * BLOCK_M, 0),
+        block_shape=(BLOCK_M, DIM),
+        order=(1, 0),
+    )
+    tl.store(O_block_ptr, out_buffer.to(tl.float16).to(tl.float32), boundary_check=(0,))
   }
-  out_buffer = out_buffer / denom[:, None]
-  l_ptr = L + off_bs_head * $((p.SEQLEN : Nat)) + off_m
-  tl.store(l_ptr, max + tl.math.log2(denom), mask=off_m < $((p.SEQLEN : Nat)))
-  O_block_ptr = tl.make_block_ptr(base=O + o_base_offset,
-    shape=($((p.SEQLEN : Nat)), $((p.DIM : Nat))), strides=($((p.stride_o_seqlen : Nat)), $((p.stride_o_dim : Nat))),
-    offsets=(start_m * $(128), 0), block_shape=(128, $((p.DIM : Nat))), order=(1, 0))
-  tl.store(O_block_ptr, out_buffer.to(tl.float16).to(tl.float32), boundary_check=([0] : List Nat))
-}
+
+def kernel (p : Parameters) : ComputeKernel :=
+  body "Q" "K" "V" "L" "O"
+    p.stride_q_bs p.stride_q_head p.stride_q_seqlen p.stride_q_dim
+    p.stride_k_bs p.stride_k_head p.stride_k_seqlen p.stride_k_dim
+    p.stride_v_bs p.stride_v_head p.stride_v_seqlen p.stride_v_dim
+    p.stride_o_bs p.stride_o_head p.stride_o_seqlen p.stride_o_dim
+    p.BS p.HEAD p.SEQLEN
+    128 p.DIM 64 p.IS_CAUSAL
+
+def indexCommutedBody (Q K V L O : RegionName) (stride_q_bs stride_q_head stride_q_seqlen stride_q_dim stride_k_bs stride_k_head stride_k_seqlen stride_k_dim stride_v_bs stride_v_head stride_v_seqlen stride_v_dim stride_o_bs stride_o_head stride_o_seqlen stride_o_dim BS HEAD SEQLEN BLOCK_M DIM BLOCK_N : Nat) (IS_CAUSAL : Bool) : ComputeKernel :=
+  with_triton_call callSignature call_args [stride_q_bs := stride_q_bs, stride_q_head := stride_q_head, stride_q_seqlen := stride_q_seqlen, stride_q_dim := stride_q_dim, stride_k_bs := stride_k_bs, stride_k_head := stride_k_head, stride_k_seqlen := stride_k_seqlen, stride_k_dim := stride_k_dim, stride_v_bs := stride_v_bs, stride_v_head := stride_v_head, stride_v_seqlen := stride_v_seqlen, stride_v_dim := stride_v_dim, stride_o_bs := stride_o_bs, stride_o_head := stride_o_head, stride_o_seqlen := stride_o_seqlen, stride_o_dim := stride_o_dim, BS := BS, HEAD := HEAD, SEQLEN := SEQLEN] in triton {
+    start_m = tl.program_id(0)
+    off_bs_head = tl.program_id(1)
+
+    off_bs = off_bs_head // HEAD
+    off_head = off_bs_head % HEAD
+    q_base_offset = off_bs * stride_q_bs + stride_q_head * off_head
+    k_base_offset = off_bs * stride_k_bs + stride_k_head * off_head
+    v_base_offset = off_bs * stride_v_bs + stride_v_head * off_head
+    o_base_offset = off_bs * stride_o_bs + stride_o_head * off_head
+    Q_block_ptr = tl.make_block_ptr(
+        base=Q + q_base_offset,
+        shape=(SEQLEN, DIM),
+        strides=(stride_q_seqlen, stride_q_dim),
+        offsets=(start_m * BLOCK_M, 0),
+        block_shape=(BLOCK_M, DIM),
+        order=(1, 0),
+    )
+    K_block_ptr = tl.make_block_ptr(
+        base=K + k_base_offset,
+        shape=(DIM, SEQLEN),
+        strides=(stride_k_dim, stride_k_seqlen),
+        offsets=(0, 0),
+        block_shape=(DIM, BLOCK_N),
+        order=(0, 1),
+    )
+    V_block_ptr = tl.make_block_ptr(
+        base=V + v_base_offset,
+        shape=(SEQLEN, DIM),
+        strides=(stride_v_seqlen, stride_v_dim),
+        offsets=(0, 0),
+        block_shape=(BLOCK_N, DIM),
+        order=(1, 0),
+    )
+    off_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    off_n = tl.arange(0, BLOCK_N)
+    max = tl.zeros([BLOCK_M], dtype=tl.float32) - float('inf')
+    denom = tl.zeros([BLOCK_M], dtype=tl.float32)
+    out_buffer = tl.zeros([BLOCK_M, DIM], dtype=tl.float32)
+    qk_scale = sm_scale * 1.44269504
+    q = tl.load(Q_block_ptr, boundary_check=(0,), padding_option="zero")
+    q = (q * qk_scale).to(tl.float16)
+    lo = 0
+    hi = tl.minimum((start_m + 1) * BLOCK_M, SEQLEN) if IS_CAUSAL else SEQLEN
+    for start_n in range(lo, hi, BLOCK_N):
+        k = tl.load(K_block_ptr, boundary_check=(1,), padding_option="zero")
+        v = tl.load(V_block_ptr, boundary_check=(0,), padding_option="zero")
+
+        qk = tl.zeros([BLOCK_M, BLOCK_N], dtype=tl.float32)
+        if IS_CAUSAL:
+            qk = tl.where(off_m[:, None] >= (start_n + off_n[None, :]), qk, float("-inf"))
+        qk = tl.where(start_n + off_n[None, :] < SEQLEN, qk, float("-inf"))
+        qk += tl.dot(q.to(tl.float32), k)
+
+        max_new = tl.maximum(max, tl.max(qk, 1))
+        alpha = tl.math.exp2(max - max_new)
+        nume = tl.math.exp2(qk - max_new[:, None])
+        out_scale = denom * 0 + alpha
+        out_buffer *= out_scale[:, None]
+        out_buffer += tl.dot(nume.to(tl.float16).to(tl.float32), v)
+        denom = denom * alpha + tl.sum(nume, 1)
+        max = max_new
+        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))
+        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))
+
+    out_buffer = out_buffer / denom[:, None]
+    l_ptr = L + off_bs_head * SEQLEN + off_m
+    tl.store(l_ptr, max + tl.math.log2(denom), mask=off_m < SEQLEN)
+    O_block_ptr = tl.make_block_ptr(
+        base=O + o_base_offset,
+        shape=(SEQLEN, DIM),
+        strides=(stride_o_seqlen, stride_o_dim),
+        offsets=(start_m * BLOCK_M, 0),
+        block_shape=(BLOCK_M, DIM),
+        order=(1, 0),
+    )
+    tl.store(O_block_ptr, out_buffer.to(tl.float16).to(tl.float32), boundary_check=(0,))
+  }
+
+def indexCommuted (p : Parameters) : ComputeKernel :=
+  indexCommutedBody "Q" "K" "V" "L" "O"
+    p.stride_q_bs p.stride_q_head p.stride_q_seqlen p.stride_q_dim
+    p.stride_k_bs p.stride_k_head p.stride_k_seqlen p.stride_k_dim
+    p.stride_v_bs p.stride_v_head p.stride_v_seqlen p.stride_v_dim
+    p.stride_o_bs p.stride_o_head p.stride_o_seqlen p.stride_o_dim
+    p.BS p.HEAD p.SEQLEN
+    128 p.DIM 64 p.IS_CAUSAL
 
 /-- Compatibility name for existing source decomposition proofs. -/
 abbrev declared := kernel
