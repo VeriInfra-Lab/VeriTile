@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 138,
-      "uncovered_jit_functions": 45
+      "selected_body_copy_checked": 139,
+      "uncovered_jit_functions": 44
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 114,
-    "inventoried_jit_functions": 538,
-    "uncovered_inventoried_jit_functions": 150,
+    "uncovered_selected_jit_functions": 113,
+    "inventoried_jit_functions": 539,
+    "uncovered_inventoried_jit_functions": 149,
     "checked_pair_modes": {
-      "pasted_body": 388
+      "pasted_body": 390
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 138,
-        "uncovered_jit_functions": 45
+        "selected_body_copy_checked": 139,
+        "uncovered_jit_functions": 44
       }
     },
     "primary_files_with_int64_screen_warning": 12,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 28,
-        "antiquotes": 365,
+        "in_body_type_directives": 27,
+        "antiquotes": 364,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 84
       },
@@ -12531,9 +12531,9 @@
       "lean": "bench/tritonbench_g/block_sparse_attn/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 6,
-        "antiquotes": 87,
-        "dsl_assignment": 19,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 52,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 8
@@ -12557,27 +12557,113 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+        },
         {
-          "python": "bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py",
-          "function": "block_sparse_attention_kernel"
+          "path": "bench/tritonbench_g/block_sparse_attn/block_sparse_attn_quotient_remainder.py",
+          "jits": [
+            {
+              "function": "block_sparse_attention_kernel",
+              "line": 98,
+              "statements": 31,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "block_sparse_attention_kernel",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 31,
+          "runtime_parameters": {
+            "layout_csr_row_stride_h": "integer",
+            "layout_csr_col_stride_h": "integer",
+            "num_layout": "integer",
+            "stride_qb": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qd": "integer",
+            "stride_kb": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kd": "integer",
+            "stride_vb": "integer",
+            "stride_vh": "integer",
+            "stride_vn": "integer",
+            "stride_vd": "integer",
+            "stride_ob": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "num_heads": "integer",
+            "num_kv_heads": "integer",
+            "total_seq_len": "integer",
+            "softmax_scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_D",
+            "BLOCK_M",
+            "BLOCK_N",
+            "EVEN_M",
+            "EVEN_N",
+            "NUM_D_BLOCKS"
+          ],
           "python": "bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py",
-          "function": "block_sparse_attention_kernel"
+          "lean": "bench/tritonbench_g/block_sparse_attn/Kernels.lean"
+        },
+        {
+          "python_function": "block_sparse_attention_kernel",
+          "lean_definition": "quotientRemainderBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 31,
+          "runtime_parameters": {
+            "layout_csr_row_stride_h": "integer",
+            "layout_csr_col_stride_h": "integer",
+            "num_layout": "integer",
+            "stride_qb": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qd": "integer",
+            "stride_kb": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kd": "integer",
+            "stride_vb": "integer",
+            "stride_vh": "integer",
+            "stride_vn": "integer",
+            "stride_vd": "integer",
+            "stride_ob": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "num_heads": "integer",
+            "num_kv_heads": "integer",
+            "total_seq_len": "integer",
+            "softmax_scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_D",
+            "BLOCK_M",
+            "BLOCK_N",
+            "EVEN_M",
+            "EVEN_N",
+            "NUM_D_BLOCKS"
+          ],
+          "python": "bench/tritonbench_g/block_sparse_attn/block_sparse_attn_quotient_remainder.py",
+          "lean": "bench/tritonbench_g/block_sparse_attn/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/block_sparse_attn/Kernels.lean": "c33c11fe21f66cf97e8c00fd18634bd38d1a3bb2f5e4efed3718bd58a0aaffcf",
-        "bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py": "f103646a18aadb536696840dc3e8014565d65d6f247a9ea9a7acd27efbdaf3b7"
+        "bench/tritonbench_g/block_sparse_attn/Kernels.lean": "dda8a719a6e9ba83629605f1c0271e10f5c5357a7b17c526ea4de12775dea294",
+        "bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py": "f103646a18aadb536696840dc3e8014565d65d6f247a9ea9a7acd27efbdaf3b7",
+        "bench/tritonbench_g/block_sparse_attn/block_sparse_attn_quotient_remainder.py": "3f5ae94dee81774dcee057f363af9dbe240bc1dc9a9dd51de4a3ef135680b54d",
+        "bench/tritonbench_g/block_sparse_attn/jit-correspondence.json": "470334d1d9487fb5c373a1f3cb3f617bde338f1595d53d7a1b31689be77f1b74"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/block_sparse_attn"
