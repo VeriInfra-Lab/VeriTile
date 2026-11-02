@@ -11,34 +11,34 @@ set_option maxHeartbeats 6000000
 set_option maxRecDepth 16000
 
 section
-variable (qk value hist dhist : TypedSource.Storage) (swapped : Bool)
+variable (qk value hist dhist : TypedSource.Storage)
     (q k v h g do_ dh dq dk dg : RegionName)
     (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat)
     (scale : ℝ) (T K V BT BK BV NT : Nat)
 
-def source := TypedSource.specialize qk value hist dhist swapped
+def source := TypedSource.original qk value hist dhist
   q k v h g do_ dh dq dk dg s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV NT
 
 theorem projects :
-    (source qk value hist dhist swapped q k v h g do_ dh dq dk dg
+    (source qk value hist dhist q k v h g do_ dh dq dk dg
       s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV NT).toAlgorithm? =
-    .ok (source qk value hist dhist swapped q k v h g do_ dh dq dk dg
+    .ok (source qk value hist dhist q k v h g do_ dh dq dk dg
       s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV NT).toAlgKernel := by
-  cases hist <;> cases dhist <;> cases swapped <;> rfl
+  cases hist <;> cases dhist <;> rfl
 
 set_option linter.unusedSimpArgs false in
 /-- All four independent storage choices retain the complete real body,
 including both flattened whole-tile sums and the actual history mask. -/
 theorem real_body_matches :
-    (source qk value hist dhist Bool.false q k v h g do_ dh dq dk dg
+    (source qk value hist dhist q k v h g do_ dh dq dk dg
       s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV NT).eraseDType.toAlgKernel.body =
     cbdPreLoop g T BT BK ++
-      [Stmt.forRangeDyn "i_v" (Op.constNat 0) (cbdStopOp V BV) (Op.constNat 1)
+      [Stmt.forLoop "i_v" ((V+BV-1)/BV)
         (cbdLoopBody v h do_ dh s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT)] ++
       cbdPostLoop q k dq dk dg s_k_h s_k_t scale T K BT BK := by
   cases hist <;> cases dhist
   all_goals
-    simp only [source, TypedSource.specialize, TypedSource.Storage.dtype,
+    simp only [source, TypedSource.original,TypedSource.originalBody, TypedSource.Storage.dtype,
         VeriTile.Triton.eraseDType, Region.cast, ComputeKernel.surfaceBody,
         ComputeKernel.eraseDType, cbdPreLoop, cbdLoopBody, cbdPostLoop, cbdStopOp,
         List.append,
@@ -58,6 +58,7 @@ theorem real_body_matches :
     all_goals simp [TypedSource.Storage.dtype, Op.eraseDType.eq_def,
       FloatDType.toTileDType, VeriTile.Triton.eraseDType,
       NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType]
+    all_goals norm_num
 end
 
 #guard_msgs (drop info) in

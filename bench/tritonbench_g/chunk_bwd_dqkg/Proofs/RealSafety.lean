@@ -22,7 +22,7 @@ theorem source_safe (s : BlockState) (p : Layout)
     (q k v h g dout dh dqOut dkOut dgOut : RegionName)
     (bounds : RegionBounds) (hb : Bounds s p q k v h g dout dh dqOut dkOut dgOut bounds)
     (hzero : s.undef = fun _ _ => 0) :
-    (RealSource.source qk valueStorage hist dhist Bool.false q k v h g dout dh dqOut dkOut dgOut
+    (RealSource.source qk valueStorage hist dhist q k v h g dout dh dqOut dkOut dgOut
       p.s_k_h p.s_k_t p.s_v_h p.s_v_t p.s_h_h p.s_h_t p.scale
       p.T p.K p.V p.BT p.BK p.BV p.NT).eraseDType.toAlgKernel.TraceSafe bounds s := by
   let regions : RealStep.Regions := ⟨v,h,dout,dh⟩
@@ -64,7 +64,7 @@ theorem source_safe (s : BlockState) (p : Layout)
 theorem source_flatten_ok (p : Layout)
     (qk valueStorage hist dhist : TypedSource.Storage)
     (q k v h g dout dh dqOut dkOut dgOut : RegionName) :
-    (RealSource.source qk valueStorage hist dhist Bool.false q k v h g dout dh dqOut dkOut dgOut
+    (RealSource.source qk valueStorage hist dhist q k v h g dout dh dqOut dkOut dgOut
       p.s_k_h p.s_k_t p.s_v_h p.s_v_t p.s_h_h p.s_h_t p.scale
       p.T p.K p.V p.BT p.BK p.BV p.NT).eraseDType.toAlgKernel.FlattenOk := by
   rw [Kernel.FlattenOk, RealSource.real_body_matches]

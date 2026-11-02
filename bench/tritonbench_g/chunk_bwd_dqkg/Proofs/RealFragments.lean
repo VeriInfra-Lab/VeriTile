@@ -199,7 +199,7 @@ def cbdLoopBody (v h do_ dh : RegionName)
       (Op.makeBlockPtrDynOffsets h
         (Op.add .nat Broadcast.nil
           (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_bh") (Op.constNat s_h_h))
-          (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_t") (Op.constNat (K * s_h_t)))) [V, K]
+          (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_t") (Op.mul .nat Broadcast.nil (Op.constNat K) (Op.constNat s_h_t)))) [V, K]
         [BV, BK] [1, s_h_t]
         [Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_v") (Op.constNat BV),
           Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_k") (Op.constNat BK)]),
@@ -213,7 +213,7 @@ def cbdLoopBody (v h do_ dh : RegionName)
       (Op.makeBlockPtrDynOffsets dh
         (Op.add .nat Broadcast.nil
           (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_bh") (Op.constNat s_h_h))
-          (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_t") (Op.constNat (K * s_h_t)))) [V, K]
+          (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_t") (Op.mul .nat Broadcast.nil (Op.constNat K) (Op.constNat s_h_t)))) [V, K]
         [BV, BK] [1, s_h_t]
         [Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_v") (Op.constNat BV),
           Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_k") (Op.constNat BK)]),
@@ -251,9 +251,10 @@ def cbdLoopBody (v h do_ dh : RegionName)
 /-- The compiled prologue: the four ids, `o_i`, the `g` block pointer and its
 load, `last_idx` / `b_g_last`, and the five zero-initialised accumulators. -/
 def cbdPreLoop (g : RegionName) (T BT BK : Nat) : List Stmt :=
-[ Stmt.assign .nat [] "i_k" (Op.programId 0),
-    Stmt.assign .nat [] "i_t" (Op.programId 1),
-    Stmt.assign .nat [] "i_bh" (Op.programId 2),
+[ Stmt.ifThen (Op.constBool Bool.true)
+    [Stmt.assign .nat [] "i_k" (Op.programId 0),
+     Stmt.assign .nat [] "i_t" (Op.programId 1),
+     Stmt.assign .nat [] "i_bh" (Op.programId 2)],
     Stmt.assign .nat [] "n_bh" (Op.numPrograms 2),
     Stmt.assign .nat [BT] "o_i" (Op.arange BT),
     Stmt.assign .blockPtr [BT] "p_g"
@@ -434,6 +435,16 @@ private theorem cbd_mulRef_eval (t : BlockState) (nm : RegName) (val c : Nat)
       = some (Tile.scalar (val * c)) := by
   rw [evalOp_mul]
   simp only [evalOp_ref, evalOp_constNat, hr, Option.bind_eq_bind, Option.bind_some]
+  rfl
+
+/-- Source `index * (constexpr * stride)` retains both multiplications. -/
+private theorem cbd_mulRef_product_eval (t : BlockState) (nm : RegName) (val a b : Nat)
+    (hr : t.regs .nat [] nm = some (Tile.scalar val)) :
+    evalOp (Op.mul .nat Broadcast.nil (Op.ref .nat [] nm)
+      (Op.mul .nat Broadcast.nil (Op.constNat a) (Op.constNat b))) t =
+        some (Tile.scalar (val * (a*b))) := by
+  rw [evalOp_mul]
+  simp only [evalOp_ref,evalOp_mul,evalOp_constNat,hr,Option.bind_eq_bind,Option.bind_some]
   rfl
 
 /-- `nameA * nameB` on two `nat` scalar registers (the `dg` row base). -/
@@ -638,7 +649,7 @@ private theorem cbd_load_glast_eq (s t : BlockState) (g : RegionName) (T BT : Na
 
 /-! ### The prologue's exit state
 
-Fourteen statements: the four ids, `o_i`, the `g` block pointer and its load,
+Twelve statements (including the grouped id assignment): the four ids, `o_i`, the `g` block pointer and its load,
 `last_idx` / `b_g_last`, and the five zero accumulators. Memory is untouched, so
 every register value is phrased against the launch state `s`. -/
 
@@ -666,9 +677,14 @@ theorem cbdPreLoop_run (g : RegionName) (T BT BK : Nat) (s : BlockState)
       ∧ s0.regs .real [BT] "b_dg" = some (cbdZero [BT]) := by
   unfold cbdPreLoop
   -- the four grid coordinates
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 0 s))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 1 _))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 2 _))]
+  have ids : stepStmt (.ifThen (.constBool Bool.true)
+      [.assign .nat [] "i_k" (.programId 0), .assign .nat [] "i_t" (.programId 1),
+       .assign .nat [] "i_bh" (.programId 2)]) s = some
+      (((s.setReg "i_k" .nat [] (Tile.scalar (s.pids 0))).setReg
+        "i_t" .nat [] (Tile.scalar (s.pids 1))).setReg
+        "i_bh" .nat [] (Tile.scalar (s.pids 2))) := by
+    simp [stepStmt,stepStmts,evalOp.eq_def,bind,Option.bind,BlockState.setReg]
+  rw [stepStmts.cons_some ids]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_numPrograms 2 _))]
   -- o_i = arange(BT)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_arange BT _))]
@@ -1034,7 +1050,7 @@ theorem cbdLoopBody_run (v h do_ dh : RegionName) (s t : BlockState)
       (s.pids 2 * s_h_h + s.pids 1 * (K * s_h_t)) (0 * BV) (s.pids 0 * BK)
       (cbd_add_eval _ _ _ (s.pids 2 * s_h_h) (s.pids 1 * (K * s_h_t))
         (cbd_mulRef_eval _ "i_bh" (s.pids 2) s_h_h (by simp [hibh]))
-        (cbd_mulRef_eval _ "i_t" (s.pids 1) (K * s_h_t) (by simp [hit])))
+        (cbd_mulRef_product_eval _ "i_t" (s.pids 1) K s_h_t (by simp [hit])))
       (cbd_mulRef_eval _ "i_v" 0 BV (by simp [hiv]))
       (cbd_mulRef_eval _ "i_k" (s.pids 0) BK (by simp [hik]))))]
   -- p_do
@@ -1049,7 +1065,7 @@ theorem cbdLoopBody_run (v h do_ dh : RegionName) (s t : BlockState)
       (s.pids 2 * s_h_h + s.pids 1 * (K * s_h_t)) (0 * BV) (s.pids 0 * BK)
       (cbd_add_eval _ _ _ (s.pids 2 * s_h_h) (s.pids 1 * (K * s_h_t))
         (cbd_mulRef_eval _ "i_bh" (s.pids 2) s_h_h (by simp [hibh]))
-        (cbd_mulRef_eval _ "i_t" (s.pids 1) (K * s_h_t) (by simp [hit])))
+        (cbd_mulRef_product_eval _ "i_t" (s.pids 1) K s_h_t (by simp [hit])))
       (cbd_mulRef_eval _ "i_v" 0 BV (by simp [hiv]))
       (cbd_mulRef_eval _ "i_k" (s.pids 0) BK (by simp [hik]))))]
   -- b_v, b_do, b_h, b_dh

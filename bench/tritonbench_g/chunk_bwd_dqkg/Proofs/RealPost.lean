@@ -92,7 +92,7 @@ theorem original_executes (qk valueStorage hist dhist : TypedSource.Storage)
       cbdQkAddr s p.s_k_h p.s_k_t p.BT p.BK i =
         cbdQkAddr s p.s_k_h p.s_k_t p.BT p.BK j → i = j) :
     ∃ sf, exec
-      (RealSource.source qk valueStorage hist dhist Bool.false q k v h g dout dh dqOut dkOut dgOut
+      (RealSource.source qk valueStorage hist dhist q k v h g dout dh dqOut dkOut dgOut
         p.s_k_h p.s_k_t p.s_v_h p.s_v_t p.s_h_h p.s_h_t p.scale
         p.T p.K p.V p.BT p.BK p.BV p.NT).eraseDType.toAlgKernel s = some sf ∧
       (∀ i : TileIndex [p.BT, p.BK],
