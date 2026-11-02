@@ -295,16 +295,26 @@ def call_signature(text: str, name: str) -> dict:
     if floating_parameters or floating:
         if not floating:
             raise ValueError("missing polymorphic pointer signature")
-        tree = ast.parse(floating[1], mode="eval").body
+        source = re.sub(r"(?<![\w.])\.(real|fp16|bf16|fp32|fp64|f8e4|f8e5)\b",
+                        r"FloatDType.\1", floating[1])
+        tree = ast.parse(source, mode="eval").body
         if not isinstance(tree, ast.List):
             raise ValueError("unsupported polymorphic pointer signature")
         pairs = []
         for pair in tree.elts:
             if not (isinstance(pair, ast.Tuple) and len(pair.elts) == 2
-                    and isinstance(pair.elts[0], ast.Constant) and type(pair.elts[0].value) is str
-                    and isinstance(pair.elts[1], ast.Name) and pair.elts[1].id in floating_parameters):
-                raise ValueError("polymorphic pointers must use declared dtype parameters")
-            pairs.append([pair.elts[0].value, pair.elts[1].id])
+                    and isinstance(pair.elts[0], ast.Constant) and type(pair.elts[0].value) is str):
+                raise ValueError("unsupported floating pointer signature")
+            dtype = pair.elts[1]
+            if isinstance(dtype, ast.Name) and dtype.id in floating_parameters:
+                selected = dtype.id
+            elif (isinstance(dtype, ast.Attribute) and isinstance(dtype.value, ast.Name)
+                  and dtype.value.id == "FloatDType"
+                  and dtype.attr in {"real", "fp16", "bf16", "fp32", "fp64", "f8e4", "f8e5"}):
+                selected = dtype.attr
+            else:
+                raise ValueError("floating pointers require declared dtype parameters or explicit FloatDType constructors")
+            pairs.append([pair.elts[0].value, selected])
         fields["floatingPointers"] = pairs
     if dtype_parameters:
         fields["dtype_parameters"] = dtype_parameters
@@ -740,7 +750,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError("Python parameters and call signature differ")
         # `integer` is intentionally unbounded; it cannot certify an explicit
         # int32/int64 ABI annotation. Pointer annotations are not scalar args.
-        scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64",
+        scalar_types = {"integer": "int", "fp32": "tl.float32", "fp64": "tl.float64",
                         "i32": "tl.int32", "i64": "tl.int64"}
         supplied = {n: scalar_types.get(t) for n, t in profile["scalars"]}
         pointer_names = {n for n, _ in pointer_bindings}
@@ -752,6 +762,9 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 continue
             if supplied.get(arg.arg) != t:
                 raise ValueError("runtime scalar annotation differs from call signature")
+            if t == "int" and (writes.wildcard_import or "int" in writes.names
+                               or any(a.arg == "int" for a in function.args.args)):
+                raise ValueError("builtin int annotation is shadowed or rebound")
     if profile is not None:
         # Parse the pasted body as Python directly: braces, Lean assignment
         # syntax and other legacy spelling changes cannot become a copy pass.
@@ -921,6 +934,13 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
         for name, definition in r.get("expected_binary_functions", r.get("expected_pure_functions", {})).items():
             helpers = [h for h in records if h.get("kind") == helper_kind
                        and h["lean"] == r["lean"] and h["lean_definition"] == definition]
+            # Independently retained Python files may copy the same unchanged
+            # helper into one shared Lean declaration. Bind each local call to
+            # its own checked Python body; an imported helper still needs the
+            # unique separately checked import below.
+            local_helpers = [h for h in helpers if h["python"] == r["python"]]
+            if local_helpers:
+                helpers = local_helpers
             if len(helpers) != 1:
                 raise ValueError("pure JIT call needs a separately checked helper body")
             helper = helpers[0]
