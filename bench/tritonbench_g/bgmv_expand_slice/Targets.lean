@@ -27,7 +27,7 @@ def formula (h : Call) (plans : Native.Plans) (ops : Native.Instructions)
       (PublicIO.input xs b) (PublicIO.weight xs b n) (PublicIO.previous xs b n)).eval ops))
 end PublicNative
 
-#specNonCircular PublicMath.formula avoiding [Signed.Grid.run,FP.Structural.exec,FPGrid.fold,Surface.source]
-#specNonCircular PublicNative.formula avoiding [Signed.Grid.run,FP.Structural.exec,FPGrid.fold,Surface.source]
+#specNonCircular PublicMath.formula avoiding [Signed.Grid.run,FP.Structural.exec,FPGrid.fold,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalBody,Pasted.candidateBody]
+#specNonCircular PublicNative.formula avoiding [Signed.Grid.run,FP.Structural.exec,FPGrid.fold,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalBody,Pasted.candidateBody]
 end
 end VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked

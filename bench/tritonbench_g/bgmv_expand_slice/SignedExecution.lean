@@ -27,7 +27,7 @@ theorem active_executes (M : Algebra α) (reduction : Reduction α) (h : Call)
     (batch row slot : Nat) (data : Data α) (metadata : data.indices batch=(slot:Int)) (positiveN : 0<h.N) :
     run (machine M reduction) (active h) (preguard M reduction h batch row data).val=
       some (finalState M reduction h batch row slot data metadata) := by
-  rw [complete_active,run_append,ready_runs M reduction h batch row slot data metadata,Option.bind_some]
+  rw [active_run_decomposition,run_append,ready_runs M reduction h batch row slot data metadata,Option.bind_some]
   exact Control.single _ _ _ _ (loop_executes M reduction h batch row slot data metadata positiveN)
 
 #axiomsClean active_executes

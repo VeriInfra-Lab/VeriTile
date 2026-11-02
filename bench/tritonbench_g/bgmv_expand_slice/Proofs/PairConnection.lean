@@ -134,32 +134,24 @@ theorem step_add (M : Algebra A) (comm : AdditionCommutes M)
     (out : RegName) (a b : Op .real [n]) :
     StepEq M
       (.assign .real [n] out (.compute (.alg .fp32
-        (.castFloat .real .real (.add .real (.consSame .nil) a b)))))
+        (.add .real (.consSame .nil) a b))))
       (.assign .real [n] out (.compute (.alg .fp32
-        (.castFloat .real .real (.add .real (.consSame .nil) b a))))) := by
+        (.add .real (.consSame .nil) b a)))) := by
   constructor
   · intro s
     simp only [step,FP.Structural.evalExpr,evalComputeOp]
-    have ec (x : Op .real [n]) : evalOp M (some .fp32) (.castFloat .real .real x) s =
-        (evalOp M (some .fp32) x s >>= fun v => some (fun i => M.cast (some .fp32) .real .real (v i))) := rfl
-    erw [ec,ec,eval_add M comm a b s]
+    erw [eval_add M comm a b s]
     rfl
   · intro bounds s
     simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
-    have sa (x y : Op .real [n]) :
-        Safety.safeOp M (some .fp32) bounds s
-          (.castFloat .real .real (.add .real (.consSame .nil) x y)) =
-        (Safety.safeOp M (some .fp32) bounds s x ∧ Safety.safeOp M (some .fp32) bounds s y) := by
-      rw [Safety.safeOp_unfold]
-      dsimp only [FloatDType.toTileDType]
-      rw [Safety.safeOp_unfold]
-    exact (Iff.of_eq (sa a b)).trans (and_comm.trans (Iff.of_eq (sa b a)).symm)
+    rw [Safety.safeOp_unfold,Safety.safeOp_unfold]
+    exact and_comm
 
 /-- Full quoted-source connection. No index, mask, loop or memory expression
 is abstracted into a numerical premise. -/
 theorem source_pair (M : Algebra A) (comm : AdditionCommutes M) (h : Call) :
     CodeEq M (Kernels.source h).surfaceBody (Kernels.outputFirst h).surfaceBody := by
-  unfold Kernels.source Surface.source Kernels.outputFirst ComputeKernel.surfaceBody
+  simp only [Kernels.source,Kernels.outputFirst,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody]
   repeat' first
     | exact code_refl M _
     | exact step_refl M _

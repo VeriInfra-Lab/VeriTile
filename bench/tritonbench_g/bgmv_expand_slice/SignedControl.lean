@@ -29,8 +29,9 @@ theorem integer_guard (M : Algebra α) (s : State α) (value : Int)
 theorem loop_one (M : Algebra α) (body : List ComputeStmt) (s t : State α)
     (length : s.regs .int [] "split_n_length"=some (fun _ => 1))
     (exec : run M body (s.setReg "n" .int [] (fun _ => 0))=some t) :
-    step M (.forRangeInt "n" (.constInt 0) (.ref .int [] "split_n_length") (.constNat 256) body) s=some t := by
+    step M (.forRangeInt "n" (.castNatToInt (.constNat 0)) (.ref .int [] "split_n_length") (.constNat 256) body) s=some t := by
   simp only [step,evalOp_unfold,length,bind,Option.bind]
+  change FP.Structural.rangeInt M "n" 0 1 256 body s = some t
   rw [FP.Structural.rangeInt]
   simp only [show (256:Nat)≠0 from by decide,if_false,show (0:Int)<1 from by decide,if_true,exec,bind,Option.bind]
   rw [FP.Structural.rangeInt]
