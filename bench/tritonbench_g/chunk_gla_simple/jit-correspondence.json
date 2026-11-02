@@ -1,0 +1,196 @@
+[
+  {
+    "python": "bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py",
+    "lean": "bench/tritonbench_g/chunk_gla_simple/Kernels.lean",
+    "python_function": "chunk_simple_gla_fwd_kernel_o_repaired",
+    "lean_definition": "originalBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "h",
+          "fp32"
+        ],
+        [
+          "g",
+          "fp32"
+        ]
+      ],
+      "floatingPointers": [
+        [
+          "o",
+          "out_dtype"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "s_v_h",
+          "integer"
+        ],
+        [
+          "s_v_t",
+          "integer"
+        ],
+        [
+          "s_h_h",
+          "integer"
+        ],
+        [
+          "s_h_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "V",
+        "BT",
+        "BK",
+        "BV"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "h",
+        "g"
+      ],
+      "writePorts": [
+        "o"
+      ],
+      "dtype_parameters": [
+        "out_dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "s_v_h": "s_v_h",
+      "s_v_t": "s_v_t",
+      "s_h_h": "s_h_h",
+      "s_h_t": "s_h_t",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple_row_reused.py",
+    "lean": "bench/tritonbench_g/chunk_gla_simple/Kernels.lean",
+    "python_function": "chunk_simple_gla_fwd_kernel_o_row_reused",
+    "lean_definition": "rowReusedBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "h",
+          "fp32"
+        ],
+        [
+          "g",
+          "fp32"
+        ]
+      ],
+      "floatingPointers": [
+        [
+          "o",
+          "out_dtype"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "s_v_h",
+          "integer"
+        ],
+        [
+          "s_v_t",
+          "integer"
+        ],
+        [
+          "s_h_h",
+          "integer"
+        ],
+        [
+          "s_h_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "V",
+        "BT",
+        "BK",
+        "BV"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "h",
+        "g"
+      ],
+      "writePorts": [
+        "o"
+      ],
+      "dtype_parameters": [
+        "out_dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "s_v_h": "s_v_h",
+      "s_v_t": "s_v_t",
+      "s_h_h": "s_h_h",
+      "s_h_t": "s_h_t",
+      "scale": "scale"
+    }
+  }
+]

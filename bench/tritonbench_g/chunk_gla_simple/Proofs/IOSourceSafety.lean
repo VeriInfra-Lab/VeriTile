@@ -37,8 +37,8 @@ theorem load2_safe (s : BlockState) (r : RegionName) (ptr x y : RegName)
     (ax : Fin m → Nat) (ay : Fin n → Nat) (bounds : RegionBounds)
     (hb : ∀ i j, xs i < rows ∧ ys j < cols → b + ax i + ay j < bounds r)
     (hp : s.regs .ptr [m,n] ptr = some (matrix r b ax ay))
-    (hx : s.regs .nat [m] x = some (Tile.vec xs))
-    (hy : s.regs .nat [n] y = some (Tile.vec ys)) :
+    (hx : s.regs .int [m] x = some (Tile.vec fun i => (xs i : Int)))
+    (hy : s.regs .int [n] y = some (Tile.vec fun i => (ys i : Int))) :
     (Program.load2 ptr x y m n rows cols).SafeAtR .triv bounds s := by
   rw [Program.load2, Op.SafeAtR, Op.SafeAtR.eq_def]
   refine ⟨by simp [Op.SafeAtR.eq_def], by simp [Program.mask2, Program.col, Program.row, Op.SafeAtR, Op.SafeAtR.eq_def], ?_⟩
@@ -54,7 +54,7 @@ theorem gate_safe (p : Layout) (l : Launch) (r : Regions) (s : BlockState)
     (bounds : RegionBounds)
     (hb : ∀ i : Fin p.BT, Math.row p l i.val < p.T → gateAddress p l i.val < bounds r.gate)
     (hp : s.regs .ptr [p.BT] "p_g" = some (gatePointer p l r))
-    (hr : s.regs .nat [p.BT] "rows" = some (vector p.BT (l.chunk*p.BT))) :
+    (hr : s.regs .int [p.BT] "rows" = some (vector p.BT (l.chunk*p.BT))) :
     (Program.gateLoad p).SafeAtR .triv bounds s := by
   rw [Program.gateLoad, Op.SafeAtR, Op.SafeAtR.eq_def]
   refine ⟨by simp [Op.SafeAtR.eq_def], by simp [Op.SafeAtR, Op.SafeAtR.eq_def], ?_⟩
@@ -64,13 +64,15 @@ theorem gate_safe (p : Layout) (l : Launch) (r : Regions) (s : BlockState)
   obtain ⟨ms, hm, hi⟩ := active
   simp only [evalOpR_triv, evalOp, hr, Option.bind_some, Option.bind_eq_bind] at hm
   cases hm
-  exact hb i.1 (of_decide_eq_true hi)
+  apply hb i.1
+  change decide (((l.chunk*p.BT+i.1.val : Nat) : Int) < (p.T : Int)) = Bool.true at hi
+  simpa only [Int.ofNat_lt,decide_eq_true_eq,Math.row] using hi
 
 theorem store_safe (p : Layout) (l : Launch) (r : Regions) (s : BlockState)
     (bounds : RegionBounds) (hb : Safe.TailBounds p l r bounds)
     (hp : s.regs .ptr [p.BT,p.BV] "p_o" = some (valuePointer p l r.output))
-    (hr : s.regs .nat [p.BT] "rows" = some (vector p.BT (l.chunk*p.BT)))
-    (hc : s.regs .nat [p.BV] "cols" = some (vector p.BV (l.value*p.BV))) :
+    (hr : s.regs .int [p.BT] "rows" = some (vector p.BT (l.chunk*p.BT)))
+    (hc : s.regs .int [p.BV] "cols" = some (vector p.BV (l.value*p.BV))) :
     (Program.store p).TraceSafeR .triv bounds s := by
   rw [Program.store, Stmt.TraceSafeR]
   refine ⟨by simp [MemAccess.SafeAtR, Op.SafeAtR.eq_def], by simp [Op.SafeAtR.eq_def], by simp [MaskOpt.SafeAtR, Program.mask2,
@@ -86,16 +88,16 @@ theorem store_safe (p : Layout) (l : Launch) (r : Regions) (s : BlockState)
 
 theorem iteration_safe (p : Layout) (l : Launch) (r : Regions) (kb : Nat)
     (bounds : RegionBounds) (hb : Safe.StepBounds p l r kb bounds) (s : BlockState)
-    (hh : s.regs .nat [] "i_bh" = some (Tile.scalar l.head))
-    (ht : s.regs .nat [] "i_t" = some (Tile.scalar l.chunk))
-    (hr : s.regs .nat [p.BT] "rows" = some (vector p.BT (l.chunk*p.BT)))
-    (hc : s.regs .nat [p.BV] "cols" = some (vector p.BV (l.value*p.BV)))
-    (hk : s.regs .nat [] "i_k" = some (Tile.scalar kb)) :
+    (hh : s.regs .int [] "i_bh" = some (Tile.scalar (l.head : Int)))
+    (ht : s.regs .int [] "i_t" = some (Tile.scalar (l.chunk : Int)))
+    (hr : s.regs .int [p.BT] "rows" = some (vector p.BT (l.chunk*p.BT)))
+    (hc : s.regs .int [p.BV] "cols" = some (vector p.BV (l.value*p.BV)))
+    (hk : s.regs .int [] "i_k" = some (Tile.scalar (kb : Int))) :
     Stmt.TraceSafeListR .triv bounds (Program.iteration p r) s := by
   unfold Program.iteration Real.iteration chunkGlaLoopBody
   simp only [List.drop_succ_cons, List.drop_zero, List.cons_append, List.nil_append]
   rw [cons_of_run (stepStmt_assign_eq_some (indices_eval s "i_k" p.BK kb hk))]
-  refine ⟨by simp [Stmt.TraceSafeR, Program.indices, Program.times, Op.SafeAtR, Op.SafeAtR.eq_def], ?_⟩
+  refine ⟨by simp [Stmt.TraceSafeR, Program.indices, Program.programIndices, Program.times, Op.SafeAtR, Op.SafeAtR.eq_def], ?_⟩
   rw [cons_of_run (stepStmt_assign_eq_some
     (queryPtr_eval p l r kb _ (by simp [hh]) (by simp [hr, vector]) (by simp [vector])))]
   refine ⟨by simp [Stmt.TraceSafeR, Program.queryPtr, Program.ptr2, Program.times,
@@ -122,9 +124,9 @@ theorem iteration_safe (p : Layout) (l : Launch) (r : Regions) (kb : Nat)
 
 theorem post_safe (p : Layout) (l : Launch) (r : Regions) (scale : ℝ)
     (bounds : RegionBounds) (hb : Safe.TailBounds p l r bounds) (s : BlockState)
-    (hh : s.regs .nat [] "i_bh" = some (Tile.scalar l.head))
-    (hr : s.regs .nat [p.BT] "rows" = some (vector p.BT (l.chunk*p.BT)))
-    (hc : s.regs .nat [p.BV] "cols" = some (vector p.BV (l.value*p.BV))) :
+    (hh : s.regs .int [] "i_bh" = some (Tile.scalar (l.head : Int)))
+    (hr : s.regs .int [p.BT] "rows" = some (vector p.BT (l.chunk*p.BT)))
+    (hc : s.regs .int [p.BV] "cols" = some (vector p.BV (l.value*p.BV))) :
     Stmt.TraceSafeListR .triv bounds (Program.tail p r scale ++ [Program.store p]) s := by
   unfold Program.tail Real.tail chunkGlaFront
   simp only [List.drop_succ_cons, List.drop_zero, List.take_succ_cons,
@@ -166,16 +168,21 @@ theorem loop_safe (p : Layout) (r : Regions) (s0 : BlockState) (bounds : RegionB
   simp only [tripCount, Op.SafeAtR, evalOpR_triv, evalOp,
     Option.bind, Tile.scalar, Tile.bop_data, NumericDType.add, NumericDType.sub,
     NumericDType.div, Broadcast.leftIndex, Broadcast.rightIndex, true_and]
-  apply Stmt.forRangeTraceSafeR_inv .triv bounds "i_k" (numBlocks p) 1
-    (Program.iteration p r) (Execution.Holds p r s0)
-  · intro kb s hn hs
-    refine ⟨iteration_safe p (launch s0) r kb bounds (hb kb hn) _ ?_ ?_ ?_ ?_ (by simp), ?_⟩
+  let P : Int → BlockState → Prop := fun z s =>
+    ∃ n : Nat, z = (n : Int) ∧ Execution.Holds p r s0 n s
+  apply Stmt.forRangeIntTraceSafeR_inv .triv bounds "i_k" (numBlocks p : Int) 1
+    (Program.iteration p r) P
+  · intro z s hn hs
+    obtain ⟨kb,rfl,hs⟩ := hs
+    have hkb : kb < numBlocks p := by exact_mod_cast hn
+    refine ⟨iteration_safe p (launch s0) r kb bounds (hb kb hkb) _ ?_ ?_ ?_ ?_ (by simp), ?_⟩
     · simpa [launch] using hs.headReg
     · simpa [launch] using hs.timeReg
     · simpa [launch] using hs.rowsReg
     · simpa [launch] using hs.colsReg
-    · simpa only [stepStmtsR_triv] using Execution.loop_step p r s0 kb s hn hs
-  · exact hi
+    · obtain ⟨next,he,hi'⟩ := Execution.loop_step p r s0 kb s hkb hs
+      exact ⟨next,by simpa only [stepStmtsR_triv] using he,kb+1,by simp,hi'⟩
+  · exact ⟨0,rfl,hi⟩
 
 theorem source_safe (p : Layout) (r : Regions) (scale : ℝ) (s : BlockState)
     (bounds : RegionBounds) (hb : Safe.Bounds p (launch s) r bounds) :
@@ -184,7 +191,7 @@ theorem source_safe (p : Layout) (r : Regions) (scale : ℝ) (s : BlockState)
   simp only [List.append_assoc, List.singleton_append, List.cons_append]
   apply Stmt.TraceSafeListR.append_intro _ s
   · apply Stmt.TraceSafeListR.of_forall
-    simp [Program.setup, Real.setup, Program.addresses, Program.indices, Program.times,
+    simp [Program.setup, Real.setup, Program.addresses, Program.indices, Program.programIndices, Program.times,
       Stmt.TraceSafeR, Op.SafeAtR, Op.SafeAtR.eq_def]
   · intro u he
     rw [stepStmtsR_triv, Execution.setup_executes] at he

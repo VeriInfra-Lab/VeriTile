@@ -4,15 +4,15 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 132,
-  "staged_count": 144,
-  "pending_count": 64,
+  "completed_count": 131,
+  "staged_count": 145,
+  "pending_count": 65,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 4578,
-    "official_comparator": "114 current targets and separately listed regression cases have accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure has been verified. Compilation alone never counts as completion.",
-    "python_tests": 513,
+    "staged_and_regression_retained_modules": 4693,
+    "official_comparator": "131 current targets and separately listed regression cases retain accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure was verified. Changed chunk_delta_fwd dependencies withdrew its previous receipt until fresh replay. Compilation alone never counts as completion.",
+    "python_tests": 517,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "150 selected cases (144 targets and 6 regressions), all 4619 retained/supporting modules, 13326 Lake jobs and 374 fully-qualified public theorem names pass locally. Both complete fused layernorm bodies preserve the original signed loops, helper tree, all casts, source shapes and libdevice intrinsic. Actual successful complete-grid execution, independent Real formula, whole FP equivalence, typed outputs/exterior frames and active access safety are re-proved. All 39 owned modules and the 40-module shared-dependency client layer_norm_welfold pass. All 513 Python tests pass. 114 targets retain exact-current-source/import-closure accepted independent receipts. The new two-case 81-root independent replay is running. No new numerical assumption or public premise.",
-    "official_replay_sources": 3622,
+    "working_tree": "151 selected cases (145 targets and 6 regressions), all 4693 retained/supporting modules and 376 fully qualified public theorem names pass locally. Lake checked the complete module list in two successful invocations (11233 and 11004 jobs). All 517 Python tests and strict body correspondence checks pass. Chunk GLA restores signed source casts and loop semantics and reconnects independent Real correctness, successful complete-grid execution, whole FP equivalence, memory outputs/frames, safety and native refinements. All 74 owned modules and affected chunk_delta_fwd/chunk_gated_attention clients pass. 131 targets retain exact-current independent acceptance; the new task and changed client closures await fresh replay. No new numerical assumption or public premise.",
+    "official_replay_sources": 3696,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -54,18 +54,18 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/fused_layernorm_triton",
+      "case": "bench/tritonbench_g/chunk_gla_simple",
       "case_paths": [
-        "bench/tritonbench_g/fused_layernorm_triton",
-        "bench/tritonbench_g/layer_norm_welfold"
+        "bench/tritonbench_g/chunk_delta_fwd",
+        "bench/tritonbench_g/chunk_gated_attention",
+        "bench/tritonbench_g/chunk_gla_simple"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 2,
-      "retained_modules": 81,
-      "replay_sources": 81,
-      "state": "official_workflow_in_progress",
-      "source_commit": "218c2291ec37f6525031dd3ce6ace1d58d65151e",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41480356274"
+      "cases": 3,
+      "retained_modules": 256,
+      "replay_sources": 256,
+      "state": "prepared_for_official_dispatch",
+      "source_commit": "working_tree"
     },
     "previous_incremental_replays": [
       {
@@ -668,6 +668,20 @@
         "state": "official_workflow_queued",
         "source_commit": "cb06c17f35761298aeb389a884b75a1a2560477f",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41456863767"
+      },
+      {
+        "case": "bench/tritonbench_g/fused_layernorm_triton",
+        "case_paths": [
+          "bench/tritonbench_g/fused_layernorm_triton",
+          "bench/tritonbench_g/layer_norm_welfold"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 2,
+        "retained_modules": 81,
+        "replay_sources": 81,
+        "state": "official_workflow_in_progress",
+        "source_commit": "218c2291ec37f6525031dd3ce6ace1d58d65151e",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41480356274"
       }
     ],
     "pending_client_regressions": {
@@ -683,8 +697,8 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 52 TritonBench-G source/proof migrations (chunk_gla_simple is next) and collect exact-source official receipts for the 30 locally validated pending targets. All 19 examples are locally validated. Keep numerical admission gaps explicit. No merge.",
-    "previous_validated_source_commit": "cb06c17f35761298aeb389a884b75a1a2560477f",
+    "current_work": "Continue the remaining 51 TritonBench-G source/proof migrations and collect exact-source official receipts for the 14 locally validated pending targets. All 19 examples are locally validated; 17 have current independent acceptance. No merge.",
+    "previous_validated_source_commit": "218c2291ec37f6525031dd3ce6ace1d58d65151e",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
       "cases": 139,
@@ -705,20 +719,24 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "218c2291ec37f6525031dd3ce6ace1d58d65151e",
+    "validated_source_commit": "working_tree",
     "last_full_local_snapshot": {
-      "cases": 150,
-      "targets": 144,
-      "retained_modules": 4619,
-      "replay_sources": 3622,
-      "public_theorem_names": "PASS",
+      "cases": 151,
+      "targets": 145,
       "regressions": 6,
-      "lake_jobs": 13326,
-      "public_theorem_count": 374,
-      "python_tests": 513,
+      "retained_modules": 4693,
+      "replay_sources": 3696,
+      "lake_build_invocations": 2,
+      "lake_jobs_per_invocation": [
+        11233,
+        11004
+      ],
+      "public_theorem_names": "PASS",
+      "public_theorem_count": 376,
+      "python_tests": 517,
       "current_dependency_snapshot": true,
-      "boundary": "Local proof/source/trust checks only. Not an independent replay completion receipt.",
-      "source_commit": "218c2291ec37f6525031dd3ce6ace1d58d65151e"
+      "source_commit": "working_tree",
+      "boundary": "Local source/proof/trust checks only; not an independent completion receipt."
     },
     "previous_shared_model_revalidations": [
       {
@@ -1006,7 +1024,6 @@
       "accepted_completed_shards": [
         0,
         1,
-        2,
         3,
         4,
         5,
@@ -1027,13 +1044,19 @@
         23
       ],
       "partially_current_shards": [
+        2,
         7
       ],
       "excluded_current_cases": [
         {
+          "path": "bench/tritonbench_g/chunk_delta_fwd",
+          "official_shard": 2,
+          "reason": "Shared source/import closure changed. Fresh independent replay required."
+        },
+        {
           "path": "bench/tritonbench_g/layer_norm_welfold",
           "official_shard": 7,
-          "reason": "The current Welford source/import closure changed. Old proof acceptance is not reused. The full current local batch passes; a fresh independent replay is required."
+          "reason": "Shared Welford source/import closure changed. Fresh independent replay is running."
         }
       ]
     },
@@ -1046,6 +1069,20 @@
       "landrun_commit": "5283024a2f49b28046c3b4a06d7d775c058d4d80",
       "pinned_binaries_and_replay_backport_sha256_verified": true,
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
+    },
+    "previous_full_local_snapshot": {
+      "cases": 150,
+      "targets": 144,
+      "retained_modules": 4619,
+      "replay_sources": 3622,
+      "public_theorem_names": "PASS",
+      "regressions": 6,
+      "lake_jobs": 13326,
+      "public_theorem_count": 374,
+      "python_tests": 513,
+      "current_dependency_snapshot": true,
+      "boundary": "Local proof/source/trust checks only. Not an independent replay completion receipt.",
+      "source_commit": "218c2291ec37f6525031dd3ce6ace1d58d65151e"
     }
   },
   "targets": [
@@ -1312,17 +1349,16 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_delta_fwd",
-      "status": "complete",
-      "complete": true,
+      "status": "shared_dependency_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "previously_complete": true,
-      "previous_receipt": "validation/body_receipts/chunk_delta_fwd.json",
-      "reason": "Accepted every required owned and shared independent proof replay in an official completed shard. Official ZIP SHA256, public theorem coverage, source body pairs and exact current transitive source/import closure verified. Compilation alone is not completion.",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "receipt": "validation/body_receipts/full-recovery-shard-2.json"
+      "previous_receipt": "validation/body_receipts/full-recovery-shard-2.json",
+      "reason": "The shared chunk_gla_simple source/import closure changed during its full-body migration. Current full local proof/source/trust checks pass, but the old independent receipt is not reused. Fresh exact-closure independent replay is required.",
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742"
     },
     {
       "path": "bench/tritonbench_g/chunk_gate_recurrence",
@@ -1343,8 +1379,13 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_simple",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "validated_source_commit": "working_tree",
+      "reason": "Both complete 23-statement repaired/derived Python bodies match the two literal Lean quotations. All original INT64 casts, tuple stride assignments, signed loop, three typed dot options, causal mask, load tails and source/store casts are retained. The original Python is unchanged; the materialized existing row-CSE candidate records provenance and preserves widening. The entire Real proof decomposition is proved equal to the actual source erasure; all address, signed iteration, independent Real contraction, successful complete grid, output/frame and active source safety proofs reconnect to it. Whole FP equivalence follows both actual sources and preserves opaque ordered FP operations. All 74 owned modules, affected clients, 376 public names and 517 Python tests pass in the 151-case local batch. No new numerical assumption, public premise or input restriction. Exact-current independent replay remains required; compilation does not count as completion."
     },
     {
       "path": "bench/tritonbench_g/chunk_linear_attn",

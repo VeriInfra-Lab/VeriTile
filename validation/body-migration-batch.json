@@ -317,6 +317,60 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/apply_penalty",
+      "python": "bench/tritonbench_g/apply_penalty/apply_penalty.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/apply_penalty/Correct.lean": [
+          "VeriTile.Bench.Repairs.ApplyPenalty.Correct.apply_penalty_correctness"
+        ],
+        "bench/tritonbench_g/apply_penalty/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ApplyPenalty.FPEquiv.apply_penalty_reciprocal_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton1",
+      "python": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/attention_fwd_triton1/Correct.lean": [
+          "VeriTile.Bench.Repairs.AttentionFwdTriton1TileChecked.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/attention_fwd_triton1/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttentionFwdTriton1TileChecked.FPEquiv.grid_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/attention_kernel",
+      "python": "bench/tritonbench_g/attention_kernel/attention_kernel.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/attention_kernel/Correct.lean": [
+          "VeriTile.Bench.Repairs.AttentionKernel.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/attention_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttentionKernel.FPEquiv.query_early_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/attention_kernel_aligned",
+      "python": "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/attention_kernel_aligned/Correct.lean": [
+          "VeriTile.Bench.Repairs.AttentionKernelAligned.Correct.kernel_correct",
+          "VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/attention_kernel_aligned/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttentionKernelAligned.FPEquiv.query_early_equiv",
+          "VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.FPEquiv.query_early_equiv"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/batched_vecmat_mult",
       "python": "bench/tritonbench_g/batched_vecmat_mult/batched_vecmat_mult.py",
       "purpose": "migration",
@@ -326,6 +380,58 @@
         ],
         "bench/tritonbench_g/batched_vecmat_mult/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.BatchedVecmatMult.Equivalence.block_first_strict"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/bgmv_expand_slice",
+      "python": "bench/tritonbench_g/bgmv_expand_slice/bgmv_expand_slice.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/bgmv_expand_slice/Correct.lean": [
+          "VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.correct"
+        ],
+        "bench/tritonbench_g/bgmv_expand_slice/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Equivalence.output_first_strict"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/bgmv_shrink_kernel",
+      "python": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/bgmv_shrink_kernel/Correct.lean": [
+          "VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/bgmv_shrink_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Equivalence.scalar_left_strict"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/bmm_chunk_bwd",
+      "python": "bench/tritonbench_g/bmm_chunk_bwd/bmm_chunk_bwd.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/bmm_chunk_bwd/Correct.lean": [
+          "VeriTile.Bench.Repairs.BmmChunkBwd.Correct.bmm_chunk_bwd_real"
+        ],
+        "bench/tritonbench_g/bmm_chunk_bwd/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.BmmChunkBwd.FPEquiv.bmm_chunk_bwd_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/bmm_optimized",
+      "python": "bench/tritonbench_g/bmm_optimized/bmm_optimized.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/bmm_optimized/Correct.lean": [
+          "VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.kernel_real"
+        ],
+        "bench/tritonbench_g/bmm_optimized/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Equivalence.quotient_remainder_equiv"
         ]
       }
     },
@@ -382,6 +488,19 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/chunk_gate_recurrence",
+      "python": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/chunk_gate_recurrence/Correct.lean": [
+          "VeriTile.Bench.Repairs.ChunkGateRecurrence.Correct.chunk_gate_recurrence_kernel_real"
+        ],
+        "bench/tritonbench_g/chunk_gate_recurrence/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ChunkGateRecurrence.FPEquiv.chunk_gate_recurrence_sumLeft_equiv"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/chunk_gated_attention",
       "python": "bench/tritonbench_g/chunk_gated_attention/chunk_gated_attention.py",
       "purpose": "regression",
@@ -393,6 +512,19 @@
         "bench/tritonbench_g/chunk_gated_attention/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.ChunkGatedAttention.KernelOnly.inner_source_equiv",
           "VeriTile.Bench.Repairs.ChunkGatedAttention.KernelOnly.prefix_source_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_gla_simple",
+      "python": "bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/chunk_gla_simple/Correct.lean": [
+          "VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.Correct.whole_kernel"
+        ],
+        "bench/tritonbench_g/chunk_gla_simple/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.FPEquiv.whole_kernel_equiv"
         ]
       }
     },
@@ -419,6 +551,53 @@
         ],
         "bench/tritonbench_g/cosine_compute/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.CosineCompute.FPEquiv.index_commuted_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/cross_entropy1",
+      "python": "bench/tritonbench_g/cross_entropy1/cross_entropy1.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/cross_entropy1/Correct.lean": [
+          "VeriTile.Bench.Repairs.CrossEntropy1.Correct.forward_unsplit_kernel",
+          "VeriTile.Bench.Repairs.CrossEntropy1.Correct.forward_split_kernel",
+          "VeriTile.Bench.Repairs.CrossEntropy1.Correct.backward_kernel"
+        ],
+        "bench/tritonbench_g/cross_entropy1/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.CrossEntropy1.FPEquiv.forward_index_commuted_equiv",
+          "VeriTile.Bench.Repairs.CrossEntropy1.FPEquiv.backward_index_commuted_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/cross_entropy2",
+      "python": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/cross_entropy2/Correct.lean": [
+          "VeriTile.Bench.Repairs.CrossEntropy2.Correct.forward",
+          "VeriTile.Bench.Repairs.CrossEntropy2.Correct.backward"
+        ],
+        "bench/tritonbench_g/cross_entropy2/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.CrossEntropy2.FPEquiv.forward_index_commuted_equiv",
+          "VeriTile.Bench.Repairs.CrossEntropy2.FPEquiv.backward_index_commuted_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/cross_entropy_ops",
+      "python": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/cross_entropy_ops/Correct.lean": [
+          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.forward_unsplit",
+          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.forward_split",
+          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.backward"
+        ],
+        "bench/tritonbench_g/cross_entropy_ops/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.CrossEntropyOps.FPEquiv.forward_index_commuted_equiv",
+          "VeriTile.Bench.Repairs.CrossEntropyOps.FPEquiv.backward_index_commuted_equiv"
         ]
       }
     },
@@ -544,6 +723,35 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/fast_layernorm",
+      "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fast_layernorm/Correct.lean": [
+          "VeriTile.Bench.Repairs.FastLayernorm.Correctness.forward_kernel_correctness",
+          "VeriTile.Bench.Repairs.FastLayernorm.Correctness.backward_kernel_correctness",
+          "VeriTile.Bench.Repairs.FastLayernorm.Correctness.affine_kernel_correctness"
+        ],
+        "bench/tritonbench_g/fast_layernorm/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FastLayernorm.FPEquiv.kernel_equivalent"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/fast_rms_layernorm",
+      "python": "bench/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fast_rms_layernorm/Correct.lean": [
+          "VeriTile.Bench.Repairs.FastRmsLayernorm.Correct.kernel_forward",
+          "VeriTile.Bench.Repairs.FastRmsLayernorm.Correct.kernel_backward"
+        ],
+        "bench/tritonbench_g/fast_rms_layernorm/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.kernel_equivalent"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/fast_rope_embedding",
       "python": "bench/tritonbench_g/fast_rope_embedding/fast_rope_embedding.py",
       "purpose": "migration",
@@ -596,6 +804,19 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/fused_layernorm_triton",
+      "python": "bench/tritonbench_g/fused_layernorm_triton/fused_layernorm_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_layernorm_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.Correctness.kernel_real"
+        ],
+        "bench/tritonbench_g/fused_layernorm_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.whole_fp"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/fused_recurrent_hgrn",
       "python": "bench/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn.py",
       "purpose": "migration",
@@ -605,6 +826,46 @@
         ],
         "bench/tritonbench_g/fused_recurrent_hgrn/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.FusedRecurrentHgrn.stride_folded_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/fused_recurrent_retention",
+      "python": "bench/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_recurrent_retention/Correct.lean": [
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.kernel_forward_real",
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.kernel_backward_real"
+        ],
+        "bench/tritonbench_g/fused_recurrent_retention/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedRecurrentRetention.compare_right_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/fused_rotary_embedding",
+      "python": "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_rotary_embedding/Correct.lean": [
+          "VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.Correct.fused_rotary_real"
+        ],
+        "bench/tritonbench_g/fused_rotary_embedding/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.FPEquiv.kernel_equivalent"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/fused_rwkv6_kernel",
+      "python": "bench/tritonbench_g/fused_rwkv6_kernel/fused_rwkv6_kernel.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_rwkv6_kernel/Correct.lean": [
+          "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct.rwkv_real"
+        ],
+        "bench/tritonbench_g/fused_rwkv6_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.FPEquiv.u_early_equiv"
         ]
       }
     },
@@ -648,6 +909,58 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/int4_matmul",
+      "python": "bench/tritonbench_g/int4_matmul/int4_matmul.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/int4_matmul/Correct.lean": [
+          "VeriTile.Bench.Repairs.Int4Matmul.Correct.matmul_grid_real"
+        ],
+        "bench/tritonbench_g/int4_matmul/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Int4Matmul.FPEquiv.fold_stride_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/int8_dequant_matmul",
+      "python": "bench/tritonbench_g/int8_dequant_matmul/int8_dequant_matmul.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/int8_dequant_matmul/Correct.lean": [
+          "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/int8_dequant_matmul/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.FPEquiv.reuse_indices_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/int8_matmul_kernel",
+      "python": "bench/tritonbench_g/int8_matmul_kernel/int8_matmul_kernel.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/int8_matmul_kernel/Correct.lean": [
+          "VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.kernel_low32"
+        ],
+        "bench/tritonbench_g/int8_matmul_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.FPEquiv.configuration_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/isfinite_kernel",
+      "python": "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/isfinite_kernel/Correct.lean": [
+          "VeriTile.Bench.Repairs.IsfiniteKernel.Correct.isfinite_real_correctness"
+        ],
+        "bench/tritonbench_g/isfinite_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.IsfiniteKernel.FPEquiv.isfinite_index_commuted_equiv"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/kcache_copy_triton",
       "python": "bench/tritonbench_g/kcache_copy_triton/kcache_copy_triton.py",
       "purpose": "migration",
@@ -674,6 +987,21 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/kldiv_ops",
+      "python": "bench/tritonbench_g/kldiv_ops/kldiv_ops.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/kldiv_ops/Correct.lean": [
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.Correct.forward",
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.Correct.backward"
+        ],
+        "bench/tritonbench_g/kldiv_ops/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.forward_pair",
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.backward_pair"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/kldiv_triton",
       "python": "bench/tritonbench_g/kldiv_triton/kldiv_triton.py",
       "purpose": "migration",
@@ -685,6 +1013,34 @@
         "bench/tritonbench_g/kldiv_triton/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.KldivTriton.Kernel.FPEquiv.forward_pair",
           "VeriTile.Bench.Repairs.KldivTriton.Kernel.FPEquiv.backward_pair"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/ksoftmax_triton",
+      "python": "bench/tritonbench_g/ksoftmax_triton/ksoftmax_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/ksoftmax_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.KsoftmaxGridYChecked.Correct.forward_kernel_real_raw",
+          "VeriTile.Bench.Repairs.KsoftmaxGridYChecked.Correct.backward_kernel_real_raw",
+          "VeriTile.Bench.Repairs.KsoftmaxGridYChecked.Correct.log_backward_kernel_real_raw"
+        ],
+        "bench/tritonbench_g/ksoftmax_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.KsoftmaxGridYChecked.FPEquiv.reversed_schedule_equivalent"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/kv_cache_copy",
+      "python": "bench/tritonbench_g/kv_cache_copy/kv_cache_copy.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/kv_cache_copy/Correct.lean": [
+          "VeriTile.Bench.Repairs.KvCacheCopy.Correct.kv_cache_copy_real"
+        ],
+        "bench/tritonbench_g/kv_cache_copy/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.KvCacheCopy.FPEquiv.source_equivalence"
         ]
       }
     },
@@ -730,6 +1086,49 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/layer_norm_liger",
+      "python": "bench/tritonbench_g/layer_norm_liger/layer_norm_liger.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/layer_norm_liger/Correct.lean": [
+          "VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_forward_kernel_real",
+          "VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_backward_kernel_real"
+        ],
+        "bench/tritonbench_g/layer_norm_liger/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LayerNormLiger.Kernel.FPEquiv.forward_pair",
+          "VeriTile.Bench.Repairs.LayerNormLiger.Kernel.FPEquiv.backward_pair"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_ops",
+      "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/layer_norm_ops/Correct.lean": [
+          "VeriTile.Bench.Repairs.LayerNormOps.Correct.layer_norm_ops_forward_kernel_real",
+          "VeriTile.Bench.Repairs.LayerNormOps.Correct.layer_norm_ops_backward_kernel_real"
+        ],
+        "bench/tritonbench_g/layer_norm_ops/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LayerNormOps.FPEquiv.forward_mask_reused_equiv",
+          "VeriTile.Bench.Repairs.LayerNormOps.FPEquiv.backward_row_start_reused_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_welfold",
+      "python": "bench/tritonbench_g/layer_norm_welfold/layer_norm_welfold.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/layer_norm_welfold/Correct.lean": [
+          "VeriTile.Bench.Repairs.LayerNormWelfold.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/layer_norm_welfold/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.row_offset_reused_equiv"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/layernorm_fwd_triton",
       "python": "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py",
       "purpose": "migration",
@@ -767,6 +1166,19 @@
         ],
         "bench/tritonbench_g/logsumexp_fwd/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.LogsumexpFwd.FPEquiv.source_equivalence"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/lora_expand_gemv",
+      "python": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/lora_expand_gemv/Correct.lean": [
+          "VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/lora_expand_gemv/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.FPEquiv.grid_equiv"
         ]
       }
     },
@@ -810,6 +1222,45 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/matmul_leakyrelu",
+      "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_leakyrelu/Correct.lean": [
+          "VeriTile.Bench.Repairs.MatmulLeakyrelu.KernelOnly.matmul_leakyrelu_real"
+        ],
+        "bench/tritonbench_g/matmul_leakyrelu/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MatmulLeakyrelu.KernelOnly.FPEquiv.source_pair_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_leakyrelu_fp8",
+      "python": "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_leakyrelu_fp8/Correct.lean": [
+          "VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/matmul_leakyrelu_fp8/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.FPEquiv.source_pair_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_persistent_triton",
+      "python": "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_persistent_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.kernel_correct"
+        ],
+        "bench/tritonbench_g/matmul_persistent_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.FPEquiv.source_pair_equiv"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/matmul_tma",
       "python": "bench/tritonbench_g/matmul_tma/matmul_tma.py",
       "purpose": "migration",
@@ -845,6 +1296,19 @@
         ],
         "bench/tritonbench_g/matmul_triton2/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.FPEquiv.source_pair_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_triton_autotune",
+      "python": "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_triton_autotune/Correct.lean": [
+          "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.mathematical_kernel"
+        ],
+        "bench/tritonbench_g/matmul_triton_autotune/FPEquiv.lean": [
+          "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.matmul_equiv"
         ]
       }
     },
@@ -931,6 +1395,19 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/multinomial_sampling",
+      "python": "bench/tritonbench_g/multinomial_sampling/multinomial_sampling.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/multinomial_sampling/Correct.lean": [
+          "VeriTile.Bench.Repairs.MultinomialSampling.multinomial_categorical_correctness"
+        ],
+        "bench/tritonbench_g/multinomial_sampling/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MultinomialSampling.FPEquiv.static_unroll_equiv"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/nested_loops_processing",
       "python": "bench/tritonbench_g/nested_loops_processing/nested_loops_processing.py",
       "purpose": "migration",
@@ -1005,6 +1482,19 @@
         ],
         "bench/tritonbench_g/quantize_kv_transform/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.QuantizeKvTransform.FPEquiv.address_early_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/relu_strided_buffer",
+      "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/relu_strided_buffer/Correct.lean": [
+          "VeriTile.Bench.Repairs.ReluStridedBuffer.relu_strided_buffer_kernel_correctness"
+        ],
+        "bench/tritonbench_g/relu_strided_buffer/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ReluStridedBuffer.relu_strided_buffer_folded_equiv"
         ]
       }
     },
@@ -1165,6 +1655,21 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/rotary_emb_nopad",
+      "python": "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rotary_emb_nopad/Correct.lean": [
+          "VeriTile.Bench.Repairs.RotaryEmbNopad.Correct.rotary_uncached_correct",
+          "VeriTile.Bench.Repairs.RotaryEmbNopad.Correct.rotary_cached_correct"
+        ],
+        "bench/tritonbench_g/rotary_emb_nopad/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RotaryEmbNopad.FPEquiv.uncached_source_candidate_equivalence",
+          "VeriTile.Bench.Repairs.RotaryEmbNopad.FPEquiv.cached_source_candidate_equivalence"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/rowwise_quantization_triton",
       "python": "bench/tritonbench_g/rowwise_quantization_triton/rowwise_quantization_triton.py",
       "purpose": "migration",
@@ -1174,6 +1679,32 @@
         ],
         "bench/tritonbench_g/rowwise_quantization_triton/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.RowwiseQuantizationTriton.FPEquiv.rowwise_grid_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/seeded_dropout",
+      "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/seeded_dropout/Correct.lean": [
+          "VeriTile.Bench.Repairs.SeededDropout.Correct.seeded_dropout_kernel_correctness"
+        ],
+        "bench/tritonbench_g/seeded_dropout/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SeededDropout.FPEquiv.index_commuted_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/sgmv_expand_slice",
+      "python": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/sgmv_expand_slice/Correct.lean": [
+          "VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/sgmv_expand_slice/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated.FPEquiv.sgmv_grid_equiv"
         ]
       }
     },
@@ -1200,6 +1731,32 @@
         ],
         "bench/tritonbench_g/sin_kernel/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.SinKernel.FPEquiv.index_commuted_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_optimize",
+      "python": "bench/tritonbench_g/softmax_optimize/softmax_optimize.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/softmax_optimize/Correct.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxOptimize.Correct.softmax_row_correct"
+        ],
+        "bench/tritonbench_g/softmax_optimize/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxOptimize.FPEquiv.softmax_source_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev",
+      "python": "bench/tritonbench_g/softmax_reducev/softmax_reducev.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/softmax_reducev/Correct.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/softmax_reducev/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.FPEquiv.reducev_grid_equiv"
         ]
       }
     },
@@ -1283,6 +1840,59 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/swiglu_triton",
+      "python": "bench/tritonbench_g/swiglu_triton/swiglu_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/swiglu_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.SwigluTriton.swiglu_kernel_correct"
+        ],
+        "bench/tritonbench_g/swiglu_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SwigluTriton.forward_index_equiv",
+          "VeriTile.Bench.Repairs.SwigluTriton.backward_index_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/token_attn_llama2",
+      "python": "bench/tritonbench_g/token_attn_llama2/token_attn_llama2.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/token_attn_llama2/Correct.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.Correct.token_attention_kernel_correct"
+        ],
+        "bench/tritonbench_g/token_attn_llama2/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.FPEquiv.block_origin_reuse_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/token_attn_mistral",
+      "python": "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/token_attn_mistral/Correct.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.kernel_correct"
+        ],
+        "bench/tritonbench_g/token_attn_mistral/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.FPEquiv.affine_address_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/token_attn_reduceV",
+      "python": "bench/tritonbench_g/token_attn_reduceV/token_attn_reduceV.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/token_attn_reduceV/Correct.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.grid_real"
+        ],
+        "bench/tritonbench_g/token_attn_reduceV/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.FPEquiv.affine_address_equiv"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/token_softmax_bloom",
       "python": "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py",
       "purpose": "migration",
@@ -1305,6 +1915,34 @@
         ],
         "bench/tritonbench_g/token_softmax_llama/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.TokenSoftmaxLlama.FPEquiv.token_softmax_source_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/triton_argmax",
+      "python": "bench/tritonbench_g/triton_argmax/triton_argmax.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/triton_argmax/Correct.lean": [
+          "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.global",
+          "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.dimension"
+        ],
+        "bench/tritonbench_g/triton_argmax/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.FPEquiv.global_equiv",
+          "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.FPEquiv.dimension_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/triton_conv2d_fwd",
+      "python": "bench/tritonbench_g/triton_conv2d_fwd/triton_conv2d_fwd.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/triton_conv2d_fwd/Correct.lean": [
+          "VeriTile.Bench.Repairs.Conv2d.correct_real"
+        ],
+        "bench/tritonbench_g/triton_conv2d_fwd/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Conv2d.FPEquiv.grid_equiv"
         ]
       }
     },
@@ -1350,6 +1988,19 @@
       }
     },
     {
+      "path": "bench/tritonbench_g/uniform_sampling",
+      "python": "bench/tritonbench_g/uniform_sampling/uniform_sampling.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/uniform_sampling/Correct.lean": [
+          "VeriTile.Bench.Repairs.UniformSampling.Correct.uniform_sampling_kernel_correctness"
+        ],
+        "bench/tritonbench_g/uniform_sampling/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.UniformSampling.FPEquiv.index_commuted_equiv"
+        ]
+      }
+    },
+    {
       "path": "bench/tritonbench_g/var_len_copy",
       "python": "bench/tritonbench_g/var_len_copy/var_len_copy.py",
       "purpose": "migration",
@@ -1385,644 +2036,6 @@
         ],
         "bench/tritonbench_g/vector_addition_custom/FPEquiv.lean": [
           "VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.FPEquiv.add_commuted_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/swiglu_triton",
-      "python": "bench/tritonbench_g/swiglu_triton/swiglu_triton.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/swiglu_triton/Correct.lean": [
-          "VeriTile.Bench.Repairs.SwigluTriton.swiglu_kernel_correct"
-        ],
-        "bench/tritonbench_g/swiglu_triton/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.SwigluTriton.forward_index_equiv",
-          "VeriTile.Bench.Repairs.SwigluTriton.backward_index_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/seeded_dropout",
-      "python": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/seeded_dropout/Correct.lean": [
-          "VeriTile.Bench.Repairs.SeededDropout.Correct.seeded_dropout_kernel_correctness"
-        ],
-        "bench/tritonbench_g/seeded_dropout/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.SeededDropout.FPEquiv.index_commuted_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/apply_penalty",
-      "python": "bench/tritonbench_g/apply_penalty/apply_penalty.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/apply_penalty/Correct.lean": [
-          "VeriTile.Bench.Repairs.ApplyPenalty.Correct.apply_penalty_correctness"
-        ],
-        "bench/tritonbench_g/apply_penalty/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.ApplyPenalty.FPEquiv.apply_penalty_reciprocal_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/fast_rms_layernorm",
-      "python": "bench/tritonbench_g/fast_rms_layernorm/fast_rms_layernorm.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/fast_rms_layernorm/Correct.lean": [
-          "VeriTile.Bench.Repairs.FastRmsLayernorm.Correct.kernel_forward",
-          "VeriTile.Bench.Repairs.FastRmsLayernorm.Correct.kernel_backward"
-        ],
-        "bench/tritonbench_g/fast_rms_layernorm/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.kernel_equivalent"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/token_attn_reduceV",
-      "python": "bench/tritonbench_g/token_attn_reduceV/token_attn_reduceV.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/token_attn_reduceV/Correct.lean": [
-          "VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.grid_real"
-        ],
-        "bench/tritonbench_g/token_attn_reduceV/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.FPEquiv.affine_address_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/kv_cache_copy",
-      "python": "bench/tritonbench_g/kv_cache_copy/kv_cache_copy.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/kv_cache_copy/Correct.lean": [
-          "VeriTile.Bench.Repairs.KvCacheCopy.Correct.kv_cache_copy_real"
-        ],
-        "bench/tritonbench_g/kv_cache_copy/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.KvCacheCopy.FPEquiv.source_equivalence"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/token_attn_mistral",
-      "python": "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/token_attn_mistral/Correct.lean": [
-          "VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.kernel_correct"
-        ],
-        "bench/tritonbench_g/token_attn_mistral/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.FPEquiv.affine_address_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/softmax_reducev",
-      "python": "bench/tritonbench_g/softmax_reducev/softmax_reducev.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/softmax_reducev/Correct.lean": [
-          "VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.Correct.kernel_real"
-        ],
-        "bench/tritonbench_g/softmax_reducev/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.FPEquiv.reducev_grid_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/token_attn_llama2",
-      "python": "bench/tritonbench_g/token_attn_llama2/token_attn_llama2.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/token_attn_llama2/Correct.lean": [
-          "VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.Correct.token_attention_kernel_correct"
-        ],
-        "bench/tritonbench_g/token_attn_llama2/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.FPEquiv.block_origin_reuse_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/ksoftmax_triton",
-      "python": "bench/tritonbench_g/ksoftmax_triton/ksoftmax_triton.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/ksoftmax_triton/Correct.lean": [
-          "VeriTile.Bench.Repairs.KsoftmaxGridYChecked.Correct.forward_kernel_real_raw",
-          "VeriTile.Bench.Repairs.KsoftmaxGridYChecked.Correct.backward_kernel_real_raw",
-          "VeriTile.Bench.Repairs.KsoftmaxGridYChecked.Correct.log_backward_kernel_real_raw"
-        ],
-        "bench/tritonbench_g/ksoftmax_triton/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.KsoftmaxGridYChecked.FPEquiv.reversed_schedule_equivalent"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/softmax_optimize",
-      "python": "bench/tritonbench_g/softmax_optimize/softmax_optimize.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/softmax_optimize/Correct.lean": [
-          "VeriTile.Bench.Repairs.SoftmaxOptimize.Correct.softmax_row_correct"
-        ],
-        "bench/tritonbench_g/softmax_optimize/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.SoftmaxOptimize.FPEquiv.softmax_source_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/rotary_emb_nopad",
-      "python": "bench/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/rotary_emb_nopad/Correct.lean": [
-          "VeriTile.Bench.Repairs.RotaryEmbNopad.Correct.rotary_uncached_correct",
-          "VeriTile.Bench.Repairs.RotaryEmbNopad.Correct.rotary_cached_correct"
-        ],
-        "bench/tritonbench_g/rotary_emb_nopad/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.RotaryEmbNopad.FPEquiv.uncached_source_candidate_equivalence",
-          "VeriTile.Bench.Repairs.RotaryEmbNopad.FPEquiv.cached_source_candidate_equivalence"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/fused_rotary_embedding",
-      "python": "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/fused_rotary_embedding/Correct.lean": [
-          "VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.Correct.fused_rotary_real"
-        ],
-        "bench/tritonbench_g/fused_rotary_embedding/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.FPEquiv.kernel_equivalent"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/layer_norm_liger",
-      "python": "bench/tritonbench_g/layer_norm_liger/layer_norm_liger.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/layer_norm_liger/Correct.lean": [
-          "VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_forward_kernel_real",
-          "VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_backward_kernel_real"
-        ],
-        "bench/tritonbench_g/layer_norm_liger/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.LayerNormLiger.Kernel.FPEquiv.forward_pair",
-          "VeriTile.Bench.Repairs.LayerNormLiger.Kernel.FPEquiv.backward_pair"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/triton_argmax",
-      "python": "bench/tritonbench_g/triton_argmax/triton_argmax.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/triton_argmax/Correct.lean": [
-          "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.global",
-          "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.dimension"
-        ],
-        "bench/tritonbench_g/triton_argmax/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.FPEquiv.global_equiv",
-          "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.FPEquiv.dimension_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/cross_entropy1",
-      "python": "bench/tritonbench_g/cross_entropy1/cross_entropy1.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/cross_entropy1/Correct.lean": [
-          "VeriTile.Bench.Repairs.CrossEntropy1.Correct.forward_unsplit_kernel",
-          "VeriTile.Bench.Repairs.CrossEntropy1.Correct.forward_split_kernel",
-          "VeriTile.Bench.Repairs.CrossEntropy1.Correct.backward_kernel"
-        ],
-        "bench/tritonbench_g/cross_entropy1/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.CrossEntropy1.FPEquiv.forward_index_commuted_equiv",
-          "VeriTile.Bench.Repairs.CrossEntropy1.FPEquiv.backward_index_commuted_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/cross_entropy2",
-      "python": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/cross_entropy2/Correct.lean": [
-          "VeriTile.Bench.Repairs.CrossEntropy2.Correct.forward",
-          "VeriTile.Bench.Repairs.CrossEntropy2.Correct.backward"
-        ],
-        "bench/tritonbench_g/cross_entropy2/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.CrossEntropy2.FPEquiv.forward_index_commuted_equiv",
-          "VeriTile.Bench.Repairs.CrossEntropy2.FPEquiv.backward_index_commuted_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/cross_entropy_ops",
-      "python": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/cross_entropy_ops/Correct.lean": [
-          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.forward_unsplit",
-          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.forward_split",
-          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.backward"
-        ],
-        "bench/tritonbench_g/cross_entropy_ops/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.CrossEntropyOps.FPEquiv.forward_index_commuted_equiv",
-          "VeriTile.Bench.Repairs.CrossEntropyOps.FPEquiv.backward_index_commuted_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/fast_layernorm",
-      "python": "bench/tritonbench_g/fast_layernorm/fast_layernorm.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/fast_layernorm/Correct.lean": [
-          "VeriTile.Bench.Repairs.FastLayernorm.Correctness.forward_kernel_correctness",
-          "VeriTile.Bench.Repairs.FastLayernorm.Correctness.backward_kernel_correctness",
-          "VeriTile.Bench.Repairs.FastLayernorm.Correctness.affine_kernel_correctness"
-        ],
-        "bench/tritonbench_g/fast_layernorm/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.FastLayernorm.FPEquiv.kernel_equivalent"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/multinomial_sampling",
-      "python": "bench/tritonbench_g/multinomial_sampling/multinomial_sampling.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/multinomial_sampling/Correct.lean": [
-          "VeriTile.Bench.Repairs.MultinomialSampling.multinomial_categorical_correctness"
-        ],
-        "bench/tritonbench_g/multinomial_sampling/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.MultinomialSampling.FPEquiv.static_unroll_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/kldiv_ops",
-      "python": "bench/tritonbench_g/kldiv_ops/kldiv_ops.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/kldiv_ops/Correct.lean": [
-          "VeriTile.Bench.Repairs.KldivOps.Kernel.Correct.forward",
-          "VeriTile.Bench.Repairs.KldivOps.Kernel.Correct.backward"
-        ],
-        "bench/tritonbench_g/kldiv_ops/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.forward_pair",
-          "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.backward_pair"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/isfinite_kernel",
-      "python": "bench/tritonbench_g/isfinite_kernel/isfinite_kernel.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/isfinite_kernel/Correct.lean": [
-          "VeriTile.Bench.Repairs.IsfiniteKernel.Correct.isfinite_real_correctness"
-        ],
-        "bench/tritonbench_g/isfinite_kernel/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.IsfiniteKernel.FPEquiv.isfinite_index_commuted_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/bmm_optimized",
-      "python": "bench/tritonbench_g/bmm_optimized/bmm_optimized.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/bmm_optimized/Correct.lean": [
-          "VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.kernel_real"
-        ],
-        "bench/tritonbench_g/bmm_optimized/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Equivalence.quotient_remainder_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/bmm_chunk_bwd",
-      "python": "bench/tritonbench_g/bmm_chunk_bwd/bmm_chunk_bwd.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/bmm_chunk_bwd/Correct.lean": [
-          "VeriTile.Bench.Repairs.BmmChunkBwd.Correct.bmm_chunk_bwd_real"
-        ],
-        "bench/tritonbench_g/bmm_chunk_bwd/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.BmmChunkBwd.FPEquiv.bmm_chunk_bwd_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/layer_norm_welfold",
-      "python": "bench/tritonbench_g/layer_norm_welfold/layer_norm_welfold.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/layer_norm_welfold/Correct.lean": [
-          "VeriTile.Bench.Repairs.LayerNormWelfold.Correct.kernel_real"
-        ],
-        "bench/tritonbench_g/layer_norm_welfold/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.row_offset_reused_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/uniform_sampling",
-      "python": "bench/tritonbench_g/uniform_sampling/uniform_sampling.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/uniform_sampling/Correct.lean": [
-          "VeriTile.Bench.Repairs.UniformSampling.Correct.uniform_sampling_kernel_correctness"
-        ],
-        "bench/tritonbench_g/uniform_sampling/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.UniformSampling.FPEquiv.index_commuted_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/attention_fwd_triton1",
-      "python": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/attention_fwd_triton1/Correct.lean": [
-          "VeriTile.Bench.Repairs.AttentionFwdTriton1TileChecked.Correct.kernel_real"
-        ],
-        "bench/tritonbench_g/attention_fwd_triton1/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.AttentionFwdTriton1TileChecked.FPEquiv.grid_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/int8_dequant_matmul",
-      "python": "bench/tritonbench_g/int8_dequant_matmul/int8_dequant_matmul.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/int8_dequant_matmul/Correct.lean": [
-          "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Correct.kernel_real"
-        ],
-        "bench/tritonbench_g/int8_dequant_matmul/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.FPEquiv.reuse_indices_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/int8_matmul_kernel",
-      "python": "bench/tritonbench_g/int8_matmul_kernel/int8_matmul_kernel.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/int8_matmul_kernel/Correct.lean": [
-          "VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.kernel_low32"
-        ],
-        "bench/tritonbench_g/int8_matmul_kernel/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.FPEquiv.configuration_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/int4_matmul",
-      "python": "bench/tritonbench_g/int4_matmul/int4_matmul.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/int4_matmul/Correct.lean": [
-          "VeriTile.Bench.Repairs.Int4Matmul.Correct.matmul_grid_real"
-        ],
-        "bench/tritonbench_g/int4_matmul/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.Int4Matmul.FPEquiv.fold_stride_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/layer_norm_ops",
-      "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/layer_norm_ops/Correct.lean": [
-          "VeriTile.Bench.Repairs.LayerNormOps.Correct.layer_norm_ops_forward_kernel_real",
-          "VeriTile.Bench.Repairs.LayerNormOps.Correct.layer_norm_ops_backward_kernel_real"
-        ],
-        "bench/tritonbench_g/layer_norm_ops/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.LayerNormOps.FPEquiv.forward_mask_reused_equiv",
-          "VeriTile.Bench.Repairs.LayerNormOps.FPEquiv.backward_row_start_reused_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/matmul_triton_autotune",
-      "python": "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/matmul_triton_autotune/Correct.lean": [
-          "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.mathematical_kernel"
-        ],
-        "bench/tritonbench_g/matmul_triton_autotune/FPEquiv.lean": [
-          "VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.matmul_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/matmul_leakyrelu",
-      "python": "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/matmul_leakyrelu/Correct.lean": [
-          "VeriTile.Bench.Repairs.MatmulLeakyrelu.KernelOnly.matmul_leakyrelu_real"
-        ],
-        "bench/tritonbench_g/matmul_leakyrelu/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.MatmulLeakyrelu.KernelOnly.FPEquiv.source_pair_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/matmul_leakyrelu_fp8",
-      "python": "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/matmul_leakyrelu_fp8/Correct.lean": [
-          "VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.Correct.kernel_correct"
-        ],
-        "bench/tritonbench_g/matmul_leakyrelu_fp8/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.FPEquiv.source_pair_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/bgmv_shrink_kernel",
-      "python": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/bgmv_shrink_kernel/Correct.lean": [
-          "VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Correct.kernel_real"
-        ],
-        "bench/tritonbench_g/bgmv_shrink_kernel/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Equivalence.scalar_left_strict"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/bgmv_expand_slice",
-      "python": "bench/tritonbench_g/bgmv_expand_slice/bgmv_expand_slice.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/bgmv_expand_slice/Correct.lean": [
-          "VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.correct"
-        ],
-        "bench/tritonbench_g/bgmv_expand_slice/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Equivalence.output_first_strict"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/sgmv_expand_slice",
-      "python": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/sgmv_expand_slice/Correct.lean": [
-          "VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated.Correct.kernel_real"
-        ],
-        "bench/tritonbench_g/sgmv_expand_slice/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated.FPEquiv.sgmv_grid_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/lora_expand_gemv",
-      "python": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/lora_expand_gemv/Correct.lean": [
-          "VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Correct.kernel_real"
-        ],
-        "bench/tritonbench_g/lora_expand_gemv/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.FPEquiv.grid_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/triton_conv2d_fwd",
-      "python": "bench/tritonbench_g/triton_conv2d_fwd/triton_conv2d_fwd.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/triton_conv2d_fwd/Correct.lean": [
-          "VeriTile.Bench.Repairs.Conv2d.correct_real"
-        ],
-        "bench/tritonbench_g/triton_conv2d_fwd/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.Conv2d.FPEquiv.grid_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/matmul_persistent_triton",
-      "python": "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/matmul_persistent_triton/Correct.lean": [
-          "VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.kernel_correct"
-        ],
-        "bench/tritonbench_g/matmul_persistent_triton/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.FPEquiv.source_pair_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/relu_strided_buffer",
-      "python": "bench/tritonbench_g/relu_strided_buffer/relu_strided_buffer.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/relu_strided_buffer/Correct.lean": [
-          "VeriTile.Bench.Repairs.ReluStridedBuffer.relu_strided_buffer_kernel_correctness"
-        ],
-        "bench/tritonbench_g/relu_strided_buffer/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.ReluStridedBuffer.relu_strided_buffer_folded_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/fused_rwkv6_kernel",
-      "python": "bench/tritonbench_g/fused_rwkv6_kernel/fused_rwkv6_kernel.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/fused_rwkv6_kernel/Correct.lean": [
-          "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct.rwkv_real"
-        ],
-        "bench/tritonbench_g/fused_rwkv6_kernel/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.FPEquiv.u_early_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/fused_recurrent_retention",
-      "python": "bench/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/fused_recurrent_retention/Correct.lean": [
-          "VeriTile.Bench.Repairs.FusedRecurrentRetention.kernel_forward_real",
-          "VeriTile.Bench.Repairs.FusedRecurrentRetention.kernel_backward_real"
-        ],
-        "bench/tritonbench_g/fused_recurrent_retention/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.FusedRecurrentRetention.compare_right_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/chunk_gate_recurrence",
-      "python": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/chunk_gate_recurrence/Correct.lean": [
-          "VeriTile.Bench.Repairs.ChunkGateRecurrence.Correct.chunk_gate_recurrence_kernel_real"
-        ],
-        "bench/tritonbench_g/chunk_gate_recurrence/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.ChunkGateRecurrence.FPEquiv.chunk_gate_recurrence_sumLeft_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/attention_kernel",
-      "python": "bench/tritonbench_g/attention_kernel/attention_kernel.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/attention_kernel/Correct.lean": [
-          "VeriTile.Bench.Repairs.AttentionKernel.Correct.kernel_correct"
-        ],
-        "bench/tritonbench_g/attention_kernel/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.AttentionKernel.FPEquiv.query_early_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/attention_kernel_aligned",
-      "python": "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/attention_kernel_aligned/Correct.lean": [
-          "VeriTile.Bench.Repairs.AttentionKernelAligned.Correct.kernel_correct",
-          "VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Correct.kernel_correct"
-        ],
-        "bench/tritonbench_g/attention_kernel_aligned/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.AttentionKernelAligned.FPEquiv.query_early_equiv",
-          "VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.FPEquiv.query_early_equiv"
-        ]
-      }
-    },
-    {
-      "path": "bench/tritonbench_g/fused_layernorm_triton",
-      "python": "bench/tritonbench_g/fused_layernorm_triton/fused_layernorm_triton.py",
-      "purpose": "migration",
-      "public_theorems": {
-        "bench/tritonbench_g/fused_layernorm_triton/Correct.lean": [
-          "VeriTile.Bench.Repairs.FusedLayernormTriton.Correctness.kernel_real"
-        ],
-        "bench/tritonbench_g/fused_layernorm_triton/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.FusedLayernormTriton.whole_fp"
         ]
       }
     }
@@ -2767,6 +2780,80 @@
     "bench/tritonbench_g/chunk_gated_attention/Proofs/CumulativeRealSuffix.lean",
     "bench/tritonbench_g/chunk_gated_attention/Proofs/CumulativeSource.lean",
     "bench/tritonbench_g/chunk_gated_attention/Sources/NativePrefix.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Contract.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Correct.lean",
+    "bench/tritonbench_g/chunk_gla_simple/FPEquiv.lean",
+    "bench/tritonbench_g/chunk_gla_simple/IO.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Kernels.lean",
+    "bench/tritonbench_g/chunk_gla_simple/PairIO.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/Address.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/Admission.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/DirectReal.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/FPComplete.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/FPExecution.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/FPGrid.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/FPRange.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/FPValue.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/Geometry.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/IOBindings.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/IONative.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/IONativeBindings.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/IONativeSafety.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/IOReal.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/IORealGrid.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/IOSourceSafety.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/KernelRealResults.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/Layout.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/Native.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/NativeControl.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/NativeGraph.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/NativeIO.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/Pair.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/PairSource.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/RealFlat.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/ScalarGraph.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/Shape.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/Static.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Proofs/Typed.lean",
+    "bench/tritonbench_g/chunk_gla_simple/SourceTypes.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Address.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Admission.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/ByteMemory.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/DirectReal.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Execution.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/FP.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/FPComplete.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/FPExecution.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/FPGrid.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/FPValue.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Kernels.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/LogicalView.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_FP.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_HostFP.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_HostGeometry.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_HostLayout.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_HostReal.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_RealExecution.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_RealFlat.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_RealMath.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_RealProgram.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_RealSafety.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_RealStep.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Mathematical_WholeShape.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Memory.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Native.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/NativeABI.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/NativeComplete.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/NativeControl.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/NativeGraph.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/NativeIO.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/PhysicalDirect.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Program.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/ScalarGraph.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Sources/Typed.lean",
+    "bench/tritonbench_g/chunk_gla_simple/Targets.lean",
     "bench/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
     "bench/tritonbench_g/chunked_cumsum_fwd/Correct.lean",
     "bench/tritonbench_g/chunked_cumsum_fwd/FPEquiv.lean",
