@@ -62,7 +62,9 @@
       "cases": 1,
       "retained_modules": 83,
       "replay_sources": 83,
-      "state": "full_local_pass_official_dispatch_pending"
+      "state": "official_workflow_queued",
+      "source_commit": "be24d87a49acb49b299cc50557b7cbad9c518bd2",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41397214261"
     },
     "previous_incremental_replays": [
       {
@@ -559,6 +561,12 @@
         "state": "official_workflow_queued",
         "source_commit": "68ffa92480daf3c01d8d67339e58275b1fe1c89f",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41389260469"
+      },
+      {
+        "case": "bench/tritonbench_g/bgmv_expand_slice",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41392802701",
+        "source_commit": "7133f690f6d784611bed690da9407ee60988271e",
+        "replay_sources": 57
       }
     ],
     "pending_client_regressions": {
@@ -575,7 +583,7 @@
       "completion_certificate": false
     },
     "current_work": "Continue the remaining 62 TritonBench-G source/proof migrations. Completion requires exact current independent acceptance, with numerical admission gaps kept explicit. No merge.",
-    "previous_validated_source_commit": "a88b5c7f734611f36aa87630d7463cbafc325258",
+    "previous_validated_source_commit": "cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
       "cases": 139,
@@ -596,7 +604,7 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14",
+    "validated_source_commit": "be24d87a49acb49b299cc50557b7cbad9c518bd2",
     "last_full_local_snapshot": {
       "cases": 140,
       "targets": 134,
@@ -605,7 +613,8 @@
       "lake_jobs": 12789,
       "public_theorem_names": "PASS",
       "python_tests": 473,
-      "boundary": "Local checks only. Not an independent replay completion receipt."
+      "boundary": "Local checks only. Not an independent replay completion receipt.",
+      "source_commit": "be24d87a49acb49b299cc50557b7cbad9c518bd2"
     },
     "previous_shared_model_revalidations": [
       {
