@@ -97,7 +97,7 @@ def algebra : Algebra Term where
 arguments contain no memory, registers, kernel, source evaluator or output. -/
 def first {α : Type} (M : Algebra α) (x : Nat → α) (D B : Nat) : Fin B → WelfordTriple α := fun i =>
   if i.val < D then
-    ⟨M.cast (some .fp32) .real .real (M.cast (some .fp32) .real .real (x i.val)),
+    ⟨M.cast (some .fp32) .real .real (M.cast (some .fp32) .real .real (M.fp32Load (x i.val))),
       M.literal (some .fp32) .real 0, M.literal (some .fp32) .real 1⟩
   else ⟨M.literal (some .fp32) .real 0, M.literal (some .fp32) .real 0, M.literal (some .fp32) .real 0⟩
 
@@ -112,7 +112,7 @@ def advance {α : Type} (M : Algebra α) (x : Nat → α) (D B k : Nat)
     (v : Fin B → WelfordTriple α) : Fin B → WelfordTriple α := fun i =>
   if k * B + i.val < D then
     update M (M.cast (some .fp32) .real .real
-      (M.cast (some .fp32) .real .real (x (k * B + i.val)))) (v i)
+      (M.cast (some .fp32) .real .real (M.fp32Load (x (k * B + i.val))))) (v i)
   else v i
 
 def chunks {α : Type} (M : Algebra α) (x : Nat → α) (D B : Nat) :
@@ -142,15 +142,15 @@ def statistics {α : Type} (M : Algebra α) (eq32 : α → α → Bool) (x : Nat
   tree M eq32 (chunks M x D B 1 ((D+B-1)/B-1) (first M x D B)) t
 
 def inverse {α : Type} (M : Algebra α) (D : Nat) (v : WelfordTriple α) : α :=
-  M.unary (some .fp32) .rsqrt (M.binary (some .fp32) .real .add
-    (M.binary (some .fp32) .real .div v.m2 (M.fromNat (some .fp32) D))
+  M.unary (some .fp32) .libdeviceRsqrt (M.binary (some .fp32) .real .add
+    (M.binary (some .fp32) .real .div v.m2 (M.fromInt (some .fp32) (D : Int)))
     (M.literal none .real (1e-5 : ℝ)))
 
 def affine {α : Type} (M : Algebra α) (x w b avg inv : α) : α :=
   let cast32 := M.cast (some .fp32) .real .real
-  let x := cast32 (cast32 x)
-  let w := cast32 (cast32 w)
-  let b := cast32 (cast32 b)
+  let x := cast32 (cast32 (M.fp32Load x))
+  let w := cast32 (cast32 (M.fp32Load w))
+  let b := cast32 (cast32 (M.fp32Load b))
   M.cast none .real .bf16 (cast32 (M.binary (some .fp32) .real .add
     (M.binary (some .fp32) .real .mul (M.binary (some .fp32) .real .mul
       (M.binary (some .fp32) .real .sub x avg) inv) w) b))

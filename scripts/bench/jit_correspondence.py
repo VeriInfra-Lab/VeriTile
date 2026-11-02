@@ -340,7 +340,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_namespace_imports: dict[str, str] | None = None,
           expected_constexpr_bindings: dict[str, str] | None = None,
           expected_philox_call: dict | None = None,
-          expected_scalar_infinity_where: bool = False) -> dict:
+          expected_scalar_infinity_where: bool = False,
+          expected_welford_tree: dict[str, str] | None = None) -> dict:
     if expected_pure_functions is not None and expected_binary_functions is not None:
         raise ValueError("unary and binary helper clauses cannot be mixed")
     helper_functions = expected_binary_functions if expected_binary_functions is not None else expected_pure_functions
@@ -422,6 +423,29 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             if expected_call_bindings is None or offset_clause:
                 raise ValueError("scalar infinity where requires a reviewed scalar-only call")
             offset_clause = r"\s+scalar_infinity_where"
+        if expected_welford_tree is not None:
+            if (set(expected_welford_tree) != {"argument", "width"}
+                    or expected_static_strides is None or expected_call_bindings is None
+                    or any(x is not None for x in [expected_pointer_offsets, expected_pointer_cells,
+                                                   expected_optional_pointers, helper_functions,
+                                                   expected_integer_args, expected_ordered_sum_trees,
+                                                   expected_philox_call]) or expected_scalar_infinity_where):
+                raise ValueError("Welford trees require a reviewed scalar call and immutable signed strides")
+            tree_arg, tree_width = expected_welford_tree["argument"], expected_welford_tree["width"]
+            if (not re.fullmatch(r"[A-Za-z_]\w*", tree_arg)
+                    or tree_width not in constants
+                    or not re.search(r"\(\s*" + re.escape(tree_arg) +
+                                     r"\s*:\s*DSL\.WelfordSource\.Tree\s+" +
+                                     re.escape(tree_width) + r"\s*\)", signature)):
+                raise ValueError("Welford tree must be a typed caller argument for the source block width")
+            helper_calls = [n for n in ast.walk(function) if isinstance(n, ast.Call)
+                            and ast.unparse(n.func) == "triton_helpers.welford"]
+            if (len(helper_calls) != 1 or len(helper_calls[0].args) != 4
+                    or helper_calls[0].keywords or not isinstance(helper_calls[0].args[3], ast.Constant)
+                    or type(helper_calls[0].args[3].value) is not int
+                    or helper_calls[0].args[3].value != 1):
+                raise ValueError("Welford metadata requires the original single-row axis 1 helper")
+            offset_clause = r"\s+welford_tree\s+" + re.escape(tree_arg)
         if expected_call_bindings is None:
             invocation = r"\bwith_triton_signature\s+" + selected_signature + offset_clause + r"\s+in\b"
             calls = list(re.finditer(invocation, signature))
@@ -682,9 +706,11 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         writes = ModuleWrites()
         writes.visit(module)
         for name, target in (expected_namespace_imports or {}).items():
-            if name != 'libdevice' or target not in {
-                    'torch._inductor.runtime.triton_helpers.libdevice',
-                    'triton.language.extra.libdevice', 'triton.language.extra.cuda.libdevice'}:
+            if (name, target) not in {
+                    ('libdevice', 'torch._inductor.runtime.triton_helpers.libdevice'),
+                    ('libdevice', 'triton.language.extra.libdevice'),
+                    ('libdevice', 'triton.language.extra.cuda.libdevice'),
+                    ('triton_helpers', 'torch._inductor.runtime.triton_helpers')}:
                 raise ValueError("unsupported source intrinsic namespace")
             imports = [node.module + '.' + alias.name for node in module.body
                        if isinstance(node, ast.ImportFrom) and node.level == 0 and node.module
@@ -938,7 +964,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                              r.get("expected_integer_args"), r.get("expected_arange_args"), r.get("expected_binary_functions"),
                              r.get("expected_ordered_sum_trees"), r.get("expected_namespace_imports"),
                              r.get("expected_constexpr_bindings"), r.get("expected_philox_call"),
-                             r.get("expected_scalar_infinity_where", False)))
+                             r.get("expected_scalar_infinity_where", False),
+                             r.get("expected_welford_tree")))
         for name, definition in r.get('expected_philox_call', {}).get('uniform_helpers', {}).items():
             helpers = [h for h in records if h.get('kind') == 'uniform_jit_function'
                        and h['python'] == r['python'] and h['lean'] == r['lean']

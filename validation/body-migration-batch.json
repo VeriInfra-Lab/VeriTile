@@ -2012,6 +2012,19 @@
           "VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.FPEquiv.query_early_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/fused_layernorm_triton",
+      "python": "bench/tritonbench_g/fused_layernorm_triton/fused_layernorm_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_layernorm_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.Correctness.kernel_real"
+        ],
+        "bench/tritonbench_g/fused_layernorm_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.whole_fp"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -2066,6 +2079,7 @@
     "VeriTile/Triton/DSL/Syntax.lean",
     "VeriTile/Triton/DSL/TupleScalarCasts.lean",
     "VeriTile/Triton/DSL/UniformJitFunctions.lean",
+    "VeriTile/Triton/DSL/WelfordCallMetadata.lean",
     "VeriTile/Triton/Float/ClosedStructuralAudit.lean",
     "VeriTile/Triton/Float/CountedLoop.lean",
     "VeriTile/Triton/Float/CountedRange.lean",
@@ -3256,6 +3270,45 @@
     "bench/tritonbench_g/flash_decode2_phi/Proofs/SourcePair.lean",
     "bench/tritonbench_g/flash_decode2_phi/Proofs/TensorBinding.lean",
     "bench/tritonbench_g/flash_decode2_phi/Sources/Kernels.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Contract.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Correct.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/FPEquiv.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/IO.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Kernels.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Programs.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Binding.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Contract.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/IOResults.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Kernel.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/KernelValues.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/LogicalCoordinates.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_FPWelfordBlock.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_FPWelfordTree.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeCoverage.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeGeometry.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeGrid.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeHost.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeMoments.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeNormalize.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeNormalizeLoop.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeReal.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeResult.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeRow.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeTrials.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Mathematical_WholeWelford.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/Native.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/NativeIndex.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/PairEquivalence.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/PairIO.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/ReadableNormalize.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/ReadableNormalizeLoop.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/ReadableSafety.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/ReadableStatistics.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/ReadableWhole.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/SourcePieces.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/fused_layernorm_triton/SourceTypes.lean",
     "bench/tritonbench_g/fused_recurrent_hgrn/Kernels.lean",
     "bench/tritonbench_g/fused_recurrent_hgrn/Proofs/Base.lean",
     "bench/tritonbench_g/fused_recurrent_hgrn/Proofs/Execution.lean",
@@ -5468,6 +5521,7 @@
     "tests/lean/TokenAttnMistralSignedWindow.lean",
     "tests/lean/TokenAttnReduceVSignedMetadata.lean",
     "tests/lean/TupleScalarCasts.lean",
-    "tests/lean/UnsignedCallArguments.lean"
+    "tests/lean/UnsignedCallArguments.lean",
+    "tests/lean/WelfordCallMetadata.lean"
   ]
 }

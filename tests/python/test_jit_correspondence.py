@@ -2561,3 +2561,51 @@ class AlignedAttentionBodyTests(unittest.TestCase):
             self.assertTrue(old in self.source, old)
             with self.subTest(index=index), self.assertRaises(ValueError):
                 self.verify(index, self.source.replace(old, new))
+
+class FusedLayernormBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/fused_layernorm_triton'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, index=0, source=None, python=None, **overrides):
+        r = dict(self.records[index], **overrides)
+        return check(python or (ROOT / r['python']).read_text(), source or self.source,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     **{k: v for k, v in r.items() if k.startswith('expected_') and k != 'expected_signature'})
+
+    def test_complete_original_and_existing_hoisted_body(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [26, 29])
+
+    def test_intrinsic_casts_unused_mask_and_original_shapes_are_preserved(self):
+        for old, new in [('libdevice.rsqrt(tmp9)', 'tl.rsqrt(tmp9)'),
+                         ('xnumel = tl.cast(xnumel, tl.int64)', 'xnumel = xnumel'),
+                         ('xmask = xindex < xnumel', ''),
+                         ('rindex = roffset + rbase', 'rindex = roffset + tl.arange(0, RBLOCK)'),
+                         ('tmp1 = tmp0.to(tl.float32)', 'tmp1 = tmp0'),
+                         ('range(zero, rnumel, step)', 'range(step, rnumel, step)')]:
+            self.assertIn(old, self.source)
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(source=self.source.replace(old, new))
+
+    def test_tree_binding_width_axis_and_fixed_row_size_are_checked(self):
+        for old, new in [('welford_tree tree', 'welford_tree other'),
+                         ('DSL.WelfordSource.Tree RBLOCK', 'DSL.WelfordSource.Tree XBLOCK'),
+                         ('let XBLOCK : Nat := 1', 'let XBLOCK : Nat := 2')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(source=self.source.replace(old, new))
+        with self.assertRaises(ValueError):
+            self.verify(expected_welford_tree={'argument': 'tree', 'width': 'XBLOCK'})
+
+    def test_intrinsic_namespaces_cannot_be_rebound_or_replaced(self):
+        python = (ROOT / self.records[0]['python']).read_text()
+        for old, new in [('from torch._inductor.runtime import triton_helpers',
+                         'from unrelated import triton_helpers'),
+                         ('from torch._inductor.runtime.triton_helpers import libdevice',
+                          'from triton.language import libdevice')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(python=python.replace(old, new))
+        with self.assertRaises(ValueError):
+            self.verify(python=python + '\ntriton_helpers = replacement\n')
