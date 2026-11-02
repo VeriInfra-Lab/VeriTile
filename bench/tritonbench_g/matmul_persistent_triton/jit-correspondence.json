@@ -1,0 +1,258 @@
+[
+  {
+    "python": "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton.py",
+    "lean": "bench/tritonbench_g/matmul_persistent_triton/Kernels.lean",
+    "python_function": "matmul_kernel_persistent",
+    "lean_definition": "originalBody",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ]
+            ]
+          }
+        ],
+        [
+          "b_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ]
+            ]
+          }
+        ],
+        [
+          "c_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "NUM_SMS"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ],
+      "dtype_parameters": [
+        "storage"
+      ],
+      "dtype_parameter_types": {
+        "storage": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton_reordered.py",
+    "lean": "bench/tritonbench_g/matmul_persistent_triton/Kernels.lean",
+    "python_function": "matmul_kernel_persistent",
+    "lean_definition": "candidateBody",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ]
+            ]
+          }
+        ],
+        [
+          "b_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ]
+            ]
+          }
+        ],
+        [
+          "c_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "f8e4",
+                "f8e4"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "NUM_SMS"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr"
+      ],
+      "writePorts": [
+        "c_ptr"
+      ],
+      "dtype_parameters": [
+        "storage"
+      ],
+      "dtype_parameter_types": {
+        "storage": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn"
+    }
+  }
+]

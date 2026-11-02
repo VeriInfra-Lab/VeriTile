@@ -56,30 +56,38 @@ theorem ready {α I : Type} (output : RegionName) (addr : I → Nat)
 
 def ordinal {α : Type} [Inhabited α] (M : Algebra α) (name : RegName)
     (body : List ComputeStmt) (i : Nat) (s : State α) : Option (State α) :=
-  run M body (s.setReg name .nat [] (fun _ => i))
+  run M body (s.setReg name .int [] (fun _ => (i : Int)))
 
 theorem range_sequence {α : Type} [Inhabited α] (M : Algebra α) (name : RegName)
     (body : List ComputeStmt) (start stop : Nat) (s : State α) :
-    FP.Structural.range M name start stop 1 body s=
+    rangeInt M name (start : Int) (stop : Int) 1 body s=
       VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GridExecution.sequence (ordinal M name body) (List.range' start (stop-start)) s := by
   have aux : ∀ fuel start (s : State α),stop-start=fuel →
-      FP.Structural.range M name start stop 1 body s=
+      rangeInt M name (start : Int) (stop : Int) 1 body s=
         VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GridExecution.sequence (ordinal M name body) (List.range' start fuel) s := by
     intro fuel
     induction fuel with
     | zero =>
       intro start s he
-      rw [FP.Structural.range,if_neg (by decide),if_neg (by omega)]
+      rw [rangeInt,if_neg (by decide),if_neg (by omega)]
       rfl
     | succ fuel ih =>
       intro start s he
-      rw [FP.Structural.range,if_neg (by decide),if_pos (by omega)]
+      rw [rangeInt,if_neg (by decide),if_pos (by omega)]
       simp only [List.range'_succ,VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GridExecution.sequence,ordinal]
-      apply congrArg (fun f => (run M body (s.setReg name .nat [] (fun _ => start))).bind f)
+      apply congrArg (fun f => (run M body (s.setReg name .int [] (fun _ => (start : Int)))).bind f)
       funext next
-      exact ih (start+1) next (by omega)
+      simpa only [Nat.cast_add,Nat.cast_one] using ih (start+1) next (by omega)
   exact aux _ start s rfl
 
+theorem range_from_zero {α : Type} [Inhabited α] (M : Algebra α) (name : RegName)
+    (body : List ComputeStmt) (stop : Nat) (s : State α) :
+    rangeInt M name 0 (stop : Int) 1 body s =
+      VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GridExecution.sequence
+        (ordinal M name body) (List.range' 0 stop) s := by
+  simpa only [Nat.cast_zero,Nat.sub_zero] using range_sequence M name body 0 stop s
+
+#axiomsClean range_from_zero
 #axiomsClean ready
 #axiomsClean range_sequence
 end

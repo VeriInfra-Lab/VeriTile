@@ -1918,6 +1918,19 @@
           "VeriTile.Bench.Repairs.Conv2d.FPEquiv.grid_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_persistent_triton",
+      "python": "bench/tritonbench_g/matmul_persistent_triton/matmul_persistent_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_persistent_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.kernel_correct"
+        ],
+        "bench/tritonbench_g/matmul_persistent_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.FPEquiv.source_pair_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -1940,6 +1953,7 @@
     "VeriTile/Triton/DSL/IntegerWhereLiterals.lean",
     "VeriTile/Triton/DSL/Metadata.lean",
     "VeriTile/Triton/DSL/NamedFloatDTypeCasts.lean",
+    "VeriTile/Triton/DSL/NestedPointerDType.lean",
     "VeriTile/Triton/DSL/OptionalPointers.lean",
     "VeriTile/Triton/DSL/OptionalStringConstants.lean",
     "VeriTile/Triton/DSL/OrderedSumCalls.lean",
@@ -1964,6 +1978,7 @@
     "VeriTile/Triton/DSL/StaticAssertions.lean",
     "VeriTile/Triton/DSL/StaticRanges.lean",
     "VeriTile/Triton/DSL/Syntax.lean",
+    "VeriTile/Triton/DSL/TupleScalarCasts.lean",
     "VeriTile/Triton/DSL/UniformJitFunctions.lean",
     "VeriTile/Triton/Float/ClosedStructuralAudit.lean",
     "VeriTile/Triton/Float/CountedLoop.lean",
@@ -3687,6 +3702,59 @@
     "bench/tritonbench_g/matmul_leakyrelu_fp8/Target.lean",
     "bench/tritonbench_g/matmul_leakyrelu_fp8/TypedProgram.lean",
     "bench/tritonbench_g/matmul_leakyrelu_fp8/TypedReference.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Compose.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Contract.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Coordinates.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Correct.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Execution.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/FPEquiv.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Geometry.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/IO.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Inner.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Kernels.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Loop.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Model.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Native.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Outer.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/PairIO.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/PrefixExecution.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Prelude.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Bounds.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Contract.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/ControlBounds.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/DotPlans.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Execution.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Host.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/IOBounds.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/InputConnection.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/InstructionGraph.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Mathematical_Parameters.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Mathematical_RealMath.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Mathematical_Schedule.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Mathematical_ScheduleCoverage.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Mathematical_ScheduleInjective.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/OutputCoverage.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Pair.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/PairIO.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/PublicData.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/PublicResult.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Real.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/SafetyAccess.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/SafetyLoops.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/SafetySteps.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/SignedRanges.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Proofs/Types.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/RawKernel.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Registers.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Setup.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Sources/Mathematical_Source.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Store.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Suffix.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Targets.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Tensor.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Tile.lean",
+    "bench/tritonbench_g/matmul_persistent_triton/Values.lean",
     "bench/tritonbench_g/matmul_tma/Contract.lean",
     "bench/tritonbench_g/matmul_tma/Correct.lean",
     "bench/tritonbench_g/matmul_tma/FPEquiv.lean",
@@ -4895,6 +4963,7 @@
     "tests/lean/NamedFloatDTypeCastReference.lean",
     "tests/lean/NamedFloatDTypeCasts.lean",
     "tests/lean/NaturalBitwiseLiterals.lean",
+    "tests/lean/NestedPointerDType.lean",
     "tests/lean/NoneMemoryMasks.lean",
     "tests/lean/OptionalPointers.lean",
     "tests/lean/OptionalStringConstants.lean",
@@ -4945,6 +5014,7 @@
     "tests/lean/StaticSignedStrides.lean",
     "tests/lean/TokenAttnMistralSignedWindow.lean",
     "tests/lean/TokenAttnReduceVSignedMetadata.lean",
+    "tests/lean/TupleScalarCasts.lean",
     "tests/lean/UnsignedCallArguments.lean"
   ]
 }

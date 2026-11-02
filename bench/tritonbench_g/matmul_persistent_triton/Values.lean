@@ -68,6 +68,7 @@ structure InnerInvariant (P : Source.Arithmetic α α) (p : Parameters)
   offBN : current.regs .int [256] "offs_bn" = some (fun i => (clamp p.problem.N (p.problem.column tile i.1.val) : Int))
   offK : current.regs .int [p.problem.profile.blockK] "offs_k_for_mask" = some (fun i => (i.1.val : Int))
   acc : current.regs .real [128,256] "accumulator" = some (fun i => accumulation P p initial tile block i.1 i.2.1)
+  args : Arguments p current
 
 structure Strides (p : Parameters) (b : Buffers) : Prop where
   am : p.am=b.A.rowStride
@@ -96,5 +97,6 @@ theorem accumulation_source (P : Source.Arithmetic α α) (p : Parameters) (b : 
       simp [bValues,bOffset,Source.loadB,inputs.b,strides.bk,strides.bn,Tensor.address,Nat.add_assoc,zero]
 
 #axiomsClean accumulation_source
+
 end
 end VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core

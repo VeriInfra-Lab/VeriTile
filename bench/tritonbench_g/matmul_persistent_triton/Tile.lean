@@ -14,15 +14,15 @@ variable {α : Type} [Inhabited α]
 def tilePreludeExecution (P : Source.Arithmetic α α) (p : Parameters)
     (pid ordinal : Nat) (s : State α) (h : Registers p pid s) :
     {t : State α // run (backend P) (tilePrelude p)
-      (s.setReg "tile_ordinal" .nat [] (fun _ => ordinal))=some t} := by
+      (s.setReg "tile_ordinal" .int [] (fun _ => (ordinal : Int)))=some t} := by
   refine ⟨?_,?_⟩
   swap
   rw [tilePrelude_raw]
-  simp [rawTilePrelude,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,run,step,
+  simp [rawTilePrelude,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,TypedSource.candidateBody,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
     ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
     Region.cast,Option.bind,integralFloorDiv,integralMod,backend,h.start,h.rows,h.columns,
-    h.group,h.span,h.lanesM,h.lanesN,h.lanesK,Broadcast.leftIndex,Broadcast.rightIndex]
+    h.group,h.span,h.lanesM,h.lanesN,h.lanesK,h.args.M,h.args.N,h.args.K,h.args.stride_am,h.args.stride_ak,h.args.stride_bk,h.args.stride_bn,h.args.stride_cm,h.args.stride_cn,Broadcast.leftIndex,Broadcast.rightIndex]
   rfl
 end
 end VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.Core

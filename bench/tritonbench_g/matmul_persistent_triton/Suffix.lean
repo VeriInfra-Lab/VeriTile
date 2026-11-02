@@ -51,10 +51,10 @@ theorem suffixExecution (P : Source.Arithmetic α α) (p : Parameters)
     let p : Parameters := ⟨⟨M,N,K,SMS,.fp16⟩,am,ak,bk,bn,cm,cn⟩
     change run (backend P) (tileSuffix p) current=some (suffixResult P p initial current tile)
     have h : InnerInvariant P p initial tile p.problem.kTiles current := h
-    simp [p,tileSuffix,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,run,step,
+    simp [p,tileSuffix,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,TypedSource.candidateBody,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
-      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,
+      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,h.args.M,h.args.N,h.args.K,h.args.stride_am,h.args.stride_ak,h.args.stride_bk,h.args.stride_bn,h.args.stride_cm,h.args.stride_cn,
       suffixResult,storeRegisters,outputValue,cOffset,active,floatValues,dtype,pack,
       Broadcast.leftIndex,Broadcast.rightIndex,-List.foldl_cons,-List.foldl_nil]
     try simp only [← Int.natCast_mul,← Int.natCast_add,Int.toNat_natCast]
@@ -67,10 +67,10 @@ theorem suffixExecution (P : Source.Arithmetic α α) (p : Parameters)
     let p : Parameters := ⟨⟨M,N,K,SMS,.f8e4⟩,am,ak,bk,bn,cm,cn⟩
     change run (backend P) (tileSuffix p) current=some (suffixResult P p initial current tile)
     have h : InnerInvariant P p initial tile p.problem.kTiles current := h
-    simp [p,tileSuffix,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,run,step,
+    simp [p,tileSuffix,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,TypedSource.candidateBody,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
-      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,
+      Region.cast,Option.bind,backend,h.offAM,h.offBN,h.offCM,h.offCN,h.acc,h.args.M,h.args.N,h.args.K,h.args.stride_am,h.args.stride_ak,h.args.stride_bk,h.args.stride_bn,h.args.stride_cm,h.args.stride_cn,
       suffixResult,storeRegisters,outputValue,cOffset,active,floatValues,dtype,pack,
       Broadcast.leftIndex,Broadcast.rightIndex,-List.foldl_cons,-List.foldl_nil]
     try simp only [← Int.natCast_mul,← Int.natCast_add,Int.toNat_natCast]

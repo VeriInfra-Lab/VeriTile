@@ -20,18 +20,30 @@ structure Parameters where
   cm : Nat
   cn : Nat
 
+/-- Values bound by the literal source argument self-casts. -/
+structure Arguments {α : Type} (p : Parameters) (s : State α) : Prop where
+  M : s.regs .int [] "M" = some (fun _ => (p.problem.M : Int))
+  N : s.regs .int [] "N" = some (fun _ => (p.problem.N : Int))
+  K : s.regs .int [] "K" = some (fun _ => (p.problem.K : Int))
+  stride_am : s.regs .int [] "stride_am" = some (fun _ => (p.am : Int))
+  stride_ak : s.regs .int [] "stride_ak" = some (fun _ => (p.ak : Int))
+  stride_bk : s.regs .int [] "stride_bk" = some (fun _ => (p.bk : Int))
+  stride_bn : s.regs .int [] "stride_bn" = some (fun _ => (p.bn : Int))
+  stride_cm : s.regs .int [] "stride_cm" = some (fun _ => (p.cm : Int))
+  stride_cn : s.regs .int [] "stride_cn" = some (fun _ => (p.cn : Int))
+
 def source (p : Parameters) : ComputeKernel :=
   TypedSource.kernel p.problem.profile "A" "B" "C" p.problem.M p.problem.N p.problem.K
     p.am p.ak p.bk p.bn p.cm p.cn 128 256 p.problem.profile.blockK 8 p.problem.SMS
 
-def prelude (p : Parameters) := (source p).surfaceBody.take 15
+def prelude (p : Parameters) := (source p).surfaceBody.take 20
 
-def outer (p : Parameters) : List ComputeStmt := match (source p).surfaceBody[15]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ code) => code
+def outer (p : Parameters) : List ComputeStmt := match (source p).surfaceBody[20]? with
+  | some (ComputeStmt.forRangeInt _ _ _ _ code) => code
   | _ => []
 def tilePrelude (p : Parameters) := (outer p).take 13
 def inner (p : Parameters) : List ComputeStmt := match (outer p)[13]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ code) => code
+  | some (ComputeStmt.forRangeInt _ _ _ _ code) => code
   | _ => []
 def tileSuffix (p : Parameters) := (outer p).drop 14
 
@@ -75,7 +87,7 @@ variable {α : Type} [Inhabited α]
 
 def rawPrelude (p : Parameters) : List ComputeStmt :=
   (TypedSource.kernel .fp16 "A" "B" "C" p.problem.M p.problem.N p.problem.K
-    p.am p.ak p.bk p.bn p.cm p.cn 128 256 p.problem.profile.blockK 8 p.problem.SMS).surfaceBody.take 15
+    p.am p.ak p.bk p.bn p.cm p.cn 128 256 p.problem.profile.blockK 8 p.problem.SMS).surfaceBody.take 20
 
 theorem prelude_raw (p : Parameters) : prelude p=rawPrelude p := by
   unfold prelude source rawPrelude
@@ -84,8 +96,8 @@ theorem prelude_raw (p : Parameters) : prelude p=rawPrelude p := by
 def rawTilePrelude (p : Parameters) : List ComputeStmt :=
   let kernel := TypedSource.kernel .fp16 "A" "B" "C" p.problem.M p.problem.N p.problem.K
     p.am p.ak p.bk p.bn p.cm p.cn 128 256 p.problem.profile.blockK 8 p.problem.SMS
-  (match kernel.surfaceBody[15]? with
-   | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
+  (match kernel.surfaceBody[20]? with
+   | some (ComputeStmt.forRangeInt _ _ _ _ body) => body
    | _ => []).take 13
 
 theorem tilePrelude_raw (p : Parameters) : tilePrelude p=rawTilePrelude p := by
