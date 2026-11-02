@@ -56,7 +56,9 @@
       "cases": 1,
       "retained_modules": 49,
       "replay_sources": 49,
-      "state": "local_checks_passed_awaiting_official_dispatch"
+      "state": "official_workflow_queued",
+      "source_commit": "4f81022df72da2b9ccdee44467be5fbc357fccb3",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41386871285"
     },
     "previous_incremental_replays": [
       {
@@ -557,7 +559,8 @@
         "jobs": 12583,
         "cases": 137,
         "retained_modules": 3845,
-        "replay_sources": 2848
+        "replay_sources": 2848,
+        "source_commit": "4f81022df72da2b9ccdee44467be5fbc357fccb3"
       },
       "python_tests": 473,
       "body_corpus_check": "PASS",
