@@ -62,8 +62,9 @@
       "cases": 1,
       "retained_modules": 24,
       "replay_sources": 24,
-      "state": "prepared_for_official_dispatch",
-      "source_commit": "working_tree"
+      "state": "official_workflow_in_progress",
+      "source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41493717114"
     },
     "previous_incremental_replays": [
       {
@@ -732,7 +733,7 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "working_tree",
+    "validated_source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
     "last_full_local_snapshot": {
       "cases": 152,
       "targets": 146,
@@ -744,7 +745,7 @@
       "public_theorem_count": 378,
       "python_tests": 522,
       "current_dependency_snapshot": true,
-      "source_commit": "working_tree",
+      "source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
       "boundary": "Local proof/source/trust checks only, not an independent completion receipt."
     },
     "previous_shared_model_revalidations": [
@@ -2411,7 +2412,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "working_tree",
+      "validated_source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
       "reason": "The original and materialized retained integer-offset candidate copy both complete dispatch branches and both local binary-helper bodies. The exact three pow import fallbacks, runtime FP32 scalar, signed bases/strides, block-pointer boundaries, unused num_tiles0 and all source casts remain checked. Replaced the old four separately handwritten branch implementations with two literal whole-body quotations and thin specializations. A closed imported binary-power frontend preserves the helper cast and captures, with arbitrary-algebra semantic/hygiene tests and six rejected-source tests. Actual branch/tile execution, complete capped grid, signed access safety, independent Real.rpow correctness/domain, ordered FP outputs and exterior/input frames are re-proved. The ordered reference retains the original input-element self-cast. All 22 task modules, 13393 full-batch Lake jobs, 378 public theorem names, 522 Python tests and body-corpus checks pass. FP assumptions remain empty; no numerical rewrite, new input restriction or public premise. Exact-current-source independent replay remains required; compilation does not count as completion."
     },
     {
