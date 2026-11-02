@@ -57,7 +57,9 @@
       "cases": 2,
       "retained_modules": 93,
       "replay_sources": 93,
-      "state": "local_checks_passed_awaiting_official_dispatch"
+      "state": "official_workflow_queued",
+      "source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41379347485"
     },
     "previous_incremental_replays": [
       {
@@ -529,7 +531,8 @@
         "jobs": 12491,
         "cases": 135,
         "retained_modules": 3757,
-        "replay_sources": 2760
+        "replay_sources": 2760,
+        "source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a"
       },
       "python_tests": 473,
       "body_corpus_check": "PASS",
@@ -537,16 +540,16 @@
         "tests/lean/ConditionalPureJitFunctions.lean"
       ]
     },
-    "validated_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
+    "validated_source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a",
     "last_full_local_snapshot": {
-      "source_commit": "e1ef0c36f875b9b5074aa4fcd785c8edf5f7c16a",
-      "cases": 134,
-      "targets": 128,
-      "retained_modules": 3723,
-      "replay_sources": 2726,
-      "lake_jobs": 12449,
+      "source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a",
+      "cases": 135,
+      "targets": 129,
+      "retained_modules": 3757,
+      "replay_sources": 2760,
+      "lake_jobs": 12491,
       "public_theorem_names": "PASS",
-      "python_tests": 466,
+      "python_tests": 473,
       "boundary": "Local checks only. Not an independent replay completion receipt."
     },
     "previous_shared_model_revalidations": [
@@ -1621,7 +1624,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The complete repaired original and newly sourced integer-product candidate each copy 28 Python nodes, including their docstrings; their shared helper copies both nodes. All 32 retained task modules, full Real/FP grid, five-profile source execution, actual signed loop, activation, safety and frame are re-proved locally. No extra public input restriction or FP numerical relaxation assumption. The old unsafe quotation is removed. Fresh current independent comparator replay is required."
+      "reason": "The complete repaired original and newly sourced integer-product candidate each copy 28 Python nodes, including their docstrings; their shared helper copies both nodes. All 32 retained task modules, full Real/FP grid, five-profile source execution, actual signed loop, activation, safety and frame are re-proved locally. No extra public input restriction or FP numerical relaxation assumption. The old unsafe quotation is removed. Fresh current independent comparator replay is required.",
+      "validated_source_commit": "795fbdc76e07885b48a64d5f830193c83cd1737a",
+      "pending_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41379347485"
     },
     {
       "path": "bench/tritonbench_g/matrix_reduction",
