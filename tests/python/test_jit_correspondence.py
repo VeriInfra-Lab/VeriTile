@@ -2464,3 +2464,50 @@ class ChunkGateRecurrenceBodyTests(unittest.TestCase):
                                  (1, '| .fp16 => .fp16', '| .fp16 => .fp32')]:
             with self.subTest(index=index), self.assertRaises(ValueError):
                 self.verify(index, self.source.replace(old, new))
+
+class AttentionKernelBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/attention_kernel'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, index, source):
+        r = self.records[index]
+        return check((ROOT / r['python']).read_text(), source, r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'])
+
+    def test_original_and_early_query_bodies_are_complete(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [27, 27])
+
+    def test_output_dtype_and_probability_casts_are_retained(self):
+        for old, new in [('(q * qk_scale).to(OUT_DTYPE)', '(q * qk_scale)'),
+                         ('dtype=OUT_DTYPE', 'dtype=tl.float32'),
+                         ('p.to(OUT_DTYPE)', 'p'),
+                         ('acc.to(OUT_DTYPE)', 'acc')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(0, self.source.replace(old, new))
+
+    def test_full_block_shapes_boundary_checks_and_bias_windows_are_retained(self):
+        for old, new in [('N_CTX + P_SEQ', 'N_CTX'),
+                         ('boundary_check=(0,)', 'boundary_check=(1,)'),
+                         ('+ BIAS_LAST_SIZE', '+ BLOCK_N'),
+                         ('off_hz = tl.program_id(1).to(tl.int64)', 'off_hz = tl.program_id(1)')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(0, self.source.replace(old, new))
+
+    def test_storage_branches_and_runtime_scale_binding_are_checked(self):
+        for old, new in [('| .bf16 => .bf16', '| .bf16 => .fp16'),
+                         ('sm_scale := sm_scale', 'sm_scale := 1'),
+                         ('("sm_scale",.fp32)', '("sm_scale",.fp64)')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(0, self.source.replace(old, new))
+
+    def test_original_cannot_be_replaced_by_the_scheduled_candidate(self):
+        from scripts.bench.jit_correspondence import quotation
+        original, _ = quotation(self.source, 'originalBody', raw_python=True)
+        candidate, _ = quotation(self.source, 'queryEarlyBody', raw_python=True)
+        self.assertNotEqual(original, candidate)
+        with self.assertRaises(ValueError):
+            self.verify(0, self.source.replace(original, candidate, 1))

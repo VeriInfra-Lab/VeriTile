@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 128,
-      "uncovered_jit_functions": 55
+      "selected_body_copy_checked": 129,
+      "uncovered_jit_functions": 54
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 130,
+    "uncovered_selected_jit_functions": 129,
     "inventoried_jit_functions": 533,
-    "uncovered_inventoried_jit_functions": 171,
+    "uncovered_inventoried_jit_functions": 169,
     "checked_pair_modes": {
-      "pasted_body": 362
+      "pasted_body": 364
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 128,
-        "uncovered_jit_functions": 55
+        "selected_body_copy_checked": 129,
+        "uncovered_jit_functions": 54
       }
     },
     "primary_files_with_int64_screen_warning": 15,
     "primary_lean_file_features": {
       "tasks": {
         "in_body_type_directives": 33,
-        "antiquotes": 372,
+        "antiquotes": 371,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -10877,13 +10877,13 @@
       "python": "bench/tritonbench_g/attention_kernel/attention_kernel.py",
       "lean": "bench/tritonbench_g/attention_kernel/Kernels.lean",
       "lean_screen": {
-        "quotations": 4,
+        "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 264,
-        "dsl_assignment": 27,
+        "antiquotes": 0,
+        "dsl_assignment": 61,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 16
+        "load_dtype_extension": 8
       },
       "python_jits": [
         {
@@ -10944,30 +10944,104 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel_aligned",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "stride_b0z": "integer",
+            "stride_b0h": "integer",
+            "stride_b0m": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "P_SEQ": "integer",
+            "sm_scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B0_NUMEL",
+            "BIAS_LAST_SIZE",
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "OUT_DTYPE"
+          ],
           "python": "bench/tritonbench_g/attention_kernel/attention_kernel.py",
-          "function": "_fwd_kernel_aligned"
+          "lean": "bench/tritonbench_g/attention_kernel/Kernels.lean"
         },
         {
+          "python_function": "_fwd_kernel_aligned",
+          "lean_definition": "queryEarlyBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "stride_b0z": "integer",
+            "stride_b0h": "integer",
+            "stride_b0m": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "P_SEQ": "integer",
+            "sm_scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B0_NUMEL",
+            "BIAS_LAST_SIZE",
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "OUT_DTYPE"
+          ],
           "python": "bench/tritonbench_g/attention_kernel/attention_kernel_query_early.py",
-          "function": "_fwd_kernel_aligned"
+          "lean": "bench/tritonbench_g/attention_kernel/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/attention_kernel/attention_kernel.py",
-          "function": "_fwd_kernel_aligned"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/attention_kernel/Kernels.lean": "8eaa24d2c0bbe3c92d3a6197f2966cea43d09fb5d07e96c2d8a1d20a40f9a96d",
+        "bench/tritonbench_g/attention_kernel/Kernels.lean": "60129ae85941b25dd028976f0d9a6bc57733486e73030a2d318fe3afcec2466f",
         "bench/tritonbench_g/attention_kernel/attention_kernel.py": "e7aaea2b35aff93f2f92b1a6d4e50a824259cbf38205346b731dfc8d0ae9e77a",
-        "bench/tritonbench_g/attention_kernel/attention_kernel_query_early.py": "2068149e7f857050af339d5375e9bd3553e0cbd75b476d9d70d6efa2e2c337b8"
+        "bench/tritonbench_g/attention_kernel/attention_kernel_query_early.py": "2068149e7f857050af339d5375e9bd3553e0cbd75b476d9d70d6efa2e2c337b8",
+        "bench/tritonbench_g/attention_kernel/jit-correspondence.json": "f455c20854e59a529072415f22f8351eed163a6e186cc61222a274f47620a953"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/attention_kernel"

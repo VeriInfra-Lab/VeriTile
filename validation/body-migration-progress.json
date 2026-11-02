@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 41,
-  "staged_count": 141,
+  "staged_count": 142,
   "pending_count": 155,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 4432,
+    "staged_and_regression_retained_modules": 4486,
     "official_comparator": "41 current targets and separately listed regression cases have accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure has been verified. Compilation alone never counts as completion.",
-    "python_tests": 499,
+    "python_tests": 504,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "147 selected cases (141 targets and 6 regressions), all 4432 retained/supporting modules, 13152 Lake jobs and 366 fully-qualified public theorem names pass locally. Chunk gate recurrence now retains all four complete forward/backward repaired/candidate Python bodies (10/17 statements), original names, four seed strides, nullable rebasing, destination casts, DG reduction and final DL store. Independent Real formulas, full sum-left FP equivalence, execution, output/raw frames and safety re-proved, including the typed FP32 seed read. All 499 Python tests pass. Forty-one targets retain accepted exact-current-source/import-closure independent receipts. Other staged targets remain pending official replay. No new numerical assumption or public premise.",
-    "official_replay_sources": 3435,
+    "working_tree": "148 selected cases (142 targets and 6 regressions), all 4486 retained/supporting modules, 13207 Lake jobs and 368 fully-qualified public theorem names pass locally. Attention kernel retains both complete repaired/early-query Python bodies (27 statements each), FP16/BF16 storage, runtime strides and scale, OUT_DTYPE, block shapes, boundary tuples, casts, bias windows, typed dots and stores. Actual FP32 qk arithmetic and its conversions now appear in the ordered references, with corresponding typed literal/widening native staging. Independent Real attention, full arbitrary-algebra FP scheduling equivalence, successful execution, outputs/exterior frame and safety re-proved. All 504 Python tests pass. Forty-one targets retain accepted exact-current-source/import-closure independent receipts; other staged targets remain pending official replay. No new numerical assumption or public premise.",
+    "official_replay_sources": 3489,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -54,17 +54,15 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/chunk_gate_recurrence",
+      "case": "bench/tritonbench_g/attention_kernel",
       "case_paths": [
-        "bench/tritonbench_g/chunk_gate_recurrence"
+        "bench/tritonbench_g/attention_kernel"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 55,
-      "replay_sources": 55,
-      "state": "official_workflow_queued",
-      "source_commit": "17290c3226950daa36c91b363f58f774b0477ded",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41447240623"
+      "retained_modules": 54,
+      "replay_sources": 54,
+      "state": "local_pass_preparing_independent_replay"
     },
     "previous_incremental_replays": [
       {
@@ -637,6 +635,12 @@
         "source_commit": "ca54364d279081fc610b3eb024d00e906637254a",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41444579640",
         "replay_sources": 82
+      },
+      {
+        "case": "bench/tritonbench_g/chunk_gate_recurrence",
+        "source_commit": "17290c3226950daa36c91b363f58f774b0477ded",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41447240623",
+        "replay_sources": 55
       }
     ],
     "pending_client_regressions": {
@@ -676,15 +680,14 @@
     },
     "validated_source_commit": "17290c3226950daa36c91b363f58f774b0477ded",
     "last_full_local_snapshot": {
-      "cases": 147,
-      "targets": 141,
-      "retained_modules": 4432,
-      "replay_sources": 3435,
-      "lake_jobs": 13152,
+      "cases": 148,
+      "targets": 142,
+      "retained_modules": 4486,
+      "replay_sources": 3489,
+      "lake_jobs": 13207,
       "public_theorem_names": "PASS",
-      "python_tests": 499,
-      "boundary": "Local checks only. Not an independent replay completion receipt.",
-      "source_commit": "17290c3226950daa36c91b363f58f774b0477ded"
+      "python_tests": 504,
+      "boundary": "Local checks only. Not an independent replay completion receipt."
     },
     "previous_shared_model_revalidations": [
       {
@@ -1049,8 +1052,12 @@
     },
     {
       "path": "bench/tritonbench_g/attention_kernel",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Both complete unchanged repaired and existing early-query Python bodies (27 statements each) match direct readable Lean quotations. FP16/BF16 pointer storage, runtime strides and FP32 scale, OUT_DTYPE constructor/cast metadata, original block shapes and boundary tuples, int64 casts, bias windows, both dots, masks and stores remain. Removed the four handwritten storage-specific source copies; compatibility entries invoke the two actual bodies. Independent Real attention formula, full arbitrary-algebra early-query FP equivalence, successful complete-grid execution, outputs/exterior frame and active access safety re-proved. The execution and independent ordered references now retain actual typed FP32 qk arithmetic and casts; native staging retains storage-typed literals and explicit half/BF16 widening. No opaque dtype identity, new numerical assumption or public premise. All 52 retained task modules and the two new shared frontend/test roots pass locally. Exact-current-source official independent replay remains required; compilation does not count as completion."
     },
     {
       "path": "bench/tritonbench_g/attention_kernel_aligned",

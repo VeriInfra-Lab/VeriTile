@@ -37,6 +37,8 @@ theorem entry_bounds (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State
     (entry M dot p s).val.regs .nat [] "hi"=some (fun _=>p.length) := by
   rcases p with ⟨storage,Q,K,V,Bias,Out,q,k,v,bias,o,batches,heads,length,dim,bm,bn,scale⟩
   cases storage <;> simp [entry,entryAs]
+  all_goals funext i
+  all_goals rfl
 
 #specNonCircular accumulated avoiding [run,FP.Structural.exec,bodyExec,loopExec]
 #guard_msgs (drop info) in
