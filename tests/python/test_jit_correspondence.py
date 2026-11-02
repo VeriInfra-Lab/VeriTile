@@ -2940,3 +2940,50 @@ class FP4BodyCorrespondenceTests(unittest.TestCase):
         expected = {name: int(value) for name, value in self.records[1]['expected_constexpr_bindings'].items()}
         self.assertEqual(actual, expected)
         self.assertEqual(next(kw.value.value for kw in call.keywords if kw.arg == 'BLOCK_SIZE_IN'), 512)
+
+
+class AttentionScoreBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/attention_score'
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, source):
+        r = self.records[0]
+        return check((ROOT / r['python']).read_text(), source,
+                     r['python_function'], r['lean_definition'], r['signature_definition'],
+                     r['expected_signature'], expected_call_bindings=r['expected_call_bindings'])
+
+    def test_complete_original_and_existing_scalar_left_candidate(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([row['statements'] for row in rows], [21, 21])
+        self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
+
+    def test_signed_window_boundaries_block_pointer_offsets_and_precision_are_checked(self):
+        for before, after in [
+                ('(start_n * BLOCK_N).to(tl.int32)', 'start_n * BLOCK_N'),
+                ('tl.cast(sliding_window_offset, tl.int64)', 'sliding_window_offset'),
+                ('dist >= tl.cast(sliding_window_size, tl.int64)', 'dist < tl.cast(sliding_window_size, tl.int64)'),
+                ('qk_scale *= 1.4426950408889634', 'qk_scale *= 1.44269504'),
+                ('tl.multiple_of(start_m, BLOCK_M)', 'start_m'),
+                ('tl.advance(Q_block_ptr, offsets=(BLOCK_M, 0))', 'tl.advance(Q_block_ptr, offsets=(0, BLOCK_M))'),
+                ('o.to(Out.type.element_ty)', 'o')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                self.verify(self.lean.replace(before, after, 1))
+
+    def test_materialized_candidate_changes_only_the_existing_multiplication(self):
+        original_path = self.directory / 'attention_score.py'
+        candidate_path = self.directory / 'attention_score_scalar_left.py'
+        original = ast.parse(original_path.read_text())
+        candidate = ast.parse(candidate_path.read_text())
+        fn = next(n for n in candidate.body if isinstance(n, ast.FunctionDef) and n.name == '_score_kernel')
+        loop = next(n for n in fn.body if isinstance(n, ast.For))
+        stmt = next(n for n in loop.body if isinstance(n, ast.Assign)
+                    and ast.unparse(n.value) == 'qk_scale * qk')
+        stmt.value.left, stmt.value.right = stmt.value.right, stmt.value.left
+        self.assertEqual(ast.dump(original), ast.dump(candidate))
+        import hashlib
+        provenance = json.loads((self.directory / 'candidate-provenance.json').read_text())
+        self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance['original_sha256'])
+        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])

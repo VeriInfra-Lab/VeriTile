@@ -47,7 +47,7 @@ theorem original_loop :
   subst BM
   rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_, rfl⟩)]
   rw [RealArithmetic.loopBody_erased]
-  simp only [TypedSource.original,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  simp only [TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
     RealArithmetic.loopBody?,Option.map]
@@ -65,7 +65,7 @@ theorem candidate_loop :
   subst BM
   rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_, rfl⟩)]
   rw [RealArithmetic.loopBody_erased]
-  simp only [TypedSource.scalarLeft,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  simp only [TypedSource.scalarLeft,TypedSource.scalarLeftBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
     RealArithmetic.loopBody?,Option.map]
