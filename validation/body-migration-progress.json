@@ -62,7 +62,9 @@
       "cases": 1,
       "retained_modules": 44,
       "replay_sources": 44,
-      "state": "full_local_pass_official_dispatch_pending"
+      "state": "official_workflow_queued",
+      "source_commit": "e6f47bf8be995dfd3413d173a1cdc39a089face7",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41400644516"
     },
     "previous_incremental_replays": [
       {
@@ -587,7 +589,7 @@
       "completion_certificate": false
     },
     "current_work": "Continue the remaining 61 TritonBench-G source/proof migrations, starting with triton_conv2d_fwd. Completion requires exact current independent acceptance; keep numerical admission gaps explicit. No merge.",
-    "previous_validated_source_commit": "cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14",
+    "previous_validated_source_commit": "be24d87a49acb49b299cc50557b7cbad9c518bd2",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
       "cases": 139,
@@ -608,7 +610,7 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "be24d87a49acb49b299cc50557b7cbad9c518bd2",
+    "validated_source_commit": "e6f47bf8be995dfd3413d173a1cdc39a089face7",
     "last_full_local_snapshot": {
       "cases": 141,
       "targets": 135,
@@ -617,7 +619,8 @@
       "lake_jobs": 12827,
       "public_theorem_names": "PASS",
       "python_tests": 473,
-      "boundary": "Local checks only. Not an independent replay completion receipt."
+      "boundary": "Local checks only. Not an independent replay completion receipt.",
+      "source_commit": "e6f47bf8be995dfd3413d173a1cdc39a089face7"
     },
     "previous_shared_model_revalidations": [
       {
