@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 9,
+  "completed_count": 10,
   "staged_count": 135,
-  "pending_count": 187,
+  "pending_count": 186,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 4095,
-    "official_comparator": "9 current targets have accepted exact-dependency official receipts, plus the MatmulLeakyrelu regression. Every official ZIP digest, required independent replay result, public theorem coverage and exact current source/import closure has been verified. All other targets still require current acceptance; compilation alone never counts as completion.",
+    "official_comparator": "10 current targets have accepted exact-dependency official receipts, plus the MatmulLeakyrelu regression. Every official ZIP digest, required independent replay result, public theorem coverage and exact current source/import closure has been verified. All other targets require current acceptance; compilation alone never counts as completion.",
     "python_tests": 478,
     "offline_example_compilations": {
       "cases": 19,
@@ -817,6 +817,7 @@
       }
     ],
     "current_official_acceptance": [
+      "validation/body_receipts/bgmv-expand-slice-source-migration.json",
       "validation/body_receipts/fp8-matmul-source-migration.json",
       "validation/body_receipts/int4-matmul-source-migration.json",
       "validation/body_receipts/int8-matmul-source-migration.json",
@@ -824,7 +825,7 @@
       "validation/body_receipts/matmul-source-migration.json"
     ],
     "full_replay_recovery": {
-      "state": "local_pass_dispatch_pending",
+      "state": "official_workflow_queued",
       "previous_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368655635",
       "previous_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
       "previous_artifacts": [
@@ -869,7 +870,9 @@
       "shards": 24,
       "checkpoint_regression_tests": 19,
       "python_tests": 478,
-      "boundary": "Only a case with every required shared and owned independent replay, public theorem coverage and matching source/import hashes may be marked complete."
+      "boundary": "Only a case with every required shared and owned independent replay, public theorem coverage and matching source/import hashes may be marked complete.",
+      "source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742"
     }
   },
   "targets": [
@@ -999,12 +1002,15 @@
     },
     {
       "path": "bench/tritonbench_g/bgmv_expand_slice",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete Python bodies match canonical quotations, retaining 13 top-level statements and every nested cast, mask and branch. All 57 modules pass, including metadata width certificates, exact execution/safety branch decomposition, independent Real formula, complete IO, grids, tagged outputs and frames. The old extra FP32-to-FP32 cast is removed without assuming cast identity. The new Python candidate explicitly realizes the retained output-first FP32 addition graph. No new public premise or numerical rule. Exact current independent replay required."
+      "reason": "Accepted official merged independent replay. Verified official ZIP digest, all 57 required independent proof results, actual public theorem coverage, body pairs and exact current transitive source/import closure. Completion is not inferred from compilation.",
+      "receipt": "validation/body_receipts/bgmv-expand-slice-source-migration.json",
+      "validated_source_commit": "7133f690f6d784611bed690da9407ee60988271e",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41392802701"
     },
     {
       "path": "bench/tritonbench_g/bgmv_shrink_kernel",
