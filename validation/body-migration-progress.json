@@ -57,7 +57,10 @@
       "cases": 2,
       "retained_modules": 125,
       "replay_sources": 125,
-      "state": "local_checks_passed_awaiting_official_dispatch"
+      "state": "official_replay_running",
+      "source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
+      "validated_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368653214"
     },
     "previous_incremental_replays": [
       {
@@ -475,9 +478,9 @@
       "completion_certificate": false
     },
     "current_work": "Migrate Int4Matmul original/candidate bodies and re-prove their actual dynamic cdiv loop, fixed-K8 accumulation, full-grid Real/FP results, safety and frame. No merge.",
-    "previous_validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67",
+    "previous_validated_source_commit": "a88b5c7f734611f36aa87630d7463cbafc325258",
     "shared_model_revalidation": {
-      "state": "full_local_pass_official_dispatch_pending",
+      "state": "full_local_pass_official_replay_running",
       "cases": 132,
       "targets": 126,
       "retained_modules": 3614,
@@ -488,7 +491,8 @@
         "jobs": 12335,
         "cases": 132,
         "retained_modules": 3614,
-        "replay_sources": 2617
+        "replay_sources": 2617,
+        "source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51"
       },
       "python_tests": 466,
       "body_corpus_check": "PASS",
@@ -496,18 +500,21 @@
         "tests/lean/PointerAliasReset.lean",
         "tests/lean/NaturalBitwiseLiterals.lean",
         "tests/lean/InlineAsmWordAdd.lean"
-      ]
+      ],
+      "source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368655635",
+      "official_shards": 6
     },
-    "validated_source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345",
+    "validated_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
     "last_full_local_snapshot": {
-      "source_commit": "a88b5c7f734611f36aa87630d7463cbafc325258",
-      "cases": 131,
-      "targets": 125,
-      "retained_modules": 3562,
-      "proof_audit_sources": 2565,
-      "lake_jobs": 12283,
+      "source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
+      "cases": 132,
+      "targets": 126,
+      "retained_modules": 3614,
+      "proof_audit_sources": 2617,
+      "lake_jobs": 12335,
       "public_names": "PASS",
-      "python_tests": 462
+      "python_tests": 466
     },
     "previous_shared_model_revalidations": [
       {
