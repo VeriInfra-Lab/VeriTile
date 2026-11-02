@@ -64,8 +64,9 @@
       "cases": 3,
       "retained_modules": 256,
       "replay_sources": 256,
-      "state": "prepared_for_official_dispatch",
-      "source_commit": "working_tree"
+      "state": "official_workflow_in_progress",
+      "source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41487841536"
     },
     "previous_incremental_replays": [
       {
@@ -719,7 +720,7 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "working_tree",
+    "validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
     "last_full_local_snapshot": {
       "cases": 151,
       "targets": 145,
@@ -735,7 +736,7 @@
       "public_theorem_count": 376,
       "python_tests": 517,
       "current_dependency_snapshot": true,
-      "source_commit": "working_tree",
+      "source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
       "boundary": "Local source/proof/trust checks only; not an independent completion receipt."
     },
     "previous_shared_model_revalidations": [
@@ -1384,7 +1385,7 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "working_tree",
+      "validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
       "reason": "Both complete 23-statement repaired/derived Python bodies match the two literal Lean quotations. All original INT64 casts, tuple stride assignments, signed loop, three typed dot options, causal mask, load tails and source/store casts are retained. The original Python is unchanged; the materialized existing row-CSE candidate records provenance and preserves widening. The entire Real proof decomposition is proved equal to the actual source erasure; all address, signed iteration, independent Real contraction, successful complete grid, output/frame and active source safety proofs reconnect to it. Whole FP equivalence follows both actual sources and preserves opaque ordered FP operations. All 74 owned modules, affected clients, 376 public names and 517 Python tests pass in the 151-case local batch. No new numerical assumption, public premise or input restriction. Exact-current independent replay remains required; compilation does not count as completion."
     },
     {
