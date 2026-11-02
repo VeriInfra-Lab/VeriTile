@@ -18,7 +18,7 @@ theorem forward_range_values [Inhabited α] (a : Arithmetic α) (s : Shape) (b :
     (plans : Plans) (initial : State (Staged.Node α)) (seed final : Bool) (pid : ProgramId)
     (t : Nat) (u : State (Staged.Node α)) (ht : t ≤ s.T) (hBK : 0<s.BK)
     (covered : plans.output.Covers s.BK) (h : ForwardInvariant a s b initial seed pid t u) :
-    range (Staged.algebra a plans) "_t" t s.T 1
+    range (Staged.algebra a plans) "_" t s.T 1
         (Program.forwardParts (layout s b) forwardRegions seed final).body u =
       some (forwardTail a s b plans initial seed pid t u) ∧
     ForwardInvariant a s b initial seed pid s.T (forwardTail a s b plans initial seed pid t u) := by

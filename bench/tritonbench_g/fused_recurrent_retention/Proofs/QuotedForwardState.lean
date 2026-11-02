@@ -21,10 +21,16 @@ def forwardBeforeStore [Inhabited α] (a : Arithmetic α) (s : Shape) (b : Input
     (plans : Plans) (initial u : State (Staged.Node α)) (seed : Bool) (pid : ProgramId) (t : Nat) :
     State (Staged.Node α) :=
   let x := inputs (layout s b) initial
+  let u := u.setReg "__veritile_load_0" .real [s.BK] (fun i =>
+    Staged.atom (keyLoad a s x.k pid.head t (pid.key s i.1.val)))
   let u := u.setReg "_k" .real [s.BK] (fun i =>
     Staged.atom (keyLoad a s x.k pid.head t (pid.key s i.1.val)))
+  let u := u.setReg "__veritile_load_1" .real [s.BV] (fun i =>
+    Staged.atom (valueLoad a s x.v pid.head t (pid.value s i.1.val)))
   let u := u.setReg "_v" .real [s.BV] (fun i =>
     Staged.atom (valueLoad a s x.v pid.head t (pid.value s i.1.val)))
+  let u := u.setReg "__veritile_load_2" .real [s.BK] (fun i =>
+    Staged.atom (keyLoad a s x.q pid.head t (pid.key s i.1.val)))
   let u := u.setReg "_q" .real [s.BK] (fun i =>
     Staged.tagged .scaledQuery (a.mul (keyLoad a s x.q pid.head t (pid.key s i.1.val)) (a.scale s.DK)))
   let u := u.setReg "h" .real [s.BV,s.BK] (fun i =>
@@ -46,7 +52,7 @@ def forwardScatter [Inhabited α] (a : Arithmetic α) (s : Shape) (b : InputBuff
 def forwardBodyResult [Inhabited α] (a : Arithmetic α) (s : Shape) (b : InputBuffers)
     (plans : Plans) (initial u : State (Staged.Node α)) (seed : Bool) (pid : ProgramId) (t : Nat) :
     State (Staged.Node α) :=
-  let u := u.setReg "_t" .nat [] (fun _ => t)
+  let u := u.setReg "_" .nat [] (fun _ => t)
   let u := forwardScatter a s b plans initial seed pid t
     (forwardBeforeStore a s b plans initial u seed pid t)
   let u := u.setReg "p_q" .ptr [s.BK] (fun i : TileIndex [s.BK] => (("q" : RegionName),keyOffset (layout s b) pid (t+1) i.1.val))

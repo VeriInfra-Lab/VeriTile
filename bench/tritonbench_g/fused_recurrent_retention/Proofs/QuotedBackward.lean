@@ -15,6 +15,13 @@ private theorem single_range {α : Type} [Inhabited α] (A : Algebra α)
   simp only [run,step,bind]
   cases range A name 0 stop 1 body u <;> rfl
 
+private theorem single_counted {α : Type} [Inhabited α] (A : Algebra α)
+    (name : RegName) (stop : Nat) (body : List ComputeStmt) (u : State α) :
+    run A [.forLoop name stop body] u=range A name 0 stop 1 body u := by
+  simp only [run,step,bind]
+  rw [VeriTile.Bench.Repairs.Conv2d.UnitRanges.loop_unit_range]
+  cases range A name 0 stop 1 body u <;> rfl
+
 /-- Both loops and the repaired final-cotangent branch execute in the shared
 source interpreter. Every intermediate is produced, and the reverse initial
 memory equals the memory after the actual dQ stores. -/
@@ -44,10 +51,10 @@ theorem backward_full_values {α : Type} [Inhabited α] (a : Arithmetic α)
     rw [single_range]
     exact hfirst
   have hloop2 : run (Staged.algebra a plans)
-      [.forRange "_t" 0 (layout s b).T 1
+      [.forLoop "_" (layout s b).T
         (Program.backwardSecond (layout s b) backwardRegions seed final).body] middle =
       some (reverseTail a s b plans initial final (launch initial) 0 middle) := by
-    rw [single_range]
+    rw [single_counted]
     exact hsecond
   refine ⟨entry,middle,hinv,hmem,hmInv,hmMem,?_⟩
   change run (Staged.algebra a plans) (Program.backward (layout s b) backwardRegions seed final).surfaceBody initial = _

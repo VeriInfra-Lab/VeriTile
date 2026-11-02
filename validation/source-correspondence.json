@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 126,
-      "uncovered_jit_functions": 57
+      "selected_body_copy_checked": 127,
+      "uncovered_jit_functions": 56
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 134,
+    "uncovered_selected_jit_functions": 132,
     "inventoried_jit_functions": 531,
-    "uncovered_inventoried_jit_functions": 177,
+    "uncovered_inventoried_jit_functions": 173,
     "checked_pair_modes": {
-      "pasted_body": 354
+      "pasted_body": 358
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 126,
-        "uncovered_jit_functions": 57
+        "selected_body_copy_checked": 127,
+        "uncovered_jit_functions": 56
       }
     },
     "primary_files_with_int64_screen_warning": 15,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 35,
-        "antiquotes": 374,
+        "in_body_type_directives": 34,
+        "antiquotes": 373,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -20696,9 +20696,9 @@
       "lean": "bench/tritonbench_g/fused_recurrent_retention/Kernels.lean",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 8,
-        "antiquotes": 288,
-        "dsl_assignment": 87,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 70,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 6
@@ -20753,42 +20753,150 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "fused_recurrent_retention_fwd_kernel",
+          "lean_definition": "forwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 14,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "DK",
+            "DV",
+            "STORE_FINAL_STATE",
+            "USE_INITIAL_STATE"
+          ],
           "python": "bench/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention.py",
-          "function": "fused_recurrent_retention_fwd_kernel"
+          "lean": "bench/tritonbench_g/fused_recurrent_retention/Kernels.lean"
         },
         {
+          "python_function": "fused_recurrent_retention_bwd_kernel",
+          "lean_definition": "backwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 23,
+          "runtime_parameters": {
+            "s_do_b": "integer",
+            "s_do_h": "integer",
+            "s_do_t": "integer",
+            "s_do_d": "integer",
+            "s_df_b": "integer",
+            "s_df_h": "integer",
+            "s_df_k": "integer",
+            "s_df_v": "integer",
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "DK",
+            "DV",
+            "USE_FINAL_GRAD",
+            "USE_INITIAL_STATE"
+          ],
           "python": "bench/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention.py",
-          "function": "fused_recurrent_retention_bwd_kernel"
+          "lean": "bench/tritonbench_g/fused_recurrent_retention/Kernels.lean"
         },
         {
+          "python_function": "fused_recurrent_retention_fwd_kernel",
+          "lean_definition": "forwardCompareRightBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 14,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "DK",
+            "DV",
+            "STORE_FINAL_STATE",
+            "USE_INITIAL_STATE"
+          ],
           "python": "bench/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention_compare_right.py",
-          "function": "fused_recurrent_retention_fwd_kernel"
+          "lean": "bench/tritonbench_g/fused_recurrent_retention/Kernels.lean"
         },
         {
+          "python_function": "fused_recurrent_retention_bwd_kernel",
+          "lean_definition": "backwardCompareRightBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 23,
+          "runtime_parameters": {
+            "s_do_b": "integer",
+            "s_do_h": "integer",
+            "s_do_t": "integer",
+            "s_do_d": "integer",
+            "s_df_b": "integer",
+            "s_df_h": "integer",
+            "s_df_k": "integer",
+            "s_df_v": "integer",
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "DK",
+            "DV",
+            "USE_FINAL_GRAD",
+            "USE_INITIAL_STATE"
+          ],
           "python": "bench/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention_compare_right.py",
-          "function": "fused_recurrent_retention_bwd_kernel"
+          "lean": "bench/tritonbench_g/fused_recurrent_retention/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention.py",
-          "function": "fused_recurrent_retention_fwd_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention.py",
-          "function": "fused_recurrent_retention_bwd_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/fused_recurrent_retention/Kernels.lean": "73102440c970b151c958ab9467752cd7657c50309bd294f97b8d556c6c38ba7e",
+        "bench/tritonbench_g/fused_recurrent_retention/Kernels.lean": "7d0b755115e89a382ef9ed989429ec1102a81fa34f4d38991d14c7978f35e8fb",
         "bench/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention.py": "053336dbc2b6598a9ae76594bc592f60b011a14f149c2e25c2769a7fb835a4b3",
-        "bench/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention_compare_right.py": "5d2134060ab23f0b9a2a500d38017c729f87ec94ff6eeb6bec9583b3dbf9047e"
+        "bench/tritonbench_g/fused_recurrent_retention/fused_recurrent_retention_compare_right.py": "5d2134060ab23f0b9a2a500d38017c729f87ec94ff6eeb6bec9583b3dbf9047e",
+        "bench/tritonbench_g/fused_recurrent_retention/jit-correspondence.json": "3f2576d86b2e991185c975896df2407dd7ab11d352fdc249f18ddb6bb59fc95d"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/fused_recurrent_retention"

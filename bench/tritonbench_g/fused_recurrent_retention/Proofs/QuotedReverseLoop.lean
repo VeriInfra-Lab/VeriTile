@@ -19,7 +19,7 @@ theorem reverse_range_values [Inhabited α] (a : Arithmetic α) (s : Shape) (b :
     (r : Nat) (u : State (Staged.Node α)) (hr : r ≤ s.T) (hBK : 0<s.BK) (hBV : 0<s.BV)
     (coveredK : plans.dk.Covers s.BV) (coveredV : plans.dv.Covers s.BK)
     (h : BackwardSecondInvariant a s b initial final pid r u) :
-    range (Staged.algebra a plans) "_t" r s.T 1
+    range (Staged.algebra a plans) "_" r s.T 1
         (Program.backwardSecond (layout s b) backwardRegions seed final).body u =
       some (reverseTail a s b plans initial final pid r u) ∧
     BackwardSecondInvariant a s b initial final pid s.T

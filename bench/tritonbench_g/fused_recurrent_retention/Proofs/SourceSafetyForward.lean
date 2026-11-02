@@ -29,18 +29,16 @@ theorem forward_prefix_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.forwardParts (layout s b) forwardRegions seed final).before initial := by
   cases seed <;>
-    simp [Program.forwardParts,Program.forward,Surface.forward,ComputeKernel.surfaceBody,
-      Source.dynamicRange?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
+    simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardBody,ComputeKernel.surfaceBody,
+      Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-      step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,numericLt,
+      run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,numericLt,
       natLt,integralMod,Region.cast,hscale,layout,forwardRegions,
       Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat]
-  constructor
-  · intro v k hk hv
-    simpa [seedOffset,layout,launch,ProgramId.key,ProgramId.value,Nat.add_assoc] using
-      hb.initial rfl k.val k.isLt v.val v.isLt hk hv
-  · split <;> trivial
+  intro v k hk hv
+  simpa [seedOffset,layout,launch,ProgramId.key,ProgramId.value,Nat.add_assoc] using
+    hb.initial rfl k.val k.isLt v.val v.isLt hk hv
 
 theorem forward_body_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (plans : Plans)
     (seed final : Bool) (initial current : State (Staged.Node α)) (pid : ProgramId) (t : Nat)
@@ -48,12 +46,12 @@ theorem forward_body_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (pl
     (bounds : RegionName → Nat) (hb : ForwardBounds s b pid seed final bounds) :
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.forwardParts (layout s b) forwardRegions seed final).body
-      (current.setReg "_t" .nat [] (fun _ => t)) := by
-  simp [Program.forwardParts,Program.forward,Surface.forward,ComputeKernel.surfaceBody,
-    Source.dynamicRange?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
+      (current.setReg "_" .nat [] (fun _ => t)) := by
+  simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardBody,ComputeKernel.surfaceBody,
+    Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,
+    run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,
     store,Region.cast,layout,forwardRegions,ofFloat,toFloat,
     h.scale,h.keyId,h.valueId,h.headId,h.beta,h.q,h.k,h.v,h.o,h.maskK,h.maskV,h.maskKV,h.carry,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -69,18 +67,16 @@ theorem forward_final_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (p
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.forwardParts (layout s b) forwardRegions seed final).after current := by
   cases final <;>
-    simp [Program.forwardParts,Program.forward,Surface.forward,ComputeKernel.surfaceBody,
-      Source.dynamicRange?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
+    simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardBody,ComputeKernel.surfaceBody,
+      Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-      step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,
+      run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,
       store,Region.cast,layout,forwardRegions,ofFloat,toFloat,
       h.keyId,h.valueId,h.headId,h.maskKV,h.carry,Broadcast.leftIndex,Broadcast.rightIndex]
-  constructor
-  · intro v k hk hv
-    simpa [seedOffset,layout,ProgramId.key,ProgramId.value,Nat.add_assoc] using
-      hb.final rfl k.val k.isLt v.val v.isLt hk hv
-  · split <;> trivial
+  intro v k hk hv
+  simpa [seedOffset,layout,ProgramId.key,ProgramId.value,Nat.add_assoc] using
+    hb.final rfl k.val k.isLt v.val v.isLt hk hv
 
 end
 end VeriTile.Bench.Repairs.FusedRecurrentRetention.SourceSafety
