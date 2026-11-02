@@ -84,8 +84,8 @@ private partial def lower (tree : Ident) (outputs : List Name) (steps : List (Na
       $a:tritonExpr, $b:tritonExpr, $c:tritonExpr, 1, tree=$($tree:ident)))).raw
   if let `(tritonExpr| tl.full([$dims:tritonExpr,*], $value:tritonExpr, dtype=tl.int64)) := raw then
     let value ← `(tritonExpr| tl.cast($value:tritonExpr, tl.int64))
-    let full ← `(tritonExpr| tl.full([$dims:tritonExpr,*], $value:tritonExpr, dtype=tl.int64))
-    return (← `(tritonExpr| tl.cast($full:tritonExpr, tl.int64))).raw
+    let completeTile ← `(tritonExpr| tl.full([$dims:tritonExpr,*], $value:tritonExpr, dtype=tl.int64))
+    return (← `(tritonExpr| tl.cast($completeTile:tritonExpr, tl.int64))).raw
   if let `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $step:ident) { $body:tritonStmt* }) := raw then
     if let some (_,value) := steps.find? (·.1 == step.getId.eraseMacroScopes) then
       let body : Array (TSyntax `tritonStmt) ← body.mapM fun st => return ⟨← lower tree outputs steps st⟩
