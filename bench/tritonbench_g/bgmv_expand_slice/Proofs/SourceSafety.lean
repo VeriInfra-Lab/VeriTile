@@ -13,10 +13,11 @@ theorem loop_safe (M : Algebra A) (h : Call) (s t : State A) (bounds : RegionNam
     (safe : Safety.traceSafeList M bounds (body h) (s.setReg "n" .int [] (fun _ => 0)))
     (ran : run M (body h) (s.setReg "n" .int [] (fun _ => 0))=some t) :
     Safety.stepSafe M bounds (loop h) s := by
-  change Safety.stepSafe M bounds (.forRangeInt "n" (.constInt 0)
+  change Safety.stepSafe M bounds (.forRangeInt "n" (.castNatToInt (.constNat 0))
     (.ref .int [] "split_n_length") (.constNat 256) (body h)) s
   rw [Safety.stepSafe_unfold]
   simp only [Safety.safeOp_unfold,evalOp_unfold,length,true_and]
+  change Safety.rangeIntSafe M bounds "n" 0 1 256 (body h) s
   rw [Safety.rangeIntSafe_unfold]
   simp only [show (256:Nat)≠0 by decide,↓reduceIte,show (0:Int)<1 by decide]
   refine ⟨safe,?_⟩
@@ -57,7 +58,7 @@ theorem source_safe (M : Algebra A) (R : Reduction A) (h : Call)
     have metadata : (data s).indices p.batch=(((data s).indices p.batch).toNat:Int) :=
       (Int.toNat_of_nonneg (valid.resolve_left skipped)).symm
     have positiveN : 0<h.N := by have := p.rowInside;omega
-    rw [complete_active,Safety.traceSafeList_append]
+    rw [active_safety_decomposition,Safety.traceSafeList_append]
     refine ⟨setup_safe M R h p.batch p.row _ s metadata bounds (input skipped),?_⟩
     intro t ran
     have same := Option.some.inj ((preloop M R h p.batch p.row _ s metadata).property.symm.trans ran)

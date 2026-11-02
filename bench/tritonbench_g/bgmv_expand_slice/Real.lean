@@ -91,6 +91,6 @@ theorem source_result (r : Request) (heap : ByteMemory) (h : Admitted r heap) (r
 
 #axiomsClean value_formula
 #axiomsClean source_result
-#specNonCircular formula avoiding [execute,Signed.Grid.run,FPGrid.fold,FP.Structural.exec,Surface.source]
+#specNonCircular formula avoiding [execute,Signed.Grid.run,FPGrid.fold,FP.Structural.exec,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalBody,Pasted.candidateBody]
 end
 end VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Real

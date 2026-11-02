@@ -28,21 +28,25 @@ theorem iteration_memory (M : Algebra α) (reduction : Reduction α) (h : Call)
   have positive_sum : ¬((N:Int)+N<1) := by change 0<N at positiveN;omega
   have ptrCast : (N:Int)*K*slot+row*K=((N*K*slot+row*K:Nat):Int) := by push_cast; rfl
   have ptrToNat : ((N:Int)*K*slot+row*K).toNat=N*K*slot+row*K := by rw [ptrCast,Int.toNat_natCast]
+  have positive_new : ¬((N : Int)+((N : Int)-1)<0) := by change 0<N at positiveN; omega
+  have length_new : ((N : Int)+((N : Int)-1))/(N : Int)=1 := by
+    rw [show (N : Int)+((N : Int)-1)=(N : Int)+N-1 by omega]
+    exact length
   cases ev <;> cases adds
   all_goals
     simp (config := {maxSteps := 300000}) [iteration,firstEntry,preloop,preguard,
       machine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,numeric,
       integralFloorDiv,integralMod,numericLt,numericLe,numericEq,natLt,bop,
       State.setReg,Cell.read,ofFloat,toFloat,TileShape.axisDim,Region.cast,entry,Data.cells,metadata,
-      Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_ediv,length,length_cast,nonzero,positive_sum,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul,
+      Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_ediv,length,length_cast,nonzero,positive_sum,positive_new,length_new,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul,
       result,sums,Direct.FPValues.products,loaded,weight,old,State.masked_scatter_eq_filter,active_lanes,active_lanes_zero,
       ptrToNat,Int.toNat_natCast]
     try simp only [State.masked_scatter_eq_filter,active_lanes_zero,List.foldl_cons,List.foldl_nil]
-    simp (config := {maxSteps := 100000}) [State.write,Direct.FPValues.products,loaded,weight,bop,Broadcast.leftIndex,Broadcast.rightIndex,ptrToNat,Nat.mul_comm,length_cast,nonzero,positive_sum,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
-    rw [active_lanes_zero]
+    simp (config := {maxSteps := 100000}) [State.write,Direct.FPValues.products,loaded,weight,bop,Broadcast.leftIndex,Broadcast.rightIndex,ptrToNat,Nat.mul_comm,length_cast,nonzero,positive_sum,positive_new,length_new,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
+    try rw [active_lanes_zero]
     simp only [List.foldl_cons,List.foldl_nil,State.write]
     unfold Direct.FPValues.products FP.Structural.bop
-    simp [loaded,weight,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm,length_cast,nonzero,positive_sum,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
+    simp [loaded,weight,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm,length_cast,nonzero,positive_sum,positive_new,length_new,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
     try rfl
 
 #axiomsClean iteration_memory

@@ -64,8 +64,7 @@ def localValue (M : Algebra A) (R : Reduction A) (h : Call)
        else M.cast (some .fp32) .real .fp16 (M.literal (some .fp32) .real 0.0))
   let total := M.cast (some .fp32) .fp16 .real
     (R.apply (some .fp32) .fp16 ⟨1,by simp⟩ Bool.false tile (0,PUnit.unit))
-  if h.add then M.cast (some .fp32) .real .real
-    (M.binary (some .fp32) .real .add total (M.fp32Load old)) else total
+  if h.add then M.binary (some .fp32) .real .add total (M.fp32Load old) else total
 
 def invocation (M : Algebra A) (R : Reduction A) (h : Call) (p : Geometry.Program h) : Invocation A :=
   PublicExecution.invocation M R h p.batch p.row

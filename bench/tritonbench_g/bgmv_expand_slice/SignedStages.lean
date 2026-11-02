@@ -16,12 +16,11 @@ theorem preloop_length (M : Algebra α) (reduction : Reduction α) (h : Call)
       some (fun _ => 1) := by
   have length := signed_length h positiveN
   rcases h with ⟨batches,adapters,N,K,columns,slice,BK,positive,covered,inside,ev,evExact,adds,ity,wty,oty⟩
-  have positive_sum : ¬((N:Int)+N<1) := by change 0<N at positiveN;omega
-  cases ev
-  all_goals
-    simp [preloop,integralFloorDiv]
-    funext i
-    simpa only [if_neg positive_sum] using length
+  have positive_new : ¬((N : Int)+((N : Int)-1)<0) := by change 0<N at positiveN; omega
+  have length_new : ((N : Int)+((N : Int)-1))/(N : Int)=1 := by
+    rw [show (N : Int)+((N : Int)-1)=(N : Int)+N-1 by omega]
+    exact length
+  cases ev <;> simp [preloop,integralFloorDiv,positive_new,length_new]
 
 
 @[irreducible] def readyState (M : Algebra α) (reduction : Reduction α) (h : Call)
