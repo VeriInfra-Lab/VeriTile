@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 120,
-      "uncovered_jit_functions": 63
+      "selected_body_copy_checked": 121,
+      "uncovered_jit_functions": 62
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 142,
-    "inventoried_jit_functions": 531,
-    "uncovered_inventoried_jit_functions": 191,
+    "uncovered_selected_jit_functions": 140,
+    "inventoried_jit_functions": 530,
+    "uncovered_inventoried_jit_functions": 188,
     "checked_pair_modes": {
-      "pasted_body": 340
+      "pasted_body": 342
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 120,
-        "uncovered_jit_functions": 63
+        "selected_body_copy_checked": 121,
+        "uncovered_jit_functions": 62
       }
     },
     "primary_files_with_int64_screen_warning": 15,
@@ -35361,13 +35361,13 @@
       "python": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py",
       "lean": "bench/tritonbench_g/sgmv_expand_slice/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 3,
+        "dsl_assignment": 83,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 0
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -35724,136 +35724,79 @@
               ]
             }
           ]
-        },
-        {
-          "path": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice_repaired.py",
-          "jits": [
-            {
-              "function": "_sgmv_expand_slice_kernel_repaired",
-              "line": 7,
-              "statements": 38,
-              "explicit_int64_casts": [
-                {
-                  "line": 32,
-                  "expression": "tl.program_id(axis=0).to(tl.int64)"
-                },
-                {
-                  "line": 33,
-                  "expression": "tl.cast(batch, tl.int64)"
-                },
-                {
-                  "line": 34,
-                  "expression": "tl.cast(N, tl.int64)"
-                },
-                {
-                  "line": 35,
-                  "expression": "tl.cast(K, tl.int64)"
-                },
-                {
-                  "line": 36,
-                  "expression": "tl.cast(xm_stride, tl.int64)"
-                },
-                {
-                  "line": 37,
-                  "expression": "tl.cast(xk_stride, tl.int64)"
-                },
-                {
-                  "line": 38,
-                  "expression": "tl.cast(l0_stride, tl.int64)"
-                },
-                {
-                  "line": 39,
-                  "expression": "tl.cast(lora_k_stride, tl.int64)"
-                },
-                {
-                  "line": 40,
-                  "expression": "tl.cast(lora_n_stride, tl.int64)"
-                },
-                {
-                  "line": 41,
-                  "expression": "tl.cast(cm_stride, tl.int64)"
-                },
-                {
-                  "line": 42,
-                  "expression": "tl.cast(cn_stride, tl.int64)"
-                },
-                {
-                  "line": 43,
-                  "expression": "tl.cast(slice_offset, tl.int64)"
-                },
-                {
-                  "line": 47,
-                  "expression": "tl.load(seq_lens + cur_batch).to(tl.int64)"
-                },
-                {
-                  "line": 52,
-                  "expression": "tl.load(lora_indices + cur_batch).to(tl.int64)"
-                },
-                {
-                  "line": 55,
-                  "expression": "tl.load(b_seq_start_loc + cur_batch).to(tl.int64)"
-                },
-                {
-                  "line": 58,
-                  "expression": "tl.arange(0, BLOCK_K).to(tl.int64)"
-                },
-                {
-                  "line": 90,
-                  "expression": "tl.load(seq_lens + cur_batch).to(tl.int64)"
-                },
-                {
-                  "line": 56,
-                  "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
-                },
-                {
-                  "line": 57,
-                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
-                },
-                {
-                  "line": 84,
-                  "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
-                },
-                {
-                  "line": 85,
-                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
-                }
-              ]
-            }
-          ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_sgmv_expand_slice_kernel_repaired",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 38,
+          "runtime_parameters": {
+            "N": "integer",
+            "K": "integer",
+            "xm_stride": "integer",
+            "xk_stride": "integer",
+            "l0_stride": "integer",
+            "lora_k_stride": "integer",
+            "lora_n_stride": "integer",
+            "cm_stride": "integer",
+            "cn_stride": "integer",
+            "slice_offset": "integer",
+            "batch": "integer"
+          },
+          "constexpr_parameters": [
+            "ADD_INPUTS",
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "CAST_TYPE",
+            "EVEN_K"
+          ],
           "python": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py",
-          "function": "_sgmv_expand_slice_kernel_repaired"
+          "lean": "bench/tritonbench_g/sgmv_expand_slice/Kernels.lean"
         },
         {
+          "python_function": "_sgmv_expand_slice_kernel_index_reuse",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 38,
+          "runtime_parameters": {
+            "N": "integer",
+            "K": "integer",
+            "xm_stride": "integer",
+            "xk_stride": "integer",
+            "l0_stride": "integer",
+            "lora_k_stride": "integer",
+            "lora_n_stride": "integer",
+            "cm_stride": "integer",
+            "cn_stride": "integer",
+            "slice_offset": "integer",
+            "batch": "integer"
+          },
+          "constexpr_parameters": [
+            "ADD_INPUTS",
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "CAST_TYPE",
+            "EVEN_K"
+          ],
           "python": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py",
-          "function": "_sgmv_expand_slice_kernel_index_reuse"
-        },
-        {
-          "python": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice_repaired.py",
-          "function": "_sgmv_expand_slice_kernel_repaired"
+          "lean": "bench/tritonbench_g/sgmv_expand_slice/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py",
-          "function": "_sgmv_expand_slice_kernel_repaired"
-        },
-        {
-          "python": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py",
-          "function": "_sgmv_expand_slice_kernel_index_reuse"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/sgmv_expand_slice/Kernels.lean": "bc14f666660dc2fefe448f816a23880f06a5636de18970accf3dfebb2d5b12dc",
-        "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py": "b30439ac370edc34ec3d35a031660824608d4828e216c441146b167a260ce9db",
-        "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice_repaired.py": "80cef4ba6062cc382fd30e6040a4cda218ca79b938fb23b55cf9b03355c169f4"
+        "bench/tritonbench_g/sgmv_expand_slice/Kernels.lean": "25e1f94f94ea5a183ebc03f92e65ed9c0b8c3b2d6c7c9f072536e240a2e34073",
+        "bench/tritonbench_g/sgmv_expand_slice/jit-correspondence.json": "46fb799bfc7c5d9e9d4457577f1a3a461cd3b499de62d370a66747ef9efe8b7f",
+        "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py": "b30439ac370edc34ec3d35a031660824608d4828e216c441146b167a260ce9db"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/sgmv_expand_slice"
