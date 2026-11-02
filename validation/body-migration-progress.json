@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 64,
+  "completed_count": 68,
   "staged_count": 143,
-  "pending_count": 132,
+  "pending_count": 128,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 4578,
-    "official_comparator": "64 current targets and separately listed regression cases have accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure has been verified. Compilation alone never counts as completion.",
+    "official_comparator": "68 current targets and separately listed regression cases have accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure has been verified. Compilation alone never counts as completion.",
     "python_tests": 509,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "149 selected cases (143 targets and 6 regressions), all 4578 retained/supporting modules, 13299 Lake jobs and 372 fully-qualified public theorem names pass locally. Aligned attention retains all four complete repaired/early-query FP16/BF16 bodies (27 statements each), their distinct typed dot paths, fixed output dtype, original shapes/boundaries and all casts. Scalar infinity promotion is supplied by a checked optional adapter following Triton 3.7.1. Actual FP32 scale precision is retained in ordered references. Complete Real/FP proofs, successful execution, outputs/exterior frames, safety and all 90 retained task modules pass; attention_kernel is also revalidated after the shared output-type change. All 509 Python tests pass. Sixty-four targets retain accepted exact-current-source/import-closure independent receipts; other staged targets remain pending official replay. No new numerical assumption or public premise.",
+    "working_tree": "149 selected cases (143 targets and 6 regressions), all 4578 retained/supporting modules, 13299 Lake jobs and 372 fully-qualified public theorem names pass locally. Aligned attention retains all four complete repaired/early-query FP16/BF16 bodies (27 statements each), their distinct typed dot paths, fixed output dtype, original shapes/boundaries and all casts. Scalar infinity promotion is supplied by a checked optional adapter following Triton 3.7.1. Actual FP32 scale precision is retained in ordered references. Complete Real/FP proofs, successful execution, outputs/exterior frames, safety and all 90 retained task modules pass; attention_kernel is also revalidated after the shared output-type change. All 509 Python tests pass. Sixty-eight targets retain accepted exact-current-source/import-closure independent receipts; other staged targets remain pending official replay. No new numerical assumption or public premise.",
     "official_replay_sources": 3581,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -669,7 +669,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 56 TritonBench-G source/proof migrations and collect exact-source official independent receipts for staged cases. Keep numerical admission gaps explicit. No merge.",
+    "current_work": "Continue the remaining 53 TritonBench-G source/proof migrations, including active fused_layernorm_triton, and collect exact-source official independent receipts for staged cases. Keep numerical admission gaps explicit. No merge.",
     "previous_validated_source_commit": "f748aac83d51b8c238294899bf52746171e00ef4",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -900,18 +900,25 @@
     ],
     "current_official_acceptance": [
       "validation/body_receipts/bgmv-expand-slice-source-migration.json",
+      "validation/body_receipts/bgmv-shrink-source-migration.json",
       "validation/body_receipts/fp8-matmul-source-migration.json",
+      "validation/body_receipts/full-recovery-shard-11.json",
+      "validation/body_receipts/full-recovery-shard-12.json",
+      "validation/body_receipts/full-recovery-shard-13.json",
+      "validation/body_receipts/full-recovery-shard-14.json",
+      "validation/body_receipts/full-recovery-shard-15.json",
+      "validation/body_receipts/full-recovery-shard-19.json",
+      "validation/body_receipts/full-recovery-shard-2.json",
+      "validation/body_receipts/full-recovery-shard-20.json",
+      "validation/body_receipts/full-recovery-shard-3.json",
+      "validation/body_receipts/full-recovery-shard-6.json",
+      "validation/body_receipts/full-recovery-shard-8.json",
       "validation/body_receipts/int4-matmul-source-migration.json",
       "validation/body_receipts/int8-matmul-source-migration.json",
       "validation/body_receipts/layernorm-softmax-source-migration.json",
-      "validation/body_receipts/matmul-source-migration.json",
       "validation/body_receipts/lora-expand-gemv-source-migration.json",
-      "validation/body_receipts/sgmv-expand-slice-source-migration.json",
-      "validation/body_receipts/bgmv-shrink-source-migration.json",
-      "validation/body_receipts/full-recovery-shard-11.json",
-      "validation/body_receipts/full-recovery-shard-13.json",
-      "validation/body_receipts/full-recovery-shard-3.json",
-      "validation/body_receipts/full-recovery-shard-20.json"
+      "validation/body_receipts/matmul-source-migration.json",
+      "validation/body_receipts/sgmv-expand-slice-source-migration.json"
     ],
     "full_replay_recovery": {
       "state": "independent_completed_shards_accepted_other_shards_pending",
@@ -963,9 +970,16 @@
       "source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "accepted_completed_shards": [
+        2,
         3,
+        6,
+        8,
         11,
+        12,
         13,
+        14,
+        15,
+        19,
         20
       ]
     },
@@ -983,16 +997,18 @@
   "targets": [
     {
       "path": "bench/tritonbench_g/adam_update_triton",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "superseded_receipt": "validation/body_receipts/adam_update.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/swiglu_triton.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Accepted every required owned and shared independent proof replay in an official completed shard. Official ZIP SHA256, public theorem coverage, source body pairs and exact current transitive source/import closure verified. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-19.json"
     },
     {
       "path": "bench/tritonbench_g/add_example",
@@ -1572,15 +1588,17 @@
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_hgrn",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/stage9-shard4.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Accepted every required owned and shared independent proof replay in an official completed shard. Official ZIP SHA256, public theorem coverage, source body pairs and exact current transitive source/import closure verified. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-19.json"
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_retention",
@@ -1594,15 +1612,17 @@
     },
     {
       "path": "bench/tritonbench_g/fused_rotary_embedding",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/fused_rotary_embedding.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Accepted every required owned and shared independent proof replay in an official completed shard. Official ZIP SHA256, public theorem coverage, source body pairs and exact current transitive source/import closure verified. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-19.json"
     },
     {
       "path": "bench/tritonbench_g/fused_rwkv6_kernel",
@@ -2137,15 +2157,17 @@
     },
     {
       "path": "bench/tritonbench_g/mul_exponent_compensator",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/mul_exponent_compensator.json",
-      "reason": "A distinct libdevice.rsqrt opcode is being added for literal source fidelity. The prior source snapshot and accepted receipt are preserved; current shared source/import hashes require a fresh full proof rebuild and independent replay."
+      "reason": "Accepted every required owned and shared independent proof replay in an official completed shard. Official ZIP SHA256, public theorem coverage, source body pairs and exact current transitive source/import closure verified. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "receipt": "validation/body_receipts/full-recovery-shard-19.json"
     },
     {
       "path": "bench/tritonbench_g/multinomial_sampling",
