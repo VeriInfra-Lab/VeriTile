@@ -2609,3 +2609,59 @@ class FusedLayernormBodyTests(unittest.TestCase):
                 self.verify(python=python.replace(old, new))
         with self.assertRaises(ValueError):
             self.verify(python=python + '\ntriton_helpers = replacement\n')
+
+
+class ChunkGLASimpleBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/chunk_gla_simple'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, index=0, source=None):
+        r = self.records[index]
+        return check((ROOT / r['python']).read_text(), source or self.source,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'])
+
+    def test_complete_original_and_row_reuse_candidate(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in rows], [23, 23])
+
+    def test_signed_addresses_loop_and_typed_dots_cannot_be_erased(self):
+        for old, new in [('tl.program_id(2).to(tl.int64)', 'tl.program_id(2)'),
+                         ('tl.cast(s_k_h, tl.int64)', 's_k_h'),
+                         ('tl.cast(tl.cdiv(K, BK), tl.int64)', 'tl.cdiv(K, BK)'),
+                         ('tl.cast(i_k, tl.int64)', 'i_k'),
+                         ('b_s.to(b_v.dtype)', 'b_s'),
+                         ('allow_tf32=False', 'allow_tf32=True'),
+                         ('mask=rows < T, other=0', 'mask=rows < T, other=1')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(source=self.source.replace(old, new))
+        with self.assertRaises(ValueError):
+            self.verify(1, self.source.replace('o_i.to(tl.int64)', 'o_i'))
+
+    def test_runtime_stride_precision_and_output_dtype_are_bound(self):
+        for old, new in [('("s_h_t",.integer)', '("s_h_t",.fp32)'),
+                         ('("scale",.fp32)', '("scale",.integer)'),
+                         ('("o",out_dtype)', '("o",.fp16)'),
+                         ('s_v_h := s_v_h', 's_v_h := s_k_h')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(source=self.source.replace(old, new))
+
+    def test_materialized_candidate_only_reuses_the_row_lane_vector(self):
+        import hashlib
+        original = (ROOT / self.records[0]['python']).read_text()
+        candidate = (ROOT / self.records[1]['python']).read_text()
+        self.assertIn(hashlib.sha256(original.encode()).hexdigest(), candidate)
+        def body(text, name):
+            return next(n for n in ast.parse(text).body
+                        if isinstance(n, ast.FunctionDef) and n.name == name).body
+        lhs = body(original, self.records[0]['python_function'])
+        rhs = body(candidate, self.records[1]['python_function'])
+        changes = [(a, b) for a, b in zip(lhs, rhs)
+                   if ast.dump(a) != ast.dump(b)]
+        self.assertEqual(len(lhs), len(rhs))
+        self.assertEqual(len(changes), 1)
+        self.assertEqual(changes[0][0].targets[0].id, 'rows')
+        self.assertEqual(changes[0][1].targets[0].id, 'rows')

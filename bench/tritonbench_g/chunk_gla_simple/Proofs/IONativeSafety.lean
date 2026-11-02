@@ -16,8 +16,8 @@ def position (s : State A) : Math.Launch := ⟨s.pids 0,s.pids 1,s.pids 2⟩
 theorem entry_safe (M : Algebra A) (c : Shape) (scale : ℝ) (s : State A)
     (bounds : RegionName → Nat) :
     Safety.traceSafeList (engine M) bounds (Typed.parts c scale).before s := by
-  simp [Typed.parts,kernel,fp32Original,ComputeKernel.surfaceBody,
-    Source.dynamicRange?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
+  simp [Typed.parts,kernel,fp32Original,originalBody,ComputeKernel.surfaceBody,
+    Source.intRange?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -29,19 +29,20 @@ theorem body_safe (M : Algebra A) (c : Shape) (scale : ℝ) (d : Typed.Dots M c)
     (bounds : RegionName → Nat)
     (hb : Safe.StepBounds (layout c) (position initial) regions block bounds) :
     Safety.traceSafeList (engine M) bounds (Typed.parts c scale).body
-      (current.setReg "i_k" .nat [] (fun _ => block)) := by
+      (current.setReg "i_k" .int [] (fun _ => (block : Int))) := by
   have ho := ha.1
   have hs := ha.2
-  simp (maxSteps := 500000) [Typed.parts,kernel,fp32Original,
-    ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp (maxSteps := 500000) [Typed.parts,kernel,fp32Original,originalBody,
+    ComputeKernel.surfaceBody,Source.intRange?,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,
-    Region.cast,State.setReg,ctx.bh,ctx.it,ctx.rows,ctx.cols,ctx.mask,ctx.memory,ho,hs,
+    Region.cast,State.setReg,ctx.bh,ctx.it,ctx.rows,ctx.cols,ctx.skh,ctx.skt,ctx.svh,ctx.svt,ctx.shh,ctx.sht,ctx.mask,ctx.memory,ho,hs,
     d.qh_eq,d.qk_eq]
+  simp only [← Int.natCast_mul,← Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
   refine ⟨?_,?_,?_⟩
   · intro i j hi hj
     simpa [layout,regions,position,FPValue.row,FPValue.key,Nat.mul_one] using hb.query i j ⟨hi,hj⟩
@@ -57,15 +58,16 @@ theorem finish_safe (M : Algebra A) (c : Shape) (scale : ℝ) (d : Typed.Dots M 
     Safety.traceSafeList (engine M) bounds (Typed.parts c scale).after current := by
   have ho := ha.1
   have hs := ha.2
-  simp (maxSteps := 500000) [Typed.parts,kernel,fp32Original,
-    ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp (maxSteps := 500000) [Typed.parts,kernel,fp32Original,originalBody,
+    ComputeKernel.surfaceBody,Source.intRange?,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,
-    Region.cast,State.setReg,ctx.bh,ctx.it,ctx.rows,ctx.cols,ctx.mask,ctx.memory,ho,hs,d.sv_eq]
+    Region.cast,State.setReg,ctx.bh,ctx.it,ctx.rows,ctx.cols,ctx.skh,ctx.skt,ctx.svh,ctx.svt,ctx.shh,ctx.sht,ctx.mask,ctx.memory,ho,hs,d.sv_eq]
+  simp only [← Int.natCast_mul,← Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
   refine ⟨?_,?_,?_,?_⟩
   · intro i hi
     simpa [layout,regions,position,FPValue.row,Math.row,Math.gateAddress] using hb.gate i hi
@@ -80,15 +82,15 @@ theorem range_safe (M : Algebra A) (c : Shape) (scale : ℝ) (d : Typed.Dots M c
     (hb : Safe.Bounds (layout c) (position initial) regions bounds)
     (cur : Nat) (current : State A) (acc : Acc A c)
     (ctx : Context c initial current) (ha : HasAcc c acc current) :
-    Safety.rangeSafe (engine M) bounds "i_k" cur ((c.K+c.BK-1)/c.BK) 1
+    Safety.rangeIntSafe (engine M) bounds "i_k" (cur : Int) (((c.K+c.BK-1)/c.BK : Nat) : Int) 1
       (Typed.parts c scale).body current := by
-  rw [Safety.rangeSafe_unfold]
-  simp only [show (1:Nat)≠0 by decide, ↓reduceIte]
+  rw [Safety.rangeIntSafe_unfold]
+  simp only [show (1:Nat)≠0 by decide, ↓reduceIte,Int.ofNat_lt]
   split
   · rename_i hn
     refine ⟨body_safe M c scale d initial current cur acc ctx ha bounds (hb.loop cur hn), ?_⟩
     rw [(bodyExecution M c scale d initial current cur acc ctx ha).property]
-    exact range_safe M c scale d initial bounds hb (cur+1) _ _
+    simpa only [← Int.natCast_add] using range_safe M c scale d initial bounds hb (cur+1) _ _
       (bodyContext M c scale d initial current cur acc ctx ha).1
       (bodyContext M c scale d initial current cur acc ctx ha).2
   · trivial
@@ -111,16 +113,16 @@ theorem source_safe (M : Algebra A) (c : Shape) (scale : ℝ) (d : Typed.Dots M 
   let ha := (entryContext M c scale initial).2
   obtain ⟨mid, hm, hc, hv⟩ := loopExecution M c scale d initial _ ctx ha
   apply Safety.traceSafeList_cons_of_step (t := mid)
-  · change Safety.stepSafe (engine M) bounds (.forRangeDyn "i_k" (.constNat 0)
-      (.div .nat .nil (.sub .nat .nil (.add .nat .nil (.constNat c.K)
-        (.constNat c.BK)) (.constNat 1)) (.constNat c.BK)) (.constNat 1)
+  · change Safety.stepSafe (engine M) bounds (.forRangeInt "i_k" (.constInt 0)
+      (.castNatToInt (.div .nat .nil (.sub .nat .nil (.add .nat .nil (.constNat c.K)
+        (.constNat c.BK)) (.constNat 1)) (.constNat c.BK))) (.constNat 1)
       (Typed.parts c scale).body) _
     simp only [Safety.stepSafe_unfold, Safety.safeOp_unfold, evalOp_unfold,
       numeric, bop, Option.bind, Option.bind_some, true_and]
     exact range_safe M c scale d initial bounds hb 0 _ _ ctx ha
-  · change step (engine M) (.forRangeDyn "i_k" (.constNat 0)
-      (.div .nat .nil (.sub .nat .nil (.add .nat .nil (.constNat c.K)
-        (.constNat c.BK)) (.constNat 1)) (.constNat c.BK)) (.constNat 1)
+  · change step (engine M) (.forRangeInt "i_k" (.constInt 0)
+      (.castNatToInt (.div .nat .nil (.sub .nat .nil (.add .nat .nil (.constNat c.K)
+        (.constNat c.BK)) (.constNat 1)) (.constNat c.BK))) (.constNat 1)
       (Typed.parts c scale).body) _ = some mid
     simp only [step, evalOp_unfold, numeric, bop, Option.bind, Option.bind_some]
     exact hm
