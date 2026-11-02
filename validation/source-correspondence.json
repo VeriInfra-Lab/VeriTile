@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 118,
-      "uncovered_jit_functions": 65
+      "selected_body_copy_checked": 119,
+      "uncovered_jit_functions": 64
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 144,
-    "inventoried_jit_functions": 529,
-    "uncovered_inventoried_jit_functions": 193,
+    "uncovered_selected_jit_functions": 143,
+    "inventoried_jit_functions": 530,
+    "uncovered_inventoried_jit_functions": 192,
     "checked_pair_modes": {
-      "pasted_body": 336
+      "pasted_body": 338
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 118,
-        "uncovered_jit_functions": 65
+        "selected_body_copy_checked": 119,
+        "uncovered_jit_functions": 64
       }
     },
     "primary_files_with_int64_screen_warning": 15,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 39,
-        "antiquotes": 380,
+        "in_body_type_directives": 38,
+        "antiquotes": 379,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 86
       },
@@ -11851,13 +11851,13 @@
       "python": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py",
       "lean": "bench/tritonbench_g/bgmv_shrink_kernel/Kernels.lean",
       "lean_screen": {
-        "quotations": 4,
-        "in_body_type_directives": 8,
-        "antiquotes": 88,
-        "dsl_assignment": 26,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 32,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 4
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -11944,27 +11944,116 @@
               ]
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+        },
         {
-          "python": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py",
-          "function": "_bgmv_shrink_kernel"
+          "path": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel_scalar_left.py",
+          "jits": [
+            {
+              "function": "_bgmv_shrink_kernel",
+              "line": 11,
+              "statements": 15,
+              "explicit_int64_casts": [
+                {
+                  "line": 30,
+                  "expression": "tl.program_id(axis=0).to(tl.int64)"
+                },
+                {
+                  "line": 31,
+                  "expression": "tl.program_id(axis=1).to(tl.int64)"
+                },
+                {
+                  "line": 32,
+                  "expression": "tl.load(lora_indices + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 36,
+                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+                },
+                {
+                  "line": 60,
+                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+                },
+                {
+                  "line": 37,
+                  "expression": "tl.arange(0, BLOCK_K).to(tl.int64)"
+                },
+                {
+                  "line": 41,
+                  "expression": "tl.cast(0, tl.int64)"
+                },
+                {
+                  "line": 41,
+                  "expression": "tl.cast(K, tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_bgmv_shrink_kernel",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "N": "integer",
+            "K": "integer",
+            "xm_stride": "integer",
+            "xk_stride": "integer",
+            "l0_stride": "integer",
+            "lora_k_stride": "integer",
+            "lora_n_stride": "integer",
+            "cm_stride": "integer",
+            "cn_stride": "integer",
+            "scaling": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_N",
+            "SPLIT_K"
+          ],
           "python": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py",
-          "function": "_bgmv_shrink_kernel"
+          "lean": "bench/tritonbench_g/bgmv_shrink_kernel/Kernels.lean"
+        },
+        {
+          "python_function": "_bgmv_shrink_kernel",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "N": "integer",
+            "K": "integer",
+            "xm_stride": "integer",
+            "xk_stride": "integer",
+            "l0_stride": "integer",
+            "lora_k_stride": "integer",
+            "lora_n_stride": "integer",
+            "cm_stride": "integer",
+            "cn_stride": "integer",
+            "scaling": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_N",
+            "SPLIT_K"
+          ],
+          "python": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel_scalar_left.py",
+          "lean": "bench/tritonbench_g/bgmv_shrink_kernel/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/bgmv_shrink_kernel/Kernels.lean": "bb393d010838710253028b03c5ec581239254483e6fe2fa72f424c1d77f79be8",
-        "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py": "a310a815f1fbee12660da58c646ca05cb1e3570e5cabcd8295d357cbc4052052"
+        "bench/tritonbench_g/bgmv_shrink_kernel/Kernels.lean": "f772873a2337c3371a3b9f6e4143c8719cdd89c92860fb233d33015c7e07ba7b",
+        "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py": "a310a815f1fbee12660da58c646ca05cb1e3570e5cabcd8295d357cbc4052052",
+        "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel_scalar_left.py": "aba14901b6be6337f93cd86ff15395114451b92fda8d05a268054c672d3da316",
+        "bench/tritonbench_g/bgmv_shrink_kernel/jit-correspondence.json": "9014e926405a1e4309c14ff6904fbb583217ca12ff2a88750bf19bc38db110bf"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/bgmv_shrink_kernel"

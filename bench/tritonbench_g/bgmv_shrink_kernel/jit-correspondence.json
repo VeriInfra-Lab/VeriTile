@@ -1,0 +1,238 @@
+[
+  {
+    "python": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel.py",
+    "lean": "bench/tritonbench_g/bgmv_shrink_kernel/Kernels.lean",
+    "python_function": "_bgmv_shrink_kernel",
+    "lean_definition": "originalBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "lora_indices",
+          {
+            "on": "index_dtype",
+            "cases": [
+              [
+                "i32",
+                "i32"
+              ],
+              [
+                "i64",
+                "i64"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "xm_stride",
+          "integer"
+        ],
+        [
+          "xk_stride",
+          "integer"
+        ],
+        [
+          "l0_stride",
+          "integer"
+        ],
+        [
+          "lora_k_stride",
+          "integer"
+        ],
+        [
+          "lora_n_stride",
+          "integer"
+        ],
+        [
+          "cm_stride",
+          "integer"
+        ],
+        [
+          "cn_stride",
+          "integer"
+        ],
+        [
+          "scaling",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_K"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "input_ptr",
+          "input_dtype"
+        ],
+        [
+          "lora_ptr",
+          "input_dtype"
+        ],
+        [
+          "out_ptr",
+          "output_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "input_dtype",
+        "output_dtype",
+        "index_dtype"
+      ],
+      "dtype_parameter_types": {
+        "input_dtype": "FloatDType",
+        "output_dtype": "FloatDType",
+        "index_dtype": "IndexStorage"
+      }
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/bgmv_shrink_kernel/bgmv_shrink_kernel_scalar_left.py",
+    "lean": "bench/tritonbench_g/bgmv_shrink_kernel/Kernels.lean",
+    "python_function": "_bgmv_shrink_kernel",
+    "lean_definition": "candidateBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "lora_indices",
+          {
+            "on": "index_dtype",
+            "cases": [
+              [
+                "i32",
+                "i32"
+              ],
+              [
+                "i64",
+                "i64"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "xm_stride",
+          "integer"
+        ],
+        [
+          "xk_stride",
+          "integer"
+        ],
+        [
+          "l0_stride",
+          "integer"
+        ],
+        [
+          "lora_k_stride",
+          "integer"
+        ],
+        [
+          "lora_n_stride",
+          "integer"
+        ],
+        [
+          "cm_stride",
+          "integer"
+        ],
+        [
+          "cn_stride",
+          "integer"
+        ],
+        [
+          "scaling",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_K"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "input_ptr",
+          "input_dtype"
+        ],
+        [
+          "lora_ptr",
+          "input_dtype"
+        ],
+        [
+          "out_ptr",
+          "output_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "input_dtype",
+        "output_dtype",
+        "index_dtype"
+      ],
+      "dtype_parameter_types": {
+        "input_dtype": "FloatDType",
+        "output_dtype": "FloatDType",
+        "index_dtype": "IndexStorage"
+      }
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    }
+  }
+]

@@ -97,6 +97,7 @@ theorem source_pair (M : Algebra A) (comm : MultiplicationCommutes M) (h : Call)
   unfold Kernels.source Kernels.scalarLeft
   cases h.storage <;>
     unfold Kernels.originalFP16 Kernels.scalarLeftFP16 Kernels.originalBF16 Kernels.scalarLeftBF16
+      Pasted.originalBody Pasted.candidateBody
       ComputeKernel.surfaceBody
   all_goals
     repeat' first
