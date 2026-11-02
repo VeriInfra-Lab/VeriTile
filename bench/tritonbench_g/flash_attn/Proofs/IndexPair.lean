@@ -34,13 +34,13 @@ theorem prelude_runs (M : Algebra α) (p : Parameters) (s : State α) :
         FP.Structural.bop (fun x y : Nat => x * y) Broadcast.nil b a := by
     funext i
     simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm]
-  simp [prelude,ActualSource.kernel,ActualSource.indexCommuted,ComputeKernel.surfaceBody,
+  simp [prelude,ActualSource.kernel,ActualSource.body,ActualSource.indexCommuted,ActualSource.indexCommutedBody,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalOp_unfold,numeric,integralFloorDiv,integralMod,comm]
 
 theorem prelude_safe (M : Algebra α) (bounds : RegionName → Nat)
     (p : Parameters) (swapped : Bool) (s : State α) :
     Safety.traceSafeList M bounds (prelude swapped p) s := by
-  cases swapped <;> simp [prelude,ActualSource.kernel,ActualSource.indexCommuted,
+  cases swapped <;> simp [prelude,ActualSource.kernel,ActualSource.body,ActualSource.indexCommuted,ActualSource.indexCommutedBody,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr,Safety.safeOp_unfold,step,evalExpr,evalOp_unfold,numeric,
     integralFloorDiv,integralMod,FP.Structural.bop,State.setReg]
