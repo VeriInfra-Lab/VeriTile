@@ -3,48 +3,53 @@
   "scope": "explicit_body_migration_batch",
   "cases": [
     {
-      "path": "bench/tritonbench_g/rbe_triton_transform",
-      "python": "bench/tritonbench_g/rbe_triton_transform/rbe_triton_transform.py",
+      "path": "bench/tritonbench_g/fp4_to_bf16",
+      "python": "bench/tritonbench_g/fp4_to_bf16/fp4_to_bf16.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/rbe_triton_transform/Correct.lean": [
-          "VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.Correct.kernel_correct"
+        "bench/tritonbench_g/fp4_to_bf16/Correct.lean": [
+          "VeriTile.Bench.Repairs.Fp4ToBf16.Correct.fp4_to_bf16_real"
         ],
-        "bench/tritonbench_g/rbe_triton_transform/FPEquiv.lean": [
-          "VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.FPEquiv.mask_reuse_equiv"
+        "bench/tritonbench_g/fp4_to_bf16/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Fp4ToBf16.FPEquiv.fp4_to_bf16_schedule_equiv"
         ]
       }
     }
   ],
   "extra_replay_sources": [
-    "bench/tritonbench_g/rbe_triton_transform/Contract.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Correct.lean",
-    "bench/tritonbench_g/rbe_triton_transform/FPEquiv.lean",
-    "bench/tritonbench_g/rbe_triton_transform/IO.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Kernels.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/AccessSafety.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/Bridge.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/Contract.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/IOCorrectness.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/InputContract.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/KernelBinding.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/KernelIndex.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/LogicalReader.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/Pair.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/RbeTritonTransform_Source_Contract.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/ReaderBefore.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/Runtime.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/RuntimeModel.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/Scalar.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/Schedule.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/Selected.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/SelectedExecution.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/SignedIndex.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/Source.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/Spec.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Proofs/TypedGrid.lean",
-    "bench/tritonbench_g/rbe_triton_transform/Sources/Kernels.lean",
-    "VeriTile/Triton/DSL/StatementJitFunctions.lean",
-    "tests/lean/StatementJitFunctions.lean"
+    "bench/tritonbench_g/fp4_to_bf16/Contract.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Correct.lean",
+    "bench/tritonbench_g/fp4_to_bf16/FPEquiv.lean",
+    "bench/tritonbench_g/fp4_to_bf16/IO.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Kernels.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Finite.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Launch.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/LogicalCoordinates.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/LogicalGrid.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/LogicalResult.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FP4Bits.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPArithmetic.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPContract.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPExecution.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPInteger.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPLayout.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPOperations.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPReal.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPReference.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPSource.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_Host.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_HostCorrect.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_HostSchedule.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_KernelCorrect.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/ScheduleEquivalence.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/SignedIndex.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/fp4_to_bf16/ScheduleIO.lean",
+    "bench/tritonbench_g/fp4_to_bf16/SourceTypes.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Sources/Mathematical_Kernels.lean",
+    "VeriTile/Triton/DSL/JitIntegerPromotion.lean",
+    "VeriTile/Triton/DSL/StatementJitCallConstants.lean",
+    "tests/lean/StatementJitCallConstants.lean"
   ]
 }

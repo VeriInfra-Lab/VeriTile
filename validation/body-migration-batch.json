@@ -2077,6 +2077,19 @@
           "VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.FPEquiv.mask_reuse_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/fp4_to_bf16",
+      "python": "bench/tritonbench_g/fp4_to_bf16/fp4_to_bf16.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fp4_to_bf16/Correct.lean": [
+          "VeriTile.Bench.Repairs.Fp4ToBf16.Correct.fp4_to_bf16_real"
+        ],
+        "bench/tritonbench_g/fp4_to_bf16/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Fp4ToBf16.FPEquiv.fp4_to_bf16_schedule_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -2100,6 +2113,7 @@
     "VeriTile/Triton/DSL/IntegerCallSyntax.lean",
     "VeriTile/Triton/DSL/IntegerMinMaxLiterals.lean",
     "VeriTile/Triton/DSL/IntegerWhereLiterals.lean",
+    "VeriTile/Triton/DSL/JitIntegerPromotion.lean",
     "VeriTile/Triton/DSL/Metadata.lean",
     "VeriTile/Triton/DSL/NamedFloatDTypeCasts.lean",
     "VeriTile/Triton/DSL/NestedPointerDType.lean",
@@ -2127,6 +2141,7 @@
     "VeriTile/Triton/DSL/SignedSingleArgumentRange.lean",
     "VeriTile/Triton/DSL/SingleAssignmentPointerOffsets.lean",
     "VeriTile/Triton/DSL/SourceBindings.lean",
+    "VeriTile/Triton/DSL/StatementJitCallConstants.lean",
     "VeriTile/Triton/DSL/StatementJitFunctions.lean",
     "VeriTile/Triton/DSL/StaticAssertions.lean",
     "VeriTile/Triton/DSL/StaticRanges.lean",
@@ -3399,6 +3414,37 @@
     "bench/tritonbench_g/flash_decode2_phi/Proofs/SourcePair.lean",
     "bench/tritonbench_g/flash_decode2_phi/Proofs/TensorBinding.lean",
     "bench/tritonbench_g/flash_decode2_phi/Sources/Kernels.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Contract.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Correct.lean",
+    "bench/tritonbench_g/fp4_to_bf16/FPEquiv.lean",
+    "bench/tritonbench_g/fp4_to_bf16/IO.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Kernels.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Finite.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Launch.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/LogicalCoordinates.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/LogicalGrid.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/LogicalResult.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FP4Bits.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPArithmetic.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPContract.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPExecution.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPInteger.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPLayout.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPOperations.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPReal.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPReference.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_FPSource.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_Host.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_HostCorrect.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_HostSchedule.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Mathematical_KernelCorrect.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/PublicIO.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/ScheduleEquivalence.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/SignedIndex.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/fp4_to_bf16/ScheduleIO.lean",
+    "bench/tritonbench_g/fp4_to_bf16/SourceTypes.lean",
+    "bench/tritonbench_g/fp4_to_bf16/Sources/Mathematical_Kernels.lean",
     "bench/tritonbench_g/fused_layernorm_triton/Contract.lean",
     "bench/tritonbench_g/fused_layernorm_triton/Correct.lean",
     "bench/tritonbench_g/fused_layernorm_triton/FPEquiv.lean",
@@ -5751,6 +5797,7 @@
     "tests/lean/SoftmaxReduceVSignedLoads.lean",
     "tests/lean/SourceDType.lean",
     "tests/lean/SourceModuleBindings.lean",
+    "tests/lean/StatementJitCallConstants.lean",
     "tests/lean/StatementJitFunctions.lean",
     "tests/lean/StaticAssertions.lean",
     "tests/lean/StaticRanges.lean",

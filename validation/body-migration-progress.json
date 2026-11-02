@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 146,
-  "staged_count": 148,
+  "staged_count": 149,
   "pending_count": 50,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 4806,
-    "official_comparator": "146 current targets retain accepted exact-dependency official receipts. Official ZIP digests, required proof roots, public theorem coverage and exact current source/import closures have been audited. Two additional locally verified targets await current independent replay; compilation never counts as completion.",
-    "python_tests": 530,
+    "staged_and_regression_retained_modules": 4840,
+    "official_comparator": "146 current targets retain accepted exact-dependency official receipts. Official ZIP digests, required proof roots, public theorem coverage and exact current source/import closures have been audited. Three additional locally verified targets await current independent replay; compilation never counts as completion.",
+    "python_tests": 534,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "154 cases (148 targets and 6 regressions), all 4806 retained/supporting modules, 13482 Lake jobs, 382 public theorem names, 530 Python tests and body-corpus checks pass. RBE now copies both complete 31-statement callers and the complete six-statement helper. All signed casts, fixed DIM=128, tuple return, implicit stores, independent dense Real rotation, full-grid execution/readback/safety/frames and the actual mask-reuse FP pair are verified. All 27 owned and two shared frontend/test roots pass. New shared helper trust/specification/inventory preflights pass (six frontend and 100 regression theorems). Independent completion count is now 146, including all 19 examples.",
-    "official_replay_sources": 3809,
+    "working_tree": "155 cases (149 targets and 6 regressions), all 4840 retained/supporting modules, 13516 Lake jobs, 384 public theorem names, 534 Python tests and body-corpus checks pass. FP4 now copies the complete original caller and helper, retains all source precision/casts/bitcasts/unused statements and preserves the existing public Real/FP specifications and finite-ABI domains. All 31 owned and three shared frontend/test roots pass. Exact-source frontend trust/inventory preflights pass (152 theorems); five semantic regression theorems and five explicit unsupported-width rejection guards pass. Independent completion count remains 146, including all 19 examples.",
+    "official_replay_sources": 3843,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -79,18 +79,15 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/rbe_triton_transform",
+      "case": "bench/tritonbench_g/fp4_to_bf16",
       "case_paths": [
-        "bench/tritonbench_g/rbe_triton_transform"
+        "bench/tritonbench_g/fp4_to_bf16"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 29,
-      "replay_sources": 29,
-      "state": "official_replay_accepted_exact_current_closure",
-      "source_commit": "d45fb499833be5c220631156ee78f72f207c66ff",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41519117058",
-      "started_at": "2026-11-02T20:25:52Z"
+      "retained_modules": 34,
+      "replay_sources": 34,
+      "state": "ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -779,6 +776,20 @@
         "source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41512420329",
         "started_at": "2026-11-02T19:42:23Z"
+      },
+      {
+        "case": "bench/tritonbench_g/rbe_triton_transform",
+        "case_paths": [
+          "bench/tritonbench_g/rbe_triton_transform"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 29,
+        "replay_sources": 29,
+        "state": "official_replay_accepted_exact_current_closure",
+        "source_commit": "d45fb499833be5c220631156ee78f72f207c66ff",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41519117058",
+        "started_at": "2026-11-02T20:25:52Z"
       }
     ],
     "pending_client_regressions": {
@@ -794,7 +805,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 48 TritonBench-G source/proof migrations and collect exact-current independent receipts for chunk_gla_simple and chunk_delta_fwd. Power, IV matmul and RBE are independently accepted. FP4-to-BF16 is in frontend/whole-body migration and remains pending. All 19 examples are accepted. No merge.",
+    "current_work": "Continue the remaining 47 TritonBench-G source/proof migrations and collect exact-current independent receipts for chunk_gla_simple, chunk_delta_fwd and fp4_to_bf16. All 19 examples are accepted. Attention score is the next source migration. No merge.",
     "previous_validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1212,6 +1223,23 @@
         "receipt": "validation/body_receipts/power-source-migration.json",
         "current_case_closure_unchanged": true
       }
+    },
+    "fp4_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "body_statements": {
+        "helper": 22,
+        "caller": 13
+      },
+      "lowered_statements": 34,
+      "owned_modules": 31,
+      "shared_frontend_test_modules": 3,
+      "shared_trust_inventory_theorems": 152,
+      "python_tests": 534,
+      "full_cases": 155,
+      "full_build_modules": 4840,
+      "full_lake_jobs": 13516,
+      "public_theorem_names": 384,
+      "boundary": "Local source/proof/axiom/specification checks, not an independent completion receipt."
     }
   },
   "targets": [
@@ -1831,8 +1859,12 @@
     },
     {
       "path": "bench/tritonbench_g/fp4_to_bf16",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "The complete 22-statement packed converter helper and 13-statement caller match the unchanged repaired Python. Pointer/scalar types, helper metadata and all ten E2M1 host format constants stay outside the bodies; host constants match the actual launch. Preserved unused output assignment, all INT64/INT32 casts, both separate uint8 arithmetic wraps, signed32 shifts/where promotion, FP32 bitcast, BF16 conversion, masks and helper return. Removed the old inlined quotation. All 16 nibbles, 256 packed bytes, high-first ordering and signed zeros are rechecked; independent Real values, full finite-ABI grids, actual schedule-permutation FP pair, source safety, output/readback and complete frames pass without new assumptions or public premises. All 31 owned and three shared frontend/test roots pass local build, source/specification/axiom gates, 155-case integration, 384 public names, 534 Python tests and body-corpus checks. Shared frontend exact-source trust/inventory preflights cover 152 theorems; regressions include per-operation uint8 wrap, signed32 selection/bitcast, constexpr shape alias, metadata hygiene, pointer inference and five unsupported-width rejection cases. Fresh exact-current independent replay is still required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/fused_activation",
