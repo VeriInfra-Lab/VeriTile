@@ -38,12 +38,11 @@ instance {α : Type} (p : Parameters) (s : State α) (imag : Bool) :
 backend-value reference, never Real.sin/Real.cos or an exact-rounding premise. -/
 def phase {α : Type} (M : Algebra α) (p : Parameters) (s : State α) (i : Index p) : α :=
   let exponent := M.binary (some .fp32) .real .div
-    (M.cast (some .fp32) .real .real (M.fromNat (some .fp32) (column p s i % p.frequencyDimension)))
-    (M.literal (some .fp32) .real (p.frequencyDimension : ℝ))
+    (M.fromInt (some .fp32) ((column p s i % 128 : Nat) : Int))
+    (M.fromNat (some .fp32) 128)
   let power := M.binary (some .fp32) .real .pow (M.literal (some .fp32) .real p.theta) exponent
   M.binary (some .fp32) .real .div
-    (M.cast (some .fp32) .real .real
-      (M.fromInt (some .fp32) ((i.1.val : Int) + (p.startToken + (s.pids 1 / parts p * p.blockRows : Nat))))) power
+    (M.fromInt (some .fp32) ((i.1.val : Int) + (p.startToken + (s.pids 1 / parts p * p.blockRows : Nat)))) power
 
 def component {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)
     (imag : Bool) (i : Index p) : α :=

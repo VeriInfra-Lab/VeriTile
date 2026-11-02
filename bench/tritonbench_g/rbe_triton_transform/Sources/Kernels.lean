@@ -20,13 +20,13 @@ structure Parameters where
     outputBatchStride outputRowStride outputColumnStride : Nat)
   startToken : Int
   theta : ℝ
-  (frequencyDimension blockRows blockColumns : Nat)
+  (blockRows blockColumns : Nat)
 
 end Source
 
 abbrev parameters (r : Request) (input output : RegionName) : Source.Parameters :=
   ⟨input,output,r.rows,r.columns,r.rows*r.columns,r.columns,1,
-    r.rows*r.columns,r.columns,1,r.position,10000,128,2,1024⟩
+    r.rows*r.columns,r.columns,1,r.position,10000,2,1024⟩
 
 end
 end VeriTile.Bench.Repairs.RbeTritonTransform

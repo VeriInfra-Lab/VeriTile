@@ -4,7 +4,7 @@ import textwrap
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check, check_manifest, quotation
+from scripts.bench.jit_correspondence import check, check_manifest, check_statement_function, quotation
 
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / "bench/tritonbench_g/triton_argmax"
@@ -2810,3 +2810,65 @@ class IvDependentMatmulBodyTests(unittest.TestCase):
         restored = undo.visit(ast.parse(candidate))
         self.assertEqual(undo.count, 1)
         self.assertEqual(ast.dump(ast.parse(original)), ast.dump(restored))
+
+
+class StatementHelperBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/rbe_triton_transform'
+        self.python = (self.directory / 'rbe_triton_transform.py').read_text()
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def caller(self, lean):
+        record = self.records[1]
+        return check(self.python, lean, record['python_function'], record['lean_definition'],
+                     record['signature_definition'], record['expected_signature'],
+                     expected_call_bindings=record['expected_call_bindings'],
+                     expected_jit_functions=record['expected_jit_functions'])
+
+    def test_complete_caller_and_helper_bodies(self):
+        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in results], [6, 31, 6, 31])
+        self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))
+
+    def test_caller_cast_mask_argument_and_helper_binding_erasure_rejected(self):
+        for before, after in [('tl.program_id(axis=0).to(tl.int64)', 'tl.program_id(axis=0)'),
+                              ('starting_idx=start_block', 'starting_idx=start_token_position'),
+                              ('offs_cn=offs_n', 'offs_cn=offs_m'),
+                              ('1 + offs_n[None, :] < K', 'offs_n[None, :] < K'),
+                              ('get_freq_multi_tokens := frequencyFunction',
+                               'get_freq_multi_tokens := anotherFunction')]:
+            with self.subTest(before=before):
+                self.assertIn(before, self.lean)
+                with self.assertRaises(ValueError):
+                    self.caller(self.lean.replace(before, after, 1))
+
+    def test_helper_dimension_signed_cast_and_return_order_rejected(self):
+        for before, after in [('DIM: tl.constexpr = 128', 'DIM: tl.constexpr = 256'),
+                              ('freqs.to(tl.float32)', 'freqs'),
+                              ('tl.cast(starting_idx, tl.int64)', 'starting_idx'),
+                              ('return tl.cos(freqs), tl.sin(freqs)',
+                               'return tl.sin(freqs), tl.cos(freqs)'),
+                              ('constexpr_args [theta, NB_TOKENS]', 'constexpr_args [NB_TOKENS]')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                check_statement_function(self.python, self.lean.replace(before, after, 1),
+                                         'get_freq_multi_tokens', 'frequencyFunction')
+
+    def test_existing_candidate_changes_only_the_two_store_masks(self):
+        original = ast.parse(self.python)
+        candidate_path = self.directory / 'rbe_triton_transform_mask_reuse.py'
+        candidate = ast.parse(candidate_path.read_text())
+        fn = next(n for n in candidate.body if isinstance(n, ast.FunctionDef) and n.name == 'rbe_triton')
+        source_fn = next(n for n in original.body if isinstance(n, ast.FunctionDef) and n.name == 'rbe_triton')
+        assignments = {n.targets[0].id: n for n in fn.body
+                       if isinstance(n, ast.Assign) and len(n.targets) == 1 and isinstance(n.targets[0], ast.Name)}
+        sources = {n.targets[0].id: n for n in source_fn.body
+                   if isinstance(n, ast.Assign) and len(n.targets) == 1 and isinstance(n.targets[0], ast.Name)}
+        for target, value in [('out_real_mask', 'x_real_mask'), ('out_imag_mask', 'x_imag_mask')]:
+            self.assertEqual(ast.dump(assignments[target].value), ast.dump(ast.Name(id=value, ctx=ast.Load())))
+            assignments[target].value = sources[target].value
+        self.assertEqual(ast.dump(original), ast.dump(candidate))
+        provenance = json.loads((self.directory / 'candidate-provenance.json').read_text())
+        import hashlib
+        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])
+        self.assertEqual(hashlib.sha256(self.python.encode()).hexdigest(), provenance['original_sha256'])
