@@ -1,0 +1,156 @@
+[
+  {
+    "python": "bench/tritonbench_g/fused_layernorm_triton/fused_layernorm_triton.py",
+    "lean": "bench/tritonbench_g/fused_layernorm_triton/Kernels.lean",
+    "python_function": "triton_red_fused_native_layer_norm_0",
+    "lean_definition": "originalBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "in_out_ptr0",
+          "fp32"
+        ],
+        [
+          "in_ptr0",
+          "fp32"
+        ],
+        [
+          "in_ptr1",
+          "fp32"
+        ],
+        [
+          "in_ptr2",
+          "fp32"
+        ],
+        [
+          "out_ptr0",
+          "fp32"
+        ],
+        [
+          "out_ptr1",
+          "bf16"
+        ]
+      ],
+      "scalars": [
+        [
+          "xnumel",
+          "integer"
+        ],
+        [
+          "rnumel",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "XBLOCK",
+        "RBLOCK"
+      ],
+      "readPorts": [
+        "in_ptr0",
+        "in_ptr1",
+        "in_ptr2"
+      ],
+      "writePorts": [
+        "out_ptr0",
+        "in_out_ptr0",
+        "out_ptr1"
+      ]
+    },
+    "expected_call_bindings": {
+      "xnumel": "xnumel",
+      "rnumel": "rnumel"
+    },
+    "expected_static_strides": {
+      "step": "RBLOCK"
+    },
+    "expected_constexpr_bindings": {
+      "XBLOCK": "1"
+    },
+    "expected_namespace_imports": {
+      "libdevice": "torch._inductor.runtime.triton_helpers.libdevice",
+      "triton_helpers": "torch._inductor.runtime.triton_helpers"
+    },
+    "expected_welford_tree": {
+      "argument": "tree",
+      "width": "RBLOCK"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/fused_layernorm_triton/fused_layernorm_triton.py",
+    "lean": "bench/tritonbench_g/fused_layernorm_triton/Kernels.lean",
+    "python_function": "triton_red_fused_native_layer_norm_hoisted",
+    "lean_definition": "hoistedBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "in_out_ptr0",
+          "fp32"
+        ],
+        [
+          "in_ptr0",
+          "fp32"
+        ],
+        [
+          "in_ptr1",
+          "fp32"
+        ],
+        [
+          "in_ptr2",
+          "fp32"
+        ],
+        [
+          "out_ptr0",
+          "fp32"
+        ],
+        [
+          "out_ptr1",
+          "bf16"
+        ]
+      ],
+      "scalars": [
+        [
+          "xnumel",
+          "integer"
+        ],
+        [
+          "rnumel",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "XBLOCK",
+        "RBLOCK"
+      ],
+      "readPorts": [
+        "in_ptr0",
+        "in_ptr1",
+        "in_ptr2"
+      ],
+      "writePorts": [
+        "out_ptr0",
+        "in_out_ptr0",
+        "out_ptr1"
+      ]
+    },
+    "expected_call_bindings": {
+      "xnumel": "xnumel",
+      "rnumel": "rnumel"
+    },
+    "expected_static_strides": {
+      "step": "RBLOCK"
+    },
+    "expected_constexpr_bindings": {
+      "XBLOCK": "1"
+    },
+    "expected_namespace_imports": {
+      "libdevice": "torch._inductor.runtime.triton_helpers.libdevice",
+      "triton_helpers": "torch._inductor.runtime.triton_helpers"
+    },
+    "expected_welford_tree": {
+      "argument": "tree",
+      "width": "RBLOCK"
+    }
+  }
+]

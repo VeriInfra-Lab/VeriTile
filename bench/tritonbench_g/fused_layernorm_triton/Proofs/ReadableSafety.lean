@@ -47,11 +47,14 @@ theorem tuple_safe (M : Algebra α) (bounds : RegionName → Nat)
       using (tree_safe M bounds t tree).2.2
 
 theorem suffix_safe (M : Algebra α) (eq32 : α → α → Bool)
-    (s t : State α) (Mean Rstd : RegionName) (D : Nat)
-    (v : WelfordTriple α) (h : WelfordTupleReady s t v)
+    (s t : State α) (Mean Rstd : RegionName) (D B : Nat)
+    (v : WelfordTriple α) (h : WelfordTupleReady B s t v)
     (bounds : RegionName → Nat) (bm : s.pids 0<bounds Mean) (br : s.pids 0<bounds Rstd) :
     Safety.traceSafeList (withEquality M eq32) bounds (welfordSuffix Rstd Mean D) t := by
-  simp [welfordSuffix,ComputeKernel.surfaceBody,
+  simp only [welfordSuffix,SourcePieces.normalization,SourcePieces.statistics,SourcePieces.source,
+    Kernels.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,Source.intRange?,List.drop,
+    Option.getD,Option.map,Bool.false_eq_true,ite_false,String.reduceEq,beq_self_eq_true,↓reduceIte]
+  simp [
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,
@@ -74,61 +77,75 @@ private theorem append_safe (M : Algebra α) (bounds : RegionName → Nat)
 
 theorem prefix_safe (M : Algebra α) (eq32 : α → α → Bool)
     (s : State α) (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
-    (tree : Kernels.ReductionTree B) (bounds : RegionName → Nat)
-    (hx : ∀ j,j<D → j+D*s.pids 0<bounds X) :
+    (tree : Kernels.ReductionTree B) (bounds : RegionName → Nat) :
     Safety.traceSafeList (withEquality M eq32) bounds
       (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).before s := by
   simp only [SourcePieces.statistics,SourcePieces.source,Bool.false_eq_true,ite_false,
-    Kernels.kernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,
+    Kernels.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,Source.intRange?,Option.map,
     Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
-  simp [Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
+  simp [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,numericEq,
     withEquality,Region.cast,ofFloat,toFloat]
-  exact fun j => hx j.val
 
 theorem chunk_safe (M : Algebra α) (eq32 : α → α → Bool)
     (s t : State α) (X W Bias Y Mean Rstd : RegionName) (S D B k : Nat)
-    (tree : Kernels.ReductionTree B) (hB : 0<B) (hk : 0<k)
+    (tree : Kernels.ReductionTree B)
     (previous : Fin B → WelfordTriple α) (h : WelfordLanesReady s t previous)
     (bounds : RegionName → Nat) (hx : ∀ j,j<D → j+D*s.pids 0<bounds X) :
     Safety.traceSafeList (withEquality M eq32) bounds
       (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).body
-      (t.setReg "roffset" .nat [] (fun _ => k*B)) := by
-  have hn : k*B≠0 := Nat.ne_of_gt (Nat.mul_pos hk hB)
+      (t.setReg "roffset" .int [] (fun _ => (k*B : Nat))) := by
   simp only [SourcePieces.statistics,SourcePieces.source,Bool.false_eq_true,ite_false,
-    Kernels.kernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,
+    Kernels.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,Source.intRange?,Option.map,
     Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
-  simp [Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
+  simp [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,numericEq,
-    withEquality,Region.cast,ofFloat,toFloat,h.mean,h.m2,h.weight,h.row,h.mem,
-    State.setReg,hn]
-  exact fun j => hx (k*B+j.val)
+    withEquality,Region.cast,ofFloat,toFloat,h.mean,h.m2,h.weight,h.row,h.mem,h.indices.base,State.setReg,
+    source_column_lt,source_address]
+  constructor
+  · exact fun j => hx (k*B+j.val)
+  · by_cases first : k=0 ∨ B=0 <;>
+      simp [first,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr,
+        Safety.safeCompute,Safety.safeOp,State.setReg,h.mean,h.m2,h.weight]
 
-theorem chunks_safe (M : Algebra α) (eq32 : α → α → Bool)
-    (s t : State α) (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
+theorem statistics_loop_safe (M : Algebra α) (eq32 : α → α → Bool)
+    (s p : State α) (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
     (tree : Kernels.ReductionTree B) (hB : 0<B)
-    (previous : Fin B → WelfordTriple α) (h : WelfordLanesReady s t previous)
+    (h : WelfordLanesReady s p (ReadableStatistics.zeroLanes M B))
     (bounds : RegionName → Nat) (hx : ∀ j,j<D → j+D*s.pids 0<bounds X) :
-    Safety.rangeSafe (withEquality M eq32) bounds "roffset" B D B
-      (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).body t := by
-  let P (q : Nat) (u : State α) := ∃ (k : Nat) (values : Fin B → WelfordTriple α),q=k*B ∧ 0<k ∧ WelfordLanesReady s u values
-  apply Safety.rangeSafe_of_invariant _ _ _ _ _ _ P
+    Safety.rangeIntSafe (withEquality M eq32) bounds "roffset" 0 D B
+      (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).body p := by
+  let P (q : Int) (u : State α) := ∃ (k : Nat) (values : Fin B → WelfordTriple α),
+    q=(k*B : Nat) ∧ WelfordLanesReady s u values ∧
+      (k=0 → values=ReadableStatistics.zeroLanes M B)
+  apply Safety.rangeIntSafe_of_invariant _ _ _ _ _ _ P
   · intro q hq u initial
-    rcases initial with ⟨k,values,eq,hk,ready⟩
+    rcases initial with ⟨k,values,eq,ready,hzero⟩
     subst q
-    exact chunk_safe M eq32 s u X W Bias Y Mean Rstd S D B k tree hB hk values ready bounds hx
+    exact chunk_safe M eq32 s u X W Bias Y Mean Rstd S D B k tree values ready bounds hx
   · intro q hq u initial v ran
-    rcases initial with ⟨k,values,eq,hk,ready⟩
+    rcases initial with ⟨k,values,eq,ready,hzero⟩
     subst q
-    obtain ⟨w,hw,hr⟩ := ReadableStatistics.chunk_run M eq32 s u X W Bias Y Mean Rstd S D B k tree hB hk values ready
-    have he : w=v := Option.some.inj (hw.symm.trans ran)
+    have effect : ∃ w,run (withEquality M eq32)
+        (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).body
+        (u.setReg "roffset" .int [] (fun _ => (k*B : Nat)))=some w ∧
+        ∃ values : Fin B → WelfordTriple α,WelfordLanesReady s w values := by
+      by_cases hk : k=0
+      · subst k
+        rw [hzero rfl] at ready
+        obtain ⟨w,hw,hr⟩ := ReadableStatistics.first_run M eq32 s u X W Bias Y Mean Rstd S D B tree ready
+        exact ⟨w,by simpa using hw,_,hr⟩
+      · obtain ⟨w,hw,hr⟩ := ReadableStatistics.chunk_run M eq32 s u X W Bias Y Mean Rstd S D B k tree hB (by omega) values ready
+        exact ⟨w,hw,_,hr⟩
+    obtain ⟨w,hw,values,ready⟩ := effect
+    have same : w=v := Option.some.inj (hw.symm.trans ran)
     subst v
-    exact ⟨k+1,_,by simp [Nat.add_mul],by omega,hr⟩
-  · exact ⟨1,previous,by omega,by omega,h⟩
+    exact ⟨k+1,values,by simp [Nat.add_mul,Nat.cast_add],ready,by simp⟩
+  · exact ⟨0,_,by simp,h,by simp⟩
 
 private theorem singleton_safe (M : Algebra α) (bounds : RegionName → Nat)
     (st : ComputeStmt) (s : State α) (safe : Safety.stepSafe M bounds st s) :
@@ -145,18 +162,25 @@ theorem statistics_safe (M : Algebra α) (eq32 : α → α → Bool)
     Safety.traceSafeList (withEquality M eq32) bounds
       (ReadableWhole.statisticsCode Bool.false X W Bias Y Mean Rstd S D B tree) s := by
   obtain ⟨p,hp,hpr⟩ := ReadableStatistics.prefix_run M eq32 s X W Bias Y Mean Rstd S D B tree
-  obtain ⟨q,hq,hqr⟩ := ReadableStatistics.chunks_run M eq32 s p X W Bias Y Mean Rstd S D B 1
-    (blockCount D B-1) tree hB (by omega) rfl _ hpr
+  obtain ⟨q,hq,hqr⟩ := ReadableStatistics.loop_run M eq32 s p X W Bias Y Mean Rstd S D B tree hB hpr
+  change rangeInt (withEquality M eq32) "roffset" 0 (Int.ofNat D) B
+    (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).body p=some q at hq
   obtain ⟨u,hu,hur⟩ := welford_tuple_run M eq32 s q _ hqr (ReadableStatistics.legacyTree tree)
-  simp only [Nat.one_mul] at hq
-  have loopSafe : Safety.traceSafeList (withEquality M eq32) bounds
-      [.forRange "roffset" B D B (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).body] p := by
+  let loop := ComputeStmt.forRangeInt "roffset"
+    (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).start
+    (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).stop
+    (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).stride
+    (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).body
+  have hstart : (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).start = .ref .int [] "zero" := rfl
+  have hstop : (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).stop = .castNatToInt (.constNat D) := rfl
+  have hstride : (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).stride = .constNat B := rfl
+  have loopSafe : Safety.traceSafeList (withEquality M eq32) bounds [loop] p := by
     apply singleton_safe
-    simpa only [Safety.stepSafe_unfold] using
-      chunks_safe M eq32 s p X W Bias Y Mean Rstd S D B tree hB _ hpr bounds hx
-  have loopRun : run (withEquality M eq32)
-      [.forRange "roffset" B D B (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).body] p=some q := by
-    simp only [run,step,hq,Option.bind,bind,pure]
+    simp only [loop,Safety.stepSafe_unfold,hstart,hstop,hstride,Safety.safeOp,evalOp_unfold,
+      hpr.indices.zero,Option.bind,bind,pure,true_and,and_true]
+    exact statistics_loop_safe M eq32 s p X W Bias Y Mean Rstd S D B tree hB hpr bounds hx
+  have loopRun : run (withEquality M eq32) [loop] p=some q := by
+    simp only [loop,run,step,hstart,hstop,hstride,evalOp_unfold,hpr.indices.zero,hq,Option.bind,bind,pure]
   have tupleSafe : Safety.traceSafeList (withEquality M eq32) bounds
       [.ifThen (.constBool Bool.true) (welfordTupleCode (ReadableStatistics.legacyTree tree))] q := by
     apply singleton_safe
@@ -168,23 +192,20 @@ theorem statistics_safe (M : Algebra α) (eq32 : α → α → Bool)
   unfold ReadableWhole.statisticsCode
   rw [ReadableStatistics.middle_eq]
   simp only [List.append_assoc]
-  exact append_safe _ _ _ _ _ _ (prefix_safe M eq32 s X W Bias Y Mean Rstd S D B tree bounds hx) hp
+  exact append_safe _ _ _ _ _ _ (prefix_safe M eq32 s X W Bias Y Mean Rstd S D B tree bounds) hp
     (append_safe _ _ _ _ _ _ loopSafe loopRun
-      (append_safe _ _ _ _ _ _ tupleSafe tupleRun (suffix_safe M eq32 s u Mean Rstd D _ hur bounds bm br)))
-
+      (append_safe _ _ _ _ _ _ tupleSafe tupleRun (suffix_safe M eq32 s u Mean Rstd D B _ hur bounds bm br)))
 
 theorem projections_safe (M : Algebra α) (bounds : RegionName → Nat)
     (s : State α) (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
     (tree : Kernels.ReductionTree B) :
     Safety.traceSafeList M bounds (SourcePieces.projections X W Bias Y Mean Rstd S D B tree) s := by
+  rw [←SourcePieces.projectionBody_eq X W Bias Y Mean Rstd S D B tree]
   apply list_safe
   intro st member t
-  simp only [SourcePieces.projections,SourcePieces.normalization,SourcePieces.statistics,
-    SourcePieces.source,Bool.false_eq_true,ite_false,Kernels.kernel,ComputeKernel.surfaceBody,
-    Source.dynamicRange?,Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte,
-    List.take,List.mem_cons,List.not_mem_nil,or_false] at member
+  simp only [SourcePieces.projectionBody,List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl | rfl | rfl <;>
-    simp [Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp]
+    simp [Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp,Safety.safeOp_unfold,ComputeDType.eraseDType]
 
 theorem statistics_safe_for (hoist : Bool) (M : Algebra α) (eq32 : α → α → Bool)
     (s : State α) (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
@@ -198,9 +219,7 @@ theorem statistics_safe_for (hoist : Bool) (M : Algebra α) (eq32 : α → α �
   · obtain ⟨u,hu,hs⟩ := ReadableStatistics.statistics_ready M eq32 s X W Bias Y Mean Rstd S D B tree hB
     have heq : ReadableWhole.statisticsCode Bool.true X W Bias Y Mean Rstd S D B tree =
         ReadableWhole.statisticsCode Bool.false X W Bias Y Mean Rstd S D B tree ++
-          SourcePieces.projections X W Bias Y Mean Rstd S D B tree := by
-      simp only [ReadableWhole.statisticsCode,SourcePieces.common_prefix,SourcePieces.common_body,
-        SourcePieces.hoisted_before,List.append_assoc]
+          SourcePieces.projections X W Bias Y Mean Rstd S D B tree := by rfl
     rw [heq]
     exact append_safe _ _ _ _ _ _
       (statistics_safe M eq32 s X W Bias Y Mean Rstd S D B tree hB bounds hx bm br) hu
@@ -211,34 +230,34 @@ theorem normalize_safe (hoist : Bool) (M : Algebra α) (eq32 : α → α → Boo
     (tree : Kernels.ReductionTree B) (mean inverse : α)
     (hm : s.regs .real [1,1] "tmp3"=some (fun _ => mean))
     (hr : s.regs .real [1,1] "tmp10"=some (fun _ => inverse))
-    (hx : s.regs .nat [1,1] "x0"=some (fun _ => row))
+    (hx : s.regs .int [1,1] "x0"=some (fun _ => (row : Int)))
+    (indexPins : SourceIndexPins B s)
     (pins : hoist=Bool.true → ReadableNormalize.Pins s row mean inverse)
     (bounds : RegionName → Nat)
     (bx : ∀ j,j<D → j+D*row<bounds X) (bw : ∀ j,j<D → j<bounds W)
     (bb : ∀ j,j<D → j<bounds Bias) (byOut : ∀ j,j<D → j+D*row<bounds Y) :
     Safety.traceSafeList (withEquality M eq32) bounds
       (SourcePieces.normalization hoist X W Bias Y Mean Rstd S D B tree).body
-      (s.setReg "roffset" .nat [] (fun _ => k*B)) := by
+      (s.setReg "roffset" .int [] (fun _ => (k*B : Nat))) := by
+  rw [←SourcePieces.normalizationBody_eq hoist X W Bias Y Mean Rstd S D B tree]
   cases hoist
-  · simp only [SourcePieces.normalization,SourcePieces.statistics,SourcePieces.source,
-      Bool.false_eq_true,ite_false,Kernels.kernel,ComputeKernel.surfaceBody,
-      Source.dynamicRange?,Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
-    simp [Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
-      Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
-      Safety.addressSafe,Safety.maskActive,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
-      Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
-      withEquality,Region.cast,ofFloat,toFloat,hm,hr,hx,store]
+  · simp only [SourcePieces.normalizationBody]
+    simp [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr,Safety.safeCompute,
+    Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
+    Safety.addressSafe,Safety.maskActive,run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
+    Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,numericEq,
+    withEquality,Region.cast,ofFloat,toFloat,hm,hr,hx,indexPins.base,State.setReg,store,
+      source_column_lt,source_address,source_column_address]
     exact ⟨fun j => bx (k*B+j.val),fun j => bw (k*B+j.val),
       fun j => bb (k*B+j.val),fun j => byOut (k*B+j.val)⟩
   · have hp := pins rfl
-    simp only [SourcePieces.normalization,SourcePieces.statistics,SourcePieces.source,
-      Kernels.hoisted,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,
-      Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
-    simp [Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
-      Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
-      Safety.addressSafe,Safety.maskActive,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
-      Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
-      withEquality,Region.cast,ofFloat,toFloat,hm,hr,hx,hp.row,hp.mean,hp.inverse,store]
+    simp only [SourcePieces.normalizationBody]
+    simp [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr,Safety.safeCompute,
+    Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
+    Safety.addressSafe,Safety.maskActive,run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
+    Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,numericEq,
+    withEquality,Region.cast,ofFloat,toFloat,hm,hr,hx,indexPins.base,State.setReg,hp.row,hp.mean,hp.inverse,store,
+      source_column_lt,source_address,source_column_address]
     exact ⟨fun j => bx (k*B+j.val),fun j => bw (k*B+j.val),
       fun j => bb (k*B+j.val),fun j => byOut (k*B+j.val)⟩
 
@@ -247,31 +266,32 @@ theorem normalize_loop_safe (hoist : Bool) (M : Algebra α) (eq32 : α → α �
     (tree : Kernels.ReductionTree B) (mean inverse : α)
     (hm : s.regs .real [1,1] "tmp3"=some (fun _ => mean))
     (hr : s.regs .real [1,1] "tmp10"=some (fun _ => inverse))
-    (hx : s.regs .nat [1,1] "x0"=some (fun _ => row))
+    (hx : s.regs .int [1,1] "x0"=some (fun _ => (row : Int)))
+    (indexPins : SourceIndexPins B s)
     (pins : hoist=Bool.true → ReadableNormalize.Pins s row mean inverse)
     (bounds : RegionName → Nat)
     (bx : ∀ j,j<D → j+D*row<bounds X) (bw : ∀ j,j<D → j<bounds W)
     (bb : ∀ j,j<D → j<bounds Bias) (byOut : ∀ j,j<D → j+D*row<bounds Y) :
-    Safety.rangeSafe (withEquality M eq32) bounds "roffset" 0 D B
+    Safety.rangeIntSafe (withEquality M eq32) bounds "roffset" 0 D B
       (SourcePieces.normalization hoist X W Bias Y Mean Rstd S D B tree).body s := by
-  let P (q : Nat) (u : State α) := ∃ k,q=k*B ∧ NormalizeRegisters s u row mean inverse ∧
-    (hoist=Bool.true → ReadableNormalize.Pins u row mean inverse)
-  apply Safety.rangeSafe_of_invariant _ _ _ _ _ _ P
+  let P (q : Int) (u : State α) := ∃ k,q=(k*B : Nat) ∧ NormalizeRegisters s u row mean inverse ∧
+    SourceIndexPins B u ∧ (hoist=Bool.true → ReadableNormalize.Pins u row mean inverse)
+  apply Safety.rangeIntSafe_of_invariant _ _ _ _ _ _ P
   · intro q hq u initial
-    rcases initial with ⟨k,eq,ready,hpin⟩
+    rcases initial with ⟨k,eq,ready,hindex,hpin⟩
     subst q
     exact normalize_safe hoist M eq32 u X W Bias Y Mean Rstd S D B k row tree mean inverse
-      ready.mean ready.rstd ready.row hpin bounds bx bw bb byOut
+      ready.mean ready.rstd ready.row hindex hpin bounds bx bw bb byOut
   · intro q hq u initial v ran
-    rcases initial with ⟨k,eq,ready,hpin⟩
+    rcases initial with ⟨k,eq,ready,hindex,hpin⟩
     subst q
-    obtain ⟨w,hw,he,hpins⟩ := ReadableNormalizeLoop.chunk_effect hoist M eq32 u
-      X W Bias Y Mean Rstd S D B k row tree mean inverse ready.mean ready.rstd ready.row hpin
+    obtain ⟨w,hw,he,hindices,hpins⟩ := ReadableNormalizeLoop.chunk_effect hoist M eq32 u
+      X W Bias Y Mean Rstd S D B k row tree mean inverse ready.mean ready.rstd ready.row hindex hpin
     have heq : w=v := Option.some.inj (hw.symm.trans ran)
     subst v
-    exact ⟨k+1,by simp [Nat.add_mul],⟨he.registers.pids.trans ready.pids,he.registers.undef.trans ready.undef,
-      he.registers.mean,he.registers.rstd,he.registers.row⟩,fun _ => hpins⟩
-  · exact ⟨0,by omega,⟨rfl,rfl,hm,hr,hx⟩,pins⟩
+    exact ⟨k+1,by simp [Nat.add_mul,Nat.cast_add],⟨he.registers.pids.trans ready.pids,he.registers.undef.trans ready.undef,
+      he.registers.mean,he.registers.rstd,he.registers.row⟩,hindices,hpins⟩
+  · exact ⟨0,by simp,⟨rfl,rfl,hm,hr,hx⟩,indexPins,pins⟩
 
 theorem source_safe_for (hoist : Bool) (M : Algebra α) (eq32 : α → α → Bool)
     (s : State α) (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
@@ -287,9 +307,15 @@ theorem source_safe_for (hoist : Bool) (M : Algebra α) (eq32 : α → α → Bo
   apply append_safe _ _ _ _ _ _
     (statistics_safe_for hoist M eq32 s X W Bias Y Mean Rstd S D B tree hB bounds bx bm br) hu
   apply singleton_safe
-  simpa [Safety.stepSafe] using
-    normalize_loop_safe hoist M eq32 u X W Bias Y Mean Rstd S D B (s.pids 0) tree _ _
-      hs.mean hs.rstd hs.row hpin bounds bx bw bb byOut
+  have hstart : (SourcePieces.normalization hoist X W Bias Y Mean Rstd S D B tree).start = .ref .int [] "zero" := by cases hoist <;> rfl
+  have hstop : (SourcePieces.normalization hoist X W Bias Y Mean Rstd S D B tree).stop = .castNatToInt (.constNat D) := by cases hoist <;> rfl
+  have hstride : (SourcePieces.normalization hoist X W Bias Y Mean Rstd S D B tree).stride = .constNat B := by cases hoist <;> rfl
+  have safeLoop := normalize_loop_safe hoist M eq32 u X W Bias Y Mean Rstd S D B (s.pids 0) tree _ _
+      hs.mean hs.rstd hs.row hs.indices hpin bounds bx bw bb byOut
+  change Safety.rangeIntSafe (withEquality M eq32) bounds "roffset" 0 (Int.ofNat D) B
+    (SourcePieces.normalization hoist X W Bias Y Mean Rstd S D B tree).body u at safeLoop
+  simpa only [Safety.stepSafe_unfold,hstart,hstop,hstride,Safety.safeOp,evalOp_unfold,
+    hs.indices.zero,Option.bind,bind,pure,true_and,and_true] using safeLoop
 
 #axiomsClean source_safe_for
 

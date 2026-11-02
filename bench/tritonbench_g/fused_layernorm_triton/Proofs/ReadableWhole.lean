@@ -13,14 +13,18 @@ variable {α : Type} [Inhabited α]
 def statisticsCode (hoist : Bool) (X W Bias Y Mean Rstd : RegionName)
     (S D B : Nat) (tree : Kernels.ReductionTree B) : List ComputeStmt :=
   (SourcePieces.statistics hoist X W Bias Y Mean Rstd S D B tree).before ++
-  [.forRange "roffset" B D B (SourcePieces.statistics hoist X W Bias Y Mean Rstd S D B tree).body] ++
+  [.forRangeInt "roffset"
+    (SourcePieces.statistics hoist X W Bias Y Mean Rstd S D B tree).start
+    (SourcePieces.statistics hoist X W Bias Y Mean Rstd S D B tree).stop
+    (SourcePieces.statistics hoist X W Bias Y Mean Rstd S D B tree).stride
+    (SourcePieces.statistics hoist X W Bias Y Mean Rstd S D B tree).body] ++
   (SourcePieces.normalization hoist X W Bias Y Mean Rstd S D B tree).before
 
 theorem statistics_ready (hoist : Bool) (M : Algebra α) (eq32 : α → α → Bool)
     (s : State α) (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
     (tree : Kernels.ReductionTree B) (hB : 0<B) :
     ∃ final,run (withEquality M eq32) (statisticsCode hoist X W Bias Y Mean Rstd S D B tree) s=some final ∧
-      StatisticsReady s final Mean Rstd D M
+      StatisticsReady s final Mean Rstd D B M
         (treeValue M eq32 (allLaneValues M s X D B) (ReadableStatistics.legacyTree tree)) ∧
       (hoist=Bool.true → ReadableNormalize.Pins final (s.pids 0)
         (treeValue M eq32 (allLaneValues M s X D B) (ReadableStatistics.legacyTree tree)).mean
@@ -29,15 +33,13 @@ theorem statistics_ready (hoist : Bool) (M : Algebra α) (eq32 : α → α → B
   change run (withEquality M eq32) (statisticsCode Bool.false X W Bias Y Mean Rstd S D B tree) s=some u at hu
   cases hoist
   · exact ⟨u,hu,hs,by simp⟩
-  · obtain ⟨t,ht,hmem,hreg,hpin⟩ := ReadableNormalize.projections_run M eq32 u X W Bias Y Mean Rstd
-      S D B (s.pids 0) tree _ _ hs.mean hs.rstd hs.row
+  · obtain ⟨t,ht,hmem,hreg,hpin,hIndex⟩ := ReadableNormalize.projections_run M eq32 u X W Bias Y Mean Rstd
+      S D B (s.pids 0) tree _ _ hs.mean hs.rstd hs.row hs.indices
     refine ⟨t,?_,⟨hmem.trans hs.mem,hreg.pids.trans hs.pids,hreg.undef.trans hs.undef,
-      hreg.mean,hreg.rstd,hreg.row⟩,fun _ => hpin⟩
+      hreg.mean,hreg.rstd,hreg.row,hIndex⟩,fun _ => hpin⟩
     have heq : statisticsCode Bool.true X W Bias Y Mean Rstd S D B tree =
         statisticsCode Bool.false X W Bias Y Mean Rstd S D B tree ++
-          SourcePieces.projections X W Bias Y Mean Rstd S D B tree := by
-      simp only [statisticsCode,SourcePieces.common_prefix,SourcePieces.common_body,
-        SourcePieces.hoisted_before,List.append_assoc]
+          SourcePieces.projections X W Bias Y Mean Rstd S D B tree := by rfl
     rw [heq,run_append,hu]
     exact ht
 
@@ -51,7 +53,7 @@ theorem whole_row (hoist : Bool) (M : Algebra α) (eq32 : α → α → Bool)
   obtain ⟨t,ht,hreg,hout,hframe⟩ := ReadableNormalizeLoop.whole_row hoist M eq32 u
     X W Bias Y Mean Rstd S D B (s.pids 0) tree _ _ hB
     (sep.inputs X (.inl rfl)).2.2 (sep.inputs W (.inr (.inl rfl))).2.2
-    (sep.inputs Bias (.inr (.inr rfl))).2.2 hs.mean hs.rstd hs.row hpin
+    (sep.inputs Bias (.inr (.inr rfl))).2.2 hs.mean hs.rstd hs.row hs.indices hpin
   have hinput : ∀ q,q=X ∨ q=W ∨ q=Bias → u.mem q=s.mem q := by
     intro q hq
     funext off
@@ -61,7 +63,12 @@ theorem whole_row (hoist : Bool) (M : Algebra α) (eq32 : α → α → Bool)
   · change run _ (SourcePieces.source hoist X W Bias Y Mean Rstd S D B tree).surfaceBody s=some t
     rw [SourcePieces.complete]
     change run _ (statisticsCode hoist X W Bias Y Mean Rstd S D B tree ++ _) s=some t
-    simp only [run_append,hu,Option.bind,run,step,ht,bind,pure]
+    have hstart : (SourcePieces.normalization hoist X W Bias Y Mean Rstd S D B tree).start = .ref .int [] "zero" := by cases hoist <;> rfl
+    have hstop : (SourcePieces.normalization hoist X W Bias Y Mean Rstd S D B tree).stop = .castNatToInt (.constNat D) := by cases hoist <;> rfl
+    have hstride : (SourcePieces.normalization hoist X W Bias Y Mean Rstd S D B tree).stride = .constNat B := by cases hoist <;> rfl
+    change rangeInt (withEquality M eq32) "roffset" 0 (Int.ofNat D) B
+      (SourcePieces.normalization hoist X W Bias Y Mean Rstd S D B tree).body u=some t at ht
+    simp only [run_append,hu,Option.bind,hstart,hstop,hstride,run,step,evalOp_unfold,hs.indices.zero,ht,bind,pure]
   · exact hreg.pids.trans hs.pids
   · exact hreg.undef.trans hs.undef
   · rw [hframe Mean (s.pids 0) (.inl sep.mean_y),hs.mem]
