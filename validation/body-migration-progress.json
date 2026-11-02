@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 10,
+  "completed_count": 13,
   "staged_count": 136,
-  "pending_count": 186,
+  "pending_count": 183,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 4149,
-    "official_comparator": "10 current targets have accepted exact-dependency official receipts, plus the MatmulLeakyrelu regression. Every official ZIP digest, required independent replay result, public theorem coverage and exact current source/import closure has been verified. All other targets require current acceptance; compilation alone never counts as completion.",
+    "official_comparator": "13 current targets have accepted exact-dependency official receipts, plus the MatmulLeakyrelu regression. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure has been verified. Compilation alone never counts as completion.",
     "python_tests": 478,
     "offline_example_compilations": {
       "cases": 19,
@@ -828,7 +828,10 @@
       "validation/body_receipts/int4-matmul-source-migration.json",
       "validation/body_receipts/int8-matmul-source-migration.json",
       "validation/body_receipts/layernorm-softmax-source-migration.json",
-      "validation/body_receipts/matmul-source-migration.json"
+      "validation/body_receipts/matmul-source-migration.json",
+      "validation/body_receipts/lora-expand-gemv-source-migration.json",
+      "validation/body_receipts/sgmv-expand-slice-source-migration.json",
+      "validation/body_receipts/bgmv-shrink-source-migration.json"
     ],
     "full_replay_recovery": {
       "state": "official_workflow_queued",
@@ -1020,12 +1023,15 @@
     },
     {
       "path": "bench/tritonbench_g/bgmv_shrink_kernel",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete Python kernel bodies match their canonical quotations, preserving 15 top-level statements and all nested source operations. All 64 task modules, two signed metadata width certificates, complete typed atomic frontend regressions, independent Real GEMV, full split-K launch/atomic orders, safety, outputs and frames pass locally. FP comparison retains the strict software multiplication certificate. No new public premise or numerical rule. Exact current independent replay is still required."
+      "reason": "Accepted official independent replay. Verified the official artifact ZIP digest, all 66 required independent proof results, public theorem coverage, source body pairs and exact current transitive source/import closure. Completion is not inferred from compilation.",
+      "receipt": "validation/body_receipts/bgmv-shrink-source-migration.json",
+      "validated_source_commit": "68ffa92480daf3c01d8d67339e58275b1fe1c89f",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41389260469"
     },
     {
       "path": "bench/tritonbench_g/block_sparse_attn",
@@ -1792,12 +1798,15 @@
     },
     {
       "path": "bench/tritonbench_g/lora_expand_gemv",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both unchanged existing Python bodies match canonical 13-statement quotations with all nested operations. All 44 task modules pass: independent Real formula, complete source execution, FP unit-split equivalence, safety, every CTA, typed output cells and exterior frames. The 18 historical dtype profiles and both metadata storage widths use the same canonical body; complete-kernel metadata width equality is checked in the model. Old source macro, duplicate selected quotation, duplicate Python repair snapshot and handwritten extra store cast are retired. No new public premise or numerical rewrite. Exact current independent replay remains required."
+      "reason": "Accepted official independent replay. Verified the official artifact ZIP digest, all 44 required independent proof results, public theorem coverage, source body pairs and exact current transitive source/import closure. Completion is not inferred from compilation.",
+      "receipt": "validation/body_receipts/lora-expand-gemv-source-migration.json",
+      "validated_source_commit": "e6f47bf8be995dfd3413d173a1cdc39a089face7",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41400644516"
     },
     {
       "path": "bench/tritonbench_g/masked_add_cuda",
@@ -2283,12 +2292,15 @@
     },
     {
       "path": "bench/tritonbench_g/sgmv_expand_slice",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both existing Python bodies match canonical 38-statement quotations with all nested casts, branches, masks, loops and dot operations. All 81 task modules pass, including whole-kernel metadata width certificates, independent Real formula, execution, complete FP index-reuse equivalence, safety, ordered segment IO, outputs and frames. Signed single-argument range has whole-kernel equality and negative rebinding regressions. The duplicate repaired Python snapshot had an identical kernel and is retired in favor of the canonical repaired entry. No new public premise or numerical rewrite. Exact current independent replay remains required."
+      "reason": "Accepted official independent replay. Verified the official artifact ZIP digest, all 83 required independent proof results, public theorem coverage, source body pairs and exact current transitive source/import closure. Completion is not inferred from compilation.",
+      "receipt": "validation/body_receipts/sgmv-expand-slice-source-migration.json",
+      "validated_source_commit": "be24d87a49acb49b299cc50557b7cbad9c518bd2",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41397214261"
     },
     {
       "path": "bench/tritonbench_g/sin_computation",
