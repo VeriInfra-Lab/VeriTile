@@ -10,10 +10,10 @@ set_option maxHeartbeats 12000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
-private def backBefore (p : BackwardParameters) := (backwardKernel p).surfaceBody.take 14
+private def backBefore (p : BackwardParameters) := (backwardKernel p).surfaceBody.take 15
 private def backIndex (reuse : Bool) (p : BackwardParameters) :=
-  ((if reuse then backwardRowStartReusedKernel p else backwardKernel p).surfaceBody.drop 14).take 1
-private def backAfter (p : BackwardParameters) := (backwardKernel p).surfaceBody.drop 15
+  ((if reuse then backwardRowStartReusedKernel p else backwardKernel p).surfaceBody.drop 15).take 1
+private def backAfter (p : BackwardParameters) := (backwardKernel p).surfaceBody.drop 16
 private theorem back_split (reuse : Bool) (p : BackwardParameters) :
     (if reuse then backwardRowStartReusedKernel p else backwardKernel p).surfaceBody =
       backBefore p ++ (backIndex reuse p ++ backAfter p) := by
