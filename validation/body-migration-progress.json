@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 108,
+  "completed_count": 114,
   "staged_count": 144,
-  "pending_count": 88,
+  "pending_count": 82,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 4578,
-    "official_comparator": "108 current targets and separately listed regression cases have accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure has been verified. Compilation alone never counts as completion.",
+    "official_comparator": "114 current targets and separately listed regression cases have accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure has been verified. Compilation alone never counts as completion.",
     "python_tests": 513,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "150 selected cases (144 targets and 6 regressions), all 4619 retained/supporting modules, 13326 Lake jobs and 374 fully-qualified public theorem names pass locally. Both complete fused layernorm bodies preserve the original signed loops, helper tree, all casts, source shapes and libdevice intrinsic. Actual successful complete-grid execution, independent Real formula, whole FP equivalence, typed outputs/exterior frames and active access safety are re-proved. All 39 owned modules and the 40-module shared-dependency client layer_norm_welfold pass. All 513 Python tests pass. 108 targets retain exact-current-source/import-closure accepted independent receipts. The new two-case 81-root independent replay is running. No new numerical assumption or public premise.",
+    "working_tree": "150 selected cases (144 targets and 6 regressions), all 4619 retained/supporting modules, 13326 Lake jobs and 374 fully-qualified public theorem names pass locally. Both complete fused layernorm bodies preserve the original signed loops, helper tree, all casts, source shapes and libdevice intrinsic. Actual successful complete-grid execution, independent Real formula, whole FP equivalence, typed outputs/exterior frames and active access safety are re-proved. All 39 owned modules and the 40-module shared-dependency client layer_norm_welfold pass. All 513 Python tests pass. 114 targets retain exact-current-source/import-closure accepted independent receipts. The new two-case 81-root independent replay is running. No new numerical assumption or public premise.",
     "official_replay_sources": 3622,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -683,7 +683,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 52 TritonBench-G source/proof migrations and collect exact-source official independent receipts for the 36 locally validated pending targets (all 19 examples are locally validated). Keep numerical admission gaps explicit. No merge.",
+    "current_work": "Continue the remaining 52 TritonBench-G source/proof migrations (chunk_gla_simple is next) and collect exact-source official receipts for the 30 locally validated pending targets. All 19 examples are locally validated. Keep numerical admission gaps explicit. No merge.",
     "previous_validated_source_commit": "cb06c17f35761298aeb389a884b75a1a2560477f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -917,6 +917,7 @@
     "current_official_acceptance": [
       "validation/body_receipts/bgmv-expand-slice-source-migration.json",
       "validation/body_receipts/bgmv-shrink-source-migration.json",
+      "validation/body_receipts/conv-source-migration.json",
       "validation/body_receipts/fp8-matmul-source-migration.json",
       "validation/body_receipts/full-recovery-shard-0.json",
       "validation/body_receipts/full-recovery-shard-11.json",
@@ -937,11 +938,16 @@
       "validation/body_receipts/full-recovery-shard-7.json",
       "validation/body_receipts/full-recovery-shard-8.json",
       "validation/body_receipts/full-recovery-shard-9.json",
+      "validation/body_receipts/gate-source-migration.json",
       "validation/body_receipts/int4-matmul-source-migration.json",
       "validation/body_receipts/int8-matmul-source-migration.json",
       "validation/body_receipts/layernorm-softmax-source-migration.json",
       "validation/body_receipts/lora-expand-gemv-source-migration.json",
       "validation/body_receipts/matmul-source-migration.json",
+      "validation/body_receipts/persistent-source-migration.json",
+      "validation/body_receipts/relu-source-migration.json",
+      "validation/body_receipts/retention-source-migration.json",
+      "validation/body_receipts/rwkv-source-migration.json",
       "validation/body_receipts/sgmv-expand-slice-source-migration.json"
     ],
     "full_replay_recovery": {
@@ -1305,13 +1311,15 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_gate_recurrence",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All four complete repaired and existing sum-left forward/backward Python bodies (10/17 statements) match direct readable Lean quotations. Original names, single-argument loops, four seed strides, optional seed rebasing, polymorphic backward storage, all casts, DG reduction and final DL store remain. Removed the generated backward source family and extra offs_k/offs_v statements; compatibility entries invoke the same quotations. Independent Real formulas, full original/candidate FP execution, successful execution, output/raw frames and backed-access safety re-proved. The reference explicitly retains the typed FP32 seed read and cast, without a new numerical assumption or public premise. All 53 retained task modules and two new shared frontend/test roots pass locally. Exact-current-source official independent replay remains required; compilation does not count as completion.",
-      "validated_source_commit": "17290c3226950daa36c91b363f58f774b0477ded"
+      "reason": "Every owned and shared required independent proof, full public theorem coverage, official archive SHA256 and exact current source/import closure is verified against the accepted completed official run. Compilation alone is not completion.",
+      "validated_source_commit": "17290c3226950daa36c91b363f58f774b0477ded",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41447240623",
+      "receipt": "validation/body_receipts/gate-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_fwd",
@@ -1680,13 +1688,15 @@
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_retention",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All four unchanged complete repaired/candidate forward/backward Python bodies (14/23 statements) match readable Lean quotations, with original do identifiers, tuple axes, scalar/stride bindings, casts, barrier, optional state/cotangent paths and both backward loops. Independent forward/backward Real formulas, all actual execution states including typed load temporaries, output/raw frames, access safety and complete compare-right FP grids re-proved. The actual range(T) counted loop is connected by existing universal execution/safety equalities. All 81 retained task modules and the required shared loop helper pass locally. Official exact-current-source independent replay remains required; compilation is not completion.",
-      "validated_source_commit": "ca54364d279081fc610b3eb024d00e906637254a"
+      "reason": "Every owned and shared required independent proof, full public theorem coverage, official archive SHA256 and exact current source/import closure is verified against the accepted completed official run. Compilation alone is not completion.",
+      "validated_source_commit": "ca54364d279081fc610b3eb024d00e906637254a",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41444579640",
+      "receipt": "validation/body_receipts/retention-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/fused_rotary_embedding",
@@ -1704,13 +1714,15 @@
     },
     {
       "path": "bench/tritonbench_g/fused_rwkv6_kernel",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete original and early-U Python bodies match unchanged 16-statement Lean quotations. Tuple program axes, conditional signed pointer advances, both traversal directions, optional seed/final state, FP32 reads/casts and runtime scale are retained. Independent Real recurrence, actual ordered FP/native primitives, full grid outputs/frame, access safety and complete FP pair re-proved. All 45 retained task modules plus two optional frontend/check modules pass local checks. Exact-current-source official independent replay remains required; compilation is not completion.",
-      "validated_source_commit": "835b6ea4934140438f167a149939fac28b06be2a"
+      "reason": "Every owned and shared required independent proof, full public theorem coverage, official archive SHA256 and exact current source/import closure is verified against the accepted completed official run. Compilation alone is not completion.",
+      "validated_source_commit": "835b6ea4934140438f167a149939fac28b06be2a",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41439535277",
+      "receipt": "validation/body_receipts/rwkv-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/geglu_tanh_triton",
@@ -2154,13 +2166,15 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_persistent_triton",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Two unchanged 16-statement Python bodies, including all nine tuple argument int64 casts and nested pointer dtype branch, are now canonical quotations. Re-proved actual signed registers, nested loops, independent full-K Real matrix product, whole-program FP integer reordering, successful persistent grids, typed outputs, safety, memory frames and supporting native contracts. All 53 task modules and 4 frontend/regression modules pass locally. Ten generic/fixture semantic theorems and seven rejected-source checks cover tuple self-casts and nested dtype selection. No new public premise or numerical assumption. Exact-source independent replay remains required; local checks do not count as completion.",
-      "validated_source_commit": "bd120bba68631e46c230ef960fc9aa9e1d9b97b8"
+      "reason": "Every owned and shared required independent proof, full public theorem coverage, official archive SHA256 and exact current source/import closure is verified against the accepted completed official run. Compilation alone is not completion.",
+      "validated_source_commit": "bd120bba68631e46c230ef960fc9aa9e1d9b97b8",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41416753799",
+      "receipt": "validation/body_receipts/persistent-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/matmul_tma",
@@ -2379,13 +2393,15 @@
     },
     {
       "path": "bench/tritonbench_g/relu_strided_buffer",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Four complete original/candidate/helper Python bodies match their readable Lean quotations. Both complete scheduling branches, casts, signed block pointers and unary helper calls are retained. All 41 retained task modules plus two optional frontend/check modules pass local build. Independent Real formula, full FP pair, grid outputs/frame, safety and native obligations re-proved. Official exact-current-source independent replay remains required; compilation is not completion.",
-      "validated_source_commit": "3285fb9088b0f7e1c963650484eaa1f87286ef3c"
+      "reason": "Every owned and shared required independent proof, full public theorem coverage, official archive SHA256 and exact current source/import closure is verified against the accepted completed official run. Compilation alone is not completion.",
+      "validated_source_commit": "3285fb9088b0f7e1c963650484eaa1f87286ef3c",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41433584488",
+      "receipt": "validation/body_receipts/relu-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/relu_triton_kernel",
@@ -2880,12 +2896,15 @@
     },
     {
       "path": "bench/tritonbench_g/triton_conv2d_fwd",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Unchanged original and shift-candidate Python bodies match canonical 19/20-statement quotations, including docstrings and the actual static assertion. All 52 task modules pass: actual three-loop execution and safety, signed padding, FP16/default compute branches, both TF32 flags, independent grouped-convolution formula, typed IO, output cells and frames. The old four specialized quotations are thin calls. Counted-loop execution/safety is formally connected to the old unit-stride invariants. The static-assert frontend validates immutable integer/Boolean metadata, rejects failed assertions, and preserves arbitrary complete accepted bodies. Ten complete execution/safety regression theorems and four rejected-source checks pass. No new public premise or numerical rewrite. Exact current independent replay remains required."
+      "reason": "Every owned and shared required independent proof, full public theorem coverage, official archive SHA256 and exact current source/import closure is verified against the accepted completed official run. Compilation alone is not completion.",
+      "validated_source_commit": "cec90c5829579b68185484ad463a473e13aafe40",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41408954048",
+      "receipt": "validation/body_receipts/conv-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/triton_linear_activation",
