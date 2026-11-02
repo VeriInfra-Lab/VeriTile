@@ -391,7 +391,6 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             offset_clause = r"\s+static_strides"
         if helper_functions is not None:
             if (expected_call_bindings is None
-                    or (expected_pointer_offsets is not None and expected_binary_functions is not None)
                     or expected_pointer_cells is not None or expected_optional_pointers is not None
                     or expected_static_strides is not None or not helper_functions):
                 raise ValueError("pure JIT helpers require a reviewed scalar-only call")
@@ -863,8 +862,8 @@ def check_pure_function(python_text: str, lean_text: str, python_function: str,
     if not re.search(r"\btriton_function\s*\(\s*" + parameters + r"\s*\)\s*$", header):
         raise ValueError("pure JIT quotation parameter differs from Python")
     if expected_imports is not None:
-        if arity != 1 or not expected_imports:
-            raise ValueError("imported helper requires nonempty unary extern bindings")
+        if not expected_imports:
+            raise ValueError("imported helper requires nonempty extern bindings")
         clause = re.search(r'with_triton_imports\s*\[([^\]]*)\]\s+in\s+triton_function', header)
         if not clause:
             raise ValueError("imported helper must declare its source aliases outside the body")
@@ -902,10 +901,10 @@ def check_pure_function(python_text: str, lean_text: str, python_function: str,
             if len(statements) != 1 or writes or other_imports or import_chain(statements[0], name) != targets:
                 raise ValueError("imported helper extern chain differs from Python")
             intrinsic = targets[0].rsplit('.', 1)[-1]
-            if intrinsic not in {'finitef', 'isfinited'} or targets != [
+            if intrinsic not in ({'finitef', 'isfinited'} if arity == 1 else {'pow'}) or targets != [
                     'triton.language.' + location + '.' + intrinsic
                     for location in ('extra.cuda.libdevice', 'math', 'libdevice')]:
-                raise ValueError("unsupported finite extern import chain")
+                raise ValueError("unsupported helper extern import chain")
     elif re.search(r'\bwith_triton_imports\b', header):
         raise ValueError("imported helper requires independently reviewed extern imports")
     code = pasted_code_mask(body)

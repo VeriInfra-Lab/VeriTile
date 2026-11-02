@@ -1,0 +1,184 @@
+[
+  {
+    "kind": "binary_pure_jit_function",
+    "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor.py",
+    "lean": "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+    "python_function": "pow_func_scalar_tensor",
+    "lean_definition": "powFunction",
+    "expected_imports": {
+      "_pow": [
+        "triton.language.extra.cuda.libdevice.pow",
+        "triton.language.math.pow",
+        "triton.language.libdevice.pow"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor.py",
+    "lean": "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+    "python_function": "pow_func_scalar_tensor_kernel_rank_1",
+    "lean_definition": "originalBody",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [],
+      "floatingPointers": [
+        [
+          "in0_ptr",
+          "fp32"
+        ],
+        [
+          "out0_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "val0",
+          "fp32"
+        ],
+        [
+          "in0_stride0",
+          "integer"
+        ],
+        [
+          "out0_stride0",
+          "integer"
+        ],
+        [
+          "s0",
+          "integer"
+        ],
+        [
+          "num_tasks",
+          "integer"
+        ],
+        [
+          "tiles_per_cta",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "in0_stride_order0",
+        "out0_stride_order0",
+        "tile_size0",
+        "one_tile_per_cta"
+      ],
+      "readPorts": [
+        "in0_ptr"
+      ],
+      "writePorts": [
+        "out0_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "val0": "val0",
+      "in0_stride0": "in0_stride0",
+      "out0_stride0": "out0_stride0",
+      "s0": "s0",
+      "num_tasks": "num_tasks",
+      "tiles_per_cta": "tiles_per_cta"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "input_base",
+      "out0_ptr": "output_base"
+    },
+    "expected_binary_functions": {
+      "pow_func_scalar_tensor": "powFunction"
+    },
+    "expected_constexpr_bindings": {
+      "in0_stride_order0": "0",
+      "out0_stride_order0": "0"
+    }
+  },
+  {
+    "kind": "binary_pure_jit_function",
+    "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_commuted.py",
+    "lean": "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+    "python_function": "pow_func_scalar_tensor",
+    "lean_definition": "powFunction",
+    "expected_imports": {
+      "_pow": [
+        "triton.language.extra.cuda.libdevice.pow",
+        "triton.language.math.pow",
+        "triton.language.libdevice.pow"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_commuted.py",
+    "lean": "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+    "python_function": "pow_func_scalar_tensor_kernel_rank_1_commuted",
+    "lean_definition": "commutedBody",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [],
+      "floatingPointers": [
+        [
+          "in0_ptr",
+          "fp32"
+        ],
+        [
+          "out0_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "val0",
+          "fp32"
+        ],
+        [
+          "in0_stride0",
+          "integer"
+        ],
+        [
+          "out0_stride0",
+          "integer"
+        ],
+        [
+          "s0",
+          "integer"
+        ],
+        [
+          "num_tasks",
+          "integer"
+        ],
+        [
+          "tiles_per_cta",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "in0_stride_order0",
+        "out0_stride_order0",
+        "tile_size0",
+        "one_tile_per_cta"
+      ],
+      "readPorts": [
+        "in0_ptr"
+      ],
+      "writePorts": [
+        "out0_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "val0": "val0",
+      "in0_stride0": "in0_stride0",
+      "out0_stride0": "out0_stride0",
+      "s0": "s0",
+      "num_tasks": "num_tasks",
+      "tiles_per_cta": "tiles_per_cta"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "input_base",
+      "out0_ptr": "output_base"
+    },
+    "expected_binary_functions": {
+      "pow_func_scalar_tensor": "powFunction"
+    },
+    "expected_constexpr_bindings": {
+      "in0_stride_order0": "0",
+      "out0_stride_order0": "0"
+    }
+  }
+]

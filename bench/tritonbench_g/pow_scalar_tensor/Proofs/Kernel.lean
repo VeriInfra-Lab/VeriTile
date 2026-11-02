@@ -40,7 +40,8 @@ theorem kernel_execution [Inhabited α] (M : Algebra α) (c : Parameters)
     refine ⟨actual,flat,?_,?_,obs⟩
     · cases candidate <;>
         simpa [sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
-          perTile,oneTileKernel,oneTileCommuted,FP.Structural.exec,StructuralControl.gridBody,
+          perTile,oneTileKernel,oneTileCommuted,originalBody,commutedBody,
+          PastedTile.body,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,FP.Structural.bop,FP.Structural.exec,StructuralControl.gridBody,
           StructuralControl.loopBody,SourceForRange.tileIdStmt,SourceForRange.numTilesStmt,
           ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric,range_assign] using ran
     · simpa only [kernelIds,branch,Bool.false_eq_true,if_false] using flatRan
@@ -48,7 +49,8 @@ theorem kernel_execution [Inhabited α] (M : Algebra α) (c : Parameters)
       (tileOutput M (config c candidate)) (perTile c candidate) (tile_implementation M c candidate) c.n c.B s
     refine ⟨actual,flatState (tileOutput M (config c candidate)) (s.pids 0) s,?_,?_,obs⟩
     · cases candidate <;>
-        simpa [sourceKernel,kernel,commutedKernel,branch,oneTileKernel,oneTileCommuted,perTile,
+        simpa [sourceKernel,kernel,commutedKernel,branch,oneTileKernel,oneTileCommuted,perTile,originalBody,commutedBody,
+          PastedTile.body,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,FP.Structural.bop,
           FP.Structural.exec,StructuralControl.oneTileBody,SourceForRange.numTilesStmt,
           ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric] using ran
     · simp [kernelIds,branch,runTiles,flatTile]

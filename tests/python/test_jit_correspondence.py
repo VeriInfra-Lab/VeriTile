@@ -2665,3 +2665,85 @@ class ChunkGLASimpleBodyTests(unittest.TestCase):
         self.assertEqual(len(changes), 1)
         self.assertEqual(changes[0][0].targets[0].id, 'rows')
         self.assertEqual(changes[0][1].targets[0].id, 'rows')
+
+
+class ScalarTensorPowerBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/pow_scalar_tensor'
+        self.source = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, index=1, source=None, python=None):
+        r = self.records[index]
+        return check(python or (ROOT / r['python']).read_text(), source or self.source,
+                     r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     **{k: v for k, v in r.items() if k.startswith('expected_') and k != 'expected_signature'})
+
+    def helper(self, source=None, python=None):
+        from scripts.bench.jit_correspondence import check_pure_function
+        r = self.records[0]
+        return check_pure_function(python or (ROOT / r['python']).read_text(),
+                                   source or self.source, r['python_function'],
+                                   r['lean_definition'], 2, r['expected_imports'])
+
+    def test_both_complete_branches_and_their_copied_binary_helpers(self):
+        checks = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([r['statements'] for r in checks], [1, 3, 1, 3])
+
+    def test_original_casts_block_boundaries_and_control_cannot_be_erased(self):
+        for old, new in [('num_tiles0 = tl.cdiv(s0, tile_size0)', ''),
+                         ('if one_tile_per_cta:', 'if True:'),
+                         ('range(0, tiles_per_cta)', 'range(1, tiles_per_cta)'),
+                         ('.to(in0_ptr.type.element_ty)', '.to(tl.float16)'),
+                         ('boundary_check=(in0_stride_order0,)', 'boundary_check=()'),
+                         ('out0.to(out0_bptr.type.element_ty)', 'out0')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(source=self.source.replace(old, new))
+        with self.assertRaises(ValueError):
+            self.helper(source=self.source.replace('x.to(tl.float32)', 'x'))
+
+    def test_all_three_import_fallbacks_are_checked(self):
+        original = (ROOT / self.records[0]['python']).read_text()
+        for old, new in [('triton.language.extra.cuda.libdevice', 'unreviewed.libdevice'),
+                         ('triton.language.math', 'unreviewed.math'),
+                         ('triton.language.libdevice', 'unreviewed.fallback'),
+                         ('except ImportError:', 'except RuntimeError:')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.helper(python=original.replace(old, new))
+        with self.assertRaises(ValueError):
+            self.helper(python=original + '\n_pow = other\n')
+
+    def test_signed_base_stride_and_fp32_scalar_metadata_are_bound(self):
+        for old, new in [('("val0",.fp32)', '("val0",.fp64)'),
+                         ('("in0_stride0",.integer)', '("in0_stride0",.fp32)'),
+                         ('in0_ptr := input_base', 'in0_ptr := output_base'),
+                         ('val0 := val0', 'val0 := other')]:
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                self.verify(source=self.source.replace(old, new))
+
+    def test_candidate_only_commutes_the_two_integer_offset_products(self):
+        import hashlib
+        original = (ROOT / self.records[0]['python']).read_text()
+        candidate = (ROOT / self.records[2]['python']).read_text()
+        self.assertIn(hashlib.sha256(original.encode()).hexdigest(), candidate)
+        def body(text, name):
+            return next(f for f in ast.parse(text).body
+                        if isinstance(f, ast.FunctionDef) and f.name == name).body
+        class Undo(ast.NodeTransformer):
+            count = 0
+            def visit_Assign(self, node):
+                if len(node.targets) == 1 and isinstance(node.targets[0], ast.Name) and node.targets[0].id == 'offset0':
+                    self.assert_product(node.value)
+                    node.value.left, node.value.right = node.value.right, node.value.left
+                    self.count += 1
+                return self.generic_visit(node)
+            def assert_product(self, node):
+                assert isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mult)
+                assert isinstance(node.left, ast.Name) and node.left.id == 'tile_size0'
+                assert isinstance(node.right, ast.Name) and node.right.id == 'tile_id0'
+        undo = Undo()
+        lhs = ast.Module(body(original, self.records[1]['python_function']), [])
+        rhs = undo.visit(ast.Module(body(candidate, self.records[3]['python_function']), []))
+        self.assertEqual(undo.count, 2)
+        self.assertEqual(ast.dump(lhs), ast.dump(rhs))
