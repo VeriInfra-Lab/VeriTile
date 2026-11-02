@@ -4535,6 +4535,7 @@
     "bench/tritonbench_g/pow_scalar_tensor/FPEquiv.lean",
     "bench/tritonbench_g/pow_scalar_tensor/IO.lean",
     "bench/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+    "bench/tritonbench_g/pow_scalar_tensor/Proofs/Control.lean",
     "bench/tritonbench_g/pow_scalar_tensor/Proofs/IOInterface.lean",
     "bench/tritonbench_g/pow_scalar_tensor/Proofs/IOResults.lean",
     "bench/tritonbench_g/pow_scalar_tensor/Proofs/Kernel.lean",

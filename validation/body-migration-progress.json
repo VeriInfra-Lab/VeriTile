@@ -10,7 +10,7 @@
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 4776,
+    "staged_and_regression_retained_modules": 4777,
     "official_comparator": "136 current targets and separately listed regression cases retain accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure was verified. Changed chunk_delta_fwd dependencies withdrew its previous receipt until fresh replay. Compilation alone never counts as completion.",
     "python_tests": 526,
     "offline_example_compilations": {
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "153 selected cases (147 targets and 6 regressions), all 4776 retained/supporting modules, 13452 Lake jobs, 380 fully qualified public theorem names, 526 Python tests and strict body-corpus checks pass. IV-dependent matmul now uses two literal bodies for all five schedules, with actual signed execution, native/Real full-grid outputs, safety and frames. The host helper/checker chain now uses the current repaired minimum dot-block guard. No numerical assumption or public premise was added. 143 targets retain exact-current independent acceptance, including all 19 examples; local compilation is not completion.",
-    "official_replay_sources": 3779,
+    "working_tree": "153 cases (147 targets and 6 regressions), all 4777 retained/supporting modules, 13453 Lake jobs, 380 public theorem names, 526 Python tests, body-corpus checks and exact new-control trust/inventory elaboration pass. Power control normalization now preserves the actual tile body opaquely through proved AST/run bridges; unchanged source, numerical work, theorem statements and domains. Identical standalone verification improved from 213.05 seconds / 33611956 KiB peak to 3.99 seconds / 3995068 KiB. All 25 power roots including safety, Real and FP public entries revalidated. 143 targets have exact-current independent acceptance, including all 19 examples; four locally verified targets still await independent receipts.",
+    "official_replay_sources": 3780,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -79,18 +79,16 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/iv_dependent_matmul",
+      "case": "bench/tritonbench_g/pow_scalar_tensor",
       "case_paths": [
-        "bench/tritonbench_g/iv_dependent_matmul"
+        "bench/tritonbench_g/pow_scalar_tensor"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 59,
-      "replay_sources": 59,
-      "state": "official_replay_running",
-      "source_commit": "334fab3eb83ea8a0731668fc55a6a5992b08b83f",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41509068866",
-      "started_at": "2026-11-02T19:20:46Z"
+      "retained_modules": 25,
+      "replay_sources": 25,
+      "state": "prepared_for_official_dispatch",
+      "source_commit": "working_tree"
     },
     "previous_incremental_replays": [
       {
@@ -751,6 +749,20 @@
         "source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
         "superseded_failed_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41480356274",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41496469164"
+      },
+      {
+        "case": "bench/tritonbench_g/iv_dependent_matmul",
+        "case_paths": [
+          "bench/tritonbench_g/iv_dependent_matmul"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 59,
+        "replay_sources": 59,
+        "state": "official_replay_running",
+        "source_commit": "334fab3eb83ea8a0731668fc55a6a5992b08b83f",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41509068866",
+        "started_at": "2026-11-02T19:20:46Z"
       }
     ],
     "pending_client_regressions": {
@@ -766,8 +778,8 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 49 TritonBench-G source/proof migrations. Four locally validated targets still need current independent receipts: chunk_gla_simple, chunk_delta_fwd, pow_scalar_tensor and iv_dependent_matmul. All 19 examples have current independent acceptance. Power whole-kernel elaboration uses about 32 GiB locally; factor its control-flow proof before retrying official replay. No merge.",
-    "previous_validated_source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
+    "current_work": "Continue the remaining 49 TritonBench-G source/proof migrations and collect current independent receipts for chunk_gla_simple, chunk_delta_fwd, pow_scalar_tensor and iv_dependent_matmul. Power resource refactor is fully locally validated and ready for a fresh 25-root official replay. All 19 examples are accepted. No merge.",
+    "previous_validated_source_commit": "334fab3eb83ea8a0731668fc55a6a5992b08b83f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
       "cases": 139,
@@ -788,19 +800,19 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "334fab3eb83ea8a0731668fc55a6a5992b08b83f",
+    "validated_source_commit": "working_tree",
     "last_full_local_snapshot": {
       "cases": 153,
       "targets": 147,
       "regressions": 6,
-      "retained_modules": 4776,
-      "replay_sources": 3779,
-      "lake_jobs": 13452,
+      "retained_modules": 4777,
+      "replay_sources": 3780,
+      "lake_jobs": 13453,
       "public_theorem_names": "PASS",
       "public_theorem_count": 380,
       "python_tests": 526,
       "current_dependency_snapshot": true,
-      "source_commit": "334fab3eb83ea8a0731668fc55a6a5992b08b83f",
+      "source_commit": "working_tree",
       "boundary": "Local proof/source/trust checks only, not an independent completion receipt."
     },
     "previous_shared_model_revalidations": [
@@ -1141,22 +1153,18 @@
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     },
     "previous_full_local_snapshot": {
-      "cases": 152,
-      "targets": 146,
+      "cases": 153,
+      "targets": 147,
       "regressions": 6,
-      "retained_modules": 4717,
-      "replay_sources": 3720,
-      "lake_jobs": 13393,
+      "retained_modules": 4776,
+      "replay_sources": 3779,
+      "lake_jobs": 13452,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 378,
-      "python_tests": 522,
+      "public_theorem_count": 380,
+      "python_tests": 526,
       "current_dependency_snapshot": true,
-      "source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
-      "boundary": "Local proof/source/trust checks only, not an independent completion receipt.",
-      "protocol_elaboration_inventory_preflight": {
-        "WelfordCallMetadata": "PASS after reproducing original reserved-token failure",
-        "ImportedBinaryJitFunctions": "PASS"
-      }
+      "source_commit": "334fab3eb83ea8a0731668fc55a6a5992b08b83f",
+      "boundary": "Local proof/source/trust checks only, not an independent completion receipt."
     },
     "power_replay_resource_diagnosis": {
       "source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
@@ -1166,7 +1174,17 @@
       "elapsed_seconds": 213.05,
       "user_seconds": 187.63,
       "peak_resident_kib": 33611956,
-      "observation": "Three official builds shut down after TileSafety while whole-kernel elaboration was pending. Local measurement confirms excessive proof-build memory; no direct hosted-runner OOM report is available. Refactor control-flow normalization, preserve source and theorem statements, then fully revalidate."
+      "observation": "Three official builds shut down after TileSafety while whole-kernel elaboration was pending. Local measurement confirms excessive proof-build memory; no direct hosted-runner OOM report is available. Refactor control-flow normalization, preserve source and theorem statements, then fully revalidate.",
+      "fix": {
+        "semantic_change": false,
+        "method": "Proved copied-source AST/control-run bridges with an abstract tile body; removed eager tile evaluation from whole-kernel control normalization.",
+        "same_command_elapsed_seconds": 3.99,
+        "same_command_peak_resident_kib": 3995068,
+        "owned_plus_shared_build_elapsed_seconds": 21.8,
+        "owned_plus_shared_build_peak_resident_kib": 4121956,
+        "all_25_roots": "PASS",
+        "fresh_official_replay": "required"
+      }
     }
   },
   "targets": [
@@ -2496,8 +2514,8 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
-      "reason": "The original and materialized retained integer-offset candidate copy both complete dispatch branches and both local binary-helper bodies. The exact three pow import fallbacks, runtime FP32 scalar, signed bases/strides, block-pointer boundaries, unused num_tiles0 and all source casts remain checked. Replaced the old four separately handwritten branch implementations with two literal whole-body quotations and thin specializations. A closed imported binary-power frontend preserves the helper cast and captures, with arbitrary-algebra semantic/hygiene tests and six rejected-source tests. Actual branch/tile execution, complete capped grid, signed access safety, independent Real.rpow correctness/domain, ordered FP outputs and exterior/input frames are re-proved. The ordered reference retains the original input-element self-cast. All 22 task modules, 13393 full-batch Lake jobs, 378 public theorem names, 522 Python tests and body-corpus checks pass. FP assumptions remain empty; no numerical rewrite, new input restriction or public premise. Exact-current-source independent replay remains required; compilation does not count as completion."
+      "validated_source_commit": "working_tree",
+      "reason": "The complete original, retained integer-offset candidate, binary JIT helper and exact three import fallbacks are copied and checked. Both dispatch branches, signed bases/strides, block-pointer boundaries, unused num_tiles0 and every source cast remain. Actual successful tile/grid execution, independent Real.rpow correctness/domain, ordered FP outputs, safety and input/exterior frames reconnect to these quotations. The ordered reference retains the input-element self-cast. A proof-only AST/control-run bridge keeps the actual tile body abstract during control normalization: unchanged source, numerical primitives, public theorem statements and premises. Identical standalone verification dropped from 213.05 seconds / 33611956 KiB to 3.99 seconds / 3995068 KiB. All 23 owned modules plus 2 shared roots, exact trust/inventory preflight, full 4777-module joint validation, 380 public entries and 526 Python tests pass. No new numerical assumption. A fresh exact-source official 25-root receipt remains required; compilation alone is not completion."
     },
     {
       "path": "bench/tritonbench_g/quant_transpose_kernel",
