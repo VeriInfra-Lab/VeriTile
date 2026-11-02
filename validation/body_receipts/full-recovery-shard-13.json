@@ -4,7 +4,12 @@
   "accepted": true,
   "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
   "source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-  "official_shards": 1,
+  "official_shards": 24,
+  "official_shard": {
+    "index": 13,
+    "count": 24
+  },
+  "original_replay_complete": true,
   "artifact": {
     "id": 13130953230,
     "name": "body-migration-proof-replay-13",

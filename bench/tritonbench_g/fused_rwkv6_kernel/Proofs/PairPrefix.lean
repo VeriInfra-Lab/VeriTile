@@ -9,17 +9,17 @@ set_option maxRecDepth 32000
 set_option linter.unusedSimpArgs false
 
 theorem suffix_eq (c : Shape) :
-    (earlyUKernel c).surfaceBody.drop 16 = (kernel c).surfaceBody.drop 16 := by rfl
+    (earlyUKernel c).surfaceBody.drop 15 = (kernel c).surfaceBody.drop 15 := by rfl
 
 /-- All original registers and the complete memory agree before entering the
 unchanged recurrent loop, for arbitrary payloads and scalar primitives. -/
 theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α)
     (c : Shape) (s : State α) :
-    run M ((earlyUKernel c).surfaceBody.take 16) s =
-      run M ((kernel c).surfaceBody.take 16) s := by
-  by_cases hi : c.initial = Bool.true
+    run M ((earlyUKernel c).surfaceBody.take 15) s =
+      run M ((kernel c).surfaceBody.take 15) s := by
+  by_cases hr : c.reverse = Bool.true <;> by_cases hi : c.initial = Bool.true
   all_goals
-    simp [earlyUKernel,kernel,ComputeKernel.surfaceBody,hi,
+    simp [earlyUKernel,kernel,originalBody,candidateBody,ComputeKernel.surfaceBody,hi,hr,
       run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,ComputeDType.eraseDType,
       numeric,integralMod,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast]
@@ -32,15 +32,17 @@ theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α)
     · subst name; simp only [String.reduceEq,if_false,if_true]
     by_cases hu : name="b_u"
     · subst name; simp only [String.reduceEq,if_false,if_true]
-    simp only [hp,hm,hu,if_false]
+    by_cases load : name="__veritile_load_0"
+    · subst name; simp only [String.reduceEq,if_false,if_true]
+    simp only [hp,hm,hu,load,if_false]
 
 theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
     (c : Shape) (bounds : RegionName → Nat) (s : State α) :
-    Safety.traceSafeList M bounds ((earlyUKernel c).surfaceBody.take 16) s ↔
-      Safety.traceSafeList M bounds ((kernel c).surfaceBody.take 16) s := by
-  by_cases hi : c.initial = Bool.true
+    Safety.traceSafeList M bounds ((earlyUKernel c).surfaceBody.take 15) s ↔
+      Safety.traceSafeList M bounds ((kernel c).surfaceBody.take 15) s := by
+  by_cases hr : c.reverse = Bool.true <;> by_cases hi : c.initial = Bool.true
   all_goals
-    simp [earlyUKernel,kernel,ComputeKernel.surfaceBody,hi,
+    simp [earlyUKernel,kernel,originalBody,candidateBody,ComputeKernel.surfaceBody,hi,hr,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
