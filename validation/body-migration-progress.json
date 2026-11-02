@@ -63,7 +63,9 @@
       "cases": 2,
       "retained_modules": 146,
       "replay_sources": 146,
-      "state": "local_pass_preparing_independent_replay"
+      "state": "official_workflow_queued",
+      "source_commit": "cb06c17f35761298aeb389a884b75a1a2560477f",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41456863767"
     },
     "previous_incremental_replays": [
       {
@@ -649,7 +651,9 @@
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41450752697",
         "replay_sources": 54,
         "current_dependency_snapshot": false,
-        "reason": "Output dtype frontend gains closed constexpr specialization. A fresh combined attention/aligned replay is required for the current import closure."
+        "reason": "Output dtype frontend gains closed constexpr specialization. A fresh combined attention/aligned replay is required for the current import closure.",
+        "state": "superseded_queued_run_cancelled",
+        "superseded_by": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41456863767"
       }
     ],
     "pending_client_regressions": {
@@ -666,7 +670,7 @@
       "completion_certificate": false
     },
     "current_work": "Continue the remaining 56 TritonBench-G source/proof migrations and collect exact-source official independent receipts for staged cases. Keep numerical admission gaps explicit. No merge.",
-    "previous_validated_source_commit": "17290c3226950daa36c91b363f58f774b0477ded",
+    "previous_validated_source_commit": "f748aac83d51b8c238294899bf52746171e00ef4",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
       "cases": 139,
@@ -687,7 +691,7 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "f748aac83d51b8c238294899bf52746171e00ef4",
+    "validated_source_commit": "cb06c17f35761298aeb389a884b75a1a2560477f",
     "last_full_local_snapshot": {
       "cases": 149,
       "targets": 143,
@@ -697,7 +701,8 @@
       "public_theorem_names": "PASS",
       "python_tests": 509,
       "current_dependency_snapshot": true,
-      "boundary": "Local checks only. Not an independent replay completion receipt."
+      "boundary": "Local checks only. Not an independent replay completion receipt.",
+      "source_commit": "cb06c17f35761298aeb389a884b75a1a2560477f"
     },
     "previous_shared_model_revalidations": [
       {
@@ -1068,7 +1073,7 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "Both complete unchanged repaired and existing early-query Python bodies (27 statements each) match direct readable Lean quotations. FP16/BF16 pointer storage, runtime strides and FP32 scale, OUT_DTYPE constructor/cast metadata, original block shapes and boundary tuples, int64 casts, bias windows, both dots, masks and stores remain. Removed the four handwritten storage-specific source copies; compatibility entries invoke the two actual bodies. Independent Real attention formula, full arbitrary-algebra early-query FP equivalence, successful complete-grid execution, outputs/exterior frame and active access safety re-proved. The execution and independent ordered references now retain actual typed FP32 qk arithmetic and casts; native staging retains storage-typed literals and explicit half/BF16 widening. No opaque dtype identity, new numerical assumption or public premise. All 52 retained task modules and the two new shared frontend/test roots pass locally. Exact-current-source official independent replay remains required; compilation does not count as completion.",
-      "validated_source_commit": "f748aac83d51b8c238294899bf52746171e00ef4"
+      "validated_source_commit": "cb06c17f35761298aeb389a884b75a1a2560477f"
     },
     {
       "path": "bench/tritonbench_g/attention_kernel_aligned",
@@ -1077,7 +1082,8 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All four unchanged complete repaired/early-query Python FP16/BF16 bodies (27 statements each) match direct readable Lean quotations. Distinct half dot and FP32-to-BF16 dot programs, scalar/stride bindings, fixed OUT_DTYPE, full block-pointer shapes/boundary tuples, bias/tail masks, reductions and stores remain. An optional statically typed scalar-infinity adapter supplies only the implicit narrow conversion required by Triton 3.7.1 scalar promotion, while strong FP32 operands stay strong. The actual FP32 scalar ABI precision is retained in the independent ordered references and safety prefix. Complete Real/FP proofs for both storage modes, successful grids, all outputs/exterior frame, active-access safety and all 90 retained modules pass locally; no new numerical assumption or public premise. Closed dtype specialization also revalidates attention_kernel and both are included in the next independent replay. Compilation does not count as completion."
+      "reason": "All four unchanged complete repaired/early-query Python FP16/BF16 bodies (27 statements each) match direct readable Lean quotations. Distinct half dot and FP32-to-BF16 dot programs, scalar/stride bindings, fixed OUT_DTYPE, full block-pointer shapes/boundary tuples, bias/tail masks, reductions and stores remain. An optional statically typed scalar-infinity adapter supplies only the implicit narrow conversion required by Triton 3.7.1 scalar promotion, while strong FP32 operands stay strong. The actual FP32 scalar ABI precision is retained in the independent ordered references and safety prefix. Complete Real/FP proofs for both storage modes, successful grids, all outputs/exterior frame, active-access safety and all 90 retained modules pass locally; no new numerical assumption or public premise. Closed dtype specialization also revalidates attention_kernel and both are included in the next independent replay. Compilation does not count as completion.",
+      "validated_source_commit": "cb06c17f35761298aeb389a884b75a1a2560477f"
     },
     {
       "path": "bench/tritonbench_g/attention_llama",
