@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 121,
-      "uncovered_jit_functions": 62
+      "selected_body_copy_checked": 122,
+      "uncovered_jit_functions": 61
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 140,
-    "inventoried_jit_functions": 530,
-    "uncovered_inventoried_jit_functions": 188,
+    "uncovered_selected_jit_functions": 139,
+    "inventoried_jit_functions": 529,
+    "uncovered_inventoried_jit_functions": 185,
     "checked_pair_modes": {
-      "pasted_body": 342
+      "pasted_body": 344
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 121,
-        "uncovered_jit_functions": 62
+        "selected_body_copy_checked": 122,
+        "uncovered_jit_functions": 61
       }
     },
     "primary_files_with_int64_screen_warning": 15,
@@ -26830,10 +26830,10 @@
       "python": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py",
       "lean": "bench/tritonbench_g/lora_expand_gemv/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 4,
+        "dsl_assignment": 28,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -26859,17 +26859,6 @@
           ]
         },
         {
-          "path": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv_repaired.py",
-          "jits": [
-            {
-              "function": "_bgmv_expand_kernel",
-              "line": 7,
-              "statements": 13,
-              "explicit_int64_casts": []
-            }
-          ]
-        },
-        {
           "path": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py",
           "jits": [
             {
@@ -26881,34 +26870,73 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_bgmv_expand_kernel",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 13,
+          "runtime_parameters": {
+            "N": "integer",
+            "K": "integer",
+            "xm_stride": "integer",
+            "xk_stride": "integer",
+            "l0_stride": "integer",
+            "lora_k_stride": "integer",
+            "lora_n_stride": "integer",
+            "cm_stride": "integer",
+            "cn_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "ADD_INPUTS",
+            "BLOCK_K",
+            "BLOCK_N",
+            "CAST_TYPE",
+            "EVEN_K",
+            "SPLIT_N"
+          ],
           "python": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py",
-          "function": "_bgmv_expand_kernel"
+          "lean": "bench/tritonbench_g/lora_expand_gemv/Kernels.lean"
         },
         {
-          "python": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv_repaired.py",
-          "function": "_bgmv_expand_kernel"
-        },
-        {
+          "python_function": "_bgmv_expand_unit_split_kernel",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 13,
+          "runtime_parameters": {
+            "N": "integer",
+            "K": "integer",
+            "xm_stride": "integer",
+            "xk_stride": "integer",
+            "l0_stride": "integer",
+            "lora_k_stride": "integer",
+            "lora_n_stride": "integer",
+            "cm_stride": "integer",
+            "cn_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "ADD_INPUTS",
+            "BLOCK_K",
+            "BLOCK_N",
+            "CAST_TYPE",
+            "EVEN_K",
+            "SPLIT_N"
+          ],
           "python": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py",
-          "function": "_bgmv_expand_unit_split_kernel"
+          "lean": "bench/tritonbench_g/lora_expand_gemv/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py",
-          "function": "_bgmv_expand_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/lora_expand_gemv/Kernels.lean": "6006169ea16d77f8d5e43e04b136dc05f7eaff0ca8a10d4528181de3d5cff4b9",
+        "bench/tritonbench_g/lora_expand_gemv/Kernels.lean": "09cac229d6f4710df70de4ae365acb5592f86fe814d16ed37ef95b99a4682f96",
+        "bench/tritonbench_g/lora_expand_gemv/jit-correspondence.json": "6760ad93159eaf9c3a14e1ac9a6517e5169b6df968d0af48cd82c4cde558b73d",
         "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py": "85f452b177066c749577b51a730ac49b81acd153ed4f5fc6d141762b4075ae03",
-        "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv_repaired.py": "8f36abb103e6dbe0b646c65a8d763a7d57afdd901a9888ea398987f219e70d81",
         "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py": "c2303e4867a0321a9cf3169d0792802221295691953901a30f1ac3ef6e874cf2"
       },
       "collection": "tritonbench_g",

@@ -1892,6 +1892,19 @@
           "VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated.FPEquiv.sgmv_grid_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/lora_expand_gemv",
+      "python": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/lora_expand_gemv/Correct.lean": [
+          "VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/lora_expand_gemv/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.FPEquiv.grid_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -3509,6 +3522,50 @@
     "bench/tritonbench_g/log_softmax/Proofs/Rewrite.lean",
     "bench/tritonbench_g/logsumexp_fwd/Kernels.lean",
     "bench/tritonbench_g/logsumexp_fwd/Proofs/Real.lean",
+    "bench/tritonbench_g/lora_expand_gemv/CandidateKernels.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Contract.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Correct.lean",
+    "bench/tritonbench_g/lora_expand_gemv/FPEquiv.lean",
+    "bench/tritonbench_g/lora_expand_gemv/IO.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Kernels.lean",
+    "bench/tritonbench_g/lora_expand_gemv/PairIO.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchAssembly.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBody.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBodyValue.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchComplete.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchExecution.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchFrame.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchLoop.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchReference.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/Contract.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/Geometry.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/Grid.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/IOBinding.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/IOGrid.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/IOResults.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/IOSafetyBody.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/IOSafetyComplete.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/IOSafetyControl.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/IOSafetyLoop.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/IOSafetySetup.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/MetadataStorage.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/Native.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/Pair.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/Real.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/Single.lean",
+    "bench/tritonbench_g/lora_expand_gemv/SourceTypes.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Sources/Kernels.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_BranchShape.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_BranchSource.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_FPModel.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_FPTypedSource.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_HostMetadata.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Sources/Mathematical_LoraExpandGemv.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Sources/Parameters.lean",
+    "bench/tritonbench_g/lora_expand_gemv/Sources/Selected.lean",
     "bench/tritonbench_g/masked_add_cuda/Kernels.lean",
     "bench/tritonbench_g/masked_add_cuda/Proofs/Typed.lean",
     "bench/tritonbench_g/masked_select/Contract.lean",
