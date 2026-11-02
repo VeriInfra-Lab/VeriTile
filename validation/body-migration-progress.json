@@ -62,7 +62,9 @@
       "cases": 1,
       "retained_modules": 57,
       "replay_sources": 57,
-      "state": "local_pass_ready_for_official_replay"
+      "state": "official_workflow_queued",
+      "source_commit": "bd120bba68631e46c230ef960fc9aa9e1d9b97b8",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41416753799"
     },
     "previous_incremental_replays": [
       {
@@ -606,7 +608,7 @@
       "completion_certificate": false
     },
     "current_work": "Continue the remaining 59 TritonBench-G source/proof migrations. Completion requires exact current independent acceptance; preserve numerical admission gaps. No merge.",
-    "previous_validated_source_commit": "e6f47bf8be995dfd3413d173a1cdc39a089face7",
+    "previous_validated_source_commit": "cec90c5829579b68185484ad463a473e13aafe40",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
       "cases": 139,
@@ -627,17 +629,17 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "cec90c5829579b68185484ad463a473e13aafe40",
+    "validated_source_commit": "bd120bba68631e46c230ef960fc9aa9e1d9b97b8",
     "last_full_local_snapshot": {
-      "cases": 142,
-      "targets": 136,
-      "retained_modules": 4149,
-      "replay_sources": 3152,
-      "lake_jobs": 12881,
+      "cases": 143,
+      "targets": 137,
+      "retained_modules": 4206,
+      "replay_sources": 3209,
+      "lake_jobs": 12930,
       "public_theorem_names": "PASS",
       "python_tests": 478,
       "boundary": "Local checks only. Not an independent replay completion receipt.",
-      "source_commit": "cec90c5829579b68185484ad463a473e13aafe40"
+      "source_commit": "bd120bba68631e46c230ef960fc9aa9e1d9b97b8"
     },
     "previous_shared_model_revalidations": [
       {
@@ -893,16 +895,6 @@
       "boundary": "Only a case with every required shared and owned independent replay, public theorem coverage and matching source/import hashes may be marked complete.",
       "source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742"
-    },
-    "pending_source_snapshot": {
-      "cases": 143,
-      "targets": 137,
-      "retained_modules": 4206,
-      "replay_sources": 3209,
-      "lake_jobs": 12930,
-      "public_theorem_names": "PASS",
-      "python_tests": 478,
-      "boundary": "Local checks only. Not an independent replay completion receipt."
     }
   },
   "targets": [
@@ -1912,7 +1904,8 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Two unchanged 16-statement Python bodies, including all nine tuple argument int64 casts and nested pointer dtype branch, are now canonical quotations. Re-proved actual signed registers, nested loops, independent full-K Real matrix product, whole-program FP integer reordering, successful persistent grids, typed outputs, safety, memory frames and supporting native contracts. All 53 task modules and 4 frontend/regression modules pass locally. Ten generic/fixture semantic theorems and seven rejected-source checks cover tuple self-casts and nested dtype selection. No new public premise or numerical assumption. Exact-source independent replay remains required; local checks do not count as completion."
+      "reason": "Two unchanged 16-statement Python bodies, including all nine tuple argument int64 casts and nested pointer dtype branch, are now canonical quotations. Re-proved actual signed registers, nested loops, independent full-K Real matrix product, whole-program FP integer reordering, successful persistent grids, typed outputs, safety, memory frames and supporting native contracts. All 53 task modules and 4 frontend/regression modules pass locally. Ten generic/fixture semantic theorems and seven rejected-source checks cover tuple self-casts and nested dtype selection. No new public premise or numerical assumption. Exact-source independent replay remains required; local checks do not count as completion.",
+      "validated_source_commit": "bd120bba68631e46c230ef960fc9aa9e1d9b97b8"
     },
     {
       "path": "bench/tritonbench_g/matmul_tma",
