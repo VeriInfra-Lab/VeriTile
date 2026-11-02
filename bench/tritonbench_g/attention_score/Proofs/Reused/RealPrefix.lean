@@ -36,38 +36,53 @@ def beforeKey (Q K M : RegionName)
 
 theorem beforeKey_shape (Q K M : RegionName)
     (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat) (scale : ℝ) (evenN : Bool) :
-    (RealProgram.prelude Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN).take 11 =
+    ((RealProgram.prelude Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN).drop 1).take 11 =
       beforeKey Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk := by
-  simp only [RealProgram.prelude,RealProgram.rawBefore,TypedSource.original,
+  simp only [RealProgram.prelude,RealProgram.rawBefore,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
-    List.take_succ_cons,List.take_zero,Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,
+    List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,
     MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,FloatDType.toTileDType,NumericDType.eraseDType,IntegralDType.eraseDType,
     ComparableDType.eraseDType,eq_mpr_eq_cast,eq_mp_eq_cast,cast_eq,Region.cast]
   simp only [SourceAlgorithm.er_add_int,SourceAlgorithm.er_add_nat,SourceAlgorithm.er_mul_int,SourceAlgorithm.er_mul_nat,SourceAlgorithm.er_sub_int,SourceAlgorithm.er_floorDiv_int,SourceAlgorithm.er_floorDiv_nat,SourceAlgorithm.er_mod_int,SourceAlgorithm.er_mod_nat,SourceAlgorithm.er_lt_int,SourceAlgorithm.er_lt_nat,SourceAlgorithm.er_full_int,SourceAlgorithm.er_full_nat,SourceAlgorithm.er_full_real,SourceAlgorithm.er_const_int,SourceAlgorithm.er_const_nat,SourceAlgorithm.er_const_real,SourceAlgorithm.er_nat_to_int,SourceAlgorithm.er_int_to_nat,SourceAlgorithm.er_ref_int,SourceAlgorithm.er_ref_nat,SourceAlgorithm.er_program,SourceAlgorithm.er_arange,SourceAlgorithm.er_ptr_base,SourceAlgorithm.er_ptr_add,SourceAlgorithm.er_block,SourceAlgorithm.er_block_offsets,SourceAlgorithm.er_where_int,SourceAlgorithm.erase_signed32,Op.tritonDiv,Op.truncDiv,Op.tritonMod,Op.truncMod,List.map_cons,List.map_nil]
   simp only [beforeKey,Region.cast]
-  congr 9 <;> try rfl
-  simp only [Stmt.eraseDType.eq_def,Op.eraseDType.eq_def,VeriTile.Triton.eraseDType]
+  congr 9
+
 def afterKey (B D N : Nat) (scale : ℝ) (evenN : Bool) : List Stmt :=
   [RealBody.loadKey B D evenN,
    .assign .nat [] "lo" (.constNat 0),
    .assign .int [] "hi" (.castNatToInt (.constNat N)),
-   .assign .real [] "qk_scale" (.const scale),
+   .assign .real [] "qk_scale" (.ref .real [] "sm_scale"),
    .assign .real [] "qk_scale" (.mul .real .nil (.ref .real [] "qk_scale") (.const 1.4426950408889634))]
 
 theorem prelude_shape (Q K M : RegionName)
     (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat) (scale : ℝ) (evenN : Bool) :
     RealProgram.prelude Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN =
+      [.assign .real [] "sm_scale" (.const scale)] ++
       beforeKey Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk ++ afterKey B D N scale evenN := by
-  have split := (List.take_append_drop 11 (RealProgram.prelude Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN)).symm
+  have head : (RealProgram.prelude Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN).take 1 =
+      [.assign .real [] "sm_scale" (.const scale)] := by
+    simp only [RealProgram.prelude,RealProgram.rawBefore,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
+      ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
+      ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
+      List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+      VeriTile.Triton.eraseDType,FloatDType.toTileDType,NumericDType.eraseDType,IntegralDType.eraseDType,
+      ComparableDType.eraseDType,eq_mpr_eq_cast,eq_mp_eq_cast,cast_eq,Region.cast]
+    simp only [SourceAlgorithm.er_add_int,SourceAlgorithm.er_add_nat,SourceAlgorithm.er_mul_int,SourceAlgorithm.er_mul_nat,SourceAlgorithm.er_sub_int,SourceAlgorithm.er_floorDiv_int,SourceAlgorithm.er_floorDiv_nat,SourceAlgorithm.er_mod_int,SourceAlgorithm.er_mod_nat,SourceAlgorithm.er_lt_int,SourceAlgorithm.er_lt_nat,SourceAlgorithm.er_full_int,SourceAlgorithm.er_full_nat,SourceAlgorithm.er_full_real,SourceAlgorithm.er_const_int,SourceAlgorithm.er_const_nat,SourceAlgorithm.er_const_real,SourceAlgorithm.er_nat_to_int,SourceAlgorithm.er_int_to_nat,SourceAlgorithm.er_ref_int,SourceAlgorithm.er_ref_nat,SourceAlgorithm.er_program,SourceAlgorithm.er_arange,SourceAlgorithm.er_ptr_base,SourceAlgorithm.er_ptr_add,SourceAlgorithm.er_block,SourceAlgorithm.er_block_offsets,SourceAlgorithm.er_where_int,SourceAlgorithm.erase_signed32,Op.tritonDiv,Op.truncDiv,Op.tritonMod,Op.truncMod,List.map_cons,List.map_nil]
+  have split := (List.take_append_drop 11 ((RealProgram.prelude Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN).drop 1)).symm
   rw [beforeKey_shape] at split
-  rw [split]
-  congr 1
-  simp only [RealProgram.prelude,RealProgram.rawBefore,TypedSource.original,
+  have whole := (List.take_append_drop 1 (RealProgram.prelude Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN)).symm
+  rw [head,split] at whole
+  rw [whole]
+  rw [List.append_assoc]
+  apply congrArg (fun tail : List Stmt=> [Stmt.assign .real [] "sm_scale" (.const scale)] ++
+    (beforeKey Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk ++ tail))
+  simp only [RealProgram.prelude,RealProgram.rawBefore,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
-    List.take_succ_cons,List.take_zero,Stmt.eraseDTypeList,List.drop_succ_cons,List.drop_zero]
+    List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,Stmt.eraseDTypeList,List.drop_succ_cons,List.drop_zero]
   simp only [afterKey,RealBody.loadKey,Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,Op.eraseDType.eq_def,
     MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,
     FloatDType.toTileDType,ComputeDType.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,

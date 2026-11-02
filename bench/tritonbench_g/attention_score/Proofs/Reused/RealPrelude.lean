@@ -66,18 +66,24 @@ theorem correct (s : BlockState) (Q K M : RegionName)
         (s.pids 1 / H * skz + (s.pids 1 % H) / (H / HK) * skh) skn skk (s.pids 0)) by
     obtain ⟨t,ht,hi,hlo,hhi,hz,hh,hk⟩ := he
     exact ⟨t,ht,hi,hlo,hhi,hz,hh,hk,(RealProgram.prelude_code Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN).frame ht⟩
-  let u := RealPrepared.prepared s Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk
-  have hp := RealPrepared.prepared_run s Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk keyRange
-  rw [RealPrefix.prelude_shape,ProgramRewrite.append,hp,Option.bind_some]
+  let incoming := s.setReg "sm_scale" .real [] (Tile.scalar (some scale))
+  let u := RealPrepared.prepared incoming Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk
+  have hp := RealPrepared.prepared_run incoming Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk keyRange
+  rw [RealPrefix.prelude_shape,List.append_assoc,ProgramRewrite.append]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_const scale s)),
+    stepStmts.nil,Option.bind_some]
+  rw [ProgramRewrite.append,hp,Option.bind_some]
   change ∃ t,stepStmts (RealPrefix.afterKey B D N scale evenN) u=some t ∧ _
   unfold RealPrefix.afterKey
   rw [stepStmts.cons_some (RealIteration.load_key u Q K M B D NK
     ((s.pids 1 / H * sqz + s.pids 1 % H * sqh)) ((s.pids 1 / H * skz + (s.pids 1 % H) / (H / HK) * skh))
-    (s.pids 1 * RN) sqm sqk skn skk (s.pids 0) evenN (by simp [u,RealPrepared.prepared,RealLoads.keyPointer]))]
+    (s.pids 1 * RN) sqm sqk skn skk (s.pids 0) evenN (by simp [u,RealPrepared.prepared,incoming,RealLoads.keyPointer]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_constNat 0 _))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (.castNatToInt (.constNat N)) _ = some (Tile.scalar (N:Int)) from by simp only [evalOp.eq_def];rfl))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_const scale _))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (show evalOp (.ref .real [] "sm_scale") _ = some (Tile.scalar (some scale)) from by
+      simp [evalOp_ref,u,RealPrepared.prepared,incoming]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.mul NumericDType.real Broadcast.nil (Op.ref .real [] "qk_scale")
         (Op.const 1.4426950408889634)) _
@@ -87,12 +93,12 @@ theorem correct (s : BlockState) (Q K M : RegionName)
         Option.bind_some]
       rfl))]
   rw [stepStmts.nil]
-  refine ⟨_, rfl, ?_, by simp, by simp, by simp [u,RealPrepared.prepared],
-    by simp [u,RealPrepared.prepared],by simp [u,RealPrepared.prepared,RealLoads.keyPointer]⟩
+  refine ⟨_, rfl, ?_, by simp, by simp, by simp [u,RealPrepared.prepared,incoming],
+    by simp [u,RealPrepared.prepared,incoming],by simp [u,RealPrepared.prepared,incoming,RealLoads.keyPointer]⟩
   constructor
   all_goals simp [config,RealLoop.Config.inputs,RealLoop.Config.column,RealFormula.column,
     RealLoads.inputs,RealLoads.queryPointer,RealLoads.normalizerPointers,RealTiles.key,
-    u,RealPrepared.prepared]
+    u,RealPrepared.prepared,incoming]
   all_goals first | (funext r a; simp only [BlockState.setReg_mem]) | rfl
 
 #guard_msgs (drop info) in

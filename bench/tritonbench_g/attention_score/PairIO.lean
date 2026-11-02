@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_score.Kernels
+import bench.tritonbench_g.attention_score.Proofs.PublicKernel
 import VeriTile.Triton.Float.RewriteTactics
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.SourcePair
