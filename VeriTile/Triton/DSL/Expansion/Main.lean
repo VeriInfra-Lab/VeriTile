@@ -327,6 +327,8 @@ bound; no assigned register is available for the ordinary signed-name scan. -/
 private partial def signedRangeBound (pins : List String) (value : TSyntax `tritonExpr) : Bool :=
   match value with
   | `(tritonExpr| ($inner:tritonExpr)) => signedRangeBound pins inner
+  | `(tritonExpr| tl.cdiv($a:tritonExpr, $b:tritonExpr)) =>
+      signedRangeBound pins a || signedRangeBound pins b
   | `(tritonExpr| tl.cast($_:tritonExpr, $dtype:tritonDType)) =>
       (signedCastWidth? dtype).isSome
   | _ => Inference.isSignedExpr pins value ||
@@ -395,7 +397,7 @@ partial def expandNatExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
           else if env.any (fun entry => entry.1 == userName) then userName
           else erasedName
         let (dtype, shape) ← lookupEnv env name
-        ensureDType .nat dtype "nat expression"
+        ensureDType .nat dtype ("nat expression identifier `" ++ name ++ "`")
         let s : TSyntax `term := Syntax.mkStrLit name
         let sh ← shape.term
         pure ⟨← `(Op.ref TileDType.nat $sh $s), .nat, shape, none, none⟩
@@ -3037,7 +3039,10 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     -- Propagate a signed register learned from a typed load, even when a
     -- later address use caused the preliminary scan to request Nat. Pointer
     -- expressions retain their ordinary pointer expansion.
-    if Inference.isSignedExpr signedNames e then
+    -- Per-call propagation may replace a signed argument by its explicit cast.
+    -- Recognize that cast inside cdiv as well as a signed register reference;
+    -- address-use pins must not turn the resulting quotient into Nat.
+    if signedRangeBound signedNames e then
       let inferred ← expandExpr env e
       if inferred.forgetStorageWidth.dtype == DInfo.int then return inferred
     if pinned.contains dest.getId.toString then return ← expandNatExpectedExpr env e
@@ -3096,7 +3101,14 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
             entry.1 == rawName || entry.1 == userName || entry.1 == erasedName)
         | do
             let nameLit ← identAsStr dest
-            let rhs' ← expandNatExpectedExpr env rhs
+            -- The first source self-add binds an external pointer just as a
+            -- later self-add updates a pointer register. Keep signed source
+            -- arithmetic through the complete displacement in either case.
+            let rhs0 := (← expandExpr env rhs).forgetStorageWidth
+            let rhs' ← match rhs0.dtype with
+              | .nat => pure rhs0
+              | .int => pointerOffsetIntAsNat rhs0
+              | _ => expandNatExpectedExpr env rhs
             ensureAlgorithmOnly "pointer rebind assignment" rhs'
             let region : TSyntax `term := ⟨old.raw⟩
             let lhsTerm ← `(Op.ptrBase $region)

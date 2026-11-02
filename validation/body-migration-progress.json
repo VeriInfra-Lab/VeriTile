@@ -5,13 +5,13 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 0,
-  "staged_count": 124,
+  "staged_count": 125,
   "pending_count": 196,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "LOCAL_PASS_OFFICIAL_REPLAY_PENDING",
-    "staged_and_regression_retained_modules": 3489,
-    "official_comparator": "120 targets were accepted on the previous dependency snapshot, including all 19 examples. Their receipts are preserved as previous_receipt. The distinct libdevice.rsqrt model extension changes shared dependency hashes, so current completion awaits full proof rebuild and independent replay. BmmChunkBwd run 41347223281 targets the earlier c5bb57dff0873783f7df0a67c58832e9ccfd8bcd snapshot.",
+    "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
+    "staged_and_regression_retained_modules": 3562,
+    "official_comparator": "124 targets have accepted independent receipts on recorded historical source snapshots, including all 19 examples. Historical receipts are preserved; changed shared DSL dependencies require fresh exact-snapshot replay. No current completion is claimed.",
     "python_tests": 462,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "All 130 selected cases (124 targets and six regressions), 3489 retained/supporting modules, 2492 required replay/audit sources and 462 Python tests pass locally, including qualified public Real/FP names. AttentionFwdTriton1 copies both complete original and shifted Python bodies at the canonical task entry; Sources/Kernels is a thin compatibility import. Every block-pointer constructor, Int64 head cast, pointer/value dtype cast, zero-padding axis, precise dot, history store and STORE/IFCOND branch remains. Its compile-time shape products are checked over immutable call metadata; runtime offsets remain instructions and its BT=32 assertion is checked from the caller before compile-time erasure. Independent full typed-program and mutation-refusal tests pass. The retained manual proof program is kernel-checked equal to the entire copied source. All-head/chunk success, pre-update history, mathematical linear-attention formula, source safety, exterior frame and complete FP comparison pass. The FP comparison prints no numerical assumptions. Exact independent receipts remain required; compilation is not completion.",
-    "official_replay_sources": 2492,
+    "working_tree": "131 explicitly selected cases (125 targets and 6 regression cases), all 3562 retained/supporting modules and qualified public targets passed locally after the signed-pointer/cdiv, pointer-element cast and contextual signed-loop corrections. All 68 Int8DequantMatmul modules pass, including independent Real formula, actual-source FP equivalence (no numerical relaxation assumptions), output/frame and safety. Current completion still requires fresh exact-source independent replay. Packed Int8MatmulKernel work has begun separately and is not staged or accepted.",
+    "official_replay_sources": 2565,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -48,15 +48,12 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/attention_fwd_triton1",
+      "case": "bench/tritonbench_g/int8_dequant_matmul",
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 45,
-      "replay_sources": 45,
-      "state": "official_replay_running",
-      "validated_source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41360550987",
-      "source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345"
+      "retained_modules": 73,
+      "replay_sources": 73,
+      "state": "local_checks_passed_awaiting_official_dispatch"
     },
     "previous_incremental_replays": [
       {
@@ -408,21 +405,23 @@
         "retained_modules": 43,
         "replay_sources": 43,
         "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-        "state": "official_replay_running",
+        "state": "historical_snapshot_accepted_current_shared_replay_pending",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41347223281",
         "source_commit": "c5bb57dff0873783f7df0a67c58832e9ccfd8bcd",
-        "superseded_by_current_shared_model_replay": true
+        "superseded_by_current_shared_model_replay": true,
+        "historical_receipt": "validation/body_receipts/bmm_chunk_bwd-c5bb57df.json"
       },
       {
         "manifest": "validation/body-migration-incremental.json",
         "cases": 1,
         "retained_modules": 43,
         "replay_sources": 43,
-        "state": "official_replay_running",
+        "state": "historical_snapshot_accepted_current_shared_replay_pending",
         "case": "bench/tritonbench_g/layer_norm_welfold",
         "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41358544189",
-        "source_commit": "75df3c770d3461f53e8bf2c0ab6a97dda7bcd931"
+        "source_commit": "75df3c770d3461f53e8bf2c0ab6a97dda7bcd931",
+        "historical_receipt": "validation/body_receipts/layer_norm_welfold-75df3c77.json"
       },
       {
         "case": "bench/tritonbench_g/uniform_sampling",
@@ -430,10 +429,23 @@
         "cases": 1,
         "retained_modules": 34,
         "replay_sources": 34,
-        "state": "official_replay_running",
+        "state": "historical_snapshot_accepted_current_shared_replay_pending",
         "validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41359684034",
-        "source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67"
+        "source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67",
+        "historical_receipt": "validation/body_receipts/uniform_sampling-f103c1d5.json"
+      },
+      {
+        "case": "bench/tritonbench_g/attention_fwd_triton1",
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 45,
+        "replay_sources": 45,
+        "state": "historical_snapshot_accepted_current_shared_replay_pending",
+        "validated_source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41360550987",
+        "source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345",
+        "historical_receipt": "validation/body_receipts/attention_fwd_triton1-3c1b5650.json"
       }
     ],
     "pending_client_regressions": {
@@ -449,7 +461,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Dispatch AttentionFwdTriton1 independent replay, audit exact-current receipts and continue the remaining source/proof migrations. No merge.",
+    "current_work": "Repair Int8DequantMatmul literal source and its signed-index/accumulator proof chain; check the shared pointer-assignment inference fix and revalidate all affected dependencies. No merge.",
     "previous_validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67",
     "shared_model_revalidation": {
       "state": "reshape_precision_full_local_pass_official_replay_running",
@@ -561,7 +573,7 @@
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton1",
-      "status": "official_replay_pending",
+      "status": "shared_dependency_replay_pending",
       "complete": false,
       "body_correspondence": "pass",
       "public_real_and_fp_proofs": "local_pass",
@@ -571,9 +583,11 @@
         3,
         4
       ],
-      "reason": "Both complete bodies copied, canonical source centralized, compile-time shape/assertion handling and full retained Real/FP/safety/IO proof chain locally checked. Exact independent replay is still required.",
+      "reason": "Independent replay accepted the recorded source snapshot and every retained proof/audit module. A subsequent shared DSL compiler correction changes its dependency hash; current completion requires fresh replay.",
       "validated_source_commit": "3c1b56501870a06f86c87a8e7d712d681821a345",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41360550987"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41360550987",
+      "previous_receipt": "validation/body_receipts/attention_fwd_triton1-3c1b5650.json",
+      "previously_complete": true
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton2",
@@ -644,13 +658,15 @@
     },
     {
       "path": "bench/tritonbench_g/bmm_chunk_bwd",
-      "status": "proof_replay_pending",
+      "status": "shared_dependency_replay_pending",
       "complete": false,
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both literal 45-statement bodies and all caller bindings are correspondence-checked. Full signed prologue, every masked contraction iteration, actual compiler load/cast temporaries, optional residual, output preparation/store, source access safety, complete three-axis grid and exterior frame have been re-proved against the independent Dout-transpose-times-A plus residual formula. The complete FP source/candidate pair is proved under an arbitrary floating algebra without numerical rewrite assumptions. All 40 task modules and three frontend/reference/test modules pass locally. Await exact-current independent replay; compilation and body comparison alone are not completion."
+      "reason": "Independent replay accepted the recorded source snapshot and every retained proof/audit module. A subsequent shared DSL compiler correction changes its dependency hash; current completion requires fresh replay.",
+      "previous_receipt": "validation/body_receipts/bmm_chunk_bwd-c5bb57df.json",
+      "previously_complete": true
     },
     {
       "path": "bench/tritonbench_g/bmm_chunk_fwd",
@@ -1119,8 +1135,9 @@
     },
     {
       "path": "bench/tritonbench_g/int8_dequant_matmul",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "reason": "Both complete Python bodies (37/35 statements), caller bindings, all 68 retained modules, actual-source Real/FP specifications, fixed-ISA signed-loop connection, source memory safety and full output/frame proofs pass locally. No completion certificate until independent replay accepts the exact current dependency snapshot."
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_kernel",
@@ -1309,7 +1326,7 @@
     },
     {
       "path": "bench/tritonbench_g/layer_norm_welfold",
-      "status": "official_replay_pending",
+      "status": "shared_dependency_replay_pending",
       "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
@@ -1319,8 +1336,10 @@
         23,
         23
       ],
-      "reason": "The complete literal original/candidate, independent population formula, full arbitrary-algebra FP grid, exact dynamic ranges, all loads/casts/stores, actual access safety and retained native/lowering modules pass locally. Completion awaits the exact independent receipt.",
-      "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0"
+      "reason": "Independent replay accepted the recorded source snapshot and every retained proof/audit module. A subsequent shared DSL compiler correction changes its dependency hash; current completion requires fresh replay.",
+      "validated_source_commit": "b6a5a27771365fb318cb9a30eed2c5e9113eb9d0",
+      "previous_receipt": "validation/body_receipts/layer_norm_welfold-75df3c77.json",
+      "previously_complete": true
     },
     {
       "path": "bench/tritonbench_g/layernorm_fwd_triton",
@@ -2098,7 +2117,7 @@
     },
     {
       "path": "bench/tritonbench_g/uniform_sampling",
-      "status": "official_replay_pending",
+      "status": "shared_dependency_replay_pending",
       "complete": false,
       "body_correspondence": "pass",
       "public_real_and_fp_proofs": "local_pass",
@@ -2109,9 +2128,11 @@
         22,
         22
       ],
-      "reason": "Literal source, caller ABI words and complete copied fallback helper are connected to the full retained proof chain. Local proof and audit checks pass; exact independent replay is still required.",
+      "reason": "Independent replay accepted the recorded source snapshot and every retained proof/audit module. A subsequent shared DSL compiler correction changes its dependency hash; current completion requires fresh replay.",
       "validated_source_commit": "f103c1d5ad89e56f92bbf6f1b8d47748a42a3f67",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41359684034"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41359684034",
+      "previous_receipt": "validation/body_receipts/uniform_sampling-f103c1d5.json",
+      "previously_complete": true
     },
     {
       "path": "bench/tritonbench_g/var_len_copy",
@@ -2393,5 +2414,5 @@
       "current_source_certificate": false
     }
   ],
-  "previously_completed_count": 120
+  "previously_completed_count": 124
 }

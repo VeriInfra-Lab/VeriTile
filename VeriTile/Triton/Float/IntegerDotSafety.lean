@@ -15,6 +15,13 @@ def stepSafe {α : Type} [Inhabited α] (M : Algebra α)
     ComputeStmt → State α → Prop
   | .forRange name start stop stride body, s =>
       rangeSafe M arithmetic context bounds name start stop stride body s
+  | .forRangeInt name start stop stride body, s =>
+      Safety.safeOp M none bounds s start ∧ Safety.safeOp M none bounds s stop ∧
+      Safety.safeOp M none bounds s stride ∧
+      match evalOp M none start s, evalOp M none stop s, evalOp M none stride s with
+      | some a, some b, some d => rangeIntSafe M arithmetic context bounds name
+          (a PUnit.unit) (b PUnit.unit) (d PUnit.unit) body s
+      | _, _, _ => True
   | .ifThenElse cond yes no, s =>
       Safety.safeOp M none bounds s cond ∧
       match evalOp M none cond s with
@@ -60,6 +67,19 @@ def rangeSafe {α : Type} [Inhabited α] (M : Algebra α)
   else True
 termination_by (sizeOf body + 1, stop - start)
 decreasing_by all_goals omega
+
+def rangeIntSafe {α : Type} [Inhabited α] (M : Algebra α)
+    (arithmetic : Arithmetic) (context : Context) (bounds : RegionName → Nat)
+    (name : RegName) (start stop : Int) (stride : Nat) (body : List ComputeStmt)
+    (s : State α) : Prop :=
+  if 0 < stride ∧ start < stop then
+    traceSafeList M arithmetic context bounds body (s.setReg name .int [] (fun _ => start)) ∧
+    match run M arithmetic context body (s.setReg name .int [] (fun _ => start)) with
+    | some t => rangeIntSafe M arithmetic context bounds name (start + stride) stop stride body t
+    | none => True
+  else True
+termination_by (sizeOf body + 1, (stop - start).toNat)
+decreasing_by all_goals omega
 end
 
 def TraceSafe {α : Type} [Inhabited α] (M : Algebra α)
@@ -70,6 +90,7 @@ def TraceSafe {α : Type} [Inhabited α] (M : Algebra α)
 abbrev stepSafe_unfold := @stepSafe.eq_def
 abbrev traceSafeList_unfold := @traceSafeList.eq_def
 abbrev rangeSafe_unfold := @rangeSafe.eq_def
+abbrev rangeIntSafe_unfold := @rangeIntSafe.eq_def
 
 @[simp] theorem traceSafeList_nil {α : Type} [Inhabited α] (M : Algebra α)
     (a : Arithmetic) (c : Context) (bounds : RegionName → Nat) (s : State α) :

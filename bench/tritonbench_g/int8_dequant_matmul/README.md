@@ -13,3 +13,14 @@ The public entries state the input conditions, execution scope and numerical ass
 [Source and mathematical adapters](Sources/)
 
 [Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+
+`Kernels.lean` quotes both complete Python function bodies: the repaired source
+(37 top-level statements) and the existing index-reuse candidate (35).
+`jit-correspondence.json` checks every nested statement, cast, branch and mask.
+Pointer element types, scalar bindings and launch constexprs are caller metadata.
+The explicit signed loop is interpreted by the selected integer-dot model;
+bias is loaded as FP32, narrowed to FP16, then added in FP16 before writeback.
+The independent Real result, full-source FP comparison and memory safety/frame
+proofs retain their existing public input and scheduling conditions.
+Current completion requires an accepted independent replay of the exact source
+and shared dependencies; source comparison and a build alone do not certify it.

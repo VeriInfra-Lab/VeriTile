@@ -38,7 +38,7 @@ theorem scalar_address {A : Type} [Inhabited A] (M : Algebra A)
     evalOp_unfold,evalOffsets,store,Option.bind,numeric,bop,Region.cast,
     ComputeDType.eraseDType,State.setReg,State.write,hs,ht]
 
-/-- error: nat expression: dtype mismatch -/
+/-- error: nat expression identifier `start`: dtype mismatch -/
 #guard_msgs (error) in
 example (X Y : RegionName) (base B : Nat) : ComputeKernel :=
   with_triton_signature signature pointer_offsets [X := base] in triton {

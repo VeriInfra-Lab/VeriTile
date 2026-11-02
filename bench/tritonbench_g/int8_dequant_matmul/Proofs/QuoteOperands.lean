@@ -26,7 +26,7 @@ def initialState (q : IntegerModel I F H) [Inhabited (Sum F H)] (b : Buffers)
   ({mem:=sourceMemory q b m,regs:=fun _ _ _=>none,
     pids:=fun ax=>if ax=0 then pid else if ax=1 then split else 0,
     numPids:=fun _=>0,undef:=fun dtype _ _=>defaultValue dtype} : State (Sum F H)).setReg
-    "divfactor" .fp32 [] (fun _=>.inl divisor)
+    "divfactor" .real [] (fun _=>.inl divisor)
 
 theorem prelude_memory {α : Type} [Inhabited α] (M : Algebra α) (q : IntegerModel I F H)
     (s : Shape) (c : Config) (bias : Bool) (initial : State α) :
@@ -45,7 +45,7 @@ theorem loadA (q : IntegerModel I F H) [Inhabited (Sum F H)]
       (row s c pid i%s.M)*s.K+sourceK c t z l.val := by simp [sourceK];omega
   simp only [av,ap,ptr,rk,memory,Prod.fst,Prod.snd,sourceMemory,ite_true,Cell.read_same]
   rw [addr]
-  simp only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt]
+  simp only [←Int.natCast_mul,←Int.natCast_add,nat_lt_signed_sub,Int.ofNat_lt]
   by_cases even : s.K%(c.BK*c.S)=0
   · have active:=even_active s c even t z l.val ht hz l.isLt
     simp [even,operandA,active,addr,Nat.add_assoc]
@@ -87,7 +87,7 @@ theorem loadB (q : IntegerModel I F H) [Inhabited (Sum F H)]
       sourceK c t z l.val*s.N+col s c pid j%s.N := by simp [sourceK];ring
   simp only [bv,bp,ptr,rk,memory,Prod.fst,Prod.snd]
   rw [addr]
-  simp only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt]
+  simp only [←Int.natCast_mul,←Int.natCast_add,nat_lt_signed_sub,Int.ofNat_lt]
   simp only [sourceMemory,show ("B" : RegionName)≠"A" by decide,ite_false,ite_true,Cell.read_same]
   by_cases even : s.K%(c.BK*c.S)=0
   · have active:=even_active s c even t z l.val ht hz l.isLt
