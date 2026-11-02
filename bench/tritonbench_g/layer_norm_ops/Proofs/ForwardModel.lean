@@ -9,7 +9,7 @@ noncomputable section
 def binary {α : Type} (M : Algebra α) (op : Binary) := M.binary (some .fp32) .real op
 def unhintedBinary {α : Type} (M : Algebra α) (op : Binary) := M.binary none .real op
 def literal {α : Type} (M : Algebra α) (v : ℝ) := M.literal (some .fp32) .real v
-def padding {α : Type} (M : Algebra α) := M.cast (some .fp32) .real .fp32 (literal M 0)
+def padding {α : Type} (M : Algebra α) := M.cast none .real .fp32 (M.literal none .real 0)
 def cast {α : Type} (M : Algebra α) := M.cast (some .fp32) .fp32 .real
 def stored {α : Type} (M : Algebra α) (v : α) : Cell α := .mk .fp32 (M.cast none .real .fp32 v)
 
@@ -31,7 +31,7 @@ def z {α : Type} [Inhabited α] (M : Algebra α) (p : ForwardParameters)
 def average {α : Type} (M : Algebra α) (p : ForwardParameters)
     (values : TileIndex [p.block] → α) : α :=
   binary M .div (M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false values PUnit.unit)
-    (literal M (p.columns : ℝ))
+    (M.fromNat (some .fp32) p.columns)
 
 def meanValue {α : Type} [Inhabited α] (M : Algebra α) (p : ForwardParameters) (s : State α) :=
   average M p (z M p s)

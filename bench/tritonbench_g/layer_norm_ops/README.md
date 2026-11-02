@@ -1,13 +1,11 @@
 # layer_norm_ops
 
-Current repaired Python implementation: [layer_norm_ops.py](layer_norm_ops.py).
+The repaired [Python implementation](layer_norm_ops.py) is copied into [Kernels.lean](Kernels.lean) as complete forward and backward function bodies. Pointer storage, runtime scalar bindings and constexpr flags are supplied outside the quotations. The source branches, integer-to-FP conversions, load padding, saved statistics, bounded row loop, residual streams, recompute path and stores are retained.
 
-[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+[Executable candidates](layer_norm_ops_candidates.py) supply Python sources for the two existing Lean transformations: reuse the forward column mask and reuse `row_start` in the backward loop bound. These candidate sources were introduced from the repaired Python bodies; they are not historical benchmark originals. All four body pairs contain 18 top-level Python statements.
 
-Independent LN/RMS/residual/recompute/bias/parameter-gradient formulas with explicit named multi-output observations.
+The composed backward invocation supplies the saved Mean pointer under the existing Python input checks. The pasted body keeps its `Mean is not None` expression and zero fallback. Caller-side pointer presence selects the applicable branch after checking guarded pointer uses; an untaken branch does not load memory.
 
-The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+[Correct.lean](Correct.lean) states independent LN/RMS, affine, residual, recompute and parameter-gradient formulas with named multi-output observations. [FPEquiv.lean](FPEquiv.lean) compares each complete source/candidate invocation under its public IO and alias conditions. Empty backward loops and exterior frames remain in scope.
 
-[Proof helpers](Proofs/)
-
-[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+[Contract](Contract.lean) · [IO](IO.lean) · [Proof helpers](Proofs/). [Validation records](../../../validation/body-migration-progress.json) distinguish local source/proof checks from independent replay acceptance. Compilation or body comparison alone does not mark this task complete.

@@ -1,0 +1,454 @@
+[
+  {
+    "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py",
+    "lean": "bench/tritonbench_g/layer_norm_ops/Kernels.lean",
+    "python_function": "_layer_norm_fwd_1pass_kernel",
+    "lean_definition": "forwardSource",
+    "signature_definition": "forwardCallSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "stride_x_row",
+          "integer"
+        ],
+        [
+          "stride_y_row",
+          "integer"
+        ],
+        [
+          "stride_res_row",
+          "integer"
+        ],
+        [
+          "stride_res_out_row",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "IS_RMS_NORM",
+        "BLOCK_N",
+        "HAS_RESIDUAL",
+        "STORE_RESIDUAL_OUT",
+        "HAS_BIAS"
+      ],
+      "floatingPointers": [
+        [
+          "X",
+          "dtype"
+        ],
+        [
+          "Y",
+          "dtype"
+        ],
+        [
+          "W",
+          "dtype"
+        ],
+        [
+          "B",
+          "dtype"
+        ],
+        [
+          "RESIDUAL",
+          "dtype"
+        ],
+        [
+          "RESIDUAL_OUT",
+          "dtype"
+        ],
+        [
+          "Mean",
+          "dtype"
+        ],
+        [
+          "Rstd",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "N": "N",
+      "eps": "eps"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py",
+    "lean": "bench/tritonbench_g/layer_norm_ops/Kernels.lean",
+    "python_function": "_layer_norm_bwd_kernel",
+    "lean_definition": "backwardSource",
+    "signature_definition": "backwardCallSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "stride_x_row",
+          "integer"
+        ],
+        [
+          "stride_y_row",
+          "integer"
+        ],
+        [
+          "stride_dy_row",
+          "integer"
+        ],
+        [
+          "stride_dx_row",
+          "integer"
+        ],
+        [
+          "stride_dres_row",
+          "integer"
+        ],
+        [
+          "stride_dres_in_row",
+          "integer"
+        ],
+        [
+          "stride_mean",
+          "integer"
+        ],
+        [
+          "stride_rstd",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ],
+        [
+          "rows_per_program",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_RMS_NORM",
+        "BLOCK_N",
+        "HAS_DRESIDUAL",
+        "STORE_DRESIDUAL",
+        "HAS_BIAS",
+        "RECOMPUTE_OUTPUT"
+      ],
+      "floatingPointers": [
+        [
+          "X",
+          "dtype"
+        ],
+        [
+          "W",
+          "dtype"
+        ],
+        [
+          "B",
+          "dtype"
+        ],
+        [
+          "Y",
+          "dtype"
+        ],
+        [
+          "DY",
+          "dtype"
+        ],
+        [
+          "DX",
+          "dtype"
+        ],
+        [
+          "DW",
+          "dtype"
+        ],
+        [
+          "DB",
+          "dtype"
+        ],
+        [
+          "DRESIDUAL",
+          "dtype"
+        ],
+        [
+          "DRESIDUAL_IN",
+          "dtype"
+        ],
+        [
+          "Mean",
+          "dtype"
+        ],
+        [
+          "Rstd",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_dy_row": "stride_dy_row",
+      "stride_dx_row": "stride_dx_row",
+      "stride_dres_row": "stride_dres_row",
+      "stride_dres_in_row": "stride_dres_in_row",
+      "stride_mean": "stride_mean",
+      "stride_rstd": "stride_rstd",
+      "M": "M",
+      "N": "N",
+      "eps": "eps",
+      "rows_per_program": "rows_per_program"
+    },
+    "expected_optional_pointers": {
+      "Mean": "mean_present"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops_candidates.py",
+    "lean": "bench/tritonbench_g/layer_norm_ops/Kernels.lean",
+    "python_function": "_layer_norm_fwd_1pass_kernel",
+    "lean_definition": "forwardMaskReusedSource",
+    "signature_definition": "forwardCallSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "stride_x_row",
+          "integer"
+        ],
+        [
+          "stride_y_row",
+          "integer"
+        ],
+        [
+          "stride_res_row",
+          "integer"
+        ],
+        [
+          "stride_res_out_row",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "IS_RMS_NORM",
+        "BLOCK_N",
+        "HAS_RESIDUAL",
+        "STORE_RESIDUAL_OUT",
+        "HAS_BIAS"
+      ],
+      "floatingPointers": [
+        [
+          "X",
+          "dtype"
+        ],
+        [
+          "Y",
+          "dtype"
+        ],
+        [
+          "W",
+          "dtype"
+        ],
+        [
+          "B",
+          "dtype"
+        ],
+        [
+          "RESIDUAL",
+          "dtype"
+        ],
+        [
+          "RESIDUAL_OUT",
+          "dtype"
+        ],
+        [
+          "Mean",
+          "dtype"
+        ],
+        [
+          "Rstd",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "N": "N",
+      "eps": "eps"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/layer_norm_ops/layer_norm_ops_candidates.py",
+    "lean": "bench/tritonbench_g/layer_norm_ops/Kernels.lean",
+    "python_function": "_layer_norm_bwd_kernel",
+    "lean_definition": "backwardRowStartReusedSource",
+    "signature_definition": "backwardCallSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "stride_x_row",
+          "integer"
+        ],
+        [
+          "stride_y_row",
+          "integer"
+        ],
+        [
+          "stride_dy_row",
+          "integer"
+        ],
+        [
+          "stride_dx_row",
+          "integer"
+        ],
+        [
+          "stride_dres_row",
+          "integer"
+        ],
+        [
+          "stride_dres_in_row",
+          "integer"
+        ],
+        [
+          "stride_mean",
+          "integer"
+        ],
+        [
+          "stride_rstd",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "eps",
+          "fp32"
+        ],
+        [
+          "rows_per_program",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_RMS_NORM",
+        "BLOCK_N",
+        "HAS_DRESIDUAL",
+        "STORE_DRESIDUAL",
+        "HAS_BIAS",
+        "RECOMPUTE_OUTPUT"
+      ],
+      "floatingPointers": [
+        [
+          "X",
+          "dtype"
+        ],
+        [
+          "W",
+          "dtype"
+        ],
+        [
+          "B",
+          "dtype"
+        ],
+        [
+          "Y",
+          "dtype"
+        ],
+        [
+          "DY",
+          "dtype"
+        ],
+        [
+          "DX",
+          "dtype"
+        ],
+        [
+          "DW",
+          "dtype"
+        ],
+        [
+          "DB",
+          "dtype"
+        ],
+        [
+          "DRESIDUAL",
+          "dtype"
+        ],
+        [
+          "DRESIDUAL_IN",
+          "dtype"
+        ],
+        [
+          "Mean",
+          "dtype"
+        ],
+        [
+          "Rstd",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_dy_row": "stride_dy_row",
+      "stride_dx_row": "stride_dx_row",
+      "stride_dres_row": "stride_dres_row",
+      "stride_dres_in_row": "stride_dres_in_row",
+      "stride_mean": "stride_mean",
+      "stride_rstd": "stride_rstd",
+      "M": "M",
+      "N": "N",
+      "eps": "eps",
+      "rows_per_program": "rows_per_program"
+    },
+    "expected_optional_pointers": {
+      "Mean": "mean_present"
+    }
+  }
+]

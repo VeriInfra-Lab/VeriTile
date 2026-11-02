@@ -85,6 +85,29 @@ private partial def substitute (values : List (Name × Ident)) (present : List N
   | .node info kind args => return .node info kind (← args.mapM (substitute values present))
   | other => return other
 
+/-- A known caller presence selects the dtype of an assignment expression.
+Both arms have already passed the nullable-use checker before specialization.
+Unknown presence and ordinary statement suites retain their original control. -/
+private partial def specializeKnownAssignment (presence : List Name) (raw : Syntax) : TermElabM Syntax := do
+  if let `(tritonStmt| if $condition:tritonExpr {
+      $a:ident = $yes:tritonExpr
+    } else {
+      $b:ident = $no:tritonExpr
+    }) := raw then
+    let guard := match condition with
+      | `(tritonExpr| $id:ident) => some (id,Bool.true)
+      | `(tritonExpr| not $id:ident) => some (id,Bool.false)
+      | _ => none
+    if let some (id,positive) := guard then
+      if a.getId.eraseMacroScopes==b.getId.eraseMacroScopes && presence.contains id.getId then
+        let value ← whnf (← elabTermEnsuringType id (mkConst ``Bool))
+        let selected := if value.isConstOf ``Bool.true then some positive
+          else if value.isConstOf ``Bool.false then some (!positive) else none
+        if let some chosen := selected then
+          let branch := if chosen then yes else no
+          return (← liftMacroM `(tritonStmt| $a:ident = $branch:tritonExpr)).raw
+  return raw.setArgs (← raw.getArgs.mapM (specializeKnownAssignment presence))
+
 /-- Separate tokens explicitly; the default formatter for a repeated custom
 statement category need not insert spaces or newlines between statements. -/
 private partial def tokens : Syntax → List String
@@ -144,6 +167,7 @@ private def elaborate (stx : Syntax) (hasScalars : Bool) (expected : Option Expr
         mkLetFVars #[bound] result
     | [] =>
       let body ← liftMacroM <| substitute values [] parsed
+      let body ← specializeKnownAssignment (values.map (fun entry=>entry.2.getId)) body
       let `(triton { $stmts:tritonStmt* }) := body
         | throwError "expected a complete pointer-argument body"
       let text := "{\n" ++ String.intercalate "\n" (stmts.toList.map (render ·.raw)) ++ "\n}"
