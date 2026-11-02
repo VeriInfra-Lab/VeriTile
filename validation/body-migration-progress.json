@@ -87,7 +87,10 @@
       "cases": 1,
       "retained_modules": 82,
       "replay_sources": 82,
-      "state": "local_pass_not_dispatched"
+      "state": "official_replay_running",
+      "source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41539454194",
+      "started_at": "2026-11-02T22:42:03Z"
     },
     "previous_incremental_replays": [
       {
@@ -834,7 +837,7 @@
       "completion_certificate": false
     },
     "current_work": "Continue the remaining 44 TritonBench-G source/proof migrations, next chunk_bwd_dqkg. Collect exact-current independent receipts for attention_score, flash_attn and block_sparse_attn. All 19 examples are accepted. No merge.",
-    "previous_validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
+    "previous_validated_source_commit": "d45fb499833be5c220631156ee78f72f207c66ff",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
       "cases": 139,
@@ -855,7 +858,7 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "d45fb499833be5c220631156ee78f72f207c66ff",
+    "validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "last_full_local_snapshot": {
       "cases": 158,
       "targets": 152,
@@ -867,7 +870,8 @@
       "public_theorem_count": 390,
       "python_tests": 543,
       "current_dependency_snapshot": true,
-      "boundary": "Local proof/source/trust checks only, not an independent completion receipt."
+      "boundary": "Local proof/source/trust checks only, not an independent completion receipt.",
+      "source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f"
     },
     "previous_shared_model_revalidations": [
       {
@@ -1336,7 +1340,9 @@
       "full_build_modules": 5056,
       "full_lake_jobs": 13768,
       "public_theorem_names": 390,
-      "boundary": "Local source/proof/trust checks only, not an independent completion receipt."
+      "boundary": "Local source/proof/trust checks only, not an independent completion receipt.",
+      "source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41539454194"
     }
   },
   "targets": [
@@ -1529,7 +1535,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete 31-statement repaired/candidate Python bodies match literal pasted Lean source. Pointer/scalar/constexpr metadata remain outside the bodies. Preserved all three CSR int32 load casts, the second row-pointer +1 offset, signed CSR loop, complete static feature-block reduction, every mask/precision conversion, runtime FP32 scale and online-softmax update. Removed both old annotated quotations. The source differs from the existing FP candidate only at the proven integer quotient/remainder head expression. All 77 owned modules and five shared frontend/test roots pass build and exact-source trust/inventory preflights; 101 shared proof targets include actual address-dependent signed memory reads, distinct pointer offsets, floating rebindings and loop-local aliases. Independent full CSR occurrence attention (including duplicate keys), native execution, complete source safety, ABI/layouts, grids, output/readback and complete frames are reverified without new public premises or narrowed numerical domains. All 158 staged/regression cases, 5056 retained/supporting modules, 390 public theorem names, 543 Python tests and corpus checks pass locally. Fresh exact-current independent replay remains required; compilation is not completion."
+      "reason": "Both complete 31-statement repaired/candidate Python bodies match literal pasted Lean source. Pointer/scalar/constexpr metadata remain outside the bodies. Preserved all three CSR int32 load casts, the second row-pointer +1 offset, signed CSR loop, complete static feature-block reduction, every mask/precision conversion, runtime FP32 scale and online-softmax update. Removed both old annotated quotations. The source differs from the existing FP candidate only at the proven integer quotient/remainder head expression. All 77 owned modules and five shared frontend/test roots pass build and exact-source trust/inventory preflights; 101 shared proof targets include actual address-dependent signed memory reads, distinct pointer offsets, floating rebindings and loop-local aliases. Independent full CSR occurrence attention (including duplicate keys), native execution, complete source safety, ABI/layouts, grids, output/readback and complete frames are reverified without new public premises or narrowed numerical domains. All 158 staged/regression cases, 5056 retained/supporting modules, 390 public theorem names, 543 Python tests and corpus checks pass locally. Fresh exact-current independent replay remains required; compilation is not completion.",
+      "validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41539454194"
     },
     {
       "path": "bench/tritonbench_g/bmm_chunk_bwd",
