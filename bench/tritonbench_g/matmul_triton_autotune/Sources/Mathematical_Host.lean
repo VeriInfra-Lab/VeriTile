@@ -60,8 +60,8 @@ structure TensorContract {α : Type} (r : Request) (s : State α) where
   byteB : baseB+4*envelopeB r<2^64
   byteC : baseC+2*envelopeC r<2^64
 
-/-- Sufficient signed-index domain, including padded pointer formation and
-last pointer advances. It is separate from the unrestricted Nat program proof. -/
+/-- Conservative signed-index bounds retained by the host interface.
+The structural source proof separately follows exact signed integer arithmetic. -/
 structure IndexDomain (r : Request) : Prop where
   rows : r.rows+r.config.bm<2^31
   columns : r.columns+r.config.bn<2^31
@@ -88,7 +88,7 @@ theorem nonempty_program (r : Request) (pid : Nat) (hp : pid<programs r) :
 
 theorem source_subtraction (r : Request) (b : Nat) (hb : b<r.parameters.numKBlocks) :
     b*r.config.bk<r.inner ∧ (r.inner : Int)-(b*r.config.bk : Nat)=(r.inner-b*r.config.bk : Nat) := by
-  cases hh : r.config <;> simp [Request.parameters,hh,Config.bk] at hb ⊢ <;> omega
+  cases hh : r.config <;> simp [Request.parameters,FPValue.Parameters.numKBlocks,hh,Config.bk] at hb ⊢ <;> omega
 
 theorem output_bound (r : Request) (i j : Nat) (hi : i<r.rows) (hj : j<r.columns) :
     outputOffset r i j<r.rows*r.columns := by

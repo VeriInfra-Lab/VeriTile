@@ -538,8 +538,29 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 bindings[pair[1]] = pair[2]
             if bindings != helper_functions:
                 raise ValueError("pure JIT function bindings differ from the reviewed call")
-            actual = {n.func.id for n in ast.walk(function) if isinstance(n, ast.Call)
-                      and isinstance(n.func, ast.Name) and n.func.id not in {"range", "float", "int"}}
+            builtin_names = {"range", "float", "int"}
+            body_nodes = [node for statement in function.body for node in ast.walk(statement)]
+            min_calls = [n for n in body_nodes if isinstance(n, ast.Call)
+                         and isinstance(n.func, ast.Name) and n.func.id == "min"]
+            if min_calls and "min" not in bindings:
+                if any(len(call.args) != 2 or call.keywords for call in min_calls):
+                    raise ValueError("builtin min requires exactly two positional arguments")
+                module = ast.parse(python_text)
+                shadowed = any(
+                    (isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del))
+                     and node.id == "min")
+                    or (isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+                        and node.name == "min")
+                    or (isinstance(node, ast.Import) and any(
+                        (alias.asname or alias.name.split('.')[0]) == "min" for alias in node.names))
+                    or (isinstance(node, ast.ImportFrom) and any(
+                        alias.name == "*" or (alias.asname or alias.name) == "min" for alias in node.names))
+                    for node in ast.walk(module))
+                if shadowed or any(arg.arg == "min" for arg in function.args.args):
+                    raise ValueError("builtin min must not be shadowed or rebound")
+                builtin_names.add("min")
+            actual = {n.func.id for n in body_nodes if isinstance(n, ast.Call)
+                      and isinstance(n.func, ast.Name) and n.func.id not in builtin_names}
             if actual != set(bindings):
                 raise ValueError("pure JIT binding names differ from the Python callees")
         if expected_static_strides is not None:
@@ -774,9 +795,14 @@ def check_pure_function(python_text: str, lean_text: str, python_function: str,
     if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
         raise ValueError("expected one explicitly selected @triton.jit helper")
     fn = functions[0]
+    statements = fn.body
+    if (statements and isinstance(statements[0], ast.Expr)
+            and isinstance(statements[0].value, ast.Constant)
+            and isinstance(statements[0].value.value, str)):
+        statements = statements[1:]
     if (arity not in (1, 2) or len(fn.args.args) != arity or fn.args.posonlyargs or fn.args.kwonlyargs or fn.args.vararg
             or fn.args.kwarg or fn.args.defaults or fn.args.kw_defaults
-            or any(arg.annotation for arg in fn.args.args) or len(fn.body) != 1 or not isinstance(fn.body[0], ast.Return)):
+            or any(arg.annotation for arg in fn.args.args) or len(statements) != 1 or not isinstance(statements[0], ast.Return)):
         raise ValueError("pure JIT helper requires one unannotated parameter and one return")
     header, body = quotation(lean_text, lean_definition, raw_python=True)
     arguments = [a.arg for a in fn.args.args]
@@ -829,13 +855,14 @@ def check_pure_function(python_text: str, lean_text: str, python_function: str,
                 raise ValueError("unsupported finite extern import chain")
     elif re.search(r'\bwith_triton_imports\b', header):
         raise ValueError("imported helper requires independently reviewed extern imports")
-    if "$" in body or re.search(r"\btl\.(region|param|source_helper|call_signature)\b", body):
+    code = pasted_code_mask(body)
+    if "$" in code or re.search(r"\btl\.(region|param|source_helper|call_signature)\b", code):
         raise ValueError("pure JIT body must contain only pasted Python")
     if ast.dump(ast.Module(fn.body, [])) != ast.dump(ast.Module(ast.parse("def __veritile_pasted__():\n" + body).body[0].body, [])):
         raise ValueError("pure JIT return body differs from Python")
     return {"python_function": python_function, "lean_definition": lean_definition,
             "status": "PASS", "mode": "pasted_body", "kind": "binary_pure_jit_function" if arity == 2 else "pure_jit_function",
-            "statements": 1, "runtime_parameters": {a: "inferred" for a in arguments}, "constexpr_parameters": []}
+            "statements": len(fn.body), "runtime_parameters": {a: "inferred" for a in arguments}, "constexpr_parameters": []}
 
 
 def check_uniform_function(python_text: str, lean_text: str, python_function: str, lean_definition: str) -> dict:

@@ -1,4 +1,5 @@
 import bench.tritonbench_g.matmul_triton_autotune.Proofs.Execution
+import bench.tritonbench_g.matmul_triton_autotune.Proofs.SourceTotal
 
 namespace VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair
 open VeriTile.Triton FP.Structural Whole
@@ -23,39 +24,49 @@ theorem written_mem_congr {α : Type} [Inhabited α]
   simp only [written,masked_scatter_memory,outputValue,activation,accumulation,hu,
     active,cOffset,row,col,pidM,pidN,firstM,FPValue.groupSize,hm,hp]
 
-/-- A simulation over arbitrary launch lists. Existing grouped-grid coverage,
-unique ownership and full host results are reused after this memory refinement. -/
-theorem programs_refinement {α : Type} [Inhabited α]
-    (M : Algebra α) (D : DotAcc α) (r : Request) (ids : List Nat)
-    (s t : State α) (hm : s.mem=t.mem) :
-    ∃ sf tf, Whole.runPrograms M D r ids s=some sf ∧
-      runPrograms M D r ids t=some tf ∧ sf.mem=tf.mem := by
-  induction ids generalizing s t with
-  | nil => exact ⟨s,t,rfl,rfl,hm⟩
+/-- Both complete schedules have the same success/failure and full state.
+The actual pasted programs differ only by an integer product commutation. -/
+theorem programs_execution_equal {α : Type} [Inhabited α]
+    (M : Algebra α) (D : DotAcc α) (r : Request) (ids : List Nat) (s : State α) :
+    Whole.runPrograms M D r ids s=runPrograms M D r ids s := by
+  induction ids generalizing s with
+  | nil => rfl
   | cons pid rest ih =>
-    obtain ⟨sm,hs,hsm,_⟩ := FPValue.correctness M D r.parameters .single
-      (instanceState r pid s) (Whole.active_injective r (instanceState r pid s))
-    obtain ⟨tm,ht,htm⟩ := Source.execution_memory M D r.parameters (instanceState r pid t)
-    have hmid : sm.mem=tm.mem := by
-      rw [hsm,htm]
-      exact written_mem_congr M D r.parameters _ _ hm rfl
-    obtain ⟨sf,tf,hsf,htf,hfinal⟩ := ih sm tm hmid
-    refine ⟨sf,tf,?_,?_,hfinal⟩
-    · change (FP.Structural.exec (backend M D) (FPValue.source r.parameters .single)
-        (instanceState r pid s)).bind (Whole.runPrograms M D r rest)=some sf
-      rw [hs]
-      exact hsf
-    · change (FP.Structural.exec (backend M D) (Source.kernel r.parameters)
-        (instanceState r pid t)).bind (runPrograms M D r rest)=some tf
-      rw [ht]
-      exact htf
+    change (FP.Structural.exec (backend M D) (FPValue.source r.parameters .single)
+      (instanceState r pid s)).bind (Whole.runPrograms M D r rest)=
+      (FP.Structural.exec (backend M D) (Source.kernel r.parameters)
+        (instanceState r pid s)).bind (runPrograms M D r rest)
+    rw [SourcePair.execution_equal]
+    apply congrArg (fun f => (FP.Structural.exec (backend M D) (Source.kernel r.parameters)
+      (instanceState r pid s)).bind f)
+    funext t
+    exact ih t
+
+theorem original_grid_executes {α : Type} [Inhabited α]
+    (M : Algebra α) (D : DotAcc α) (r : Request) (ids : List Nat) (s : State α) :
+    ∃ t,Whole.runPrograms M D r ids s=some t := by
+  induction ids generalizing s with
+  | nil => exact ⟨s,rfl⟩
+  | cons pid rest ih =>
+    obtain ⟨next,he⟩:=FPValue.Total.executes M D r.parameters (instanceState r pid s)
+    obtain ⟨final,hf⟩:=ih next
+    exact ⟨final,by simpa only [Whole.runPrograms,kernel,he,Option.bind_some] using hf⟩
+
+/-- Complete successful execution and equal memory are constructed from the
+source, for arbitrary launch lists and initial states. -/
+theorem programs_refinement {α : Type} [Inhabited α]
+    (M : Algebra α) (D : DotAcc α) (r : Request) (ids : List Nat) (s : State α) :
+    ∃ sf tf,Whole.runPrograms M D r ids s=some sf ∧
+      runPrograms M D r ids s=some tf ∧ sf.mem=tf.mem := by
+  obtain ⟨final,he⟩:=original_grid_executes M D r ids s
+  exact ⟨final,final,he,(programs_execution_equal M D r ids s).symm.trans he,rfl⟩
 
 theorem host_refinement {α : Type} [Inhabited α]
     (M : Algebra α) (D : DotAcc α) (r : Request) (initial reference : State α)
     (he : Whole.host M D r initial=.ok (r.C,reference))
     (hdims : r.inner=r.innerB) (hcontiguous : r.aContiguous=Bool.true) :
     ∃ final, host M D r initial=.ok (r.C,final) ∧ final.mem=reference.mem := by
-  obtain ⟨sf,tf,hs,ht,hm⟩ := programs_refinement M D r (List.range (programs r)) initial initial rfl
+  obtain ⟨sf,tf,hs,ht,hm⟩ := programs_refinement M D r (List.range (programs r)) initial
   have href : sf=reference := by
     simpa [Whole.host,hdims,hcontiguous,hs] using he
   subst sf
@@ -66,7 +77,7 @@ or any input asserting a successful old/candidate execution. -/
 theorem candidate_grid_executes {α : Type} [Inhabited α]
     (M : Algebra α) (D : DotAcc α) (r : Request) (ids : List Nat) (initial : State α) :
     ∃ final, runPrograms M D r ids initial=some final := by
-  obtain ⟨_,final,_,he,_⟩ := programs_refinement M D r ids initial initial rfl
+  obtain ⟨_,final,_,he,_⟩ := programs_refinement M D r ids initial
   exact ⟨final,he⟩
 
 /-- Whole candidate host success is a program theorem, independent of the six
@@ -87,7 +98,7 @@ theorem candidate_grid_order_correct {α : Type} [Inhabited α]
     (order : ids.Perm (List.range (programs r))) (hCA : r.C≠r.A) (hCB : r.C≠r.B) :
     ∃ final, runPrograms M D r ids initial=some final ∧ Result Q r initial final := by
   obtain ⟨reference,hr,hresult⟩ := Whole.grid_order_correct M D Q law r initial ids order hCA hCB
-  obtain ⟨sf,final,hs,he,hm⟩ := programs_refinement M D r ids initial initial rfl
+  obtain ⟨sf,final,hs,he,hm⟩ := programs_refinement M D r ids initial
   have eqref : reference=sf := Option.some.inj (hr.symm.trans hs)
   subst sf
   refine ⟨final,he,?_⟩
@@ -101,7 +112,7 @@ theorem candidate_store_offset {α : Type} (r : Request) (s : State α)
   simp [Source.cSafeOffset,safeCOffset,safeCoordinate,Request.parameters]
 
 /-- Unique ownership is proved for the actual clamped store address, not just
-for the old source's active-address normal form. -/
+for the independent active-address formula. -/
 theorem candidate_store_unique {α : Type} (r : Request) (s : State α)
     (p q : Nat) (hp : p<programs r) (hq : q<programs r)
     (i j : FPValue.CIndex r.parameters)

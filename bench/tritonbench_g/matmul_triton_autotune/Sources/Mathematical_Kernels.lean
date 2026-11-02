@@ -44,7 +44,6 @@ def Request.parameters (r : Request) : FPValue.Parameters where
   stride_cm := max r.columns 1; stride_cn := 1
   BLOCK_SIZE_M := r.config.bm; BLOCK_SIZE_N := r.config.bn; BLOCK_SIZE_K := r.config.bk
   GROUP_SIZE_M := r.config.gm
-  numKBlocks := (r.inner+r.config.bk-1)/r.config.bk
   ACTIVATION := r.activation == "leaky_relu"
 
 def kernel (r : Request) : ComputeKernel := FPValue.source r.parameters .single
