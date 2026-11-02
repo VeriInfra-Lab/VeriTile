@@ -113,3 +113,52 @@ def scalar_collision (X Y : RegionName) (N B : Nat) («OUT_DTYPE» : FloatDType)
 #axiomsClean full_safety16
 #axiomsClean full_safetyBF16
 end VeriTile.Tests.OutputDTypeMetadata
+
+namespace VeriTile.Tests.OutputDTypeMetadata
+open VeriTile.Triton FP.Structural
+open VeriTile.Triton.DSL.OutputDTypeMetadata
+
+/-- A closed FP16 dot result must not elaborate invalid unused dtype branches. -/
+def closedHalfDot (X Y : RegionName) (N B : Nat) : ComputeKernel :=
+  let «OUT_DTYPE» : FloatDType := .fp16
+  with_triton_call signature call_args [N := N] in triton {
+    values = tl.load(X + tl.arange(0, B)[:, None] * B + tl.arange(0, B)[None, :])
+    acc = tl.zeros([B, B], dtype=OUT_DTYPE)
+    acc += tl.dot(values, values, out_dtype=OUT_DTYPE)
+    tl.store(Y + tl.arange(0, B)[:, None] * B + tl.arange(0, B)[None, :], acc.to(OUT_DTYPE))
+  }
+
+def directHalfDot (X Y : RegionName) (N B : Nat) : ComputeKernel :=
+  with_triton_call (withoutOutputType signature) call_args [N := N] in triton {
+    values = tl.load(X + tl.arange(0, B)[:, None] * B + tl.arange(0, B)[None, :])
+    acc = tl.zeros([B, B], dtype=tl.float16)
+    acc += tl.dot(values, values, out_dtype=tl.float16)
+    tl.store(Y + tl.arange(0, B)[:, None] * B + tl.arange(0, B)[None, :], acc.to(tl.float16))
+  }
+
+theorem closed_half_program (X Y : RegionName) (N B : Nat) :
+    closedHalfDot X Y N B = directHalfDot X Y N B := by rfl
+
+theorem closed_half_execution {α : Type} [Inhabited α] (M : Algebra α)
+    (X Y : RegionName) (N B : Nat) (entry : State α) :
+    exec M (closedHalfDot X Y N B) entry = exec M (directHalfDot X Y N B) entry := by
+  rw [closed_half_program]
+
+theorem closed_half_safety {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionName → Nat)
+    (X Y : RegionName) (N B : Nat) (entry : State α) :
+    TraceSafe M bounds (closedHalfDot X Y N B) entry ↔ TraceSafe M bounds (directHalfDot X Y N B) entry := by
+  rw [closed_half_program]
+
+/-- error: tl.dot: bfloat16 output requires a float32/float16 dot followed by a cast -/
+#guard_msgs in
+def invalidClosedDot (X Y : RegionName) (N B : Nat) : ComputeKernel :=
+  let «OUT_DTYPE» : FloatDType := .bf16
+  with_triton_call signature call_args [N := N] in triton {
+    values = tl.load(X + tl.arange(0, B)[:, None] * B + tl.arange(0, B)[None, :])
+    acc = tl.dot(values, values, out_dtype=OUT_DTYPE)
+  }
+
+#axiomsClean closed_half_program
+#axiomsClean closed_half_execution
+#axiomsClean closed_half_safety
+end VeriTile.Tests.OutputDTypeMetadata

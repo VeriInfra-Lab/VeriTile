@@ -30,7 +30,7 @@ theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α)
       BF16.Source.queryEarly,BF16.Source.source,
       Source.typedSurfaceQueryEarly,Source.typedSurface,
       BF16.Source.typedSurfaceQueryEarly,BF16.Source.typedSurface,
-      ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+      VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,numeric,integralFloorDiv,integralMod,
       natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast]
   all_goals
@@ -54,7 +54,7 @@ theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
       Source.queryEarly,Source.source,BF16.Source.queryEarly,BF16.Source.source,
       Source.typedSurfaceQueryEarly,Source.typedSurface,
       BF16.Source.typedSurfaceQueryEarly,BF16.Source.typedSurface,
-      ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero]
+      VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16,ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero]
     simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold]
     simp only [SourceSafety.safeBlockPtr2]

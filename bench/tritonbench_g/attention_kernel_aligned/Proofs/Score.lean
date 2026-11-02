@@ -28,7 +28,7 @@ theorem scoreExecution (rest : Algebra α) (P : Primitives α) (p : Parameters)
     run (backend rest P) (scorePart p) (current.setReg "start_n" .nat [] (fun _ => c*p.blockN))=
       some (scoreResult P p initial current c st) := by
   have hn : p.blockN≠0 := by omega
-  simp [scorePart,body,source,typedSurface,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [scorePart,body,source,typedSurface,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,backend,scoreResult,h.memory,h.start,h.qoffset,h.ooffset,h.boffset,
     h.brows,h.bias,h.query,h.keyPtr,h.valuePtr,kPointer,vPointer,integralMod,natLt,Fin.isLt,FP.Structural.boundaryZero,
     TileShape.indexToList,Region.cast,hn,hBN,FP.Structural.ofFloat,FP.Structural.toFloat,

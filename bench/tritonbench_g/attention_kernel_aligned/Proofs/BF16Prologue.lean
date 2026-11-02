@@ -36,7 +36,7 @@ def prologueResult (P : Primitives α) (p : Parameters) (s : State α) : State �
 
 theorem prologueExecution (rest : Algebra α) (P : Primitives α) (p : Parameters) (s : State α) :
     run (backend rest P) (prologue p) s=some (prologueResult P p s) := by
-  simp [prologue,source,typedSurface,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [prologue,source,typedSurface,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,evalOffsets,backend,prologueResult,
     initialAccumulator,qPointer,kPointer,vPointer,integralMod,natLt,Fin.isLt,
     TileShape.indexToList,scaleValue,qScaled,qValue,qOffset,b1Value,b1Offset,

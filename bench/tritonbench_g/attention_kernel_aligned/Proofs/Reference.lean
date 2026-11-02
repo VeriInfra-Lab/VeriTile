@@ -34,7 +34,7 @@ def b1Value (P : Primitives α) (p : Parameters) (s : State α) (i : ScoreLane p
 def b0Value (P : Primitives α) (p : Parameters) (s : State α) (c : Nat) (i : Fin p.blockM) : α :=
   if row p s i<p.length then (s.mem p.bias (b0Offset p s c i)).read .fp16 else P.cast none .real .fp16 (P.literal none .real 0)
 def scaleValue (P : Primitives α) (p : Parameters) : α :=
-  P.binary none .real .mul (P.literal none .real p.scale) (P.literal none .real 1.44269504)
+  P.binary (some .fp32) .real .mul (P.literal (some .fp32) .real p.scale) (P.literal (some .fp32) .real 1.44269504)
 def qScaled (P : Primitives α) (p : Parameters) (s : State α) (i : QLane p) : α :=
   P.cast none .real .fp16 (P.binary (some .fp32) .real .mul
     (P.cast (some .fp32) .fp16 .real (qValue P p s i)) (scaleValue P p))

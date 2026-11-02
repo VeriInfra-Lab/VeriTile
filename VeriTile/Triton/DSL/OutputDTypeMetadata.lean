@@ -66,12 +66,18 @@ def elaborateInvocation : TermElab := fun stx expected => do
   let variants : List (TSyntax `tritonDType) := [← `(tritonDType| tl.float64),
     ← `(tritonDType| tl.float32), ← `(tritonDType| tl.float16),
     ← `(tritonDType| tl.bfloat16), ← `(tritonDType| tl.float8e4nv), ← `(tritonDType| tl.float8e5)]
-  let branches ← variants.mapM fun dtype => do
+  let elaborateVariant (dtype : TSyntax `tritonDType) : TermElabM Expr := do
     let lowered ← lower dtype parsed
     let `(triton { $statements:tritonStmt* }) := lowered | throwError "expected a complete typed source body"
     let raw := Syntax.atom .none ("{\n" ++ String.intercalate "\n" (statements.toList.map (fun s => render s.raw)) ++ "\n}")
     let args := (stx.getArgs.set! 1 adjusted.raw).set! (stx.getArgs.size - 1) raw
     PythonShapeExpressions.elaborateInvocation (stx.setArgs args) expected
+  let constructors := [``FloatDType.real, ``FloatDType.fp32, ``FloatDType.fp16,
+    ``FloatDType.bf16, ``FloatDType.f8e4, ``FloatDType.f8e5]
+  let known ← whnf argument
+  if let some index := constructors.findIdx? known.isConstOf then
+    return ← elaborateVariant variants[index]!
+  let branches ← variants.mapM elaborateVariant
   let motive := mkLambda `dtype BinderInfo.default (mkConst ``FloatDType) (mkConst ``ComputeKernel)
   mkAppOptM ``FloatDType.casesOn (#[some motive,some argument] ++ branches.toArray.map some)
 end VeriTile.Triton.DSL.OutputDTypeMetadata
