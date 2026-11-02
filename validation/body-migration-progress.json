@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 0,
+  "completed_count": 3,
   "staged_count": 130,
-  "pending_count": 196,
+  "pending_count": 193,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
+    "staged_public_proofs": "WORKING_TREE_RECHECK_PENDING",
     "staged_and_regression_retained_modules": 3796,
-    "official_comparator": "124 targets have accepted independent receipts on recorded historical source snapshots, including all 19 examples. Historical receipts are preserved; changed shared DSL dependencies require fresh exact-snapshot replay. No current completion is claimed.",
+    "official_comparator": "Three current exact-dependency receipts are accepted: int8_dequant_matmul, int8_matmul_kernel and int4_matmul. Their official ZIP digests, source stability, all independent replay results, public theorem coverage and exact current source/import closures were verified. 124 earlier target receipts remain historical. Other cases still need current acceptance; local builds do not count as completion.",
     "python_tests": 473,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "136 selected cases (130 targets and 6 regressions), all 3796 retained/supporting modules, 12515 Lake jobs and qualified public theorem names pass locally. MatmulLeakyrelu has two exact 24-node bodies and two exact 1-node helpers; all 39 retained modules and both affected existing tasks pass. Both separate dot/add and dotAcc loops, five-profile executions, independent matrix formula, full grids, source safety, output and frame are re-proved. The existing matmul_leakyrelu_fp32_k32_dot_add_to_dotacc numerical rule remains explicit and pending numerical admission; no extra rule or public input restriction was added. Current independent proof replay is still required; local checks are not a completion receipt.",
+    "working_tree": "Last fully locally checked source is cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14 (136 cases, 3796 modules, 12515 Lake jobs). MatmulLeakyreluFp8 is in progress and outside the staged batch. The copied 35-node body and strict right-slope candidate use a new isolated int64/Boolean-promotion frontend; its complete typed-program and fail-closed regressions pass. Source execution and safety proofs still need retargeting. No completion is claimed from source compilation.",
     "official_replay_sources": 2799,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -531,7 +531,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 66 TritonBench-G targets. Complete=false until exact current independent proof replay is accepted. Existing numerical admission gaps remain explicit. No merge.",
+    "current_work": "Finish MatmulLeakyreluFp8 raw-body migration and all retained source, Real/FP, safety and frame proofs. Keep the fixed FP32 caller profile and strict existing slope comparison. No merge.",
     "previous_validated_source_commit": "a88b5c7f734611f36aa87630d7463cbafc325258",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_regression_replay_pending",
@@ -539,7 +539,7 @@
       "targets": 130,
       "retained_modules": 3796,
       "replay_sources": 2799,
-      "current_dependency_snapshot": true,
+      "current_dependency_snapshot": false,
       "reason": "MatmulLeakyrelu now quotes its complete original separate-dot/add body and a new Python realization of the retained dotAcc/right-slope candidate. Both helper sources are copied. All 136 staged cases and shared checks pass locally, including both affected existing tasks importing this mathematical library. The existing conditional contraction rule remains explicit and numerically pending. Fresh independent replay is required; no numerical experiment is claimed.",
       "current_full_build": {
         "passed": true,
@@ -694,6 +694,10 @@
           "tests/lean/ConditionalPureJitFunctions.lean"
         ]
       }
+    ],
+    "current_official_acceptance": [
+      "validation/body_receipts/int8-matmul-source-migration.json",
+      "validation/body_receipts/int4-matmul-source-migration.json"
     ]
   },
   "targets": [
@@ -1310,21 +1314,39 @@
     },
     {
       "path": "bench/tritonbench_g/int4_matmul",
-      "status": "proof_replay_pending",
-      "complete": false,
-      "reason": "Original/candidate Python bodies, caller metadata and all 53 retained modules pass locally. The actual dynamic-cdiv loop, fixed-K8 accumulation, independent full-grid dequantized matrix formula, structural stride-folding comparison, safety and frame are re-proved. FP numerical relaxation assumptions: none. Fresh current exact-source independent replay is still required."
+      "status": "complete",
+      "complete": true,
+      "reason": "Accepted official independent replay. ZIP digest, complete public theorem coverage, every required replay result, current source/body pairs and exact transitive project source/import closure were verified. Later unrelated source changes are outside this case closure. This is not acceptance inferred from compilation.",
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "receipt": "validation/body_receipts/int4-matmul-source-migration.json",
+      "validated_source_commit": "82d078df01236b3570c219d4205e1d2b4d2ca9da",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41369918059"
     },
     {
       "path": "bench/tritonbench_g/int8_dequant_matmul",
-      "status": "proof_replay_pending",
-      "complete": false,
-      "reason": "Both complete Python bodies (37/35 statements), caller bindings, all 68 retained modules, actual-source Real/FP specifications, fixed-ISA signed-loop connection, source memory safety and full output/frame proofs pass locally. No completion certificate until independent replay accepts the exact current dependency snapshot."
+      "status": "complete",
+      "complete": true,
+      "reason": "Accepted official independent replay. ZIP digest, complete public theorem coverage, every required replay result, current source/body pairs and exact transitive project source/import closure were verified. Later unrelated source changes are outside this case closure. This is not acceptance inferred from compilation.",
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "receipt": "validation/body_receipts/int8-matmul-source-migration.json",
+      "validated_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368653214"
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_kernel",
-      "status": "proof_replay_pending",
-      "complete": false,
-      "reason": "Complete 23-statement repaired Python body, exact add.u32 assembly ABI, caller bindings and all 47 retained modules pass locally. Full-grid independent signed-low32 formula, two actual retained configurations, original cast domain, source safety and exterior frame are re-proved; FP numerical relaxation assumptions: none. Completion requires current exact-source independent replay."
+      "status": "complete",
+      "complete": true,
+      "reason": "Accepted official independent replay. ZIP digest, complete public theorem coverage, every required replay result, current source/body pairs and exact transitive project source/import closure were verified. Later unrelated source changes are outside this case closure. This is not acceptance inferred from compilation.",
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "receipt": "validation/body_receipts/int8-matmul-source-migration.json",
+      "validated_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368653214"
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_quantization",
