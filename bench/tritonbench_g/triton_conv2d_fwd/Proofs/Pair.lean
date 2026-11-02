@@ -13,7 +13,27 @@ def after (s : Shape) (f : Flags) := (originalKernel s f).surfaceBody.drop 6
 def originalSite (s : Shape) (f : Flags) :=
   ((originalKernel s f).surfaceBody[5]? : Option ComputeStmt).getD (.effectMarker "unreachable")
 def shiftedSite (s : Shape) (f : Flags) :=
-  ((kernel s f).surfaceBody[5]? : Option ComputeStmt).getD (.effectMarker "unreachable")
+  ((kernel s f).surfaceBody[6]? : Option ComputeStmt).getD (.effectMarker "unreachable")
+def compileCheck (s : Shape) (f : Flags) :=
+  ((kernel s f).surfaceBody[0]? : Option ComputeStmt).getD (.effectMarker "unreachable")
+
+/-- The source retains its compile-time assertion; the compared caller fixes
+the row tile to 128. Its lowered statement has no runtime effect. -/
+theorem compileCheck_shape (s : Shape) (f : Flags) :
+    compileCheck s f = .ifThen (.constBool Bool.false) [.effectMarker "static_assert.rejected"] := by
+  rcases f with ⟨f,t⟩
+  cases f <;> rfl
+
+theorem compileCheck_run {α : Type} [Inhabited α] (M : Algebra α)
+    (c : Shape) (f : Flags) (s : State α) : step M (compileCheck c f) s = some s := by
+  rw [compileCheck_shape]
+  simp [step,evalOp_unfold,Option.bind]
+
+theorem compileCheck_safe {α : Type} [Inhabited α] (M : Algebra α)
+    (bounds : RegionName → Nat) (c : Shape) (f : Flags) (s : State α) :
+    Safety.stepSafe M bounds (compileCheck c f) s := by
+  rw [compileCheck_shape]
+  simp [Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold]
 
 theorem original_code (s : Shape) (f : Flags) :
     (originalKernel s f).surfaceBody = before s f ++ originalSite s f :: after s f := by
@@ -21,7 +41,7 @@ theorem original_code (s : Shape) (f : Flags) :
   cases f <;> rfl
 
 theorem shifted_code (s : Shape) (f : Flags) :
-    (kernel s f).surfaceBody = before s f ++ shiftedSite s f :: after s f := by
+    (kernel s f).surfaceBody = compileCheck s f :: (before s f ++ shiftedSite s f :: after s f) := by
   rcases f with ⟨f,t⟩
   cases f <;> rfl
 
@@ -31,7 +51,7 @@ theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (f : Fl
   cases f
   all_goals simp only [originalSite,shiftedSite,originalKernel,kernel,KernelSource.kernel,CandidateSource.kernel,
     KernelHalf.source,KernelDefault.source,CandidateHalf.source,CandidateDefault.source,
-    KernelHalf.typed,KernelDefault.typed,CandidateHalf.typed,CandidateDefault.typed,KernelBinding.parameters,
+    KernelHalf.typed,Pasted.originalBody,Pasted.candidateBody,DSL.StaticAssertions.checked,KernelDefault.typed,CandidateHalf.typed,CandidateDefault.typed,KernelBinding.parameters,
     Bool.false_eq_true,ite_false,ite_true,ComputeKernel.surfaceBody,
     List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   all_goals simp only [step,evalExpr,evalOp_unfold]
@@ -47,7 +67,7 @@ theorem site_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionNa
   cases f
   all_goals simp only [originalSite,shiftedSite,originalKernel,kernel,KernelSource.kernel,CandidateSource.kernel,
     KernelHalf.source,KernelDefault.source,CandidateHalf.source,CandidateDefault.source,
-    KernelHalf.typed,KernelDefault.typed,CandidateHalf.typed,CandidateDefault.typed,KernelBinding.parameters,
+    KernelHalf.typed,Pasted.originalBody,Pasted.candidateBody,DSL.StaticAssertions.checked,KernelDefault.typed,CandidateHalf.typed,CandidateDefault.typed,KernelBinding.parameters,
     Bool.false_eq_true,ite_false,ite_true,ComputeKernel.surfaceBody,
     List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold,and_true,true_and]
@@ -61,7 +81,9 @@ theorem run_cons {α : Type} [Inhabited α] (M : Algebra α)
 theorem kernel_run {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (f : Flags) (s : State α) :
     exec M (originalKernel c f) s = exec M (kernel c f) s := by
   have er (k : ComputeKernel) : exec M k s = run M k.surfaceBody s := by cases k; rfl
-  rw [er,er,original_code,shifted_code,run_append,run_append]
+  rw [er,er,original_code,shifted_code,run_cons,compileCheck_run]
+  simp only [Option.bind_some]
+  rw [run_append,run_append]
   apply congrArg (fun g => (run M (before c f) s).bind g)
   funext t
   rw [run_cons,run_cons,site_run]
@@ -70,7 +92,9 @@ theorem kernel_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : Region
     (c : Shape) (f : Flags) (s : State α) :
     TraceSafe M bounds (originalKernel c f) s ↔ TraceSafe M bounds (kernel c f) s := by
   unfold TraceSafe
-  rw [original_code,shifted_code,Safety.traceSafeList_append,Safety.traceSafeList_append]
+  rw [original_code,shifted_code,Safety.traceSafeList_cons]
+  simp only [compileCheck_safe,compileCheck_run,Option.some.injEq,forall_eq',true_and]
+  rw [Safety.traceSafeList_append,Safety.traceSafeList_append]
   apply and_congr_right
   intro _
   apply forall_congr'
