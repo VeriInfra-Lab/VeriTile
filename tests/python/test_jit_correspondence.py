@@ -2872,3 +2872,71 @@ class StatementHelperBodyTests(unittest.TestCase):
         import hashlib
         self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])
         self.assertEqual(hashlib.sha256(self.python.encode()).hexdigest(), provenance['original_sha256'])
+
+
+class FP4BodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/fp4_to_bf16'
+        self.python = (self.directory / 'fp4_to_bf16.py').read_text()
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def caller(self, lean):
+        record = self.records[1]
+        return check(self.python, lean, record['python_function'], record['lean_definition'],
+                     record['signature_definition'], record['expected_signature'],
+                     expected_call_bindings=record['expected_call_bindings'],
+                     expected_jit_functions=record['expected_jit_functions'],
+                     expected_constexpr_bindings=record['expected_constexpr_bindings'])
+
+    def test_complete_helper_and_caller(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([row['statements'] for row in rows], [22, 13])
+        self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
+
+    def test_bitcast_shift_unused_assignment_and_return_cannot_disappear(self):
+        changes = [('result.to(tl.float32, bitcast=True)', 'result.to(tl.float32)'),
+                   ('mantissa_f4.to(tl.int32)', 'mantissa_f4'),
+                   ('output = mantissa_f32', 'output = mantissa_f4'),
+                   ('mbits_f32 - mbits_f4_e2m1', 'mbits_f32 + mbits_f4_e2m1'),
+                   ('return output', 'return result')]
+        for before, after in changes:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                check_statement_function(self.python, self.lean.replace(before, after, 1),
+                                         '_fp4_packed_to_bf16', 'conversionFunction')
+
+    def test_signed_addresses_masks_format_and_helper_binding_are_checked(self):
+        changes = [('tl.program_id(axis=0).to(tl.int64)', 'tl.program_id(axis=0)'),
+                   ('tl.arange(0, BLOCK_SIZE_OUT).to(tl.int64)', 'tl.arange(0, BLOCK_SIZE_OUT)'),
+                   ('mask_out = offsets_out < n_elements_out', 'mask_out = offsets_out <= n_elements_out'),
+                   ('let f32_exp_bias : Nat := 127', 'let f32_exp_bias : Nat := 128'),
+                   ('_fp4_packed_to_bf16 := conversionFunction', '_fp4_packed_to_bf16 := otherFunction')]
+        for before, after in changes:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                self.caller(self.lean.replace(before, after, 1))
+
+    def test_specialization_matches_the_actual_host_launch(self):
+        module = ast.parse(self.python)
+        environment = {}
+        for node in module.body:
+            if isinstance(node, ast.Assign) and all(isinstance(n, (ast.Constant, ast.Tuple))
+                                                   for n in ast.walk(node.value) if isinstance(n, ast.expr)):
+                # Evaluate only constant/tuple assignments, never imports or host/GPU code.
+                values = ast.literal_eval(node.value)
+                for target in node.targets:
+                    if isinstance(target, ast.Name):
+                        environment[target.id] = values
+                    elif isinstance(target, ast.Tuple):
+                        environment.update((part.id, value) for part, value in zip(target.elts, values))
+        host = next(n for n in module.body if isinstance(n, ast.FunctionDef)
+                    and n.name == 'triton_f4_to_bf16_repaired')
+        call = next(n for n in ast.walk(host) if isinstance(n, ast.Call)
+                    and isinstance(n.func, ast.Subscript)
+                    and ast.unparse(n.func.value) == 'triton_f4_to_bf16_kernel_repaired')
+        actual = {kw.arg: environment[kw.value.id] for kw in call.keywords
+                  if isinstance(kw.value, ast.Name)}
+        expected = {name: int(value) for name, value in self.records[1]['expected_constexpr_bindings'].items()}
+        self.assertEqual(actual, expected)
+        self.assertEqual(next(kw.value.value for kw in call.keywords if kw.arg == 'BLOCK_SIZE_IN'), 512)

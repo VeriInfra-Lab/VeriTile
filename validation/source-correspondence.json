@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 135,
-      "uncovered_jit_functions": 48
+      "selected_body_copy_checked": 136,
+      "uncovered_jit_functions": 47
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 119,
+    "uncovered_selected_jit_functions": 117,
     "inventoried_jit_functions": 537,
-    "uncovered_inventoried_jit_functions": 155,
+    "uncovered_inventoried_jit_functions": 153,
     "checked_pair_modes": {
-      "pasted_body": 382
+      "pasted_body": 384
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 135,
-        "uncovered_jit_functions": 48
+        "selected_body_copy_checked": 136,
+        "uncovered_jit_functions": 47
       }
     },
     "primary_files_with_int64_screen_warning": 12,
@@ -20512,10 +20512,10 @@
       "python": "bench/tritonbench_g/fp4_to_bf16/fp4_to_bf16.py",
       "lean": "bench/tritonbench_g/fp4_to_bf16/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 1,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 10,
+        "dsl_assignment": 31,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -20587,33 +20587,66 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fp4_packed_to_bf16",
+          "lean_definition": "conversionFunction",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 22,
+          "runtime_parameters": {
+            "x_packed": "inferred",
+            "sign_mask_f4": "inferred",
+            "mantissa_mask_f4": "inferred",
+            "mbits_f4_e2m1": "inferred",
+            "ebits_f4_e2m1": "inferred",
+            "f4_e2m1_exp_bias": "inferred",
+            "mbits_f32": "inferred",
+            "ebits_f32": "inferred",
+            "f32_exp_bias": "inferred",
+            "zero_bits_f32": "inferred",
+            "zero_point_five_bits_f32": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/fp4_to_bf16/fp4_to_bf16.py",
-          "function": "_fp4_packed_to_bf16"
+          "lean": "bench/tritonbench_g/fp4_to_bf16/Kernels.lean"
         },
         {
+          "python_function": "triton_f4_to_bf16_kernel_repaired",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 13,
+          "runtime_parameters": {
+            "n_elements_in": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_IN",
+            "ebits_f32",
+            "ebits_f4_e2m1",
+            "f32_exp_bias",
+            "f4_e2m1_exp_bias",
+            "mantissa_mask_f4",
+            "mbits_f32",
+            "mbits_f4_e2m1",
+            "sign_mask_f4",
+            "zero_bits_f32",
+            "zero_point_five_bits_f32"
+          ],
           "python": "bench/tritonbench_g/fp4_to_bf16/fp4_to_bf16.py",
-          "function": "triton_f4_to_bf16_kernel_repaired"
+          "lean": "bench/tritonbench_g/fp4_to_bf16/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/fp4_to_bf16/fp4_to_bf16.py",
-          "function": "_fp4_packed_to_bf16"
-        },
-        {
-          "python": "bench/tritonbench_g/fp4_to_bf16/fp4_to_bf16.py",
-          "function": "triton_f4_to_bf16_kernel_repaired"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/fp4_to_bf16/Kernels.lean": "3f534cdf880a2a6e1934b23726fe546eaa352b5187029eb9c903715d2dc95df0",
-        "bench/tritonbench_g/fp4_to_bf16/fp4_to_bf16.py": "70f10f7ab112fd50f29511e24c8dac26374d51e3ea8bb6dc769e899bdc6d22be"
+        "bench/tritonbench_g/fp4_to_bf16/Kernels.lean": "640d8aa557fa9635ec7be4d30c531e1fdc1c83bd765625b7abd9b7622d50a4c2",
+        "bench/tritonbench_g/fp4_to_bf16/fp4_to_bf16.py": "70f10f7ab112fd50f29511e24c8dac26374d51e3ea8bb6dc769e899bdc6d22be",
+        "bench/tritonbench_g/fp4_to_bf16/jit-correspondence.json": "934665c463a7dbcc1ac78f931fd4e781bda4cf91eb9a8df4debf1c796f59220d"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/fp4_to_bf16"
