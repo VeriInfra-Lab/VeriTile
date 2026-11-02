@@ -7,6 +7,10 @@ open TritonBenchG.IvDependentMatmul Whole
 def Block (n : Nat) : Prop := 0<n ∧ n≤2^20 ∧ n &&& (n-1)=0
 instance (n : Nat) : Decidable (Block n) := inferInstanceAs (Decidable (_ ∧ _ ∧ _))
 
+/-- Current repaired launch guard; empty output never submits a dot. -/
+def DotShape (r : Request) : Prop := 0 < r.rows → 0 < r.columns → 16 ≤ r.blockInner
+instance (r : Request) : Decidable (DotShape r) := inferInstanceAs (Decidable (_ → _ → _))
+
 /-- Source envelopes are explicit preallocation guards, not allocator laws. -/
 structure Admitted (r : Request) : Prop where
   rowsBlock : Block r.blockRows
@@ -19,10 +23,12 @@ structure Admitted (r : Request) : Prop where
   weightBytes : 4*(r.inner*r.columns)<2^63
   outputBytes : 4*(r.rows*r.columns)<2^63
   grid : programs r<2^31
+  dotShape : DotShape r
 
 def check (r : Request) (defaultFP32 cuda : Bool) : Except String Unit :=
   if defaultFP32=Bool.false ∨ cuda=Bool.false then .error "profile"
   else if ¬Block r.blockRows ∨ ¬Block r.blockColumns ∨ ¬Block r.blockInner then .error "blocks"
+  else if ¬DotShape r then .error "dot shape"
   else if max (r.rows+r.blockRows) (max (r.columns+r.blockColumns) (r.inner+4*r.blockInner+3))≥2^63 then .error "control"
   else if 4*max (r.rows*r.inner) (max (r.inner*r.columns) (r.rows*r.columns))≥2^63 then .error "bytes"
   else if programs r≥2^31 then .error "grid"

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.iv_dependent_matmul.Kernels
+import bench.tritonbench_g.iv_dependent_matmul.SourceAPI
 import bench.tritonbench_g.iv_dependent_matmul.Sources.Mathematical_Schedules
 
 namespace VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel

@@ -1,10 +1,12 @@
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.SignedArithmetic
 import bench.tritonbench_g.iv_dependent_matmul.Sources.Mathematical_KernelSource
 import bench.tritonbench_g.iv_dependent_matmul.Sources.Mathematical_FPContract
 
 /-! All five actual pointer schedules execute the same independent input-memory
 FP recurrence. The source and compiled graphs are never equated with one another. -/
 namespace VeriTile.Bench.TritonBenchG.IvDependentMatmul.Schedules
-open VeriTile.Triton FP.Structural FPValue Kernels
+open VeriTile.Triton FP.Structural
+open TritonBenchG.IvDependentMatmul.SourceArithmetic FPValue Kernels
 open ParallelAttention.FPStages (foldRange range_values)
 noncomputable section
 set_option maxHeartbeats 24000000
@@ -36,18 +38,21 @@ theorem prologueWithPointers_run [Inhabited Word] (rest : Algebra Word) (cfg : F
     ∃ t, run (backend rest cfg D F) (prologueWithPointers schedule p) s = some t ∧
       ReadyAt schedule p s t 0 (fun _ => FP.Value.zero .fp32) := by
   cases schedule <;>
-    simp [prologueWithPointers, initialPointers, copyPointer, aAt, bAt, pointer, strideOffset,
-      prologue,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    simp [-Nat.cast_add,-Nat.cast_mul,nat_not_negative,ceil_nat,mod_nat,mask_nat,prologueWithPointers, prologue,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
       integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,backend,
       SgmvExpandSlice.FPValue.backend,LoraExpandGemv.FPValue.backend]
   all_goals dsimp [ReadyAt, Pointers]
   all_goals repeat' constructor
-  all_goals simp [State.setReg,rowBlock,colBlock,columnsGrid,
+  all_goals try simp [-Nat.cast_add,-Nat.cast_mul,nat_not_negative,ceil_nat,mod_nat,mask_nat,State.setReg,rowBlock,colBlock,columnsGrid,
     aPointer,bPointer,aPointerAt,bPointerAt,aOffset,bOffset,aBase,bBase,row,col,bop]
   all_goals funext i
-  all_goals simp [aPointer,bPointer,aPointerAt,bPointerAt,aOffset,bOffset,aBase,bBase,
+  all_goals try simp [-Nat.cast_add,-Nat.cast_mul,nat_not_negative,ceil_nat,mod_nat,mask_nat,aPointer,bPointer,aPointerAt,bPointerAt,aOffset,bOffset,aBase,bBase,
     row,col,rowBlock,colBlock,columnsGrid,bop]
+
+  all_goals simp only [nat_not_negative, if_false, mod_nat_pulled, ← Int.emod_def,
+    ← Int.natCast_ediv, ← Int.natCast_emod, ← Int.natCast_mul, ← Int.natCast_add,
+    Int.toNat_natCast, Nat.add_assoc]
 
 #axiomsClean prologueWithPointers_run
 end

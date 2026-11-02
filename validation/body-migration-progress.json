@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 141,
-  "staged_count": 146,
+  "staged_count": 147,
   "pending_count": 55,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 4717,
+    "staged_and_regression_retained_modules": 4776,
     "official_comparator": "136 current targets and separately listed regression cases retain accepted exact-dependency official receipts. Each official ZIP digest, required independent proof result, public theorem coverage and exact current source/import closure was verified. Changed chunk_delta_fwd dependencies withdrew its previous receipt until fresh replay. Compilation alone never counts as completion.",
-    "python_tests": 522,
+    "python_tests": 526,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "152 selected cases (146 targets and 6 regressions), all 4717 retained/supporting modules, 13393 Lake jobs and 378 public theorem names pass locally after the Welford frontend binder rename. The unchanged Python suite has 522 passing tests; strict body-corpus checks pass. Exact trust-audit preparation and comparator inventory elaboration are locally checked for both new frontend modules. The original Welford replay rejected its shared frontend parse, while 80 other roots passed; neither affected case is accepted. Full fresh exact-source replay of both affected cases is required. 136 targets retain unchanged current independent acceptance. Official shard 10 has now passed its ZIP/source-closure/public-theorem audit: 141 targets are independently accepted, including all 19 examples. IV-dependent matmul is being migrated and is not added to the locally validated batch.",
-    "official_replay_sources": 3720,
+    "working_tree": "153 selected cases (147 targets and 6 regressions), all 4776 retained/supporting modules, 13452 Lake jobs, 380 fully qualified public theorem names, 526 Python tests and strict body-corpus checks pass. IV-dependent matmul now uses two literal bodies for all five schedules, with actual signed execution, native/Real full-grid outputs, safety and frames. The host helper/checker chain now uses the current repaired minimum dot-block guard. No numerical assumption or public premise was added. 141 targets retain exact-current independent acceptance, including all 19 examples; local compilation is not completion.",
+    "official_replay_sources": 3779,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -67,22 +67,28 @@
         "reason": "GitHub hosted runner shutdown signal; process exited 143 before independent comparator setup. No completion inferred. Same source snapshot rerun requested via gh run rerun.",
         "artifact_available": false,
         "retry": "same_run_attempt_2"
+      },
+      {
+        "case": "bench/tritonbench_g/pow_scalar_tensor",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41493717114",
+        "source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
+        "attempts_failed": 3,
+        "stage": "retained_modules_build",
+        "reason": "All three attempts received a runner shutdown signal (exit 143) after TileSafety and before the whole-kernel/control proofs finished. No Lean proof error or complete artifact was reported. Do not infer acceptance; investigate local peak memory and proof normalization before another retry.",
+        "artifact_available": false
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/fused_layernorm_triton",
+      "case": "bench/tritonbench_g/iv_dependent_matmul",
       "case_paths": [
-        "bench/tritonbench_g/fused_layernorm_triton",
-        "bench/tritonbench_g/layer_norm_welfold"
+        "bench/tritonbench_g/iv_dependent_matmul"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 2,
-      "retained_modules": 81,
-      "replay_sources": 81,
-      "state": "official_workflow_in_progress",
-      "source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
-      "superseded_failed_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41480356274",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41496469164"
+      "cases": 1,
+      "retained_modules": 59,
+      "replay_sources": 59,
+      "state": "prepared_for_official_dispatch",
+      "source_commit": "working_tree"
     },
     "previous_incremental_replays": [
       {
@@ -728,6 +734,21 @@
         "source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41493717114",
         "attempt": 2
+      },
+      {
+        "case": "bench/tritonbench_g/fused_layernorm_triton",
+        "case_paths": [
+          "bench/tritonbench_g/fused_layernorm_triton",
+          "bench/tritonbench_g/layer_norm_welfold"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 2,
+        "retained_modules": 81,
+        "replay_sources": 81,
+        "state": "official_workflow_in_progress",
+        "source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
+        "superseded_failed_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41480356274",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41496469164"
       }
     ],
     "pending_client_regressions": {
@@ -743,8 +764,8 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 50 TritonBench-G source/proof migrations, including in-progress iv_dependent_matmul. Collect exact-source independent receipts for the 5 locally validated pending targets. All 19 examples have exact-current independent acceptance. No merge.",
-    "previous_validated_source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
+    "current_work": "Continue the remaining 49 TritonBench-G source/proof migrations and collect exact-source independent receipts for 6 locally validated pending targets. All 19 examples have current independent acceptance. Investigate repeated hosted-runner shutdowns while building the power whole-kernel proof before retrying it. No merge.",
+    "previous_validated_source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
       "cases": 139,
@@ -765,24 +786,20 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
+    "validated_source_commit": "working_tree",
     "last_full_local_snapshot": {
-      "cases": 152,
-      "targets": 146,
+      "cases": 153,
+      "targets": 147,
       "regressions": 6,
-      "retained_modules": 4717,
-      "replay_sources": 3720,
-      "lake_jobs": 13393,
+      "retained_modules": 4776,
+      "replay_sources": 3779,
+      "lake_jobs": 13452,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 378,
-      "python_tests": 522,
+      "public_theorem_count": 380,
+      "python_tests": 526,
       "current_dependency_snapshot": true,
-      "source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
-      "boundary": "Local proof/source/trust checks only, not an independent completion receipt.",
-      "protocol_elaboration_inventory_preflight": {
-        "WelfordCallMetadata": "PASS after reproducing original reserved-token failure",
-        "ImportedBinaryJitFunctions": "PASS"
-      }
+      "source_commit": "working_tree",
+      "boundary": "Local proof/source/trust checks only, not an independent completion receipt."
     },
     "previous_shared_model_revalidations": [
       {
@@ -1131,8 +1148,12 @@
       "public_theorem_count": 378,
       "python_tests": 522,
       "current_dependency_snapshot": true,
-      "source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
-      "boundary": "Local proof/source/trust checks only, not an independent completion receipt."
+      "source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
+      "boundary": "Local proof/source/trust checks only, not an independent completion receipt.",
+      "protocol_elaboration_inventory_preflight": {
+        "WelfordCallMetadata": "PASS after reproducing original reserved-token failure",
+        "ImportedBinaryJitFunctions": "PASS"
+      }
     }
   },
   "targets": [
@@ -1953,8 +1974,13 @@
     },
     {
       "path": "bench/tritonbench_g/iv_dependent_matmul",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "validated_source_commit": "working_tree",
+      "reason": "Both complete 29-statement bodies match the repaired Python and the materialized retained live-accumulator graph. All nine runtime INT64 casts, PID/lane/counter casts, five constexpr pointer schedules, staged pointers, tail masks, conversions and FP16-to-FP32 store boundary are preserved. Retired ten handwritten quotations and the unused natural-index staging ASTs. All schedule decompositions now select actual copied statements. Signed execution/recurrences, independent full-K Real formula, current native FP schedule pair, successful full grids, active access safety, outputs and input/exterior frames are re-proved. The retained host helpers now enforce the repaired nonempty K-block>=16 guard; removed the obsolete permissive-checker defect module. All 57 owned modules and both shared frontend/test roots pass. A strict constexpr-string frontend preserves runtime control and has an arbitrary-algebra semantic test plus five rejection tests; exact trust/inventory elaboration preflights pass. Full 153-case local build, 380 public theorem names, 526 Python tests and body checks pass. No new numerical assumption or public premise. Exact-source official independent replay remains required; compilation alone does not complete a task."
     },
     {
       "path": "bench/tritonbench_g/kcache_copy_triton",

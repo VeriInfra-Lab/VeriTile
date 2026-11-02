@@ -7,16 +7,11 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxHeartbeats 6000000
 set_option maxRecDepth 30000
-inductive Graph where | source | accumulator deriving DecidableEq, Repr
-structure Parameters where
-  (input weight output : RegionName)
-  (rows columns inner inputRowStride inputInnerStride weightInnerStride weightColumnStride
-    outputRowStride outputColumnStride blockRows blockColumns blockInner : Nat)
 /-- Derived common view used by the execution decomposition, never a
 standalone source authority. The complete repaired preLoad quotation supplies
 the body; only its two initial pointer aliases are split out here. -/
 def commonView (k : ComputeKernel) : ComputeKernel :=
-  .mk k.inputs k.outputs (k.surfaceBody.take 9 ++ k.surfaceBody.drop 11)
+  .mk k.inputs k.outputs (k.surfaceBody.take 18 ++ k.surfaceBody.drop 20)
 
 def typed (dtype : FloatDType)
     (A B C : RegionName)
@@ -36,14 +31,16 @@ def source (g : Graph) (p : Parameters) : ComputeKernel :=
     p.weightInnerStride p.weightColumnStride p.outputRowStride p.outputColumnStride
     p.blockRows p.blockColumns p.blockInner
 
-def prologue (p : Parameters) := (source .source p).surfaceBody.take 10
+def prologue (p : Parameters) := (source .source p).surfaceBody.take 19
 def body (g : Graph) (p : Parameters) : List ComputeStmt :=
   let code : List ComputeStmt := (source g p).surfaceBody
-  match code[10]? with | some (ComputeStmt.forRangeDyn _ _ _ _ b) => b | _ => []
-def suffix (p : Parameters) := (source .source p).surfaceBody.drop 11
+  match code[19]? with | some (ComputeStmt.forRangeInt _ _ _ _ b) => b | _ => []
+def suffix (p : Parameters) := (source .source p).surfaceBody.drop 20
 
-def stopOp (p : Parameters) : Op .nat [] :=
-  .div .nat .nil (.sub .nat .nil (.add .nat .nil (.constNat p.inner) (.constNat p.blockInner))
-    (.constNat 1)) (.constNat p.blockInner)
+def stopOp (p : Parameters) : Op .int [] :=
+  let code : List ComputeStmt := (source .source p).surfaceBody
+  match code[19]? with
+  | some (ComputeStmt.forRangeInt _ _ stop _ _) => stop
+  | _ => .constInt 0
 end
 end VeriTile.Bench.TritonBenchG.IvDependentMatmul.FPValue
