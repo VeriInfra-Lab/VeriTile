@@ -195,6 +195,56 @@ class MatmulSourceTests(unittest.TestCase):
                           record["signature_definition"], record["expected_signature"])
 
 
+
+class BlockSparseBodyCorrespondenceTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/block_sparse_attn'
+        self.python = (self.directory / 'block_sparse_attn.py').read_text()
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def verify(self, lean):
+        r = self.records[0]
+        return check(self.python, lean, r['python_function'], r['lean_definition'],
+                     r['signature_definition'], r['expected_signature'],
+                     expected_call_bindings=r['expected_call_bindings'])
+
+    def test_both_complete_programs(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([row['statements'] for row in rows], [31, 31])
+        self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
+
+    def test_csr_casts_channel_loop_dtype_masks_and_updates_are_preserved(self):
+        for before, after in [
+                ('end_l = tl.load(layout_ptr + 1).to(tl.int32)', 'end_l = tl.load(layout_ptr).to(tl.int32)'),
+                ('tl.load(layout_csr_col_indices + layout_h * layout_csr_col_stride_h + col_idx_idx).to(tl.int32)',
+                 'tl.load(layout_csr_col_indices + layout_h * layout_csr_col_stride_h + col_idx_idx)'),
+                ('tl.static_range(NUM_D_BLOCKS)', 'tl.static_range(1)'),
+                ('qk += tl.dot(q, k)', 'qk = tl.dot(q, k)'),
+                ('p = p.to(Q.dtype.element_ty)', 'p = p'),
+                ('offs_n[None, :] + start_n < total_seq_len', 'offs_n[None, :] + start_n <= total_seq_len'),
+                ('l_i = l_i_new', 'l_i = l_ij')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                self.verify(self.lean.replace(before, after, 1))
+
+    def test_candidate_changes_only_the_existing_integer_head_expression(self):
+        original_path = self.directory / 'block_sparse_attn.py'
+        candidate_path = self.directory / 'block_sparse_attn_quotient_remainder.py'
+        original = ast.parse(original_path.read_text())
+        candidate = ast.parse(candidate_path.read_text())
+        fn = next(n for n in candidate.body if isinstance(n, ast.FunctionDef)
+                  and n.name == 'block_sparse_attention_kernel')
+        stmt = next(n for n in fn.body if isinstance(n, ast.Assign)
+                    and ast.unparse(n.targets[0]) == 'off_h')
+        self.assertEqual(ast.unparse(stmt.value), 'off_bh - off_bh // num_heads * num_heads')
+        stmt.value = ast.parse('off_bh % num_heads', mode='eval').body
+        self.assertEqual(ast.dump(original), ast.dump(candidate))
+        import hashlib
+        provenance = json.loads((self.directory / 'candidate-provenance.json').read_text())
+        self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance['original_sha256'])
+        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])
+
 if __name__ == "__main__":
     unittest.main()
 

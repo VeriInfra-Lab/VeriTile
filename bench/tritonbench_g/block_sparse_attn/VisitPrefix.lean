@@ -24,7 +24,7 @@ def visitPrefixExecution {α : Type} [Inhabited α] (a : Arithmetic α)
   have cols := integers "cols" (by simp)
   refine ⟨?_,?_⟩
   swap
-  simp [body,source,declared,ComputeKernel.surfaceBody,run,FP.Structural.step,
+  simp [body,source,declared,originalBody,quotientRemainderBody,ComputeKernel.surfaceBody,run,FP.Structural.step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,numeric,bop,natLt,numericLt,
     ComputeDType.eraseDType,ofFloat,toFloat,Region.cast,Option.bind,
     integralFloorDiv,integralMod,Arithmetic.model,Int32Bits.valuesValid,

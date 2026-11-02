@@ -28,7 +28,7 @@ def prefixExecution_local {α : Type} [Inhabited α] (M : Algebra α)
   dsimp only [first,last,rowPointer,layout,head] at rows0 rows1
   refine ⟨?_, ?_⟩
   swap
-  simp [prelude,source,declared,ComputeKernel.surfaceBody,run,FP.Structural.step,evalExpr,evalComputeOp,
+  simp [prelude,source,declared,originalBody,quotientRemainderBody,ComputeKernel.surfaceBody,run,FP.Structural.step,evalExpr,evalComputeOp,
     evalOp_unfold,evalOffsets,evalDeltas,numeric,bop,natLt,numericLt,
     ComputeDType.eraseDType,ofFloat,toFloat,Region.cast,Option.bind,
     integralFloorDiv,integralMod,Int32Bits.valuesValid,rows0,rows1]
@@ -63,7 +63,7 @@ def visitPrefixExecution_local {α : Type} [Inhabited α] (a : Arithmetic α)
   dsimp only [ColumnInt32,csrColumn] at cols
   refine ⟨?_,?_⟩
   swap
-  simp [body,source,declared,ComputeKernel.surfaceBody,run,FP.Structural.step,
+  simp [body,source,declared,originalBody,quotientRemainderBody,ComputeKernel.surfaceBody,run,FP.Structural.step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,numeric,bop,natLt,numericLt,
     ComputeDType.eraseDType,ofFloat,toFloat,Region.cast,Option.bind,
     integralFloorDiv,integralMod,Arithmetic.model,Int32Bits.valuesValid,

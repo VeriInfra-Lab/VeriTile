@@ -19,7 +19,7 @@ def prefixExecution {α : Type} [Inhabited α] (M : Algebra α)
   have rows := integers "rows" (by simp)
   refine ⟨?_, ?_⟩
   swap
-  simp [prelude,source,declared,ComputeKernel.surfaceBody,run,FP.Structural.step,evalExpr,evalComputeOp,
+  simp [prelude,source,declared,originalBody,quotientRemainderBody,ComputeKernel.surfaceBody,run,FP.Structural.step,evalExpr,evalComputeOp,
     evalOp_unfold,evalOffsets,evalDeltas,numeric,bop,natLt,numericLt,
     ComputeDType.eraseDType,ofFloat,toFloat,Region.cast,Option.bind,
     integralFloorDiv,integralMod,Int32Bits.valuesValid,rows]
