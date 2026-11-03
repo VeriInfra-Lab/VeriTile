@@ -15,16 +15,16 @@ theorem range_safe (c : Call) (o : Ops α) (positive : 0<c.BN) (bounds : RegionN
     (live : Matches c o (inputs initialState) old s) (memory : s.mem=initialState.mem)
     (windows : Windows c (inputs initialState) bounds)
     (cur : Nat) (aligned : c.BN∣cur) (pointers : PointerAt c (inputs initialState) old cur) :
-    rangeIntSafe (engine o.algebra) bounds "start_n" cur (upper c (inputs initialState)) c.BN
+    rangeIntSafe (engine o.algebra) bounds "__veritile_statement_jit_local_11_start_n" cur (upper c (inputs initialState)) c.BN
       (parts c).body s := by
   rw [rangeIntSafe_unfold,if_neg (Nat.ne_of_gt positive)]
   by_cases active : (cur : Int)<upper c (inputs initialState)
   · rw [if_pos active]
-    have key := key_bounds c (inputs initialState) bounds windows cur aligned active
-    have value := value_bounds c (inputs initialState) bounds windows cur aligned active
+    have key := key_bounds c (inputs initialState) bounds windows cur aligned active pointers.2.2
+    have value := value_bounds c (inputs initialState) bounds windows cur aligned active pointers.2.2
     rw [←pointers.1] at key
-    rw [←pointers.2] at value
-    refine ⟨body_safe c o positive bounds initialState s old live cur key value,?_⟩
+    rw [←pointers.2.1] at value
+    refine ⟨body_safe c o positive bounds initialState s old live cur memory key value,?_⟩
     obtain ⟨mid,ran,live',memory'⟩ := body c o positive initialState s old live memory cur
     rw [ran]
     simpa only [Nat.cast_add] using range_safe c o positive bounds initialState mid
@@ -40,11 +40,11 @@ theorem loop_safe (c : Call) (o : Ops α) (positive : 0<c.BN) (bounds : RegionNa
     (live : Matches c o (inputs initialState) (initial c o (inputs initialState)) s)
     (memory : s.mem=initialState.mem) (windows : Windows c (inputs initialState) bounds) :
     stepSafe (engine o.algebra) bounds
-      (.forRangeInt "start_n" (parts c).start (parts c).stop (parts c).stride (parts c).body) s := by
+      (.forRangeInt "__veritile_statement_jit_local_11_start_n" (parts c).start (parts c).stop (parts c).stride (parts c).body) s := by
   have safe := range_safe c o positive bounds initialState s _ live memory windows
     (lower c (inputs initialState)).toNat (lower_aligned c _ positive) (initial_pointer c o _)
   rw [Int.toNat_of_nonneg (lower_nonnegative c _)] at safe
-  rcases live with ⟨_,_,_,_,_,_,_,_,_,_,_,hlo,hhi⟩
+  rcases live with ⟨_,_,_,_,_,_,_,_,_,_,_,hlo,hhi,_,_,_,_⟩
   have lo : evalOp (engine o.algebra) none (parts c).start s=
       some (fun _ => lower c (inputs initialState)) := hlo
   have hi : evalOp (engine o.algebra) none (parts c).stop s=
@@ -52,10 +52,10 @@ theorem loop_safe (c : Call) (o : Ops α) (positive : 0<c.BN) (bounds : RegionNa
   have stride : evalOp (engine o.algebra) none (parts c).stride s=some (fun _ => c.BN) := rfl
   rw [stepSafe_unfold]
   refine ⟨?_,?_,?_,?_⟩
-  · change safeOp (engine o.algebra) none bounds s (.ref .int [] "lo")
+  · change safeOp (engine o.algebra) none bounds s (.ref .int [] "__veritile_statement_jit_local_11_lo")
     rw [safeOp_unfold]
     trivial
-  · change safeOp (engine o.algebra) none bounds s (.ref .int [] "hi")
+  · change safeOp (engine o.algebra) none bounds s (.ref .int [] "__veritile_statement_jit_local_11_hi")
     rw [safeOp_unfold]
     trivial
   · change safeOp (engine o.algebra) none bounds s (.constNat c.BN)

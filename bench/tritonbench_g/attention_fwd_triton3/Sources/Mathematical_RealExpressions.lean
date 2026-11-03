@@ -1,13 +1,10 @@
-import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_Kernels
+import VeriTile.Triton.DSL
 import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealKeys
 import VeriTile.Triton.Semantics.Integer
 import VeriTile.Triton.Semantics.Step
 import VeriTile.Meta.StatementAudit
 
-/-! Real-side expression facts for the full typed source. The syntax checks
-locate actual assignments in both kernels; evaluation then relates their
-signed coordinates to the independent window predicate. These are helpers for
-the remaining whole-kernel real execution proof, not replacements for it. -/
+/-! Pure signed-window arithmetic and generic syntax inspectors. Actual pasted-source execution is proved in Proofs/BodyScore.lean. -/
 namespace VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealExpressions
 open VeriTile.Triton
 
@@ -186,39 +183,6 @@ def assignmentChoice? : Nat → RegName → List ComputeStmt → Option ComputeS
         | .forRangeInt _ _ _ _ body => assignmentChoice? n name body
         | _ => none
       found <|> assignmentChoice? n name rest
-
-section
-variable (Q K V M Out L : RegionName) (sm_scale : ℝ)
-    (stride_qz stride_qh stride_qm stride_qk
-      stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn
-      stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX
-      IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N END INIT
-      SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW : Nat)
-    (sliding_window_offset sliding_window_size : Int)
-
-theorem original_distance_source :
-    assignment? 128 "dist" (TypedSource.original Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).surfaceBody =
-      some (.assign .int [BLOCK_M, BLOCK_N] "dist"
-        (.alg (distanceExpr BLOCK_M BLOCK_N sliding_window_offset))) := rfl
-
-theorem candidate_distance_source :
-    assignment? 128 "dist" (TypedSource.reciprocal Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).surfaceBody =
-      some (.assign .int [BLOCK_M, BLOCK_N] "dist"
-        (.alg (distanceExpr BLOCK_M BLOCK_N sliding_window_offset))) := rfl
-
-end
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

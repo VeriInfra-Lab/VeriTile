@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 177,
-  "staged_count": 179,
+  "staged_count": 180,
   "pending_count": 19,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "CURRENT_ATTENTION_SOURCE_AND_PROOF_MIGRATION_IN_PROGRESS",
+    "staged_public_proofs": "PRIOR_BATCH_AND_CURRENT_208_ROOT_ATTENTION_GROUP_PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "177 exact-current independently accepted targets, including all 19 examples. StreamK awaits official acceptance; attention_score is revoked pending its source dependency migration; 17 tasks including active attention_fwd_triton3 remain to migrate.",
-    "python_tests": 653,
+    "official_comparator": "177 exact-current independently accepted targets, including all 19 examples. StreamK retry is in progress. attention_fwd_triton3 and dependent attention_score passed all local body/public-proof/retained-module checks and await 208-root official replay. 16 tasks remain uncovered; no local build is counted as completion.",
+    "python_tests": 657,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "The previous full integrated snapshot passed 185 cases, 7012 retained/support roots, 15726 Lake jobs, 465 public theorem names and 653 Python tests. That snapshot is not validation of the current Attention proof migration. Current exact-source receipts accept 177 targets. INT8 quantization/GEMM and all nine signed-accumulator dependency cases are accepted. attention_score remains explicitly revoked; StreamK is still replay-pending.",
+    "working_tree": "The previous full integrated snapshot passed 185 cases, 7012 retained/support roots, 15726 Lake jobs, 465 public theorem names and 653 Python tests. Current Attention changes passed all 133 owned modules, the shared guarded-JIT frontend/regression, all 73 dependent attention_score modules, actual four public theorem targets and 657 Python tests. Final changes to 16 module comments were checked to preserve the complete Lean code token stream. No full-corpus independent acceptance is inferred. Exact-current receipts still accept 177 targets; the new Attention group and StreamK retry remain pending.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -2643,6 +2643,28 @@
       "previous_failed_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478",
       "previous_failure": "78/79 roots accepted; SourceAdapter inventory parse failed because the audit import reserves the local binder full. Renamed that binder to fullKernel and replayed its audit-prepared source locally. Restored the StreamKControlSource regression under the current Invocation ABI and added it to required replay roots.",
       "required_replay_roots": 80
+    },
+    "attention_fwd_triton3_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 133,
+      "shared_replay_roots": 2,
+      "dependent_revalidation": "bench/tritonbench_g/attention_score",
+      "dependent_owned_modules": 73,
+      "required_replay_roots": 208,
+      "source_pairs": 6,
+      "public_theorems": 4,
+      "python_tests": 657,
+      "source_repair": "All original helper/caller and candidate helper/caller bodies are pasted exactly. FP32 ABI and guarded helper captures are outside those bodies. Every integer/float cast, tuple assignment, window clamp, NaN alpha guard, mask and padded store is retained.",
+      "real_proof": "Actual repaired quotation in the explicit WithBot Real backend, finite six-input binding, cast-aware independent maximum and weighted sums, complete ordinary grid, safety, typed outputs and frame. Existing Valid c domain retained; no cast/load identity premise.",
+      "fp_proof": "Whole repaired-source versus actual key-mask CSE grid on the unchanged arbitrary-array native graph domain. No numerical rewrite assumption.",
+      "retirement_record": "bench/tritonbench_g/attention_fwd_triton3/source-retirement.json",
+      "boundary": "Exact-current official acceptance of every owned/shared root and all public theorem names is still required. Compilation and AST correspondence do not complete a target."
+    },
+    "staged_manifest": {
+      "cases": 186,
+      "build_roots": 7148,
+      "replay_roots": 6151,
+      "boundary": "Manifest coverage is not completion or a fresh full integration build result."
     }
   },
   "targets": [
@@ -2753,8 +2775,13 @@
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton3",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "independent_replay": "AWAITING_DISPATCH",
+      "reason": "All four original/candidate functions match the repaired Python bodies exactly. Actual public Real and FP proofs, all 133 owned modules, shared guarded-JIT frontend regression and 657 Python tests pass locally. Historical full quotations and their source certificates are retired explicitly; pure shared mathematical helpers remain. The Real formula retains signed32 pointer conversion and the existing broad Valid c domain. Exact-current independent replay of all retained roots and dependent attention_score is required before completion."
     },
     {
       "path": "bench/tritonbench_g/attention_kernel",
@@ -2804,7 +2831,8 @@
       "validated_source_commit": "72ec347b6ddda442215140ff6a202776d90f17c2",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41533126901",
       "previous_receipt": "validation/body_receipts/attention-score-source-migration.json",
-      "independent_replay": "PENDING"
+      "independent_replay": "AWAITING_DEPENDENCY_REPLAY",
+      "local_dependent_rebuild": "PASS_ALL_73_OWNED_MODULES"
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_causal",

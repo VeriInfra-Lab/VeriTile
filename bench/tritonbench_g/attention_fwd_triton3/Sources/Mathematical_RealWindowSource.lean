@@ -1,7 +1,6 @@
 import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealWindow
 
-/-! Source correspondence for the entire window branch, including clipping,
-alignment hint, both pointer advances and the unreachable complement arm. -/
+/-! Generic window-fragment erasure identities and syntax inspectors. The actual source signed32 pointer advance is retained in Proofs/WindowBranch.lean and CastBounds.lean. -/
 namespace VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealWindowSource
 open VeriTile.Triton
 
@@ -66,67 +65,6 @@ theorem erased_window (k : ComputeKernel) (h : k.toAlgorithm? = .ok k.toAlgKerne
     window? k.eraseDType.toAlgKernel.body = (window? k.toAlgKernel.body).map Stmt.eraseDType := by
   rw [RealInitSource.erased_body k h]
   exact window_erase _
-
-section
-variable (Q K V M Out L : RegionName) (sm_scale : ℝ)
-    (stride_qz stride_qh stride_qm stride_qk
-      stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn
-      stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX
-      IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N END INIT
-      SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW : Nat)
-    (sliding_window_offset sliding_window_size : Int)
-
-set_option maxHeartbeats 8000000 in
-set_option maxRecDepth 16000 in
-theorem original_window :
-    window? (TypedSource.original Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).eraseDType.toAlgKernel.body =
-      some (RealWindow.code BLOCK_M BLOCK_N BLOCK_DMODEL NKV_CTX SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-        sliding_window_offset sliding_window_size) := by
-  have h : window? (TypedSource.original Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).toAlgKernel.body =
-      some (RealWindow.code BLOCK_M BLOCK_N BLOCK_DMODEL NKV_CTX SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-        sliding_window_offset sliding_window_size) := by rfl
-  exact (erased_window _ (by rfl)).trans
-    ((congrArg (fun st => st.map Stmt.eraseDType) h).trans
-      (congrArg some (code_erase BLOCK_M BLOCK_N BLOCK_DMODEL NKV_CTX SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-        sliding_window_offset sliding_window_size)))
-
-set_option maxHeartbeats 8000000 in
-set_option maxRecDepth 16000 in
-theorem candidate_window :
-    window? (TypedSource.reciprocal Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).eraseDType.toAlgKernel.body =
-      some (RealWindow.code BLOCK_M BLOCK_N BLOCK_DMODEL NKV_CTX SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-        sliding_window_offset sliding_window_size) := by
-  have h : window? (TypedSource.reciprocal Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).toAlgKernel.body =
-      some (RealWindow.code BLOCK_M BLOCK_N BLOCK_DMODEL NKV_CTX SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-        sliding_window_offset sliding_window_size) := by rfl
-  exact (erased_window _ (by rfl)).trans
-    ((congrArg (fun st => st.map Stmt.eraseDType) h).trans
-      (congrArg some (code_erase BLOCK_M BLOCK_N BLOCK_DMODEL NKV_CTX SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-        sliding_window_offset sliding_window_size)))
-
-end
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

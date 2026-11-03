@@ -1,0 +1,398 @@
+[
+  {
+    "kind": "statement_jit_function",
+    "python": "bench/tritonbench_g/attention_fwd_triton3/attention_fwd_triton3.py",
+    "lean": "bench/tritonbench_g/attention_fwd_triton3/Sources/Body.lean",
+    "python_function": "_attn_fwd_inner",
+    "lean_definition": "inner"
+  },
+  {
+    "python": "bench/tritonbench_g/attention_fwd_triton3/attention_fwd_triton3.py",
+    "lean": "bench/tritonbench_g/attention_fwd_triton3/Sources/Body.lean",
+    "python_function": "_attn_fwd",
+    "lean_definition": "kernel",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "M",
+          "fp32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ],
+        [
+          "L",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_on",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "H_KV",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "ROUND_CTX",
+          "integer"
+        ],
+        [
+          "NKV_CTX",
+          "integer"
+        ],
+        [
+          "sliding_window_offset",
+          "integer"
+        ],
+        [
+          "sliding_window_size",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_EVEN_M",
+        "IS_EVEN_N",
+        "BLOCK_M",
+        "BLOCK_DMODEL",
+        "BLOCK_N",
+        "END",
+        "INIT",
+        "SLIDING_WINDOW",
+        "COMPLEMENT_SLIDING_WINDOW"
+      ],
+      "readPorts": [
+        "M",
+        "L",
+        "Out",
+        "Q",
+        "K",
+        "V"
+      ],
+      "writePorts": [
+        "L",
+        "M",
+        "Out"
+      ]
+    },
+    "expected_call_bindings": {
+      "sm_scale": "sm_scale",
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vk": "stride_vk",
+      "stride_vn": "stride_vn",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_on": "stride_on",
+      "Z": "Z",
+      "H": "H",
+      "H_KV": "H_KV",
+      "N_CTX": "N_CTX",
+      "ROUND_CTX": "ROUND_CTX",
+      "NKV_CTX": "NKV_CTX",
+      "sliding_window_offset": "sliding_window_offset",
+      "sliding_window_size": "sliding_window_size"
+    },
+    "expected_jit_functions": {
+      "_attn_fwd_inner": "inner"
+    }
+  },
+  {
+    "kind": "statement_jit_function",
+    "python": "bench/tritonbench_g/attention_fwd_triton3/key_mask_cse.py",
+    "lean": "bench/tritonbench_g/attention_fwd_triton3/Sources/Body.lean",
+    "python_function": "_attn_fwd_inner_key_mask_cse",
+    "lean_definition": "innerCSE"
+  },
+  {
+    "python": "bench/tritonbench_g/attention_fwd_triton3/key_mask_cse.py",
+    "lean": "bench/tritonbench_g/attention_fwd_triton3/Sources/Body.lean",
+    "python_function": "_attn_fwd_key_mask_cse",
+    "lean_definition": "kernelCSE",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "M",
+          "fp32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ],
+        [
+          "L",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_on",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "H_KV",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "ROUND_CTX",
+          "integer"
+        ],
+        [
+          "NKV_CTX",
+          "integer"
+        ],
+        [
+          "sliding_window_offset",
+          "integer"
+        ],
+        [
+          "sliding_window_size",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_EVEN_M",
+        "IS_EVEN_N",
+        "BLOCK_M",
+        "BLOCK_DMODEL",
+        "BLOCK_N",
+        "END",
+        "INIT",
+        "SLIDING_WINDOW",
+        "COMPLEMENT_SLIDING_WINDOW"
+      ],
+      "readPorts": [
+        "M",
+        "L",
+        "Out",
+        "Q",
+        "K",
+        "V"
+      ],
+      "writePorts": [
+        "L",
+        "M",
+        "Out"
+      ]
+    },
+    "expected_call_bindings": {
+      "sm_scale": "sm_scale",
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vk": "stride_vk",
+      "stride_vn": "stride_vn",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_on": "stride_on",
+      "Z": "Z",
+      "H": "H",
+      "H_KV": "H_KV",
+      "N_CTX": "N_CTX",
+      "ROUND_CTX": "ROUND_CTX",
+      "NKV_CTX": "NKV_CTX",
+      "sliding_window_offset": "sliding_window_offset",
+      "sliding_window_size": "sliding_window_size"
+    },
+    "expected_jit_functions": {
+      "_attn_fwd_inner_key_mask_cse": "innerCSE"
+    }
+  }
+]

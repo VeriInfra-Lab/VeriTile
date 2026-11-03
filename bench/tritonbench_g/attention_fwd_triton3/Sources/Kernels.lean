@@ -8,9 +8,7 @@ noncomputable section
 set_option maxHeartbeats 4000000
 set_option maxRecDepth 20000
 
-/-- Complete selected FP32 source. Integer-width repair is represented in the
-separate machine certificate; integer casts erase to mathematical indices.
-No floating expression, reduction, NaN alpha guard, or store is removed. -/
+/-- Complete repaired FP32 source, including every integer cast, helper call, floating conversion and padded store. -/
 def source (c : Call) : ComputeKernel :=
   FP32Source.original "Q" "K" "V" "M" "O" "L" c.scale
     c.q.batch c.q.head c.q.row c.q.dim

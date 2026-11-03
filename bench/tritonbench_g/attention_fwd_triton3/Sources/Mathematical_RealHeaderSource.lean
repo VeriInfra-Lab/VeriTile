@@ -1,8 +1,6 @@
 import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealPointers
 
-/-! Check the complete leading assignment sequence, from program_id through
-l_ptrs, in both source kernels. The selector stops at the first control-flow
-statement, retaining every assignment in order without positional indices. -/
+/-! Generic header-fragment erasure identities and syntax inspectors. Actual caller/helper capture and execution are checked in the current Prelude and Window proofs. -/
 namespace VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealHeaderSource
 open VeriTile.Triton
 
@@ -57,83 +55,6 @@ theorem code_erase (BM BN BD heads kvHeads : Nat) (p : RealHeader.Strides) (m : 
     Stmt.eraseDTypeList (RealHeader.code heads kvHeads p ++ RealPointers.code BM BN BD m) =
       RealHeader.code heads kvHeads p ++ RealPointers.code BM BN BD m := by
   rw [erase_append, coordinates_erase, pointers_erase]
-
-section
-variable (Q K V M Out L : RegionName) (sm_scale : ℝ)
-    (stride_qz stride_qh stride_qm stride_qk
-      stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn
-      stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX
-      IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N END INIT
-      SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW : Nat)
-    (sliding_window_offset sliding_window_size : Int)
-
-set_option maxHeartbeats 8000000 in
-set_option maxRecDepth 16000 in
-theorem original_prefix :
-    let strides : RealHeader.Strides := ⟨stride_qz, stride_qh, stride_kz, stride_kh,
-      stride_vz, stride_vh, stride_oz, stride_oh⟩
-    let layout : RealPointers.Layout :=
-      { Q := Q, K := K, V := V, M := M, Out := Out, L := L,
-        queryContext := N_CTX, roundedContext := ROUND_CTX, kvContext := NKV_CTX,
-        qRow := stride_qm, qDim := stride_qk, kDim := stride_kk, kRow := stride_kn,
-        vRow := stride_vk, vDim := stride_vn, oRow := stride_om, oDim := stride_on }
-    leadingAssignments (TypedSource.original Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).eraseDType.toAlgKernel.body =
-      RealHeader.code H H_KV strides ++ RealPointers.code BLOCK_M BLOCK_N BLOCK_DMODEL layout := by
-  dsimp only
-  have h : leadingAssignments (TypedSource.original Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).toAlgKernel.body =
-      RealHeader.code H H_KV ⟨stride_qz, stride_qh, stride_kz, stride_kh, stride_vz, stride_vh, stride_oz, stride_oh⟩ ++
-      RealPointers.code BLOCK_M BLOCK_N BLOCK_DMODEL
-        { Q := Q, K := K, V := V, M := M, Out := Out, L := L,
-          queryContext := N_CTX, roundedContext := ROUND_CTX, kvContext := NKV_CTX,
-          qRow := stride_qm, qDim := stride_qk, kDim := stride_kk, kRow := stride_kn,
-          vRow := stride_vk, vDim := stride_vn, oRow := stride_om, oDim := stride_on } := by rfl
-  exact (erased_prefix _ (by rfl)).trans ((congrArg Stmt.eraseDTypeList h).trans (code_erase _ _ _ _ _ _ _))
-
-set_option maxHeartbeats 8000000 in
-set_option maxRecDepth 16000 in
-theorem candidate_prefix :
-    let strides : RealHeader.Strides := ⟨stride_qz, stride_qh, stride_kz, stride_kh,
-      stride_vz, stride_vh, stride_oz, stride_oh⟩
-    let layout : RealPointers.Layout :=
-      { Q := Q, K := K, V := V, M := M, Out := Out, L := L,
-        queryContext := N_CTX, roundedContext := ROUND_CTX, kvContext := NKV_CTX,
-        qRow := stride_qm, qDim := stride_qk, kDim := stride_kk, kRow := stride_kn,
-        vRow := stride_vk, vDim := stride_vn, oRow := stride_om, oDim := stride_on }
-    leadingAssignments (TypedSource.reciprocal Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).eraseDType.toAlgKernel.body =
-      RealHeader.code H H_KV strides ++ RealPointers.code BLOCK_M BLOCK_N BLOCK_DMODEL layout := by
-  dsimp only
-  have h : leadingAssignments (TypedSource.reciprocal Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).toAlgKernel.body =
-      RealHeader.code H H_KV ⟨stride_qz, stride_qh, stride_kz, stride_kh, stride_vz, stride_vh, stride_oz, stride_oh⟩ ++
-      RealPointers.code BLOCK_M BLOCK_N BLOCK_DMODEL
-        { Q := Q, K := K, V := V, M := M, Out := Out, L := L,
-          queryContext := N_CTX, roundedContext := ROUND_CTX, kvContext := NKV_CTX,
-          qRow := stride_qm, qDim := stride_qk, kDim := stride_kk, kRow := stride_kn,
-          vRow := stride_vk, vDim := stride_vn, oRow := stride_om, oDim := stride_on } := by rfl
-  exact (erased_prefix _ (by rfl)).trans ((congrArg Stmt.eraseDTypeList h).trans (code_erase _ _ _ _ _ _ _))
-
-end
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

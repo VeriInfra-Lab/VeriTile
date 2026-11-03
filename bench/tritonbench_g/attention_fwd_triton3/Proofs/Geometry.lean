@@ -1,5 +1,4 @@
 import bench.tritonbench_g.attention_fwd_triton3.Sources.SourceDefinitions
-import bench.tritonbench_g.attention_fwd_triton3.Proofs.Mathematical_MathematicalSpecification
 import VeriTile.Triton.Launch.Composition
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3.Geometry

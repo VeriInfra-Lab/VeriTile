@@ -1,9 +1,7 @@
 import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealExecutionSource
 import VeriTile.Triton.Memory.TraceProofs
 
-/-! Compositional access-safety helpers for the actual source. Bounds refer to
-active addresses, including unchecked output stores. Checked load lanes outside
-the parent shape are inactive; no numerical or output equation is assumed. -/
+/-! Compositional access-safety helpers for internal mathematical fragments. Bounds refer to active addresses; no numerical or desired-output equation is assumed. -/
 namespace VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealAccess
 open VeriTile.Triton
 

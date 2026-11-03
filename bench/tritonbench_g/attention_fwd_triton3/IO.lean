@@ -1,18 +1,15 @@
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.RealBackend
+import VeriTile.Triton.Float.LogicalProgramIO
 import VeriTile.Triton.Memory.LogicalIO
 import VeriTile.Triton.Float.ArrayProgramEquivalenceSyntax
 import VeriTile.Triton.Float.ArrayProgramIO
-import bench.tritonbench_g.attention_fwd_triton3.Proofs.NativeProjection
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.NativeExpr
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Grid
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Ownership
 import VeriTile.Triton.Memory.AlgorithmProgramIO
-import bench.tritonbench_g.attention_fwd_triton3.Proofs.Whole
-import bench.tritonbench_g.attention_fwd_triton3.Proofs.Erasure
 import bench.tritonbench_g.attention_fwd_triton3.Kernels
 
-/-! Finite six-port IO for the complete ordinary grid. The channel coordinates
-retain the program, row and feature dimensions; repeated read coordinates are
-bound simultaneously. The mathematical source explicitly erases the original
-FP32 quotation. Carry ports alias their own outputs, and L is preserved at END.
-The separate existing flat-memory and Tensor transport remains in Auxiliary.
--/
+/-! Finite six-port layouts for the complete ordinary grid. Channel coordinates retain program, row and feature dimensions; repeated reads are pinned simultaneously. The explicit Real backend and native graph backend execute the same repaired source AST. M/L/O carry ports alias their outputs; END preserves L. Logical coordinate equivalences retain all input and output data. -/
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface
 open VeriTile Triton
 open VeriTile.Bench.Repairs.AttentionFwdTriton3
@@ -47,44 +44,6 @@ def inputActive (c : Call) (i : Fin 6) (j : InputPoint c i) : Prop :=
 def outputAddress (c : Call) (o : Fin 3) (j : OutputPoint c o) : Nat :=
   c.io.outputWindowFor o (c.tile j.1) (c.hz j.1) 0 j.2
 def outputActive (c : Call) (o : Fin 3) : Prop := c.io.outputMask o
-
-theorem source_erasure (c : Call) : (Kernels.source c).eraseDType=c.io.kernel := by
-  exact FP32Profile.erases "Q" "K" "V" "M" "O" "L" c.scale
-    c.q.batch c.q.head c.q.row c.q.dim
-    c.k.batch c.k.head c.k.row c.k.dim
-    c.v.batch c.v.head c.v.row c.v.dim
-    c.o.batch c.o.head c.o.row c.o.dim
-    c.Z c.H c.HK c.NQ c.rounded c.NK
-    c.params.evenM c.params.evenN c.BM c.D c.BN c.finish c.init c.window c.complement c.offset c.size
-
-def selectedSource (c : Call) : AlgorithmSource where
-  kernel := (Kernels.source c).eraseDType
-  projection := by
-    rw [source_erasure]
-    exact c.io.projection
-
-def programIO (c : Call) : AlgorithmProgramIO where
-  nIn := 6
-  nOut := 3
-  nScr := 0
-  bufs := ["Q","K","V","M","L","O"]
-  ity := fun _ => .float
-  iarity := inputArity c
-  ibuf := inputRegion
-  oty := fun _ => .float
-  oarity := outputArity c
-  obuf := outputRegion
-  obuf_mem := by intro o; fin_cases o <;> simp [outputRegion]
-  sarity := Fin.elim0
-  sbuf := Fin.elim0
-  iwin := fun i _ _ _ _ j => inputAddress c i ((inputCoordinates c i).symm j)
-  imask := fun i _ _ _ _ j => inputActive c i ((inputCoordinates c i).symm j)
-  owin := fun o _ _ _ _ j => outputAddress c o ((outputCoordinates c o).symm j)
-  omask := fun o _ _ _ _ _ => outputActive c o
-  swin := fun i => Fin.elim0 i
-  smask := fun i => Fin.elim0 i
-  initialUndef := .zero
-  stages := fun _ => [.ordinary (selectedSource c) c.grid]
 
 end
 end VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface
@@ -202,6 +161,96 @@ def localInputs (c : Call) (v : Inputs c) (idx : GridIndex c.grid) :
 end
 end VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface
 
+namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface
+open VeriTile Triton FP.Structural
+open VeriTile.Bench.Repairs.AttentionFwdTriton3
+open Host
+noncomputable section
+
+def modelInputPorts (c : Call) : List IOChannel :=
+  [⟨.real,[inputArity c 0],inputRegion 0⟩,⟨.real,[inputArity c 1],inputRegion 1⟩,⟨.real,[inputArity c 2],inputRegion 2⟩,⟨.real,[inputArity c 3],inputRegion 3⟩,⟨.real,[inputArity c 4],inputRegion 4⟩,⟨.real,[inputArity c 5],inputRegion 5⟩]
+
+def modelOutputPorts (c : Call) : List IOChannel := NativeInterface.outputPorts c
+
+@[simp] theorem model_input_port (c : Call) (i : Fin 6) :
+    (modelInputPorts c)[i]=⟨.real,[inputArity c i],inputRegion i⟩ := by fin_cases i <;> rfl
+
+@[simp] theorem model_output_port (c : Call) (i : Fin 3) :
+    (modelOutputPorts c)[i]=⟨.real,[outputArity c i],outputRegion i⟩ := by fin_cases i <;> rfl
+
+def packInputs (c : Call) (values : Inputs c) : ChannelValues ℝ (modelInputPorts c) :=
+  Fin.cases (fun j => values 0 j.1) (Fin.cases (fun j => values 1 j.1) (Fin.cases (fun j => values 2 j.1) (Fin.cases (fun j => values 3 j.1) (Fin.cases (fun j => values 4 j.1) (Fin.cases (fun j => values 5 j.1) ((fun i => Fin.elim0 i)))))))
+
+def unpackInputs (c : Call) (raw : ChannelValues ℝ (modelInputPorts c)) : Inputs c :=
+  Fin.cases (fun j => raw (0 : Fin 6) (j,PUnit.unit)) (Fin.cases (fun j => raw (1 : Fin 6) (j,PUnit.unit)) (Fin.cases (fun j => raw (2 : Fin 6) (j,PUnit.unit)) (Fin.cases (fun j => raw (3 : Fin 6) (j,PUnit.unit)) (Fin.cases (fun j => raw (4 : Fin 6) (j,PUnit.unit)) (Fin.cases (fun j => raw (5 : Fin 6) (j,PUnit.unit)) ((fun i => Fin.elim0 i)))))))
+
+def modelInputsEquiv (c : Call) : ChannelValues ℝ (modelInputPorts c) ≃ Inputs c where
+  toFun:=unpackInputs c
+  invFun:=packInputs c
+  left_inv:=by
+    intro raw
+    funext i j
+    fin_cases i <;> rcases j with ⟨r,tail⟩ <;> cases tail <;> rfl
+  right_inv:=by
+    intro values
+    funext i j
+    fin_cases i <;> rfl
+
+def packOutputs (c : Call) (values : Outputs c) : ChannelValues ℝ (modelOutputPorts c) :=
+  Fin.cases (fun j => values 0 j.1) (Fin.cases (fun j => values 1 j.1) (Fin.cases (fun j => values 2 j.1) ((fun i => Fin.elim0 i))))
+
+def unpackOutputs (c : Call) (raw : ChannelValues ℝ (modelOutputPorts c)) : Outputs c :=
+  Fin.cases (fun j => raw (0 : Fin 3) (j,PUnit.unit)) (Fin.cases (fun j => raw (1 : Fin 3) (j,PUnit.unit)) (Fin.cases (fun j => raw (2 : Fin 3) (j,PUnit.unit)) ((fun i => Fin.elim0 i))))
+
+def modelOutputsEquiv (c : Call) : ChannelValues ℝ (modelOutputPorts c) ≃ Outputs c where
+  toFun:=unpackOutputs c
+  invFun:=packOutputs c
+  left_inv:=by
+    intro raw
+    funext i j
+    fin_cases i <;> rcases j with ⟨r,tail⟩ <;> cases tail <;> rfl
+  right_inv:=by
+    intro values
+    funext i j
+    fin_cases i <;> rfl
+
+def modelInputIndex (c : Call) (i : Fin 6) (j : TileIndex (modelInputPorts c)[i].shape) :
+    Fin (inputArity c i) :=
+  (cast (congrArg TileIndex (congrArg IOChannel.shape (model_input_port c i))) j).1
+
+def modelJob (c : Call) (idx : GridIndex c.grid) : Invocation Real.R where
+  kernel:=Kernels.source c
+  backend:=FP.ProfiledRewrite.engine Real.ops.algebra
+  clearRegisters:=Bool.true
+  pids:=idx.toPids
+  numPids:=some c.grid.toNumPids
+
+def modelCore (c : Call) : ProgramIO ℝ Real.R where
+  inputs:=modelInputPorts c
+  outputs:=modelOutputPorts c
+  scratch:=[]
+  buffers:=["Q","K","V","M","L","O"]
+  read:=fun i _ j=>inputAddress c i ((inputCoordinates c i).symm (modelInputIndex c i j))
+  inputMask:=fun i _ j=>inputActive c i ((inputCoordinates c i).symm (modelInputIndex c i j))
+  write:=fun o _ j=>outputAddress c o (NativeInterface.outputPoint c o j)
+  outputMask:=fun o _ _=>outputActive c o
+  scratchWrite:=fun i=>Fin.elim0 i
+  scratchMask:=fun i=>Fin.elim0 i
+  schedule:=fun _=>(Reference.Composition.allPrograms c.grid).map (modelJob c)
+  encode:=fun x=>some x
+  observe:=fun _ _ x=>x.unbotD 0
+
+def modelIO (c : Call) : LogicalProgramIO ℝ Real.R (Inputs c) (Outputs c) where
+  core:=modelCore c
+  inputs:=modelInputsEquiv c
+  outputs:=modelOutputsEquiv c
+
+theorem model_uses_source (c : Call) (idx : GridIndex c.grid) :
+    (modelJob c idx).kernel=Kernels.source c := rfl
+
+end
+end VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface
+
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.LogicalIO
 open VeriTile Triton
 open VeriTile.Bench.Repairs.AttentionFwdTriton3
@@ -284,7 +333,7 @@ def outputsEquiv (c : Call) : RealInterface.Outputs c ≃ Outputs c where
 
 def io (c : Call) :
     LogicalIO (RealInterface.Inputs c) (RealInterface.Outputs c)
-      (Inputs c) (Outputs c) (RealInterface.programIO c).Implements where
+      (Inputs c) (Outputs c) (RealInterface.modelIO c).Implements where
   inputs := inputsEquiv c
   outputs := outputsEquiv c
 

@@ -18,13 +18,13 @@ variable {α : Type} [Inhabited α]
 @[simp] theorem float_one : (1.0 : ℝ)=1 := by norm_num
 
 def parts (c : Call) : Source.IntRange :=
-  match Source.intRange? (Kernels.source c).surfaceBody "start_n" with
+  match Source.intRange? (Kernels.source c).surfaceBody "__veritile_statement_jit_local_11_start_n" with
   | some p => p
   | none => ⟨[],.constInt 0,.constInt 0,.constNat 1,[],[]⟩
 
 theorem source_split (c : Call) :
     (Kernels.source c).surfaceBody=(parts c).before ++
-      [.forRangeInt "start_n" (parts c).start (parts c).stop (parts c).stride (parts c).body] ++
+      [.forRangeInt "__veritile_statement_jit_local_11_start_n" (parts c).start (parts c).stop (parts c).stride (parts c).body] ++
       (parts c).after := rfl
 
 /-- Six initial floating buffers and the two launch coordinates. No source
@@ -91,17 +91,17 @@ def initial (c : Call) (o : Ops α) (a : Inputs α) : Carry c α :=
   { center := if c.init≠0 then
       fun _ => M.binary (some .fp32) .real .add (M.literal (some .fp32) .real 0) M.negInf
       else fun i => M.cast (some .fp32) .real .real
-        (a.read "M" (carryAddress c a i.1.val))
+        (M.fp32Load (a.read "M" (carryAddress c a i.1.val)))
     mass := if c.init≠0 then
       fun _ => M.binary (some .fp32) .real .add
         (M.literal (some .fp32) .real 0) (M.literal (some .fp32) .real 1)
       else fun i => M.cast (some .fp32) .real .real
-        (a.read "L" (carryAddress c a i.1.val))
+        (M.fp32Load (a.read "L" (carryAddress c a i.1.val)))
     weighted := if c.init≠0 then fun _ => M.literal (some .fp32) .real 0
       else fun i => M.cast (some .fp32) .real .real
-        (a.read (optr c a).region ((optr c a).address (TileShape.indexToList [c.BM,c.D] i)))
-    keyPointer := if c.window≠0 ∧ c.complement=0 then (kptr c a).advance [0,lower c a] else kptr c a
-    valuePointer := if c.window≠0 ∧ c.complement=0 then (vptr c a).advance [lower c a,0] else vptr c a }
+        (M.fp32Load (a.read (optr c a).region ((optr c a).address (TileShape.indexToList [c.BM,c.D] i))))
+    keyPointer := if c.window≠0 ∧ c.complement=0 then (kptr c a).advance [0,(BitVec.ofInt 32 (lower c a)).toInt] else kptr c a
+    valuePointer := if c.window≠0 ∧ c.complement=0 then (vptr c a).advance [(BitVec.ofInt 32 (lower c a)).toInt,0] else vptr c a }
 
 def windowMask (c : Call) (a : Inputs α) (cur : Int) (i : TileIndex [c.BM,c.BN]) : Bool :=
   let distance := (i.1.val : Int)-i.2.1.val+a.tile*c.BM-cur+c.offset
@@ -157,18 +157,22 @@ def result (c : Call) (o : Ops α) (a : Inputs α) : Carry c α :=
 
 def Matches (c : Call) (o : Ops α) (a : Inputs α) (old : Carry c α) (s : State α) : Prop :=
   s.regs .nat [] "start_m"=some (fun _ => a.tile) ∧
-  s.regs .real [] "qk_scale"=some (fun _ => scale c o) ∧
-  s.regs .real [c.BM,c.D] "q"=some (query c o a) ∧
+  s.regs .real [] "__veritile_statement_jit_7"=some (fun _ => scale c o) ∧
+  s.regs .real [c.BM,c.D] "__veritile_statement_jit_3"=some (query c o a) ∧
   s.regs .ptr [c.BM] "m_ptrs"=some (fun i : TileIndex [c.BM] => (("M" : RegionName),carryAddress c a i.1.val)) ∧
   s.regs .ptr [c.BM] "l_ptrs"=some (fun i : TileIndex [c.BM] => (("L" : RegionName),carryAddress c a i.1.val)) ∧
   s.regs .blockPtr [c.BM,c.D] "O_block_ptr"=some (fun _ => optr c a) ∧
-  s.regs .real [c.BM] "m_i"=some old.center ∧
-  s.regs .real [c.BM] "l_i"=some old.mass ∧
-  s.regs .real [c.BM,c.D] "acc"=some old.weighted ∧
-  s.regs .blockPtr [c.D,c.BN] "K_block_ptr"=some (fun _ => old.keyPointer) ∧
-  s.regs .blockPtr [c.BN,c.D] "V_block_ptr"=some (fun _ => old.valuePointer) ∧
-  s.regs .int [] "lo"=some (fun _ => lower c a) ∧
-  s.regs .int [] "hi"=some (fun _ => upper c a)
+  s.regs .real [c.BM] "__veritile_statement_jit_2"=some old.center ∧
+  s.regs .real [c.BM] "__veritile_statement_jit_1"=some old.mass ∧
+  s.regs .real [c.BM,c.D] "__veritile_statement_jit_0"=some old.weighted ∧
+  s.regs .blockPtr [c.D,c.BN] "__veritile_statement_jit_4"=some (fun _ => old.keyPointer) ∧
+  s.regs .blockPtr [c.BN,c.D] "__veritile_statement_jit_5"=some (fun _ => old.valuePointer) ∧
+  s.regs .int [] "__veritile_statement_jit_local_11_lo"=some (fun _ => lower c a) ∧
+  s.regs .int [] "__veritile_statement_jit_local_11_hi"=some (fun _ => upper c a) ∧
+  s.regs .int [] "__veritile_statement_jit_6"=some (fun _ => (a.tile : Int)) ∧
+  s.regs .nat [] "__veritile_statement_jit_8"=some (fun _ => c.NK) ∧
+  s.regs .int [] "__veritile_statement_jit_9"=some (fun _ => c.offset) ∧
+  s.regs .int [] "__veritile_statement_jit_10"=some (fun _ => c.size)
 
 #specNonCircular result avoiding [FP.Structural.exec,FP.Structural.run,FP.Structural.step,Kernels.source,parts]
 end

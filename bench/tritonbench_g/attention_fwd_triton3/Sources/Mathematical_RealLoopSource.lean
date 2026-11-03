@@ -1,9 +1,6 @@
 import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealLoopContext
 
-/-! Connect the executed signed range to the complete loop statement in
-both typed sources. The checks include the lo/hi registers and BLOCK_N stride,
-not only the body. The prologue must still establish the displayed entry
-registers, bounds and pointer metadata before this execution theorem applies. -/
+/-! A mathematical range template and its generic execution lemmas. The complete repaired quotation is proved separately in Proofs/RealClosedLoop.lean. -/
 namespace VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealLoopSource
 open VeriTile.Triton
 
@@ -32,64 +29,6 @@ theorem erased_loop (k : ComputeKernel) (index : RegName)
   rw [ComputeKernel.eraseDType, h]
   simp only [ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?_fromKernelBody, Kernel.eraseDType]
   exact loop_erase index k.toAlgKernel.body
-
-section
-variable (Q K V M Out L : RegionName) (sm_scale : ℝ)
-    (stride_qz stride_qh stride_qm stride_qk
-      stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn
-      stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX
-      IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N END INIT
-      SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW : Nat)
-    (sliding_window_offset sliding_window_size : Int)
-
-set_option maxHeartbeats 8000000 in
-set_option maxRecDepth 16000 in
-theorem original_loop_source :
-    loop? "start_n" (TypedSource.original Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).eraseDType.toAlgKernel.body =
-      some (statement BLOCK_M BLOCK_N BLOCK_DMODEL NKV_CTX SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-        IS_EVEN_N sliding_window_offset sliding_window_size) := by
-  rw [erased_loop _ _ (by rfl)]
-  dsimp only [TypedSource.original, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Except.bind, bind, loop?, Option.map]
-  simp only [ite_true, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
-    statement, RealBody.body, RealBody.scores, RealBody.probabilities, RealBody.rescale,
-    RealBody.accumulate, RealBody.loadKey, RealBody.tailMask,
-    RealExpressions.maskStmt, RealExpressions.distanceExpr]
-  rfl
-
-set_option maxHeartbeats 8000000 in
-set_option maxRecDepth 16000 in
-theorem candidate_loop_source :
-    loop? "start_n" (TypedSource.reciprocal Q K V M Out L sm_scale
-      stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
-      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on
-      Z H H_KV N_CTX ROUND_CTX NKV_CTX IS_EVEN_M IS_EVEN_N BLOCK_M BLOCK_DMODEL BLOCK_N
-      END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-      sliding_window_offset sliding_window_size).eraseDType.toAlgKernel.body =
-      some (statement BLOCK_M BLOCK_N BLOCK_DMODEL NKV_CTX SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW
-        IS_EVEN_N sliding_window_offset sliding_window_size) := by
-  rw [erased_loop _ _ (by rfl)]
-  dsimp only [TypedSource.reciprocal, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Except.bind, bind, loop?, Option.map]
-  simp only [ite_true, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
-    statement, RealBody.body, RealBody.scores, RealBody.probabilities, RealBody.rescale,
-    RealBody.accumulate, RealBody.loadKey, RealBody.tailMask,
-    RealExpressions.maskStmt, RealExpressions.distanceExpr]
-  rfl
-end
 
 open RealLoop RealLoopFormula RealLoopContext RealScores in
 /-- Execute exactly the source's for-range statement to full-context row

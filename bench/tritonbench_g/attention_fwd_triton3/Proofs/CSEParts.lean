@@ -7,13 +7,13 @@ open VeriTile.Bench.Repairs.AttentionFwdTriton3.Host
 noncomputable section
 
 def parts (c : Call) : Source.IntRange :=
-  match Source.intRange? (Kernels.keyMaskCSE c).surfaceBody "start_n" with
+  match Source.intRange? (Kernels.keyMaskCSE c).surfaceBody "__veritile_statement_jit_local_11_start_n" with
   | some p => p
   | none => ⟨[],.constInt 0,.constInt 0,.constNat 1,[],[]⟩
 
 theorem source_split (c : Call) :
     (Kernels.keyMaskCSE c).surfaceBody=(parts c).before ++
-      [.forRangeInt "start_n" (parts c).start (parts c).stop (parts c).stride (parts c).body] ++
+      [.forRangeInt "__veritile_statement_jit_local_11_start_n" (parts c).start (parts c).stop (parts c).stride (parts c).body] ++
       (parts c).after := rfl
 
 @[simp] theorem before_eq (c : Call) : (parts c).before=(Reference.parts c).before := rfl
