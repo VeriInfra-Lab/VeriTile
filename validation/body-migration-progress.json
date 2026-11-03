@@ -86,7 +86,9 @@
       "cases": 1,
       "retained_modules": 94,
       "replay_sources": 94,
-      "state": "local_pass_ready_for_official_replay"
+      "state": "official_in_progress",
+      "source_commit": "52d6a0b58f2b2527d3f92e8ff87f504eb7c84349",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41627243187"
     },
     "previous_incremental_replays": [
       {
@@ -1110,7 +1112,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Submit Nopad for fixed-source independent replay; collect ongoing Fwd/Llama/Mistral and five unrelated dependent receipts; continue the remaining 25 migrations. No merge.",
+    "current_work": "Complete fixed-source independent replay of four migrated context-attention tasks and the five remaining Int Scaled Matmul dependents; continue remaining 25 migrations, next context_attn_bloom. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -2102,7 +2104,10 @@
       "full_replay_sources": 5271,
       "full_lake_jobs": 14956,
       "public_theorem_count": 443,
-      "boundary": "Local verification only. Completion requires fresh independent acceptance of every required owned root and both public statements against exact current source/import closures."
+      "boundary": "Local verification only. Completion requires fresh independent acceptance of every required owned root and both public statements against exact current source/import closures.",
+      "source_commit": "52d6a0b58f2b2527d3f92e8ff87f504eb7c84349",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41627243187",
+      "independent_replay": "IN_PROGRESS"
     }
   },
   "targets": [
