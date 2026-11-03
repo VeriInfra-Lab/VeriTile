@@ -75,8 +75,8 @@ theorem body_context (M : Algebra α) (dot : Dot α) (p : Parameters)
       (bodyExec M dot p initial current row a ctx).val := by
   have row_step : (row+64)/64=row/64+1 := by omega
   constructor
-  all_goals simp [bodyExec,ctx.memory,ctx.aligned,ctx.rows,ctx.cols,ctx.query,ctx.scale,
-    ctx.keyPointer,ctx.valuePointer,ctx.scalePointer,ctx.outputPointer,ctx.maximum,ctx.normalizer,ctx.value,
+  all_goals simp [counter,bodyExec,ctx.memory,ctx.aligned,ctx.rows,ctx.cols,ctx.query,ctx.scale,
+    ctx.keyPointer,ctx.valuePointer,ctx.scalePointer,ctx.outputPointer,ctx.maximum,ctx.normalizer,ctx.value,ctx.lengthArgument,ctx.keyStrideArgument,ctx.valueStrideArgument,
     update,maximum,rescale,probability,scores,contribution,key,keyScale,value,zero,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def,
     Nat.add_mul,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm,row_step]

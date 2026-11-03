@@ -101,7 +101,7 @@ def kernel (p : Parameters) : ComputeKernel :=
   CandidateSource.shifted p.Q p.K p.V p.QS p.KS p.Out
     p.q.batch p.q.head p.q.row p.q.dim p.k.batch p.k.head p.k.row p.k.dim
     p.v.batch p.v.head p.v.row p.v.dim p.o.batch p.o.head p.o.row p.o.dim
-    p.batches p.heads p.length 96 128 64 128 96 1
+    p.batches p.heads p.length 96 128 64 1
 
 def invocation {α : Type} (M : Algebra α) (dot : Dot α) (p : Parameters) (program : Program) : Invocation α :=
   { Interface.invocation M dot p program with kernel := kernel p }
