@@ -19,6 +19,7 @@ import difflib
 import io
 import tokenize
 import json
+import math
 from pathlib import Path
 import re
 import textwrap
@@ -754,8 +755,12 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             try:
                 original_value, declared_value = ast.literal_eval(value.args[0]), ast.literal_eval(literal)
             except (ValueError, SyntaxError) as error:
-                raise ValueError("source constant must contain a literal integer") from error
-            if type(original_value) is not int or type(declared_value) is not int or original_value != declared_value:
+                raise ValueError("source constant must contain a literal integer or finite floating literal") from error
+            literal_type = type(original_value)
+            if (literal_type not in (int, float) or type(declared_value) is not literal_type
+                    or original_value != declared_value
+                    or (literal_type is float and (not math.isfinite(original_value)
+                        or original_value.hex() != declared_value.hex()))):
                 raise ValueError("source constant differs from the Python module literal")
         for name, target in profile.get("unaryImports", []):
             imports = [node.module + "." + alias.name for node in module.body

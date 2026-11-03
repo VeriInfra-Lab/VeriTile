@@ -10,7 +10,7 @@ abbrev indexCommuted := SourcePair.indexCommuted
 abbrev assumptions := SourcePair.assumptions
 
 /-- Every complete FP32 forward, preparation and backward main/tail template
-is equivalent to its existing mask-index candidate. Only exact natural index
+is equivalent to its existing mask-index candidate. Only exact signed integer index
 multiplication changes; all numerical instructions and failures are retained.
 The unrestricted compiled native IO theorem remains in Misc/NativeCorrect.lean. -/
 specification decay_cumsum_source_equiv (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) :

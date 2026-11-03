@@ -870,6 +870,27 @@ def kernel (x y : RegionName) (MODE : Nat) : ComputeKernel :=
             with self.subTest(python=changed), self.assertRaisesRegex(ValueError, 'intrinsic import'):
                 self.compare(python=changed)
 
+    def float_case(self, declared='1.44269504', actual='1.44269504'):
+        python = self.python.replace('tl.constexpr(0)', 'tl.constexpr(' + actual + ')')
+        lean = self.lean.replace('("_ZERO","0")', '("_ZERO","' + declared + '")')
+        signature = json.loads(json.dumps(self.signature))
+        signature['sourceConstants'][0][1] = declared
+        return python, lean, signature
+
+    def test_floating_module_literal_is_checked(self):
+        python, lean, signature = self.float_case()
+        self.assertEqual(self.compare(python, lean, signature)['mode'], 'pasted_body')
+
+    def test_floating_module_value_and_type_changes_are_rejected(self):
+        for declared, actual in [('1.44269505', '1.44269504'), ('1', '1.0'), ('0.0', '-0.0'),
+                                 ('-0.0', '0.0'), ('1e400', '1e400'), ('True', '1.0')]:
+            with self.subTest(declared=declared, actual=actual), self.assertRaises(ValueError):
+                self.compare(*self.float_case(declared, actual))
+
+    def test_floating_module_expression_is_rejected(self):
+        with self.assertRaises(ValueError):
+            self.compare(*self.float_case('1.44269504', '1.0 + 0.44269504'))
+
     def test_unchanged_body_cannot_hide_changed_module_constant(self):
         with self.assertRaisesRegex(ValueError, 'Python module literal'):
             self.compare(python=self.python.replace('tl.constexpr(0)', 'tl.constexpr(1)'))

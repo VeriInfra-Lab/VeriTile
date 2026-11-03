@@ -1,18 +1,12 @@
 import bench.tritonbench_g.decay_cumsum.Sources.Mathematical_Kernels
 
-/-! The repair retains each original complete numerical kernel. The wrapper
-packs independent read roles with a padded feature width and uses one complete
-chunk launch plus a short-tail launch. Both launches use the actual packed
-head stride T*width. Python explicitly widens program IDs and loop bounds to
-signed64; the natural-coordinate source below is their proved projection.
-The guarded profile is FP32.
--/
+/-! Repaired main/tail launches use the complete pasted Python JIT bodies in
+Sources/Body.lean. The wrapper packs independent read roles with padded feature
+width and supplies the actual T*width head stride. Source casts, the unmasked
+preparation load, descending loop, numerical operations and final pointer
+updates remain in the quotation. Invocation metadata stays outside it. -/
 namespace VeriTile.Bench.Repairs.DecayCumsum
 open VeriTile.Triton
-namespace Original
-
-end Original
-
 structure Call where
   B : Nat
   H : Nat

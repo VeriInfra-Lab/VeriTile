@@ -17,6 +17,16 @@ set_option maxRecDepth 20000
   simp only [FP.Structural.evalOp]
   rw [ha t ht, hb t ht]
 
+/-- Signed source comparisons preserve exact index rewrites. -/
+@[spec_rule] theorem op_int_lt {α : Type} [Inhabited α] (M : Algebra α)
+    (s : State α) (before : List ComputeStmt) (bc : Broadcast sa sb sh)
+    (a a' : Op .int sa) (b b' : Op .int sb)
+    (ha : OpEquivalent M s before a a') (hb : OpEquivalent M s before b b') :
+    OpEquivalent M s before (.lt .int bc a b) (.lt .int bc a' b') := by
+  intro t ht
+  simp only [FP.Structural.evalOp]
+  rw [ha t ht,hb t ht]
+
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
 
 section

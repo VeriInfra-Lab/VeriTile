@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 151,
-      "uncovered_jit_functions": 32
+      "selected_body_copy_checked": 152,
+      "uncovered_jit_functions": 31
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 90,
-    "inventoried_jit_functions": 553,
-    "uncovered_inventoried_jit_functions": 119,
+    "uncovered_selected_jit_functions": 87,
+    "inventoried_jit_functions": 556,
+    "uncovered_inventoried_jit_functions": 116,
     "checked_pair_modes": {
-      "pasted_body": 444
+      "pasted_body": 450
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 151,
-        "uncovered_jit_functions": 32
+        "selected_body_copy_checked": 152,
+        "uncovered_jit_functions": 31
       }
     },
     "primary_files_with_int64_screen_warning": 10,
@@ -18061,43 +18061,237 @@
               ]
             }
           ]
+        },
+        {
+          "path": "bench/tritonbench_g/decay_cumsum/decay_cumsum_index_commuted.py",
+          "jits": [
+            {
+              "function": "fwd_decay_cumsum_index_commuted",
+              "line": 10,
+              "statements": 8,
+              "explicit_int64_casts": [
+                {
+                  "line": 24,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 25,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 26,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                },
+                {
+                  "line": 32,
+                  "expression": "tl.cast(BT, tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "prepare_qg_kg_index_commuted",
+              "line": 41,
+              "statements": 11,
+              "explicit_int64_casts": [
+                {
+                  "line": 59,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 60,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 61,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                },
+                {
+                  "line": 72,
+                  "expression": "tl.cast(BT, tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "bwd_decay_global_cumsum_index_commuted",
+              "line": 88,
+              "statements": 15,
+              "explicit_int64_casts": [
+                {
+                  "line": 105,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 106,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 107,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                },
+                {
+                  "line": 119,
+                  "expression": "tl.cast(BT - 1, tl.int64)"
+                },
+                {
+                  "line": 119,
+                  "expression": "tl.cast(-1, tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "fwd_decay_cumsum",
+          "lean_definition": "forwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
           "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
-          "function": "fwd_decay_cumsum"
+          "lean": "bench/tritonbench_g/decay_cumsum/Sources/Body.lean"
         },
         {
-          "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
-          "function": "prepare_qg_kg"
+          "python_function": "fwd_decay_cumsum_index_commuted",
+          "lean_definition": "forwardCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum_index_commuted.py",
+          "lean": "bench/tritonbench_g/decay_cumsum/Sources/Body.lean"
         },
         {
+          "python_function": "prepare_qg_kg",
+          "lean_definition": "prepareBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
           "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
-          "function": "bwd_decay_global_cumsum"
+          "lean": "bench/tritonbench_g/decay_cumsum/Sources/Body.lean"
+        },
+        {
+          "python_function": "prepare_qg_kg_index_commuted",
+          "lean_definition": "prepareCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum_index_commuted.py",
+          "lean": "bench/tritonbench_g/decay_cumsum/Sources/Body.lean"
+        },
+        {
+          "python_function": "bwd_decay_global_cumsum",
+          "lean_definition": "backwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
+          "lean": "bench/tritonbench_g/decay_cumsum/Sources/Body.lean"
+        },
+        {
+          "python_function": "bwd_decay_global_cumsum_index_commuted",
+          "lean_definition": "backwardCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum_index_commuted.py",
+          "lean": "bench/tritonbench_g/decay_cumsum/Sources/Body.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
-          "function": "fwd_decay_cumsum"
-        },
-        {
-          "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
-          "function": "prepare_qg_kg"
-        },
-        {
-          "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
-          "function": "bwd_decay_global_cumsum"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/decay_cumsum/Kernels.lean": "9b65098ea8bacecf20844c33103ee24f7f54b8b629f5c72b73356a5f742f662d",
-        "bench/tritonbench_g/decay_cumsum/decay_cumsum.py": "8280a38504ba5e0d5fb398180cc30cb90230739a6ca545e2c455e1d6cc309974"
+        "bench/tritonbench_g/decay_cumsum/Kernels.lean": "9ce36a6956f5161fd1b57ecc650a28ceebe4d4681a57450a7b03456e4670a91f",
+        "bench/tritonbench_g/decay_cumsum/Sources/Body.lean": "aee743a24aa113bd125feba22e29c7232461482770fa383785687b6f3e19f70d",
+        "bench/tritonbench_g/decay_cumsum/decay_cumsum.py": "8280a38504ba5e0d5fb398180cc30cb90230739a6ca545e2c455e1d6cc309974",
+        "bench/tritonbench_g/decay_cumsum/decay_cumsum_index_commuted.py": "40ea356180108ec50b89fa84877cada08429d337acd2b684f0fa66d0d8b0d893",
+        "bench/tritonbench_g/decay_cumsum/jit-correspondence.json": "f72d3167ba35f0bc0d116d54833af72a2a4eb9671014b6dd56f49f93d9bac824"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/decay_cumsum"

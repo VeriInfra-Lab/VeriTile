@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 162,
-  "staged_count": 164,
+  "staged_count": 165,
   "pending_count": 34,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 5715,
-    "official_comparator": "162 current targets retain exact-dependency independent receipts, including both rotary targets and all 19 examples. Diag SSM and dependent kldiv_ops await exact-current replay. Decay Cumsum is being migrated and is not locally verified or complete.",
-    "python_tests": 583,
+    "staged_and_regression_retained_modules": 5779,
+    "official_comparator": "162 current targets retain exact-dependency independent receipts, including both rotary targets and all 19 examples. Decay Cumsum, Diag SSM and dependent kldiv_ops await exact-current replay; no local build or correspondence pass is counted as completion.",
+    "python_tests": 590,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "Last fully verified staged snapshot: 170 cases, 5715 retained/supporting modules, 14423 Lake jobs, 427 public theorem names and 583 Python tests. Rotary pair independently accepted at exact current closures. Current Decay Cumsum edits are in progress and are not covered by that full local snapshot. Independently complete: 162; pending: 34 (Diag SSM and dependent kldiv_ops replay, plus 32 remaining migrations).",
-    "official_replay_sources": 4718,
+    "working_tree": "171 cases (165 targets and six regressions), all 5779 retained/supporting modules, 14486 Lake jobs, 429 public theorem names, 590 Python tests and source-corpus checks pass. Decay Cumsum retains three complete original bodies and three existing mask-index candidates; signed-loop execution, independent Real formulas, actual FP callback order, all outputs, full frames, access safety and logical/storage/native bridges reverify. Independently complete: 162, including all 19 examples and both rotary targets. Decay Cumsum, Diag SSM and dependent kldiv_ops await exact-current replay; 31 other targets remain to migrate.",
+    "official_replay_sources": 4782,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,16 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/diag_ssm_triton",
-        "bench/tritonbench_g/kldiv_ops"
+        "bench/tritonbench_g/decay_cumsum"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 2,
-      "retained_modules": 125,
-      "replay_sources": 125,
-      "state": "official_replay_in_progress",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41592298222",
-      "source_commit": "7040583aa4fb28019504241c24bda4ebfde5258d"
+      "cases": 1,
+      "retained_modules": 64,
+      "replay_sources": 64,
+      "state": "local_pass_ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -941,6 +938,19 @@
         "receipt": "validation/body_receipts/rotary-pair-source-migration.json",
         "retained_modules": 121,
         "replay_sources": 121
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/diag_ssm_triton",
+          "bench/tritonbench_g/kldiv_ops"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 2,
+        "retained_modules": 125,
+        "replay_sources": 125,
+        "state": "official_replay_in_progress",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41592298222",
+        "source_commit": "7040583aa4fb28019504241c24bda4ebfde5258d"
       }
     ],
     "pending_client_regressions": {
@@ -956,7 +966,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Finish Decay Cumsum source/execution/safety/Real/FP migration and reverify before staging it. Collect Diag SSM and dependent kldiv_ops receipts. No merge.",
+    "current_work": "Submit Decay Cumsum for exact-current independent replay, collect Diag SSM and dependent kldiv_ops receipts, and continue the remaining 31 source/proof migrations. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -980,16 +990,16 @@
     },
     "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
     "last_full_local_snapshot": {
-      "cases": 170,
-      "targets": 164,
+      "cases": 171,
+      "targets": 165,
       "regressions": 6,
-      "retained_modules": 5715,
-      "replay_sources": 4718,
-      "lake_jobs": 14423,
+      "retained_modules": 5779,
+      "replay_sources": 4782,
+      "lake_jobs": 14486,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 427,
-      "python_tests": 583,
-      "current_dependency_snapshot": false,
+      "public_theorem_count": 429,
+      "python_tests": 590,
+      "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
     "previous_shared_model_revalidations": [
@@ -1341,16 +1351,16 @@
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     },
     "previous_full_local_snapshot": {
-      "cases": 169,
-      "targets": 163,
+      "cases": 170,
+      "targets": 164,
       "regressions": 6,
-      "retained_modules": 5639,
-      "replay_sources": 4642,
-      "lake_jobs": 14349,
+      "retained_modules": 5715,
+      "replay_sources": 4718,
+      "lake_jobs": 14423,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 419,
-      "python_tests": 580,
-      "current_dependency_snapshot": true,
+      "public_theorem_count": 427,
+      "python_tests": 583,
+      "current_dependency_snapshot": false,
       "boundary": "Local verification only, not an independent completion receipt."
     },
     "power_replay_resource_diagnosis": {
@@ -1728,6 +1738,27 @@
       "boundary": "Local verification only. Diag SSM is incomplete until exact-current independent replay accepts every required root. The changed transitive Diag SSM dependency closure also requires a new kldiv_ops receipt.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41592298222",
       "source_commit": "7040583aa4fb28019504241c24bda4ebfde5258d"
+    },
+    "decay_cumsum_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 60,
+      "shared_frontend_test_modules": 4,
+      "shared_trust_inventory_theorems": 4,
+      "named_semantic_frontend_regressions": 3,
+      "source_pairs": 6,
+      "body_top_level_statements": [
+        8,
+        11,
+        15
+      ],
+      "public_theorems": 2,
+      "python_tests": 590,
+      "full_cases": 171,
+      "full_retained_modules": 5779,
+      "full_replay_sources": 4782,
+      "full_lake_jobs": 14486,
+      "public_theorem_count": 429,
+      "boundary": "Local verification only. Remains incomplete until exact-current independent replay accepts every required owned/shared root and public theorem."
     }
   },
   "targets": [
@@ -2185,8 +2216,12 @@
     },
     {
       "path": "bench/tritonbench_g/decay_cumsum",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "All three unchanged original Python JIT bodies and the three existing mask-index candidates are copied statement for statement, with exact pointer/runtime/constexpr metadata outside the body. Preserved int64 program-ID and loop-bound casts, explicit negative stop, module floating literal inv_ln2, unmasked final-gate load, every branch, actual captured load and final pointer update. Materialized only the three existing mask integer-product commutations in Python and checked inverse AST and source hashes. Removed old whole-kernel Lean quotations and generators. Optional immutable floating-module-literal and cast reverse-stop frontends have exact-program, positive-bound and rejection regressions; four shared trust/inventory theorems pass. Reproved complete actual signed-loop execution, independent Real prefix/gating/reverse-prefix formulas, all outputs, access safety, full raw-cell frames, actual candidate FP equivalence and existing IO/grid/storage/native bridges. Corrected the inherited arbitrary-FP execution model to include the explicit cast after fp32Load, and removed its extra explicit cast from the two plain backward dq/dk stores; native word observations preserve payloads while accounting for proof-only provenance tags. No new public premises, narrower numerical domains or new FP rules. All 60 owned modules, four shared roots, two public names, full integration and 590 Python tests pass locally. Exact-current independent replay is still required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/dequantize_matmul",

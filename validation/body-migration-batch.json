@@ -2298,6 +2298,19 @@
           "VeriTile.Bench.Repairs.DiagSsmTriton.FPEquivalence.complexBackward_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/decay_cumsum",
+      "python": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/decay_cumsum/Correct.lean": [
+          "VeriTile.Bench.Repairs.DecayCumsum.Correct.decay_cumsum_kernel_real"
+        ],
+        "bench/tritonbench_g/decay_cumsum/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.DecayCumsum.FPEquiv.decay_cumsum_source_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -6891,6 +6904,70 @@
     "bench/tritonbench_g/diag_ssm_triton/Proofs/SignedRealLoop.lean",
     "bench/tritonbench_g/diag_ssm_triton/Proofs/WordCodec.lean",
     "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean",
-    "bench/tritonbench_g/diag_ssm_triton/Sources/Mathematical_Kernels.lean"
+    "bench/tritonbench_g/diag_ssm_triton/Sources/Mathematical_Kernels.lean",
+    "VeriTile/Triton/DSL/CastReverseRange.lean",
+    "VeriTile/Triton/DSL/ModuleFloatConstants.lean",
+    "bench/tritonbench_g/decay_cumsum/Contract.lean",
+    "bench/tritonbench_g/decay_cumsum/Correct.lean",
+    "bench/tritonbench_g/decay_cumsum/FPEquiv.lean",
+    "bench/tritonbench_g/decay_cumsum/IO.lean",
+    "bench/tritonbench_g/decay_cumsum/Kernels.lean",
+    "bench/tritonbench_g/decay_cumsum/PairIO.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/Coverage.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPBackward.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPBackwardBase.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPBackwardControl.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPBackwardIteration.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPBackwardMemory.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPBackwardStep.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPForward.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPLogical.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPMemory.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPOps.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPPrefix.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPPrepare.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPProgram.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPReference.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPStep.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPStorage.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPStoreFrame.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPTile.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/FPTileStable.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/Geometry.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/Grid.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/IOResults.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/IOSafetyBackward.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/IOSafetyBodies.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/IOSafetyLoops.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/IOSafetyPrefix.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/KernelCompiler.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/KernelContract.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/KernelExecution.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/KernelNative.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/KernelReal.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/Logical.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/LogicalMath.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/LogicalStorage.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/Mathematical_GroupedRealIO.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/Mathematical_MaskEquivalence.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/NativeABI.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/NativeCarrier.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/NativeGraph.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/NativeIndex.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/NativeLowering.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/PackedStorage.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/Roles.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/Run.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/Source.lean",
+    "bench/tritonbench_g/decay_cumsum/Proofs/SourcePair.lean",
+    "bench/tritonbench_g/decay_cumsum/Sources/Body.lean",
+    "bench/tritonbench_g/decay_cumsum/Sources/Mathematical_Kernels.lean",
+    "bench/tritonbench_g/decay_cumsum/Sources/Parameters.lean",
+    "bench/tritonbench_g/decay_cumsum/Sources/Selected.lean",
+    "tests/lean/CastReverseRange.lean",
+    "tests/lean/ModuleFloatConstants.lean"
   ]
 }
