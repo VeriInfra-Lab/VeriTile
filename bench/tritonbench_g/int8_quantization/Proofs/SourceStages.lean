@@ -24,7 +24,7 @@ def transformed (M : Algebra α) (p : Parameters) (entry : State α) : Lane p �
 def flags (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (entry : State α) : Lane p → Bool :=
   fun i=> ops.le (M.unary none (.abs .real) (transformed M p entry i))
-    (M.literal none .real 340282346638528859811704183484516925440.0)
+    (M.literal none .real 3.4028234663852886e38)
 
 def badValue (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (positive : 0< p.width) (entry : State α) : Int :=
@@ -80,7 +80,8 @@ def savedScale (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
   if badValue M ops p positive entry=0 then scale M ops p entry else scalar32 M 0.0
 
 def addressed (M : Algebra α) (p : Parameters) (entry : State α) : State α :=
-  ((((((((entry.setReg "block" .nat [] (fun _=> Model.group p entry)).setReg "batch" .nat [] (fun _=> Model.group p entry/p.blocks)).setReg "local_block" .nat [] (fun _=> Model.group p entry%p.blocks)).setReg "lane" .nat [p.width] (fun i=> i.1.val)).setReg "row" .nat [p.width] (fun i=> Model.group p entry%p.blocks*p.blockRows+i.1.val/p.channels)).setReg "offset" .nat [p.width] (Model.offset p entry)).setReg "active" .bool [p.width] (fun i=> decide (Model.active p entry i))).setReg "x" .real [p.width] (loaded M p entry))
+  let group := Model.group p entry
+  ((((((((entry.setReg "block" .int [] (fun _=> (group : Int))).setReg "batch" .int [] (fun _=> ((group/p.blocks : Nat) : Int))).setReg "local_block" .int [] (fun _=> ((group%p.blocks : Nat) : Int))).setReg "lane" .int [p.width] (fun i=> (i.1.val : Int))).setReg "row" .int [p.width] (fun i=> ((group%p.blocks*p.blockRows+i.1.val/p.channels : Nat) : Int))).setReg "offset" .int [p.width] (fun i=> (Model.offset p entry i : Int))).setReg "active" .bool [p.width] (fun i=> decide (Model.active p entry i))).setReg "x" .real [p.width] (loaded M p entry))
 
 def prescaled (M : Algebra α) (p : Parameters) (entry : State α) : State α :=
   if p.query then (addressed M p entry).setReg "x" .real [p.width] (transformed M p entry)
@@ -101,6 +102,20 @@ def registers (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
 def segment (p : Parameters) (start count : Nat) : List ComputeStmt :=
   ((source p).surfaceBody.drop start).take count
 
+theorem signed_nonnegative (n : Nat) : ¬ (n : Int)<0 := by omega
+
+theorem signed_lt (a b : Nat) : (a : Int)<(b : Int) ↔ a<b := by omega
+
+theorem signed_toNat (a : Nat) : (a : Int).toNat=a := rfl
+
+theorem signed_mod (a b : Nat) :
+    (a : Int)-(b : Int)*((a : Int)/(b : Int))=((a%b : Nat) : Int) := by
+  rw [← Int.emod_def,← Int.natCast_emod]
+
+theorem signed_mod_pulled (a b : Nat) :
+    (a : Int)-((b*(a/b) : Nat) : Int)=((a%b : Nat) : Int) := by
+  simpa only [Int.natCast_mul,Int.natCast_ediv] using signed_mod a b
+
 theorem addressed_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (entry : State α) :
     run (Model.backend M ops) (segment p 0 8) entry=some (addressed M p entry) := by
@@ -109,19 +124,40 @@ theorem addressed_run (M : Algebra α) (ops : Model.Primitives α) (p : Paramete
     bop,numeric,ofFloat,toFloat,Region.cast,ComputeDType.eraseDType,
     integralMod,integralFloorDiv,addressed,loaded,Model.group,Model.offset,Model.active]
   all_goals
+    simp only [Broadcast.leftIndex,Broadcast.rightIndex,← Int.natCast_add,← Int.natCast_mul,
+      signed_nonnegative,↓reduceIte,add_zero,zero_add,← Int.natCast_ediv,signed_mod]
+    try simp only [← Int.natCast_add,← Int.natCast_mul,← Int.natCast_ediv,signed_mod]
+    try simp only [Int.natCast_lt,Int.toNat_natCast,Model.active,Model.offset,Model.group,
+      decide_and,Broadcast.leftIndex,Broadcast.rightIndex]
+  all_goals
     delta bop Model.offset Model.group loaded transformed flags sanitized scalar32 maximum scale usable denominator quotient normalized clipped biased quantized
-    first | rfl | simp_all (config := {maxSteps:=1000000}) only [Bool.false_eq_true, ↓reduceIte]
+    first | rfl | simp_all (config := {maxSteps:=1000000}) only [Bool.false_eq_true, ↓reduceIte,Parameters.factor,factorTree,Broadcast.leftIndex,Broadcast.rightIndex]
     all_goals try rfl
+
+  all_goals try simp only [add_zero,zero_add,Broadcast.leftIndex,Broadcast.rightIndex,
+    ←Int.natCast_add,←Int.natCast_mul,←Int.natCast_ediv,←Int.natCast_emod,
+    signed_mod_pulled,signed_mod]
+  all_goals try simp only [←Int.natCast_add,←Int.natCast_mul,signed_mod_pulled,
+    Int.natCast_lt,Int.toNat_natCast,Model.active,Model.group,Model.offset,decide_and]
+  all_goals dsimp only [Value]
+  all_goals try simp only [signed_lt,signed_toNat,Model.active,Model.group,decide_and]
+  congr 1
+  · congr 1
+    funext i
+    simp only [signed_lt,signed_toNat]
+  · funext i
+    simp only [signed_lt,signed_toNat,Model.active,Model.group]
+    rfl
 
 theorem prescaled_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (entry : State α) :
     run (Model.backend M ops) (segment p 8 1) (addressed M p entry)=some (prescaled M p entry) := by
   cases query : p.query <;>
     simp [segment,source,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-      Model.backend,Option.bind,bop,numeric,addressed,prescaled,transformed,query,ComputeDType.eraseDType]
+      Model.backend,Option.bind,bop,numeric,addressed,prescaled,transformed,query,ComputeDType.eraseDType,Parameters.factor,factorTree]
   all_goals
     delta bop Model.offset Model.group loaded transformed flags sanitized scalar32 maximum scale usable denominator quotient normalized clipped biased quantized
-    first | rfl | simp_all (config := {maxSteps:=1000000}) only [Bool.false_eq_true, ↓reduceIte]
+    first | rfl | simp_all (config := {maxSteps:=1000000}) only [Bool.false_eq_true, ↓reduceIte,Parameters.factor,factorTree,Broadcast.leftIndex,Broadcast.rightIndex]
     all_goals try rfl
 
 theorem classified_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
@@ -130,11 +166,11 @@ theorem classified_run (M : Algebra α) (ops : Model.Primitives α) (p : Paramet
   cases query : p.query <;>
     simp [segment,source,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Model.backend,Option.bind,numericLe,numericEq,bop,numeric,ofFloat,toFloat,
-      classified,prescaled,addressed,flags,badValue,sanitized,transformed,query,
+      classified,prescaled,addressed,flags,badValue,sanitized,transformed,query,Parameters.factor,factorTree,
       TileShape.discreteMaximum,TileShape.axisDim,positive,TileShape.insertAxisIndex,ComputeDType.eraseDType]
   all_goals
     delta bop Model.offset Model.group loaded transformed flags sanitized scalar32 maximum scale usable denominator quotient normalized clipped biased quantized
-    first | rfl | simp_all (config := {maxSteps:=1000000}) only [Bool.false_eq_true, ↓reduceIte]
+    first | rfl | simp_all (config := {maxSteps:=1000000}) only [Bool.false_eq_true, ↓reduceIte,Parameters.factor,factorTree,Broadcast.leftIndex,Broadcast.rightIndex]
     all_goals try rfl
 
 theorem reduced_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
@@ -145,7 +181,7 @@ theorem reduced_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters
     reduced,classified,maximum,scale,usable,denominator,TileShape.axisDim,positive,ComputeDType.eraseDType]
   all_goals
     delta bop Model.offset Model.group loaded transformed flags sanitized scalar32 maximum scale usable denominator quotient normalized clipped biased quantized
-    first | rfl | simp_all (config := {maxSteps:=1000000}) only [Bool.false_eq_true, ↓reduceIte]
+    first | rfl | simp_all (config := {maxSteps:=1000000}) only [Bool.false_eq_true, ↓reduceIte,Parameters.factor,factorTree,Broadcast.leftIndex,Broadcast.rightIndex]
     all_goals try rfl
 
 theorem registers_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
@@ -156,7 +192,7 @@ theorem registers_run (M : Algebra α) (ops : Model.Primitives α) (p : Paramete
     registers,reduced,classified,quotient,normalized,clipped,biased,quantized,ComputeDType.eraseDType]
   all_goals
     delta bop Model.offset Model.group loaded transformed flags sanitized scalar32 maximum scale usable denominator quotient normalized clipped biased quantized
-    first | rfl | simp_all (config := {maxSteps:=1000000}) only [Bool.false_eq_true, ↓reduceIte]
+    first | rfl | simp_all (config := {maxSteps:=1000000}) only [Bool.false_eq_true, ↓reduceIte,Parameters.factor,factorTree,Broadcast.leftIndex,Broadcast.rightIndex]
     all_goals try rfl
 
 #axiomsClean addressed_run

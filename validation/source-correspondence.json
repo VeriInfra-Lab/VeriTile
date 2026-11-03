@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 167,
-      "uncovered_jit_functions": 16
+      "selected_body_copy_checked": 168,
+      "uncovered_jit_functions": 15
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 57,
+    "uncovered_selected_jit_functions": 56,
     "inventoried_jit_functions": 574,
-    "uncovered_inventoried_jit_functions": 67,
+    "uncovered_inventoried_jit_functions": 65,
     "checked_pair_modes": {
-      "pasted_body": 525
+      "pasted_body": 527
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 167,
-        "uncovered_jit_functions": 16
+        "selected_body_copy_checked": 168,
+        "uncovered_jit_functions": 15
       }
     },
-    "primary_files_with_int64_screen_warning": 3,
+    "primary_files_with_int64_screen_warning": 2,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 9,
-        "antiquotes": 344,
+        "in_body_type_directives": 8,
+        "antiquotes": 343,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 81
       },
@@ -26126,9 +26126,9 @@
       "lean": "bench/tritonbench_g/int8_quantization/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 36,
-        "dsl_assignment": 7,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 34,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -26192,30 +26192,56 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_per_block_int8_repaired",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 23,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BASE",
+            "BLK",
+            "BLOCKS",
+            "C",
+            "IS_Q",
+            "L",
+            "WIDTH"
+          ],
           "python": "bench/tritonbench_g/int8_quantization/int8_quantization.py",
-          "function": "_per_block_int8_repaired"
+          "lean": "bench/tritonbench_g/int8_quantization/Kernels.lean"
         },
         {
+          "python_function": "_per_block_int8_repaired",
+          "lean_definition": "biasFoldSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 23,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BASE",
+            "BLK",
+            "BLOCKS",
+            "C",
+            "IS_Q",
+            "L",
+            "WIDTH"
+          ],
           "python": "bench/tritonbench_g/int8_quantization/int8_quantization_bias_fold.py",
-          "function": "_per_block_int8_repaired"
+          "lean": "bench/tritonbench_g/int8_quantization/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/int8_quantization/int8_quantization.py",
-          "function": "_per_block_int8_repaired"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/int8_quantization/Kernels.lean": "25c18b2f56e67f49c7e928fdf4f17e24b27c332d8fde9dadbe88c2dc13b186a6",
+        "bench/tritonbench_g/int8_quantization/Kernels.lean": "97c7c72d66133d10e2e12863351a9ff0927d8ca30c26c12374b0dc79ddf62ad7",
         "bench/tritonbench_g/int8_quantization/int8_quantization.py": "c7dad4381d4b2f5fa7124a6538b502d142dfb667d911097368999853df173a8a",
-        "bench/tritonbench_g/int8_quantization/int8_quantization_bias_fold.py": "e6686027e9721af61b01903b47a607637b54a31fbd0d4f4c99edc8ca280a7b70"
+        "bench/tritonbench_g/int8_quantization/int8_quantization_bias_fold.py": "e6686027e9721af61b01903b47a607637b54a31fbd0d4f4c99edc8ca280a7b70",
+        "bench/tritonbench_g/int8_quantization/jit-correspondence.json": "3892a236ab3dfe9e1d541f7e1f3a9ade7d6d90f997f413b20e8ac8798b6d3e3e"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/int8_quantization"

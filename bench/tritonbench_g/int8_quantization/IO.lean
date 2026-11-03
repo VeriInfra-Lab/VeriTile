@@ -67,7 +67,7 @@ def maximum (p : Parameters) (values : Inputs ℝ p) (group : Fin (count p)) : �
   RealSpec.maxAbs ((logicalBlock p values group).map (fun x => RealSpec.factor p.query p.channels*x))
 def FiniteBlock (p : Parameters) (values : Inputs ℝ p) (group : Fin (count p)) : Prop :=
   ∀ lane, active p group.val lane.val →
-    |RealSpec.factor p.query p.channels*raw p values group lane| ≤ 340282346638528859811704183484516925440
+    |RealSpec.factor p.query p.channels*raw p values group lane| ≤ 340282346638528860000000000000000000000
 
 /-- Independent total mathematical formula: max-absolute scaling and nearest
 away rounding; every block outside finite FP32 range produces zero. -/
@@ -177,6 +177,6 @@ open Revision002
 noncomputable section
 def logicalFiniteBlock (p : Parameters) (xs : Fin (count p) → Fin p.width → ℝ) (group : Fin (count p)) : Prop :=
   ∀ lane, active p group.val lane.val →
-    |RealSpec.factor p.query p.channels*xs group lane| ≤ 340282346638528859811704183484516925440
+    |RealSpec.factor p.query p.channels*xs group lane| ≤ 340282346638528860000000000000000000000
 end
 end VeriTile.Bench.Repairs.Int8Quantization.QuantizationIO

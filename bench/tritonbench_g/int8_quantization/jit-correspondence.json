@@ -1,0 +1,84 @@
+[
+  {
+    "python": "bench/tritonbench_g/int8_quantization/int8_quantization.py",
+    "lean": "bench/tritonbench_g/int8_quantization/Kernels.lean",
+    "python_function": "_per_block_int8_repaired",
+    "lean_definition": "source",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "X_int8",
+          "i8"
+        ],
+        [
+          "Scale",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "L",
+        "C",
+        "BLK",
+        "BLOCKS",
+        "BASE",
+        "WIDTH",
+        "IS_Q"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "X_int8",
+        "Scale"
+      ]
+    },
+    "expected_call_bindings": {}
+  },
+  {
+    "python": "bench/tritonbench_g/int8_quantization/int8_quantization_bias_fold.py",
+    "lean": "bench/tritonbench_g/int8_quantization/Kernels.lean",
+    "python_function": "_per_block_int8_repaired",
+    "lean_definition": "biasFoldSource",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "X_int8",
+          "i8"
+        ],
+        [
+          "Scale",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "L",
+        "C",
+        "BLK",
+        "BLOCKS",
+        "BASE",
+        "WIDTH",
+        "IS_Q"
+      ],
+      "readPorts": [
+        "X"
+      ],
+      "writePorts": [
+        "X_int8",
+        "Scale"
+      ]
+    },
+    "expected_call_bindings": {}
+  }
+]
