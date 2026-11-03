@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 163,
+  "completed_count": 157,
   "staged_count": 166,
-  "pending_count": 33,
+  "pending_count": 39,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 5824,
-    "official_comparator": "163 current targets retain exact-dependency independent receipts, including all 19 examples. Three locally verified targets await exact-current independent replay. Compilation alone is not completion.",
+    "official_comparator": "157 current targets retain exact-dependency independent receipts, including all 19 examples. Seven previously complete targets are retracted pending fresh current-dependency validation after the int_scaled_matmul migration. Diag SSM and kldiv_ops await independent replay. Compilation is not completion.",
     "python_tests": 596,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "172 cases (166 targets and six regressions), all 5824 retained/supporting modules, 14520 Lake jobs, 431 public theorem names, 596 Python tests and source-corpus checks pass. Triton Linear Activation retains all five original JIT bodies and the existing shifted candidate, with complete helper/branch/loop execution, actual libdevice callback, Real mathematics, all outputs, safety, frames and native/IO/compiler bridges reverified. Independently complete: 163, including all 19 examples. Three targets await exact-current independent replay (Triton Linear Activation, Diag SSM and dependent kldiv_ops); 30 other targets remain to migrate.",
+    "working_tree": "The last full local snapshot covers 172 cases, 5824 modules and 431 public theorem names. int_scaled_matmul is in progress and is not accepted. Decay Cumsum and Triton Linear Activation are independently accepted. Current independent completion: 157, including all 19 examples; seven transitive dependents of int_scaled_matmul require fresh validation and two other cases await official replay. No completion is inferred from the in-progress source-only check or partial proofs.",
     "official_replay_sources": 4827,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -980,7 +980,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue int_scaled_matmul and remaining source/proof migrations; collect Diag SSM/dependent kldiv_ops and Linear Activation receipts. All 19 examples independently accepted. No merge.",
+    "current_work": "Continue int_scaled_matmul and remaining source/proof migrations; collect Diag SSM/dependent kldiv_ops receipts. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1794,8 +1794,20 @@
       "full_replay_sources": 4827,
       "full_lake_jobs": 14520,
       "public_theorem_count": 431,
-      "boundary": "Local verification only. Remains incomplete until exact-current independent replay accepts every required owned/shared root and public theorem. Real math source tags do not assert exact host floating sqrt."
-    }
+      "boundary": "Local verification only. Remains incomplete until exact-current independent replay accepts every required owned/shared root and public theorem. Real math source tags do not assert exact host floating sqrt.",
+      "official_receipt": "validation/body_receipts/linear-activation-source-migration.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41604207975",
+      "independent_validation": "PASS_EXACT_CURRENT"
+    },
+    "int_scaled_matmul_affected_dependencies": [
+      "bench/tritonbench_g/int8_dequant_matmul",
+      "bench/tritonbench_g/kldiv_triton",
+      "bench/tritonbench_g/llama_ff_triton",
+      "bench/tritonbench_g/matmul_dequant_int4",
+      "bench/tritonbench_g/matmul_dequantize",
+      "bench/tritonbench_g/matmul_dequantize_int4",
+      "bench/tritonbench_g/matmul_persistent_triton"
+    ]
   },
   "targets": [
     {
@@ -2641,15 +2653,17 @@
     },
     {
       "path": "bench/tritonbench_g/int8_dequant_matmul",
-      "status": "complete",
-      "complete": true,
-      "reason": "Accepted official independent replay. ZIP digest, complete public theorem coverage, every required replay result, current source/body pairs and exact transitive project source/import closure were verified. Later unrelated source changes are outside this case closure. This is not acceptance inferred from compilation.",
+      "status": "proof_replay_pending",
+      "complete": false,
+      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS",
+      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
       "receipt": "validation/body_receipts/int8-matmul-source-migration.json",
       "validated_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368653214"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368653214",
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/int8-matmul-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_kernel",
@@ -2752,16 +2766,16 @@
     },
     {
       "path": "bench/tritonbench_g/kldiv_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "proof_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS",
+      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
       "previously_complete": true,
-      "previous_receipt": "validation/body_receipts/swiglu_triton.json",
-      "reason": "Every required owned/shared independent proof replay, public theorem coverage, official ZIP SHA256 and the exact current source/import closure is verified for this case. Compilation alone is not completion.",
+      "previous_receipt": "validation/body_receipts/full-recovery-shard-1.json",
+      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "receipt": "validation/body_receipts/full-recovery-shard-1.json"
     },
@@ -2923,14 +2937,16 @@
     },
     {
       "path": "bench/tritonbench_g/llama_ff_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "proof_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS",
-      "reason": "The unchanged original and existing checked-in index-commuted Python JITs are copied verbatim at both FP16-weight and int8 E5M2-weight invocation types (four 37-statement bodies). Removed all four old complete Lean quotations. Preserved the docstring, twelve explicit int64 self-casts, actual tl.cdiv expressions, every tail mask, three FP8 bit reinterpretations with full conversion chains, libdevice pow, rsqrt, sigmoid and implicit half store. Optional frontend normalizes Python bitcast=True and specializes closed Boolean constexprs before storage-dependent branch checking, including loops; symbolic constexprs and runtime branches remain. Whole-program frontend regressions and three exact-source trust/inventory theorems pass. Reproved actual loop-bound evaluation, prefix indices, complete loop execution/invariants, independent Real RMSNorm-SwiGLU, actual candidate FP success/failure and safety equivalence, native compiler-bound execution/layouts/ABI, full grids, IO, output readback and exterior frames. All 57 owned and two shared roots pass locally without new public premises, numerical domain restrictions or FP rules. Full integration: 166 cases, 5480 retained modules, 14190 Lake jobs, 413 public theorem names and 571 Python tests. Exact-current independent replay is required before completion; this target remains pending. Official independent replay accepted every required owned/shared root and public theorem. ZIP digest and exact current source/import closure verified; receipt: validation/body_receipts/llama-ff-source-migration.json.",
+      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
       "independent_replay": "PASS",
-      "receipt": "validation/body_receipts/llama-ff-source-migration.json"
+      "receipt": "validation/body_receipts/llama-ff-source-migration.json",
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/llama-ff-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/log_softmax",
@@ -3003,39 +3019,45 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_dequant_int4",
-      "status": "complete",
-      "complete": true,
+      "status": "proof_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS",
-      "reason": "Official independent exact-current replay accepted the full three-task int4 source/dependency bundle: all 163 owned/shared roots, every required public proof and the exact current source/import closures. Verified the official merged ZIP SHA256, registered original/candidate source pairs, signed extraction, dtype conversions, full Real/FP/native connections, safety, grids and frames. This fresh receipt also restores int4_matmul after its imported source closure changed. Compilation alone is not completion.",
+      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
       "validated_source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840",
-      "receipt": "validation/body_receipts/int4-source-dependency-migration.json"
+      "receipt": "validation/body_receipts/int4-source-dependency-migration.json",
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/int4-source-dependency-migration.json"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize",
-      "status": "complete",
-      "complete": true,
+      "status": "proof_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS",
-      "reason": "Official independent exact-current replay accepted all 48 owned/shared roots. Verified official ZIP SHA256, every required proof root, all public Real/FP names, registered source pairs and exact current transitive source/import closures. All three unchanged repaired/original Python stages and their existing scalar-address candidates are registered literally (32/25/19 statements each). The identical standalone original shares the repaired dequantizer instead of duplicating Lean. Removed all six old full quotations. Preserved every INT64 cast, implicit target-dtype promotion, explicit FP16 cast, unused statement, mask, scalar constexpr assignment, full S2 cdiv loop expression and both store/atomic branches. Existing public launch configurations select SPLIT_K=1; the proof-side loop count is now derived from K/BLOCK_SIZE_K, without an extra source argument. Reproved the actual dynamic loop and selected write branch, all half/single stages, complete independent Real matrix products/dequantized values, actual FP candidates, native graphs, ABI, source safety, complete grids, outputs/readbacks and frames. All 45 owned modules, three shared roots, four Real and four FP public entries pass local verification. Full 162-case integration passes 5282 retained modules, 13990 Lake jobs, 404 public names, 555 Python tests and source-corpus checks. Exact-source shared frontend/test and body gates pass.",
+      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
       "validated_source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330",
-      "receipt": "validation/body_receipts/matmul-dequantize-source-migration.json"
+      "receipt": "validation/body_receipts/matmul-dequantize-source-migration.json",
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/matmul-dequantize-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize_int4",
-      "status": "complete",
-      "complete": true,
+      "status": "proof_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS",
-      "reason": "Official independent exact-current replay accepted the full three-task int4 source/dependency bundle: all 163 owned/shared roots, every required public proof and the exact current source/import closures. Verified the official merged ZIP SHA256, registered original/candidate source pairs, signed extraction, dtype conversions, full Real/FP/native connections, safety, grids and frames. This fresh receipt also restores int4_matmul after its imported source closure changed. Compilation alone is not completion.",
+      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
       "validated_source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840",
-      "receipt": "validation/body_receipts/int4-source-dependency-migration.json"
+      "receipt": "validation/body_receipts/int4-source-dependency-migration.json",
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/int4-source-dependency-migration.json"
     },
     {
       "path": "bench/tritonbench_g/matmul_kernel",
@@ -3078,15 +3100,17 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_persistent_triton",
-      "status": "complete",
-      "complete": true,
+      "status": "proof_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS",
-      "reason": "Every owned and shared required independent proof, full public theorem coverage, official archive SHA256 and exact current source/import closure is verified against the accepted completed official run. Compilation alone is not completion.",
+      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
       "validated_source_commit": "bd120bba68631e46c230ef960fc9aa9e1d9b97b8",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41416753799",
-      "receipt": "validation/body_receipts/persistent-source-migration.json"
+      "receipt": "validation/body_receipts/persistent-source-migration.json",
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/persistent-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/matmul_tma",
@@ -3866,15 +3890,16 @@
     },
     {
       "path": "bench/tritonbench_g/triton_linear_activation",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All five original JIT functions and the existing checked-in shifted candidate are matched verbatim: four helpers retain their two statements including docstrings, and both callers retain all 27 top-level statements. Ten exact source pairs cover both original/candidate files; polymorphic pointer metadata retains the existing FP32 and AMP FP16 invocation modes. Preserved None/unknown string activation cases, nested helper calls, actual libdevice tanh/erf, source masks, reverse K loop, all pointer updates, same-name bias pointer/tensor rebinding, plain stores and unused cache/SPLIT_K arguments. Removed both old complete Lean quotations; SourceKernels/CandidateKernels are thin adapters to copied bodies. Reused the existing triton_linear_activation_shifted.py without introducing a duplicate candidate. Module math bindings check exact closed Python sqrt/pi expressions, immutable preceding imports and defined finite host values. Real mathematical tags and existing native rounded constants remain explicitly separate; no exact host sqrt equality is claimed. Optional closed-helper frontend captures arguments and returns in order, prevents caller capture/recursion and selects declared constexpr Boolean branches. All six shared trust/inventory theorems, including three semantic regressions, pass. Reproved actual source decomposition, successful prefix/loop/activation/store execution, independent dense Real formula, all outputs, optional saved preactivation, access safety, full exterior memory frames, existing FP/native/IO/grid/compiler bridges and complete candidate equivalence. Corrected the inherited abstract activation connection from generic tanh to the actual libdeviceTanh callback, including nested fast-GELU, without equating distinct intrinsics. No new public premises, narrower numerical domains or FP rules. All 41 owned modules, four shared roots, two public theorem names, complete integration and 596 Python tests pass locally. Exact-current independent replay remains required; compilation is not completion. Independent host math evaluation confirms that both sqrt constants round to the exact FP32 words pinned by the existing native literal model.",
+      "reason": "Every required owned and shared independent proof root is accepted in the completed official replay. Verified official ZIP SHA256, all ten exact source pairs, public Real/FP theorem coverage and exact current transitive source/import closure. Full copied source/helper/branch execution, independent Real mathematics, existing FP candidate, all outputs, source access safety, memory frames and native/IO/compiler bridges are covered. Compilation alone is not completion.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41604207975",
       "validated_source_commit": "0556c435ebac1470f8eaa7463b3a800eacfd113f",
-      "independent_replay": "IN_PROGRESS"
+      "independent_replay": "IN_PROGRESS",
+      "receipt": "validation/body_receipts/linear-activation-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/triton_mul2",
