@@ -23,14 +23,14 @@ theorem body (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13⟩
   simp (config := {maxSteps := 1000000}) [parts,program,
     VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,engine,Algebra.withDefaultPrecision,FPBackend.Ops.algebra,
     resolvePrecision,numeric,numericLt,numericLe,numericEq,natLt,natLe,integralFloorDiv,integralMod,
     ofFloat,toFloat,Region.cast,h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,
     TileShape.axisDim,hBN,Matches,advance,keyTile,valueTile,keyPointer,valuePointer,
-    memory,inputs,bop,Broadcast.leftIndex,Broadcast.rightIndex]
-  simp [funext_iff,bop,Broadcast.leftIndex,Broadcast.rightIndex,keyTile,valueTile,Function.comp_def]
+    memory,inputs,bop,Nat.cast_add,Nat.cast_mul,sub_lt_comm,Broadcast.leftIndex,Broadcast.rightIndex]
+  simp [funext_iff,bop,Broadcast.leftIndex,Broadcast.rightIndex,keyTile,valueTile,Function.comp_def,sub_lt_comm]
   refine ⟨?_,?_,?_⟩ <;> intros
   all_goals congr 100
 

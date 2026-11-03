@@ -24,7 +24,7 @@ theorem executes (p : Layout) (r : Regions) (head : Nat) (start sn limit : Int) 
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hb : u.regs .int [] "cur_batch_in_all_start_index" = some (Tile.scalar start))
     (hl : u.regs .int [] "cur_batch_seq_len" = some (Tile.scalar limit))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val))) :
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val))) :
     stepStmts (values p r) u = some (prepared p r head start sn limit u) := by
   have hz : (0.0 : ℝ) = 0 := by norm_num
   simp [values,valueAdvance,valueMask,valueView,lanes,n,z,prepared,loaded,address,

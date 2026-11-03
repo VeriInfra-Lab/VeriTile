@@ -1,4 +1,5 @@
 import bench.tritonbench_g.context_attn_mistral.Proofs.Mathematical_PreludeProgram
+import VeriTile.Triton.Semantics.Integer
 
 namespace VeriTile.Bench.TritonBenchG.ContextAttnMistral.PreludeLaunch
 open VeriTile.Triton Formula Program PreludeProgram
@@ -7,16 +8,18 @@ set_option maxHeartbeats 500000
 set_option maxRecDepth 2000
 set_option linter.unusedSimpArgs false
 
+attribute [local simp 2000] VeriTile.Triton.eval_truncDiv
+
 def launched (p : Layout) (u : BlockState) : BlockState :=
   let l := launch u
-  let u := u.setReg "cur_batch" .nat [] (Tile.scalar l.batch)
-  let u := u.setReg "cur_head" .nat [] (Tile.scalar l.head)
-  let u := u.setReg "start_m" .nat [] (Tile.scalar l.block)
-  u.setReg "cur_kv_head" .nat [] (Tile.scalar (l.head/p.kvGroup))
+  let u := u.setReg "cur_batch" .int [] (Tile.scalar l.batch)
+  let u := u.setReg "cur_head" .int [] (Tile.scalar l.head)
+  let u := u.setReg "start_m" .int [] (Tile.scalar l.block)
+  u.setReg "cur_kv_head" .int [] (Tile.scalar (l.head/p.kvGroup))
 
 theorem executes (p : Layout) (u : BlockState) :
     stepStmts (launchCode p) u = some (launched p u) := by
-  simp [launchCode,launched,launch,n,stepStmts,stepStmt,evalOp.eq_def,
+  simp [launchCode,launched,launch,n,z,stepStmts,stepStmt,evalOp.eq_def,
     tile_elementwise,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,
     Option.bind_eq_bind,Option.bind,-Tile.scalar_eta]
 
@@ -26,13 +29,13 @@ theorem memory (p : Layout) (u : BlockState) : (launched p u).mem = u.mem := by
 theorem pids (p : Layout) (u : BlockState) : (launched p u).pids = u.pids := by
   simp only [launched,BlockState.setReg_pids]
 theorem batch (p : Layout) (u : BlockState) :
-    (launched p u).regs .nat [] "cur_batch" = some (Tile.scalar (u.pids 0)) := by
+    (launched p u).regs .int [] "cur_batch" = some (Tile.scalar (u.pids 0)) := by
   simp [launched,launch]
 theorem head (p : Layout) (u : BlockState) :
-    (launched p u).regs .nat [] "cur_head" = some (Tile.scalar (u.pids 1)) := by
+    (launched p u).regs .int [] "cur_head" = some (Tile.scalar (u.pids 1)) := by
   simp [launched,launch]
 theorem block (p : Layout) (u : BlockState) :
-    (launched p u).regs .nat [] "start_m" = some (Tile.scalar (u.pids 2)) := by
+    (launched p u).regs .int [] "start_m" = some (Tile.scalar (u.pids 2)) := by
   simp [launched,launch]
 end
 end VeriTile.Bench.TritonBenchG.ContextAttnMistral.PreludeLaunch
@@ -50,7 +53,7 @@ def prepared (r : Regions) (batch : Nat) (u : BlockState) : BlockState :=
   u.setReg "cur_batch_in_all_start_index" .int [] (Tile.scalar (a.start batch))
 
 theorem executes (r : Regions) (batch : Nat) (u : BlockState)
-    (hb : u.regs .nat [] "cur_batch" = some (Tile.scalar batch)) :
+    (hb : u.regs .int [] "cur_batch" = some (Tile.scalar batch)) :
     stepStmts (metadataCode r) u = some (prepared r batch u) := by
   simp [metadataCode,prepared,inputs,loadMeta,n,z,stepStmts,stepStmt,evalOp.eq_def,hb,
     tile_elementwise,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -86,21 +89,21 @@ set_option maxRecDepth 2000
 set_option linter.unusedSimpArgs false
 
 def prepared (p : Layout) (head block : Nat) (start : Int) (u : BlockState) : BlockState :=
-  let u := u.setReg "block_start_loc" .nat [] (Tile.scalar (p.BM*block))
-  let u := u.setReg "offs_n" .nat [p.BN] (Tile.vec (fun j => j.val))
-  let u := u.setReg "offs_d" .nat [p.D] (Tile.vec (fun j => j.val))
-  let u := u.setReg "offs_m" .nat [p.BM] (Tile.vec (fun i => block*p.BM+i.val))
+  let u := u.setReg "block_start_loc" .int [] (Tile.scalar (p.BM*block))
+  let u := u.setReg "offs_n" .int [p.BN] (Tile.vec (fun j => j.val))
+  let u := u.setReg "offs_d" .int [p.D] (Tile.vec (fun j => j.val))
+  let u := u.setReg "offs_m" .int [p.BM] (Tile.vec (fun i => block*p.BM+i.val))
   let u := u.setReg "off_q" .int [p.BM,p.D] (Tile.mat (fun i d =>
     (start+(block*p.BM+i.val : Nat))*p.qRow+head*p.qHead+d.val*p.qDim))
-  let u := u.setReg "off_k" .nat [p.D,p.BN] (Tile.mat (fun d j =>
+  let u := u.setReg "off_k" .int [p.D,p.BN] (Tile.mat (fun d j =>
     j.val*p.kRow+(head/p.kvGroup)*p.kHead+d.val*p.kDim))
-  u.setReg "off_v" .nat [p.BN,p.D] (Tile.mat (fun j d =>
+  u.setReg "off_v" .int [p.BN,p.D] (Tile.mat (fun j d =>
     j.val*p.vRow+(head/p.kvGroup)*p.vHead+d.val*p.vDim))
 
 theorem executes (p : Layout) (head block : Nat) (start : Int) (u : BlockState)
-    (hh : u.regs .nat [] "cur_head" = some (Tile.scalar head))
-    (hk : u.regs .nat [] "cur_kv_head" = some (Tile.scalar (head/p.kvGroup)))
-    (hb : u.regs .nat [] "start_m" = some (Tile.scalar block))
+    (hh : u.regs .int [] "cur_head" = some (Tile.scalar head))
+    (hk : u.regs .int [] "cur_kv_head" = some (Tile.scalar (head/p.kvGroup)))
+    (hb : u.regs .int [] "start_m" = some (Tile.scalar block))
     (hs : u.regs .int [] "cur_batch_in_all_start_index" = some (Tile.scalar start)) :
     stepStmts (offsetCode p) u = some (prepared p head block start u) := by
   simp [offsetCode,prepared,offset,keyOffset,valueOffset,lanes,keyView,keyChannel,valueView,n,z,rowView,dimView,rows,dimensions,stepStmts,stepStmt,
@@ -119,13 +122,13 @@ theorem off_q (p : Layout) (head block : Nat) (start : Int) (u : BlockState) :
   simp [prepared]
 
 theorem rows (p : Layout) (head block : Nat) (start : Int) (u : BlockState) :
-    (prepared p head block start u).regs .nat [p.BM] "offs_m" =
+    (prepared p head block start u).regs .int [p.BM] "offs_m" =
       some (Tile.vec (fun i => block*p.BM+i.val)) := by simp [prepared]
 theorem dims (p : Layout) (head block : Nat) (start : Int) (u : BlockState) :
-    (prepared p head block start u).regs .nat [p.D] "offs_d" =
+    (prepared p head block start u).regs .int [p.D] "offs_d" =
       some (Tile.vec (fun d => d.val)) := by simp [prepared]
 theorem block_start (p : Layout) (head block : Nat) (start : Int) (u : BlockState) :
-    (prepared p head block start u).regs .nat [] "block_start_loc" =
+    (prepared p head block start u).regs .int [] "block_start_loc" =
       some (Tile.scalar (p.BM*block)) := by simp [prepared]
 theorem unchanged (p : Layout) (head block : Nat) (start : Int) (u : BlockState)
     (dtype : TileDType) (shape : TileShape) (name : RegName)
@@ -158,18 +161,18 @@ def queried (p : Layout) (r : Regions) (head block : Nat) (start seq : Int)
   let u := u.setReg "m_i" .real [p.BM] (Tile.vec (fun _ => ⊥))
   let u := u.setReg "l_i" .real [p.BM] (Tile.vec (fun _ => some 0))
   let u := u.setReg "acc" .real [p.BM,p.D] (Tile.mat (fun _ _ => some 0))
-  u.setReg "block_mask" .nat [] (Tile.scalar (if ((p.BM*block : Nat) : Int) < seq then 1 else 0))
+  u.setReg "block_mask" .int [] (Tile.scalar (if ((p.BM*block : Nat) : Int) < seq then 1 else 0))
 
 theorem executes (p : Layout) (r : Regions) (head block : Nat) (start seq : Int)
     (u : BlockState)
     (ho : u.regs .int [p.BM,p.D] "off_q" = some (Tile.mat (dtype := .int) (fun i d =>
       (start+((block*p.BM+i.val : Nat) : Int))*p.qRow+head*p.qHead+d.val*p.qDim)))
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec (fun i => block*p.BM+i.val)))
-    (hb : u.regs .nat [] "block_start_loc" = some (Tile.scalar (p.BM*block)))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => block*p.BM+i.val)))
+    (hb : u.regs .int [] "block_start_loc" = some (Tile.scalar (p.BM*block)))
     (hs : u.regs .int [] "cur_batch_seq_len" = some (Tile.scalar seq))
-    (hk : u.regs .nat [p.D,p.BN] "off_k" = some (Tile.mat (fun d j =>
+    (hk : u.regs .int [p.D,p.BN] "off_k" = some (Tile.mat (fun d j =>
       j.val*p.kRow+(head/p.kvGroup)*p.kHead+d.val*p.kDim)))
-    (hv : u.regs .nat [p.BN,p.D] "off_v" = some (Tile.mat (fun j d =>
+    (hv : u.regs .int [p.BN,p.D] "off_v" = some (Tile.mat (fun j d =>
       j.val*p.vRow+(head/p.kvGroup)*p.vHead+d.val*p.vDim))) :
     stepStmts (queryCode p r) u = some (queried p r head block start seq u) := by
   have hz : (0.0 : ℝ) = 0 := by norm_num

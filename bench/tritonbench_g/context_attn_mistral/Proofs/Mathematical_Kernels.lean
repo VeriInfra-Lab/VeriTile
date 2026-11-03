@@ -1,12 +1,9 @@
 import bench.tritonbench_g.context_attn_mistral.Kernels
 
 /-! Compatibility names for the shared repaired source and retained dtype
-specializations. Complete bodies live only in Kernels.lean. -/
+specializations. Complete pasted bodies live in Sources/Body.lean; Kernels.lean binds invocation metadata. -/
 namespace VeriTile.Bench.TritonBenchG.ContextAttnMistral
 open VeriTile.Triton
-inductive Storage where
-  | fp16 | bf16 | fp32
-  deriving DecidableEq
 
 def original (storage : Storage) := match storage with
   | .fp32 => VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel

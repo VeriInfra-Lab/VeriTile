@@ -94,8 +94,7 @@ def accumulated (o : FPBackend.Ops α) (c : Host.Call) (input : Inputs α)
 
 def expected (o : FPBackend.Ops α) (c : Host.Call) (input : Inputs α)
     (b h row : Nat) (d : Fin c.layout.D) : α :=
-  o.scalar.cast precision .real .real
-    ((accumulated o c input b h (row/128) (tiles c b (row/128))).value
+  ((accumulated o c input b h (row/128) (tiles c b (row/128))).value
       (⟨row%128,Nat.mod_lt _ (by decide)⟩,d,()))
 
 /-- The source's imperative tile loop has the same independent recurrence.
@@ -118,8 +117,7 @@ theorem loop_recurrence (o : FPBackend.Ops α) (c : Host.Call) (input : Inputs �
 
 def sourceValue (o : FPBackend.Ops α) (c : Host.Call) (input : Inputs α)
     (b h row : Nat) (d : Fin c.layout.D) : α :=
-  o.scalar.cast precision .real .real
-    ((loop o c input b h (row/128) 0 (initial o c.layout.D) (tiles c b (row/128))).value
+  ((loop o c input b h (row/128) 0 (initial o c.layout.D) (tiles c b (row/128))).value
       (⟨row%128,Nat.mod_lt _ (by decide)⟩,d,()))
 
 theorem source_expected (o : FPBackend.Ops α) (c : Host.Call) (input : Inputs α)

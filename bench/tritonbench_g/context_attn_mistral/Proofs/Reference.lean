@@ -10,6 +10,7 @@ set_option maxHeartbeats 16000000
 set_option maxRecDepth 40000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
+attribute [local simp 2000] FP.Structural.eval_truncDiv
 
 abbrev program (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) :=
   VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel p r storage Bool.false scale
@@ -90,12 +91,12 @@ def advance (p : Layout) (o : FPBackend.Ops α) (scale : ℝ)
       (M.binary (some .fp32) .real .add (M.literal (some .fp32) .real 0) (raw i))
       (M.literal (some .fp32) .real scale)
   let causal : Values α .real [p.BM,p.BN] := fun i =>
-    if cur+i.2.1.val≤(row p a i.1.val : Int) then scores i else M.literal (some .fp32) .real (-1e9)
+    if cur+i.2.1.val≤(row p a i.1.val : Int) then scores i else M.literal (some .fp32) .real (-1000000000.0)
   let masked : Values α .real [p.BM,p.BN] := fun i =>
-    if cur+i.2.1.val>(row p a i.1.val : Int)-p.window then causal i else M.literal (some .fp32) .real (-1e9)
+    if cur+i.2.1.val>(row p a i.1.val : Int)-p.window then causal i else M.literal (some .fp32) .real (-1000000000.0)
   let reduced := M.reduceMax (some .fp32) (shape:=[p.BM,p.BN]) ⟨1,by simp⟩ Bool.false masked
   let localCenter : Values α .real [p.BM] := fun i =>
-    if o.eq (some .fp32) .real (reduced i) (M.literal (some .fp32) .real (-1e9))
+    if o.eq (some .fp32) .real (reduced i) (M.literal (some .fp32) .real (-1000000000.0))
       then M.literal (some .fp32) .real 0.0 else reduced i
   let probabilities : Values α .real [p.BM,p.BN] := fun i => M.unary (some .fp32) .exp
     (M.binary (some .fp32) .real .sub (masked i) (localCenter (i.1,())))
@@ -131,34 +132,36 @@ decreasing_by omega
 
 def output (p : Layout) (o : FPBackend.Ops α) (scale : ℝ) (a : Inputs α) : Values α .real [p.BM,p.D] :=
   let final := iterate p o scale a 0 (stop p a) (initial p o)
-  fun i => o.scalar.cast (some .fp32) .real .real (final.weighted i)
+  final.weighted
 
 def Matches (p : Layout) (r : Regions) (o : FPBackend.Ops α) (a : Inputs α) (acc : Acc p α) (s : State α) : Prop :=
-  s.regs .nat [] "cur_head"=some (fun _ => a.head) ∧
-  s.regs .nat [] "start_m"=some (fun _ => a.block) ∧
+  s.regs .int [] "cur_head"=some (fun _ => (a.head : Int)) ∧
+  s.regs .int [] "start_m"=some (fun _ => (a.block : Int)) ∧
   s.regs .int [] "cur_batch_in_all_start_index"=some (fun _ => a.start) ∧
   s.regs .int [] "cur_batch_seq_len"=some (fun _ => a.length) ∧
-  s.regs .nat [p.BM] "offs_m"=some (fun i => row p a i.1.val) ∧
-  s.regs .nat [p.BN] "offs_n"=some (fun i => i.1.val) ∧
-  s.regs .nat [p.D] "offs_d"=some (fun i => i.1.val) ∧
+  s.regs .int [p.BM] "offs_m"=some (fun i => (row p a i.1.val : Int)) ∧
+  s.regs .int [p.BN] "offs_n"=some (fun i => (i.1.val : Int)) ∧
+  s.regs .int [p.D] "offs_d"=some (fun i => (i.1.val : Int)) ∧
   s.regs .real [p.BM,p.D] "q"=some (queryTile p o a) ∧
   s.regs .ptr [p.D,p.BN] "k_ptrs"=some (keyPointer p r a) ∧
   s.regs .ptr [p.BN,p.D] "v_ptrs"=some (valuePointer p r a) ∧
   s.regs .real [p.BM] "m_i"=some acc.center ∧
   s.regs .real [p.BM] "l_i"=some acc.mass ∧
   s.regs .real [p.BM,p.D] "acc"=some acc.weighted ∧
-  s.regs .nat [] "block_mask"=some (fun _ => blockMask p a)
+  s.regs .int [] "block_mask"=some (fun _ => (blockMask p a : Int))
 
 theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α) (s : State α) :
     ∃ t,run (engine o.algebra) (parts p r .fp32 scale).before s=some t ∧
       Matches p r o (inputs p r s) (initial p o) t ∧ t.mem=s.mem := by
   simp (config := {maxSteps := 500000}) [parts,program,VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,engine,Algebra.withDefaultPrecision,FPBackend.Ops.algebra,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,
-    ofFloat,toFloat,Region.cast,Matches,inputs,initial,stop,blockMask,queryTile,keyPointer,valuePointer,row,bop]
+    ofFloat,toFloat,Region.cast,Nat.cast_mul,Nat.cast_add,Matches,inputs,initial,stop,blockMask,queryTile,keyPointer,valuePointer,row,bop]
   simp [funext_iff,bop,Broadcast.leftIndex,Broadcast.rightIndex,queryTile,keyPointer,valuePointer,row,Int.mul_comm]
+  constructor <;> intro i j
+  all_goals simp only [Int.ofNat_ediv_ofNat,← Nat.cast_mul,← Nat.cast_add,Int.toNat_natCast,Nat.mul_comm]
 
 end
 end VeriTile.Bench.Repairs.ContextAttnMistral.KernelReference
