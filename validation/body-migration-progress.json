@@ -79,11 +79,13 @@
       }
     ],
     "incremental_replay": {
-      "status": "PENDING",
+      "status": "IN_PROGRESS",
       "scope": "INT8 quantization and GEMM complete source migration",
       "manifest": "validation/body-migration-incremental.json",
       "roots": 83,
-      "note": "Exact-current final official acceptance remains required."
+      "note": "Exact-current final official acceptance remains required.",
+      "validated_source_commit": "4bfb28a5eaeca833596da42f74ab89e3e866e7db",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41710145356"
     },
     "previous_incremental_replays": [
       {
@@ -2557,7 +2559,10 @@
       "full_replay_sources": 5871,
       "full_lake_jobs": 15573,
       "public_theorem_count": 461,
-      "boundary": "All source, proof, safety, public specification and independent official replay gates are required. This local result is not completion."
+      "boundary": "All source, proof, safety, public specification and independent official replay gates are required. This local result is not completion.",
+      "source_commit": "4bfb28a5eaeca833596da42f74ab89e3e866e7db",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41710145356",
+      "independent_replay": "IN_PROGRESS"
     }
   },
   "targets": [
@@ -3504,7 +3509,9 @@
       "reason": "Ten exact pasted source pairs cover the complete producer, unwrapped producer and all four original/candidate GEMM precision profiles. All 81 owned and two frontend/regression roots, four actual public specifications, axiom/non-circularity audits, 643 Python tests and complete 183-case integration pass. Both actual producer loops, signed metadata/counters, grouped GEMM coordinates, ceil K loops, scale precision and implicit atomic conversion remain explicit. No public numeric domain is narrowed; no load/cast identity or result assumption is added. Exact-current official independent replay of all 83 roots is required; compilation alone is not completion.",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "PENDING"
+      "independent_replay": "IN_PROGRESS",
+      "validated_source_commit": "4bfb28a5eaeca833596da42f74ab89e3e866e7db",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41710145356"
     },
     {
       "path": "bench/tritonbench_g/int8_quantization",
