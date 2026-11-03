@@ -80,12 +80,12 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/context_attn_llama"
+        "bench/tritonbench_g/context_attn_mistral"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 86,
-      "replay_sources": 86,
+      "retained_modules": 104,
+      "replay_sources": 104,
       "state": "local_pass_ready_for_official_replay",
       "purpose": "fresh_current_replay_after_fwd_dependency_migration"
     },
@@ -1069,6 +1069,19 @@
         "state": "official_in_progress",
         "source_commit": "66e61dc967b160eb2c3c4bb171aba8fb10130289",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41624978732"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/context_attn_llama"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 86,
+        "replay_sources": 86,
+        "state": "official_in_progress",
+        "purpose": "fresh_current_replay_after_fwd_dependency_migration",
+        "source_commit": "0b543497e05a0b207d77ae4932d57ae92803e550",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41625064748"
       }
     ],
     "pending_client_regressions": {
@@ -2000,10 +2013,11 @@
       "full_lake_jobs": 14785,
       "public_theorem_count": 437,
       "boundary": "Local validation only. Fresh exact-current independent replay must accept every owned root and both public statements; the Fwd dependency migration and affected proof rebuild have passed.",
-      "source_commit": "0a5d5647f7e6bcc5c3359b489faf992072801412",
-      "independent_replay": "PENDING_FRESH_CURRENT_REPLAY",
+      "source_commit": "0b543497e05a0b207d77ae4932d57ae92803e550",
+      "independent_replay": "IN_PROGRESS",
       "superseded_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41619988999",
-      "dependency_migration": "context_attn_fwd source migrated and all affected retained/public proofs rebuilt successfully against the current closure"
+      "dependency_migration": "context_attn_fwd source migrated and all affected retained/public proofs rebuilt successfully against the current closure",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41625064748"
     },
     "context_attn_mistral_source_migration": {
       "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
