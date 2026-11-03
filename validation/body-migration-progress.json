@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 177,
+  "completed_count": 178,
   "staged_count": 181,
-  "pending_count": 19,
+  "pending_count": 18,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PRIOR_BATCH_AND_CURRENT_INT8_QUANTIZATION_36_ROOTS_PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "177 exact-current accepted targets including all 19 examples. StreamK and the two-case Attention group remain in progress. int8_quantization passed all local source/public-proof/retained-module checks and awaits 36-root official replay. 15 source migrations remain uncovered. No local build is counted as completion.",
+    "official_comparator": "178 exact-current accepted targets including all 19 examples. StreamK completed all 80 official roots and exact-current receipt validation. The Attention group and int8_quantization remain in progress. Fifteen source migrations remain; fused_recurrent_delta is being reproved and is not staged or complete.",
     "python_tests": 662,
     "offline_example_compilations": {
       "cases": 19,
@@ -2636,13 +2636,17 @@
       "full_replay_sources": 6015,
       "full_lake_jobs": 15726,
       "public_theorem_count": 465,
-      "boundary": "Every source, public Real/FP specification, safety, axiom and exact-current official independent replay gate is required. Local compilation is not completion.",
+      "boundary": "Every owned/shared root, public Real/FP theorem, all source pairs and exact current import closure independently accepted.",
       "source_commit": "4f6d2994baedecaf904dc64bbbff33f88e190f60",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41734203837",
-      "independent_replay": "IN_PROGRESS",
+      "independent_replay": "PASS",
       "previous_failed_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478",
       "previous_failure": "78/79 roots accepted; SourceAdapter inventory parse failed because the audit import reserves the local binder full. Renamed that binder to fullKernel and replayed its audit-prepared source locally. Restored the StreamKControlSource regression under the current Invocation ABI and added it to required replay roots.",
-      "required_replay_roots": 80
+      "required_replay_roots": 80,
+      "state": "EXACT_CURRENT_OFFICIAL_REPLAY_ACCEPTED",
+      "receipt": "validation/body_receipts/streamk-matmul-source-migration.json",
+      "official_replay_roots": 80,
+      "frozen_source_files": 312
     },
     "attention_fwd_triton3_source_migration": {
       "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
@@ -4775,15 +4779,16 @@
     },
     {
       "path": "bench/tritonbench_g/streamk_matmul",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "IN_PROGRESS",
-      "reason": "All 12 pasted bodies and the public Real/FP proofs remain checked. Official run 41715124478 accepted 78/79 roots and rejected SourceAdapter inventory parsing. The local binder collision is fixed and the audit-prepared adapter elaborates. All 78 module roots build; both frontend/StreamK regression files and five Python tests pass. The added StreamK regression is now a third shared replay root. All 80 exact-current independent replays are required; this task remains incomplete.",
+      "independent_replay": "PASS",
+      "reason": "All 80 required owned/shared roots, both actual public Real/FP specifications and all 12 source pairs accepted by official independent replay. Final ZIP SHA256, exact frozen root set, current source/import closure and public theorem names verified. No changed or excluded cases; compilation alone was not completion evidence.",
       "validated_source_commit": "4f6d2994baedecaf904dc64bbbff33f88e190f60",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41734203837"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41734203837",
+      "receipt": "validation/body_receipts/streamk-matmul-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/swiglu_backward",
