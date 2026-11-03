@@ -80,9 +80,9 @@
     ],
     "incremental_replay": {
       "status": "PREPARED",
-      "scope": "Signed accumulator shared dependency revalidation group 1",
+      "scope": "Signed accumulator shared dependency revalidation group 2",
       "manifest": "validation/body-migration-incremental.json",
-      "roots": 267,
+      "roots": 103,
       "note": "Exact-current final official acceptance remains required."
     },
     "previous_incremental_replays": [
@@ -1244,6 +1244,15 @@
         "note": "Historical receipts are not current closure acceptance; no completion is restored from the passing local build.",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697137018",
         "validated_source_commit": "a3ba6474162641f0142b45fb815202065c1bcac5"
+      },
+      {
+        "status": "IN_PROGRESS",
+        "scope": "Signed accumulator shared dependency revalidation group 1",
+        "manifest": "validation/body-migration-incremental.json",
+        "roots": 267,
+        "note": "Exact-current final official acceptance remains required.",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
+        "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85"
       }
     ],
     "pending_client_regressions": {
@@ -2491,6 +2500,19 @@
           ],
           "roots": 123,
           "status": "IN_PROGRESS"
+        },
+        "1": {
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
+          "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
+          "cases": [
+            "bench/tritonbench_g/int8_matmul_kernel",
+            "bench/tritonbench_g/matmul_dequant_int4",
+            "bench/tritonbench_g/matmul_dequantize_int4",
+            "bench/tritonbench_g/matmul_dequantize",
+            "bench/tritonbench_g/int_scaled_matmul"
+          ],
+          "roots": 267,
+          "status": "IN_PROGRESS"
         }
       }
     }
@@ -3423,10 +3445,10 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "receipt": "validation/body_receipts/int8-matmul-source-migration.json",
-      "validated_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368653214",
+      "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
       "previously_complete": true,
-      "independent_replay": "PENDING_CURRENT_SOURCE_CLOSURE",
+      "independent_replay": "IN_PROGRESS",
       "previous_receipt": "validation/body_receipts/int8-matmul-source-migration.json"
     },
     {
@@ -3447,10 +3469,10 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
-      "independent_replay": "PENDING_CURRENT_SOURCE_CLOSURE",
+      "independent_replay": "IN_PROGRESS",
       "receipt": "validation/body_receipts/int-scaled-matmul-source-migration.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613131342",
-      "validated_source_commit": "54e28c9cb9a1d5b12d5f1382b6b9b30db86614e4",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
+      "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/int-scaled-matmul-source-migration.json"
     },
@@ -3811,12 +3833,12 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
-      "validated_source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
+      "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
       "receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
-      "independent_replay": "PENDING_CURRENT_SOURCE_CLOSURE"
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize",
@@ -3826,12 +3848,12 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
-      "validated_source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
+      "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
       "receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
-      "independent_replay": "PENDING_CURRENT_SOURCE_CLOSURE"
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize_int4",
@@ -3841,12 +3863,12 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
-      "validated_source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
+      "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
       "receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
-      "independent_replay": "PENDING_CURRENT_SOURCE_CLOSURE"
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/matmul_kernel",
