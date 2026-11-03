@@ -27,11 +27,11 @@ def prepared (p : Layout) (r : Regions) (head : Nat) (req sn limit : Int) (u : B
 
 theorem executes (p : Layout) (r : Regions) (head : Nat) (req sn limit : Int) (u : BlockState)
     (hr : u.regs .int [] "cur_batch_req_idx" = some (Tile.scalar req))
-    (hh : u.regs .nat [] "cur_kv_head" = some (Tile.scalar head))
+    (hh : u.regs .int [] "cur_kv_head" = some (Tile.scalar head))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar limit))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val))) :
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val))) :
     stepStmts (keys p r) u = some (prepared p r head req sn limit u) := by
   have hz : (0.0 : ℝ) = 0 := by norm_num
   simp [keys,pageIndex,pageMask,pageKeyView,pageLanes,

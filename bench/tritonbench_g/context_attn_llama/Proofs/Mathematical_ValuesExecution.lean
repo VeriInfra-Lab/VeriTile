@@ -30,11 +30,11 @@ def prepared (p : Layout) (r : Regions) (head : Nat) (pages : Fin p.BN → Int) 
 
 theorem load_executes (p : Layout) (r : Regions) (head : Nat) (pages : Fin p.BN → Int) (sn limit : Int) (u : BlockState)
     (hpages : u.regs .int [p.BN] "kv_loc" = some (Tile.vec pages))
-    (hh : u.regs .nat [] "cur_kv_head" = some (Tile.scalar head))
+    (hh : u.regs .int [] "cur_kv_head" = some (Tile.scalar head))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar limit))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val))) :
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val))) :
     stepStmts ((values p r).take 2) u = some (loadedState p r head pages sn limit u) := by
   have hz : (0.0 : ℝ) = 0 := by norm_num
   simp [values,valueOffsets,pageValueView,pageLanes,valueMask,valueView,valueChannel,dimView,lanes,dimensions,n,z,loadedState,loaded,address,
@@ -46,11 +46,11 @@ theorem load_executes (p : Layout) (r : Regions) (head : Nat) (pages : Fin p.BN 
 theorem executes (p : Layout) (r : Regions) (head : Nat) (pages : Fin p.BN → Int) (sn limit : Int)
     (prob : Tile .real [p.BM,p.BN]) (mx : Tile .real [p.BM]) (acc : Tile .real [p.BM,p.D]) (u : BlockState)
     (hpages : u.regs .int [p.BN] "kv_loc" = some (Tile.vec pages))
-    (hh : u.regs .nat [] "cur_kv_head" = some (Tile.scalar head))
+    (hh : u.regs .int [] "cur_kv_head" = some (Tile.scalar head))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar limit))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
     (hp : u.regs .real [p.BM,p.BN] "p" = some prob)
     (hm : u.regs .real [p.BM] "m_ij" = some mx)
     (ha : u.regs .real [p.BM,p.D] "acc" = some acc) :

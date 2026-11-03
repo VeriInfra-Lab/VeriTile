@@ -37,21 +37,21 @@ theorem source_split (p : Layout) (r : Regions) (scale : ℝ) :
 
 /-- Exactly the registers read across the source loop boundary. -/
 def Ready (p : Layout) (s : State α) : Prop :=
-  (s.regs .nat [] "cur_kv_head").isSome ∧
+  (s.regs .int [] "cur_kv_head").isSome ∧
   (s.regs .int [] "cur_batch_req_idx").isSome ∧
   (s.regs .int [] "block_end_loc").isSome ∧
-  (s.regs .nat [p.BN] "offs_n").isSome ∧
-  (s.regs .nat [p.D] "offs_d").isSome ∧
-  (s.regs .nat [p.BM] "offs_m").isSome ∧
+  (s.regs .int [p.BN] "offs_n").isSome ∧
+  (s.regs .int [p.D] "offs_d").isSome ∧
+  (s.regs .int [p.BM] "offs_m").isSome ∧
   (s.regs .int [] "prompt_cache_len").isSome ∧
   (s.regs .real [p.BM,p.D] "q").isSome ∧
   (s.regs .real [p.BM] "m_i").isSome ∧
   (s.regs .real [p.BM] "l_i").isSome ∧
   (s.regs .real [p.BM,p.D] "acc").isSome ∧
   (s.regs .int [] "cur_batch_in_all_start_index").isSome ∧
-  (s.regs .nat [] "cur_head").isSome ∧
+  (s.regs .int [] "cur_head").isSome ∧
   (s.regs .int [] "cur_batch_seq_len").isSome ∧
-  (s.regs .nat [] "block_mask").isSome
+  (s.regs .int [] "block_mask").isSome
 
 def start (p : Layout) (r : Regions) (s : State α) : Int :=
   (s.mem r.start (s.pids 1 / p.heads)).read .int
