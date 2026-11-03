@@ -86,7 +86,10 @@
       "cases": 1,
       "retained_modules": 47,
       "replay_sources": 47,
-      "state": "local_pass_ready_for_official_replay"
+      "state": "official_replay_running",
+      "source_commit": "5eed40e06d43e31b0fb759af4a6ec6e345d27a22",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41562493692",
+      "started_at": "2026-11-03T01:52:02Z"
     },
     "previous_incremental_replays": [
       {
@@ -2092,7 +2095,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Complete unchanged repaired Python forward/backward bodies (73/122 statements), including unused constants, all 29 repaired derivative coefficients, INT64 casts, masks, strided upstream reads, old-gradient accumulation and stores, now appear literally with external ABI metadata. Materialized the existing powers-reuse candidate in Python and checked identical left-associated multiplication trees. Removed the four old whole quotations. The optional frontend preserves immutable weak floating aliases with contextual literal typing. Reproved complete executions, signed/natural indexing, memory results, independent polynomials and Jacobian transpose, exact FP32 coefficient words including constexpr-folded negations, actual FP candidates, full grids, native bounds, source safety, readback and frames without new public premises or numerical rules. All 45 owned modules, two shared frontend/test roots and six named shared trust/inventory gates pass locally. Integration passes 163 cases, 5329 retained modules, 14037 Lake jobs, 407 public theorem names, 560 Python tests and corpus checks. Independent exact-current replay remains required; compilation is not completion."
+      "reason": "Complete unchanged repaired Python forward/backward bodies (73/122 statements), including unused constants, all 29 repaired derivative coefficients, INT64 casts, masks, strided upstream reads, old-gradient accumulation and stores, now appear literally with external ABI metadata. Materialized the existing powers-reuse candidate in Python and checked identical left-associated multiplication trees. Removed the four old whole quotations. The optional frontend preserves immutable weak floating aliases with contextual literal typing. Reproved complete executions, signed/natural indexing, memory results, independent polynomials and Jacobian transpose, exact FP32 coefficient words including constexpr-folded negations, actual FP candidates, full grids, native bounds, source safety, readback and frames without new public premises or numerical rules. All 45 owned modules, two shared frontend/test roots and six named shared trust/inventory gates pass locally. Integration passes 163 cases, 5329 retained modules, 14037 Lake jobs, 407 public theorem names, 560 Python tests and corpus checks. Independent exact-current replay remains required; compilation is not completion.",
+      "validated_source_commit": "5eed40e06d43e31b0fb759af4a6ec6e345d27a22",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41562493692"
     },
     {
       "path": "bench/tritonbench_g/flash_attn",
