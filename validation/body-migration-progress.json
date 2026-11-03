@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 169,
-  "staged_count": 178,
+  "staged_count": 179,
   "pending_count": 27,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "LOCAL_PASS_TWO_MIGRATIONS_AND_NINE_DEPENDENCIES_AWAIT_OFFICIAL_ACCEPTANCE",
-    "staged_and_regression_retained_modules": 6933,
-    "official_comparator": "169 exact-current independently accepted targets, including all 19 examples. Seven shared-dependency cases and two new migrations await official acceptance; 18 further targets remain to migrate.",
-    "python_tests": 648,
+    "staged_public_proofs": "LOCAL_PASS_THREE_MIGRATIONS_AND_SEVEN_DEPENDENCIES_AWAIT_OFFICIAL_ACCEPTANCE",
+    "staged_and_regression_retained_modules": 7012,
+    "official_comparator": "169 exact-current independently accepted targets, including all 19 examples. Seven shared-dependency cases and three new migrations await official acceptance; 17 further targets remain to migrate.",
+    "python_tests": 653,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "184 cases (178 targets and six regressions), 6933 retained/support roots, 15647 Lake jobs, 463 public theorem names and 648 Python tests pass. INT8 quantization/GEMM and spinning-lock source migrations are locally verified and await official independent acceptance. 169 targets have exact-current receipts; seven dependencies await replay; 18 further targets remain to migrate.",
+    "working_tree": "185 cases (179 targets and six regressions), 7012 retained/support roots, 15726 Lake jobs, 465 public theorem names and 653 Python tests pass. INT8 quantization/GEMM, spinning-lock and StreamK migrations are locally verified and await official independent acceptance. 169 targets have exact-current receipts; seven dependencies await replay; 17 further targets remain to migrate.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -79,13 +79,11 @@
       }
     ],
     "incremental_replay": {
-      "status": "IN_PROGRESS",
-      "scope": "Spinning-lock complete function-body migration",
+      "status": "PENDING",
+      "scope": "StreamK six-function original/candidate complete body migration",
       "manifest": "validation/body-migration-incremental.json",
-      "roots": 65,
-      "note": "Exact-current final official acceptance remains required.",
-      "validated_source_commit": "836a1fd97949feace3e22d875fbdfec4586af009",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41712813739"
+      "roots": 79,
+      "note": "Exact-current final official acceptance remains required."
     },
     "previous_incremental_replays": [
       {
@@ -1264,6 +1262,15 @@
         "note": "Exact-current final official acceptance remains required.",
         "validated_source_commit": "4bfb28a5eaeca833596da42f74ab89e3e866e7db",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41710145356"
+      },
+      {
+        "status": "IN_PROGRESS",
+        "scope": "Spinning-lock complete function-body migration",
+        "manifest": "validation/body-migration-incremental.json",
+        "roots": 65,
+        "note": "Exact-current final official acceptance remains required.",
+        "validated_source_commit": "836a1fd97949feace3e22d875fbdfec4586af009",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41712813739"
       }
     ],
     "pending_client_regressions": {
@@ -2595,6 +2602,35 @@
       "source_commit": "836a1fd97949feace3e22d875fbdfec4586af009",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41712813739",
       "independent_replay": "IN_PROGRESS"
+    },
+    "streamk_matmul_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 77,
+      "shared_replay_roots": 2,
+      "source_pairs": 12,
+      "original_jit_functions": 6,
+      "python_top_level_statements": [
+        8,
+        3,
+        12,
+        4,
+        16,
+        7,
+        8,
+        3,
+        12,
+        4,
+        16,
+        7
+      ],
+      "public_theorems": 2,
+      "python_tests": 653,
+      "full_cases": 185,
+      "full_retained_modules": 7012,
+      "full_replay_sources": 6015,
+      "full_lake_jobs": 15726,
+      "public_theorem_count": 465,
+      "boundary": "Every source, public Real/FP specification, safety, axiom and exact-current official independent replay gate is required. Local compilation is not completion."
     }
   },
   "targets": [
@@ -4651,8 +4687,13 @@
     },
     {
       "path": "bench/tritonbench_g/streamk_matmul",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "independent_replay": "PENDING",
+      "reason": "All six repaired JIT functions and all six candidate JIT functions have exact pasted bodies. Source retains every cast, loop, helper argument, ACC_TYPE token, masked read/store and atomic. Caller ABI/dtype and helper identities are separately checked; the bundle links calls to the actual supplied source members. All 77 owned plus two shared frontend/regression roots, actual public Real/FP statements, standard-base axiom and independent-formula audits, 653 Python tests and complete 185-case integration pass. Existing numerical, finite-width and concurrent domains remain unchanged. Exact-current official independent acceptance of all 79 roots is still required; compilation alone is not completion."
     },
     {
       "path": "bench/tritonbench_g/swiglu_backward",

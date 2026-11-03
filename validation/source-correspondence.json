@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 165,
-      "uncovered_jit_functions": 18
+      "selected_body_copy_checked": 166,
+      "uncovered_jit_functions": 17
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 65,
+    "uncovered_selected_jit_functions": 59,
     "inventoried_jit_functions": 572,
-    "uncovered_inventoried_jit_functions": 81,
+    "uncovered_inventoried_jit_functions": 69,
     "checked_pair_modes": {
-      "pasted_body": 509
+      "pasted_body": 521
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 165,
-        "uncovered_jit_functions": 18
+        "selected_body_copy_checked": 166,
+        "uncovered_jit_functions": 17
       }
     },
     "primary_files_with_int64_screen_warning": 3,
@@ -42382,13 +42382,13 @@
       "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
       "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean",
       "lean_screen": {
-        "quotations": 8,
+        "quotations": 12,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 26,
+        "dsl_assignment": 90,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 3
+        "load_dtype_extension": 4
       },
       "python_jits": [
         {
@@ -42584,88 +42584,380 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "swizzle_tile",
+          "lean_definition": "swizzle_tileSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 8,
+          "runtime_parameters": {
+            "tile_id": "integer",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "swizzle_tile"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         },
         {
+          "python_function": "linear_tile",
+          "lean_definition": "linear_tileSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 3,
+          "runtime_parameters": {
+            "tile_id": "integer",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "linear_tile"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         },
         {
+          "python_function": "mac_loop",
+          "lean_definition": "mac_loopSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 12,
+          "runtime_parameters": {
+            "A": "fp32",
+            "B": "fp32",
+            "C": "fp32",
+            "partials": "fp32",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "program": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "iters_per_tile": "integer",
+            "start_iter": "integer",
+            "end_iter": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "ACC_TYPE",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "mac_loop"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         },
         {
+          "python_function": "first_wave",
+          "lean_definition": "first_waveSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 4,
+          "runtime_parameters": {
+            "A": "fp32",
+            "B": "fp32",
+            "C": "fp32",
+            "partials": "fp32",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "total_full_tiles_streamk": "integer",
+            "total_partial_tiles_streamk": "integer",
+            "iters_per_tile": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "ACC_TYPE",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "first_wave"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         },
         {
+          "python_function": "full_tiles",
+          "lean_definition": "full_tilesSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 16,
+          "runtime_parameters": {
+            "A": "fp32",
+            "B": "fp32",
+            "C": "fp32",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "total_tiles_streamk": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "ACC_TYPE",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "full_tiles"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         },
         {
+          "python_function": "reduce_streamk",
+          "lean_definition": "reduce_streamkSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 7,
+          "runtime_parameters": {
+            "C": "fp32",
+            "partials": "fp32",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "total_programs_streamk": "integer",
+            "total_full_tiles_streamk": "integer",
+            "total_partial_tiles_streamk": "integer",
+            "iters_per_tile": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "reduce_streamk"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         },
         {
+          "python_function": "swizzle_tile_area",
+          "lean_definition": "area_swizzle_tileSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 8,
+          "runtime_parameters": {
+            "tile_id": "integer",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul_area.py",
-          "function": "swizzle_tile_area"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         },
         {
+          "python_function": "linear_tile_area",
+          "lean_definition": "area_linear_tileSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 3,
+          "runtime_parameters": {
+            "tile_id": "integer",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul_area.py",
-          "function": "linear_tile_area"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         },
         {
+          "python_function": "mac_loop_area",
+          "lean_definition": "area_mac_loopSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 12,
+          "runtime_parameters": {
+            "A": "fp32",
+            "B": "fp32",
+            "C": "fp32",
+            "partials": "fp32",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "program": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "iters_per_tile": "integer",
+            "start_iter": "integer",
+            "end_iter": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "ACC_TYPE",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul_area.py",
-          "function": "mac_loop_area"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         },
         {
+          "python_function": "first_wave_area",
+          "lean_definition": "area_first_waveSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 4,
+          "runtime_parameters": {
+            "A": "fp32",
+            "B": "fp32",
+            "C": "fp32",
+            "partials": "fp32",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "total_full_tiles_streamk": "integer",
+            "total_partial_tiles_streamk": "integer",
+            "iters_per_tile": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "ACC_TYPE",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul_area.py",
-          "function": "first_wave_area"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         },
         {
+          "python_function": "full_tiles_area",
+          "lean_definition": "area_full_tilesSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 16,
+          "runtime_parameters": {
+            "A": "fp32",
+            "B": "fp32",
+            "C": "fp32",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "total_tiles_streamk": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "ACC_TYPE",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul_area.py",
-          "function": "full_tiles_area"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         },
         {
+          "python_function": "reduce_streamk_area",
+          "lean_definition": "area_reduce_streamkSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 7,
+          "runtime_parameters": {
+            "C": "fp32",
+            "partials": "fp32",
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "total_programs_streamk": "integer",
+            "total_full_tiles_streamk": "integer",
+            "total_partial_tiles_streamk": "integer",
+            "iters_per_tile": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "BLOCK_K",
+            "GROUP_M"
+          ],
+          "constexpr_bools": {},
           "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul_area.py",
-          "function": "reduce_streamk_area"
+          "lean": "bench/tritonbench_g/streamk_matmul/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "swizzle_tile"
-        },
-        {
-          "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "linear_tile"
-        },
-        {
-          "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "mac_loop"
-        },
-        {
-          "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "first_wave"
-        },
-        {
-          "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "full_tiles"
-        },
-        {
-          "python": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
-          "function": "reduce_streamk"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/streamk_matmul/Kernels.lean": "9df98de233711f9a47c662f65896680f6e855ece8da9ded857ba4f9871f12b4c",
+        "bench/tritonbench_g/streamk_matmul/Kernels.lean": "efb457deee5947e906f613ea00030b9b6c1c7abc0e2dfec31a2a34d5ad2416a9",
+        "bench/tritonbench_g/streamk_matmul/jit-correspondence.json": "ce72a794ed0815c90adc090da50b41978aab7255dd42de20a3e76c3f74c54371",
         "bench/tritonbench_g/streamk_matmul/streamk_matmul.py": "be44f7890921b603557e046e69b740ee00190314ac9d8bbb417cff4dd8a1e977",
         "bench/tritonbench_g/streamk_matmul/streamk_matmul_area.py": "c42c2a6fc70811abe77c59d64f89c7d8fe85f51daf11e1deae82a899e3d4faa7"
       },
