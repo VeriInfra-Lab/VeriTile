@@ -5,12 +5,12 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 167,
-  "staged_count": 176,
+  "staged_count": 177,
   "pending_count": 29,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "BMM_AND_ATTENTION_LLAMA_INDEPENDENTLY_ACCEPTED_NINE_DEPENDENCIES_REPLAY_PENDING",
-    "staged_and_regression_retained_modules": 6784,
+    "staged_and_regression_retained_modules": 6868,
     "official_comparator": "167 exact-current independently accepted targets, including all 19 examples. Nine previously accepted targets await fresh shared-dependency replay; 20 targets remain to migrate.",
     "python_tests": 643,
     "offline_example_compilations": {
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "BMM (104 roots) and Attention Llama (115 roots) independently accepted against exact current source closures. All 19 examples accepted. Nine shared-dependency cases locally revalidated (489 roots, 28 public theorems) await fresh official receipts. Current int8_matmul_quantization migration remains incomplete; no completion inferred from compilation.",
+    "working_tree": "183 cases (177 targets and six regressions), 6868 retained/support roots, 15573 Lake jobs, 461 public theorem names and 643 Python tests pass. Current int8_matmul_quantization Real/FP and independent formula audits pass and await official independent acceptance. 167 targets have exact-current receipts; nine dependencies await replay; 19 further targets remain to migrate.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -79,13 +79,11 @@
       }
     ],
     "incremental_replay": {
-      "status": "IN_PROGRESS",
-      "scope": "Signed accumulator shared dependency revalidation group 2",
+      "status": "PENDING",
+      "scope": "INT8 quantization and GEMM complete source migration",
       "manifest": "validation/body-migration-incremental.json",
-      "roots": 103,
-      "note": "Exact-current final official acceptance remains required.",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697483077",
-      "validated_source_commit": "626a2f539ab83c00567151ff78f6906ad5f01bad"
+      "roots": 83,
+      "note": "Exact-current final official acceptance remains required."
     },
     "previous_incremental_replays": [
       {
@@ -2533,6 +2531,33 @@
           "status": "IN_PROGRESS"
         }
       }
+    },
+    "int8_matmul_quantization_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 81,
+      "shared_replay_roots": 2,
+      "source_pairs": 10,
+      "original_jit_functions": 2,
+      "python_top_level_statements": [
+        19,
+        19,
+        39,
+        39,
+        39,
+        39,
+        39,
+        39,
+        39,
+        39
+      ],
+      "public_theorems": 4,
+      "python_tests": 643,
+      "full_cases": 183,
+      "full_retained_modules": 6868,
+      "full_replay_sources": 5871,
+      "full_lake_jobs": 15573,
+      "public_theorem_count": 461,
+      "boundary": "All source, proof, safety, public specification and independent official replay gates are required. This local result is not completion."
     }
   },
   "targets": [
@@ -3473,10 +3498,13 @@
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_quantization",
-      "status": "source_proof_migration_in_progress",
+      "status": "proof_replay_pending",
       "complete": false,
       "body_copy_check": "PASS",
-      "reason": "Ten exact original/candidate Python body pairs and four mutation/provenance tests pass. Signed execution and ceil-loop connections are being re-proved; public Real/FP and all retained roots have not yet passed, so this task is not complete."
+      "reason": "Ten exact pasted source pairs cover the complete producer, unwrapped producer and all four original/candidate GEMM precision profiles. All 81 owned and two frontend/regression roots, four actual public specifications, axiom/non-circularity audits, 643 Python tests and complete 183-case integration pass. Both actual producer loops, signed metadata/counters, grouped GEMM coordinates, ceil K loops, scale precision and implicit atomic conversion remain explicit. No public numeric domain is narrowed; no load/cast identity or result assumption is added. Exact-current official independent replay of all 83 roots is required; compilation alone is not completion.",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "independent_replay": "PENDING"
     },
     {
       "path": "bench/tritonbench_g/int8_quantization",

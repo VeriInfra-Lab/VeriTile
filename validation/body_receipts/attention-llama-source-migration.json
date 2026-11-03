@@ -6,7 +6,7 @@
   "source_commit": "6d6fc7c62e3c832d903417a0bc583886fcc89368",
   "official_shards": 1,
   "official_shard": null,
-  "original_replay_complete": false,
+  "original_replay_complete": true,
   "artifact": {
     "id": 13266895942,
     "name": "body-migration-proof-replay",
@@ -157,5 +157,6 @@
   ],
   "excluded_current_cases": [],
   "digest_encoding": "SHA256 of UTF-8 JSON with sorted keys and compact separators over the exact path-to-SHA256 closure map (or source-pair list). Imports resolve with replay_body_migrations.case_sources.",
-  "boundary": "Only listed unchanged cases and their exact current source/import closures are accepted. This is not acceptance of changed cases or the entire corpus."
+  "boundary": "Only listed unchanged cases and their exact current source/import closures are accepted. This is not acceptance of changed cases or the entire corpus.",
+  "replay_completeness_evidence": "Exact result-root set equals every current owned Lean module plus the explicitly staged shared regression/frontend roots; every result accepted."
 }

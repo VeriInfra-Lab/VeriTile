@@ -1,124 +1,37 @@
-import VeriTile.Triton.Source
-import VeriTile.Triton.DSL
+import bench.tritonbench_g.int8_matmul_quantization.Sources.Body
 
 namespace VeriTile.Bench.Repairs.Int8MatmulQuantization.KernelSource
-open Lean VeriTile.Triton
-set_option maxRecDepth 28000
-set_option maxHeartbeats 3000000
-
-/-- Complete canonical row producer. The launch binding supplies the source
-loop count and canonical strides; no payload or desired result is supplied.
-Natural index syntax is paired with the retained finite-index refinement. -/
+open VeriTile.Triton
 structure QuantizeParameters where
   (input output scales : RegionName)
   (rows columns inputRowStride inputColumnStride outputRowStride outputColumnStride scaleStride
-    blockRows blockColumns steps : Nat)
-
-def quantize (p : QuantizeParameters) : ComputeKernel :=
-  let fpa_ptr := p.input
-  let a_ptr : Region .int := p.output
-  let as_ptr := p.scales
-  triton {
-  tl.region fpa_ptr = tl.float32, a_ptr = tl.int8, as_ptr = tl.float16
-  pid_m = tl.program_id(0)
-  offs_k = tl.arange(0, $(p.blockColumns))
-  offs_am = (pid_m * $(p.blockRows) + tl.arange(0, $(p.blockRows))) % $(p.rows)
-  fpa_ptrs = fpa_ptr + offs_am[:, None] * $(p.inputRowStride) + offs_k[None, :] * $(p.inputColumnStride)
-  a_ptrs = a_ptr + offs_am[:, None] * $(p.outputRowStride) + offs_k[None, :] * $(p.outputColumnStride)
-  a_max = tl.zeros([$(p.blockRows)], dtype=tl.float32)
-  for k in range($(0), $(p.steps), $(1)) {
-    fpa = tl.load(fpa_ptrs, mask=offs_k[None, :] < $(p.columns) - k * $(p.blockColumns), other=0.0)
-    a_max = tl.maximum(a_max, tl.max(tl.abs(fpa), axis=1))
-    fpa_ptrs += $(p.blockColumns) * $(p.inputColumnStride)
-  }
-  a_scale = (a_max / 127.0)
-  fpa_ptrs = fpa_ptr + offs_am[:, None] * $(p.inputRowStride) + offs_k[None, :] * $(p.inputColumnStride)
-  for k in range($(0), $(p.steps), $(1)) {
-    fpa = tl.load(fpa_ptrs, mask=offs_k[None, :] < $(p.columns) - k * $(p.blockColumns), other=0.0)
-    inta = (fpa / a_scale[:, None]).to(tl.int8)
-    tl.store(a_ptrs, inta, mask=offs_k[None, :] < $(p.columns) - k * $(p.blockColumns))
-    fpa_ptrs += $(p.blockColumns) * $(p.inputColumnStride)
-    a_ptrs += $(p.blockColumns) * $(p.outputColumnStride)
-  }
-  as_offs = pid_m * $(p.blockRows) * $(p.scaleStride) + tl.arange(0, $(p.blockRows))
-  tl.store(as_ptr + as_offs, a_scale.to(tl.float16))
-}
-
+    blockRows blockColumns : Nat)
+  /-- Legacy launch record only; the quoted body derives tl.cdiv itself. -/
+  steps : Nat
 
 structure GemmParameters where
   (input weight inputScale weightScale output : RegionName)
   (rows columns inner inputRowStride inputInnerStride inputScaleStride
     weightInnerStride weightColumnStride weightScaleStride outputRowStride outputColumnStride
-    blockRows blockColumns blockInner groupRows split steps : Nat)
+    blockRows blockColumns blockInner groupRows split : Nat)
+  /-- Legacy launch record only; never substituted into the source loop. -/
+  steps : Nat
 
-/-- One readable source body, specialized only at actual scale/output storage
-widths. The frontend expresses signed32-to-FP32 through the multiplication's
-numeric promotion; explicit scale widening selects that same FP32 operation.
-Explicit destination casts are Python's implicit store/atomic casts, and the
-mandatory FP16 partial remains in every specialization. -/
-syntax "int8MatmulSource%" "[" ident "," ident "]" : term
-set_option hygiene false in
-macro_rules
-  | `(int8MatmulSource%[$scaleKind:ident, $outputKind:ident]) => do
-    let scaleType : TSyntax `tritonDType ← match scaleKind.getId with
-      | `half => `(tritonDType| tl.float16)
-      | `single => `(tritonDType| tl.float32)
-      | _ => Macro.throwError "expected half or single row scale"
-    let outputType : TSyntax `tritonDType ← match outputKind.getId with
-      | `half => `(tritonDType| tl.float16)
-      | `single => `(tritonDType| tl.float32)
-      | _ => Macro.throwError "expected half or single output"
-    `(fun (p : GemmParameters) =>
-      let A : Region .int := p.input
-      let B : Region .int := p.weight
-      let as_ptr := p.inputScale
-      let bs_ptr := p.weightScale
-      let C := p.output
-      triton {
-  tl.region A = tl.int8, B = tl.int8, as_ptr = $scaleType, bs_ptr = tl.float32, C = $outputType
-  pid = tl.program_id(0)
-  pid_sp_k = tl.program_id(1)
-  num_pid_m = tl.cdiv($(p.rows), $(p.blockRows))
-  num_pid_n = tl.cdiv($(p.columns), $(p.blockColumns))
-  num_pid_in_group = $(p.groupRows) * num_pid_n
-  group_id = pid // num_pid_in_group
-  first_pid_m = group_id * $(p.groupRows)
-  group_size_m = min(num_pid_m - first_pid_m, $(p.groupRows))
-  pid_m = first_pid_m + (pid % group_size_m)
-  pid_n = (pid % num_pid_in_group) // group_size_m
-  offs_am = (pid_m * $(p.blockRows) + tl.arange(0, $(p.blockRows))) % $(p.rows)
-  offs_bn = (pid_n * $(p.blockColumns) + tl.arange(0, $(p.blockColumns))) % $(p.columns)
-  offs_k = pid_sp_k * $(p.blockInner) + tl.arange(0, $(p.blockInner))
-  a_ptrs = A + (offs_am[:, None] * $(p.inputRowStride) + offs_k[None, :] * $(p.inputInnerStride))
-  b_ptrs = B + (offs_k[:, None] * $(p.weightInnerStride) + offs_bn[None, :] * $(p.weightColumnStride))
-  as_ptrs = as_ptr + offs_am * $(p.inputScaleStride)
-  bs_ptrs = bs_ptr + offs_bn * $(p.weightScaleStride)
-  a_scale = tl.load(as_ptrs, mask=offs_am < $(p.rows), other=0.0)
-  b_scale = tl.load(bs_ptrs, mask=offs_bn < $(p.columns), other=0.0)
-  accumulator = tl.zeros([$(p.blockRows), $(p.blockColumns)], dtype=tl.int32)
-  for k in range($(0), $(p.steps), $(1)) {
-    a = tl.load(a_ptrs, mask=offs_k[None, :] < $(p.inner) - k * ($(p.blockInner) * $(p.split)), other=0.0)
-    b = tl.load(b_ptrs, mask=offs_k[:, None] < $(p.inner) - k * ($(p.blockInner) * $(p.split)), other=0.0)
-    accumulator += tl.dot(a, b)
-    a_ptrs += $(p.blockInner) * $(p.split) * $(p.inputInnerStride)
-    b_ptrs += $(p.blockInner) * $(p.split) * $(p.weightInnerStride)
-  }
-  c = (accumulator * (a_scale[:, None]).to(tl.float32) * b_scale[None, :]).to(tl.float16)
-  offs_cm = pid_m * $(p.blockRows) + tl.arange(0, $(p.blockRows))
-  offs_cn = pid_n * $(p.blockColumns) + tl.arange(0, $(p.blockColumns))
-  c_ptrs = C + $(p.outputRowStride) * offs_cm[:, None] + $(p.outputColumnStride) * offs_cn[None, :]
-  c_mask = (offs_cm[:, None] < $(p.rows)) & (offs_cn[None, :] < $(p.columns))
-  if $(p.split) == $(1) {
-    tl.store(c_ptrs, c.to($outputType), mask=c_mask)
-  } else {
-    tl.atomic_add(c_ptrs, c.to($outputType), mask=c_mask)
-  }
-})
 
-def gemmHalfHalf : GemmParameters → ComputeKernel := int8MatmulSource%[half,half]
-def gemmHalfSingle : GemmParameters → ComputeKernel := int8MatmulSource%[half,single]
-def gemmSingleHalf : GemmParameters → ComputeKernel := int8MatmulSource%[single,half]
-def gemmSingleSingle : GemmParameters → ComputeKernel := int8MatmulSource%[single,single]
+def quantize (p : QuantizeParameters) : ComputeKernel :=
+  Bodies.quantize p.input p.output p.scales p.rows p.columns p.inputRowStride p.inputColumnStride p.outputRowStride p.outputColumnStride p.scaleStride p.blockRows p.blockColumns
+
+def gemmHalfHalf (p : GemmParameters) : ComputeKernel :=
+  Bodies.gemmHalfHalf p.input p.inputScale p.weight p.weightScale p.output p.rows p.columns p.inner p.inputRowStride p.inputInnerStride p.inputScaleStride p.weightInnerStride p.weightColumnStride p.weightScaleStride p.outputRowStride p.outputColumnStride p.blockRows p.blockColumns p.blockInner p.groupRows p.split
+
+def gemmHalfSingle (p : GemmParameters) : ComputeKernel :=
+  Bodies.gemmHalfSingle p.input p.inputScale p.weight p.weightScale p.output p.rows p.columns p.inner p.inputRowStride p.inputInnerStride p.inputScaleStride p.weightInnerStride p.weightColumnStride p.weightScaleStride p.outputRowStride p.outputColumnStride p.blockRows p.blockColumns p.blockInner p.groupRows p.split
+
+def gemmSingleHalf (p : GemmParameters) : ComputeKernel :=
+  Bodies.gemmSingleHalf p.input p.inputScale p.weight p.weightScale p.output p.rows p.columns p.inner p.inputRowStride p.inputInnerStride p.inputScaleStride p.weightInnerStride p.weightColumnStride p.weightScaleStride p.outputRowStride p.outputColumnStride p.blockRows p.blockColumns p.blockInner p.groupRows p.split
+
+def gemmSingleSingle (p : GemmParameters) : ComputeKernel :=
+  Bodies.gemmSingleSingle p.input p.inputScale p.weight p.weightScale p.output p.rows p.columns p.inner p.inputRowStride p.inputInnerStride p.inputScaleStride p.weightInnerStride p.weightColumnStride p.weightScaleStride p.outputRowStride p.outputColumnStride p.blockRows p.blockColumns p.blockInner p.groupRows p.split
 
 end VeriTile.Bench.Repairs.Int8MatmulQuantization.KernelSource
 

@@ -48,10 +48,10 @@ theorem schedule_safe (M : Algebra α) (integer8 : α→BitVec 8) (p : Geometry)
       ((invocation M integer8 p r).initial s)
     rw [initial_eq]
     apply source_safe M integer8 p r s bounds
-    · intro c hc
-      exact bounded.2.1 0 (r,⟨c.val,hc⟩,()) trivial
-    · intro c hc
-      exact bounded.2.2.1 0 (r,⟨c.val,hc⟩,()) trivial
+    · intro c
+      exact bounded.2.1 0 (r,c,()) trivial
+    · intro c
+      exact bounded.2.2.1 0 (r,c,()) trivial
     · exact bounded.2.2.1 1 (r,()) trivial
   change ScheduleSafe bounds (order.order.map (invocation M integer8 p)) s
   generalize order.order=rows

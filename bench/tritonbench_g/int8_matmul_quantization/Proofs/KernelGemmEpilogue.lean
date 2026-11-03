@@ -1,3 +1,4 @@
+import bench.tritonbench_g.int8_matmul_quantization.Proofs.GemmControl
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.KernelGemmLoop
 
 namespace VeriTile.Bench.Repairs.Int8MatmulQuantization.KernelGemm
@@ -10,6 +11,10 @@ variable {I F H : Type} [Inhabited F]
 
 def rowScaleType : Precision → FloatDType | .half => .fp16 | .single => .real
 
+def promoteRowScale (M : Algebra F) : Precision → F → F
+  | .half,x => M.cast (some .fp32) .fp16 .real x
+  | .single,x => x
+
 /-- Independent source-order partial: actual signed accumulation, FP32
 conversion, row scale, column scale, and mandatory FP16 narrowing. -/
 def partialResult (M : Algebra F) (carrier : IntegerCarrier I)
@@ -17,13 +22,13 @@ def partialResult (M : Algebra F) (carrier : IntegerCarrier I)
     (p : Parameters) (s : State F) (i : CIndex p) : F :=
   M.cast none .real .fp16 (M.binary (some .fp32) .real .mul
     (M.binary (some .fp32) .real .mul
-      (M.fromInt (some .fp32) (accumulation carrier ops plans p s p.steps i))
-      (M.cast (some .fp32) (rowScaleType rowScale) .real (aScale M rowScale p s i.1)))
+      (M.fromInt (some .fp32) (accumulation carrier ops plans p s (tripCount p) i))
+      (promoteRowScale M rowScale (aScale M rowScale p s i.1)))
     (bScale M p s i.2.1))
 
 /-- FP32 destinations widen the already narrowed FP16 partial. -/
 def storedValue (M : Algebra F) : Precision → F → F
-  | .half, x => M.cast none .fp16 .fp16 x
+  | .half, x => x
   | .single, x => M.cast (some .fp32) .fp16 .real x
 def outputOffset (p : Parameters) (s : State F) (i : CIndex p) :=
   p.outputRowStride*(rowBlock p s*p.blockRows+i.1.val)+
@@ -39,15 +44,15 @@ def epilogueExecution (M : Algebra F) (carrier : IntegerCarrier I)
     (atomicHalf atomicSingle : F → F → F)
     (half : M.atomicAdd .fp16 = some atomicHalf) (single : M.atomicAdd .real = some atomicSingle)
     (rowScale output : Precision) (p : Parameters) (initial current : State F)
-    (h : Invariant M carrier ops plans rowScale p initial p.steps current) :
+    (h : Invariant M carrier ops plans rowScale p initial (tripCount p) current) :
     {t : State F // KernelExecution.run M carrier ops plans (epilogue rowScale output p) current = some t} := by
   cases rowScale <;> cases output <;> by_cases hs : p.split = 1
   all_goals (refine ⟨?_, ?_⟩; swap
-             simp [epilogue, source, KernelSource.gemmHalfHalf, KernelSource.gemmHalfSingle,
-    KernelSource.gemmSingleHalf, KernelSource.gemmSingleSingle, ComputeKernel.surfaceBody,
+             simp [epilogue, source, KernelSource.gemmHalfHalf, Bodies.gemmHalfHalf, KernelSource.gemmHalfSingle, Bodies.gemmHalfSingle,
+    KernelSource.gemmSingleHalf, Bodies.gemmSingleHalf, KernelSource.gemmSingleSingle, Bodies.gemmSingleSingle, ComputeKernel.surfaceBody,
     KernelExecution.run, KernelExecution.step, localStep, FP.Structural.step,
     evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, atomicAdd, atomicAddition,
-    numeric, FP.Structural.bop, natLt, numericEq, ComputeDType.eraseDType,
+    numeric, FP.Structural.bop, natLt, numericLt, numericEq, ComputeDType.eraseDType,
     ofFloat, toFloat, FloatDType.numericDType, FloatDType.toTileDType,
     Region.cast, Option.bind, h.pidm, h.pidn, h.acc, h.ascale, h.bscale,
     h.memory, half, single, hs]
@@ -117,15 +122,16 @@ theorem epilogueMemory (M : Algebra F) (carrier : IntegerCarrier I)
     (atomicHalf atomicSingle : F → F → F)
     (half : M.atomicAdd .fp16 = some atomicHalf) (single : M.atomicAdd .real = some atomicSingle)
     (rowScale output : Precision) (p : Parameters) (initial current : State F)
-    (h : Invariant M carrier ops plans rowScale p initial p.steps current) :
+    (h : Invariant M carrier ops plans rowScale p initial (tripCount p) current) :
     (epilogueExecution M carrier ops plans atomicHalf atomicSingle half single rowScale output p initial current h).val.mem =
       (written M carrier ops plans atomicHalf atomicSingle rowScale output p initial).mem := by
   cases rowScale <;> cases output <;> by_cases hs : p.split = 1
   all_goals simp +contextual (config := { maxSteps := 1000000 }) [epilogueExecution,
-    written, partialResult, storedValue, rowScaleType, active, outputOffset,
+    written, partialResult, storedValue, rowScaleType, promoteRowScale, active, outputOffset,
     fold_memory, fold_expanded, State.write, hs, h.memory, index_eta,
     FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex,
     and_assoc, and_comm, and_left_comm]
+  all_goals simp only [← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast, Int.ofNat_lt]
   all_goals try rfl
   all_goals apply foldl_mem_congr
   all_goals try simpa using h.memory
@@ -139,21 +145,20 @@ theorem source_execution (M : Algebra F) (carrier : IntegerCarrier I)
     (ops : Int8DequantMatmul.Ops I F H) (plans : Plans)
     (atomicHalf atomicSingle : F → F → F)
     (half : M.atomicAdd .fp16 = some atomicHalf) (single : M.atomicAdd .real = some atomicSingle)
-    (rowScale output : Precision) (p : Parameters) (initial : State F) :
+    (rowScale output : Precision) (p : Parameters) (initial : State F)
+    (valid : firstRow p initial ≤ blocksM p) :
     ∃ final, KernelExecution.exec M carrier ops plans (source rowScale output p) initial = some final ∧
       final.mem = (written M carrier ops plans atomicHalf atomicSingle rowScale output p initial).mem := by
   let start := preludeExecution M carrier ops plans rowScale output p initial
   obtain ⟨mid, hm, hi⟩ := loopExecution M carrier ops plans rowScale p initial start.val 0 (by omega)
-    (preludeInvariant M carrier ops plans rowScale output p initial)
+    (preludeInvariant M carrier ops plans rowScale output p initial valid)
   let finish := epilogueExecution M carrier ops plans atomicHalf atomicSingle half single rowScale output p initial mid hi
   refine ⟨finish.val, ?_, epilogueMemory M carrier ops plans atomicHalf atomicSingle half single rowScale output p initial mid hi⟩
   change KernelExecution.run M carrier ops plans (source rowScale output p).surfaceBody initial = some finish.val
   rw [source_decomposition, KernelExecution.run_append, KernelExecution.run_append, start.property]
-  have hsingle (s : State F) :
-      KernelExecution.run M carrier ops plans [.forRange "k" 0 p.steps 1 (body p)] s =
-        KernelExecution.range M carrier ops plans "k" 0 p.steps 1 (body p) s := by
-    simp [KernelExecution.run, KernelExecution.step]
-  simp only [Option.bind_some, hsingle, hm]
+  simp only [Option.bind_some, iteration_run]
+  have loopRan : KernelExecution.rangeInt M carrier ops plans "k" 0 (tripCount p : Int) 1 (body p) start.val=some mid := hm
+  rw [loopRan]
   exact finish.property
 
 #axiomsClean epilogueExecution
