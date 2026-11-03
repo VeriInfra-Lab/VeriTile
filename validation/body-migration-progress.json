@@ -79,11 +79,13 @@
       }
     ],
     "incremental_replay": {
-      "status": "PENDING",
+      "status": "IN_PROGRESS",
       "scope": "Spinning-lock complete function-body migration",
       "manifest": "validation/body-migration-incremental.json",
       "roots": 65,
-      "note": "Exact-current final official acceptance remains required."
+      "note": "Exact-current final official acceptance remains required.",
+      "validated_source_commit": "836a1fd97949feace3e22d875fbdfec4586af009",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41712813739"
     },
     "previous_incremental_replays": [
       {
@@ -2588,7 +2590,10 @@
       "full_replay_sources": 5936,
       "full_lake_jobs": 15647,
       "public_theorem_count": 463,
-      "boundary": "Every source, real/FP specification, safety, axiom and exact-current official independent replay gate is required. Local compilation is not completion."
+      "boundary": "Every source, real/FP specification, safety, axiom and exact-current official independent replay gate is required. Local compilation is not completion.",
+      "source_commit": "836a1fd97949feace3e22d875fbdfec4586af009",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41712813739",
+      "independent_replay": "IN_PROGRESS"
     }
   },
   "targets": [
@@ -4624,8 +4629,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "PENDING",
-      "reason": "Both complete original/candidate Python function bodies are pasted without variable renaming or cast deletion, retaining negative-view branches, all CAS operands/retries, barriers, nine rounds and all stores. The caller ABI and false view flags are separately checked against the repaired wrapper input gate. All 63 owned plus two frontend/regression roots, both actual public Real/FP statements, axiom/non-circularity audits, 648 Python tests and full 184-case integration pass. Existing public numeric/concurrency domains are unchanged. Completion still requires exact-current official independent acceptance of all 65 roots; compilation alone is not completion."
+      "independent_replay": "IN_PROGRESS",
+      "reason": "Both complete original/candidate Python function bodies are pasted without variable renaming or cast deletion, retaining negative-view branches, all CAS operands/retries, barriers, nine rounds and all stores. The caller ABI and false view flags are separately checked against the repaired wrapper input gate. All 63 owned plus two frontend/regression roots, both actual public Real/FP statements, axiom/non-circularity audits, 648 Python tests and full 184-case integration pass. Existing public numeric/concurrency domains are unchanged. Completion still requires exact-current official independent acceptance of all 65 roots; compilation alone is not completion.",
+      "validated_source_commit": "836a1fd97949feace3e22d875fbdfec4586af009",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41712813739"
     },
     {
       "path": "bench/tritonbench_g/square_matrix",
