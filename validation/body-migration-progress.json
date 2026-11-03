@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 156,
-  "staged_count": 159,
+  "staged_count": 160,
   "pending_count": 40,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 5421,
-    "official_comparator": "156 current targets retain exact-dependency independent receipts. Three locally verified targets await replay: fifth_order_sph_harmonics and the attention helper/caller pair. Compilation is not completion.",
-    "python_tests": 564,
+    "staged_and_regression_retained_modules": 5480,
+    "official_comparator": "156 current targets retain exact-dependency independent receipts. Four locally verified targets await replay: fifth_order_sph_harmonics, attention_forward_triton, attention_fwd_triton2 and llama_ff_triton. Compilation is not completion.",
+    "python_tests": 571,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "165 cases (159 targets and six regressions), all 5421 retained/supporting modules, 14128 Lake jobs, 411 public theorem names, 564 Python tests and source-corpus checks pass. Both attention tasks retain complete helper/caller sources, original output dtypes and their actual existing candidates; full Real/FP/native, grid, safety, output and frame proofs reverify. Independent completion count is 156, including all 19 examples. Three locally verified targets await independent replay.",
-    "official_replay_sources": 4424,
+    "working_tree": "166 cases (160 targets and six regressions), all 5480 retained/supporting modules, 14190 Lake jobs, 413 public theorem names, 571 Python tests and source-corpus checks pass. Llama FF retains both source storage routes and its unchanged existing Python candidate; full Real/FP/native, grid, safety, IO, outputs and frame proofs reverify. Independently complete: 156, including all 19 examples. Four locally verified targets await independent replay.",
+    "official_replay_sources": 4483,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,17 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/attention_forward_triton",
-        "bench/tritonbench_g/attention_fwd_triton2"
+        "bench/tritonbench_g/llama_ff_triton"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 2,
-      "retained_modules": 92,
-      "replay_sources": 92,
-      "state": "official_replay_running",
-      "source_commit": "f38795ec6be66d0094f751edc580dae3eba0847e",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41569672639",
-      "started_at": "2026-11-03T03:01:34Z"
+      "cases": 1,
+      "retained_modules": 59,
+      "replay_sources": 59,
+      "state": "local_pass_ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -876,6 +872,20 @@
         "source_commit": "5eed40e06d43e31b0fb759af4a6ec6e345d27a22",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41562493692",
         "started_at": "2026-11-03T01:52:02Z"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/attention_forward_triton",
+          "bench/tritonbench_g/attention_fwd_triton2"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 2,
+        "retained_modules": 92,
+        "replay_sources": 92,
+        "state": "official_replay_running",
+        "source_commit": "f38795ec6be66d0094f751edc580dae3eba0847e",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41569672639",
+        "started_at": "2026-11-03T03:01:34Z"
       }
     ],
     "pending_client_regressions": {
@@ -891,7 +901,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Submit the two attention helper/caller migrations for independent replay, continue the remaining 37 TritonBench-G source/proof migrations and collect the fifth-order harmonic receipt. All 19 examples independently accepted. No merge.",
+    "current_work": "Submit llama_ff_triton for independent replay, continue the remaining 36 TritonBench-G source/proof migrations and collect the fifth-order harmonic and two attention receipts. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -915,15 +925,15 @@
     },
     "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
     "last_full_local_snapshot": {
-      "cases": 165,
-      "targets": 159,
+      "cases": 166,
+      "targets": 160,
       "regressions": 6,
-      "retained_modules": 5421,
-      "replay_sources": 4424,
-      "lake_jobs": 14128,
+      "retained_modules": 5480,
+      "replay_sources": 4483,
+      "lake_jobs": 14190,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 411,
-      "python_tests": 564,
+      "public_theorem_count": 413,
+      "python_tests": 571,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1276,15 +1286,15 @@
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     },
     "previous_full_local_snapshot": {
-      "cases": 163,
-      "targets": 157,
+      "cases": 165,
+      "targets": 159,
       "regressions": 6,
-      "retained_modules": 5329,
-      "replay_sources": 4332,
-      "lake_jobs": 14037,
+      "retained_modules": 5421,
+      "replay_sources": 4424,
+      "lake_jobs": 14128,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 407,
-      "python_tests": 560,
+      "public_theorem_count": 411,
+      "python_tests": 564,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1532,6 +1542,31 @@
       "full_lake_jobs": 14128,
       "public_theorems": 411,
       "boundary": "Local verification only. Both targets remain incomplete until exact-current independent replay accepts every required root."
+    },
+    "llama_ff_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 57,
+      "shared_frontend_test_modules": 2,
+      "shared_trust_inventory_theorems": 3,
+      "named_semantic_frontend_regressions": 3,
+      "original_candidate_statement_counts": [
+        37,
+        37,
+        37,
+        37
+      ],
+      "weight_storage_routes": [
+        "fp16",
+        "int8_e5m2"
+      ],
+      "output_dtype": "fp16",
+      "python_tests": 571,
+      "full_cases": 166,
+      "full_retained_modules": 5480,
+      "full_replay_sources": 4483,
+      "full_lake_jobs": 14190,
+      "public_theorems": 413,
+      "boundary": "Local verification only. This target remains incomplete until exact-current independent replay accepts every required root."
     }
   },
   "targets": [
@@ -2637,8 +2672,12 @@
     },
     {
       "path": "bench/tritonbench_g/llama_ff_triton",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "The unchanged original and existing checked-in index-commuted Python JITs are copied verbatim at both FP16-weight and int8 E5M2-weight invocation types (four 37-statement bodies). Removed all four old complete Lean quotations. Preserved the docstring, twelve explicit int64 self-casts, actual tl.cdiv expressions, every tail mask, three FP8 bit reinterpretations with full conversion chains, libdevice pow, rsqrt, sigmoid and implicit half store. Optional frontend normalizes Python bitcast=True and specializes closed Boolean constexprs before storage-dependent branch checking, including loops; symbolic constexprs and runtime branches remain. Whole-program frontend regressions and three exact-source trust/inventory theorems pass. Reproved actual loop-bound evaluation, prefix indices, complete loop execution/invariants, independent Real RMSNorm-SwiGLU, actual candidate FP success/failure and safety equivalence, native compiler-bound execution/layouts/ABI, full grids, IO, output readback and exterior frames. All 57 owned and two shared roots pass locally without new public premises, numerical domain restrictions or FP rules. Full integration: 166 cases, 5480 retained modules, 14190 Lake jobs, 413 public theorem names and 571 Python tests. Exact-current independent replay is required before completion; this target remains pending."
     },
     {
       "path": "bench/tritonbench_g/log_softmax",

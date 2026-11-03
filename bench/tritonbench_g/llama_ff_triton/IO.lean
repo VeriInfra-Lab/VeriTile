@@ -46,7 +46,7 @@ def nativeJobs {α : Type} [Inhabited α] (a : Arithmetic α) (g : GateInstructi
     (p : Parameters) (pid : Nat) : List (Invocation α) :=
   [job a.model (.mk ["A","W1","W3","RMS"] ["OUT"] (prelude p)) pid Bool.true,
    job a.model (.mk ["A","W1","W3","RMS"] ["OUT"]
-     [.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (compiledBody p)]) pid Bool.false,
+     [.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (compiledBody p)]) pid Bool.false,
    job a.model (.mk [] [] ((epilogue p).take 2)) pid Bool.false,
    job (NativeStages.gateBackend a g) (.mk [] [] NativeStages.gateCode) pid Bool.false,
    job a.model (.mk [] ["OUT"] ((epilogue p).drop 5)) pid Bool.false]

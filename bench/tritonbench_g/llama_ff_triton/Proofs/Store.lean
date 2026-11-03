@@ -11,12 +11,12 @@ set_option linter.unusedSimpArgs false
 
 structure StoreContext {α : Type} (p : Parameters) (initial current : State α) : Prop where
   memory : current.mem=initial.mem
-  m : current.regs .int [] "M64"=some (fun _ => (p.rows : Int))
-  n : current.regs .int [] "N64"=some (fun _ => (p.columns : Int))
+  m : current.regs .int [] "M"=some (fun _ => (p.rows : Int))
+  n : current.regs .int [] "N"=some (fun _ => (p.columns : Int))
   pidm : current.regs .int [] "pid_m"=some (fun _ => (rowBlock p initial : Int))
   pidn : current.regs .int [] "pid_n"=some (fun _ => (columnBlock p initial : Int))
-  outm : current.regs .int [] "soutm64"=some (fun _ => (p.columns : Int))
-  outn : current.regs .int [] "soutn64"=some (fun _ => (1 : Int))
+  outm : current.regs .int [] "stride_outm"=some (fun _ => (p.columns : Int))
+  outn : current.regs .int [] "stride_outn"=some (fun _ => (1 : Int))
 
 def Indices.storeContext {α : Type} {p : Parameters} {initial current : State α} {k : Nat}
     (h : Indices p initial k current) : StoreContext p initial current :=
@@ -33,7 +33,7 @@ def storeExecution {α : Type} [Inhabited α] (a : Arithmetic α)
   refine ⟨?_,?_⟩
   swap
   rw [hep]
-  simp [epilogue,source,Source.kernel,Source.half,ComputeKernel.surfaceBody,
+  simp [epilogue,source,Source.kernel,Source.half, Bodies.halfBody,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
     FP.Structural.bop,natLt,numericLt,ComputeDType.eraseDType,ofFloat,toFloat,
     Region.cast,Option.bind,integralFloorDiv,integralMod,

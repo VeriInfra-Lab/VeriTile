@@ -38,9 +38,9 @@ theorem counted_safe (a : Arithmetic α) (native : Bool) (p : Parameters)
     (initial current : State α) (h : Invariant a native p initial 0 current)
     (bytes : ByteValues initial) (bounds : RegionName → Nat) (hb : Bounds p initial bounds) :
     stepSafe a.model bounds
-      (.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (loopBody native p)) current := by
-  have countSafe : safeOp a.model none bounds current countOp := by
-    simp [countOp,safeOp_unfold]
+      (.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (loopBody native p)) current := by
+  have countSafe : safeOp a.model none bounds current (countOp p) := by
+    simp [countOp,body,source,Source.kernel,Source.half,Bodies.halfBody,ComputeKernel.surfaceBody,safeOp_unfold]
   simpa only [stepSafe_unfold,countSafe,safeOp_unfold,countEvaluation a p current h.k,
     evalOp_unfold,true_and] using loop_safe a native p initial current 0 (by omega) h bytes bounds hb
 
@@ -53,7 +53,7 @@ theorem source_safe (a : Arithmetic α) (p : Parameters) (initial : State α)
   have hs := initialInvariant a Bool.false p initial
   obtain ⟨mid,hm,hi⟩ := loopExecution a Bool.false p initial start.val 0 (by omega) hs bytes
   have hmid : FP.Structural.step a.model
-      (.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (body p)) start.val=some mid := by
+      (.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (body p)) start.val=some mid := by
     rw [countedExecution a p start.val _ hs.k]
     simpa [loopBody] using hm
   refine ⟨⟨prelude_safe a.model p initial bounds,?_⟩,?_⟩
@@ -63,7 +63,7 @@ theorem source_safe (a : Arithmetic α) (p : Parameters) (initial : State α)
     simpa only [traceSafeList_unfold,loopBody,Bool.false_eq_true,ite_false] using
       And.intro (counted_safe a Bool.false p initial start.val hs bytes bounds hb)
         (show (match FP.Structural.step a.model
-          (.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (body p)) start.val with
+          (.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (body p)) start.val with
           | some _ => True | none => True) from by split <;> trivial)
   · intro st he
     rw [run_append,start.property] at he

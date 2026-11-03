@@ -36,14 +36,21 @@ theorem loopExecution {α : Type} [Inhabited α] (a : Arithmetic α) (native : B
 
 theorem countEvaluation {α : Type} [Inhabited α] (a : Arithmetic α)
     (p : Parameters) (current : State α)
-    (hk : current.regs .int [] "K64"=some (fun _ => (p.inner : Int))) :
-    evalOp a.model none countOp current=some (fun _ => (steps p : Int)) := by
+    (hk : current.regs .int [] "K"=some (fun _ => (p.inner : Int))) :
+    evalOp a.model none (countOp p) current=some (fun _ => (steps p : Int)) := by
   have hn : ¬(p.inner : Int)+64<1 := by omega
   have hc : ((p.inner : Int)+64-1)/64=(steps p : Int) := by
     have hd := signed_cdiv p.inner 64 (by decide)
     rw [Int.tdiv_eq_ediv_of_nonneg (by omega)] at hd
     simpa [steps,Nat.add_sub_assoc] using hd
-  simp [countOp,evalOp_unfold,hk,numeric,numericLt,bop,integralFloorDiv,hn,hc]
+  have hc63 : ((p.inner : Int)+63)/64=(steps p : Int) := by
+    have he : (p.inner : Int)+63=(p.inner : Int)+64-1 := by omega
+    rw [he]
+    exact hc
+  have hn63 : ¬(p.inner : Int)+63<0 := by omega
+  simp [countOp,source,Source.kernel,Source.half,Bodies.halfBody,
+    ComputeKernel.surfaceBody,evalOp_unfold,numeric,numericLt,bop,
+    integralFloorDiv,hn63,hc63]
 
 #axiomsClean loopExecution
 #axiomsClean countEvaluation

@@ -114,9 +114,24 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str) -> 
         records = json.loads(manifest.read_text())
         if not isinstance(records, list) or not records:
             raise ValueError(f"empty or invalid correspondence manifest: {manifest_name}")
-        keys = [(r["python"], r["python_function"]) for r in records]
+        # One Python JIT may be checked at multiple real invocation dtypes.
+        # Require explicit, distinct variants and separate Lean instantiations;
+        # these still cover only that original function, never another stage.
+        keys = [(r["python"], r["python_function"], r.get("invocation_variant", ""))
+                for r in records]
         if len(keys) != len(set(keys)):
             raise ValueError(f"reused Python correspondence entry: {manifest_name}")
+        for python_key in {(r["python"], r["python_function"]) for r in records}:
+            variants = [r for r in records if (r["python"], r["python_function"]) == python_key]
+            if len(variants) < 2:
+                continue
+            labels = [r.get("invocation_variant") for r in variants]
+            lean_keys = [(r["lean"], r["lean_definition"]) for r in variants]
+            signatures = [json.dumps(r.get("expected_signature"), sort_keys=True) for r in variants]
+            if (any(not isinstance(label, str) or not label.strip() for label in labels)
+                    or len(lean_keys) != len(set(lean_keys))
+                    or len(signatures) != len(set(signatures))):
+                raise ValueError(f"reused Python entry requires distinct typed invocation variants: {manifest_name}")
         # Distinct original/candidate files may legitimately share an unchanged
         # stage. Check every Python body against that Lean definition instead
         # of forcing a duplicate Lean implementation just to register it.
@@ -128,7 +143,10 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str) -> 
         # be converted into a pending result that can pass the drift gate.
         results = check_manifest(root, manifest)
         for record, result in zip(records, results, strict=True):
-            pairs.append({**result, "python": record["python"], "lean": record["lean"]})
+            pair = {**result, "python": record["python"], "lean": record["lean"]}
+            if "invocation_variant" in record:
+                pair["invocation_variant"] = record["invocation_variant"]
+            pairs.append(pair)
 
     # Inventory all retained task-local Python sources, including dynamically
     # loaded bodies and unregistered candidates. Merely checking the selected
