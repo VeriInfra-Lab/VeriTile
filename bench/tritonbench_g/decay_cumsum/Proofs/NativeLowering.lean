@@ -45,7 +45,7 @@ theorem forward_lowering (p : Instructions) (scale : Word) (g : Nat → Node) (n
     simp only [FPReference.forwardCarry,ih]
     by_cases first : n=0
     all_goals simp [FPReference.add,FPReference.mul,FPReference.gate,algebra,
-      add,multiply,cast,evalSite,selected,Expr.eval,arguments,forwardWords,first]
+      add,multiply,load,cast,evalSite,selected,Expr.eval,arguments,forwardWords,first]
 
 theorem backward_lowering (p : Instructions) (scale : Word) (span : Nat)
     (dqi dqo dki dko q k g : Nat → Node) (n : Nat) :
@@ -69,22 +69,32 @@ There is no split=fused numerical premise, including at the first step. -/
 theorem evaluate_lowering (p : Instructions) (kind : Kind) (span : Nat) (scale : Word)
     (read : RegionName → Nat → Node) (r : RegionName) (t : Nat) :
     FPLogical.evaluate (algebra p selected kind scale) kind span scaleSlot read r t=
-      storedWord (evaluateWords p kind span scale (fun s n => (read s n).value) r t) := by
+      outputWord kind span r t (evaluateWords p kind span scale (fun s n => (read s n).value) r t) := by
   cases kind
-  · simp [FPLogical.evaluate,FPReference.forward,forward_lowering,stored_lowering,evaluateWords]
+  · simp [FPLogical.evaluate,FPReference.forward,forward_lowering,stored_lowering,evaluateWords,outputWord,storedWord]
   · simp only [FPLogical.evaluate,evaluateWords]
-    split <;> simp [prepare_q_lowering,prepare_k_lowering,stored_lowering,atom]
-  · simp only [FPLogical.evaluate,evaluateWords]
+    split <;> simp [prepare_q_lowering,prepare_k_lowering,stored_lowering,atom,outputWord,storedWord]
+  · simp only [FPLogical.evaluate,evaluateWords,outputWord]
     split
-    · simp [backward_q_lowering,stored_lowering]
+    · rename_i same
+      subst r
+      rw [backward_q_lowering]
+      rfl
     · split
-      · simp [backward_k_lowering,stored_lowering]
-      · simp [backward_lowering,stored_lowering]
+      · rename_i same
+        subst r
+        rw [backward_k_lowering]
+        rfl
+      · rw [backward_lowering]
+        by_cases store : r="dg"
+        · simp [FPReference.stored,store,algebra,cast]
+        · simp [FPReference.stored,store]
 
 theorem reference_lowering (p : Instructions) (h : Call) (kind : Kind) (scale : Word)
     (data : LogicalStorage.Data (Cell Node)) (r : RegionName) (c : Logical.Coordinate h) :
     FPLogical.reference (algebra p selected kind scale) h kind scaleSlot data r c=
-      storedWord (referenceWords p h kind scale (fun s b t k => ((data s b t k).read .real).value) r c) := by
+      outputWord kind (Logical.chunkSpan h c.2.1.val) r (c.2.1.val-Logical.chunkStart h c.2.1.val)
+        (referenceWords p h kind scale (fun s b t k => ((data s b t k).read .real).value) r c) := by
   exact evaluate_lowering p kind _ scale _ r _
 
 #axiomsClean evaluate_lowering
