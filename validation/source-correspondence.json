@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 157,
-      "uncovered_jit_functions": 26
+      "selected_body_copy_checked": 158,
+      "uncovered_jit_functions": 25
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 77,
-    "inventoried_jit_functions": 564,
-    "uncovered_inventoried_jit_functions": 101,
+    "uncovered_selected_jit_functions": 76,
+    "inventoried_jit_functions": 566,
+    "uncovered_inventoried_jit_functions": 100,
     "checked_pair_modes": {
-      "pasted_body": 473
+      "pasted_body": 476
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 157,
-        "uncovered_jit_functions": 26
+        "selected_body_copy_checked": 158,
+        "uncovered_jit_functions": 25
       }
     },
-    "primary_files_with_int64_screen_warning": 7,
+    "primary_files_with_int64_screen_warning": 6,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 13,
-        "antiquotes": 348,
+        "in_body_type_directives": 12,
+        "antiquotes": 347,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 81
       },
@@ -17315,13 +17315,13 @@
       "python": "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py",
       "lean": "bench/tritonbench_g/context_attn_nopad/Kernels.lean",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 32,
-        "dsl_assignment": 12,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 6,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 4
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -17408,27 +17408,191 @@
               ]
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+        },
         {
-          "python": "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py",
-          "function": "_fwd_kernel"
+          "path": "bench/tritonbench_g/context_attn_nopad/context_attn_nopad_candidates.py",
+          "jits": [
+            {
+              "function": "_fwd_kernel_block_start_reused",
+              "line": 8,
+              "statements": 24,
+              "explicit_int64_casts": [
+                {
+                  "line": 9,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 10,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 11,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                },
+                {
+                  "line": 12,
+                  "expression": "tl.load(B_Seqlen + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 13,
+                  "expression": "tl.load(B_Start_Loc + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 15,
+                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+                },
+                {
+                  "line": 16,
+                  "expression": "tl.arange(0, BLOCK_DMODEL).to(tl.int64)"
+                },
+                {
+                  "line": 17,
+                  "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "_fwd_kernel_scale_first",
+              "line": 57,
+              "statements": 24,
+              "explicit_int64_casts": [
+                {
+                  "line": 58,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 59,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 60,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                },
+                {
+                  "line": 61,
+                  "expression": "tl.load(B_Seqlen + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 62,
+                  "expression": "tl.load(B_Start_Loc + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 64,
+                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+                },
+                {
+                  "line": 65,
+                  "expression": "tl.arange(0, BLOCK_DMODEL).to(tl.int64)"
+                },
+                {
+                  "line": 66,
+                  "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qbs": "integer",
+            "stride_qh": "integer",
+            "stride_qd": "integer",
+            "stride_kbs": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py",
-          "function": "_fwd_kernel"
+          "lean": "bench/tritonbench_g/context_attn_nopad/Sources/Body.lean"
+        },
+        {
+          "python_function": "_fwd_kernel_block_start_reused",
+          "lean_definition": "blockStartReusedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qbs": "integer",
+            "stride_qh": "integer",
+            "stride_qd": "integer",
+            "stride_kbs": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "python": "bench/tritonbench_g/context_attn_nopad/context_attn_nopad_candidates.py",
+          "lean": "bench/tritonbench_g/context_attn_nopad/Sources/Body.lean"
+        },
+        {
+          "python_function": "_fwd_kernel_scale_first",
+          "lean_definition": "scaleFirstBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qbs": "integer",
+            "stride_qh": "integer",
+            "stride_qd": "integer",
+            "stride_kbs": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "python": "bench/tritonbench_g/context_attn_nopad/context_attn_nopad_candidates.py",
+          "lean": "bench/tritonbench_g/context_attn_nopad/Sources/Body.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/context_attn_nopad/Kernels.lean": "5b69cd98f1a5a88a0da24c0556f6f1ceccb534835adb988e42a5d7a8050140e7",
-        "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py": "cf0939e3b862aa0e05b117cb1d66e828ffa7e65e870b62764454b782df79fed1"
+        "bench/tritonbench_g/context_attn_nopad/Kernels.lean": "c8497afe3d3b4f83d31ee1a5dd46c7fc07af5c636467769fa945d62aece14e92",
+        "bench/tritonbench_g/context_attn_nopad/Sources/Body.lean": "12735815959bf59c4811aec88b38a379891c6479fca8aa09d21ff9ec14a0f55d",
+        "bench/tritonbench_g/context_attn_nopad/context_attn_nopad.py": "cf0939e3b862aa0e05b117cb1d66e828ffa7e65e870b62764454b782df79fed1",
+        "bench/tritonbench_g/context_attn_nopad/context_attn_nopad_candidates.py": "188bc680e336437f16fae606f4891d9d3cde02ec4f49d2e8deb176f4d8fcb2eb",
+        "bench/tritonbench_g/context_attn_nopad/jit-correspondence.json": "924626086c1800b70cd3af1fc634d9f1a7955ae0821a3cde0c1e85eb90eee5e5"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/context_attn_nopad"

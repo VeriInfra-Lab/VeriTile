@@ -11,16 +11,16 @@ set_option linter.unusedSimpArgs false
 structure Static (p : Layout) (r : Regions) (initial state : BlockState) : Prop where
   memory : state.mem = initial.mem
   pids : state.pids = initial.pids
-  batch : state.regs .nat [] "cur_batch" = some (Tile.scalar (initial.pids 0))
-  head : state.regs .nat [] "cur_head" = some (Tile.scalar (initial.pids 1))
+  batch : state.regs .int [] "cur_batch" = some (Tile.scalar (initial.pids 0))
+  head : state.regs .int [] "cur_head" = some (Tile.scalar (initial.pids 1))
   start : state.regs .int [] "cur_batch_in_all_start_index" =
     some (Tile.scalar ((inputs initial r).start (initial.pids 0)))
   sequence : state.regs .int [] "cur_batch_seq_len" =
     some (Tile.scalar (Formula.sequence p (launch initial) (inputs initial r)))
-  rows : state.regs .nat [p.BM] "offs_m" =
+  rows : state.regs .int [p.BM] "offs_m" =
     some (Tile.vec (fun i => queryRow p (launch initial) i.val))
-  lanes : state.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val))
-  channels : state.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val))
+  lanes : state.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val))
+  channels : state.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val))
   query : state.regs .real [p.BM,p.D] "q" =
     some (Tile.mat (dtype := .real) (fun i d => some (Formula.query p (launch initial) (inputs initial r) i.val d.val)))
   key_ptrs : state.regs .ptr [p.D,p.BN] "k_ptrs" =

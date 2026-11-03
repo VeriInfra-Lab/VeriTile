@@ -101,35 +101,36 @@ decreasing_by omega
 
 def output (p : Layout) (o : FPBackend.Ops α) (scale : ℝ) (a : Inputs α) : Values α .real [p.BM,p.D] :=
   let final := iterate p o scale a 0 ((blockMask p a*(a.block+1)*p.BM : Nat) : Int) (initial p o.algebra)
-  fun i => o.algebra.cast (some .fp32) .real .real (final.weighted i)
+  final.weighted
 
 def Matches (p : Layout) (r : Regions) (M : Algebra α) (a : Inputs α) (acc : Acc p α) (s : State α) : Prop :=
-  s.regs .nat [] "cur_head"=some (fun _ => a.head) ∧
-  s.regs .nat [] "start_m"=some (fun _ => a.block) ∧
+  s.regs .int [] "cur_head"=some (fun _ => (a.head : Int)) ∧
+  s.regs .int [] "start_m"=some (fun _ => (a.block : Int)) ∧
   s.regs .int [] "cur_batch_in_all_start_index"=some (fun _ => a.start) ∧
   s.regs .int [] "cur_batch_seq_len"=some (fun _ => a.length) ∧
-  s.regs .nat [p.BM] "offs_m"=some (fun i => row p a i.1.val) ∧
-  s.regs .nat [p.BN] "offs_n"=some (fun i => i.1.val) ∧
-  s.regs .nat [p.D] "offs_d"=some (fun i => i.1.val) ∧
+  s.regs .int [p.BM] "offs_m"=some (fun i => (row p a i.1.val : Int)) ∧
+  s.regs .int [p.BN] "offs_n"=some (fun i => (i.1.val : Int)) ∧
+  s.regs .int [p.D] "offs_d"=some (fun i => (i.1.val : Int)) ∧
   s.regs .real [p.BM,p.D] "q"=some (queryTile p M a) ∧
   s.regs .ptr [p.D,p.BN] "k_ptrs"=some (fun i => (r.key,i.2.1.val*p.kRow+a.head*p.kHead+i.1.val*p.kDim)) ∧
   s.regs .ptr [p.BN,p.D] "v_ptrs"=some (fun i => (r.value,i.1.val*p.vRow+a.head*p.vHead+i.2.1.val*p.vDim)) ∧
   s.regs .real [p.BM] "m_i"=some acc.center ∧
   s.regs .real [p.BM] "l_i"=some acc.mass ∧
   s.regs .real [p.BM,p.D] "acc"=some acc.weighted ∧
-  s.regs .nat [] "block_mask"=some (fun _ => blockMask p a)
+  s.regs .int [] "block_mask"=some (fun _ => (blockMask p a : Int))
 
 theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α) (s : State α) :
     ∃ t,run (engine o.algebra) (parts p r scale).before s=some t ∧
       Matches p r o.algebra (inputs r s) (initial p o.algebra) t ∧ t.mem=s.mem := by
   simp (config := {maxSteps := 500000}) [FPSymbolic.parts,Program.parts,Program.mathematical,Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnNopad.Bodies.originalBody,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,engine,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,
-    ofFloat,toFloat,Region.cast,Matches,inputs,initial,blockMask,queryTile,row,bop]
+    ofFloat,toFloat,Region.cast,Nat.cast_add,Nat.cast_mul,Matches,inputs,initial,blockMask,queryTile,row,bop]
   simp [funext_iff,bop,Broadcast.leftIndex,Broadcast.rightIndex,queryTile,row]
-  all_goals rfl
+  constructor <;> intro i j
+  all_goals simp only [← Nat.cast_mul,← Nat.cast_add,Int.toNat_natCast]
 
 theorem body (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
     (hBN : 0 < p.BN) (initialState s : State α) (old : Acc p α)
@@ -140,13 +141,13 @@ theorem body (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
       t.mem=initialState.mem := by
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13⟩
   simp (config := {maxSteps := 1400000}) [FPSymbolic.parts,Program.parts,Program.mathematical,Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnNopad.Bodies.originalBody,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,engine,FPBackend.Ops.algebra,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,
     ofFloat,toFloat,Region.cast,h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,
     TileShape.axisDim,hBN,Matches,advance,keyTile,valueTile,
-    memory,inputs,bop,Broadcast.leftIndex,Broadcast.rightIndex]
+    memory,inputs,bop,Nat.cast_add,Nat.cast_mul,Broadcast.leftIndex,Broadcast.rightIndex]
   simp [funext_iff,bop,Broadcast.leftIndex,Broadcast.rightIndex,keyTile,valueTile,Function.comp_def]
   refine ⟨?_,?_,?_⟩ <;> intros <;> rfl
 

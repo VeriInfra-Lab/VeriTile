@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 162,
-  "staged_count": 170,
+  "staged_count": 171,
   "pending_count": 34,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 6174,
-    "official_comparator": "162 current targets retain exact-dependency independent receipts, including all 19 examples. Eight locally verified targets await exact-current independent acceptance. Compilation alone is not completion.",
-    "python_tests": 615,
+    "staged_and_regression_retained_modules": 6268,
+    "official_comparator": "162 current targets retain exact-dependency independent receipts, including all 19 examples. Nine locally verified targets await exact-current independent acceptance. Compilation alone is not completion.",
+    "python_tests": 619,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "176 cases (170 targets and six regressions), all 6174 retained/supporting modules, 14917 Lake jobs, 441 public theorem names, 615 Python tests and source-corpus checks pass. Context Attn Fwd uses three copied bodies; complete Real/FP execution, safety, grid, frame and host/native/IO proofs pass. Affected Llama, Mistral and nopad dependencies are rebuilt against this current source. Independent completion: 162, including all 19 examples. Eight locally verified targets await exact-current independent acceptance. Twenty-six targets remain to migrate.",
-    "official_replay_sources": 5177,
+    "working_tree": "177 cases (171 targets and six regressions), all 6268 retained/supporting modules, 14956 Lake jobs, 443 public theorem names, 619 Python tests and source-corpus checks pass. Nopad uses three complete copied bodies and its complete Real/FP execution, safety, grid, frame and native/host/IO connections are reverified. Independent completion: 162, including all 19 examples. Nine locally verified targets await fresh exact-current independent acceptance. Twenty-five targets remain to migrate.",
+    "official_replay_sources": 5271,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,16 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/context_attn_mistral"
+        "bench/tritonbench_g/context_attn_nopad"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 104,
-      "replay_sources": 104,
-      "state": "official_in_progress",
-      "purpose": "fresh_current_replay_after_fwd_dependency_migration",
-      "source_commit": "18c8589752c25624d6881ea419fb395b1e0dfeb4",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41625142670"
+      "retained_modules": 94,
+      "replay_sources": 94,
+      "state": "local_pass_ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -1085,6 +1082,19 @@
         "purpose": "fresh_current_replay_after_fwd_dependency_migration",
         "source_commit": "0b543497e05a0b207d77ae4932d57ae92803e550",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41625064748"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/context_attn_mistral"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 104,
+        "replay_sources": 104,
+        "state": "official_in_progress",
+        "purpose": "fresh_current_replay_after_fwd_dependency_migration",
+        "source_commit": "18c8589752c25624d6881ea419fb395b1e0dfeb4",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41625142670"
       }
     ],
     "pending_client_regressions": {
@@ -1100,7 +1110,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Complete fixed-source independent replay of Fwd, Llama, Mistral and the remaining five unrelated dependents; continue the remaining 26 migrations, currently context_attn_nopad. All 19 examples independently accepted. No merge.",
+    "current_work": "Submit Nopad for fixed-source independent replay; collect ongoing Fwd/Llama/Mistral and five unrelated dependent receipts; continue the remaining 25 migrations. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1124,15 +1134,15 @@
     },
     "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
     "last_full_local_snapshot": {
-      "cases": 176,
-      "targets": 170,
+      "cases": 177,
+      "targets": 171,
       "regressions": 6,
-      "retained_modules": 6174,
-      "replay_sources": 5177,
-      "lake_jobs": 14917,
+      "retained_modules": 6268,
+      "replay_sources": 5271,
+      "lake_jobs": 14956,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 441,
-      "python_tests": 615,
+      "public_theorem_count": 443,
+      "python_tests": 619,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1485,16 +1495,16 @@
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     },
     "previous_full_local_snapshot": {
-      "cases": 175,
-      "targets": 169,
+      "cases": 176,
+      "targets": 170,
       "regressions": 6,
-      "retained_modules": 6087,
-      "replay_sources": 5090,
-      "lake_jobs": 14893,
+      "retained_modules": 6174,
+      "replay_sources": 5177,
+      "lake_jobs": 14917,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 439,
-      "python_tests": 611,
-      "current_dependency_snapshot": false,
+      "public_theorem_count": 441,
+      "python_tests": 615,
+      "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
     "power_replay_resource_diagnosis": {
@@ -2073,6 +2083,26 @@
       "boundary": "Local validation only. Completion requires fresh independent acceptance of every required owned root and both public theorems against the exact current source/import closure.",
       "source_commit": "66e61dc967b160eb2c3c4bb171aba8fb10130289",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41624978732"
+    },
+    "context_attn_nopad_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 94,
+      "source_pairs": 3,
+      "original_jit_functions": 1,
+      "python_top_level_statements": [
+        24,
+        24,
+        24
+      ],
+      "python_loop_statements": 22,
+      "public_theorems": 2,
+      "python_tests": 619,
+      "full_cases": 177,
+      "full_retained_modules": 6268,
+      "full_replay_sources": 5271,
+      "full_lake_jobs": 14956,
+      "public_theorem_count": 443,
+      "boundary": "Local verification only. Completion requires fresh independent acceptance of every required owned root and both public statements against exact current source/import closures."
     }
   },
   "targets": [
@@ -2481,8 +2511,12 @@
     },
     {
       "path": "bench/tritonbench_g/context_attn_nopad",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "The unchanged repaired JIT and both materialized existing candidates are copied completely, with 24 top-level statements and 22 loop statements each. All INT64 casts, signed loop bounds, tl.multiple_of, negative-infinity causal mask, ordered reductions, probability dtype cast, separate dot addition, plain store and terminal return remain. Old complete quotations, source macro and manual prefix are removed. Whole-module inverse candidate AST checks retain the complete host checks and launch ABI. Reproved complete source execution, loop invariant, independent causal normalized-exponential Real mathematics, safety, full grid outputs and frames, opaque FP recurrence, actual index-reuse candidate and retained host/native/IO bridges. Removed artificial final casts from the FP reference and IO observer. No new public premises or narrowed domain. All 94 owned modules, 177-case integration, 443 public names, trust/spec audits, source-corpus checks and 619 Python tests pass locally. Completion still requires exact-current independent acceptance of all required roots and both public statements."
     },
     {
       "path": "bench/tritonbench_g/cosine_compute",
