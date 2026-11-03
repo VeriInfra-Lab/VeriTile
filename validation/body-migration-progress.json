@@ -79,11 +79,13 @@
       }
     ],
     "incremental_replay": {
-      "status": "PENDING",
+      "status": "IN_PROGRESS",
       "scope": "StreamK six-function original/candidate complete body migration",
       "manifest": "validation/body-migration-incremental.json",
       "roots": 79,
-      "note": "Exact-current final official acceptance remains required."
+      "note": "Exact-current final official acceptance remains required.",
+      "validated_source_commit": "5afba8bb0725c3b4bebc91fa7d426290ba1f5943",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478"
     },
     "previous_incremental_replays": [
       {
@@ -2630,7 +2632,10 @@
       "full_replay_sources": 6015,
       "full_lake_jobs": 15726,
       "public_theorem_count": 465,
-      "boundary": "Every source, public Real/FP specification, safety, axiom and exact-current official independent replay gate is required. Local compilation is not completion."
+      "boundary": "Every source, public Real/FP specification, safety, axiom and exact-current official independent replay gate is required. Local compilation is not completion.",
+      "source_commit": "5afba8bb0725c3b4bebc91fa7d426290ba1f5943",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478",
+      "independent_replay": "IN_PROGRESS"
     }
   },
   "targets": [
@@ -4692,8 +4697,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "PENDING",
-      "reason": "All six repaired JIT functions and all six candidate JIT functions have exact pasted bodies. Source retains every cast, loop, helper argument, ACC_TYPE token, masked read/store and atomic. Caller ABI/dtype and helper identities are separately checked; the bundle links calls to the actual supplied source members. All 77 owned plus two shared frontend/regression roots, actual public Real/FP statements, standard-base axiom and independent-formula audits, 653 Python tests and complete 185-case integration pass. Existing numerical, finite-width and concurrent domains remain unchanged. Exact-current official independent acceptance of all 79 roots is still required; compilation alone is not completion."
+      "independent_replay": "IN_PROGRESS",
+      "reason": "All six repaired JIT functions and all six candidate JIT functions have exact pasted bodies. Source retains every cast, loop, helper argument, ACC_TYPE token, masked read/store and atomic. Caller ABI/dtype and helper identities are separately checked; the bundle links calls to the actual supplied source members. All 77 owned plus two shared frontend/regression roots, actual public Real/FP statements, standard-base axiom and independent-formula audits, 653 Python tests and complete 185-case integration pass. Existing numerical, finite-width and concurrent domains remain unchanged. Exact-current official independent acceptance of all 79 roots is still required; compilation alone is not completion.",
+      "validated_source_commit": "5afba8bb0725c3b4bebc91fa7d426290ba1f5943",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478"
     },
     {
       "path": "bench/tritonbench_g/swiglu_backward",
