@@ -1051,11 +1051,78 @@ def check_uniform_function(python_text: str, lean_text: str, python_function: st
             "constexpr_parameters": []}
 
 
+def check_control_source(python_text: str, lean_text: str, python_function: str,
+                         lean_definition: str, signature_definition: str,
+                         expected_signature: dict, expected_constexpr_bools: dict) -> dict:
+    """Check the full pasted control tree and its separately reviewed caller ABI.
+
+    This source gate never specializes a branch. The typed control backend must
+    check and implement the signature and constexpr bindings independently.
+    """
+    functions = [n for n in ast.parse(python_text).body
+                 if isinstance(n, ast.FunctionDef) and n.name == python_function]
+    if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
+        raise ValueError("expected one explicitly selected control-source JIT")
+    fn = functions[0]
+    if fn.args.posonlyargs or fn.args.kwonlyargs or fn.args.vararg or fn.args.kwarg:
+        raise ValueError("unsupported control-source Python signature")
+    profile = call_signature(lean_text, signature_definition)
+    if profile != expected_signature:
+        raise ValueError("control-source caller signature differs from reviewed ABI")
+    parameters = [a.arg for a in fn.args.args]
+    constants = [a.arg for a in fn.args.args if a.annotation is not None
+                 and ast.unparse(a.annotation) == "tl.constexpr"]
+    if any(a.annotation is not None and a.arg not in constants for a in fn.args.args):
+        raise ValueError("unreviewed control-source runtime annotation")
+    declared = [name for name, _ in profile.get("pointers", []) + profile.get("scalars", [])]
+    if profile.get("constexpr", []) != constants or declared != [p for p in parameters if p not in constants]:
+        raise ValueError("control-source parameter order or constexpr annotation differs")
+    if not isinstance(expected_constexpr_bools, dict) or any(
+            name not in constants or type(value) is not bool
+            for name, value in expected_constexpr_bools.items()):
+        raise ValueError("control-source boolean bindings must name reviewed constexpr parameters")
+    defaults = dict(zip(parameters[len(parameters)-len(fn.args.defaults):], fn.args.defaults)) if fn.args.defaults else {}
+    if set(defaults) != set(expected_constexpr_bools) or any(
+            not isinstance(defaults[name], ast.Constant) or type(defaults[name].value) is not bool
+            or defaults[name].value != value for name, value in expected_constexpr_bools.items()):
+        raise ValueError("control-source default flags differ from the selected caller")
+    header, body = quotation(lean_text, lean_definition, raw_python=True)
+    match = re.search(r"\bwith_control_call\s+" + re.escape(signature_definition)
+                      + r"\s+constexpr_bools\s*\[([^\]]*)\]\s+in\s+triton\s*$", header)
+    if not match:
+        raise ValueError("control-source body must use its reviewed caller signature")
+    bindings = []
+    for entry in match[1].split(","):
+        binding = re.fullmatch(r"\s*(\w+)\s*:=\s*(true|false)\s*", entry)
+        if not binding:
+            raise ValueError("control-source boolean bindings must be explicit literals")
+        bindings.append((binding[1], binding[2] == "true"))
+    if len(dict(bindings)) != len(bindings) or dict(bindings) != expected_constexpr_bools:
+        raise ValueError("control-source constexpr bindings differ from the reviewed caller")
+    if re.search(r"\btl\.(region|param|call_signature|source_helper)\b|\$", pasted_code_mask(body)):
+        raise ValueError("control-source body must contain only pasted Python")
+    copied = ast.parse("def __veritile_control__():\n" + body).body[0].body
+    if ast.dump(ast.Module(fn.body, [])) != ast.dump(ast.Module(copied, [])):
+        raise ValueError("control-source body differs from original Python")
+    return {"python_function": python_function, "lean_definition": lean_definition,
+            "status": "PASS", "mode": "pasted_body", "kind": "control_source",
+            "statements": len(fn.body), "runtime_parameters": dict(profile.get("pointers", []) + profile.get("scalars", [])),
+            "constexpr_parameters": constants, "constexpr_bools": dict(bindings)}
+
+
 def check_manifest(root: Path, manifest: Path) -> list[dict]:
     records = json.loads(manifest.read_text())
     results = []
     for r in records:
         py, lean = (root / r["python"]).read_text(), (root / r["lean"]).read_text()
+        if r.get("kind") == "control_source":
+            if set(r) != {"kind", "python", "lean", "python_function", "lean_definition",
+                          "signature_definition", "expected_signature", "expected_constexpr_bools"}:
+                raise ValueError("control-source record requires its exact reviewed ABI and boolean bindings")
+            results.append(check_control_source(py, lean, r["python_function"], r["lean_definition"],
+                                               r["signature_definition"], r["expected_signature"],
+                                               r["expected_constexpr_bools"]))
+            continue
         if r.get("kind") == "statement_jit_function":
             if set(r) != {"kind", "python", "lean", "python_function", "lean_definition"}:
                 raise ValueError("statement helper cannot override invocation metadata")
