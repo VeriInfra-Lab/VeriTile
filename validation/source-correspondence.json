@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 150,
-      "uncovered_jit_functions": 33
+      "selected_body_copy_checked": 151,
+      "uncovered_jit_functions": 32
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 94,
-    "inventoried_jit_functions": 549,
-    "uncovered_inventoried_jit_functions": 123,
+    "uncovered_selected_jit_functions": 90,
+    "inventoried_jit_functions": 553,
+    "uncovered_inventoried_jit_functions": 119,
     "checked_pair_modes": {
-      "pasted_body": 436
+      "pasted_body": 444
     },
     "collection_status": {
       "bug_detection": {
@@ -38,16 +38,16 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 150,
-        "uncovered_jit_functions": 33
+        "selected_body_copy_checked": 151,
+        "uncovered_jit_functions": 32
       }
     },
-    "primary_files_with_int64_screen_warning": 11,
+    "primary_files_with_int64_screen_warning": 10,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 18,
-        "antiquotes": 353,
-        "dsl_loop": 1,
+        "in_body_type_directives": 17,
+        "antiquotes": 352,
+        "dsl_loop": 0,
         "dsl_numeric_helpers": 81
       },
       "examples": {
@@ -18657,11 +18657,11 @@
       "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
       "lean": "bench/tritonbench_g/diag_ssm_triton/Kernels.lean",
       "lean_screen": {
-        "quotations": 8,
-        "in_body_type_directives": 8,
-        "antiquotes": 84,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
         "dsl_assignment": 9,
-        "dsl_loop": 8,
+        "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
@@ -18856,51 +18856,254 @@
               ]
             }
           ]
+        },
+        {
+          "path": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton_index_commuted.py",
+          "jits": [
+            {
+              "function": "diag_ssm_forward_kernel_index_commuted",
+              "line": 7,
+              "statements": 10,
+              "explicit_int64_casts": [
+                {
+                  "line": 19,
+                  "expression": "tl.cast(length, tl.int64)"
+                },
+                {
+                  "line": 20,
+                  "expression": "tl.cast(batch_size, tl.int64)"
+                },
+                {
+                  "line": 21,
+                  "expression": "tl.cast(dim, tl.int64)"
+                },
+                {
+                  "line": 22,
+                  "expression": "tl.cast(tl.program_id(0), tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "diag_ssm_backward_kernel_index_commuted",
+              "line": 34,
+              "statements": 13,
+              "explicit_int64_casts": [
+                {
+                  "line": 51,
+                  "expression": "tl.cast(length, tl.int64)"
+                },
+                {
+                  "line": 52,
+                  "expression": "tl.cast(batch_size, tl.int64)"
+                },
+                {
+                  "line": 53,
+                  "expression": "tl.cast(dim, tl.int64)"
+                },
+                {
+                  "line": 54,
+                  "expression": "tl.cast(tl.program_id(0), tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "diag_ssm_forward_kernel_complex_index_commuted",
+              "line": 87,
+              "statements": 12,
+              "explicit_int64_casts": [
+                {
+                  "line": 100,
+                  "expression": "tl.cast(length, tl.int64)"
+                },
+                {
+                  "line": 101,
+                  "expression": "tl.cast(batch_size, tl.int64)"
+                },
+                {
+                  "line": 102,
+                  "expression": "tl.cast(dim, tl.int64)"
+                },
+                {
+                  "line": 103,
+                  "expression": "tl.cast(tl.program_id(0), tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "diag_ssm_backward_kernel_complex_index_commuted",
+              "line": 133,
+              "statements": 18,
+              "explicit_int64_casts": [
+                {
+                  "line": 155,
+                  "expression": "tl.cast(length, tl.int64)"
+                },
+                {
+                  "line": 156,
+                  "expression": "tl.cast(batch_size, tl.int64)"
+                },
+                {
+                  "line": 157,
+                  "expression": "tl.cast(dim, tl.int64)"
+                },
+                {
+                  "line": 158,
+                  "expression": "tl.cast(tl.program_id(0), tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "diag_ssm_forward_kernel",
+          "lean_definition": "forwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
-          "function": "diag_ssm_forward_kernel"
+          "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean"
         },
         {
-          "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
-          "function": "diag_ssm_backward_kernel"
+          "python_function": "diag_ssm_forward_kernel_index_commuted",
+          "lean_definition": "forwardCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton_index_commuted.py",
+          "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean"
         },
         {
+          "python_function": "diag_ssm_backward_kernel",
+          "lean_definition": "backwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 13,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
-          "function": "diag_ssm_forward_kernel_complex"
+          "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean"
         },
         {
+          "python_function": "diag_ssm_backward_kernel_index_commuted",
+          "lean_definition": "backwardCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 13,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton_index_commuted.py",
+          "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean"
+        },
+        {
+          "python_function": "diag_ssm_forward_kernel_complex",
+          "lean_definition": "complexForwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
-          "function": "diag_ssm_backward_kernel_complex"
+          "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean"
+        },
+        {
+          "python_function": "diag_ssm_forward_kernel_complex_index_commuted",
+          "lean_definition": "complexForwardCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton_index_commuted.py",
+          "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean"
+        },
+        {
+          "python_function": "diag_ssm_backward_kernel_complex",
+          "lean_definition": "complexBackwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 18,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
+          "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean"
+        },
+        {
+          "python_function": "diag_ssm_backward_kernel_complex_index_commuted",
+          "lean_definition": "complexBackwardCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 18,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton_index_commuted.py",
+          "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
-          "function": "diag_ssm_forward_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
-          "function": "diag_ssm_backward_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
-          "function": "diag_ssm_forward_kernel_complex"
-        },
-        {
-          "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
-          "function": "diag_ssm_backward_kernel_complex"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/diag_ssm_triton/Kernels.lean": "9a8adfe3834e2282e979069072b85ce9be1d97152b3a3f821daa71881ca2218d",
-        "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py": "f4093c767a2e53fed90c15415e37f58cb3843437a3c434ffaa2ec5e83982f340"
+        "bench/tritonbench_g/diag_ssm_triton/Kernels.lean": "d6ae8e46d74417c2d7c85483cc526d9b20d6ebf8468b6a9bebe7dd82d9c6fdf0",
+        "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean": "208c494c8f89b57257ff1ab7c28b25ef092dc7f29e1e034c02434892e9c00da7",
+        "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py": "f4093c767a2e53fed90c15415e37f58cb3843437a3c434ffaa2ec5e83982f340",
+        "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton_index_commuted.py": "36eecb900459973770904d18abce642b7ead7abf6224d98b96a8990260b4f143",
+        "bench/tritonbench_g/diag_ssm_triton/jit-correspondence.json": "b98a6ab65f352d6db671426fd679629723cf055de29f8c54bf721fe8c569c9a3"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/diag_ssm_triton"

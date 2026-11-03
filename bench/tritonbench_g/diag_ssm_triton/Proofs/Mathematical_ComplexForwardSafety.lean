@@ -1,5 +1,5 @@
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ComplexForwardLoop
-import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ZeroSafety
+import bench.tritonbench_g.diag_ssm_triton.Proofs.SignedRealLoop
 import VeriTile.Triton.Memory.TraceRewrite
 namespace VeriTile.Bench.TritonBenchG.DiagSsmTriton.ComplexForwardSafety
 open VeriTile.Triton ComplexForwardStep ComplexForwardLoop
@@ -20,8 +20,8 @@ structure Bounds (p : Layout) (u : BlockState) (length : Nat) (bounds : RegionBo
 theorem body_safe (bounds : RegionBounds) (x y : RegionName) (batch dim B t : Nat) (u : BlockState)
     (col : TileIndex [B] → Nat) (mask : TileIndex [B] → Bool)
     (state transition : TileIndex [B] → ℂ)
-    (ht : u.regs .nat [] "t" = some (Tile.scalar t))
-    (hc : u.regs .nat [B] "col_offsets" = some ⟨col⟩)
+    (ht : u.regs .int [] "t" = some (Tile.scalar (t : Int)))
+    (hc : u.regs .int [B] "col_offsets" = some ⟨fun j=>(col j : Int)⟩)
     (hm : u.regs .bool [B] "mask" = some ⟨mask⟩)
     (hsr : u.regs .real [B] "s_real" = some (realTile state))
     (hsi : u.regs .real [B] "s_imag" = some (imagTile state))
@@ -30,9 +30,9 @@ theorem body_safe (bounds : RegionBounds) (x y : RegionName) (batch dim B t : Na
     (hx : ∀ j, mask j=Bool.true → ComplexForwardStep.offset batch dim t col j*2+1 < bounds x)
     (hy : ∀ j, mask j=Bool.true → ComplexForwardStep.offset batch dim t col j*2+1 < bounds y) :
     Stmt.TraceSafeList bounds (ComplexForwardSource.body x y batch dim B) u := by
-  simp only [ComplexForwardSource.body,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [ComplexForwardSource.body,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexForwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
@@ -51,6 +51,10 @@ theorem body_safe (bounds : RegionBounds) (x y : RegionName) (batch dim B t : Na
     Option.bind_some,Option.map_some,Bool.true_eq_false,↓reduceIte,ne_eq,not_false_eq_true,
     ht,hc,hm,hsr,hsi,hlr,hli,realTile,imagTile,Nat.mul_assoc,
     FloatDType.storeValue,FloatDType.toWithBot,WithBot.unbotD_some]
+  have twice (n : Nat) : (n : Int)*2=((n*2 : Nat) : Int) := by omega
+  have plusOne (n : Nat) : (n : Int)+1=((n+1 : Nat) : Int) := by omega
+  simp only [Int.ofNat_eq_natCast,←Int.natCast_mul,←Int.natCast_add,twice,plusOne,
+    Int.toNat_natCast,Nat.mul_assoc,IntegerExpr.same_left,IntegerExpr.same_right]
   simp only [Option.some.injEq]
   refine ⟨?_,?_,?_,?_⟩
   · intro offsets hoff i ⟨masks,hmask,hact⟩
@@ -69,17 +73,44 @@ theorem body_safe (bounds : RegionBounds) (x y : RegionName) (batch dim B t : Na
 
 theorem prelude_safe (p : Layout) (u : BlockState) (length : Nat) (bounds : RegionBounds)
     (hb : Bounds p u length bounds) :
-    Stmt.TraceSafeList bounds (ComplexForwardSource.prelude p.s p.l p.batch p.dim p.B) u := by
-  have hstatic : ZeroSafety.complexForwardBounds bounds u p.s p.l p.batch p.dim p.B := by
-    constructor <;> intro j hj
-    · exact hb.initial ⟨j,PUnit.unit⟩ (by
-        simpa only [mask,ComplexForwardInit.active,ComplexForwardInit.columns,decide_eq_true_eq] using hj)
-    · exact hb.transition ⟨j,PUnit.unit⟩ (by
-        simpa only [mask,ComplexForwardInit.active,ComplexForwardInit.columns,decide_eq_true_eq] using hj)
-  have h := ZeroSafety.complex_forward_safe bounds u p.s p.x p.y p.l p.batch p.dim p.B hstatic
-  unfold Kernel.TraceSafe at h
-  rw [ComplexForwardSource.source_body] at h
-  exact ((TraceRewrite.append_iff bounds _ _ u).mp h).1
+    Stmt.TraceSafeList bounds (ComplexForwardSource.prelude p.s p.l length p.batch p.dim p.B) u := by
+  let s:=p.s
+  let l:=p.l
+  let batch:=p.batch
+  let dim:=p.dim
+  let B:=p.B
+  simp only [ComplexForwardSource.prelude,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexForwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
+    IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
+    ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    Except.bind,bind,Bool.false_eq_true,↓reduceIte,List.take]
+  simp only [Kernel.TraceSafe,Stmt.TraceSafeList,Stmt.TraceSafe,Stmt.forLoopTraceSafe,
+    Op.SafeAt.eq_def,MemAccess.SafeAt,MaskOpt.SafeAt,MemAccess.ActiveAddressSafe,
+    memAccessActiveAddressSafe,MaskOpt.Active,
+    stepStmts,stepStmt,↓eval_truncMod,evalOp,evalOp.eq_def,Option.bind,bind,pure,
+    Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
+    String.reduceEq,FlatAlloc.shiftBroadcast,
+    Tile.bop,Tile.cop,Tile.scalar,NumericDType.mul,NumericDType.add,
+    IntegralDType.mod,ComparableDType.lt,IntegerExpr.same_left,IntegerExpr.same_right,stepForLoopAux.forLoop_unfold,
+    stepForLoopAux.step_ge,Region.cast,BlockState.setReg_same,
+    BlockState.setReg_ne_name,BlockState.setReg_pids,BlockState.setReg_readMem,
+    BlockState.setReg_readMemValue,Option.bind_some,Option.map_some,
+    Bool.true_eq_false,↓reduceIte,ne_eq,not_false_eq_true,Nat.le_refl,Nat.not_lt_zero,False.elim,forall_const,true_and,and_true]
+  have twice (n : Nat) : (n : Int)*2=((n*2 : Nat) : Int) := by omega
+  have plusOne (n : Nat) : (n : Int)+1=((n+1 : Nat) : Int) := by omega
+  simp only [Int.ofNat_eq_natCast,←Int.natCast_mul,←Int.natCast_add,←Int.ofNat_tmod,
+    twice,plusOne,Int.toNat_natCast,Int.ofNat_lt]
+  simp only [Option.some.injEq,forall_eq_apply_imp_iff,exists_eq_left,decide_eq_true_eq]
+  refine ⟨?_,?_,?_,?_⟩
+  all_goals intro offsets hoff i ⟨masks,hm,hact⟩; subst offsets; subst masks
+  · exact Nat.lt_of_le_of_lt (Nat.le_add_right _ 1) (hb.initial i hact)
+  · exact hb.initial i hact
+  · exact Nat.lt_of_le_of_lt (Nat.le_add_right _ 1) (hb.transition i hact)
+  · exact hb.transition i hact
 
 theorem trace_safe (p : Layout) (u : BlockState) (length : Nat) (bounds : RegionBounds)
     (hb : Bounds p u length bounds) :
@@ -91,21 +122,23 @@ theorem trace_safe (p : Layout) (u : BlockState) (length : Nat) (bounds : Region
   rw [ComplexForwardInit.prefix_step] at he
   obtain rfl := Option.some.inj he
   refine Stmt.TraceSafeList.cons_intro ?_ (fun _ _ => Stmt.TraceSafeList.nil_intro)
-  simp only [Stmt.TraceSafe]
+  simp only [Stmt.TraceSafe,evalOp.eq_def,Tile.scalar,Option.bind_some,pure,bind,Int.ofNat_eq_natCast]
   let P := fun v => ∃ state : Lane p → ℂ, Registers v (columns p u) (mask p u) state (transition p u)
-  apply TraceProofs.loop_safe (P := P) ?_ ?_ length 0 _ (by omega)
-    ⟨initial p u,ComplexForwardInit.result_registers u p.s p.l p.batch p.dim p.B⟩
+  have hs := VeriTile.Bench.Repairs.DiagSsmTriton.SignedRealLoop.safe bounds "t" length
+    (ComplexForwardSource.body p.x p.y p.batch p.dim p.B) P ?_ ?_
+    0 (Nat.zero_le _) _ ⟨initial p u,ComplexForwardInit.result_registers u p.s p.l length p.batch p.dim p.B⟩
+  · simpa only [Nat.cast_zero,Op.SafeAt.eq_def,true_and] using hs
   · intro i v hi hv
     obtain ⟨state,hr⟩ := hv
     have ht := hr.setCounter i
-    exact body_safe bounds p.x p.y p.batch p.dim p.B i (v.setReg "t" .nat [] (Tile.scalar i))
+    exact body_safe bounds p.x p.y p.batch p.dim p.B i (v.setReg "t" .int [] (Tile.scalar (i : Int)))
       (columns p u) (mask p u) state (transition p u) (by simp)
       ht.columns ht.active ht.realState ht.imagState ht.realTransition ht.imagTransition
       (hb.input i hi) (hb.output i hi)
   · intro i v w _ hv he
     obtain ⟨state,hr⟩ := hv
     have ht := hr.setCounter i
-    have hrun := body_step p.x p.y p.batch p.dim p.B i (v.setReg "t" .nat [] (Tile.scalar i))
+    have hrun := body_step p.x p.y p.batch p.dim p.B i (v.setReg "t" .int [] (Tile.scalar (i : Int)))
       (columns p u) (mask p u) state (transition p u) (by simp)
       ht.columns ht.active ht.realState ht.imagState ht.realTransition ht.imagTransition
     rw [hrun] at he
@@ -114,9 +147,9 @@ theorem trace_safe (p : Layout) (u : BlockState) (length : Nat) (bounds : Region
 
 theorem flatten_ok (p : Layout) (length : Nat) :
     (Erasure.complexForward Bool.false p.s p.x p.y p.l length p.batch p.dim p.B).toAlgKernel.FlattenOk := by
-  simp only [Kernel.FlattenOk,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [Kernel.FlattenOk,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexForwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,

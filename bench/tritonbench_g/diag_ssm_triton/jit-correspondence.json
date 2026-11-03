@@ -1,0 +1,894 @@
+[
+  {
+    "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
+    "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean",
+    "python_function": "diag_ssm_forward_kernel",
+    "lean_definition": "forwardBody",
+    "signature_definition": "forwardSignature",
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "x_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "lambda_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "y_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "x_ptr",
+        "lambda_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ],
+      "dtype_parameters": [
+        "storage"
+      ],
+      "dtype_parameter_types": {
+        "storage": "Storage"
+      }
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton_index_commuted.py",
+    "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean",
+    "python_function": "diag_ssm_forward_kernel_index_commuted",
+    "lean_definition": "forwardCandidateBody",
+    "signature_definition": "forwardSignature",
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "x_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "lambda_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "y_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "x_ptr",
+        "lambda_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ],
+      "dtype_parameters": [
+        "storage"
+      ],
+      "dtype_parameter_types": {
+        "storage": "Storage"
+      }
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
+    "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean",
+    "python_function": "diag_ssm_backward_kernel",
+    "lean_definition": "backwardBody",
+    "signature_definition": "backwardSignature",
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "lambda_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "y_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "grad_s_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "grad_x_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "grad_lambda_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "grad_y_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "lambda_ptr",
+        "y_ptr",
+        "grad_y_ptr"
+      ],
+      "writePorts": [
+        "grad_s_ptr",
+        "grad_x_ptr",
+        "grad_lambda_ptr"
+      ],
+      "dtype_parameters": [
+        "storage"
+      ],
+      "dtype_parameter_types": {
+        "storage": "Storage"
+      }
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton_index_commuted.py",
+    "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean",
+    "python_function": "diag_ssm_backward_kernel_index_commuted",
+    "lean_definition": "backwardCandidateBody",
+    "signature_definition": "backwardSignature",
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "lambda_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "y_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "grad_s_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "grad_x_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "grad_lambda_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "grad_y_ptr",
+          {
+            "on": "storage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "lambda_ptr",
+        "y_ptr",
+        "grad_y_ptr"
+      ],
+      "writePorts": [
+        "grad_s_ptr",
+        "grad_x_ptr",
+        "grad_lambda_ptr"
+      ],
+      "dtype_parameters": [
+        "storage"
+      ],
+      "dtype_parameter_types": {
+        "storage": "Storage"
+      }
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
+    "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean",
+    "python_function": "diag_ssm_forward_kernel_complex",
+    "lean_definition": "complexForwardBody",
+    "signature_definition": "complexForwardSignature",
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "x_ptr",
+        "lambda_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton_index_commuted.py",
+    "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean",
+    "python_function": "diag_ssm_forward_kernel_complex_index_commuted",
+    "lean_definition": "complexForwardCandidateBody",
+    "signature_definition": "complexForwardSignature",
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "x_ptr",
+        "lambda_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton.py",
+    "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean",
+    "python_function": "diag_ssm_backward_kernel_complex",
+    "lean_definition": "complexBackwardBody",
+    "signature_definition": "complexBackwardSignature",
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "grad_s_ptr",
+          "fp32"
+        ],
+        [
+          "grad_x_ptr",
+          "fp32"
+        ],
+        [
+          "grad_lambda_ptr",
+          "fp32"
+        ],
+        [
+          "grad_y_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "lambda_ptr",
+        "y_ptr",
+        "grad_y_ptr"
+      ],
+      "writePorts": [
+        "grad_s_ptr",
+        "grad_x_ptr",
+        "grad_lambda_ptr"
+      ]
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/diag_ssm_triton/diag_ssm_triton_index_commuted.py",
+    "lean": "bench/tritonbench_g/diag_ssm_triton/Sources/Body.lean",
+    "python_function": "diag_ssm_backward_kernel_complex_index_commuted",
+    "lean_definition": "complexBackwardCandidateBody",
+    "signature_definition": "complexBackwardSignature",
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "grad_s_ptr",
+          "fp32"
+        ],
+        [
+          "grad_x_ptr",
+          "fp32"
+        ],
+        [
+          "grad_lambda_ptr",
+          "fp32"
+        ],
+        [
+          "grad_y_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "lambda_ptr",
+        "y_ptr",
+        "grad_y_ptr"
+      ],
+      "writePorts": [
+        "grad_s_ptr",
+        "grad_x_ptr",
+        "grad_lambda_ptr"
+      ]
+    }
+  }
+]
