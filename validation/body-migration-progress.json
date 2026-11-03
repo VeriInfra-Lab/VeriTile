@@ -2691,7 +2691,11 @@
         "constexpr frontend PASS",
         "actual public Real entry PASS",
         "actual public FP entry PASS"
-      ]
+      ],
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41740522465",
+      "source_commit": "f3f526ddad55e16052eccef2cbde3dc8b7e0325e",
+      "independent_replay": "IN_PROGRESS",
+      "frozen_source_files": 243
     },
     "legacy_final_inventory": {
       "state": "STALE_PRIOR_CONTRACT_REVIEW_HASHES",
@@ -3664,8 +3668,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "PENDING",
-      "reason": "Two complete 23-statement repaired Python bodies and ABI checked. All 34 owned plus shared constexpr frontend/regression roots built; actual public Real/FP statements, execution, safety, both typed outputs and frame revalidated. Compile-time factor is derived from the source expression tree; the mathematical factor premise is discharged rather than supplied. Fresh official exact-current acceptance is still required; compilation and AST checks do not complete the task."
+      "independent_replay": "IN_PROGRESS",
+      "reason": "Two complete 23-statement repaired Python bodies and ABI checked. All 34 owned plus shared constexpr frontend/regression roots built; actual public Real/FP statements, execution, safety, both typed outputs and frame revalidated. Compile-time factor is derived from the source expression tree; the mathematical factor premise is discharged rather than supplied. Fresh official exact-current acceptance is still required; compilation and AST checks do not complete the task.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41740522465",
+      "validated_source_commit": "f3f526ddad55e16052eccef2cbde3dc8b7e0325e"
     },
     {
       "path": "bench/tritonbench_g/int_scaled_matmul",
