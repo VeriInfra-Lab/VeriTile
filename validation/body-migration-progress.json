@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 162,
+  "completed_count": 163,
   "staged_count": 166,
-  "pending_count": 34,
+  "pending_count": 33,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 5824,
-    "official_comparator": "162 current targets retain exact-dependency independent receipts, including all 19 examples. Four locally verified targets await exact-current independent replay. No compilation or correspondence-only result is counted as complete.",
+    "official_comparator": "163 current targets retain exact-dependency independent receipts, including all 19 examples. Three locally verified targets await exact-current independent replay. Compilation alone is not completion.",
     "python_tests": 596,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "172 cases (166 targets and six regressions), all 5824 retained/supporting modules, 14520 Lake jobs, 431 public theorem names, 596 Python tests and source-corpus checks pass. Triton Linear Activation retains all five original JIT bodies and the existing shifted candidate, with complete helper/branch/loop execution, actual libdevice callback, Real mathematics, all outputs, safety, frames and native/IO/compiler bridges reverified. Independently complete: 162, including all 19 examples. Four targets await exact-current independent replay (Triton Linear Activation, Decay Cumsum, Diag SSM and dependent kldiv_ops); 30 other targets remain to migrate.",
+    "working_tree": "172 cases (166 targets and six regressions), all 5824 retained/supporting modules, 14520 Lake jobs, 431 public theorem names, 596 Python tests and source-corpus checks pass. Triton Linear Activation retains all five original JIT bodies and the existing shifted candidate, with complete helper/branch/loop execution, actual libdevice callback, Real mathematics, all outputs, safety, frames and native/IO/compiler bridges reverified. Independently complete: 163, including all 19 examples. Three targets await exact-current independent replay (Triton Linear Activation, Diag SSM and dependent kldiv_ops); 30 other targets remain to migrate.",
     "official_replay_sources": 4827,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -980,7 +980,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Submit Triton Linear Activation for exact-current independent replay, collect Decay Cumsum/Diag SSM/dependent kldiv_ops receipts, and continue the remaining 30 source/proof migrations. All 19 examples independently accepted. No merge.",
+    "current_work": "Continue int_scaled_matmul and remaining source/proof migrations; collect Diag SSM/dependent kldiv_ops and Linear Activation receipts. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1772,7 +1772,10 @@
       "full_replay_sources": 4782,
       "full_lake_jobs": 14486,
       "public_theorem_count": 429,
-      "boundary": "Local verification only. Remains incomplete until exact-current independent replay accepts every required owned/shared root and public theorem."
+      "boundary": "Local verification only. Remains incomplete until exact-current independent replay accepts every required owned/shared root and public theorem.",
+      "official_receipt": "validation/body_receipts/decay-cumsum-source-migration.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41597743085",
+      "independent_validation": "PASS_EXACT_CURRENT"
     },
     "linear_activation_source_migration": {
       "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
@@ -2249,15 +2252,16 @@
     },
     {
       "path": "bench/tritonbench_g/decay_cumsum",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All three unchanged original Python JIT bodies and the three existing mask-index candidates are copied statement for statement, with exact pointer/runtime/constexpr metadata outside the body. Preserved int64 program-ID and loop-bound casts, explicit negative stop, module floating literal inv_ln2, unmasked final-gate load, every branch, actual captured load and final pointer update. Materialized only the three existing mask integer-product commutations in Python and checked inverse AST and source hashes. Removed old whole-kernel Lean quotations and generators. Optional immutable floating-module-literal and cast reverse-stop frontends have exact-program, positive-bound and rejection regressions; four shared trust/inventory theorems pass. Reproved complete actual signed-loop execution, independent Real prefix/gating/reverse-prefix formulas, all outputs, access safety, full raw-cell frames, actual candidate FP equivalence and existing IO/grid/storage/native bridges. Corrected the inherited arbitrary-FP execution model to include the explicit cast after fp32Load, and removed its extra explicit cast from the two plain backward dq/dk stores; native word observations preserve payloads while accounting for proof-only provenance tags. No new public premises, narrower numerical domains or new FP rules. All 60 owned modules, four shared roots, two public names, full integration and 590 Python tests pass locally. Exact-current independent replay is still required; compilation is not completion.",
+      "reason": "Every required owned and shared independent proof root is accepted in the completed official replay. Verified official ZIP SHA256, exact current transitive source/import closure, all source pairs and public Real/FP theorem coverage. Complete source execution, independent mathematics, FP candidate, all outputs, safety and memory frames are covered. Compilation alone is not completion.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41597743085",
       "validated_source_commit": "71fae6d6f3909ccc1dd829d70a12cea50349e60e",
-      "independent_replay": "IN_PROGRESS"
+      "independent_replay": "IN_PROGRESS",
+      "receipt": "validation/body_receipts/decay-cumsum-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/dequantize_matmul",
