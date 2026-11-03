@@ -2637,11 +2637,12 @@
       "full_lake_jobs": 15726,
       "public_theorem_count": 465,
       "boundary": "Every source, public Real/FP specification, safety, axiom and exact-current official independent replay gate is required. Local compilation is not completion.",
-      "source_commit": "5afba8bb0725c3b4bebc91fa7d426290ba1f5943",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478",
-      "independent_replay": "FAILED_AWAITING_REPLAY_OF_FIX",
+      "source_commit": "4f6d2994baedecaf904dc64bbbff33f88e190f60",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41734203837",
+      "independent_replay": "IN_PROGRESS",
       "previous_failed_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478",
-      "previous_failure": "78/79 roots accepted; SourceAdapter inventory parse failed because the audit import reserves the local binder full. Renamed that binder to fullKernel and replayed its audit-prepared source locally. Restored the StreamKControlSource regression under the current Invocation ABI and added it to required replay roots."
+      "previous_failure": "78/79 roots accepted; SourceAdapter inventory parse failed because the audit import reserves the local binder full. Renamed that binder to fullKernel and replayed its audit-prepared source locally. Restored the StreamKControlSource regression under the current Invocation ABI and added it to required replay roots.",
+      "required_replay_roots": 80
     }
   },
   "targets": [
@@ -4706,10 +4707,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "FAILED_AWAITING_REPLAY_OF_FIX",
+      "independent_replay": "IN_PROGRESS",
       "reason": "All 12 pasted bodies and the public Real/FP proofs remain checked. Official run 41715124478 accepted 78/79 roots and rejected SourceAdapter inventory parsing. The local binder collision is fixed and the audit-prepared adapter elaborates. All 78 module roots build; both frontend/StreamK regression files and five Python tests pass. The added StreamK regression is now a third shared replay root. All 80 exact-current independent replays are required; this task remains incomplete.",
-      "validated_source_commit": "5afba8bb0725c3b4bebc91fa7d426290ba1f5943",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478"
+      "validated_source_commit": "4f6d2994baedecaf904dc64bbbff33f88e190f60",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41734203837"
     },
     {
       "path": "bench/tritonbench_g/swiglu_backward",
