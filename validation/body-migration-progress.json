@@ -86,7 +86,9 @@
       "cases": 1,
       "retained_modules": 64,
       "replay_sources": 64,
-      "state": "local_pass_ready_for_official_replay"
+      "state": "official_replay_in_progress",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41597743085",
+      "source_commit": "71fae6d6f3909ccc1dd829d70a12cea50349e60e"
     },
     "previous_incremental_replays": [
       {
@@ -2221,7 +2223,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All three unchanged original Python JIT bodies and the three existing mask-index candidates are copied statement for statement, with exact pointer/runtime/constexpr metadata outside the body. Preserved int64 program-ID and loop-bound casts, explicit negative stop, module floating literal inv_ln2, unmasked final-gate load, every branch, actual captured load and final pointer update. Materialized only the three existing mask integer-product commutations in Python and checked inverse AST and source hashes. Removed old whole-kernel Lean quotations and generators. Optional immutable floating-module-literal and cast reverse-stop frontends have exact-program, positive-bound and rejection regressions; four shared trust/inventory theorems pass. Reproved complete actual signed-loop execution, independent Real prefix/gating/reverse-prefix formulas, all outputs, access safety, full raw-cell frames, actual candidate FP equivalence and existing IO/grid/storage/native bridges. Corrected the inherited arbitrary-FP execution model to include the explicit cast after fp32Load, and removed its extra explicit cast from the two plain backward dq/dk stores; native word observations preserve payloads while accounting for proof-only provenance tags. No new public premises, narrower numerical domains or new FP rules. All 60 owned modules, four shared roots, two public names, full integration and 590 Python tests pass locally. Exact-current independent replay is still required; compilation is not completion."
+      "reason": "All three unchanged original Python JIT bodies and the three existing mask-index candidates are copied statement for statement, with exact pointer/runtime/constexpr metadata outside the body. Preserved int64 program-ID and loop-bound casts, explicit negative stop, module floating literal inv_ln2, unmasked final-gate load, every branch, actual captured load and final pointer update. Materialized only the three existing mask integer-product commutations in Python and checked inverse AST and source hashes. Removed old whole-kernel Lean quotations and generators. Optional immutable floating-module-literal and cast reverse-stop frontends have exact-program, positive-bound and rejection regressions; four shared trust/inventory theorems pass. Reproved complete actual signed-loop execution, independent Real prefix/gating/reverse-prefix formulas, all outputs, access safety, full raw-cell frames, actual candidate FP equivalence and existing IO/grid/storage/native bridges. Corrected the inherited arbitrary-FP execution model to include the explicit cast after fp32Load, and removed its extra explicit cast from the two plain backward dq/dk stores; native word observations preserve payloads while accounting for proof-only provenance tags. No new public premises, narrower numerical domains or new FP rules. All 60 owned modules, four shared roots, two public names, full integration and 590 Python tests pass locally. Exact-current independent replay is still required; compilation is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41597743085",
+      "validated_source_commit": "71fae6d6f3909ccc1dd829d70a12cea50349e60e",
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/dequantize_matmul",
