@@ -4,15 +4,15 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 151,
-  "staged_count": 153,
-  "pending_count": 45,
+  "completed_count": 150,
+  "staged_count": 155,
+  "pending_count": 46,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 5127,
-    "official_comparator": "151 current targets retain accepted exact-dependency official receipts. Official ZIP digests, all required proof roots, public theorem coverage and exact current source/import closures have been audited. Two additional locally verified targets (block_sparse_attn and chunk_bwd_dqkg) await current independent replay; compilation never counts as completion.",
-    "python_tests": 546,
+    "staged_and_regression_retained_modules": 5237,
+    "official_comparator": "150 current targets retain exact-dependency independent receipts. All official ZIP digests, required proof roots, public names and current transitive closures have been audited. Five locally verified targets await independent replay: block_sparse_attn, chunk_bwd_dqkg, the two int4 migrations and the affected int4_matmul. The prior int4_matmul receipt is historical; compilation is not completion.",
+    "python_tests": 552,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "159 cases (153 targets and 6 regressions), all 5127 retained/supporting modules, 13840 Lake jobs, 392 public theorem names, 546 Python tests and body-corpus checks pass. Chunk gradient now copies both complete 33-statement repaired/candidate sources with only invocation metadata outside the bodies. Removed the repeated implementations and unused real-only dot-add reorder. All 81 precision-erased storage choices, actual counted value loop, independent complete-V Real gradients, native instruction graph, ABI/layouts, all three outputs, full source safety and frames are reverified. All 71 owned and three shared roots plus exact-source trust/inventory checks pass. Independent completion count is 151, including all 19 examples.",
-    "official_replay_sources": 4130,
+    "working_tree": "161 cases (155 targets and six regressions), all 5237 retained/supporting modules, 13945 Lake jobs, 396 public theorem names, 552 Python tests and source-corpus checks pass. The int4 source/dependency bundle retains unchanged Python, full original/candidate bodies, existing public Real/FP contracts, native instruction graphs, all precision profiles/tunings, safety, outputs and frames. All 161 owned and two shared roots pass local verification, with 174 exact-source shared trust/inventory theorem checks. Independent completion count is 150, including all 19 examples.",
+    "official_replay_sources": 4240,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -79,18 +79,16 @@
       }
     ],
     "incremental_replay": {
-      "case": "bench/tritonbench_g/chunk_bwd_dqkg",
       "case_paths": [
-        "bench/tritonbench_g/chunk_bwd_dqkg"
+        "bench/tritonbench_g/matmul_dequant_int4",
+        "bench/tritonbench_g/matmul_dequantize_int4",
+        "bench/tritonbench_g/int4_matmul"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 1,
-      "retained_modules": 74,
-      "replay_sources": 74,
-      "state": "official_replay_running",
-      "source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41543030549",
-      "started_at": "2026-11-02T23:08:22Z"
+      "cases": 3,
+      "retained_modules": 163,
+      "replay_sources": 163,
+      "state": "prepared_after_complete_local_validation"
     },
     "previous_incremental_replays": [
       {
@@ -821,6 +819,20 @@
         "source_commit": "72ec347b6ddda442215140ff6a202776d90f17c2",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41533126901",
         "started_at": "2026-11-02T21:58:16Z"
+      },
+      {
+        "case": "bench/tritonbench_g/chunk_bwd_dqkg",
+        "case_paths": [
+          "bench/tritonbench_g/chunk_bwd_dqkg"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 74,
+        "replay_sources": 74,
+        "state": "official_replay_running",
+        "source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41543030549",
+        "started_at": "2026-11-02T23:08:22Z"
       }
     ],
     "pending_client_regressions": {
@@ -836,7 +848,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 43 TritonBench-G source/proof migrations, currently matmul_dequantize_int4. Collect exact-current independent receipts for block_sparse_attn and chunk_bwd_dqkg. All 19 examples are accepted. No merge.",
+    "current_work": "Collect independent exact-current receipts for the five locally verified targets. Continue the remaining 41 TritonBench-G body/proof migrations, next matmul_dequantize. All 19 examples are independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1372,6 +1384,24 @@
       "boundary": "Local source/proof/trust checks only, not an independent completion receipt.",
       "source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41543030549"
+    },
+    "int4_source_dependency_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "case_paths": [
+        "bench/tritonbench_g/matmul_dequant_int4",
+        "bench/tritonbench_g/matmul_dequantize_int4",
+        "bench/tritonbench_g/int4_matmul"
+      ],
+      "owned_modules": 161,
+      "shared_frontend_test_modules": 2,
+      "shared_trust_inventory_theorems": 174,
+      "python_tests": 552,
+      "full_cases": 161,
+      "full_retained_modules": 5237,
+      "full_lake_jobs": 13945,
+      "public_theorem_names": 396,
+      "python_sources_unchanged": true,
+      "boundary": "Local full-source/semantic/public/specification/axiom validation, not an independent completion certificate."
     }
   },
   "targets": [
@@ -2165,15 +2195,16 @@
     },
     {
       "path": "bench/tritonbench_g/int4_matmul",
-      "status": "complete",
-      "complete": true,
-      "reason": "Accepted official independent replay. ZIP digest, complete public theorem coverage, every required replay result, current source/body pairs and exact transitive project source/import closure were verified. Later unrelated source changes are outside this case closure. This is not acceptance inferred from compilation.",
+      "status": "proof_replay_pending",
+      "complete": false,
+      "reason": "The shared packed-dequantization source dependency has been migrated to the literal repaired Python. All 53 owned int4_matmul modules, actual complete source/native execution and access safety, independent Real and FP public entries reverify under the unchanged contracts. Joint validation covers all 161 owned modules of the affected three tasks, two shared frontend/test roots, full 5237-module integration, 396 public names, 552 Python tests and exact-source gates. The previous receipt is historical because the transitive source closure changed. Fresh exact-current independent replay is required before restoring completion.",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "receipt": "validation/body_receipts/int4-matmul-source-migration.json",
-      "validated_source_commit": "82d078df01236b3570c219d4205e1d2b4d2ca9da",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41369918059"
+      "previously_complete": true,
+      "previous_receipt": "validation/body_receipts/int4-matmul-source-migration.json",
+      "previous_validated_source_commit": "82d078df01236b3570c219d4205e1d2b4d2ca9da",
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41369918059"
     },
     {
       "path": "bench/tritonbench_g/int8_dequant_matmul",
@@ -2527,8 +2558,12 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_dequant_int4",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Both unchanged standalone 19-statement Python bodies are pasted literally; the identical unlaunched fused 32-statement JIT in both Python files is registered directly against the shared repaired matmul source, without duplicating Lean. Removed both old standalone quotations. Preserved signed32 packed loads, signed nibble subtraction, actual dtype conversion before scale multiplication, complete masks and strides; original and existing unit-stride candidate Python files are unchanged. Generic full-program equality was checked during migration. Both admitted half/single profiles, all eight tuning entries, independent Real values, actual unit-stride FP comparison, full grids, execution, source safety, output readback and complete frames reverify without new premises or numerical rules. All 49 owned modules pass, as do the joint 161-owned/two-shared-root validation, full 161-case integration, 396 public names, 552 Python tests, body-corpus checks and shared trust/inventory preflights. Fresh exact-current independent replay remains required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize",
@@ -2537,8 +2572,12 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize_int4",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Both unchanged repaired/original and existing group-extent Python candidates are pasted literally, 32 statements each, with only invocation metadata outside the bodies. Preserved docstring, integer unpacking, implicit target-dtype promotions, local constexpr precomputation, all branches/casts/masks/unused assignments, full 17-tuning ABI and output storage. Removed four repeated whole Lean implementations; the selected native carry-dot graph is derived from the source under the existing compiler contracts. Complete program equality was checked during migration for both original/candidate and compiled graphs. Independent Real matrix product, actual FP candidate, full native instruction/layout connection, grids, safety, outputs and complete frames reverify. All 59 owned modules pass; joint three-case validation covers 161 owned plus two shared frontend/test roots. Full 161-case batch: 5237 retained modules, 13945 Lake jobs, 396 public names, 552 Python tests, source-corpus checks and 174 exact-source shared trust/inventory theorem checks pass. Fresh independent exact-current replay is required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/matmul_kernel",

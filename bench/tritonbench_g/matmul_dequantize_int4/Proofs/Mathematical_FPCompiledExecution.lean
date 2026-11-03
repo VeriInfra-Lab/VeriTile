@@ -45,7 +45,7 @@ def preludeExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
   by_cases hno : p.noGroups = Bool.true <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [prelude, source, typed, ComputeKernel.surfaceBody,
+     simp [prelude, source, typed, VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.lowerNative, VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.carryNode, FPTyped.typed, VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalBody, ComputeKernel.surfaceBody,
        run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
        bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
        FloatDType.numericDType, FloatDType.toTileDType,
@@ -87,7 +87,7 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
   by_cases hno : p.noGroups = Bool.true <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [body, source, typed, ComputeKernel.surfaceBody,
+     simp [body, source, typed, VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.lowerNative, VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.carryNode, FPTyped.typed, VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalBody, ComputeKernel.surfaceBody,
        run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
        bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
        FloatDType.numericDType, FloatDType.toTileDType,
