@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 162,
+  "completed_count": 165,
   "staged_count": 171,
-  "pending_count": 34,
+  "pending_count": 31,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 6268,
-    "official_comparator": "162 current targets retain exact-dependency independent receipts, including all 19 examples. Nine locally verified targets await exact-current independent acceptance. Compilation alone is not completion.",
+    "official_comparator": "165 current targets retain exact-dependency independent receipts, including all 19 examples. Six locally verified targets await exact-current independent acceptance. Compilation alone is not completion.",
     "python_tests": 619,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "177 cases (171 targets and six regressions), all 6268 retained/supporting modules, 14956 Lake jobs, 443 public theorem names, 619 Python tests and source-corpus checks pass. Nopad uses three complete copied bodies and its complete Real/FP execution, safety, grid, frame and native/host/IO connections are reverified. Independent completion: 162, including all 19 examples. Nine locally verified targets await fresh exact-current independent acceptance. Twenty-five targets remain to migrate.",
+    "working_tree": "177 cases (171 targets and six regressions), all 6268 retained/supporting modules, 14956 Lake jobs, 443 public theorem names, 619 Python tests and source-corpus checks pass. Nopad uses three complete copied bodies and its complete Real/FP execution, safety, grid, frame and native/host/IO connections are reverified. Independent completion: 165, including all 19 examples. Six locally verified targets await fresh exact-current independent acceptance. Twenty-five targets remain to migrate.",
     "official_replay_sources": 5271,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -1031,10 +1031,11 @@
         "cases": 3,
         "retained_modules": 161,
         "replay_sources": 161,
-        "state": "official_in_progress",
+        "state": "accepted_exact_current",
         "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
-        "source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0"
+        "source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0",
+        "receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json"
       },
       {
         "case_paths": [
@@ -1112,7 +1113,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Complete fixed-source independent replay of four migrated context-attention tasks and the five remaining Int Scaled Matmul dependents; continue remaining 25 migrations, next context_attn_bloom. No merge.",
+    "current_work": "Complete fixed-source independent replay of the four context attention tasks and two remaining Int Scaled Matmul dependents; continue the remaining 25 migrations, currently context_attn_bloom. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -2004,7 +2005,9 @@
           ],
           "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
           "source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0",
-          "roots": 161
+          "roots": 161,
+          "state": "accepted_exact_current",
+          "receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json"
         }
       ],
       "independent_replay": "PASS",
@@ -3350,45 +3353,48 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_dequant_int4",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Source body correspondence is unchanged. The complete current integration rebuild and every public theorem pass after int_scaled_matmul changed the transitive LogicalSum/GroupedGrid/GridExecution import closure. Historical acceptance is not reused; fresh exact-current independent replay is required before completion is restored.",
-      "validated_source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840",
-      "receipt": "validation/body_receipts/int4-source-dependency-migration.json",
+      "reason": "Fresh official independent replay accepts every required owned/shared root after the Int Scaled Matmul dependency migration. Verified archive SHA256, exact current transitive source/import closure, complete original/candidate source pairs, required public Real/FP theorem names and every required theorem replay; all 161 batch roots and all 85 files in the shared-root import closure match current source. Successful local compilation is not the acceptance criterion.",
+      "validated_source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
+      "receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
       "previously_complete": true,
-      "previous_receipt": "validation/body_receipts/int4-source-dependency-migration.json"
+      "previous_receipt": "validation/body_receipts/int4-source-dependency-migration.json",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Source body correspondence is unchanged. The complete current integration rebuild and every public theorem pass after int_scaled_matmul changed the transitive LogicalSum/GroupedGrid/GridExecution import closure. Historical acceptance is not reused; fresh exact-current independent replay is required before completion is restored.",
-      "validated_source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330",
-      "receipt": "validation/body_receipts/matmul-dequantize-source-migration.json",
+      "reason": "Fresh official independent replay accepts every required owned/shared root after the Int Scaled Matmul dependency migration. Verified archive SHA256, exact current transitive source/import closure, complete original/candidate source pairs, required public Real/FP theorem names and every required theorem replay; all 161 batch roots and all 85 files in the shared-root import closure match current source. Successful local compilation is not the acceptance criterion.",
+      "validated_source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
+      "receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
       "previously_complete": true,
-      "previous_receipt": "validation/body_receipts/matmul-dequantize-source-migration.json"
+      "previous_receipt": "validation/body_receipts/matmul-dequantize-source-migration.json",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize_int4",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Source body correspondence is unchanged. The complete current integration rebuild and every public theorem pass after int_scaled_matmul changed the transitive LogicalSum/GroupedGrid/GridExecution import closure. Historical acceptance is not reused; fresh exact-current independent replay is required before completion is restored.",
-      "validated_source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840",
-      "receipt": "validation/body_receipts/int4-source-dependency-migration.json",
+      "reason": "Fresh official independent replay accepts every required owned/shared root after the Int Scaled Matmul dependency migration. Verified archive SHA256, exact current transitive source/import closure, complete original/candidate source pairs, required public Real/FP theorem names and every required theorem replay; all 161 batch roots and all 85 files in the shared-root import closure match current source. Successful local compilation is not the acceptance criterion.",
+      "validated_source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
+      "receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
       "previously_complete": true,
-      "previous_receipt": "validation/body_receipts/int4-source-dependency-migration.json"
+      "previous_receipt": "validation/body_receipts/int4-source-dependency-migration.json",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matmul_kernel",
