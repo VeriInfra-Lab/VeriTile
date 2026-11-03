@@ -79,11 +79,13 @@
       }
     ],
     "incremental_replay": {
-      "status": "PREPARED",
+      "status": "IN_PROGRESS",
       "scope": "Signed accumulator shared dependency revalidation group 2",
       "manifest": "validation/body-migration-incremental.json",
       "roots": 103,
-      "note": "Exact-current final official acceptance remains required."
+      "note": "Exact-current final official acceptance remains required.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697483077",
+      "validated_source_commit": "626a2f539ab83c00567151ff78f6906ad5f01bad"
     },
     "previous_incremental_replays": [
       {
@@ -2470,7 +2472,7 @@
       "official_receipt": "validation/body_receipts/layer-norm-triton-source-migration.json"
     },
     "int8_matmul_quantization_dependency_revalidation": {
-      "status": "LOCAL_PASS_OFFICIAL_REPLAY_PENDING",
+      "status": "OFFICIAL_REPLAY_IN_PROGRESS",
       "shared_source": "VeriTile/Triton/Float/IntegerDot.lean",
       "affected_targets": [
         "bench/tritonbench_g/int8_dequant_matmul",
@@ -2512,6 +2514,16 @@
             "bench/tritonbench_g/int_scaled_matmul"
           ],
           "roots": 267,
+          "status": "IN_PROGRESS"
+        },
+        "2": {
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697483077",
+          "validated_source_commit": "626a2f539ab83c00567151ff78f6906ad5f01bad",
+          "cases": [
+            "bench/tritonbench_g/kldiv_triton",
+            "bench/tritonbench_g/llama_ff_triton"
+          ],
+          "roots": 103,
           "status": "IN_PROGRESS"
         }
       }
@@ -3555,14 +3567,14 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "8746de961f514315f4e91a7a83411f0124216b77",
+      "validated_source_commit": "626a2f539ab83c00567151ff78f6906ad5f01bad",
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/kldiv-llama-ff-current-dependency-replay.json",
       "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613328790",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697483077",
       "receipt": "validation/body_receipts/kldiv-llama-ff-current-dependency-replay.json",
-      "independent_replay": "PENDING_CURRENT_SOURCE_CLOSURE"
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/ksoftmax_triton",
@@ -3748,12 +3760,12 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
-      "independent_replay": "PENDING_CURRENT_SOURCE_CLOSURE",
+      "independent_replay": "IN_PROGRESS",
       "receipt": "validation/body_receipts/kldiv-llama-ff-current-dependency-replay.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/kldiv-llama-ff-current-dependency-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613328790",
-      "validated_source_commit": "8746de961f514315f4e91a7a83411f0124216b77"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697483077",
+      "validated_source_commit": "626a2f539ab83c00567151ff78f6906ad5f01bad"
     },
     {
       "path": "bench/tritonbench_g/log_softmax",
