@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 159,
+  "completed_count": 160,
   "staged_count": 168,
-  "pending_count": 37,
+  "pending_count": 36,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 5983,
-    "official_comparator": "159 current targets retain exact-dependency independent receipts, including all 19 examples. Nine locally verified targets await exact-current independent acceptance. Compilation alone is not completion.",
+    "official_comparator": "160 current targets retain exact-dependency independent receipts, including all 19 examples. Eight locally verified targets await exact-current independent acceptance. Compilation alone is not completion.",
     "python_tests": 607,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "174 cases (168 targets and six regressions), all 5983 retained/supporting modules, 14785 Lake jobs, 437 public theorem names, 607 Python tests and source-corpus checks pass. Context Attn Llama now uses three complete copied bodies, and the independent Real, opaque FP, source safety, full grid output/frame, host/native/logical IO proofs are reverified. Independent completion: 159, including all 19 examples. Nine locally verified targets await fresh exact-current independent acceptance. Twenty-eight targets remain to migrate.",
+    "working_tree": "174 cases (168 targets and six regressions), all 5983 retained/supporting modules, 14785 Lake jobs, 437 public theorem names, 607 Python tests and source-corpus checks pass. Context Attn Llama now uses three complete copied bodies, and the independent Real, opaque FP, source safety, full grid output/frame, host/native/logical IO proofs are reverified. Independent completion: 160, including all 19 examples. Eight locally verified targets await fresh exact-current independent acceptance. Twenty-eight targets remain to migrate.",
     "official_replay_sources": 4986,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -987,9 +987,10 @@
         "cases": 1,
         "retained_modules": 73,
         "replay_sources": 73,
-        "state": "official_in_progress",
+        "state": "accepted_exact_current",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613131342",
-        "source_commit": "54e28c9cb9a1d5b12d5f1382b6b9b30db86614e4"
+        "source_commit": "54e28c9cb9a1d5b12d5f1382b6b9b30db86614e4",
+        "receipt": "validation/body_receipts/int-scaled-matmul-source-migration.json"
       },
       {
         "case_paths": [
@@ -1048,7 +1049,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Complete fixed-source independent replay of Context Attn Llama, Int Scaled Matmul and seven dependents; continue remaining 28 migrations, next Context Attn Mistral. All 19 examples independently accepted. No merge.",
+    "current_work": "Complete fixed-source independent replay of Context Attn Llama and the seven rebuilt Int Scaled Matmul dependents; continue remaining 28 migrations, currently Context Attn Mistral. Int Scaled Matmul and all 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1879,7 +1880,7 @@
       "bench/tritonbench_g/matmul_persistent_triton"
     ],
     "int_scaled_matmul_source_migration": {
-      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "local_validation": "PASS",
       "owned_modules": 65,
       "shared_frontend_test_modules": 8,
       "shared_trust_inventory_theorems": 18,
@@ -1908,7 +1909,7 @@
         "bench/tritonbench_g/matmul_dequantize_int4",
         "bench/tritonbench_g/matmul_persistent_triton"
       ],
-      "boundary": "Local verification only. Remains incomplete until every required owned/shared independent replay and public theorem is accepted against exact current source/import closures. The seven transitive dependents also require fresh independent acceptance.",
+      "boundary": "Int Scaled Matmul is independently accepted against the exact current owned/shared source closure. Its seven transitive dependents remain incomplete until their separate fresh replays are accepted.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613131342",
       "source_commit": "54e28c9cb9a1d5b12d5f1382b6b9b30db86614e4",
       "dependent_replay_runs": [
@@ -1940,7 +1941,10 @@
           "source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0",
           "roots": 161
         }
-      ]
+      ],
+      "independent_replay": "PASS",
+      "receipt": "validation/body_receipts/int-scaled-matmul-source-migration.json",
+      "accepted_replay_roots": 73
     },
     "context_attn_llama_source_migration": {
       "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
@@ -2432,7 +2436,7 @@
       "reason": "Every required owned and shared independent proof root is accepted in the completed official replay. Verified official ZIP SHA256, exact current transitive source/import closure, all source pairs and public Real/FP theorem coverage. Complete source execution, independent mathematics, FP candidate, all outputs, safety and memory frames are covered. Compilation alone is not completion.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41597743085",
       "validated_source_commit": "71fae6d6f3909ccc1dd829d70a12cea50349e60e",
-      "independent_replay": "IN_PROGRESS",
+      "independent_replay": "PASS",
       "receipt": "validation/body_receipts/decay-cumsum-source-migration.json"
     },
     {
@@ -2852,12 +2856,16 @@
     },
     {
       "path": "bench/tritonbench_g/int_scaled_matmul",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete original repaired JIT functions and both materialized existing candidates are copied statement for statement (17/16/25/23 Python top-level statements, including the docstring), with four exact source pairs and whole-module inverse candidate AST verification. Preserved mutable GROUP_M, default ACC_TYPE=int32, exact add.u32 ABI, signed descending K loop, every source load mask/boundary/padding, pointer advance, original rematerializations, mask.shape broadcasts and plain stores. Removed all four old whole-kernel quotations and the hand-written candidate epilogue. Kernels.lean contains typed adapters only; every execution/proof projection reads copied source. Optional frontends freeze initial integer constexpr values without adding statements, resolve the exact integer dtype default, derive shape attributes from typed prefix and interpret declared INT8 storage reads for arbitrary integer carriers. Seven named semantic regressions and all 18 shared trust/inventory theorems pass. Reproved full signed loop execution, empty-K/zero-stride mathematical extension, masked zero-tail stability under existing public premises, unsigned-low-word/signed32 carry, output conversion, source safety, all outputs and exterior frames, independent full-K Real mathematics, both actual FP candidates and host/native/compiler/IO/grid bridges. No new public conditions, narrowed numerical domain or FP equivalence rules. All 65 owned modules, eight shared roots, four public names, complete 173-case integration and 603 Python tests pass locally. Completion requires fresh exact-current independent acceptance; compilation alone is not completion."
+      "reason": "All 65 required owned modules and all eight shared frontend/regression roots are independently accepted in the official fixed-source replay. Verified archive SHA256, all four exact source pairs, all four public Real/FP theorem names, every required theorem replay, current case import closure and all 85 files in the shared-root import closure. This covers both complete original JITs and their existing candidates, signed loop execution, source masks/storage/casts, independent full-K mathematics, FP equivalence, outputs, safety, frames and host/native/IO/compiler bridges. Completion is based on exact-current independent acceptance, not compilation.",
+      "independent_replay": "PASS",
+      "receipt": "validation/body_receipts/int-scaled-matmul-source-migration.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613131342",
+      "validated_source_commit": "54e28c9cb9a1d5b12d5f1382b6b9b30db86614e4"
     },
     {
       "path": "bench/tritonbench_g/isfinite_kernel",
@@ -4065,7 +4073,7 @@
       "reason": "Every required owned and shared independent proof root is accepted in the completed official replay. Verified official ZIP SHA256, all ten exact source pairs, public Real/FP theorem coverage and exact current transitive source/import closure. Full copied source/helper/branch execution, independent Real mathematics, existing FP candidate, all outputs, source access safety, memory frames and native/IO/compiler bridges are covered. Compilation alone is not completion.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41604207975",
       "validated_source_commit": "0556c435ebac1470f8eaa7463b3a800eacfd113f",
-      "independent_replay": "IN_PROGRESS",
+      "independent_replay": "PASS",
       "receipt": "validation/body_receipts/linear-activation-source-migration.json"
     },
     {
