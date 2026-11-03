@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 150,
+  "completed_count": 151,
   "staged_count": 155,
-  "pending_count": 46,
+  "pending_count": 45,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 5237,
-    "official_comparator": "150 current targets retain exact-dependency independent receipts. All official ZIP digests, required proof roots, public names and current transitive closures have been audited. Five locally verified targets await independent replay: block_sparse_attn, chunk_bwd_dqkg, the two int4 migrations and the affected int4_matmul. The prior int4_matmul receipt is historical; compilation is not completion.",
+    "official_comparator": "151 current targets retain exact-dependency independent receipts. Official ZIP digests, every required proof root, public names and current transitive closures have been audited. Four locally verified targets await independent replay: chunk_bwd_dqkg, matmul_dequant_int4, matmul_dequantize_int4 and affected int4_matmul. The prior int4_matmul receipt is historical; compilation is not completion.",
     "python_tests": 552,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "161 cases (155 targets and six regressions), all 5237 retained/supporting modules, 13945 Lake jobs, 396 public theorem names, 552 Python tests and source-corpus checks pass. The int4 source/dependency bundle retains unchanged Python, full original/candidate bodies, existing public Real/FP contracts, native instruction graphs, all precision profiles/tunings, safety, outputs and frames. All 161 owned and two shared roots pass local verification, with 174 exact-source shared trust/inventory theorem checks. Independent completion count is 150, including all 19 examples.",
+    "working_tree": "161 cases (155 targets and six regressions), all 5237 retained/supporting modules, 13945 Lake jobs, 396 public theorem names, 552 Python tests and source-corpus checks pass. The int4 source/dependency bundle retains unchanged Python, full original/candidate bodies, existing public Real/FP contracts, native instruction graphs, all precision profiles/tunings, safety, outputs and frames. All 161 owned and two shared roots pass local verification, with 174 exact-source shared trust/inventory theorem checks. Independent completion count is 151, including all 19 examples.",
     "official_replay_sources": 4240,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -851,7 +851,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Collect independent exact-current receipts for the five locally verified targets. Continue the remaining 41 TritonBench-G body/proof migrations, next matmul_dequantize. All 19 examples are independently accepted. No merge.",
+    "current_work": "Collect independent exact-current receipts for four locally verified targets. Continue the remaining 41 TritonBench-G body/proof migrations; matmul_dequantize is active. All 19 examples are independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1087,6 +1087,7 @@
       "validation/body_receipts/attention-score-source-migration.json",
       "validation/body_receipts/bgmv-expand-slice-source-migration.json",
       "validation/body_receipts/bgmv-shrink-source-migration.json",
+      "validation/body_receipts/block-sparse-source-migration.json",
       "validation/body_receipts/conv-source-migration.json",
       "validation/body_receipts/flash-attn-source-migration.json",
       "validation/body_receipts/fp4-source-migration.json",
@@ -1365,7 +1366,9 @@
       "public_theorem_names": 390,
       "boundary": "Local source/proof/trust checks only, not an independent completion receipt.",
       "source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41539454194"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41539454194",
+      "independent_replay": "PASS_EXACT_CURRENT_CLOSURE",
+      "receipt": "validation/body_receipts/block-sparse-source-migration.json"
     },
     "chunk_bwd_source_migration": {
       "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
@@ -1595,14 +1598,15 @@
     },
     {
       "path": "bench/tritonbench_g/block_sparse_attn",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both complete 31-statement repaired/candidate Python bodies match literal pasted Lean source. Pointer/scalar/constexpr metadata remain outside the bodies. Preserved all three CSR int32 load casts, the second row-pointer +1 offset, signed CSR loop, complete static feature-block reduction, every mask/precision conversion, runtime FP32 scale and online-softmax update. Removed both old annotated quotations. The source differs from the existing FP candidate only at the proven integer quotient/remainder head expression. All 77 owned modules and five shared frontend/test roots pass build and exact-source trust/inventory preflights; 101 shared proof targets include actual address-dependent signed memory reads, distinct pointer offsets, floating rebindings and loop-local aliases. Independent full CSR occurrence attention (including duplicate keys), native execution, complete source safety, ABI/layouts, grids, output/readback and complete frames are reverified without new public premises or narrowed numerical domains. All 158 staged/regression cases, 5056 retained/supporting modules, 390 public theorem names, 543 Python tests and corpus checks pass locally. Fresh exact-current independent replay remains required; compilation is not completion.",
+      "reason": "Official independent exact-source replay accepted all 82 owned/shared roots. Verified the official merged ZIP SHA256, every required accepted proof, both public Real/FP theorem names, shared frontend/test dependencies and the exact current transitive source closure. Both complete 31-statement repaired/original and existing quotient-remainder candidate bodies, signed CSR loads/casts and loop, full attention math including duplicate CSR keys, actual native instruction graph, layouts, full grids, source safety, output readback and complete frames retain their proofs without added premises or numerical rules. Compilation alone is not completion.",
       "validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41539454194"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41539454194",
+      "receipt": "validation/body_receipts/block-sparse-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/bmm_chunk_bwd",
