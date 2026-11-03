@@ -11,7 +11,7 @@ def guard (p : Layout) (rows : Fin p.BM → Nat) (prompt sn : Int) : Tile .bool 
   Tile.vec (fun i => decide (sn ≤ rows i+prompt))
 
 theorem guard_eval (p : Layout) (rows : Fin p.BM → Nat) (prompt sn : Int) (u : BlockState)
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
     (hp : u.regs .int [] "prompt_cache_len" = some (Tile.scalar prompt))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn)) :
     evalOp (rescaleGuard p) u = some (guard p rows prompt sn) := by
@@ -48,7 +48,7 @@ theorem one_eval (p : Layout) (u : BlockState) :
 theorem executes (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ)
     (rows : Fin p.BM → Nat) (prompt sn : Int) (li lin alpha beta : Tile .real [p.BM])
     (ptile : Tile .real [p.BM,p.BN]) (acc : Tile .real [p.BM,p.D]) (u : BlockState)
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
     (hp : u.regs .int [] "prompt_cache_len" = some (Tile.scalar prompt))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hli : u.regs .real [p.BM] "l_i" = some li)

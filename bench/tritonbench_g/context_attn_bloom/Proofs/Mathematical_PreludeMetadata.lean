@@ -14,7 +14,7 @@ def prepared (r : Regions) (batch : Nat) (u : BlockState) : BlockState :=
   u.setReg "cur_batch_req_idx" .int [] (Tile.scalar (a.request batch))
 
 theorem executes (r : Regions) (batch : Nat) (u : BlockState)
-    (hb : u.regs .nat [] "cur_batch" = some (Tile.scalar batch)) :
+    (hb : u.regs .int [] "cur_batch" = some (Tile.scalar batch)) :
     stepStmts (metadataCode r) u = some (prepared r batch u) := by
   simp [metadataCode,prepared,inputs,loadMeta,n,z,stepStmts,stepStmt,evalOp.eq_def,hb,
     tile_elementwise,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,

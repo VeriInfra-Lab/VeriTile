@@ -11,8 +11,8 @@ def mask (p : Layout) (rows : Fin p.BM → Nat) (prompt sn : Int) : Tile .bool [
   Tile.mat (fun i j => decide (sn+j.val ≤ rows i+prompt))
 
 theorem mask_eval (p : Layout) (rows : Fin p.BM → Nat) (prompt sn : Int) (u : BlockState)
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
     (hp : u.regs .int [] "prompt_cache_len" = some (Tile.scalar prompt))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn)) :
     evalOp (causalMask p) u = some (mask p rows prompt sn) := by

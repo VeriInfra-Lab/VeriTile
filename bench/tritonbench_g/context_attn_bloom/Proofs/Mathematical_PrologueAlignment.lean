@@ -6,7 +6,7 @@ set_option maxRecDepth 20000
 set_option linter.unusedSimpArgs false
 
 theorem prelude_source (p : Layout) (r : Regions) : prelude p r = explicitPrelude p r := by
-  simp only [prelude,explicitPrelude,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,prologueSource,
+  simp only [prelude,explicitPrelude,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.scaleFirstBody,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,
     ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

@@ -21,9 +21,9 @@ theorem executes (p : Layout) (r : Regions) (sn last : Int) (kvHead : Nat)
     (pages : Fin p.BN → Int) (u : BlockState)
     (hsn : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar last))
-    (hk : u.regs .nat [] "cur_kv_head" = some (Tile.scalar kvHead))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hk : u.regs .int [] "cur_kv_head" = some (Tile.scalar kvHead))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
     (hp : u.regs .int [p.BN] "kv_loc" = some (Tile.vec pages)) :
     stepStmts (values p r) u = some (prepared p r sn last kvHead pages u) := by
   rw [ValuesProgram.source]
