@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 161,
-      "uncovered_jit_functions": 22
+      "selected_body_copy_checked": 162,
+      "uncovered_jit_functions": 21
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 71,
-    "inventoried_jit_functions": 569,
-    "uncovered_inventoried_jit_functions": 92,
+    "uncovered_selected_jit_functions": 69,
+    "inventoried_jit_functions": 571,
+    "uncovered_inventoried_jit_functions": 88,
     "checked_pair_modes": {
-      "pasted_body": 487
+      "pasted_body": 493
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 161,
-        "uncovered_jit_functions": 22
+        "selected_body_copy_checked": 162,
+        "uncovered_jit_functions": 21
       }
     },
-    "primary_files_with_int64_screen_warning": 4,
+    "primary_files_with_int64_screen_warning": 3,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 10,
-        "antiquotes": 345,
+        "in_body_type_directives": 9,
+        "antiquotes": 344,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 81
       },
@@ -13494,13 +13494,13 @@
       "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd.py",
       "lean": "bench/tritonbench_g/bmm_chunk_fwd/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 72,
-        "dsl_assignment": 9,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 8,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 1
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -13976,44 +13976,346 @@
               ]
             }
           ]
+        },
+        {
+          "path": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_dot_first.py",
+          "jits": [
+            {
+              "function": "_bmm_chunk_fwd_kernel_repaired_dot_first",
+              "line": 9,
+              "statements": 45,
+              "explicit_int64_casts": [
+                {
+                  "line": 10,
+                  "expression": "tl.cast(seqlen, tl.int64)"
+                },
+                {
+                  "line": 11,
+                  "expression": "tl.cast(chunk_size, tl.int64)"
+                },
+                {
+                  "line": 12,
+                  "expression": "tl.cast(K, tl.int64)"
+                },
+                {
+                  "line": 13,
+                  "expression": "tl.cast(ngroups, tl.int64)"
+                },
+                {
+                  "line": 14,
+                  "expression": "tl.cast(stride_a_batch, tl.int64)"
+                },
+                {
+                  "line": 15,
+                  "expression": "tl.cast(stride_a_seqlen, tl.int64)"
+                },
+                {
+                  "line": 16,
+                  "expression": "tl.cast(stride_a_head, tl.int64)"
+                },
+                {
+                  "line": 17,
+                  "expression": "tl.cast(stride_ak, tl.int64)"
+                },
+                {
+                  "line": 18,
+                  "expression": "tl.cast(stride_b_batch, tl.int64)"
+                },
+                {
+                  "line": 19,
+                  "expression": "tl.cast(stride_b_seqlen, tl.int64)"
+                },
+                {
+                  "line": 20,
+                  "expression": "tl.cast(stride_b_head, tl.int64)"
+                },
+                {
+                  "line": 21,
+                  "expression": "tl.cast(stride_bk, tl.int64)"
+                },
+                {
+                  "line": 22,
+                  "expression": "tl.cast(stride_out_batch, tl.int64)"
+                },
+                {
+                  "line": 23,
+                  "expression": "tl.cast(stride_out_chunk, tl.int64)"
+                },
+                {
+                  "line": 24,
+                  "expression": "tl.cast(stride_out_head, tl.int64)"
+                },
+                {
+                  "line": 25,
+                  "expression": "tl.cast(stride_outm, tl.int64)"
+                },
+                {
+                  "line": 26,
+                  "expression": "tl.cast(stride_outn, tl.int64)"
+                },
+                {
+                  "line": 27,
+                  "expression": "tl.cast(stride_seq_idx_batch, tl.int64)"
+                },
+                {
+                  "line": 28,
+                  "expression": "tl.cast(stride_seq_idx_seqlen, tl.int64)"
+                },
+                {
+                  "line": 29,
+                  "expression": "tl.program_id(axis=1).to(tl.int64)"
+                },
+                {
+                  "line": 30,
+                  "expression": "tl.program_id(axis=2).to(tl.int64)"
+                },
+                {
+                  "line": 45,
+                  "expression": "tl.arange(0, BLOCK_SIZE_K).to(tl.int64)"
+                },
+                {
+                  "line": 34,
+                  "expression": "tl.program_id(axis=0).to(tl.int64)"
+                },
+                {
+                  "line": 35,
+                  "expression": "tl.program_id(axis=0).to(tl.int64)"
+                },
+                {
+                  "line": 43,
+                  "expression": "tl.arange(0, BLOCK_SIZE_M).to(tl.int64)"
+                },
+                {
+                  "line": 44,
+                  "expression": "tl.arange(0, BLOCK_SIZE_N).to(tl.int64)"
+                },
+                {
+                  "line": 56,
+                  "expression": "tl.arange(0, BLOCK_SIZE_M).to(tl.int64)"
+                },
+                {
+                  "line": 57,
+                  "expression": "tl.arange(0, BLOCK_SIZE_N).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "_clear_causal_upper",
+              "line": 69,
+              "statements": 10,
+              "explicit_int64_casts": [
+                {
+                  "line": 70,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 71,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 72,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                },
+                {
+                  "line": 73,
+                  "expression": "tl.cast(chunk_size, tl.int64)"
+                },
+                {
+                  "line": 74,
+                  "expression": "tl.cast(chunk_heads, tl.int64)"
+                },
+                {
+                  "line": 76,
+                  "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
+                },
+                {
+                  "line": 77,
+                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_bmm_chunk_fwd_kernel_repaired",
+          "lean_definition": "original",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 45,
+          "runtime_parameters": {
+            "seqlen": "integer",
+            "chunk_size": "integer",
+            "K": "integer",
+            "ngroups": "integer",
+            "stride_a_batch": "integer",
+            "stride_a_seqlen": "integer",
+            "stride_a_head": "integer",
+            "stride_ak": "integer",
+            "stride_b_batch": "integer",
+            "stride_b_seqlen": "integer",
+            "stride_b_head": "integer",
+            "stride_bk": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_chunk": "integer",
+            "stride_out_head": "integer",
+            "stride_outm": "integer",
+            "stride_outn": "integer",
+            "stride_seq_idx_batch": "integer",
+            "stride_seq_idx_seqlen": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "HAS_SEQ_IDX",
+            "IS_CAUSAL",
+            "dot_dtype"
+          ],
           "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd.py",
-          "function": "_bmm_chunk_fwd_kernel_repaired"
+          "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean"
         },
         {
-          "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd.py",
-          "function": "_clear_causal_upper"
-        },
-        {
+          "python_function": "_bmm_chunk_fwd_kernel_repaired",
+          "lean_definition": "indexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 45,
+          "runtime_parameters": {
+            "seqlen": "integer",
+            "chunk_size": "integer",
+            "K": "integer",
+            "ngroups": "integer",
+            "stride_a_batch": "integer",
+            "stride_a_seqlen": "integer",
+            "stride_a_head": "integer",
+            "stride_ak": "integer",
+            "stride_b_batch": "integer",
+            "stride_b_seqlen": "integer",
+            "stride_b_head": "integer",
+            "stride_bk": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_chunk": "integer",
+            "stride_out_head": "integer",
+            "stride_outm": "integer",
+            "stride_outn": "integer",
+            "stride_seq_idx_batch": "integer",
+            "stride_seq_idx_seqlen": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "HAS_SEQ_IDX",
+            "IS_CAUSAL",
+            "dot_dtype"
+          ],
           "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_candidate.py",
-          "function": "_bmm_chunk_fwd_kernel_repaired"
+          "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean"
         },
         {
+          "python_function": "_bmm_chunk_fwd_kernel_repaired_dot_first",
+          "lean_definition": "dotFirst",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 45,
+          "runtime_parameters": {
+            "seqlen": "integer",
+            "chunk_size": "integer",
+            "K": "integer",
+            "ngroups": "integer",
+            "stride_a_batch": "integer",
+            "stride_a_seqlen": "integer",
+            "stride_a_head": "integer",
+            "stride_ak": "integer",
+            "stride_b_batch": "integer",
+            "stride_b_seqlen": "integer",
+            "stride_b_head": "integer",
+            "stride_bk": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_chunk": "integer",
+            "stride_out_head": "integer",
+            "stride_outm": "integer",
+            "stride_outn": "integer",
+            "stride_seq_idx_batch": "integer",
+            "stride_seq_idx_seqlen": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "HAS_SEQ_IDX",
+            "IS_CAUSAL",
+            "dot_dtype"
+          ],
+          "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_dot_first.py",
+          "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean"
+        },
+        {
+          "python_function": "_clear_causal_upper",
+          "lean_definition": "clearUpper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "chunk_size": "integer",
+            "chunk_heads": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd.py",
+          "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean"
+        },
+        {
+          "python_function": "_clear_causal_upper",
+          "lean_definition": "clearUpper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "chunk_size": "integer",
+            "chunk_heads": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_candidate.py",
-          "function": "_clear_causal_upper"
-        }
-      ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd.py",
-          "function": "_bmm_chunk_fwd_kernel_repaired"
+          "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean"
         },
         {
-          "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd.py",
-          "function": "_clear_causal_upper"
+          "python_function": "_clear_causal_upper",
+          "lean_definition": "clearUpper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 10,
+          "runtime_parameters": {
+            "chunk_size": "integer",
+            "chunk_heads": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_dot_first.py",
+          "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/bmm_chunk_fwd/Kernels.lean": "f0be5f33ac534ac2b6a84ce8cb182ded158e875996614b4d01a1cf8b8e7aab35",
+        "bench/tritonbench_g/bmm_chunk_fwd/Kernels.lean": "e061b00c2cc8c010aec307c1bcb4fc461d45d758147eb4f1cbbad9167c14328f",
+        "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean": "4a37b63cd351a81c15674a4eba635443fc6f5efe9e38e63506c273e51fe13c70",
         "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd.py": "f6faaf6e84e960102afca4c63573af27c412e2c36a1a3a9d3a95ecab264665b7",
-        "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_candidate.py": "011f8385b6d7603523fc978b3c2587a1b7ad05a4445beb61c15b58aca217d3a1"
+        "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_candidate.py": "011f8385b6d7603523fc978b3c2587a1b7ad05a4445beb61c15b58aca217d3a1",
+        "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_dot_first.py": "dcf8463297aeccd06bcbc74c0c8260a9521c886316219e501acf18aae23ef943",
+        "bench/tritonbench_g/bmm_chunk_fwd/jit-correspondence.json": "d52e36e5b1e682d56846059caa1490fc85fc9bc14f4d05ca76bef8d27132df8f"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/bmm_chunk_fwd"

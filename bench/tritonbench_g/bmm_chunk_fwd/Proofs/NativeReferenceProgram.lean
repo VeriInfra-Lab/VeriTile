@@ -46,14 +46,24 @@ theorem program_reference (rest : Algebra Expr) (h : Host.Call) (c : Host.Config
       (by rw [hm0,hmem]) hzero ha hb
     obtain ⟨final,hpost,hm2⟩ := epilogue_reference rest h c d terminal hterminal x
       (by rw [hm1,hm0,hmem]) hacc ha hb
-    have hs : evalOp (engine (backend rest c).algebra) none (parts h c).start prepared=some (fun _ => (0 : Nat)) := by
+    have hs : evalOp (engine (backend rest c).algebra) none (parts h c).start prepared=some (fun _ => (0 : Int)) := by
       simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
-    have he : evalOp (engine (backend rest c).algebra) none (parts h c).stop prepared=some (fun _ => Host.cdiv h.shape.K c.K) := by
-      simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
+    have he : evalOp (engine (backend rest c).algebra) none (parts h c).stop prepared=some (fun _ => (Host.cdiv h.shape.K c.K : Int)) := by
+      have bound_source : (parts h c).stop =
+          Op.truncDiv .nil (.add .int .nil (.castNatToInt (.constNat h.shape.K))
+            (.sub .int .nil (.constInt (Int.ofNat c.K)) (.constInt 1)))
+            (.constInt (Int.ofNat c.K)) := by
+        cases ha : h.aStorage <;> cases hb : h.bStorage <;>
+          simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl
+      rw [bound_source,FP.Structural.eval_truncDiv]
+      simp [FP.Structural.evalOp_unfold,FP.Structural.numeric,FP.Structural.bop,
+        Option.bind,ControlArithmetic.cdiv_signed_int,Host.cdiv]
+      funext i
+      exact ControlArithmetic.cdiv_signed_int h.shape.K c.K
     have hd : evalOp (engine (backend rest c).algebra) none (parts h c).stride prepared=some (fun _ => (1 : Nat)) := by
       simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
     have hloop : step (engine (backend rest c).algebra)
-        (.forRangeDyn "k" (parts h c).start (parts h c).stop (parts h c).stride (parts h c).body)
+        (.forRangeInt "k" (parts h c).start (parts h c).stop (parts h c).stride (parts h c).body)
         prepared=some terminal := by
       simpa only [step,hs,he,hd,Option.bind_some] using hrange
     refine ⟨final,?_,?_⟩

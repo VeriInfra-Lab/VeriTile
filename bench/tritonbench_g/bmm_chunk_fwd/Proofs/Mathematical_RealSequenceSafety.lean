@@ -13,19 +13,28 @@ set_option linter.unusedSimpArgs false
 theorem index_safe (bounds : RegionBounds) (s : BlockState) (region : RegionName)
     (n base stride length : Nat) (offset : RegName) (offsets : Fin n → Nat) (sentinel : Int)
     (hp : s.regs .ptr [] "seq_idx_ptr" = some (Tile.scalar (region,base)))
-    (ho : s.regs .nat [n] offset = some (Tile.vec offsets))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length))
+    (ho : s.regs .int [n] offset = some (Tile.vec (fun i => (offsets i : Int))))
+    (hl : RealLoads.LimitAt s length)
     (hb : ∀ i, offsets i < length → base + offsets i * stride < bounds region) :
     (RealSequence.indexLoad n stride offset sentinel).SafeAt bounds s := by
+  obtain ⟨raw,hl,hrange⟩ := hl
   have hpv : evalOp (Op.ptrAdd .scalarL (.ref .ptr [] "seq_idx_ptr")
-      (.mul .nat .scalarR (.ref .nat [n] offset) (.constNat stride))) s =
+      (.castIntToNat (.mul .int .scalarR (.ref .int [n] offset) (.castNatToInt (.constNat stride))))) s =
       some (Tile.vec fun i => (region,base + offsets i * stride)) := by
     simp [evalOp.eq_def, hp, ho, bind, Option.bind]
-    rfl
-  have hmv : evalOp (Op.lt .nat .scalarR (.ref .nat [n] offset) (.ref .nat [] "chunk_size_limit")) s =
+    apply Tile.ext
+    rintro ⟨i,⟨⟩⟩
+    simp only [Tile.ptrAdd,Tile.bop,Tile.vec,Tile.scalar,NumericDType.mul,
+      Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_mul,Int.toNat_natCast]
+  have hmv : evalOp (Op.lt .int .scalarR (.ref .int [n] offset) (.ref .int [] "chunk_size_limit")) s =
       some (Tile.vec fun i => decide (offsets i < length)) := by
     simp [evalOp.eq_def, ho, hl, bind, Option.bind]
-    rfl
+    apply Tile.ext
+    rintro ⟨i,⟨⟩⟩
+    simp only [Tile.cop,Tile.vec,Tile.scalar,ComparableDType.lt,
+      Broadcast.leftIndex,Broadcast.rightIndex]
+    have hm : (offsets i : Int)<raw ↔ offsets i<length := by rw [←hrange];omega
+    simp only [hm]
   rw [RealSequence.indexLoad, Op.SafeAt.eq_def]
   refine ⟨by simp [Op.SafeAt.eq_def], by simp [Op.SafeAt.eq_def], ?_⟩
   unfold MemAccess.ActiveAddressSafe memAccessActiveAddressSafe Op.PointerAddressesSafeOn
@@ -40,10 +49,10 @@ theorem index_safe (bounds : RegionBounds) (s : BlockState) (region : RegionName
 
 theorem safe (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters) (pc base : Nat)
     (rows : Fin BM → Nat) (columns : Fin BN → Nat) (bounds : RegionBounds)
-    (hc : s.regs .nat [] "pid_c" = some (Tile.scalar pc))
+    (hc : s.regs .int [] "pid_c" = some (Tile.scalar (pc : Int)))
     (hp : s.regs .ptr [] "seq_idx_ptr" = some (Tile.scalar (Region.cast p.Seq,base)))
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rows))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec columns))
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => (columns i : Int))))
     (hrow : ∀ i, rows i < min p.chunk (p.seqlen - pc * p.chunk) → base + rows i * p.sRow < bounds (Region.cast p.Seq))
     (hcol : ∀ j, columns j < min p.chunk (p.seqlen - pc * p.chunk) → base + columns j * p.sRow < bounds (Region.cast p.Seq)) :
     Stmt.TraceSafeList bounds (RealSequence.code BM BN p) s := by
@@ -54,14 +63,18 @@ theorem safe (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters) (pc bas
   · apply index_safe bounds _ (Region.cast p.Seq) BM base p.sRow (min p.chunk (p.seqlen - pc * p.chunk)) "offs_m" rows (-1)
     · simpa using hp
     · simpa using hr
-    · simp
+    · refine ⟨min (p.chunk : Int) ((p.seqlen : Int)-(pc : Int)*p.chunk),by simp,?_⟩
+      simp only [min_def,←Int.natCast_mul]
+      split_ifs <;> omega
     · exact hrow
   · intro _
     apply TraceProofs.assign_cons
     · apply index_safe bounds _ (Region.cast p.Seq) BN base p.sRow (min p.chunk (p.seqlen - pc * p.chunk)) "offs_n" columns (-2)
       · simpa using hp
       · simpa using hn
-      · simp
+      · refine ⟨min (p.chunk : Int) ((p.seqlen : Int)-(pc : Int)*p.chunk),by simp,?_⟩
+        simp only [min_def,←Int.natCast_mul]
+        split_ifs <;> omega
       · exact hcol
     · intro _
       apply TraceProofs.all_safe

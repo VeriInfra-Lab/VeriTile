@@ -1,4 +1,5 @@
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.SourcePointers
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Finite
 
 namespace VeriTile.Bench.Repairs.BmmChunkFwd.NativePointers
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite

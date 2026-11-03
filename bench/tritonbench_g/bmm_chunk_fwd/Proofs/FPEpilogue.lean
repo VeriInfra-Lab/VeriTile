@@ -17,12 +17,12 @@ theorem epilogue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Ho
   cases seq : h.hasSeq
   · cases ha : h.aStorage <;> cases hb : h.bStorage
     all_goals
-      simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-        ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+      simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+        ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
         run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
         Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
         numeric,natLt,natLe,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,TileShape.axisDim,
-        Region.cast,State.setReg,integralFloorDiv,integralMod,h0,h1,h2,h3,h4,h11,
+        Region.cast,integralFloorDiv,integralMod,h0,h1,h2,h3,h4,h11,
         FP.Structural.store]
     all_goals
       intro rg off hmiss
@@ -32,18 +32,25 @@ theorem epilogue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Ho
         intro i _ hi ho
         apply hmiss
         refine ⟨i,?_,hr,?_⟩
-        · simpa [laneMask,row,column] using hi
-        · simpa [offset,row,column,mul_ite] using ho
+        · simp only [← Int.natCast_add, ← Int.natCast_mul, ← Int.natCast_div,
+            ← Int.natCast_mod, Int.ofNat_lt] at hi
+          simpa [laneMask,row,column] using hi
+        · cases grouped : h.shape.grouped <;>
+            simp only [grouped,Bool.false_eq_true,↓reduceIte] at ho ⊢
+          all_goals
+            simp only [← Int.natCast_add, ← Int.natCast_mul, ← Int.natCast_div,
+              ← Int.natCast_mod, Int.toNat_natCast] at ho
+            simpa [offset,row,column,grouped,mul_ite] using ho
       · exact Or.inl hr
   · obtain ⟨vs,hs⟩ := Option.isSome_iff_exists.mp (hseq seq)
     cases ha : h.aStorage <;> cases hb : h.bStorage
     all_goals
-      simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-        ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+      simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+        ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
         run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
         Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
         numeric,natLt,natLe,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,TileShape.axisDim,
-        Region.cast,State.setReg,integralFloorDiv,integralMod,h0,h1,h2,h3,h4,h11,hs,
+        Region.cast,integralFloorDiv,integralMod,h0,h1,h2,h3,h4,h11,hs,
         FP.Structural.store]
     all_goals
       intro rg off hmiss
@@ -53,8 +60,15 @@ theorem epilogue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Ho
         intro i _ hi ho
         apply hmiss
         refine ⟨i,?_,hr,?_⟩
-        · simpa [laneMask,row,column] using hi
-        · simpa [offset,row,column,mul_ite] using ho
+        · simp only [← Int.natCast_add, ← Int.natCast_mul, ← Int.natCast_div,
+            ← Int.natCast_mod, Int.ofNat_lt] at hi
+          simpa [laneMask,row,column] using hi
+        · cases grouped : h.shape.grouped <;>
+            simp only [grouped,Bool.false_eq_true,↓reduceIte] at ho ⊢
+          all_goals
+            simp only [← Int.natCast_add, ← Int.natCast_mul, ← Int.natCast_div,
+              ← Int.natCast_mod, Int.toNat_natCast] at ho
+            simpa [offset,row,column,grouped,mul_ite] using ho
       · exact Or.inl hr
 
 end

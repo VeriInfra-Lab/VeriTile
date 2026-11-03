@@ -58,10 +58,12 @@ cannot change interpretation of a materialized graph. -/
 theorem evaluate_without_pending {α : Type} (p q : Primitives α)
     (leaf : p.leaf=q.leaf) (literal : p.literal=q.literal) (cast : p.cast=q.cast)
     (binary : p.binary=q.binary) (dotAcc : p.dotAcc=q.dotAcc)
+    (fp32Load : p.fp32Load=q.fp32Load)
     (x : Expr) (hx : Materialized x) : evaluate p x=evaluate q x := by
   induction x with
   | leaf d w => exact congrFun (congrFun leaf d) w
   | literal precision dtype value => simp only [evaluate,literal]
+  | fp32Load x ih => simp only [evaluate,fp32Load,ih hx]
   | cast precision source target x ih => simp only [evaluate,cast,ih hx]
   | binary precision dtype op x y ihx ihy => simp only [evaluate,binary,ihx hx.1,ihy hx.2]
   | pendingDot => exact False.elim hx

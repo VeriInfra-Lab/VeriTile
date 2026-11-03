@@ -23,11 +23,11 @@ def zero : Expr := .literal (some .fp32) .real 0
 def aTile (h : Host.Call) (c : Host.Config) (d : Coordinates) (x : Inputs)
     (q : Nat) (i : TileIndex [c.M,c.K]) : Expr :=
   .cast (some .fp32) .real .real
-    (if SourceAccess.aMask h c d q i.1 i.2.1 then x.a (aOffset h c d q i.1 i.2.1) else zero)
+    (.fp32Load (if SourceAccess.aMask h c d q i.1 i.2.1 then x.a (aOffset h c d q i.1 i.2.1) else zero))
 def bTile (h : Host.Call) (c : Host.Config) (d : Coordinates) (x : Inputs)
     (q : Nat) (i : TileIndex [c.K,c.N]) : Expr :=
   .cast (some .fp32) .real .real
-    (if SourceAccess.bMask h c d q i.1 i.2.1 then x.b (bOffset h c d q i.1 i.2.1) else zero)
+    (.fp32Load (if SourceAccess.bMask h c d q i.1 i.2.1 then x.b (bOffset h c d q i.1 i.2.1) else zero))
 
 /-- Literal configured K-block order. Each dotAcc is interpreted by the fixed
 K8 instruction recurrence, including its actual carry; no FP reassociation. -/
@@ -64,12 +64,12 @@ theorem setup_zero (rest : Algebra Expr) (h : Host.Call) (c : Host.Config)
   obtain ⟨v4,h4⟩ := Option.isSome_iff_exists.mp h4
   cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp (config := {maxSteps := 40000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+      ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,
-      Region.cast,State.setReg,integralFloorDiv,integralMod,
+      Region.cast,integralFloorDiv,integralMod,
       h0,h1,h2,h3,h4,backend,algebra,zero]
 
 theorem body_reference (rest : Algebra Expr) (h : Host.Call) (c : Host.Config)
@@ -78,7 +78,7 @@ theorem body_reference (rest : Algebra Expr) (h : Host.Call) (c : Host.Config)
     (acc : s.regs .real [c.M,c.N] "acc"=some (accumulator h c d x q))
     (ha : h.aStorage=.fp32) (hb : h.bStorage=.fp32) :
     ∃ t, run (engine (backend rest c).algebra) (parts h c).body
-      (s.setReg "k" .nat [] (fun _ => q))=some t ∧ StateAt h c d (q+1) t ∧
+      (s.setReg "k" .int [] (fun _ => q))=some t ∧ StateAt h c d (q+1) t ∧
       t.mem=s.mem ∧ t.regs .real [c.M,c.N] "acc"=some (accumulator h c d x (q+1)) := by
   obtain ⟨t,ht,hstate,hmem⟩ := SourcePointers.body (backend rest c) h c d q s hs ha hb
   obtain ⟨t',a,b,carry,ht',hc,hav,hbv,hnext⟩ := body_fp32 rest h c s (ready h c d q s hs) q ha hb
@@ -109,7 +109,7 @@ theorem iterations_reference (rest : Algebra Expr) (h : Host.Call) (c : Host.Con
     (hs : StateAt h c d cur s) (x : Inputs) (hx : capture h s.mem=x)
     (acc : s.regs .real [c.M,c.N] "acc"=some (accumulator h c d x cur))
     (ha : h.aStorage=.fp32) (hb : h.bStorage=.fp32) :
-    ∃ t, range (engine (backend rest c).algebra) "k" cur stop 1 (parts h c).body s=some t ∧
+    ∃ t, rangeInt (engine (backend rest c).algebra) "k" cur stop 1 (parts h c).body s=some t ∧
       StateAt h c d stop t ∧ t.mem=s.mem ∧
       t.regs .real [c.M,c.N] "acc"=some (accumulator h c d x stop) := by
   by_cases less : cur<stop
@@ -117,10 +117,10 @@ theorem iterations_reference (rest : Algebra Expr) (h : Host.Call) (c : Host.Con
     obtain ⟨t,ht,htr,htm,hta⟩ := iterations_reference rest h c d (cur+1) stop (by omega)
       mid hr x (by rw [hmem]; exact hx) hacc ha hb
     refine ⟨t,?_,htr,htm.trans hmem,hta⟩
-    rw [range,if_neg (by decide),if_pos less,hm]
+    rw [rangeInt_nat_step,if_neg (by decide),if_pos less,hm]
     exact ht
   · have eq : cur=stop := by omega
-    exact ⟨s,by rw [range,if_neg (by decide),if_neg less],eq ▸ hs,rfl,eq ▸ acc⟩
+    exact ⟨s,by rw [rangeInt_nat_step,if_neg (by decide),if_neg less],eq ▸ hs,rfl,eq ▸ acc⟩
 termination_by stop-cur
 
 def writeMemory (memory : RegionName → Nat → Cell Expr) (region : RegionName)
@@ -159,21 +159,36 @@ theorem epilogue_reference (rest : Algebra Expr) (h : Host.Call) (c : Host.Confi
   rcases hs with ⟨⟨h0,h1,h2,h3,h4⟩,h5,h6,h7,h8,h9,h10,h11,hseq⟩
   cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp (config := {maxSteps := 40000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+      ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,TileShape.axisDim,
-      Region.cast,State.setReg,integralFloorDiv,integralMod,
+      Region.cast,integralFloorDiv,integralMod,
       h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,acc,hseq,FP.Structural.store,
       backend,algebra,scatter_memory,scatter,output,SourceAccess.outMask,
       SourcePointers.row,col,seqBase,seqOffset,outOffset,sequence,zero,minimum]
   all_goals
-    congr 2
+    apply congrArg (fun f => List.foldl f s.mem (TileShape.allIndices [c.M,c.N]))
     funext memory i
-    norm_num [writeMemory,minimum,capture,Region.cast,limit,ha,Nat.mul_add,Nat.add_mul,Nat.mul_assoc,
-      Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
-  all_goals split_ifs <;> congr 1 <;> ring
+    have hm (n : Nat) : (n : Int)<
+        (if (h.shape.chunk : Int)<(h.shape.seqlen : Int)-((d.chunk*h.shape.chunk : Nat) : Int)
+         then (h.shape.chunk : Int) else (h.shape.seqlen : Int)-((d.chunk*h.shape.chunk : Nat) : Int))
+        ↔ n<limit h d := by
+      simp only [limit,←min_def_lt,←Int.natCast_mul,min_def]
+      split_ifs <;> omega
+    simp only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt,
+      Int.toNat_natCast,hm]
+    cases grouped : h.shape.grouped
+    all_goals
+      simp only [grouped,Bool.false_eq_true,↓reduceIte,
+        ←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
+      try rfl
+    all_goals
+      simp only [hm,add_zero,←Int.natCast_zero,←Int.natCast_add,
+        Int.toNat_natCast,capture,Region.cast]
+      try rfl
+    all_goals norm_num only [zero]
 
 #specNonCircular accumulator avoiding [Kernels.source,FP.Structural.exec,FP.Structural.run]
 #specNonCircular output avoiding [Kernels.source,FP.Structural.exec,FP.Structural.run]
