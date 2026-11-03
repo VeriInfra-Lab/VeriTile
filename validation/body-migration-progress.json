@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 167,
-  "staged_count": 177,
+  "staged_count": 178,
   "pending_count": 29,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "BMM_AND_ATTENTION_LLAMA_INDEPENDENTLY_ACCEPTED_NINE_DEPENDENCIES_REPLAY_PENDING",
-    "staged_and_regression_retained_modules": 6868,
-    "official_comparator": "167 exact-current independently accepted targets, including all 19 examples. Nine previously accepted targets await fresh shared-dependency replay; 20 targets remain to migrate.",
-    "python_tests": 643,
+    "staged_public_proofs": "LOCAL_PASS_TWO_MIGRATIONS_AND_NINE_DEPENDENCIES_AWAIT_OFFICIAL_ACCEPTANCE",
+    "staged_and_regression_retained_modules": 6933,
+    "official_comparator": "167 exact-current independently accepted targets, including all 19 examples. Nine shared-dependency cases and two new migrations await exact-current official acceptance; 18 further targets remain to migrate.",
+    "python_tests": 648,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "183 cases (177 targets and six regressions), 6868 retained/support roots, 15573 Lake jobs, 461 public theorem names and 643 Python tests pass. Current int8_matmul_quantization Real/FP and independent formula audits pass and await official independent acceptance. 167 targets have exact-current receipts; nine dependencies await replay; 19 further targets remain to migrate.",
+    "working_tree": "184 cases (178 targets and six regressions), 6933 retained/support roots, 15647 Lake jobs, 463 public theorem names and 648 Python tests pass. INT8 quantization/GEMM and spinning-lock source migrations are locally verified and await official independent acceptance. 167 targets have exact-current receipts; nine dependencies await replay; 18 further targets remain to migrate.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -79,13 +79,11 @@
       }
     ],
     "incremental_replay": {
-      "status": "IN_PROGRESS",
-      "scope": "INT8 quantization and GEMM complete source migration",
+      "status": "PENDING",
+      "scope": "Spinning-lock complete function-body migration",
       "manifest": "validation/body-migration-incremental.json",
-      "roots": 83,
-      "note": "Exact-current final official acceptance remains required.",
-      "validated_source_commit": "4bfb28a5eaeca833596da42f74ab89e3e866e7db",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41710145356"
+      "roots": 65,
+      "note": "Exact-current final official acceptance remains required."
     },
     "previous_incremental_replays": [
       {
@@ -1255,6 +1253,15 @@
         "note": "Exact-current final official acceptance remains required.",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
         "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85"
+      },
+      {
+        "status": "IN_PROGRESS",
+        "scope": "INT8 quantization and GEMM complete source migration",
+        "manifest": "validation/body-migration-incremental.json",
+        "roots": 83,
+        "note": "Exact-current final official acceptance remains required.",
+        "validated_source_commit": "4bfb28a5eaeca833596da42f74ab89e3e866e7db",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41710145356"
       }
     ],
     "pending_client_regressions": {
@@ -2563,6 +2570,25 @@
       "source_commit": "4bfb28a5eaeca833596da42f74ab89e3e866e7db",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41710145356",
       "independent_replay": "IN_PROGRESS"
+    },
+    "spinning_lock_reduction_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 63,
+      "shared_replay_roots": 2,
+      "source_pairs": 2,
+      "original_jit_functions": 1,
+      "python_top_level_statements": [
+        9,
+        9
+      ],
+      "public_theorems": 2,
+      "python_tests": 648,
+      "full_cases": 184,
+      "full_retained_modules": 6933,
+      "full_replay_sources": 5936,
+      "full_lake_jobs": 15647,
+      "public_theorem_count": 463,
+      "boundary": "Every source, real/FP specification, safety, axiom and exact-current official independent replay gate is required. Local compilation is not completion."
     }
   },
   "targets": [
@@ -4593,8 +4619,13 @@
     },
     {
       "path": "bench/tritonbench_g/spinning_lock_reduction",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "independent_replay": "PENDING",
+      "reason": "Both complete original/candidate Python function bodies are pasted without variable renaming or cast deletion, retaining negative-view branches, all CAS operands/retries, barriers, nine rounds and all stores. The caller ABI and false view flags are separately checked against the repaired wrapper input gate. All 63 owned plus two frontend/regression roots, both actual public Real/FP statements, axiom/non-circularity audits, 648 Python tests and full 184-case integration pass. Existing public numeric/concurrency domains are unchanged. Completion still requires exact-current official independent acceptance of all 65 roots; compilation alone is not completion."
     },
     {
       "path": "bench/tritonbench_g/square_matrix",

@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 164,
-      "uncovered_jit_functions": 19
+      "selected_body_copy_checked": 165,
+      "uncovered_jit_functions": 18
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 66,
+    "uncovered_selected_jit_functions": 65,
     "inventoried_jit_functions": 572,
-    "uncovered_inventoried_jit_functions": 83,
+    "uncovered_inventoried_jit_functions": 81,
     "checked_pair_modes": {
-      "pasted_body": 507
+      "pasted_body": 509
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 164,
-        "uncovered_jit_functions": 19
+        "selected_body_copy_checked": 165,
+        "uncovered_jit_functions": 18
       }
     },
     "primary_files_with_int64_screen_warning": 3,
@@ -42072,7 +42072,7 @@
         "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 7,
+        "dsl_assignment": 18,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -42196,28 +42196,84 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "spinning_lock_kernel",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 9,
+          "runtime_parameters": {
+            "P": "fp32",
+            "C": "fp32",
+            "locks": "i32",
+            "num_sms": "integer",
+            "k": "integer",
+            "M": "integer",
+            "N": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "PHASE",
+            "P_NEG",
+            "C_NEG",
+            "LOCK_NEG"
+          ],
+          "constexpr_bools": {
+            "P_NEG": false,
+            "C_NEG": false,
+            "LOCK_NEG": false
+          },
           "python": "bench/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction.py",
-          "function": "spinning_lock_kernel"
+          "lean": "bench/tritonbench_g/spinning_lock_reduction/Kernels.lean"
         },
         {
+          "python_function": "spinning_lock_kernel_area",
+          "lean_definition": "areaSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "control_source",
+          "statements": 9,
+          "runtime_parameters": {
+            "P": "fp32",
+            "C": "fp32",
+            "locks": "i32",
+            "num_sms": "integer",
+            "k": "integer",
+            "M": "integer",
+            "N": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "PHASE",
+            "P_NEG",
+            "C_NEG",
+            "LOCK_NEG"
+          ],
+          "constexpr_bools": {
+            "P_NEG": false,
+            "C_NEG": false,
+            "LOCK_NEG": false
+          },
           "python": "bench/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction_area.py",
-          "function": "spinning_lock_kernel_area"
+          "lean": "bench/tritonbench_g/spinning_lock_reduction/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction.py",
-          "function": "spinning_lock_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/spinning_lock_reduction/Kernels.lean": "adee4812f719196c6529ebf6d80916064bd463894549bc06cb1e788d14ab510d",
+        "bench/tritonbench_g/spinning_lock_reduction/Kernels.lean": "1e4cfd4c8fa71edbca51f16a63d86bc762681bb03a8c639f8baa310d2faefb5c",
+        "bench/tritonbench_g/spinning_lock_reduction/jit-correspondence.json": "7a7ec7acf32a41e1f1ae581c4af474e8f008c461b22bcad52237edc41dd32296",
         "bench/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction.py": "b6a41096433e567770b7aeb5285329128768478b601eeaa36b8ba7ac2c5befb5",
         "bench/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction_area.py": "4ba6398a68c938a7efc0601cf759ff78d0d28414c2ed27e7acfea1071eb29270"
       },

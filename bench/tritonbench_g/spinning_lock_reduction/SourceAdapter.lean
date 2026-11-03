@@ -1,4 +1,5 @@
-import VeriTile.Triton.DSL.ControlSource
+import VeriTile.Triton.DSL.PastedControlSource
+import VeriTile.Triton.DSL.Expansion.Common
 import bench.tritonbench_g.spinning_lock_reduction.SourceReader
 
 /-! Checked lowering from the shared concrete source tree to this task's
@@ -44,15 +45,64 @@ private def param (n : TSyntax `ident) : Except String Param :=
   | "N" => .ok .n
   | "stride_cm" => .ok .strideM
   | "stride_cn" => .ok .strideN
-  | "BM" => .ok .bm
-  | "BN" => .ok .bn
+  | "BM" | "BLOCK_SIZE_M" => .ok .bm
+  | "BN" | "BLOCK_SIZE_N" => .ok .bn
   | "PHASE" => .ok .phase
   | other => .error ("unsupported source parameter: " ++ other)
+
+/-- The actual repaired wrapper rejects all lazy-negative tensor views.
+These are caller constexprs, not edits to the pasted source. Unknown names
+remain runtime expressions and cannot be silently specialized. -/
+private def dtypeTag : VeriTile.Triton.SourceDType → String
+  | .fp32 => "fp32" | .i32 => "i32" | _ => "unsupported"
+
+private def methodCast (raw : Syntax) : Option (Syntax × Syntax) :=
+  let k:=raw.getKind
+  let args:=raw.getArgs
+  if k==``VeriTile.Triton.DSL.tritonDottedIdentMethodCast && args.size==4 then
+    match args[0]!.getId.eraseMacroScopes with
+    | .str base "to" => some (.ident SourceInfo.none "".toRawSubstring base [],args[2]!)
+    | _ => none
+  else if k==``VeriTile.Triton.DSL.tritonMethodCast ||
+      k==``VeriTile.Triton.DSL.tritonIdentMethodCast ||
+      k==``VeriTile.Triton.DSL.tritonIdentMethodCastSpaced then
+    if args.size==5 then some (args[0]!,args[3]!)
+    else if args.size==6 then some (args[0]!,args[4]!) else none
+  else none
+
+private def callerFlag (raw : Syntax) : Option Bool :=
+  let named := if raw.isIdent then some (identifier raw.getId.eraseMacroScopes) else
+    match (⟨raw⟩ : TSyntax `tritonExpr) with
+    | `(tritonExpr| $id:ident) => some (name id)
+    | _ => none
+  named.bind fun id=>if id ∈ ["P_NEG","C_NEG","LOCK_NEG"] then some false else none
+
+private def conditional? (raw : Syntax) : Option (Syntax × Syntax × Syntax) :=
+  if raw.getKind==``VeriTile.Triton.DSL.PastedControlSource.conditionalExpr then
+    some (raw[0],raw[2],raw[4])
+  else match (⟨raw⟩ : TSyntax `tritonExpr) with
+    | `(tritonExpr| ($yes:tritonExpr if $condition:tritonExpr else $no:tritonExpr)) =>
+      some (yes.raw,condition.raw,no.raw)
+    | _ => none
 
 private def integer : Nat → Syntax → Except String IntExpr
   | 0, _ => .error "integer expression decoding depth exceeded"
   | fuel + 1, raw => do
-    match (⟨raw⟩ : TSyntax `tritonExpr) with
+    if raw.isIdent then
+      let x : TSyntax `ident := ⟨raw⟩
+      if name x ∈ ["num_sms","k","M","N","stride_cm","stride_cn","BM","BN","BLOCK_SIZE_M","BLOCK_SIZE_N","PHASE"] then
+        return .param (← param x)
+      else return .variable (name x)
+    else if let some (yes,condition,no) := conditional? raw then
+      match callerFlag condition with
+      | some flag => integer fuel (if flag then yes else no)
+      | none => .error "only caller-bound constexpr conditions can select an integer expression"
+    else if let some (operand,dtype) := methodCast raw then
+      match (⟨dtype⟩ : TSyntax `tritonDType) with
+      | `(tritonDType| tl.int64) => return .signed (← integer fuel operand)
+      | `(tritonDType| tl.uint64) => return .unsigned (← integer fuel operand)
+      | _ => .error "unsupported integer method cast"
+    else match (⟨raw⟩ : TSyntax `tritonExpr) with
     | `(tritonExpr| ($x:tritonExpr)) => integer fuel x.raw
     | `(tritonExpr| $n:num) => return .literal (← numeral n.raw)
     | `(tritonExpr| tl.program_id(0)) => .ok .pid
@@ -60,8 +110,8 @@ private def integer : Nat → Syntax → Except String IntExpr
     | `(tritonExpr| tl.cast($x:tritonExpr, tl.uint64)) => return .unsigned (← integer fuel x.raw)
     | `(tritonExpr| tl.arange(0, $size:ident)) =>
       match name size with
-      | "BM" => .ok .row
-      | "BN" => .ok .col
+      | "BM" | "BLOCK_SIZE_M" => .ok .row
+      | "BN" | "BLOCK_SIZE_N" => .ok .col
       | _ => .error "only the BM row and BN column ranges are supported"
     | `(tritonExpr| $a:tritonExpr + $b:tritonExpr) => return .add (← integer fuel a.raw) (← integer fuel b.raw)
     | `(tritonExpr| $a:tritonExpr * $b:tritonExpr) => return .mul (← integer fuel a.raw) (← integer fuel b.raw)
@@ -74,10 +124,10 @@ private def integer : Nat → Syntax → Except String IntExpr
       if name x ∈ ["rn1", "rn"] then .ok (.variable (name x))
       else .error "column projection requires a column source register"
     | `(tritonExpr| $x:ident) =>
-      if name x ∈ ["num_sms", "k", "M", "N", "stride_cm", "stride_cn", "BM", "BN", "PHASE"] then
+      if name x ∈ ["num_sms", "k", "M", "N", "stride_cm", "stride_cn", "BM", "BN", "BLOCK_SIZE_M", "BLOCK_SIZE_N", "PHASE"] then
         return .param (← param x)
       else .ok (.variable (name x))
-    | _ => .error "unsupported spinning integer expression"
+    | _ => .error ("unsupported spinning integer expression: " ++ raw.getKind.toString ++ " " ++ (raw.reprint.getD ""))
 
 private def boolean : Nat → Syntax → Except String BoolExpr
   | 0, _ => .error "Boolean expression decoding depth exceeded"
@@ -121,10 +171,16 @@ private def condition (fuel : Nat) (raw : Syntax) : Except String Condition := d
       (← integer fuel r.raw) (← integer fuel v.raw)
   | _ => return .pure (← boolean fuel raw)
 
-private def register (e : CS.Expr) : Except String String :=
-  match (⟨e.toSyntax⟩ : TSyntax `tritonExpr) with
-  | `(tritonExpr| $x:ident) => .ok (name x)
-  | _ => .error "expected source register"
+private def register : Nat → CS.Expr → Except String String
+  | 0,_ => .error "store value decoding depth exceeded"
+  | fuel+1,e => do
+    if let some (yes,condition,no) := conditional? e.toSyntax then
+      match callerFlag condition with
+      | some flag => register fuel (if flag then yes else no)
+      | none => .error "store selection requires a bound caller constexpr"
+    else match (⟨e.toSyntax⟩ : TSyntax `tritonExpr) with
+      | `(tritonExpr| $x:ident) => .ok (name x)
+      | _ => .error "expected source register"
 
 private def natural (e : CS.Expr) : Except String Nat :=
   match (⟨e.toSyntax⟩ : TSyntax `tritonExpr) with
@@ -149,14 +205,14 @@ private def effect (fuel : Nat) (function : String) (args : List CS.Argument) : 
   | "tl.store", [p,v] =>
     let values ← positional [p,v]
     match values with
-    | [p,v] => return .storeFP32 (← pointer fuel p.toSyntax) (← register v) none
+    | [p,v] => return .storeFP32 (← pointer fuel p.toSyntax) (← register fuel v) none
     | _ => .error "invalid store arguments"
   | "tl.store", [p,v,m] =>
     if p.keyword.isSome || v.keyword.isSome || m.keyword != some "mask" then
       .error "invalid store keyword arguments"
     else
       let p ← pointer fuel p.value.toSyntax
-      let v ← register v.value
+      let v ← register fuel v.value
       let m ← boolean fuel m.value.toSyntax
       return .storeFP32 p v (some m)
   | _, _ =>
@@ -167,29 +223,50 @@ private def effect (fuel : Nat) (function : String) (args : List CS.Argument) : 
     | "tl.atomic_xchg", [p,v] => return .xchg (← pointer fuel p.toSyntax) (← integer fuel v.toSyntax)
     | _, _ => .error ("unsupported spinning source call: " ++ function)
 
-private def statement : Nat → CS.Statement → Except String Statement
+private def statement : Nat → CS.Statement → Except String (List Statement)
   | 0, _ => .error "statement decoding depth exceeded"
   | fuel + 1, source => do
     match source with
-    | .assign target value => assignment fuel target value
+    | .assign target value => return [← assignment fuel target value]
     | .update target "+" value =>
-      if target == "acc" then return .addFP32 target (← register value)
-      else return .integer target (.add (.variable target) (← integer fuel value.toSyntax))
-    | .call function args => effect fuel function args
+      if target == "acc" then return [.addFP32 target (← register fuel value)]
+      else return [.integer target (.add (.variable target) (← integer fuel value.toSyntax))]
+    | .call function args => return [← effect fuel function args]
     | .branch test yes no =>
-      return .branch (← boolean fuel test.toSyntax)
-        (← yes.mapM (statement fuel)) (← no.mapM (statement fuel))
+      match callerFlag test.toSyntax with
+      | some flag => return (← (if flag then yes else no).mapM (statement fuel)).flatten
+      | none => return [.branch (← boolean fuel test.toSyntax)
+          (← yes.mapM (statement fuel)).flatten (← no.mapM (statement fuel)).flatten]
     | .range index [lo,hi] body =>
-      return .forRange index (← natural lo) (← natural hi) (← body.mapM (statement fuel))
+      return [.forRange index (← natural lo) (← natural hi) (← body.mapM (statement fuel)).flatten]
     | .whileLoop test body =>
-      return .whileLoop (← condition fuel test.toSyntax) (← body.mapM (statement fuel))
-    | .returnValues [] => .ok .returnNow
-    | .pass => .ok .pass
+      return [.whileLoop (← condition fuel test.toSyntax) (← body.mapM (statement fuel)).flatten]
+    | .returnValues [] => .ok [.returnNow]
+    | .pass => .ok [.pass]
     | _ => .error "unsupported spinning source statement"
+
+private def scalarName : VeriTile.Triton.ScalarType → String
+  | .integer => "integer" | .fp32 => "fp32" | .fp64 => "fp64" | .i32 => "i32" | .i64 => "i64"
+
+/-- This backend has exactly the FP32/INT32 wrapper ABI and the caller's
+non-negative-view specialization. An altered signature fails closed. -/
+def profileSupported (source : VeriTile.Triton.DSL.PastedControlSource.Invocation) : Bool :=
+  let p:=source.signature
+  p.pointers.map (fun (name,dtype)=>(name,dtypeTag dtype)) ==
+    [("P","fp32"),("C","fp32"),("locks","i32")] &&
+  p.floatingPointers.isEmpty &&
+  p.scalars.map (fun (name,dtype)=>(name,scalarName dtype)) ==
+    [("num_sms","integer"),("k","integer"),("M","integer"),("N","integer"),
+      ("stride_cm","integer"),("stride_cn","integer")] &&
+  p.constexpr == ["BLOCK_SIZE_M","BLOCK_SIZE_N","PHASE","P_NEG","C_NEG","LOCK_NEG"] &&
+  p.sourceConstants.isEmpty && p.unaryImports.isEmpty &&
+  p.readPorts == ["P","C","locks"] && p.writePorts == ["P","C","locks"] &&
+  source.constexprBools == [("P_NEG",false),("C_NEG",false),("LOCK_NEG",false)]
 
 /-- Every selected source statement is decoded, including nested loops and
 all CAS operands. The complete program must decode successfully before use. -/
-def decode (source : CS.Program) : Except String (List Statement) :=
-  source.mapM (statement 64)
+def decode (source : VeriTile.Triton.DSL.PastedControlSource.Invocation) : Except String (List Statement) := do
+  unless profileSupported source do throw "unsupported spinning caller ABI or constexpr binding"
+  return (← source.body.mapM (statement 64)).flatten
 
 end VeriTile.Bench.Repairs.SpinningLock.SourceAdapter

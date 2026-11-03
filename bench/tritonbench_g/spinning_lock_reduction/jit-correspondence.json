@@ -1,0 +1,148 @@
+[
+  {
+    "kind": "control_source",
+    "python": "bench/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction.py",
+    "lean": "bench/tritonbench_g/spinning_lock_reduction/Kernels.lean",
+    "python_function": "spinning_lock_kernel",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "P",
+          "fp32"
+        ],
+        [
+          "C",
+          "fp32"
+        ],
+        [
+          "locks",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "num_sms",
+          "integer"
+        ],
+        [
+          "k",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "PHASE",
+        "P_NEG",
+        "C_NEG",
+        "LOCK_NEG"
+      ],
+      "readPorts": [
+        "P",
+        "C",
+        "locks"
+      ],
+      "writePorts": [
+        "P",
+        "C",
+        "locks"
+      ]
+    },
+    "expected_constexpr_bools": {
+      "P_NEG": false,
+      "C_NEG": false,
+      "LOCK_NEG": false
+    }
+  },
+  {
+    "kind": "control_source",
+    "python": "bench/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction_area.py",
+    "lean": "bench/tritonbench_g/spinning_lock_reduction/Kernels.lean",
+    "python_function": "spinning_lock_kernel_area",
+    "lean_definition": "areaSource",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "P",
+          "fp32"
+        ],
+        [
+          "C",
+          "fp32"
+        ],
+        [
+          "locks",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "num_sms",
+          "integer"
+        ],
+        [
+          "k",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "PHASE",
+        "P_NEG",
+        "C_NEG",
+        "LOCK_NEG"
+      ],
+      "readPorts": [
+        "P",
+        "C",
+        "locks"
+      ],
+      "writePorts": [
+        "P",
+        "C",
+        "locks"
+      ]
+    },
+    "expected_constexpr_bools": {
+      "P_NEG": false,
+      "C_NEG": false,
+      "LOCK_NEG": false
+    }
+  }
+]
