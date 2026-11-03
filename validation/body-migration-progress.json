@@ -87,7 +87,9 @@
       "cases": 2,
       "retained_modules": 121,
       "replay_sources": 121,
-      "state": "local_pass_ready_for_official_replay"
+      "state": "official_replay_in_progress",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41581701325",
+      "source_commit": "58f446fc2591e2e94276e811fbcede034d40914e"
     },
     "previous_incremental_replays": [
       {
@@ -1671,7 +1673,9 @@
       "full_replay_sources": 4642,
       "full_lake_jobs": 14349,
       "public_theorems": 419,
-      "boundary": "Local verification only. Both targets remain incomplete until exact-current independent replay accepts every required root."
+      "boundary": "Local verification only. Both targets remain incomplete until exact-current independent replay accepts every required root.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41581701325",
+      "source_commit": "58f446fc2591e2e94276e811fbcede034d40914e"
     }
   },
   "targets": [
