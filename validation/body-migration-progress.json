@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 161,
-  "staged_count": 161,
+  "staged_count": 163,
   "pending_count": 35,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "PASS_WITH_EXACT_CURRENT_INDEPENDENT_RECEIPTS",
-    "staged_and_regression_retained_modules": 5518,
-    "official_comparator": "161 current targets retain exact-dependency independent receipts. All 19 examples and every locally verified target are independently accepted. The remaining 35 TritonBench-G tasks, including the two rotary tasks in progress, remain incomplete.",
-    "python_tests": 576,
+    "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
+    "staged_and_regression_retained_modules": 5639,
+    "official_comparator": "161 current targets retain exact-dependency independent receipts. Two newly locally verified rotary targets await exact-current independent replay. The other 33 remaining TritonBench-G tasks still require source/proof migration. All 19 examples are independently accepted.",
+    "python_tests": 580,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "Last full local snapshot: 167 cases (161 targets and six regressions), 5518 retained/supporting modules, 14228 Lake jobs, 415 public theorem names and 576 Python tests passed. All 161 targets in that snapshot now retain exact-current independent receipts, including all 19 examples. Both rotary tasks are being migrated; their current work is outside that last full local snapshot and remains incomplete.",
-    "official_replay_sources": 4521,
+    "working_tree": "169 cases (163 targets and six regressions), all 5639 retained/supporting modules, 14349 Lake jobs, 419 public theorem names, 580 Python tests and source-corpus checks pass. Both rotary tasks retain their complete original bodies, actual existing candidates and full invocation domains; execution, independent Real/native FP, all scheduled grid outputs, safety and exterior frames reverify. Independently complete: 161, including all 19 examples. Two locally verified targets await independent replay; 33 other targets remain to migrate.",
+    "official_replay_sources": 4642,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,16 +80,14 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/kv_cache_filling"
+        "bench/tritonbench_g/rotary_transform",
+        "bench/tritonbench_g/rotary_transform_ops"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 1,
-      "retained_modules": 38,
-      "replay_sources": 38,
-      "state": "accepted_exact_current_independent_receipt",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41575588124",
-      "source_commit": "4b73b88a6fcf4c6ff4378ba4efcd63ba42336b77",
-      "receipt": "validation/body_receipts/kv-cache-filling-source-migration.json"
+      "cases": 2,
+      "retained_modules": 121,
+      "replay_sources": 121,
+      "state": "local_pass_ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -903,6 +901,19 @@
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41572157605",
         "source_commit": "4956a5459350c84c1b4236b753f0b3c28e76bae8",
         "receipt": "validation/body_receipts/llama-ff-source-migration.json"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/kv_cache_filling"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 38,
+        "replay_sources": 38,
+        "state": "accepted_exact_current_independent_receipt",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41575588124",
+        "source_commit": "4b73b88a6fcf4c6ff4378ba4efcd63ba42336b77",
+        "receipt": "validation/body_receipts/kv-cache-filling-source-migration.json"
       }
     ],
     "pending_client_regressions": {
@@ -918,7 +929,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 35 TritonBench-G source/proof migrations, beginning with both rotary tasks. All 19 examples and all previously locally verified targets are independently accepted. No merge.",
+    "current_work": "Submit the two rotary targets for independent replay, collect their exact-current receipts, and continue the remaining 33 source/proof migrations. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -942,15 +953,15 @@
     },
     "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
     "last_full_local_snapshot": {
-      "cases": 167,
-      "targets": 161,
+      "cases": 169,
+      "targets": 163,
       "regressions": 6,
-      "retained_modules": 5518,
-      "replay_sources": 4521,
-      "lake_jobs": 14228,
+      "retained_modules": 5639,
+      "replay_sources": 4642,
+      "lake_jobs": 14349,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 415,
-      "python_tests": 576,
+      "public_theorem_count": 419,
+      "python_tests": 580,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1303,15 +1314,15 @@
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     },
     "previous_full_local_snapshot": {
-      "cases": 166,
-      "targets": 160,
+      "cases": 167,
+      "targets": 161,
       "regressions": 6,
-      "retained_modules": 5480,
-      "replay_sources": 4483,
-      "lake_jobs": 14190,
+      "retained_modules": 5518,
+      "replay_sources": 4521,
+      "lake_jobs": 14228,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 413,
-      "python_tests": 571,
+      "public_theorem_count": 415,
+      "python_tests": 576,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1623,6 +1634,44 @@
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41575588124",
       "source_commit": "4b73b88a6fcf4c6ff4378ba4efcd63ba42336b77",
       "official_receipt": "validation/body_receipts/kv-cache-filling-source-migration.json"
+    },
+    "rotary_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 119,
+      "shared_frontend_test_modules": 2,
+      "shared_trust_inventory_theorems": 155,
+      "named_semantic_frontend_regressions": 1,
+      "body_statements": 11,
+      "source_pairs": 8,
+      "offset_invocations": [
+        "tensor",
+        "scalar"
+      ],
+      "signed_metadata_width_pairs": [
+        [
+          32,
+          32
+        ],
+        [
+          32,
+          64
+        ],
+        [
+          64,
+          32
+        ],
+        [
+          64,
+          64
+        ]
+      ],
+      "python_tests": 580,
+      "full_cases": 169,
+      "full_retained_modules": 5639,
+      "full_replay_sources": 4642,
+      "full_lake_jobs": 14349,
+      "public_theorems": 419,
+      "boundary": "Local verification only. Both targets remain incomplete until exact-current independent replay accepts every required root."
     }
   },
   "targets": [
@@ -3346,13 +3395,21 @@
     },
     {
       "path": "bench/tritonbench_g/rotary_transform",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Copied the complete unchanged repaired Python JIT body, all 11 top-level statements including every original nested branch, runtime early return, float32 cast, mask and store, with scalar/tensor-offset invocation profiles and all four signed int32/int64 metadata-width combinations. Removed old whole-kernel Lean quotations. Both canonical original signatures remain exact, including unused original parameters. The transform candidate materializes the existing rk index CSE; the ops candidate reuses unchanged rotary_kernel_xor. A shared optional frontend binds mutable integer arguments before the body and preserves initial reads, actual assignments and symbolic Boolean control; arbitrary signed inputs, unknown/missing names, metadata collisions and Boolean mutation are checked by semantic/rejection regressions. All 155 shared exact-source trust/inventory theorems pass. Reproved actual execution, independent Real rotation model, complete grid outputs, original native FP scope, exact full-state candidate equivalence, access safety and full exterior frames, including real temporary registers for nested loads and explicit float32 casts. Four fixed-layout/conjugation safety lemmas compose into the unchanged public ops safety theorem. No new public premises, narrower numerical domain or FP rules. All 119 owned modules plus shared frontend/regression, complete integration and 580 Python tests pass. Exact-current independent replay is still required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/rotary_transform_ops",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Copied the complete unchanged repaired Python JIT body, all 11 top-level statements including every original nested branch, runtime early return, float32 cast, mask and store, with scalar/tensor-offset invocation profiles and all four signed int32/int64 metadata-width combinations. Removed old whole-kernel Lean quotations. Both canonical original signatures remain exact, including unused original parameters. The transform candidate materializes the existing rk index CSE; the ops candidate reuses unchanged rotary_kernel_xor. A shared optional frontend binds mutable integer arguments before the body and preserves initial reads, actual assignments and symbolic Boolean control; arbitrary signed inputs, unknown/missing names, metadata collisions and Boolean mutation are checked by semantic/rejection regressions. All 155 shared exact-source trust/inventory theorems pass. Reproved actual execution, independent Real rotation model, complete grid outputs, original native FP scope, exact full-state candidate equivalence, access safety and full exterior frames, including real temporary registers for nested loads and explicit float32 casts. Four fixed-layout/conjugation safety lemmas compose into the unchanged public ops safety theorem. No new public premises, narrower numerical domain or FP rules. All 119 owned modules plus shared frontend/regression, complete integration and 580 Python tests pass. Exact-current independent replay is still required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/rowwise_quantization_triton",

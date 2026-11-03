@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 148,
-      "uncovered_jit_functions": 35
+      "selected_body_copy_checked": 150,
+      "uncovered_jit_functions": 33
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 97,
-    "inventoried_jit_functions": 548,
-    "uncovered_inventoried_jit_functions": 126,
+    "uncovered_selected_jit_functions": 94,
+    "inventoried_jit_functions": 549,
+    "uncovered_inventoried_jit_functions": 123,
     "checked_pair_modes": {
-      "pasted_body": 428
+      "pasted_body": 436
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 148,
-        "uncovered_jit_functions": 35
+        "selected_body_copy_checked": 150,
+        "uncovered_jit_functions": 33
       }
     },
     "primary_files_with_int64_screen_warning": 11,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 20,
-        "antiquotes": 355,
+        "in_body_type_directives": 18,
+        "antiquotes": 353,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 81
       },
@@ -37490,9 +37490,9 @@
       "python": "bench/tritonbench_g/rotary_transform/rotary_transform.py",
       "lean": "bench/tritonbench_g/rotary_transform/Kernels.lean",
       "lean_screen": {
-        "quotations": 8,
-        "in_body_type_directives": 8,
-        "antiquotes": 332,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
         "dsl_assignment": 12,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
@@ -37517,27 +37517,166 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+        },
         {
-          "python": "bench/tritonbench_g/rotary_transform/rotary_transform.py",
-          "function": "rotary_kernel"
+          "path": "bench/tritonbench_g/rotary_transform/rotary_transform_index_cse.py",
+          "jits": [
+            {
+              "function": "rotary_kernel_index_cse",
+              "line": 8,
+              "statements": 11,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "rotary_kernel",
+          "lean_definition": "originalTensorBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "seqlen": "integer",
+            "nheads": "integer",
+            "rotary_dim": "integer",
+            "seqlen_ro": "integer",
+            "CACHE_KEY_SEQLEN": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_seqlen": "integer",
+            "stride_out_nheads": "integer",
+            "stride_out_headdim": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_seqlen": "integer",
+            "stride_x_nheads": "integer",
+            "stride_x_headdim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "CONJUGATE",
+            "INTERLEAVED",
+            "IS_SEQLEN_OFFSETS_TENSOR",
+            "IS_VARLEN"
+          ],
           "python": "bench/tritonbench_g/rotary_transform/rotary_transform.py",
-          "function": "rotary_kernel"
+          "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+          "invocation_variant": "tensor_offset_signed32_or64"
+        },
+        {
+          "python_function": "rotary_kernel",
+          "lean_definition": "originalScalarBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "SEQLEN_OFFSETS": "integer",
+            "seqlen": "integer",
+            "nheads": "integer",
+            "rotary_dim": "integer",
+            "seqlen_ro": "integer",
+            "CACHE_KEY_SEQLEN": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_seqlen": "integer",
+            "stride_out_nheads": "integer",
+            "stride_out_headdim": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_seqlen": "integer",
+            "stride_x_nheads": "integer",
+            "stride_x_headdim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "CONJUGATE",
+            "INTERLEAVED",
+            "IS_SEQLEN_OFFSETS_TENSOR",
+            "IS_VARLEN"
+          ],
+          "python": "bench/tritonbench_g/rotary_transform/rotary_transform.py",
+          "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+          "invocation_variant": "scalar_offset_signed32_or64"
+        },
+        {
+          "python_function": "rotary_kernel_index_cse",
+          "lean_definition": "candidateTensorBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "seqlen": "integer",
+            "nheads": "integer",
+            "rotary_dim": "integer",
+            "seqlen_ro": "integer",
+            "CACHE_KEY_SEQLEN": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_seqlen": "integer",
+            "stride_out_nheads": "integer",
+            "stride_out_headdim": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_seqlen": "integer",
+            "stride_x_nheads": "integer",
+            "stride_x_headdim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "CONJUGATE",
+            "INTERLEAVED",
+            "IS_SEQLEN_OFFSETS_TENSOR",
+            "IS_VARLEN"
+          ],
+          "python": "bench/tritonbench_g/rotary_transform/rotary_transform_index_cse.py",
+          "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+          "invocation_variant": "tensor_offset_signed32_or64"
+        },
+        {
+          "python_function": "rotary_kernel_index_cse",
+          "lean_definition": "candidateScalarBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "SEQLEN_OFFSETS": "integer",
+            "seqlen": "integer",
+            "nheads": "integer",
+            "rotary_dim": "integer",
+            "seqlen_ro": "integer",
+            "CACHE_KEY_SEQLEN": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_seqlen": "integer",
+            "stride_out_nheads": "integer",
+            "stride_out_headdim": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_seqlen": "integer",
+            "stride_x_nheads": "integer",
+            "stride_x_headdim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "CONJUGATE",
+            "INTERLEAVED",
+            "IS_SEQLEN_OFFSETS_TENSOR",
+            "IS_VARLEN"
+          ],
+          "python": "bench/tritonbench_g/rotary_transform/rotary_transform_index_cse.py",
+          "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+          "invocation_variant": "scalar_offset_signed32_or64"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/rotary_transform/Kernels.lean": "457a6107933e2734487fb525727f853b4c3ca027dc7c85dd68e2225802e85571",
-        "bench/tritonbench_g/rotary_transform/rotary_transform.py": "5df01dc0401afff355e13be26ea31b0ef6ec1f060974a6a700aea3714e95e9bf"
+        "bench/tritonbench_g/rotary_transform/Kernels.lean": "4bb62222ccf91e2e4191efa495396202588eb29e991191922f46e0bd2d37309e",
+        "bench/tritonbench_g/rotary_transform/Sources/Body.lean": "e66fbac7babd0796234c0cc1c9713b80c9ed8e061aa1614ead77de04118789c1",
+        "bench/tritonbench_g/rotary_transform/jit-correspondence.json": "f474f1b77fa545171df4fb9432870d2101a1c24edd3e26b7ff1d1728d6a8271f",
+        "bench/tritonbench_g/rotary_transform/rotary_transform.py": "5df01dc0401afff355e13be26ea31b0ef6ec1f060974a6a700aea3714e95e9bf",
+        "bench/tritonbench_g/rotary_transform/rotary_transform_index_cse.py": "91625aa89ad0cb845ec253ee85e52e5030cac56cc9666fc9ae8fb9a00a3ce11b"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/rotary_transform"
@@ -37548,9 +37687,9 @@
       "python": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
       "lean": "bench/tritonbench_g/rotary_transform_ops/Kernels.lean",
       "lean_screen": {
-        "quotations": 8,
-        "in_body_type_directives": 8,
-        "antiquotes": 324,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
         "dsl_assignment": 12,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
@@ -37589,32 +37728,143 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "rotary_kernel",
+          "lean_definition": "opsOriginalTensorBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "seqlen": "integer",
+            "rotary_dim": "integer",
+            "seqlen_ro": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_seqlen": "integer",
+            "stride_out_nheads": "integer",
+            "stride_out_headdim": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_seqlen": "integer",
+            "stride_x_nheads": "integer",
+            "stride_x_headdim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "CONJUGATE",
+            "INTERLEAVED",
+            "IS_SEQLEN_OFFSETS_TENSOR",
+            "IS_VARLEN"
+          ],
           "python": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
-          "function": "rotary_kernel"
+          "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+          "invocation_variant": "tensor_offset_signed32_or64"
         },
         {
+          "python_function": "rotary_kernel",
+          "lean_definition": "opsOriginalScalarBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "SEQLEN_OFFSETS": "integer",
+            "seqlen": "integer",
+            "rotary_dim": "integer",
+            "seqlen_ro": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_seqlen": "integer",
+            "stride_out_nheads": "integer",
+            "stride_out_headdim": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_seqlen": "integer",
+            "stride_x_nheads": "integer",
+            "stride_x_headdim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "CONJUGATE",
+            "INTERLEAVED",
+            "IS_SEQLEN_OFFSETS_TENSOR",
+            "IS_VARLEN"
+          ],
           "python": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
-          "function": "rotary_kernel_xor"
-        }
-      ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
-          "function": "rotary_kernel"
+          "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+          "invocation_variant": "scalar_offset_signed32_or64"
         },
         {
+          "python_function": "rotary_kernel_xor",
+          "lean_definition": "xorTensorBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "seqlen": "integer",
+            "rotary_dim": "integer",
+            "seqlen_ro": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_seqlen": "integer",
+            "stride_out_nheads": "integer",
+            "stride_out_headdim": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_seqlen": "integer",
+            "stride_x_nheads": "integer",
+            "stride_x_headdim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "CONJUGATE",
+            "INTERLEAVED",
+            "IS_SEQLEN_OFFSETS_TENSOR",
+            "IS_VARLEN"
+          ],
           "python": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
-          "function": "rotary_kernel_xor"
+          "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+          "invocation_variant": "tensor_offset_signed32_or64"
+        },
+        {
+          "python_function": "rotary_kernel_xor",
+          "lean_definition": "xorScalarBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 11,
+          "runtime_parameters": {
+            "SEQLEN_OFFSETS": "integer",
+            "seqlen": "integer",
+            "rotary_dim": "integer",
+            "seqlen_ro": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_seqlen": "integer",
+            "stride_out_nheads": "integer",
+            "stride_out_headdim": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_seqlen": "integer",
+            "stride_x_nheads": "integer",
+            "stride_x_headdim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "CONJUGATE",
+            "INTERLEAVED",
+            "IS_SEQLEN_OFFSETS_TENSOR",
+            "IS_VARLEN"
+          ],
+          "python": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
+          "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+          "invocation_variant": "scalar_offset_signed32_or64"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/rotary_transform_ops/Kernels.lean": "286bc861a17f8a2c05cc36dd2983addcbb5a32df82075396a7673b56cbb49120",
+        "bench/tritonbench_g/rotary_transform/Sources/Body.lean": "e66fbac7babd0796234c0cc1c9713b80c9ed8e061aa1614ead77de04118789c1",
+        "bench/tritonbench_g/rotary_transform_ops/Kernels.lean": "5b02618943eda9b67afaf04357ff14c7a4ef8d66cbd65300ad5680f96ec32668",
+        "bench/tritonbench_g/rotary_transform_ops/jit-correspondence.json": "ab8ada84e474c4647d934fa4e8ede4da34a8eeb6bc1c279e50d0b227986455c6",
         "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py": "405cfe29f94ef81572227c5bf6a4bc956ccd0f36f193b1b5ed5495df45617aa8"
       },
       "collection": "tritonbench_g",
