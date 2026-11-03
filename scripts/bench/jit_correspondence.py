@@ -752,6 +752,62 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             if not (isinstance(value, ast.Call) and ast.unparse(value.func) == "tl.constexpr"
                     and len(value.args) == 1 and not value.keywords):
                 raise ValueError("source constant must be an original tl.constexpr literal")
+            if literal.startswith("math."):
+                # Preserve the closed host expression as a source tag. Real and
+                # native interpretations bind it separately; do not assert that
+                # a host floating computation equals its Real interpretation.
+                declared = ast.parse(literal, mode="eval").body
+                def closed_math(node):
+                    if isinstance(node, ast.Constant):
+                        return type(node.value) in (int, float) and (type(node.value) is int or math.isfinite(node.value))
+                    if isinstance(node, ast.Attribute):
+                        return ast.unparse(node) == "math.pi"
+                    if isinstance(node, ast.Call):
+                        return (ast.unparse(node.func) == "math.sqrt" and len(node.args) == 1
+                                and not node.keywords and closed_math(node.args[0]))
+                    if isinstance(node, ast.UnaryOp):
+                        return isinstance(node.op, ast.USub) and closed_math(node.operand)
+                    if isinstance(node, ast.BinOp):
+                        return (isinstance(node.op, (ast.Add, ast.Sub, ast.Mult, ast.Div))
+                                and closed_math(node.left) and closed_math(node.right))
+                    return False
+                if not closed_math(declared) or ast.dump(declared) != ast.dump(value.args[0]):
+                    raise ValueError("source module math expression differs or is not closed")
+                def host_math(node):
+                    if isinstance(node, ast.Constant):
+                        return node.value
+                    if isinstance(node, ast.Attribute):
+                        return math.pi
+                    if isinstance(node, ast.Call):
+                        return math.sqrt(host_math(node.args[0]))
+                    if isinstance(node, ast.UnaryOp):
+                        return -host_math(node.operand)
+                    a, b = host_math(node.left), host_math(node.right)
+                    if isinstance(node.op, ast.Add):
+                        return a + b
+                    if isinstance(node.op, ast.Sub):
+                        return a - b
+                    if isinstance(node.op, ast.Mult):
+                        return a * b
+                    return a / b
+                try:
+                    host_value = host_math(declared)
+                    if not math.isfinite(host_value):
+                        raise ValueError("nonfinite host constant")
+                except (ValueError, ZeroDivisionError, OverflowError) as error:
+                    raise ValueError("module math expression needs a defined finite host value") from error
+                imports = [node for node in module.body if isinstance(node, ast.Import)
+                           for alias in node.names if alias.name == "math" and alias.asname is None
+                           and node.lineno < assignments[0].lineno]
+                def math_root(node):
+                    while isinstance(node, ast.Attribute):
+                        node = node.value
+                    return isinstance(node, ast.Name) and node.id == "math"
+                mutated = any(isinstance(node, ast.Attribute) and isinstance(node.ctx, (ast.Store, ast.Del))
+                              and math_root(node) for node in ast.walk(module))
+                if len(imports) != 1 or writes.names.count("math") != 1 or mutated:
+                    raise ValueError("module math expression needs one immutable preceding math import")
+                continue
             try:
                 original_value, declared_value = ast.literal_eval(value.args[0]), ast.literal_eval(literal)
             except (ValueError, SyntaxError) as error:

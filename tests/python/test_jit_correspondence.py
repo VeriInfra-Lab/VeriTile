@@ -891,6 +891,27 @@ def kernel (x y : RegionName) (MODE : Nat) : ComputeKernel :=
         with self.assertRaises(ValueError):
             self.compare(*self.float_case('1.44269504', '1.0 + 0.44269504'))
 
+    def test_closed_module_math_source_expressions_are_checked(self):
+        for value in ['math.sqrt(2.0)', 'math.sqrt(2.0 / math.pi)']:
+            python, lean, signature = self.float_case(value, value)
+            python = 'import math\n' + python
+            self.assertEqual(self.compare(python, lean, signature)['mode'], 'pasted_body')
+            for changed in [python.replace(value, 'math.sqrt(3.0)'),
+                            python.replace('import math', 'import other as math'),
+                            python.replace('import math', 'import math\nmath = other'),
+                            python.replace('import math', 'import math\nmath.sqrt = other'),
+                            python.replace('import math', 'import math\ndel math.pi')]:
+                with self.subTest(value=value, python=changed), self.assertRaises(ValueError):
+                    self.compare(changed, lean, signature)
+
+    def test_module_math_cannot_call_unmodeled_or_free_expressions(self):
+        for value in ['math.sqrt(caller_value)', 'math.exp(2.0)', 'math.sqrt(True)',
+                      'math.sqrt(1e400)', 'math.sqrt(-1.0)', 'math.sqrt(1.0 / 0.0)',
+                      'math.sqrt(2.0, other=1.0)', 'math.__dict__']:
+            python, lean, signature = self.float_case(value, value)
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                self.compare('import math\n' + python, lean, signature)
+
     def test_unchanged_body_cannot_hide_changed_module_constant(self):
         with self.assertRaisesRegex(ValueError, 'Python module literal'):
             self.compare(python=self.python.replace('tl.constexpr(0)', 'tl.constexpr(1)'))

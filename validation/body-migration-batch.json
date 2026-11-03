@@ -2311,6 +2311,19 @@
           "VeriTile.Bench.Repairs.DecayCumsum.FPEquiv.decay_cumsum_source_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation",
+      "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/triton_linear_activation/Correct.lean": [
+          "VeriTile.Bench.Repairs.TritonLinearActivation.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/triton_linear_activation/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TritonLinearActivation.FPEquiv.kernel_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -6968,6 +6981,51 @@
     "bench/tritonbench_g/decay_cumsum/Sources/Parameters.lean",
     "bench/tritonbench_g/decay_cumsum/Sources/Selected.lean",
     "tests/lean/CastReverseRange.lean",
-    "tests/lean/ModuleFloatConstants.lean"
+    "tests/lean/ModuleFloatConstants.lean",
+    "VeriTile/Triton/DSL/ClosedUnaryJitFunctions.lean",
+    "VeriTile/Triton/DSL/ModuleMathConstants.lean",
+    "bench/tritonbench_g/triton_linear_activation/CandidateKernels.lean",
+    "bench/tritonbench_g/triton_linear_activation/Contract.lean",
+    "bench/tritonbench_g/triton_linear_activation/Correct.lean",
+    "bench/tritonbench_g/triton_linear_activation/FPEquiv.lean",
+    "bench/tritonbench_g/triton_linear_activation/IO.lean",
+    "bench/tritonbench_g/triton_linear_activation/Kernels.lean",
+    "bench/tritonbench_g/triton_linear_activation/Operations.lean",
+    "bench/tritonbench_g/triton_linear_activation/PairIO.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Arithmetic.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Bounds.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Config.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Copy.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/EventGrid.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Events.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/FPReference.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Geometry.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Grid.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/HostTypes.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/IOBindings.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/InputCongruence.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/KernelContract.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/KernelLoop.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/KernelMemory.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/KernelNativeModel.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/KernelPrefix.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/KernelReal.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/KernelRealArithmetic.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/KernelSource.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/KernelTail.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/KernelValues.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Materialize.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Mathematical_FPLiterals.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Pair.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/RealInterface.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Schedule.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Source.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/triton_linear_activation/Proofs/Stores.lean",
+    "bench/tritonbench_g/triton_linear_activation/SourceKernels.lean",
+    "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean",
+    "tests/lean/ClosedUnaryJitFunctions.lean",
+    "tests/lean/ModuleMathConstants.lean"
   ]
 }
