@@ -80,13 +80,15 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/int_scaled_matmul"
+        "bench/tritonbench_g/int8_dequant_matmul",
+        "bench/tritonbench_g/matmul_persistent_triton"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 1,
-      "retained_modules": 73,
-      "replay_sources": 73,
-      "state": "local_pass_ready_for_official_replay"
+      "cases": 2,
+      "retained_modules": 129,
+      "replay_sources": 129,
+      "state": "local_pass_ready_for_official_replay",
+      "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change"
     },
     "previous_incremental_replays": [
       {
@@ -976,6 +978,18 @@
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41604207975",
         "source_commit": "0556c435ebac1470f8eaa7463b3a800eacfd113f",
         "receipt": "validation/body_receipts/linear-activation-source-migration.json"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/int_scaled_matmul"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 73,
+        "replay_sources": 73,
+        "state": "official_in_progress",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613131342",
+        "source_commit": "54e28c9cb9a1d5b12d5f1382b6b9b30db86614e4"
       }
     ],
     "pending_client_regressions": {
@@ -1849,7 +1863,9 @@
         "bench/tritonbench_g/matmul_dequantize_int4",
         "bench/tritonbench_g/matmul_persistent_triton"
       ],
-      "boundary": "Local verification only. Remains incomplete until every required owned/shared independent replay and public theorem is accepted against exact current source/import closures. The seven transitive dependents also require fresh independent acceptance."
+      "boundary": "Local verification only. Remains incomplete until every required owned/shared independent replay and public theorem is accepted against exact current source/import closures. The seven transitive dependents also require fresh independent acceptance.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613131342",
+      "source_commit": "54e28c9cb9a1d5b12d5f1382b6b9b30db86614e4"
     }
   },
   "targets": [
