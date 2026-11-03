@@ -1,6 +1,7 @@
 import bench.tritonbench_g.context_attn_fwd.Kernels
 import VeriTile.Triton.Float.ExecutionProfile
 import VeriTile.Triton.Float.Control
+import VeriTile.Triton.Float.Integer
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.ContextAttnFwd.FPSuccess
@@ -11,6 +12,20 @@ set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
 variable {α : Type} [Inhabited α]
+
+attribute [local simp 2000] FP.Structural.eval_truncDiv FP.Structural.eval_truncMod
+
+theorem signed_mod_nat (a b : Nat) : (a:Int).tmod (b:Int)=(a:Int)%(b:Int) :=
+  Int.tmod_eq_emod_of_nonneg (Int.natCast_nonneg a)
+theorem signed_div_mod_nat (a b c : Nat) :
+    ((a:Int)%(b:Int)).tdiv (c:Int)=((a:Int)%(b:Int))/(c:Int) := by
+  apply Int.tdiv_eq_ediv_of_nonneg
+  rw [Int.ofNat_mod_ofNat]
+  exact Int.natCast_nonneg _
+theorem signed_nat_address (a b : Nat) : ((a:Int)/(b:Int)).toNat=a/b := rfl
+attribute [local simp 2000] signed_nat_address
+attribute [local simp] signed_mod_nat signed_div_mod_nat
+
 
 /-- These two local primitive implementations need only return their typed
 result. Their values are entirely opaque: no exact arithmetic, exp, reduction,
@@ -35,21 +50,21 @@ theorem source_split (p : Layout) (r : Regions) (scale : ℝ) :
 
 /-- Exactly the registers read across the source loop boundary. -/
 def Ready (p : Layout) (s : State α) : Prop :=
-  (s.regs .nat [] "cur_kv_head").isSome ∧
-  (s.regs .nat [] "cur_batch").isSome ∧
+  (s.regs .int [] "cur_kv_head").isSome ∧
+  (s.regs .int [] "cur_batch").isSome ∧
   (s.regs .int [] "block_end_loc").isSome ∧
-  (s.regs .nat [p.BN] "offs_n").isSome ∧
-  (s.regs .nat [p.D] "offs_d").isSome ∧
-  (s.regs .nat [p.BM] "offs_m").isSome ∧
+  (s.regs .int [p.BN] "offs_n").isSome ∧
+  (s.regs .int [p.D] "offs_d").isSome ∧
+  (s.regs .int [p.BM] "offs_m").isSome ∧
   (s.regs .int [] "prompt_cache_len").isSome ∧
   (s.regs .real [p.BM,p.D] "q").isSome ∧
   (s.regs .real [p.BM] "m_i").isSome ∧
   (s.regs .real [p.BM] "l_i").isSome ∧
   (s.regs .real [p.BM,p.D] "acc").isSome ∧
   (s.regs .int [] "cur_batch_in_all_start_index").isSome ∧
-  (s.regs .nat [] "cur_head").isSome ∧
+  (s.regs .int [] "cur_head").isSome ∧
   (s.regs .int [] "cur_batch_seq_len").isSome ∧
-  (s.regs .nat [] "block_mask").isSome
+  (s.regs .int [] "block_mask").isSome
 
 def start (p : Layout) (r : Regions) (s : State α) : Int :=
   (s.mem r.start (s.pids 1 / p.heads)).read .int
@@ -71,9 +86,9 @@ def active (p : Layout) (r : Regions) (s : State α)
 
 def Fixed (p : Layout) (s t : State α) : Prop :=
   t.regs .int [] "cur_batch_in_all_start_index" = s.regs .int [] "cur_batch_in_all_start_index" ∧
-  t.regs .nat [] "cur_head" = s.regs .nat [] "cur_head" ∧
-  t.regs .nat [p.BM] "offs_m" = s.regs .nat [p.BM] "offs_m" ∧
-  t.regs .nat [p.D] "offs_d" = s.regs .nat [p.D] "offs_d" ∧
+  t.regs .int [] "cur_head" = s.regs .int [] "cur_head" ∧
+  t.regs .int [p.BM] "offs_m" = s.regs .int [p.BM] "offs_m" ∧
+  t.regs .int [p.D] "offs_d" = s.regs .int [p.D] "offs_d" ∧
   t.regs .int [] "cur_batch_seq_len" = s.regs .int [] "cur_batch_seq_len"
 
 theorem Fixed.refl (p : Layout) (s : State α) : Fixed p s s := by simp [Fixed]
@@ -82,9 +97,9 @@ theorem Fixed.trans {p : Layout} {s t u : State α} (hst : Fixed p s t) (htu : F
 
 def Controls (p : Layout) (r : Regions) (s t : State α) : Prop :=
   t.regs .int [] "cur_batch_in_all_start_index" = some (fun _ => start p r s) ∧
-  t.regs .nat [] "cur_head" = some (fun _ => s.pids 1 % p.heads) ∧
-  t.regs .nat [p.BM] "offs_m" = some (fun i => p.BM * s.pids 0 + i.1.val) ∧
-  t.regs .nat [p.D] "offs_d" = some (fun i => i.1.val) ∧
+  t.regs .int [] "cur_head" = some (fun _ => ((s.pids 1 % p.heads : Nat) : Int)) ∧
+  t.regs .int [p.BM] "offs_m" = some (fun i => ((p.BM * s.pids 0 + i.1.val : Nat) : Int)) ∧
+  t.regs .int [p.D] "offs_d" = some (fun i => (i.1.val : Int)) ∧
   t.regs .int [] "cur_batch_seq_len" = some (fun _ => length p r s)
 
 theorem Controls.fixed {p : Layout} {r : Regions} {s t u : State α}
@@ -95,13 +110,13 @@ theorem prelude_success (p : Layout) (r : Regions) (scale : ℝ)
     (M : Algebra α) (s : State α) :
     ∃ t, run (M.withDefaultPrecision .fp32) (parts p r scale).before s = some t ∧
       Ready p t ∧ t.mem = s.mem ∧ Controls p r s t := by
-  simp (config := {maxSteps := 500000}) [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,
+  simp (config := {maxSteps := 500000}) [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.originalBody,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.originalBody,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,Ready,State.setReg,Algebra.withDefaultPrecision,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,
-    ofFloat,toFloat,Region.cast,Controls,start,length,bop]
+    ofFloat,toFloat,Region.cast,Nat.cast_add,Nat.cast_mul,Controls,start,length,bop]
   exact ⟨rfl,rfl,rfl⟩
 
 /-- All body assignments are checked from actual live-register availability;
@@ -127,9 +142,9 @@ theorem body_success (p : Layout) (r : Regions) (scale : ℝ)
   rcases Option.isSome_iff_exists.mp h12 with ⟨v12,h12⟩
   rcases Option.isSome_iff_exists.mp h13 with ⟨v13,h13⟩
   rcases Option.isSome_iff_exists.mp h14 with ⟨v14,h14⟩
-  simp (config := {maxSteps := 1000000}) [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,
+  simp (config := {maxSteps := 1000000}) [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.originalBody,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.originalBody,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,Ready,State.setReg,Algebra.withDefaultPrecision,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,

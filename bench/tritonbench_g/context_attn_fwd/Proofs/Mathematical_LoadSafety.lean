@@ -8,12 +8,12 @@ set_option linter.unusedSimpArgs false
 
 theorem key_safe (p : Layout) (r : Regions) (batch head : Nat) (sn limit : Int)
     (u : BlockState) (bounds : RegionBounds)
-    (hb : u.regs .nat [] "cur_batch" = some (Tile.scalar batch))
-    (hh : u.regs .nat [] "cur_kv_head" = some (Tile.scalar head))
+    (hb : u.regs .int [] "cur_batch" = some (Tile.scalar batch))
+    (hh : u.regs .int [] "cur_kv_head" = some (Tile.scalar head))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar limit))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
     (hbound : ∀ (j : Fin p.BN) (d : Fin p.D), sn+j.val < limit →
       (KeysExecution.address p batch head sn d j).toNat < bounds r.key) :
     Stmt.TraceSafeList bounds (keys p r) u := by
@@ -52,12 +52,12 @@ theorem key_safe (p : Layout) (r : Regions) (batch head : Nat) (sn limit : Int)
 
 theorem value_safe (p : Layout) (r : Regions) (batch head : Nat) (sn limit : Int)
     (u : BlockState) (bounds : RegionBounds)
-    (hb : u.regs .nat [] "cur_batch" = some (Tile.scalar batch))
-    (hh : u.regs .nat [] "cur_kv_head" = some (Tile.scalar head))
+    (hb : u.regs .int [] "cur_batch" = some (Tile.scalar batch))
+    (hh : u.regs .int [] "cur_kv_head" = some (Tile.scalar head))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar limit))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
     (hbound : ∀ (j : Fin p.BN) (d : Fin p.D), sn+j.val < limit →
       (ValuesExecution.address p batch head sn j d).toNat < bounds r.value) :
     Stmt.TraceSafeList bounds (values p r) u := by

@@ -50,7 +50,7 @@ theorem loop (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
   have hstop : evalOp (M.withDefaultPrecision .fp32) none (parts p r scale).stop s=
       some (fun _ => (blockMask p (FPReference.inputs p r initial) : Int)*keyEnd p (FPReference.inputs p r initial)) := by
     change evalOp (M.withDefaultPrecision .fp32) none
-      (.mul .int .nil (.castNatToInt (.ref .nat [] "block_mask"))
+      (.mul .int .nil (.ref .int [] "block_mask")
         (.ref .int [] "block_end_loc")) s = _
     simp only [evalOp_unfold,hm,he,Option.bind,numeric]
     rfl
@@ -59,7 +59,7 @@ theorem loop (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
   · change Safety.safeOp _ _ _ _ (.constInt 0)
     simp only [Safety.safeOp]
   · change Safety.safeOp _ _ _ _
-      (.mul .int .nil (.castNatToInt (.ref .nat [] "block_mask")) (.ref .int [] "block_end_loc"))
+      (.mul .int .nil (.ref .int [] "block_mask") (.ref .int [] "block_end_loc"))
     simp only [Safety.safeOp,true_and]
   · change Safety.safeOp _ _ _ _ (.constNat p.BN)
     simp only [Safety.safeOp]
