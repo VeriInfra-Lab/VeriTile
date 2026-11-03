@@ -21,8 +21,9 @@ def mathematicalByte (values : Nat → ℝ) (columns column : Nat) : Byte :=
 
 def nativeMaximum (f : KernelNativeModel.FloatingInstructions) (p : Geometry)
     (selection : Selection p) (values : Nat → Word32) : Word32 :=
-  f.maximum (FP.Value.zero .fp32) (selection.tree.evaluate f.maximum
-    (fun c => if c < p.columns then (values c).abs else FP.Value.zero .fp32))
+  if p.columns=0 then FP.Value.zero .fp32 else
+    f.maximum (FP.Value.zero .fp32) (selection.tree.evaluate f.maximum
+      (fun c => if c < p.columns then (values c).abs else FP.Value.zero .fp32))
 def nativeScale (f : KernelNativeModel.FloatingInstructions) (p : Geometry)
     (selection : Selection p) (values : Nat → Word32) : Word32 :=
   f.divide (nativeMaximum f p selection values) (FP.Value.ofBits .fp32 0x42fe0000)

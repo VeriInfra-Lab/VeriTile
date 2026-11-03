@@ -57,7 +57,7 @@ def scale (M : Algebra α) (p : Geometry) (s : State α) (r : Nat) : α :=
   M.cast none .real .fp16 (KernelProducer.scale M (parameters p) (atRow s r))
 
 theorem advance_correct (M : Algebra α) (integer8 : α → BitVec 8)
-    (p : Geometry) (s : State α) (r : Fin p.rows) :
+    (p : Geometry) (covers : p.columns≤p.width) (s : State α) (r : Fin p.rows) :
     (∀ c : Fin p.width, c.val < p.columns →
       (advance M integer8 p s r).mem "q" (r.val*p.columns+c.val) =
         .mk .int (integer8 (scaled M p s r c)).toInt) ∧
@@ -65,7 +65,7 @@ theorem advance_correct (M : Algebra α) (integer8 : α → BitVec 8)
     (∀ region offset, KernelProducer.Outside (parameters p) (atRow s r) region offset →
       (advance M integer8 p s r).mem region offset = s.mem region offset) := by
   obtain ⟨t, he, hq, hs, hf⟩ := KernelProducer.source_correct M integer8 (parameters p)
-    (atRow s r) p.positive rfl (by simp [parameters])
+    (atRow s r) p.positive rfl (by simp [parameters]) covers
   have hex := (KernelProducer.execution M integer8 (parameters p) (atRow s r) p.positive).property
   have ht : advance M integer8 p s r = t := Option.some.inj (hex.symm.trans he)
   rw [ht]
@@ -77,9 +77,9 @@ theorem advance_correct (M : Algebra α) (integer8 : α → BitVec 8)
 
 def SameInput (initial current : State α) : Prop := ∀ i, current.mem "x" i = initial.mem "x" i
 theorem advance_input (M : Algebra α) (integer8 : α → BitVec 8)
-    (p : Geometry) (s : State α) (r : Fin p.rows) : SameInput s (advance M integer8 p s r) := by
+    (p : Geometry) (covers : p.columns≤p.width) (s : State α) (r : Fin p.rows) : SameInput s (advance M integer8 p s r) := by
   intro i
-  apply (advance_correct M integer8 p s r).2.2
+  apply (advance_correct M integer8 p covers s r).2.2
   exact ⟨Or.inl (by simp [parameters]), Or.inl (by simp [parameters])⟩
 
 theorem scale_same (M : Algebra α) (p : Geometry) (initial current : State α)
@@ -95,7 +95,7 @@ theorem scaled_same (M : Algebra α) (p : Geometry) (initial current : State α)
     KernelProducer.loaded, KernelProducer.inputOffset, parameters, atRow, h]
 
 theorem final_frame_order (M : Algebra α) (integer8 : α → BitVec 8)
-    (p : Geometry) (order : List (Fin p.rows)) (s : State α) (region : RegionName) (offset : Nat)
+    (p : Geometry) (covers : p.columns≤p.width) (order : List (Fin p.rows)) (s : State α) (region : RegionName) (offset : Nat)
     (miss : ∀ r ∈ order, KernelProducer.Outside (parameters p) (atRow s r) region offset) :
     (finalState M integer8 p order s).mem region offset = s.mem region offset := by
   induction order generalizing s with
@@ -103,12 +103,12 @@ theorem final_frame_order (M : Algebra α) (integer8 : α → BitVec 8)
   | cons r tail ih =>
     simp only [finalState]
     rw [ih]
-    · exact (advance_correct M integer8 p s r).2.2 region offset (miss r (by simp))
+    · exact (advance_correct M integer8 p covers s r).2.2 region offset (miss r (by simp))
     · intro q hq
       simpa [KernelProducer.Outside, KernelProducer.outputOffset, atRow] using miss q (by simp [hq])
 
 theorem final_quantized (M : Algebra α) (integer8 : α → BitVec 8)
-    (p : Geometry) (order : List (Fin p.rows)) (s : State α) (r : Fin p.rows) (hr : r ∈ order)
+    (p : Geometry) (covers : p.columns≤p.width) (order : List (Fin p.rows)) (s : State α) (r : Fin p.rows) (hr : r ∈ order)
     (c : Fin p.width) (hc : c.val < p.columns) :
     (finalState M integer8 p order s).mem "q" (r.val*p.columns+c.val) =
       .mk .int (integer8 (scaled M p s r c)).toInt := by
@@ -117,12 +117,12 @@ theorem final_quantized (M : Algebra α) (integer8 : α → BitVec 8)
   | cons q tail ih =>
     by_cases ht : r ∈ tail
     · simp only [finalState]
-      rw [ih _ ht, scaled_same M p s _ (advance_input M integer8 p s q) r c]
+      rw [ih _ ht, scaled_same M p s _ (advance_input M integer8 p covers s q) r c]
     · have he : r = q := by simpa [ht] using hr
       subst q
       simp only [finalState]
-      rw [final_frame_order M integer8 p tail (advance M integer8 p s r)]
-      · exact (advance_correct M integer8 p s r).1 c hc
+      rw [final_frame_order M integer8 p covers tail (advance M integer8 p s r)]
+      · exact (advance_correct M integer8 p covers s r).1 c hc
       · intro q hq
         refine ⟨Or.inl (by simp [parameters]), Or.inr ?_⟩
         intro j hj heq
@@ -131,30 +131,30 @@ theorem final_quantized (M : Algebra α) (integer8 : α → BitVec 8)
         exact ht ((Fin.ext roweq).symm ▸ hq)
 
 theorem final_scale (M : Algebra α) (integer8 : α → BitVec 8)
-    (p : Geometry) (order : List (Fin p.rows)) (s : State α) (r : Fin p.rows) (hr : r ∈ order) :
+    (p : Geometry) (covers : p.columns≤p.width) (order : List (Fin p.rows)) (s : State α) (r : Fin p.rows) (hr : r ∈ order) :
     (finalState M integer8 p order s).mem "scales" r = .mk .fp16 (scale M p s r) := by
   induction order generalizing s with
   | nil => simp at hr
   | cons q tail ih =>
     by_cases ht : r ∈ tail
     · simp only [finalState]
-      rw [ih _ ht, scale_same M p s _ (advance_input M integer8 p s q) r]
+      rw [ih _ ht, scale_same M p s _ (advance_input M integer8 p covers s q) r]
     · have he : r = q := by simpa [ht] using hr
       subst q
       simp only [finalState]
-      rw [final_frame_order M integer8 p tail (advance M integer8 p s r)]
-      · exact (advance_correct M integer8 p s r).2.1
+      rw [final_frame_order M integer8 p covers tail (advance M integer8 p s r)]
+      · exact (advance_correct M integer8 p covers s r).2.1
       · intro q hq
         refine ⟨Or.inr ?_, Or.inl (by simp [parameters])⟩
         simp only [parameters, atRow, Function.update_self, Nat.mul_one]
         exact fun he => ht ((Fin.ext he).symm ▸ hq)
 
 theorem final_frame (M : Algebra α) (integer8 : α → BitVec 8)
-    (p : Geometry) (order : List (Fin p.rows)) (s : State α) (region : RegionName) (offset : Nat)
+    (p : Geometry) (covers : p.columns≤p.width) (order : List (Fin p.rows)) (s : State α) (region : RegionName) (offset : Nat)
     (hq : region ≠ "q" ∨ p.rows*p.columns ≤ offset)
     (hs : region ≠ "scales" ∨ p.rows ≤ offset) :
     (finalState M integer8 p order s).mem region offset = s.mem region offset := by
-  apply final_frame_order
+  apply final_frame_order M integer8 p covers
   intro r _
   constructor
   · rcases hs with hs | hs
@@ -176,7 +176,7 @@ theorem final_frame (M : Algebra α) (integer8 : α → BitVec 8)
 all exterior logical memory. Numerical interpretation is a later scalar
 specialization, not a premise about any output or source execution. -/
 theorem source_correct (M : Algebra α) (integer8 : α → BitVec 8)
-    (p : Geometry) (schedule : Schedule p) (initial : State α) :
+    (p : Geometry) (covers : p.columns≤p.width) (schedule : Schedule p) (initial : State α) :
     ∃ final, run M integer8 p schedule.order initial = some final ∧
       (∀ r : Fin p.rows, ∀ c : Fin p.width, c.val < p.columns →
         final.mem "q" (r.val*p.columns+c.val) = .mk .int (integer8 (scaled M p initial r c)).toInt) ∧
@@ -186,12 +186,12 @@ theorem source_correct (M : Algebra α) (integer8 : α → BitVec 8)
   refine ⟨finalState M integer8 p schedule.order initial,
     run_final M integer8 p schedule.order initial, ?_, ?_, ?_⟩
   · intro r c hc
-    exact final_quantized M integer8 p schedule.order initial r
+    exact final_quantized M integer8 p covers schedule.order initial r
       (schedule.complete.mem_iff.mpr (List.mem_finRange r)) c hc
   · intro r
-    exact final_scale M integer8 p schedule.order initial r
+    exact final_scale M integer8 p covers schedule.order initial r
       (schedule.complete.mem_iff.mpr (List.mem_finRange r))
-  · exact final_frame M integer8 p schedule.order initial
+  · exact final_frame M integer8 p covers schedule.order initial
 
 #axiomsClean run_final
 #axiomsClean final_quantized

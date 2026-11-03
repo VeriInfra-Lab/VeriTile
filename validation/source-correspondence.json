@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 163,
-      "uncovered_jit_functions": 20
+      "selected_body_copy_checked": 164,
+      "uncovered_jit_functions": 19
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 68,
+    "uncovered_selected_jit_functions": 66,
     "inventoried_jit_functions": 572,
-    "uncovered_inventoried_jit_functions": 87,
+    "uncovered_inventoried_jit_functions": 83,
     "checked_pair_modes": {
-      "pasted_body": 497
+      "pasted_body": 507
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 163,
-        "uncovered_jit_functions": 20
+        "selected_body_copy_checked": 164,
+        "uncovered_jit_functions": 19
       }
     },
     "primary_files_with_int64_screen_warning": 3,
@@ -25511,7 +25511,7 @@
           "path": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization_indices.py",
           "jits": [
             {
-              "function": "quantize_int8_perrow_kernel",
+              "function": "quantize_int8_perrow_kernel_unwrapped",
               "line": 101,
               "statements": 19,
               "explicit_int64_casts": [
@@ -25550,7 +25550,7 @@
               ]
             },
             {
-              "function": "matmul_kernel",
+              "function": "matmul_kernel_unmasked",
               "line": 204,
               "statements": 39,
               "explicit_int64_casts": [
@@ -25611,42 +25611,303 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "quantize_int8_perrow_kernel",
+          "lean_definition": "quantize",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 19,
+          "runtime_parameters": {
+            "M": "integer",
+            "K": "integer",
+            "stride_fpam": "integer",
+            "stride_fpak": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_asm": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M"
+          ],
           "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization.py",
-          "function": "quantize_int8_perrow_kernel"
+          "lean": "bench/tritonbench_g/int8_matmul_quantization/Sources/Body.lean"
         },
         {
+          "python_function": "quantize_int8_perrow_kernel_unwrapped",
+          "lean_definition": "unwrappedQuantize",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 19,
+          "runtime_parameters": {
+            "M": "integer",
+            "K": "integer",
+            "stride_fpam": "integer",
+            "stride_fpak": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_asm": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M"
+          ],
+          "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization_indices.py",
+          "lean": "bench/tritonbench_g/int8_matmul_quantization/Sources/Body.lean"
+        },
+        {
+          "python_function": "matmul_kernel",
+          "lean_definition": "gemmHalfHalf",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 39,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_asm": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_bsn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "SPLIT_K"
+          ],
           "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/int8_matmul_quantization/Sources/Body.lean",
+          "invocation_variant": "HalfHalf"
         },
         {
+          "python_function": "matmul_kernel_unmasked",
+          "lean_definition": "unmaskedGemmHalfHalf",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 39,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_asm": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_bsn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "SPLIT_K"
+          ],
           "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization_indices.py",
-          "function": "quantize_int8_perrow_kernel"
+          "lean": "bench/tritonbench_g/int8_matmul_quantization/Sources/Body.lean",
+          "invocation_variant": "HalfHalf"
         },
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "gemmHalfSingle",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 39,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_asm": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_bsn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "SPLIT_K"
+          ],
+          "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization.py",
+          "lean": "bench/tritonbench_g/int8_matmul_quantization/Sources/Body.lean",
+          "invocation_variant": "HalfSingle"
+        },
+        {
+          "python_function": "matmul_kernel_unmasked",
+          "lean_definition": "unmaskedGemmHalfSingle",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 39,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_asm": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_bsn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "SPLIT_K"
+          ],
           "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization_indices.py",
-          "function": "matmul_kernel"
+          "lean": "bench/tritonbench_g/int8_matmul_quantization/Sources/Body.lean",
+          "invocation_variant": "HalfSingle"
+        },
+        {
+          "python_function": "matmul_kernel",
+          "lean_definition": "gemmSingleHalf",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 39,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_asm": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_bsn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "SPLIT_K"
+          ],
+          "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization.py",
+          "lean": "bench/tritonbench_g/int8_matmul_quantization/Sources/Body.lean",
+          "invocation_variant": "SingleHalf"
+        },
+        {
+          "python_function": "matmul_kernel_unmasked",
+          "lean_definition": "unmaskedGemmSingleHalf",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 39,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_asm": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_bsn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "SPLIT_K"
+          ],
+          "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization_indices.py",
+          "lean": "bench/tritonbench_g/int8_matmul_quantization/Sources/Body.lean",
+          "invocation_variant": "SingleHalf"
+        },
+        {
+          "python_function": "matmul_kernel",
+          "lean_definition": "gemmSingleSingle",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 39,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_asm": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_bsn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "SPLIT_K"
+          ],
+          "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization.py",
+          "lean": "bench/tritonbench_g/int8_matmul_quantization/Sources/Body.lean",
+          "invocation_variant": "SingleSingle"
+        },
+        {
+          "python_function": "matmul_kernel_unmasked",
+          "lean_definition": "unmaskedGemmSingleSingle",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 39,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_asm": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_bsn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "SPLIT_K"
+          ],
+          "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization_indices.py",
+          "lean": "bench/tritonbench_g/int8_matmul_quantization/Sources/Body.lean",
+          "invocation_variant": "SingleSingle"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization.py",
-          "function": "quantize_int8_perrow_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization.py",
-          "function": "matmul_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
         "bench/tritonbench_g/int8_matmul_quantization/Kernels.lean": "1663e1133a4f152f738bb3e001163c70ac3f6b3a11bb9f03b8899d2d73a56d74",
+        "bench/tritonbench_g/int8_matmul_quantization/Sources/Body.lean": "ca0f81506fbb99b14ab304225d54eaa840ef5fe13d12f1af08533d7bcf5ed406",
         "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization.py": "40f60586b85bd6abccd7fcf1c704d6c80e3b09badc9394aa3afc0d7a3ef2db99",
-        "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization_indices.py": "2e2e67cd03cd556b937354845e75be9ac1a1dc8a2a160312a438cc1269d1f9db"
+        "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization_indices.py": "bb82edf1b5f9e7f51868704a881494b22901921cb092ae3753568816de30f045",
+        "bench/tritonbench_g/int8_matmul_quantization/jit-correspondence.json": "76a3ce37d95bfc46254a0e66a535e1b7b148ae2eebb9d3bc9183e0316febd088"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/int8_matmul_quantization"

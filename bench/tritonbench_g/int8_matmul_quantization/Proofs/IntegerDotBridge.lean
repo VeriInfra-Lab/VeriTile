@@ -32,6 +32,7 @@ def context (plans : Plans) : IntegerDot.Context where
   splitAxis:=1
   plans:=fun k r c split iteration=>P.plan (plans k r c split iteration)
   mode:=.accumulatorNat
+  signedAccumulator:=Bool.true
 
 def arithmetic (carrier : IntegerCarrier I) (ops : Int8DequantMatmul.Ops I F H)
     (zero : carrier.decode ops.izero=0) (plans : Plans) : IntegerDot.Arithmetic :=
@@ -43,7 +44,7 @@ theorem accumulate_eq [Inhabited F] (M : Algebra F) (carrier : IntegerCarrier I)
     (s : State F) :
     IntegerDot.accumulateNat M (arithmetic carrier ops zero plans) (context plans) left right old s=
       accumulate M carrier ops plans left right old s := by
-  simp only [IntegerDot.accumulateNat,accumulate,context,arithmetic,P.plan_eval,representation]
+  simp [IntegerDot.accumulateNat,accumulate,context,arithmetic,P.plan_eval,representation,Option.bind_assoc,Option.bind_map]
 
 theorem accumulatorStep_eq [Inhabited F] (M : Algebra F) (carrier : IntegerCarrier I)
     (ops : Int8DequantMatmul.Ops I F H) (zero : carrier.decode ops.izero=0) (plans : Plans)
@@ -82,6 +83,15 @@ theorem step_eq [Inhabited F] (M : Algebra F) (carrier : IntegerCarrier I)
   case forRange name start stop stride body=>
     simp only [IntegerDot.step_unfold,KernelExecution.step.eq_def]
     exact range_eq M carrier ops zero plans name start stop stride body s
+  case forRangeInt name start stop stride body=>
+    simp only [IntegerDot.step_unfold,KernelExecution.step.eq_def]
+    congr 1
+    funext a
+    congr 1
+    funext b
+    congr 1
+    funext d
+    exact rangeInt_eq M carrier ops zero plans name (a PUnit.unit) (b PUnit.unit) (d PUnit.unit) body s
   case ifThenElse cond yes no=>
     simp only [IntegerDot.step_unfold,KernelExecution.step.eq_def]
     cases h : evalOp M none cond s with
@@ -140,6 +150,23 @@ theorem range_eq [Inhabited F] (M : Algebra F) (carrier : IntegerCarrier I)
     · simp [positive,active,hz]
 termination_by (sizeOf body+1,stop-start)
 decreasing_by all_goals omega
+
+theorem rangeInt_eq [Inhabited F] (M : Algebra F) (carrier : IntegerCarrier I)
+    (ops : Int8DequantMatmul.Ops I F H) (zero : carrier.decode ops.izero=0) (plans : Plans)
+    (name : RegName) (start stop : Int) (stride : Nat) (body : List ComputeStmt) (s : State F) :
+    IntegerDot.rangeInt M (arithmetic carrier ops zero plans) (context plans) name start stop stride body s=
+      rangeInt M carrier ops plans name start stop stride body s := by
+  rw [IntegerDot.rangeInt,KernelExecution.rangeInt]
+  by_cases active : 0<stride ∧ start<stop
+  · simp only [active,and_self,if_true]
+    rw [run_eq]
+    apply congrArg
+    funext t
+    exact rangeInt_eq M carrier ops zero plans name (start+stride) stop stride body t
+  · simp only [active,if_false]
+termination_by (sizeOf body+1,(stop-start).toNat)
+decreasing_by all_goals omega
+
 end
 
 theorem exec_eq [Inhabited F] (M : Algebra F) (carrier : IntegerCarrier I)

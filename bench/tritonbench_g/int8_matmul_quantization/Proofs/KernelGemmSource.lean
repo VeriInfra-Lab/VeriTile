@@ -15,19 +15,24 @@ def source : Precision → Precision → Parameters → ComputeKernel
   | .single, .half => KernelSource.gemmSingleHalf
   | .single, .single => KernelSource.gemmSingleSingle
 
+def tripCount (p : Parameters) : Nat :=
+  (p.inner+p.blockInner*p.split-1)/(p.blockInner*p.split)
+
 def prelude (rowScale output : Precision) (p : Parameters) :=
-  (source rowScale output p).surfaceBody.take 20
+  (source rowScale output p).surfaceBody.take 31
 def body (p : Parameters) : List ComputeStmt :=
-  match (source .half .half p).surfaceBody[20]? with
-  | some (ComputeStmt.forRange _ _ _ _ b) => b
+  match (source .half .half p).surfaceBody[31]? with
+  | some (ComputeStmt.forRangeInt _ _ _ _ b) => b
   | _ => []
 def epilogue (rowScale output : Precision) (p : Parameters) :=
-  (source rowScale output p).surfaceBody.drop 21
+  (source rowScale output p).surfaceBody.drop 32
+
+def iteration (p : Parameters) : ComputeStmt :=
+  ((source .half .half p).surfaceBody[31]?).getD (.effectMarker "unreachable")
 
 theorem source_decomposition (rowScale output : Precision) (p : Parameters) :
     (source rowScale output p).surfaceBody =
-      prelude rowScale output p ++ [.forRange "k" 0 p.steps 1 (body p)] ++
-        epilogue rowScale output p := by
+      prelude rowScale output p ++ [iteration p] ++ epilogue rowScale output p := by
   cases rowScale <;> cases output <;> rfl
 
 abbrev AIndex (p : Parameters) := TileIndex [p.blockRows,p.blockInner]
@@ -95,9 +100,9 @@ structure Invariant {I F H : Type} [Inhabited F] (M : Algebra F)
     (k : Nat) (current : State F) : Prop where
   memory : current.mem = initial.mem
   pids : current.pids = initial.pids
-  pidm : current.regs .nat [] "pid_m" = some (fun _ => rowBlock p initial)
-  pidn : current.regs .nat [] "pid_n" = some (fun _ => columnBlock p initial)
-  offsk : current.regs .nat [p.blockInner] "offs_k" = some (fun i => inputInner p initial i.1)
+  pidm : current.regs .int [] "pid_m" = some (fun _ => (rowBlock p initial : Int))
+  pidn : current.regs .int [] "pid_n" = some (fun _ => (columnBlock p initial : Int))
+  offsk : current.regs .int [p.blockInner] "offs_k" = some (fun i => (inputInner p initial i.1 : Int))
   aptrs : current.regs .ptr [p.blockRows,p.blockInner] "a_ptrs" =
     some (fun i => (p.input, aOffset p initial k i))
   bptrs : current.regs .ptr [p.blockInner,p.blockColumns] "b_ptrs" =

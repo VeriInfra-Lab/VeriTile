@@ -54,8 +54,8 @@ def partialWord (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8DequantM
     (plans : Plans) (rowScale : Precision) (p : Parameters) (input : Input F) (r n z : Nat) : F :=
   M.cast none .real .fp16 (M.binary (some .fp32) .real .mul
     (M.binary (some .fp32) .real .mul
-      (M.fromInt (some .fp32) (accumulator carrier ops plans p input r n z p.steps))
-      (M.cast (some .fp32) (KernelGemm.rowScaleType rowScale) .real (rowWord M rowScale input r)))
+      (M.fromInt (some .fp32) (accumulator carrier ops plans p input r n z (KernelGemm.tripCount p)))
+      (KernelGemm.promoteRowScale M rowScale (rowWord M rowScale input r)))
     (M.fp32Load (input.bScale n)))
 
 theorem input_row (p : Parameters) (s : State F) (i : KernelGemm.CIndex p)

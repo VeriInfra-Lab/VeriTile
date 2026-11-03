@@ -98,7 +98,7 @@ def _check_helper(weight, axis):
     key=['K'],
 )
 @triton.jit
-def quantize_int8_perrow_kernel(
+def quantize_int8_perrow_kernel_unwrapped(
     fpa_ptr, a_ptr, as_ptr,
     M, K, 
     stride_fpam, stride_fpak,
@@ -149,7 +149,7 @@ def quantize_int8_perrow(fpa):
     if M == 0:
         return a, a_scale
     with torch.cuda.device(fpa.device):
-        quantize_int8_perrow_kernel[grid](
+        quantize_int8_perrow_kernel_unwrapped[grid](
             fpa, a, a_scale,
             M, K,
             max(K,1), 1,
@@ -201,7 +201,7 @@ def quantize_int8_perrow(fpa):
     reset_to_zero=['c_ptr']
 )
 @triton.jit
-def matmul_kernel(
+def matmul_kernel_unmasked(
     # Pointers to matrices
     a_ptr, as_ptr, b_ptr, bs_ptr, c_ptr,
     # Matrix dimensions
@@ -319,7 +319,7 @@ def matmul_int8(a, a_scale, b, b_scale, out=None):
     if M == 0 or N == 0:
         return c
     with torch.cuda.device(a.device):
-        matmul_kernel[grid](
+        matmul_kernel_unmasked[grid](
             a, a_scale, b, b_scale, c,
             M, N, K,
             max(K,1), 1,
