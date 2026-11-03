@@ -88,8 +88,10 @@
       "cases": 3,
       "retained_modules": 161,
       "replay_sources": 161,
-      "state": "local_pass_ready_for_official_replay",
-      "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change"
+      "state": "official_in_progress",
+      "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
+      "source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0"
     },
     "previous_incremental_replays": [
       {
@@ -1896,7 +1898,37 @@
       ],
       "boundary": "Local verification only. Remains incomplete until every required owned/shared independent replay and public theorem is accepted against exact current source/import closures. The seven transitive dependents also require fresh independent acceptance.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613131342",
-      "source_commit": "54e28c9cb9a1d5b12d5f1382b6b9b30db86614e4"
+      "source_commit": "54e28c9cb9a1d5b12d5f1382b6b9b30db86614e4",
+      "dependent_replay_runs": [
+        {
+          "cases": [
+            "bench/tritonbench_g/int8_dequant_matmul",
+            "bench/tritonbench_g/matmul_persistent_triton"
+          ],
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613238634",
+          "source_commit": "0de885b0d98e0eb88e26462912d46caa3ca4b51e",
+          "roots": 129
+        },
+        {
+          "cases": [
+            "bench/tritonbench_g/kldiv_triton",
+            "bench/tritonbench_g/llama_ff_triton"
+          ],
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613328790",
+          "source_commit": "8746de961f514315f4e91a7a83411f0124216b77",
+          "roots": 109
+        },
+        {
+          "cases": [
+            "bench/tritonbench_g/matmul_dequant_int4",
+            "bench/tritonbench_g/matmul_dequantize",
+            "bench/tritonbench_g/matmul_dequantize_int4"
+          ],
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
+          "source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0",
+          "roots": 161
+        }
+      ]
     }
   },
   "targets": [
