@@ -596,6 +596,31 @@ class RuntimeCallBindingTests(unittest.TestCase):
             with self.subTest(replacement=replacement), self.assertRaises(ValueError):
                 self.compare(self.lean.replace('n_elements := n_elements', replacement, 1))
 
+    def test_empty_runtime_bindings_for_constexpr_only_signature(self):
+        record = json.loads(json.dumps(self.record))
+        record['expected_signature']['scalars'] = []
+        record['expected_signature']['constexpr'].insert(0, 'n_elements')
+        record['expected_call_bindings'] = {}
+        python = self.python.replace('n_elements: tl.int32,', 'n_elements: tl.constexpr,', 1)
+        lean = self.lean.replace('scalars := [("n_elements",.i32)]', 'scalars := []').replace(
+            'constexpr := ["BLOCK_SIZE"]', 'constexpr := ["n_elements","BLOCK_SIZE"]').replace(
+            'call_args [n_elements := n_elements]', 'call_args []')
+        result = check(python, lean, record['python_function'], record['lean_definition'],
+                       record['signature_definition'], record['expected_signature'], {})
+        self.assertEqual(result['runtime_parameters'], {})
+        for malformed in ('[,]', '[n_elements := n_elements]', '[, ,]'):
+            with self.subTest(malformed=malformed), self.assertRaises(ValueError):
+                check(python, lean.replace('call_args []', 'call_args ' + malformed),
+                      record['python_function'], record['lean_definition'],
+                      record['signature_definition'], record['expected_signature'], {})
+
+    def test_empty_bindings_cannot_hide_required_runtime_input(self):
+        record = json.loads(json.dumps(self.record))
+        record['expected_call_bindings'] = {}
+        with self.assertRaises(ValueError):
+            self.compare(self.lean.replace('call_args [n_elements := n_elements]',
+                                          'call_args []'), record)
+
     def test_unreviewed_call_cannot_pass_as_plain_signature(self):
         record = dict(self.record)
         del record['expected_call_bindings']

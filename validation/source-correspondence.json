@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 143,
-      "uncovered_jit_functions": 40
+      "selected_body_copy_checked": 144,
+      "uncovered_jit_functions": 39
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 106,
-    "inventoried_jit_functions": 540,
-    "uncovered_inventoried_jit_functions": 136,
+    "uncovered_selected_jit_functions": 104,
+    "inventoried_jit_functions": 542,
+    "uncovered_inventoried_jit_functions": 134,
     "checked_pair_modes": {
-      "pasted_body": 404
+      "pasted_body": 408
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 143,
-        "uncovered_jit_functions": 40
+        "selected_body_copy_checked": 144,
+        "uncovered_jit_functions": 39
       }
     },
-    "primary_files_with_int64_screen_warning": 12,
+    "primary_files_with_int64_screen_warning": 11,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 23,
-        "antiquotes": 360,
+        "in_body_type_directives": 22,
+        "antiquotes": 359,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 81
       },
@@ -20189,13 +20189,13 @@
       "python": "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics.py",
       "lean": "bench/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean",
       "lean_screen": {
-        "quotations": 3,
-        "in_body_type_directives": 3,
-        "antiquotes": 196,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
         "dsl_assignment": 14,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 196
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -20384,35 +20384,190 @@
               ]
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics.py",
-          "function": "fifth_order_fwd_repaired"
         },
         {
-          "python": "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics.py",
-          "function": "fifth_order_bwd_repaired"
+          "path": "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_powers_reuse.py",
+          "jits": [
+            {
+              "function": "fifth_order_fwd_repaired_powers_reuse",
+              "line": 14,
+              "statements": 73,
+              "explicit_int64_casts": [
+                {
+                  "line": 24,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 25,
+                  "expression": "tl.arange(0, block_size).to(tl.int64)"
+                },
+                {
+                  "line": 111,
+                  "expression": "tl.arange(0, block_size).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "fifth_order_bwd_repaired_powers_reuse",
+              "line": 170,
+              "statements": 122,
+              "explicit_int64_casts": [
+                {
+                  "line": 181,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 183,
+                  "expression": "tl.arange(0, block_size).to(tl.int64)"
+                },
+                {
+                  "line": 192,
+                  "expression": "tl.arange(0, block_size).to(tl.int64)"
+                },
+                {
+                  "line": 198,
+                  "expression": "tl.cast(upstream_row_stride, tl.int64)"
+                },
+                {
+                  "line": 199,
+                  "expression": "tl.cast(upstream_col_stride, tl.int64)"
+                },
+                {
+                  "line": 197,
+                  "expression": "tl.arange(0, block_size).to(tl.int64)"
+                },
+                {
+                  "line": 205,
+                  "expression": "tl.cast(upstream_col_stride, tl.int64)"
+                },
+                {
+                  "line": 208,
+                  "expression": "tl.cast(upstream_col_stride, tl.int64)"
+                },
+                {
+                  "line": 211,
+                  "expression": "tl.cast(upstream_col_stride, tl.int64)"
+                },
+                {
+                  "line": 214,
+                  "expression": "tl.cast(upstream_col_stride, tl.int64)"
+                },
+                {
+                  "line": 217,
+                  "expression": "tl.cast(upstream_col_stride, tl.int64)"
+                },
+                {
+                  "line": 220,
+                  "expression": "tl.cast(upstream_col_stride, tl.int64)"
+                },
+                {
+                  "line": 223,
+                  "expression": "tl.cast(upstream_col_stride, tl.int64)"
+                },
+                {
+                  "line": 226,
+                  "expression": "tl.cast(upstream_col_stride, tl.int64)"
+                },
+                {
+                  "line": 229,
+                  "expression": "tl.cast(upstream_col_stride, tl.int64)"
+                },
+                {
+                  "line": 232,
+                  "expression": "tl.cast(upstream_col_stride, tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "fifth_order_fwd_repaired",
+          "lean_definition": "forwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 73,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "block_size",
+            "col_offset",
+            "coord_numel",
+            "output_numel",
+            "output_stride"
+          ],
           "python": "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics.py",
-          "function": "fifth_order_fwd_repaired"
+          "lean": "bench/tritonbench_g/fifth_order_sph_harmonics/Sources/Body.lean"
         },
         {
+          "python_function": "fifth_order_bwd_repaired",
+          "lean_definition": "backwardBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 122,
+          "runtime_parameters": {
+            "upstream_row_stride": "integer",
+            "upstream_col_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "block_size",
+            "col_offset",
+            "coord_numel",
+            "output_numel",
+            "output_stride"
+          ],
           "python": "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics.py",
-          "function": "fifth_order_bwd_repaired"
+          "lean": "bench/tritonbench_g/fifth_order_sph_harmonics/Sources/Body.lean"
+        },
+        {
+          "python_function": "fifth_order_fwd_repaired_powers_reuse",
+          "lean_definition": "forwardPowersBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 73,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "block_size",
+            "col_offset",
+            "coord_numel",
+            "output_numel",
+            "output_stride"
+          ],
+          "python": "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_powers_reuse.py",
+          "lean": "bench/tritonbench_g/fifth_order_sph_harmonics/Sources/Body.lean"
+        },
+        {
+          "python_function": "fifth_order_bwd_repaired_powers_reuse",
+          "lean_definition": "backwardPowersBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 122,
+          "runtime_parameters": {
+            "upstream_row_stride": "integer",
+            "upstream_col_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "block_size",
+            "col_offset",
+            "coord_numel",
+            "output_numel",
+            "output_stride"
+          ],
+          "python": "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_powers_reuse.py",
+          "lean": "bench/tritonbench_g/fifth_order_sph_harmonics/Sources/Body.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean": "3314d5196f999a94b060b13fc62d891f8ee6977ef67773c2253be2e09297c53b",
-        "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics.py": "f1060f3487cf89047e0e3d4ffcee9fa16671bc287233baefe75a847c53334377"
+        "bench/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean": "53caed6f09e8961dec3f46f0c1565043f659524b3ef6e40c701b05691faa32f2",
+        "bench/tritonbench_g/fifth_order_sph_harmonics/Sources/Body.lean": "6ae19eb9f1c15fb16c2e3f5df0ce2612ece4c0485fe7a5ccb2c5841d903024d3",
+        "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics.py": "f1060f3487cf89047e0e3d4ffcee9fa16671bc287233baefe75a847c53334377",
+        "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_powers_reuse.py": "236d2f97c7ec39043fde9f7e6c8df855da3bd09bafd83bf7c873d57fa9a2864e",
+        "bench/tritonbench_g/fifth_order_sph_harmonics/jit-correspondence.json": "fa61a985e112e3c6b921849477cef6757c46e9c01f0d6f257554d715144a45a3"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/fifth_order_sph_harmonics"
