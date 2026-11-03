@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 156,
+  "completed_count": 157,
   "staged_count": 160,
-  "pending_count": 40,
+  "pending_count": 39,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 5480,
-    "official_comparator": "156 current targets retain exact-dependency independent receipts. Four locally verified targets await replay: fifth_order_sph_harmonics, attention_forward_triton, attention_fwd_triton2 and llama_ff_triton. Compilation is not completion.",
+    "official_comparator": "157 current targets retain exact-dependency independent receipts. Three locally verified targets await replay: attention_forward_triton, attention_fwd_triton2 and llama_ff_triton. Compilation is not completion.",
     "python_tests": 571,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "166 cases (160 targets and six regressions), all 5480 retained/supporting modules, 14190 Lake jobs, 413 public theorem names, 571 Python tests and source-corpus checks pass. Llama FF retains both source storage routes and its unchanged existing Python candidate; full Real/FP/native, grid, safety, IO, outputs and frame proofs reverify. Independently complete: 156, including all 19 examples. Four locally verified targets await independent replay.",
+    "working_tree": "166 cases (160 targets and six regressions), all 5480 retained/supporting modules, 14190 Lake jobs, 413 public theorem names, 571 Python tests and source-corpus checks pass. Llama FF retains both source storage routes and its unchanged existing Python candidate; full Real/FP/native, grid, safety, IO, outputs and frame proofs reverify. Independently complete: 157, including all 19 examples. Three locally verified targets await independent replay.",
     "official_replay_sources": 4483,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -903,7 +903,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Submit llama_ff_triton for independent replay, continue the remaining 36 TritonBench-G source/proof migrations and collect the fifth-order harmonic and two attention receipts. All 19 examples independently accepted. No merge.",
+    "current_work": "Continue the remaining 36 TritonBench-G source/proof migrations and collect the two attention and Llama FF independent receipts. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1511,7 +1511,11 @@
       "full_replay_sources": 4332,
       "full_lake_jobs": 14037,
       "public_theorems": 407,
-      "boundary": "Local verification only. The target remains incomplete until exact-current independent replay accepts every required root."
+      "boundary": "Local verification only. The target remains incomplete until exact-current independent replay accepts every required root.",
+      "independent_validation": "ACCEPTED_EXACT_CURRENT_SOURCE",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41562493692",
+      "receipt": "validation/body_receipts/fifth-order-sph-harmonics-source-migration.json",
+      "required_replay_roots": 47
     },
     "attention_helper_source_migration": {
       "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
@@ -2189,14 +2193,15 @@
     },
     {
       "path": "bench/tritonbench_g/fifth_order_sph_harmonics",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "independently_replayed",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Complete unchanged repaired Python forward/backward bodies (73/122 statements), including unused constants, all 29 repaired derivative coefficients, INT64 casts, masks, strided upstream reads, old-gradient accumulation and stores, now appear literally with external ABI metadata. Materialized the existing powers-reuse candidate in Python and checked identical left-associated multiplication trees. Removed the four old whole quotations. The optional frontend preserves immutable weak floating aliases with contextual literal typing. Reproved complete executions, signed/natural indexing, memory results, independent polynomials and Jacobian transpose, exact FP32 coefficient words including constexpr-folded negations, actual FP candidates, full grids, native bounds, source safety, readback and frames without new public premises or numerical rules. All 45 owned modules, two shared frontend/test roots and six named shared trust/inventory gates pass locally. Integration passes 163 cases, 5329 retained modules, 14037 Lake jobs, 407 public theorem names, 560 Python tests and corpus checks. Independent exact-current replay remains required; compilation is not completion.",
+      "reason": "Complete unchanged repaired Python forward/backward bodies (73/122 statements), including unused constants, all 29 repaired derivative coefficients, INT64 casts, masks, strided upstream reads, old-gradient accumulation and stores, now appear literally with external ABI metadata. Materialized the existing powers-reuse candidate in Python and checked identical left-associated multiplication trees. Removed the four old whole quotations. The optional frontend preserves immutable weak floating aliases with contextual literal typing. Reproved complete executions, signed/natural indexing, memory results, independent polynomials and Jacobian transpose, exact FP32 coefficient words including constexpr-folded negations, actual FP candidates, full grids, native bounds, source safety, readback and frames without new public premises or numerical rules. All 45 owned modules, two shared frontend/test roots and six named shared trust/inventory gates pass locally. Integration passes 163 cases, 5329 retained modules, 14037 Lake jobs, 407 public theorem names, 560 Python tests and corpus checks. Independent exact-current replay remains required; compilation is not completion. Independent final replay accepted all 47 required roots; official ZIP SHA256, full source/import closure, source-pair hashes and public theorem names match the current tree exactly. No completion inferred from compilation.",
       "validated_source_commit": "5eed40e06d43e31b0fb759af4a6ec6e345d27a22",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41562493692"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41562493692",
+      "receipt": "validation/body_receipts/fifth-order-sph-harmonics-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/flash_attn",
