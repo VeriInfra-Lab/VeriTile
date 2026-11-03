@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 157,
+  "completed_count": 159,
   "staged_count": 167,
-  "pending_count": 39,
+  "pending_count": 37,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 5897,
-    "official_comparator": "157 current targets retain exact-dependency independent receipts, including all 19 examples. Ten locally verified targets await exact-current independent acceptance. Compilation alone is not completion.",
+    "official_comparator": "159 current targets retain exact-dependency independent receipts, including all 19 examples. Eight locally verified targets await independent acceptance (Int Scaled Matmul and its seven affected dependents). Compilation alone is not completion.",
     "python_tests": 603,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "173 cases (167 targets and six regressions), all 5897 retained/supporting modules, 14583 Lake jobs, 435 public theorem names, 603 Python tests and source-corpus checks pass. Int Scaled Matmul retains both original JIT bodies and both existing candidates; full source execution, independent Real mathematics, FP equivalence, safety, outputs, frames and host/native/IO/compiler bridges are reverified. Independent completion: 157, including all 19 examples. Ten targets await fresh exact-current independent replay (Int Scaled Matmul, its seven affected dependents, Diag SSM and kldiv_ops). Twenty-nine targets remain to migrate.",
+    "working_tree": "173 cases (167 targets and six regressions), all 5897 retained/supporting modules, 14583 Lake jobs, 435 public theorem names, 603 Python tests and source-corpus checks pass. Int Scaled Matmul retains both original JIT bodies and both existing candidates; full source execution, independent Real mathematics, FP equivalence, safety, outputs, frames and host/native/IO/compiler bridges are reverified. Independent completion: 159, including all 19 examples. Eight targets await fresh exact-current independent replay (Int Scaled Matmul, its seven affected dependents). Twenty-nine targets remain to migrate.",
     "official_replay_sources": 4900,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -80,13 +80,14 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/kldiv_triton",
-        "bench/tritonbench_g/llama_ff_triton"
+        "bench/tritonbench_g/matmul_dequant_int4",
+        "bench/tritonbench_g/matmul_dequantize_int4",
+        "bench/tritonbench_g/matmul_dequantize"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 2,
-      "retained_modules": 109,
-      "replay_sources": 109,
+      "cases": 3,
+      "retained_modules": 161,
+      "replay_sources": 161,
       "state": "local_pass_ready_for_official_replay",
       "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change"
     },
@@ -1004,6 +1005,20 @@
         "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613238634",
         "source_commit": "0de885b0d98e0eb88e26462912d46caa3ca4b51e"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/kldiv_triton",
+          "bench/tritonbench_g/llama_ff_triton"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 2,
+        "retained_modules": 109,
+        "replay_sources": 109,
+        "state": "official_in_progress",
+        "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613328790",
+        "source_commit": "8746de961f514315f4e91a7a83411f0124216b77"
       }
     ],
     "pending_client_regressions": {
@@ -1019,7 +1034,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Submit Int Scaled Matmul and its seven rebuilt dependents in bounded official replay batches, collect Diag SSM/kldiv_ops receipts, then continue the remaining 29 source/proof migrations. All 19 examples independently accepted. No merge.",
+    "current_work": "Complete fixed-source independent replay of Int Scaled Matmul and its seven rebuilt dependents; continue the remaining 29 source/proof migrations. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1790,7 +1805,9 @@
       ],
       "boundary": "Local verification only. Diag SSM is incomplete until exact-current independent replay accepts every required root. The changed transitive Diag SSM dependency closure also requires a new kldiv_ops receipt.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41592298222",
-      "source_commit": "7040583aa4fb28019504241c24bda4ebfde5258d"
+      "source_commit": "7040583aa4fb28019504241c24bda4ebfde5258d",
+      "official_receipt": "validation/body_receipts/diag-ssm-kldiv-source-migration.json",
+      "independent_validation": "PASS_EXACT_CURRENT"
     },
     "decay_cumsum_source_migration": {
       "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
@@ -2406,12 +2423,15 @@
     },
     {
       "path": "bench/tritonbench_g/diag_ssm_triton",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All four unchanged repaired Python JIT bodies and all four existing integer-index candidates are pasted statement for statement with exact typed invocation metadata outside the quotations. Preserved all int64 shape and program-ID casts, signed loops, reverse-time branch, masks, negated imaginary loads/stores, actual captured-load temporary and simultaneous complex update. Materialized only the four existing column-index integer-product commutations in Python, with inverse AST/hash tests. Removed old authoritative Lean whole-kernel quotes/macros, including duplicated fp16/bf16 generators; all retained profiles invoke the actual pasted bodies. Reproved successful execution and empty-rule FP equivalence for all four actual program pairs, independent Real recurrences, every active logical output and full raw-cell frames. Signed-to-natural proof simulations preserve observable states without claiming different internal registers are equal. Reproved all four access-safety contracts and zero-length paths, regional and finite-flat contracts, logical IO and storage bridges. Public conditions and numerical domains are unchanged. All 76 retained modules, 8 public theorem names, complete integration and 583 Python tests pass locally. Exact-current independent replay is still required. Compilation alone is not completion."
+      "reason": "Every required owned and shared proof root is independently accepted in the completed official Diag SSM/kldiv replay. Verified the final ZIP SHA256, full public theorem coverage, source pairs and exact current transitive source/import closure. Successful source execution, independent Real specification, actual FP candidate, outputs, source access safety and memory frames are covered. The previously stale dependent receipt is replaced only after fresh exact-current acceptance. Compilation alone is not completion.",
+      "receipt": "validation/body_receipts/diag-ssm-kldiv-source-migration.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41592298222",
+      "validated_source_commit": "7040583aa4fb28019504241c24bda4ebfde5258d"
     },
     {
       "path": "bench/tritonbench_g/dropout_triton",
@@ -2829,17 +2849,17 @@
     },
     {
       "path": "bench/tritonbench_g/kldiv_ops",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "7040583aa4fb28019504241c24bda4ebfde5258d",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/kldiv_ops.json",
-      "reason": "The actual Diag SSM migration changed the transitive source closure reached through the existing FP32 WordCodec/ScalarGraphs imports. The prior receipt remains historical evidence only; current-source independent replay is required again, including every retained kldiv_ops module. No kldiv_ops Python or Lean algorithm was changed. Compilation alone is not completion.",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "receipt": "validation/body_receipts/full-recovery-shard-3.json"
+      "reason": "Every required owned and shared proof root is independently accepted in the completed official Diag SSM/kldiv replay. Verified the final ZIP SHA256, full public theorem coverage, source pairs and exact current transitive source/import closure. Successful source execution, independent Real specification, actual FP candidate, outputs, source access safety and memory frames are covered. The previously stale dependent receipt is replaced only after fresh exact-current acceptance. Compilation alone is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41592298222",
+      "receipt": "validation/body_receipts/diag-ssm-kldiv-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/kldiv_triton",
