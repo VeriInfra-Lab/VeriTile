@@ -95,6 +95,7 @@
     "bench/tritonbench_g/streamk_matmul/Sources/Mathematical_HostDefinitions.lean",
     "bench/tritonbench_g/streamk_matmul/Sources/SourceDefinitions.lean",
     "VeriTile/Triton/DSL/PastedControlFunctions.lean",
-    "tests/lean/PastedControlFunctions.lean"
+    "tests/lean/PastedControlFunctions.lean",
+    "tests/lean/StreamKControlSource.lean"
   ]
 }

@@ -261,13 +261,13 @@ def decode (source : VeriTile.Triton.DSL.PastedControlFunctions.Invocation) : Ex
 
 /-- Link calls to the actual supplied source members before producing Sources.
 This checks helper identities, not just compatible arity or an enum name. -/
-def decodeSources (swizzle linear mac first full reduce : VeriTile.Triton.DSL.PastedControlFunctions.Invocation) :
+def decodeSources (swizzle linear mac first fullKernel reduce : VeriTile.Triton.DSL.PastedControlFunctions.Invocation) :
     Except String Sources := do
   unless swizzle.helperBindings.isEmpty && linear.helperBindings.isEmpty &&
     mac.helperBindings==[(swizzle.entrypoint,"swizzle"),(linear.entrypoint,"linear")] &&
     first.helperBindings==[(mac.entrypoint,"mac")] &&
-    full.helperBindings==[(swizzle.entrypoint,"swizzle"),(linear.entrypoint,"linear")] &&
+    fullKernel.helperBindings==[(swizzle.entrypoint,"swizzle"),(linear.entrypoint,"linear")] &&
     reduce.helperBindings==[(swizzle.entrypoint,"swizzle"),(linear.entrypoint,"linear")] do
     throw "StreamK helper does not link to the supplied source member"
-  return ⟨← decode swizzle,← decode linear,← decode mac,← decode first,← decode full,← decode reduce⟩
+  return ⟨← decode swizzle,← decode linear,← decode mac,← decode first,← decode fullKernel,← decode reduce⟩
 end VeriTile.Bench.Repairs.StreamK.TileChecked.SourceAdapter
