@@ -86,7 +86,9 @@
       "cases": 1,
       "retained_modules": 104,
       "replay_sources": 104,
-      "state": "local_pass_awaiting_dispatch"
+      "state": "official_replay_in_progress",
+      "source_commit": "2bf9e7620566cca9c383a6ea17ca7708f1803831",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41684250007"
     },
     "previous_incremental_replays": [
       {
@@ -2656,7 +2658,9 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "Six complete Python/Lean body pairs, all 99 retained BMM modules plus five frontend/support regressions, both actual public Real/FP specifications and the complete 181-case integration pass. Source retains every cast, lazy causal return, signed K counter, both sequence sentinels, output cast and ten-statement cleanup. Arbitrary fp32Load callbacks remain explicit in the numerical graph; no load-identity or whole-result assumption is added. Real/FP axiom and independent mathematical specification audits pass. Exact-current official independent replay of all 104 roots remains required; successful compilation is not completion.",
-      "independent_replay": "AWAITING_DISPATCH"
+      "independent_replay": "IN_PROGRESS",
+      "validated_source_commit": "2bf9e7620566cca9c383a6ea17ca7708f1803831",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41684250007"
     },
     {
       "path": "bench/tritonbench_g/bmm_optimized",
