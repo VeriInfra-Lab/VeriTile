@@ -9,10 +9,12 @@ noncomputable section
 set_option maxHeartbeats 4000000
 set_option maxRecDepth 18000
 set_option linter.unusedSimpArgs false
+open VeriTile.Bench.Repairs.BmmChunkFwd.ControlArithmetic
+attribute [local simp 2000] VeriTile.Triton.eval_truncDiv VeriTile.Triton.eval_truncMod
 
 def activeCode (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parameters) : List Stmt :=
   RealProgram.realPart (RealProgram.parts swapped BM BN BK p).before ++
-    [.forRangeDyn "k" (.constNat 0) (RealProgram.loopBound p.K BK) (.constNat 1)
+    [.forRangeInt "k" (.castNatToInt (.constNat 0)) (RealProgram.loopBound p.K BK) (.constNat 1)
       (RealProgram.realPart (RealProgram.parts swapped BM BN BK p).body)] ++
     RealProgram.realPart (RealProgram.parts swapped BM BN BK p).after
 
@@ -26,24 +28,24 @@ theorem active_executes (swapped : Bool) (s : BlockState) (BM BN BK : Nat) (p : 
       stepStmts (activeCode swapped BM BN BK p) (RealSetup.prologueResult s BM BN p) =
         some (finished s t BM BN BK p) := by
   obtain ⟨t, hp, h⟩ := RealLoop.prefix_executes swapped s BM BN BK p
-  have hb : t.regs .nat [] "pid_b" = some (Tile.scalar (s.pids 1)) := by
-    have hv := h.fixed .nat [] "pid_b" (by decide)
+  have hb : t.regs .int [] "pid_b" = some (Tile.scalar ((s.pids 1) : Int)) := by
+    have hv := h.fixed .int [] "pid_b" (by decide)
     cases hs : p.hasSeq <;> cases hc : p.causal <;>
       simpa [RealSetup.result, RealSetup.prologueResult, hs, hc] using hv
-  have hc : t.regs .nat [] "pid_c" = some (Tile.scalar (RealSetup.chunk s p)) := by
-    have hv := h.fixed .nat [] "pid_c" (by decide)
+  have hc : t.regs .int [] "pid_c" = some (Tile.scalar ((RealSetup.chunk s p) : Int)) := by
+    have hv := h.fixed .int [] "pid_c" (by decide)
     cases hs : p.hasSeq <;> cases hc : p.causal <;>
       simpa [RealSetup.result, RealSetup.prologueResult, hs, hc] using hv
-  have hh : t.regs .nat [] "pid_h" = some (Tile.scalar (RealSetup.head s p)) := by
-    have hv := h.fixed .nat [] "pid_h" (by decide)
+  have hh : t.regs .int [] "pid_h" = some (Tile.scalar ((RealSetup.head s p) : Int)) := by
+    have hv := h.fixed .int [] "pid_h" (by decide)
     cases hs : p.hasSeq <;> cases hc : p.causal <;>
       simpa [RealSetup.result, RealSetup.prologueResult, hs, hc] using hv
-  have hm : t.regs .nat [] "pid_m" = some (Tile.scalar (RealSetup.tileM s BN p)) := by
-    have hv := h.fixed .nat [] "pid_m" (by decide)
+  have hm : t.regs .int [] "pid_m" = some (Tile.scalar ((RealSetup.tileM s BN p) : Int)) := by
+    have hv := h.fixed .int [] "pid_m" (by decide)
     cases hs : p.hasSeq <;> cases hc : p.causal <;>
       simpa [RealSetup.result, RealSetup.prologueResult, hs, hc] using hv
-  have hn : t.regs .nat [] "pid_n" = some (Tile.scalar (RealSetup.tileN s BN p)) := by
-    have hv := h.fixed .nat [] "pid_n" (by decide)
+  have hn : t.regs .int [] "pid_n" = some (Tile.scalar ((RealSetup.tileN s BN p) : Int)) := by
+    have hv := h.fixed .int [] "pid_n" (by decide)
     cases hs : p.hasSeq <;> cases hc : p.causal <;>
       simpa [RealSetup.result, RealSetup.prologueResult, hs, hc] using hv
   have hseq : p.hasSeq = Bool.true → t.regs .ptr [] "seq_idx_ptr" =
@@ -57,15 +59,35 @@ theorem active_executes (swapped : Bool) (s : BlockState) (BM BN BK : Nat) (p : 
     (RealSetup.tileM s BN p) (RealSetup.tileN s BN p) (RealSetup.seqBase s p)
     (RealLoop.carry s BM BN BK p (BmmChunkBwd.RealMath.blocks p.K BK)) hb hc hh hm hn hseq h.acc
 
-theorem prologue_active (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters) :
-    evalOp (.ref .bool [] "active_block") (RealSetup.prologueResult s BM BN p) =
+theorem prologue_active (s : BlockState) (BM BN BK : Nat) (p : RealProgram.Parameters) :
+    evalOp (RealProgram.condition BM BN BK p) (RealSetup.prologueResult s BM BN p) =
       some (Tile.scalar (RealSetup.active s BM BN p)) := by
-  cases hc : p.causal <;> simp [RealSetup.prologueResult, RealSetup.active, hc]
+  cases hc : p.causal
+  all_goals
+    simp (config := {maxSteps := 300000}) [RealProgram.condition,RealProgram.branch,
+      RealProgram.source,TypedSource.specialize,
+      VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
+      VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+      Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
+      Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,
+      NumericDType.eraseDType,ComparableDType.eraseDType,
+      RealSetup.prologueResult,RealSetup.active,hc,evalOp.eq_def,bind,Option.bind]
+  all_goals
+    try simp only [NumericDType.mul,NumericDType.add,←Int.natCast_one,
+      ←Int.natCast_add,←Int.natCast_mul,Int.ofNat_le]
+    try split_ifs with h
+    all_goals simp [Tile.uop,Tile.scalar,-Tile.scalar_eta]
+    all_goals simp only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_le] at h
+    all_goals funext i
+    all_goals symm
+    all_goals first
+      | exact decide_eq_false_iff_not.mpr (by omega)
+      | exact decide_eq_true_eq.mpr (by omega)
 
 theorem kernel_split (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parameters) :
     (RealProgram.kernel swapped BM BN BK p).toAlgKernel.body =
       RealSetup.prologue BM BN BK p ++
-        [.ifThen (.ref .bool [] "active_block") (activeCode swapped BM BN BK p)] := by
+        [.ifThen (RealProgram.condition BM BN BK p) (activeCode swapped BM BN BK p)] := by
   rw [RealProgram.body_split]
   cases swapped <;> rfl
 

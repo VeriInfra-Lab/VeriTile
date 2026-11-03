@@ -11,6 +11,7 @@ noncomputable section
 inductive Expr where
   | leaf (dtype : FloatDType) (word : BitVec 32)
   | literal (precision : Option ComputeDType) (dtype : FloatDType) (value : ℝ)
+  | fp32Load (x : Expr)
   | cast (precision : Option ComputeDType) (source target : FloatDType) (x : Expr)
   | binary (precision : Option ComputeDType) (dtype : FloatDType) (op : Binary) (x y : Expr)
   | pendingDot (config : Host.Config) (precision : Option ComputeDType)
@@ -35,7 +36,11 @@ def consume (precision : Option ComputeDType) (dtype : FloatDType) : Binary → 
   | op, a, b => .binary precision dtype op a b
 
 def algebra (rest : Algebra Expr) : Algebra Expr :=
-  { rest with literal := Expr.literal, cast := Expr.cast, binary := consume }
+  { rest with
+    literal := Expr.literal
+    cast := Expr.cast
+    binary := consume
+    fp32Load := Expr.fp32Load }
 
 /-- `.real` is the DSL compatibility channel for production FP32. Its native
 dot node is explicitly FP32/TF32. Typed source branches keep their dtype tags. -/

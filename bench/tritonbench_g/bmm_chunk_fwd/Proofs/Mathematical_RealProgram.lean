@@ -1,3 +1,5 @@
+import VeriTile.Triton.SignedSource
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.ControlArithmetic
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Mathematical_RealSource
 
 /-! Parameters and named pieces of the complete source. The outer active-tile
@@ -62,39 +64,46 @@ theorem storage_erasure (aStorage bStorage : TypedSource.Storage) (swapped : Boo
 
 def branch (swapped : Bool) (BM BN BK : Nat) (p : Parameters) : Source.Conditional :=
   (Source.conditional? (source .fp32 .fp32 swapped .real BM BN BK p).surfaceBody
-    (fun body => (Source.dynamicRange? body "k").isSome)).getD
+    (fun body => (Source.signedRange? body "k").isSome)).getD
     ⟨[], .constBool Bool.false, [], [], []⟩
 
-def parts (swapped : Bool) (BM BN BK : Nat) (p : Parameters) : Source.DynamicRange :=
-  (Source.dynamicRange? (branch swapped BM BN BK p).yes "k").getD
-    ⟨[], .constNat 0, .constNat 0, .constNat 0, [], []⟩
+def parts (swapped : Bool) (BM BN BK : Nat) (p : Parameters) : Source.SignedRange :=
+  (Source.signedRange? (branch swapped BM BN BK p).yes "k").getD
+    ⟨[], .constInt 0, .constInt 0, .constNat 0, [], []⟩
 
 def realPart (code : List ComputeStmt) : List Stmt :=
   Stmt.eraseDTypeList (ComputeKernel.mk [] [] code).toAlgKernel.body
 
-def loopBound (K BK : Nat) : Op .nat [] :=
-  .div .nat .nil (.sub .nat .nil
-    (.add .nat .nil (.constNat K) (.constNat BK)) (.constNat 1)) (.constNat BK)
+def loopBound (K BK : Nat) : Op .int [] :=
+  .truncDiv .nil (.add .int .nil (.castNatToInt (.constNat K))
+    (.sub .int .nil (.constInt (Int.ofNat BK)) (.constInt 1)))
+    (.constInt (Int.ofNat BK))
+
+def condition (BM BN BK : Nat) (p : Parameters) : Op .bool [] :=
+  (branch Bool.false BM BN BK p).condition.eraseDType
 
 theorem body_split (swapped : Bool) (BM BN BK : Nat) (p : Parameters) :
     (kernel swapped BM BN BK p).toAlgKernel.body =
       realPart (branch swapped BM BN BK p).before ++
-        [.ifThen (.ref .bool [] "active_block")
+        [.ifThen (condition BM BN BK p)
           (realPart (parts swapped BM BN BK p).before ++
-           [.forRangeDyn "k" (.constNat 0) (loopBound p.K BK) (.constNat 1)
+           [.forRangeInt "k" (.castNatToInt (.constNat 0)) (loopBound p.K BK) (.constNat 1)
              (realPart (parts swapped BM BN BK p).body)] ++
            realPart (parts swapped BM BN BK p).after)] := by
   cases swapped
   all_goals
-    simp [kernel, source, branch, parts, realPart, loopBound, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
-      ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
-      ComputeStmt.listToAlgorithm?_map_alg, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
-      ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType,
-      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
-      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-      VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
-      IntegralDType.eraseDType, Except.bind, bind, eraseDType_float]
+    simp [kernel,source,branch,parts,condition,realPart,loopBound,TypedSource.specialize,
+      VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
+      VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+      VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.dotFirst,
+      Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
+      ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,
+      ComputeStmt.listToAlgorithm?_map_alg,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+      ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+      Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+      VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
+      IntegralDType.eraseDType,Except.bind,bind,eraseDType_float]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

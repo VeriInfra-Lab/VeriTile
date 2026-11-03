@@ -28,10 +28,10 @@ theorem masked_address_safe {shape : TileShape} (bounds : RegionBounds) (s : Blo
 theorem a_safe (bounds : RegionBounds) (s : BlockState) (BM BK K length c : Nat)
     (rows : Fin BM → Nat) (ptrs : Tile .ptr [BM, BK])
     (hp : s.regs .ptr [BM, BK] "a_ptrs" = some ptrs)
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rows))
-    (hk : s.regs .nat [BK] "offs_k" = some (Tile.vec Fin.val))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length))
-    (hc : s.regs .nat [] "k" = some (Tile.scalar c))
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hk : s.regs .int [BK] "offs_k" = some (Tile.vec (fun i => (i.val : Int))))
+    (hl : RealLoads.LimitAt s length)
+    (hc : s.regs .int [] "k" = some (Tile.scalar (c : Int)))
     (hb : ∀ (i : Fin BM) (k : Fin BK), rows i < length → k.val < K - c * BK →
       (ptrs.data (i,k,PUnit.unit)).2 < bounds (ptrs.data (i,k,PUnit.unit)).1) :
     (RealLoads.aLoad BM BK K).SafeAt bounds s := by
@@ -46,10 +46,10 @@ theorem a_safe (bounds : RegionBounds) (s : BlockState) (BM BK K length c : Nat)
 theorem b_safe (bounds : RegionBounds) (s : BlockState) (BN BK K length c : Nat)
     (columns : Fin BN → Nat) (ptrs : Tile .ptr [BK, BN])
     (hp : s.regs .ptr [BK, BN] "b_ptrs" = some ptrs)
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec columns))
-    (hk : s.regs .nat [BK] "offs_k" = some (Tile.vec Fin.val))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length))
-    (hc : s.regs .nat [] "k" = some (Tile.scalar c))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => (columns i : Int))))
+    (hk : s.regs .int [BK] "offs_k" = some (Tile.vec (fun i => (i.val : Int))))
+    (hl : RealLoads.LimitAt s length)
+    (hc : s.regs .int [] "k" = some (Tile.scalar (c : Int)))
     (hb : ∀ (k : Fin BK) (j : Fin BN), k.val < K - c * BK → columns j < length →
       (ptrs.data (k,j,PUnit.unit)).2 < bounds (ptrs.data (k,j,PUnit.unit)).1) :
     (RealLoads.bLoad BN BK K).SafeAt bounds s := by
@@ -64,8 +64,8 @@ theorem b_safe (bounds : RegionBounds) (s : BlockState) (BN BK K length c : Nat)
 theorem output_address_safe (bounds : RegionBounds) (s : BlockState) (BM BN chunk : Nat)
     (ptrs : Tile .ptr [BM, BN]) (rows : Fin BM → Nat) (columns : Fin BN → Nat)
     (hp : s.regs .ptr [BM, BN] "out_ptrs" = some ptrs)
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rows))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec columns))
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => (columns i : Int))))
     (hb : ∀ (i : Fin BM) (j : Fin BN), rows i < chunk → columns j < chunk →
       (ptrs.data (i,j,PUnit.unit)).2 < bounds (ptrs.data (i,j,PUnit.unit)).1) :
     (MemAccess.ptr (d := .real) (.ref .ptr [BM, BN] "out_ptrs")).ActiveAddressSafe bounds s

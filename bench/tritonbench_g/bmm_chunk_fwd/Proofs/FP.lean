@@ -20,6 +20,7 @@ identity and have no deferred correspondence; pending standalone dots cannot
 reach a materialized observation. -/
 structure Arithmetic where
   literal : Option ComputeDType → FloatDType → ℝ → Word
+  fp32Load : Word → Word
   cast : Option ComputeDType → FloatDType → FloatDType → Word → Word
   binary : Option ComputeDType → FloatDType → Binary → Word → Word → Word
   mma8 : K8.Primitive
@@ -30,6 +31,7 @@ are threaded through all instructions in source reduction-coordinate order. -/
 def interpret (a : Arithmetic) : Expr → Word
   | .leaf _ word => word
   | .literal p d v => a.literal p d v
+  | .fp32Load x => a.fp32Load (interpret a x)
   | .cast p l r x => a.cast p l r (interpret a x)
   | .binary p d op x y => a.binary p d op (interpret a x) (interpret a y)
   | .pendingDot .. => 0
@@ -46,7 +48,7 @@ theorem body_k8 (arith : Arithmetic) (rest : Algebra Expr) (h : Host.Call) (c : 
     ∃ t, ∃ a : Values Expr .real [c.M,c.K], ∃ b : Values Expr .real [c.K,c.N],
       ∃ carry next : Values Expr .real [c.M,c.N],
       run (engine (backend rest c).algebra) (FPSuccess.parts h c).body
-        (s.setReg "k" .nat [] (fun _ => index))=some t ∧
+        (s.setReg "k" .int [] (fun _ => index))=some t ∧
       s.regs .real [c.M,c.N] "acc"=some carry ∧
       t.regs .real [c.M,c.K] "a"=some a ∧ t.regs .real [c.K,c.N] "b"=some b ∧
       t.regs .real [c.M,c.N] "acc"=some next ∧
@@ -148,6 +150,8 @@ its original FP32 carry and explicit TF32 K8 instruction schedule, never a whole
 def Numerics (actual reference : Arithmetic) : Expr → Prop
   | .leaf _ _ => True
   | .literal p d v => actual.literal p d v=reference.literal p d v
+  | .fp32Load x => Numerics actual reference x ∧
+      actual.fp32Load (interpret actual x)=reference.fp32Load (interpret actual x)
   | .cast p l r x => Numerics actual reference x ∧
       actual.cast p l r (interpret actual x)=reference.cast p l r (interpret actual x)
   | .binary p d op x y => Numerics actual reference x ∧ Numerics actual reference y ∧
@@ -167,6 +171,9 @@ theorem numerics_eq (actual reference : Arithmetic) (x : Expr) (h : Numerics act
   induction x with
   | leaf d w => rfl
   | literal p d v => exact h
+  | fp32Load x ih =>
+    change actual.fp32Load (interpret actual x)=_
+    rw [h.2,ih h.1]; rfl
   | cast p l r x ih =>
     change actual.cast p l r (interpret actual x)=_
     rw [h.2,ih h.1]; rfl

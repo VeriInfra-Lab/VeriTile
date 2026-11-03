@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 174,
-  "staged_count": 174,
+  "staged_count": 175,
   "pending_count": 22,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "LOCAL_PASS_ALL_STAGED_OFFICIALLY_ACCEPTED",
-    "staged_and_regression_retained_modules": 6565,
-    "official_comparator": "174 exact-current independently accepted targets, including all 19 examples. All 174 staged targets are accepted; 22 targets remain to migrate.",
-    "python_tests": 631,
+    "staged_public_proofs": "LOCAL_PASS_AWAITING_BMM_OFFICIAL_REPLAY",
+    "staged_and_regression_retained_modules": 6669,
+    "official_comparator": "174 exact-current independently accepted targets, including all 19 examples. BMM forward is locally validated and awaiting independent replay; 21 targets remain to migrate.",
+    "python_tests": 635,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "180 cases (174 targets and six regressions), 6565 retained/support roots, 15238 Lake jobs, 453 public theorem names and 631 Python tests pass. Real/FP trust audits and seven independent mathematical specification checks pass. All 19 examples remain independently accepted. Completion: 174; 22 targets remain to migrate. BMM forward migration remains outside the validated batch until all retained/public proofs and independent replay pass.",
-    "official_replay_sources": 5568,
+    "working_tree": "181 cases (175 targets and six regressions), 6669 retained/support roots, 15342 Lake jobs, 455 public theorem names and 635 Python tests pass. BMM Real/FP axiom audits and both independent mathematical formula checks pass. All 174 accepted closures remain exact current. Completion: 174; BMM forward awaits independent acceptance; 21 targets remain to migrate.",
+    "official_replay_sources": 5672,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,16 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/layer_norm_triton"
+        "bench/tritonbench_g/bmm_chunk_fwd"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 66,
-      "replay_sources": 66,
-      "state": "accepted_exact_current",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41649654433",
-      "source_commit": "87b7451f69a7b69b2468315f6e7a233e000d969e",
-      "receipt": "validation/body_receipts/layer-norm-triton-source-migration.json"
+      "retained_modules": 104,
+      "replay_sources": 104,
+      "state": "local_pass_awaiting_dispatch"
     },
     "previous_incremental_replays": [
       {
@@ -1200,6 +1197,19 @@
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41642108871",
         "source_commit": "85d69a30c9b528a0b687daac95adc2c4c28951a6",
         "receipt": "validation/body_receipts/context-attn-llama-source-migration.json"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/layer_norm_triton"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 66,
+        "replay_sources": 66,
+        "state": "accepted_exact_current",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41649654433",
+        "source_commit": "87b7451f69a7b69b2468315f6e7a233e000d969e",
+        "receipt": "validation/body_receipts/layer-norm-triton-source-migration.json"
       }
     ],
     "pending_client_regressions": {
@@ -2640,13 +2650,13 @@
     },
     {
       "path": "bench/tritonbench_g/bmm_chunk_fwd",
-      "status": "source_aligned_proofs_in_progress",
+      "status": "proof_replay_pending",
       "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PENDING",
-      "retained_modules_build": "PENDING",
-      "reason": "Six complete source pairs and four Python regression tests pass. Original and existing index candidate Python are unchanged; the pre-existing mathematical dot-first helper is separately materialized. Source retains all 19 Int64 self-casts, nested early return, signed K range, optional sequence filter with distinct sentinels, explicit output cast and cleanup. New frontend semantic regressions cover lazy nested return and actual signed counters. Actual input storage profile correction is in progress; full Real/FP public proofs, all retained roots and exact-current independent replay remain required. No compilation or source comparison is counted as completion.",
-      "independent_replay": "NOT_STARTED"
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Six complete Python/Lean body pairs, all 99 retained BMM modules plus five frontend/support regressions, both actual public Real/FP specifications and the complete 181-case integration pass. Source retains every cast, lazy causal return, signed K counter, both sequence sentinels, output cast and ten-statement cleanup. Arbitrary fp32Load callbacks remain explicit in the numerical graph; no load-identity or whole-result assumption is added. Real/FP axiom and independent mathematical specification audits pass. Exact-current official independent replay of all 104 roots remains required; successful compilation is not completion.",
+      "independent_replay": "AWAITING_DISPATCH"
     },
     {
       "path": "bench/tritonbench_g/bmm_optimized",

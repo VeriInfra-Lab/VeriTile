@@ -1,0 +1,683 @@
+[
+  {
+    "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd.py",
+    "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean",
+    "python_function": "_bmm_chunk_fwd_kernel_repaired",
+    "lean_definition": "original",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          {
+            "on": "a_dtype",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "b_ptr",
+          {
+            "on": "b_dtype",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "seq_idx_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "chunk_size",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "ngroups",
+          "integer"
+        ],
+        [
+          "stride_a_batch",
+          "integer"
+        ],
+        [
+          "stride_a_seqlen",
+          "integer"
+        ],
+        [
+          "stride_a_head",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_b_batch",
+          "integer"
+        ],
+        [
+          "stride_b_seqlen",
+          "integer"
+        ],
+        [
+          "stride_b_head",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_chunk",
+          "integer"
+        ],
+        [
+          "stride_out_head",
+          "integer"
+        ],
+        [
+          "stride_outm",
+          "integer"
+        ],
+        [
+          "stride_outn",
+          "integer"
+        ],
+        [
+          "stride_seq_idx_batch",
+          "integer"
+        ],
+        [
+          "stride_seq_idx_seqlen",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_CAUSAL",
+        "dot_dtype",
+        "HAS_SEQ_IDX",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr",
+        "seq_idx_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "out_ptr",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "a_dtype",
+        "b_dtype",
+        "out_dtype"
+      ],
+      "dtype_parameter_types": {
+        "a_dtype": "Storage",
+        "b_dtype": "Storage",
+        "out_dtype": "FloatDType"
+      }
+    },
+    "expected_call_bindings": {
+      "seqlen": "seqlen",
+      "chunk_size": "chunk_size",
+      "K": "K",
+      "ngroups": "ngroups",
+      "stride_a_batch": "stride_a_batch",
+      "stride_a_seqlen": "stride_a_seqlen",
+      "stride_a_head": "stride_a_head",
+      "stride_ak": "stride_ak",
+      "stride_b_batch": "stride_b_batch",
+      "stride_b_seqlen": "stride_b_seqlen",
+      "stride_b_head": "stride_b_head",
+      "stride_bk": "stride_bk",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_chunk": "stride_out_chunk",
+      "stride_out_head": "stride_out_head",
+      "stride_outm": "stride_outm",
+      "stride_outn": "stride_outn",
+      "stride_seq_idx_batch": "stride_seq_idx_batch",
+      "stride_seq_idx_seqlen": "stride_seq_idx_seqlen"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_candidate.py",
+    "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean",
+    "python_function": "_bmm_chunk_fwd_kernel_repaired",
+    "lean_definition": "indexCommuted",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          {
+            "on": "a_dtype",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "b_ptr",
+          {
+            "on": "b_dtype",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "seq_idx_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "chunk_size",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "ngroups",
+          "integer"
+        ],
+        [
+          "stride_a_batch",
+          "integer"
+        ],
+        [
+          "stride_a_seqlen",
+          "integer"
+        ],
+        [
+          "stride_a_head",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_b_batch",
+          "integer"
+        ],
+        [
+          "stride_b_seqlen",
+          "integer"
+        ],
+        [
+          "stride_b_head",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_chunk",
+          "integer"
+        ],
+        [
+          "stride_out_head",
+          "integer"
+        ],
+        [
+          "stride_outm",
+          "integer"
+        ],
+        [
+          "stride_outn",
+          "integer"
+        ],
+        [
+          "stride_seq_idx_batch",
+          "integer"
+        ],
+        [
+          "stride_seq_idx_seqlen",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_CAUSAL",
+        "dot_dtype",
+        "HAS_SEQ_IDX",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr",
+        "seq_idx_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "out_ptr",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "a_dtype",
+        "b_dtype",
+        "out_dtype"
+      ],
+      "dtype_parameter_types": {
+        "a_dtype": "Storage",
+        "b_dtype": "Storage",
+        "out_dtype": "FloatDType"
+      }
+    },
+    "expected_call_bindings": {
+      "seqlen": "seqlen",
+      "chunk_size": "chunk_size",
+      "K": "K",
+      "ngroups": "ngroups",
+      "stride_a_batch": "stride_a_batch",
+      "stride_a_seqlen": "stride_a_seqlen",
+      "stride_a_head": "stride_a_head",
+      "stride_ak": "stride_ak",
+      "stride_b_batch": "stride_b_batch",
+      "stride_b_seqlen": "stride_b_seqlen",
+      "stride_b_head": "stride_b_head",
+      "stride_bk": "stride_bk",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_chunk": "stride_out_chunk",
+      "stride_out_head": "stride_out_head",
+      "stride_outm": "stride_outm",
+      "stride_outn": "stride_outn",
+      "stride_seq_idx_batch": "stride_seq_idx_batch",
+      "stride_seq_idx_seqlen": "stride_seq_idx_seqlen"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_dot_first.py",
+    "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean",
+    "python_function": "_bmm_chunk_fwd_kernel_repaired_dot_first",
+    "lean_definition": "dotFirst",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          {
+            "on": "a_dtype",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "b_ptr",
+          {
+            "on": "b_dtype",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "seq_idx_ptr",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "chunk_size",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "ngroups",
+          "integer"
+        ],
+        [
+          "stride_a_batch",
+          "integer"
+        ],
+        [
+          "stride_a_seqlen",
+          "integer"
+        ],
+        [
+          "stride_a_head",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_b_batch",
+          "integer"
+        ],
+        [
+          "stride_b_seqlen",
+          "integer"
+        ],
+        [
+          "stride_b_head",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_chunk",
+          "integer"
+        ],
+        [
+          "stride_out_head",
+          "integer"
+        ],
+        [
+          "stride_outm",
+          "integer"
+        ],
+        [
+          "stride_outn",
+          "integer"
+        ],
+        [
+          "stride_seq_idx_batch",
+          "integer"
+        ],
+        [
+          "stride_seq_idx_seqlen",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_CAUSAL",
+        "dot_dtype",
+        "HAS_SEQ_IDX",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "b_ptr",
+        "seq_idx_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ],
+      "floatingPointers": [
+        [
+          "out_ptr",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "a_dtype",
+        "b_dtype",
+        "out_dtype"
+      ],
+      "dtype_parameter_types": {
+        "a_dtype": "Storage",
+        "b_dtype": "Storage",
+        "out_dtype": "FloatDType"
+      }
+    },
+    "expected_call_bindings": {
+      "seqlen": "seqlen",
+      "chunk_size": "chunk_size",
+      "K": "K",
+      "ngroups": "ngroups",
+      "stride_a_batch": "stride_a_batch",
+      "stride_a_seqlen": "stride_a_seqlen",
+      "stride_a_head": "stride_a_head",
+      "stride_ak": "stride_ak",
+      "stride_b_batch": "stride_b_batch",
+      "stride_b_seqlen": "stride_b_seqlen",
+      "stride_b_head": "stride_b_head",
+      "stride_bk": "stride_bk",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_chunk": "stride_out_chunk",
+      "stride_out_head": "stride_out_head",
+      "stride_outm": "stride_outm",
+      "stride_outn": "stride_outn",
+      "stride_seq_idx_batch": "stride_seq_idx_batch",
+      "stride_seq_idx_seqlen": "stride_seq_idx_seqlen"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd.py",
+    "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean",
+    "python_function": "_clear_causal_upper",
+    "lean_definition": "clearUpper",
+    "signature_definition": "clearSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "chunk_size",
+          "integer"
+        ],
+        [
+          "chunk_heads",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ],
+      "readPorts": [],
+      "writePorts": [
+        "Out"
+      ],
+      "floatingPointers": [
+        [
+          "Out",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "out_dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "chunk_size": "chunk_size",
+      "chunk_heads": "chunk_heads"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_candidate.py",
+    "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean",
+    "python_function": "_clear_causal_upper",
+    "lean_definition": "clearUpper",
+    "signature_definition": "clearSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "chunk_size",
+          "integer"
+        ],
+        [
+          "chunk_heads",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ],
+      "readPorts": [],
+      "writePorts": [
+        "Out"
+      ],
+      "floatingPointers": [
+        [
+          "Out",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "out_dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "chunk_size": "chunk_size",
+      "chunk_heads": "chunk_heads"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/bmm_chunk_fwd/bmm_chunk_fwd_dot_first.py",
+    "lean": "bench/tritonbench_g/bmm_chunk_fwd/Sources/Body.lean",
+    "python_function": "_clear_causal_upper",
+    "lean_definition": "clearUpper",
+    "signature_definition": "clearSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "chunk_size",
+          "integer"
+        ],
+        [
+          "chunk_heads",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N"
+      ],
+      "readPorts": [],
+      "writePorts": [
+        "Out"
+      ],
+      "floatingPointers": [
+        [
+          "Out",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "out_dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "chunk_size": "chunk_size",
+      "chunk_heads": "chunk_heads"
+    }
+  }
+]

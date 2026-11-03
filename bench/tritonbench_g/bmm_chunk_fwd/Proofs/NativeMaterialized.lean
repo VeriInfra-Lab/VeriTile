@@ -12,6 +12,7 @@ set_option linter.unusedSimpArgs false
 /-- A materialized floating value contains no unconsumed compiler dot payload. -/
 def Materialized : Expr → Prop
   | .leaf .. | .literal .. => True
+  | .fp32Load x => Materialized x
   | .cast _ _ _ x => Materialized x
   | .binary _ _ _ x y => Materialized x ∧ Materialized y
   | .pendingDot .. => False
@@ -40,8 +41,8 @@ theorem setup_materialized (rest : Algebra Expr) (h : Host.Call) (c : Host.Confi
   obtain ⟨v4,h4⟩ := Option.isSome_iff_exists.mp h4
   cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+      ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,
@@ -52,7 +53,7 @@ theorem body_materialized (rest : Algebra Expr) (h : Host.Call) (c : Host.Config
     (s : State Expr) (ready : Ready h c s) (hm : Memory s) (acc : Accumulator c s)
     (index : Nat) (ha : h.aStorage=.fp32) (hb : h.bStorage=.fp32) :
     ∃ t, run (engine (backend rest c).algebra) (parts h c).body
-        (s.setReg "k" .nat [] (fun _ => index))=some t ∧
+        (s.setReg "k" .int [] (fun _ => index))=some t ∧
       Ready h c t ∧ t.mem=s.mem ∧ Fixed s t ∧ Accumulator c t := by
   rcases ready with ⟨⟨h0,h1,h2,h3,h4⟩,h5,h6,h7,h8,h9,h10,_,hseq⟩
   obtain ⟨v0,h0⟩ := Option.isSome_iff_exists.mp h0
@@ -68,8 +69,8 @@ theorem body_materialized (rest : Algebra Expr) (h : Host.Call) (c : Host.Config
   obtain ⟨v10,h10⟩ := Option.isSome_iff_exists.mp h10
   obtain ⟨v11,h11,hv11⟩ := acc
   have good := memory_real s hm
-  simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-    ha,hb,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+    ha,hb,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
     numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,
