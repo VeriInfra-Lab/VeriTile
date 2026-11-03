@@ -86,7 +86,9 @@
       "cases": 1,
       "retained_modules": 115,
       "replay_sources": 115,
-      "state": "local_pass_awaiting_dispatch"
+      "state": "official_replay_in_progress",
+      "source_commit": "6d6fc7c62e3c832d903417a0bc583886fcc89368",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41692029325"
     },
     "previous_incremental_replays": [
       {
@@ -2575,8 +2577,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "AWAITING_DISPATCH",
-      "reason": "Four complete original/carry-first source pairs cover FP16 and signed E5M2 byte storage. Original Python, runtime scalar ABI, numerical domains and native selection model are preserved. All 113 owned modules plus the positional-load frontend and semantic regressions pass, including actual public Real/FP specifications, standard-base axiom audits, the independent mathematical attention formula check, four Python mutation/provenance tests and full 182-case integration. Completion requires exact-current official independent replay of all 115 roots; a body comparison or build is not completion."
+      "independent_replay": "IN_PROGRESS",
+      "reason": "Four complete original/carry-first source pairs cover FP16 and signed E5M2 byte storage. Original Python, runtime scalar ABI, numerical domains and native selection model are preserved. All 113 owned modules plus the positional-load frontend and semantic regressions pass, including actual public Real/FP specifications, standard-base axiom audits, the independent mathematical attention formula check, four Python mutation/provenance tests and full 182-case integration. Completion requires exact-current official independent replay of all 115 roots; a body comparison or build is not completion.",
+      "validated_source_commit": "6d6fc7c62e3c832d903417a0bc583886fcc89368",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41692029325"
     },
     {
       "path": "bench/tritonbench_g/attention_score",
