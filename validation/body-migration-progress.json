@@ -88,7 +88,10 @@
       "cases": 3,
       "retained_modules": 163,
       "replay_sources": 163,
-      "state": "prepared_after_complete_local_validation"
+      "state": "official_replay_running",
+      "source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840",
+      "started_at": "2026-11-03T00:05:05Z"
     },
     "previous_incremental_replays": [
       {
@@ -1401,7 +1404,9 @@
       "full_lake_jobs": 13945,
       "public_theorem_names": 396,
       "python_sources_unchanged": true,
-      "boundary": "Local full-source/semantic/public/specification/axiom validation, not an independent completion certificate."
+      "boundary": "Local full-source/semantic/public/specification/axiom validation, not an independent completion certificate.",
+      "source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840"
     }
   },
   "targets": [
@@ -2204,7 +2209,9 @@
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/int4-matmul-source-migration.json",
       "previous_validated_source_commit": "82d078df01236b3570c219d4205e1d2b4d2ca9da",
-      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41369918059"
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41369918059",
+      "validated_source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840"
     },
     {
       "path": "bench/tritonbench_g/int8_dequant_matmul",
@@ -2563,7 +2570,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both unchanged standalone 19-statement Python bodies are pasted literally; the identical unlaunched fused 32-statement JIT in both Python files is registered directly against the shared repaired matmul source, without duplicating Lean. Removed both old standalone quotations. Preserved signed32 packed loads, signed nibble subtraction, actual dtype conversion before scale multiplication, complete masks and strides; original and existing unit-stride candidate Python files are unchanged. Generic full-program equality was checked during migration. Both admitted half/single profiles, all eight tuning entries, independent Real values, actual unit-stride FP comparison, full grids, execution, source safety, output readback and complete frames reverify without new premises or numerical rules. All 49 owned modules pass, as do the joint 161-owned/two-shared-root validation, full 161-case integration, 396 public names, 552 Python tests, body-corpus checks and shared trust/inventory preflights. Fresh exact-current independent replay remains required; compilation is not completion."
+      "reason": "Both unchanged standalone 19-statement Python bodies are pasted literally; the identical unlaunched fused 32-statement JIT in both Python files is registered directly against the shared repaired matmul source, without duplicating Lean. Removed both old standalone quotations. Preserved signed32 packed loads, signed nibble subtraction, actual dtype conversion before scale multiplication, complete masks and strides; original and existing unit-stride candidate Python files are unchanged. Generic full-program equality was checked during migration. Both admitted half/single profiles, all eight tuning entries, independent Real values, actual unit-stride FP comparison, full grids, execution, source safety, output readback and complete frames reverify without new premises or numerical rules. All 49 owned modules pass, as do the joint 161-owned/two-shared-root validation, full 161-case integration, 396 public names, 552 Python tests, body-corpus checks and shared trust/inventory preflights. Fresh exact-current independent replay remains required; compilation is not completion.",
+      "validated_source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize",
@@ -2577,7 +2586,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Both unchanged repaired/original and existing group-extent Python candidates are pasted literally, 32 statements each, with only invocation metadata outside the bodies. Preserved docstring, integer unpacking, implicit target-dtype promotions, local constexpr precomputation, all branches/casts/masks/unused assignments, full 17-tuning ABI and output storage. Removed four repeated whole Lean implementations; the selected native carry-dot graph is derived from the source under the existing compiler contracts. Complete program equality was checked during migration for both original/candidate and compiled graphs. Independent Real matrix product, actual FP candidate, full native instruction/layout connection, grids, safety, outputs and complete frames reverify. All 59 owned modules pass; joint three-case validation covers 161 owned plus two shared frontend/test roots. Full 161-case batch: 5237 retained modules, 13945 Lake jobs, 396 public names, 552 Python tests, source-corpus checks and 174 exact-source shared trust/inventory theorem checks pass. Fresh independent exact-current replay is required; compilation is not completion."
+      "reason": "Both unchanged repaired/original and existing group-extent Python candidates are pasted literally, 32 statements each, with only invocation metadata outside the bodies. Preserved docstring, integer unpacking, implicit target-dtype promotions, local constexpr precomputation, all branches/casts/masks/unused assignments, full 17-tuning ABI and output storage. Removed four repeated whole Lean implementations; the selected native carry-dot graph is derived from the source under the existing compiler contracts. Complete program equality was checked during migration for both original/candidate and compiled graphs. Independent Real matrix product, actual FP candidate, full native instruction/layout connection, grids, safety, outputs and complete frames reverify. All 59 owned modules pass; joint three-case validation covers 161 owned plus two shared frontend/test roots. Full 161-case batch: 5237 retained modules, 13945 Lake jobs, 396 public names, 552 Python tests, source-corpus checks and 174 exact-source shared trust/inventory theorem checks pass. Fresh independent exact-current replay is required; compilation is not completion.",
+      "validated_source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840"
     },
     {
       "path": "bench/tritonbench_g/matmul_kernel",
