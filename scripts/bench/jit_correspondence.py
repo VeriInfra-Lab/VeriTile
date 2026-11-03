@@ -460,7 +460,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             if len(calls) != 1:
                 raise ValueError("quotation must use the reviewed runtime call bindings")
             bindings = {}
-            for entry in calls[0][1].split(","):
+            binding_text = calls[0][1].strip()
+            for entry in binding_text.split(",") if binding_text else []:
                 pair = re.fullmatch(r"\s*([A-Za-z_]\w*)\s*:=\s*([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*|[0-9]+)\s*", entry)
                 if not pair or pair[1] in bindings:
                     raise ValueError("runtime call bindings require distinct named caller arguments")

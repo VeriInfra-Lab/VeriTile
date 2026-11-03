@@ -2187,6 +2187,20 @@
           "VeriTile.Bench.Repairs.MatmulDequantize.FPEquiv.dequant16_scalar_address_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/fifth_order_sph_harmonics",
+      "python": "bench/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/fifth_order_sph_harmonics/Correct.lean": [
+          "VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.forward",
+          "VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.backward"
+        ],
+        "bench/tritonbench_g/fifth_order_sph_harmonics/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FifthOrderSphHarmonics.FPEquiv.kernel_equivalent"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -6347,6 +6361,53 @@
     "bench/tritonbench_g/matmul_dequantize/Sources/Kernels.lean",
     "bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_FPDequant.lean",
     "bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_FPTypedSource.lean",
-    "bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_MatmulDequantize.lean"
+    "bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_MatmulDequantize.lean",
+    "VeriTile/Triton/DSL/ReadonlyFloatAliases.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Contract.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Correct.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/FPEquiv.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/IO.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/PairIO.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Access.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Arithmetic.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/BackwardExecution.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Contract.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Equivalence.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/FP.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Grid.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/HeadlinePolynomial.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Host.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/IOPair.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/IOResults.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/IOScalar.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/IOSchedule.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/KernelSafety.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/KernelScalar.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Mathematical_TypedContract.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Mathematical_TypedExecution.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Mathematical_TypedReadback.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Mathematical_TypedReference.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Mathematical_TypedSoftware.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Mathematical_TypedSource.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Native.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Packing.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Physical.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Polynomial.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Readback.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/ReaderConnections.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Reference.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/ScalarReal.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Software.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/SourceBridge.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/SourcePair.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Storage.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Sources/Body.lean",
+    "bench/tritonbench_g/fifth_order_sph_harmonics/Sources/Mathematical_Kernels.lean",
+    "tests/lean/ReadonlyFloatAliases.lean"
   ]
 }

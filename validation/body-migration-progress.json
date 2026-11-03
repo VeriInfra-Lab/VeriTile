@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 153,
-  "staged_count": 156,
+  "staged_count": 157,
   "pending_count": 43,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 5282,
-    "official_comparator": "153 current targets retain exact-dependency independent receipts. Official ZIP digests, every required proof root, public names and exact current source/import closures audited. Three locally verified int4 targets await independent replay. Compilation is not completion.",
-    "python_tests": 555,
+    "staged_and_regression_retained_modules": 5329,
+    "official_comparator": "153 current targets retain exact-dependency independent receipts. Four locally verified targets await independent replay: the three-target int4 source/dependency bundle and fifth_order_sph_harmonics. Compilation is not completion.",
+    "python_tests": 560,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "162 cases (156 targets and six regressions), all 5282 retained/supporting modules, 13990 Lake jobs, 404 public theorem names, 555 Python tests and source-corpus checks pass. The three-stage matmul_dequantize task now uses complete unchanged Python bodies, with all casts, actual loop bounds and both store/atomic branches retained. Its dynamic-loop execution/safety, complete independent Real formulas, actual FP candidates, native graphs, all public profiles, grids, outputs and frames reverify. All 45 owned and three shared roots pass local checks. Independent completion count is 151, including all 19 examples.",
-    "official_replay_sources": 4285,
+    "working_tree": "163 cases (157 targets and six regressions), all 5329 retained/supporting modules, 14037 Lake jobs, 407 public theorem names, 560 Python tests and source-corpus checks pass. Complete fifth-order harmonic sources, actual powers-reuse candidates, independent polynomials/Jacobian, FP coefficient words, grids, native bounds, source safety, output readback and frames reverify. Independent completion count is 153, including all 19 examples. Four locally verified targets await exact-current independent replay.",
+    "official_replay_sources": 4332,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,16 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/matmul_dequantize"
+        "bench/tritonbench_g/fifth_order_sph_harmonics"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 48,
-      "replay_sources": 48,
-      "state": "accepted_exact_current_source",
-      "source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330",
-      "started_at": "2026-11-03T00:32:28Z"
+      "retained_modules": 47,
+      "replay_sources": 47,
+      "state": "local_pass_ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -849,6 +846,19 @@
         "source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840",
         "started_at": "2026-11-03T00:05:05Z"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/matmul_dequantize"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 48,
+        "replay_sources": 48,
+        "state": "accepted_exact_current_source",
+        "source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330",
+        "started_at": "2026-11-03T00:32:28Z"
       }
     ],
     "pending_client_regressions": {
@@ -864,7 +874,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Finish fifth_order_sph_harmonics full source/proof migration, then the remaining 39 TritonBench-G migrations. Collect the three-target int4 independent replay bundle. All 19 examples independently accepted. No merge.",
+    "current_work": "Submit fifth_order_sph_harmonics independent replay and continue the remaining 39 TritonBench-G source/proof migrations. Collect the three-target int4 independent replay bundle. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -888,18 +898,17 @@
     },
     "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
     "last_full_local_snapshot": {
-      "cases": 159,
-      "targets": 153,
+      "cases": 163,
+      "targets": 157,
       "regressions": 6,
-      "retained_modules": 5127,
-      "replay_sources": 4130,
-      "lake_jobs": 13840,
+      "retained_modules": 5329,
+      "replay_sources": 4332,
+      "lake_jobs": 14037,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 392,
-      "python_tests": 546,
+      "public_theorem_count": 407,
+      "python_tests": 560,
       "current_dependency_snapshot": true,
-      "boundary": "Local proof/source/trust checks only, not an independent completion receipt.",
-      "source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7"
+      "boundary": "Local verification only, not an independent completion receipt."
     },
     "previous_shared_model_revalidations": [
       {
@@ -1249,18 +1258,18 @@
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     },
     "previous_full_local_snapshot": {
-      "cases": 158,
-      "targets": 152,
+      "cases": 159,
+      "targets": 153,
       "regressions": 6,
-      "retained_modules": 5056,
-      "replay_sources": 4059,
-      "lake_jobs": 13768,
+      "retained_modules": 5127,
+      "replay_sources": 4130,
+      "lake_jobs": 13840,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 390,
-      "python_tests": 543,
+      "public_theorem_count": 392,
+      "python_tests": 546,
       "current_dependency_snapshot": true,
       "boundary": "Local proof/source/trust checks only, not an independent completion receipt.",
-      "source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f"
+      "source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7"
     },
     "power_replay_resource_diagnosis": {
       "source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
@@ -1453,6 +1462,25 @@
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330",
       "independent_validation": "accepted_exact_current_source",
       "receipt": "validation/body_receipts/matmul-dequantize-source-migration.json"
+    },
+    "fifth_order_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 45,
+      "shared_frontend_test_modules": 2,
+      "shared_trust_inventory_theorems": 6,
+      "body_statements": {
+        "forward": 73,
+        "backward": 122,
+        "forward_candidate": 73,
+        "backward_candidate": 122
+      },
+      "python_tests": 560,
+      "full_cases": 163,
+      "full_retained_modules": 5329,
+      "full_replay_sources": 4332,
+      "full_lake_jobs": 14037,
+      "public_theorems": 407,
+      "boundary": "Local verification only. The target remains incomplete until exact-current independent replay accepts every required root."
     }
   },
   "targets": [
@@ -2059,8 +2087,12 @@
     },
     {
       "path": "bench/tritonbench_g/fifth_order_sph_harmonics",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Complete unchanged repaired Python forward/backward bodies (73/122 statements), including unused constants, all 29 repaired derivative coefficients, INT64 casts, masks, strided upstream reads, old-gradient accumulation and stores, now appear literally with external ABI metadata. Materialized the existing powers-reuse candidate in Python and checked identical left-associated multiplication trees. Removed the four old whole quotations. The optional frontend preserves immutable weak floating aliases with contextual literal typing. Reproved complete executions, signed/natural indexing, memory results, independent polynomials and Jacobian transpose, exact FP32 coefficient words including constexpr-folded negations, actual FP candidates, full grids, native bounds, source safety, readback and frames without new public premises or numerical rules. All 45 owned modules, two shared frontend/test roots and six named shared trust/inventory gates pass locally. Integration passes 163 cases, 5329 retained modules, 14037 Lake jobs, 407 public theorem names, 560 Python tests and corpus checks. Independent exact-current replay remains required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/flash_attn",
