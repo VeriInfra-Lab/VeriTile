@@ -22,14 +22,14 @@ theorem forward_candidate_safe (m : Model α) (stride N B : Nat) (eps : ℝ)
     TraceSafe (engine m) bounds
       (SourceCandidate.forward stride N B eps) s := by
   have hB : B≠0 := by omega
-  simp [TraceSafe,SourceCandidate.forward,TypedSource.forwardCandidate,SourceCandidate.unroll,SourceCandidate.unrollStmt,TypedSource.forward,ComputeKernel.surfaceBody,
+  simp [TraceSafe,SourceCandidate.forward,TypedSource.forwardCandidate,Bodies.forwardCandidate,SourceCandidate.unroll,SourceCandidate.unrollStmt,TypedSource.forward,Bodies.forward,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     Safety.rangeSafe_unfold,Safety.precisionContext,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,
-    range_one _ _ N B positive covers,
-    engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
+    signed_range_one _ _ N B positive covers,
+    engine,numeric,natLt,numericLt,numericLe,numericEq,integralMod,bop,
     State.setReg,FP.Structural.store,ComputeDType.eraseDType,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
     Region.cast,Option.bind,ofFloat,toFloat,positive,hB,Nat.not_lt.mpr covers,hm,hr]

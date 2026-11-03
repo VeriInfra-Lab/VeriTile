@@ -11,9 +11,9 @@ theorem source_executes [Inhabited α] (m : Model α) (stride N B : Nat) (eps : 
     (positive : 0<N) (covers : N≤B) (s : State α) :
     ∃ t,FP.Structural.exec (engine m)
       (TypedSource.forward "X" "Y" "W" "Bias" "Mean" "Rstd" stride N B eps) s=some t := by
-  simp [FP.Structural.exec,TypedSource.forward,ComputeKernel.surfaceBody,
+  simp [FP.Structural.exec,TypedSource.forward,Bodies.forward,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,
-    range_one _ _ N B positive covers,
+    signed_range_one _ _ N B positive covers,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,FP.Structural.store,ComputeDType.eraseDType,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,

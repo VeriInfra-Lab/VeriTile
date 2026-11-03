@@ -1,3 +1,4 @@
+import bench.tritonbench_g.layer_norm_triton.Proofs.SourceWhileTrace
 import bench.tritonbench_g.layer_norm_triton.Proofs.LogicalIO
 
 /-! Independent Real formulas for all three genuine FP32 source kernels.

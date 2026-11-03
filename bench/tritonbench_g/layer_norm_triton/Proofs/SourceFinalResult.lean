@@ -14,7 +14,7 @@ theorem columns_injective (s : State α) (BN : Nat) : Function.Injective (column
 theorem stores_dw (m : Model α) (s : State α) (N BM BN : Nat) (a : Carries α BM BN)
     (i : TileIndex [BN]) (hi : columns s BN i<N) :
     (stores m s N BM BN a).mem "FINAL_DW" (columns s BN i)=
-      .mk .real (SourceForwardGraph.cast m (reduced m BM BN a.1 i)) := by
+      .mk .real (reduced m BM BN a.1 i) := by
   unfold stores
   rw [State.masked_scatter_frame]
   · exact State.masked_scatter_readback _ _ _ _ _ i hi (columns_injective s BN)
@@ -23,7 +23,7 @@ theorem stores_dw (m : Model α) (s : State α) (N BM BN : Nat) (a : Carries α 
 theorem stores_db (m : Model α) (s : State α) (N BM BN : Nat) (a : Carries α BM BN)
     (i : TileIndex [BN]) (hi : columns s BN i<N) :
     (stores m s N BM BN a).mem "FINAL_DB" (columns s BN i)=
-      .mk .real (SourceForwardGraph.cast m (reduced m BM BN a.2 i)) := by
+      .mk .real (reduced m BM BN a.2 i) := by
   exact State.masked_scatter_readback _ _ _ (fun k => columns s BN k<N) _ i hi (columns_injective s BN)
 
 def Outside (s : State α) (N BN : Nat) (r : RegionName) (o : Nat) : Prop :=
@@ -47,9 +47,9 @@ theorem executes [Inhabited α] (m : Model α) (s : State α) (M N BM BN : Nat) 
       t.mem=(final m s M N BM BN).mem ∧
       (∀ i : TileIndex [BN],columns s BN i<N →
         t.mem "FINAL_DW" (columns s BN i)=
-          .mk .real (SourceForwardGraph.cast m (reduced m BM BN (fold m s M N BM BN 0 (zero m BM BN)).1 i)) ∧
+          .mk .real (reduced m BM BN (fold m s M N BM BN 0 (zero m BM BN)).1 i) ∧
         t.mem "FINAL_DB" (columns s BN i)=
-          .mk .real (SourceForwardGraph.cast m (reduced m BM BN (fold m s M N BM BN 0 (zero m BM BN)).2 i))) ∧
+          .mk .real (reduced m BM BN (fold m s M N BM BN 0 (zero m BM BN)).2 i)) ∧
       (∀ r o,Outside s N BN r o → t.mem r o=s.mem r o) := by
   obtain ⟨t,ht,hm⟩ := source_refines m s M N BM BN
   refine ⟨t,ht,hm,?_,?_⟩
