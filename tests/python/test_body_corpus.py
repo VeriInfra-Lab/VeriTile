@@ -95,6 +95,22 @@ class BodyCorpusTests(unittest.TestCase):
         self.assertFalse(result["complete"])
         self.assertEqual(result["counts"]["uncovered_selected_jit_functions"], 1)
 
+    def test_distinct_closed_constexpr_invocations_are_checked(self):
+        first = LEAN.replace('(B : Nat)', '').replace('  with_triton_signature',
+                                                        '  let B : Nat := 8\n  with_triton_signature')
+        second = first.replace('def body ', 'def secondBody ').replace('let B : Nat := 8', 'let B : Nat := 16')
+        second = second[second.index('def secondBody '):]
+        self.write("bench/tritonbench_g/sample/Kernels.lean", first + second)
+        records = [{**self.record, "invocation_variant": "width8", "expected_constexpr_bindings": {"B": "8"}},
+                   {**self.record, "invocation_variant": "width16", "lean_definition": "secondBody",
+                    "expected_constexpr_bindings": {"B": "16"}}]
+        self.manifest(records)
+        self.assertTrue(scan(self.root)["complete"])
+        records[1]["expected_constexpr_bindings"] = {"B": "32"}
+        self.manifest(records)
+        with self.assertRaisesRegex(ValueError, "closed constexpr binding"):
+            scan(self.root)
+
     def test_duplicate_invocation_labels_are_rejected(self):
         first, second = self.typed_variants()
         self.manifest([first, {**second, "invocation_variant": first["invocation_variant"]}])

@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 157,
-  "staged_count": 160,
+  "staged_count": 161,
   "pending_count": 39,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 5480,
-    "official_comparator": "157 current targets retain exact-dependency independent receipts. Three locally verified targets await replay: attention_forward_triton, attention_fwd_triton2 and llama_ff_triton. Compilation is not completion.",
-    "python_tests": 571,
+    "staged_and_regression_retained_modules": 5518,
+    "official_comparator": "157 current targets retain exact-dependency independent receipts. Four locally verified targets await replay: attention_forward_triton, attention_fwd_triton2, llama_ff_triton and kv_cache_filling. Compilation is not completion.",
+    "python_tests": 576,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "166 cases (160 targets and six regressions), all 5480 retained/supporting modules, 14190 Lake jobs, 413 public theorem names, 571 Python tests and source-corpus checks pass. Llama FF retains both source storage routes and its unchanged existing Python candidate; full Real/FP/native, grid, safety, IO, outputs and frame proofs reverify. Independently complete: 157, including all 19 examples. Three locally verified targets await independent replay.",
-    "official_replay_sources": 4483,
+    "working_tree": "167 cases (161 targets and six regressions), all 5518 retained/supporting modules, 14228 Lake jobs, 415 public theorem names, 576 Python tests and source-corpus checks pass. KV cache filling retains the complete original helper/caller, all copy/INT8/INT4 source policies and its existing address-index candidate; actual execution, independent Real/native FP, scheduled jobs, safety, cache/metadata outputs and frames reverify. Independently complete: 157, including all 19 examples. Four locally verified targets await independent replay.",
+    "official_replay_sources": 4521,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,15 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/llama_ff_triton"
+        "bench/tritonbench_g/kv_cache_filling"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 59,
-      "replay_sources": 59,
-      "state": "official_replay_in_progress",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41572157605",
-      "source_commit": "4956a5459350c84c1b4236b753f0b3c28e76bae8"
+      "retained_modules": 38,
+      "replay_sources": 38,
+      "state": "local_pass_ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -888,6 +886,18 @@
         "source_commit": "f38795ec6be66d0094f751edc580dae3eba0847e",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41569672639",
         "started_at": "2026-11-03T03:01:34Z"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/llama_ff_triton"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 59,
+        "replay_sources": 59,
+        "state": "official_replay_in_progress",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41572157605",
+        "source_commit": "4956a5459350c84c1b4236b753f0b3c28e76bae8"
       }
     ],
     "pending_client_regressions": {
@@ -903,7 +913,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 36 TritonBench-G source/proof migrations and collect the two attention and Llama FF independent receipts. All 19 examples independently accepted. No merge.",
+    "current_work": "Submit KV cache filling for independent replay, continue the remaining 35 TritonBench-G source/proof migrations and collect the two attention and Llama FF receipts. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -927,15 +937,15 @@
     },
     "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
     "last_full_local_snapshot": {
-      "cases": 166,
-      "targets": 160,
+      "cases": 167,
+      "targets": 161,
       "regressions": 6,
-      "retained_modules": 5480,
-      "replay_sources": 4483,
-      "lake_jobs": 14190,
+      "retained_modules": 5518,
+      "replay_sources": 4521,
+      "lake_jobs": 14228,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 413,
-      "python_tests": 571,
+      "public_theorem_count": 415,
+      "python_tests": 576,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1288,15 +1298,15 @@
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     },
     "previous_full_local_snapshot": {
-      "cases": 165,
-      "targets": 159,
+      "cases": 166,
+      "targets": 160,
       "regressions": 6,
-      "retained_modules": 5421,
-      "replay_sources": 4424,
-      "lake_jobs": 14128,
+      "retained_modules": 5480,
+      "replay_sources": 4483,
+      "lake_jobs": 14190,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 411,
-      "python_tests": 564,
+      "public_theorem_count": 413,
+      "python_tests": 571,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1575,6 +1585,32 @@
       "boundary": "Local verification only. This target remains incomplete until exact-current independent replay accepts every required root.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41572157605",
       "source_commit": "4956a5459350c84c1b4236b753f0b3c28e76bae8"
+    },
+    "kv_cache_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 36,
+      "shared_frontend_test_modules": 2,
+      "shared_trust_inventory_theorems": 107,
+      "named_semantic_frontend_regressions": 3,
+      "helper_statements": 5,
+      "caller_statements_per_policy": 8,
+      "policy_values": [
+        0,
+        8,
+        4
+      ],
+      "cache_storage": [
+        "fp32",
+        "uint8",
+        "uint8"
+      ],
+      "python_tests": 576,
+      "full_cases": 167,
+      "full_retained_modules": 5518,
+      "full_replay_sources": 4521,
+      "full_lake_jobs": 14228,
+      "public_theorems": 415,
+      "boundary": "Local verification only. The target remains incomplete until exact-current independent replay accepts every required root."
     }
   },
   "targets": [
@@ -2559,8 +2595,12 @@
     },
     {
       "path": "bench/tritonbench_g/kv_cache_filling",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Copied the unchanged original _quant_row and complete _fill_rows body for copy/INT8/INT4 policies, plus the actual existing address-index candidate (two shared five-statement helper records and six complete eight-statement callers). Removed all six old expanded whole-kernel Lean quotations. Preserved signed casts, all three policy branches, every load/zero pad, min/max reduction, quantization cast, packing operation, mask, cache/metadata store and ignored tuple returns. The optional frontend specializes only closed immutable Nat constexpr comparisons and keeps literal helper constexprs weak, with hygienic runtime captures and full simultaneous return evaluation. Three named semantic regressions and all 107 shared exact-source trust/inventory declarations pass. Reproved actual captured register states, complete copy/INT8/INT4 execution, independent Real affine quantization, actual candidate native FP equivalence, every scheduled job, memory safety, both caches, all scale/zero metadata, readback and exterior frames. No new public premises, narrower numerical domains or FP rules. Safety proofs are separately cached; replaced the task-local blanket Mathlib import with actual dependencies and reverified all 36 owned plus two shared roots. Full integration passes 167 cases, 5518 modules, 14228 Lake jobs, 415 public theorem names and 576 Python tests. Exact-current independent replay is still required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/l2_norm_bwd",

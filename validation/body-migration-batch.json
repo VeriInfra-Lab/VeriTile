@@ -2240,6 +2240,19 @@
           "VeriTile.Bench.Repairs.LlamaFFScalarCast.FPEquiv.source_equivalence"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/kv_cache_filling",
+      "python": "bench/tritonbench_g/kv_cache_filling/kv_cache_filling.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/kv_cache_filling/Correct.lean": [
+          "VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real"
+        ],
+        "bench/tritonbench_g/kv_cache_filling/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.KvCacheFilling.FPEquiv.kernel_native"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -6598,6 +6611,44 @@
     "bench/tritonbench_g/llama_ff_triton/Proofs/Symbolic.lean",
     "bench/tritonbench_g/llama_ff_triton/Proofs/Transport.lean",
     "bench/tritonbench_g/llama_ff_triton/Sources/Body.lean",
-    "tests/lean/PythonBitcastBooleans.lean"
+    "tests/lean/PythonBitcastBooleans.lean",
+    "VeriTile/Triton/DSL/IntegerJitControl.lean",
+    "bench/tritonbench_g/kv_cache_filling/Contract.lean",
+    "bench/tritonbench_g/kv_cache_filling/Correct.lean",
+    "bench/tritonbench_g/kv_cache_filling/FPEquiv.lean",
+    "bench/tritonbench_g/kv_cache_filling/Kernels.lean",
+    "bench/tritonbench_g/kv_cache_filling/Model.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/CopyExecution.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/CopySource.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/IO.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/IOCorrect.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/IONative.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/IOReal.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/Interface.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/NativeProfile.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/QuantNative.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/QuantProfile.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/QuantReal.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/QuantStores.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/QuantValues.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/Readback.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/Real.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/RowCongruence.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/Schedule.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/SharedExecution.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/SharedReadback.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/SharedTarget.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/Source.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/Store.lean",
+    "bench/tritonbench_g/kv_cache_filling/Sources/Body.lean",
+    "tests/lean/IntegerJitControl.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/CopySafety.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/Quant4Safety.lean",
+    "bench/tritonbench_g/kv_cache_filling/Proofs/Quant8Safety.lean"
   ]
 }

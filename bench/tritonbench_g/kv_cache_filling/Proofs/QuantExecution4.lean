@@ -24,12 +24,20 @@ def loaded4 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
   let z := z.setReg "k20" .real [] (fun _ => k p.ck)
   let z := z.setReg "v10" .real [] (fun _ => v 0)
   let z := z.setReg "v20" .real [] (fun _ => v p.cv)
+  let z := z.setReg "__veritile_load_0" .real [p.bk] (fun i =>
+    if i.1.val < p.ck then k (safe p.ck i.1.val) else a.literal 0)
   let z := z.setReg "k1" .real [p.bk] (fun i =>
     if i.1.val < p.ck then k (safe p.ck i.1.val) else a.literal 0)
+  let z := z.setReg "__veritile_load_1" .real [p.bk] (fun i =>
+    if i.1.val < p.ck then k (p.ck+safe p.ck i.1.val) else a.literal 0)
   let z := z.setReg "k2" .real [p.bk] (fun i =>
     if i.1.val < p.ck then k (p.ck+safe p.ck i.1.val) else a.literal 0)
+  let z := z.setReg "__veritile_load_2" .real [p.bv] (fun i =>
+    if i.1.val < p.cv then v (safe p.cv i.1.val) else a.literal 0)
   let z := z.setReg "v1" .real [p.bv] (fun i =>
     if i.1.val < p.cv then v (safe p.cv i.1.val) else a.literal 0)
+  let z := z.setReg "__veritile_load_3" .real [p.bv] (fun i =>
+    if i.1.val < p.cv then v (p.cv+safe p.cv i.1.val) else a.literal 0)
   let z := z.setReg "v2" .real [p.bv] (fun i =>
     if i.1.val < p.cv then v (p.cv+safe p.cv i.1.val) else a.literal 0)
   let z := z.setReg "k1" .real [p.bk] (fun i => k1 i.1)
@@ -55,54 +63,40 @@ def reduced4 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
 
 def key4 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) : State α :=
-  let k := inputRow p s src Bool.true
-  let v := inputRow p s src Bool.false
-  let k1 := pad p.ck p.bk k
-  let k2 := pad p.ck p.bk (fun i => k (p.ck+i))
-  let v1 := pad p.cv p.bv v
-  let v2 := pad p.cv p.bv (fun i => v (p.cv+i))
+  let x := inputRow p s src Bool.true
+  let k1 := pad p.ck p.bk x
+  let k2 := pad p.ck p.bk (fun i => x (p.ck+i))
   let lo := a.low p.bk (fun i => a.minimum (k1 i) (k2 i))
   let hi := a.high p.bk (fun i => a.maximum (k1 i) (k2 i))
-  let z := reduced4 a p s src dst
-  let z := z.setReg "kraw_scale" .real [] (fun _ => a.divide (a.sub hi lo) (a.literal 15))
-  let z := z.setReg "sk" .real [] (fun _ => scale a 15 lo hi)
-  let z := z.setReg "zk" .real [] (fun _ => zero a 15 lo hi)
-  let z := z.setReg "qk1" .nat [p.bk] (fun i => (code a 15 lo hi (k1 i.1)).toNat)
-  let z := z.setReg "kraw_scale2" .real [] (fun _ => a.divide (a.sub hi lo) (a.literal 15))
-  let z := z.setReg "sk2" .real [] (fun _ => scale a 15 lo hi)
-  let z := z.setReg "zk2" .real [] (fun _ => zero a 15 lo hi)
-  let z := z.setReg "qk2" .nat [p.bk] (fun i => (code a 15 lo hi (k2 i.1)).toNat)
-  z
+  let z := quantState a p.bk 0 15 k1 lo hi "qk1" "sk" "zk" (reduced4 a p s src dst)
+  quantState a p.bk 10 15 k2 lo hi "qk2" "_" "_" z
 
 def value4 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) : State α :=
-  let k := inputRow p s src Bool.true
-  let v := inputRow p s src Bool.false
-  let k1 := pad p.ck p.bk k
-  let k2 := pad p.ck p.bk (fun i => k (p.ck+i))
-  let v1 := pad p.cv p.bv v
-  let v2 := pad p.cv p.bv (fun i => v (p.cv+i))
+  let x := inputRow p s src Bool.false
+  let v1 := pad p.cv p.bv x
+  let v2 := pad p.cv p.bv (fun i => x (p.cv+i))
   let lo := a.low p.bv (fun i => a.minimum (v1 i) (v2 i))
   let hi := a.high p.bv (fun i => a.maximum (v1 i) (v2 i))
-  let z := key4 a p s src dst
-  let z := z.setReg "vraw_scale" .real [] (fun _ => a.divide (a.sub hi lo) (a.literal 15))
-  let z := z.setReg "sv" .real [] (fun _ => scale a 15 lo hi)
-  let z := z.setReg "zv" .real [] (fun _ => zero a 15 lo hi)
-  let z := z.setReg "qv1" .nat [p.bv] (fun i => (code a 15 lo hi (v1 i.1)).toNat)
-  let z := z.setReg "vraw_scale2" .real [] (fun _ => a.divide (a.sub hi lo) (a.literal 15))
-  let z := z.setReg "sv2" .real [] (fun _ => scale a 15 lo hi)
-  let z := z.setReg "zv2" .real [] (fun _ => zero a 15 lo hi)
-  let z := z.setReg "qv2" .nat [p.bv] (fun i => (code a 15 lo hi (v2 i.1)).toNat)
-  z
+  let z := quantState a p.bv 20 15 v1 lo hi "qv1" "sv" "zv" (key4 a p s src dst)
+  quantState a p.bv 30 15 v2 lo hi "qv2" "_" "_" z
+
+
+/-- Unwrapped integer packing before the source's implicit uint8 store. -/
+def packedNatural {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
+    (s : State α) (src : Nat) (key : Bool) (i : Fin (lanes p key)) : Nat :=
+  let x := inputRow p s src key
+  let left := pad (capacity p key) (lanes p key) x
+  let right := pad (capacity p key) (lanes p key) (fun j => x (capacity p key+j))
+  let lo := a.low (lanes p key) (fun j => a.minimum (left j) (right j))
+  let hi := a.high (lanes p key) (fun j => a.maximum (left j) (right j))
+  (code a 15 lo hi (left i)).toNat + (code a 15 lo hi (right i)).toNat * 16
 
 def prepared4 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) : State α :=
   let z := value4 a p s src dst
-  let z := z.setReg "qk" .nat [p.bk] (fun i =>
-    ((row4Data a p s src Bool.true).values (safe p.ck i.1.val)).toNat)
-  let z := z.setReg "qv" .nat [p.bv] (fun i =>
-    ((row4Data a p s src Bool.false).values (safe p.cv i.1.val)).toNat)
-  z
+  let z := z.setReg "qk" .nat [p.bk] (fun i => packedNatural a p s src Bool.true i.1)
+  z.setReg "qv" .nat [p.bv] (fun i => packedNatural a p s src Bool.false i.1)
 
 def result4 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) : State α :=
@@ -115,12 +109,12 @@ theorem load4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat)
     (hs : (s.mem "src" (s.pids 0)).read .int = (src : Int))
     (hd : (s.mem "dst" (s.pids 0)).read .int = (dst : Int)) (version : Bool) :
-    run (algebra a) ((QuantSource.kernel4 version p).surfaceBody.take 19) s =
+    run (algebra a) ((QuantSource.kernel4 version p).surfaceBody.take 23) s =
       some (loaded4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,
-      QuantSource.commuted4Kernel,ComputeKernel.surfaceBody,List.take]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
+      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.take]
   all_goals
     simp [loaded4,preparedInputs,inputRow,pad,safe,hs,hd,Int.mul_comm,Nat.mul_comm,
       index_toNat,mul_index_toNat,add_index_toNat,Int.toNat_mul,Int.toNat_add,
@@ -138,12 +132,12 @@ theorem load4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
 
 theorem reduce4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) (hk : 0 < p.bk) (hv : 0 < p.bv) (version : Bool) :
-    run (algebra a) (((QuantSource.kernel4 version p).surfaceBody.drop 19).take 4)
+    run (algebra a) (((QuantSource.kernel4 version p).surfaceBody.drop 23).take 4)
       (loaded4 a p s src dst) = some (reduced4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,
-      QuantSource.commuted4Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
+      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
     simp [reduced4,loaded4,preparedInputs,scale,zero,code,hk,hv,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,numericEq,bop,
@@ -158,14 +152,14 @@ theorem reduce4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
 
 theorem key4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) (hk : 0 < p.bk) (hv : 0 < p.bv) (version : Bool) :
-    run (algebra a) (((QuantSource.kernel4 version p).surfaceBody.drop 23).take 8)
+    run (algebra a) (((QuantSource.kernel4 version p).surfaceBody.drop 27).take 26)
       (reduced4 a p s src dst) = some (key4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,
-      QuantSource.commuted4Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
+      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
-    simp [key4,reduced4,loaded4,preparedInputs,scale,zero,code,hk,hv,
+    simp [quantState,helperReg,key4,reduced4,loaded4,preparedInputs,scale,zero,code,hk,hv,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,numericEq,bop,
       ComputeDType.eraseDType,Region.cast,Option.bind,algebra,reduceAxis,
       ofFloat,toFloat,lanes,width,capacity,input,output,
@@ -178,14 +172,14 @@ theorem key4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
 
 theorem value4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) (hk : 0 < p.bk) (hv : 0 < p.bv) (version : Bool) :
-    run (algebra a) (((QuantSource.kernel4 version p).surfaceBody.drop 31).take 8)
+    run (algebra a) (((QuantSource.kernel4 version p).surfaceBody.drop 53).take 26)
       (key4 a p s src dst) = some (value4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,
-      QuantSource.commuted4Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
+      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
-    simp [value4,key4,reduced4,loaded4,preparedInputs,scale,zero,code,hk,hv,
+    simp [quantState,helperReg,value4,key4,reduced4,loaded4,preparedInputs,scale,zero,code,hk,hv,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,numericEq,bop,
       ComputeDType.eraseDType,Region.cast,Option.bind,algebra,reduceAxis,
       ofFloat,toFloat,lanes,width,capacity,input,output,
@@ -198,14 +192,14 @@ theorem value4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
 
 theorem pack4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) (hk : 0 < p.bk) (hv : 0 < p.bv) (version : Bool) :
-    run (algebra a) (((QuantSource.kernel4 version p).surfaceBody.drop 39).take 2)
+    run (algebra a) (((QuantSource.kernel4 version p).surfaceBody.drop 79).take 2)
       (value4 a p s src dst) = some (prepared4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,
-      QuantSource.commuted4Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
+      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
-    simp [prepared4,value4,key4,reduced4,loaded4,preparedInputs,row4Data,row4,pad,safe,scale,zero,code,hk,hv,
+    simp [quantState,helperReg,packedNatural,prepared4,value4,key4,reduced4,loaded4,preparedInputs,row4Data,row4,pad,safe,scale,zero,code,hk,hv,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,numericEq,bop,
       ComputeDType.eraseDType,Region.cast,Option.bind,algebra,reduceAxis,
       ofFloat,toFloat,lanes,width,capacity,input,output,
@@ -217,14 +211,14 @@ theorem pack4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
 #axiomsClean pack4_execute
 theorem stores4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) (version : Bool) :
-    run (algebra a) ((QuantSource.kernel4 version p).surfaceBody.drop 41)
+    run (algebra a) ((QuantSource.kernel4 version p).surfaceBody.drop 81)
       (prepared4 a p s src dst) = some (result4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,
-      QuantSource.commuted4Kernel,ComputeKernel.surfaceBody,List.drop]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
+      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.drop]
   all_goals
-    simp [result4,writeMetadata,QuantExecution.scatter,prepared4,key4,row4Data,row4,
+    simp [quantState,helperReg,packedNatural,result4,writeMetadata,QuantExecution.scatter,prepared4,key4,row4Data,row4,
       value4,reduced4,loaded4,preparedInputs,
       run,step,store,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,bop,
       ComputeDType.eraseDType,Region.cast,Option.bind,algebra,
@@ -242,12 +236,12 @@ theorem execute4 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (hk : 0 < p.bk) (hv : 0 < p.bv) (version : Bool) :
     exec (algebra a) (QuantSource.kernel4 version p) s = some (result4 a p s src dst) := by
   have decomp : (QuantSource.kernel4 version p).surfaceBody =
-      (QuantSource.kernel4 version p).surfaceBody.take 19 ++
-      (((QuantSource.kernel4 version p).surfaceBody.drop 19).take 4 ++
-      (((QuantSource.kernel4 version p).surfaceBody.drop 23).take 8 ++
-      (((QuantSource.kernel4 version p).surfaceBody.drop 31).take 8 ++
-      (((QuantSource.kernel4 version p).surfaceBody.drop 39).take 2 ++
-      (QuantSource.kernel4 version p).surfaceBody.drop 41)))) := by cases version <;> rfl
+      (QuantSource.kernel4 version p).surfaceBody.take 23 ++
+      (((QuantSource.kernel4 version p).surfaceBody.drop 23).take 4 ++
+      (((QuantSource.kernel4 version p).surfaceBody.drop 27).take 26 ++
+      (((QuantSource.kernel4 version p).surfaceBody.drop 53).take 26 ++
+      (((QuantSource.kernel4 version p).surfaceBody.drop 79).take 2 ++
+      (QuantSource.kernel4 version p).surfaceBody.drop 81)))) := by cases version <;> rfl
   change run (algebra a) (QuantSource.kernel4 version p).surfaceBody s = _
   rw [decomp,run_append,load4_execute a p s src dst hs hd version]
   simp only [Option.bind_some]
