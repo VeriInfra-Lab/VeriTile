@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.Integer
 import bench.tritonbench_g.context_attn_bloom.Proofs.Kernels
 import bench.tritonbench_g.context_attn_fwd.Proofs.FPSuccess
 
@@ -5,6 +6,13 @@ namespace VeriTile.Bench.Repairs.ContextAttnBloomWhole001.FPSuccess
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ContextAttnBloom Math Program
 noncomputable section
+attribute [local simp 2000] FP.Structural.eval_truncDiv FP.Structural.eval_truncMod
+attribute [local simp 2000] VeriTile.Bench.Repairs.ContextAttnFwd.FPSuccess.signed_nat_address
+theorem source_division (a b : Nat) : (a:Int).tdiv (b:Int)=((a/b:Nat):Int) := by
+  rw [Int.tdiv_eq_ediv_of_nonneg (Int.natCast_nonneg a)]
+  rfl
+attribute [local simp 2000] source_division
+
 set_option maxHeartbeats 12000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
@@ -41,21 +49,21 @@ theorem source_split (p : Layout) (r : Regions) (scale : ℝ) :
 
 /-- Exactly the registers read across the source loop boundary. -/
 def Ready (p : Layout) (s : State α) : Prop :=
-  (s.regs .nat [] "cur_kv_head").isSome ∧
+  (s.regs .int [] "cur_kv_head").isSome ∧
   (s.regs .int [] "cur_batch_req_idx").isSome ∧
   (s.regs .int [] "block_end_loc").isSome ∧
-  (s.regs .nat [p.BN] "offs_n").isSome ∧
-  (s.regs .nat [p.D] "offs_d").isSome ∧
-  (s.regs .nat [p.BM] "offs_m").isSome ∧
+  (s.regs .int [p.BN] "offs_n").isSome ∧
+  (s.regs .int [p.D] "offs_d").isSome ∧
+  (s.regs .int [p.BM] "offs_m").isSome ∧
   (s.regs .int [] "prompt_cache_len").isSome ∧
   (s.regs .real [p.BM,p.D] "q").isSome ∧
   (s.regs .real [p.BM] "m_i").isSome ∧
   (s.regs .real [p.BM] "l_i").isSome ∧
   (s.regs .real [p.BM,p.D] "acc").isSome ∧
   (s.regs .int [] "cur_batch_in_all_start_index").isSome ∧
-  (s.regs .nat [] "cur_head").isSome ∧
+  (s.regs .int [] "cur_head").isSome ∧
   (s.regs .int [] "cur_batch_seq_len").isSome ∧
-  (s.regs .nat [] "block_mask").isSome
+  (s.regs .int [] "block_mask").isSome
 
 def start (p : Layout) (r : Regions) (s : State α) : Int :=
   (s.mem r.start (s.pids 0)).read .int
@@ -77,9 +85,9 @@ def active (p : Layout) (r : Regions) (s : State α)
 
 def Fixed (p : Layout) (s t : State α) : Prop :=
   t.regs .int [] "cur_batch_in_all_start_index" = s.regs .int [] "cur_batch_in_all_start_index" ∧
-  t.regs .nat [] "cur_head" = s.regs .nat [] "cur_head" ∧
-  t.regs .nat [p.BM] "offs_m" = s.regs .nat [p.BM] "offs_m" ∧
-  t.regs .nat [p.D] "offs_d" = s.regs .nat [p.D] "offs_d" ∧
+  t.regs .int [] "cur_head" = s.regs .int [] "cur_head" ∧
+  t.regs .int [p.BM] "offs_m" = s.regs .int [p.BM] "offs_m" ∧
+  t.regs .int [p.D] "offs_d" = s.regs .int [p.D] "offs_d" ∧
   t.regs .int [] "cur_batch_seq_len" = s.regs .int [] "cur_batch_seq_len"
 
 theorem Fixed.refl (p : Layout) (s : State α) : Fixed p s s := by simp [Fixed]
@@ -88,9 +96,9 @@ theorem Fixed.trans {p : Layout} {s t u : State α} (hst : Fixed p s t) (htu : F
 
 def Controls (p : Layout) (r : Regions) (s t : State α) : Prop :=
   t.regs .int [] "cur_batch_in_all_start_index" = some (fun _ => start p r s) ∧
-  t.regs .nat [] "cur_head" = some (fun _ => s.pids 1) ∧
-  t.regs .nat [p.BM] "offs_m" = some (fun i => p.BM * s.pids 2 + i.1.val) ∧
-  t.regs .nat [p.D] "offs_d" = some (fun i => i.1.val) ∧
+  t.regs .int [] "cur_head" = some (fun _ => (s.pids 1 : Int)) ∧
+  t.regs .int [p.BM] "offs_m" = some (fun i => ((p.BM * s.pids 2 + i.1.val : Nat) : Int)) ∧
+  t.regs .int [p.D] "offs_d" = some (fun i => (i.1.val : Int)) ∧
   t.regs .int [] "cur_batch_seq_len" = some (fun _ => length p r s)
 
 theorem Controls.fixed {p : Layout} {r : Regions} {s t u : State α}
@@ -103,16 +111,16 @@ theorem prelude_success (p : Layout) (r : Regions) (scale : ℝ)
       Ready p t ∧ t.mem = s.mem ∧ Controls p r s t := by
   simp (config := {maxSteps := 500000}) [parts,kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnBloom.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,ContextAttnBloomSource.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,Ready,State.setReg,Algebra.withDefaultPrecision,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,
-    ofFloat,toFloat,Region.cast,Controls,start,length,bop]
+    ofFloat,toFloat,Region.cast,Controls,start,length,bop,Nat.cast_mul,Nat.cast_add,Int.mul_comm]
   constructor
   · funext i
-    change s.pids 2 * p.BM + i.1.val = p.BM * s.pids 2 + i.1.val
-    rw [Nat.mul_comm]
+    simp [bop,Broadcast.leftIndex,Broadcast.rightIndex,Int.mul_comm]
   · rfl
+
 
 /-- All body assignments are checked from actual live-register availability;
 the two dot callbacks are the only optional floating primitives on this branch. -/
@@ -139,7 +147,7 @@ theorem body_success (p : Layout) (r : Regions) (scale : ℝ)
   rcases Option.isSome_iff_exists.mp h14 with ⟨v14,h14⟩
   simp (config := {maxSteps := 1000000}) [parts,kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnBloom.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,ContextAttnBloomSource.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,Ready,State.setReg,Algebra.withDefaultPrecision,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,

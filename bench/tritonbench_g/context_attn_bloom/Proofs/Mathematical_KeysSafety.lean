@@ -10,7 +10,7 @@ theorem gather_safe (p : Layout) (r : Regions) (sn req last : Int) (u : BlockSta
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hr : u.regs .int [] "cur_batch_req_idx" = some (Tile.scalar req))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar last))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
     (hb : ∀ j : Fin p.BN, sn+j.val < last → (p.requestRow*req+p.requestToken*(sn+j.val)).toNat < bounds r.tokens) :
     (gather p r).SafeAt bounds u := by
   unfold gather
@@ -33,9 +33,9 @@ theorem keys_safe (p : Layout) (r : Regions) (sn req last : Int) (head : Nat)
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hr : u.regs .int [] "cur_batch_req_idx" = some (Tile.scalar req))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar last))
-    (hh : u.regs .nat [] "cur_kv_head" = some (Tile.scalar head))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hh : u.regs .int [] "cur_kv_head" = some (Tile.scalar head))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
     (ht : ∀ j : Fin p.BN, sn+j.val < last → (p.requestRow*req+p.requestToken*(sn+j.val)).toNat < bounds r.tokens)
     (hk : ∀ (d : Fin p.D) (j : Fin p.BN), sn+j.val < last → d.val < p.headDim →
       (keyAddress p head (page p r sn req last u j.val) d.val).toNat < bounds r.key) :
@@ -50,7 +50,7 @@ theorem keys_safe (p : Layout) (r : Regions) (sn req last : Int) (head : Nat)
     simp [gather,tokenIndices,lanes,z,s1,pages,page,evalOp.eq_def,hs,hr,hl,hn,
       Tile.vec,Tile.scalar,tile_elementwise,Broadcast.leftIndex,Broadcast.rightIndex,Option.bind,-Tile.scalar_eta]
   have h3 : evalOp (keyOffsets p) s2 = some off := by
-    simp [keyOffsets,tokenView,channelView,n,s2,s1,off,pages,keyAddress,evalOp.eq_def,hh,hd,
+    simp [keyOffsets,tokenView,channelView,n,z,s2,s1,off,pages,keyAddress,evalOp.eq_def,hh,hd,
       Tile.mat,Tile.vec,Tile.scalar,tile_elementwise,Broadcast.leftIndex,Broadcast.rightIndex,
       Option.bind,Nat.cast_mul,-Tile.scalar_eta]
   rw [LoopKeysProgram.source]
@@ -64,7 +64,7 @@ theorem keys_safe (p : Layout) (r : Regions) (sn req last : Int) (head : Nat)
       (by simpa [s1] using hl) (by simpa [s1] using hn) ht
   change Stmt.TraceSafeList bounds _ s2
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some h3)]
-  refine ⟨by simp [Stmt.TraceSafe,keyOffsets,tokenView,channelView,n,Op.SafeAt.eq_def],?_⟩
+  refine ⟨by simp [Stmt.TraceSafe,keyOffsets,tokenView,channelView,n,z,Op.SafeAt.eq_def],?_⟩
   change Stmt.TraceSafeList bounds _ s3
   apply TraceProofs.assign_cons
   · apply SafeOps.maskedLoad r.key _ _ _ bounds s3

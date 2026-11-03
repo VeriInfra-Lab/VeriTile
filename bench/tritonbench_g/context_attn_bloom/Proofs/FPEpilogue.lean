@@ -31,7 +31,7 @@ theorem loop_success (p : Layout) (r : Regions) (scale : ℝ)
   have hstop : evalOp ((withDot base D).withDefaultPrecision .fp32) none (parts p r scale).stop s =
       some (fun _ => (m PUnit.unit : Int) * e PUnit.unit) := by
     change evalOp ((withDot base D).withDefaultPrecision .fp32) none
-      (.mul .int .nil (.castNatToInt (.ref .nat [] "block_mask"))
+      (.mul .int .nil (.ref .int [] "block_mask")
         (.ref .int [] "block_end_loc")) s = _
     simp only [evalOp_unfold,hm,he,Option.bind,numeric]
     rfl
@@ -48,11 +48,10 @@ theorem epilogue_success (p : Layout) (r : Regions) (scale : ℝ)
   rcases Option.isSome_iff_exists.mp h9 with ⟨l,h9⟩
   rcases Option.isSome_iff_exists.mp h10 with ⟨a,h10⟩
   rcases hc with ⟨hs,hh,hm,hd,hl⟩
-  refine ⟨(fun i => M.cast (some .fp32) .real .real
-    (a i)),?_⟩
+  refine ⟨a,?_⟩
   simp [parts,kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnBloom.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,ComputeKernel.surfaceBody,
     Source.intRange?]
   simp (config := {maxSteps := 100000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,

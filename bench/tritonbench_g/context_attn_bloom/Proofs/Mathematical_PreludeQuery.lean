@@ -16,17 +16,17 @@ def queried (p : Layout) (r : Regions) (head block : Nat) (start seq prompt : In
   let u := u.setReg "m_i" .real [p.BM] (Tile.vec (fun _ => ⊥))
   let u := u.setReg "l_i" .real [p.BM] (Tile.vec (fun _ => some 0))
   let u := u.setReg "acc" .real [p.BM,p.D] (Tile.mat (fun _ _ => some 0))
-  let u := u.setReg "block_mask" .nat [] (Tile.scalar (if ((p.BM*block : Nat) : Int) < seq then 1 else 0))
+  let u := u.setReg "block_mask" .int [] (Tile.scalar (if ((p.BM*block : Nat) : Int) < seq then 1 else 0))
   u.setReg "block_end_loc" .int [] (Tile.scalar (min ((block+1)*p.BM+prompt) (seq+prompt)))
 
 theorem executes (p : Layout) (r : Regions) (head block : Nat) (start seq prompt : Int)
     (u : BlockState)
     (ho : u.regs .int [p.BM,p.D] "off_q" = some (Tile.mat (dtype := .int) (fun i d =>
       (start+((block*p.BM+i.val : Nat) : Int))*p.qRow+head*p.qHead+d.val*p.qDim)))
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec (fun i => block*p.BM+i.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
-    (hb : u.regs .nat [] "block_start_loc" = some (Tile.scalar (p.BM*block)))
-    (hm : u.regs .nat [] "start_m" = some (Tile.scalar block))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => block*p.BM+i.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hb : u.regs .int [] "block_start_loc" = some (Tile.scalar (p.BM*block)))
+    (hm : u.regs .int [] "start_m" = some (Tile.scalar block))
     (hs : u.regs .int [] "cur_batch_seq_len" = some (Tile.scalar seq))
     (hp : u.regs .int [] "prompt_cache_len" = some (Tile.scalar prompt)) :
     stepStmts (queryCode p r) u = some (queried p r head block start seq prompt u) := by

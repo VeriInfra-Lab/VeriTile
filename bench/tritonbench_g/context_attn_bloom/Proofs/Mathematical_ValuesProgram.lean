@@ -11,20 +11,20 @@ def valuePrefix (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) : List
 def values (p : Layout) (r : Regions) : List Stmt := lower (valuePrefix p r Bool.false 0)
 
 def tokenView (p : Layout) := Op.expandDim ⟨1,by simp⟩ (Op.ref .int [p.BN] "kv_loc")
-def channelView (p : Layout) := Op.expandDim ⟨0,by simp⟩ (Op.ref .nat [p.D] "offs_d")
+def channelView (p : Layout) := Op.expandDim ⟨0,by simp⟩ (Op.ref .int [p.D] "offs_d")
 def offsets (p : Layout) : Op .int [p.BN,p.D] :=
   .add .int Broadcast.nil.consL.consR
-    (.add .int .scalarR (.mul .int .scalarR (tokenView p) (Op.constNat p.vRow).castNatToInt)
-      (Op.mul .nat .nil (n "cur_kv_head") (.constNat p.vHead)).castNatToInt)
-    (Op.mul .nat .scalarR (channelView p) (.constNat p.vDim)).castNatToInt
+    (.add .int .scalarR (.mul .int .scalarR (tokenView p) (Op.constInt p.vRow))
+      (Op.mul .int .nil (z "cur_kv_head") (.constInt p.vHead)))
+    (Op.mul .int .scalarR (channelView p) (.constInt p.vDim))
 
 def mask (p : Layout) : Op .bool [p.BN,p.D] :=
   .boolAnd Broadcast.nil.consL.consR
     (.lt .int .scalarR
       (.add .int .scalarL (z "start_n")
-        (Op.expandDim ⟨1,by simp⟩ (Op.ref .nat [p.BN] "offs_n")).castNatToInt)
+        (Op.expandDim ⟨1,by simp⟩ (Op.ref .int [p.BN] "offs_n")))
       (z "block_end_loc"))
-    (.lt .nat .scalarR (channelView p) (.constNat p.headDim))
+    (.lt .int .scalarR (channelView p) (.castNatToInt (.constNat p.headDim)))
 
 def code (p : Layout) (r : Regions) : List Stmt :=
   [.assign .int [p.BN,p.D] "off_v" (offsets p),
@@ -37,7 +37,7 @@ theorem shared (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
   cases swapped <;> rfl
 
 theorem source (p : Layout) (r : Regions) : values p r = code p r := by
-  simp only [values,valuePrefix,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,ComputeKernel.surfaceBody,
+  simp only [values,valuePrefix,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.scaleFirstBody,ComputeKernel.surfaceBody,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
     Source.intRange?,Source.prefixBefore,List.length_cons,List.length_nil,
     List.drop_succ_cons,List.drop_zero,

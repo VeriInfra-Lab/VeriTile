@@ -10,7 +10,7 @@ set_option linter.unusedSimpArgs false
 theorem scalar_agrees (p : Layout) (r : Regions) (u : BlockState) :
     offsetState p r u = setupScalar p r u := by
   simp only [offsetState,metadataState,PreludeOffsets.prepared,PreludeMetadata.prepared,launch_inputs]
-  simp only [launchState,PreludeLaunch.launched,setupScalar,launch,Math.sequence,Math.queryRow]
+  simp only [launchState,PreludeLaunch.launched,setupScalar,launch,Math.sequence,Math.queryRow,Nat.cast_add,Nat.cast_mul]
 
 theorem offset_reads (p : Layout) (r : Regions) (u : BlockState) (region : RegionName) (off : Nat) :
     (offsetState p r u).readMem region off = u.readMem region off := by

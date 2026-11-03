@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 158,
-      "uncovered_jit_functions": 25
+      "selected_body_copy_checked": 159,
+      "uncovered_jit_functions": 24
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 76,
-    "inventoried_jit_functions": 566,
-    "uncovered_inventoried_jit_functions": 100,
+    "uncovered_selected_jit_functions": 75,
+    "inventoried_jit_functions": 568,
+    "uncovered_inventoried_jit_functions": 99,
     "checked_pair_modes": {
-      "pasted_body": 476
+      "pasted_body": 479
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 158,
-        "uncovered_jit_functions": 25
+        "selected_body_copy_checked": 159,
+        "uncovered_jit_functions": 24
       }
     },
-    "primary_files_with_int64_screen_warning": 6,
+    "primary_files_with_int64_screen_warning": 5,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 12,
-        "antiquotes": 347,
+        "in_body_type_directives": 11,
+        "antiquotes": 346,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 81
       },
@@ -16241,13 +16241,13 @@
       "python": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py",
       "lean": "bench/tritonbench_g/context_attn_bloom/Kernels.lean",
       "lean_screen": {
-        "quotations": 5,
-        "in_body_type_directives": 5,
-        "antiquotes": 189,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
         "dsl_assignment": 5,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 20
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -16358,27 +16358,227 @@
               ]
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+        },
         {
-          "python": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py",
-          "function": "_fwd_kernel"
+          "path": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom_candidates.py",
+          "jits": [
+            {
+              "function": "_fwd_kernel_index_shared",
+              "line": 7,
+              "statements": 24,
+              "explicit_int64_casts": [
+                {
+                  "line": 8,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 9,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 10,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                },
+                {
+                  "line": 12,
+                  "expression": "tl.load(B_Start_Loc + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 13,
+                  "expression": "tl.load(b_prompt_cache_len + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 15,
+                  "expression": "tl.load(B_req_idx + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 17,
+                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+                },
+                {
+                  "line": 18,
+                  "expression": "tl.arange(0, BLOCK_DMODEL).to(tl.int64)"
+                },
+                {
+                  "line": 14,
+                  "expression": "tl.load(B_Seqlen + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 19,
+                  "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
+                },
+                {
+                  "line": 29,
+                  "expression": "tl.load(Req_to_tokens + stride_req_to_tokens_b * cur_batch_req_idx + stride_req_to_tokens_s * (start_n + offs_n), mask=start_n + offs_n < block_end_loc, other=0).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "_fwd_kernel_scale_first",
+              "line": 60,
+              "statements": 24,
+              "explicit_int64_casts": [
+                {
+                  "line": 61,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 62,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 63,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                },
+                {
+                  "line": 65,
+                  "expression": "tl.load(B_Start_Loc + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 66,
+                  "expression": "tl.load(b_prompt_cache_len + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 68,
+                  "expression": "tl.load(B_req_idx + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 70,
+                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+                },
+                {
+                  "line": 71,
+                  "expression": "tl.arange(0, BLOCK_DMODEL).to(tl.int64)"
+                },
+                {
+                  "line": 67,
+                  "expression": "tl.load(B_Seqlen + cur_batch).to(tl.int64)"
+                },
+                {
+                  "line": 72,
+                  "expression": "tl.arange(0, BLOCK_M).to(tl.int64)"
+                },
+                {
+                  "line": 82,
+                  "expression": "tl.load(Req_to_tokens + stride_req_to_tokens_b * cur_batch_req_idx + stride_req_to_tokens_s * (start_n + offs_n), mask=start_n + offs_n < block_end_loc, other=0).to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qbs": "integer",
+            "stride_qh": "integer",
+            "stride_qd": "integer",
+            "stride_kbs": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "stride_req_to_tokens_b": "integer",
+            "stride_req_to_tokens_s": "integer",
+            "kv_group_num": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "head_dim"
+          ],
           "python": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py",
-          "function": "_fwd_kernel"
+          "lean": "bench/tritonbench_g/context_attn_bloom/Sources/Body.lean"
+        },
+        {
+          "python_function": "_fwd_kernel_index_shared",
+          "lean_definition": "indexSharedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qbs": "integer",
+            "stride_qh": "integer",
+            "stride_qd": "integer",
+            "stride_kbs": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "stride_req_to_tokens_b": "integer",
+            "stride_req_to_tokens_s": "integer",
+            "kv_group_num": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "head_dim"
+          ],
+          "python": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom_candidates.py",
+          "lean": "bench/tritonbench_g/context_attn_bloom/Sources/Body.lean"
+        },
+        {
+          "python_function": "_fwd_kernel_scale_first",
+          "lean_definition": "scaleFirstBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qbs": "integer",
+            "stride_qh": "integer",
+            "stride_qd": "integer",
+            "stride_kbs": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "stride_req_to_tokens_b": "integer",
+            "stride_req_to_tokens_s": "integer",
+            "kv_group_num": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "head_dim"
+          ],
+          "python": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom_candidates.py",
+          "lean": "bench/tritonbench_g/context_attn_bloom/Sources/Body.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/context_attn_bloom/Kernels.lean": "ff378acb87055b620bd0ee95426d12603441931d8169d5b1a7d70e7198e1f704",
-        "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py": "9b80a67487612a00769133e0794cea1f39b61ee23cbf02fedbaf61d661d7faee"
+        "bench/tritonbench_g/context_attn_bloom/Kernels.lean": "e4a0af1b9819c061e81682382cd18fde51647f9e1d3743a19eee015373859fbd",
+        "bench/tritonbench_g/context_attn_bloom/Sources/Body.lean": "d29bfe652e27cb8f86c87a8ae1295dfe790169ded24d505e0cc807b692d914dc",
+        "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py": "9b80a67487612a00769133e0794cea1f39b61ee23cbf02fedbaf61d661d7faee",
+        "bench/tritonbench_g/context_attn_bloom/context_attn_bloom_candidates.py": "43eed47ff0b1f8fce74dcab2704bd889cd40f742b5d60fcab32bb43aa4b43efe",
+        "bench/tritonbench_g/context_attn_bloom/jit-correspondence.json": "33c8fff92b8a72519df4e07f59215a335a7edad8156d9410650b2a4624636432"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/context_attn_bloom"
