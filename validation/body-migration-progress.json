@@ -80,13 +80,16 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/layer_norm_fwd"
+        "bench/tritonbench_g/fast_layernorm",
+        "bench/tritonbench_g/layer_norm_ops",
+        "bench/tritonbench_g/layernorm_fwd_triton"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 1,
-      "retained_modules": 117,
-      "replay_sources": 117,
-      "state": "local_pass_ready_for_official_replay"
+      "cases": 3,
+      "retained_modules": 136,
+      "replay_sources": 136,
+      "state": "local_pass_ready_for_official_replay",
+      "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change"
     },
     "previous_incremental_replays": [
       {
@@ -1122,6 +1125,18 @@
         "state": "official_in_progress",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41630457405",
         "source_commit": "50d2cdf5a97bcb69c0dd0802e01c1c549fb61867"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/layer_norm_fwd"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 117,
+        "replay_sources": 117,
+        "state": "official_in_progress",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41640711003",
+        "source_commit": "643fc11c662e5f2a453f843eb5faef8d602151df"
       }
     ],
     "pending_client_regressions": {
@@ -2200,7 +2215,8 @@
       "superseded_mistral_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41625142670",
       "reason": "Stopped before source cutover to avoid certifying stale import closure.",
       "full_local_cases": 179,
-      "public_theorem_names": "PASS"
+      "public_theorem_names": "PASS",
+      "dependent_replay_runs": []
     },
     "layer_norm_fwd_source_migration": {
       "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
@@ -2220,7 +2236,9 @@
       "full_lake_jobs": 15172,
       "public_theorem_count": 447,
       "python_tests": 627,
-      "boundary": "Local verification only. Every required owned/shared root and both public statements need exact-current official independent acceptance."
+      "boundary": "Local verification only. Every required owned/shared root and both public statements need exact-current official independent acceptance.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41640711003",
+      "source_commit": "643fc11c662e5f2a453f843eb5faef8d602151df"
     }
   },
   "targets": [
@@ -3325,8 +3343,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "AWAITING_OFFICIAL_REPLAY",
-      "reason": "Both complete 24-statement repaired original and existing integer-product candidate are copied statement by statement, including every optional input, seven-round RNG stream, cast, statistic, mask, store and branch. Original Python is unchanged; reversing only the documented index product and kernel/host names restores the entire original module AST. Old complete quotations and synthetic BLOCK_N_arg source statement are removed. All 114 owned modules and three shared frontend/test roots, full source execution, safety, Real formula and grid correctness, arbitrary-algebra FP execution and observations, native/host/IO connections are reverified. FP32 call values preserve scoped argument precision, typed fp32Load and fromNat callbacks remain in the independent FP reference, and artificial final casts on Mean/Rstd/residual outputs are removed. No new public premises or numerical assumptions. All 179 cases, 6499 retained/support roots, 15172 Lake jobs, 447 public names, 627 Python tests and trust/non-circularity/source checks pass locally. Complete remains false until fresh exact-current independent replay accepts every required root and public theorem."
+      "independent_replay": "IN_PROGRESS",
+      "reason": "Both complete 24-statement repaired original and existing integer-product candidate are copied statement by statement, including every optional input, seven-round RNG stream, cast, statistic, mask, store and branch. Original Python is unchanged; reversing only the documented index product and kernel/host names restores the entire original module AST. Old complete quotations and synthetic BLOCK_N_arg source statement are removed. All 114 owned modules and three shared frontend/test roots, full source execution, safety, Real formula and grid correctness, arbitrary-algebra FP execution and observations, native/host/IO connections are reverified. FP32 call values preserve scoped argument precision, typed fp32Load and fromNat callbacks remain in the independent FP reference, and artificial final casts on Mean/Rstd/residual outputs are removed. No new public premises or numerical assumptions. All 179 cases, 6499 retained/support roots, 15172 Lake jobs, 447 public names, 627 Python tests and trust/non-circularity/source checks pass locally. Complete remains false until fresh exact-current independent replay accepts every required root and public theorem.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41640711003",
+      "validated_source_commit": "643fc11c662e5f2a453f843eb5faef8d602151df"
     },
     {
       "path": "bench/tritonbench_g/layer_norm_liger",
