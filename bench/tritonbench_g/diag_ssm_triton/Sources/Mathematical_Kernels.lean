@@ -1,117 +1,30 @@
 import bench.tritonbench_g.diag_ssm_triton.Kernels
-import VeriTile.Triton.DSL
-import VeriTile.Triton.Source
-/-! Complete typed sources of the four diagonal SSM JITs.
-Source: diag_ssm_triton.py, diag_ssm_forward_kernel
 
-Real paths use matching fp16/bf16/fp32 storage across arguments. Complex paths
-retain the interleaved fp32 real/imaginary components of complex64 tensors.
-The complete recurrences, reverse-time branches, gradient signs, masks and
-stores are preserved. The candidate only commutes the integer column-index
-product. The complex forward tuple update reads two distinct new-state
-registers; neither right-hand side is overwritten by the update.
-No host autograd, concurrent launch, fixed-width overflow or GPU rounding
-claim is made by this source transcription. -/
+/-! Typed invocation views of the same original Python bodies. The existing
+fp32/fp16/bf16 mathematical API is retained; complex64 always uses fp32
+components. The selected repaired host accepts float32/complex64. -/
 namespace VeriTile.Bench.TritonBenchG.DiagSsmTriton.TypedSource
-open Lean VeriTile.Triton
-inductive Storage where
-  | fp32 | fp16 | bf16
-  deriving DecidableEq
-
-syntax "diagSsmForwardSource%" "[" tritonDType "," ident "]" : term
-set_option hygiene false in
-macro_rules
-  | `(diagSsmForwardSource%[$storage:tritonDType, $version:ident]) => do
-    unless version.getId == `original || version.getId == `indexCommuted do
-      Macro.throwError "expected original or indexCommuted"
-    let columnIndex : TSyntax `tritonStmt ←
-      if version.getId == `indexCommuted then `(tritonStmt| col_idx = $(BLOCK_SIZE) * tl.program_id(0))
-      else `(tritonStmt| col_idx = tl.program_id(0) * $(BLOCK_SIZE))
-    `(fun (s_ptr x_ptr lambda_ptr y_ptr : RegionName) (length batch_size dim BLOCK_SIZE : Nat) =>
-      ComputeKernel.mk [s_ptr, x_ptr, lambda_ptr] [y_ptr] (triton {
-  tl.region s_ptr = $storage, x_ptr = $storage, lambda_ptr = $storage, y_ptr = $storage
-  $columnIndex
-  col_offsets = col_idx + tl.arange(0, $(BLOCK_SIZE))
-  mask = col_offsets < $(batch_size) * $(dim)
-  s = tl.load(s_ptr + col_offsets, mask=mask, other=0)
-  Lambda = tl.load(lambda_ptr + col_offsets % $(dim), mask=mask, other=0)
-  tl.for t in $(length) {
-    offsets = t * $(batch_size) * $(dim) + col_offsets
-    x = tl.load(x_ptr + offsets, mask=mask, other=0)
-    s = s * Lambda + x
-    tl.store(y_ptr + offsets, s, mask=mask)
-  }
-}).surfaceBody)
+open VeriTile.Triton
 
 abbrev forwardSource := RegionName → RegionName → RegionName → RegionName → Nat → Nat → Nat → Nat → ComputeKernel
 def forward (storage : Storage) (swapped : Bool) : forwardSource :=
-  match storage, swapped with
-  | .fp32, Bool.false => VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped
-  | .fp32, Bool.true => VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted
-  | .fp16, Bool.false => diagSsmForwardSource%[tl.float16, original]
-  | .fp16, Bool.true => diagSsmForwardSource%[tl.float16, indexCommuted]
-  | .bf16, Bool.false => diagSsmForwardSource%[tl.bfloat16, original]
-  | .bf16, Bool.true => diagSsmForwardSource%[tl.bfloat16, indexCommuted]
-
-/-- Source: diag_ssm_triton.py, diag_ssm_backward_kernel. -/
-syntax "diagSsmBackwardSource%" "[" tritonDType "," ident "]" : term
-set_option hygiene false in
-macro_rules
-  | `(diagSsmBackwardSource%[$storage:tritonDType, $version:ident]) => do
-    unless version.getId == `original || version.getId == `indexCommuted do
-      Macro.throwError "expected original or indexCommuted"
-    let columnIndex : TSyntax `tritonStmt ←
-      if version.getId == `indexCommuted then `(tritonStmt| col_idx = $(BLOCK_SIZE) * tl.program_id(0))
-      else `(tritonStmt| col_idx = tl.program_id(0) * $(BLOCK_SIZE))
-    `(fun (s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr : RegionName) (length batch_size dim BLOCK_SIZE : Nat) =>
-      ComputeKernel.mk [s_ptr, lambda_ptr, y_ptr, grad_y_ptr] [grad_s_ptr, grad_x_ptr, grad_lambda_ptr] (triton {
-  tl.region s_ptr = $storage, lambda_ptr = $storage, y_ptr = $storage, grad_s_ptr = $storage, grad_x_ptr = $storage, grad_lambda_ptr = $storage, grad_y_ptr = $storage
-  $columnIndex
-  col_offsets = col_idx + tl.arange(0, $(BLOCK_SIZE))
-  mask = col_offsets < $(batch_size) * $(dim)
-  Lambda = tl.load(lambda_ptr + col_offsets % $(dim), mask=mask, other=0)
-  grad_s = tl.zeros_like(Lambda)
-  grad_Lambda = tl.zeros_like(Lambda)
-  tl.for i in $(length) {
-    t = $(length) - 1 - i
-    offsets = t * $(batch_size) * $(dim) + col_offsets
-    grad_y = tl.load(grad_y_ptr + offsets, mask=mask, other=0)
-    if t > 0 {
-      s = tl.load( y_ptr + offsets - $(batch_size) * $(dim), mask=mask, other=0)
-    } else {
-      s = tl.load(s_ptr + col_offsets, mask=mask, other=0)
-    }
-    grad_s = grad_y + grad_s
-    grad_x = grad_s
-    grad_Lambda += grad_s * s
-    grad_s = grad_s * Lambda
-    tl.store(grad_x_ptr + offsets, grad_x, mask=mask)
-  }
-  tl.store(grad_s_ptr + col_offsets, grad_s, mask=mask)
-  tl.store(grad_lambda_ptr + col_offsets, grad_Lambda, mask=mask)
-}).surfaceBody)
+  if swapped then VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.forwardCandidateBody storage
+  else VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.forwardBody storage
 
 abbrev backwardSource := RegionName → RegionName → RegionName → RegionName → RegionName → RegionName → RegionName → Nat → Nat → Nat → Nat → ComputeKernel
 def backward (storage : Storage) (swapped : Bool) : backwardSource :=
-  match storage, swapped with
-  | .fp32, Bool.false => VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped
-  | .fp32, Bool.true => VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted
-  | .fp16, Bool.false => diagSsmBackwardSource%[tl.float16, original]
-  | .fp16, Bool.true => diagSsmBackwardSource%[tl.float16, indexCommuted]
-  | .bf16, Bool.false => diagSsmBackwardSource%[tl.bfloat16, original]
-  | .bf16, Bool.true => diagSsmBackwardSource%[tl.bfloat16, indexCommuted]
+  if swapped then VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.backwardCandidateBody storage
+  else VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.backwardBody storage
 
-/-- Source: diag_ssm_triton.py, diag_ssm_forward_kernel_complex. -/
 abbrev complexForwardSource := RegionName → RegionName → RegionName → RegionName → Nat → Nat → Nat → Nat → ComputeKernel
 def complexForward (swapped : Bool) : complexForwardSource :=
-  if swapped then VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted
-  else VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped
+  if swapped then VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexForwardCandidateBody
+  else VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexForwardBody
 
-/-- Source: diag_ssm_triton.py, diag_ssm_backward_kernel_complex. -/
 abbrev complexBackwardSource := RegionName → RegionName → RegionName → RegionName → RegionName → RegionName → RegionName → Nat → Nat → Nat → Nat → ComputeKernel
 def complexBackward (swapped : Bool) : complexBackwardSource :=
-  if swapped then VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted
-  else VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped
+  if swapped then VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexBackwardCandidateBody
+  else VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexBackwardBody
 
 end VeriTile.Bench.TritonBenchG.DiagSsmTriton.TypedSource
 

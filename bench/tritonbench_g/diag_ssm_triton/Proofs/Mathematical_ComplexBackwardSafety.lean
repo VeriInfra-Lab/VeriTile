@@ -1,6 +1,6 @@
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ComplexBackwardLoop
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ComplexBackwardFinal
-import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ZeroSafety
+import bench.tritonbench_g.diag_ssm_triton.Proofs.SignedRealLoop
 import VeriTile.Triton.Memory.TraceRewrite
 namespace VeriTile.Bench.TritonBenchG.DiagSsmTriton.ComplexBackwardSafety
 open VeriTile.Triton ComplexForwardStep ComplexBackwardLoop
@@ -23,22 +23,23 @@ structure Bounds (p : Layout) (u : BlockState) (length : Nat) (bounds : RegionBo
   gradTransition : ∀ j, mask p u j=Bool.true → columns p u j*2+1 < bounds p.gl
 
 theorem loads_safe (bounds : RegionBounds) (gy : RegionName) (length batch dim B k : Nat)
-    (u : BlockState) (col : TileIndex [B] → Nat) (mask : TileIndex [B] → Bool)
-    (hi : u.regs .nat [] "i"=some (Tile.scalar k))
-    (hc : u.regs .nat [B] "col_offsets"=some ⟨col⟩)
+    (u : BlockState) (bound : k<length) (col : TileIndex [B] → Nat) (mask : TileIndex [B] → Bool)
+    (hi : u.regs .int [] "i"=some (Tile.scalar (k : Int)))
+    (hc : u.regs .int [B] "col_offsets"=some ⟨fun j=>(col j : Int)⟩)
     (hm : u.regs .bool [B] "mask"=some ⟨mask⟩)
     (hb : ∀ j, mask j=Bool.true → ComplexForwardStep.offset batch dim (length-1-k) col j*2+1 < bounds gy) :
     Stmt.TraceSafeList bounds (ComplexBackwardLoads.source gy length batch dim B) u := by
-  simp only [ComplexBackwardLoads.source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  have indexcast : (length : Int)-1-k=((length-1-k : Nat) : Int) := by omega
+  simp only [ComplexBackwardLoads.source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexBackwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
-    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
     ComparableDType.eraseDType,IntegralDType.eraseDType,
     List.map_cons,List.map_nil,Op.eraseDType.eq_def,
@@ -48,13 +49,17 @@ theorem loads_safe (bounds : RegionBounds) (gy : RegionName) (length batch dim B
   simp only [Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,
     MemAccess.SafeAt,MaskOpt.SafeAt,MemAccess.ActiveAddressSafe,memAccessActiveAddressSafe,MaskOpt.Active,
     and_true,true_and,and_self,stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
-    Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
+    Option.map,Option.pure_def,FloatDType.toTileDType,FloatDType.ofWithBot,FloatDType.toWithBot,WithBot.map,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
     String.reduceEq,Tile.bop,Tile.cop,Tile.scalar,NumericDType.mul,NumericDType.add,NumericDType.sub,
     WithBot.realSub,Option.map₂_some_some,Region.cast,
     BlockState.setReg_same,BlockState.setReg_ne_name,BlockState.setReg_pids,
     BlockState.setReg_readMemValue,BlockState.setReg_readMem,BlockState.readMemValue_real,
     Option.bind_some,Option.map_some,Bool.true_eq_false,↓reduceIte,ne_eq,not_false_eq_true,
     hi,hc,hm,Nat.mul_assoc]
+  have twice (n : Nat) : (n : Int)*2=((n*2 : Nat) : Int) := by omega
+  have plusOne (n : Nat) : (n : Int)+1=((n+1 : Nat) : Int) := by omega
+  simp only [Int.ofNat_eq_natCast,indexcast,Nat.cast_one,←Int.natCast_mul,←Int.natCast_add,
+    twice,plusOne,Int.toNat_natCast,IntegerExpr.same_left,IntegerExpr.same_right,Nat.mul_assoc]
   simp only [Option.some.injEq]
   constructor
   · intro offsets hoff j ⟨masks,hmask,hact⟩
@@ -68,7 +73,7 @@ theorem update_safe (bounds : RegionBounds) {B : Nat} (u : BlockState) (gx : Reg
     (col off : TileIndex [B] → Nat) (mask : TileIndex [B] → Bool)
     (g prev carry acc transition : TileIndex [B] → ℂ)
     (h : ComplexBackwardStep.Registers u col mask carry acc transition)
-    (ho : u.regs .nat [B] "offsets"=some ⟨fun j => off j*2⟩)
+    (ho : u.regs .int [B] "offsets"=some ⟨fun j => ((off j*2 : Nat) : Int)⟩)
     (hgr : u.regs .real [B] "grad_y_real"=some (realTile g))
     (hgi : u.regs .real [B] "grad_y_imag"=some (imagTile g))
     (hpr : u.regs .real [B] "s_real"=some (realTile prev))
@@ -76,16 +81,16 @@ theorem update_safe (bounds : RegionBounds) {B : Nat} (u : BlockState) (gx : Reg
     (hb : ∀ j, mask j=Bool.true → off j*2+1 < bounds gx) :
     Stmt.TraceSafeList bounds (ComplexBackwardUpdate.source gx B) u := by
   rcases h with ⟨hc,hm,hcr,hci,har,hai,hlr,hli⟩
-  simp only [ComplexBackwardUpdate.source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [ComplexBackwardUpdate.source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexBackwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
-    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
     ComparableDType.eraseDType,IntegralDType.eraseDType,
     List.map_cons,List.map_nil,Op.eraseDType.eq_def,
@@ -105,6 +110,10 @@ theorem update_safe (bounds : RegionBounds) {B : Nat} (u : BlockState) (gx : Reg
     Option.bind_some,Option.map_some,Bool.true_eq_false,↓reduceIte,ne_eq,not_false_eq_true,
     hc,hm,hcr,hci,har,hai,hlr,hli,ho,hgr,hgi,hpr,hpi,realTile,imagTile,
     FloatDType.storeValue,FloatDType.toWithBot,WithBot.unbotD_some]
+  have twice (n : Nat) : (n : Int)*2=((n*2 : Nat) : Int) := by omega
+  have plusOne (n : Nat) : (n : Int)+1=((n+1 : Nat) : Int) := by omega
+  simp only [Int.ofNat_eq_natCast,Nat.cast_one,←Int.natCast_mul,←Int.natCast_add,
+    twice,plusOne,Int.toNat_natCast,IntegerExpr.same_left,IntegerExpr.same_right,Nat.mul_assoc]
   simp only [Option.some.injEq]
   constructor
   · intro offsets hoff j ⟨masks,hmask,hact⟩
@@ -116,28 +125,31 @@ theorem update_safe (bounds : RegionBounds) {B : Nat} (u : BlockState) (gx : Reg
 
 theorem previous_safe (bounds : RegionBounds) (s y : RegionName) (batch dim B t : Nat) (u : BlockState)
     (col : TileIndex [B] → Nat) (mask : TileIndex [B] → Bool)
-    (ht : u.regs .nat [] "t"=some (Tile.scalar t))
-    (hc : u.regs .nat [B] "col_offsets"=some ⟨col⟩)
-    (ho : u.regs .nat [B] "offsets"=some ⟨fun j => offset batch dim t col j*2⟩)
+    (ht : u.regs .int [] "t"=some (Tile.scalar (t : Int)))
+    (hc : u.regs .int [B] "col_offsets"=some ⟨fun j=>(col j : Int)⟩)
+    (ho : u.regs .int [B] "offsets"=some ⟨fun j => ((offset batch dim t col j*2 : Nat) : Int)⟩)
     (hm : u.regs .bool [B] "mask"=some ⟨mask⟩)
     (hs : t=0 → ∀ j, mask j=Bool.true → col j*2+1 < bounds s)
     (hy : 0<t → ∀ j, mask j=Bool.true → ComplexForwardStep.offset batch dim (t-1) col j*2+1 < bounds y) :
     Stmt.TraceSafeList bounds (ComplexBackwardPrevious.source s y batch dim B) u := by
-  simp only [ComplexBackwardPrevious.source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [ComplexBackwardPrevious.source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexBackwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
-    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
     ComparableDType.eraseDType,IntegralDType.eraseDType,
     List.map_cons,List.map_nil,Op.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,FloatDType.toTileDType,
     Except.bind,bind,Bool.false_eq_true,↓reduceIte,List.drop,List.take]
+  have twice (n : Nat) : (n : Int)*2=((n*2 : Nat) : Int) := by omega
+  have twiceLeft (n : Nat) : 2*(n : Int)=((2*n : Nat) : Int) := by omega
+  have plusOne (n : Nat) : (n : Int)+1=((n+1 : Nat) : Int) := by omega
   cases t with
   | zero =>
     simp only [Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,
@@ -153,7 +165,7 @@ theorem previous_safe (bounds : RegionBounds) (s y : RegionName) (batch dim B t 
     simp only [ite_false,ite_true,Option.bind,bind,pure,Option.pure_def,
       BlockState.setReg_ne_name,BlockState.setReg_readMem,hc,hm,ho,
       String.reduceEq,ne_eq,not_false_eq_true]
-    simp only [Nat.mul_comm 2,Option.some.injEq]
+    simp only [Nat.mul_comm 2,Int.ofNat_eq_natCast,Nat.cast_one,twice,twiceLeft,plusOne,Int.toNat_natCast,Option.some.injEq]
     simp only [and_true,true_and]
     constructor
     · intro offsets hoff j ⟨masks,hmask,hact⟩
@@ -164,6 +176,17 @@ theorem previous_safe (bounds : RegionBounds) (s y : RegionName) (batch dim B t 
       exact hs rfl j hact
   | succ t =>
     have hp : 0<t+1 := by omega
+    have hip : (0 : Int)<((t+1 : Nat) : Int) := by omega
+    have address0 (c : Nat) :
+        (((((t+1)*(batch*dim)+c)*2 : Nat) : Int) - ((2*batch : Nat) : Int)*(dim : Int)).toNat =
+          (t*(batch*dim)+c)*2 := by
+      simpa only [Int.ofNat_eq_natCast,Nat.cast_mul,Nat.cast_ofNat,Nat.add_sub_cancel] using
+        ComplexBackwardStep.previous_address_zero batch dim (t+1) c hp
+    have address1 (c : Nat) :
+        (((((t+1)*(batch*dim)+c)*2 : Nat) : Int) - ((2*batch : Nat) : Int)*(dim : Int)+1).toNat =
+          (t*(batch*dim)+c)*2+1 := by
+      simpa only [Int.ofNat_eq_natCast,Nat.cast_mul,Nat.cast_ofNat,Nat.add_sub_cancel] using
+        ComplexBackwardPrevious.previous_address_imag batch dim (t+1) c hp
     simp only [Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,
     MemAccess.SafeAt,MaskOpt.SafeAt,MemAccess.ActiveAddressSafe,memAccessActiveAddressSafe,MaskOpt.Active,
     and_true,true_and,and_self,stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
@@ -179,6 +202,7 @@ theorem previous_safe (bounds : RegionBounds) (s y : RegionName) (batch dim B t 
       String.reduceEq,ne_eq,not_false_eq_true]
     simp only [ComplexForwardStep.offset,ComplexBackwardStep.previous_address_zero,
       ComplexBackwardPrevious.previous_address_imag,hp,Nat.succ_pos,Option.some.injEq]
+    simp only [Int.ofNat_eq_natCast,Nat.cast_one,twice,twiceLeft,plusOne,Int.toNat_natCast,hip,if_true,address0,address1,Nat.add_sub_cancel]
     simp only [and_true,true_and]
     constructor
     · intro offsets hoff j ⟨masks,hmask,hact⟩
@@ -189,9 +213,9 @@ theorem previous_safe (bounds : RegionBounds) (s y : RegionName) (batch dim B t 
       exact hy hp j hact
 
 theorem body_safe (bounds : RegionBounds) (s y gx gy : RegionName) (length batch dim B k : Nat)
-    (u : BlockState) (col : TileIndex [B] → Nat) (mask : TileIndex [B] → Bool)
+    (u : BlockState) (bound : k<length) (col : TileIndex [B] → Nat) (mask : TileIndex [B] → Bool)
     (carry acc transition : TileIndex [B] → ℂ)
-    (hi : u.regs .nat [] "i"=some (Tile.scalar k))
+    (hi : u.regs .int [] "i"=some (Tile.scalar (k : Int)))
     (h : ComplexBackwardStep.Registers u col mask carry acc transition)
     (hs : length-1-k=0 → ∀ j, mask j=Bool.true → col j*2+1 < bounds s)
     (hy : 0<length-1-k → ∀ j, mask j=Bool.true →
@@ -204,7 +228,7 @@ theorem body_safe (bounds : RegionBounds) (s y gx gy : RegionName) (length batch
   let up := ComplexBackwardPrevious.result ul s y batch dim t col mask
   let g := fun j => starRingEnd ℂ (input u gy (ComplexForwardStep.offset batch dim t col) mask j)
   let prev := ComplexBackwardStep.previous u s y batch dim t col mask
-  have hl := ComplexBackwardLoads.step gy length batch dim B k u col mask hi h.columns h.active
+  have hl := ComplexBackwardLoads.step gy length batch dim B k u bound col mask hi h.columns h.active
   have hp := ComplexBackwardPrevious.step s y batch dim B t ul col mask
     (by simp [ul,ComplexBackwardLoads.result])
     (by simpa [ul,ComplexBackwardLoads.result] using h.columns)
@@ -222,7 +246,7 @@ theorem body_safe (bounds : RegionBounds) (s y gx gy : RegionName) (length batch
     · simpa [up,ul,ComplexBackwardPrevious.result,ComplexBackwardLoads.result] using h.transitionImag
   have hprev : ComplexBackwardStep.previous ul s y batch dim t col mask=prev := rfl
   rw [ComplexBackwardStep.source_parts,List.append_assoc]
-  apply TraceProofs.append_safe _ u (loads_safe bounds gy length batch dim B k u col mask hi h.columns h.active hgy)
+  apply TraceProofs.append_safe _ u (loads_safe bounds gy length batch dim B k u bound col mask hi h.columns h.active hgy)
   intro vl he
   rw [hl] at he
   obtain rfl := Option.some.inj he
@@ -245,22 +269,46 @@ theorem body_safe (bounds : RegionBounds) (s y gx gy : RegionName) (length batch
 
 theorem prelude_safe (p : Layout) (u : BlockState) (length : Nat) (bounds : RegionBounds)
     (hb : Bounds p u length bounds) :
-    Stmt.TraceSafeList bounds (ComplexBackwardSource.prelude p.l p.batch p.dim p.B) u := by
-  have hstatic : ZeroSafety.complexBackwardBounds bounds u p.l p.gs p.gl p.batch p.dim p.B := by
-    refine ⟨?_,?_,?_⟩
-    · intro j hj
-      exact hb.transition ⟨j,PUnit.unit⟩ (by
-        simpa only [mask,ComplexForwardInit.active,ComplexForwardInit.columns,decide_eq_true_eq] using hj)
-    · intro j hj
-      exact hb.gradInitial ⟨j,PUnit.unit⟩ (by
-        simpa only [mask,ComplexForwardInit.active,ComplexForwardInit.columns,decide_eq_true_eq] using hj)
-    · intro j hj
-      exact hb.gradTransition ⟨j,PUnit.unit⟩ (by
-        simpa only [mask,ComplexForwardInit.active,ComplexForwardInit.columns,decide_eq_true_eq] using hj)
-  have h := ZeroSafety.complex_backward_safe bounds u p.s p.l p.y p.gs p.gx p.gl p.gy p.batch p.dim p.B hstatic
-  unfold Kernel.TraceSafe at h
-  rw [ComplexBackwardSource.source_body,List.append_assoc] at h
-  exact ((TraceRewrite.append_iff bounds _ _ u).mp h).1
+    Stmt.TraceSafeList bounds (ComplexBackwardSource.prelude p.l length p.batch p.dim p.B) u := by
+  simp only [ComplexBackwardSource.prelude,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexBackwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
+    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
+    IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
+    ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Op.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,
+    Except.bind,bind,Bool.false_eq_true,↓reduceIte,List.take]
+  simp only [Kernel.TraceSafe,Stmt.TraceSafeList,Stmt.TraceSafe,Stmt.forLoopTraceSafe,
+    Op.SafeAt.eq_def,MemAccess.SafeAt,MaskOpt.SafeAt,MemAccess.ActiveAddressSafe,
+    memAccessActiveAddressSafe,MaskOpt.Active,
+    stepStmts,stepStmt,↓eval_truncMod,evalOp,evalOp.eq_def,Option.bind,bind,pure,
+    Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
+    String.reduceEq,FlatAlloc.shiftBroadcast,
+    Tile.bop,Tile.cop,Tile.scalar,NumericDType.mul,NumericDType.add,
+    IntegralDType.mod,ComparableDType.lt,IntegerExpr.same_left,IntegerExpr.same_right,stepForLoopAux.forLoop_unfold,
+    stepForLoopAux.step_ge,Region.cast,BlockState.setReg_same,
+    BlockState.setReg_ne_name,BlockState.setReg_pids,BlockState.setReg_readMem,
+    BlockState.setReg_readMemValue,Option.bind_some,Option.map_some,
+    Bool.true_eq_false,↓reduceIte,ne_eq,not_false_eq_true,Nat.le_refl,Nat.not_lt_zero,False.elim,forall_const,true_and,and_true]
+  have twice (n : Nat) : (n : Int)*2=((n*2 : Nat) : Int) := by omega
+  have plusOne (n : Nat) : (n : Int)+1=((n+1 : Nat) : Int) := by omega
+  simp only [Int.ofNat_eq_natCast,Nat.cast_one,←Int.natCast_mul,←Int.natCast_add,
+    ←Int.ofNat_tmod,twice,plusOne,Int.ofNat_lt,Int.toNat_natCast,IntegerExpr.same_left,IntegerExpr.same_right,Nat.mul_assoc]
+  simp only [Option.some.injEq,forall_eq_apply_imp_iff,exists_eq_left,decide_eq_true_eq]
+  constructor
+  · intro offsets hoff j ⟨masks,hm,hact⟩
+    subst offsets; subst masks
+    exact Nat.lt_of_le_of_lt (Nat.le_add_right _ 1) (hb.transition j hact)
+  · intro offsets hoff j ⟨masks,hm,hact⟩
+    subst offsets; subst masks
+    exact hb.transition j hact
 
 theorem post_safe (bounds : RegionBounds) {B : Nat} (u : BlockState) (gs gl : RegionName) (col : TileIndex [B] → Nat)
     (mask : TileIndex [B] → Bool) (carry acc transition : TileIndex [B] → ℂ)
@@ -269,16 +317,16 @@ theorem post_safe (bounds : RegionBounds) {B : Nat} (u : BlockState) (gs gl : Re
     (hl : ∀ j, mask j=Bool.true → col j*2+1 < bounds gl) :
     Stmt.TraceSafeList bounds (ComplexBackwardSource.postlude gs gl B) u := by
   rcases h with ⟨hc,hm,hcr,hci,har,hai,hlr,hli⟩
-  simp only [ComplexBackwardSource.postlude,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [ComplexBackwardSource.postlude,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexBackwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
-    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
     ComparableDType.eraseDType,IntegralDType.eraseDType,
     List.map_cons,List.map_nil,Op.eraseDType.eq_def,
@@ -295,6 +343,10 @@ theorem post_safe (bounds : RegionBounds) {B : Nat} (u : BlockState) (gs gl : Re
     BlockState.foldl_writeMem_masked_regs,BlockState.setReg_same,BlockState.setReg_ne_name,
     hc,hm,hcr,hci,har,hai,realTile,imagTile,
     FloatDType.storeValue,FloatDType.toWithBot,WithBot.unbotD_some]
+  have twice (n : Nat) : (n : Int)*2=((n*2 : Nat) : Int) := by omega
+  have plusOne (n : Nat) : (n : Int)+1=((n+1 : Nat) : Int) := by omega
+  simp only [Int.ofNat_eq_natCast,Nat.cast_one,←Int.natCast_mul,←Int.natCast_add,
+    twice,plusOne,Int.toNat_natCast,IntegerExpr.same_left,IntegerExpr.same_right,Nat.mul_assoc]
   simp only [Option.some.injEq]
   refine ⟨?_,?_,?_,?_⟩
   · intro offsets hoff j ⟨masks,hmask,hact⟩
@@ -322,29 +374,31 @@ theorem trace_safe (p : Layout) (u : BlockState) (length : Nat) (bounds : Region
   intro v he
   rw [ComplexBackwardInit.prefix_step] at he
   obtain rfl := Option.some.inj he
-  change Stmt.TraceSafeList bounds (.forLoop "i" length
+  change Stmt.TraceSafeList bounds (.forRangeInt "i" (.constInt 0) (.castNatToInt (.constNat length)) (.constNat 1)
     (ComplexBackwardSource.body p.s p.y p.gx p.gy length p.batch p.dim p.B) ::
       ComplexBackwardSource.postlude p.gs p.gl p.B) _
   refine Stmt.TraceSafeList.cons_intro ?_ ?_
-  · simp only [Stmt.TraceSafe]
+  · simp only [Stmt.TraceSafe,Op.SafeAt.eq_def,true_and,evalOp.eq_def,Tile.scalar,pure,bind,Option.bind_some,Int.ofNat_eq_natCast]
     let P := fun v => ∃ carry acc : Lane p → ℂ, ComplexBackwardStep.Registers v
       (columns p u) (mask p u) carry acc (transition p u)
-    apply TraceProofs.loop_safe (P := P) ?_ ?_ length 0 _ (by omega)
-      ⟨_,_,ComplexBackwardInit.result_registers u p.l p.batch p.dim p.B⟩
+    have hs := VeriTile.Bench.Repairs.DiagSsmTriton.SignedRealLoop.safe bounds "i" length
+      (ComplexBackwardSource.body p.s p.y p.gx p.gy length p.batch p.dim p.B) P ?_ ?_
+      0 (Nat.zero_le _) _ ⟨_,_,ComplexBackwardInit.result_registers u p.l length p.batch p.dim p.B⟩
+    · simpa only [Nat.cast_zero] using hs
     · intro k v hk hv
       obtain ⟨c,a,hr⟩ := hv
       have ht := hr.setCounter k
       exact body_safe bounds p.s p.y p.gx p.gy length p.batch p.dim p.B k
-        (v.setReg "i" .nat [] (Tile.scalar k)) (columns p u) (mask p u) c a (transition p u)
+        (v.setReg "i" .int [] (Tile.scalar (k : Int))) hk (columns p u) (mask p u) c a (transition p u)
         (by simp) ht
         (fun _ => hb.initial (by omega))
         (fun hp => hb.previous _ (by omega))
         (hb.gradOutput _ (by omega)) (hb.gradInput _ (by omega))
-    · intro k v w _ hv he
+    · intro k v w hk hv he
       obtain ⟨c,a,hr⟩ := hv
       have ht := hr.setCounter k
       have hrun := ComplexBackwardStep.body_step p.s p.y p.gx p.gy length p.batch p.dim p.B k
-        (v.setReg "i" .nat [] (Tile.scalar k)) (columns p u) (mask p u) c a (transition p u) (by simp) ht
+        (v.setReg "i" .int [] (Tile.scalar (k : Int))) hk (columns p u) (mask p u) c a (transition p u) (by simp) ht
       rw [hrun] at he
       obtain rfl := Option.some.inj he
       exact ⟨_,_,ComplexBackwardStep.result_registers _ _ _ _ _ _ _ _ _ _ _ _ _ ht⟩
@@ -359,16 +413,16 @@ theorem trace_safe (p : Layout) (u : BlockState) (length : Nat) (bounds : Region
 theorem flatten_ok (p : Layout) (length : Nat) :
     (Erasure.complexBackward Bool.false p.s p.l p.y p.gs p.gx p.gl p.gy
       length p.batch p.dim p.B).toAlgKernel.FlattenOk := by
-  simp only [Kernel.FlattenOk,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [Kernel.FlattenOk,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexBackwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
-    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
     ComparableDType.eraseDType,IntegralDType.eraseDType,
     List.map_cons,List.map_nil,Op.eraseDType.eq_def,

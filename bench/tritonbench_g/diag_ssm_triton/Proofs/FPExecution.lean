@@ -1,3 +1,4 @@
+import bench.tritonbench_g.diag_ssm_triton.Proofs.SignedLoop
 import bench.tritonbench_g.diag_ssm_triton.Proofs.ReadableSource
 import bench.tritonbench_g.diag_ssm_triton.Kernels
 import VeriTile.Triton.Float.Control
@@ -27,11 +28,19 @@ set_option linter.unusedSimpArgs false
 /-- Extract the actual source loop body; no second AST is maintained. -/
 def bodyAt (kernel : ComputeKernel) (index : Nat) : List ComputeStmt :=
   match kernel.surfaceBody[index]? with
-  | some (.forLoop _ _ body) => body
+  | some (.forLoop _ _ body) | some (.forRangeInt _ _ _ _ body) => body
   | _ => []
 
+private theorem signed_loop_invariant {α : Type} [Inhabited α] (M : Algebra α)
+    {idx : RegName} {n : Nat} {body : List ComputeStmt} {P : Nat → State α → Prop}
+    (hstep : ∀ i s, i<n → P i s → ∃ t,
+      run M body (s.setReg idx .int [] (fun _=>(i : Int)))=some t ∧ P (i+1) t)
+    (start : Nat) (bound : start≤n) (s : State α) (initial : P start s) :
+    ∃ t, rangeInt M idx (start : Int) (n : Int) 1 body s=some t ∧ P n t :=
+  SignedLoop.invariant M idx n body P hstep start bound s initial
+
 def forwardInvariant {α : Type} (block : Nat) (u : State α) : Prop :=
-  ∃ v0 v1 v2 v3, u.regs .nat [block] "col_offsets" = some v0 ∧
+  ∃ v0 v1 v2 v3, u.regs .int [block] "col_offsets" = some v0 ∧
     u.regs .bool [block] "mask" = some v1 ∧
     u.regs .real [block] "s" = some v2 ∧
     u.regs .real [block] "Lambda" = some v3
@@ -40,39 +49,42 @@ theorem forward_success {α : Type} [Inhabited α] (M : Algebra α)
     (s x transition y : RegionName) (length batch dim block : Nat) (u : State α) :
     ∃ v, FP.Structural.exec M (Kernels.forwardTyped s x transition y length batch dim block) u = some v := by
   obtain ⟨a, ha, hi⟩ : ∃ a,
-      run M ((Kernels.forwardTyped s x transition y length batch dim block).surfaceBody.take 5) u = some a ∧
+      run M ((Kernels.forwardTyped s x transition y length batch dim block).surfaceBody.take 8) u = some a ∧
       forwardInvariant block a := by
-    simp [Kernels.ReadableSource.forward_preserved, TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, forwardInvariant]
+    simp [Kernels.ReadableSource.forward_preserved, TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType, forwardInvariant]
   have hs : ∀ i a, i < length → forwardInvariant block a →
-      ∃ b, run M (bodyAt (Kernels.forwardTyped s x transition y length batch dim block) 5)
-        (a.setReg "t" .nat [] (fun _ => i)) = some b ∧ forwardInvariant block b := by
+      ∃ b, run M (bodyAt (Kernels.forwardTyped s x transition y length batch dim block) 8)
+        (a.setReg "t" .int [] (fun _ => (i : Int))) = some b ∧ forwardInvariant block b := by
     intro i a _ hi
     rcases hi with ⟨v0, v1, v2, v3, h0, h1, h2, h3⟩
-    simp [bodyAt, Kernels.ReadableSource.forward_preserved, TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, forwardInvariant,
+    simp [bodyAt, Kernels.ReadableSource.forward_preserved, TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType, forwardInvariant,
       h0, h1, h2, h3]
-  obtain ⟨b, hb, hi⟩ := loop_invariant M (P := fun _ => forwardInvariant block) hs
+  obtain ⟨b, hb, hi⟩ := signed_loop_invariant M (idx := "t") (n := length)
+    (body := bodyAt (Kernels.forwardTyped s x transition y length batch dim block) 8)
+    (P := fun _ => forwardInvariant block) hs
     0 (Nat.zero_le length) a hi
-  obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.forwardTyped s x transition y length batch dim block).surfaceBody.drop 6) b = some v := by
+  simp only [Nat.cast_zero] at hb
+  obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.forwardTyped s x transition y length batch dim block).surfaceBody.drop 9) b = some v := by
     rcases hi with ⟨v0, v1, v2, v3, h0, h1, h2, h3⟩
-    simp [Kernels.ReadableSource.forward_preserved, TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
+    simp [Kernels.ReadableSource.forward_preserved, TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
       h0, h1, h2, h3]
   refine ⟨v, ?_⟩
   have source : (Kernels.forwardTyped s x transition y length batch dim block).surfaceBody =
-      (Kernels.forwardTyped s x transition y length batch dim block).surfaceBody.take 5 ++
-        [.forLoop "t" length (bodyAt (Kernels.forwardTyped s x transition y length batch dim block) 5)] ++
-          (Kernels.forwardTyped s x transition y length batch dim block).surfaceBody.drop 6 := rfl
+      (Kernels.forwardTyped s x transition y length batch dim block).surfaceBody.take 8 ++
+        [.forRangeInt "t" (.constInt 0) (.castNatToInt (.constNat length)) (.constNat 1) (bodyAt (Kernels.forwardTyped s x transition y length batch dim block) 8)] ++
+          (Kernels.forwardTyped s x transition y length batch dim block).surfaceBody.drop 9 := rfl
   change run M (Kernels.forwardTyped s x transition y length batch dim block).surfaceBody u = some v
   rw [source, run_append, run_append, ha]
-  simpa only [run, step, Option.bind_some, hb] using hv
+  simpa [run, step, evalOp_unfold, hb] using hv
 
 def backwardInvariant {α : Type} (block : Nat) (u : State α) : Prop :=
-  ∃ v0 v1 v2 v3 v4, u.regs .nat [block] "col_offsets" = some v0 ∧
+  ∃ v0 v1 v2 v3 v4, u.regs .int [block] "col_offsets" = some v0 ∧
     u.regs .bool [block] "mask" = some v1 ∧
     u.regs .real [block] "Lambda" = some v2 ∧
     u.regs .real [block] "grad_s" = some v3 ∧
@@ -82,40 +94,43 @@ theorem backward_success {α : Type} [Inhabited α] (M : Algebra α)
     (s transition y gs gx gl gy : RegionName) (length batch dim block : Nat) (u : State α) :
     ∃ v, FP.Structural.exec M (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block) u = some v := by
   obtain ⟨a, ha, hi⟩ : ∃ a,
-      run M ((Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.take 6) u = some a ∧
+      run M ((Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.take 9) u = some a ∧
       backwardInvariant block a := by
-    simp [Kernels.ReadableSource.backward_preserved, TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, backwardInvariant]
+    simp [Kernels.ReadableSource.backward_preserved, TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType, backwardInvariant]
   have hs : ∀ i a, i < length → backwardInvariant block a →
-      ∃ b, run M (bodyAt (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block) 6)
-        (a.setReg "i" .nat [] (fun _ => i)) = some b ∧ backwardInvariant block b := by
+      ∃ b, run M (bodyAt (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block) 9)
+        (a.setReg "i" .int [] (fun _ => (i : Int))) = some b ∧ backwardInvariant block b := by
     intro i a _ hi
     rcases hi with ⟨v0, v1, v2, v3, v4, h0, h1, h2, h3, h4⟩
-    by_cases hbranch : i < length - 1 <;>
-      simp [hbranch, bodyAt, Kernels.ReadableSource.backward_preserved, TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, backwardInvariant,
+    by_cases hbranch : (i : Int)<(length : Int)-1 <;>
+      simp [hbranch, bodyAt, Kernels.ReadableSource.backward_preserved, TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType, backwardInvariant,
       h0, h1, h2, h3, h4]
-  obtain ⟨b, hb, hi⟩ := loop_invariant M (P := fun _ => backwardInvariant block) hs
+  obtain ⟨b, hb, hi⟩ := signed_loop_invariant M (idx := "i") (n := length)
+    (body := bodyAt (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block) 9)
+    (P := fun _ => backwardInvariant block) hs
     0 (Nat.zero_le length) a hi
-  obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.drop 7) b = some v := by
+  simp only [Nat.cast_zero] at hb
+  obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.drop 10) b = some v := by
     rcases hi with ⟨v0, v1, v2, v3, v4, h0, h1, h2, h3, h4⟩
-    simp [Kernels.ReadableSource.backward_preserved, TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
+    simp [Kernels.ReadableSource.backward_preserved, TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
       h0, h1, h2, h3, h4]
   refine ⟨v, ?_⟩
   have source : (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody =
-      (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.take 6 ++
-        [.forLoop "i" length (bodyAt (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block) 6)] ++
-          (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.drop 7 := rfl
+      (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.take 9 ++
+        [.forRangeInt "i" (.constInt 0) (.castNatToInt (.constNat length)) (.constNat 1) (bodyAt (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block) 9)] ++
+          (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.drop 10 := rfl
   change run M (Kernels.backwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody u = some v
   rw [source, run_append, run_append, ha]
-  simpa only [run, step, Option.bind_some, hb] using hv
+  simpa [run, step, evalOp_unfold, hb] using hv
 
 def complexForwardInvariant {α : Type} (block : Nat) (u : State α) : Prop :=
-  ∃ v0 v1 v2 v3 v4 v5, u.regs .nat [block] "col_offsets" = some v0 ∧
+  ∃ v0 v1 v2 v3 v4 v5, u.regs .int [block] "col_offsets" = some v0 ∧
     u.regs .bool [block] "mask" = some v1 ∧
     u.regs .real [block] "s_real" = some v2 ∧
     u.regs .real [block] "s_imag" = some v3 ∧
@@ -126,39 +141,42 @@ theorem complexForward_success {α : Type} [Inhabited α] (M : Algebra α)
     (s x y transition : RegionName) (length batch dim block : Nat) (u : State α) :
     ∃ v, FP.Structural.exec M (Kernels.complexForwardTyped s x y transition length batch dim block) u = some v := by
   obtain ⟨a, ha, hi⟩ : ∃ a,
-      run M ((Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody.take 7) u = some a ∧
+      run M ((Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody.take 10) u = some a ∧
       complexForwardInvariant block a := by
-    simp [Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexForwardInvariant]
+    simp [Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexForwardInvariant]
   have hs : ∀ i a, i < length → complexForwardInvariant block a →
-      ∃ b, run M (bodyAt (Kernels.complexForwardTyped s x y transition length batch dim block) 7)
-        (a.setReg "t" .nat [] (fun _ => i)) = some b ∧ complexForwardInvariant block b := by
+      ∃ b, run M (bodyAt (Kernels.complexForwardTyped s x y transition length batch dim block) 10)
+        (a.setReg "t" .int [] (fun _ => (i : Int))) = some b ∧ complexForwardInvariant block b := by
     intro i a _ hi
     rcases hi with ⟨v0, v1, v2, v3, v4, v5, h0, h1, h2, h3, h4, h5⟩
-    simp [bodyAt, Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexForwardInvariant,
+    simp [bodyAt, Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexForwardInvariant,
       h0, h1, h2, h3, h4, h5]
-  obtain ⟨b, hb, hi⟩ := loop_invariant M (P := fun _ => complexForwardInvariant block) hs
+  obtain ⟨b, hb, hi⟩ := signed_loop_invariant M (idx := "t") (n := length)
+    (body := bodyAt (Kernels.complexForwardTyped s x y transition length batch dim block) 10)
+    (P := fun _ => complexForwardInvariant block) hs
     0 (Nat.zero_le length) a hi
-  obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody.drop 8) b = some v := by
+  simp only [Nat.cast_zero] at hb
+  obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody.drop 11) b = some v := by
     rcases hi with ⟨v0, v1, v2, v3, v4, v5, h0, h1, h2, h3, h4, h5⟩
-    simp [Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
+    simp [Kernels.ReadableSource.complex_forward_preserved, TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
       h0, h1, h2, h3, h4, h5]
   refine ⟨v, ?_⟩
   have source : (Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody =
-      (Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody.take 7 ++
-        [.forLoop "t" length (bodyAt (Kernels.complexForwardTyped s x y transition length batch dim block) 7)] ++
-          (Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody.drop 8 := rfl
+      (Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody.take 10 ++
+        [.forRangeInt "t" (.constInt 0) (.castNatToInt (.constNat length)) (.constNat 1) (bodyAt (Kernels.complexForwardTyped s x y transition length batch dim block) 10)] ++
+          (Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody.drop 11 := rfl
   change run M (Kernels.complexForwardTyped s x y transition length batch dim block).surfaceBody u = some v
   rw [source, run_append, run_append, ha]
-  simpa only [run, step, Option.bind_some, hb] using hv
+  simpa [run, step, evalOp_unfold, hb] using hv
 
 def complexBackwardInvariant {α : Type} (block : Nat) (u : State α) : Prop :=
-  ∃ v0 v1 v2 v3 v4 v5 v6 v7, u.regs .nat [block] "col_offsets" = some v0 ∧
+  ∃ v0 v1 v2 v3 v4 v5 v6 v7, u.regs .int [block] "col_offsets" = some v0 ∧
     u.regs .bool [block] "mask" = some v1 ∧
     u.regs .real [block] "lambda_real" = some v2 ∧
     u.regs .real [block] "lambda_imag" = some v3 ∧
@@ -171,37 +189,40 @@ theorem complexBackward_success {α : Type} [Inhabited α] (M : Algebra α)
     (s transition y gs gx gl gy : RegionName) (length batch dim block : Nat) (u : State α) :
     ∃ v, FP.Structural.exec M (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block) u = some v := by
   obtain ⟨a, ha, hi⟩ : ∃ a,
-      run M ((Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.take 9) u = some a ∧
+      run M ((Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.take 12) u = some a ∧
       complexBackwardInvariant block a := by
-    simp [Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexBackwardInvariant]
+    simp [Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexBackwardInvariant]
   have hs : ∀ i a, i < length → complexBackwardInvariant block a →
-      ∃ b, run M (bodyAt (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block) 9)
-        (a.setReg "i" .nat [] (fun _ => i)) = some b ∧ complexBackwardInvariant block b := by
+      ∃ b, run M (bodyAt (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block) 12)
+        (a.setReg "i" .int [] (fun _ => (i : Int))) = some b ∧ complexBackwardInvariant block b := by
     intro i a _ hi
     rcases hi with ⟨v0, v1, v2, v3, v4, v5, v6, v7, h0, h1, h2, h3, h4, h5, h6, h7⟩
-    by_cases hbranch : i < length - 1 <;>
-      simp [hbranch, bodyAt, Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexBackwardInvariant,
+    by_cases hbranch : (i : Int)<(length : Int)-1 <;>
+      simp [hbranch, bodyAt, Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType, complexBackwardInvariant,
       h0, h1, h2, h3, h4, h5, h6, h7]
-  obtain ⟨b, hb, hi⟩ := loop_invariant M (P := fun _ => complexBackwardInvariant block) hs
+  obtain ⟨b, hb, hi⟩ := signed_loop_invariant M (idx := "i") (n := length)
+    (body := bodyAt (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block) 12)
+    (P := fun _ => complexBackwardInvariant block) hs
     0 (Nat.zero_le length) a hi
-  obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.drop 10) b = some v := by
+  simp only [Nat.cast_zero] at hb
+  obtain ⟨v, hv⟩ : ∃ v, run M ((Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.drop 13) b = some v := by
     rcases hi with ⟨v0, v1, v2, v3, v4, v5, v6, v7, h0, h1, h2, h3, h4, h5, h6, h7⟩
-    simp [Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted, ComputeKernel.surfaceBody,
-      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
-      numeric, numericLt, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
+    simp [Kernels.ReadableSource.complex_backward_preserved, TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted, Bodies.forwardBody,Bodies.backwardBody,Bodies.complexForwardBody,Bodies.complexBackwardBody,ComputeKernel.surfaceBody,
+      run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind, pure, bind,
+      numeric, numericLt, numericLe, numericEq, integralFloorDiv, integralMod, natLt, bop, store, Region.cast, ComputeDType.eraseDType,
       h0, h1, h2, h3, h4, h5, h6, h7]
   refine ⟨v, ?_⟩
   have source : (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody =
-      (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.take 9 ++
-        [.forLoop "i" length (bodyAt (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block) 9)] ++
-          (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.drop 10 := rfl
+      (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.take 12 ++
+        [.forRangeInt "i" (.constInt 0) (.castNatToInt (.constNat length)) (.constNat 1) (bodyAt (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block) 12)] ++
+          (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody.drop 13 := rfl
   change run M (Kernels.complexBackwardTyped s transition y gs gx gl gy length batch dim block).surfaceBody u = some v
   rw [source, run_append, run_append, ha]
-  simpa only [run, step, Option.bind_some, hb] using hv
+  simpa [run, step, evalOp_unfold, hb] using hv
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ComplexForwardInit
-import VeriTile.Triton.KernelLemmas.LoopInvariant
+import bench.tritonbench_g.diag_ssm_triton.Proofs.SignedRealLoop
 import VeriTile.Triton.Semantics.ProgramRewrite
 namespace VeriTile.Bench.TritonBenchG.DiagSsmTriton.ComplexForwardLoop
 open VeriTile.Triton
@@ -78,10 +78,10 @@ theorem input_unchanged {p : Layout} {u v : BlockState} {k : Nat}
       rw [h1]
   · simp [input,ComplexForwardStep.input,hm]
 
-theorem initial_invariant (p : Layout) (u : BlockState) :
-    Invariant p u 0 (ComplexForwardInit.result u p.s p.l p.batch p.dim p.B) := by
+theorem initial_invariant (p : Layout) (u : BlockState) (length : Nat) :
+    Invariant p u 0 (ComplexForwardInit.result u p.s p.l length p.batch p.dim p.B) := by
   refine ⟨?_,rfl,?_,?_⟩
-  · exact ComplexForwardInit.result_registers u p.s p.l p.batch p.dim p.B
+  · exact ComplexForwardInit.result_registers u p.s p.l length p.batch p.dim p.B
   · intro t ht; omega
   · intro r o _; rfl
 
@@ -91,8 +91,8 @@ previous output, and the complete write footprint. -/
 theorem step (p : Layout) (u : BlockState) (k : Nat) (v : BlockState)
     (h : Invariant p u k v) :
     ∃ w, stepStmts (ComplexForwardSource.body p.x p.y p.batch p.dim p.B)
-        (v.setReg "t" .nat [] (Tile.scalar k)) = some w ∧ Invariant p u (k+1) w := by
-  let vt := v.setReg "t" .nat [] (Tile.scalar k)
+        (v.setReg "t" .int [] (Tile.scalar (k : Int))) = some w ∧ Invariant p u (k+1) w := by
+  let vt := v.setReg "t" .int [] (Tile.scalar (k : Int))
   let w := ComplexForwardStep.result vt p.x p.y (offset p u k) (mask p u)
     (state p u k) (transition p u)
   have ht := h.registers.setCounter k
@@ -152,15 +152,17 @@ separately when forming the public flattened IO contract. -/
 theorem run (p : Layout) (u : BlockState) (length : Nat) :
     ∃ v, exec (Erasure.complexForward Bool.false p.s p.x p.y p.l length p.batch p.dim p.B).toAlgKernel u = some v ∧
       Invariant p u length v := by
-  obtain ⟨v,he,hv⟩ := forLoop_inv (idx := "t") (n := length)
-    (body := ComplexForwardSource.body p.x p.y p.batch p.dim p.B)
-    (P := Invariant p u)
-    (s_init := ComplexForwardInit.result u p.s p.l p.batch p.dim p.B)
-    (initial_invariant p u) (fun k v _ h => step p u k v h)
+  obtain ⟨v,he,hv⟩ := VeriTile.Bench.Repairs.DiagSsmTriton.SignedRealLoop.invariant "t" length
+    (ComplexForwardSource.body p.x p.y p.batch p.dim p.B) (Invariant p u)
+    (fun k v _ h => step p u k v h)
+    0 (Nat.zero_le _) (ComplexForwardInit.result u p.s p.l length p.batch p.dim p.B)
+    (initial_invariant p u length)
+  simp only [Nat.cast_zero] at he
   refine ⟨v,?_,hv⟩
   unfold exec
   rw [ComplexForwardSource.source_body]
-  simp only [ProgramRewrite.append,ComplexForwardInit.prefix_step,Option.bind_some,stepStmts,he]
+  simp only [ProgramRewrite.append,ComplexForwardInit.prefix_step,Option.bind_some,stepStmts,stepStmt,
+    evalOp.eq_def,Tile.scalar,pure,bind,Int.ofNat_eq_natCast,he]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

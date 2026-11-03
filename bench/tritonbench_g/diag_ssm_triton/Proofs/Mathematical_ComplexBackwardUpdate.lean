@@ -7,7 +7,7 @@ set_option maxRecDepth 20000
 set_option linter.unusedSimpArgs false
 
 def source (gx : RegionName) (B : Nat) : List Stmt :=
-  (ComplexBackwardSource.body "s" "y" gx "gy" 0 0 0 B).drop 5
+  (ComplexBackwardSource.body "s" "y" gx "gy" 0 0 0 B).drop 6
 
 def result {B : Nat} (u : BlockState) (gx : RegionName) (off : TileIndex [B] → Nat)
     (mask : TileIndex [B] → Bool) (g prev carry acc transition : TileIndex [B] → ℂ) : BlockState :=
@@ -28,23 +28,23 @@ theorem step {B : Nat} (u : BlockState) (gx : RegionName)
     (col off : TileIndex [B] → Nat) (mask : TileIndex [B] → Bool)
     (g prev carry acc transition : TileIndex [B] → ℂ)
     (h : ComplexBackwardStep.Registers u col mask carry acc transition)
-    (ho : u.regs .nat [B] "offsets"=some ⟨fun j => off j*2⟩)
+    (ho : u.regs .int [B] "offsets"=some ⟨fun j => ((off j*2 : Nat) : Int)⟩)
     (hgr : u.regs .real [B] "grad_y_real"=some (realTile g))
     (hgi : u.regs .real [B] "grad_y_imag"=some (imagTile g))
     (hpr : u.regs .real [B] "s_real"=some (realTile prev))
     (hpi : u.regs .real [B] "s_imag"=some (imagTile prev)) :
     stepStmts (source gx B) u=some (result u gx off mask g prev carry acc transition) := by
   rcases h with ⟨hc,hm,hcr,hci,har,hai,hlr,hli⟩
-  simp only [source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexBackwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
-    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
     ComparableDType.eraseDType,IntegralDType.eraseDType,
     List.map_cons,List.map_nil,Op.eraseDType.eq_def,
@@ -64,6 +64,10 @@ theorem step {B : Nat} (u : BlockState) (gx : RegionName)
     FloatDType.storeValue,FloatDType.toWithBot,WithBot.unbotD_some]
   simp only [result,ComplexMemory.store,realTile,imagTile,
     Complex.add_re,Complex.add_im,Complex.mul_re,Complex.mul_im,Complex.conj_re,Complex.conj_im]
+  have twice (n : Nat) : (n : Int)*2=((n*2 : Nat) : Int) := by omega
+  have plusOne (n : Nat) : (n : Int)+1=((n+1 : Nat) : Int) := by omega
+  simp only [Int.ofNat_eq_natCast,Nat.cast_one,twice,plusOne,Int.toNat_natCast,apply_ite,Option.map₂_some_some]
+
 
 #guard_msgs (drop info) in
 #auditModuleAxioms
