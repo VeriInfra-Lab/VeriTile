@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 159,
+  "completed_count": 161,
   "staged_count": 161,
-  "pending_count": 37,
+  "pending_count": 35,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
+    "staged_public_proofs": "PASS_WITH_EXACT_CURRENT_INDEPENDENT_RECEIPTS",
     "staged_and_regression_retained_modules": 5518,
-    "official_comparator": "159 current targets retain exact-dependency independent receipts. The two locally verified attention targets await replay. Llama FF (59 roots) and KV cache filling (38 roots) are independently accepted. Compilation is not completion.",
+    "official_comparator": "161 current targets retain exact-dependency independent receipts. All 19 examples and every locally verified target are independently accepted. The remaining 35 TritonBench-G tasks, including the two rotary tasks in progress, remain incomplete.",
     "python_tests": 576,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "Last full local snapshot: 167 cases (161 targets and six regressions), 5518 retained/supporting modules, 14228 Lake jobs, 415 public theorem names and 576 Python tests passed. Exact-current independent receipts accept 159 targets, including all 19 examples, Llama FF (59 roots) and KV cache filling (38 roots). The two locally verified attention tasks await replay. Both rotary tasks are being migrated; their current work is outside that last full local snapshot and remains incomplete.",
+    "working_tree": "Last full local snapshot: 167 cases (161 targets and six regressions), 5518 retained/supporting modules, 14228 Lake jobs, 415 public theorem names and 576 Python tests passed. All 161 targets in that snapshot now retain exact-current independent receipts, including all 19 examples. Both rotary tasks are being migrated; their current work is outside that last full local snapshot and remains incomplete.",
     "official_replay_sources": 4521,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -885,10 +885,11 @@
         "cases": 2,
         "retained_modules": 92,
         "replay_sources": 92,
-        "state": "official_replay_running",
+        "state": "accepted_exact_current_independent_receipt",
         "source_commit": "f38795ec6be66d0094f751edc580dae3eba0847e",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41569672639",
-        "started_at": "2026-11-03T03:01:34Z"
+        "started_at": "2026-11-03T03:01:34Z",
+        "receipt": "validation/body_receipts/attention-forward-pair-source-migration.json"
       },
       {
         "case_paths": [
@@ -917,7 +918,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue the remaining 35 TritonBench-G source/proof migrations, beginning with both rotary tasks; collect the attention pair receipt. All 19 examples independently accepted. No merge.",
+    "current_work": "Continue the remaining 35 TritonBench-G source/proof migrations, beginning with both rotary tasks. All 19 examples and all previously locally verified targets are independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1532,7 +1533,7 @@
       "required_replay_roots": 47
     },
     "attention_helper_source_migration": {
-      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "local_validation": "PASS_WITH_EXACT_CURRENT_INDEPENDENT_RECEIPT",
       "owned_modules": 90,
       "shared_frontend_test_modules": 2,
       "shared_trust_inventory_theorems": 183,
@@ -1561,7 +1562,10 @@
       "full_replay_sources": 4424,
       "full_lake_jobs": 14128,
       "public_theorems": 411,
-      "boundary": "Local verification only. Both targets remain incomplete until exact-current independent replay accepts every required root."
+      "boundary": "Local verification only. Both targets remain incomplete until exact-current independent replay accepts every required root.",
+      "official_receipt": "validation/body_receipts/attention-forward-pair-source-migration.json",
+      "independent_replay": "PASS",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41569672639"
     },
     "llama_ff_source_migration": {
       "local_validation": "PASS_WITH_EXACT_CURRENT_INDEPENDENT_RECEIPT",
@@ -1681,14 +1685,16 @@
     },
     {
       "path": "bench/tritonbench_g/attention_forward_triton",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The existing candidate hoists the head mask; output remains FP16. Original/candidate helper and caller statement counts are 3/27 and 3/28. Both unchanged original Python helper/caller bodies are registered verbatim, with complete tuple initialization, runtime loop, all casts, masks, mixed FP32/FP16 dots, pointer advances and tuple returns. Materialized the existing Lean candidate in Python and independently checked its exact AST transformation. Removed the old complete inline quotation(s) and the two extra private padding/head parameters; the source itself retains literal 128/96. The optional loop-helper frontend captures arguments once, renames locals, preserves tuple evaluation order and resolves immutable pointer-element dtype queries from actual ABI metadata. Reproved prefix execution, actual captured state, loop invariants, dynamic lo/hi bound evaluation, complete execution, independent Real formulas, actual FP candidates, native models/layouts/ABIs, complete grids, source safety, outputs/readback and frames without new public premises, narrower numerical domains or new FP rules. All 90 owned and two shared roots pass local checks; 183 shared trust/inventory declarations, including three semantic regression theorems, pass. Full integration passes 165 cases, 5421 modules, 14128 Lake jobs, 411 public theorem names and 564 Python tests. Independent exact-current replay is still required; compilation is not completion.",
+      "reason": "The existing candidate hoists the head mask; output remains FP16. Original/candidate helper and caller statement counts are 3/27 and 3/28. Both unchanged original Python helper/caller bodies are registered verbatim, with complete tuple initialization, runtime loop, all casts, masks, mixed FP32/FP16 dots, pointer advances and tuple returns. Materialized the existing Lean candidate in Python and independently checked its exact AST transformation. Removed the old complete inline quotation(s) and the two extra private padding/head parameters; the source itself retains literal 128/96. The optional loop-helper frontend captures arguments once, renames locals, preserves tuple evaluation order and resolves immutable pointer-element dtype queries from actual ABI metadata. Reproved prefix execution, actual captured state, loop invariants, dynamic lo/hi bound evaluation, complete execution, independent Real formulas, actual FP candidates, native models/layouts/ABIs, complete grids, source safety, outputs/readback and frames without new public premises, narrower numerical domains or new FP rules. All 90 owned and two shared roots pass local checks; 183 shared trust/inventory declarations, including three semantic regression theorems, pass. Full integration passes 165 cases, 5421 modules, 14128 Lake jobs, 411 public theorem names and 564 Python tests. Independent exact-current replay is still required; compilation is not completion. Official independent replay accepts both attention targets and all 92 owned/shared roots; ZIP digest, public theorem coverage and exact current source/import closures verified. Receipt: validation/body_receipts/attention-forward-pair-source-migration.json.",
       "validated_source_commit": "f38795ec6be66d0094f751edc580dae3eba0847e",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41569672639"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41569672639",
+      "independent_replay": "PASS",
+      "receipt": "validation/body_receipts/attention-forward-pair-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton1",
@@ -1714,14 +1720,16 @@
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton2",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The existing fixed-BLOCK_M=128 candidate replaces only its entry index multiplication by shift-left seven; output remains BF16. All four source bodies retain 3/27 statements. The whole original/candidate IR comparison, including success/failure and source safety, has been reverified. Both unchanged original Python helper/caller bodies are registered verbatim, with complete tuple initialization, runtime loop, all casts, masks, mixed FP32/FP16 dots, pointer advances and tuple returns. Materialized the existing Lean candidate in Python and independently checked its exact AST transformation. Removed the old complete inline quotation(s) and the two extra private padding/head parameters; the source itself retains literal 128/96. The optional loop-helper frontend captures arguments once, renames locals, preserves tuple evaluation order and resolves immutable pointer-element dtype queries from actual ABI metadata. Reproved prefix execution, actual captured state, loop invariants, dynamic lo/hi bound evaluation, complete execution, independent Real formulas, actual FP candidates, native models/layouts/ABIs, complete grids, source safety, outputs/readback and frames without new public premises, narrower numerical domains or new FP rules. All 90 owned and two shared roots pass local checks; 183 shared trust/inventory declarations, including three semantic regression theorems, pass. Full integration passes 165 cases, 5421 modules, 14128 Lake jobs, 411 public theorem names and 564 Python tests. Independent exact-current replay is still required; compilation is not completion.",
+      "reason": "The existing fixed-BLOCK_M=128 candidate replaces only its entry index multiplication by shift-left seven; output remains BF16. All four source bodies retain 3/27 statements. The whole original/candidate IR comparison, including success/failure and source safety, has been reverified. Both unchanged original Python helper/caller bodies are registered verbatim, with complete tuple initialization, runtime loop, all casts, masks, mixed FP32/FP16 dots, pointer advances and tuple returns. Materialized the existing Lean candidate in Python and independently checked its exact AST transformation. Removed the old complete inline quotation(s) and the two extra private padding/head parameters; the source itself retains literal 128/96. The optional loop-helper frontend captures arguments once, renames locals, preserves tuple evaluation order and resolves immutable pointer-element dtype queries from actual ABI metadata. Reproved prefix execution, actual captured state, loop invariants, dynamic lo/hi bound evaluation, complete execution, independent Real formulas, actual FP candidates, native models/layouts/ABIs, complete grids, source safety, outputs/readback and frames without new public premises, narrower numerical domains or new FP rules. All 90 owned and two shared roots pass local checks; 183 shared trust/inventory declarations, including three semantic regression theorems, pass. Full integration passes 165 cases, 5421 modules, 14128 Lake jobs, 411 public theorem names and 564 Python tests. Independent exact-current replay is still required; compilation is not completion. Official independent replay accepts both attention targets and all 92 owned/shared roots; ZIP digest, public theorem coverage and exact current source/import closures verified. Receipt: validation/body_receipts/attention-forward-pair-source-migration.json.",
       "validated_source_commit": "f38795ec6be66d0094f751edc580dae3eba0847e",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41569672639"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41569672639",
+      "independent_replay": "PASS",
+      "receipt": "validation/body_receipts/attention-forward-pair-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton3",
