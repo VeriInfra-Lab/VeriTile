@@ -2658,7 +2658,10 @@
       "real_proof": "Actual repaired quotation in the explicit WithBot Real backend, finite six-input binding, cast-aware independent maximum and weighted sums, complete ordinary grid, safety, typed outputs and frame. Existing Valid c domain retained; no cast/load identity premise.",
       "fp_proof": "Whole repaired-source versus actual key-mask CSE grid on the unchanged arbitrary-array native graph domain. No numerical rewrite assumption.",
       "retirement_record": "bench/tritonbench_g/attention_fwd_triton3/source-retirement.json",
-      "boundary": "Exact-current official acceptance of every owned/shared root and all public theorem names is still required. Compilation and AST correspondence do not complete a target."
+      "boundary": "Exact-current official acceptance of every owned/shared root and all public theorem names is still required. Compilation and AST correspondence do not complete a target.",
+      "source_commit": "9503629af87476259cb8fa016d8fd57ac8ed9298",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41736220540",
+      "independent_replay": "IN_PROGRESS"
     },
     "staged_manifest": {
       "cases": 186,
@@ -2780,8 +2783,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "AWAITING_DISPATCH",
-      "reason": "All four original/candidate functions match the repaired Python bodies exactly. Actual public Real and FP proofs, all 133 owned modules, shared guarded-JIT frontend regression and 657 Python tests pass locally. Historical full quotations and their source certificates are retired explicitly; pure shared mathematical helpers remain. The Real formula retains signed32 pointer conversion and the existing broad Valid c domain. Exact-current independent replay of all retained roots and dependent attention_score is required before completion."
+      "independent_replay": "IN_PROGRESS",
+      "reason": "All four original/candidate functions match the repaired Python bodies exactly. Actual public Real and FP proofs, all 133 owned modules, shared guarded-JIT frontend regression and 657 Python tests pass locally. Historical full quotations and their source certificates are retired explicitly; pure shared mathematical helpers remain. The Real formula retains signed32 pointer conversion and the existing broad Valid c domain. Exact-current independent replay of all retained roots and dependent attention_score is required before completion.",
+      "validated_source_commit": "9503629af87476259cb8fa016d8fd57ac8ed9298",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41736220540"
     },
     {
       "path": "bench/tritonbench_g/attention_kernel",
@@ -2828,10 +2833,10 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "The actual attention_fwd_triton3 source dependency is being migrated to complete pasted bodies. Its source closure changed; the prior receipt is retained as history and no longer counts as current acceptance. Rebuild and fresh exact-current independent acceptance are required.",
-      "validated_source_commit": "72ec347b6ddda442215140ff6a202776d90f17c2",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41533126901",
+      "validated_source_commit": "9503629af87476259cb8fa016d8fd57ac8ed9298",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41736220540",
       "previous_receipt": "validation/body_receipts/attention-score-source-migration.json",
-      "independent_replay": "AWAITING_DEPENDENCY_REPLAY",
+      "independent_replay": "IN_PROGRESS",
       "local_dependent_rebuild": "PASS_ALL_73_OWNED_MODULES"
     },
     {
