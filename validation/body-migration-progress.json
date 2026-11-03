@@ -86,7 +86,10 @@
       "cases": 1,
       "retained_modules": 48,
       "replay_sources": 48,
-      "state": "prepared_after_complete_local_validation"
+      "state": "official_replay_running",
+      "source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
+      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330",
+      "started_at": "2026-11-03T00:32:28Z"
     },
     "previous_incremental_replays": [
       {
@@ -1441,7 +1444,9 @@
         25,
         19
       ],
-      "boundary": "Local actual source/Real/FP/native/safety/public/axiom validation; no independent completion certificate yet."
+      "boundary": "Local actual source/Real/FP/native/safety/public/axiom validation; no independent completion certificate yet.",
+      "source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330"
     }
   },
   "targets": [
@@ -2617,7 +2622,9 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All three unchanged repaired/original Python stages and their existing scalar-address candidates are registered literally (32/25/19 statements each). The identical standalone original shares the repaired dequantizer instead of duplicating Lean. Removed all six old full quotations. Preserved every INT64 cast, implicit target-dtype promotion, explicit FP16 cast, unused statement, mask, scalar constexpr assignment, full S2 cdiv loop expression and both store/atomic branches. Existing public launch configurations select SPLIT_K=1; the proof-side loop count is now derived from K/BLOCK_SIZE_K, without an extra source argument. Reproved the actual dynamic loop and selected write branch, all half/single stages, complete independent Real matrix products/dequantized values, actual FP candidates, native graphs, ABI, source safety, complete grids, outputs/readbacks and frames. All 45 owned modules, three shared roots, four Real and four FP public entries pass local verification. Full 162-case integration passes 5282 retained modules, 13990 Lake jobs, 404 public names, 555 Python tests and source-corpus checks. Exact-source shared frontend/test and body gates pass. Fresh independent exact-current replay remains required; compilation is not completion."
+      "reason": "All three unchanged repaired/original Python stages and their existing scalar-address candidates are registered literally (32/25/19 statements each). The identical standalone original shares the repaired dequantizer instead of duplicating Lean. Removed all six old full quotations. Preserved every INT64 cast, implicit target-dtype promotion, explicit FP16 cast, unused statement, mask, scalar constexpr assignment, full S2 cdiv loop expression and both store/atomic branches. Existing public launch configurations select SPLIT_K=1; the proof-side loop count is now derived from K/BLOCK_SIZE_K, without an extra source argument. Reproved the actual dynamic loop and selected write branch, all half/single stages, complete independent Real matrix products/dequantized values, actual FP candidates, native graphs, ABI, source safety, complete grids, outputs/readbacks and frames. All 45 owned modules, three shared roots, four Real and four FP public entries pass local verification. Full 162-case integration passes 5282 retained modules, 13990 Lake jobs, 404 public names, 555 Python tests and source-corpus checks. Exact-source shared frontend/test and body gates pass. Fresh independent exact-current replay remains required; compilation is not completion.",
+      "validated_source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize_int4",
