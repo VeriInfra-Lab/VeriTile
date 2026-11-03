@@ -2201,6 +2201,32 @@
           "VeriTile.Bench.Repairs.FifthOrderSphHarmonics.FPEquiv.kernel_equivalent"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/attention_forward_triton",
+      "python": "bench/tritonbench_g/attention_forward_triton/attention_forward_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/attention_forward_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.AttentionForwardTriton.Correct.attention_kernel_real"
+        ],
+        "bench/tritonbench_g/attention_forward_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttentionForwardTriton.FPEquiv.attention_head_mask_equiv"
+        ]
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2",
+      "python": "bench/tritonbench_g/attention_fwd_triton2/attention_fwd_triton2.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/attention_fwd_triton2/Correct.lean": [
+          "VeriTile.Bench.Repairs.AttentionFwdTriton2.Correct.kernel_raw_correct"
+        ],
+        "bench/tritonbench_g/attention_fwd_triton2/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttentionFwdTriton2.FPEquiv.grid_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -6408,6 +6434,98 @@
     "bench/tritonbench_g/fifth_order_sph_harmonics/Proofs/Storage.lean",
     "bench/tritonbench_g/fifth_order_sph_harmonics/Sources/Body.lean",
     "bench/tritonbench_g/fifth_order_sph_harmonics/Sources/Mathematical_Kernels.lean",
-    "tests/lean/ReadonlyFloatAliases.lean"
+    "tests/lean/ReadonlyFloatAliases.lean",
+    "VeriTile/Triton/DSL/LoopJitFunctions.lean",
+    "bench/tritonbench_g/attention_forward_triton/Contract.lean",
+    "bench/tritonbench_g/attention_forward_triton/Correct.lean",
+    "bench/tritonbench_g/attention_forward_triton/FPEquiv.lean",
+    "bench/tritonbench_g/attention_forward_triton/IO.lean",
+    "bench/tritonbench_g/attention_forward_triton/Kernels.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Binding.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Body.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Context.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Coverage.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Domain.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Engine.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Entry.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Grid.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/HoistedBody.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/HoistedGrid.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/HoistedIO.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/HoistedLoop.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/HoistedOutput.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/HoistedSafety.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/HoistedSource.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Host.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/LogicalInputs.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Loop.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Native.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/NativeProjection.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/NativeReference.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/NativeReferenceBinding.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/NativeStaging.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Output.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Physical.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/PublicResult.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/PublicSafety.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/RawKernel.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/ReadCongruence.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/RealBackend.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/RealCorrect.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/RealInvariant.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/RealMath.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/RealStep.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Scatter.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/SourceFPEquiv.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/attention_forward_triton/Proofs/Values.lean",
+    "bench/tritonbench_g/attention_forward_triton/Sources/Body.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Contract.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Correct.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/FPEquiv.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/IO.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Kernels.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Access.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Admission.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Binding.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Body.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/CompleteSafety.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Context.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Coverage.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Domain.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Endpoints.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Engine.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Entry.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/FiniteReference.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Grid.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Host.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/IOResults.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/IOSafety.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/InputValues.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Inputs.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Loop.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Machine.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/MathematicalIO.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Model.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Native.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/NativeStaging.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Output.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Pair.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Physical.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Raw.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/RealBackend.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/RealInvariant.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/RealMath.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/RealReturned.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/RealStep.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Scatter.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Specification.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/Values.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Sources/Body.lean",
+    "bench/tritonbench_g/attention_fwd_triton2/Sources/Kernels.lean",
+    "tests/lean/LoopJitFunctions.lean"
   ]
 }

@@ -26,13 +26,13 @@ def postExec (M : Algebra α) (dot : Dot α) (p : Parameters)
     {t : State α // run (engine (withDot M dot)) (parts p).after current=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,TypedSource.repaired,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
+  simp [parts,kernel,TypedSource.repaired,Bodies.originalBody,
+    ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
     TileShape.axisDim,Region.cast,State.setReg,
-    ctx.memory,ctx.rows,ctx.outputPointer,ctx.normalizer,ctx.value,FP.Structural.store]
+    ctx.memory,ctx.rows,ctx.outputPointer,ctx.normalizer,ctx.value,ctx.lengthArgument,ctx.keyStrideArgument,ctx.valueStrideArgument,FP.Structural.store]
   rfl
 
 def written (M : Algebra α) (p : Parameters) (s : State α) (a : Acc α) : State α :=
@@ -56,8 +56,11 @@ theorem source_memory (M : Algebra α) (dot : Dot α) (p : Parameters) (s : Stat
   obtain ⟨mid,hm,row,hc⟩:=loopExec M dot p s start.val (entry_context M dot p s)
   let finish:=postExec M dot p s mid row (accumulated M dot p s) hc
   refine ⟨finish.val,?_,post_memory M dot p s mid row _ hc⟩
-  have hl : step (engine (withDot M dot)) (.forRange "start_n" 0 p.length 64 (parts p).body)
-      start.val=some mid := by simpa only [step] using hm
+  have hl : step (engine (withDot M dot)) (.forRangeDyn counter (parts p).start (parts p).stop (parts p).stride (parts p).body)
+      start.val=some mid := by
+    change step _ _ (entry M dot p s).val=some mid
+    rw [entry_loop]
+    exact hm
   change run (engine (withDot M dot)) (kernel p).surfaceBody s=some finish.val
   rw [source_body,List.append_assoc,run_append,start.property]
   simp only [Option.bind_some,List.singleton_append,run,hl,bind,finish.property]

@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 156,
-  "staged_count": 157,
+  "staged_count": 159,
   "pending_count": 40,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 5329,
-    "official_comparator": "156 current targets retain exact-dependency independent receipts. The locally verified fifth_order_sph_harmonics target awaits its 47-root independent replay. Compilation is not completion.",
-    "python_tests": 560,
+    "staged_and_regression_retained_modules": 5421,
+    "official_comparator": "156 current targets retain exact-dependency independent receipts. Three locally verified targets await replay: fifth_order_sph_harmonics and the attention helper/caller pair. Compilation is not completion.",
+    "python_tests": 564,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "163 cases (157 targets and six regressions), all 5329 retained/supporting modules, 14037 Lake jobs, 407 public theorem names, 560 Python tests and source-corpus checks pass. Complete fifth-order harmonic sources, actual powers-reuse candidates, independent polynomials/Jacobian, FP coefficient words, grids, native bounds, source safety, output readback and frames reverify. Independent completion count is 156, including all 19 examples. The locally verified fifth_order_sph_harmonics target awaits independent replay. Two attention source migrations are in progress; neither is registered as locally verified or complete.",
-    "official_replay_sources": 4332,
+    "working_tree": "165 cases (159 targets and six regressions), all 5421 retained/supporting modules, 14128 Lake jobs, 411 public theorem names, 564 Python tests and source-corpus checks pass. Both attention tasks retain complete helper/caller sources, original output dtypes and their actual existing candidates; full Real/FP/native, grid, safety, output and frame proofs reverify. Independent completion count is 156, including all 19 examples. Three locally verified targets await independent replay.",
+    "official_replay_sources": 4424,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,16 +80,14 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/fifth_order_sph_harmonics"
+        "bench/tritonbench_g/attention_forward_triton",
+        "bench/tritonbench_g/attention_fwd_triton2"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 1,
-      "retained_modules": 47,
-      "replay_sources": 47,
-      "state": "official_replay_running",
-      "source_commit": "5eed40e06d43e31b0fb759af4a6ec6e345d27a22",
-      "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41562493692",
-      "started_at": "2026-11-03T01:52:02Z"
+      "cases": 2,
+      "retained_modules": 92,
+      "replay_sources": 92,
+      "state": "local_pass_ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -862,6 +860,19 @@
         "source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
         "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330",
         "started_at": "2026-11-03T00:32:28Z"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/fifth_order_sph_harmonics"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 47,
+        "replay_sources": 47,
+        "state": "official_replay_running",
+        "source_commit": "5eed40e06d43e31b0fb759af4a6ec6e345d27a22",
+        "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41562493692",
+        "started_at": "2026-11-03T01:52:02Z"
       }
     ],
     "pending_client_regressions": {
@@ -877,7 +888,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Finish attention_forward_triton and attention_fwd_triton2 complete helper/caller source migrations and full proofs. Continue the remaining 37 unmigrated TritonBench-G tasks. Collect the fifth_order_sph_harmonics independent receipt. All 19 examples independently accepted. No merge.",
+    "current_work": "Submit the two attention helper/caller migrations for independent replay, continue the remaining 37 TritonBench-G source/proof migrations and collect the fifth-order harmonic receipt. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -901,15 +912,15 @@
     },
     "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
     "last_full_local_snapshot": {
-      "cases": 163,
-      "targets": 157,
+      "cases": 165,
+      "targets": 159,
       "regressions": 6,
-      "retained_modules": 5329,
-      "replay_sources": 4332,
-      "lake_jobs": 14037,
+      "retained_modules": 5421,
+      "replay_sources": 4424,
+      "lake_jobs": 14128,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 407,
-      "python_tests": 560,
+      "public_theorem_count": 411,
+      "python_tests": 564,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1262,18 +1273,17 @@
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     },
     "previous_full_local_snapshot": {
-      "cases": 159,
-      "targets": 153,
+      "cases": 163,
+      "targets": 157,
       "regressions": 6,
-      "retained_modules": 5127,
-      "replay_sources": 4130,
-      "lake_jobs": 13840,
+      "retained_modules": 5329,
+      "replay_sources": 4332,
+      "lake_jobs": 14037,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 392,
-      "python_tests": 546,
+      "public_theorem_count": 407,
+      "python_tests": 560,
       "current_dependency_snapshot": true,
-      "boundary": "Local proof/source/trust checks only, not an independent completion receipt.",
-      "source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7"
+      "boundary": "Local verification only, not an independent completion receipt."
     },
     "power_replay_resource_diagnosis": {
       "source_commit": "a30687237363b357f9307da6d792e88e7dd3aa03",
@@ -1487,6 +1497,38 @@
       "full_lake_jobs": 14037,
       "public_theorems": 407,
       "boundary": "Local verification only. The target remains incomplete until exact-current independent replay accepts every required root."
+    },
+    "attention_helper_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 90,
+      "shared_frontend_test_modules": 2,
+      "shared_trust_inventory_theorems": 183,
+      "named_semantic_frontend_regressions": 3,
+      "original_helper_caller_statement_counts": [
+        3,
+        27
+      ],
+      "candidate_statement_counts": {
+        "attention_forward_triton": [
+          3,
+          28
+        ],
+        "attention_fwd_triton2": [
+          3,
+          27
+        ]
+      },
+      "output_dtypes": [
+        "fp16",
+        "bf16"
+      ],
+      "python_tests": 564,
+      "full_cases": 165,
+      "full_retained_modules": 5421,
+      "full_replay_sources": 4424,
+      "full_lake_jobs": 14128,
+      "public_theorems": 411,
+      "boundary": "Local verification only. Both targets remain incomplete until exact-current independent replay accepts every required root."
     }
   },
   "targets": [
@@ -1549,8 +1591,12 @@
     },
     {
       "path": "bench/tritonbench_g/attention_forward_triton",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "The existing candidate hoists the head mask; output remains FP16. Original/candidate helper and caller statement counts are 3/27 and 3/28. Both unchanged original Python helper/caller bodies are registered verbatim, with complete tuple initialization, runtime loop, all casts, masks, mixed FP32/FP16 dots, pointer advances and tuple returns. Materialized the existing Lean candidate in Python and independently checked its exact AST transformation. Removed the old complete inline quotation(s) and the two extra private padding/head parameters; the source itself retains literal 128/96. The optional loop-helper frontend captures arguments once, renames locals, preserves tuple evaluation order and resolves immutable pointer-element dtype queries from actual ABI metadata. Reproved prefix execution, actual captured state, loop invariants, dynamic lo/hi bound evaluation, complete execution, independent Real formulas, actual FP candidates, native models/layouts/ABIs, complete grids, source safety, outputs/readback and frames without new public premises, narrower numerical domains or new FP rules. All 90 owned and two shared roots pass local checks; 183 shared trust/inventory declarations, including three semantic regression theorems, pass. Full integration passes 165 cases, 5421 modules, 14128 Lake jobs, 411 public theorem names and 564 Python tests. Independent exact-current replay is still required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton1",
@@ -1576,8 +1622,12 @@
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton2",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "The existing fixed-BLOCK_M=128 candidate replaces only its entry index multiplication by shift-left seven; output remains BF16. All four source bodies retain 3/27 statements. The whole original/candidate IR comparison, including success/failure and source safety, has been reverified. Both unchanged original Python helper/caller bodies are registered verbatim, with complete tuple initialization, runtime loop, all casts, masks, mixed FP32/FP16 dots, pointer advances and tuple returns. Materialized the existing Lean candidate in Python and independently checked its exact AST transformation. Removed the old complete inline quotation(s) and the two extra private padding/head parameters; the source itself retains literal 128/96. The optional loop-helper frontend captures arguments once, renames locals, preserves tuple evaluation order and resolves immutable pointer-element dtype queries from actual ABI metadata. Reproved prefix execution, actual captured state, loop invariants, dynamic lo/hi bound evaluation, complete execution, independent Real formulas, actual FP candidates, native models/layouts/ABIs, complete grids, source safety, outputs/readback and frames without new public premises, narrower numerical domains or new FP rules. All 90 owned and two shared roots pass local checks; 183 shared trust/inventory declarations, including three semantic regression theorems, pass. Full integration passes 165 cases, 5421 modules, 14128 Lake jobs, 411 public theorem names and 564 Python tests. Independent exact-current replay is still required; compilation is not completion."
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton3",

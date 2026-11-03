@@ -28,8 +28,8 @@ structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
 theorem entry_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (s : State α) (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).before s := by
-  simp [parts,kernel,TypedSource.repaired,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
+  simp [parts,kernel,TypedSource.repaired,Bodies.originalBody,
+    ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Option.map,Option.getD,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,
@@ -47,9 +47,9 @@ theorem body_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (ctx : Context M p initial row a current) (activeRow : row<p.length)
     (bounds : RegionName → Nat) (hb : Bounds p initial bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).body
-      (current.setReg "start_n" .nat [] (fun _ => row)) := by
-  simp [parts,kernel,TypedSource.repaired,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
+      (current.setReg counter .nat [] (fun _ => row)) := by
+  simp [parts,kernel,TypedSource.repaired,Bodies.originalBody,
+    ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Option.map,Option.getD,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,
@@ -58,7 +58,7 @@ theorem body_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
     Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def,
     ctx.memory,ctx.rows,ctx.cols,ctx.query,ctx.scale,ctx.keyPointer,ctx.valuePointer,
-    ctx.scalePointer,ctx.outputPointer,ctx.maximum,ctx.normalizer,ctx.value]
+    ctx.scalePointer,ctx.outputPointer,ctx.maximum,ctx.normalizer,ctx.value,ctx.lengthArgument,ctx.keyStrideArgument,ctx.valueStrideArgument]
   exact ⟨fun i j hn hd => hb.key row activeRow (i,j,()) ⟨hn,hd⟩,
     hb.keyScale row activeRow,fun i j hn hd => hb.value row activeRow (i,j,()) ⟨hn,hd⟩⟩
 
@@ -67,8 +67,8 @@ theorem post_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (ctx : Context M p initial row a current)
     (bounds : RegionName → Nat) (hb : Bounds p initial bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).after current := by
-  simp [parts,kernel,TypedSource.repaired,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
+  simp [parts,kernel,TypedSource.repaired,Bodies.originalBody,
+    ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Option.map,Option.getD,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,
@@ -76,7 +76,7 @@ theorem post_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,
     natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
     Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def,
-    ctx.memory,ctx.rows,ctx.outputPointer,ctx.normalizer,ctx.value]
+    ctx.memory,ctx.rows,ctx.outputPointer,ctx.normalizer,ctx.value,ctx.lengthArgument,ctx.keyStrideArgument,ctx.valueStrideArgument]
   constructor
   · intro i j hm hd
     exact hb.output (i,j,()) ⟨hm,hd⟩
@@ -95,9 +95,8 @@ theorem source_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
   subst t
   rw [List.singleton_append,Safety.traceSafeList_cons]
   refine ⟨?_,?_⟩
-  · simp only [Safety.stepSafe_unfold]
-    change Safety.rangeSafe (engine (withDot M dot)) bounds "start_n" 0 p.length 64 (parts p).body (entry M dot p s).val
-    apply Safety.rangeSafe_of_invariant (engine (withDot M dot)) bounds "start_n" p.length 64 (parts p).body
+  · rw [entry_loop_safe]
+    apply Safety.rangeSafe_of_invariant (engine (withDot M dot)) bounds counter p.length 64 (parts p).body
       (fun row t => ∃ a,Context M p s row a t)
     · rintro row hr t ⟨a,ctx⟩
       exact body_safe M dot p s t row a ctx hr bounds hb
@@ -108,8 +107,7 @@ theorem source_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     · exact ⟨initialAcc M,entry_context M dot p s⟩
   · intro u hu
     obtain ⟨v,hv,row,ctx⟩ := loopExec M dot p s (entry M dot p s).val (entry_context M dot p s)
-    simp only [step] at hu
-    change range (engine (withDot M dot)) "start_n" 0 p.length 64 (parts p).body (entry M dot p s).val=some u at hu
+    rw [entry_loop] at hu
     have eq := Option.some.inj (hv.symm.trans hu)
     subst u
     exact post_safe M dot p s v row _ ctx bounds hb

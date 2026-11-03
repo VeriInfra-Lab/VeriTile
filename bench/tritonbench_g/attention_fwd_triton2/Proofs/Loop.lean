@@ -13,9 +13,9 @@ def accumulated (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State α) 
 
 theorem loopExec (M : Algebra α) (dot : Dot α) (p : Parameters)
     (initial current : State α) (ctx : Context M p initial 0 (initialAcc M) current) :
-    ∃ t, range (engine (withDot M dot)) "start_n" 0 p.length 64 (parts p).body current=some t ∧
+    ∃ t, range (engine (withDot M dot)) counter 0 p.length 64 (parts p).body current=some t ∧
       ∃ row, Context M p initial row (accumulated M dot p initial) t := by
-  exact range_values (engine (withDot M dot)) "start_n" (parts p).body (update M dot p initial)
+  exact range_values (engine (withDot M dot)) counter (parts p).body (update M dot p initial)
     (fun row a s => Context M p initial row a s)
     (fun a s => ∃ row, Context M p initial row a s) 0 p.length 64 _ current
     (by
@@ -25,7 +25,7 @@ theorem loopExec (M : Algebra α) (dot : Dot α) (p : Parameters)
     (by intro row a s h; exact ⟨row,h⟩) ctx
 
 theorem source_body (p : Parameters) : (kernel p).surfaceBody=
-    (parts p).before++[.forRange "start_n" 0 p.length 64 (parts p).body]++(parts p).after := by
+    (parts p).before++[.forRangeDyn counter (parts p).start (parts p).stop (parts p).stride (parts p).body]++(parts p).after := by
   rfl
 
 #specNonCircular accumulated avoiding [run,FP.Structural.exec,bodyExec,loopExec]

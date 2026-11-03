@@ -8,7 +8,7 @@ variable {α : Type} [Inhabited α]
 theorem range_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : RegionName → Nat)
     (initial current : State α) (row : Nat) (a : Acc α)
     (ctx : Context M p initial row a current) (hb : Bounds p initial bounds) :
-    Safety.rangeSafe (engine (withDot M dot)) bounds "start_n" row p.length 64 (parts p).body current := by
+    Safety.rangeSafe (engine (withDot M dot)) bounds counter row p.length 64 (parts p).body current := by
   rw [Safety.rangeSafe_unfold,if_neg (by decide : (64 : Nat)≠0)]
   by_cases inside : row<p.length
   · rw [if_pos inside]
@@ -32,11 +32,9 @@ theorem source_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : R
   obtain ⟨final,executed,row,ctx⟩ := loopExec M dot p initial (entry M dot p initial).val
     (entry_context M dot p initial)
   apply Safety.traceSafeList_cons_of_step (t:=final)
-  · rw [Safety.stepSafe_unfold]
-    change Safety.rangeSafe (engine (withDot M dot)) bounds "start_n" 0 p.length 64 (parts p).body _
+  · rw [entry_loop_safe]
     exact range_safe M dot p bounds initial _ 0 _ (entry_context M dot p initial) hb
-  · rw [step]
-    change range (engine (withDot M dot)) "start_n" 0 p.length 64 (parts p).body _=some final
+  · rw [entry_loop]
     exact executed
   · exact post_safe M dot p bounds initial final row _ ctx hb
 
