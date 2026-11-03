@@ -1053,7 +1053,9 @@ def check_uniform_function(python_text: str, lean_text: str, python_function: st
 
 def check_control_source(python_text: str, lean_text: str, python_function: str,
                          lean_definition: str, signature_definition: str,
-                         expected_signature: dict, expected_constexpr_bools: dict) -> dict:
+                         expected_signature: dict, expected_constexpr_bools: dict,
+                         expected_constexpr_dtypes: dict | None = None,
+                         expected_jit_calls: dict | None = None) -> dict:
     """Check the full pasted control tree and its separately reviewed caller ABI.
 
     This source gate never specializes a branch. The typed control backend must
@@ -1061,7 +1063,7 @@ def check_control_source(python_text: str, lean_text: str, python_function: str,
     """
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
-    if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
+    if len(functions) != 1 or not any(ast.unparse(d.func if isinstance(d, ast.Call) else d) == "triton.jit" for d in functions[0].decorator_list):
         raise ValueError("expected one explicitly selected control-source JIT")
     fn = functions[0]
     if fn.args.posonlyargs or fn.args.kwonlyargs or fn.args.vararg or fn.args.kwarg:
@@ -1075,7 +1077,13 @@ def check_control_source(python_text: str, lean_text: str, python_function: str,
     if any(a.annotation is not None and a.arg not in constants for a in fn.args.args):
         raise ValueError("unreviewed control-source runtime annotation")
     declared = [name for name, _ in profile.get("pointers", []) + profile.get("scalars", [])]
-    if profile.get("constexpr", []) != constants or declared != [p for p in parameters if p not in constants]:
+    runtime = [p for p in parameters if p not in constants]
+    pointer_names = [n for n, _ in profile.get("pointers", [])]
+    scalar_names = [n for n, _ in profile.get("scalars", [])]
+    if (profile.get("constexpr", []) != constants or len(declared) != len(set(declared))
+            or set(declared) != set(runtime)
+            or pointer_names != [p for p in runtime if p in pointer_names]
+            or scalar_names != [p for p in runtime if p in scalar_names]):
         raise ValueError("control-source parameter order or constexpr annotation differs")
     if not isinstance(expected_constexpr_bools, dict) or any(
             name not in constants or type(value) is not bool
@@ -1087,18 +1095,47 @@ def check_control_source(python_text: str, lean_text: str, python_function: str,
             or defaults[name].value != value for name, value in expected_constexpr_bools.items()):
         raise ValueError("control-source default flags differ from the selected caller")
     header, body = quotation(lean_text, lean_definition, raw_python=True)
-    match = re.search(r"\bwith_control_call\s+" + re.escape(signature_definition)
-                      + r"\s+constexpr_bools\s*\[([^\]]*)\]\s+in\s+triton\s*$", header)
+    linked = expected_constexpr_dtypes is not None or expected_jit_calls is not None
+    if linked:
+        if not isinstance(expected_constexpr_dtypes, dict) or not isinstance(expected_jit_calls, dict):
+            raise ValueError("linked control functions require reviewed dtype and helper bindings")
+        prefix = r"\bwith_control_function\s+" + re.escape(json.dumps(python_function)) + r"\s+"
+        suffix = r"\s+dtype_constants\s*\[([^\]]*)\]\s+jit_calls\s*\[([^\]]*)\]"
+    else:
+        prefix, suffix = r"\bwith_control_call\s+", ""
+    match = re.search(prefix + re.escape(signature_definition)
+                      + r"\s+constexpr_bools\s*\[([^\]]*)\]" + suffix + r"\s+in\s+triton\s*$", header)
     if not match:
         raise ValueError("control-source body must use its reviewed caller signature")
     bindings = []
-    for entry in match[1].split(","):
+    for entry in (match[1].split(",") if match[1].strip() else []):
         binding = re.fullmatch(r"\s*(\w+)\s*:=\s*(true|false)\s*", entry)
         if not binding:
             raise ValueError("control-source boolean bindings must be explicit literals")
         bindings.append((binding[1], binding[2] == "true"))
     if len(dict(bindings)) != len(bindings) or dict(bindings) != expected_constexpr_bools:
         raise ValueError("control-source constexpr bindings differ from the reviewed caller")
+    if linked:
+        def entries(text, value_pattern):
+            result = []
+            for raw in (text.split(",") if text.strip() else []):
+                item = re.fullmatch(r"\s*(\w+)\s*:=\s*" + value_pattern + r"\s*", raw)
+                if not item:
+                    raise ValueError("invalid linked control-function binding")
+                result.append((item[1], item[2]))
+            if len(dict(result)) != len(result):
+                raise ValueError("duplicate linked control-function binding")
+            return dict(result)
+        if entries(match[2], r"\.(\w+)") != expected_constexpr_dtypes:
+            raise ValueError("control-function dtype bindings differ from the reviewed caller")
+        if entries(match[3], r'"([A-Za-z_]\w*)"') != expected_jit_calls:
+            raise ValueError("control-function helper links differ from the reviewed caller")
+        if any(name not in constants for name in expected_constexpr_dtypes):
+            raise ValueError("control dtype binding must name a source constexpr")
+        calls = {n.func.id for n in ast.walk(fn) if isinstance(n, ast.Call)
+                 and isinstance(n.func, ast.Name) and n.func.id not in {"range", "float", "int"}}
+        if calls != set(expected_jit_calls):
+            raise ValueError("control-function helper calls are not completely linked")
     if re.search(r"\btl\.(region|param|call_signature|source_helper)\b|\$", pasted_code_mask(body)):
         raise ValueError("control-source body must contain only pasted Python")
     copied = ast.parse("def __veritile_control__():\n" + body).body[0].body
@@ -1116,12 +1153,18 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
     for r in records:
         py, lean = (root / r["python"]).read_text(), (root / r["lean"]).read_text()
         if r.get("kind") == "control_source":
-            if set(r) != {"kind", "python", "lean", "python_function", "lean_definition",
+            if (set(r) - {"expected_constexpr_dtypes", "expected_jit_calls"}) != {"kind", "python", "lean", "python_function", "lean_definition",
                           "signature_definition", "expected_signature", "expected_constexpr_bools"}:
                 raise ValueError("control-source record requires its exact reviewed ABI and boolean bindings")
+            for callee in r.get("expected_jit_calls", {}):
+                linked = [c for c in records if c.get("python") == r["python"]
+                          and c.get("python_function") == callee and c.get("kind") == "control_source"]
+                if len(linked) != 1:
+                    raise ValueError("every linked control helper requires exactly one complete source pair")
             results.append(check_control_source(py, lean, r["python_function"], r["lean_definition"],
                                                r["signature_definition"], r["expected_signature"],
-                                               r["expected_constexpr_bools"]))
+                                               r["expected_constexpr_bools"],
+                                               r.get("expected_constexpr_dtypes"), r.get("expected_jit_calls")))
             continue
         if r.get("kind") == "statement_jit_function":
             if set(r) != {"kind", "python", "lean", "python_function", "lean_definition"}:
