@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 152,
-      "uncovered_jit_functions": 31
+      "selected_body_copy_checked": 153,
+      "uncovered_jit_functions": 30
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 87,
+    "uncovered_selected_jit_functions": 82,
     "inventoried_jit_functions": 556,
-    "uncovered_inventoried_jit_functions": 116,
+    "uncovered_inventoried_jit_functions": 106,
     "checked_pair_modes": {
-      "pasted_body": 450
+      "pasted_body": 460
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 152,
-        "uncovered_jit_functions": 31
+        "selected_body_copy_checked": 153,
+        "uncovered_jit_functions": 30
       }
     },
     "primary_files_with_int64_screen_warning": 10,
@@ -42691,76 +42691,201 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "tanh",
+          "lean_definition": "tanhHelper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 2,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
-          "function": "tanh"
+          "lean": "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean"
         },
         {
+          "python_function": "relu",
+          "lean_definition": "reluHelper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 2,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
-          "function": "relu"
+          "lean": "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean"
         },
         {
+          "python_function": "fast_gelu",
+          "lean_definition": "fast_geluHelper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 2,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
-          "function": "fast_gelu"
+          "lean": "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean"
         },
         {
+          "python_function": "gelu",
+          "lean_definition": "geluHelper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 2,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
-          "function": "gelu"
+          "lean": "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean"
         },
         {
+          "python_function": "tanh",
+          "lean_definition": "tanhHelper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 2,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation_shifted.py",
+          "lean": "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean"
+        },
+        {
+          "python_function": "relu",
+          "lean_definition": "reluHelper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 2,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation_shifted.py",
+          "lean": "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean"
+        },
+        {
+          "python_function": "fast_gelu",
+          "lean_definition": "fast_geluHelper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 2,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation_shifted.py",
+          "lean": "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean"
+        },
+        {
+          "python_function": "gelu",
+          "lean_definition": "geluHelper",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 2,
+          "runtime_parameters": {
+            "x": "inferred"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation_shifted.py",
+          "lean": "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean"
+        },
+        {
+          "python_function": "kernel_fma",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "CACHE_KEY_M": "integer",
+            "CACHE_KEY_N": "integer",
+            "CACHE_KEY_K": "integer",
+            "output_m_stride": "integer",
+            "output_n_stride": "integer",
+            "act_inputs_m_stride": "integer",
+            "act_inputs_n_stride": "integer",
+            "a_m_stride": "integer",
+            "a_k_stride": "integer",
+            "b_n_stride": "integer",
+            "b_k_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "ACTIVATION",
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "GROUP_M",
+            "HAS_BIAS",
+            "K_LOAD_MASK_NEEDED",
+            "SHOULD_SAVE_ACT_INPUTS",
+            "SPLIT_K"
+          ],
           "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
-          "function": "kernel_fma"
+          "lean": "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean"
         },
         {
+          "python_function": "kernel_fma_shifted",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "CACHE_KEY_M": "integer",
+            "CACHE_KEY_N": "integer",
+            "CACHE_KEY_K": "integer",
+            "output_m_stride": "integer",
+            "output_n_stride": "integer",
+            "act_inputs_m_stride": "integer",
+            "act_inputs_n_stride": "integer",
+            "a_m_stride": "integer",
+            "a_k_stride": "integer",
+            "b_n_stride": "integer",
+            "b_k_stride": "integer"
+          },
+          "constexpr_parameters": [
+            "ACTIVATION",
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "GROUP_M",
+            "HAS_BIAS",
+            "K_LOAD_MASK_NEEDED",
+            "SHOULD_SAVE_ACT_INPUTS",
+            "SPLIT_K"
+          ],
           "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation_shifted.py",
-          "function": "tanh"
-        },
-        {
-          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation_shifted.py",
-          "function": "relu"
-        },
-        {
-          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation_shifted.py",
-          "function": "fast_gelu"
-        },
-        {
-          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation_shifted.py",
-          "function": "gelu"
-        },
-        {
-          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation_shifted.py",
-          "function": "kernel_fma_shifted"
+          "lean": "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
-          "function": "tanh"
-        },
-        {
-          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
-          "function": "relu"
-        },
-        {
-          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
-          "function": "fast_gelu"
-        },
-        {
-          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
-          "function": "gelu"
-        },
-        {
-          "python": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
-          "function": "kernel_fma"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/triton_linear_activation/Kernels.lean": "3a6fbef181b0552e9fff71a836b7cfd8e9559fe90f3638906c4d1e286e330f1e",
+        "bench/tritonbench_g/triton_linear_activation/Kernels.lean": "3f127b2fb95f15df6f8bb426915eb02e3c2b9970ee005416bf33be37f9639d6e",
+        "bench/tritonbench_g/triton_linear_activation/Sources/Body.lean": "b49f6d1eeafb3bb927fd16439ab30928dbd451e91c9cbfb2496f772bae968990",
+        "bench/tritonbench_g/triton_linear_activation/jit-correspondence.json": "99e8caae04fd035e2a3473b5684229b2e6cac5e069418effee387b2829745671",
         "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py": "271cfcf8614afc2747837dbf8902f3addc9a3a605a6c1a85063ae2b6c346f8a9",
         "bench/tritonbench_g/triton_linear_activation/triton_linear_activation_shifted.py": "da9ace5661bbaaca884a1f736390465f733b68baf9ff0097a063ced50639629b"
       },

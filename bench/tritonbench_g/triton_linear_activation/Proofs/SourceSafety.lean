@@ -27,7 +27,7 @@ structure AccessBounds (p : Parameters) (s : State α) (bounds : RegionName → 
 
 theorem scalars_safe (M : Algebra α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) : Safety.traceSafeList M bounds (scalars p) s := by
-  simp [scalars,source,typed,ComputeKernel.surfaceBody,
+  simp [scalars,source,flagged,typed,Bodies.originalBody,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,run,step,evalExpr,evalOp_unfold,Option.bind,
     numeric,bop,natLt,numericLt,integralFloorDiv,integralMod,State.setReg]
@@ -39,7 +39,7 @@ theorem seeds_safe (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters)
     Safety.traceSafeList (engine M D) bounds (seeds mode p) t := by
   cases mode <;> cases bias : p.hasBias
   all_goals
-    simp [seeds,source,typed,dtype,ComputeKernel.surfaceBody,
+    simp [seeds,source,flagged,typed,Bodies.originalBody,dtype,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
       Safety.safeOp_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
@@ -56,7 +56,7 @@ theorem body_safe (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters)
       (t.setReg "__rev_k" .int [] (fun _ => mirror p cur)) := by
   cases mode <;> by_cases mask : p.inner % p.blockInner = 0
   all_goals
-    simp [body,statement,source,typed,dtype,ComputeKernel.surfaceBody,
+    simp [body,statement,source,flagged,typed,Bodies.originalBody,dtype,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
       Safety.safeOp_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
@@ -103,7 +103,8 @@ theorem statement_safe (M : Algebra α) (D : Dot α) (mode : Mode) (p : Paramete
     (t : State α) (bounds : RegionName → Nat)
     (h : Safety.rangeIntSafe (engine M D) bounds "__rev_k" (mirror p 0) 0 p.blockInner
       (body mode p) t) : Safety.stepSafe (engine M D) bounds (statement mode p) t := by
-  simpa [statement,body,source,typed,ComputeKernel.surfaceBody,
+  cases mode <;> cases hl : (p.inner%p.blockInner==0)
+  all_goals simpa [statement,body,source,flagged,typed,Bodies.originalBody,dtype,hl,ComputeKernel.surfaceBody,
     Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,mirror,
     numeric,bop,integralFloorDiv,integralMod,Broadcast.leftIndex,Broadcast.rightIndex] using h
 
@@ -114,7 +115,7 @@ theorem save_safe (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters)
     Safety.traceSafeList (engine M D) bounds (saveCode mode p) t := by
   cases mode <;> cases saved : p.saveInputs
   all_goals
-    simp [saveCode,tailCode,source,typed,dtype,ComputeKernel.surfaceBody,
+    simp [saveCode,tailCode,source,flagged,typed,Bodies.originalBody,dtype,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
       Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
       Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -129,15 +130,17 @@ theorem activation_safe (M : Algebra α) (D : Dot α) (p : Parameters)
     (s t : State α) (bounds : RegionName → Nat) (acc : Accumulator α p)
     (h : TailReady p s t acc) :
     Safety.traceSafeList (engine M D) bounds (activationCode p) t := by
-  by_cases ht : p.activation.getD "" = "tanh" <;>
-    by_cases hg : p.activation.getD "" = "gelu" <;>
-    by_cases hf : p.activation.getD "" = "fast_gelu" <;>
-    by_cases hr : p.activation.getD "" = "relu"
+  simp only [activationCode,flagged,typed,Bodies.originalBody,dtype,
+    Bool.false_eq_true,if_false,if_true,ComputeKernel.surfaceBody,List.drop,List.take]
+  by_cases ht : p.activation = some "tanh" <;>
+    by_cases hg : p.activation = some "gelu" <;>
+    by_cases hf : p.activation = some "fast_gelu" <;>
+    by_cases hr : p.activation = some "relu"
   all_goals
-    simp_all [activationCode,tailCode,source,typed,dtype,ComputeKernel.surfaceBody,
+    simp_all [activationCode,tailCode,source,flagged,typed,Bodies.originalBody,dtype,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
       Safety.safeOp_unfold,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
-      ComputeDType.eraseDType,numeric,bop,State.setReg,h.rawm,h.rawn,h.acc,ofFloat,toFloat,engine,Algebra.withDefaultPrecision,resolvePrecision]
+      ComputeDType.eraseDType,numeric,bop,h.rawm,h.rawn,h.acc,ofFloat,toFloat,engine,Algebra.withDefaultPrecision,resolvePrecision]
 
 theorem store_safe (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters)
     (s t : State α) (bounds : RegionName → Nat) (acc : Accumulator α p)
@@ -146,7 +149,7 @@ theorem store_safe (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters)
     Safety.traceSafeList (engine M D) bounds (storeCode mode p) t := by
   cases mode
   all_goals
-    simp [storeCode,tailCode,source,typed,dtype,ComputeKernel.surfaceBody,
+    simp [storeCode,tailCode,source,flagged,typed,Bodies.originalBody,dtype,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
       Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
       Safety.addressSafe_unfold,Safety.maskActive_unfold,

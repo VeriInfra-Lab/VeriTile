@@ -77,7 +77,7 @@ def binaryWord (profile : LocalProfile) : Binary → Word → Word → Word
   | .pow => fun _ _ => FP.Value.qNaN .fp32
 
 def unaryWord (profile : LocalProfile) : Unary → Word → Word
-  | .tanh => profile.libdeviceTanhF32
+  | .tanh | .libdeviceTanh => profile.libdeviceTanhF32
   | .erf => profile.libdeviceErfF32
   | _ => id
 

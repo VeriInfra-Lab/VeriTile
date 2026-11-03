@@ -24,6 +24,7 @@ specification kernel_equiv {α β : Type} [Inhabited β] (M : Algebra β) (D : D
   ProgramIO.Implementation.of_equivalent (Pair.variant M D encode observe mode p pid)
     (Pair.equivalent M D encode observe mode p pid positive strides separate)
 
+#print_fp_assumptions kernel_equiv
 #axiomsClean kernel_equiv
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -32,7 +32,7 @@ def algebra : Algebra ℝ where
   binary := fun _ _ op x y => match op with
     | .add => x+y | .sub => x-y | .mul => x*y | .div => x/y | .max => max x y | .pow => 0
   unary := fun _ op x => match op with
-    | .tanh => Real.tanh x | .erf => VeriTile.Math.realErf x | _ => x
+    | .tanh | .libdeviceTanh => Real.tanh x | .erf => VeriTile.Math.realErf x | _ => x
   cast := fun _ _ _ x => x
   fromNat := fun _ n => n
   fromInt := fun _ n => n

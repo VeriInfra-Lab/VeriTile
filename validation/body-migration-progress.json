@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 162,
-  "staged_count": 165,
+  "staged_count": 166,
   "pending_count": 34,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 5779,
-    "official_comparator": "162 current targets retain exact-dependency independent receipts, including both rotary targets and all 19 examples. Decay Cumsum, Diag SSM and dependent kldiv_ops await exact-current replay; no local build or correspondence pass is counted as completion.",
-    "python_tests": 590,
+    "staged_and_regression_retained_modules": 5824,
+    "official_comparator": "162 current targets retain exact-dependency independent receipts, including all 19 examples. Four locally verified targets await exact-current independent replay. No compilation or correspondence-only result is counted as complete.",
+    "python_tests": 596,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "171 cases (165 targets and six regressions), all 5779 retained/supporting modules, 14486 Lake jobs, 429 public theorem names, 590 Python tests and source-corpus checks pass. Decay Cumsum retains three complete original bodies and three existing mask-index candidates; signed-loop execution, independent Real formulas, actual FP callback order, all outputs, full frames, access safety and logical/storage/native bridges reverify. Independently complete: 162, including all 19 examples and both rotary targets. Decay Cumsum, Diag SSM and dependent kldiv_ops await exact-current replay; 31 other targets remain to migrate.",
-    "official_replay_sources": 4782,
+    "working_tree": "172 cases (166 targets and six regressions), all 5824 retained/supporting modules, 14520 Lake jobs, 431 public theorem names, 596 Python tests and source-corpus checks pass. Triton Linear Activation retains all five original JIT bodies and the existing shifted candidate, with complete helper/branch/loop execution, actual libdevice callback, Real mathematics, all outputs, safety, frames and native/IO/compiler bridges reverified. Independently complete: 162, including all 19 examples. Four targets await exact-current independent replay (Triton Linear Activation, Decay Cumsum, Diag SSM and dependent kldiv_ops); 30 other targets remain to migrate.",
+    "official_replay_sources": 4827,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,15 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/decay_cumsum"
+        "bench/tritonbench_g/triton_linear_activation"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 64,
-      "replay_sources": 64,
-      "state": "official_replay_in_progress",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41597743085",
-      "source_commit": "71fae6d6f3909ccc1dd829d70a12cea50349e60e"
+      "retained_modules": 45,
+      "replay_sources": 45,
+      "state": "local_pass_ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -953,6 +951,18 @@
         "state": "official_replay_in_progress",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41592298222",
         "source_commit": "7040583aa4fb28019504241c24bda4ebfde5258d"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/decay_cumsum"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 64,
+        "replay_sources": 64,
+        "state": "official_replay_in_progress",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41597743085",
+        "source_commit": "71fae6d6f3909ccc1dd829d70a12cea50349e60e"
       }
     ],
     "pending_client_regressions": {
@@ -968,7 +978,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Submit Decay Cumsum for exact-current independent replay, collect Diag SSM and dependent kldiv_ops receipts, and continue the remaining 31 source/proof migrations. All 19 examples independently accepted. No merge.",
+    "current_work": "Submit Triton Linear Activation for exact-current independent replay, collect Decay Cumsum/Diag SSM/dependent kldiv_ops receipts, and continue the remaining 30 source/proof migrations. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -992,15 +1002,15 @@
     },
     "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
     "last_full_local_snapshot": {
-      "cases": 171,
-      "targets": 165,
+      "cases": 172,
+      "targets": 166,
       "regressions": 6,
-      "retained_modules": 5779,
-      "replay_sources": 4782,
-      "lake_jobs": 14486,
+      "retained_modules": 5824,
+      "replay_sources": 4827,
+      "lake_jobs": 14520,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 429,
-      "python_tests": 590,
+      "public_theorem_count": 431,
+      "python_tests": 596,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1353,16 +1363,16 @@
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     },
     "previous_full_local_snapshot": {
-      "cases": 170,
-      "targets": 164,
+      "cases": 171,
+      "targets": 165,
       "regressions": 6,
-      "retained_modules": 5715,
-      "replay_sources": 4718,
-      "lake_jobs": 14423,
+      "retained_modules": 5779,
+      "replay_sources": 4782,
+      "lake_jobs": 14486,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 427,
-      "python_tests": 583,
-      "current_dependency_snapshot": false,
+      "public_theorem_count": 429,
+      "python_tests": 590,
+      "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
     "power_replay_resource_diagnosis": {
@@ -1761,6 +1771,25 @@
       "full_lake_jobs": 14486,
       "public_theorem_count": 429,
       "boundary": "Local verification only. Remains incomplete until exact-current independent replay accepts every required owned/shared root and public theorem."
+    },
+    "linear_activation_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 41,
+      "shared_frontend_test_modules": 4,
+      "shared_trust_inventory_theorems": 6,
+      "named_semantic_frontend_regressions": 3,
+      "source_pairs": 10,
+      "original_jit_functions": 5,
+      "helper_top_level_statements": 2,
+      "caller_top_level_statements": 27,
+      "public_theorems": 2,
+      "python_tests": 596,
+      "full_cases": 172,
+      "full_retained_modules": 5824,
+      "full_replay_sources": 4827,
+      "full_lake_jobs": 14520,
+      "public_theorem_count": 431,
+      "boundary": "Local verification only. Remains incomplete until exact-current independent replay accepts every required owned/shared root and public theorem. Real math source tags do not assert exact host floating sqrt."
     }
   },
   "targets": [
@@ -3831,8 +3860,12 @@
     },
     {
       "path": "bench/tritonbench_g/triton_linear_activation",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "All five original JIT functions and the existing checked-in shifted candidate are matched verbatim: four helpers retain their two statements including docstrings, and both callers retain all 27 top-level statements. Ten exact source pairs cover both original/candidate files; polymorphic pointer metadata retains the existing FP32 and AMP FP16 invocation modes. Preserved None/unknown string activation cases, nested helper calls, actual libdevice tanh/erf, source masks, reverse K loop, all pointer updates, same-name bias pointer/tensor rebinding, plain stores and unused cache/SPLIT_K arguments. Removed both old complete Lean quotations; SourceKernels/CandidateKernels are thin adapters to copied bodies. Reused the existing triton_linear_activation_shifted.py without introducing a duplicate candidate. Module math bindings check exact closed Python sqrt/pi expressions, immutable preceding imports and defined finite host values. Real mathematical tags and existing native rounded constants remain explicitly separate; no exact host sqrt equality is claimed. Optional closed-helper frontend captures arguments and returns in order, prevents caller capture/recursion and selects declared constexpr Boolean branches. All six shared trust/inventory theorems, including three semantic regressions, pass. Reproved actual source decomposition, successful prefix/loop/activation/store execution, independent dense Real formula, all outputs, optional saved preactivation, access safety, full exterior memory frames, existing FP/native/IO/grid/compiler bridges and complete candidate equivalence. Corrected the inherited abstract activation connection from generic tanh to the actual libdeviceTanh callback, including nested fast-GELU, without equating distinct intrinsics. No new public premises, narrower numerical domains or FP rules. All 41 owned modules, four shared roots, two public theorem names, complete integration and 596 Python tests pass locally. Exact-current independent replay remains required; compilation is not completion. Independent host math evaluation confirms that both sqrt constants round to the exact FP32 words pinned by the existing native literal model."
     },
     {
       "path": "bench/tritonbench_g/triton_mul2",
