@@ -52,27 +52,7 @@ def unitTyped (dtype : FloatDType) (p : Source.Parameters) : ComputeKernel :=
   let b_zp_ptr := p.zero
   let b_scale_ptr := p.scale
   let fpb_ptr := p.output
-  triton {
-  tl.region b_ptr = tl.int32, b_zp_ptr = tl.int32, b_scale_ptr = DTYPE, fpb_ptr = DTYPE
-  k_block_idx = tl.program_id(axis=0)
-  n_block_idx = tl.program_id(axis=1)
-  offs_k = k_block_idx * $(p.blockRows) + tl.arange(0, $(p.blockRows))
-  offs_n = n_block_idx * $(p.blockColumns) + tl.arange(0, $(p.blockColumns))
-  fpb_offs = offs_k[:, None] * $(p.outputRowStride) + offs_n[None, :]
-  b_offs = (offs_k[:, None] // $(8)) * $(p.weightRowStride) + offs_n[None, :] * $(p.weightColumnStride)
-  bzp_offs = (offs_k[:, None] // $(p.groupSize)) * $(p.zeroRowStride) + (offs_n[None, :] // $(8)) * $(p.zeroColumnStride)
-  bs_offs = (offs_k[:, None] // $(p.groupSize)) * $(p.scaleRowStride) + offs_n[None, :] * $(p.scaleColumnStride)
-  n_mask = offs_n[None, :] < $(p.columns)
-  k_mask = offs_k[:, None] < $(p.rows)
-  mask = n_mask & k_mask
-  int32_b = tl.load(b_ptr + b_offs, mask=mask, other=0.0)
-  zp_b = tl.load(b_zp_ptr + bzp_offs, mask=mask, other=0.0)
-  scale_b = tl.load(b_scale_ptr + bs_offs, mask=mask, other=0.0)
-  b_shift = (offs_k[:, None] % $(8)) * $(4)
-  bzp_shift = (offs_n[None, :] % $(8)) * $(4)
-  fp_weight = tl.toReal(((int32_b >> b_shift) & 15) - ((zp_b >> bzp_shift) & 15)).to(DTYPE) * scale_b
-  tl.store(fpb_ptr + fpb_offs, fp_weight, mask=mask)
-}
+  VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.unitDequantizeBody dtype b_ptr b_scale_ptr b_zp_ptr fpb_ptr p.rows p.columns p.groupSize p.weightRowStride p.weightColumnStride p.scaleRowStride p.scaleColumnStride p.zeroRowStride p.zeroColumnStride p.outputRowStride p.outputColumnStride p.blockRows p.blockColumns
 
 def unitSource (f : Source.Profile) (p : Source.Parameters) : ComputeKernel := unitTyped f.dtype p
 

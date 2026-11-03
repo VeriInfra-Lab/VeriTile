@@ -25,14 +25,14 @@ theorem prelude_safe (M : Algebra α) (p : Parameters)
     have hz (j : Fin p.blockColumns) : inputColumn p initial j/8*p.zeroColumnStride<bounds p.zero := by
       simpa [zeroOffset,groupIndex,hno] using access.z 0 positive (j,())
     simp only [inputColumn,columnBlock,rowsInGroup,firstRow,blocksM,blocksN,min_lt_form] at hs hz
-    simp [prelude,source,typed,ComputeKernel.surfaceBody,
+    simp [prelude,source,typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalBody,ComputeKernel.surfaceBody,
       Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
       FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
       bop,natLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
       FloatDType.numericDType,FloatDType.toTileDType,Region.cast,Option.bind,
       integralFloorDiv,integralMod,hno,backend,hs,hz]
-  · simp [prelude,source,typed,ComputeKernel.surfaceBody,
+  · simp [prelude,source,typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalBody,ComputeKernel.surfaceBody,
       Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
       FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
@@ -53,7 +53,7 @@ theorem body_safe (M : Algebra α) (D : Dot α) (p : Parameters)
   by_cases hno : p.noGroups=Bool.true
   all_goals
     simp only [scaleOffset,zeroOffset,groupIndex,hno,if_true,if_false,Bool.false_eq_true] at hs hz
-    simp [body,source,typed,ComputeKernel.surfaceBody,
+    simp [body,source,typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalBody,ComputeKernel.surfaceBody,
       Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
       FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
@@ -69,7 +69,7 @@ theorem epilogue_safe (M : Algebra α) (D : Dot α) (p : Parameters)
     (h : Invariant M D p initial (steps p) current)
     (access : IOBounds.Accesses p initial bounds) :
     Safety.traceSafeList (backend M D) bounds (epilogue p) current := by
-  simp [epilogue,source,typed,ComputeKernel.surfaceBody,
+  simp [epilogue,source,typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalBody,ComputeKernel.surfaceBody,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,

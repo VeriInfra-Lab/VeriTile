@@ -26,7 +26,8 @@ theorem safety_prefix_run {α : Type} [Inhabited α] (f : Profile) (M : Algebra 
     ∃ s,run M (safetyPrefix f p) initial=some s ∧ SafetyControls p initial s := by
   cases f <;>
     simp [safetyPrefix,source,Profile.dtype,
-      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,ComputeKernel.surfaceBody,
+      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,
+      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody,ComputeKernel.surfaceBody,
       run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       ComputeDType.eraseDType,numeric,bop,natLt,numericLt,numericEq,Region.cast,
       State.setReg,integralFloorDiv,integralMod,FloatDType.numericDType,
@@ -46,6 +47,7 @@ theorem safety_prefix_safe {α : Type} [Inhabited α] (f : Profile) (M : Algebra
   cases f <;>
     simp [safetyPrefix,source,Profile.dtype,
       VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,
+      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody,
       ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -87,6 +89,7 @@ private theorem body_preserves {α : Type} [Inhabited α] (f : Profile) (M : Alg
   cases f <;>
     simp only [safetyBody,source,Profile.dtype,
       VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,
+      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody,
       ComputeKernel.surfaceBody,List.drop,List.take,List.mem_cons,List.not_mem_nil,or_false] at member
   all_goals rcases member with rfl|rfl|rfl|rfl|rfl|rfl
   all_goals exact assignment_preserves M p initial s t h _ _ _ _ (by decide) ran
@@ -102,6 +105,7 @@ private theorem body_step_safe {α : Type} [Inhabited α] (f : Profile) (M : Alg
   cases f <;>
     simp only [safetyBody,source,Profile.dtype,
       VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,
+      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody,
       ComputeKernel.surfaceBody,List.drop,List.take,List.mem_cons,List.not_mem_nil,or_false] at member
   all_goals rcases member with rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
@@ -152,6 +156,7 @@ private theorem store_safe {α : Type} [Inhabited α] (f : Profile) (M : Algebra
   cases f <;>
     simp [safetyStore,source,Profile.dtype,
       VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,
+      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody,
       ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
