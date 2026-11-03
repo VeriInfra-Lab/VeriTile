@@ -4,15 +4,15 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 165,
+  "completed_count": 167,
   "staged_count": 176,
-  "pending_count": 31,
+  "pending_count": 29,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "LOCAL_PASS_AWAITING_BMM_AND_ATTENTION_LLAMA_OFFICIAL_REPLAY",
+    "staged_public_proofs": "BMM_AND_ATTENTION_LLAMA_INDEPENDENTLY_ACCEPTED_NINE_DEPENDENCIES_REPLAY_PENDING",
     "staged_and_regression_retained_modules": 6784,
-    "official_comparator": "174 exact-current independently accepted targets, including all 19 examples. BMM forward and Attention Llama are locally validated and awaiting independent acceptance; 20 targets remain to migrate.",
-    "python_tests": 639,
+    "official_comparator": "167 exact-current independently accepted targets, including all 19 examples. Nine previously accepted targets await fresh shared-dependency replay; 20 targets remain to migrate.",
+    "python_tests": 643,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "182 cases (176 targets and six regressions), 6784 retained/support roots, 15488 Lake jobs, 457 public theorem names and 639 Python tests pass. Attention Llama Real/FP axiom audits and independent mathematical attention checks pass; its original ABI, numerical domains and fixed native model remain unchanged. All 174 accepted closures remain exact current. Completion: 174; two locally verified targets await independent acceptance; 20 targets remain to migrate.",
+    "working_tree": "BMM (104 roots) and Attention Llama (115 roots) independently accepted against exact current source closures. All 19 examples accepted. Nine shared-dependency cases locally revalidated (489 roots, 28 public theorems) await fresh official receipts. Current int8_matmul_quantization migration remains incomplete; no completion inferred from compilation.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -1275,7 +1275,13 @@
       "body_pairs": 10,
       "body_copy_check": "PASS",
       "proof_status": "IN_PROGRESS",
-      "note": "Actual signed source control and ceil loop bounds replace the old Nat and externally supplied iteration abstraction; no completion is claimed."
+      "note": "Actual signed source control and ceil loop bounds replace the old Nat and externally supplied iteration abstraction; no completion is claimed.",
+      "python_regression_tests": 4,
+      "python_full_suite": 643,
+      "signed_executor_bridge": "PASS",
+      "gemm_actual_iteration_connection": "PASS",
+      "producer_initialization": "PASS",
+      "gemm_prefix_and_single_iteration_execution": "PASS"
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -2666,15 +2672,16 @@
     },
     {
       "path": "bench/tritonbench_g/attention_llama",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "IN_PROGRESS",
-      "reason": "Four complete original/carry-first source pairs cover FP16 and signed E5M2 byte storage. Original Python, runtime scalar ABI, numerical domains and native selection model are preserved. All 113 owned modules plus the positional-load frontend and semantic regressions pass, including actual public Real/FP specifications, standard-base axiom audits, the independent mathematical attention formula check, four Python mutation/provenance tests and full 182-case integration. Completion requires exact-current official independent replay of all 115 roots; a body comparison or build is not completion.",
+      "independent_replay": "PASS",
+      "reason": "Every required owned and shared independent proof replay, public theorem, source pair and exact current transitive source/import closure accepted. Official artifact ZIP SHA256 verified. Compilation alone is not completion.",
       "validated_source_commit": "6d6fc7c62e3c832d903417a0bc583886fcc89368",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41692029325"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41692029325",
+      "receipt": "validation/body_receipts/attention-llama-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/attention_score",
@@ -2765,15 +2772,16 @@
     },
     {
       "path": "bench/tritonbench_g/bmm_chunk_fwd",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Six complete Python/Lean body pairs, all 99 retained BMM modules plus five frontend/support regressions, both actual public Real/FP specifications and the complete 181-case integration pass. Source retains every cast, lazy causal return, signed K counter, both sequence sentinels, output cast and ten-statement cleanup. Arbitrary fp32Load callbacks remain explicit in the numerical graph; no load-identity or whole-result assumption is added. Real/FP axiom and independent mathematical specification audits pass. Exact-current official independent replay of all 104 roots remains required; successful compilation is not completion.",
-      "independent_replay": "IN_PROGRESS",
+      "reason": "Every required owned and shared independent proof replay, public theorem, source pair and exact current transitive source/import closure accepted. Official artifact ZIP SHA256 verified. Compilation alone is not completion.",
+      "independent_replay": "PASS",
       "validated_source_commit": "2bf9e7620566cca9c383a6ea17ca7708f1803831",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41684250007"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41684250007",
+      "receipt": "validation/body_receipts/bmm-chunk-fwd-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/bmm_optimized",
@@ -3465,8 +3473,10 @@
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_quantization",
-      "status": "pending",
-      "complete": false
+      "status": "source_proof_migration_in_progress",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "reason": "Ten exact original/candidate Python body pairs and four mutation/provenance tests pass. Signed execution and ceil-loop connections are being re-proved; public Real/FP and all retained roots have not yet passed, so this task is not complete."
     },
     {
       "path": "bench/tritonbench_g/int8_quantization",
