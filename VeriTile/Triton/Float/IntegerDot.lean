@@ -31,6 +31,8 @@ structure Context where
   mode : Mode := .scalarCast
   /-- Dtype of the source iteration register; other stale typed slots are ignored. -/
   signedIteration : Bool := Bool.false
+  /-- Strict accumulator coordinates and loop counter use signed source slots. -/
+  signedAccumulator : Bool := Bool.false
 
 def dotAdd (arithmetic : Arithmetic) (context : Context) {α : Type}
     (s : State α) {m k n : Nat}
@@ -75,9 +77,15 @@ def accumulateNat {α : Type} [Inhabited α] (M : Algebra α)
   let xs←evalOp M none left s
   let ys←evalOp M none right s
   let previous←evalOp M none old s
-  let pm←s.regs .nat [] context.rowRegister
-  let pn←s.regs .nat [] context.columnRegister
-  let iteration←s.regs .nat [] context.iterationRegister
+  let pm←if context.signedAccumulator then
+    (s.regs .int [] context.rowRegister).map (fun v i=>(v i).toNat)
+    else s.regs .nat [] context.rowRegister
+  let pn←if context.signedAccumulator then
+    (s.regs .int [] context.columnRegister).map (fun v i=>(v i).toNat)
+    else s.regs .nat [] context.columnRegister
+  let iteration←if context.signedAccumulator then
+    (s.regs .int [] context.iterationRegister).map (fun v i=>(v i).toNat)
+    else s.regs .nat [] context.iterationRegister
   return fun i=>(context.plans k (pm PUnit.unit*m+i.1.val) (pn PUnit.unit*n+i.2.1.val)
     (s.pids context.splitAxis) (iteration PUnit.unit)).evalInt arithmetic
       (fun j=>BitVec.ofInt 8 (xs (i.1,j,PUnit.unit)))
