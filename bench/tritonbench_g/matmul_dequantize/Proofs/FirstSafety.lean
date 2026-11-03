@@ -33,7 +33,7 @@ theorem prelude_safe (M : Algebra A) (D : Dot A) (p : Parameters) (s : State A)
     have zero := hb.zero 0 (Or.inr ⟨hn,rfl⟩)
     simp [scaleOffset,zeroOffset,inputColumn,columnBlock,rowsInGroup,firstRow,blocksM,blocksN,
       groupIndex,hn,min_form] at scale zero
-    simp [prelude,source,FPTyped.matmul4Typed,ComputeKernel.surfaceBody,
+    simp [prelude,source,FPTyped.matmul4Typed,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul4_kernel,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,
       Safety.addressSafe,Safety.maskActive,run,step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -41,7 +41,7 @@ theorem prelude_safe (M : Algebra A) (D : Dot A) (p : Parameters) (s : State A)
       ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,Region.cast,Option.bind,
       integralFloorDiv,integralMod,hn,Broadcast.leftIndex,Broadcast.rightIndex]
     exact ⟨scale,zero⟩
-  · simp [prelude,source,FPTyped.matmul4Typed,ComputeKernel.surfaceBody,
+  · simp [prelude,source,FPTyped.matmul4Typed,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul4_kernel,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,
       Safety.addressSafe,Safety.maskActive,run,step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -55,7 +55,7 @@ theorem body_safe (M : Algebra A) (D : Dot A) (p : Parameters) (s t : State A)
     Safety.traceSafeList (backend M D) bounds (body p) (t.setReg "k" .nat [] (fun _ => k)) := by
   by_cases hn : p.noGroups=Bool.true
   all_goals
-    simp [body,source,FPTyped.matmul4Typed,ComputeKernel.surfaceBody,
+    simp [body,source,FPTyped.matmul4Typed,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul4_kernel,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,
       Safety.addressSafe,Safety.maskActive,run,step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -73,7 +73,7 @@ theorem body_safe (M : Algebra A) (D : Dot A) (p : Parameters) (s t : State A)
 theorem epilogue_safe (M : Algebra A) (D : Dot A) (p : Parameters) (s t : State A)
     (h : Invariant M D p s (steps p) t) (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList (backend M D) bounds (epilogue p) t := by
-  simp [epilogue,source,FPTyped.matmul4Typed,ComputeKernel.surfaceBody,
+  simp [epilogue,source,FPTyped.matmul4Typed,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul4_kernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,run,step,evalExpr,evalComputeOp,evalOp_unfold,

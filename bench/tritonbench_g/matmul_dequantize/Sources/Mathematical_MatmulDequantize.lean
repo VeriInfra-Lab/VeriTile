@@ -1,184 +1,21 @@
 import VeriTile.Triton
 import VeriTile.Meta.StatementAudit
 import VeriTile.Triton.Float.SignedCast
-import VeriTile.Meta.StatementAudit
 
-/-!
-# `matmul_dequantize` — strict per-kernel correctness, all three launched JIT kernels
+/-! Independent mathematical helpers for the repaired GPTQ multiplication,
+S2 multiplication and standalone packed-weight dequantization.
 
-This file is the DSL port of `matmul_dequantize.py`'s `matmul4_kernel` — the
-audit anchor, the upstream file's first `@triton.jit` kernel, launched by
-`matmul_dequantize_int4_gptq` (test case 1). The same upstream file defines and
-launches two more JIT kernels, and both are modeled below, **in source order**,
-following the `decay_cumsum` multi-kernel-file precedent: the second JIT is
-`matmul_kernel` (launched by `matmul_dequantize_int4_s2`, test case 2) and the
-third is `dequantize_kernel` (launched by `matmul_dequantize_int4_s1` →
-`dequantize_int4`, test case 3, followed by a host-side `torch.mm(a, fp_b)`).
-Three faithful surfaces, three disjoint proof stacks, three headlines:
+Complete authoritative Python bodies are pasted in Sources/Body.lean; the
+standalone original shares MatmulDequantInt4.Body.dequantizeBody. The typed
+execution, independent Real formulas, native graph, safety and full-memory
+connections are proved in the task's Proofs modules. These natural-word
+accessors, ordered sums and induction helpers support the mathematical bridge;
+they are not another source implementation.
 
-* `matmul_dequantize_matmul4_exec_genuine` — `matmul4_kernel`, a GPTQ-style
-  int4-dequantizing GEMM (`C = A · dequant(qweight)`; scale first, then
-  subtract the pre-scaled zero-point) with a `NO_GROUPS : Bool` constexpr kept
-  as a genuine parameter — **both arms** are covered by one statement through
-  the `groupRow` unifier;
-* `matmul_dequantize_matmul_exec_genuine` — `matmul_kernel`, the sibling
-  int4-dequantizing GEMM that subtracts the zero-point **first** (a signed
-  nibble difference) and then scales, with `% M` / `% N` wrapped offsets,
-  unmasked loads, and an `SPLIT_K`-swept autotune table;
-* `matmul_dequantize_dequantize_exec_genuine` — `dequantize_kernel`, the
-  standalone tile dequantizer `fp_b[k, n] = (nib(b) − nib(zp)) · scale` with
-  one shared load/store gate.
-
-Each kernel is a light textual variant of a kernel already ported in this
-bench: `matmul4_kernel` differs from the `matmul_dequantize_int4` port's twin
-only in dropping that source's `.to(a.dtype)` on the `tl.dot` operand and in
-spelling the dead `c`-cast as a direct `tl.float16`; `matmul_kernel` differs
-from the `int4_matmul` port's twin only in its docstring, in spelling its
-three working casts as direct `tl.float16` (where the twin's source wrote
-`.to(a.dtype)` / `.to(c_ptr.dtype.element_ty)`); and
-`dequantize_kernel` is **byte-identical** to the kernel modeled in the
-`matmul_dequant_int4` port. Each section below mirrors its template's spec
-accessors, invariants and proof architecture, renamed into this one namespace.
-
-## `matmul4_kernel` (section 1)
-
-One program owns one `(pid_m, pid_n)` output block chosen by the standard
-group-swizzled `pid` decomposition; the K loop unpacks eight 4-bit weights per
-32-bit word (`(b >> shifter) & 0xF`), scales, shifts by the group's pre-scaled
-zero-point, and accumulates `tl.dot(a, b)`. Under `NO_GROUPS` the scales and
-zeros are pre-loaded once (group row 0); otherwise the loop reloads them at
-`k // (groupsize // BLOCK_SIZE_K)`.
-
-Translation-surface blocker: (`matmul4_kernel`) one disclosed spelling family,
-not semantic — integer literals inside index arithmetic are antiquoted `$(n)`
-(a bare literal is inferred `.real` by the DSL's expression typing): the
-source's `0xF` is written `$(15)` — same value, decimal spelling — and the
-`tl.constexpr`-free Python locals `bits = 4` / `infearure_per_bits = 8` are
-transcribed as ordinary statements (the `matmul_dequantize_int4` disclosure,
-reused verbatim). Two faithfulness notes: **(a)** unlike the twin's source,
-`accumulator += tl.dot(a, b)` carries no cast on `b` — none is transcribed;
-**(b)** `c = accumulator.to(tl.float16)` spells its dtype directly, so it
-compiles to a genuine `Op.castFloat real → fp16` — but it is still a **dead
-binding**: the store writes `accumulator`, not `c`, exactly as the source
-does, so the headline is about the float32 accumulator.
-
-## `matmul_kernel` (section 2)
-
-The `SPLIT_K = 1` arm of the sibling GEMM: per-K-step rebuilt scale /
-zero-point pointers with per-lane group rows `(e + k·BK) // group_size`, a
-signed nibble difference, wrapped `% M` / `% N` offsets with unmasked loads,
-and a masked store of `c = accumulator.to(tl.float16)` — here `c` **is**
-stored, and the direct `tl.float16` spelling makes the store an
-`.fp16`-typed quantization event, so the headline reads the output back at
-the `MemCell` level (`MemCell.of .fp16 (fp16(accSpec))`, the `matmul_tma`
-f16-branch precedent; `FloatDType.cast` is the placeholder-identity, so the
-carried value is `accSpec` itself). The in-loop
-`b = ((int_b - int_bzp) * bs).to(tl.float16)` and the dot's
-`(a).to(tl.float16)` / `(b).to(tl.float16)` survive **faithfully** as
-`Op.castFloat` events (the `attention_fwd_triton2` `p.to(tl.float16)`
-precedent). The DSL preserves a typed fp16 × fp16 → fp32 `Op.dotTyped`,
-then widens that result to the `.real` accumulator. The legacy algorithm
-evaluator erases those widths, so the value reduces to the real dot; this
-is not an IEEE rounding claim.
-
-Translation-surface blocker: (`matmul_kernel`) three disclosed surface
-deviations, none semantic — the `int4_matmul` disclosures (1)–(3) verbatim.
-**(1)** `SPLIT_K` is fixed to `1` (the `tl.store` arm): the `@triton.autotune`
-table sweeps `SPLIT_K` (the shown config pins 1; more are elided) and the
-launch grid's second axis is `SPLIT_K`, so the `tl.atomic_add` arm
-(accumulating into the host-zeroed `C` of `reset_to_zero=['c_ptr']`) is
-dropped with the constexpr — the `bmm_optimized` fixed-arm precedent. Every
-`* SPLIT_K` factor is folded to its `SPLIT_K = 1` value, and the headline
-carries the matching launch fact `s.pids 1 = 0` (grid axis 1 has extent
-`SPLIT_K = 1`). **(2)** the K-loop bound `tl.cdiv(K, BLOCK_SIZE_K * SPLIT_K)`
-is spelled as the antiquoted binder `numKBlocks` with the honest side
-condition `K = BLOCK_SIZE_K * numKBlocks` (the loads are unmasked, so the trip
-count is exact — the `llama_ff_triton` `tl.cdiv` precedent). **(3)** the
-dequant subtraction is spelled `(tl.cast(int_b, tl.int32) -
-tl.cast(int_bzp, tl.int32)) * bs`: the two packed containers live on the
-`.nat` channel (bitwise `>>` / `&` are defined there), the nibble difference
-goes negative, and ℕ subtraction truncates — so the subtraction must run on
-the signed `.int` channel and promote to ℝ via `Op.intToReal`
-(`tl.cast(x, tl.int32)` is the explicit `Op.castNatToInt` spelling; a bare
-`.to(tl.int32)` on a nat value is width-erased to a no-op). Unlike the twin,
-the statement's trailing cast — here a direct `.to(tl.float16)` — is **kept**:
-it does not route through the int-expected expansion, so it compiles
-faithfully.
-
-## `dequantize_kernel` (section 3)
-
-One program owns the `[BLOCK_SIZE_K, BLOCK_SIZE_N]` tile at
-`(k_block_idx, n_block_idx)` of the dequantized weight `fp_b`: it loads a tile
-of packed int4 weight words (eight 4-bit weights per 32-bit word along K,
-hence `offs_k // 8`), the matching packed zero-point words (eight per word
-along N, one group row per `group_size` K rows), and the per-group scales,
-unpacks the two nibbles, and stores `fp_weight = (nib(b) − nib(zp)) · scale` —
-every load and the store masked by the same `(offs_n < N) & (offs_k < K)`
-gate. The kernel body is byte-identical to the one already ported in
-`matmul_dequant_int4`; this section is that port's proof stack, renamed.
-
-Translation-surface blocker: (`dequantize_kernel`) two disclosed surface
-deviations, neither semantic — the `matmul_dequant_int4` disclosures verbatim.
-**(1)** the dequant statement is spelled
-`fp_weight = (tl.cast((int32_b >> b_shift) & $(15), tl.int32) -
-tl.cast((zp_b >> bzp_shift) & $(15), tl.int32)) * scale_b` — the same signed
-`.int`-channel hop as `matmul_kernel`'s disclosure (3), applied inline.
-**(2)** integer literals are antiquoted `$(n)` and the `group_size` runtime
-argument is the antiquoted binder `$(group_size)`. The three masked loads keep
-their `other=0.0` kwargs faithfully; on the two packed `.nat` channels the
-expander reads the literal `0.0` as the nat constant `0` (value-identical, and
-masked-off lanes are never consumed — the store mask equals the load mask).
-
-## The two packed channels (all three kernels)
-
-The packed weight / zero-point tensors are `torch.IntTensor`s and are modeled
-as `Region .nat`: the DSL's bitwise operators are defined on the `.nat`
-channel only. This is a statement about the *container*, not the extracted
-values — `(x >> 4i) & 0xF` selects the same nibble whether the shift is
-logical or arithmetic, and every extracted nibble is in `[0, 15]`, hence
-non-negative. `matmul4_kernel` scales before subtracting, so its integers
-never go negative; the other two kernels subtract nibbles first — hence their
-explicit `.int` hop.
-
-## Proof map
-
-```
-matmul_dequantize_matmul4_exec_genuine          headline 1  (matmul4_kernel)
-├─ mdq_body_eq / mdqPreLoopScalars_run / mdqPreLoopTiles_run
-├─ mdqLoop_collapse ── mdqLoopBody_run ── mdq_groupBranch_run (both NO_GROUPS paths)
-└─ mdqPostLoop_run ── mdq_store_props          (cAddr_injective discharges hInj)
-matmul_dequantize_matmul_exec_genuine           headline 2  (matmul_kernel)
-├─ i4_body_eq / i4PreLoopScalars_run / i4PreLoopTiles_run
-├─ i4Loop_collapse ── i4LoopBody_run (fp16 casts + typed dot evaluation)
-└─ i4PostLoop_run ── i4_store_props            (fp16 MemCell readback)
-matmul_dequantize_dequantize_exec_genuine       headline 3  (dequantize_kernel)
-├─ dq_exec_isSome                               one big simp, 18 statements
-└─ dq_correct ── scatter_readback_prop_masked_nd  (fpbAddr_injective ⊢ hInj)
-```
-
-Every stored value is built bottom-up from each kernel's own accessors over
-the **launch** state's memory; no output region is ever read back into a spec,
-so no part of any trust path is self-referential.
-
-## Modeling boundary
-
-Arithmetic is over ℝ (not bit-accurate IEEE float; the fp16 cast sites are
-recorded as `Op.castFloat` events whose placeholder cast is the identity);
-`@triton.autotune` and the three host launches (grids, strides, `group_size`,
-`NO_GROUPS = (group_size == K)`, the downstream `torch.mm`) are the *trusted
-boundary*. Every dimension, stride and block size stays a symbolic parameter,
-so each headline covers every autotune config of its kernel at once.
-
-## Correctness-surface status
-
-Correctness-surface blocker: the `*_exec_genuine` headline(s) in this file
-state correctness as an inline exec-existential
-(`∃ sF, exec … = some sF ∧ <output readback>`) rather than through a named
-`⊨` (`KernelIO`) or `ComputeCorrect.Realizes` surface. Termination and every
-stored output cell are proved; the **frame** — nothing outside the write set
-changes — is not part of the statement. Lifting this to `⊨` therefore needs
-the frame proof, not a rename. Registered in `proof_blockers.md`.
--/
+The actual S2 quotation retains its SPLIT_K factors, source cdiv loop bound
+and both store/atomic branches. Existing public launch configurations select
+SPLIT_K=1; the proof-side count is computed from K and BLOCK_SIZE_K. Width erasure
+in these Real helpers does not claim IEEE floating-point correctness. -/
 
 namespace VeriTile.Bench.TritonBenchG.MatmulDequantize
 
