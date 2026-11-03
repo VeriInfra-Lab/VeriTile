@@ -1,0 +1,450 @@
+[
+  {
+    "python": "bench/tritonbench_g/llama_ff_triton/llama_ff_triton.py",
+    "lean": "bench/tritonbench_g/llama_ff_triton/Sources/Body.lean",
+    "python_function": "ff_llama",
+    "lean_definition": "halfBody",
+    "signature_definition": "halfSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp16"
+        ],
+        [
+          "w1_ptr",
+          "fp16"
+        ],
+        [
+          "w3_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "fp16"
+        ],
+        [
+          "rms_w_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_w1k",
+          "integer"
+        ],
+        [
+          "stride_w1n",
+          "integer"
+        ],
+        [
+          "stride_w3k",
+          "integer"
+        ],
+        [
+          "stride_w3n",
+          "integer"
+        ],
+        [
+          "stride_outm",
+          "integer"
+        ],
+        [
+          "stride_outn",
+          "integer"
+        ],
+        [
+          "stride_rms_w",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "USE_FP8",
+        "EPS",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "w1_ptr",
+        "w3_ptr",
+        "rms_w_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_w1k": "stride_w1k",
+      "stride_w1n": "stride_w1n",
+      "stride_w3k": "stride_w3k",
+      "stride_w3n": "stride_w3n",
+      "stride_outm": "stride_outm",
+      "stride_outn": "stride_outn",
+      "stride_rms_w": "stride_rms_w"
+    },
+    "invocation_variant": "half_storage"
+  },
+  {
+    "python": "bench/tritonbench_g/llama_ff_triton/llama_ff_index_commuted.py",
+    "lean": "bench/tritonbench_g/llama_ff_triton/Sources/Body.lean",
+    "python_function": "ff_llama_index_commuted",
+    "lean_definition": "halfCandidateBody",
+    "signature_definition": "halfSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp16"
+        ],
+        [
+          "w1_ptr",
+          "fp16"
+        ],
+        [
+          "w3_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "fp16"
+        ],
+        [
+          "rms_w_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_w1k",
+          "integer"
+        ],
+        [
+          "stride_w1n",
+          "integer"
+        ],
+        [
+          "stride_w3k",
+          "integer"
+        ],
+        [
+          "stride_w3n",
+          "integer"
+        ],
+        [
+          "stride_outm",
+          "integer"
+        ],
+        [
+          "stride_outn",
+          "integer"
+        ],
+        [
+          "stride_rms_w",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "USE_FP8",
+        "EPS",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "w1_ptr",
+        "w3_ptr",
+        "rms_w_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_w1k": "stride_w1k",
+      "stride_w1n": "stride_w1n",
+      "stride_w3k": "stride_w3k",
+      "stride_w3n": "stride_w3n",
+      "stride_outm": "stride_outm",
+      "stride_outn": "stride_outn",
+      "stride_rms_w": "stride_rms_w"
+    },
+    "invocation_variant": "half_storage"
+  },
+  {
+    "python": "bench/tritonbench_g/llama_ff_triton/llama_ff_triton.py",
+    "lean": "bench/tritonbench_g/llama_ff_triton/Sources/Body.lean",
+    "python_function": "ff_llama",
+    "lean_definition": "byteBody",
+    "signature_definition": "byteSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp16"
+        ],
+        [
+          "w1_ptr",
+          "i8"
+        ],
+        [
+          "w3_ptr",
+          "i8"
+        ],
+        [
+          "out_ptr",
+          "fp16"
+        ],
+        [
+          "rms_w_ptr",
+          "i8"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_w1k",
+          "integer"
+        ],
+        [
+          "stride_w1n",
+          "integer"
+        ],
+        [
+          "stride_w3k",
+          "integer"
+        ],
+        [
+          "stride_w3n",
+          "integer"
+        ],
+        [
+          "stride_outm",
+          "integer"
+        ],
+        [
+          "stride_outn",
+          "integer"
+        ],
+        [
+          "stride_rms_w",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "USE_FP8",
+        "EPS",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "w1_ptr",
+        "w3_ptr",
+        "rms_w_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_w1k": "stride_w1k",
+      "stride_w1n": "stride_w1n",
+      "stride_w3k": "stride_w3k",
+      "stride_w3n": "stride_w3n",
+      "stride_outm": "stride_outm",
+      "stride_outn": "stride_outn",
+      "stride_rms_w": "stride_rms_w"
+    },
+    "invocation_variant": "int8_e5m2_storage"
+  },
+  {
+    "python": "bench/tritonbench_g/llama_ff_triton/llama_ff_index_commuted.py",
+    "lean": "bench/tritonbench_g/llama_ff_triton/Sources/Body.lean",
+    "python_function": "ff_llama_index_commuted",
+    "lean_definition": "byteCandidateBody",
+    "signature_definition": "byteSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "a_ptr",
+          "fp16"
+        ],
+        [
+          "w1_ptr",
+          "i8"
+        ],
+        [
+          "w3_ptr",
+          "i8"
+        ],
+        [
+          "out_ptr",
+          "fp16"
+        ],
+        [
+          "rms_w_ptr",
+          "i8"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_w1k",
+          "integer"
+        ],
+        [
+          "stride_w1n",
+          "integer"
+        ],
+        [
+          "stride_w3k",
+          "integer"
+        ],
+        [
+          "stride_w3n",
+          "integer"
+        ],
+        [
+          "stride_outm",
+          "integer"
+        ],
+        [
+          "stride_outn",
+          "integer"
+        ],
+        [
+          "stride_rms_w",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "USE_FP8",
+        "EPS",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "a_ptr",
+        "w1_ptr",
+        "w3_ptr",
+        "rms_w_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_w1k": "stride_w1k",
+      "stride_w1n": "stride_w1n",
+      "stride_w3k": "stride_w3k",
+      "stride_w3n": "stride_w3n",
+      "stride_outm": "stride_outm",
+      "stride_outn": "stride_outn",
+      "stride_rms_w": "stride_rms_w"
+    },
+    "invocation_variant": "int8_e5m2_storage"
+  }
+]

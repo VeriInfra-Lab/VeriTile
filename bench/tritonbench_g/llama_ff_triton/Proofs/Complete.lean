@@ -23,7 +23,7 @@ theorem sourceComplete {α : Type} [Inhabited α] (a : Arithmetic α)
   change run a.model (source p).surfaceBody initial=some finish.val
   rw [partition,run_append,run_append,start.property]
   simp only [Option.bind_some]
-  have hloop : run a.model [.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (body p)] start.val=some mid := by
+  have hloop : run a.model [.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (body p)] start.val=some mid := by
     rw [run,countedExecution a p start.val (body p) hs.k]
     have hm' : rangeInt a.model "step" 0 (steps p) 1 (body p) start.val=some mid := by
       simpa [loopBody] using hm

@@ -29,7 +29,7 @@ theorem native_jobs_safe (a : Arithmetic α) (g : GateInstructions α) (p : Para
   have hs := initialInvariant a Bool.true p initial
   obtain ⟨mid,hm,hi⟩ := loopExecution a Bool.true p initial start.val 0 (by omega) hs bytes'
   have hmid : FP.Structural.step a.model
-      (.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (compiledBody p)) start.val=some mid := by
+      (.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (compiledBody p)) start.val=some mid := by
     rw [countedExecution a p start.val _ hs.k]
     simpa [loopBody] using hm
   let norm := normExecution a p initial mid hi
@@ -52,11 +52,11 @@ theorem native_jobs_safe (a : Arithmetic α) (g : GateInstructions α) (p : Para
     exact start.property
   refine safe_cons _ _ start.val mid bounds ?_ ?_ ?_
   · change traceSafeList a.model bounds
-      [.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (compiledBody p)] start.val
+      [.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (compiledBody p)] start.val
     simpa only [traceSafeList_unfold,hmid] using
       And.intro (counted_safe a Bool.true p initial start.val hs bytes' bounds hb) True.intro
   · rw [job_run]
-    change run a.model [.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (compiledBody p)] start.val=some mid
+    change run a.model [.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (compiledBody p)] start.val=some mid
     simp only [run,hmid,Bind.bind]
     rfl
   refine safe_cons _ _ mid norm.val bounds ?_ ?_ ?_

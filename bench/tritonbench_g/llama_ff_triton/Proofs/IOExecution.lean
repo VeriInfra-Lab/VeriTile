@@ -32,7 +32,7 @@ theorem native_jobs_run {α : Type} [Inhabited α] (a : Arithmetic α) (g : Gate
     simp only [hs,Option.bind]
     dsimp only [Bind.bind]
     cases hm : FP.Structural.step a.model
-      (.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (compiledBody p)) start with
+      (.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (compiledBody p)) start with
     | none => simp [run,hm,Bind.bind]
     | some mid =>
       simp only [run,hm,Option.bind]

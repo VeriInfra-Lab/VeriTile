@@ -17,7 +17,7 @@ def prefixExecution {α : Type} [Inhabited α] (M : Algebra α)
   refine ⟨?_, ?_⟩
   swap
   rw [prelude_half]
-  simp [prelude, source, Source.kernel, Source.half,
+  simp [prelude, source, Source.kernel, Source.half, Bodies.halfBody,
       ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
       evalOp_unfold, evalOffsets, evalDeltas, numeric, bop, natLt, numericLt,
       ComputeDType.eraseDType, ofFloat, toFloat, Region.cast, Option.bind,
@@ -39,15 +39,15 @@ def wOffset {α : Type} (p : Parameters) (s : State α) (step : Nat) (i : TileIn
 structure Indices {α : Type} (p : Parameters) (initial : State α)
     (step : Nat) (current : State α) : Prop where
   memory : current.mem = initial.mem
-  m : current.regs .int [] "M64" = some (fun _ => (p.rows : Int))
-  n : current.regs .int [] "N64" = some (fun _ => (p.columns : Int))
-  k : current.regs .int [] "K64" = some (fun _ => (p.inner : Int))
-  sak : current.regs .int [] "sak64" = some (fun _ => 1)
-  w1k : current.regs .int [] "sw1k64" = some (fun _ => 1)
-  w3k : current.regs .int [] "sw3k64" = some (fun _ => 1)
-  rms : current.regs .int [] "srms64" = some (fun _ => 1)
-  outm : current.regs .int [] "soutm64" = some (fun _ => (p.columns : Int))
-  outn : current.regs .int [] "soutn64" = some (fun _ => 1)
+  m : current.regs .int [] "M" = some (fun _ => (p.rows : Int))
+  n : current.regs .int [] "N" = some (fun _ => (p.columns : Int))
+  k : current.regs .int [] "K" = some (fun _ => (p.inner : Int))
+  sak : current.regs .int [] "stride_ak" = some (fun _ => 1)
+  w1k : current.regs .int [] "stride_w1k" = some (fun _ => 1)
+  w3k : current.regs .int [] "stride_w3k" = some (fun _ => 1)
+  rms : current.regs .int [] "stride_rms_w" = some (fun _ => 1)
+  outm : current.regs .int [] "stride_outm" = some (fun _ => (p.columns : Int))
+  outn : current.regs .int [] "stride_outn" = some (fun _ => 1)
   pidm : current.regs .int [] "pid_m" = some (fun _ => (rowBlock p initial : Int))
   pidn : current.regs .int [] "pid_n" = some (fun _ => (columnBlock p initial : Int))
   offk : current.regs .nat [64] "offs_k" = some (fun i => i.1.val)
@@ -63,10 +63,15 @@ theorem prefixIndices {α : Type} [Inhabited α] (M : Algebra α)
     simpa [columnBlocks, Nat.add_sub_assoc] using signed_cdiv p.columns 16 (by decide)
   have hc' : ((p.columns : Int)+16-1)/16 = (columnBlocks p : Int) := by
     rwa [Int.tdiv_eq_ediv_of_nonneg (by omega)] at hc
+  have hc15 : ((p.columns : Int)+15)/16 = (columnBlocks p : Int) := by
+    have he : (p.columns : Int)+15=(p.columns : Int)+16-1 := by omega
+    rw [he]
+    exact hc'
+  have hn15 : ¬(p.columns : Int)+15<0 := by omega
   have hn : ¬(p.columns : Int)+16<1 := by omega
   have hp : ¬(s.pids 0 : Int)<0 := by omega
   constructor <;>
-    simp [prefixExecution, hc, aOffset, wOffset, inputRow, inputColumn,
+    simp [prefixExecution, hc15, hn15, hc, aOffset, wOffset, inputRow, inputColumn,
       rowBlock, columnBlock, FP.Structural.bop,
       Broadcast.leftIndex, Broadcast.rightIndex]
   all_goals try (congr 1; funext i)
@@ -80,7 +85,7 @@ theorem prefixIndices {α : Type} [Inhabited α] (M : Algebra α)
     have nonneg (x l : Nat) : ¬(x : Int)*16+(l : Int)<0 := by omega
     have modTile (x l y : Nat) : ((x : Int)*16+(l : Int))%(y : Int)=((x*16+l)%y : Nat) := by
       simp only [Int.natCast_mod,Int.natCast_add,Int.natCast_mul,Nat.cast_ofNat]
-    simp only [rem,nonneg,ite_false,← Int.emod_def,modTile]
+    try simp only [rem,nonneg,ite_false,← Int.emod_def,modTile]
     try norm_cast
 
 #axiomsClean prefixIndices

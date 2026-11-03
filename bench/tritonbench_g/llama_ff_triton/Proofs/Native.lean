@@ -36,7 +36,7 @@ def gateExecution {α : Type} (a : Arithmetic α) (g : GateInstructions α)
 def nativeExecution {α : Type} [Inhabited α] (a : Arithmetic α)
     (g : GateInstructions α) (p : Parameters) (initial : State α) : Option (State α) := do
   let start ← run a.model (prelude p) initial
-  let mid ← step a.model (.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (compiledBody p)) start
+  let mid ← step a.model (.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (compiledBody p)) start
   let norm ← run a.model ((epilogue p).take 2) mid
   let gate ← gateExecution a g norm
   run a.model ((epilogue p).drop 5) gate

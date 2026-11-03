@@ -9,8 +9,8 @@ set_option maxHeartbeats 8000000
 
 theorem countedExecution {α : Type} [Inhabited α] (a : Arithmetic α)
     (p : Parameters) (current : State α) (code : List ComputeStmt)
-    (hk : current.regs .int [] "K64"=some (fun _ => (p.inner : Int))) :
-    step a.model (.forRangeInt "step" (.constInt 0) countOp (.constNat 1) code) current=
+    (hk : current.regs .int [] "K"=some (fun _ => (p.inner : Int))) :
+    step a.model (.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) code) current=
       rangeInt a.model "step" 0 (steps p) 1 code current := by
   rw [step,countEvaluation a p current hk]
   simp [evalOp_unfold]
@@ -27,12 +27,12 @@ theorem nativeComplete {α : Type} [Inhabited α] (a : Arithmetic α) (g : GateI
   obtain ⟨mid,hm,hi⟩ := loopExecution a Bool.true p initial start.val 0 (by omega) hs bytes
   let finish := terminalExecution a g p initial mid hi
   refine ⟨finish.val,?_,finish.property.2⟩
-  have hmid : step a.model (.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (compiledBody p)) start.val=some mid := by
+  have hmid : step a.model (.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (compiledBody p)) start.val=some mid := by
     rw [countedExecution a p start.val (compiledBody p) hs.k]
     simpa [loopBody] using hm
   unfold nativeExecution
   rw [start.property]
-  change (step a.model (.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (compiledBody p)) start.val).bind _=some finish.val
+  change (step a.model (.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (compiledBody p)) start.val).bind _=some finish.val
   rw [hmid]
   exact finish.property.1
 
