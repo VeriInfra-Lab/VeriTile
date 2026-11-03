@@ -8122,6 +8122,7 @@
     "bench/tritonbench_g/attention_llama/Sources/Selected.lean",
     "bench/tritonbench_g/attention_llama/Target.lean",
     "VeriTile/Triton/DSL/PositionalLoadOther.lean",
-    "tests/lean/PositionalLoadOther.lean"
+    "tests/lean/PositionalLoadOther.lean",
+    "tests/lean/SignedAccumulatorCoordinates.lean"
   ]
 }
