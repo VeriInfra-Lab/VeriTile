@@ -1,4 +1,5 @@
-import Mathlib
+import Mathlib.Logic.Function.Basic
+import Init.Data.Nat.Power2.Basic
 import VeriTile.Meta.Specification
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling

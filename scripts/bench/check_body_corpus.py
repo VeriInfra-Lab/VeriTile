@@ -127,7 +127,8 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str) -> 
                 continue
             labels = [r.get("invocation_variant") for r in variants]
             lean_keys = [(r["lean"], r["lean_definition"]) for r in variants]
-            signatures = [json.dumps(r.get("expected_signature"), sort_keys=True) for r in variants]
+            signatures = [json.dumps([r.get("expected_signature"), r.get("expected_constexpr_bindings", {})],
+                                     sort_keys=True) for r in variants]
             if (any(not isinstance(label, str) or not label.strip() for label in labels)
                     or len(lean_keys) != len(set(lean_keys))
                     or len(signatures) != len(set(signatures))):
