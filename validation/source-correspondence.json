@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 162,
-      "uncovered_jit_functions": 21
+      "selected_body_copy_checked": 163,
+      "uncovered_jit_functions": 20
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 69,
-    "inventoried_jit_functions": 571,
-    "uncovered_inventoried_jit_functions": 88,
+    "uncovered_selected_jit_functions": 68,
+    "inventoried_jit_functions": 572,
+    "uncovered_inventoried_jit_functions": 87,
     "checked_pair_modes": {
-      "pasted_body": 493
+      "pasted_body": 497
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 162,
-        "uncovered_jit_functions": 21
+        "selected_body_copy_checked": 163,
+        "uncovered_jit_functions": 20
       }
     },
     "primary_files_with_int64_screen_warning": 3,
@@ -11696,27 +11696,192 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+        },
         {
-          "python": "bench/tritonbench_g/attention_llama/attention_llama.py",
-          "function": "_fwd_kernel"
+          "path": "bench/tritonbench_g/attention_llama/attention_llama_carry_first.py",
+          "jits": [
+            {
+              "function": "_fwd_kernel_carry_first",
+              "line": 8,
+              "statements": 26,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel",
+          "lean_definition": "half",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 26,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "N_HEAD": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "start_position": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "IS_CAUSAL",
+            "USE_FP8"
+          ],
           "python": "bench/tritonbench_g/attention_llama/attention_llama.py",
-          "function": "_fwd_kernel"
+          "lean": "bench/tritonbench_g/attention_llama/Sources/Body.lean",
+          "invocation_variant": "half_storage"
+        },
+        {
+          "python_function": "_fwd_kernel_carry_first",
+          "lean_definition": "carryFirstHalf",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 26,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "N_HEAD": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "start_position": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "IS_CAUSAL",
+            "USE_FP8"
+          ],
+          "python": "bench/tritonbench_g/attention_llama/attention_llama_carry_first.py",
+          "lean": "bench/tritonbench_g/attention_llama/Sources/Body.lean",
+          "invocation_variant": "half_storage"
+        },
+        {
+          "python_function": "_fwd_kernel",
+          "lean_definition": "bytes",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 26,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "N_HEAD": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "start_position": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "IS_CAUSAL",
+            "USE_FP8"
+          ],
+          "python": "bench/tritonbench_g/attention_llama/attention_llama.py",
+          "lean": "bench/tritonbench_g/attention_llama/Sources/Body.lean",
+          "invocation_variant": "signed_e5m2_storage"
+        },
+        {
+          "python_function": "_fwd_kernel_carry_first",
+          "lean_definition": "carryFirstBytes",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 26,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "N_HEAD": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "start_position": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "IS_CAUSAL",
+            "USE_FP8"
+          ],
+          "python": "bench/tritonbench_g/attention_llama/attention_llama_carry_first.py",
+          "lean": "bench/tritonbench_g/attention_llama/Sources/Body.lean",
+          "invocation_variant": "signed_e5m2_storage"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
         "bench/tritonbench_g/attention_llama/Kernels.lean": "39c0de01148d24c3faa263a5fc5b07e45e02fc33d9fa2236e9866198cd6d46b4",
-        "bench/tritonbench_g/attention_llama/attention_llama.py": "e5a00c93c3c1ec9665f39bd1b7c421f049bfe43974963253b848fe94551e78be"
+        "bench/tritonbench_g/attention_llama/Sources/Body.lean": "2b73936b89f72a3b9e50918ab7489d342d691d68a31d7e552fd6a09792d36211",
+        "bench/tritonbench_g/attention_llama/attention_llama.py": "e5a00c93c3c1ec9665f39bd1b7c421f049bfe43974963253b848fe94551e78be",
+        "bench/tritonbench_g/attention_llama/attention_llama_carry_first.py": "56c55afa7c97cd4bdb311ecedee0bdc0f336fcd2d5cd4953b1fa5e3507231191",
+        "bench/tritonbench_g/attention_llama/jit-correspondence.json": "c772d152d0fb072eae7c2738c8854c6fea0c405159b7f056ef9128d2787dfbc2"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/attention_llama"

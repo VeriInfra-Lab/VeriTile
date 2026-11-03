@@ -51,7 +51,7 @@ theorem source_split (c : Config) :
       .forRangeDyn "start_n" (.constNat 0) (.ref .nat [] "block_n_end") (.constNat 64)
         (parts c).body::(parts c).after := by
   cases hf : c.fp8 <;> cases hc : c.causal <;>
-    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,
+    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,Bodies.half,Bodies.bytes,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD]
 
 theorem entry_stop (c : Config) (s : State (Term α)) (scale : Term α) :

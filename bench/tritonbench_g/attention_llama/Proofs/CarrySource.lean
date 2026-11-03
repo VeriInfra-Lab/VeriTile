@@ -26,7 +26,7 @@ def entry (c : Config) (s : State (Term α)) (scale : Term α) :
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,hf,hc,TypedSource.carryFirstHalf,TypedSource.carryFirstBytes,
+    simp [parts,kernel,hf,hc,TypedSource.carryFirstHalf,TypedSource.carryFirstBytes,Bodies.carryFirstHalf,Bodies.carryFirstBytes,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,algebra,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -64,13 +64,13 @@ def accumulated (c : Config) (s : State (Term α)) (scale : Term α) : Nat → C
 theorem before_eq (c : Config) : (parts c).before = (Source.parts c).before := by
   cases hf : c.fp8 <;> cases hc : c.causal <;>
     simp [parts,kernel,Source.parts,Source.kernel,hf,hc,
-      TypedSource.carryFirstHalf,TypedSource.carryFirstBytes,TypedSource.half,TypedSource.bytes,
+      TypedSource.carryFirstHalf,TypedSource.carryFirstBytes,Bodies.carryFirstHalf,Bodies.carryFirstBytes,TypedSource.half,TypedSource.bytes,Bodies.half,Bodies.bytes,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD]
 
 theorem after_eq (c : Config) : (parts c).after = (Source.parts c).after := by
   cases hf : c.fp8 <;> cases hc : c.causal <;>
     simp [parts,kernel,Source.parts,Source.kernel,hf,hc,
-      TypedSource.carryFirstHalf,TypedSource.carryFirstBytes,TypedSource.half,TypedSource.bytes,
+      TypedSource.carryFirstHalf,TypedSource.carryFirstBytes,Bodies.carryFirstHalf,Bodies.carryFirstBytes,TypedSource.half,TypedSource.bytes,Bodies.half,Bodies.bytes,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD]
 
 def finish (c : Config) (s t : State (Term α)) (scale : Term α) (n : Nat)

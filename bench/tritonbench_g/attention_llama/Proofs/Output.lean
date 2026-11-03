@@ -18,7 +18,7 @@ def finish (c : Config) (s t : State (Term α)) (scale : Term α) (n : Nat)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,
+    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,Bodies.half,Bodies.bytes,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,algebra,store,
       ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,
