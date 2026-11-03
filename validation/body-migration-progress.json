@@ -80,13 +80,14 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/context_attn_fwd"
+        "bench/tritonbench_g/context_attn_llama"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 87,
-      "replay_sources": 87,
-      "state": "local_pass_ready_for_official_replay"
+      "retained_modules": 86,
+      "replay_sources": 86,
+      "state": "local_pass_ready_for_official_replay",
+      "purpose": "fresh_current_replay_after_fwd_dependency_migration"
     },
     "previous_incremental_replays": [
       {
@@ -1056,6 +1057,18 @@
         "replay_sources": 104,
         "state": "local_pass_ready_for_official_replay",
         "pending_source_dependency": "bench/tritonbench_g/context_attn_fwd"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/context_attn_fwd"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 87,
+        "replay_sources": 87,
+        "state": "official_in_progress",
+        "source_commit": "66e61dc967b160eb2c3c4bb171aba8fb10130289",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41624978732"
       }
     ],
     "pending_client_regressions": {
@@ -2036,7 +2049,9 @@
         "bench/tritonbench_g/context_attn_llama",
         "bench/tritonbench_g/context_attn_mistral"
       ],
-      "boundary": "Local validation only. Completion requires fresh independent acceptance of every required owned root and both public theorems against the exact current source/import closure."
+      "boundary": "Local validation only. Completion requires fresh independent acceptance of every required owned root and both public theorems against the exact current source/import closure.",
+      "source_commit": "66e61dc967b160eb2c3c4bb171aba8fb10130289",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41624978732"
     }
   },
   "targets": [
