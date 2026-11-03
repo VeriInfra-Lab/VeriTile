@@ -23,13 +23,13 @@ theorem forward_safe (m : Model α) (stride N B : Nat) (eps : ℝ)
     TraceSafe (engine m) bounds
       (TypedSource.forward "X" "Y" "W" "Bias" "Mean" "Rstd" stride N B eps) s := by
   have hB : B≠0 := by omega
-  simp [TraceSafe,TypedSource.forward,ComputeKernel.surfaceBody,
+  simp [TraceSafe,TypedSource.forward,Bodies.forward,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-    Safety.rangeSafe_unfold,Safety.precisionContext,
+    Safety.rangeIntSafe_unfold,Safety.precisionContext,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,
-    range_one _ _ N B positive covers,
+    signed_range_one _ _ N B positive covers,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,FP.Structural.store,ComputeDType.eraseDType,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,

@@ -2417,6 +2417,23 @@
           "VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.index_commuted_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_triton",
+      "python": "bench/tritonbench_g/layer_norm_triton/layer_norm_triton.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/layer_norm_triton/Correct.lean": [
+          "VeriTile.Bench.Repairs.LayerNormTriton.Correctness.forward_correct",
+          "VeriTile.Bench.Repairs.LayerNormTriton.Correctness.grouped_correct",
+          "VeriTile.Bench.Repairs.LayerNormTriton.Correctness.final_correct"
+        ],
+        "bench/tritonbench_g/layer_norm_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LayerNormTriton.Equivalence.forward_equiv",
+          "VeriTile.Bench.Repairs.LayerNormTriton.Equivalence.grouped_equiv",
+          "VeriTile.Bench.Repairs.LayerNormTriton.Equivalence.final_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -7794,6 +7811,72 @@
     "bench/tritonbench_g/layer_norm_fwd/Sources/Selected.lean",
     "VeriTile/Triton/DSL/IntegerCallConditionals.lean",
     "VeriTile/Triton/DSL/FP32CallValues.lean",
-    "tests/lean/FP32CallValues.lean"
+    "tests/lean/FP32CallValues.lean",
+    "bench/tritonbench_g/layer_norm_triton/BackwardPairIO.lean",
+    "bench/tritonbench_g/layer_norm_triton/Contract.lean",
+    "bench/tritonbench_g/layer_norm_triton/Correct.lean",
+    "bench/tritonbench_g/layer_norm_triton/FPEquiv.lean",
+    "bench/tritonbench_g/layer_norm_triton/ForwardCandidateIO.lean",
+    "bench/tritonbench_g/layer_norm_triton/ForwardPairIO.lean",
+    "bench/tritonbench_g/layer_norm_triton/IO.lean",
+    "bench/tritonbench_g/layer_norm_triton/Kernels.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/Affine.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/Composition.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/Execution.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/FinalIO.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/FinalRealIO.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/ForwardCandidateSafety.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/ForwardEquivalenceIO.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/ForwardIO.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/ForwardRealIO.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/Geometry.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/GroupedFoldIO.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/GroupedIOResult.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/GroupedRealIO.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/GroupedReference.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/GroupedValues.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/KernelContract.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/KernelForward.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/KernelGraph.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/KernelMemory.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/Model.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/PairFinal.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/PairGrouped.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/PairGroupedSource.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/PythonSource.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/Real.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/RealEndpoints.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceBackwardSafety.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceCandidate.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceFinal.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceFinalGraph.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceFinalReal.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceFinalResult.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceForward.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceForwardGraph.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceForwardReal.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceForwardResult.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceForwardStorage.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceGrouped.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceGroupedDX.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceGroupedExecution.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceGroupedGraph.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceGroupedReal.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceGroupedResult.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceGroupedSafety.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceGroupedSums.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceModel.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceRows.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceSafety.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceStride.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceStrideRefinement.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/SourceWhileTrace.lean",
+    "bench/tritonbench_g/layer_norm_triton/Proofs/StoredReal.lean",
+    "bench/tritonbench_g/layer_norm_triton/Sources/Body.lean",
+    "VeriTile/Triton/DSL/ScalarInt64StrideWhile.lean",
+    "VeriTile/Triton/DSL/PointerDTypeZeros.lean",
+    "VeriTile/Triton/Float/SignedAffineWhileInvariant.lean",
+    "tests/lean/ScalarInt64StrideWhile.lean"
   ]
 }

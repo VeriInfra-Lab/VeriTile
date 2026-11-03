@@ -18,10 +18,10 @@ decreasing_by omega
 
 theorem range_refines [Inhabited α] (m : Model α) (stride M N G B group cur : Nat)
     (s t : State α) (a : Carries α B) (h : Invariant s N B group a t) :
-    ∃ u,FP.Structural.range (engine m) "row" cur M G (SourceGrouped.body stride M N G B) t=some u ∧
+    ∃ u,FP.Structural.rangeInt (engine m) "row" (cur : Int) (M : Int) G (SourceGrouped.body stride M N G B) t=some u ∧
       Invariant (fold m stride M N G B group cur s a).1 N B group
         (fold m stride M N G B group cur s a).2 u := by
-  rw [FP.Structural.range,fold]
+  rw [signed_range_nat_step,fold]
   split
   · exact ⟨t,rfl,h⟩
   · split
@@ -44,7 +44,7 @@ theorem suffix_refines [Inhabited α] (m : Model α) (stride M N G B group : Nat
     ∃ u,run (engine m) (SourceGrouped.suffix stride M N G B) t=some u ∧
       u.mem=(stores s N B group a).mem := by
   obtain ⟨hm,hu,hgroup,hcols,hmask,hdwp,hdbp,hdw,hdb⟩ := h
-  simp [SourceGrouped.suffix,SourceGrouped.code,TypedSource.groupedBackward,ComputeKernel.surfaceBody,
+  simp [SourceGrouped.suffix,SourceGrouped.code,TypedSource.groupedBackward,Bodies.groupedBackward,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,FP.Structural.store,ComputeDType.eraseDType,
@@ -67,14 +67,17 @@ theorem source_refines [Inhabited α] (m : Model α) (stride M N G B : Nat) (s :
     ∃ t,FP.Structural.exec (engine m)
       (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s=some t ∧
       t.mem=(final m stride M N G B s).mem := by
-  obtain ⟨a,ha,hready⟩ := prelude_refines m s stride M N G B
+  obtain ⟨a,ha,hready,hrow⟩ := prelude_refines m s stride M N G B
   have hg := hready.2.2.1
   obtain ⟨b,hb,hbready⟩ := range_refines m stride M N G B (s.pids 0) (s.pids 0) s a (zero m B) hready
   obtain ⟨t,ht,hmem⟩ := suffix_refines m stride M N G B (s.pids 0) _ b _ hbready
   refine ⟨t,?_,hmem⟩
   change run (engine m) (SourceGrouped.code stride M N G B) s=some t
   rw [SourceGrouped.code_split,run_append,run_append,ha]
-  simpa only [bind,Option.bind,run,step,evalOp_unfold,hg,hb] using ht
+  simp only [bind,Option.bind,run,step,evalOp_unfold,hrow]
+  change rangeInt (engine m) "row" (s.pids 0 : Int) (Int.ofNat M) G (SourceGrouped.body stride M N G B) a=some b at hb
+  rw [hb]
+  exact ht
 
 #axiomsClean source_refines
 #guard_msgs (drop info) in

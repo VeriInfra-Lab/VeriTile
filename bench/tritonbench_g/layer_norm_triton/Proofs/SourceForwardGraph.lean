@@ -19,26 +19,26 @@ def sum (m : Model α) (B : Nat) (v : Fin B → α) : α :=
     (fun i => v i.1) PUnit.unit
 
 def xload (m : Model α) (N : Nat) (x : Nat → α) (j : Nat) : α :=
-  cast m (if j<N then x j else lit m 0)
+  cast m (m.scalar.fp32Load (if j<N then x j else lit m 0))
 
 def mean (m : Model α) (N B : Nat) (x : Nat → α) : α :=
-  bin m .div (sum m B (fun j => bin m .add (lit m 0) (xload m N x j.val))) (lit m N)
+  bin m .div (sum m B (fun j => bin m .add (lit m 0) (xload m N x j.val))) (m.scalar.fromInt (some .fp32) (N : Int))
 
 def centered (m : Model α) (N B : Nat) (x : Nat → α) (j : Nat) : α :=
   if j<N then bin m .sub (xload m N x j) (mean m N B x) else lit m 0
 
 def variance (m : Model α) (N B : Nat) (x : Nat → α) : α :=
   bin m .div (sum m B (fun j => bin m .add (lit m 0)
-    (bin m .mul (centered m N B x j.val) (centered m N B x j.val)))) (lit m N)
+    (bin m .mul (centered m N B x j.val) (centered m N B x j.val)))) (m.scalar.fromInt (some .fp32) (N : Int))
 
 def inverse (m : Model α) (N B : Nat) (eps : ℝ) (x : Nat → α) : α :=
   bin m .div (lit m 1) (m.scalar.unary (some .fp32) .sqrt
     (bin m .add (variance m N B x) (lit m eps)))
 
 def output (m : Model α) (N B : Nat) (eps : ℝ) (x w bias : Nat → α) (j : Nat) : α :=
-  cast m (bin m .add
+  bin m .add
     (bin m .mul (bin m .mul (bin m .sub (xload m N x j) (mean m N B x)) (inverse m N B eps x))
-      (m.scalar.fp32Load (w j))) (m.scalar.fp32Load (bias j)))
+      (m.scalar.fp32Load (w j))) (m.scalar.fp32Load (bias j))
 
 def row [Inhabited α] (s : State α) (stride : Nat) : Nat → α :=
   fun j => (s.mem "X" (s.pids 0*stride+j)).read .real
@@ -81,9 +81,9 @@ theorem source_memory [Inhabited α] (m : Model α) (stride N B : Nat) (eps : �
     (h : FP.Structural.exec (engine m)
       (TypedSource.forward "X" "Y" "W" "Bias" "Mean" "Rstd" stride N B eps) s=some t) :
     t.mem=(final m stride N B eps s).mem := by
-  simp [FP.Structural.exec,TypedSource.forward,ComputeKernel.surfaceBody,
+  simp [FP.Structural.exec,TypedSource.forward,Bodies.forward,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,
-    range_one _ _ N B positive covers,
+    signed_range_one _ _ N B positive covers,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,FP.Structural.store,ComputeDType.eraseDType,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
@@ -96,7 +96,7 @@ theorem source_memory [Inhabited α] (m : Model α) (stride N B : Nat) (eps : �
     rfl
   · intro a b i hab
     dsimp only [bop,Broadcast.leftIndex,Broadcast.rightIndex]
-    by_cases hi : i.1.val<N <;> simp [hi,State.write,hab] <;> rfl
+    by_cases hi : i.1.val<N <;> simp [hi,State.write,hab,nat_product_address] <;> rfl
 
 #axiomsClean source_memory
 #guard_msgs (drop info) in
