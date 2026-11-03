@@ -80,13 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/int8_dequant_matmul",
-        "bench/tritonbench_g/matmul_persistent_triton"
+        "bench/tritonbench_g/kldiv_triton",
+        "bench/tritonbench_g/llama_ff_triton"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 2,
-      "retained_modules": 129,
-      "replay_sources": 129,
+      "retained_modules": 109,
+      "replay_sources": 109,
       "state": "local_pass_ready_for_official_replay",
       "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change"
     },
@@ -990,6 +990,20 @@
         "state": "official_in_progress",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613131342",
         "source_commit": "54e28c9cb9a1d5b12d5f1382b6b9b30db86614e4"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/int8_dequant_matmul",
+          "bench/tritonbench_g/matmul_persistent_triton"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 2,
+        "retained_modules": 129,
+        "replay_sources": 129,
+        "state": "official_in_progress",
+        "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613238634",
+        "source_commit": "0de885b0d98e0eb88e26462912d46caa3ca4b51e"
       }
     ],
     "pending_client_regressions": {
