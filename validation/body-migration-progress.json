@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 172,
+  "completed_count": 177,
   "staged_count": 179,
-  "pending_count": 24,
+  "pending_count": 19,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "LOCAL_PASS_TWO_MIGRATIONS_AND_FIVE_DEPENDENCIES_AWAIT_OFFICIAL_ACCEPTANCE",
+    "staged_public_proofs": "CURRENT_ATTENTION_SOURCE_AND_PROOF_MIGRATION_IN_PROGRESS",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "172 exact-current independently accepted targets, including all 19 examples. Five shared-dependency cases and two new migrations await official acceptance; 17 further targets remain to migrate.",
+    "official_comparator": "177 exact-current independently accepted targets, including all 19 examples. StreamK awaits official acceptance; attention_score is revoked pending its source dependency migration; 17 tasks including active attention_fwd_triton3 remain to migrate.",
     "python_tests": 653,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "185 cases (179 targets and six regressions), 7012 retained/support roots, 15726 Lake jobs, 465 public theorem names and 653 Python tests pass. Spinning-lock has complete exact-current official independent acceptance. INT8 quantization/GEMM and StreamK await official acceptance; five dependencies await replay; 17 further targets remain to migrate.",
+    "working_tree": "The previous full integrated snapshot passed 185 cases, 7012 retained/support roots, 15726 Lake jobs, 465 public theorem names and 653 Python tests. That snapshot is not validation of the current Attention proof migration. Current exact-source receipts accept 177 targets. INT8 quantization/GEMM and all nine signed-accumulator dependency cases are accepted. attention_score remains explicitly revoked; StreamK is still replay-pending.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -2555,7 +2555,7 @@
       }
     },
     "int8_matmul_quantization_source_migration": {
-      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "local_validation": "PASS",
       "owned_modules": 81,
       "shared_replay_roots": 2,
       "source_pairs": 10,
@@ -2582,7 +2582,8 @@
       "boundary": "All source, proof, safety, public specification and independent official replay gates are required. This local result is not completion.",
       "source_commit": "4bfb28a5eaeca833596da42f74ab89e3e866e7db",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41710145356",
-      "independent_replay": "IN_PROGRESS"
+      "independent_replay": "PASS",
+      "receipt": "validation/body_receipts/int8-matmul-quantization-source-migration.json"
     },
     "spinning_lock_reduction_source_migration": {
       "local_validation": "PASS",
@@ -2790,15 +2791,16 @@
     },
     {
       "path": "bench/tritonbench_g/attention_score",
-      "status": "complete",
-      "complete": true,
+      "status": "dependency_revalidation_pending",
+      "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Official independent exact-source replay accepted all 75 owned/shared proof roots. Verified official ZIP SHA256, every required accepted proof, both public Real/FP theorems and the exact current transitive source/import closure. Both complete 21-statement repaired/original and existing scalar-left Python bodies match literal quotations in Kernels.lean. Removed the old quotation from SourceDefinitions (now a thin import); source-independent public wrappers live in Proofs. Pointer/scalar/constexpr metadata stay outside the body, with actual FP32 sm_scale bound through the standard typed scalar argument before entering the function. Preserved all signed casts, narrowing block-pointer offset, masks, signed sliding/complement windows, hints, dot/default precision, boundary checks, reduction order, output element cast and named block-pointer advance. The existing Python candidate changes only the multiplication operand order and records source provenance. Reproved actual Real erasure, invocation prefix, grouped-head address preparation, signed distance, query loop, complete grids, independent N-term score sum, source safety, output/readback and complete frames. The actual FP comparison and complete native instruction-graph connection pass without new numerical rules, premises or range restrictions. All 73 owned and two shared frontend/test modules, 156-case integration, 386 public names, 537 Python tests, body-corpus checks and exact-source shared trust/inventory preflights pass. Compilation alone is not completion.",
+      "reason": "The actual attention_fwd_triton3 source dependency is being migrated to complete pasted bodies. Its source closure changed; the prior receipt is retained as history and no longer counts as current acceptance. Rebuild and fresh exact-current independent acceptance are required.",
       "validated_source_commit": "72ec347b6ddda442215140ff6a202776d90f17c2",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41533126901",
-      "receipt": "validation/body_receipts/attention-score-source-migration.json"
+      "previous_receipt": "validation/body_receipts/attention-score-source-migration.json",
+      "independent_replay": "PENDING"
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_causal",
@@ -3563,30 +3565,31 @@
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_kernel",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
-      "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
+      "status": "complete",
+      "complete": true,
+      "reason": "Complete source/ABI correspondence, actual public Real/FP specifications, source safety and axiom audits pass. Official independent replay accepts every required frozen root. The exact current full source/import closure, source-pair metadata and public theorem names match the accepted report; compilation alone was not used as completion evidence.",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "receipt": "validation/body_receipts/int8-matmul-source-migration.json",
+      "receipt": "validation/body_receipts/signed-accumulator-dependents-group1.json",
       "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
       "previously_complete": true,
-      "independent_replay": "IN_PROGRESS",
+      "independent_replay": "PASS",
       "previous_receipt": "validation/body_receipts/int8-matmul-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_quantization",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
-      "reason": "Ten exact pasted source pairs cover the complete producer, unwrapped producer and all four original/candidate GEMM precision profiles. All 81 owned and two frontend/regression roots, four actual public specifications, axiom/non-circularity audits, 643 Python tests and complete 183-case integration pass. Both actual producer loops, signed metadata/counters, grouped GEMM coordinates, ceil K loops, scale precision and implicit atomic conversion remain explicit. No public numeric domain is narrowed; no load/cast identity or result assumption is added. Exact-current official independent replay of all 83 roots is required; compilation alone is not completion.",
+      "reason": "Complete source/ABI correspondence, actual public Real/FP specifications, source safety and axiom audits pass. Official independent replay accepts every required frozen root. The exact current full source/import closure, source-pair metadata and public theorem names match the accepted report; compilation alone was not used as completion evidence.",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "IN_PROGRESS",
+      "independent_replay": "PASS",
       "validated_source_commit": "4bfb28a5eaeca833596da42f74ab89e3e866e7db",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41710145356"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41710145356",
+      "receipt": "validation/body_receipts/int8-matmul-quantization-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/int8_quantization",
@@ -3595,14 +3598,14 @@
     },
     {
       "path": "bench/tritonbench_g/int_scaled_matmul",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
-      "independent_replay": "IN_PROGRESS",
-      "receipt": "validation/body_receipts/int-scaled-matmul-source-migration.json",
+      "reason": "Complete source/ABI correspondence, actual public Real/FP specifications, source safety and axiom audits pass. Official independent replay accepts every required frozen root. The exact current full source/import closure, source-pair metadata and public theorem names match the accepted report; compilation alone was not used as completion evidence.",
+      "independent_replay": "PASS",
+      "receipt": "validation/body_receipts/signed-accumulator-dependents-group1.json",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
       "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
       "previously_complete": true,
@@ -3959,48 +3962,48 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_dequant_int4",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
+      "reason": "Complete source/ABI correspondence, actual public Real/FP specifications, source safety and axiom audits pass. Official independent replay accepts every required frozen root. The exact current full source/import closure, source-pair metadata and public theorem names match the accepted report; compilation alone was not used as completion evidence.",
       "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
-      "receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
+      "receipt": "validation/body_receipts/signed-accumulator-dependents-group1.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
-      "independent_replay": "IN_PROGRESS"
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
+      "reason": "Complete source/ABI correspondence, actual public Real/FP specifications, source safety and axiom audits pass. Official independent replay accepts every required frozen root. The exact current full source/import closure, source-pair metadata and public theorem names match the accepted report; compilation alone was not used as completion evidence.",
       "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
-      "receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
+      "receipt": "validation/body_receipts/signed-accumulator-dependents-group1.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
-      "independent_replay": "IN_PROGRESS"
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize_int4",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
+      "reason": "Complete source/ABI correspondence, actual public Real/FP specifications, source safety and axiom audits pass. Official independent replay accepts every required frozen root. The exact current full source/import closure, source-pair metadata and public theorem names match the accepted report; compilation alone was not used as completion evidence.",
       "validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
-      "receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
+      "receipt": "validation/body_receipts/signed-accumulator-dependents-group1.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
-      "independent_replay": "IN_PROGRESS"
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matmul_kernel",
