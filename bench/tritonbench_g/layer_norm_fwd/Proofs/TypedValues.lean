@@ -12,8 +12,8 @@ set_option linter.unusedSimpArgs false
 
 def raw {α : Type} [Inhabited α] (A : Algebra α) (s : State α)
     (region : RegionName) (base N col : Nat) : α :=
-  (engine A).cast (some .fp32) .real .real (if col<N then (s.mem region (base+col)).read .real
-    else (engine A).literal (some .fp32) .real 0)
+  (engine A).cast (some .fp32) .real .real ((engine A).fp32Load (if col<N then (s.mem region (base+col)).read .real
+    else (engine A).literal (some .fp32) .real 0))
 
 theorem prefix_value {α : Type} [Inhabited α] (A : Algebra α)
     (f : Flags) (r : Regions) (stride : Strides) (M N : Nat)
@@ -22,11 +22,12 @@ theorem prefix_value {α : Type} [Inhabited α] (A : Algebra α)
       t.regs .real [block] "x" = some (fun j => raw A s r.x ((s.pids 0)*stride.x) N j.1.val) := by
   rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
   cases res <;> cases resout <;> cases x1 <;> cases w1
-  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,bop,natLt,
-    numericLt,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,
+    numericLt,numericEq,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,
     State.setReg,raw]
+  all_goals try simp only [←Nat.cast_mul,Int.toNat_natCast]
   all_goals (funext i; cases i; simp [FP.Structural.bop])
   all_goals norm_num
 

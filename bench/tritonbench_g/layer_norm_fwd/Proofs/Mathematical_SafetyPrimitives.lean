@@ -30,6 +30,7 @@ theorem rowLoadOp_safe (pointer : RegName) (region : RegionName) (start N block 
   simp [InputSuffix.rowLoadOp, Op.SafeAt, MemAccess.ActiveAddressSafe,
     memAccessActiveAddressSafe, Op.PointerAddressesSafeOn, Op.MemorySafe,
     MaskOpt.Active, evalOp, hptr, hcols, Tile.ptrAdd, Tile.cop, ComparableDType.lt]
+  all_goals try simp only [←Nat.cast_add,←Nat.cast_mul,Int.toNat_natCast]
   exact fun j hj => hb j.val hj
 
 theorem coefficientOp_safe (region : RegionName) (N block : Nat)
@@ -40,6 +41,7 @@ theorem coefficientOp_safe (region : RegionName) (N block : Nat)
     (Affine.coefficientOp region block).SafeAt bounds s := by
   simp [Affine.coefficientOp, Op.SafeAt, MemAccess.ActiveAddressSafe,
     memAccessActiveAddressSafe, MaskOpt.Active, evalOp, hcols, hmask, Affine.maskTile, Region.cast]
+  all_goals try simp only [←Nat.cast_add,←Nat.cast_mul,Int.toNat_natCast]
   exact fun j hj => hb j.val hj
 
 theorem rowStore_safe (pointer name : RegName) (region : RegionName) (start N block : Nat)
@@ -52,6 +54,7 @@ theorem rowStore_safe (pointer name : RegName) (region : RegionName) (start N bl
     MaskOpt.SafeAt, MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
     Op.PointerAddressesSafeOn, Op.MemorySafe, MaskOpt.Active, evalOp, hptr, hcols,
     Tile.ptrAdd, Tile.cop, ComparableDType.lt]
+  all_goals try simp only [←Nat.cast_add,←Nat.cast_mul,Int.toNat_natCast]
   exact fun j hj => hb j.val hj
 
 theorem affineStore_safe (pointer name : RegName) (region : RegionName) (start N block : Nat)
@@ -65,11 +68,12 @@ theorem affineStore_safe (pointer name : RegName) (region : RegionName) (start N
     MaskOpt.SafeAt, MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
     Op.PointerAddressesSafeOn, Op.MemorySafe, MaskOpt.Active, evalOp, hptr, hcols,
     hmask, Affine.maskTile, Tile.ptrAdd]
+  all_goals try simp only [←Nat.cast_add,←Nat.cast_mul,Int.toNat_natCast]
   exact fun j hj => hb j.val hj
 
 theorem scalarStore_safe (region : RegionName) (name : RegName) (row : Nat)
     (s : BlockState) (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row)) (hb : row < bounds region) :
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row)) (hb : row < bounds region) :
     Stmt.TraceSafe bounds (Normalization.scalarStore region name) s := by
   simp [Normalization.scalarStore, Stmt.TraceSafe, Op.SafeAt, MemAccess.SafeAt,
     MaskOpt.SafeAt, MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
@@ -77,14 +81,14 @@ theorem scalarStore_safe (region : RegionName) (name : RegName) (row : Nat)
 
 theorem firstRandomOp_safe (seeds : RegionName) (row block : Nat) (s : BlockState)
     (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row)) (hb : row < bounds seeds) :
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row)) (hb : row < bounds seeds) :
     (Execution.randomOp seeds block).SafeAt bounds s := by
   simp [Execution.randomOp, Op.intToUnsigned, Op.SafeAt, MemAccess.ActiveAddressSafe,
     memAccessActiveAddressSafe, MaskOpt.Active, evalOp, hrow, hb, Region.cast]
 
 theorem secondRandomOp_safe (seeds : RegionName) (M row block : Nat) (s : BlockState)
     (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row)) (hb : M+row < bounds seeds) :
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row)) (hb : M+row < bounds seeds) :
     (InputSuffix.secondRandomOp seeds M block).SafeAt bounds s := by
   simp [InputSuffix.secondRandomOp, InputSuffix.secondRowOp, Op.intToUnsigned,
     Op.SafeAt, MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
@@ -92,26 +96,28 @@ theorem secondRandomOp_safe (seeds : RegionName) (M row block : Nat) (s : BlockS
 
 theorem firstMask_safe (mask : RegionName) (row N block : Nat) (s : BlockState)
     (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
     (hb : ∀ col, col < N → row*N+col < bounds mask) :
     Stmt.TraceSafe bounds (Execution.dropoutMaskStmt mask N block) s := by
-  simp [Execution.dropoutMaskStmt, Stmt.TraceSafe, Op.SafeAt, MemAccess.SafeAt,
+  simp [Execution.dropoutMaskStmt,Execution.maskOffsets,Execution.boolStoreValue,Op.boolToInt, Stmt.TraceSafe, Op.SafeAt, MemAccess.SafeAt,
     MaskOpt.SafeAt, MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe, MaskOpt.Active,
     evalOp, hrow, hcols, Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,
     ComparableDType.lt, Region.cast]
+  all_goals try simp only [←Nat.cast_add,←Nat.cast_mul,Int.toNat_natCast]
   exact fun j hj => hb j.val hj
 
 theorem secondMask_safe (mask : RegionName) (M row N block : Nat) (s : BlockState)
     (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
     (hb : ∀ col, col < N → (M+row)*N+col < bounds mask) :
     Stmt.TraceSafe bounds (InputSuffix.maskStmt mask M N block) s := by
-  simp [InputSuffix.maskStmt, InputSuffix.secondRowOp, Stmt.TraceSafe, Op.SafeAt,
+  simp [InputSuffix.maskStmt,Execution.boolStoreValue,Op.boolToInt, InputSuffix.secondRowOp, Stmt.TraceSafe, Op.SafeAt,
     MemAccess.SafeAt, MaskOpt.SafeAt, MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
     MaskOpt.Active, evalOp, hrow, hcols, Tile.bop, Tile.cop, NumericDType.add,
     NumericDType.mul, ComparableDType.lt, Region.cast]
+  all_goals try simp only [←Nat.cast_add,←Nat.cast_mul,Int.toNat_natCast]
   exact fun j hj => hb j.val hj
 
 end

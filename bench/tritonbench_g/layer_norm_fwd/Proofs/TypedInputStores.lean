@@ -10,6 +10,11 @@ set_option maxHeartbeats 6000000
 set_option maxRecDepth 10000
 set_option linter.unusedSimpArgs false
 
+private theorem mask_sum_address (a b c d : Nat) :
+    (((a:Int)+(b:Int))*(c:Int)+(d:Int)).toNat=(a+b)*c+d := by
+  rw [←Nat.cast_add,←Nat.cast_mul,←Nat.cast_add]; rfl
+attribute [local simp 2000] mask_sum_address
+
 theorem firstStream_mask_readback {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comparisons A)
     (f : Flags) (r : Regions) (stride : Strides) (M N : Nat)
     (eps p : ℝ) (block : Nat) (hb : Random.ArangeSizeDomain block) (row : Nat)
@@ -27,10 +32,10 @@ theorem firstStream_mask_readback {α : Type} [Inhabited α] (A : Algebra α) (c
   have hu := hv.1
   simp at hu
   cases hsc : f.rowscale
-  all_goals simp [firstStream,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [firstStream,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,FP.Structural.bop,natLt,
-    numericLt,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
+    numericLt,numericEq,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
     hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hu,ho,hsc,hd,hm] at ht
   all_goals subst t
   all_goals try simp only [State.setReg_mem]
@@ -57,10 +62,10 @@ theorem secondInput_mask_readback {α : Type} [Inhabited α] (A : Algebra α) (c
   have hu := hv.1
   simp at hu
   cases hsc : f.rowscale
-  all_goals simp [secondInput,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [secondInput,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,FP.Structural.bop,natLt,
-    numericLt,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
+    numericLt,numericEq,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
     hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hu,ho,hxf,hsc,hd,hm] at ht
   all_goals subst t
   all_goals try simp only [State.setReg_mem]
@@ -78,13 +83,13 @@ theorem residual_readback {α : Type} [Inhabited α] (A : Algebra α)
     (ht : run (engine A) (residual f r stride M N eps p block hb) s=some t)
     (j : TileIndex [block]) (hj : j.1.val<N) :
     t.mem r.residualOut (row*stride.residualOut+j.1.val)=Cell.mk .real
-      (cast A (residualCombined A f r stride s N row v j)) := by
+      (residualCombined A f r stride s N row v j) := by
   rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
   cases hrflag : f.residual
-  all_goals simp [residual,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [residual,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
-    numericLt,Region.cast,Random.i32ArangeSize,
+    numericLt,numericEq,Region.cast,Random.i32ArangeSize,
     hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hrflag,hoflag] at ht
   all_goals subst t
   all_goals rw [vector_readback _ _ _ _ _ _ j hj]

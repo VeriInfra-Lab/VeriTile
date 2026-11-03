@@ -14,13 +14,13 @@ def rowLoadOp (pointer : RegName) (N block : Nat) : Op .real [block] :=
     (.maskOther (.lt .nat .scalarR (.ref .nat [block] "cols") (.constNat N))
       (.broadcast (.const 0.0) [block]))
 
-def secondRowOp (M : Nat) : Op .nat [] :=
-  .add .nat .nil (.constNat M) (.ref .nat [] "row")
+def secondRowOp (M : Nat) : Op .int [] :=
+  .add .int .nil (Op.constNat M).castNatToInt (.ref .int [] "row")
 
 def secondRandomOp (seeds : RegionName) (M block : Nat) : Op .real [block] :=
   .rand Domain.randomProfile
     (.castNatToInt (Op.intToUnsigned 32
-      (.load .int (.region seeds.cast (secondRowOp M)) .none)))
+      (.load .int (.region seeds.cast (secondRowOp M).castIntToNat) .none)))
     (.castNatToInt (.ref .nat [block] "cols"))
 
 def secondKeepOp (seeds : RegionName) (M block : Nat) (p : ℝ) : Op .bool [block] :=
@@ -34,14 +34,16 @@ def dropoutValueOp (block : Nat) (p : ℝ) : Op .real [block] :=
 
 def maskStmt (mask : RegionName) (M N block : Nat) : Stmt :=
   .store .bool [block]
-    (.region mask.cast (.add .nat .scalarL
-      (.mul .nat .nil (secondRowOp M) (.constNat N)) (.ref .nat [block] "cols")))
-    (.ref .bool [block] "keep_mask")
+    (.region mask.cast (Op.add .int .scalarL
+      (.mul .int .nil (secondRowOp M) (Op.constNat N).castNatToInt)
+      (Op.ref .nat [block] "cols").castNatToInt).castIntToNat)
+    (Execution.boolStoreValue block)
     (.mask (.lt .nat .scalarR (.ref .nat [block] "cols") (.constNat N)))
 
 def scalePhase (enabled : Bool) (rowscale : RegionName) (M block : Nat) : List Stmt :=
   [.ifThen (.constBool enabled)
-    [.assign .real [] "rowscale" (.load .real (.region rowscale (secondRowOp M)) .none),
+    [.assign .real [] "__veritile_load_3" (.load .real (.region rowscale (secondRowOp M).castIntToNat) .none),
+     .assign .real [] "rowscale" (.ref .real [] "__veritile_load_3"),
      .assign .real [block] "x1" (.mul .real .scalarR
        (.ref .real [block] "x1") (.ref .real [] "rowscale"))]]
 
@@ -57,14 +59,16 @@ def addStmt (name : RegName) (block : Nat) : Stmt :=
     (.ref .real [block] "x") (.ref .real [block] name))
 
 def secondBody (f : Flags) (r : Regions) (M N block : Nat) (p : ℝ) : List Stmt :=
-  [.assign .real [block] "x1" (rowLoadOp "X1" N block)] ++
+  [.assign .real [block] "__veritile_load_2" (rowLoadOp "X1" N block),
+   .assign .real [block] "x1" (.ref .real [block] "__veritile_load_2")] ++
     scalePhase f.rowscale r.rowscale M block ++
     dropoutPhase f.dropout f.dropoutMask r.seeds r.dropoutMask M N block p ++
     [addStmt "x1" block]
 
 def residualStmt (enabled : Bool) (N block : Nat) : Stmt :=
   .ifThen (.constBool enabled)
-    [.assign .real [block] "residual" (rowLoadOp "RESIDUAL" N block), addStmt "residual" block]
+    [.assign .real [block] "__veritile_load_4" (rowLoadOp "RESIDUAL" N block),
+     .assign .real [block] "residual" (.ref .real [block] "__veritile_load_4"), addStmt "residual" block]
 
 def residualOutStmt (enabled : Bool) (N block : Nat) : Stmt :=
   .ifThen (.constBool enabled)
@@ -88,7 +92,7 @@ theorem source_phase (f : Flags) (r : Regions) (stride : Strides)
   simp only [original, phase, secondBody, rowLoadOp, scalePhase, secondRowOp,
     dropoutPhase, secondKeepOp, secondRandomOp, dropoutValueOp, maskStmt,
     addStmt, residualStmt, residualOutStmt,
-    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType,
@@ -118,7 +122,7 @@ theorem rowLoadOp_eval (pointer : RegName) (region : RegionName) (start N block 
 
 theorem secondRandomOp_eval (seeds : RegionName) (M row block : Nat) (s : BlockState)
     (hBlock : Random.ArangeSizeDomain block)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val))) :
     evalOp (secondRandomOp seeds M block) s =
       some ⟨fun j => some (Random.randReal
@@ -131,7 +135,7 @@ theorem secondRandomOp_eval (seeds : RegionName) (M row block : Nat) (s : BlockS
 
 theorem secondKeepOp_eval (seeds : RegionName) (M row block : Nat) (p : ℝ) (s : BlockState)
     (hBlock : Random.ArangeSizeDomain block)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val))) :
     evalOp (secondKeepOp seeds M block p) s =
       some (Execution.keepTile (s.readMemValue .int seeds (M+row)) p block) := by

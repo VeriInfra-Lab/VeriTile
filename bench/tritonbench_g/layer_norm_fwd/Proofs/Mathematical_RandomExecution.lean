@@ -13,11 +13,19 @@ set_option linter.unusedSimpArgs false
 def randomOp (seeds : RegionName) (block : Nat) : Op .real [block] :=
   .rand Domain.randomProfile
     (.castNatToInt (Op.intToUnsigned 32
-      (.load .int (.region seeds.cast (.ref .nat [] "row")) .none)))
+      (.load .int (.region seeds.cast (Op.ref .int [] "row").castIntToNat) .none)))
     (.castNatToInt (.ref .nat [block] "cols"))
 
 def keepOp (seeds : RegionName) (p : ℝ) (block : Nat) : Op .bool [block] :=
   .gt .real .scalarR (randomOp seeds block) (.const p)
+
+def maskOffsets (N block : Nat) : Op .nat [block] :=
+  (Op.add .int .scalarL
+    (.mul .int .nil (.ref .int [] "row") (Op.constNat N).castNatToInt)
+    (Op.ref .nat [block] "cols").castNatToInt).castIntToNat
+
+def boolStoreValue (block : Nat) : Op .bool [block] :=
+  .ne .int .scalarR (.boolToInt (.ref .bool [block] "keep_mask")) (.constInt 0)
 
 def dropoutPhase (enabled storeMask : Bool) (seeds mask : RegionName)
     (N block : Nat) (p : ℝ) : List Stmt :=
@@ -29,10 +37,8 @@ def dropoutPhase (enabled storeMask : Bool) (seeds mask : RegionName)
        (.broadcast (.const 0.0) [block])),
      .ifThen (.constBool storeMask)
        [.store .bool [block]
-         (.region mask.cast (.add .nat .scalarL
-           (.mul .nat .nil (.ref .nat [] "row") (.constNat N))
-           (.ref .nat [block] "cols")))
-         (.ref .bool [block] "keep_mask")
+         (.region mask.cast (maskOffsets N block))
+         (boolStoreValue block)
          (.mask (.lt .nat .scalarR (.ref .nat [block] "cols") (.constNat N)))]]]
 
 def keepTile (seed : Int) (p : ℝ) (block : Nat) : Tile .bool [block] :=
@@ -40,7 +46,7 @@ def keepTile (seed : Int) (p : ℝ) (block : Nat) : Tile .bool [block] :=
 
 theorem randomOp_eval (seeds : RegionName) (row block : Nat) (s : BlockState)
     (hBlock : Random.ArangeSizeDomain block)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val))) :
     evalOp (randomOp seeds block) s =
       some ⟨fun j => some (Random.randReal
@@ -53,7 +59,7 @@ theorem randomOp_eval (seeds : RegionName) (row block : Nat) (s : BlockState)
 
 theorem keepOp_eval (seeds : RegionName) (row block : Nat) (p : ℝ) (s : BlockState)
     (hBlock : Random.ArangeSizeDomain block)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val))) :
     evalOp (keepOp seeds p block) s =
       some (keepTile (s.readMemValue .int seeds row) p block) := by

@@ -43,16 +43,18 @@ theorem dropoutValueOp_eval (seed : Int) (block : Nat) (p : ℝ)
 
 theorem maskStmt_exec (mask : RegionName) (M row N block : Nat)
     (seed : Int) (p : ℝ) (s : BlockState)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
     (hkeep : s.regs .bool [block] "keep_mask" = some (Execution.keepTile seed p block)) :
     stepStmt (maskStmt mask M N block) s =
       some (Memory.scatter mask ((M+row)*N) N block
         (fun col => MemCell.of .bool (Formula.keep seed p col)) s) := by
-  simp [maskStmt, secondRowOp, stepStmt, evalOp_ref, evalOp_lt, evalOp_add, evalOp_mul,
+  simp [maskStmt, secondRowOp,Execution.boolStoreValue,Op.boolToInt, stepStmt,evalOp.eq_def, evalOp_ref, evalOp_lt, evalOp_add, evalOp_mul,
     evalOp_constNat, hrow, hcols, hkeep, Tile.bop, Tile.cop,
     ComparableDType.lt, NumericDType.add, NumericDType.mul, Execution.keepTile,
     Memory.scatter_fold, Memory.bool_store, Region.cast]
+  all_goals simp only [←Nat.cast_add,←Nat.cast_mul,Int.toNat_natCast]
+  all_goals first | rfl | (congr 2; funext acc i; split <;> simp_all [Op.boolToInt,ComparableDType.ne])
 
 def dropoutBase (seeds : RegionName) (M row block : Nat) (p : ℝ)
     (values : Fin block → ℝ) (s : BlockState) : BlockState :=
@@ -73,7 +75,7 @@ def dropoutState (enabled storeMask : Bool) (seeds mask : RegionName)
 theorem dropoutPhase_exec (enabled storeMask : Bool) (seeds mask : RegionName)
     (M row N block : Nat) (p : ℝ) (values : Fin block → ℝ) (s : BlockState)
     (hBlock : Random.ArangeSizeDomain block)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
     (hx : s.regs .real [block] "x1" = some (Execution.realTile values)) :
     stepStmts (dropoutPhase enabled storeMask seeds mask M N block p) s =

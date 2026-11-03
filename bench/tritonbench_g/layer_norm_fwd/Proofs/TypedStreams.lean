@@ -35,12 +35,12 @@ theorem firstStream_success {α : Type} [Inhabited α] (A : Algebra α) (cmp : C
   have hu := hv.1
   simp at hu
   cases hsc : f.rowscale <;> cases hd : f.dropout <;> cases hm : f.dropoutMask
-  all_goals simp [firstStream,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [firstStream,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,FP.Structural.bop,natLt,
-    numericLt,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
+    numericLt,numericEq,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
     hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hu,ho,Ready,hsc,hd,hm]
-  all_goals exact ⟨hx1,hres,hresout,hy1⟩
+  all_goals try exact ⟨hx1,hres,hresout,hy1⟩
 
 def secondInput (f : Flags) (r : Regions) (stride : Strides) (M N : Nat)
     (eps p : ℝ) (block : Nat) (hb : Random.ArangeSizeDomain block) : List ComputeStmt :=
@@ -60,10 +60,10 @@ theorem secondInput_success {α : Type} [Inhabited α] (A : Algebra α) (cmp : C
   have hu := hv.1
   simp at hu
   cases hxflag : f.x1 <;> cases hsc : f.rowscale <;> cases hd : f.dropout <;> cases hm : f.dropoutMask
-  all_goals simp [secondInput,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [secondInput,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,FP.Structural.bop,natLt,
-    numericLt,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
+    numericLt,numericEq,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
     hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hu,ho,Ready,hxflag,hsc,hd,hm]
   all_goals aesop
 
@@ -79,10 +79,10 @@ theorem residual_success {α : Type} [Inhabited α] (A : Algebra α)
       Ready f r stride block row t := by
   rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,x,hx⟩
   cases hrflag : f.residual <;> cases hoflag : f.residualOut
-  all_goals simp [residual,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [residual,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
-    numericLt,Region.cast,Random.i32ArangeSize,
+    numericLt,numericEq,Region.cast,Random.i32ArangeSize,
     hrow,hcols,hy,hx1,hres,hresout,hy1,hx,Ready,hrflag,hoflag]
   all_goals aesop
 
