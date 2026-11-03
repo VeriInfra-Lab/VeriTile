@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 151,
+  "completed_count": 153,
   "staged_count": 156,
-  "pending_count": 45,
+  "pending_count": 43,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
     "staged_and_regression_retained_modules": 5282,
-    "official_comparator": "151 current targets retain exact-dependency independent receipts. Official ZIP digests, every required proof root, public names and exact current source/import closures have been audited. Five locally verified targets await independent replay: chunk_bwd_dqkg, the three-task int4 source/dependency bundle and matmul_dequantize. The previous int4_matmul receipt is historical; compilation is not completion.",
+    "official_comparator": "153 current targets retain exact-dependency independent receipts. Official ZIP digests, every required proof root, public names and exact current source/import closures audited. Three locally verified int4 targets await independent replay. Compilation is not completion.",
     "python_tests": 555,
     "offline_example_compilations": {
       "cases": 19,
@@ -86,7 +86,7 @@
       "cases": 1,
       "retained_modules": 48,
       "replay_sources": 48,
-      "state": "official_replay_running",
+      "state": "accepted_exact_current_source",
       "source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
       "run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330",
       "started_at": "2026-11-03T00:32:28Z"
@@ -864,7 +864,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Collect independent exact-current receipts for five locally verified targets. Continue the remaining 40 TritonBench-G body/proof migrations, next fifth_order_sph_harmonics. All 19 examples are independently accepted. No merge.",
+    "current_work": "Finish fifth_order_sph_harmonics full source/proof migration, then the remaining 39 TritonBench-G migrations. Collect the three-target int4 independent replay bundle. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1101,6 +1101,7 @@
       "validation/body_receipts/bgmv-expand-slice-source-migration.json",
       "validation/body_receipts/bgmv-shrink-source-migration.json",
       "validation/body_receipts/block-sparse-source-migration.json",
+      "validation/body_receipts/chunk-bwd-dqkg-source-migration.json",
       "validation/body_receipts/conv-source-migration.json",
       "validation/body_receipts/flash-attn-source-migration.json",
       "validation/body_receipts/fp4-source-migration.json",
@@ -1136,6 +1137,7 @@
       "validation/body_receipts/iv-source-migration.json",
       "validation/body_receipts/layernorm-softmax-source-migration.json",
       "validation/body_receipts/lora-expand-gemv-source-migration.json",
+      "validation/body_receipts/matmul-dequantize-source-migration.json",
       "validation/body_receipts/matmul-source-migration.json",
       "validation/body_receipts/persistent-source-migration.json",
       "validation/body_receipts/power-source-migration.json",
@@ -1402,7 +1404,9 @@
       "public_theorem_names": 392,
       "boundary": "Local source/proof/trust checks only, not an independent completion receipt.",
       "source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41543030549"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41543030549",
+      "independent_validation": "accepted_exact_current_source",
+      "receipt": "validation/body_receipts/chunk-bwd-dqkg-source-migration.json"
     },
     "int4_source_dependency_migration": {
       "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
@@ -1446,7 +1450,9 @@
       ],
       "boundary": "Local actual source/Real/FP/native/safety/public/axiom validation; no independent completion certificate yet.",
       "source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330",
+      "independent_validation": "accepted_exact_current_source",
+      "receipt": "validation/body_receipts/matmul-dequantize-source-migration.json"
     }
   },
   "targets": [
@@ -1694,14 +1700,15 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_bwd_dqkg",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The unchanged repaired 33-statement Python body and existing tail-bound CSE candidate now match literal Lean quotations, including tuple program IDs, all value-loop iterations, nested integer stride products, tensor-dtype casts, flattened whole-tile reductions, final partial-chunk correction and all three stores. All pointer/scalar/constexpr metadata stays outside the bodies. Removed 18 repeated implementation blocks and the unused real-only dot-add reorder and its comparison module. Retained all original storage choices and independently reverified all 81 precision-erased storage combinations. Proof decomposition reads the actual counted loop; complete Real/native execution, independent whole-V dQ/dK/per-key-tile dG formulas, source access safety, ABI/layouts, complete grids, readback, full frames and actual FP candidate remain connected without new public premises or narrower numerical domains. All 71 retained owned modules and three shared roots, exact-source trust/inventory gates, 159-case integration, all 5127 retained/supporting modules, 392 public theorem names, 546 Python tests and corpus checks pass locally. Fresh exact-current independent replay remains required; compilation is not completion.",
+      "reason": "Official independent exact-current replay accepted all 74 owned/shared roots. Verified official ZIP SHA256, every required proof root, all public Real/FP names, registered source pairs and exact current transitive source/import closures. The unchanged repaired 33-statement Python body and existing tail-bound CSE candidate now match literal Lean quotations, including tuple program IDs, all value-loop iterations, nested integer stride products, tensor-dtype casts, flattened whole-tile reductions, final partial-chunk correction and all three stores. All pointer/scalar/constexpr metadata stays outside the bodies. Removed 18 repeated implementation blocks and the unused real-only dot-add reorder and its comparison module. Retained all original storage choices and independently reverified all 81 precision-erased storage combinations. Proof decomposition reads the actual counted loop; complete Real/native execution, independent whole-V dQ/dK/per-key-tile dG formulas, source access safety, ABI/layouts, complete grids, readback, full frames and actual FP candidate remain connected without new public premises or narrower numerical domains. All 71 retained owned modules and three shared roots, exact-source trust/inventory gates, 159-case integration, all 5127 retained/supporting modules, 392 public theorem names, 546 Python tests and corpus checks pass locally.",
       "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41543030549"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41543030549",
+      "receipt": "validation/body_receipts/chunk-bwd-dqkg-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/chunk_cumsum_kernel",
@@ -2617,14 +2624,15 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "All three unchanged repaired/original Python stages and their existing scalar-address candidates are registered literally (32/25/19 statements each). The identical standalone original shares the repaired dequantizer instead of duplicating Lean. Removed all six old full quotations. Preserved every INT64 cast, implicit target-dtype promotion, explicit FP16 cast, unused statement, mask, scalar constexpr assignment, full S2 cdiv loop expression and both store/atomic branches. Existing public launch configurations select SPLIT_K=1; the proof-side loop count is now derived from K/BLOCK_SIZE_K, without an extra source argument. Reproved the actual dynamic loop and selected write branch, all half/single stages, complete independent Real matrix products/dequantized values, actual FP candidates, native graphs, ABI, source safety, complete grids, outputs/readbacks and frames. All 45 owned modules, three shared roots, four Real and four FP public entries pass local verification. Full 162-case integration passes 5282 retained modules, 13990 Lake jobs, 404 public names, 555 Python tests and source-corpus checks. Exact-source shared frontend/test and body gates pass. Fresh independent exact-current replay remains required; compilation is not completion.",
+      "reason": "Official independent exact-current replay accepted all 48 owned/shared roots. Verified official ZIP SHA256, every required proof root, all public Real/FP names, registered source pairs and exact current transitive source/import closures. All three unchanged repaired/original Python stages and their existing scalar-address candidates are registered literally (32/25/19 statements each). The identical standalone original shares the repaired dequantizer instead of duplicating Lean. Removed all six old full quotations. Preserved every INT64 cast, implicit target-dtype promotion, explicit FP16 cast, unused statement, mask, scalar constexpr assignment, full S2 cdiv loop expression and both store/atomic branches. Existing public launch configurations select SPLIT_K=1; the proof-side loop count is now derived from K/BLOCK_SIZE_K, without an extra source argument. Reproved the actual dynamic loop and selected write branch, all half/single stages, complete independent Real matrix products/dequantized values, actual FP candidates, native graphs, ABI, source safety, complete grids, outputs/readbacks and frames. All 45 owned modules, three shared roots, four Real and four FP public entries pass local verification. Full 162-case integration passes 5282 retained modules, 13990 Lake jobs, 404 public names, 555 Python tests and source-corpus checks. Exact-source shared frontend/test and body gates pass.",
       "validated_source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330",
+      "receipt": "validation/body_receipts/matmul-dequantize-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequantize_int4",
