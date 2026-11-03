@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 159,
-  "staged_count": 167,
+  "staged_count": 168,
   "pending_count": 37,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 5897,
-    "official_comparator": "159 current targets retain exact-dependency independent receipts, including all 19 examples. Eight locally verified targets await independent acceptance (Int Scaled Matmul and its seven affected dependents). Compilation alone is not completion.",
-    "python_tests": 603,
+    "staged_and_regression_retained_modules": 5983,
+    "official_comparator": "159 current targets retain exact-dependency independent receipts, including all 19 examples. Nine locally verified targets await exact-current independent acceptance. Compilation alone is not completion.",
+    "python_tests": 607,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "173 cases (167 targets and six regressions), all 5897 retained/supporting modules, 14583 Lake jobs, 435 public theorem names, 603 Python tests and source-corpus checks pass. Int Scaled Matmul retains both original JIT bodies and both existing candidates; full source execution, independent Real mathematics, FP equivalence, safety, outputs, frames and host/native/IO/compiler bridges are reverified. Independent completion: 159, including all 19 examples. Eight targets await fresh exact-current independent replay (Int Scaled Matmul, its seven affected dependents). Twenty-nine targets remain to migrate.",
-    "official_replay_sources": 4900,
+    "working_tree": "174 cases (168 targets and six regressions), all 5983 retained/supporting modules, 14785 Lake jobs, 437 public theorem names, 607 Python tests and source-corpus checks pass. Context Attn Llama now uses three complete copied bodies, and the independent Real, opaque FP, source safety, full grid output/frame, host/native/logical IO proofs are reverified. Independent completion: 159, including all 19 examples. Nine locally verified targets await fresh exact-current independent acceptance. Twenty-eight targets remain to migrate.",
+    "official_replay_sources": 4986,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,18 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/matmul_dequant_int4",
-        "bench/tritonbench_g/matmul_dequantize_int4",
-        "bench/tritonbench_g/matmul_dequantize"
+        "bench/tritonbench_g/context_attn_llama"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 3,
-      "retained_modules": 161,
-      "replay_sources": 161,
-      "state": "official_in_progress",
-      "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
-      "source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0"
+      "cases": 1,
+      "retained_modules": 86,
+      "replay_sources": 86,
+      "state": "local_pass_ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -1021,6 +1016,21 @@
         "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613328790",
         "source_commit": "8746de961f514315f4e91a7a83411f0124216b77"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/matmul_dequant_int4",
+          "bench/tritonbench_g/matmul_dequantize_int4",
+          "bench/tritonbench_g/matmul_dequantize"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 3,
+        "retained_modules": 161,
+        "replay_sources": 161,
+        "state": "official_in_progress",
+        "purpose": "fresh_exact_current_replay_after_int_scaled_matmul_dependency_change",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613421074",
+        "source_commit": "1dd3ae9ffb197447279422839f534a2f558b4fe0"
       }
     ],
     "pending_client_regressions": {
@@ -1036,7 +1046,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Complete fixed-source independent replay of Int Scaled Matmul and its seven rebuilt dependents; continue the remaining 29 source/proof migrations. All 19 examples independently accepted. No merge.",
+    "current_work": "Submit Context Attn Llama for fixed-source independent replay; collect Int Scaled Matmul and seven dependent receipts; continue the remaining 28 source/proof migrations. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1060,15 +1070,15 @@
     },
     "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
     "last_full_local_snapshot": {
-      "cases": 173,
-      "targets": 167,
+      "cases": 174,
+      "targets": 168,
       "regressions": 6,
-      "retained_modules": 5897,
-      "replay_sources": 4900,
-      "lake_jobs": 14583,
+      "retained_modules": 5983,
+      "replay_sources": 4986,
+      "lake_jobs": 14785,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 435,
-      "python_tests": 603,
+      "public_theorem_count": 437,
+      "python_tests": 607,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1421,15 +1431,15 @@
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     },
     "previous_full_local_snapshot": {
-      "cases": 172,
-      "targets": 166,
+      "cases": 173,
+      "targets": 167,
       "regressions": 6,
-      "retained_modules": 5824,
-      "replay_sources": 4827,
-      "lake_jobs": 14520,
+      "retained_modules": 5897,
+      "replay_sources": 4900,
+      "lake_jobs": 14583,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 431,
-      "python_tests": 596,
+      "public_theorem_count": 435,
+      "python_tests": 603,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1929,6 +1939,26 @@
           "roots": 161
         }
       ]
+    },
+    "context_attn_llama_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 86,
+      "source_pairs": 3,
+      "original_jit_functions": 1,
+      "python_top_level_statements": [
+        25,
+        25,
+        25
+      ],
+      "python_loop_statements": 19,
+      "public_theorems": 2,
+      "python_tests": 607,
+      "full_cases": 174,
+      "full_retained_modules": 5983,
+      "full_replay_sources": 4986,
+      "full_lake_jobs": 14785,
+      "public_theorem_count": 437,
+      "boundary": "Local verification only. Incomplete until fresh independent acceptance covers every owned root and public theorem against the exact current source/import closure. Compilation and body matching alone are insufficient."
     }
   },
   "targets": [
@@ -2315,8 +2345,12 @@
     },
     {
       "path": "bench/tritonbench_g/context_attn_llama",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "All 25 top-level statements and all 19 loop-body statements are copied exactly from the unchanged repaired Python into the original body and both materialized existing candidate bodies. Preserved every INT64 cast, dynamic stride/scale binding, signed key range, tl.multiple_of, paged gathers, masks, finite causal sentinel, ordered reductions, p.to(v.dtype), accumulator dot and plain output store. Pointer storage metadata is outside the pasted bodies. All old whole-kernel quotations and the manual prefix have been removed; proof fragments are projections connected to actual source. Candidate provenance reverses each documented existing transformation and compares the complete Python module AST, including checks and launch wrappers. Reproved launch/control Int arithmetic, complete prefix and loop execution, invariant, source safety, independent finite-sentinel Real formula, full grid outputs and exterior frames, opaque FP recurrence, all actual FP outputs, native/host/logical IO bridges and the public structural FP candidate. Removed the old spurious final cast from the independent FP recurrence to match the original plain store; the real source p.to(v.dtype) remains. No new public assumptions or narrowed domain. All 86 owned modules, 174-case integration, 437 public names, trust checks, source-corpus checks and 607 Python tests pass locally. Remains incomplete until fresh exact-current independent replay of every owned module and both public statements is accepted."
     },
     {
       "path": "bench/tritonbench_g/context_attn_mistral",

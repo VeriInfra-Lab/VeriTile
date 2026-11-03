@@ -7,7 +7,7 @@ set_option linter.unusedSimpArgs false
 
 def loop (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) : Stmt :=
   .forRangeInt "start_n" (.constInt 0)
-    (.mul .int .nil (n "block_mask").castNatToInt (z "block_end_loc"))
+    (.mul .int .nil (z "block_mask") (z "block_end_loc"))
     (.constNat p.BN) (LoopProgram.body p r swapped scale)
 
 theorem source (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
@@ -15,7 +15,9 @@ theorem source (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
       prelude p r ++ [loop p r swapped scale] ++ EpilogueProgram.post p r := by
   rw [← prelude_shared p r swapped scale,← EpilogueProgram.shared p r swapped scale]
   cases swapped
-  all_goals simp only [lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,VeriTile.Bench.TritonBenchG.ContextAttnLlama.scaleFirst,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.scaleFirst,ComputeKernel.surfaceBody,
+  all_goals simp only [lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,
+    VeriTile.Bench.Repairs.ContextAttnLlama.Bodies.originalBody,VeriTile.Bench.TritonBenchG.ContextAttnLlama.scaleFirst,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.scaleFirst,
+    VeriTile.Bench.Repairs.ContextAttnLlama.Bodies.scaleFirstBody,ComputeKernel.surfaceBody,
     ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
