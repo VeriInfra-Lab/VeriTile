@@ -80,14 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/log_softmax",
-        "bench/tritonbench_g/nested_loops_processing",
-        "bench/tritonbench_g/block_sparse_attn"
+        "bench/tritonbench_g/chunk_bwd_dqkg",
+        "bench/tritonbench_g/context_attn_mistral"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 3,
-      "retained_modules": 139,
-      "replay_sources": 139,
+      "cases": 2,
+      "retained_modules": 178,
+      "replay_sources": 178,
       "state": "local_pass_ready_for_official_replay",
       "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change"
     },
@@ -1154,6 +1153,21 @@
         "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641001101",
         "source_commit": "141e61a1cb00ef0b8fdee1e0fd4a1fa083c9cb44"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/log_softmax",
+          "bench/tritonbench_g/nested_loops_processing",
+          "bench/tritonbench_g/block_sparse_attn"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 3,
+        "retained_modules": 139,
+        "replay_sources": 139,
+        "state": "official_in_progress",
+        "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641950651",
+        "source_commit": "1e4038d70cc3662a23c89520d30c95c252704214"
       }
     ],
     "pending_client_regressions": {
@@ -2263,6 +2277,21 @@
           "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change",
           "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641001101",
           "source_commit": "141e61a1cb00ef0b8fdee1e0fd4a1fa083c9cb44"
+        },
+        {
+          "case_paths": [
+            "bench/tritonbench_g/log_softmax",
+            "bench/tritonbench_g/nested_loops_processing",
+            "bench/tritonbench_g/block_sparse_attn"
+          ],
+          "manifest": "validation/body-migration-incremental.json",
+          "cases": 3,
+          "retained_modules": 139,
+          "replay_sources": 139,
+          "state": "official_in_progress",
+          "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change",
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641950651",
+          "source_commit": "1e4038d70cc3662a23c89520d30c95c252704214"
         }
       ]
     },
@@ -2497,10 +2526,10 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "The complete current 179-case integration and all required public statements pass after the Layer Norm Fwd source migration. Original/candidate correspondence is unchanged. Historical receipts remain superseded; completion requires fresh exact-current independent replay of every required owned/shared root.",
-      "validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41539454194",
+      "validated_source_commit": "1e4038d70cc3662a23c89520d30c95c252704214",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641950651",
       "receipt": "validation/body_receipts/block-sparse-source-migration.json",
-      "independent_replay": "AWAITING_FRESH_OFFICIAL_REPLAY"
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/bmm_chunk_bwd",
@@ -3494,14 +3523,14 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "1e4038d70cc3662a23c89520d30c95c252704214",
       "superseded_receipt": "validation/body_receipts/stage9-shard1.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/layernorm_fwd_triton.json",
       "reason": "The complete current 179-case integration and all required public statements pass after the Layer Norm Fwd source migration. Original/candidate correspondence is unchanged. Historical receipts remain superseded; completion requires fresh exact-current independent replay of every required owned/shared root.",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641950651",
       "receipt": "validation/body_receipts/full-recovery-shard-6.json",
-      "independent_replay": "AWAITING_FRESH_OFFICIAL_REPLAY"
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/logsumexp_fwd",
@@ -3779,14 +3808,14 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "1e4038d70cc3662a23c89520d30c95c252704214",
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/layernorm_fwd_triton.json",
       "reason": "The complete current 179-case integration and all required public statements pass after the Layer Norm Fwd source migration. Original/candidate correspondence is unchanged. Historical receipts remain superseded; completion requires fresh exact-current independent replay of every required owned/shared root.",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641950651",
       "receipt": "validation/body_receipts/full-recovery-shard-20.json",
-      "independent_replay": "AWAITING_FRESH_OFFICIAL_REPLAY"
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/parallel_attention",
