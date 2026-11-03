@@ -7,7 +7,7 @@ set_option linter.unusedSimpArgs false
 
 def keyMask (p : Layout) : Op .bool [p.D,p.BN] :=
   .remap [p.D,p.BN] (fun x => (⟨0,by decide⟩,x.2.1,PUnit.unit))
-    (.lt .int .scalarR (.add .int .scalarL (z "start_n") (keyView p).castNatToInt)
+    (.lt .int .scalarR (.add .int .scalarL (z "start_n") (keyView p))
       (z "cur_batch_seq_len"))
 def keyAdvance (p : Layout) : Op .int [] :=
   .mul .int .nil (.add .int .nil (z "cur_batch_in_all_start_index") (z "start_n"))
@@ -20,13 +20,15 @@ def keys (p : Layout) (_r : Regions) : List Stmt :=
        (.maskOther (keyMask p) (.broadcast (.const (0.0 : ℝ)) [p.D,p.BN])))]
 
 def causalMask (p : Layout) : Op .bool [p.BM,p.BN] :=
-  .ge .int Broadcast.nil.consL.consR (rowView p).castNatToInt
-    (.add .int .scalarL (z "start_n") (keyView p).castNatToInt)
+  .ge .int Broadcast.nil.consL.consR (rowView p)
+    (.add .int .scalarL (z "start_n") (keyView p))
 def windowMask (p : Layout) : Op .bool [p.BM,p.BN] :=
-  .gt .int Broadcast.nil.consR.consL
-    (.add .int .scalarL (z "start_n") (keyView p).castNatToInt)
-    (.sub .int .scalarR (rowView p).castNatToInt (.constInt p.window))
-def sentinel : Op .real [] := .const (-1e9 : ℝ)
+  .lt .int .scalarR
+    (.sub .int Broadcast.nil.consL.consR (rowView p)
+      (.add .int .scalarL (z "start_n") (keyView p)))
+    (.constInt p.window)
+
+def sentinel : Op .real [] := .const (-1000000000.0 : ℝ)
 
 def scaling (p : Layout) (swapped : Bool) (scale : ℝ) : Op .real [p.BM,p.BN] :=
   if swapped then .mul .real .scalarL (.const scale) (.ref .real [p.BM,p.BN] "qk")
@@ -74,7 +76,7 @@ def scalesCode (p : Layout) : List Stmt :=
 
 def valueMask (p : Layout) : Op .bool [p.BN,p.D] :=
   .remap [p.BN,p.D] (Broadcast.leftIndex Broadcast.nil.consL.consSame)
-    (.lt .int .scalarR (.add .int .scalarL (z "start_n") (valueView p).castNatToInt)
+    (.lt .int .scalarR (.add .int .scalarL (z "start_n") (valueView p))
       (z "cur_batch_seq_len"))
 def valueAdvance (p : Layout) : Op .int [] :=
   .mul .int .nil (.add .int .nil (z "cur_batch_in_all_start_index") (z "start_n"))
@@ -99,7 +101,7 @@ def body (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) : List Stmt :
 theorem source (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
     body p r swapped scale = keys p r ++ scores p swapped scale ++ statsCode p ++ normalizerCode p ++ scalesCode p ++ values p r ++ commitCode p := by
   cases swapped
-  all_goals simp only [body,lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.TritonBenchG.ContextAttnMistral.scaleFirst,VeriTile.Bench.Repairs.ContextAttnMistralKernel.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageScaleFirst,ComputeKernel.surfaceBody,
+  all_goals simp only [body,lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,VeriTile.Bench.TritonBenchG.ContextAttnMistral.scaleFirst,VeriTile.Bench.Repairs.ContextAttnMistralKernel.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.scaleFirstBody,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageScaleFirst,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.scaleFirstBody,ComputeKernel.surfaceBody,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
     Source.intRange?,Source.prefixBefore,List.length_cons,List.length_nil,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

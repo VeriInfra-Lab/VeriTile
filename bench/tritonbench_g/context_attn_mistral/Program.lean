@@ -50,7 +50,7 @@ theorem loop (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
       some (fun _ => stop p (inputs p r initialState)) := by
     rcases live with ⟨_,hb,_,_,_,_,_,_,_,_,_,_,_,hm⟩
     simp [parts,program,VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,Source.intRange?,ComputeKernel.surfaceBody,
+      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,Source.intRange?,ComputeKernel.surfaceBody,
       evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,FPBackend.Ops.algebra,
       resolvePrecision,numeric,bop,hb,hm,stop]
     rfl
@@ -93,7 +93,7 @@ theorem scatter_mem_congr (p : Layout) (r : Regions) (initialState s t : State �
   exact h
 
 def finish (p : Layout) (o : FPBackend.Ops α) (acc : Acc p α) : Values α .real [p.BM,p.D] :=
-  fun i => o.scalar.cast (some .fp32) .real .real (acc.weighted i)
+  acc.weighted
 
 theorem epilogue (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
     (initialState s : State α) (acc : Acc p α) (live : Matches p r o (inputs p r initialState) acc s) :
@@ -101,11 +101,11 @@ theorem epilogue (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
       t.mem=(scatter p r initialState s (finish p o acc)).mem := by
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13⟩
   simp [parts,program,VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,ComputeKernel.surfaceBody,Source.intRange?]
+    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,ComputeKernel.surfaceBody,Source.intRange?]
   simp (config := {maxSteps := 100000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,engine,Algebra.withDefaultPrecision,FPBackend.Ops.algebra,
     resolvePrecision,numeric,numericLt,natLt,ofFloat,toFloat,Region.cast,
-    h0,h2,h3,h4,h6,h12,store,scatter,active,offset,inputs,row,finish,bop,
+    h0,h2,h3,h4,h6,h12,Nat.cast_mul,Nat.cast_add,store,scatter,active,offset,inputs,row,finish,bop,
     Broadcast.leftIndex,Broadcast.rightIndex]
   apply masked_fold_mem_congr
   rfl
