@@ -80,15 +80,14 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/chunk_bwd_dqkg",
-        "bench/tritonbench_g/context_attn_mistral"
+        "bench/tritonbench_g/context_attn_llama"
       ],
       "manifest": "validation/body-migration-incremental.json",
-      "cases": 2,
-      "retained_modules": 178,
-      "replay_sources": 178,
+      "cases": 1,
+      "retained_modules": 86,
+      "replay_sources": 86,
       "state": "local_pass_ready_for_official_replay",
-      "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change"
+      "purpose": "fresh_exact_current_llama_replay_after_nopad_dependency_change"
     },
     "previous_incremental_replays": [
       {
@@ -1168,6 +1167,20 @@
         "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641950651",
         "source_commit": "1e4038d70cc3662a23c89520d30c95c252704214"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/chunk_bwd_dqkg",
+          "bench/tritonbench_g/context_attn_mistral"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 2,
+        "retained_modules": 178,
+        "replay_sources": 178,
+        "state": "official_in_progress",
+        "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41642024040",
+        "source_commit": "1db88a7a0fc67bb8eae9cd7587e55823415dd582"
       }
     ],
     "pending_client_regressions": {
@@ -2292,6 +2305,20 @@
           "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change",
           "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641950651",
           "source_commit": "1e4038d70cc3662a23c89520d30c95c252704214"
+        },
+        {
+          "case_paths": [
+            "bench/tritonbench_g/chunk_bwd_dqkg",
+            "bench/tritonbench_g/context_attn_mistral"
+          ],
+          "manifest": "validation/body-migration-incremental.json",
+          "cases": 2,
+          "retained_modules": 178,
+          "replay_sources": 178,
+          "state": "official_in_progress",
+          "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change",
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41642024040",
+          "source_commit": "1db88a7a0fc67bb8eae9cd7587e55823415dd582"
         }
       ]
     },
@@ -2586,10 +2613,10 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "The complete current 179-case integration and all required public statements pass after the Layer Norm Fwd source migration. Original/candidate correspondence is unchanged. Historical receipts remain superseded; completion requires fresh exact-current independent replay of every required owned/shared root.",
-      "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41543030549",
+      "validated_source_commit": "1db88a7a0fc67bb8eae9cd7587e55823415dd582",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41642024040",
       "receipt": "validation/body_receipts/chunk-bwd-dqkg-source-migration.json",
-      "independent_replay": "AWAITING_FRESH_OFFICIAL_REPLAY"
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/chunk_cumsum_kernel",
@@ -2735,8 +2762,10 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "The complete current 179-case integration and all required public statements pass after the Layer Norm Fwd source migration. Original/candidate correspondence is unchanged. Historical receipts remain superseded; completion requires fresh exact-current independent replay of every required owned/shared root.",
-      "independent_replay": "AWAITING_FRESH_OFFICIAL_REPLAY",
-      "official_run_status": "cancelled_superseded_by_layer_norm_fwd_source_migration"
+      "independent_replay": "IN_PROGRESS",
+      "official_run_status": "cancelled_superseded_by_layer_norm_fwd_source_migration",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41642024040",
+      "validated_source_commit": "1db88a7a0fc67bb8eae9cd7587e55823415dd582"
     },
     {
       "path": "bench/tritonbench_g/context_attn_nopad",
