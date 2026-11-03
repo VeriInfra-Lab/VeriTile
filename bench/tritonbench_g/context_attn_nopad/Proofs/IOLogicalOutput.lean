@@ -38,7 +38,7 @@ theorem output_congr (c : Call) (r : Regions) (o : FPBackend.Ops α) (idx : Grid
     Nat.mul_le_mul_right 128 (by simpa using Nat.mul_le_mul_right ((c.launch idx).block+1) hm)
   have h := iterate_congr c r o idx left right same 0 _ hs (FPReference.initial c.layout o.algebra)
   simpa only [Nat.zero_mul,Nat.cast_zero] using congrArg
-    (fun acc : FPReference.Acc c.layout α => fun i => o.algebra.cast (some .fp32) .real .real (acc.weighted i)) h
+    (fun acc : FPReference.Acc c.layout α => acc.weighted) h
 
 /-- Scalar input projection only. Metadata comes from its existing signed
 observation and no equality of unused memory is required. -/
