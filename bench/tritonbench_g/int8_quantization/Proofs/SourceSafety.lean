@@ -30,6 +30,12 @@ theorem prefix_safe (M : Algebra α) (ops : Model.Primitives α) (p : Parameters
     numericLt,numericLe,numericEq,natLt,natLe,bop,numeric,ofFloat,toFloat,
     Region.cast,ComputeDType.eraseDType,integralMod,integralFloorDiv]
   intro i first second
+  simp only [Broadcast.leftIndex,Broadcast.rightIndex,add_zero,zero_add,
+    ←Int.natCast_add,←Int.natCast_mul,signed_nonnegative,↓reduceIte,
+    ←Int.natCast_ediv,←Int.natCast_emod,signed_mod,signed_mod_pulled] at first second ⊢
+  simp only [←Int.natCast_add,←Int.natCast_mul,signed_mod_pulled,signed_mod,
+    signed_lt,signed_toNat] at first second ⊢
+  try simp only [←Int.natCast_add,←Int.natCast_mul,signed_lt,signed_toNat] at second ⊢
   exact input (i,PUnit.unit) ⟨first,second⟩
 
 /-- The complete scalar/reduction middle has no memory effects. This proof

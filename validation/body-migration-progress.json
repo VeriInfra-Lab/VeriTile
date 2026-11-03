@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 177,
-  "staged_count": 180,
+  "staged_count": 181,
   "pending_count": 19,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "PRIOR_BATCH_AND_CURRENT_208_ROOT_ATTENTION_GROUP_PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
+    "staged_public_proofs": "PRIOR_BATCH_AND_CURRENT_INT8_QUANTIZATION_36_ROOTS_PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "177 exact-current independently accepted targets, including all 19 examples. StreamK retry is in progress. attention_fwd_triton3 and dependent attention_score passed all local body/public-proof/retained-module checks and await 208-root official replay. 16 tasks remain uncovered; no local build is counted as completion.",
-    "python_tests": 657,
+    "official_comparator": "177 exact-current accepted targets including all 19 examples. StreamK and the two-case Attention group remain in progress. int8_quantization passed all local source/public-proof/retained-module checks and awaits 36-root official replay. 15 source migrations remain uncovered. No local build is counted as completion.",
+    "python_tests": 662,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "The previous full integrated snapshot passed 185 cases, 7012 retained/support roots, 15726 Lake jobs, 465 public theorem names and 653 Python tests. Current Attention changes passed all 133 owned modules, the shared guarded-JIT frontend/regression, all 73 dependent attention_score modules, actual four public theorem targets and 657 Python tests. Final changes to 16 module comments were checked to preserve the complete Lean code token stream. No full-corpus independent acceptance is inferred. Exact-current receipts still accept 177 targets; the new Attention group and StreamK retry remain pending.",
+    "working_tree": "The previous full integrated snapshot passed 185 cases, 7012 retained/support roots, 15726 Lake jobs and 465 public theorem names. Subsequent Attention changes passed all 133 owned modules, the shared guarded-JIT frontend/regression and 73 dependent attention_score modules. Current int8_quantization changes passed all 34 owned plus two shared roots (3525 Lake jobs), both public theorem names, prepared trust/spec audits for the frontend and Real/FP entries, and 662 Python tests. Exact-current receipts still accept 177 targets. StreamK, the Attention group and int8_quantization remain pending independent acceptance. Full-manifest counts are coverage only, not a new full integration result.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -2664,10 +2664,39 @@
       "independent_replay": "IN_PROGRESS"
     },
     "staged_manifest": {
-      "cases": 186,
-      "build_roots": 7148,
-      "replay_roots": 6151,
+      "cases": 187,
+      "build_roots": 7184,
+      "replay_roots": 6187,
       "boundary": "Manifest coverage is not completion or a fresh full integration build result."
+    },
+    "int8_quantization_source_migration": {
+      "state": "LOCAL_PASS_AWAITING_INDEPENDENT_REPLAY",
+      "owned_roots": 34,
+      "shared_roots": 2,
+      "source_pairs": 2,
+      "public_theorems": 2,
+      "lake_jobs": 3525,
+      "tests": {
+        "python_case": 4,
+        "lean_regression": "PASS",
+        "full_python_suite": 662
+      },
+      "source_repair": "Preserve all 23 statements, both int64 casts, original constexpr power/multiply, decimal threshold, invalid sanitation, divisor, clamp, INT8 cast, masks and two stores. Retire both hand quotations and externally supplied factor.",
+      "real_proof": "Exact Mathlib constexpr interpretation derives inverse-sqrt factor. Actual complete grid implements independent two-output quantization formula, including invalid/zero/tail behavior, safety and frame.",
+      "fp_proof": "Actual original/candidate full schedules and both outputs; same compile-time primitive interpretation, same existing strict FP32 half-sign multiplication certificate, no new numerical assumption.",
+      "numerical_boundary": "Exact Real constexpr semantics is separate from Python binary64 or hardware power accuracy; FP primitive bindings remain explicit.",
+      "retirement_record": "bench/tritonbench_g/int8_quantization/source-retirement.json",
+      "boundary": "Current-source official independent replay of all 36 roots and both public theorem names is required. Local compilation is not completion.",
+      "prepared_trust_spec_audits": [
+        "constexpr frontend PASS",
+        "actual public Real entry PASS",
+        "actual public FP entry PASS"
+      ]
+    },
+    "legacy_final_inventory": {
+      "state": "STALE_PRIOR_CONTRACT_REVIEW_HASHES",
+      "first_error": "adam_update_triton: reviewed source changed: bench/tritonbench_g/adam_update_triton/Kernels.lean",
+      "boundary": "The legacy contract-review inventory is separate from the current body-migration receipts. Old reviewed hashes have not been relabeled as a new review. Current source-body, named public proof, trust/spec and independent replay gates remain required."
     }
   },
   "targets": [
@@ -3630,8 +3659,13 @@
     },
     {
       "path": "bench/tritonbench_g/int8_quantization",
-      "status": "pending",
-      "complete": false
+      "status": "staged_awaiting_independent_replay",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "independent_replay": "PENDING",
+      "reason": "Two complete 23-statement repaired Python bodies and ABI checked. All 34 owned plus shared constexpr frontend/regression roots built; actual public Real/FP statements, execution, safety, both typed outputs and frame revalidated. Compile-time factor is derived from the source expression tree; the mathematical factor premise is discharged rather than supplied. Fresh official exact-current acceptance is still required; compilation and AST checks do not complete the task."
     },
     {
       "path": "bench/tritonbench_g/int_scaled_matmul",

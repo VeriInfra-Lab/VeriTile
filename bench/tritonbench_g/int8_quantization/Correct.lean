@@ -21,9 +21,11 @@ def formula (p : Parameters) (xs : Fin (QuantizationIO.count p) → Fin p.width 
 
 /-- The total two-output block formula, preserving invalid/zero blocks, all active tails and full source frame. -/
 specification per_block_int8_real (p : Parameters) (positive : 0<p.width) (block : 0<p.blockRows)
-    (factor : p.factor=RealSpec.factor p.query p.channels) (rest : Algebra ℝ) :
-    Spec.Real (QuantizationIO.logicalIO (Math.algebra rest) Math.primitives p ⊨ formula p) :=
-  (LogicalReader.full_judgment_iff p rest).mpr (LogicalReader.per_block_int8_real p positive block factor rest)
+    (rest : Algebra ℝ) :
+    Spec.Real (QuantizationIO.logicalIO (Math.algebra rest) Math.primitives p.mathematical ⊨ formula p.mathematical) :=
+  (LogicalReader.full_judgment_iff p.mathematical rest).mpr
+    (LogicalReader.per_block_int8_real p.mathematical positive block
+      (RealSpec.factor_real p) rest)
 #axiomsClean per_block_int8_real
 
 end

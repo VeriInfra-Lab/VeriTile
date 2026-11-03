@@ -61,7 +61,7 @@ theorem native_pointers (c : Request) (before : Heap) (out : Allocation c before
       Bytes.exactAccess (Grid.parameters (p c) w) (layout c out) w.pid i.1.val := by
   have wb := Schedule.program_bounds 0 (count c) w member
   have admitted : Native.Admitted (Grid.parameters (p c) w) := by
-    have h := native_admitted c.x.metadata c.block c.contract c.query c.factor positive
+    have h := native_admitted c.x.metadata c.block c.contract c.query c.compiled positive
     exact ⟨h.blocks,h.blockPositive,h.channelsPositive,h.covers,h.compiledWidth,h.inputAllocation,h.scaleAllocation⟩
   have bounds : Bytes.Bounds (Grid.parameters (p c) w) (layout c out) := by
     have h := allocationBounds c out

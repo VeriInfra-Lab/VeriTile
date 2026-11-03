@@ -86,7 +86,7 @@ def numerics (op : Instructions) (plans : Plans) : Floating.Numerics Word where
 def constants (op : Instructions) (factor : ℝ) : Floating.Constants Word :=
   ⟨op.literal32 0.0,op.literal32 1.0,op.literal32 (-1.0),op.literal32 0.5,
     op.literal32 127.0,op.literal32 (-127.0),
-    op.literal32 340282346638528859811704183484516925440.0,op.literal32 factor⟩
+    op.literal32 3.4028234663852886e38,op.literal32 factor⟩
 
 def block (op : Instructions) (plans : Plans) (query : Bool) (factor : ℝ)
     (input : Fin n → Word) : (Fin n → Int) × Word :=

@@ -12,7 +12,7 @@ variable {α : Type} [Inhabited α]
 def constants (M : Algebra α) (p : Parameters) : Floating.Constants α :=
   ⟨scalar32 M 0.0,scalar32 M 1.0,scalar32 M (-1.0),scalar32 M 0.5,
     scalar32 M 127.0,scalar32 M (-127.0),
-    M.literal none .real 340282346638528859811704183484516925440.0,scalar32 M p.factor⟩
+    M.literal none .real 3.4028234663852886e38,scalar32 M p.factor⟩
 
 /-- Extraction of exactly the production FP32 primitive calls. The upper
 clamp uses the source minimum primitive, and the maximum preserves padded lane order. -/

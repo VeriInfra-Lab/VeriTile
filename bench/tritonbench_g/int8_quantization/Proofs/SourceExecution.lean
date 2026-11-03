@@ -21,12 +21,12 @@ variable {α : Type} [Inhabited α]
 
 @[simp] theorem registers_block (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (positive : 0< p.width) (entry : State α) :
-    (registers M ops p positive entry).regs .nat [] "block"=some (fun _=> Model.group p entry) := by
+    (registers M ops p positive entry).regs .int [] "block"=some (fun _=> (Model.group p entry : Int)) := by
   cases query : p.query <;> simp [registers,reduced,classified,prescaled,addressed,query]
 
 @[simp] theorem registers_offset (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (positive : 0< p.width) (entry : State α) :
-    (registers M ops p positive entry).regs .nat [p.width] "offset"=some (Model.offset p entry) := by
+    (registers M ops p positive entry).regs .int [p.width] "offset"=some (fun i=> (Model.offset p entry i : Int)) := by
   cases query : p.query <;> simp [registers,reduced,classified,prescaled,addressed,query]
 
 @[simp] theorem registers_active (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
