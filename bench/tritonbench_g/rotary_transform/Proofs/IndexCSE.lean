@@ -25,34 +25,70 @@ theorem candidate_carrier (s : Shape) (cu64 off64 : Bool) :
 def continuation (s : Shape) :=
   ((candidate s Bool.true Bool.true).surfaceBody.drop 6).flatMap TypedExecution.ifBody
 def interleaved (s : Shape) :=
-  ((continuation s).drop 4).flatMap (TypedExecution.branchBody Bool.true)
+  ((continuation s).drop (TypedExecution.indicesCount s)).flatMap (TypedExecution.branchBody Bool.true)
 def split (s : Shape) :=
-  ((continuation s).drop 4).flatMap (TypedExecution.branchBody Bool.false)
+  ((continuation s).drop (TypedExecution.indicesCount s)).flatMap (TypedExecution.branchBody Bool.false)
 
-theorem prefix_same (s : Shape) : (continuation s).take 4 = (TypedExecution.continuation s).take 4 := rfl
+theorem prefix_same (s : Shape) : (continuation s).take (TypedExecution.indicesCount s) = (TypedExecution.continuation s).take (TypedExecution.indicesCount s) := by
+  cases ht : s.offsetTensor <;>
+    simp only [candidate,continuation,interleaved,split,TypedExecution.continuation,
+      TypedExecution.interleavedBody,TypedExecution.splitBody,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
+      TypedExecution.indicesCount,TypedExecution.guard,TypedExecution.guardOf,
+      ht,Bool.false_eq_true,if_false,if_true]
+  all_goals rfl
 
-theorem split_same (s : Shape) : split s = TypedExecution.splitBody s := rfl
+theorem split_same (s : Shape) : split s = TypedExecution.splitBody s := by
+  cases ht : s.offsetTensor <;>
+    simp only [candidate,continuation,interleaved,split,TypedExecution.continuation,
+      TypedExecution.interleavedBody,TypedExecution.splitBody,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
+      TypedExecution.indicesCount,TypedExecution.guard,TypedExecution.guardOf,
+      ht,Bool.false_eq_true,if_false,if_true]
+  all_goals rfl
 
 theorem interleaved_body (s : Shape) :
-    interleaved s = (interleaved s).take 2 ++ (TypedExecution.interleavedBody s).drop 2 := rfl
+    interleaved s = (interleaved s).take 2 ++ (TypedExecution.interleavedBody s).drop 2 := by
+      cases ht : s.offsetTensor <;>
+        simp only [candidate,continuation,interleaved,split,TypedExecution.continuation,
+      TypedExecution.interleavedBody,TypedExecution.splitBody,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
+      TypedExecution.indicesCount,TypedExecution.guard,TypedExecution.guardOf,
+      ht,Bool.false_eq_true,if_false,if_true]
+      all_goals rfl
 
 theorem indices_rk (M : Algebra α) (s : Shape) (u t : State α)
-    (ran : run M ((TypedExecution.continuation s).take 4) u = some t) :
+    (ran : run M ((TypedExecution.continuation s).take (TypedExecution.indicesCount s)) u = some t) :
     t.regs .nat [s.blockK] "rk" = some (fun i => i.1.val) := by
-  have code : (TypedExecution.continuation s).take 4 =
-      (TypedExecution.continuation s).take 2 ++
-        ((TypedExecution.continuation s).drop 2).take 2 := rfl
+  have code : (TypedExecution.continuation s).take (TypedExecution.indicesCount s) =
+      (TypedExecution.continuation s).take (TypedExecution.indicesCount s-2) ++
+        ((TypedExecution.continuation s).drop (TypedExecution.indicesCount s-2)).take 2 := by
+          cases ht : s.offsetTensor <;>
+            simp only [candidate,continuation,interleaved,split,TypedExecution.continuation,
+      TypedExecution.interleavedBody,TypedExecution.splitBody,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
+      TypedExecution.indicesCount,TypedExecution.guard,TypedExecution.guardOf,
+      ht,Bool.false_eq_true,if_false,if_true]
+          all_goals rfl
   rw [code,run_append] at ran
-  cases h : run M ((TypedExecution.continuation s).take 2) u with
+  cases h : run M ((TypedExecution.continuation s).take (TypedExecution.indicesCount s-2)) u with
   | none => simp [h] at ran
   | some v =>
     simp only [h,Option.bind_some] at ran
-    have last : run M (((TypedExecution.continuation s).drop 2).take 2) v =
+    have last : run M (((TypedExecution.continuation s).drop (TypedExecution.indicesCount s-2)).take 2) v =
         some ((v.setReg "rk" .nat [s.blockK] (fun i => i.1.val)).setReg
           "rk_half" .nat [s.blockK/2] (fun i => i.1.val)) := by
-      simp [TypedExecution.continuation,TypedExecution.ifBody,TypedExecution.kernel,
-        KernelSource.source,KernelSource.source64_64,ComputeKernel.surfaceBody,List.drop,List.take,
-        run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold]
+      cases ht : s.offsetTensor <;>
+        simp [TypedExecution.continuation,TypedExecution.ifBody,TypedExecution.kernel,
+        KernelSource.source,KernelSource.source64_64,VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorScalarBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,List.drop,List.take,
+        ht,run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold]
     rw [last] at ran
     cases Option.some.inj ran
     simp
@@ -60,20 +96,36 @@ theorem indices_rk (M : Algebra α) (s : Shape) (u t : State α)
 theorem interleaved_prefix_run (M : Algebra α) (s : Shape) (u : State α)
     (rk : u.regs .nat [s.blockK] "rk" = some (fun i => i.1.val)) :
     run M ((TypedExecution.interleavedBody s).take 2) u = run M ((interleaved s).take 2) u := by
-  simp [interleaved,continuation,TypedExecution.interleavedBody,TypedExecution.continuation,
+  cases ht : s.offsetTensor <;>
+    simp [interleaved,continuation,TypedExecution.interleavedBody,TypedExecution.continuation,
     TypedExecution.branchBody,TypedExecution.ifBody,TypedExecution.kernel,candidate,
     KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
-    ComputeKernel.surfaceBody,List.drop,List.take,List.flatMap,run,FP.Structural.step,evalExpr,evalComputeOp,
-    evalOp_unfold,numeric,numericLt,natLt,bop,integralFloorDiv,integralMod,Option.bind,rk]
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorScalarBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,List.drop,List.take,List.flatMap,run,FP.Structural.step,evalExpr,evalComputeOp,
+    ht,evalOp_unfold,numeric,numericLt,natLt,bop,integralFloorDiv,integralMod,Option.bind,rk]
 
 theorem interleaved_prefix_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat) (u : State α) :
     Safety.traceSafeList M bounds ((TypedExecution.interleavedBody s).take 2) u ↔
       Safety.traceSafeList M bounds ((interleaved s).take 2) u := by
-  simp [interleaved,continuation,TypedExecution.interleavedBody,TypedExecution.continuation,
+  cases ht : s.offsetTensor <;>
+    simp [interleaved,continuation,TypedExecution.interleavedBody,TypedExecution.continuation,
     TypedExecution.branchBody,TypedExecution.ifBody,TypedExecution.kernel,candidate,
     KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
-    ComputeKernel.surfaceBody,List.drop,List.take,List.flatMap,
-    Safety.traceSafeList_cons,Safety.traceSafeList_nil,Safety.stepSafe_unfold,
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorScalarBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,List.drop,List.take,List.flatMap,
+    ht,Safety.traceSafeList_cons,Safety.traceSafeList_nil,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
 
 theorem interleaved_run (M : Algebra α) (s : Shape) (u : State α)
@@ -91,16 +143,30 @@ theorem interleaved_safe (M : Algebra α) (s : Shape) (bounds : RegionName → N
   conv_lhs => rw [← List.take_append_drop 2 (TypedExecution.interleavedBody s)]
   simp only [Safety.traceSafeList_append,interleaved_prefix_run M s u rk,interleaved_prefix_safe]
 
-theorem old_tail_code (s : Shape) : (TypedExecution.continuation s).drop 4 =
+theorem old_tail_code (s : Shape) : (TypedExecution.continuation s).drop (TypedExecution.indicesCount s) =
     [.ifThenElse (.boolNot (.constBool s.interleaved))
-      (TypedExecution.splitBody s) (TypedExecution.interleavedBody s)] := rfl
+      (TypedExecution.splitBody s) (TypedExecution.interleavedBody s)] := by
+        cases ht : s.offsetTensor <;>
+          simp only [candidate,continuation,interleaved,split,TypedExecution.continuation,
+      TypedExecution.interleavedBody,TypedExecution.splitBody,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
+      TypedExecution.indicesCount,TypedExecution.guard,TypedExecution.guardOf,
+      ht,Bool.false_eq_true,if_false,if_true]
+        all_goals rfl
 
-theorem new_tail_code (s : Shape) : (continuation s).drop 4 =
-    [.ifThenElse (.boolNot (.constBool s.interleaved)) (split s) (interleaved s)] := rfl
+theorem new_tail_code (s : Shape) : (continuation s).drop (TypedExecution.indicesCount s) =
+    [.ifThenElse (.boolNot (.constBool s.interleaved)) (split s) (interleaved s)] := by
+      cases ht : s.offsetTensor <;>
+        simp only [candidate,continuation,interleaved,split,TypedExecution.continuation,
+      TypedExecution.interleavedBody,TypedExecution.splitBody,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
+      TypedExecution.indicesCount,TypedExecution.guard,TypedExecution.guardOf,
+      ht,Bool.false_eq_true,if_false,if_true]
+      all_goals rfl
 
 theorem tail_run (M : Algebra α) (s : Shape) (u : State α)
     (rk : u.regs .nat [s.blockK] "rk" = some (fun i => i.1.val)) :
-    run M ((TypedExecution.continuation s).drop 4) u = run M ((continuation s).drop 4) u := by
+    run M ((TypedExecution.continuation s).drop (TypedExecution.indicesCount s)) u = run M ((continuation s).drop (TypedExecution.indicesCount s)) u := by
   rw [old_tail_code,new_tail_code,TypedExecution.run_if_not,TypedExecution.run_if_not]
   cases hi : s.interleaved
   · simp only [hi,Bool.false_eq_true,if_false,split_same]
@@ -108,8 +174,8 @@ theorem tail_run (M : Algebra α) (s : Shape) (u : State α)
 
 theorem tail_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat) (u : State α)
     (rk : u.regs .nat [s.blockK] "rk" = some (fun i => i.1.val)) :
-    Safety.traceSafeList M bounds ((TypedExecution.continuation s).drop 4) u ↔
-      Safety.traceSafeList M bounds ((continuation s).drop 4) u := by
+    Safety.traceSafeList M bounds ((TypedExecution.continuation s).drop (TypedExecution.indicesCount s)) u ↔
+      Safety.traceSafeList M bounds ((continuation s).drop (TypedExecution.indicesCount s)) u := by
   rw [old_tail_code,new_tail_code]
   cases hi : s.interleaved <;>
     simp [Safety.traceSafeList_cons,Safety.traceSafeList_nil,Safety.stepSafe_unfold,
@@ -117,10 +183,10 @@ theorem tail_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat) (u 
 
 theorem continuation_run (M : Algebra α) (s : Shape) (u : State α) :
     run M (TypedExecution.continuation s) u = run M (continuation s) u := by
-  conv_lhs => rw [← List.take_append_drop 4 (TypedExecution.continuation s)]
-  conv_rhs => rw [← List.take_append_drop 4 (continuation s)]
+  conv_lhs => rw [← List.take_append_drop (TypedExecution.indicesCount s) (TypedExecution.continuation s)]
+  conv_rhs => rw [← List.take_append_drop (TypedExecution.indicesCount s) (continuation s)]
   rw [run_append,run_append,prefix_same]
-  cases ran : run M ((TypedExecution.continuation s).take 4) u with
+  cases ran : run M ((TypedExecution.continuation s).take (TypedExecution.indicesCount s)) u with
   | none => simp only [ran,Option.bind_none]
   | some t =>
     simp only [ran,Option.bind_some]
@@ -129,8 +195,8 @@ theorem continuation_run (M : Algebra α) (s : Shape) (u : State α) :
 theorem continuation_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat) (u : State α) :
     Safety.traceSafeList M bounds (TypedExecution.continuation s) u ↔
       Safety.traceSafeList M bounds (continuation s) u := by
-  conv_lhs => rw [← List.take_append_drop 4 (TypedExecution.continuation s)]
-  conv_rhs => rw [← List.take_append_drop 4 (continuation s)]
+  conv_lhs => rw [← List.take_append_drop (TypedExecution.indicesCount s) (TypedExecution.continuation s)]
+  conv_rhs => rw [← List.take_append_drop (TypedExecution.indicesCount s) (continuation s)]
   simp only [Safety.traceSafeList_append,prefix_same]
   exact and_congr_right (fun _ => forall_congr' (fun t => imp_congr_right
     (fun ran => tail_safe M s bounds t (indices_rk M s u t ran))))
@@ -155,10 +221,24 @@ theorem execution (M : Algebra α) (s : Shape) (cu64 off64 : Bool) (u : State α
   rw [TypedExecution.kernel_carrier,candidate_carrier]
   have oldBody : (TypedExecution.kernel s Bool.true Bool.true).surfaceBody =
       (TypedExecution.kernel s Bool.true Bool.true).surfaceBody.take 6 ++
-        [.ifThen (TypedExecution.guard s) (TypedExecution.continuation s)] := rfl
+        [.ifThen (TypedExecution.guard s) (TypedExecution.continuation s)] := by
+          cases ht : s.offsetTensor <;>
+            simp only [candidate,continuation,interleaved,split,TypedExecution.continuation,
+      TypedExecution.interleavedBody,TypedExecution.splitBody,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
+      TypedExecution.indicesCount,TypedExecution.guard,TypedExecution.guardOf,
+      ht,Bool.false_eq_true,if_false,if_true]
+          all_goals rfl
   have newBody : (candidate s Bool.true Bool.true).surfaceBody =
       (TypedExecution.kernel s Bool.true Bool.true).surfaceBody.take 6 ++
-        [.ifThen (TypedExecution.guard s) (continuation s)] := rfl
+        [.ifThen (TypedExecution.guard s) (continuation s)] := by
+          cases ht : s.offsetTensor <;>
+            simp only [candidate,continuation,interleaved,split,TypedExecution.continuation,
+      TypedExecution.interleavedBody,TypedExecution.splitBody,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
+      TypedExecution.indicesCount,TypedExecution.guard,TypedExecution.guardOf,
+      ht,Bool.false_eq_true,if_false,if_true]
+          all_goals rfl
   change run M (TypedExecution.kernel s Bool.true Bool.true).surfaceBody u =
     run M (candidate s Bool.true Bool.true).surfaceBody u
   rw [oldBody,newBody,run_append,run_append]
@@ -173,10 +253,24 @@ theorem trace_safe (M : Algebra α) (s : Shape) (cu64 off64 : Bool)
   rw [TypedExecution.kernel_carrier,candidate_carrier]
   have oldBody : (TypedExecution.kernel s Bool.true Bool.true).surfaceBody =
       (TypedExecution.kernel s Bool.true Bool.true).surfaceBody.take 6 ++
-        [.ifThen (TypedExecution.guard s) (TypedExecution.continuation s)] := rfl
+        [.ifThen (TypedExecution.guard s) (TypedExecution.continuation s)] := by
+          cases ht : s.offsetTensor <;>
+            simp only [candidate,continuation,interleaved,split,TypedExecution.continuation,
+      TypedExecution.interleavedBody,TypedExecution.splitBody,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
+      TypedExecution.indicesCount,TypedExecution.guard,TypedExecution.guardOf,
+      ht,Bool.false_eq_true,if_false,if_true]
+          all_goals rfl
   have newBody : (candidate s Bool.true Bool.true).surfaceBody =
       (TypedExecution.kernel s Bool.true Bool.true).surfaceBody.take 6 ++
-        [.ifThen (TypedExecution.guard s) (continuation s)] := rfl
+        [.ifThen (TypedExecution.guard s) (continuation s)] := by
+          cases ht : s.offsetTensor <;>
+            simp only [candidate,continuation,interleaved,split,TypedExecution.continuation,
+      TypedExecution.interleavedBody,TypedExecution.splitBody,TypedExecution.kernel,
+      KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
+      TypedExecution.indicesCount,TypedExecution.guard,TypedExecution.guardOf,
+      ht,Bool.false_eq_true,if_false,if_true]
+          all_goals rfl
   unfold TraceSafe
   rw [oldBody,newBody]
   simp only [Safety.traceSafeList_append]

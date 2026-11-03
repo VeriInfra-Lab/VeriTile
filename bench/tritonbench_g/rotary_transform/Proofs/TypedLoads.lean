@@ -14,9 +14,9 @@ def branchBody (interleaved : Bool) : ComputeStmt → List ComputeStmt
   | _ => []
 
 def payload (s : Shape) : List ComputeStmt :=
-  ((continuation s).drop 4).flatMap (branchBody s.interleaved)
+  ((continuation s).drop (TypedExecution.indicesCount s)).flatMap (branchBody s.interleaved)
 
-def loadsCount (s : Shape) : Nat := if s.interleaved then 10 else 7
+def loadsCount (s : Shape) : Nat := if s.interleaved then 14 else 11
 
 /-- Complete loads, before either source store. -/
 def loads {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
@@ -30,7 +30,14 @@ def loads {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     swap
     simp (config := { maxSteps := 40000 }) [payload,loadsCount,branchBody,continuation,ifBody,
       indices,setup,kernel,KernelSource.source,KernelSource.source64_64, hv,ht,hi,
-      FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
+      FP.Structural.exec, VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateScalarBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorTensorBody,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorScalarBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
       evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, natLt, numericLt, numericLe, numericEq, bop, Region.cast,
       State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,

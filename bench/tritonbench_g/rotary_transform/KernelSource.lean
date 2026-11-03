@@ -1,4 +1,4 @@
 import bench.tritonbench_g.rotary_transform.Kernels
 
-/-! Compatibility import for the retained KernelSource namespace. All original
-and candidate programs are complete ordinary quotations in Kernels.lean. -/
+/-! Compatibility import for the retained KernelSource namespace. Kernels.lean adapts the existing public API to the complete original
+and candidate Python-body quotations in Sources/Body.lean. -/

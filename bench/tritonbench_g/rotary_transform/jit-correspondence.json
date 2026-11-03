@@ -1,0 +1,560 @@
+[
+  {
+    "python": "bench/tritonbench_g/rotary_transform/rotary_transform.py",
+    "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+    "python_function": "rotary_kernel",
+    "lean_definition": "originalTensorBody",
+    "signature_definition": "tensorSignature",
+    "invocation_variant": "tensor_offset_signed32_or64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          {
+            "on": "wideCu",
+            "cases": [
+              [
+                "false",
+                "i32"
+              ],
+              [
+                "true",
+                "i64"
+              ]
+            ]
+          }
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          {
+            "on": "wideOffset",
+            "cases": [
+              [
+                "false",
+                "i32"
+              ],
+              [
+                "true",
+                "i64"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "dtype_parameters": [
+        "wideCu",
+        "wideOffset"
+      ],
+      "dtype_parameter_types": {
+        "wideCu": "Bool",
+        "wideOffset": "Bool"
+      }
+    },
+    "expected_call_bindings": {
+      "seqlen": "seqlen",
+      "nheads": "nheads",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "CACHE_KEY_SEQLEN": "CACHE_KEY_SEQLEN",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/rotary_transform/rotary_transform.py",
+    "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+    "python_function": "rotary_kernel",
+    "lean_definition": "originalScalarBody",
+    "signature_definition": "scalarSignature",
+    "invocation_variant": "scalar_offset_signed32_or64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          {
+            "on": "wideCu",
+            "cases": [
+              [
+                "false",
+                "i32"
+              ],
+              [
+                "true",
+                "i64"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "SEQLEN_OFFSETS",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "dtype_parameters": [
+        "wideCu",
+        "wideOffset"
+      ],
+      "dtype_parameter_types": {
+        "wideCu": "Bool",
+        "wideOffset": "Bool"
+      }
+    },
+    "expected_call_bindings": {
+      "SEQLEN_OFFSETS": "SEQLEN_OFFSETS",
+      "seqlen": "seqlen",
+      "nheads": "nheads",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "CACHE_KEY_SEQLEN": "CACHE_KEY_SEQLEN",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/rotary_transform/rotary_transform_index_cse.py",
+    "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+    "python_function": "rotary_kernel_index_cse",
+    "lean_definition": "candidateTensorBody",
+    "signature_definition": "tensorSignature",
+    "invocation_variant": "tensor_offset_signed32_or64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          {
+            "on": "wideCu",
+            "cases": [
+              [
+                "false",
+                "i32"
+              ],
+              [
+                "true",
+                "i64"
+              ]
+            ]
+          }
+        ],
+        [
+          "SEQLEN_OFFSETS",
+          {
+            "on": "wideOffset",
+            "cases": [
+              [
+                "false",
+                "i32"
+              ],
+              [
+                "true",
+                "i64"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "dtype_parameters": [
+        "wideCu",
+        "wideOffset"
+      ],
+      "dtype_parameter_types": {
+        "wideCu": "Bool",
+        "wideOffset": "Bool"
+      }
+    },
+    "expected_call_bindings": {
+      "seqlen": "seqlen",
+      "nheads": "nheads",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "CACHE_KEY_SEQLEN": "CACHE_KEY_SEQLEN",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/rotary_transform/rotary_transform_index_cse.py",
+    "lean": "bench/tritonbench_g/rotary_transform/Sources/Body.lean",
+    "python_function": "rotary_kernel_index_cse",
+    "lean_definition": "candidateScalarBody",
+    "signature_definition": "scalarSignature",
+    "invocation_variant": "scalar_offset_signed32_or64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "OUT",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "COS",
+          "fp32"
+        ],
+        [
+          "SIN",
+          "fp32"
+        ],
+        [
+          "CU_SEQLENS",
+          {
+            "on": "wideCu",
+            "cases": [
+              [
+                "false",
+                "i32"
+              ],
+              [
+                "true",
+                "i64"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "SEQLEN_OFFSETS",
+          "integer"
+        ],
+        [
+          "seqlen",
+          "integer"
+        ],
+        [
+          "nheads",
+          "integer"
+        ],
+        [
+          "rotary_dim",
+          "integer"
+        ],
+        [
+          "seqlen_ro",
+          "integer"
+        ],
+        [
+          "CACHE_KEY_SEQLEN",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_seqlen",
+          "integer"
+        ],
+        [
+          "stride_out_nheads",
+          "integer"
+        ],
+        [
+          "stride_out_headdim",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_seqlen",
+          "integer"
+        ],
+        [
+          "stride_x_nheads",
+          "integer"
+        ],
+        [
+          "stride_x_headdim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_K",
+        "IS_SEQLEN_OFFSETS_TENSOR",
+        "IS_VARLEN",
+        "INTERLEAVED",
+        "CONJUGATE",
+        "BLOCK_M"
+      ],
+      "dtype_parameters": [
+        "wideCu",
+        "wideOffset"
+      ],
+      "dtype_parameter_types": {
+        "wideCu": "Bool",
+        "wideOffset": "Bool"
+      }
+    },
+    "expected_call_bindings": {
+      "SEQLEN_OFFSETS": "SEQLEN_OFFSETS",
+      "seqlen": "seqlen",
+      "nheads": "nheads",
+      "rotary_dim": "rotary_dim",
+      "seqlen_ro": "seqlen_ro",
+      "CACHE_KEY_SEQLEN": "CACHE_KEY_SEQLEN",
+      "stride_out_batch": "stride_out_batch",
+      "stride_out_seqlen": "stride_out_seqlen",
+      "stride_out_nheads": "stride_out_nheads",
+      "stride_out_headdim": "stride_out_headdim",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_seqlen": "stride_x_seqlen",
+      "stride_x_nheads": "stride_x_nheads",
+      "stride_x_headdim": "stride_x_headdim"
+    }
+  }
+]
