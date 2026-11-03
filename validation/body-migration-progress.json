@@ -86,7 +86,9 @@
       "cases": 1,
       "retained_modules": 114,
       "replay_sources": 114,
-      "state": "local_pass_ready_for_official_replay"
+      "state": "official_in_progress",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41630457405",
+      "source_commit": "50d2cdf5a97bcb69c0dd0802e01c1c549fb61867"
     },
     "previous_incremental_replays": [
       {
@@ -1123,7 +1125,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Submit Bloom for fixed-source independent replay; collect ongoing Fwd/Llama/Mistral/Nopad and two unrelated dependent receipts; continue the remaining 24 migrations. No merge.",
+    "current_work": "Collect fixed-source independent receipts for five context-attention tasks and two remaining Int Scaled Matmul dependents. Continue the remaining 24 migrations in source-dependency order, next layer_norm_fwd; all 19 examples accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -2140,7 +2142,9 @@
       "full_replay_sources": 5385,
       "full_lake_jobs": 15068,
       "public_theorem_count": 445,
-      "boundary": "Local verification only. Completion requires fresh independent acceptance of every required owned root and both public statements against exact current source/import closures."
+      "boundary": "Local verification only. Completion requires fresh independent acceptance of every required owned root and both public statements against exact current source/import closures.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41630457405",
+      "source_commit": "50d2cdf5a97bcb69c0dd0802e01c1c549fb61867"
     }
   },
   "targets": [
@@ -2522,7 +2526,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The unchanged repaired JIT and both materialized existing candidates are copied completely, with 24 top-level statements and 26 loop statements each. All INT64 casts, signed loop bounds, tl.multiple_of, exact finite -100000000 causal mask, ordered reductions, probability dtype cast, separate dot addition, plain store and terminal return remain. Old complete quotations and the manual prologue are removed. Whole-module inverse candidate AST checks retain the complete host checks and launch ABI. Reproved complete source execution, loop invariant, independent causal normalized-exponential Real mathematics, safety, full grid outputs and frames, opaque FP recurrence, actual index-reuse candidate and retained host/native/IO bridges. Removed artificial final casts from the FP reference and epilogue. The finite float-string frontend and its tests are included in the independent replay roots; a kernel-checked binary32 decode certifies the exact sentinel. No new public premises or narrowed domain. All 112 owned modules and two shared frontend/test roots, 178-case integration, 445 public names, trust/spec audits, source-corpus checks and 623 Python tests pass locally. Completion still requires exact-current independent acceptance of all required roots and both public statements."
+      "reason": "The unchanged repaired JIT and both materialized existing candidates are copied completely, with 24 top-level statements and 26 loop statements each. All INT64 casts, signed loop bounds, tl.multiple_of, exact finite -100000000 causal mask, ordered reductions, probability dtype cast, separate dot addition, plain store and terminal return remain. Old complete quotations and the manual prologue are removed. Whole-module inverse candidate AST checks retain the complete host checks and launch ABI. Reproved complete source execution, loop invariant, independent causal normalized-exponential Real mathematics, safety, full grid outputs and frames, opaque FP recurrence, actual index-reuse candidate and retained host/native/IO bridges. Removed artificial final casts from the FP reference and epilogue. The finite float-string frontend and its tests are included in the independent replay roots; a kernel-checked binary32 decode certifies the exact sentinel. No new public premises or narrowed domain. All 112 owned modules and two shared frontend/test roots, 178-case integration, 445 public names, trust/spec audits, source-corpus checks and 623 Python tests pass locally. Completion still requires exact-current independent acceptance of all required roots and both public statements.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41630457405",
+      "validated_source_commit": "50d2cdf5a97bcb69c0dd0802e01c1c549fb61867",
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/context_attn_fwd",
