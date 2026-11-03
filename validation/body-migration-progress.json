@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 168,
+  "completed_count": 174,
   "staged_count": 174,
-  "pending_count": 28,
+  "pending_count": 22,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
+    "staged_public_proofs": "LOCAL_PASS_ALL_STAGED_OFFICIALLY_ACCEPTED",
     "staged_and_regression_retained_modules": 6565,
-    "official_comparator": "168 exact-current independently accepted targets, including all 19 examples. Six locally verified targets await independent acceptance; 22 targets remain to migrate.",
+    "official_comparator": "174 exact-current independently accepted targets, including all 19 examples. All 174 staged targets are accepted; 22 targets remain to migrate.",
     "python_tests": 631,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "180 cases (174 targets and six regressions), 6565 retained/support roots, 15238 Lake jobs, 453 public theorem names and 631 Python tests pass. Real/FP trust audits and seven independent mathematical specification checks pass. All 19 examples remain independently accepted. Completion: 168; 6 locally verified targets await independent acceptance; 22 targets remain to migrate.",
+    "working_tree": "180 cases (174 targets and six regressions), 6565 retained/support roots, 15238 Lake jobs, 453 public theorem names and 631 Python tests pass. Real/FP trust audits and seven independent mathematical specification checks pass. All 19 examples remain independently accepted. Completion: 174; 22 targets remain to migrate. BMM forward migration remains outside the validated batch until all retained/public proofs and independent replay pass.",
     "official_replay_sources": 5568,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -1136,9 +1136,10 @@
         "cases": 1,
         "retained_modules": 117,
         "replay_sources": 117,
-        "state": "official_in_progress",
+        "state": "accepted_exact_current",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41640711003",
-        "source_commit": "643fc11c662e5f2a453f843eb5faef8d602151df"
+        "source_commit": "643fc11c662e5f2a453f843eb5faef8d602151df",
+        "receipt": "validation/body_receipts/layer-norm-fwd-source-migration.json"
       },
       {
         "case_paths": [
@@ -1150,10 +1151,11 @@
         "cases": 3,
         "retained_modules": 136,
         "replay_sources": 136,
-        "state": "official_in_progress",
+        "state": "accepted_exact_current",
         "purpose": "fresh_exact_current_replay_after_layer_norm_fwd_dependency_change",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641001101",
-        "source_commit": "141e61a1cb00ef0b8fdee1e0fd4a1fa083c9cb44"
+        "source_commit": "141e61a1cb00ef0b8fdee1e0fd4a1fa083c9cb44",
+        "receipt": "validation/body_receipts/layer-norm-dependent-group0-current-replay.json"
       },
       {
         "case_paths": [
@@ -1213,7 +1215,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "bmm_chunk_fwd: six complete source pairs pass; frontend/signed-loop source build and full proof migration in progress. Not complete. Collect current independent receipts; no merge.",
+    "current_work": "BMM source profile and signed execution proof migration in progress; not locally complete. Two other locally validated targets await current official replay. Completion remains 172, all 19 examples accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1494,7 +1496,9 @@
       "validation/body_receipts/iv-source-migration.json",
       "validation/body_receipts/kldiv-llama-ff-current-dependency-replay.json",
       "validation/body_receipts/kv-cache-filling-source-migration.json",
+      "validation/body_receipts/layer-norm-dependent-group0-current-replay.json",
       "validation/body_receipts/layer-norm-dependent-group1-current-replay.json",
+      "validation/body_receipts/layer-norm-fwd-source-migration.json",
       "validation/body_receipts/layer-norm-triton-source-migration.json",
       "validation/body_receipts/layernorm-softmax-source-migration.json",
       "validation/body_receipts/linear-activation-source-migration.json",
@@ -2356,7 +2360,7 @@
       ]
     },
     "layer_norm_fwd_source_migration": {
-      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "local_validation": "PASS_WITH_EXACT_CURRENT_INDEPENDENT_RECEIPT",
       "owned_modules": 114,
       "shared_replay_roots": 3,
       "source_pairs": 2,
@@ -2373,9 +2377,11 @@
       "full_lake_jobs": 15172,
       "public_theorem_count": 447,
       "python_tests": 627,
-      "boundary": "Local verification only. Every required owned/shared root and both public statements need exact-current official independent acceptance.",
+      "boundary": "All required owned/shared roots, both public statements, two source pairs and exact current transitive closure independently accepted.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41640711003",
-      "source_commit": "643fc11c662e5f2a453f843eb5faef8d602151df"
+      "source_commit": "643fc11c662e5f2a453f843eb5faef8d602151df",
+      "independent_replay": "PASS",
+      "official_receipt": "validation/body_receipts/layer-norm-fwd-source-migration.json"
     },
     "layer_norm_triton_source_migration": {
       "local_validation": "PASS_WITH_EXACT_CURRENT_INDEPENDENT_RECEIPT",
@@ -2634,12 +2640,13 @@
     },
     {
       "path": "bench/tritonbench_g/bmm_chunk_fwd",
-      "status": "source_aligned_frontend_in_progress",
+      "status": "source_aligned_proofs_in_progress",
       "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "IN_PROGRESS",
-      "retained_modules_build": "IN_PROGRESS",
-      "reason": "Six complete source pairs preserve repaired Python and existing candidate source modules; frontend typing and actual Real/FP source proof migration are in progress. Not complete."
+      "public_real_fp_proofs": "PENDING",
+      "retained_modules_build": "PENDING",
+      "reason": "Six complete source pairs and four Python regression tests pass. Original and existing index candidate Python are unchanged; the pre-existing mathematical dot-first helper is separately materialized. Source retains all 19 Int64 self-casts, nested early return, signed K range, optional sequence filter with distinct sentinels, explicit output cast and cleanup. New frontend semantic regressions cover lazy nested return and actual signed counters. Actual input storage profile correction is in progress; full Real/FP public proofs, all retained roots and exact-current independent replay remain required. No compilation or source comparison is counted as completion.",
+      "independent_replay": "NOT_STARTED"
     },
     {
       "path": "bench/tritonbench_g/bmm_optimized",
@@ -2671,16 +2678,17 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_bwd_dqkg",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The complete current 179-case integration and all required public statements pass after the Layer Norm Fwd source migration. Original/candidate correspondence is unchanged. Historical receipts remain superseded; completion requires fresh exact-current independent replay of every required owned/shared root.",
+      "reason": "All required owned/shared roots, current public statements and source pairs accepted by official independent replay. ZIP digest, shared dependencies and exact current transitive source closure verified; no changed cases excluded.",
       "validated_source_commit": "1db88a7a0fc67bb8eae9cd7587e55823415dd582",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41642024040",
-      "receipt": "validation/body_receipts/chunk-bwd-dqkg-source-migration.json",
-      "independent_replay": "IN_PROGRESS"
+      "receipt": "validation/body_receipts/layer-norm-dependent-group2-current-replay.json",
+      "independent_replay": "PASS",
+      "official_run_status": "accepted_exact_current"
     },
     {
       "path": "bench/tritonbench_g/chunk_cumsum_kernel",
@@ -2824,16 +2832,17 @@
     },
     {
       "path": "bench/tritonbench_g/context_attn_mistral",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The complete current 179-case integration and all required public statements pass after the Layer Norm Fwd source migration. Original/candidate correspondence is unchanged. Historical receipts remain superseded; completion requires fresh exact-current independent replay of every required owned/shared root.",
-      "independent_replay": "IN_PROGRESS",
-      "official_run_status": "cancelled_superseded_by_layer_norm_fwd_source_migration",
+      "reason": "All required owned/shared roots, current public statements and source pairs accepted by official independent replay. ZIP digest, shared dependencies and exact current transitive source closure verified; no changed cases excluded.",
+      "independent_replay": "PASS",
+      "official_run_status": "accepted_exact_current",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41642024040",
-      "validated_source_commit": "1db88a7a0fc67bb8eae9cd7587e55823415dd582"
+      "validated_source_commit": "1db88a7a0fc67bb8eae9cd7587e55823415dd582",
+      "receipt": "validation/body_receipts/layer-norm-dependent-group2-current-replay.json"
     },
     {
       "path": "bench/tritonbench_g/context_attn_nopad",
@@ -3044,18 +3053,18 @@
     },
     {
       "path": "bench/tritonbench_g/fast_layernorm",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "validated_source_commit": "141e61a1cb00ef0b8fdee1e0fd4a1fa083c9cb44",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/fast_layernorm.json",
-      "reason": "The complete current 179-case integration and all required public statements pass after the Layer Norm Fwd source migration. Original/candidate correspondence is unchanged. Historical receipts remain superseded; completion requires fresh exact-current independent replay of every required owned/shared root.",
+      "reason": "All required owned/shared roots, current public statements and source pairs accepted by official independent replay. ZIP digest, shared dependencies and exact current transitive source closure verified; no changed cases excluded.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641001101",
-      "receipt": "validation/body_receipts/full-recovery-shard-1.json",
-      "independent_replay": "IN_PROGRESS"
+      "receipt": "validation/body_receipts/layer-norm-dependent-group0-current-replay.json",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fast_rms_layernorm",
@@ -3521,15 +3530,16 @@
     },
     {
       "path": "bench/tritonbench_g/layer_norm_fwd",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "IN_PROGRESS",
-      "reason": "Both complete 24-statement repaired original and existing integer-product candidate are copied statement by statement, including every optional input, seven-round RNG stream, cast, statistic, mask, store and branch. Original Python is unchanged; reversing only the documented index product and kernel/host names restores the entire original module AST. Old complete quotations and synthetic BLOCK_N_arg source statement are removed. All 114 owned modules and three shared frontend/test roots, full source execution, safety, Real formula and grid correctness, arbitrary-algebra FP execution and observations, native/host/IO connections are reverified. FP32 call values preserve scoped argument precision, typed fp32Load and fromNat callbacks remain in the independent FP reference, and artificial final casts on Mean/Rstd/residual outputs are removed. No new public premises or numerical assumptions. All 179 cases, 6499 retained/support roots, 15172 Lake jobs, 447 public names, 627 Python tests and trust/non-circularity/source checks pass locally. Complete remains false until fresh exact-current independent replay accepts every required root and public theorem.",
+      "independent_replay": "PASS",
+      "reason": "All 114 owned and three shared required roots, both public statements and both source pairs independently accepted. ZIP digest, shared dependencies and exact current transitive closure verified; no changed cases excluded.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41640711003",
-      "validated_source_commit": "643fc11c662e5f2a453f843eb5faef8d602151df"
+      "validated_source_commit": "643fc11c662e5f2a453f843eb5faef8d602151df",
+      "receipt": "validation/body_receipts/layer-norm-fwd-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/layer_norm_liger",
@@ -3547,13 +3557,13 @@
     },
     {
       "path": "bench/tritonbench_g/layer_norm_ops",
-      "status": "proof_replay_pending",
-      "complete": false,
-      "reason": "The complete current 179-case integration and all required public statements pass after the Layer Norm Fwd source migration. Original/candidate correspondence is unchanged. Historical receipts remain superseded; completion requires fresh exact-current independent replay of every required owned/shared root.",
-      "receipt": "validation/body_receipts/layernorm-softmax-source-migration.json",
+      "status": "complete",
+      "complete": true,
+      "reason": "All required owned/shared roots, current public statements and source pairs accepted by official independent replay. ZIP digest, shared dependencies and exact current transitive source closure verified; no changed cases excluded.",
+      "receipt": "validation/body_receipts/layer-norm-dependent-group0-current-replay.json",
       "validated_source_commit": "141e61a1cb00ef0b8fdee1e0fd4a1fa083c9cb44",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641001101",
-      "independent_replay": "IN_PROGRESS",
+      "independent_replay": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS"
     },
@@ -3592,18 +3602,18 @@
     },
     {
       "path": "bench/tritonbench_g/layernorm_fwd_triton",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "validated_source_commit": "141e61a1cb00ef0b8fdee1e0fd4a1fa083c9cb44",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/layernorm_fwd_triton.json",
-      "reason": "The complete current 179-case integration and all required public statements pass after the Layer Norm Fwd source migration. Original/candidate correspondence is unchanged. Historical receipts remain superseded; completion requires fresh exact-current independent replay of every required owned/shared root.",
+      "reason": "All required owned/shared roots, current public statements and source pairs accepted by official independent replay. ZIP digest, shared dependencies and exact current transitive source closure verified; no changed cases excluded.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641001101",
-      "receipt": "validation/body_receipts/full-recovery-shard-5.json",
-      "independent_replay": "IN_PROGRESS"
+      "receipt": "validation/body_receipts/layer-norm-dependent-group0-current-replay.json",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/lightning_attention",
@@ -4959,5 +4969,5 @@
       "current_source_certificate": false
     }
   ],
-  "previously_completed_count": 124
+  "previously_completed_count": 172
 }
