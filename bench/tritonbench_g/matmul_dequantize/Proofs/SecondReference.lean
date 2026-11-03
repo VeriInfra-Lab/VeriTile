@@ -11,19 +11,26 @@ structure Parameters where
   (rows columns inner inputRowStride inputInnerStride weightInnerStride weightColumnStride
     outputRowStride outputColumnStride scaleGroupStride scaleColumnStride
     zeroGroupStride zeroColumnStride groupSize blockRows blockColumns blockInner
-    groupRows steps : Nat)
+    groupRows : Nat)
+
+/-- Actual source loop extent for the existing SPLIT_K=1 launch profile. -/
+def Parameters.steps (p : Parameters) : Nat := (p.inner+p.blockInner-1)/p.blockInner
 
 def source (p : Parameters) : ComputeKernel := FPTyped.matmulTyped .fp32 p.input p.output p.scale p.weight p.zero
   p.rows p.columns p.inner p.inputRowStride p.inputInnerStride p.weightInnerStride p.weightColumnStride
   p.outputRowStride p.outputColumnStride p.scaleGroupStride p.scaleColumnStride
-  p.zeroGroupStride p.zeroColumnStride p.groupSize p.blockRows p.blockColumns p.blockInner p.groupRows p.steps
+  p.zeroGroupStride p.zeroColumnStride p.groupSize p.blockRows p.blockColumns p.blockInner p.groupRows
 
 def prelude (p : Parameters) := (source p).surfaceBody.take 17
 
 def body (p : Parameters) : List ComputeStmt :=
   match (source p).surfaceBody[17]? with
-  | some (ComputeStmt.forRange _ _ _ _ code) => code
+  | some (ComputeStmt.forRangeDyn _ _ _ _ code) => code
   | _ => []
+
+/-- The actual source loop node, including its runtime cdiv expression. -/
+def loopStatement (p : Parameters) : ComputeStmt :=
+  (source p).surfaceBody[17]'(by change 17 < 24; decide)
 
 def epilogue (p : Parameters) := (source p).surfaceBody.drop 18
 

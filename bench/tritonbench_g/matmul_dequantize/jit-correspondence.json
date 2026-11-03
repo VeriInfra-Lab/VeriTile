@@ -1,0 +1,652 @@
+[
+  {
+    "python": "bench/tritonbench_g/matmul_dequantize/matmul_dequantize.py",
+    "lean": "bench/tritonbench_g/matmul_dequantize/Sources/Body.lean",
+    "python_function": "matmul4_kernel",
+    "lean_definition": "original_matmul4_kernel",
+    "signature_definition": "original_matmul4_kernel_signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "b_ptr",
+          "i32"
+        ],
+        [
+          "zeros_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ],
+        [
+          "stride_scales_g",
+          "integer"
+        ],
+        [
+          "stride_scales_n",
+          "integer"
+        ],
+        [
+          "stride_zeros_g",
+          "integer"
+        ],
+        [
+          "stride_zeros_n",
+          "integer"
+        ],
+        [
+          "groupsize",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "NO_GROUPS",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M"
+      ],
+      "floatingPointers": [
+        [
+          "a_ptr",
+          "dtype"
+        ],
+        [
+          "c_ptr",
+          "dtype"
+        ],
+        [
+          "scales_ptr",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn",
+      "stride_scales_g": "stride_scales_g",
+      "stride_scales_n": "stride_scales_n",
+      "stride_zeros_g": "stride_zeros_g",
+      "stride_zeros_n": "stride_zeros_n",
+      "groupsize": "groupsize"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/matmul_dequantize/matmul_dequantize.py",
+    "lean": "bench/tritonbench_g/matmul_dequantize/Sources/Body.lean",
+    "python_function": "matmul_kernel",
+    "lean_definition": "original_matmul_kernel",
+    "signature_definition": "original_matmul_kernel_signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "b_ptr",
+          "i32"
+        ],
+        [
+          "bzp_ptr",
+          "i32"
+        ],
+        [
+          "c_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ],
+        [
+          "stride_bsk",
+          "integer"
+        ],
+        [
+          "stride_bsn",
+          "integer"
+        ],
+        [
+          "stride_bzpk",
+          "integer"
+        ],
+        [
+          "stride_bzpn",
+          "integer"
+        ],
+        [
+          "group_size",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "SPLIT_K"
+      ],
+      "floatingPointers": [
+        [
+          "a_ptr",
+          "dtype"
+        ],
+        [
+          "bs_ptr",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn",
+      "stride_bsk": "stride_bsk",
+      "stride_bsn": "stride_bsn",
+      "stride_bzpk": "stride_bzpk",
+      "stride_bzpn": "stride_bzpn",
+      "group_size": "group_size"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/matmul_dequantize/matmul_dequantize.py",
+    "lean": "bench/tritonbench_g/matmul_dequant_int4/Sources/Body.lean",
+    "python_function": "dequantize_kernel",
+    "lean_definition": "dequantizeBody",
+    "signature_definition": "dequantizeSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "b_ptr",
+          "i32"
+        ],
+        [
+          "b_zp_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "group_size",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_bsk",
+          "integer"
+        ],
+        [
+          "stride_bsn",
+          "integer"
+        ],
+        [
+          "stride_bzpk",
+          "integer"
+        ],
+        [
+          "stride_bzpn",
+          "integer"
+        ],
+        [
+          "stride_fpbk",
+          "integer"
+        ],
+        [
+          "stride_fpbn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_K",
+        "BLOCK_SIZE_N"
+      ],
+      "floatingPointers": [
+        [
+          "b_scale_ptr",
+          "dtype"
+        ],
+        [
+          "fpb_ptr",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "K": "K",
+      "N": "N",
+      "group_size": "group_size",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_bsk": "stride_bsk",
+      "stride_bsn": "stride_bsn",
+      "stride_bzpk": "stride_bzpk",
+      "stride_bzpn": "stride_bzpn",
+      "stride_fpbk": "stride_fpbk",
+      "stride_fpbn": "stride_fpbn"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/matmul_dequantize/matmul_dequantize_scalar_address.py",
+    "lean": "bench/tritonbench_g/matmul_dequantize/Sources/Body.lean",
+    "python_function": "matmul4_kernel_scalar_address",
+    "lean_definition": "candidate_matmul4_kernel",
+    "signature_definition": "candidate_matmul4_kernel_signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "b_ptr",
+          "i32"
+        ],
+        [
+          "zeros_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ],
+        [
+          "stride_scales_g",
+          "integer"
+        ],
+        [
+          "stride_scales_n",
+          "integer"
+        ],
+        [
+          "stride_zeros_g",
+          "integer"
+        ],
+        [
+          "stride_zeros_n",
+          "integer"
+        ],
+        [
+          "groupsize",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "N",
+        "NO_GROUPS",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M"
+      ],
+      "floatingPointers": [
+        [
+          "a_ptr",
+          "dtype"
+        ],
+        [
+          "c_ptr",
+          "dtype"
+        ],
+        [
+          "scales_ptr",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn",
+      "stride_scales_g": "stride_scales_g",
+      "stride_scales_n": "stride_scales_n",
+      "stride_zeros_g": "stride_zeros_g",
+      "stride_zeros_n": "stride_zeros_n",
+      "groupsize": "groupsize"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/matmul_dequantize/matmul_dequantize_scalar_address.py",
+    "lean": "bench/tritonbench_g/matmul_dequantize/Sources/Body.lean",
+    "python_function": "matmul_kernel_scalar_address",
+    "lean_definition": "candidate_matmul_kernel",
+    "signature_definition": "candidate_matmul_kernel_signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "b_ptr",
+          "i32"
+        ],
+        [
+          "bzp_ptr",
+          "i32"
+        ],
+        [
+          "c_ptr",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_am",
+          "integer"
+        ],
+        [
+          "stride_ak",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_cm",
+          "integer"
+        ],
+        [
+          "stride_cn",
+          "integer"
+        ],
+        [
+          "stride_bsk",
+          "integer"
+        ],
+        [
+          "stride_bsn",
+          "integer"
+        ],
+        [
+          "stride_bzpk",
+          "integer"
+        ],
+        [
+          "stride_bzpn",
+          "integer"
+        ],
+        [
+          "group_size",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "N",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K",
+        "GROUP_SIZE_M",
+        "SPLIT_K"
+      ],
+      "floatingPointers": [
+        [
+          "a_ptr",
+          "dtype"
+        ],
+        [
+          "bs_ptr",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "K": "K",
+      "stride_am": "stride_am",
+      "stride_ak": "stride_ak",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_cm": "stride_cm",
+      "stride_cn": "stride_cn",
+      "stride_bsk": "stride_bsk",
+      "stride_bsn": "stride_bsn",
+      "stride_bzpk": "stride_bzpk",
+      "stride_bzpn": "stride_bzpn",
+      "group_size": "group_size"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/matmul_dequantize/matmul_dequantize_scalar_address.py",
+    "lean": "bench/tritonbench_g/matmul_dequantize/Sources/Body.lean",
+    "python_function": "dequantize_kernel_scalar_address",
+    "lean_definition": "candidate_dequantize_kernel",
+    "signature_definition": "candidate_dequantize_kernel_signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "b_ptr",
+          "i32"
+        ],
+        [
+          "b_zp_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "group_size",
+          "integer"
+        ],
+        [
+          "stride_bk",
+          "integer"
+        ],
+        [
+          "stride_bn",
+          "integer"
+        ],
+        [
+          "stride_bsk",
+          "integer"
+        ],
+        [
+          "stride_bsn",
+          "integer"
+        ],
+        [
+          "stride_bzpk",
+          "integer"
+        ],
+        [
+          "stride_bzpn",
+          "integer"
+        ],
+        [
+          "stride_fpbk",
+          "integer"
+        ],
+        [
+          "stride_fpbn",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE_K",
+        "BLOCK_SIZE_N"
+      ],
+      "floatingPointers": [
+        [
+          "b_scale_ptr",
+          "dtype"
+        ],
+        [
+          "fpb_ptr",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "K": "K",
+      "N": "N",
+      "group_size": "group_size",
+      "stride_bk": "stride_bk",
+      "stride_bn": "stride_bn",
+      "stride_bsk": "stride_bsk",
+      "stride_bsn": "stride_bsn",
+      "stride_bzpk": "stride_bzpk",
+      "stride_bzpn": "stride_bzpn",
+      "stride_fpbk": "stride_fpbk",
+      "stride_fpbn": "stride_fpbn"
+    }
+  }
+]

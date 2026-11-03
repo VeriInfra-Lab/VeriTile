@@ -58,7 +58,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : 
     {t : State α // FP.Structural.exec M (source p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [source, typed, FPTyped.dequantTyped, VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.dequantTyped, FP.Structural.exec, ComputeKernel.surfaceBody,
+  simp [source, typed, FPTyped.dequantTyped,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody, VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.dequantTyped,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
     FP.Structural.evalComputeOp, FP.Structural.eval_intShiftRight, FP.Structural.eval_intBitAnd,
     FP.Structural.evalOp_unfold, FP.Structural.evalOffsets, FP.Structural.store, FP.Structural.numeric,

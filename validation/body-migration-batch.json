@@ -2168,6 +2168,25 @@
           "VeriTile.Bench.Repairs.MatmulDequantizeInt4.FPEquiv.group_extent_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_dequantize",
+      "python": "bench/tritonbench_g/matmul_dequantize/matmul_dequantize.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_dequantize/Correct.lean": [
+          "VeriTile.Bench.Repairs.MatmulDequantize.Correct.gptq_kernel_correct",
+          "VeriTile.Bench.Repairs.MatmulDequantize.Correct.s2_kernel_correct",
+          "VeriTile.Bench.Repairs.MatmulDequantize.Correct.dequant32_kernel_correct",
+          "VeriTile.Bench.Repairs.MatmulDequantize.Correct.dequant16_kernel_correct"
+        ],
+        "bench/tritonbench_g/matmul_dequantize/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MatmulDequantize.FPEquiv.gptq_scalar_address_equiv",
+          "VeriTile.Bench.Repairs.MatmulDequantize.FPEquiv.s2_scalar_address_equiv",
+          "VeriTile.Bench.Repairs.MatmulDequantize.FPEquiv.dequant32_scalar_address_equiv",
+          "VeriTile.Bench.Repairs.MatmulDequantize.FPEquiv.dequant16_scalar_address_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -6283,6 +6302,51 @@
     "bench/tritonbench_g/matmul_dequantize_int4/Sources/Mathematical_MatmulDequantizeInt4.lean",
     "bench/tritonbench_g/matmul_dequantize_int4/Sources/NativeLowering.lean",
     "bench/tritonbench_g/matmul_dequantize_int4/Whole.lean",
-    "tests/lean/PackedIntegerPromotion.lean"
+    "tests/lean/PackedIntegerPromotion.lean",
+    "bench/tritonbench_g/matmul_dequantize/CandidateIO.lean",
+    "bench/tritonbench_g/matmul_dequantize/Contract.lean",
+    "bench/tritonbench_g/matmul_dequantize/Correct.lean",
+    "bench/tritonbench_g/matmul_dequantize/FPEquiv.lean",
+    "bench/tritonbench_g/matmul_dequantize/IO.lean",
+    "bench/tritonbench_g/matmul_dequantize/Kernels.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/ABI.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/Dequant16IOResult.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/Dequant16Safety.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/Dequant32.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/Dequant32IOResult.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/Dequant32Safety.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/DequantGrid16.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/DequantGrid32.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/FirstGrid.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/FirstInputs.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/FirstPublicResult.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/FirstRealResult.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/FirstSafety.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/Grid.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/Host.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/Mathematical_FPFirstComplete.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/Mathematical_FPFirstExecution.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/Mathematical_FPFirstReference.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/NativeInstructions.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/NativeStaging.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/RealBase.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/RealDequant.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/RealFirst.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/RealSecond.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/ScalarAddress.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/SecondComplete.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/SecondExecution.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/SecondGrid.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/SecondInputs.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/SecondPublicResult.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/SecondRealResult.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/SecondReference.lean",
+    "bench/tritonbench_g/matmul_dequantize/Proofs/SecondSafety.lean",
+    "bench/tritonbench_g/matmul_dequantize/Sources/Body.lean",
+    "bench/tritonbench_g/matmul_dequantize/Sources/Kernels.lean",
+    "bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_FPDequant.lean",
+    "bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_FPTypedSource.lean",
+    "bench/tritonbench_g/matmul_dequantize/Sources/Mathematical_MatmulDequantize.lean"
   ]
 }

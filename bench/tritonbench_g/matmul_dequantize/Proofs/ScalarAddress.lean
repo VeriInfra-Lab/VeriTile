@@ -43,7 +43,7 @@ abbrev candidate := Candidate.First.source
 theorem frontRun (M : Algebra A) (p : Candidate.First.Parameters) (s : State A) :
     run M ((original p).surfaceBody.take 7) s=run M ((candidate p).surfaceBody.take 7) s := by
   simp [original,candidate,FPTypedFirst.source,Candidate.First.source,
-    VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.matmul4Typed,KernelSource.groupedGPTQ,
+    VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.matmul4Typed,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul4_kernel,KernelSource.groupedGPTQ,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.candidate_matmul4_kernel,
     ComputeKernel.surfaceBody,run,step,evalExpr,FP.Structural.evalOp_unfold,
     FP.Structural.numeric,FP.Structural.bop,Option.bind,bind,integralFloorDiv]
   congr 1
@@ -55,7 +55,7 @@ theorem pure_prefix (M : Algebra A) (p : Candidate.First.Parameters) (bounds : R
     traceSafeList M bounds ((original p).surfaceBody.take 7) s ∧
       traceSafeList M bounds ((candidate p).surfaceBody.take 7) s := by
   simp [original,candidate,FPTypedFirst.source,Candidate.First.source,
-    VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.matmul4Typed,KernelSource.groupedGPTQ,
+    VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.matmul4Typed,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul4_kernel,KernelSource.groupedGPTQ,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.candidate_matmul4_kernel,
     ComputeKernel.surfaceBody,traceSafeList_cons,stepSafe_unfold,safeExpr_unfold,safeOp_unfold]
 
 theorem execution (M : Algebra A) (p : Candidate.First.Parameters) (s : State A) :
@@ -75,7 +75,7 @@ abbrev candidate := Candidate.Second.source
 theorem frontRun (M : Algebra A) (p : Candidate.Second.Parameters) (s : State A) :
     run M ((original p).surfaceBody.take 6) s=run M ((candidate p).surfaceBody.take 6) s := by
   simp [original,candidate,FPTypedSecond.source,Candidate.Second.source,
-    VeriTile.Bench.Repairs.MatmulDequantizeWhole001.FPTyped.matmulTyped,KernelSource.groupedS2,
+    VeriTile.Bench.Repairs.MatmulDequantizeWhole001.FPTyped.matmulTyped,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul_kernel,KernelSource.groupedS2,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.candidate_matmul_kernel,
     ComputeKernel.surfaceBody,run,step,evalExpr,FP.Structural.evalOp_unfold,
     FP.Structural.numeric,FP.Structural.bop,Option.bind,bind,integralFloorDiv]
   congr 1
@@ -87,7 +87,7 @@ theorem pure_prefix (M : Algebra A) (p : Candidate.Second.Parameters) (bounds : 
     traceSafeList M bounds ((original p).surfaceBody.take 6) s ∧
       traceSafeList M bounds ((candidate p).surfaceBody.take 6) s := by
   simp [original,candidate,FPTypedSecond.source,Candidate.Second.source,
-    VeriTile.Bench.Repairs.MatmulDequantizeWhole001.FPTyped.matmulTyped,KernelSource.groupedS2,
+    VeriTile.Bench.Repairs.MatmulDequantizeWhole001.FPTyped.matmulTyped,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul_kernel,KernelSource.groupedS2,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.candidate_matmul_kernel,
     ComputeKernel.surfaceBody,traceSafeList_cons,stepSafe_unfold,safeExpr_unfold,safeOp_unfold]
 
 theorem execution (M : Algebra A) (p : Candidate.Second.Parameters) (s : State A) :
@@ -107,7 +107,7 @@ abbrev candidate := Candidate.D32.source
 theorem frontRun (M : Algebra A) (p : Candidate.D32.Parameters) (s : State A) :
     run M ((original p).surfaceBody.take 5) s=run M ((candidate p).surfaceBody.take 5) s := by
   simp [original,candidate,Dequant32.source,Dequant32.typed,Candidate.D32.source,
-    VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.dequantTyped,KernelSource.affineDequant,
+    VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.dequantTyped,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody,KernelSource.affineDequant,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.candidate_dequantize_kernel,
     ComputeKernel.surfaceBody,run,step,evalExpr,FP.Structural.evalOp_unfold,
     FP.Structural.numeric,FP.Structural.bop,Option.bind,bind,integralFloorDiv]
   congr 1
@@ -122,7 +122,7 @@ theorem pure_prefix (M : Algebra A) (p : Candidate.D32.Parameters) (bounds : Reg
     traceSafeList M bounds ((original p).surfaceBody.take 5) s ∧
       traceSafeList M bounds ((candidate p).surfaceBody.take 5) s := by
   simp [original,candidate,Dequant32.source,Dequant32.typed,Candidate.D32.source,
-    VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.dequantTyped,KernelSource.affineDequant,
+    VeriTile.Bench.TritonBenchG.MatmulDequantize.FPTyped.dequantTyped,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody,KernelSource.affineDequant,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.candidate_dequantize_kernel,
     ComputeKernel.surfaceBody,traceSafeList_cons,stepSafe_unfold,safeExpr_unfold,safeOp_unfold]
 
 theorem execution (M : Algebra A) (p : Candidate.D32.Parameters) (s : State A) :
@@ -142,7 +142,7 @@ abbrev candidate := Candidate.D16.source
 theorem frontRun (M : Algebra A) (p : Candidate.D16.Parameters) (s : State A) :
     run M ((original p).surfaceBody.take 5) s=run M ((candidate p).surfaceBody.take 5) s := by
   simp [original,candidate,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.source,Candidate.D16.source,
-    VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,KernelSource.affineDequant,
+    VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody,KernelSource.affineDequant,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.candidate_dequantize_kernel,
     ComputeKernel.surfaceBody,run,step,evalExpr,FP.Structural.evalOp_unfold,
     FP.Structural.numeric,FP.Structural.bop,Option.bind,bind,integralFloorDiv]
   congr 1
@@ -157,7 +157,7 @@ theorem pure_prefix (M : Algebra A) (p : Candidate.D16.Parameters) (bounds : Reg
     traceSafeList M bounds ((original p).surfaceBody.take 5) s ∧
       traceSafeList M bounds ((candidate p).surfaceBody.take 5) s := by
   simp [original,candidate,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.source,Candidate.D16.source,
-    VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,KernelSource.affineDequant,
+    VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody,KernelSource.affineDequant,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.candidate_dequantize_kernel,
     ComputeKernel.surfaceBody,traceSafeList_cons,stepSafe_unfold,safeExpr_unfold,safeOp_unfold]
 
 theorem execution (M : Algebra A) (p : Candidate.D16.Parameters) (s : State A) :

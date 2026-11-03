@@ -31,7 +31,7 @@ def source (p : Parameters) : ComputeKernel := KernelSource.groupedS2 .fp32
   p.inputRowStride p.inputInnerStride p.weightInnerStride p.weightColumnStride
   p.outputRowStride p.outputColumnStride p.scaleGroupStride p.scaleColumnStride
   p.zeroGroupStride p.zeroColumnStride p.groupSize
-  p.blockRows p.blockColumns p.blockInner p.groupRows p.steps
+  p.blockRows p.blockColumns p.blockInner p.groupRows
 
 def invocation {A : Type} (M : Algebra A) (D : Dot A) (p : Parameters) (pid : Nat) : Invocation A :=
   { SecondIO.invocation M D p pid with kernel := source p }
