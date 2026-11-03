@@ -1,3 +1,4 @@
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Ownership
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.NativeLocality
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.ArrayLocality

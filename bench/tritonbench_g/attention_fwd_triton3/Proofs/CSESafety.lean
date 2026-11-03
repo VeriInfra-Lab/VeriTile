@@ -14,42 +14,53 @@ variable {α : Type} [Inhabited α]
 
 theorem body_safe (c : Call) (o : Ops α) (positive : 0<c.BN) (bounds : RegionName → Nat)
     (initialState s : State α) (old : Carry c α) (live : Matches c o (inputs initialState) old s)
-    (cur : Int)
+    (cur : Int) (memory : s.mem=initialState.mem)
     (key : BlockBounds bounds old.keyPointer [c.D,c.BN] (if c.params.evenN≠0 then [] else [0,1]))
     (value : BlockBounds bounds old.valuePointer [c.BN,c.D] (if c.params.evenN≠0 then [] else [0,1])) :
     traceSafeList (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) bounds (parts c).body
-      (s.setReg "start_n" .int [] (fun _ => cur)) := by
-  rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12⟩
-  by_cases he : c.params.evenN=0 <;> by_cases hw : c.window=0 <;> by_cases hc : c.complement=0
-  all_goals
-    simp (config := {maxSteps := 1000000}) [parts,Kernels.keyMaskCSE,Quoted.keyMaskCSE,
-      ComputeKernel.surfaceBody,Source.intRange?,traceSafeList_unfold,stepSafe_unfold,
-      safeExpr_unfold,safeCompute_unfold,safeOp_unfold,addressSafe_unfold,maskActive_unfold,
-      run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
-      State.setReg,VeriTile.Triton.FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,FPBackend.Ops.algebra,resolvePrecision,
-      numeric,numericLt,numericLe,numericEq,natLt,natLe,ofFloat,toFloat,Region.cast,boundaryZero,
-      h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,he,hw,hc,positive,TileShape.axisDim,
-      bop,Broadcast.leftIndex,Broadcast.rightIndex]
-  all_goals
-    simp only [block_bounds_2d,he,ne_eq,not_true_eq_false,not_false_eq_true,if_true,if_false,BlockPtr.inBounds_nil_checkedAxes,forall_true_left] at key value
-  all_goals exact ⟨key,value⟩
-
+      (s.setReg "__veritile_statement_jit_local_11_start_n" .int [] (fun _ => cur)) := by
+  obtain ⟨scored,hscore,scoreReady,scoreMemory⟩:=score_phase c o positive initialState s old live memory cur
+  obtain ⟨updated,hupdate,updateReady,updateMemory⟩:=
+    update_phase c o positive initialState scored old cur scoreReady scoreMemory
+  have first : (parts c).body.take 2=(Reference.parts c).body.take 2 := rfl
+  have scoreSafe : traceSafeList (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) bounds
+      ((parts c).body.take 7)
+      (s.setReg "__veritile_statement_jit_local_11_start_n" .int [] (fun _=>cur)) := by
+    have split : (parts c).body.take 7=(parts c).body.take 2 ++ ((parts c).body.drop 2).take 5 := rfl
+    rw [split,traceSafeList_append]
+    refine ⟨?_,?_⟩
+    · rw [first]
+      exact SourceSafety.score_load_safe c o positive bounds initialState s old live cur key
+    · intro t _
+      prove_memory_free
+  have updateSafe : traceSafeList (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) bounds
+      (((parts c).body.drop 7).take 12) scored := by prove_memory_free
+  have productSafe : traceSafeList (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) bounds
+      ((parts c).body.drop 19) updated := by
+    have same : (parts c).body.drop 19=(Reference.parts c).body.drop 19 := rfl
+    rw [same]
+    exact SourceSafety.product_safe c o positive bounds initialState updated
+      (scaledCarry c o (inputs initialState) cur old) updateReady.1 value
+  have split : (parts c).body=(parts c).body.take 7 ++
+      (((parts c).body.drop 7).take 12 ++ (parts c).body.drop 19) := rfl
+  rw [split]
+  exact append_of_run scoreSafe hscore (append_of_run updateSafe hupdate productSafe)
 
 theorem range_safe (c : Call) (o : Ops α) (positive : 0<c.BN) (bounds : RegionName → Nat)
     (initialState s : State α) (old : Carry c α)
     (live : Matches c o (inputs initialState) old s) (memory : s.mem=initialState.mem)
     (windows : Windows c (inputs initialState) bounds)
     (cur : Nat) (aligned : c.BN∣cur) (pointers : PointerAt c (inputs initialState) old cur) :
-    rangeIntSafe (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) bounds "start_n" cur (upper c (inputs initialState)) c.BN
+    rangeIntSafe (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) bounds "__veritile_statement_jit_local_11_start_n" cur (upper c (inputs initialState)) c.BN
       (parts c).body s := by
   rw [rangeIntSafe_unfold,if_neg (Nat.ne_of_gt positive)]
   by_cases active : (cur : Int)<upper c (inputs initialState)
   · rw [if_pos active]
-    have key := key_bounds c (inputs initialState) bounds windows cur aligned active
-    have value := value_bounds c (inputs initialState) bounds windows cur aligned active
+    have key := key_bounds c (inputs initialState) bounds windows cur aligned active pointers.2.2
+    have value := value_bounds c (inputs initialState) bounds windows cur aligned active pointers.2.2
     rw [←pointers.1] at key
-    rw [←pointers.2] at value
-    refine ⟨body_safe c o positive bounds initialState s old live cur key value,?_⟩
+    rw [←pointers.2.1] at value
+    refine ⟨body_safe c o positive bounds initialState s old live cur memory key value,?_⟩
     obtain ⟨mid,ran,live',memory'⟩ := body c o positive initialState s old live memory cur
     rw [ran]
     simpa only [Nat.cast_add] using range_safe c o positive bounds initialState mid
@@ -65,11 +76,11 @@ theorem loop_safe (c : Call) (o : Ops α) (positive : 0<c.BN) (bounds : RegionNa
     (live : Matches c o (inputs initialState) (initial c o (inputs initialState)) s)
     (memory : s.mem=initialState.mem) (windows : Windows c (inputs initialState) bounds) :
     stepSafe (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) bounds
-      (.forRangeInt "start_n" (parts c).start (parts c).stop (parts c).stride (parts c).body) s := by
+      (.forRangeInt "__veritile_statement_jit_local_11_start_n" (parts c).start (parts c).stop (parts c).stride (parts c).body) s := by
   have safe := range_safe c o positive bounds initialState s _ live memory windows
     (lower c (inputs initialState)).toNat (lower_aligned c _ positive) (initial_pointer c o _)
   rw [Int.toNat_of_nonneg (lower_nonnegative c _)] at safe
-  rcases live with ⟨_,_,_,_,_,_,_,_,_,_,_,hlo,hhi⟩
+  rcases live with ⟨_,_,_,_,_,_,_,_,_,_,_,hlo,hhi,_,_,_,_⟩
   have lo : evalOp (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) none (parts c).start s=
       some (fun _ => lower c (inputs initialState)) := hlo
   have hi : evalOp (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) none (parts c).stop s=
@@ -77,10 +88,10 @@ theorem loop_safe (c : Call) (o : Ops α) (positive : 0<c.BN) (bounds : RegionNa
   have stride : evalOp (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) none (parts c).stride s=some (fun _ => c.BN) := rfl
   rw [stepSafe_unfold]
   refine ⟨?_,?_,?_,?_⟩
-  · change safeOp (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) none bounds s (.ref .int [] "lo")
+  · change safeOp (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) none bounds s (.ref .int [] "__veritile_statement_jit_local_11_lo")
     rw [safeOp_unfold]
     trivial
-  · change safeOp (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) none bounds s (.ref .int [] "hi")
+  · change safeOp (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) none bounds s (.ref .int [] "__veritile_statement_jit_local_11_hi")
     rw [safeOp_unfold]
     trivial
   · change safeOp (VeriTile.Triton.FP.ProfiledRewrite.engine o.algebra) none bounds s (.constNat c.BN)

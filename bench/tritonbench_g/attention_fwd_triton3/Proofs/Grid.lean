@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.Program
-import bench.tritonbench_g.attention_fwd_triton3.Contract
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Host
 import bench.tritonbench_g.context_attn_fwd.Proofs.Mathematical_HostFPComposition
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.Reference

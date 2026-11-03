@@ -1,4 +1,6 @@
-import bench.tritonbench_g.attention_fwd_triton3.Proofs.Reference
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.BodyScore
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.BodyUpdate
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.BodyProduct
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.Reference
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
@@ -15,24 +17,20 @@ theorem body (c : Call) (o : Ops α) (positive : 0<c.BN)
     (live : Matches c o (inputs initialState) old s)
     (memory : s.mem=initialState.mem) (cur : Int) :
     ∃ t,run (engine o.algebra) (parts c).body
-        (s.setReg "start_n" .int [] (fun _ => cur))=some t ∧
+        (s.setReg "__veritile_statement_jit_local_11_start_n" .int [] (fun _ => cur))=some t ∧
       Matches c o (inputs initialState) (advance c o (inputs initialState) cur old) t ∧
       t.mem=initialState.mem := by
-  rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12⟩
-  by_cases he : c.params.evenN=0 <;> by_cases hw : c.window=0 <;> by_cases hc : c.complement=0
-  all_goals
-    simp (config := {maxSteps := 1000000}) [parts,Kernels.source,Quoted.kernel,
-      ComputeKernel.surfaceBody,Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-      Option.bind,ComputeDType.eraseDType,State.setReg,engine,Algebra.withDefaultPrecision,
-      FPBackend.Ops.algebra,resolvePrecision,numeric,numericLt,numericLe,numericEq,
-      natLt,natLe,integralFloorDiv,integralMod,ofFloat,toFloat,Region.cast,boundaryZero,
-      h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,he,hw,hc,
-      TileShape.axisDim,positive,Matches,advance,loadBlock,windowMask,memory,inputs,
-      bop,Broadcast.leftIndex,Broadcast.rightIndex]
-  all_goals
-    simp [loadBlock,funext_iff,bop,Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def]
-  all_goals refine ⟨?_,?_,?_⟩ <;> intros
-  all_goals rfl
+  obtain ⟨scored,hscore,scoredReady,scoreMemory⟩:=score_phase c o positive initialState s old live memory cur
+  obtain ⟨updated,hupdate,updateReady,updateMemory⟩:=
+    update_phase c o positive initialState scored old cur scoredReady scoreMemory
+  obtain ⟨t,hproduct,live',memory'⟩:=
+    product_phase c o positive initialState updated old cur updateReady updateMemory
+  refine ⟨t,?_,live',memory'⟩
+  have split : (parts c).body=(parts c).body.take 7 ++
+      ((parts c).body.drop 7).take 12 ++ (parts c).body.drop 19 := rfl
+  rw [split,run_append,run_append,hscore]
+  simp only [Option.bind_some,hupdate]
+  exact hproduct
 
 end
 end VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.Reference

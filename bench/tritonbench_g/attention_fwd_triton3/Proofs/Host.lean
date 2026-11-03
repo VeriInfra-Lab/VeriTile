@@ -1,3 +1,4 @@
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Mathematical_RealContract
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.Geometry
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3.Host

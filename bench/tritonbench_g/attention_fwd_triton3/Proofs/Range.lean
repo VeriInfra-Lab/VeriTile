@@ -10,7 +10,7 @@ theorem range (c : Call) (o : Ops α) (positive : 0<c.BN)
     (initialState s : State α) (old : Carry c α)
     (live : Matches c o (inputs initialState) old s) (memory : s.mem=initialState.mem)
     (cur stop : Int) :
-    ∃ t,rangeInt (engine o.algebra) "start_n" cur stop c.BN (parts c).body s=some t ∧
+    ∃ t,rangeInt (engine o.algebra) "__veritile_statement_jit_local_11_start_n" cur stop c.BN (parts c).body s=some t ∧
       Matches c o (inputs initialState) (iterate c o (inputs initialState) cur stop old) t ∧
       t.mem=initialState.mem := by
   by_cases hc : cur<stop
@@ -33,13 +33,13 @@ theorem loop (c : Call) (o : Ops α) (positive : 0<c.BN)
     (initialState s : State α) (live : Matches c o (inputs initialState) (initial c o (inputs initialState)) s)
     (memory : s.mem=initialState.mem) :
     ∃ t,step (engine o.algebra)
-      (.forRangeInt "start_n" (parts c).start (parts c).stop (parts c).stride (parts c).body) s=some t ∧
+      (.forRangeInt "__veritile_statement_jit_local_11_start_n" (parts c).start (parts c).stop (parts c).stride (parts c).body) s=some t ∧
       Matches c o (inputs initialState) (result c o (inputs initialState)) t ∧
       t.mem=initialState.mem := by
   obtain ⟨t,ht,live',memory'⟩ := range c o positive initialState s (initial c o (inputs initialState))
     live memory (lower c (inputs initialState)) (upper c (inputs initialState))
   refine ⟨t,?_,live',memory'⟩
-  rcases live with ⟨_,_,_,_,_,_,_,_,_,_,_,hlo,hhi⟩
+  rcases live with ⟨_,_,_,_,_,_,_,_,_,_,_,hlo,hhi,_,_,_,_⟩
   have lo : evalOp (engine o.algebra) none (parts c).start s=
       some (fun _ => lower c (inputs initialState)) := hlo
   have hi : evalOp (engine o.algebra) none (parts c).stop s=

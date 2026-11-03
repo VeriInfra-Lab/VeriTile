@@ -1,4 +1,5 @@
-import bench.tritonbench_g.attention_fwd_triton3.RealIO
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.NativeProjection
+import bench.tritonbench_g.attention_fwd_triton3.IO
 
 /-! Native IO keeps the original six arbitrary decoded input arrays and a
 finite, source-free access footprint. Every FP32 storage/operation/cast stays

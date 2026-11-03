@@ -1,9 +1,6 @@
 import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealAccess
 
-/-! Register-only portions of the actual source require no allocation bounds.
-The local certificate is constructed from each concrete AST, then translated
-into the framework's trace-safety predicate. Loads and stores have no certificate
-constructor and are handled by separate active-address proofs. -/
+/-! Allocation-free certificates for internal mathematical register fragments. Loads and stores require separate active-address proofs. Actual repaired-source safety is proved in Proofs/SourceSafety.lean. -/
 namespace VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealRegisterSafety
 open VeriTile.Triton RealAccess
 
