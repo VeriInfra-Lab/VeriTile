@@ -1,0 +1,606 @@
+[
+  {
+    "python": "bench/tritonbench_g/attention_llama/attention_llama.py",
+    "lean": "bench/tritonbench_g/attention_llama/Sources/Body.lean",
+    "python_function": "_fwd_kernel",
+    "lean_definition": "half",
+    "signature_definition": "halfSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp16"
+        ],
+        [
+          "K",
+          "fp16"
+        ],
+        [
+          "V",
+          "fp16"
+        ],
+        [
+          "Out",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_on",
+          "integer"
+        ],
+        [
+          "N_HEAD",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "start_position",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_CAUSAL",
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_DMODEL",
+        "USE_FP8"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "V"
+      ],
+      "writePorts": [
+        "Out"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vk": "stride_vk",
+      "stride_vn": "stride_vn",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_on": "stride_on",
+      "N_HEAD": "N_HEAD",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "start_position": "start_position"
+    },
+    "invocation_variant": "half_storage"
+  },
+  {
+    "python": "bench/tritonbench_g/attention_llama/attention_llama_carry_first.py",
+    "lean": "bench/tritonbench_g/attention_llama/Sources/Body.lean",
+    "python_function": "_fwd_kernel_carry_first",
+    "lean_definition": "carryFirstHalf",
+    "signature_definition": "halfSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp16"
+        ],
+        [
+          "K",
+          "fp16"
+        ],
+        [
+          "V",
+          "fp16"
+        ],
+        [
+          "Out",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_on",
+          "integer"
+        ],
+        [
+          "N_HEAD",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "start_position",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_CAUSAL",
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_DMODEL",
+        "USE_FP8"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "V"
+      ],
+      "writePorts": [
+        "Out"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vk": "stride_vk",
+      "stride_vn": "stride_vn",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_on": "stride_on",
+      "N_HEAD": "N_HEAD",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "start_position": "start_position"
+    },
+    "invocation_variant": "half_storage"
+  },
+  {
+    "python": "bench/tritonbench_g/attention_llama/attention_llama.py",
+    "lean": "bench/tritonbench_g/attention_llama/Sources/Body.lean",
+    "python_function": "_fwd_kernel",
+    "lean_definition": "bytes",
+    "signature_definition": "bytesSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp16"
+        ],
+        [
+          "K",
+          "i8"
+        ],
+        [
+          "V",
+          "i8"
+        ],
+        [
+          "Out",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_on",
+          "integer"
+        ],
+        [
+          "N_HEAD",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "start_position",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_CAUSAL",
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_DMODEL",
+        "USE_FP8"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "V"
+      ],
+      "writePorts": [
+        "Out"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vk": "stride_vk",
+      "stride_vn": "stride_vn",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_on": "stride_on",
+      "N_HEAD": "N_HEAD",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "start_position": "start_position"
+    },
+    "invocation_variant": "signed_e5m2_storage"
+  },
+  {
+    "python": "bench/tritonbench_g/attention_llama/attention_llama_carry_first.py",
+    "lean": "bench/tritonbench_g/attention_llama/Sources/Body.lean",
+    "python_function": "_fwd_kernel_carry_first",
+    "lean_definition": "carryFirstBytes",
+    "signature_definition": "bytesSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp16"
+        ],
+        [
+          "K",
+          "i8"
+        ],
+        [
+          "V",
+          "i8"
+        ],
+        [
+          "Out",
+          "fp16"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_on",
+          "integer"
+        ],
+        [
+          "N_HEAD",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "start_position",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_CAUSAL",
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_DMODEL",
+        "USE_FP8"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "V"
+      ],
+      "writePorts": [
+        "Out"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vk": "stride_vk",
+      "stride_vn": "stride_vn",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_on": "stride_on",
+      "N_HEAD": "N_HEAD",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "start_position": "start_position"
+    },
+    "invocation_variant": "signed_e5m2_storage"
+  }
+]

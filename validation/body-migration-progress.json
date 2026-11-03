@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 174,
-  "staged_count": 175,
+  "staged_count": 176,
   "pending_count": 22,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "LOCAL_PASS_AWAITING_BMM_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 6669,
-    "official_comparator": "174 exact-current independently accepted targets, including all 19 examples. BMM forward is locally validated and awaiting independent replay; 21 targets remain to migrate.",
-    "python_tests": 635,
+    "staged_public_proofs": "LOCAL_PASS_AWAITING_BMM_AND_ATTENTION_LLAMA_OFFICIAL_REPLAY",
+    "staged_and_regression_retained_modules": 6784,
+    "official_comparator": "174 exact-current independently accepted targets, including all 19 examples. BMM forward and Attention Llama are locally validated and awaiting independent acceptance; 20 targets remain to migrate.",
+    "python_tests": 639,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "181 cases (175 targets and six regressions), 6669 retained/support roots, 15342 Lake jobs, 455 public theorem names and 635 Python tests pass. BMM Real/FP axiom audits and both independent mathematical formula checks pass. All 174 accepted closures remain exact current. Completion: 174; BMM forward awaits independent acceptance; 21 targets remain to migrate.",
-    "official_replay_sources": 5672,
+    "working_tree": "182 cases (176 targets and six regressions), 6784 retained/support roots, 15488 Lake jobs, 457 public theorem names and 639 Python tests pass. Attention Llama Real/FP axiom audits and independent mathematical attention checks pass; its original ABI, numerical domains and fixed native model remain unchanged. All 174 accepted closures remain exact current. Completion: 174; two locally verified targets await independent acceptance; 20 targets remain to migrate.",
+    "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,15 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/bmm_chunk_fwd"
+        "bench/tritonbench_g/attention_llama"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 104,
-      "replay_sources": 104,
-      "state": "official_replay_in_progress",
-      "source_commit": "2bf9e7620566cca9c383a6ea17ca7708f1803831",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41684250007"
+      "retained_modules": 115,
+      "replay_sources": 115,
+      "state": "local_pass_awaiting_dispatch"
     },
     "previous_incremental_replays": [
       {
@@ -1212,6 +1210,18 @@
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41649654433",
         "source_commit": "87b7451f69a7b69b2468315f6e7a233e000d969e",
         "receipt": "validation/body_receipts/layer-norm-triton-source-migration.json"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/bmm_chunk_fwd"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 104,
+        "replay_sources": 104,
+        "state": "official_replay_in_progress",
+        "source_commit": "2bf9e7620566cca9c383a6ea17ca7708f1803831",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41684250007"
       }
     ],
     "pending_client_regressions": {
@@ -2560,8 +2570,13 @@
     },
     {
       "path": "bench/tritonbench_g/attention_llama",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "independent_replay": "AWAITING_DISPATCH",
+      "reason": "Four complete original/carry-first source pairs cover FP16 and signed E5M2 byte storage. Original Python, runtime scalar ABI, numerical domains and native selection model are preserved. All 113 owned modules plus the positional-load frontend and semantic regressions pass, including actual public Real/FP specifications, standard-base axiom audits, the independent mathematical attention formula check, four Python mutation/provenance tests and full 182-case integration. Completion requires exact-current official independent replay of all 115 roots; a body comparison or build is not completion."
     },
     {
       "path": "bench/tritonbench_g/attention_score",
