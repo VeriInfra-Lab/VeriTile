@@ -41,7 +41,10 @@ def validate_layout(root, ledger):
         raise ValueError('bench must contain exactly the four benchmark collections')
     tasks = {row['task']: row['kernel_revision'] for row in ledger['tasks']}
     directory = root / 'bench/tritonbench_g'
-    task_directories = list(directory.iterdir())
+    # The body-correspondence gate owns this collection-level source index.
+    # It is metadata for selected tasks, rather than another task directory.
+    task_directories = [p for p in directory.iterdir()
+                        if not (p.name == 'source-references.json' and p.is_file())]
     if {p.name for p in task_directories} != set(tasks) or not all(p.is_dir() for p in task_directories):
         raise ValueError('tritonbench_g must contain exactly the selected task directories')
     for task, selection in tasks.items():

@@ -31,6 +31,20 @@ class BenchLayoutTests(unittest.TestCase):
                     validate_layout(self.root, self.ledger)
                 path.unlink()
 
+    def test_source_reference_index_preserves_strict_task_membership(self):
+        index = self.task.parent / 'source-references.json'
+        index.write_text('{}')
+        validate_layout(self.root, self.ledger)
+        unknown = index.with_name('unreviewed.json')
+        unknown.write_text('{}')
+        with self.assertRaisesRegex(ValueError, 'selected task directories'):
+            validate_layout(self.root, self.ledger)
+        unknown.unlink()
+        index.unlink()
+        index.mkdir()
+        with self.assertRaisesRegex(ValueError, 'selected task directories'):
+            validate_layout(self.root, self.ledger)
+
     def test_version_directory_and_noncanonical_source_are_rejected(self):
         version = self.task / 'revision001'
         version.mkdir()
