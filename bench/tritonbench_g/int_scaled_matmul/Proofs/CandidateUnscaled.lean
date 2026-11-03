@@ -14,19 +14,10 @@ local instance : Inhabited KernelModel.Word := ⟨FP.Value.zero .fp32⟩
 namespace CopyFree
 open BlockWord
 /-- Proof-only decomposition of the full readable candidate. -/
-def epilogue (p : Parameters) : List ComputeStmt :=
-  [.assign .blockPtr [p.blockRows,p.blockColumns] "c_block_ptr"
-    (.alg (.makeBlockPtrDynOffsets p.output (.constNat 0)
-      [p.rows,p.columns] [p.blockRows,p.blockColumns]
-      [p.outputRowStride,p.outputColumnStride]
-      [.mul .nat Broadcast.nil (.ref .nat [] "pid_m") (.constNat p.blockRows),
-       .mul .nat Broadcast.nil (.ref .nat [] "pid_n") (.constNat p.blockColumns)])),
-   .store .int [p.blockRows,p.blockColumns]
-     (.blockPtr (.ref .blockPtr [p.blockRows,p.blockColumns] "c_block_ptr") [0,1])
-     (.alg (.ref .int [p.blockRows,p.blockColumns] "accumulator")) .none]
+def epilogue (p : Parameters) : List ComputeStmt := (Kernels.unscaledCopyFree p).surfaceBody.drop 13
 
 theorem decomposition (p : Parameters) : (Kernels.unscaledCopyFree p).surfaceBody =
-    prelude p ++ [.forRange "k" 0 p.inner p.blockInner (body p)] ++ epilogue p := by rfl
+    prelude p ++ [.forRangeDyn "k" (.constNat 0) (.constNat p.inner) (.constNat p.blockInner) (body p)] ++ epilogue p := by rfl
 def finish {α : Type} [Inhabited α] (M : Algebra α)
     (p : Parameters) (initial current : State α)
     (h : Invariant p initial (steps p) current) :
@@ -35,8 +26,15 @@ def finish {α : Type} [Inhabited α] (M : Algebra α)
   swap
   simp [epilogue, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledCopyFree,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledCopyFreeSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateBody,
+    ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     FP.Structural.bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -54,6 +52,10 @@ theorem finish_memory {α : Type} [Inhabited α] (M : Algebra α)
     TileShape.indexToList,
     FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex,
     and_assoc, and_comm, and_left_comm, Nat.mul_comm]
+  have h32 (x : Int) : (if 2 * ((x % 4294967296).toNat % 4294967296) < 4294967296 then
+      max (x % 4294967296) 0 % 4294967296 else max (x % 4294967296) 0 % 4294967296 - 4294967296) = wrap 32 x := by
+    simpa [IntegerExpr.signedBits,wrap] using signedBits_int_mod 32 x
+  simp only [h32,wrap_accumulation]
 
 
 theorem correctness (rest : Algebra KernelModel.Word) (p : Parameters)
@@ -70,7 +72,7 @@ theorem correctness (rest : Algebra KernelModel.Word) (p : Parameters)
   refine ⟨last.val,?_,?_,?_⟩
   · change run (backend rest) (Kernels.unscaledCopyFree p).surfaceBody initial=some last.val
     rw [decomposition,run_append,run_append,start.property]
-    simp only [Option.bind_some,run,step,ran]
+    simp [run,step,evalOp_unfold,bind,pure,ran]
     exact last.property
   · intro i active
     rw [finish_memory]
@@ -106,8 +108,15 @@ theorem epilogue_safe (M : Algebra KernelModel.Word) (p : Parameters)
     Safety.traceSafeList (backend M) bounds (epilogue p) current := by
   simp [epilogue,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledCopyFree,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledCopyFreeSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateBody,
+    ComputeKernel.surfaceBody,
     singleton_safe,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,FP.Structural.step,evalExpr,evalComputeOp,
@@ -139,11 +148,11 @@ theorem safe (rest : Algebra KernelModel.Word) (p : Parameters) (positive : 0<p.
     rw [start.property] at hs
     cases hs
     rw [singleton_safe,Safety.stepSafe]
-    simpa only [Nat.zero_mul] using BlockSafety.loop_safe rest p positive bounds initial start.val 0
+    simpa only [Nat.zero_mul,Safety.safeOp_unfold,evalOp_unfold,true_and] using BlockSafety.loop_safe rest p positive bounds initial start.val 0
       (by omega) startInv ha hb
   · intro final hf
     rw [run_append,start.property] at hf
-    simp only [Option.bind_some,run,step,executed] at hf
+    simp [run,step,evalOp_unfold,bind,pure,executed] at hf
     cases hf
     exact epilogue_safe rest p bounds initial mid midInv ho
 def one (rest : Algebra KernelModel.Word) (p : Parameters) (pid : Nat) (s : State KernelModel.Word) :=

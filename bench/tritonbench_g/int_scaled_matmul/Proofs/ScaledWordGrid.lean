@@ -69,7 +69,7 @@ theorem single_logical (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word
     intro r c hr hc
     rw [scaled_preserved cfg p initial s ha hb hscale hout]
     exact hdefined r c hr hc
-  obtain ⟨final,he,hread,hframe⟩ := correctness rest cfg u p s
+  obtain ⟨final,he,hread,hframe⟩ := correctness rest cfg u p heven hcover s
     (inputDefined_of_logical cfg p s heven hcover hd) hw
   refine ⟨final,he,?_,?_⟩
   · intro x hx

@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 153,
-      "uncovered_jit_functions": 30
+      "selected_body_copy_checked": 154,
+      "uncovered_jit_functions": 29
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 82,
-    "inventoried_jit_functions": 556,
-    "uncovered_inventoried_jit_functions": 106,
+    "uncovered_selected_jit_functions": 80,
+    "inventoried_jit_functions": 558,
+    "uncovered_inventoried_jit_functions": 104,
     "checked_pair_modes": {
-      "pasted_body": 460
+      "pasted_body": 464
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 153,
-        "uncovered_jit_functions": 30
+        "selected_body_copy_checked": 154,
+        "uncovered_jit_functions": 29
       }
     },
     "primary_files_with_int64_screen_warning": 10,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 17,
-        "antiquotes": 352,
+        "in_body_type_directives": 16,
+        "antiquotes": 351,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 81
       },
@@ -24389,13 +24389,13 @@
       "python": "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul.py",
       "lean": "bench/tritonbench_g/int_scaled_matmul/Kernels.lean",
       "lean_screen": {
-        "quotations": 4,
-        "in_body_type_directives": 2,
-        "antiquotes": 170,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
         "dsl_assignment": 8,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 4
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -24428,35 +24428,150 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul.py",
-          "function": "matmul_kernel_with_block_pointers"
         },
         {
-          "python": "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul.py",
-          "function": "scaled_matmul_kernel_with_block_pointers"
+          "path": "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul_candidates.py",
+          "jits": [
+            {
+              "function": "matmul_kernel_with_block_pointers_copy_free",
+              "line": 8,
+              "statements": 16,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "scaled_matmul_kernel_with_block_pointers_shared_indices",
+              "line": 110,
+              "statements": 23,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel_with_block_pointers",
+          "lean_definition": "unscaledBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "GROUP_M"
+          ],
           "python": "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul.py",
-          "function": "matmul_kernel_with_block_pointers"
+          "lean": "bench/tritonbench_g/int_scaled_matmul/Sources/Body.lean"
         },
         {
+          "python_function": "matmul_kernel_with_block_pointers_copy_free",
+          "lean_definition": "unscaledCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "GROUP_M"
+          ],
+          "python": "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul_candidates.py",
+          "lean": "bench/tritonbench_g/int_scaled_matmul/Sources/Body.lean"
+        },
+        {
+          "python_function": "scaled_matmul_kernel_with_block_pointers",
+          "lean_definition": "scaledBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 25,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "stride_s1m": "integer",
+            "stride_s1n": "integer"
+          },
+          "constexpr_parameters": [
+            "ACC_TYPE",
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "EVEN_K",
+            "GROUP_M"
+          ],
           "python": "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul.py",
-          "function": "scaled_matmul_kernel_with_block_pointers"
+          "lean": "bench/tritonbench_g/int_scaled_matmul/Sources/Body.lean"
+        },
+        {
+          "python_function": "scaled_matmul_kernel_with_block_pointers_shared_indices",
+          "lean_definition": "scaledCandidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 23,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer",
+            "stride_s1m": "integer",
+            "stride_s1n": "integer"
+          },
+          "constexpr_parameters": [
+            "ACC_TYPE",
+            "BLOCK_K",
+            "BLOCK_M",
+            "BLOCK_N",
+            "EVEN_K",
+            "GROUP_M"
+          ],
+          "python": "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul_candidates.py",
+          "lean": "bench/tritonbench_g/int_scaled_matmul/Sources/Body.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/int_scaled_matmul/Kernels.lean": "817b81a3ea628308a085d7379ef6d8988f3751b72cde296c2888d2369cb73728",
-        "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul.py": "17bd051b849369e11f3c2b57440052a8c304722b32985499300ab572c553a33b"
+        "bench/tritonbench_g/int_scaled_matmul/Kernels.lean": "c0b8842eaa55b8e19d398cb30365621014f8934e2166cb6db4923d555922deda",
+        "bench/tritonbench_g/int_scaled_matmul/Sources/Body.lean": "9aad76729a8ff38773c45609206bc2d76f0173982d66e11355e7c052edcf419c",
+        "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul.py": "17bd051b849369e11f3c2b57440052a8c304722b32985499300ab572c553a33b",
+        "bench/tritonbench_g/int_scaled_matmul/int_scaled_matmul_candidates.py": "d608092ff6febe6fd06da7ff66ba6dbaf91167ade59725f2a8c445e157da4ecd",
+        "bench/tritonbench_g/int_scaled_matmul/jit-correspondence.json": "3ee3868209bb96cb29b395cfaeea00dc229d6e1d65e0114dc25e40025822f21a"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/int_scaled_matmul"

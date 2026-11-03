@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 157,
-  "staged_count": 166,
+  "staged_count": 167,
   "pending_count": 39,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_AWAITING_OFFICIAL_REPLAY",
-    "staged_and_regression_retained_modules": 5824,
-    "official_comparator": "157 current targets retain exact-dependency independent receipts, including all 19 examples. Seven previously complete targets are retracted pending fresh current-dependency validation after the int_scaled_matmul migration. Diag SSM and kldiv_ops await independent replay. Compilation is not completion.",
-    "python_tests": 596,
+    "staged_and_regression_retained_modules": 5897,
+    "official_comparator": "157 current targets retain exact-dependency independent receipts, including all 19 examples. Ten locally verified targets await exact-current independent acceptance. Compilation alone is not completion.",
+    "python_tests": 603,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "The last full local snapshot covers 172 cases, 5824 modules and 431 public theorem names. int_scaled_matmul is in progress and is not accepted. Decay Cumsum and Triton Linear Activation are independently accepted. Current independent completion: 157, including all 19 examples; seven transitive dependents of int_scaled_matmul require fresh validation and two other cases await official replay. No completion is inferred from the in-progress source-only check or partial proofs.",
-    "official_replay_sources": 4827,
+    "working_tree": "173 cases (167 targets and six regressions), all 5897 retained/supporting modules, 14583 Lake jobs, 435 public theorem names, 603 Python tests and source-corpus checks pass. Int Scaled Matmul retains both original JIT bodies and both existing candidates; full source execution, independent Real mathematics, FP equivalence, safety, outputs, frames and host/native/IO/compiler bridges are reverified. Independent completion: 157, including all 19 examples. Ten targets await fresh exact-current independent replay (Int Scaled Matmul, its seven affected dependents, Diag SSM and kldiv_ops). Twenty-nine targets remain to migrate.",
+    "official_replay_sources": 4900,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -80,15 +80,13 @@
     ],
     "incremental_replay": {
       "case_paths": [
-        "bench/tritonbench_g/triton_linear_activation"
+        "bench/tritonbench_g/int_scaled_matmul"
       ],
       "manifest": "validation/body-migration-incremental.json",
       "cases": 1,
-      "retained_modules": 45,
-      "replay_sources": 45,
-      "state": "official_replay_in_progress",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41604207975",
-      "source_commit": "0556c435ebac1470f8eaa7463b3a800eacfd113f"
+      "retained_modules": 73,
+      "replay_sources": 73,
+      "state": "local_pass_ready_for_official_replay"
     },
     "previous_incremental_replays": [
       {
@@ -965,6 +963,19 @@
         "state": "official_replay_in_progress",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41597743085",
         "source_commit": "71fae6d6f3909ccc1dd829d70a12cea50349e60e"
+      },
+      {
+        "case_paths": [
+          "bench/tritonbench_g/triton_linear_activation"
+        ],
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": 1,
+        "retained_modules": 45,
+        "replay_sources": 45,
+        "state": "accepted_exact_current",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41604207975",
+        "source_commit": "0556c435ebac1470f8eaa7463b3a800eacfd113f",
+        "receipt": "validation/body_receipts/linear-activation-source-migration.json"
       }
     ],
     "pending_client_regressions": {
@@ -980,7 +991,7 @@
       ],
       "completion_certificate": false
     },
-    "current_work": "Continue int_scaled_matmul and remaining source/proof migrations; collect Diag SSM/dependent kldiv_ops receipts. All 19 examples independently accepted. No merge.",
+    "current_work": "Submit Int Scaled Matmul and its seven rebuilt dependents in bounded official replay batches, collect Diag SSM/kldiv_ops receipts, then continue the remaining 29 source/proof migrations. All 19 examples independently accepted. No merge.",
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1004,15 +1015,15 @@
     },
     "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
     "last_full_local_snapshot": {
-      "cases": 172,
-      "targets": 166,
+      "cases": 173,
+      "targets": 167,
       "regressions": 6,
-      "retained_modules": 5824,
-      "replay_sources": 4827,
-      "lake_jobs": 14520,
+      "retained_modules": 5897,
+      "replay_sources": 4900,
+      "lake_jobs": 14583,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 431,
-      "python_tests": 596,
+      "public_theorem_count": 435,
+      "python_tests": 603,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1365,15 +1376,15 @@
       "reason": "The locked comparator, exporter, landrun and upstream replay patch match previously verified SHA256 values, and the systemd restriction passes. The required Landlock V5 filesystem sandbox cannot run on the local V4 kernel. No independent local proof replay ran and no isolation fallback was used; official CI receipts remain required."
     },
     "previous_full_local_snapshot": {
-      "cases": 171,
-      "targets": 165,
+      "cases": 172,
+      "targets": 166,
       "regressions": 6,
-      "retained_modules": 5779,
-      "replay_sources": 4782,
-      "lake_jobs": 14486,
+      "retained_modules": 5824,
+      "replay_sources": 4827,
+      "lake_jobs": 14520,
       "public_theorem_names": "PASS",
-      "public_theorem_count": 429,
-      "python_tests": 590,
+      "public_theorem_count": 431,
+      "python_tests": 596,
       "current_dependency_snapshot": true,
       "boundary": "Local verification only, not an independent completion receipt."
     },
@@ -1807,7 +1818,39 @@
       "bench/tritonbench_g/matmul_dequantize",
       "bench/tritonbench_g/matmul_dequantize_int4",
       "bench/tritonbench_g/matmul_persistent_triton"
-    ]
+    ],
+    "int_scaled_matmul_source_migration": {
+      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "owned_modules": 65,
+      "shared_frontend_test_modules": 8,
+      "shared_trust_inventory_theorems": 18,
+      "named_semantic_frontend_regressions": 7,
+      "source_pairs": 4,
+      "original_jit_functions": 2,
+      "python_top_level_statements": [
+        17,
+        16,
+        25,
+        23
+      ],
+      "public_theorems": 4,
+      "python_tests": 603,
+      "full_cases": 173,
+      "full_retained_modules": 5897,
+      "full_replay_sources": 4900,
+      "full_lake_jobs": 14583,
+      "public_theorem_count": 435,
+      "dependent_targets_rebuilt": [
+        "bench/tritonbench_g/int8_dequant_matmul",
+        "bench/tritonbench_g/kldiv_triton",
+        "bench/tritonbench_g/llama_ff_triton",
+        "bench/tritonbench_g/matmul_dequant_int4",
+        "bench/tritonbench_g/matmul_dequantize",
+        "bench/tritonbench_g/matmul_dequantize_int4",
+        "bench/tritonbench_g/matmul_persistent_triton"
+      ],
+      "boundary": "Local verification only. Remains incomplete until every required owned/shared independent replay and public theorem is accepted against exact current source/import closures. The seven transitive dependents also require fresh independent acceptance."
+    }
   },
   "targets": [
     {
@@ -2655,10 +2698,10 @@
       "path": "bench/tritonbench_g/int8_dequant_matmul",
       "status": "proof_replay_pending",
       "complete": false,
-      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
+      "reason": "Source body correspondence is unchanged. The complete current integration rebuild and every public theorem pass after int_scaled_matmul changed the transitive LogicalSum/GroupedGrid/GridExecution import closure. Historical acceptance is not reused; fresh exact-current independent replay is required before completion is restored.",
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
       "receipt": "validation/body_receipts/int8-matmul-source-migration.json",
       "validated_source_commit": "16e4b5ba52add9a07857b5c00ff5f70ff3ac5e51",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41368653214",
@@ -2689,8 +2732,12 @@
     },
     {
       "path": "bench/tritonbench_g/int_scaled_matmul",
-      "status": "pending",
-      "complete": false
+      "status": "proof_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Both complete original repaired JIT functions and both materialized existing candidates are copied statement for statement (17/16/25/23 Python top-level statements, including the docstring), with four exact source pairs and whole-module inverse candidate AST verification. Preserved mutable GROUP_M, default ACC_TYPE=int32, exact add.u32 ABI, signed descending K loop, every source load mask/boundary/padding, pointer advance, original rematerializations, mask.shape broadcasts and plain stores. Removed all four old whole-kernel quotations and the hand-written candidate epilogue. Kernels.lean contains typed adapters only; every execution/proof projection reads copied source. Optional frontends freeze initial integer constexpr values without adding statements, resolve the exact integer dtype default, derive shape attributes from typed prefix and interpret declared INT8 storage reads for arbitrary integer carriers. Seven named semantic regressions and all 18 shared trust/inventory theorems pass. Reproved full signed loop execution, empty-K/zero-stride mathematical extension, masked zero-tail stability under existing public premises, unsigned-low-word/signed32 carry, output conversion, source safety, all outputs and exterior frames, independent full-K Real mathematics, both actual FP candidates and host/native/compiler/IO/grid bridges. No new public conditions, narrowed numerical domain or FP equivalence rules. All 65 owned modules, eight shared roots, four public names, complete 173-case integration and 603 Python tests pass locally. Completion requires fresh exact-current independent acceptance; compilation alone is not completion."
     },
     {
       "path": "bench/tritonbench_g/isfinite_kernel",
@@ -2769,13 +2816,13 @@
       "status": "proof_replay_pending",
       "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
       "validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-1.json",
-      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
+      "reason": "Source body correspondence is unchanged. The complete current integration rebuild and every public theorem pass after int_scaled_matmul changed the transitive LogicalSum/GroupedGrid/GridExecution import closure. Historical acceptance is not reused; fresh exact-current independent replay is required before completion is restored.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "receipt": "validation/body_receipts/full-recovery-shard-1.json"
     },
@@ -2940,9 +2987,9 @@
       "status": "proof_replay_pending",
       "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Source body correspondence is unchanged. The complete current integration rebuild and every public theorem pass after int_scaled_matmul changed the transitive LogicalSum/GroupedGrid/GridExecution import closure. Historical acceptance is not reused; fresh exact-current independent replay is required before completion is restored.",
       "independent_replay": "PASS",
       "receipt": "validation/body_receipts/llama-ff-source-migration.json",
       "previously_complete": true,
@@ -3022,9 +3069,9 @@
       "status": "proof_replay_pending",
       "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Source body correspondence is unchanged. The complete current integration rebuild and every public theorem pass after int_scaled_matmul changed the transitive LogicalSum/GroupedGrid/GridExecution import closure. Historical acceptance is not reused; fresh exact-current independent replay is required before completion is restored.",
       "validated_source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840",
       "receipt": "validation/body_receipts/int4-source-dependency-migration.json",
@@ -3036,9 +3083,9 @@
       "status": "proof_replay_pending",
       "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Source body correspondence is unchanged. The complete current integration rebuild and every public theorem pass after int_scaled_matmul changed the transitive LogicalSum/GroupedGrid/GridExecution import closure. Historical acceptance is not reused; fresh exact-current independent replay is required before completion is restored.",
       "validated_source_commit": "ef97a04e9c60e8529474060b8bfd9da36c78e0a6",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41553586330",
       "receipt": "validation/body_receipts/matmul-dequantize-source-migration.json",
@@ -3050,9 +3097,9 @@
       "status": "proof_replay_pending",
       "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Source body correspondence is unchanged. The complete current integration rebuild and every public theorem pass after int_scaled_matmul changed the transitive LogicalSum/GroupedGrid/GridExecution import closure. Historical acceptance is not reused; fresh exact-current independent replay is required before completion is restored.",
       "validated_source_commit": "79e92aafc63f3c66ece14c6f8cdf2feffb474661",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840",
       "receipt": "validation/body_receipts/int4-source-dependency-migration.json",
@@ -3103,9 +3150,9 @@
       "status": "proof_replay_pending",
       "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "retained_modules_build": "PENDING_CURRENT_DEPENDENCY_REVALIDATION",
-      "reason": "The int_scaled_matmul migration changes a transitive imported dependency through its LogicalSum/GroupedGrid/GridExecution helpers. Its historical receipt is retained but is no longer an exact-current acceptance. Source body correspondence is unchanged. Current full proof rebuild and fresh independent replay are required before completion is restored.",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "reason": "Source body correspondence is unchanged. The complete current integration rebuild and every public theorem pass after int_scaled_matmul changed the transitive LogicalSum/GroupedGrid/GridExecution import closure. Historical acceptance is not reused; fresh exact-current independent replay is required before completion is restored.",
       "validated_source_commit": "bd120bba68631e46c230ef960fc9aa9e1d9b97b8",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41416753799",
       "receipt": "validation/body_receipts/persistent-source-migration.json",

@@ -60,7 +60,7 @@ theorem single_logical (rest : Algebra ℝ) (p : Parameters)
     intro i j hi hj he
     apply Geometry.offset_injective (geometry p) hgeo pid i j hi hj
     simpa only [s,offset_at] using he
-  obtain ⟨final,he,hread,hframe⟩ := correctness rest p s hw
+  obtain ⟨final,he,hread,hframe⟩ := correctness rest p heven hcover s hw
   refine ⟨final,he,?_,?_⟩
   · intro x hx
     obtain ⟨i,hr,hc⟩ := hx

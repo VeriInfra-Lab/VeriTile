@@ -141,7 +141,7 @@ theorem result (rest : Algebra KernelModel.Word) (undefined : KernelModel.Word �
     · exact Or.inl same
 theorem single_safe (rest : Algebra KernelModel.Word) (undefined : KernelModel.Word → BitVec 32)
     (p : ScaledWord.Parameters)
-    (even : p.even=Bool.true → p.inner=p.steps*p.blockInner)
+    (even : p.even=Bool.true → p.inner=p.steps*p.blockInner) (cover : p.inner≤p.steps*p.blockInner)
     (nonempty : 0<p.rows ∧ 0<p.columns) (bounds : RegionName → Nat)
     (ha : ∀ r k,r<p.rows → k<p.inner →
       r*p.inputRowStride+k*p.inputInnerStride<bounds p.input)
@@ -153,7 +153,7 @@ theorem single_safe (rest : Algebra KernelModel.Word) (undefined : KernelModel.W
     (initial : State KernelModel.Word) :
     TraceSafe (ScaledWord.backend rest Native.sourceConfig (KernelModel.fallback undefined))
       bounds (Kernels.scaledSharedIndices p) initial := by
-  apply SharedIndices.safe
+  apply SharedIndices.safe rest Native.sourceConfig (KernelModel.fallback undefined) p even cover
   · intro k hk i live
     have inner := active_inner p even k hk i.2.1 live
     have bound := ha (ScaledWord.inputRow p initial i.1) (k*p.blockInner+i.2.1.val)
@@ -173,7 +173,7 @@ theorem single_safe (rest : Algebra KernelModel.Word) (undefined : KernelModel.W
 
 theorem schedule_safe (rest : Algebra KernelModel.Word) (undefined : KernelModel.Word → BitVec 32)
     (p : ScaledWord.Parameters) (geometry : Geometry.Valid (ScaledWord.geometry p))
-    (even : p.even=Bool.true → p.inner=p.steps*p.blockInner) (bounds : RegionName → Nat)
+    (even : p.even=Bool.true → p.inner=p.steps*p.blockInner) (cover : p.inner≤p.steps*p.blockInner) (bounds : RegionName → Nat)
     (ha : ∀ r k,r<p.rows → k<p.inner →
       r*p.inputRowStride+k*p.inputInnerStride<bounds p.input)
     (hb : ∀ k c,k<p.inner → c<p.columns →
@@ -188,7 +188,7 @@ theorem schedule_safe (rest : Algebra KernelModel.Word) (undefined : KernelModel
   | nil => trivial
   | cons pid pids ih =>
     refine ⟨?_,fun next _ => ih (fun q hq => reached q (by simp [hq])) next⟩
-    exact single_safe rest undefined p even
+    exact single_safe rest undefined p even cover
       (reached_nonempty p geometry pid (reached pid (by simp))) bounds ha hb hs ho
       (GridExecution.atProgram initial pid)
 
@@ -200,7 +200,7 @@ theorem complete (rest : Algebra KernelModel.Word) (undefined : KernelModel.Word
   apply ProgramIO.Implements.intro
   · intro vals bounds hbound initial _
     by_cases live : 0<p.rows ∧ 0<p.columns
-    · apply schedule_safe rest undefined p geometry even bounds
+    · apply schedule_safe rest undefined p geometry even cover bounds
       · intro r k hr hk
         exact hbound.2.1 (0 : Fin 3) (⟨r,hr⟩,⟨k,hk⟩,PUnit.unit) live
       · intro k c hk hc

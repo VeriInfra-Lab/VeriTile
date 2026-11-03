@@ -63,6 +63,10 @@ def accumulation {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Na
   | 0 => fun _ => 0
   | k+1 => fun i => wrap 32 (accumulation p s k i +
       (FP.IntegerDot.wordDot [] (aValue p s k) (bValue p s k) i).toInt)
+@[simp] theorem wrap_accumulation {α : Type} [Inhabited α] (p : Parameters) (s : State α) (k : Nat) (i : CIndex p) :
+    wrap 32 (accumulation p s k i)=accumulation p s k i := by
+  cases k <;> simp [accumulation,wrap,BitVec.ofInt_toInt]
+
 def outputValue {α : Type} [Inhabited α] (p : Parameters) (s : State α) := accumulation p s (steps p)
 
 theorem before_stop (p : Parameters) (hBK : 0 < p.blockInner) (k : Nat) :
