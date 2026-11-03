@@ -13,7 +13,7 @@ abbrev source := VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled
 
 def prelude (p : Parameters) := (source p).surfaceBody.take 12
 def originalBody (p : Parameters) : List ComputeStmt := match (source p).surfaceBody[12]? with
-  | some (ComputeStmt.forRange _ _ _ _ code) => code
+  | some (ComputeStmt.forRangeDyn _ _ _ _ code) => code
   | _ => []
 def body (p : Parameters) := originalBody p
 def epilogue (p : Parameters) := (source p).surfaceBody.drop 13
@@ -28,8 +28,10 @@ abbrev original := VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled
 abbrev source := VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled
 
 def prelude (p : Parameters) := (source p).surfaceBody.take 16
-def originalBody (p : Parameters) : List ComputeStmt := match (source p).surfaceBody[16]? with
-  | some (ComputeStmt.forRange _ _ _ _ code) => code
+def statement (p : Parameters) : ComputeStmt := ((source p).surfaceBody[16]?).getD (.effectMarker "missing loop")
+def mirror (p : Parameters) (k : Nat) : Int := (k*p.blockInner:Int)-(p.inner:Int)
+def originalBody (p : Parameters) : List ComputeStmt := match statement p with
+  | ComputeStmt.forRangeInt _ _ _ _ code => code
   | _ => []
 def body (p : Parameters) := originalBody p
 def epilogue (p : Parameters) := (source p).surfaceBody.drop 17

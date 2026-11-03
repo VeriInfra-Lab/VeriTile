@@ -1,3 +1,4 @@
+import bench.tritonbench_g.int_scaled_matmul.Sources.Word32
 import bench.tritonbench_g.int_scaled_matmul.Sources.Kernels
 import bench.tritonbench_g.int_scaled_matmul.Sources.Mathematical_IntScaledMatmul
 import VeriTile.Triton.Float.IntegerDot
@@ -15,7 +16,7 @@ def backend {α : Type} (rest : Algebra α) : Algebra α :=
 
 theorem original_decomposition (p : Parameters) :
     (original p).surfaceBody = prelude p ++
-      [.forRange "k" 0 p.inner p.blockInner (originalBody p)] ++ epilogue p := by rfl
+      [.forRangeDyn "k" (.constNat 0) (.constNat p.inner) (.constNat p.blockInner) (originalBody p)] ++ epilogue p := by rfl
 
 theorem source_boundaries (p : Parameters) :
     (body p)[0]? = some (.assign .int [p.blockRows,p.blockInner] "a"

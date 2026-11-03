@@ -33,7 +33,12 @@ def preludeExecution {α : Type} [Inhabited α] (M : Algebra α)
   simp [prelude, original, int_scaled_matmul_matmul_surface, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateBody,
+    ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, eval_intToSigned, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -60,7 +65,12 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α)
   simp [body, originalBody, original, int_scaled_matmul_matmul_surface, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateBody,
+    ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, eval_intToSigned, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -97,6 +107,7 @@ theorem bodyInvariant {α : Type} [Inhabited α] (M : Algebra α)
       max (x % 4294967296) 0 % 4294967296 else max (x % 4294967296) 0 % 4294967296 - 4294967296) = wrap 32 x := by
       simpa using expandedWrap 32 x
     simp only [h8, h32]
+    try exact Word32.unsigned_then_signed _
 
 #axiomsClean preludeExecution
 #axiomsClean preludeInvariant

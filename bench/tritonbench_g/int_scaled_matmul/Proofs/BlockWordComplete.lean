@@ -48,7 +48,12 @@ def epilogueExecution {α : Type} [Inhabited α] (M : Algebra α)
   simp [epilogue, original, int_scaled_matmul_matmul_surface, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateBody,
+    ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     FP.Structural.bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -71,9 +76,13 @@ theorem epilogueMemory {α : Type} [Inhabited α] (M : Algebra α)
     TileShape.indexToList,
     FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex,
     and_assoc, and_comm, and_left_comm, Nat.mul_comm]
+  have h32 (x : Int) : (if 2 * ((x % 4294967296).toNat % 4294967296) < 4294967296 then
+      max (x % 4294967296) 0 % 4294967296 else max (x % 4294967296) 0 % 4294967296 - 4294967296) = wrap 32 x := by
+    simpa [IntegerExpr.signedBits,wrap] using signedBits_int_mod 32 x
+  simp only [h32,wrap_accumulation]
 
 theorem source_decomposition (p : Parameters) :
-    (source p).surfaceBody = prelude p ++ [.forRange "k" 0 p.inner p.blockInner (body p)] ++ epilogue p := by
+    (source p).surfaceBody = prelude p ++ [.forRangeDyn "k" (.constNat 0) (.constNat p.inner) (.constNat p.blockInner) (body p)] ++ epilogue p := by
   rfl
 
 def Post {α : Type} (p : Parameters) (initial final : State α) (values : CIndex p → Int) : Prop :=
@@ -96,9 +105,9 @@ theorem correctness {α : Type} [Inhabited α] (M : Algebra α)
   · change run (backend M) (source p).surfaceBody initial = some finish.val
     rw [source_decomposition, run_append, run_append, start.property]
     have hsingle (s : State α) :
-        run (backend M) [.forRange "k" 0 p.inner p.blockInner (body p)] s =
+        run (backend M) [.forRangeDyn "k" (.constNat 0) (.constNat p.inner) (.constNat p.blockInner) (body p)] s =
           FP.Structural.range (backend M) "k" 0 p.inner p.blockInner (body p) s := by
-      simp [run, step]
+      simp [run, step, evalOp_unfold]
     simp only [Option.bind_some, hsingle, hm]
     exact finish.property
   · intro i hi

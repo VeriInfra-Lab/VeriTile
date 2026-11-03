@@ -35,49 +35,36 @@ theorem prelude_indices (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Wor
 
 
 theorem loop (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
-    (p : Parameters) (initial current : State Word) (k : Nat) (hk : k≤p.steps)
-    (h : Invariant p initial k current) (indices : Indices p initial current) :
-    ∃ final,FP.Structural.range (backend rest cfg u) "j" k p.steps 1 (body p) current=some final ∧
-      Invariant p initial p.steps final ∧ Indices p initial final := by
-  have aux : ∀ n k (current : State Word),p.steps-k=n → k≤p.steps →
-      Invariant p initial k current → Indices p initial current →
-      ∃ final,FP.Structural.range (backend rest cfg u) "j" k p.steps 1 (body p) current=some final ∧
-        Invariant p initial p.steps final ∧ Indices p initial final := by
-    intro n
-    induction n using Nat.strong_induction_on with
-    | h n ih =>
-      intro k current hn hk h indices
-      by_cases live : k<p.steps
-      · let next := bodyExecution rest cfg u p initial current k h
-        have ni : Indices p initial next.val := by
-          constructor <;> simp [next,bodyExecution,bodyResult,indices.rows,indices.columns]
-        obtain ⟨final,ran,hi,fi⟩ := ih (p.steps-(k+1)) (by omega) (k+1) next.val rfl (by omega)
-          (bodyInvariant rest cfg u p initial current k h) ni
-        refine ⟨final,?_,hi,fi⟩
-        rw [FP.Structural.range,if_neg (by decide),if_pos live,next.property]
-        exact ran
-      · have eq : k=p.steps := by omega
-        subst k
-        refine ⟨current,?_,h,indices⟩
-        rw [FP.Structural.range,if_neg (by decide),if_neg (by omega)]
-  exact aux _ _ _ rfl hk h indices
+    (p : Parameters) (heven : p.even=Bool.true → p.inner=p.steps*p.blockInner)
+    (cover : p.inner≤p.steps*p.blockInner)
+    (initial current : State Word) (k : Nat) (hk : k≤p.steps)
+    (h : Invariant p initial k current) (_indices : Indices p initial current) :
+    ∃ final,FP.Structural.rangeInt (backend rest cfg u) "__rev_k" (mirror p k) 0 p.blockInner (body p) current=some final ∧
+      OutputReady p initial final ∧ Indices p initial final := by
+  obtain ⟨final,ran,ready⟩:=ScaledWord.loopExecution rest cfg u p heven cover initial current k hk h
+  exact ⟨final,ran,ready,ready.rows,ready.columns⟩
 
 /-- Proof-only split; the authoritative candidate is the direct triton block. -/
 def epilogue (p : Parameters) := (ScaledWord.epilogue p).drop 2
 
 theorem decomposition (p : Parameters) : (Kernels.scaledSharedIndices p).surfaceBody =
-    prelude p ++ [.forRange "j" 0 p.steps 1 (body p)] ++ epilogue p := by rfl
+    prelude p ++ [statement p] ++ epilogue p := by rfl
 
 def finish (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
     (p : Parameters) (initial current : State Word)
-    (h : Invariant p initial p.steps current) (indices : Indices p initial current) :
+    (h : OutputReady p initial current) (indices : Indices p initial current) :
     {t : State Word // run (backend rest cfg u) (epilogue p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
   simp [epilogue, ScaledWord.epilogue, original, typedScaled, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateBody,
+    ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     FP.Structural.bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -90,7 +77,7 @@ def finish (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
 
 theorem finish_memory (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
     (p : Parameters) (initial current : State Word)
-    (h : Invariant p initial p.steps current) (indices : Indices p initial current) :
+    (h : OutputReady p initial current) (indices : Indices p initial current) :
     (finish rest cfg u p initial current h indices).val.mem = (TotalScaled.written cfg u p initial).mem := by
   simp +contextual [finish, TotalScaled.written, masked_scatter_memory, h.memory,
     active, outputOffset, outputRow, outputColumn, TotalScaled.expected, scaled,
@@ -99,30 +86,32 @@ theorem finish_memory (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word 
 
 
 theorem executionMemory (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
-    (p : Parameters) (initial : State Word) :
+    (p : Parameters) (heven : p.even=Bool.true → p.inner=p.steps*p.blockInner)
+    (cover : p.inner≤p.steps*p.blockInner) (initial : State Word) :
     ∃ final, FP.Structural.exec (backend rest cfg u) (Kernels.scaledSharedIndices p) initial = some final ∧
       final.mem = (TotalScaled.written cfg u p initial).mem := by
   let start := preludeExecution rest cfg u p initial
-  obtain ⟨mid, hm, hi, indices⟩ := loop rest cfg u p initial start.val 0 (by omega)
+  obtain ⟨mid, hm, hi, indices⟩ := loop rest cfg u p heven cover initial start.val 0 (by omega)
     (preludeInvariant rest cfg u p initial) (prelude_indices rest cfg u p initial)
   let finish := finish rest cfg u p initial mid hi indices
   refine ⟨finish.val, ?_, finish_memory rest cfg u p initial mid hi indices⟩
   change run (backend rest cfg u) (Kernels.scaledSharedIndices p).surfaceBody initial = some finish.val
-  rw [show (Kernels.scaledSharedIndices p).surfaceBody = prelude p ++ [.forRange "j" 0 p.steps 1 (body p)] ++ epilogue p from decomposition p,
+  rw [show (Kernels.scaledSharedIndices p).surfaceBody = prelude p ++ [statement p] ++ epilogue p from decomposition p,
     run_append, run_append, start.property]
   have hsingle (s : State Word) :
-      run (backend rest cfg u) [.forRange "j" 0 p.steps 1 (body p)] s =
-        FP.Structural.range (backend rest cfg u) "j" 0 p.steps 1 (body p) s := by simp [run,step]
+      run (backend rest cfg u) [statement p] s =
+        FP.Structural.rangeInt (backend rest cfg u) "__rev_k" (mirror p 0) 0 p.blockInner (body p) s := by simpa [run] using ScaledWord.statement_step (backend rest cfg u) p s
   simp only [Option.bind_some, hsingle, hm]
   exact finish.property
 
 theorem correctness (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
-    (p : Parameters) (initial : State Word)
+    (p : Parameters) (heven : p.even=Bool.true → p.inner=p.steps*p.blockInner)
+    (cover : p.inner≤p.steps*p.blockInner) (initial : State Word)
     (hw : ∀ i j, active p initial i → active p initial j →
       outputOffset p initial i = outputOffset p initial j → i = j) :
     ∃ final, FP.Structural.exec (backend rest cfg u) (Kernels.scaledSharedIndices p) initial = some final ∧
       Post p initial final (TotalScaled.expected cfg u p initial) := by
-  obtain ⟨final,he,hm⟩ := executionMemory rest cfg u p initial
+  obtain ⟨final,he,hm⟩ := executionMemory rest cfg u p heven cover initial
   refine ⟨final,he,?_,?_⟩
   · intro i hi
     rw [hm]
@@ -138,14 +127,19 @@ private theorem singleton_safe (M : Algebra Word) (bounds : RegionName → Nat)
   simp
 theorem epilogue_safe (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
     (p : Parameters) (bounds : RegionName → Nat) (initial current : State Word)
-    (h : Invariant p initial p.steps current) (indices : Indices p initial current)
+    (h : OutputReady p initial current) (indices : Indices p initial current)
     (hs : ∀ i : CIndex p,active p initial i → outputRow p initial i*p.scaleRowStride<bounds p.scale)
     (ho : ∀ i : CIndex p,active p initial i → outputOffset p initial i<bounds p.output) :
     Safety.traceSafeList (backend rest cfg u) bounds (epilogue p) current := by
   simp [epilogue,ScaledWord.epilogue,original,typedScaled,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateBody,
+    ComputeKernel.surfaceBody,
     singleton_safe,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,Safety.precisionContext,
@@ -161,7 +155,8 @@ theorem epilogue_safe (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word 
     exact ho (r,c,PUnit.unit) ⟨hr,hc⟩
 
 theorem safe (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
-    (p : Parameters) (bounds : RegionName → Nat) (initial : State Word)
+    (p : Parameters) (heven : p.even=Bool.true → p.inner=p.steps*p.blockInner)
+    (cover : p.inner≤p.steps*p.blockInner) (bounds : RegionName → Nat) (initial : State Word)
     (ha : ∀ k,k<p.steps → ∀ i : AIndex p,
       p.even=Bool.true ∨ inputInner p initial i.2.1<p.inner-k*p.blockInner →
       aOffset p initial k i<bounds p.input)
@@ -173,7 +168,7 @@ theorem safe (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
     TraceSafe (backend rest cfg u) bounds (Kernels.scaledSharedIndices p) initial := by
   let start := preludeExecution rest cfg u p initial
   have startInv := preludeInvariant rest cfg u p initial
-  obtain ⟨mid,executed,midInv,indices⟩ := loop rest cfg u p initial start.val 0 (by omega) startInv
+  obtain ⟨mid,executed,midInv,indices⟩ := loop rest cfg u p heven cover initial start.val 0 (by omega) startInv
     (prelude_indices rest cfg u p initial)
   change Safety.traceSafeList (backend rest cfg u) bounds (Kernels.scaledSharedIndices p).surfaceBody initial
   rw [decomposition]
@@ -184,11 +179,11 @@ theorem safe (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
     intro s hs
     rw [start.property] at hs
     cases hs
-    rw [singleton_safe,Safety.stepSafe]
-    exact ScaledSafety.loop_safe rest cfg u p bounds initial start.val 0 (by omega) startInv ha hb
+    rw [singleton_safe,ScaledWord.statement_safety]
+    exact ScaledSafety.loop_safe rest cfg u p cover bounds initial start.val 0 (by omega) startInv ha hb
   · intro final hf
     rw [run_append,start.property] at hf
-    simp only [Option.bind_some,run,step,executed] at hf
+    simp [Option.bind_some,run,ScaledWord.statement_step,executed] at hf
     cases hf
     exact epilogue_safe rest cfg u p bounds initial mid midInv indices hs ho
 
@@ -212,7 +207,7 @@ theorem single_logical (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word
     intro i j hi hj he
     apply Geometry.offset_injective (geometry p) hgeo pid i j hi hj
     simpa only [s,offset_at] using he
-  obtain ⟨final,he,hread,hframe⟩ := correctness rest cfg u p s hw
+  obtain ⟨final,he,hread,hframe⟩ := correctness rest cfg u p heven hcover s hw
   refine ⟨final,he,?_,?_⟩
   · intro x hx
     obtain ⟨i,hr,hc⟩ := hx

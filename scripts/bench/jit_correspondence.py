@@ -552,6 +552,10 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                                "FloatDType.bf16", "FloatDType.f8e4", "FloatDType.f8e5"}:
                     declaration = (prefix + r"\s*:\s*FloatDType\s*:=\s*(?:\.|FloatDType\.)" +
                                    re.escape(value.split(".")[1]) + r"\b")
+                elif value in {"SourceDType.i8", "SourceDType.i16", "SourceDType.i32", "SourceDType.i64",
+                               "SourceDType.u8", "SourceDType.u16", "SourceDType.u32", "SourceDType.u64"}:
+                    declaration = (prefix + r"\s*:\s*SourceDType\s*:=\s*(?:\.|SourceDType\.)" +
+                                   re.escape(value.split(".")[1]) + r"\b")
                 else:
                     raise ValueError("unsupported closed constexpr specialization")
                 if (name not in constants
