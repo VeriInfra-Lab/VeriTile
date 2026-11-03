@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 167,
+  "completed_count": 169,
   "staged_count": 178,
-  "pending_count": 29,
+  "pending_count": 27,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "LOCAL_PASS_TWO_MIGRATIONS_AND_NINE_DEPENDENCIES_AWAIT_OFFICIAL_ACCEPTANCE",
     "staged_and_regression_retained_modules": 6933,
-    "official_comparator": "167 exact-current independently accepted targets, including all 19 examples. Nine shared-dependency cases and two new migrations await exact-current official acceptance; 18 further targets remain to migrate.",
+    "official_comparator": "169 exact-current independently accepted targets, including all 19 examples. Seven shared-dependency cases and two new migrations await official acceptance; 18 further targets remain to migrate.",
     "python_tests": 648,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "184 cases (178 targets and six regressions), 6933 retained/support roots, 15647 Lake jobs, 463 public theorem names and 648 Python tests pass. INT8 quantization/GEMM and spinning-lock source migrations are locally verified and await official independent acceptance. 167 targets have exact-current receipts; nine dependencies await replay; 18 further targets remain to migrate.",
+    "working_tree": "184 cases (178 targets and six regressions), 6933 retained/support roots, 15647 Lake jobs, 463 public theorem names and 648 Python tests pass. INT8 quantization/GEMM and spinning-lock source migrations are locally verified and await official independent acceptance. 169 targets have exact-current receipts; seven dependencies await replay; 18 further targets remain to migrate.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -2487,7 +2487,7 @@
       "official_receipt": "validation/body_receipts/layer-norm-triton-source-migration.json"
     },
     "int8_matmul_quantization_dependency_revalidation": {
-      "status": "OFFICIAL_REPLAY_IN_PROGRESS",
+      "status": "SEVEN_TARGETS_OFFICIAL_REPLAY_PENDING",
       "shared_source": "VeriTile/Triton/Float/IntegerDot.lean",
       "affected_targets": [
         "bench/tritonbench_g/int8_dequant_matmul",
@@ -2539,7 +2539,8 @@
             "bench/tritonbench_g/llama_ff_triton"
           ],
           "roots": 103,
-          "status": "IN_PROGRESS"
+          "status": "PASS",
+          "receipt": "validation/body_receipts/signed-accumulator-dependents-group2.json"
         }
       }
     },
@@ -3638,8 +3639,8 @@
     },
     {
       "path": "bench/tritonbench_g/kldiv_triton",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
@@ -3647,10 +3648,10 @@
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/kldiv-llama-ff-current-dependency-replay.json",
-      "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
+      "reason": "Fresh shared-dependency independent replay accepted every required owned/shared root and public theorem against exact current source/import closures. Official ZIP SHA256, source-pair metadata and all 103 result roots verified. Compilation alone is not completion.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697483077",
-      "receipt": "validation/body_receipts/kldiv-llama-ff-current-dependency-replay.json",
-      "independent_replay": "IN_PROGRESS"
+      "receipt": "validation/body_receipts/signed-accumulator-dependents-group2.json",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/ksoftmax_triton",
@@ -3830,14 +3831,14 @@
     },
     {
       "path": "bench/tritonbench_g/llama_ff_triton",
-      "status": "shared_dependency_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
-      "independent_replay": "IN_PROGRESS",
-      "receipt": "validation/body_receipts/kldiv-llama-ff-current-dependency-replay.json",
+      "reason": "Fresh shared-dependency independent replay accepted every required owned/shared root and public theorem against exact current source/import closures. Official ZIP SHA256, source-pair metadata and all 103 result roots verified. Compilation alone is not completion.",
+      "independent_replay": "PASS",
+      "receipt": "validation/body_receipts/signed-accumulator-dependents-group2.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/kldiv-llama-ff-current-dependency-replay.json",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697483077",
