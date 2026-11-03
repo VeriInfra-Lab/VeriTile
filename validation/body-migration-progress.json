@@ -2496,7 +2496,7 @@
       "official_receipt": "validation/body_receipts/layer-norm-triton-source-migration.json"
     },
     "int8_matmul_quantization_dependency_revalidation": {
-      "status": "FIVE_TARGETS_OFFICIAL_REPLAY_PENDING",
+      "status": "ALL_NINE_TARGETS_ACCEPTED_EXACT_CURRENT",
       "shared_source": "VeriTile/Triton/Float/IntegerDot.lean",
       "affected_targets": [
         "bench/tritonbench_g/int8_dequant_matmul",
@@ -2539,7 +2539,8 @@
             "bench/tritonbench_g/int_scaled_matmul"
           ],
           "roots": 267,
-          "status": "IN_PROGRESS"
+          "status": "PASS",
+          "receipt": "validation/body_receipts/signed-accumulator-dependents-group1.json"
         },
         "2": {
           "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697483077",
@@ -2611,7 +2612,7 @@
     "streamk_matmul_source_migration": {
       "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
       "owned_modules": 77,
-      "shared_replay_roots": 2,
+      "shared_replay_roots": 3,
       "source_pairs": 12,
       "original_jit_functions": 6,
       "python_top_level_statements": [
@@ -2638,7 +2639,9 @@
       "boundary": "Every source, public Real/FP specification, safety, axiom and exact-current official independent replay gate is required. Local compilation is not completion.",
       "source_commit": "5afba8bb0725c3b4bebc91fa7d426290ba1f5943",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478",
-      "independent_replay": "IN_PROGRESS"
+      "independent_replay": "FAILED_AWAITING_REPLAY_OF_FIX",
+      "previous_failed_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478",
+      "previous_failure": "78/79 roots accepted; SourceAdapter inventory parse failed because the audit import reserves the local binder full. Renamed that binder to fullKernel and replayed its audit-prepared source locally. Restored the StreamKControlSource regression under the current Invocation ABI and added it to required replay roots."
     }
   },
   "targets": [
@@ -4703,8 +4706,8 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "IN_PROGRESS",
-      "reason": "All six repaired JIT functions and all six candidate JIT functions have exact pasted bodies. Source retains every cast, loop, helper argument, ACC_TYPE token, masked read/store and atomic. Caller ABI/dtype and helper identities are separately checked; the bundle links calls to the actual supplied source members. All 77 owned plus two shared frontend/regression roots, actual public Real/FP statements, standard-base axiom and independent-formula audits, 653 Python tests and complete 185-case integration pass. Existing numerical, finite-width and concurrent domains remain unchanged. Exact-current official independent acceptance of all 79 roots is still required; compilation alone is not completion.",
+      "independent_replay": "FAILED_AWAITING_REPLAY_OF_FIX",
+      "reason": "All 12 pasted bodies and the public Real/FP proofs remain checked. Official run 41715124478 accepted 78/79 roots and rejected SourceAdapter inventory parsing. The local binder collision is fixed and the audit-prepared adapter elaborates. All 78 module roots build; both frontend/StreamK regression files and five Python tests pass. The added StreamK regression is now a third shared replay root. All 80 exact-current independent replays are required; this task remains incomplete.",
       "validated_source_commit": "5afba8bb0725c3b4bebc91fa7d426290ba1f5943",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478"
     },
