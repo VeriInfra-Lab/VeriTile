@@ -80,14 +80,10 @@
     ],
     "incremental_replay": {
       "status": "PREPARED",
-      "scope": "Signed accumulator shared dependency revalidation group 0",
+      "scope": "Signed accumulator shared dependency revalidation group 1",
       "manifest": "validation/body-migration-incremental.json",
-      "cases": [
-        "bench/tritonbench_g/int8_dequant_matmul",
-        "bench/tritonbench_g/matmul_persistent_triton"
-      ],
-      "roots": 123,
-      "note": "Historical receipts are not current closure acceptance; no completion is restored from the passing local build."
+      "roots": 267,
+      "note": "Exact-current final official acceptance remains required."
     },
     "previous_incremental_replays": [
       {
@@ -1235,6 +1231,19 @@
         "state": "official_replay_in_progress",
         "source_commit": "6d6fc7c62e3c832d903417a0bc583886fcc89368",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41692029325"
+      },
+      {
+        "status": "IN_PROGRESS",
+        "scope": "Signed accumulator shared dependency revalidation group 0",
+        "manifest": "validation/body-migration-incremental.json",
+        "cases": [
+          "bench/tritonbench_g/int8_dequant_matmul",
+          "bench/tritonbench_g/matmul_persistent_triton"
+        ],
+        "roots": 123,
+        "note": "Historical receipts are not current closure acceptance; no completion is restored from the passing local build.",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697137018",
+        "validated_source_commit": "a3ba6474162641f0142b45fb815202065c1bcac5"
       }
     ],
     "pending_client_regressions": {
@@ -2471,7 +2480,19 @@
       "public_theorems": 28,
       "lake_jobs": 9049,
       "python_tests": 643,
-      "signed_coordinate_regressions": "PASS: signed slots, missing signed slot, unchanged default Nat slots"
+      "signed_coordinate_regressions": "PASS: signed slots, missing signed slot, unchanged default Nat slots",
+      "official_groups": {
+        "0": {
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697137018",
+          "validated_source_commit": "a3ba6474162641f0142b45fb815202065c1bcac5",
+          "cases": [
+            "bench/tritonbench_g/int8_dequant_matmul",
+            "bench/tritonbench_g/matmul_persistent_triton"
+          ],
+          "roots": 123,
+          "status": "IN_PROGRESS"
+        }
+      }
     }
   },
   "targets": [
@@ -3387,11 +3408,11 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "receipt": "validation/body_receipts/int8-dequant-persistent-current-dependency-replay.json",
-      "validated_source_commit": "0de885b0d98e0eb88e26462912d46caa3ca4b51e",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613238634",
+      "validated_source_commit": "a3ba6474162641f0142b45fb815202065c1bcac5",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697137018",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/int8-dequant-persistent-current-dependency-replay.json",
-      "independent_replay": "PENDING_CURRENT_SOURCE_CLOSURE"
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_kernel",
@@ -3874,12 +3895,12 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "The strict signed accumulator coordinate profile extends VeriTile/Triton/Float/IntegerDot.lean. The previous receipt is retained as historical evidence; this changed current transitive source closure must be locally rebuilt and independently replayed before completion can be restored.",
-      "validated_source_commit": "0de885b0d98e0eb88e26462912d46caa3ca4b51e",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41613238634",
+      "validated_source_commit": "a3ba6474162641f0142b45fb815202065c1bcac5",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697137018",
       "receipt": "validation/body_receipts/int8-dequant-persistent-current-dependency-replay.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/int8-dequant-persistent-current-dependency-replay.json",
-      "independent_replay": "PENDING_CURRENT_SOURCE_CLOSURE"
+      "independent_replay": "IN_PROGRESS"
     },
     {
       "path": "bench/tritonbench_g/matmul_tma",
