@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 171,
+  "completed_count": 172,
   "staged_count": 179,
-  "pending_count": 25,
+  "pending_count": 24,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "LOCAL_PASS_THREE_MIGRATIONS_AND_SEVEN_DEPENDENCIES_AWAIT_OFFICIAL_ACCEPTANCE",
+    "staged_public_proofs": "LOCAL_PASS_TWO_MIGRATIONS_AND_FIVE_DEPENDENCIES_AWAIT_OFFICIAL_ACCEPTANCE",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "171 exact-current independently accepted targets, including all 19 examples. Five shared-dependency cases and three new migrations await official acceptance; 17 further targets remain to migrate.",
+    "official_comparator": "172 exact-current independently accepted targets, including all 19 examples. Five shared-dependency cases and two new migrations await official acceptance; 17 further targets remain to migrate.",
     "python_tests": 653,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "185 cases (179 targets and six regressions), 7012 retained/support roots, 15726 Lake jobs, 465 public theorem names and 653 Python tests pass. INT8 quantization/GEMM, spinning-lock and StreamK migrations are locally verified and await official independent acceptance. 171 targets have exact-current receipts; five dependencies await replay; 17 further targets remain to migrate.",
+    "working_tree": "185 cases (179 targets and six regressions), 7012 retained/support roots, 15726 Lake jobs, 465 public theorem names and 653 Python tests pass. Spinning-lock has complete exact-current official independent acceptance. INT8 quantization/GEMM and StreamK await official acceptance; five dependencies await replay; 17 further targets remain to migrate.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -2585,7 +2585,7 @@
       "independent_replay": "IN_PROGRESS"
     },
     "spinning_lock_reduction_source_migration": {
-      "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
+      "local_validation": "PASS",
       "owned_modules": 63,
       "shared_replay_roots": 2,
       "source_pairs": 2,
@@ -2601,10 +2601,11 @@
       "full_replay_sources": 5936,
       "full_lake_jobs": 15647,
       "public_theorem_count": 463,
-      "boundary": "Every source, real/FP specification, safety, axiom and exact-current official independent replay gate is required. Local compilation is not completion.",
+      "boundary": "Complete exact-current source/ABI, independent mathematical Real/FP specifications, safety, axioms and all 65 official replay roots accepted. No GPU execution performed.",
       "source_commit": "836a1fd97949feace3e22d875fbdfec4586af009",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41712813739",
-      "independent_replay": "IN_PROGRESS"
+      "independent_replay": "PASS",
+      "receipt": "validation/body_receipts/spinning-lock-source-migration.json"
     },
     "streamk_matmul_source_migration": {
       "local_validation": "PASS_AWAITING_OFFICIAL_REPLAY",
@@ -4667,15 +4668,16 @@
     },
     {
       "path": "bench/tritonbench_g/spinning_lock_reduction",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "IN_PROGRESS",
-      "reason": "Both complete original/candidate Python function bodies are pasted without variable renaming or cast deletion, retaining negative-view branches, all CAS operands/retries, barriers, nine rounds and all stores. The caller ABI and false view flags are separately checked against the repaired wrapper input gate. All 63 owned plus two frontend/regression roots, both actual public Real/FP statements, axiom/non-circularity audits, 648 Python tests and full 184-case integration pass. Existing public numeric/concurrency domains are unchanged. Completion still requires exact-current official independent acceptance of all 65 roots; compilation alone is not completion.",
+      "independent_replay": "PASS",
+      "reason": "Both full original/candidate Python function bodies, caller ABI and view flags are bound to the repaired source. All 63 owned and two frontend/regression roots, actual public Real/FP specifications, source safety and axiom audits pass. Official independent replay accepts exactly all 65 frozen roots with unchanged source; the current complete source/import closure and all public theorem names match the receipt. Existing numeric/concurrency domains are preserved.",
       "validated_source_commit": "836a1fd97949feace3e22d875fbdfec4586af009",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41712813739"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41712813739",
+      "receipt": "validation/body_receipts/spinning-lock-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/square_matrix",
