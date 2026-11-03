@@ -19,13 +19,24 @@ theorem coefficientPhase_safe (bias : Bool) (weightRegion biasRegion : RegionNam
     Stmt.TraceSafeList bounds (Affine.loadPhase bias weightRegion biasRegion weightName biasName block) s := by
   unfold Affine.loadPhase
   apply TraceProofs.assign_cons (coefficientOp_safe weightRegion N block s bounds hcols hmask hw)
-  intro value
-  rw [singleton, if_const]
+  intro rawWeight
+  apply TraceProofs.assign_cons
+  · simp [Op.SafeAt.eq_def]
+  intro weight
+  rw [singleton,if_const]
   intro hf
-  rw [singleton]
-  simpa only [Stmt.TraceSafe] using
-    coefficientOp_safe biasRegion N block (s.setReg weightName .real [block] value) bounds
-      (by simpa [hwc] using hcols) (by simpa [hwm] using hmask) (hb hf)
+  apply TraceProofs.assign_cons
+  · apply coefficientOp_safe biasRegion N block _ bounds
+    · by_cases h : weightName="w" <;>
+        simpa [Affine.privateWeight,h,hwc] using hcols
+    · by_cases h : weightName="w" <;>
+        simpa [Affine.privateWeight,h,hwm] using hmask
+    · exact hb hf
+  intro rawBias
+  apply TraceProofs.assign_cons
+  · simp [Op.SafeAt.eq_def]
+  intro bias
+  exact Stmt.TraceSafeList.nil_intro
 
 theorem affineOutput_safe (bias : Bool) (weightName biasName outputName pointer : RegName)
     (region : RegionName) (start N block : Nat) (s : BlockState) (bounds : RegionBounds)

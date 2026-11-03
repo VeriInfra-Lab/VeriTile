@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 159,
-      "uncovered_jit_functions": 24
+      "selected_body_copy_checked": 160,
+      "uncovered_jit_functions": 23
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 75,
-    "inventoried_jit_functions": 568,
-    "uncovered_inventoried_jit_functions": 99,
+    "uncovered_selected_jit_functions": 74,
+    "inventoried_jit_functions": 569,
+    "uncovered_inventoried_jit_functions": 98,
     "checked_pair_modes": {
-      "pasted_body": 479
+      "pasted_body": 481
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 159,
-        "uncovered_jit_functions": 24
+        "selected_body_copy_checked": 160,
+        "uncovered_jit_functions": 23
       }
     },
     "primary_files_with_int64_screen_warning": 5,
@@ -27905,27 +27905,105 @@
               ]
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+        },
         {
-          "python": "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd.py",
-          "function": "_layer_norm_fwd_1pass_kernel"
+          "path": "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd_candidates.py",
+          "jits": [
+            {
+              "function": "_layer_norm_fwd_1pass_kernel_index_commuted",
+              "line": 12,
+              "statements": 24,
+              "explicit_int64_casts": [
+                {
+                  "line": 13,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_layer_norm_fwd_1pass_kernel",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {
+            "eps": "fp32",
+            "dropout_p": "fp32",
+            "stride_x_row": "integer",
+            "stride_y_row": "integer",
+            "stride_res_row": "integer",
+            "stride_res_out_row": "integer",
+            "stride_x1_row": "integer",
+            "stride_y1_row": "integer",
+            "M": "integer",
+            "N": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "HAS_B1",
+            "HAS_BIAS",
+            "HAS_DROPOUT",
+            "HAS_RESIDUAL",
+            "HAS_ROWSCALE",
+            "HAS_W1",
+            "HAS_X1",
+            "IS_RMS_NORM",
+            "STORE_DROPOUT_MASK",
+            "STORE_RESIDUAL_OUT"
+          ],
           "python": "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd.py",
-          "function": "_layer_norm_fwd_1pass_kernel"
+          "lean": "bench/tritonbench_g/layer_norm_fwd/Sources/Body.lean"
+        },
+        {
+          "python_function": "_layer_norm_fwd_1pass_kernel_index_commuted",
+          "lean_definition": "indexCommutedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {
+            "eps": "fp32",
+            "dropout_p": "fp32",
+            "stride_x_row": "integer",
+            "stride_y_row": "integer",
+            "stride_res_row": "integer",
+            "stride_res_out_row": "integer",
+            "stride_x1_row": "integer",
+            "stride_y1_row": "integer",
+            "M": "integer",
+            "N": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "HAS_B1",
+            "HAS_BIAS",
+            "HAS_DROPOUT",
+            "HAS_RESIDUAL",
+            "HAS_ROWSCALE",
+            "HAS_W1",
+            "HAS_X1",
+            "IS_RMS_NORM",
+            "STORE_DROPOUT_MASK",
+            "STORE_RESIDUAL_OUT"
+          ],
+          "python": "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd_candidates.py",
+          "lean": "bench/tritonbench_g/layer_norm_fwd/Sources/Body.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
         "bench/tritonbench_g/layer_norm_fwd/Kernels.lean": "10264c6f31ed44caed24b2b817130313facdf4ba7a15a641cff939be605b9e4c",
-        "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd.py": "0b53dbb1504fd27fad7a00e9ed2be38b63468eb6d7b88b744507c51fded7fcc1"
+        "bench/tritonbench_g/layer_norm_fwd/Sources/Body.lean": "f2794daaca160d38399c23e007369322e567ad51d351fc4caca71ddcb9561758",
+        "bench/tritonbench_g/layer_norm_fwd/jit-correspondence.json": "b074a15bd1f48a1a508ad1348090474d0d746ead32e4024562a6a3650e20a592",
+        "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd.py": "0b53dbb1504fd27fad7a00e9ed2be38b63468eb6d7b88b744507c51fded7fcc1",
+        "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd_candidates.py": "7b1e7ebd9608589f4095fa903274a04c6d688f199d3c29b3331579dfdafae7ee"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/layer_norm_fwd"

@@ -22,7 +22,9 @@ def firstLoadedState (f : Flags) (r : Regions) (N block : Nat) (s : BlockState) 
 
 theorem firstLoadedState_regs (f : Flags) (r : Regions) (N block : Nat) (s : BlockState)
     (dtype : TileDType) (shape : TileShape) (name : RegName)
-    (hm : name ≠ "mask") (hw : name ≠ "w") (hb : name ≠ "b") :
+    (hm : name ≠ "mask") (hw : name ≠ "w") (hb : name ≠ "b")
+    (hl5 : name ≠ privateWeight "w" := by first | assumption | decide)
+    (hl6 : name ≠ privateBias "b" := by first | assumption | decide) :
     (firstLoadedState f r N block s).regs dtype shape name = s.regs dtype shape name := by
   rw [firstLoadedState, loadState_regs _ _ _ _ _ _ _ _ _ _ _ hw hb]
   simp [maskedState, hm]
@@ -40,7 +42,9 @@ def firstNormalizedState (f : Flags) (r : Regions) (N block : Nat)
 theorem firstNormalizedState_regs (f : Flags) (r : Regions) (N block : Nat)
     (x : Nat → ℝ) (mean rstd : ℝ) (s : BlockState)
     (dtype : TileDType) (shape : TileShape) (name : RegName)
-    (hm : name ≠ "mask") (hw : name ≠ "w") (hb : name ≠ "b") (hx : name ≠ "x_hat") :
+    (hm : name ≠ "mask") (hw : name ≠ "w") (hb : name ≠ "b") (hx : name ≠ "x_hat")
+    (hl5 : name ≠ privateWeight "w" := by first | assumption | decide)
+    (hl6 : name ≠ privateBias "b" := by first | assumption | decide) :
     (firstNormalizedState f r N block x mean rstd s).regs dtype shape name =
       s.regs dtype shape name := by
   rw [firstNormalizedState, BlockState.setReg_ne_name _ _ _ _ _ _ _ _ hx]
@@ -121,7 +125,9 @@ theorem firstState_regs (f : Flags) (r : Regions) (start N block : Nat)
     (x : Nat → ℝ) (mean rstd : ℝ) (s : BlockState)
     (dtype : TileDType) (shape : TileShape) (name : RegName)
     (hm : name ≠ "mask") (hw : name ≠ "w") (hb : name ≠ "b")
-    (hx : name ≠ "x_hat") (hy : name ≠ "y") :
+    (hx : name ≠ "x_hat") (hy : name ≠ "y")
+    (hl5 : name ≠ privateWeight "w" := by first | assumption | decide)
+    (hl6 : name ≠ privateBias "b" := by first | assumption | decide) :
     (firstState f r start N block x mean rstd s).regs dtype shape name =
       s.regs dtype shape name := by
   rw [firstState, outputState_regs _ _ _ _ _ _ _ _ _ _ _ _ _ hy]

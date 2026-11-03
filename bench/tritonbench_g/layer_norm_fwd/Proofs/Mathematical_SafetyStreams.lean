@@ -12,22 +12,22 @@ set_option linter.unusedSimpArgs false
 
 theorem scalarLoad_safe (region : RegionName) (row : Nat) (s : BlockState)
     (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row)) (hb : row < bounds region) :
-    (Op.load .real (.region region (.ref .nat [] "row")) .none).SafeAt bounds s := by
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row)) (hb : row < bounds region) :
+    (Op.load .real (.region region (Op.ref .int [] "row").castIntToNat) .none).SafeAt bounds s := by
   simp [Op.SafeAt, MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
     MaskOpt.Active, evalOp, hrow, hb, Region.cast]
 
 theorem secondScalarLoad_safe (region : RegionName) (M row : Nat) (s : BlockState)
     (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row)) (hb : M+row < bounds region) :
-    (Op.load .real (.region region (InputSuffix.secondRowOp M)) .none).SafeAt bounds s := by
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row)) (hb : M+row < bounds region) :
+    (Op.load .real (.region region (InputSuffix.secondRowOp M).castIntToNat) .none).SafeAt bounds s := by
   simp [InputSuffix.secondRowOp, Op.SafeAt, MemAccess.ActiveAddressSafe,
     memAccessActiveAddressSafe, MaskOpt.Active, evalOp, hrow, hb, Region.cast,
     Tile.bop, NumericDType.add]
 
 theorem scale_safe (enabled : Bool) (region : RegionName) (row block : Nat)
     (s : BlockState) (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hb : enabled = Bool.true → row < bounds region) :
     Stmt.TraceSafeList bounds (Execution.scalePhase enabled region block) s := by
   rw [Execution.scalePhase, singleton, if_const]
@@ -39,7 +39,7 @@ theorem scale_safe (enabled : Bool) (region : RegionName) (row block : Nat)
 
 theorem secondScale_safe (enabled : Bool) (region : RegionName) (M row block : Nat)
     (s : BlockState) (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hb : enabled = Bool.true → M+row < bounds region) :
     Stmt.TraceSafeList bounds (InputSuffix.scalePhase enabled region M block) s := by
   rw [InputSuffix.scalePhase, singleton, if_const]
@@ -51,7 +51,7 @@ theorem secondScale_safe (enabled : Bool) (region : RegionName) (M row block : N
 
 theorem dropout_safe (enabled storeMask : Bool) (seeds mask : RegionName)
     (row N block : Nat) (p : ℝ) (s : BlockState) (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
     (hseed : enabled = Bool.true → row < bounds seeds)
     (hmask : enabled = Bool.true → storeMask = Bool.true →
@@ -76,7 +76,7 @@ theorem dropout_safe (enabled storeMask : Bool) (seeds mask : RegionName)
 
 theorem secondDropout_safe (enabled storeMask : Bool) (seeds mask : RegionName)
     (M row N block : Nat) (p : ℝ) (s : BlockState) (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
     (hseed : enabled = Bool.true → M+row < bounds seeds)
     (hmask : enabled = Bool.true → storeMask = Bool.true →

@@ -17,7 +17,7 @@ set_option linter.unusedSimpArgs false
 
 def Ready {α : Type} (f : Flags) (r : Regions) (stride : Strides)
     (block row : Nat) (s : State α) : Prop :=
-  s.regs .nat [] "row" = some (fun _ => row) ∧
+  s.regs .int [] "row" = some (fun _ => (row : Int)) ∧
   s.regs .nat [block] "cols" = some (fun j => j.1.val) ∧
   s.regs .ptr [] "Y" = some (fun _ => (r.y,row*stride.y)) ∧
   (f.x1=Bool.true → s.regs .ptr [] "X1" = some (fun _ => (r.x1,row*stride.x1))) ∧
@@ -37,11 +37,12 @@ theorem prefix_success {α : Type} [Inhabited α] (A : Algebra α)
       Ready f r stride block (s.pids 0) t := by
   rcases f with ⟨rms,res,resout,bias,drop,mask,scale,x1,w1,b1⟩
   cases res <;> cases resout <;> cases x1 <;> cases w1
-  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [stagePrefix,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,bop,natLt,
-    numericLt,Cell.read,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,
+    numericLt,numericEq,Cell.read,ofFloat,toFloat,Region.cast,Random.i32ArangeSize,
     State.setReg,Ready]
+  all_goals try simp only [←Nat.cast_mul,Int.toNat_natCast]
   all_goals (repeat' apply And.intro)
   all_goals (funext i; cases i; simp [FP.Structural.bop])
 

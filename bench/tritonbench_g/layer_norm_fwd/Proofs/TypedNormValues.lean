@@ -29,10 +29,10 @@ theorem normalization_values {α : Type} [Inhabited α] (A : Algebra α)
     (f.rms=Bool.false → t.regs .real [] "mean"=some (fun _ => meanValue A N v)) := by
   rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
   cases hrms : f.rms
-  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
-    numericLt,Region.cast,Random.i32ArangeSize,TileShape.axisDim,
+    numericLt,numericEq,Region.cast,Random.i32ArangeSize,TileShape.axisDim,
     hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hrms] at ht
   all_goals subst t
   all_goals simp [rstdValue,varianceValue,meanValue,centeredValues,lit,op,
@@ -48,13 +48,13 @@ theorem normalization_rstd_readback {α : Type} [Inhabited α] (A : Algebra α)
     (s t : State α) (hs : Ready f r stride block row s)
     (v : Values α .real [block]) (hx : s.regs .real [block] "x"=some v)
     (ht : run (engine A) (normalization f r stride M N eps p block hb) s=some t) :
-    t.mem r.rstd row=Cell.mk .real (cast A (rstdValue A f.rms N eps v)) := by
+    t.mem r.rstd row=Cell.mk .real (rstdValue A f.rms N eps v) := by
   rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
   cases hrms : f.rms
-  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [normalization,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
-    numericLt,Region.cast,Random.i32ArangeSize,TileShape.axisDim,
+    numericLt,numericEq,Region.cast,Random.i32ArangeSize,TileShape.axisDim,
     hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hrms] at ht
   all_goals subst t
   all_goals simp [rstdValue,varianceValue,meanValue,centeredValues,lit,op,cast,

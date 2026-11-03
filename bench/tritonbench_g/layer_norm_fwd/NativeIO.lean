@@ -77,11 +77,11 @@ def logicalInputs (a : Arrays r M N α) : Inputs α where
   seeds:=lookup (fun j=>a 8 (j,()))
 
 def loaded (A : Algebra α) (N : Nat) (values : Nat → α) (col : Nat) : α :=
-  TypedSource.cast A (if col<N then values col else TypedSource.lit A 0)
+  TypedSource.cast A ((engine A).fp32Load (if col<N then values col else TypedSource.lit A 0))
 
 def stream (A : Algebra α) (cmp : TypedSource.Comparisons A) (f : Flags)
     (values : Inputs α) (row : Nat) (p : ℝ) (v : Values α .real [block]) : Values α .real [block] := fun j=>
-  let scaled:=if f.rowscale then TypedSource.op A .mul (v j) (TypedSource.cast A (values.rowscale row)) else v j
+  let scaled:=if f.rowscale then TypedSource.op A .mul (v j) (TypedSource.cast A ((engine A).fp32Load (values.rowscale row))) else v j
   if f.dropout then
     if TypedSource.keepValue A cmp (values.seeds row) p j.1.val
     then TypedSource.op A .div scaled (TypedSource.op A .sub (TypedSource.lit A 1) (TypedSource.lit A p))
@@ -111,10 +111,10 @@ def target (A : Algebra α) (cmp : TypedSource.Comparisons A) (f : Flags)
       (TypedSource.normalizedValues A f.rms N eps (values (j.1.val/N))
         (⟨j.1.val%N,lt_of_lt_of_le (Nat.mod_lt _ (by have:=j.1.isLt; nlinarith)) width⟩,()))
       (loaded A N inputs.weight1 (j.1.val%N)) (loaded A N inputs.bias1 (j.1.val%N))
-  | ⟨2,_⟩ => TypedSource.cast A (TypedSource.meanValue A N (values j.1.val))
-  | ⟨3,_⟩ => TypedSource.cast A (TypedSource.rstdValue A f.rms N eps (values j.1.val))
-  | ⟨4,_⟩ => TypedSource.cast A (values (j.1.val/N)
-      (⟨j.1.val%N,lt_of_lt_of_le (Nat.mod_lt _ (by have:=j.1.isLt; nlinarith)) width⟩,()))
+  | ⟨2,_⟩ => TypedSource.meanValue A N (values j.1.val)
+  | ⟨3,_⟩ => TypedSource.rstdValue A f.rms N eps (values j.1.val)
+  | ⟨4,_⟩ => values (j.1.val/N)
+      (⟨j.1.val%N,lt_of_lt_of_le (Nat.mod_lt _ (by have:=j.1.isLt; nlinarith)) width⟩,())
   | ⟨5,_⟩ => TypedSource.keepValue A cmp (inputs.seeds (j.1.val/N)) p (j.1.val%N)
   | ⟨6,_⟩ => TypedSource.keepValue A cmp (inputs.seeds (M+j.1.val/N)) p (j.1.val%N)
 

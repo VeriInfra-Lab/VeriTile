@@ -19,13 +19,13 @@ def defaultOp {α : Type} (A : Algebra α) (b : Binary) (x y : α) : α :=
 def cast {α : Type} (A : Algebra α) (x : α) : α :=
   (engine A).cast (some .fp32) .real .real x
 def scalarLoad {α : Type} [Inhabited α] (A : Algebra α) (s : State α)
-    (region : RegionName) (offset : Nat) : α := cast A ((s.mem region offset).read .real)
+    (region : RegionName) (offset : Nat) : α := cast A ((engine A).fp32Load ((s.mem region offset).read .real))
 def randomValue {α : Type} (A : Algebra α) (seed : Int) (col : Nat) : α :=
   (engine A).fp32Bits ⟨(Random.rand ((seed % (2^32 : Int)).toNat : Int)
     (col : Int) .bits32 7).bits⟩
 def keepValue {α : Type} (A : Algebra α) (cmp : Comparisons A)
     (seed : Int) (p : ℝ) (col : Nat) : Bool :=
-  cmp.lt none .real ((engine A).literal none .real p) (randomValue A seed col)
+  cmp.lt none .real ((engine A).literal (some .fp32) .real p) (randomValue A seed col)
 def streamValues {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comparisons A)
     (f : Flags) (s : State α) (r : Regions) (index : Nat) (p : ℝ)
     (v : Values α .real [block]) : Values α .real [block] := fun j =>
@@ -44,7 +44,7 @@ def combinedValues {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comparison
   fun j => if f.residual then op A .add (both j) (raw A s r.residual (row*stride.residual) N j.1.val) else both j
 
 def meanValue {α : Type} (A : Algebra α) (N : Nat) (v : Values α .real [block]) : α :=
-  op A .div ((engine A).reduceSum (some .fp32) 0 Bool.false v PUnit.unit) (lit A N)
+  op A .div ((engine A).reduceSum (some .fp32) 0 Bool.false v PUnit.unit) ((engine A).fromNat (some .fp32) N)
 def centeredValues {α : Type} (A : Algebra α) (rms : Bool) (N : Nat)
     (v : Values α .real [block]) : Values α .real [block] := fun j =>
   if j.1.val<N then if rms then v j else op A .sub (v j) (meanValue A N v) else lit A 0

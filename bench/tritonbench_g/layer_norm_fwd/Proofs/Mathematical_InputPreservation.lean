@@ -32,16 +32,17 @@ theorem loadState_pointers (f : Flags) (r : Regions) (stride : Strides) (N block
 
 theorem firstStreamState_regs (f : Flags) (r : Regions) (stride : Strides) (N block : Nat)
     (p : ℝ) (u : BlockState) (dtype : TileDType) (shape : TileShape) (name : RegName)
-    (hx : name ≠ "x") (hs : name ≠ "rowscale") (hk : name ≠ "keep_mask") :
+    (hx : name ≠ "x") (hs : name ≠ "rowscale") (hk : name ≠ "keep_mask")
+    (hl1 : name ≠ "__veritile_load_1" := by first | assumption | decide) :
     (firstStreamState f r stride N block p u).regs dtype shape name =
       (loadState f r stride N block u).regs dtype shape name := by
   cases hscale : f.rowscale <;> cases hdrop : f.dropout <;> cases hmask : f.dropoutMask
   all_goals simp [firstStreamState, firstScaledState, scaleState,
-    dropoutState, dropoutBase, hscale, hdrop, hmask, hx, hs, hk]
+    dropoutState, dropoutBase, hscale, hdrop, hmask, hx, hs, hk,hl1]
 
 theorem firstStreamState_row (f : Flags) (r : Regions) (stride : Strides) (N block : Nat)
     (p : ℝ) (u : BlockState) :
-    (firstStreamState f r stride N block p u).regs .nat [] "row" =
+    (firstStreamState f r stride N block p u).regs .int [] "row" =
       some (Tile.scalar u.pid) := by
   rw [firstStreamState_regs _ _ _ _ _ _ _ _ _ _ (by decide) (by decide) (by decide)]
   exact loadState_row f r stride N block u
@@ -73,11 +74,12 @@ theorem bodyState_regs (f : Flags) (r : Regions) (M row start N block : Nat)
     (p : ℝ) (x : Fin block → ℝ) (s : BlockState)
     (dtype : TileDType) (shape : TileShape) (name : RegName)
     (hx : name ≠ "x") (hx1 : name ≠ "x1")
-    (hrs : name ≠ "rowscale") (hkeep : name ≠ "keep_mask") :
+    (hrs : name ≠ "rowscale") (hkeep : name ≠ "keep_mask")
+    (hl2 : name ≠ "__veritile_load_2" := by first | assumption | decide) (hl3 : name ≠ "__veritile_load_3" := by first | assumption | decide) :
     (bodyState f r M row start N block p x s).regs dtype shape name =
       s.regs dtype shape name := by
   rw [bodyState, BlockState.setReg_ne_name _ _ _ _ _ _ _ _ hx]
-  exact droppedState_regs f r M row start N block p s dtype shape name hx1 hrs hkeep
+  exact droppedState_regs f r M row start N block p s dtype shape name hx1 hrs hkeep hl2 hl3
 
 theorem bodyState_readsUnchanged (f : Flags) (r : Regions) (M row start N block : Nat)
     (p : ℝ) (x : Fin block → ℝ) (s : BlockState) (hN : N ≤ block)

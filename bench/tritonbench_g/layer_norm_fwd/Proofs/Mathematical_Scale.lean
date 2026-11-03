@@ -11,7 +11,8 @@ set_option linter.unusedSimpArgs false
 
 def scalePhase (enabled : Bool) (r : RegionName) (block : Nat) : List Stmt :=
   [.ifThen (.constBool enabled)
-    [.assign .real [] "rowscale" (.load .real (.region r (.ref .nat [] "row")) .none),
+    [.assign .real [] "__veritile_load_1" (.load .real (.region r (Op.ref .int [] "row").castIntToNat) .none),
+     .assign .real [] "rowscale" (.ref .real [] "__veritile_load_1"),
      .assign .real [block] "x" (.mul .real .scalarR
        (.ref .real [block] "x") (.ref .real [] "rowscale"))]]
 
@@ -22,7 +23,7 @@ theorem source_scalePhase (f : Flags) (r : Regions) (stride : Strides)
   have hproj : (original f r stride M N eps p block hBlock).toAlgorithm? =
       .ok (original f r stride M N eps p block hBlock).toAlgKernel := rfl
   simp only [source, ComputeKernel.eraseDType, hproj, ComputeKernel.toAlgKernel_fromKernelBody]
-  simp only [original, scalePhase, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  simp only [original, scalePhase, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody,
     ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind,
@@ -42,13 +43,13 @@ def scaleState (enabled : Bool) (r : RegionName) (row block : Nat)
     (values : Fin block → ℝ) (s : BlockState) : BlockState :=
   if enabled then
     let factor := s.readMem r row
-    let t := s.setReg "rowscale" .real [] (Tile.scalar (some factor))
+    let t := (s.setReg "__veritile_load_1" .real [] (Tile.scalar (some factor))).setReg "rowscale" .real [] (Tile.scalar (some factor))
     t.setReg "x" .real [block] (realTile (fun j => values j * factor))
   else s
 
 theorem scalePhase_exec (enabled : Bool) (r : RegionName) (row block : Nat)
     (values : Fin block → ℝ) (s : BlockState)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hx : s.regs .real [block] "x" = some (realTile values)) :
     stepStmts (scalePhase enabled r block) s =
       some (scaleState enabled r row block values s) := by
@@ -71,7 +72,7 @@ theorem scaleState_x (enabled : Bool) (r : RegionName) (row block : Nat)
 
 theorem scaleState_row (enabled : Bool) (r : RegionName) (row block : Nat)
     (values : Fin block → ℝ) (s : BlockState) :
-    (scaleState enabled r row block values s).regs .nat [] "row" = s.regs .nat [] "row" := by
+    (scaleState enabled r row block values s).regs .int [] "row" = s.regs .int [] "row" := by
   cases enabled <;> simp [scaleState]
 
 theorem scaleState_cols (enabled : Bool) (r : RegionName) (row block : Nat)

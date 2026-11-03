@@ -1,0 +1,324 @@
+[
+  {
+    "python": "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd.py",
+    "lean": "bench/tritonbench_g/layer_norm_fwd/Sources/Body.lean",
+    "python_function": "_layer_norm_fwd_1pass_kernel",
+    "lean_definition": "originalBody",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "RESIDUAL",
+          "fp32"
+        ],
+        [
+          "X1",
+          "fp32"
+        ],
+        [
+          "W1",
+          "fp32"
+        ],
+        [
+          "B1",
+          "fp32"
+        ],
+        [
+          "Y1",
+          "fp32"
+        ],
+        [
+          "RESIDUAL_OUT",
+          "fp32"
+        ],
+        [
+          "ROWSCALE",
+          "fp32"
+        ],
+        [
+          "SEEDS",
+          "i64"
+        ],
+        [
+          "DROPOUT_MASK",
+          "boolean"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ],
+        [
+          "Rstd",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "eps",
+          "fp32"
+        ],
+        [
+          "dropout_p",
+          "fp32"
+        ],
+        [
+          "stride_x_row",
+          "integer"
+        ],
+        [
+          "stride_y_row",
+          "integer"
+        ],
+        [
+          "stride_res_row",
+          "integer"
+        ],
+        [
+          "stride_res_out_row",
+          "integer"
+        ],
+        [
+          "stride_x1_row",
+          "integer"
+        ],
+        [
+          "stride_y1_row",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_RMS_NORM",
+        "BLOCK_N",
+        "HAS_RESIDUAL",
+        "STORE_RESIDUAL_OUT",
+        "HAS_BIAS",
+        "HAS_DROPOUT",
+        "STORE_DROPOUT_MASK",
+        "HAS_ROWSCALE",
+        "HAS_X1",
+        "HAS_W1",
+        "HAS_B1"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "B",
+        "RESIDUAL",
+        "X1",
+        "W1",
+        "B1",
+        "ROWSCALE",
+        "SEEDS"
+      ],
+      "writePorts": [
+        "Y",
+        "Y1",
+        "RESIDUAL_OUT",
+        "DROPOUT_MASK",
+        "Mean",
+        "Rstd"
+      ]
+    },
+    "expected_call_bindings": {
+      "eps": "eps",
+      "dropout_p": "dropout_p",
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "stride_x1_row": "stride_x1_row",
+      "stride_y1_row": "stride_y1_row",
+      "M": "M",
+      "N": "N"
+    },
+    "expected_integer_args": {},
+    "expected_arange_args": {
+      "BLOCK_N": "hBlock"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd_candidates.py",
+    "lean": "bench/tritonbench_g/layer_norm_fwd/Sources/Body.lean",
+    "python_function": "_layer_norm_fwd_1pass_kernel_index_commuted",
+    "lean_definition": "indexCommutedBody",
+    "signature_definition": "signature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ],
+        [
+          "B",
+          "fp32"
+        ],
+        [
+          "RESIDUAL",
+          "fp32"
+        ],
+        [
+          "X1",
+          "fp32"
+        ],
+        [
+          "W1",
+          "fp32"
+        ],
+        [
+          "B1",
+          "fp32"
+        ],
+        [
+          "Y1",
+          "fp32"
+        ],
+        [
+          "RESIDUAL_OUT",
+          "fp32"
+        ],
+        [
+          "ROWSCALE",
+          "fp32"
+        ],
+        [
+          "SEEDS",
+          "i64"
+        ],
+        [
+          "DROPOUT_MASK",
+          "boolean"
+        ],
+        [
+          "Mean",
+          "fp32"
+        ],
+        [
+          "Rstd",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "eps",
+          "fp32"
+        ],
+        [
+          "dropout_p",
+          "fp32"
+        ],
+        [
+          "stride_x_row",
+          "integer"
+        ],
+        [
+          "stride_y_row",
+          "integer"
+        ],
+        [
+          "stride_res_row",
+          "integer"
+        ],
+        [
+          "stride_res_out_row",
+          "integer"
+        ],
+        [
+          "stride_x1_row",
+          "integer"
+        ],
+        [
+          "stride_y1_row",
+          "integer"
+        ],
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "IS_RMS_NORM",
+        "BLOCK_N",
+        "HAS_RESIDUAL",
+        "STORE_RESIDUAL_OUT",
+        "HAS_BIAS",
+        "HAS_DROPOUT",
+        "STORE_DROPOUT_MASK",
+        "HAS_ROWSCALE",
+        "HAS_X1",
+        "HAS_W1",
+        "HAS_B1"
+      ],
+      "readPorts": [
+        "X",
+        "W",
+        "B",
+        "RESIDUAL",
+        "X1",
+        "W1",
+        "B1",
+        "ROWSCALE",
+        "SEEDS"
+      ],
+      "writePorts": [
+        "Y",
+        "Y1",
+        "RESIDUAL_OUT",
+        "DROPOUT_MASK",
+        "Mean",
+        "Rstd"
+      ]
+    },
+    "expected_call_bindings": {
+      "eps": "eps",
+      "dropout_p": "dropout_p",
+      "stride_x_row": "stride_x_row",
+      "stride_y_row": "stride_y_row",
+      "stride_res_row": "stride_res_row",
+      "stride_res_out_row": "stride_res_out_row",
+      "stride_x1_row": "stride_x1_row",
+      "stride_y1_row": "stride_y1_row",
+      "M": "M",
+      "N": "N"
+    },
+    "expected_integer_args": {},
+    "expected_arange_args": {
+      "BLOCK_N": "hBlock"
+    }
+  }
+]

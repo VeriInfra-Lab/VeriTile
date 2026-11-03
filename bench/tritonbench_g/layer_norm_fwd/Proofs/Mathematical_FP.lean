@@ -18,11 +18,11 @@ theorem prefix_run (f : Flags) (r : Regions) (stride : Strides)
     {α : Type} [Inhabited α] (A : FP.Structural.Algebra α) (u : FP.Structural.State α) :
     FP.Structural.run A ((original f r stride M N eps p block hBlock).surfaceBody.take 2) u =
       FP.Structural.run A ((candidate f r stride M N eps p block hBlock).surfaceBody.take 2) u := by
-  simp [original, candidate, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted, FP.Structural.run, FP.Structural.step,
+  simp [original, candidate, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody, FP.Structural.run, FP.Structural.step,
     FP.Structural.evalExpr, FP.Structural.evalOp_unfold, FP.Structural.numeric]
   congr 1
   funext i
-  simp [FP.Structural.bop, Nat.mul_comm]
+  simp [FP.Structural.bop, Int.mul_comm]
 
 theorem suffix (f : Flags) (r : Regions) (stride : Strides)
     (M N : Nat) (eps p : ℝ) (block : Nat) (hBlock : Random.ArangeSizeDomain block) :

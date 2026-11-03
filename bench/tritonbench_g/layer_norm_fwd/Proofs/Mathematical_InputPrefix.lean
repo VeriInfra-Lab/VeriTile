@@ -48,7 +48,10 @@ theorem secondStmt_exec (f : Flags) (r : Regions) (stride : Strides) (M N block 
 theorem secondState_regs (f : Flags) (r : Regions) (stride : Strides) (M N block : Nat)
     (p : ℝ) (u : BlockState) (dtype : TileDType) (shape : TileShape) (name : RegName)
     (hx : name ≠ "x") (hx1 : name ≠ "x1")
-    (hrs : name ≠ "rowscale") (hkeep : name ≠ "keep_mask") :
+    (hrs : name ≠ "rowscale") (hkeep : name ≠ "keep_mask")
+    (hl1 : name ≠ "__veritile_load_1" := by first | assumption | decide)
+    (hl2 : name ≠ "__veritile_load_2" := by first | assumption | decide)
+    (hl3 : name ≠ "__veritile_load_3" := by first | assumption | decide) :
     (secondState f r stride M N block p u).regs dtype shape name =
       (Execution.loadState f r stride N block u).regs dtype shape name := by
   cases hf : f.x1
@@ -97,7 +100,11 @@ def afterResidual (f : Flags) (r : Regions) (stride : Strides) (M N block : Nat)
 theorem afterResidual_regs (f : Flags) (r : Regions) (stride : Strides) (M N block : Nat)
     (p : ℝ) (u : BlockState) (dtype : TileDType) (shape : TileShape) (name : RegName)
     (hx : name ≠ "x") (hx1 : name ≠ "x1") (hrs : name ≠ "rowscale")
-    (hkeep : name ≠ "keep_mask") (hr : name ≠ "residual") :
+    (hkeep : name ≠ "keep_mask") (hr : name ≠ "residual")
+    (hl1 : name ≠ "__veritile_load_1" := by first | assumption | decide)
+    (hl2 : name ≠ "__veritile_load_2" := by first | assumption | decide)
+    (hl3 : name ≠ "__veritile_load_3" := by first | assumption | decide)
+    (hl4 : name ≠ "__veritile_load_4" := by first | assumption | decide) :
     (afterResidual f r stride M N block p u).regs dtype shape name =
       (Execution.loadState f r stride N block u).regs dtype shape name := by
   rw [afterResidual, InputSuffix.residualState_regs _ _ _ _ _ _ _ _ _ _ hx hr]
@@ -140,7 +147,11 @@ def state (f : Flags) (r : Regions) (stride : Strides) (M N block : Nat)
 theorem state_regs (f : Flags) (r : Regions) (stride : Strides) (M N block : Nat)
     (p : ℝ) (u : BlockState) (dtype : TileDType) (shape : TileShape) (name : RegName)
     (hx : name ≠ "x") (hx1 : name ≠ "x1") (hrs : name ≠ "rowscale")
-    (hkeep : name ≠ "keep_mask") (hr : name ≠ "residual") :
+    (hkeep : name ≠ "keep_mask") (hr : name ≠ "residual")
+    (hl1 : name ≠ "__veritile_load_1" := by first | assumption | decide)
+    (hl2 : name ≠ "__veritile_load_2" := by first | assumption | decide)
+    (hl3 : name ≠ "__veritile_load_3" := by first | assumption | decide)
+    (hl4 : name ≠ "__veritile_load_4" := by first | assumption | decide) :
     (state f r stride M N block p u).regs dtype shape name =
       (Execution.loadState f r stride N block u).regs dtype shape name := by
   rw [state, InputSuffix.residualOutState_regs]
