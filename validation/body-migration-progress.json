@@ -9,9 +9,9 @@
   "pending_count": 11,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "185_ACCEPTED_TARGETS;_THREE_FROZEN_OFFICIAL_BATCHES_RUNNING",
+    "staged_public_proofs": "185_ACCEPTED_TARGETS;_FOUR_FROZEN_OFFICIAL_BATCHES_PENDING",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "185 exact-current accepted targets, including all 19 examples. Three frozen official batches cover five pending targets. Six further targets include the in-progress parallel_attention migration. Compilation and source comparison are not completion.",
+    "official_comparator": "185 exact-current accepted targets, including all 19 examples. Four frozen official batches cover six pending targets; ParallelAttention retried after environment setup failure. Five further targets remain to migrate. Source comparison and compilation alone are not completion.",
     "python_tests": 702,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "185 exact-current accepted targets, including all 19 examples. Three frozen official batches cover five pending targets. Six further targets include the in-progress parallel_attention migration. Compilation and source comparison are not completion.",
+    "working_tree": "185 exact-current accepted targets, including all 19 examples. Four frozen official batches cover six pending targets; ParallelAttention retried after environment setup failure. Five further targets remain to migrate. Source comparison and compilation alone are not completion.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -76,6 +76,13 @@
         "stage": "retained_modules_build",
         "reason": "All three attempts received a runner shutdown signal (exit 143) after TileSafety and before the whole-kernel/control proofs finished. No Lean proof error or complete artifact was reported. Do not infer acceptance; investigate local peak memory and proof normalization before another retry.",
         "artifact_available": false
+      },
+      {
+        "run": 41804791660,
+        "attempt": 1,
+        "case": "bench/tritonbench_g/parallel_attention",
+        "stage": "Lean environment setup before retained-module build/comparator",
+        "reason": "Job stopped while lean-action setup was in progress. No proof receipt or comparator result was produced; job log endpoint returned 404 BlobNotFound. Retried failed jobs on the identical frozen source snapshot. Target remains incomplete."
       }
     ],
     "incremental_replay": {
@@ -1311,7 +1318,7 @@
       "body_copy_check": "PASS_7_EXACT_PAIRS",
       "proof_status": "LOCAL_FULL_PASS_AWAITING_OFFICIAL_REPLAY",
       "retained_modules_build": "PASS_115_ROOTS_8548_JOBS",
-      "independent_replay": "NOT_STARTED",
+      "independent_replay": "REQUEUED_AFTER_ENVIRONMENT_SETUP_FAILURE",
       "complete": false,
       "note": "Seven complete copied Python JITs, the actual parent call shell, ordered mathematical recurrences, full-grid Real IO/safety/frame and complete-source FP execution/safety equivalence all pass locally. All 115 owned/shared roots and six external trust/specification gates pass; 702 Python tests pass. No numerical assumption or input restriction added. Official exact-current independent replay is still required; compilation alone is not completion.",
       "case": "bench/tritonbench_g/parallel_attention",
@@ -1319,7 +1326,9 @@
       "source_pairs": 7,
       "source_correspondence_log": "/tmp/veritile-stage130-correspondence102.log",
       "local_public_proofs": "PASS_3_ACTUAL_PUBLIC_THEOREM_NAMES",
-      "trust_gates": "PASS_6_EXTERNAL_MODULE_AUDITS"
+      "trust_gates": "PASS_6_EXTERNAL_MODULE_AUDITS",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41804791660",
+      "replay_source_commit": "c74a8a635ed30910f9d98296af2a2d342dbacf79"
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -4704,8 +4713,10 @@
       "body_copy_check": "PASS_7_PAIRS",
       "public_real_fp_proofs": "LOCAL_PASS",
       "retained_modules_build": "LOCAL_PASS_115_ROOTS",
-      "independent_replay": "NOT_STARTED",
-      "reason": "Local proof, source and trust gates pass, including actual parent launch. Official exact-current independent replay remains required; not complete."
+      "independent_replay": "REQUEUED_AFTER_ENVIRONMENT_SETUP_FAILURE",
+      "reason": "Local proof, source and trust gates pass, including actual parent launch. Official exact-current independent replay remains required; not complete.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41804791660",
+      "replay_source_commit": "c74a8a635ed30910f9d98296af2a2d342dbacf79"
     },
     {
       "path": "bench/tritonbench_g/parallel_retention_attention",
