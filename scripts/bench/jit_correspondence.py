@@ -343,7 +343,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_philox_call: dict | None = None,
           expected_scalar_infinity_where: bool = False,
           expected_welford_tree: dict[str, str] | None = None,
-          expected_jit_functions: dict[str, str] | None = None) -> dict:
+          expected_jit_functions: dict[str, str] | None = None,
+          expected_natural_reads: list[str] | None = None) -> dict:
     helper_clauses = [expected_pure_functions, expected_binary_functions, expected_jit_functions]
     if sum(clause is not None for clause in helper_clauses) > 1:
         raise ValueError("unary, binary and statement helper clauses cannot be mixed")
@@ -366,6 +367,20 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     runtime = {a.arg: ast.unparse(a.annotation) for a in function.args.args
                if a.annotation is not None and a.arg not in constants}
     signature, body = quotation(lean_text, lean_definition, raw_python=signature_definition is not None)
+    projection = re.findall(r"\bwith_triton_natural_reads\s*\[([^\]]*)\]\s+in\b", signature)
+    if expected_natural_reads is None:
+        if projection:
+            raise ValueError("natural read projections require reviewed caller metadata")
+    else:
+        if len(projection) != 1 or not expected_natural_reads:
+            raise ValueError("expected one nonempty natural read projection")
+        selected = [name.strip() for name in projection[0].split(',')]
+        if selected != expected_natural_reads or len(set(selected)) != len(selected):
+            raise ValueError("natural read projections differ from the reviewed caller")
+        for name in selected:
+            if not re.fullmatch(r"[A-Za-z_]\w*", name) or not re.search(
+                    r"\([^()\n]*\b" + re.escape(name) + r"\b[^()\n]*:\s*Region\s+\.nat\s*\)", signature):
+                raise ValueError("natural read projections require typed natural caller regions")
     profile = None
     if signature_definition is not None:
         if expected_signature is None:
@@ -373,6 +388,12 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         if re.search(r"\btl\.(region|param|call_signature)\b|\$", pasted_code_mask(body)):
             raise ValueError("pasted body must not contain metadata directives or Lean antiquotes")
         profile = call_signature(lean_text, signature_definition)
+        if expected_natural_reads is not None:
+            kinds = dict(profile['pointers'])
+            if any(kinds.get(name) != 'i32' for name in expected_natural_reads):
+                raise ValueError("natural read projections retain the signed32 storage ABI")
+            if set(expected_natural_reads) & set(profile.get('writePorts', [])):
+                raise ValueError("natural read projections must be read-only")
         dtype_arguments = profile.get("dtype_parameters", [])
         selected_signature = (r"\(\s*" + re.escape(signature_definition) + r"\s+" +
                               r"\s+".join(map(re.escape, dtype_arguments)) + r"\s*\)"
@@ -1191,7 +1212,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                              r.get("expected_ordered_sum_trees"), r.get("expected_namespace_imports"),
                              r.get("expected_constexpr_bindings"), r.get("expected_philox_call"),
                              r.get("expected_scalar_infinity_where", False),
-                             r.get("expected_welford_tree"), r.get("expected_jit_functions")))
+                             r.get("expected_welford_tree"), r.get("expected_jit_functions"),
+                             r.get("expected_natural_reads")))
         for name, definition in r.get('expected_philox_call', {}).get('uniform_helpers', {}).items():
             helpers = [h for h in records if h.get('kind') == 'uniform_jit_function'
                        and h['python'] == r['python'] and h['lean'] == r['lean']

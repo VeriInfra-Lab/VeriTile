@@ -91,8 +91,8 @@ theorem conditional_context {M : Algebra α} {a b : List ComputeStmt} (h : CodeE
     cases evalOp M none cond s <;> simp [h.safe]
 
 theorem local_safe (M : Algebra α) (c : Config) (cap : RegionName → Nat) (s : State α) :
-    Safety.traceSafeList M cap ((columnBody c).drop 5 |>.take 2) s ↔
-      Safety.traceSafeList M cap ((column c).drop 5 |>.take 1) s := by
+    Safety.traceSafeList M cap ((columnBody c).drop 7 |>.take 2) s ↔
+      Safety.traceSafeList M cap ((column c).drop 7 |>.take 1) s := by
   cases hs : c.storage
   all_goals
     simp [column,columnBody,active,activeBody,parsedActiveBody,parsedKernel,kernel,hs,

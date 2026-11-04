@@ -1,0 +1,742 @@
+[
+  {
+    "python": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
+    "lean": "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean",
+    "python_function": "_triton_mixed_sparse_attn_fwd_kernel",
+    "lean_definition": "FP16.source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "seqlens",
+          "i32"
+        ],
+        [
+          "block_count",
+          "i32"
+        ],
+        [
+          "block_offset",
+          "i32"
+        ],
+        [
+          "column_count",
+          "i32"
+        ],
+        [
+          "column_index",
+          "i32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_ok",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "NUM_ROWS",
+          "integer"
+        ],
+        [
+          "NNZ_S",
+          "integer"
+        ],
+        [
+          "NNZ_V",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_DMODEL",
+        "dtype"
+      ],
+      "readPorts": [],
+      "writePorts": []
+    },
+    "expected_call_bindings": {
+      "sm_scale": "sm_scale",
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vn": "stride_vn",
+      "stride_vk": "stride_vk",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_ok": "stride_ok",
+      "Z": "Z",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "NUM_ROWS": "NUM_ROWS",
+      "NNZ_S": "NNZ_S",
+      "NNZ_V": "NNZ_V"
+    },
+    "expected_constexpr_bindings": {
+      "dtype": "FloatDType.fp16"
+    },
+    "expected_natural_reads": [
+      "seqlens",
+      "block_count",
+      "block_offset",
+      "column_count",
+      "column_index"
+    ],
+    "invocation_variant": "fp16"
+  },
+  {
+    "python": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
+    "lean": "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean",
+    "python_function": "_triton_mixed_sparse_attn_fused_mask_kernel",
+    "lean_definition": "FP16.fusedMask",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "seqlens",
+          "i32"
+        ],
+        [
+          "block_count",
+          "i32"
+        ],
+        [
+          "block_offset",
+          "i32"
+        ],
+        [
+          "column_count",
+          "i32"
+        ],
+        [
+          "column_index",
+          "i32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_ok",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "NUM_ROWS",
+          "integer"
+        ],
+        [
+          "NNZ_S",
+          "integer"
+        ],
+        [
+          "NNZ_V",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_DMODEL",
+        "dtype"
+      ],
+      "readPorts": [],
+      "writePorts": []
+    },
+    "expected_call_bindings": {
+      "sm_scale": "sm_scale",
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vn": "stride_vn",
+      "stride_vk": "stride_vk",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_ok": "stride_ok",
+      "Z": "Z",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "NUM_ROWS": "NUM_ROWS",
+      "NNZ_S": "NNZ_S",
+      "NNZ_V": "NNZ_V"
+    },
+    "expected_constexpr_bindings": {
+      "dtype": "FloatDType.fp16"
+    },
+    "expected_natural_reads": [
+      "seqlens",
+      "block_count",
+      "block_offset",
+      "column_count",
+      "column_index"
+    ],
+    "invocation_variant": "fp16"
+  },
+  {
+    "python": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
+    "lean": "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean",
+    "python_function": "_triton_mixed_sparse_attn_fwd_kernel",
+    "lean_definition": "BF16.source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "seqlens",
+          "i32"
+        ],
+        [
+          "block_count",
+          "i32"
+        ],
+        [
+          "block_offset",
+          "i32"
+        ],
+        [
+          "column_count",
+          "i32"
+        ],
+        [
+          "column_index",
+          "i32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_ok",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "NUM_ROWS",
+          "integer"
+        ],
+        [
+          "NNZ_S",
+          "integer"
+        ],
+        [
+          "NNZ_V",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_DMODEL",
+        "dtype"
+      ],
+      "readPorts": [],
+      "writePorts": []
+    },
+    "expected_call_bindings": {
+      "sm_scale": "sm_scale",
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vn": "stride_vn",
+      "stride_vk": "stride_vk",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_ok": "stride_ok",
+      "Z": "Z",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "NUM_ROWS": "NUM_ROWS",
+      "NNZ_S": "NNZ_S",
+      "NNZ_V": "NNZ_V"
+    },
+    "expected_constexpr_bindings": {
+      "dtype": "FloatDType.bf16"
+    },
+    "expected_natural_reads": [
+      "seqlens",
+      "block_count",
+      "block_offset",
+      "column_count",
+      "column_index"
+    ],
+    "invocation_variant": "bf16"
+  },
+  {
+    "python": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
+    "lean": "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean",
+    "python_function": "_triton_mixed_sparse_attn_fused_mask_kernel",
+    "lean_definition": "BF16.fusedMask",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "seqlens",
+          "i32"
+        ],
+        [
+          "block_count",
+          "i32"
+        ],
+        [
+          "block_offset",
+          "i32"
+        ],
+        [
+          "column_count",
+          "i32"
+        ],
+        [
+          "column_index",
+          "i32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_ok",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "NUM_ROWS",
+          "integer"
+        ],
+        [
+          "NNZ_S",
+          "integer"
+        ],
+        [
+          "NNZ_V",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "BLOCK_DMODEL",
+        "dtype"
+      ],
+      "readPorts": [],
+      "writePorts": []
+    },
+    "expected_call_bindings": {
+      "sm_scale": "sm_scale",
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vn": "stride_vn",
+      "stride_vk": "stride_vk",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_ok": "stride_ok",
+      "Z": "Z",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "NUM_ROWS": "NUM_ROWS",
+      "NNZ_S": "NNZ_S",
+      "NNZ_V": "NNZ_V"
+    },
+    "expected_constexpr_bindings": {
+      "dtype": "FloatDType.bf16"
+    },
+    "expected_natural_reads": [
+      "seqlens",
+      "block_count",
+      "block_offset",
+      "column_count",
+      "column_index"
+    ],
+    "invocation_variant": "bf16"
+  }
+]

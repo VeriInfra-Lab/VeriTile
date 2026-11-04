@@ -39,7 +39,7 @@ theorem overwrite (s : State α) (n : RegName) (d : TileDType) (sh : TileShape)
   split <;> simp_all
 
 theorem local_run (M : Algebra α) (c : Config) (s : State α) :
-    run M ((columnBody c).drop 5 |>.take 2) s = run M ((column c).drop 5 |>.take 1) s := by
+    run M ((columnBody c).drop 7 |>.take 2) s = run M ((column c).drop 7 |>.take 1) s := by
   cases hs : c.storage
   all_goals
     simp [column,columnBody,active,activeBody,parsedActiveBody,parsedKernel,kernel,hs,

@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 176,
-      "uncovered_jit_functions": 7
+      "selected_body_copy_checked": 177,
+      "uncovered_jit_functions": 6
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 30,
+    "uncovered_selected_jit_functions": 28,
     "inventoried_jit_functions": 596,
-    "uncovered_inventoried_jit_functions": 35,
+    "uncovered_inventoried_jit_functions": 33,
     "checked_pair_modes": {
-      "pasted_body": 579
+      "pasted_body": 583
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 176,
-        "uncovered_jit_functions": 7
+        "selected_body_copy_checked": 177,
+        "uncovered_jit_functions": 6
       }
     },
     "primary_files_with_int64_screen_warning": 2,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 3,
-        "antiquotes": 337,
+        "in_body_type_directives": 2,
+        "antiquotes": 336,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 80
       },
@@ -35892,12 +35892,12 @@
       "lean": "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 164,
-        "dsl_assignment": 5,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 106,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 24
+        "load_dtype_extension": 20
       },
       "python_jits": [
         {
@@ -35932,32 +35932,180 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_triton_mixed_sparse_attn_fwd_kernel",
+          "lean_definition": "FP16.source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 30,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vn": "integer",
+            "stride_vk": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_ok": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "NUM_ROWS": "integer",
+            "NNZ_S": "integer",
+            "NNZ_V": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "dtype"
+          ],
           "python": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
-          "function": "_triton_mixed_sparse_attn_fwd_kernel"
+          "lean": "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean",
+          "invocation_variant": "fp16"
         },
         {
+          "python_function": "_triton_mixed_sparse_attn_fused_mask_kernel",
+          "lean_definition": "FP16.fusedMask",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 30,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vn": "integer",
+            "stride_vk": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_ok": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "NUM_ROWS": "integer",
+            "NNZ_S": "integer",
+            "NNZ_V": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "dtype"
+          ],
           "python": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
-          "function": "_triton_mixed_sparse_attn_fused_mask_kernel"
-        }
-      ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
-          "function": "_triton_mixed_sparse_attn_fwd_kernel"
+          "lean": "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean",
+          "invocation_variant": "fp16"
         },
         {
+          "python_function": "_triton_mixed_sparse_attn_fwd_kernel",
+          "lean_definition": "BF16.source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 30,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vn": "integer",
+            "stride_vk": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_ok": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "NUM_ROWS": "integer",
+            "NNZ_S": "integer",
+            "NNZ_V": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "dtype"
+          ],
           "python": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
-          "function": "_triton_mixed_sparse_attn_fused_mask_kernel"
+          "lean": "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean",
+          "invocation_variant": "bf16"
+        },
+        {
+          "python_function": "_triton_mixed_sparse_attn_fused_mask_kernel",
+          "lean_definition": "BF16.fusedMask",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 30,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vn": "integer",
+            "stride_vk": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_ok": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer",
+            "NUM_ROWS": "integer",
+            "NNZ_S": "integer",
+            "NNZ_V": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "dtype"
+          ],
+          "python": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
+          "lean": "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean",
+          "invocation_variant": "bf16"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean": "f150b1f1e876eb5cf09ee02e916c8fa019955b3b295885c872a5112151d00b49",
+        "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean": "837022c98a2cf4fad7999335345b8e4b7be2649ec4e5c78d67e5ca9d64e1a48c",
+        "bench/tritonbench_g/mixed_sparse_attention/jit-correspondence.json": "eac19cd6b1023cf33dc816720e97fd4d978c5a8c6dc0458a1eae43548d4b1e97",
         "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py": "7aef4a40e536380889d5cd9cd960ee82ac9b06c2839c9b7ee2d3eea79f4fc1fe"
       },
       "collection": "tritonbench_g",

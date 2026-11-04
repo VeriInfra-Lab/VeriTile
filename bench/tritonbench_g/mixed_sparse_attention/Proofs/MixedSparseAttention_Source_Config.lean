@@ -104,8 +104,8 @@ def columnBody (c : Config) : List ComputeStmt :=
 
 /-- Both original loops contain the actual floating maximum primitive. -/
 theorem maximum_source_nodes (c : Config) :
-    (blockBody c)[10]? = some (maximumAssignment c.BM c.BN) ∧
-    (columnBody c)[8]? = some (maximumAssignment c.BM c.BN) := by
+    (blockBody c)[12]? = some (maximumAssignment c.BM c.BN) ∧
+    (columnBody c)[10]? = some (maximumAssignment c.BM c.BN) := by
   cases hs : c.storage <;> constructor <;>
     simp [hs,blockBody,columnBody,activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.Storage.tile,TypedSource.Storage.float,
       ComputeKernel.surfaceBody,maximumAssignment]

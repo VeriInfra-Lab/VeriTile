@@ -1,3 +1,4 @@
+import bench.tritonbench_g.mixed_sparse_attention.Proofs.MetadataReadViews
 import bench.tritonbench_g.mixed_sparse_attention.IO
 import bench.tritonbench_g.mixed_sparse_attention.Proofs.NativeScale
 
