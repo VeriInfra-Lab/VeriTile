@@ -23961,7 +23961,7 @@
       "source_sha256": {
         "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean": "0dbb7aa94812cf7f7a3c7e05357947ee06d609f9f95ad1807849ca34e994cf72",
         "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta.py": "41d896ade9b5f5d6a0a3fdc3843f36124c6417d426f590ecb35c024f104f8b53",
-        "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta_direct_output.py": "824e9936ce675c94efda9d76833a0e9b9ae706a666880429716e0ae6a7331216",
+        "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta_direct_output.py": "b4f8d9ef74ce012970f35657e9bbe94139da3f413547b84c6025922d4bda6e34",
         "bench/tritonbench_g/fused_recurrent_delta/jit-correspondence.json": "53d81e0acc30705c0e3f8f0965c8d3edbca2b006c28ffb10d7f0527e2f752eae"
       },
       "collection": "tritonbench_g",
