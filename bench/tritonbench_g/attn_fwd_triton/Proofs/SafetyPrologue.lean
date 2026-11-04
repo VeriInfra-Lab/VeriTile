@@ -1,11 +1,10 @@
 import bench.tritonbench_g.attn_fwd_triton.Proofs.AttnFwdTriton_Verified_AccessSafety_AccessSafety
 import bench.tritonbench_g.attn_fwd_triton.Proofs.Prologue
-import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_RealSafetyParts
-
+import bench.tritonbench_g.attn_fwd_triton.Proofs.Support.All
 /-! Memory safety of coordinates, pointers and the two initial loads. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.SafetyPrologue
 open VeriTile.Triton Memory AccessSafety
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealAccess
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealRegisterSafety
 noncomputable section

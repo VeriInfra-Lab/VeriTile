@@ -5,13 +5,13 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 179,
-  "staged_count": 182,
+  "staged_count": 183,
   "pending_count": 17,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PRIOR_BATCH_AND_CURRENT_INT8_QUANTIZATION_36_ROOTS_PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "179 exact-current accepted targets, including all 19 examples. The two-case Attention group and fused_recurrent_delta remain in official replay. attn_fwd_causal passed 81 local roots and both actual public theorems; shared-support cleanup is required before staging. Thirteen targets still need their complete source migrations. No local build is counted as completion.",
+    "official_comparator": "179 exact-current accepted targets including all 19 examples. Attention (two cases) and fused_recurrent_delta remain in official replay. attn_fwd_causal passed all local source/public-proof/trust gates and shared-support cleanup; 50-root official replay remains pending. Thirteen target source migrations remain. No local build is counted as completion.",
     "python_tests": 666,
     "offline_example_compilations": {
       "cases": 19,
@@ -2668,9 +2668,9 @@
       "independent_replay": "IN_PROGRESS"
     },
     "staged_manifest": {
-      "cases": 188,
-      "build_roots": 7275,
-      "replay_roots": 6278,
+      "cases": 189,
+      "build_roots": 7325,
+      "replay_roots": 6328,
       "boundary": "Manifest coverage is not completion or a fresh full integration build result."
     },
     "int8_quantization_source_migration": {
@@ -2738,8 +2738,8 @@
       "frozen_source_files": 307
     },
     "attn_fwd_causal_source_migration": {
-      "state": "LOCAL_PASS_PENDING_SHARED_SUPPORT_CLEANUP_AND_INDEPENDENT_REPLAY",
-      "owned_roots": 78,
+      "state": "LOCAL_PASS_AWAITING_INDEPENDENT_REPLAY",
+      "owned_roots": 47,
       "shared_roots": 3,
       "source_pairs": 4,
       "public_theorems": 2,
@@ -2756,7 +2756,9 @@
         "actual public Real entry PASS",
         "actual public FP entry PASS"
       ],
-      "boundary": "Pending shared-support cleanup and exact-current official independent replay; local proof success is not completion."
+      "boundary": "Only exact-current official independent replay of all 50 required roots and both actual public theorem names completes this task.",
+      "required_replay_roots": 50,
+      "legacy_support_cleanup": "PASS: retired 31 modules, retained 56 declarations in 18 dependent-owned support modules; both dependent public proofs rebuilt"
     }
   },
   "targets": [
@@ -2930,13 +2932,13 @@
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_causal",
-      "status": "local_proofs_pass_pending_cleanup_and_independent_replay",
+      "status": "staged_awaiting_independent_replay",
       "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "independent_replay": "PENDING",
-      "reason": "Four complete helper/caller source pairs and actual ABI checked. All 78 owned roots plus the specialized-helper frontend and both Lean regressions pass locally, as do prepared trust/spec gates and both actual public Real/FP theorem names. Original two helper workspaces, full loops, safety, stores/readback and native connection are reproved with the original domains. Shared older mathematical support still needs retirement/ownership cleanup with attn_fwd_triton; no official replay is submitted yet. Compilation and body checks do not complete this task."
+      "reason": "Four exact helper/caller body pairs and ABI checked. All 47 retained owned plus 3 shared roots, both actual public Real/FP theorems, safety, full loops, native/readback bridges, prepared trust/spec gates and current-source window regression pass locally. The unconnected 31-module legacy chain and finite-penalty/reciprocal models are retired; required shared support is rehomed and both dependent public proofs pass. Exact-current official independent replay of all 50 roots is still required. Local success is not completion."
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_triton",

@@ -2541,6 +2541,19 @@
           "VeriTile.Bench.Repairs.FusedRecurrentDelta.FPEquiv.kernel_equivalent"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/attn_fwd_causal",
+      "python": "bench/tritonbench_g/attn_fwd_causal/attn_fwd_causal.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/attn_fwd_causal/Correct.lean": [
+          "VeriTile.Bench.Repairs.AttnFwdCausal.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/attn_fwd_causal/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttnFwdCausal.Equivalence.quotient_remainder_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -8694,6 +8707,56 @@
     "bench/tritonbench_g/fused_recurrent_delta/Proofs/TensorVJP.lean",
     "bench/tritonbench_g/fused_recurrent_delta/RuntimeIO.lean",
     "bench/tritonbench_g/fused_recurrent_delta/Whole.lean",
-    "tests/lean/PythonConditionalAssignments.lean"
+    "tests/lean/PythonConditionalAssignments.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Contract.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Correct.lean",
+    "bench/tritonbench_g/attn_fwd_causal/FPEquiv.lean",
+    "bench/tritonbench_g/attn_fwd_causal/IO.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Kernels.lean",
+    "bench/tritonbench_g/attn_fwd_causal/NativeIO.lean",
+    "bench/tritonbench_g/attn_fwd_causal/PairIO.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/AcceptedFP.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/AcceptedReal.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/AccessSafety.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Binding.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Body.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Context.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Contract.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Coverage.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Domain.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Engine.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Entry.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/FiniteReadback.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Grid.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Host.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/IOBinding.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Kernel.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/KernelInterface.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Loop.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Middle.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Native.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/NativeOperands.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/NativeProjection.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/NativePublicIO.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/NativeReference.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/NativeReferenceBinding.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/NativeStaging.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Output.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/PairConnection.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/PairIO.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Physical.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/RealBackend.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/RealInvariant.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/RealMath.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/RealPublicIO.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/RealStep.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Scatter.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/SourceFormula.lean",
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/Values.lean",
+    "bench/tritonbench_g/attn_fwd_causal/RealIO.lean",
+    "VeriTile/Triton/DSL/SpecializedJitFunctions.lean",
+    "tests/lean/SpecializedJitFunctions.lean",
+    "tests/lean/RealAttnFwdCausalIO.lean"
   ]
 }

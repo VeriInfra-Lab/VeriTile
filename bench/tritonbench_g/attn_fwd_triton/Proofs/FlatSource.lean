@@ -6,7 +6,7 @@ import bench.tritonbench_g.attn_fwd_triton.Proofs.Relocation
 six pointer constructors change; the actual arithmetic and loops are retained. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.FlatSource
 open VeriTile.Triton
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 set_option maxHeartbeats 1500000
 set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false

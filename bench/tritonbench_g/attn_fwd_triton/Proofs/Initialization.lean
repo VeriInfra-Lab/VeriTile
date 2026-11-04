@@ -4,7 +4,7 @@ import bench.tritonbench_g.attn_fwd_triton.Proofs.AttnFwdTriton_Verified_Loop_Lo
 /-! Initial carry and explicit-zero query load from the actual source. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.Initialization
 open VeriTile.Triton Memory
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealTiles (finite)
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealScores (Frame)
 noncomputable section

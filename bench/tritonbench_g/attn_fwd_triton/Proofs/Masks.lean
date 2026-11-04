@@ -6,7 +6,7 @@ namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.Masks
 open VeriTile.Triton
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealTiles (finite center probability)
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealScores (Frame)
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 noncomputable section
 set_option maxHeartbeats 150000
 set_option maxRecDepth 2000

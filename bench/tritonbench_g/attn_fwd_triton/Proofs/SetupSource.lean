@@ -3,7 +3,7 @@ import bench.tritonbench_g.attn_fwd_triton.Proofs.FirstSetup
 /-! Bind both checked helper setups to the complete candidate source. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.SetupSource
 open VeriTile.Triton
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 set_option maxHeartbeats 2000000
 set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false

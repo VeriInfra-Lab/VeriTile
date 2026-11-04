@@ -4,7 +4,7 @@ import bench.tritonbench_g.attn_fwd_triton.Proofs.Preparation
 FP16-erased value dot and accumulation use the original arithmetic theorems. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.Iteration
 open VeriTile.Triton Memory Preparation
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealTiles (finite center probability dot_finite)
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealScores (Frame)
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealLoopFormula (Carry update)
