@@ -10,10 +10,10 @@ theorem middle_assembled (p : Config) (BD : Nat) :
     middleCode p BD=initializationCode p BD ++ setupCode p BD Bool.false ++
       loopCode p BD Bool.false ++ setupCode p BD Bool.true ++ loopCode p BD Bool.true := by
   cases hd : decide (p.stage=2)
-  all_goals simp only [middleCode,coordinateCode,pointerCode,initializationCode,setupCode,loopCode,body,
-    lowerOp,lowerName,upperName,code,source,TypedSource.repaired,ComputeKernel.surfaceBody,hd,
+  all_goals simp only [middleCode,prefixLength,coordinateCode,pointerCode,initializationCode,setupCode,setup,preloop,loopCode,finish,body,parts,workName,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,
+    lowerOp,lowerName,upperName,code,source,TypedSource.repaired,Bodies.originalBody,ComputeKernel.surfaceBody,hd,
     Bool.false_or,Bool.true_or,Bool.false_eq_true,Bool.true_eq,↓reduceIte,ControlView.compute,
-    List.cons_append,List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero]
+    List.length_cons,List.length_nil,List.cons_append,List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero]
   all_goals rfl
 
 theorem middle_success {α : Type} [Inhabited α] (A : Algebra α)
@@ -30,12 +30,19 @@ theorem middle_success {α : Type} [Inhabited α] (A : Algebra α)
   simp only [run_append,h3,h4,h5,h6,h7,Option.bind_some]
 
 theorem prefix_assembled (p : Config) (BD : Nat) :
-    (code p BD).take 41=(code p BD).take 22 ++ middleCode p BD := by
-  simpa only [middleCode] using (List.take_add (l:=code p BD) (i:=22) (j:=19))
+    (code p BD).take (prefixLength p BD)=(code p BD).take 22 ++ middleCode p BD := by
+  have h : 22≤prefixLength p BD := by
+    cases hd : decide (p.stage=2)
+    all_goals simp only [prefixLength,code,source,TypedSource.repaired,Bodies.originalBody,
+      hd,Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody,
+      List.length_cons,List.length_nil]
+    all_goals decide
+  simpa only [middleCode,Nat.add_sub_of_le h] using
+    (List.take_add (l:=code p BD) (i:=22) (j:=prefixLength p BD-22))
 
 theorem before_tail {α : Type} [Inhabited α] (A : Algebra α)
     (p : Config) (BD : Nat) (support : DotSupport A BD) (r : Bool) (s : State α) :
-    ∃ t, run (engine A) ((code p BD).take 41) s=some t ∧
+    ∃ t, run (engine A) ((code p BD).take (prefixLength p BD)) s=some t ∧
       Ready BD t ∧ AddressReady p BD (s.pids 0) (s.pids 1) t ∧ t.mem=s.mem := by
   obtain ⟨u,hu,hr,ha,hm⟩ := header A p BD s
   obtain ⟨t,ht,hready⟩ := middle_success A p BD support u hr

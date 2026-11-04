@@ -10,6 +10,8 @@ set_option maxHeartbeats 2000000
 set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false
 
+def runtimeInteger (n : Nat) : Op .int [] := .constInt (n : Int)
+
 def ceilExpr (B : Nat) : Op .int [] :=
   .tritonDiv .int .nil (.add .int .nil (.ref .int [] "n_ctx")
     (.sub .int .nil (wide B) (.constInt 1))) (wide B)
@@ -20,12 +22,12 @@ def code (p : Parameters) (BM BN : Nat) : List Stmt :=
    .assign .int [] "stride_vk64" (wide p.valueRow),
    .assign .int [] "start_m" (.castNatToInt (.programId 0)),
    .assign .int [] "off_hz" (.castNatToInt (.programId 1)),
-   .assign .int [] "off_z" (.tritonDiv .int .nil (.ref .int [] "off_hz") (wide p.heads)),
-   .assign .int [] "off_h" (.tritonMod .int .nil (.ref .int [] "off_hz") (wide p.heads)),
+   .assign .int [] "off_z" (.truncDiv .nil (.ref .int [] "off_hz") (runtimeInteger p.heads)),
+   .assign .int [] "off_h" (.truncMod .nil (.ref .int [] "off_hz") (runtimeInteger p.heads)),
    .assign .int [] "qvk_offset" (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (wide p.queryBatch)) (.mul .int .nil (.ref .int [] "off_h") (wide p.queryHead))),
-   .assign .int [] "k_offset" (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (wide p.keyBatch)) (.mul .int .nil (.ref .int [] "off_h") (wide p.keyHead))),
-   .assign .int [] "v_offset" (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (wide p.valueBatch)) (.mul .int .nil (.ref .int [] "off_h") (wide p.valueHead))),
-   .assign .int [] "o_offset" (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (wide p.outputBatch)) (.mul .int .nil (.ref .int [] "off_h") (wide p.outputHead))),
+   .assign .int [] "k_offset" (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (runtimeInteger p.keyBatch)) (.mul .int .nil (.ref .int [] "off_h") (runtimeInteger p.keyHead))),
+   .assign .int [] "v_offset" (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (runtimeInteger p.valueBatch)) (.mul .int .nil (.ref .int [] "off_h") (runtimeInteger p.valueHead))),
+   .assign .int [] "o_offset" (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (runtimeInteger p.outputBatch)) (.mul .int .nil (.ref .int [] "off_h") (runtimeInteger p.outputHead))),
    .assign .int [] "q_scale_offset" (.mul .int .nil (.ref .int [] "off_hz") (ceilExpr BM)),
    .assign .int [] "k_scale_offset" (.mul .int .nil (.ref .int [] "off_hz") (ceilExpr BN))]
 
@@ -69,15 +71,17 @@ def writes : List RegName := ["n_ctx","stride_kn64","stride_vk64","start_m","off
 
 theorem source (p : Parameters) (BM BN BD : Nat) :
     coordinates BM BN BD p = code p BM BN := by
-  simp only [coordinates, Verified.code, Verified.source, TypedSource.repaired,
-    Bool.false_eq_true, ↓reduceIte, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
-    ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind]
-  simp [ControlView.algorithm,code,ceilExpr,wide]
+  by_cases hd : p.stage=2
+  all_goals simp only [coordinates,Verified.code,Verified.source,TypedSource.repaired,
+    Bodies.originalBody,hd,decide_true,decide_false,Bool.false_eq_true,Bool.true_eq,
+    ↓reduceIte,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,
+    ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Kernel.eraseDType,Stmt.eraseDTypeList,
+    Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,Except.bind,bind]
+  all_goals simp [code,ceilExpr,wide,runtimeInteger]
 
 theorem executes (s : BlockState) (p : Parameters) (BM BN : Nat) :
     ∃ t, stepStmts (code p BM BN) s = some t ∧ Registers (values s p BM BN) t ∧ Frame writes s t := by
@@ -96,17 +100,17 @@ theorem executes (s : BlockState) (p : Parameters) (BM BN : Nat) :
   let s11 := s10.setReg "q_scale_offset" .int [] (Tile.scalar v.queryScaleBase)
   let s12 := s11.setReg "k_scale_offset" .int [] (Tile.scalar v.keyScaleBase)
   have h0 : evalOp (wide p.context) s = some (Tile.scalar v.context) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,v,values]
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,v,values]
   have h1 : evalOp (wide p.keyRow) s0 = some (Tile.scalar v.keyStride) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s0, v,values]
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s0, v,values]
   have h2 : evalOp (wide p.valueRow) s1 = some (Tile.scalar v.valueStride) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s1, s0, v,values]
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s1, s0, v,values]
   have h3 : evalOp (.castNatToInt (.programId 0)) s2 = some (Tile.scalar v.row) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s2, s1, s0, v,values]
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s2, s1, s0, v,values]
   have h4 : evalOp (.castNatToInt (.programId 1)) s3 = some (Tile.scalar v.headBatch) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s3, s2, s1, s0, v,values]
-  have h5 : evalOp (.tritonDiv .int .nil (.ref .int [] "off_hz") (wide p.heads)) s4 = some (Tile.scalar v.batch) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s4, s3, s2, s1, s0, v,values]
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s3, s2, s1, s0, v,values]
+  have h5 : evalOp (.truncDiv .nil (.ref .int [] "off_hz") (runtimeInteger p.heads)) s4 = some (Tile.scalar v.batch) := by
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s4, s3, s2, s1, s0, v,values]
     all_goals apply Tile.ext
     all_goals intro i; cases i
     all_goals simp [Tile.select_data,Tile.cop_data,Tile.bop_data,Tile.scalar,NumericDType.add,
@@ -115,8 +119,8 @@ theorem executes (s : BlockState) (p : Parameters) (BM BN : Nat) :
       Int.natCast_emod,-Tile.scalar_eta]
     all_goals try simp only [←Int.natCast_add,←Int.natCast_mul]
     all_goals rfl
-  have h6 : evalOp (.tritonMod .int .nil (.ref .int [] "off_hz") (wide p.heads)) s5 = some (Tile.scalar v.head) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s5, s4, s3, s2, s1, s0, v,values]
+  have h6 : evalOp (.truncMod .nil (.ref .int [] "off_hz") (runtimeInteger p.heads)) s5 = some (Tile.scalar v.head) := by
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s5, s4, s3, s2, s1, s0, v,values]
     all_goals apply Tile.ext
     all_goals intro i; cases i
     all_goals simp [Tile.select_data,Tile.cop_data,Tile.bop_data,Tile.scalar,NumericDType.add,
@@ -127,7 +131,7 @@ theorem executes (s : BlockState) (p : Parameters) (BM BN : Nat) :
     all_goals try rw [←Int.emod_def]
     all_goals rfl
   have h7 : evalOp (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (wide p.queryBatch)) (.mul .int .nil (.ref .int [] "off_h") (wide p.queryHead))) s6 = some (Tile.scalar v.queryBase) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s6, s5, s4, s3, s2, s1, s0, v,values]
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s6, s5, s4, s3, s2, s1, s0, v,values]
     all_goals apply Tile.ext
     all_goals intro i; cases i
     all_goals simp [Tile.select_data,Tile.cop_data,Tile.bop_data,Tile.scalar,NumericDType.add,
@@ -136,8 +140,8 @@ theorem executes (s : BlockState) (p : Parameters) (BM BN : Nat) :
       Int.natCast_emod,-Tile.scalar_eta]
     all_goals try simp only [←Int.natCast_add,←Int.natCast_mul]
     all_goals rfl
-  have h8 : evalOp (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (wide p.keyBatch)) (.mul .int .nil (.ref .int [] "off_h") (wide p.keyHead))) s7 = some (Tile.scalar v.keyBase) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s7, s6, s5, s4, s3, s2, s1, s0, v,values]
+  have h8 : evalOp (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (runtimeInteger p.keyBatch)) (.mul .int .nil (.ref .int [] "off_h") (runtimeInteger p.keyHead))) s7 = some (Tile.scalar v.keyBase) := by
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s7, s6, s5, s4, s3, s2, s1, s0, v,values]
     all_goals apply Tile.ext
     all_goals intro i; cases i
     all_goals simp [Tile.select_data,Tile.cop_data,Tile.bop_data,Tile.scalar,NumericDType.add,
@@ -146,8 +150,8 @@ theorem executes (s : BlockState) (p : Parameters) (BM BN : Nat) :
       Int.natCast_emod,-Tile.scalar_eta]
     all_goals try simp only [←Int.natCast_add,←Int.natCast_mul]
     all_goals rfl
-  have h9 : evalOp (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (wide p.valueBatch)) (.mul .int .nil (.ref .int [] "off_h") (wide p.valueHead))) s8 = some (Tile.scalar v.valueBase) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s8, s7, s6, s5, s4, s3, s2, s1, s0, v,values]
+  have h9 : evalOp (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (runtimeInteger p.valueBatch)) (.mul .int .nil (.ref .int [] "off_h") (runtimeInteger p.valueHead))) s8 = some (Tile.scalar v.valueBase) := by
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s8, s7, s6, s5, s4, s3, s2, s1, s0, v,values]
     all_goals apply Tile.ext
     all_goals intro i; cases i
     all_goals simp [Tile.select_data,Tile.cop_data,Tile.bop_data,Tile.scalar,NumericDType.add,
@@ -156,8 +160,8 @@ theorem executes (s : BlockState) (p : Parameters) (BM BN : Nat) :
       Int.natCast_emod,-Tile.scalar_eta]
     all_goals try simp only [←Int.natCast_add,←Int.natCast_mul]
     all_goals rfl
-  have h10 : evalOp (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (wide p.outputBatch)) (.mul .int .nil (.ref .int [] "off_h") (wide p.outputHead))) s9 = some (Tile.scalar v.outputBase) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s9, s8, s7, s6, s5, s4, s3, s2, s1, s0, v,values]
+  have h10 : evalOp (.add .int .nil (.mul .int .nil (.ref .int [] "off_z") (runtimeInteger p.outputBatch)) (.mul .int .nil (.ref .int [] "off_h") (runtimeInteger p.outputHead))) s9 = some (Tile.scalar v.outputBase) := by
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s9, s8, s7, s6, s5, s4, s3, s2, s1, s0, v,values]
     all_goals apply Tile.ext
     all_goals intro i; cases i
     all_goals simp [Tile.select_data,Tile.cop_data,Tile.bop_data,Tile.scalar,NumericDType.add,
@@ -167,7 +171,7 @@ theorem executes (s : BlockState) (p : Parameters) (BM BN : Nat) :
     all_goals try simp only [←Int.natCast_add,←Int.natCast_mul]
     all_goals rfl
   have h11 : evalOp (.mul .int .nil (.ref .int [] "off_hz") (ceilExpr BM)) s10 = some (Tile.scalar v.queryScaleBase) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s10, s9, s8, s7, s6, s5, s4, s3, s2, s1, s0, v,values]
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s10, s9, s8, s7, s6, s5, s4, s3, s2, s1, s0, v,values]
     all_goals apply Tile.ext
     all_goals intro i; cases i
     all_goals simp [Tile.select_data,Tile.cop_data,Tile.bop_data,Tile.scalar,NumericDType.add,
@@ -179,7 +183,7 @@ theorem executes (s : BlockState) (p : Parameters) (BM BN : Nat) :
       have weighted := congrArg (fun z : Int => (s.pids 1 : Int)*z) (ControlView.signed_cdiv p.context BM)
       simpa [mul_ite,Int.natCast_ediv] using weighted
   have h12 : evalOp (.mul .int .nil (.ref .int [] "off_hz") (ceilExpr BN)) s11 = some (Tile.scalar v.keyScaleBase) := by
-    simp [evalOp.eq_def,ceilExpr,wide,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s11, s10, s9, s8, s7, s6, s5, s4, s3, s2, s1, s0, v,values]
+    simp [evalOp.eq_def,ceilExpr,wide,runtimeInteger,←Int.ofNat_tdiv,←Int.ofNat_tmod,NumericDType.add,NumericDType.sub,NumericDType.mul,IntegralDType.floorDiv,IntegralDType.mod,ControlView.signed_div,ControlView.signed_mod,ControlView.signed_cdiv,Int.natCast_ediv,Int.natCast_emod,s11, s10, s9, s8, s7, s6, s5, s4, s3, s2, s1, s0, v,values]
     all_goals apply Tile.ext
     all_goals intro i; cases i
     all_goals simp [Tile.select_data,Tile.cop_data,Tile.bop_data,Tile.scalar,NumericDType.add,

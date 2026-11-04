@@ -1,4 +1,5 @@
-import bench.tritonbench_g.attn_fwd_triton.Proofs.FlatExecution
+import bench.tritonbench_g.attn_fwd_triton.Proofs.ActualFlatExecution
+import bench.tritonbench_g.attn_fwd_triton.Proofs.ActualFormula
 import bench.tritonbench_g.attn_fwd_triton.Proofs.CausalFormula
 
 /-! The actual complete flat translation reaches the independent causal
@@ -20,7 +21,7 @@ theorem executes (A : FlatAlloc) (s : BlockState) (p : Parameters) (BD : Nat) (h
       (∀ region offset, (region ≠ A.flat ∨ ∀ i, Output.active c 128 BD i = Bool.true → offset ≠ Output.address c 128 BD i) →
         t.mem region offset = s.mem region offset) := by
   dsimp only
-  obtain ⟨t,ht,hr,hf⟩ := FlatExecution.executes A s p 128 64 BD (by omega) reciprocal
+  obtain ⟨t,ht,hr,hf⟩ := ActualFlatExecution.executes A s p BD
   refine ⟨t,ht,?_,hf⟩
   intro i hi hinj
   rw [hr i hi hinj]
@@ -28,7 +29,14 @@ theorem executes (A : FlatAlloc) (s : BlockState) (p : Parameters) (BD : Nat) (h
   have hh : (config A (Coordinates.configuration s p)).startM*128+row.val < p.context ∧ lane.val < p.headDim := by
     simpa [Output.active,Output.outputConfig,VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealEpilogue.active]
       using hi
-  simpa [FlatExecution.result,hstage,config,parameters,offsets] using
+  have same := ActualFormula.result s (config A (Coordinates.configuration s p)) BD (Initialization.initial 128 BD)
+  change (ActualMiddle.result s (config A (Coordinates.configuration s p)) BD (Initialization.initial 128 BD)).numerator (row,lane,⟨⟩) /
+    (ActualMiddle.result s (config A (Coordinates.configuration s p)) BD (Initialization.initial 128 BD)).denominator row = _
+  rw [same.1,same.2]
+  have stage : decide ((config A (Coordinates.configuration s p)).p.stage=2)=Bool.false := by
+    simp [config,parameters,Coordinates.configuration,hstage]
+  rw [stage]
+  simpa [hstage,config,parameters,offsets] using
     CausalFormula.normalized s (config A (Coordinates.configuration s p)) BD row lane hD hh.1 hh.2
 
 #guard_msgs (drop info) in

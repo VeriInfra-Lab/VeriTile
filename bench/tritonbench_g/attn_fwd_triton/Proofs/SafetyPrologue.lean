@@ -14,7 +14,7 @@ set_option linter.unusedSimpArgs false
 theorem coordinates_safe (bounds : RegionBounds) (s : BlockState) (p : Parameters) (BM BN : Nat) :
     Stmt.TraceSafeList bounds (Coordinates.code p BM BN) s := by
   apply list_safe
-  simp [Coordinates.code,Coordinates.ceilExpr,wide,Op.SafeAt.eq_def]
+  simp [Coordinates.code,Coordinates.ceilExpr,Coordinates.runtimeInteger,wide,Op.SafeAt.eq_def]
 
 theorem pointers_safe (bounds : RegionBounds) (s : BlockState) (p : Parameters) (BM BN BD : Nat) :
     Stmt.TraceSafeList bounds (Pointers.code p BM BN BD) s := by

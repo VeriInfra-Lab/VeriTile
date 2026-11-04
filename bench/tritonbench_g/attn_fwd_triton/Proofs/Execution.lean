@@ -11,15 +11,15 @@ def result (p : Config) (BD : Nat) (memory : RegionName→Nat→Cell Expr) (pm p
   let f := fixed p BD memory pm ph
   let first := fold p BD (reads memory) f (upper f Bool.false) Bool.false
     (lower f Bool.false) (startCursor f Bool.false) (initialCarry BD)
-  fold p BD (reads memory) f (upper f Bool.true) Bool.true
-    (lower f Bool.true) (startCursor f Bool.true) first
+  returned Bool.true first (fold p BD (reads memory) f (upper f Bool.true) Bool.true
+    (lower f Bool.true) (startCursor f Bool.true) first)
 
 def reference (p : Config) (BD : Nat) (hD : p.headDim≤BD)
     (memory : RegionName→Nat→Cell Expr) (c : Coordinate p) : Cell Expr :=
   .mk .bf16 (output (result p BD memory (owner p c).1.val (owner p c).2.val) (lane p BD hD c))
 
 theorem before (p : Config) (BD : Nat) (stage : p.stage=3) (s : State Expr) :
-    ∃ t, run (engine backend) ((code p BD).take 41) s=some t ∧
+    ∃ t, run (engine backend) ((code p BD).take (prefixLength p BD)) s=some t ∧
       Bound (fixed p BD s.mem (s.pids 0) (s.pids 1))
         (result p BD s.mem (s.pids 0) (s.pids 1)) t ∧ t.mem=s.mem := by
   let f := fixed p BD s.mem (s.pids 0) (s.pids 1)
@@ -33,11 +33,11 @@ theorem before (p : Config) (BD : Nat) (stage : p.stage=3) (s : State Expr) :
   have mm3 : s3.mem=s.mem := m3.trans (m2.trans mm1)
   rw [mm3] at b4
   refine ⟨s4,?_,b4,m4.trans mm3⟩
-  have assembled : (code p BD).take 41=(code p BD).take 27 ++ setupCode p BD Bool.false ++
+  have assembled : (code p BD).take (prefixLength p BD)=(code p BD).take 27 ++ setupCode p BD Bool.false ++
       loopCode p BD Bool.false ++ setupCode p BD Bool.true ++ loopCode p BD Bool.true := by
     by_cases hd : p.stage=2
-    all_goals simp [code,source,AttnFwdTriton.TypedSource.repaired,ComputeKernel.surfaceBody,
-      AttnFwdTriton.ControlView.compute,setupCode,loopCode,body,lowerOp,lowerName,upperName,hd]
+    all_goals simp [code,source,AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,ComputeKernel.surfaceBody,
+      AttnFwdTriton.ControlView.compute,prefixLength,setupCode,setup,preloop,parts,finish,loopCode,body,lowerOp,lowerName,upperName,workName,Source.intRange?,hd]
   rw [assembled]
   simp only [run_append,h0,h1,h2,h3,h4,Option.bind_some]
 
@@ -55,8 +55,9 @@ theorem program (p : Config) (BD : Nat) (stage : p.stage=3) (hn : NonOverlapping
   obtain ⟨t,ht⟩ := tail_success backend p BD Bool.false u (bound_ready _ _ _ hbu')
   have hex : FP.Structural.exec (engine backend) (source p BD Bool.false) s=some t := by
     change run (engine backend) (source p BD Bool.false).surfaceBody s=some t
-    rw [←code_run backend p BD Bool.false s,←List.take_append_drop 41 (code p BD),run_append]
-    change (run (engine backend) ((code p BD).take 41) s).bind
+    rw [←code_run backend p BD Bool.false s,←List.take_append_drop (prefixLength p BD) (code p BD),run_append]
+    rw [←tail_eq_drop]
+    change (run (engine backend) ((code p BD).take (prefixLength p BD)) s).bind
       (run (engine backend) (tail p BD Bool.false))=some t
     rw [hu]
     exact ht

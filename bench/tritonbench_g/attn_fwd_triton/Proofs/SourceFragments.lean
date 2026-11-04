@@ -20,7 +20,7 @@ def source (BM BN BD : Nat) (p : Parameters) (_reciprocal : Bool) : ComputeKerne
     p.batches p.heads p.context p.headDim BM BN BD p.stage p.validStage
 
 def code (BM BN BD : Nat) (p : Parameters) (r : Bool) : List Stmt :=
-  ControlView.algorithm 32 6 (source BM BN BD p r).eraseDType.toAlgKernel.body
+  (source BM BN BD p r).eraseDType.toAlgKernel.body
 
 abbrev keyName := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.keyName
 abbrev scaleName := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.scaleName
@@ -98,8 +98,6 @@ def sourceIteration (BM BN BD D : Nat) (second firstDiagonal : Bool) : List Stmt
 def coordinates (BM BN BD : Nat) (p : Parameters) := (code BM BN BD p Bool.false).take 13
 def pointers (BM BN BD : Nat) (p : Parameters) := ((code BM BN BD p Bool.false).drop 13).take 9
 def initialization (BM BN BD : Nat) (p : Parameters) := ((code BM BN BD p Bool.false).drop 22).take 5
-def firstSetup (BM BN BD : Nat) (p : Parameters) := ((code BM BN BD p Bool.false).drop 27).take 6
-def secondSetup (BM BN BD : Nat) (p : Parameters) := ((code BM BN BD p Bool.false).drop 34).take 6
 
 def loop (BM BN BD D : Nat) (second firstDiagonal : Bool) : Stmt :=
   .forRangeInt "start_n"
@@ -113,38 +111,9 @@ def epilogue (BM BD D : Nat) (_r : Bool) : List Stmt :=
    .store .real [BM,BD] (.ptr (.ref .ptr [BM,BD] "O_block_ptr")) (.ref .real [BM,BD] "acc")
      (.mask (queryMask BM BD D))]
 
-/-- Every statement, both helper loops, and the complete store are included. -/
-theorem decomposition (BM BN BD : Nat) (p : Parameters) (r : Bool) :
-    code BM BN BD p r = coordinates BM BN BD p ++ pointers BM BN BD p ++ initialization BM BN BD p ++
-      firstSetup BM BN BD p ++ [loop BM BN BD p.headDim Bool.false (decide (p.stage=2))] ++
-      secondSetup BM BN BD p ++ [loop BM BN BD p.headDim Bool.true (decide (p.stage=2))] ++
-      epilogue BM BD p.headDim r := by
-  cases r <;> by_cases hd : p.stage=2
-  all_goals
-    simp only [hd,coordinates, pointers, initialization, firstSetup, secondSetup, code, source,
-      TypedSource.repaired,  Bool.false_eq_true, Bool.true_eq,
-      ↓reduceIte, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
-      ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-      ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-      ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-      Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-      VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
-      ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind]
-    simp [hd,ControlView.algorithm,wide,maskExpr,loop, sourceIteration, flatIteration, loadPrefix, guard, tail, keyMask, valueMask,
-      queryMask, valueLoad, advance, suffix, epilogue, keyName, scaleName, valueName, maskName,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.keyName,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.scaleName,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.valueName,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealPreparation.maskName,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.score,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.scoreExpr,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.center,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.centerExpr,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.probability,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.rescale,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.accumulate,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealSource.normalization,
-      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealExpressions.maskExpr]
+/- The old whole-program decomposition applied to manually inlined helpers.
+It has been removed. The mathematical iteration fragments above are proof
+views only; the actual hygienic helper connection is proved separately. -/
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

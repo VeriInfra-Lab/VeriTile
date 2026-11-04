@@ -22,7 +22,9 @@ def code (BM BD D : Nat) : List Stmt :=
      .assign .real [] "q_scale" (.load .real (.ptr (.ref .ptr [] "Q_scale_ptr")) .none)]
 
 theorem source (p : Parameters) (BM BN BD : Nat) : initialization BM BN BD p = code BM BD p.headDim := by
-  simp only [initialization, Verified.code, Verified.source, TypedSource.repaired,
+  by_cases hd : p.stage=2
+  all_goals simp only [initialization, Verified.code, Verified.source, TypedSource.repaired,
+    Bodies.originalBody,hd,decide_true,decide_false,ComputeDType.eraseDType,
     ControlView.algorithm,Bool.false_eq_true, ↓reduceIte, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
@@ -30,7 +32,7 @@ theorem source (p : Parameters) (BM BN BD : Nat) : initialization BM BN BD p = c
     Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
     ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind]
-  simp [ControlView.algorithm,code,RealInit.code,queryMask]
+  all_goals norm_num [ControlView.algorithm,code,RealInit.code,queryMask]
 
 theorem executes (s : BlockState) (c : Config) (BM BN BD : Nat)
     (hp : Pointers.Registers c BM BN BD s)

@@ -9,7 +9,7 @@ noncomputable section
 
 namespace PairConnection
 def kernel (p : Config) (BD : Nat) : ComputeKernel :=
-  quotientRemainder p.Q p.K p.V p.QS p.KS p.Out
+  AttnFwdTriton.TypedSource.quotientRemainder p.Q p.K p.V p.QS p.KS p.Out
     p.queryBatch p.queryHead p.queryRow p.queryDim
     p.keyBatch p.keyHead p.keyRow p.keyDim
     p.valueBatch p.valueHead p.valueRow p.valueDim

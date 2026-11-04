@@ -52,9 +52,9 @@ theorem tail_read (p : Config) (BD : Nat) (idx : ProgramIndex p)
   rcases hb with ⟨h0,_,_,_,h4,_,_,_,_,h9,_,_,_,h13,h14⟩
   simp only [fixed] at h0 h4 h9
   cases hd : decide (p.stage=2)
-  all_goals simp only [tail,code,AttnFwdTriton.ControlView.compute,hd,source,Bool.false_eq_true,↓reduceIte,AttnFwdTriton.TypedSource.repaired,
+  all_goals simp only [tail,parts,workName,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,code,AttnFwdTriton.ControlView.compute,hd,source,Bool.false_eq_true,↓reduceIte,AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,
     ComputeKernel.surfaceBody,List.drop_succ_cons,List.drop_zero] at ht
-  all_goals simp [run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
+  all_goals simp [Source.intRange?,run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,natLt,numericLt,
     Cell.read,ofFloat,toFloat,Region.cast,State.setReg,h0,h4,h9,h13,h14,
     engine,Algebra.withDefaultPrecision,resolvePrecision,backend,Graph.cast,nativeDType,consume,bop] at ht

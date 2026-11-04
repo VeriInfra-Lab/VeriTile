@@ -52,33 +52,35 @@ private theorem tail_comparison (key context cur : Nat) :
 theorem initial_safe (p : Config) (BD : Nat) (s : State Expr)
     (bounds : RegionName → Nat) (hb : InitialBounds p BD (s.pids 0) (s.pids 1) bounds) :
     Safety.traceSafeList (engine backend) bounds ((code p BD).take 27) s := by
-  simp only [code,source,Bool.false_eq_true,↓reduceIte,
-    AttnFwdTriton.TypedSource.repaired,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.take_succ_cons,List.take_zero]
-  simp [AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
-    Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
-    run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
-    Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,
-    natLt,numericLt,ofFloat,toFloat,Region.cast,State.setReg,
-    engine,Algebra.withDefaultPrecision,resolvePrecision,backend,
-    -Nat.cast_add,-Nat.cast_mul,←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,
-    AttnFwdTriton.ControlView.signed_cdiv,AttnFwdTriton.ControlView.signed_div,
-    AttnFwdTriton.ControlView.signed_tail]
-  constructor
-  · intro row dim hr hd
-    have h := hb.query row dim ((row_projection _ _ _).mp hr) hd
-    have hp := offset_projection (s.pids 1) p.heads p.queryBatch p.queryHead
-      (s.pids 0*128+row.val) p.queryRow dim.val p.queryDim
-    have hp' : ((s.pids 1 : Int)/(p.heads : Int)*(p.queryBatch : Int) +
-        ((s.pids 1 : Int)-(p.heads : Int)*((s.pids 1 : Int)/(p.heads : Int)))*(p.queryHead : Int) +
-        ((s.pids 0 : Int)*128+(row.val : Int))*(p.queryRow : Int)+
-        ((dim.val*p.queryDim : Nat) : Int)).toNat =
-        s.pids 1/p.heads*p.queryBatch+s.pids 1%p.heads*p.queryHead+
-        (s.pids 0*128+row.val)*p.queryRow+dim.val*p.queryDim := by
-      simpa only [Int.natCast_add,Int.natCast_mul] using hp
-    change _ < bounds p.Q
-    rw [hp']
-    exact h
-  · exact hb.scale
+  by_cases hd : p.stage=2
+  all_goals
+    simp only [code,source,hd,decide_true,decide_false,Bool.false_eq_true,↓reduceIte,
+      AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.take_succ_cons,List.take_zero]
+    simp [AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
+      Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
+      run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
+      Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,
+      natLt,numericLt,ofFloat,toFloat,Region.cast,State.setReg,
+      engine,Algebra.withDefaultPrecision,resolvePrecision,backend,
+      -Nat.cast_add,-Nat.cast_mul,←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,
+      AttnFwdTriton.ControlView.signed_cdiv,AttnFwdTriton.ControlView.signed_div,
+      AttnFwdTriton.ControlView.signed_tail]
+    constructor
+    · intro row dim hr hd
+      have h := hb.query row dim ((row_projection _ _ _).mp hr) hd
+      have hp := offset_projection (s.pids 1) p.heads p.queryBatch p.queryHead
+        (s.pids 0*128+row.val) p.queryRow dim.val p.queryDim
+      have hp' : ((s.pids 1 : Int)/(p.heads : Int)*(p.queryBatch : Int) +
+          ((s.pids 1 : Int)-(p.heads : Int)*((s.pids 1 : Int)/(p.heads : Int)))*(p.queryHead : Int) +
+          ((s.pids 0 : Int)*128+(row.val : Int))*(p.queryRow : Int)+
+          ((dim.val*p.queryDim : Nat) : Int)).toNat =
+          s.pids 1/p.heads*p.queryBatch+s.pids 1%p.heads*p.queryHead+
+          (s.pids 0*128+row.val)*p.queryRow+dim.val*p.queryDim := by
+        simpa only [Int.natCast_add,Int.natCast_mul] using hp
+      change _ < bounds p.Q
+      rw [hp']
+      exact h
+    · exact hb.scale
 
 theorem setup_safe (p : Config) (BD : Nat) (stage : p.stage=3) (second : Bool)
     (f : Fixed BD) (old : Carry BD) (s : State Expr) (hb : Bound f old s)
@@ -86,10 +88,10 @@ theorem setup_safe (p : Config) (BD : Nat) (stage : p.stage=3) (second : Bool)
     Safety.traceSafeList (engine backend) bounds (setupCode p BD second) s := by
   rcases hb with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
   cases second
-  all_goals simp only [setupCode,code,source,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    AttnFwdTriton.TypedSource.repaired,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.drop_succ_cons,List.drop_zero,
+  all_goals simp only [setupCode,setup,preloop,parts,workName,stage,show ¬(3:Nat)=2 by decide,decide_false,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,code,source,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
+    AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.drop_succ_cons,List.drop_zero,
     List.take_succ_cons,List.take_zero]
-  all_goals simp [AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
+  all_goals simp [Source.intRange?,AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     stage,run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,
@@ -98,26 +100,28 @@ theorem setup_safe (p : Config) (BD : Nat) (stage : p.stage=3) (second : Bool)
 
 theorem iteration_safe (p : Config) (BD : Nat) (stage : p.stage=3)
     (second : Bool) (f : Fixed BD) (old : Carry BD) (ptr : Cursor BD)
-    (lo hi cur : Nat) (s : State Expr) (hb : Bound f old s)
+    (lo hi cur : Nat) (s : State Expr) {caller : Carry BD} (hb : HelperBound f caller old second s)
     (hl : LoopBound second ptr lo hi s) (bounds : RegionName → Nat)
     (backed : IterationBounds p f cur ptr bounds) :
     Safety.traceSafeList (engine backend) bounds (body p BD second)
-      (s.setReg "start_n" .int [] (fun _=>(cur : Int))) := by
+      (s.setReg (workName second "start_n") .int [] (fun _=>(cur : Int))) := by
+  rcases hb with ⟨hb,hc⟩
+  rcases hc with ⟨hc0,hc1,hc2,hc3,hc4,hc5,hc6,hc7,hc8,hc9,hc10⟩
   rcases hb with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
   rcases hl with ⟨hkp,hks,hvp,hlo,hhi⟩
   cases second
-  all_goals simp only [keyName,scaleName,valueName,lowerName,upperName,
-    Bool.false_eq_true,Bool.true_eq,↓reduceIte] at hkp hks hvp hlo hhi
-  all_goals simp only [body,code,source,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    AttnFwdTriton.TypedSource.repaired,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,Source.intRange?,
+  all_goals simp [workName,keyName,scaleName,valueName,lowerName,upperName,
+    Bool.false_eq_true,Bool.true_eq,↓reduceIte] at hkp hks hvp hlo hhi hc0 hc1 hc2 hc3 hc4 hc5 hc6 hc7 hc8 hc9 hc10
+  all_goals simp only [body,parts,workName,stage,show ¬(3:Nat)=2 by decide,decide_false,code,source,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
+    AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,Source.intRange?,
     Option.map_some,Option.getD_some,beq_self_eq_true,List.drop_succ_cons,List.drop_zero]
-  all_goals simp [AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
+  all_goals simp [Source.intRange?,AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     stage,run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,
     natLt,natLe,numericLt,numericLe,Cell.read,ofFloat,toFloat,Region.cast,State.setReg,
-    keyName,scaleName,valueName,lowerName,upperName,TileShape.axisDim,
-    h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,hkp,hks,hvp,hlo,hhi,
+    workName,keyName,scaleName,valueName,lowerName,upperName,TileShape.axisDim,
+    h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,hkp,hks,hvp,hlo,hhi,hc0,hc1,hc2,hc3,hc4,hc5,hc6,hc7,hc8,hc9,hc10,
     engine,Algebra.withDefaultPrecision,resolvePrecision,backend,
     -Nat.cast_add,-Nat.cast_mul,←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,
     AttnFwdTriton.ControlView.signed_cdiv,AttnFwdTriton.ControlView.signed_div,
@@ -131,9 +135,9 @@ theorem tail_safe (p : Config) (BD : Nat) (f : Fixed BD) (old : Carry BD)
     Safety.traceSafeList (engine backend) bounds (tail p BD Bool.false) s := by
   rcases hb with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
   cases hs : decide (p.stage=2)
-  all_goals simp only [tail,code,source,Bool.false_eq_true,↓reduceIte,AttnFwdTriton.TypedSource.repaired,
+  all_goals simp only [tail,parts,workName,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,code,source,Bool.false_eq_true,↓reduceIte,AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,
     ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,hs,List.drop_succ_cons,List.drop_zero]
-  all_goals simp [AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
+  all_goals simp [Source.intRange?,AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,natLt,numericLt,bop,
