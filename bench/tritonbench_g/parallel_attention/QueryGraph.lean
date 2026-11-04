@@ -26,7 +26,7 @@ def queryOutGrad {α : Type} [Inhabited α] (M : Algebra α) (c : QueryConfig) (
 def queryNormGrad {α : Type} [Inhabited α] (M : Algebra α) (c : QueryConfig) (s : State α) :=
   fun (i : TileIndex [c.BTL]) => M.fp32Load
     (if c.i_c*c.BTL+i.1.val<c.T then (s.mem c.dz (c.i_bh*c.T+c.i_c*c.BTL+i.1.val)).read .real
-      else M.literal (some .fp32) .real 0.0)
+      else M.literal (some .fp32) .real 0)
 
 /-- Independent tile recurrence: no source registers or execution results. -/
 def queryUpdate {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
@@ -43,15 +43,15 @@ def queryUpdate {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α
     let raw := if c.i_v=0 then M.binary (some .fp32) .real .add (rawDS i)
       (queryNormGrad M c s ⟨i.1,()⟩) else rawDS i
     if diagonal then M.binary (some .fp32) .real .mul
-      (if mask i then raw else M.literal (some .fp32) .real 0.0) (M.literal (some .fp32) .real c.scale)
+      (if mask i then raw else M.literal (some .fp32) .real 0) (M.literal (some .fp32) .real c.scale)
     else raw
   let rawScore := D.apply (some .fp32) {allowTF32 := some Bool.false} (batch := [])
     (queryInput M c s) (matrixTranspose key)
   let score := fun i => if diagonal then
-    if mask i then rawScore i else M.literal (some .fp32) .real 0.0 else rawScore i
+    if mask i then rawScore i else M.literal (some .fp32) .real 0 else rawScore i
   let contribution := D.apply (some .fp32) {allowTF32 := some Bool.false} (batch := [])
     (fun i => M.cast (some .fp32) .real .real (M.binary (some .fp32) .real .mul
-      (M.binary (some .fp32) .real .mul (M.literal (some .fp32) .real 2.0) (ds i)) (score i))) key
+      (M.binary (some .fp32) .real .mul (M.literal (some .fp32) .real 2) (ds i)) (score i))) key
   fun i => M.binary (some .fp32) .real .add (previous i) (contribution i)
 
 def queryScale {α : Type} (M : Algebra α) (c : QueryConfig)

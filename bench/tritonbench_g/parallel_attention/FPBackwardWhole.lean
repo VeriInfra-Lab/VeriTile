@@ -8,13 +8,13 @@ set_option maxHeartbeats 8000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
-def backwardPrefix (c : BackwardConfig) := (backwardKernel c).surfaceBody.take 6
-def backwardMiddle (c : BackwardConfig) := ((backwardKernel c).surfaceBody.drop 7).take 3
-def backwardSuffix (c : BackwardConfig) := (backwardKernel c).surfaceBody.drop 11
+def backwardPrefix (c : BackwardConfig) := (backwardKernel c).surfaceBody.take 10
+def backwardMiddle (c : BackwardConfig) := ((backwardKernel c).surfaceBody.drop 11).take 5
+def backwardSuffix (c : BackwardConfig) := (backwardKernel c).surfaceBody.drop 17
 def backwardFirstRange (c : BackwardConfig) : ComputeStmt :=
-  ((backwardKernel c).surfaceBody[6]?).getD (.ifThen (.constBool Bool.false) [])
-def backwardSecondRange (c : BackwardConfig) : ComputeStmt :=
   ((backwardKernel c).surfaceBody[10]?).getD (.ifThen (.constBool Bool.false) [])
+def backwardSecondRange (c : BackwardConfig) : ComputeStmt :=
+  ((backwardKernel c).surfaceBody[16]?).getD (.ifThen (.constBool Bool.false) [])
 def backwardInitial {α : Type} (M : Algebra α) (c : BackwardConfig) : BackwardAccumulator α c.BTL c.BK c.BV :=
   ⟨fun _ => M.literal (some .fp32) .real 0, fun _ => M.literal (some .fp32) .real 0⟩
 
@@ -63,9 +63,10 @@ theorem backward_source_split (c : BackwardConfig) :
 theorem backward_first_range_statement {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : BackwardConfig) (t : State α) :
     step (withDot M D) (backwardFirstRange c) t =
-      FP.Structural.range (withDot M D) "j" 0 (descendingCount c) 1 (backwardFirstBody c) t := by
-  simp [backwardFirstRange, backwardFirstBody, backwardKernel, backwardSource, ComputeKernel.surfaceBody,
-    step, evalOp_unfold, boundaryZero, numeric, bop, Option.bind, descendingCount]
+      rangeInt (withDot M D) "__rev_i" (DescendingRange.lower c) (DescendingRange.upper c)
+        c.BTS (backwardFirstBody c) t := by
+  simp [backwardFirstRange,backwardFirstBody,backwardKernel,backwardSource,ComputeKernel.surfaceBody,
+    step,evalOp_unfold,boundaryZero,numeric,bop,Option.bind,DescendingRange.lower,DescendingRange.upper,sub_eq_add_neg,add_comm]
 
 theorem backward_second_range_statement {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : BackwardConfig) (t : State α) :
@@ -81,7 +82,8 @@ specification backward_fp32 {α : Type} [Inhabited α] (M : Algebra α) (D : Dot
     ∃ final, FP.Structural.exec (withDot M D) (backwardKernel c) s = some final ∧
       final.mem = (backwardOutputMemory M c s (backwardValues M D c s)).mem := by
   obtain ⟨initial, hp, hi⟩ := backward_prefix_run M D c s
-  obtain ⟨first, hr, hf⟩ := backward_first_range_run M D c s initial 0 (descendingCount c) _ hi
+  obtain ⟨first, hr, hf⟩ := backward_first_range_run M D c s initial 0 (by omega) _ hi
+  simp only [Nat.cast_zero,zero_mul,add_zero] at hr
   obtain ⟨diagonal, hm, hd⟩ := backward_middle_run M D c s first _ hf
   obtain ⟨second, hs, hz⟩ := backward_second_range_run M D c s diagonal (c.i_c*c.BTL) ((c.i_c+1)*c.BTL) _ hd
   obtain ⟨final, he, hout⟩ := backward_suffix_run M D c s second _ hz

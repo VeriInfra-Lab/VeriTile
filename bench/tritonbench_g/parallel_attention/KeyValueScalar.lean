@@ -27,24 +27,24 @@ theorem keyValue_scalar_step {α : Type} [Inhabited α] (a : Scalars α)
   let outGrad := fun i => a.cast (rawMatrixRead (scalarAlgebra a) s "do" (tile.bh*(shape.T*shape.V))
     shape.V shape.T 1 shape.V (tile.value*shape.BV) start shape.BV 32 i)
   let normGrad := fun (u : Fin 32) => if start+u.val < shape.T then
-    (s.mem "dz" (tile.bh*shape.T+start+u.val)).read .real else a.literal 0.0
+    (s.mem "dz" (tile.bh*shape.T+start+u.val)).read .real else a.literal 0
   let key := if d then backwardKey (scalarAlgebra a) c s
     else fun i => a.cast (backwardKey (scalarAlgebra a) c s i)
   let scaled := fun (i : TileIndex [64,32]) => a.mul (scalarDot a [] key query i) (a.literal scale)
   let valid := fun (i : TileIndex [64,32]) => start+i.2.1.val < shape.T
   let mask := fun (i : TileIndex [64,32]) => i.1.val ≤ start-tile.chunk*64+i.2.1.val ∧ valid i
-  let score := fun i => if d then if mask i then scaled i else a.literal 0.0
-    else if valid i then scaled i else a.literal 0.0
-  let square := fun i => if d then if mask i then a.mul (scaled i) (scaled i) else a.literal 0.0
+  let score := fun i => if d then if mask i then scaled i else a.literal 0
+    else if valid i then scaled i else a.literal 0
+  let square := fun i => if d then if mask i then a.mul (scaled i) (scaled i) else a.literal 0
     else a.mul (score i) (score i)
   let rawDS := scalarDot a [] (backwardValue (scalarAlgebra a) c s) outGrad
   let ds := fun i => if d then
       a.mul (if mask i then (if tile.value=0 then a.add (rawDS i) (normGrad i.2.1) else rawDS i)
-        else a.literal 0.0) (a.literal scale)
+        else a.literal 0) (a.literal scale)
     else if valid i then
       if tile.value=0 then a.add (a.mul (rawDS i) (a.literal scale)) (a.mul (normGrad i.2.1) (a.literal scale))
       else a.mul (rawDS i) (a.literal scale)
-    else a.literal 0.0
+    else a.literal 0
   have zero : a.literal (0.0 : ℝ)=a.literal 0 := congrArg a.literal (by norm_num)
   have two : a.literal (2.0 : ℝ)=a.literal 2 := congrArg a.literal (by norm_num)
   have hraw (u : Fin 32) : scaled ⟨r,u,()⟩ = Math.kvRaw (a.ops scale) sourcePlans shape x tile r.val j u.val d := by
@@ -85,7 +85,7 @@ theorem keyValue_scalar_step {α : Type} [Inhabited α] (a : Scalars α)
       else a.literal 0.0
     have h := congrArg combine (hrawDS u)
     cases d <;> simpa [ds,combine,Math.kvDS,Math.kvValid,Scalars.ops,mask,valid,start,Math.kvStart,zero,hz,and_comm] using h
-  let terms := fun i => a.cast (a.mul (a.mul (a.literal 2.0) (ds i)) (score i))
+  let terms := fun i => a.cast (a.mul (a.mul (a.literal 2) (ds i)) (score i))
   have hk := scalar_dot_projection a scale [2,3,tile.bh,tile.chunk,tile.value,r.val,j,e.val]
     terms (matrixTranspose query) r e
     (fun u => a.cast (a.mul (a.mul (a.literal 2) (Math.kvDS (a.ops scale) sourcePlans shape x tile r.val j u d))

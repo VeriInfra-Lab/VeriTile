@@ -37,14 +37,13 @@ structure BackwardAccumulator (α : Type) (BTL BK BV : Nat) where
 def matrixTranspose {α : Type} {m n : Nat} (a : TileIndex [m,n] → α) : TileIndex [n,m] → α :=
   fun i => a ⟨i.2.1,i.1,()⟩
 
-/-- Raw storage payload for an immediately cast load; the cast itself is
-retained separately in the source graph. -/
+/-- FP32 storage materialization before the separately retained explicit cast. -/
 def rawMatrixRead {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (R : RegionName)
     (base rows cols rowStride colStride rowOffset colOffset m n : Nat) : TileIndex [m,n] → α := fun i =>
   let row := rowOffset+i.1.val
   let col := colOffset+i.2.1.val
   let address := base+row*rowStride+col*colStride
-  if row<rows ∧ col<cols then (s.mem R address).read .real else M.literal (some .fp32) .real 0
+  M.fp32Load (if row<rows ∧ col<cols then (s.mem R address).read .real else M.literal (some .fp32) .real 0)
 
 /-- The exact primitive order differs between the two source loops: the first
 scales the dot and DZ contribution separately, while the diagonal loop masks
@@ -60,7 +59,7 @@ def backwardUpdate {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive
   let normGrad := fun (i : Fin c.BTS) =>
     let address := c.i_bh*c.T + start + i.val
     M.fp32Load (if start+i.val<c.T then (s.mem c.dz address).read .real
-      else M.literal (some .fp32) .real 0.0)
+      else M.literal (some .fp32) .real 0)
   let key := if diagonal then backwardKey M c s
     else fun i => M.cast (some .fp32) .real .real (backwardKey M c s i)
   let scoreRaw := D.apply (some .fp32) {allowTF32 := some Bool.false} (batch := []) key query
@@ -69,30 +68,30 @@ def backwardUpdate {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive
   let valid := fun (i : TileIndex [c.BTL,c.BTS]) => start+i.2.1.val<c.T
   let mask := fun (i : TileIndex [c.BTL,c.BTS]) => i.1.val ≤ start-c.i_c*c.BTL+i.2.1.val ∧ valid i
   let score := fun i => if diagonal then
-      if mask i then scaled i else M.literal (some .fp32) .real 0.0
-    else if valid i then scaled i else M.literal (some .fp32) .real 0.0
+      if mask i then scaled i else M.literal (some .fp32) .real 0
+    else if valid i then scaled i else M.literal (some .fp32) .real 0
   let square := fun i =>
     let v := M.binary (some .fp32) .real .mul (scaled i) (scaled i)
-    if diagonal then if mask i then v else M.literal (some .fp32) .real 0.0
+    if diagonal then if mask i then v else M.literal (some .fp32) .real 0
     else M.binary (some .fp32) .real .mul (score i) (score i)
   let dsRaw := D.apply (some .fp32) {allowTF32 := some Bool.false} (batch := [])
     (backwardValue M c s) outGrad
   let ds := fun i =>
     if diagonal then
       let raw := if c.i_v=0 then M.binary (some .fp32) .real .add (dsRaw i) (normGrad i.2.1) else dsRaw i
-      let masked := if mask i then raw else M.literal (some .fp32) .real 0.0
+      let masked := if mask i then raw else M.literal (some .fp32) .real 0
       M.binary (some .fp32) .real .mul masked (M.literal (some .fp32) .real c.scale)
     else
       let scaled := M.binary (some .fp32) .real .mul (dsRaw i) (M.literal (some .fp32) .real c.scale)
       let raw := if c.i_v=0 then M.binary (some .fp32) .real .add scaled
         (M.binary (some .fp32) .real .mul (normGrad i.2.1) (M.literal (some .fp32) .real c.scale)) else scaled
-      if valid i then raw else M.literal (some .fp32) .real 0.0
+      if valid i then raw else M.literal (some .fp32) .real 0
   let dv := D.apply (some .fp32) {allowTF32 := some Bool.false} (batch := [])
     (fun i => M.cast (some .fp32) .real .real (square i)) (matrixTranspose outGrad)
   let dk := D.apply (some .fp32) {allowTF32 := some Bool.false} (batch := [])
     (fun i => M.cast (some .fp32) .real .real
       (M.binary (some .fp32) .real .mul
-        (M.binary (some .fp32) .real .mul (M.literal (some .fp32) .real 2.0) (ds i)) (score i)))
+        (M.binary (some .fp32) .real .mul (M.literal (some .fp32) .real 2) (ds i)) (score i)))
     (matrixTranspose query)
   { key := fun i => M.binary (some .fp32) .real .add (previous.key i) (dk i)
     value := fun i => M.binary (some .fp32) .real .add (previous.value i) (dv i) }

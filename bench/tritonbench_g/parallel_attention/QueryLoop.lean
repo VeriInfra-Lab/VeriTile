@@ -8,8 +8,6 @@ set_option maxHeartbeats 10000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
-@[simp] theorem matrix_index_eta (i : TileIndex [m,n]) : (⟨i.1,i.2.1,()⟩ : TileIndex [m,n])=i := by
-  rcases i with ⟨r,e,⟨⟩⟩; rfl
 
 theorem matrixRead_zero_row {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
     (R : RegionName) (base rows cols rowStride colStride colOffset m n : Nat) :
@@ -22,12 +20,12 @@ theorem matrixRead_zero_row {α : Type} [Inhabited α] (M : Algebra α) (s : Sta
 
 def queryFirstBody (c : QueryConfig) : List ComputeStmt :=
   let code : List ComputeStmt := (queryKernel c).surfaceBody
-  match code[10]? with
+  match code[11]? with
   | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
   | _ => []
 def querySecondBody (c : QueryConfig) : List ComputeStmt :=
   let code : List ComputeStmt := (queryKernel c).surfaceBody
-  match code[16]? with
+  match code[17]? with
   | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
   | _ => []
 
@@ -111,14 +109,14 @@ theorem query_second_body_run {α : Type} [Inhabited α] (M : Algebra α) (D : D
 theorem queryReady_index {α : Type} [Inhabited α] (M : Algebra α) (c : QueryConfig)
     (s t : State α) (start : Nat) (acc : TileIndex [c.BTL,c.BK] → α)
     (h : QueryReady M c s t start acc) (n : Nat) :
-    QueryReady M c s (t.setReg "_i" .nat [] (fun _ => n)) start acc := by
+    QueryReady M c s (t.setReg "_" .nat [] (fun _ => n)) start acc := by
   constructor <;> simp [State.setReg, h.mem, h.pids, h.undef, h.query, h.outGrad,
     h.normGrad, h.queryGrad, h.key, h.value]
 
 theorem queryDiagonalReady_index {α : Type} [Inhabited α] (M : Algebra α) (c : QueryConfig)
     (s t : State α) (start : Nat) (acc : TileIndex [c.BTL,c.BK] → α)
     (h : QueryDiagonalReady M c s t start acc) (n : Nat) :
-    QueryDiagonalReady M c s (t.setReg "_i" .nat [] (fun _ => n)) start acc where
+    QueryDiagonalReady M c s (t.setReg "_" .nat [] (fun _ => n)) start acc where
   toQueryReady := queryReady_index M c s t start acc h.toQueryReady n
   lower := h.lower
   queryIndex := by simpa [State.setReg] using h.queryIndex
@@ -127,10 +125,10 @@ theorem queryDiagonalReady_index {α : Type} [Inhabited α] (M : Algebra α) (c 
 theorem query_first_range_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : QueryConfig) (s t : State α) (start stop : Nat) (acc : TileIndex [c.BTL,c.BK] → α)
     (h : QueryReady M c s t start acc) :
-    ∃ final, FP.Structural.range (withDot M D) "_i" start stop c.BTS (queryFirstBody c) t = some final ∧
+    ∃ final, FP.Structural.range (withDot M D) "_" start stop c.BTS (queryFirstBody c) t = some final ∧
       ∃ finish, QueryReady M c s final finish
         (foldRange (queryUpdate M D c s Bool.false) start stop c.BTS acc) := by
-  apply range_values (withDot M D) "_i" (queryFirstBody c) (queryUpdate M D c s Bool.false)
+  apply range_values (withDot M D) "_" (queryFirstBody c) (queryUpdate M D c s Bool.false)
     (fun n a t => QueryReady M c s t n a) (fun a t => ∃ n, QueryReady M c s t n a)
     start stop c.BTS acc t
   · intro n a u hu _
@@ -142,10 +140,10 @@ theorem query_first_range_run {α : Type} [Inhabited α] (M : Algebra α) (D : D
 theorem query_second_range_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : QueryConfig) (s t : State α) (start stop : Nat) (acc : TileIndex [c.BTL,c.BK] → α)
     (h : QueryDiagonalReady M c s t start acc) :
-    ∃ final, FP.Structural.range (withDot M D) "_i" start stop c.BTS (querySecondBody c) t = some final ∧
+    ∃ final, FP.Structural.range (withDot M D) "_" start stop c.BTS (querySecondBody c) t = some final ∧
       ∃ finish, QueryReady M c s final finish
         (foldRange (queryUpdate M D c s Bool.true) start stop c.BTS acc) := by
-  apply range_values (withDot M D) "_i" (querySecondBody c) (queryUpdate M D c s Bool.true)
+  apply range_values (withDot M D) "_" (querySecondBody c) (queryUpdate M D c s Bool.true)
     (fun n a t => QueryDiagonalReady M c s t n a) (fun a t => ∃ n, QueryReady M c s t n a)
     start stop c.BTS acc t
   · intro n a u hu _

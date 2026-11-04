@@ -31,7 +31,7 @@ theorem forward_scalar_step {α : Type} [Inhabited α] (a : Scalars α)
   let raw := scalarDot a [] (forwardQuery (scalarAlgebra a) c s) key
   let scores : TileIndex [128,32] → α := fun i =>
     let squared := a.mul (raw i) (raw i)
-    if d then if start-tile.chunk*128+i.2.1.val ≤ i.1.val then squared else a.literal 0.0 else squared
+    if d then if start-tile.chunk*128+i.2.1.val ≤ i.1.val then squared else a.literal 0 else squared
   have hraw (u : Fin 32) : raw ⟨r,u,()⟩ =
       dot (a.ops scale) sourcePlans [0,0,tile.bh,tile.chunk,tile.value,r.val,j,u.val] shape.BK
         (queryLoad (a.ops scale) shape x tile 128 r.val)

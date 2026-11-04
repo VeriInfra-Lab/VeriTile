@@ -42,9 +42,9 @@ theorem overwrite (s : State α) (n : RegName) (d : TileDType) (sh : TileShape)
   split <;> simp_all
 
 theorem forward_local_run (M : Algebra α) (c : ForwardConfig) (s : State α) :
-    run M (((loopBody (forwardKernel c) 19).drop 4).take 2) s =
-      run M (((loopBody (forward c) 19).drop 4).take 1) s := by
-  simp [loopBody,forwardKernel,forward,forwardSource,fusedForwardSource,
+    run M (((loopBody (forwardKernel c) 17).drop 4).take 2) s =
+      run M (((loopBody (forward c) 17).drop 4).take 1) s := by
+  simp [loopBody,forwardKernel,forward,forwardSource,Bodies.forward,fusedForwardSource,Bodies.fusedForward,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType]
   cases hx : s.regs .real [c.BTL,c.BTS] "b_s" <;>
@@ -53,9 +53,9 @@ theorem forward_local_run (M : Algebra α) (c : ForwardConfig) (s : State α) :
   funext d sh n; split <;> simp_all
 
 theorem forward_local_safe (M : Algebra α) (c : ForwardConfig) (cap : RegionName → Nat) (s : State α) :
-    Safety.traceSafeList M cap (((loopBody (forwardKernel c) 19).drop 4).take 2) s ↔
-      Safety.traceSafeList M cap (((loopBody (forward c) 19).drop 4).take 1) s := by
-  simp [loopBody,forwardKernel,forward,forwardSource,fusedForwardSource,
+    Safety.traceSafeList M cap (((loopBody (forwardKernel c) 17).drop 4).take 2) s ↔
+      Safety.traceSafeList M cap (((loopBody (forward c) 17).drop 4).take 1) s := by
+  simp [loopBody,forwardKernel,forward,forwardSource,Bodies.forward,fusedForwardSource,Bodies.fusedForward,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType]
@@ -64,8 +64,8 @@ theorem forward_local_safe (M : Algebra α) (c : ForwardConfig) (cap : RegionNam
     simp [hx,hm,Option.bind,State.setReg]
 
 theorem query_local_run (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig) (s : State α) :
-    run (withDot M D) (((loopBody (queryKernel c) 16).drop 6).take 2) s =
-      run (withDot M D) (((loopBody (query c) 16).drop 6).take 1) s := by
+    run (withDot M D) (((loopBody (queryKernel c) 17).drop 6).take 2) s =
+      run (withDot M D) (((loopBody (query c) 17).drop 6).take 1) s := by
   simp [loopBody,queryKernel,query,querySource,fusedQuerySource,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,withDot]
@@ -76,8 +76,8 @@ theorem query_local_run (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig)
   funext d sh n; split <;> simp_all
 
 theorem query_local_safe (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig) (cap : RegionName → Nat) (s : State α) :
-    Safety.traceSafeList (withDot M D) cap (((loopBody (queryKernel c) 16).drop 6).take 2) s ↔
-      Safety.traceSafeList (withDot M D) cap (((loopBody (query c) 16).drop 6).take 1) s := by
+    Safety.traceSafeList (withDot M D) cap (((loopBody (queryKernel c) 17).drop 6).take 2) s ↔
+      Safety.traceSafeList (withDot M D) cap (((loopBody (query c) 17).drop 6).take 1) s := by
   simp [loopBody,queryKernel,query,querySource,fusedQuerySource,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
