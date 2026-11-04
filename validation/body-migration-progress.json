@@ -9,9 +9,9 @@
   "pending_count": 15,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "181_ACCEPTED_TARGETS;_SIX_FROZEN_OFFICIAL_BATCHES_RUNNING;_MIXED_LOCAL_COMPLETE_AWAITING_REPLAY",
+    "staged_public_proofs": "181_ACCEPTED_TARGETS;_SEVEN_FROZEN_OFFICIAL_BATCHES_RUNNING",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "181 exact-current accepted targets, including all 19 examples. Six frozen official batches cover eight pending targets. Mixed sparse attention passed all local complete-body, retained-module, actual-public-name and trust/spec gates and awaits independent replay. Six further source migrations remain. Compilation or source comparison is never completion.",
+    "official_comparator": "181 exact-current accepted targets, including all 19 examples. Seven frozen official batches cover nine pending targets. Six further source migrations remain. Compilation and source comparison are not completion.",
     "python_tests": 698,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "181 exact-current accepted targets, including all 19 examples. Six frozen official batches cover eight pending targets. Mixed sparse attention passed all local complete-body, retained-module, actual-public-name and trust/spec gates and awaits independent replay. Six further source migrations remain. Compilation or source comparison is never completion.",
+    "working_tree": "181 exact-current accepted targets, including all 19 examples. Seven frozen official batches cover nine pending targets. Six further source migrations remain. Compilation and source comparison are not completion.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -1317,14 +1317,17 @@
       ],
       "proof_status": "PASS_COMPLETE_PUBLIC_REAL_AND_FP",
       "retained_modules_build": "PASS_3590_JOBS_67_ROOTS",
-      "independent_replay": "AWAITING_DISPATCH",
+      "independent_replay": "IN_PROGRESS",
       "complete": false,
       "note": "Preserve existing natural metadata interpretation and the exact original signed32 storage declaration. Native agreement must use the existing checked nonnegative signed32 guard; the public mathematical input domain remains unchanged. All original casts, early return, masks and loops are pasted verbatim.",
       "prepared_trust_spec_audits": "PASS_ALL_4",
       "required_replay_roots": 67,
       "public_name_resolution": "PASS_BOTH_NAMES",
       "python_regressions": "PASS_4_TESTS",
-      "source_inventory_uncovered_targets": 6
+      "source_inventory_uncovered_targets": 6,
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41791892948",
+      "replay_source_commit": "ebef36340004514b120c0af1b44e6f4de0399034",
+      "frozen_closure_files": 304
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -4597,15 +4600,17 @@
     },
     {
       "path": "bench/tritonbench_g/mixed_sparse_attention",
-      "status": "local_complete_awaiting_official_replay",
+      "status": "official_replay_in_progress",
       "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS_LOCALLY",
       "retained_modules_build": "PASS",
       "public_name_resolution": "PASS_BOTH_NAMES",
-      "independent_replay": "AWAITING_DISPATCH",
+      "independent_replay": "IN_PROGRESS",
       "reason": "All four complete source/ABI pairs, unchanged public mathematical scope and full FP equivalence, all 67 roots, both actual public names and trust/spec audits pass locally. Native signed32 read agreement follows from the existing nonnegative guard. Exact-current independent replay remains required for completion.",
-      "prepared_trust_spec_audits": "PASS_ALL_4"
+      "prepared_trust_spec_audits": "PASS_ALL_4",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41791892948",
+      "replay_source_commit": "ebef36340004514b120c0af1b44e6f4de0399034"
     },
     {
       "path": "bench/tritonbench_g/mul_exponent_compensator",
