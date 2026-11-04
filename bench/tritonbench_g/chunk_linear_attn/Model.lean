@@ -35,16 +35,32 @@ abbrev range_invariant := @VeriTile.Bench.Repairs.ChunkDeltaFwd.range_invariant
 
 def stateKernel (p : Parameters) (scale : ℝ) (rev seed final : Bool) :=
   if rev then backwardH p scale seed final else forwardH p seed final
-def loopName (rev : Bool) : RegName := if rev then "j" else "i_t"
+def loopName (rev : Bool) : RegName := if rev then "__rev_i_t" else "i_t"
 def carryName (rev : Bool) : RegName := if rev then "b_dh" else "b_h"
 def seedName (rev : Bool) : RegionName := if rev then "terminalGradient" else "initial"
 def historyName (rev : Bool) : RegionName := if rev then "historyGradient" else "history"
 def finalName (rev : Bool) : RegionName := if rev then "initialGradient" else "final"
 def chunk (p : Parameters) (rev : Bool) (n : Nat) := if rev then p.NT-1-n else n
 
+/-- The actual signed loop is retained separately from its natural iteration clock. -/
+def stateIntParts (p : Parameters) (scale : ℝ) (seed final : Bool) : Source.IntRange :=
+  (Source.intRange? (backwardH p scale seed final).surfaceBody "__rev_i_t").getD
+    ⟨[],.constInt 0,.constInt 0,.constNat 0,[],[]⟩
+
+/-- Source fragments only. For the reverse loop, natural bounds describe the
+proof's iteration count; `stateLoopStmt` retains the actual signed bounds. -/
 def stateParts (p : Parameters) (scale : ℝ) (rev seed final : Bool) : Source.DynamicRange :=
-  (Source.dynamicRange? (stateKernel p scale rev seed final).surfaceBody (loopName rev)).getD
-    ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
+  if rev then
+    let actual := stateIntParts p scale seed final
+    ⟨actual.before,.constNat 0,.constNat p.NT,.constNat 1,actual.body,actual.after⟩
+  else
+    (Source.dynamicRange? (forwardH p seed final).surfaceBody "i_t").getD
+      ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
+
+def stateIndex (p : Parameters) (rev : Bool) (n : Nat) (s : State α) : State α :=
+  if rev then s.setReg "__rev_i_t" .int [] (fun _ => (n : Int)+1-(p.NT : Int))
+  else s.setReg "i_t" .nat [] (fun _ => n)
+
 def stateStorePrefix (p : Parameters) (scale : ℝ) (rev seed final : Bool) :=
   (stateParts p scale rev seed final).body.take (if rev then 5 else 4)
 def stateUpdateSuffix (p : Parameters) (scale : ℝ) (rev seed final : Bool) :=
@@ -52,7 +68,7 @@ def stateUpdateSuffix (p : Parameters) (scale : ℝ) (rev seed final : Bool) :=
 
 def stateInitial (M : Algebra α) (p : Parameters) (pid : PID) (m : Memory α)
     (rev seed : Bool) : HValues p α := fun i =>
-  if seed then cast M (rawLoad M m (seedName rev) (pid.z*p.K*p.V)
+  if seed then cast M (load M m (seedName rev) (pid.z*p.K*p.V)
     p.K p.V p.V 1 (pid.x*p.BK) (pid.y*p.BV) i) else zero M
 
 def stateLeft (M : Algebra α) (p : Parameters) (pid : PID) (m : Memory α)

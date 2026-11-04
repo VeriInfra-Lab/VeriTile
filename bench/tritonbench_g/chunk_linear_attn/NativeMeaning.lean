@@ -60,7 +60,7 @@ def mapMatrix {m n : Nat} (a : Matrix Term m n) : Matrix ℝ m n := fun i => (a 
     mapMatrix decode (stateInitial algebra p pid m rev seed)=
       stateInitial Real.algebra p pid (mapMemory decode m) rev seed := by
   funext i
-  simp only [mapMatrix,stateInitial,map_if,map_cast,map_rawLoad,map_zero]
+  simp only [mapMatrix,stateInitial,map_if,map_cast,map_load,map_zero]
 @[simp] theorem map_stateLeft (p : Parameters) (pid : PID) (m : Memory Term) (scale : ℝ) (rev : Bool) (n : Nat) :
     mapMatrix decode (stateLeft algebra p pid m scale rev n)=
       stateLeft Real.algebra p pid (mapMemory decode m) scale rev n := by

@@ -24,7 +24,7 @@ def stateEntry (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : 
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [stateParts,stateKernel,loopName,forwardH,backwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+    simp [stateParts,stateIntParts,stateKernel,loopName,forwardH,Bodies.forwardHBody,backwardH,Bodies.backwardHBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -51,11 +51,11 @@ theorem stateEntry_ready (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     · cases rev <;> cases seed <;> simp [stateEntry]
     · cases rev <;> cases seed <;> simp [stateEntry]
   · cases rev <;> cases seed <;>
-      simp [HasCarry,carryName,stateEntry,VeriTile.Bench.Repairs.ChunkLinearAttn.stateInitial,seedName,rawLoad,zero,cast,
+      simp [HasCarry,carryName,stateEntry,VeriTile.Bench.Repairs.ChunkLinearAttn.stateInitial,seedName,load,rawLoad,zero,cast,
         FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
     all_goals
       funext i
-      simp [VeriTile.Bench.Repairs.ChunkLinearAttn.stateInitial,rawLoad,seedName,cast,zero]
+      simp [VeriTile.Bench.Repairs.ChunkLinearAttn.stateInitial,load,rawLoad,seedName,cast,zero]
 
 #axiomsClean stateEntry_memory
 #axiomsClean stateEntry_ready

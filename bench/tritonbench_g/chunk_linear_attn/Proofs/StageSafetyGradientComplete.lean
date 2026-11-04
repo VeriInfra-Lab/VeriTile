@@ -42,20 +42,13 @@ theorem gradient_source_safe (M : Algebra α) (D : DotPrimitive α) (p : Paramet
     simpa only [heads] using ready.1
   obtain ⟨mid, loopRan, midReady, midFixed, midValues, _⟩ :=
     gradientLoop M D p scale pid (p.B * p.H) s.mem start.val ctx ready.2.1 ready.2.2.1
-  have h0 : (gradientParts p scale).start = .constNat 0 := rfl
-  have hn : (gradientParts p scale).stop = .div .nat .nil
-      (.sub .nat .nil (.add .nat .nil (.constNat p.V) (.constNat p.BV)) (.constNat 1))
-      (.constNat p.BV) := rfl
-  have h1 : (gradientParts p scale).stride = .constNat 1 := rfl
-  let loop := ComputeStmt.forRangeDyn "i_v" (gradientParts p scale).start (gradientParts p scale).stop
-    (gradientParts p scale).stride (gradientParts p scale).body
+  let loop := ComputeStmt.forRange "i_v" 0 (valueBlocks p) 1 (gradientParts p scale).body
   have loopStep : step (engine (withDot M D)) loop start.val = some mid := by
-    simpa [loop,step,h0,hn,h1,evalOp_unfold,Option.bind,numeric,bop,valueBlocks] using loopRan
+    simpa only [loop,step] using loopRan
   have loopSafe : Safety.stepSafe (engine (withDot M D)) bounds loop start.val := by
     have safe := gradient_range_safe M D p scale bounds pid s.mem start.val ctx ready.2.1
       _ ready.2.2.1 capacity head keyBlock
-    simpa [loop,Safety.stepSafe_unfold,Safety.safeOp_unfold,h0,hn,h1,evalOp_unfold,
-      Option.bind,numeric,bop,valueBlocks] using safe
+    simpa only [loop,Safety.stepSafe_unfold] using safe
   unfold TraceSafe
   rw [gradient_parts, List.append_assoc, Safety.traceSafeList_append]
   refine ⟨gradient_entry_safe M D p scale bounds s capacity head, ?_⟩

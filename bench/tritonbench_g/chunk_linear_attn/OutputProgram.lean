@@ -8,8 +8,7 @@ variable {α : Type} [Inhabited α]
 
 theorem output_parts (p : Parameters) (scale : ℝ) :
     (forwardO p scale).surfaceBody=(outputParts p scale).before ++
-      [.forRangeDyn "i_k" (outputParts p scale).start (outputParts p scale).stop
-        (outputParts p scale).stride (outputParts p scale).body] ++ (outputParts p scale).after := rfl
+      [.forRange "i_k" 0 (keyBlocks p) 1 (outputParts p scale).body] ++ (outputParts p scale).after := rfl
 
 theorem outputLoop (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : ℝ)
     (pid : PID) (input : Memory α) (s : State α)
@@ -34,14 +33,9 @@ theorem outputProgram (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s
   obtain ⟨mid,hm,hctx,ha⟩ := outputLoop M D p scale pid s.mem start.val hs.1 hs.2
   let finish := outputFinish M D p scale pid s.mem mid (outputStates M D p pid s.mem (keyBlocks p)) hctx ha
   refine ⟨finish.val,?_,?_⟩
-  · have h0 : (outputParts p scale).start=.constNat 0 := rfl
-    have hn : (outputParts p scale).stop=.div .nat .nil
-        (.sub .nat .nil (.add .nat .nil (.constNat p.K) (.constNat p.BK)) (.constNat 1)) (.constNat p.BK) := rfl
-    have h1 : (outputParts p scale).stride=.constNat 1 := rfl
-    have hl : step (engine (withDot M D))
-        (.forRangeDyn "i_k" (outputParts p scale).start (outputParts p scale).stop
-          (outputParts p scale).stride (outputParts p scale).body) start.val=some mid := by
-      simpa [step,h0,hn,h1,evalOp_unfold,Option.bind,numeric,bop,keyBlocks] using hm
+  · have hl : step (engine (withDot M D))
+        (.forRange "i_k" 0 (keyBlocks p) 1 (outputParts p scale).body) start.val=some mid := by
+      simpa only [step] using hm
     change run (engine (withDot M D)) (forwardO p scale).surfaceBody s=some finish.val
     rw [output_parts,List.append_assoc,run_append]
     simp only [start.property,Option.bind_some,List.singleton_append,run,hl,bind,finish.property]

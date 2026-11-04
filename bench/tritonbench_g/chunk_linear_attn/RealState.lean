@@ -37,7 +37,7 @@ theorem state_initial_eq (p : Parameters) (pid : PID) (m : Memory ℝ)
     stateInitial algebra p pid m rev seed i=
       endpoint p pid.z m rev seed (pid.x*p.BK+i.1.val) (pid.y*p.BV+i.2.1.val) := by
   rcases hi with ⟨hk,hv⟩
-  simp [stateInitial,endpoint,rawLoad,cast,zero,algebra,VeriTile.Bench.Repairs.ChunkDeltaFwd.Real.algebra,hk,hv]
+  simp [stateInitial,endpoint,load,rawLoad,cast,zero,algebra,VeriTile.Bench.Repairs.ChunkDeltaFwd.Real.algebra,hk,hv]
 
 theorem state_dot_eq (p : Parameters) (pid : PID) (m : Memory ℝ)
     (scale : ℝ) (rev : Bool) (n : Nat) (i : TileIndex [p.BK,p.BV]) (hi : hActive p pid i) :
