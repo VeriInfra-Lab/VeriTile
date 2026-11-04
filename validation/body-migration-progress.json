@@ -1320,14 +1320,17 @@
       ],
       "proof_status": "PASS_ALL_FOUR_REAL_AND_COMPLETE_FP",
       "retained_modules_build": "PASS_3764_JOBS_88_ROOTS",
-      "independent_replay": "READY_TO_DISPATCH",
+      "independent_replay": "IN_PROGRESS",
       "complete": false,
       "note": "Preserve all four bodies and the existing candidate, optional initial-state gradient output and the exact dynamic tail-length computation. Reconnect the shared forward proofs to actual identical source and reprove signed reverse execution.",
       "public_name_resolution": "PASS_ALL_5_NAMES",
       "prepared_trust_spec_audits": "PASS_ALL_3",
       "python_regressions": "PASS_4_TESTS",
       "source_inventory_uncovered_targets": 8,
-      "required_replay_roots": 88
+      "required_replay_roots": 88,
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41785252773",
+      "replay_source_commit": "ab485940172d96ff3893a8f70b6b037c3a5eb59e",
+      "frozen_closure_files": 483
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -3382,8 +3385,16 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_retention_ops",
-      "status": "pending",
-      "complete": false
+      "status": "official_replay_in_progress",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS_LOCALLY",
+      "retained_modules_build": "PASS",
+      "public_name_resolution": "PASS_ALL_5_NAMES",
+      "independent_replay": "IN_PROGRESS",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41785252773",
+      "replay_source_commit": "ab485940172d96ff3893a8f70b6b037c3a5eb59e",
+      "reason": "All eight original/candidate body pairs, four public Real specifications and full FP equivalence, all 88 retained roots and explicit trust/spec audits passed locally. Exact-current official independent replay remains required for completion."
     },
     {
       "path": "bench/tritonbench_g/chunked_cumsum_fwd",
