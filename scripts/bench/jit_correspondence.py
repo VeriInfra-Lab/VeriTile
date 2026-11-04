@@ -66,7 +66,7 @@ def quotation(text: str, definition: str, *, raw_python: bool = False) -> tuple[
     next_def = re.search(r"\n(?:(?:noncomputable|private|protected)\s+)*(?:def|abbrev|theorem|specification|inductive|structure|end|set_option)\b", mask[start.end():])
     end = start.end() + next_def.start() if next_def else len(text)
     selected, code = text[start.start():end], mask[start.start():end]
-    begin = re.search(r"\b(?:triton|triton_function|triton_procedure)\b", code)
+    begin = re.search(r"\b(?:triton|triton_function|triton_procedure|triton_rebinding_procedure)\b", code)
     if not begin:
         raise ValueError(f"definition has no direct quotation: {definition}")
     opening = code.find("{", begin.end())
@@ -345,7 +345,10 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_welford_tree: dict[str, str] | None = None,
           expected_jit_functions: dict[str, str] | None = None,
           expected_natural_reads: list[str] | None = None,
-          expected_jit_procedures: dict[str, str] | None = None) -> dict:
+          expected_jit_procedures: dict[str, str] | None = None,
+          expected_parameter_rebinding: bool = False) -> dict:
+    if expected_parameter_rebinding and expected_jit_procedures is None:
+        raise ValueError("parameter rebinding requires the reviewed procedure invocation clause")
     helper_clauses = [expected_pure_functions, expected_binary_functions, expected_jit_functions,
                       expected_jit_procedures]
     if sum(clause is not None for clause in helper_clauses) > 1:
@@ -418,11 +421,13 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         if helper_functions is not None:
             if (expected_call_bindings is None
                     or expected_pointer_cells is not None or expected_optional_pointers is not None
-                    or expected_static_strides is not None or not helper_functions):
+                    or expected_static_strides is not None
+                    or (not helper_functions and not expected_parameter_rebinding)):
                 raise ValueError("pure JIT helpers require a reviewed scalar-only call")
             if expected_pointer_offsets is not None:
                 offset_clause = offset_clause.replace("pointer_offsets", "signed_pointer_offsets")
-            label = ("jit_procedures" if expected_jit_procedures is not None else
+            label = (("rebinding_jit_procedures" if expected_parameter_rebinding else "jit_procedures")
+                     if expected_jit_procedures is not None else
                      "jit_functions" if expected_jit_functions is not None else
                      "binary_functions" if expected_binary_functions is not None else "pure_functions")
             offset_clause += r"\s+" + label + r"\s*\[([^\]]*)\]"
@@ -611,7 +616,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         if helper_functions is not None:
             bindings = {}
             helper_group = 3 if expected_pointer_offsets is not None else 2
-            for item in calls[0][helper_group].split(","):
+            clause = calls[0][helper_group]
+            for item in clause.split(",") if clause.strip() else []:
                 pair = re.fullmatch(r"\s*([A-Za-z_]\w*)\s*:=\s*([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)\s*", item)
                 if not pair or pair[1] in bindings:
                     raise ValueError("pure JIT functions require distinct named source definitions")
@@ -1055,9 +1061,10 @@ def check_statement_function(python_text: str, lean_text: str, python_function: 
 
 def check_procedure_function(python_text: str, lean_text: str, python_function: str,
                              lean_definition: str, signature_definition: str,
-                             expected_signature: dict) -> dict:
+                             expected_signature: dict, expected_parameter_rebinding: bool = False) -> dict:
     header, body = quotation(lean_text, lean_definition, raw_python=True)
-    declaration = re.search(r"\btriton_procedure\s+" + re.escape(signature_definition)
+    keyword = "triton_rebinding_procedure" if expected_parameter_rebinding else "triton_procedure"
+    declaration = re.search(r"\b" + keyword + r"\s+" + re.escape(signature_definition)
                             + r"\s*(\([^)]*\)\s+constexpr_args\s*\[[^\]]*\])\s*$", header)
     if not declaration:
         raise ValueError("procedure must declare its reviewed ABI, parameter order and constexprs")
@@ -1217,11 +1224,12 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                                                r.get("expected_constexpr_dtypes"), r.get("expected_jit_calls")))
             continue
         if r.get("kind") == "procedure_jit_function":
-            if set(r) != {"kind", "python", "lean", "python_function", "lean_definition",
+            if set(r) - {"expected_parameter_rebinding"} != {"kind", "python", "lean", "python_function", "lean_definition",
                           "signature_definition", "expected_signature"}:
                 raise ValueError("procedure helper requires its exact independently reviewed ABI")
             results.append(check_procedure_function(py, lean, r["python_function"], r["lean_definition"],
-                                                     r["signature_definition"], r["expected_signature"]))
+                                                     r["signature_definition"], r["expected_signature"],
+                                                     r.get("expected_parameter_rebinding", False)))
             continue
         if r.get("kind") == "statement_jit_function":
             if set(r) != {"kind", "python", "lean", "python_function", "lean_definition"}:
@@ -1249,7 +1257,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                              r.get("expected_constexpr_bindings"), r.get("expected_philox_call"),
                              r.get("expected_scalar_infinity_where", False),
                              r.get("expected_welford_tree"), r.get("expected_jit_functions"),
-                             r.get("expected_natural_reads"), r.get("expected_jit_procedures")))
+                             r.get("expected_natural_reads"), r.get("expected_jit_procedures"),
+                             r.get("expected_parameter_rebinding", False)))
         for name, definition in r.get('expected_philox_call', {}).get('uniform_helpers', {}).items():
             helpers = [h for h in records if h.get('kind') == 'uniform_jit_function'
                        and h['python'] == r['python'] and h['lean'] == r['lean']

@@ -1,4 +1,5 @@
 import bench.tritonbench_g.parallel_retention_attention.Kernels
+import bench.tritonbench_g.parallel_retention_attention.Contract
 import VeriTile.Triton.Float.ProgramIO
 import Mathlib.Tactic.FinCases
 import VeriTile.Triton.Float.LogicalProgramIO
@@ -59,14 +60,14 @@ def programIds (s : Shape) (tile : Tile) (ax : Nat) : Nat :=
   | _ => 0
 
 def forwardInvocation (α : Type) (s : Shape) (tile : Tile) : Invocation (Expr α) where
-  kernel := forwardKernel s
+  kernel := FPStages.forwardKernel (config s 128)
   backend := withDot algebra dots
   pids := programIds s tile
   clearRegisters := Bool.true
   numPids := some (fun _ => 0)
 
 def backwardInvocation (α : Type) (s : Shape) (tile : Tile) : Invocation (Expr α) where
-  kernel := backwardKernel s (programIds s tile)
+  kernel := FPBackward.shellSource (decodedBackwardConfig s (programIds s tile)) "dq"
   backend := withDot algebra dots
   pids := programIds s tile
   clearRegisters := Bool.true

@@ -1,4 +1,5 @@
 import bench.tritonbench_g.parallel_retention_attention.Proofs.PublicAccessQueryParts
+import bench.tritonbench_g.parallel_retention_attention.Proofs.SignedSafety
 
 namespace VeriTile.Bench.Repairs.ParallelRetentionAttention.Kernel.PublicQueryAccess
 open VeriTile.Triton FP.Structural FPQuery
@@ -14,10 +15,10 @@ theorem first_range_safe (M : Algebra α) (D : DotPrimitive α)
     (bounds : RegionName → Nat) (c : BackwardConfig) (dq : RegionName) (s t : State α)
     (start stop : Nat) (acc : TileIndex [c.BTL,c.BK] → α)
     (h : Ready M c s t start acc) (hb : Bounds bounds c dq) :
-    Safety.rangeSafe (withDot M D) bounds "_i" start stop c.BTS
+    Safety.rangeIntSafe (withDot M D) bounds "_" (start : Int) (stop : Int) c.BTS
       (firstBody c) t := by
-  apply Safety.rangeSafe_of_invariant (withDot M D) bounds "_i" stop c.BTS _
-    (fun n u => ∃ a, Ready M c s u n a) _ _ start t ⟨acc,h⟩
+  apply rangeInt_safe (withDot M D) bounds "_" (firstBody c)
+    (fun n u=>∃ a,Ready M c s u n a) start stop c.BTS _ _ t ⟨acc,h⟩
   · intro n hn u hu
     obtain ⟨a,ha⟩ := hu
     exact first_body_safe M D bounds c dq s _ n a
@@ -34,10 +35,10 @@ theorem second_range_safe (M : Algebra α) (D : DotPrimitive α)
     (bounds : RegionName → Nat) (c : BackwardConfig) (dq : RegionName) (s t : State α)
     (start stop : Nat) (acc : TileIndex [c.BTL,c.BK] → α)
     (h : DiagonalReady M c s t start acc) (hb : Bounds bounds c dq) :
-    Safety.rangeSafe (withDot M D) bounds "_i" start stop c.BTS
+    Safety.rangeIntSafe (withDot M D) bounds "_" (start : Int) (stop : Int) c.BTS
       (secondBody c) t := by
-  apply Safety.rangeSafe_of_invariant (withDot M D) bounds "_i" stop c.BTS _
-    (fun n u => ∃ a, DiagonalReady M c s u n a) _ _ start t ⟨acc,h⟩
+  apply rangeInt_safe (withDot M D) bounds "_" (secondBody c)
+    (fun n u=>∃ a,DiagonalReady M c s u n a) start stop c.BTS _ _ t ⟨acc,h⟩
   · intro n hn u hu
     obtain ⟨a,ha⟩ := hu
     exact second_body_safe M D bounds c dq s _ n a
@@ -45,7 +46,7 @@ theorem second_range_safe (M : Algebra α) (D : DotPrimitive α)
   · intro n hn u hu v hv
     obtain ⟨a,ha⟩ := hu
     obtain ⟨v',run,ready⟩ := second_body_run M D c s _ n a
-      (diagonal_ready_set_index M c s u n a ha n)
+      (diagonal_ready_set_index M c s u n a ha n) hb.indices.lanes
     rw [hv] at run
     cases run
     exact ⟨_,ready⟩
@@ -55,11 +56,13 @@ theorem query_safe (M : Algebra α) (D : DotPrimitive α)
     (bounds : RegionName → Nat) (c : BackwardConfig) (dq : RegionName) (s : State α)
     (hb : Bounds bounds c dq) :
     TraceSafe (withDot M D) bounds (source c dq) s := by
-  obtain ⟨initial,hp,hi⟩ := prefix_run M D c dq s
+  obtain ⟨initial,hp,hi⟩ := prefix_run M D c dq s hb.indices
   obtain ⟨first,hr,last,hf⟩ := first_range_run M D c s initial 0 (c.i_c*c.BTL) _ hi
-  obtain ⟨diagonal,hm,hd⟩ := middle_run M D c dq s first last _ hf
+  obtain ⟨diagonal,hm,hd⟩ := middle_run M D c dq s first last _ hf hb.indices
   obtain ⟨second,hs,finish,hz⟩ := second_range_run M D c s diagonal (c.i_c*c.BTL)
-    ((c.i_c+1)*c.BTL) _ hd
+    ((c.i_c+1)*c.BTL) _ hd hb.indices.lanes
+  have hrZero : rangeInt (withDot M D) "_" 0 ((c.i_c*c.BTL : Nat) : Int) c.BTS (firstBody c) initial=some first := by
+    simpa only [Int.natCast_zero] using hr
   unfold TraceSafe
   rw [source_split]
   simp only [List.append_assoc,List.cons_append,List.nil_append]
@@ -69,21 +72,21 @@ theorem query_safe (M : Algebra α) (D : DotPrimitive α)
   rw [hp] at hu
   cases hu
   apply Safety.traceSafeList_cons_of_step (t := first)
-  · simpa [firstRange,Safety.stepSafe_unfold,Safety.safeOp_unfold,
-      evalOp_unfold,numeric,bop,Option.bind] using
+  · simpa [firstRange,source,ComputeKernel.surfaceBody,firstBody,Safety.stepSafe_unfold,Safety.safeOp_unfold,
+      evalOp_unfold,numeric,bop,Option.bind,hi.argument1,Int.natCast_mul] using
       first_range_safe M D bounds c dq s initial 0 (c.i_c*c.BTL) _ hi hb
-  · simpa only [first_range_statement M D c initial] using hr
+  · simpa only [first_range_statement M D c initial hi.argument1] using hrZero
   · rw [Safety.traceSafeList_append]
     refine ⟨middle_safe M D bounds c dq s first last _ hf,?_⟩
     intro u hu
     rw [hm] at hu
     cases hu
     apply Safety.traceSafeList_cons_of_step (t := second)
-    · simpa [secondRange,Safety.stepSafe_unfold,Safety.safeOp_unfold,
-        evalOp_unfold,numeric,bop,Option.bind] using
+    · simpa [secondRange,source,ComputeKernel.surfaceBody,secondBody,Safety.stepSafe_unfold,Safety.safeOp_unfold,
+        evalOp_unfold,numeric,bop,Option.bind,hd.argument1,Int.natCast_mul,Int.natCast_add] using
         second_range_safe M D bounds c dq s diagonal (c.i_c*c.BTL)
           ((c.i_c+1)*c.BTL) _ hd hb
-    · simpa only [second_range_statement M D c diagonal] using hs
+    · simpa only [second_range_statement M D c diagonal hd.argument1] using hs
     · exact suffix_safe M D bounds c dq s second finish _ hz hb
 
 #axiomsClean query_safe

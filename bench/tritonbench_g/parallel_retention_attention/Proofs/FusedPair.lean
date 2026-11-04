@@ -22,11 +22,11 @@ theorem backward_inv_run (s : Shape) (tile : Tile) (state : State (Expr α)) :
   shell_run algebra dots (decodedBackwardConfig s (PublicIO.programIds s tile)) "dq" _
 
 theorem forward_result (a : Scalar α) (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 128 tile) (xs : ChannelValues α (PublicIO.forwardInputs s))
+    (shape : ShapeContract s) (valid : ProgramDomain s 128 tile) (xs : ChannelValues α (PublicIO.forwardInputs s))
     (state : State (Expr α)) :
     ∃ final,runSchedule [PublicIO.forwardInvocation α s tile] state=some final ∧
       (PublicIO.forwardIO a p s tile).Frame xs state final := by
-  obtain ⟨final,ran,memory⟩:=PublicIO.forward_run s tile valid state
+  obtain ⟨final,ran,memory⟩:=PublicIO.forward_run s tile shape valid state
   refine ⟨final,ran,?_⟩
   intro R off outside
   rw [memory]
@@ -35,11 +35,11 @@ theorem forward_result (a : Scalar α) (p : DotTrees) (s : Shape) (tile : Tile)
   exact outside.1 (0 : Fin 1) i active
 
 theorem backward_result (a : Scalar α) (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 64 tile) (xs : ChannelValues α (PublicIO.backwardInputs s))
+    (shape : ShapeContract s) (valid : ProgramDomain s 64 tile) (xs : ChannelValues α (PublicIO.backwardInputs s))
     (state : State (Expr α)) :
     ∃ final,runSchedule [PublicIO.backwardInvocation α s tile] state=some final ∧
       (PublicIO.backwardIO a p s tile).Frame xs state final := by
-  obtain ⟨final,ran,memory⟩:=PublicIO.backward_run s tile valid state
+  obtain ⟨final,ran,memory⟩:=PublicIO.backward_run s tile shape valid state
   let start := (PublicIO.backwardInvocation α s tile).initial state
   let q := FPQuery.values algebra dots (backwardConfig s tile) start
   let kv := FPStages.backwardValues algebra dots (backwardConfig s tile) start
@@ -63,11 +63,11 @@ theorem backward_result (a : Scalar α) (p : DotTrees) (s : Shape) (tile : Tile)
     _ = _ := rfl
 
 theorem forward_equivalent (a : Scalar α) (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 128 tile) :
+    (shape : ShapeContract s) (valid : ProgramDomain s 128 tile) :
     (PublicIO.forwardIO a p s tile).Equivalent (forwardVariant a p s tile) := by
   intro xs _ cap hb initial _
-  have hs:=PublicIO.forward_schedule_safe a p s tile valid xs cap hb initial
-  obtain ⟨final,ran,frame⟩:=forward_result a p s tile valid xs initial
+  have hs:=PublicIO.forward_schedule_safe a p s tile shape valid xs cap hb initial
+  obtain ⟨final,ran,frame⟩:=forward_result a p s tile shape valid xs initial
   refine ⟨hs,?_,final,final,ran,?_,?_,frame,frame⟩
   · change ScheduleSafe cap [PublicIO.forwardInvocation α s tile] initial at hs
     change ScheduleSafe cap [forwardInvocation s tile] initial
@@ -80,11 +80,11 @@ theorem forward_equivalent (a : Scalar α) (p : DotTrees) (s : Shape) (tile : Ti
     rfl
 
 theorem backward_equivalent (a : Scalar α) (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 64 tile) :
+    (shape : ShapeContract s) (valid : ProgramDomain s 64 tile) :
     (PublicIO.backwardIO a p s tile).Equivalent (backwardVariant a p s tile) := by
   intro xs _ cap hb initial _
-  have hs:=PublicIO.backward_schedule_safe a p s tile valid xs cap hb initial
-  obtain ⟨final,ran,frame⟩:=backward_result a p s tile valid xs initial
+  have hs:=PublicIO.backward_schedule_safe a p s tile shape valid xs cap hb initial
+  obtain ⟨final,ran,frame⟩:=backward_result a p s tile shape valid xs initial
   refine ⟨hs,?_,final,final,ran,?_,?_,frame,frame⟩
   · change ScheduleSafe cap [PublicIO.backwardInvocation α s tile] initial at hs
     change ScheduleSafe cap [backwardInvocation s tile] initial

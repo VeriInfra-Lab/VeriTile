@@ -5,7 +5,7 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 191,
-  "staged_count": 191,
+  "staged_count": 192,
   "pending_count": 5,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
@@ -1322,12 +1322,19 @@
     },
     "current_work": {
       "path": "bench/tritonbench_g/parallel_retention_attention",
-      "status": "SOURCE_AND_PROOF_MIGRATION_IN_PROGRESS",
+      "status": "LOCAL_VALIDATED_OFFICIAL_REPLAY_PENDING",
       "complete": false,
-      "source_pairs": "All seven original/candidate raw bodies pass exact body correspondence.",
-      "local_proofs": "Complete forward, DQ, DK/DV and actual parent execution/memory theorems pass; native value bridges pass. DQ safety passes; remaining source safety and public Real/FP endpoint migration is ongoing.",
-      "public_contract_issue": "Restored source int32 casts require the original Python ShapeContract/IndexDomain guards, which the previous public Lean theorems omitted. Expose these existing guards; do not add Python input restrictions or erase casts.",
-      "acceptance": "Still pending until all retained modules, current public Real/FP specifications, trust gates and an exact-current official independent proof replay pass. No merge."
+      "source_pairs": 7,
+      "retained_build_roots": 107,
+      "owned_lean_modules": 103,
+      "lake_dependency_jobs": 8547,
+      "public_real_fp_theorems": 4,
+      "external_trust_spec_gates": "8 PASS",
+      "python_tests": "705 PASS",
+      "source_correspondence": "179/183 G tasks and 19/19 examples checked; four other G tasks still uncovered. This is a source-only inventory.",
+      "public_contract_repair": "Public Real/FP hypotheses expose the original Python ShapeContract/IndexDomain checks needed by retained int32 offsets; Python inputs unchanged.",
+      "implementation": "One pasted source authority, thin argument adapters, actual parent calls, signed ranges and checked narrowing conversions.",
+      "acceptance": "Pending the exact-current official independent replay; no merge."
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -3030,12 +3037,13 @@
       }
     ],
     "current_registry": {
-      "cases": 197,
-      "targets": 191,
+      "cases": 198,
+      "targets": 192,
       "regressions": 6,
-      "retained_modules": 8178,
-      "replay_sources": 7181,
-      "integrated_full_build": "NOT_CLAIMED"
+      "retained_modules": 8283,
+      "replay_sources": 7286,
+      "integrated_full_build": "NOT_CLAIMED",
+      "local_incremental_build": "PASS_107_ROOTS"
     },
     "newly_completed_current_source_replays": [
       {
@@ -4769,7 +4777,11 @@
       "status": "pending",
       "complete": false,
       "body_copy_check": "PASS_7_EXACT_PAIRS",
-      "reason": "Source body comparison passes. Actual casts, helper calls, lane arithmetic and signed loops are retained; full independent mathematical/safety/FP proof migration and replay are still pending."
+      "reason": "All seven original/candidate raw bodies align. The complete actual parent, ordered DQ/barrier/DKV memory, safety/frame and independent Real/FP endpoints pass locally; 107 retained roots and eight external trust/spec gates pass. Original Python shape/index guards are explicit. Exact-current official independent replay is still required; compilation is not completion.",
+      "public_real_fp_proofs": "LOCAL_PASS_4_PUBLIC_TARGETS",
+      "retained_modules_build": "LOCAL_PASS_107_ROOTS",
+      "independent_replay": "NOT_YET_SUBMITTED",
+      "public_name_resolution": "PASS"
     },
     {
       "path": "bench/tritonbench_g/pow_scalar_tensor",

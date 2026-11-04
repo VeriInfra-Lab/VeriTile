@@ -299,6 +299,41 @@ class ChunkBwdDqkgBodyCorrespondenceTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance['original_sha256'])
         self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])
 
+
+class RebindingProcedureBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/parallel_retention_attention'
+        self.python = (self.directory / 'parallel_retention_attention.py').read_text()
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def test_all_seven_complete_rebinding_bodies(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([row['statements'] for row in rows], [34, 32, 34, 17, 34, 32, 17])
+
+    def test_rebinding_and_cast_width_are_not_erased(self):
+        from scripts.bench.jit_correspondence import check_procedure_function
+        record = self.records[1]
+        start = self.lean.index('def Bodies.query')
+        for before, after in [('T = tl.cast(T, tl.int64)', 'T = T'),
+                              ('.to(tl.int32)', '.to(tl.int64)'),
+                              ('s_qk_h = tl.cast(s_qk_h, tl.int64)', '')]:
+            with self.subTest(mutation=before):
+                self.assertIn(before, self.lean[start:])
+                changed = self.lean[:start] + self.lean[start:].replace(before, after, 1)
+                with self.assertRaises(ValueError):
+                    check_procedure_function(self.python, changed, record['python_function'],
+                        record['lean_definition'], record['signature_definition'],
+                        record['expected_signature'], expected_parameter_rebinding=True)
+
+    def test_rebinding_adapter_must_be_explicitly_reviewed(self):
+        record = self.records[3]
+        with self.assertRaises(ValueError):
+            check(self.python, self.lean, record['python_function'], record['lean_definition'],
+                  record['signature_definition'], record['expected_signature'],
+                  expected_call_bindings=record['expected_call_bindings'],
+                  expected_jit_procedures=record['expected_jit_procedures'])
+
 if __name__ == "__main__":
     unittest.main()
 
