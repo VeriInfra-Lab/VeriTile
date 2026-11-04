@@ -66,7 +66,7 @@ def quotation(text: str, definition: str, *, raw_python: bool = False) -> tuple[
     next_def = re.search(r"\n(?:(?:noncomputable|private|protected)\s+)*(?:def|abbrev|theorem|specification|inductive|structure|end|set_option)\b", mask[start.end():])
     end = start.end() + next_def.start() if next_def else len(text)
     selected, code = text[start.start():end], mask[start.start():end]
-    begin = re.search(r"\b(?:triton|triton_function|triton_procedure|triton_rebinding_procedure)\b", code)
+    begin = re.search(r"\b(?:triton|triton_function|triton_procedure|triton_rebinding_procedure|triton_source_procedure)\b", code)
     if not begin:
         raise ValueError(f"definition has no direct quotation: {definition}")
     opening = code.find("{", begin.end())
@@ -347,11 +347,12 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_natural_reads: list[str] | None = None,
           expected_jit_procedures: dict[str, str] | None = None,
           expected_parameter_rebinding: bool = False,
-          expected_fp32_constants: list[str] | None = None) -> dict:
+          expected_fp32_constants: list[str] | None = None,
+          expected_source_procedures: dict[str, str] | None = None) -> dict:
     if expected_parameter_rebinding and expected_jit_procedures is None:
         raise ValueError("parameter rebinding requires the reviewed procedure invocation clause")
     helper_clauses = [expected_pure_functions, expected_binary_functions, expected_jit_functions,
-                      expected_jit_procedures]
+                      expected_jit_procedures, expected_source_procedures]
     if sum(clause is not None for clause in helper_clauses) > 1:
         raise ValueError("unary, binary and statement helper clauses cannot be mixed")
     helper_functions = next((clause for clause in helper_clauses if clause is not None), None)
@@ -441,7 +442,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 raise ValueError("pure JIT helpers require a reviewed scalar-only call")
             if expected_pointer_offsets is not None:
                 offset_clause = offset_clause.replace("pointer_offsets", "signed_pointer_offsets")
-            label = (("rebinding_jit_procedures" if expected_parameter_rebinding else "jit_procedures")
+            label = ("source_procedures" if expected_source_procedures is not None else
+                     ("rebinding_jit_procedures" if expected_parameter_rebinding else "jit_procedures")
                      if expected_jit_procedures is not None else
                      "jit_functions" if expected_jit_functions is not None else
                      "binary_functions" if expected_binary_functions is not None else "pure_functions")
@@ -1074,6 +1076,29 @@ def check_statement_function(python_text: str, lean_text: str, python_function: 
             "constexpr_parameters": constants}
 
 
+def check_source_procedure(python_text: str, lean_text: str, python_function: str,
+                           lean_definition: str, expected_fp32_constants: list[str]) -> dict:
+    header, body = quotation(lean_text, lean_definition, raw_python=True)
+    declaration = re.search(r"\btriton_source_procedure\s*(\([^)]*\)\s+constexpr_args\s*\[[^\]]*\])"
+                            r"\s+fp32_constants\s*\[([^\]]*)\]\s*$", header)
+    if not declaration:
+        raise ValueError("source procedure requires exact parameters, constexprs and materialized constants")
+    selected = f"def {lean_definition} := triton_function {declaration[1]} {{" + body + "}"
+    result = check_statement_function(python_text, selected, python_function, lean_definition)
+    materialized = [name.strip() for name in declaration[2].split(',') if name.strip()]
+    if (materialized != expected_fp32_constants or len(set(materialized)) != len(materialized)
+            or not set(materialized) <= set(result['constexpr_parameters'])
+            or any(not re.fullmatch(r"[A-Za-z_]\w*", name) for name in materialized)):
+        raise ValueError("source procedure materialized constants differ from reviewed constexpr subset")
+    fn = next(n for n in ast.parse(python_text).body if isinstance(n, ast.FunctionDef) and n.name == python_function)
+    if any(isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del))
+           and node.id in result['constexpr_parameters'] for node in ast.walk(fn)):
+        raise ValueError("source procedure constexpr parameters must remain immutable")
+    result['kind'] = 'source_procedure'
+    result['fp32_constants'] = materialized
+    return result
+
+
 def check_procedure_function(python_text: str, lean_text: str, python_function: str,
                              lean_definition: str, signature_definition: str,
                              expected_signature: dict, expected_parameter_rebinding: bool = False) -> dict:
@@ -1238,6 +1263,12 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                                                r["expected_constexpr_bools"],
                                                r.get("expected_constexpr_dtypes"), r.get("expected_jit_calls")))
             continue
+        if r.get("kind") == "source_procedure":
+            if set(r) != {"kind", "python", "lean", "python_function", "lean_definition", "expected_fp32_constants"}:
+                raise ValueError("source procedure requires exact original parameters and reviewed constants")
+            results.append(check_source_procedure(py, lean, r["python_function"], r["lean_definition"],
+                                                  r["expected_fp32_constants"]))
+            continue
         if r.get("kind") == "procedure_jit_function":
             if set(r) - {"expected_parameter_rebinding"} != {"kind", "python", "lean", "python_function", "lean_definition",
                           "signature_definition", "expected_signature"}:
@@ -1274,17 +1305,18 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                              r.get("expected_welford_tree"), r.get("expected_jit_functions"),
                              r.get("expected_natural_reads"), r.get("expected_jit_procedures"),
                              r.get("expected_parameter_rebinding", False),
-                             r.get("expected_fp32_constants")))
+                             r.get("expected_fp32_constants"), r.get("expected_source_procedures")))
         for name, definition in r.get('expected_philox_call', {}).get('uniform_helpers', {}).items():
             helpers = [h for h in records if h.get('kind') == 'uniform_jit_function'
                        and h['python'] == r['python'] and h['lean'] == r['lean']
                        and h['python_function'] == name and h['lean_definition'] == definition]
             if len(helpers) != 1:
                 raise ValueError("uniform call requires its separately checked complete helper")
-        helper_kind = ("procedure_jit_function" if "expected_jit_procedures" in r else
+        helper_kind = ("source_procedure" if "expected_source_procedures" in r else
+                       "procedure_jit_function" if "expected_jit_procedures" in r else
                        "statement_jit_function" if "expected_jit_functions" in r else
                        "binary_pure_jit_function" if "expected_binary_functions" in r else "pure_jit_function")
-        for name, definition in r.get("expected_jit_procedures", r.get("expected_jit_functions", r.get("expected_binary_functions", r.get("expected_pure_functions", {})))).items():
+        for name, definition in r.get("expected_source_procedures", r.get("expected_jit_procedures", r.get("expected_jit_functions", r.get("expected_binary_functions", r.get("expected_pure_functions", {}))))).items():
             helpers = [h for h in records if h.get("kind") == helper_kind
                        and h["lean"] == r["lean"] and h["lean_definition"] == definition]
             # Independently retained Python files may copy the same unchanged
