@@ -21,7 +21,7 @@ def gradientBody (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale 
   have hd := ctx.inputs "historyGradient" (by simp)
   refine ⟨?_,?_⟩
   swap
-  simp [gradientParts,backwardQKV,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [gradientParts,backwardQKV,Bodies.backwardQKVBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

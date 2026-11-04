@@ -30,7 +30,7 @@ def gradientEntry (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale
     {t : State α // run (engine (withDot M D)) (gradientParts p scale).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [gradientParts,backwardQKV,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [gradientParts,backwardQKV,Bodies.backwardQKVBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
