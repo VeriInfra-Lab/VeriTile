@@ -1,3 +1,4 @@
+import VeriTile.Triton.Semantics.ProgramRewrite
 import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_Kernels
 import VeriTile.Triton
 import VeriTile.Triton.Semantics.BlockPadding
@@ -145,9 +146,9 @@ source text:
 /-- The five statements before the K loop: the three program ids, the causal mask,
 and the zeroed accumulator. -/
 def cgfPreLoop (BT BV : Nat) : List Stmt :=
-  [ Stmt.assign .nat [] "i_v" (Op.programId 0),
+  [ Stmt.ifThen (.constBool Bool.true) [Stmt.assign .nat [] "i_v" (Op.programId 0),
     Stmt.assign .nat [] "i_t" (Op.programId 1),
-    Stmt.assign .nat [] "i_bh" (Op.programId 2),
+    Stmt.assign .nat [] "i_bh" (Op.programId 2)],
     Stmt.assign .bool [BT, BT] "m_s"
       (Op.ge ComparableDType.nat (Broadcast.consR (Broadcast.consL Broadcast.nil))
         (Op.expandDim ⟨1, by simp⟩ (Op.arange BT))
@@ -257,13 +258,7 @@ theorem cgf_body_eq (q v g h o A : RegionName)
     (chunk_gla_fwd_o_surface q v g h o A s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t
         scale T K V BT BK BV).toAlgKernel.body
       = cgfPreLoop BT BV
-        ++ [Stmt.forRangeDyn "i_k" (Op.constNat 0)
-              (Op.div .nat Broadcast.nil
-                (Op.sub .nat Broadcast.nil
-                  (Op.add .nat Broadcast.nil (Op.constNat K) (Op.constNat BK))
-                  (Op.constNat 1))
-                (Op.constNat BK))
-              (Op.constNat 1)
+        ++ [Stmt.forRange "i_k" 0 ((K+BK-1)/BK) 1
               (cgfLoopBody g h q s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV)]
         ++ cgfPostLoop v o A s_v_h s_v_t T V BT BV := by
   simp only [BlockPaddingView.kernel,
@@ -275,6 +270,16 @@ theorem cgf_body_eq (q v g h o A : RegionName)
     BlockPaddingView.compute,
     BlockPaddingView.operation,
     VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedOutput.Storage.current,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.interOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.interDotFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.intraOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.intraScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.splitOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.splitScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.mergeOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.mergeLoadFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputSumLeft,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.source,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32Original,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32DotFirst,
@@ -849,29 +854,16 @@ theorem cgfLoop_collapse (s0 : BlockState) (q g h : RegionName)
     (s_k_h s_k_t s_h_h s_h_t : Nat) (scale : ℝ) (T K V BT BK BV : Nat)
     (t : BlockState)
     (h0 : cgfInv s0 q g h s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV 0 t) :
-    ∃ sF, stepStmt (Stmt.forRangeDyn "i_k" (Op.constNat 0)
-          (Op.div .nat Broadcast.nil
-            (Op.sub .nat Broadcast.nil
-              (Op.add .nat Broadcast.nil (Op.constNat K) (Op.constNat BK))
-              (Op.constNat 1))
-            (Op.constNat BK))
-          (Op.constNat 1)
+    ∃ sF, stepStmt (Stmt.forRange "i_k" 0 (numKB K BK) 1
           (cgfLoopBody g h q s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV)) t
         = some sF
       ∧ cgfInv s0 q g h s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV
           (numKB K BK) sF := by
-  have hstop : evalOp (Op.div .nat Broadcast.nil
-      (Op.sub .nat Broadcast.nil
-        (Op.add .nat Broadcast.nil (Op.constNat K) (Op.constNat BK)) (Op.constNat 1))
-      (Op.constNat BK)) t = some (Tile.scalar (numKB K BK)) := by
-    rw [evalOp_div, evalOp_sub, evalOp_add]
-    simp only [evalOp_constNat, Option.bind_eq_bind, Option.bind_some]
-    rfl
   obtain ⟨final, sF, hrun, hfinal, hP⟩ :=
-    forRangeDyn_inv (idx := "i_k") (start := 0) (stop := numKB K BK) (step := 1)
+    forRange_inv (idx := "i_k") (start := 0) (stop := numKB K BK) (step := 1)
       (P := fun i u => cgfInv s0 q g h s_k_h s_k_t s_h_h s_h_t scale
         T K V BT BK BV i u)
-      (evalOp_constNat _ _) hstop (evalOp_constNat _ _) one_ne_zero h0
+      one_ne_zero h0
       (fun i u hi hinv => by
         obtain ⟨s', hs', hinv'⟩ :=
           cgfLoopBody_run s0 q g h s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV i _
@@ -1175,6 +1167,7 @@ theorem cgfPreLoop_run (s : BlockState) (BT BV : Nat) :
       ∧ t.regs .real [BT, BV] "b_o" = some (⟨fun _ => some 0⟩ : Tile .real [BT, BV])
       ∧ t.undef = s.undef := by
   unfold cgfPreLoop
+  simp only [ProgramRewrite.constant_branch,↓reduceIte,List.cons_append,List.nil_append]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 0 s))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 1 _))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 2 _))]
@@ -1220,29 +1213,13 @@ theorem source_executes
   obtain ⟨t0, hpre, h0mem, h0pids, h0iv, h0it, h0ibh, h0ms, h0bo, h0u⟩ :=
     cgfPreLoop_run s BT BV
   rw [stepStmts.append_some hpre]
-  rw [show [Stmt.forRangeDyn "i_k" (Op.constNat 0)
-        (Op.div .nat Broadcast.nil
-          (Op.sub .nat Broadcast.nil
-            (Op.add .nat Broadcast.nil (Op.constNat K) (Op.constNat BK))
-            (Op.constNat 1))
-          (Op.constNat BK))
-        (Op.constNat 1)
-        (cgfLoopBody g h q s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV)]
-      ++ cgfPostLoop v o A s_v_h s_v_t T V BT BV
-    = Stmt.forRangeDyn "i_k" (Op.constNat 0)
-        (Op.div .nat Broadcast.nil
-          (Op.sub .nat Broadcast.nil
-            (Op.add .nat Broadcast.nil (Op.constNat K) (Op.constNat BK))
-            (Op.constNat 1))
-          (Op.constNat BK))
-        (Op.constNat 1)
-        (cgfLoopBody g h q s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV)
-      :: cgfPostLoop v o A s_v_h s_v_t T V BT BV from rfl]
+  rw [List.singleton_append]
   -- the collapsed K loop
   obtain ⟨t1, hloop, hinv1⟩ :=
     cgfLoop_collapse s q g h s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV t0
       ⟨Nat.zero_le _, h0mem, h0pids, h0iv, h0it, h0ibh, h0ms,
         by rw [h0bo, cgfAccTile_zero], h0u.trans hu⟩
+  simp only [numKB] at hloop
   rw [stepStmts.cons_some hloop]
   -- the tail
   obtain ⟨sF, hpost, hout, hframe⟩ :=

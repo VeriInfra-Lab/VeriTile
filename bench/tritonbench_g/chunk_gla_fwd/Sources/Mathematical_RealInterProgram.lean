@@ -52,10 +52,13 @@ def carry (p : Layout) : Op .real [p.BC,p.BC] := .ref .real [p.BC,p.BC] "b_A"
 def dot (p : Layout) : Op .real [p.BC,p.BC] :=
   .dot (batch := []) (.ref .real [p.BC,p.BK] "b_qg") (.ref .real [p.BK,p.BC] "b_kg") {}
 def initialization (p : Layout) : List Stmt :=
-  [.assign .nat [] "i_t" (.programId 0),.assign .nat [] "i_c" (.programId 1),
-   .assign .nat [] "i_bh" (.programId 2),
-   .assign .nat [] "i_i" (.floorDiv .nat .nil (.ref .nat [] "i_c") (.constNat p.NC)),
-   .assign .nat [] "i_j" (.mod .nat .nil (.ref .nat [] "i_c") (.constNat p.NC))]
+  [.ifThen (.constBool Bool.true)
+    [.assign .nat [] "i_t" (.programId 0),.assign .nat [] "i_c" (.programId 1),
+     .assign .nat [] "i_bh" (.programId 2)],
+   .ifThen (.constBool Bool.true)
+    [.assign .nat [] "i_i" (.floorDiv .nat .nil (.ref .nat [] "i_c") (.constNat p.NC)),
+     .assign .nat [] "i_j" (.mod .nat .nil (.ref .nat [] "i_c") (.constNat p.NC))]]
+
 def setup (p : Layout) : List Stmt := [.assign .real [p.BC,p.BC] "b_A" (.full [p.BC,p.BC] (.const 0))]
 def iteration (p : Layout) (r : Regions) (scale : ℝ) (swapped : Bool) : List Stmt :=
   [.assign .nat [p.BK] "o_k" (.add .nat .scalarL (times "i_k" p.BK) (.arange p.BK)),
@@ -77,7 +80,7 @@ def iteration (p : Layout) (r : Regions) (scale : ℝ) (swapped : Bool) : List S
 def tripCount (p : Layout) : Op .nat [] :=
   .div .nat .nil (.sub .nat .nil (.add .nat .nil (.constNat p.K) (.constNat p.BK)) (.constNat 1)) (.constNat p.BK)
 def loop (p : Layout) (r : Regions) (scale : ℝ) (swapped : Bool) : Stmt :=
-  .forRangeDyn "i_k" (.constNat 0) (tripCount p) (.constNat 1) (iteration p r scale swapped)
+  .forRange "i_k" 0 ((p.K+p.BK-1)/p.BK) 1 (iteration p r scale swapped)
 def finalization (p : Layout) (r : Regions) : List Stmt :=
   [.assign .blockPtr [p.BC,p.BC] "p_A" (outputPtr p r.output),
    .store .real [p.BC,p.BC] (.blockPtr (.ref .blockPtr [p.BC,p.BC] "p_A") [0,1]) (carry p) .none]
@@ -103,6 +106,16 @@ theorem source_body (p : Layout) (r : Regions) (qs ks gs : TypedInter.Storage)
     BlockPaddingView.compute,
     BlockPaddingView.operation,
     VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedOutput.Storage.current,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.interOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.interDotFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.intraOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.intraScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.splitOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.splitScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.mergeOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.mergeLoadFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputSumLeft,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.source,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32Original,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32DotFirst,

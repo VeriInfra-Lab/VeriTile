@@ -65,7 +65,7 @@ theorem accumulator_step_swapped (p : Layout) (l : Launch) (a padding : Nat → 
     NumericDType.add,WithBot.realAdd,Broadcast.leftIndex,Broadcast.rightIndex,add_comm]
 
 def result (p : Layout) (l : Launch) (A : RegionName) (a padding : Nat → ℝ) (kb : Nat) (s : BlockState) : BlockState :=
-  (s.setReg "p_A" .blockPtr [p.BC,p.BC] (pointer p l A kb)).setReg "b_A" .real [p.BC,p.BC]
+  ((s.setReg "p_A" .blockPtr [p.BC,p.BC] (pointer p l A kb)).setReg "__veritile_load_0" .real [p.BC,p.BC] (inputTile p l a padding kb)).setReg "b_A" .real [p.BC,p.BC]
     (accumulator p l a padding (kb+1))
 
 theorem iteration_executes (p : Layout) (l : Launch) (A : RegionName) (a padding : Nat → ℝ)
@@ -76,6 +76,9 @@ theorem iteration_executes (p : Layout) (l : Launch) (A : RegionName) (a padding
     stepStmts (iteration p A swapped) s = some (result p l A a padding kb s) := by
   unfold iteration
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (pointer_eval p l A kb s hg hk))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_eval p l A a padding kb _
+    (by simpa [BlockState.readMem,BlockState.setReg] using hm)
+    (by simpa [BlockState.setReg] using hu) (by simp)))]
   cases swapped
   all_goals
     simp only [Bool.false_eq_true,↓reduceIte]
@@ -83,12 +86,7 @@ theorem iteration_executes (p : Layout) (l : Launch) (A : RegionName) (a padding
     rfl
   all_goals
     rw [evalOp_add]
-    simp only [carry,evalOp_ref,BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (by decide : ("b_A" : RegName) ≠ "p_A"),hc]
-    rw [load_eval p l A a padding kb _ (by simpa [BlockState.readMem,BlockState.setReg] using hm)
-      (by simpa [BlockState.setReg] using hu) (by simp)]
-    simp only [Option.bind_eq_bind,Option.bind_some]
-  · rw [accumulator_step]
-  · rw [accumulator_step_swapped]
+    simp [carry,evalOp_ref,hc,accumulator_step,accumulator_step_swapped]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

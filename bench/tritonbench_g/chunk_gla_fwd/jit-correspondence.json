@@ -1,0 +1,1116 @@
+[
+  {
+    "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
+    "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean",
+    "python_function": "chunk_gla_fwd_A_kernel_intra_sub_inter",
+    "lean_definition": "interOriginal",
+    "signature_definition": "interSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          {
+            "on": "qStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "k",
+          {
+            "on": "kStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "g",
+          {
+            "on": "gStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "BT",
+        "BC",
+        "BK",
+        "NC"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "g"
+      ],
+      "writePorts": [
+        "A"
+      ],
+      "floatingPointers": [
+        [
+          "A",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "qStorage",
+        "kStorage",
+        "gStorage",
+        "out_dtype"
+      ],
+      "dtype_parameter_types": {
+        "qStorage": "Storage",
+        "kStorage": "Storage",
+        "gStorage": "Storage",
+        "out_dtype": "FloatDType"
+      }
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py",
+    "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean",
+    "python_function": "chunk_gla_fwd_A_kernel_intra_sub_inter",
+    "lean_definition": "interDotFirst",
+    "signature_definition": "interSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          {
+            "on": "qStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "k",
+          {
+            "on": "kStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "g",
+          {
+            "on": "gStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "BT",
+        "BC",
+        "BK",
+        "NC"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "g"
+      ],
+      "writePorts": [
+        "A"
+      ],
+      "floatingPointers": [
+        [
+          "A",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "qStorage",
+        "kStorage",
+        "gStorage",
+        "out_dtype"
+      ],
+      "dtype_parameter_types": {
+        "qStorage": "Storage",
+        "kStorage": "Storage",
+        "gStorage": "Storage",
+        "out_dtype": "FloatDType"
+      }
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
+    "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean",
+    "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra",
+    "lean_definition": "intraOriginal",
+    "signature_definition": "intraSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          {
+            "on": "qStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "k",
+          {
+            "on": "kStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "g",
+          {
+            "on": "gStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "A",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "BT",
+        "BC",
+        "BK"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "g"
+      ],
+      "writePorts": [
+        "A"
+      ],
+      "dtype_parameters": [
+        "qStorage",
+        "kStorage",
+        "gStorage"
+      ],
+      "dtype_parameter_types": {
+        "qStorage": "Storage",
+        "kStorage": "Storage",
+        "gStorage": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py",
+    "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean",
+    "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra",
+    "lean_definition": "intraScaleFirst",
+    "signature_definition": "intraSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          {
+            "on": "qStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "k",
+          {
+            "on": "kStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "g",
+          {
+            "on": "gStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "A",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "BT",
+        "BC",
+        "BK"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "g"
+      ],
+      "writePorts": [
+        "A"
+      ],
+      "dtype_parameters": [
+        "qStorage",
+        "kStorage",
+        "gStorage"
+      ],
+      "dtype_parameter_types": {
+        "qStorage": "Storage",
+        "kStorage": "Storage",
+        "gStorage": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
+    "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean",
+    "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra_split",
+    "lean_definition": "splitOriginal",
+    "signature_definition": "splitSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          {
+            "on": "qStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "k",
+          {
+            "on": "kStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "g",
+          {
+            "on": "gStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "A",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "BT",
+        "BC",
+        "BK",
+        "NC"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "g"
+      ],
+      "writePorts": [
+        "A"
+      ],
+      "dtype_parameters": [
+        "qStorage",
+        "kStorage",
+        "gStorage"
+      ],
+      "dtype_parameter_types": {
+        "qStorage": "Storage",
+        "kStorage": "Storage",
+        "gStorage": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py",
+    "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean",
+    "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra_split",
+    "lean_definition": "splitScaleFirst",
+    "signature_definition": "splitSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          {
+            "on": "qStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "k",
+          {
+            "on": "kStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "g",
+          {
+            "on": "gStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "A",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "BT",
+        "BC",
+        "BK",
+        "NC"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "g"
+      ],
+      "writePorts": [
+        "A"
+      ],
+      "dtype_parameters": [
+        "qStorage",
+        "kStorage",
+        "gStorage"
+      ],
+      "dtype_parameter_types": {
+        "qStorage": "Storage",
+        "kStorage": "Storage",
+        "gStorage": "Storage"
+      }
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
+    "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean",
+    "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra_merge",
+    "lean_definition": "mergeOriginal",
+    "signature_definition": "mergeSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "T",
+        "BT",
+        "BC",
+        "NK"
+      ],
+      "readPorts": [
+        "A"
+      ],
+      "writePorts": [
+        "A2"
+      ],
+      "floatingPointers": [
+        [
+          "A2",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "out_dtype"
+      ]
+    },
+    "expected_call_bindings": {}
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py",
+    "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean",
+    "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra_merge",
+    "lean_definition": "mergeLoadFirst",
+    "signature_definition": "mergeSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "T",
+        "BT",
+        "BC",
+        "NK"
+      ],
+      "readPorts": [
+        "A"
+      ],
+      "writePorts": [
+        "A2"
+      ],
+      "floatingPointers": [
+        [
+          "A2",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "out_dtype"
+      ]
+    },
+    "expected_call_bindings": {}
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
+    "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean",
+    "python_function": "chunk_gla_fwd_kernel_o",
+    "lean_definition": "outputOriginal",
+    "signature_definition": "outputSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          {
+            "on": "queryStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "v",
+          {
+            "on": "valueStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "g",
+          {
+            "on": "gateStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "s_v_h",
+          "integer"
+        ],
+        [
+          "s_v_t",
+          "integer"
+        ],
+        [
+          "s_h_h",
+          "integer"
+        ],
+        [
+          "s_h_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "V",
+        "BT",
+        "BK",
+        "BV"
+      ],
+      "readPorts": [
+        "q",
+        "v",
+        "g",
+        "h",
+        "A"
+      ],
+      "writePorts": [
+        "o"
+      ],
+      "floatingPointers": [
+        [
+          "h",
+          "dtype"
+        ],
+        [
+          "o",
+          "out_dtype"
+        ],
+        [
+          "A",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "queryStorage",
+        "valueStorage",
+        "gateStorage",
+        "dtype",
+        "out_dtype"
+      ],
+      "dtype_parameter_types": {
+        "queryStorage": "Storage",
+        "valueStorage": "Storage",
+        "gateStorage": "Storage",
+        "dtype": "FloatDType",
+        "out_dtype": "FloatDType"
+      }
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "s_v_h": "s_v_h",
+      "s_v_t": "s_v_t",
+      "s_h_h": "s_h_h",
+      "s_h_t": "s_h_t",
+      "scale": "scale"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py",
+    "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean",
+    "python_function": "chunk_gla_fwd_kernel_o",
+    "lean_definition": "outputSumLeft",
+    "signature_definition": "outputSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          {
+            "on": "queryStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "v",
+          {
+            "on": "valueStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ],
+        [
+          "g",
+          {
+            "on": "gateStorage",
+            "cases": [
+              [
+                "fp32",
+                "fp32"
+              ],
+              [
+                "fp16",
+                "fp16"
+              ],
+              [
+                "bf16",
+                "bf16"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "integer"
+        ],
+        [
+          "s_k_t",
+          "integer"
+        ],
+        [
+          "s_v_h",
+          "integer"
+        ],
+        [
+          "s_v_t",
+          "integer"
+        ],
+        [
+          "s_h_h",
+          "integer"
+        ],
+        [
+          "s_h_t",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "T",
+        "K",
+        "V",
+        "BT",
+        "BK",
+        "BV"
+      ],
+      "readPorts": [
+        "q",
+        "v",
+        "g",
+        "h",
+        "A"
+      ],
+      "writePorts": [
+        "o"
+      ],
+      "floatingPointers": [
+        [
+          "h",
+          "dtype"
+        ],
+        [
+          "o",
+          "out_dtype"
+        ],
+        [
+          "A",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "queryStorage",
+        "valueStorage",
+        "gateStorage",
+        "dtype",
+        "out_dtype"
+      ],
+      "dtype_parameter_types": {
+        "queryStorage": "Storage",
+        "valueStorage": "Storage",
+        "gateStorage": "Storage",
+        "dtype": "FloatDType",
+        "out_dtype": "FloatDType"
+      }
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_k_t": "s_k_t",
+      "s_v_h": "s_v_h",
+      "s_v_t": "s_v_t",
+      "s_h_h": "s_h_h",
+      "s_h_t": "s_h_t",
+      "scale": "scale"
+    }
+  }
+]

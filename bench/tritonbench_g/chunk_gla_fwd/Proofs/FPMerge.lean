@@ -20,7 +20,7 @@ structure Layout where
 
 def kernel (p : Layout) := TypedMerge.original .fp32 "scratch" "attention" p.T p.BT p.BC p.NK
 def branch (p : Layout) : Source.Conditional :=
-  (Source.conditional? (kernel p).surfaceBody (fun _ => Bool.true)).getD
+  (Source.conditional? (kernel p).surfaceBody (fun body => (Source.dynamicRange? body "i_k").isSome)).getD
     ⟨[],.constBool Bool.false,[],[],[]⟩
 def parts (p : Layout) : Source.DynamicRange :=
   (Source.dynamicRange? (branch p).yes "i_k").getD
@@ -42,7 +42,7 @@ instance (p : Layout) (s : State α) : DecidablePred (active p s) := fun _ => in
 def zero (M : Algebra α) := M.literal (some .fp32) .real 0
 
 def loaded (M : Algebra α) (p : Layout) (s : State α) (f : Nat) (i : Index p) : α :=
-  if row p s i.1.val<p.T then (s.mem "scratch" (inputAddress p s f i)).read .real else zero M
+  M.fp32Load (if row p s i.1.val<p.T then (s.mem "scratch" (inputAddress p s f i)).read .real else zero M)
 def update (M : Algebra α) (p : Layout) (s : State α) (f : Nat) (a : Index p → α) (i : Index p) : α :=
   M.binary (some .fp32) .real .add (a i) (loaded M p s f i)
 def accumulated (M : Algebra α) (p : Layout) (s : State α) : Index p → α :=
@@ -63,7 +63,7 @@ def entryExecution (M : Algebra α) (p : Layout) (s : State α) :
     {t : State α // run (engine M) ((branch p).before ++ (parts p).before) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,branch,kernel,TypedMerge.original,ComputeKernel.surfaceBody,
+  simp [parts,branch,kernel,TypedMerge.original,Bodies.mergeOriginal,ComputeKernel.surfaceBody,
     Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -84,7 +84,7 @@ def bodyExecution (M : Algebra α) (p : Layout) (initial current : State α)
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,branch,kernel,TypedMerge.original,ComputeKernel.surfaceBody,
+  simp [parts,branch,kernel,TypedMerge.original,Bodies.mergeOriginal,ComputeKernel.surfaceBody,
     Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

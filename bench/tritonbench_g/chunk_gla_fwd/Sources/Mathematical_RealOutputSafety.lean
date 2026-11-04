@@ -1,3 +1,4 @@
+import VeriTile.Triton.Memory.TraceRewrite
 import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealOutput
 import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealOutputSource
 import VeriTile.Triton.Memory.TraceProofs
@@ -177,12 +178,9 @@ theorem loop_safe (s0 : BlockState) (q g h : RegionName)
     (hb : ∀ kb, kb < numKB K BK → StepBounds s0 q g h s_k_h s_k_t s_h_h s_h_t T K V BT BK BV kb bounds)
     (t : BlockState)
     (hi : cgfInv s0 q g h s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV 0 t) :
-    Stmt.TraceSafe bounds (.forRangeDyn "i_k" (.constNat 0)
-      (.div .nat .nil (.sub .nat .nil (.add .nat .nil (.constNat K) (.constNat BK)) (.constNat 1)) (.constNat BK))
-      (.constNat 1) (cgfLoopBody g h q s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV)) t := by
+    Stmt.TraceSafe bounds (.forRange "i_k" 0 (numKB K BK) 1
+      (cgfLoopBody g h q s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV)) t := by
   rw [Stmt.TraceSafe]
-  simp only [Op.SafeAt,evalOp,Option.bind,Tile.scalar,Tile.bop_data,
-    NumericDType.add,NumericDType.sub,NumericDType.div,Broadcast.leftIndex,Broadcast.rightIndex,true_and]
   apply TraceProofs.range_safe (P := cgfInv s0 q g h s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV)
   · intro i u hn hu
     obtain ⟨_,_,_,hiv,hit,hibh,_⟩ := hu
@@ -213,13 +211,15 @@ theorem source_safe (s : BlockState) (query value gate : TypedOutput.Storage)
   have hi : cgfInv s q g h s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV 0 t0 :=
     ⟨Nat.zero_le _,hm,hp,hiv,hit,hibh,hms,by rw [hbo,cgfAccTile_zero],hundef.trans hu⟩
   obtain ⟨t1,he,ht⟩ := cgfLoop_collapse s q g h s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV t0 hi
+  simp only [numKB] at he
   rw [Kernel.TraceSafe,RealOutputSource.storage_erasure]
   change Stmt.TraceSafeList bounds
     (chunk_gla_fwd_o_surface q v g h o A s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV).toAlgKernel.body s
   rw [cgf_body_eq,List.append_assoc]
   apply TraceProofs.append_safe _ s
-  · apply TraceProofs.all_safe
-    simp [cgfPreLoop,Stmt.TraceSafe,Op.SafeAt,Op.SafeAt.eq_def]
+  · simp only [cgfPreLoop,TraceRewrite.constant_branch,↓reduceIte,List.cons_append,List.nil_append,List.append_nil]
+    apply TraceProofs.all_safe
+    simp [Stmt.TraceSafe,Op.SafeAt,Op.SafeAt.eq_def]
   · intro u heq
     rw [hpre] at heq
     cases heq

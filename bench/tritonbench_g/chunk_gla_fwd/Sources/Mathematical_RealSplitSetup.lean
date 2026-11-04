@@ -1,3 +1,4 @@
+import VeriTile.Triton.Semantics.ProgramRewrite
 import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealSplitAlgebra
 
 /-! Initialization and the complete pre-loop source prefix. Only query and
@@ -28,6 +29,7 @@ def result (p : Layout) (l : Launch) (r : Regions) (s : BlockState) : BlockState
     "b_g" .real [p.BC,p.BK] (matrixTile p l (s.readMem r.gate) (s.undef r.gate))
 
 theorem initialization_executes (p : Layout) (s : BlockState) : stepStmts (initialization p) s = some (initial p s) := by
+  simp only [initialization,ProgramRewrite.constant_branch,↓reduceIte,List.cons_append,List.nil_append]
   simp only [initialization,stepStmts,stepStmt,evalOp,Option.bind_eq_bind,Option.bind_some]
   simp only [BlockState.setReg_same,BlockState.setReg_ne_name,ne_eq,String.reduceEq,not_false_eq_true,
     Option.bind_some,Option.bind_eq_bind]

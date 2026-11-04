@@ -36,7 +36,7 @@ def finishExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
+  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,Bodies.interOriginal,ProducerGeometry.layout,ProducerGeometry.regions,
     ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -59,8 +59,8 @@ def prologue (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s
     {t : State α // run (engine (withDot M D)) (outer c scale).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
-    ComputeKernel.surfaceBody,Source.conditional?,Source.prefixBefore,Option.map,Option.getD,
+  simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,Bodies.interOriginal,ProducerGeometry.layout,ProducerGeometry.regions,
+    ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg]
@@ -69,8 +69,8 @@ def prologue (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s
 theorem outer_condition (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s : State α) :
     FP.Structural.evalOp (engine (withDot M D)) none (outer c scale).condition (prologue M D c scale s).val =
       some (fun _ => decide (rowStart c s<c.T)) := by
-  simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
-    ComputeKernel.surfaceBody,Source.conditional?,evalOp_unfold,numeric,bop,prologue,natLe,natLt,rowStart]
+  simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,Bodies.interOriginal,ProducerGeometry.layout,ProducerGeometry.regions,
+    ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,evalOp_unfold,numeric,bop,prologue,natLe,natLt,rowStart]
   funext i
   by_cases h : s.pids 0*c.BT+s.pids 1/c.NC*16<c.T
   · simp [h,Nat.not_le.mpr h]
@@ -79,8 +79,8 @@ theorem outer_condition (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scal
 theorem inner_condition (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s : State α) :
     FP.Structural.evalOp (engine (withDot M D)) none (inner c scale).condition (prologue M D c scale s).val =
       some (fun _ => decide (s.pids 1%c.NC<s.pids 1/c.NC)) := by
-  simp [inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
-    ComputeKernel.surfaceBody,Source.conditional?,evalOp_unfold,numeric,bop,prologue,natLe,natLt,numericLe]
+  simp [inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,Bodies.interOriginal,ProducerGeometry.layout,ProducerGeometry.regions,
+    ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,evalOp_unfold,numeric,bop,prologue,natLe,natLt,numericLe]
   funext i
   by_cases h : s.pids 1%c.NC<s.pids 1/c.NC
   · simp [h,Nat.not_le.mpr h]
@@ -88,7 +88,7 @@ theorem inner_condition (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scal
 
 theorem source_parts (c : Shape) (scale : ℝ) : (kernel c scale).surfaceBody = (outer c scale).before ++
     [.ifThen (outer c scale).condition [.ifThen (inner c scale).condition ((parts c scale).before ++
-      [.forRangeDyn "i_k" (parts c scale).start (parts c scale).stop (parts c scale).stride (parts c scale).body] ++
+      [.forRange "i_k" 0 (Geometry.ceilDiv c.K c.BK) 1 (parts c scale).body] ++
       (parts c scale).after)]] := rfl
 
 theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s : State α) :
@@ -108,14 +108,9 @@ theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale 
         (entryContext M D c scale s).1 (entryContext M D c scale s).2
       let finish := finishExecution M D c scale s mid hc ha
       refine ⟨finish.val,?_,finishMemory M D c scale s mid hc ha⟩
-      have hloop : step (engine (withDot M D)) (.forRangeDyn "i_k" (parts c scale).start (parts c scale).stop
-          (parts c scale).stride (parts c scale).body) start.val=some mid := by
-        have h0 : (parts c scale).start = .constNat 0 := rfl
-        have hn : (parts c scale).stop = .div .nat .nil
-          (.sub .nat .nil (.add .nat .nil (.constNat c.K) (.constNat c.BK)) (.constNat 1)) (.constNat c.BK) := rfl
-        have h1 : (parts c scale).stride = .constNat 1 := rfl
-        simp only [step,h0,hn,h1,evalOp_unfold,Option.bind,Option.bind_some,numeric,bop]
-        exact hm
+      have hloop : step (engine (withDot M D)) (.forRange "i_k" 0
+          (Geometry.ceilDiv c.K c.BK) 1 (parts c scale).body) start.val=some mid := by
+        simpa only [step] using hm
       rw [List.append_assoc,run_append,hs]
       simp only [Option.bind_some,List.singleton_append,run,hloop,bind,finish.property,↓reduceIte]
     · simp only [hl,decide_false,Bool.false_eq_true,↓reduceIte,enabled,ht,true_and,ite_false,bind,Option.bind_some]

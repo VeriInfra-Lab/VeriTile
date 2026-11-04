@@ -13,7 +13,10 @@ set_option linter.unusedSimpArgs false
 
 def cleared (p : Layout) (s : BlockState) := s.setReg "b_A" .real [p.BC] (zeroTile p)
 def loaded (p : Layout) (l : Launch) (a : Inputs) (j : Nat) (s : BlockState) : BlockState :=
-  ((cleared p s).setReg "b_k" .real [p.BK] (keyTile p l a.key j)).setReg "b_gk" .real [p.BK] (keyTile p l a.gate j)
+  ((((cleared p s).setReg "__veritile_load_0" .real [p.BK] (keyTile p l a.key j)).setReg
+    "b_k" .real [p.BK] (keyTile p l a.key j)).setReg "__veritile_load_1" .real [p.BK]
+    (keyTile p l a.gate j)).setReg "b_gk" .real [p.BK] (keyTile p l a.gate j)
+
 def calculated (p : Layout) (l : Launch) (a : Inputs) (qp gp : Nat → ℝ)
     (scale : ℝ) (j : Nat) (s : BlockState) : BlockState :=
   ((loaded p l a j s).setReg "b_A" .real [p.BC] (reducedTile p l a qp gp j)).setReg
@@ -61,11 +64,15 @@ theorem executes (p : Layout) (l : Launch) (r : Regions) (a : Inputs) (qp gp : N
   unfold iteration
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.full [p.BC] (.const 0)) s = some (zeroTile p) from by
     rw [evalOp_full,evalOp_const]; rfl))]
-  change stepStmts (.assign _ _ "b_k" _ :: _) (cleared p s) = _
+  change stepStmts (.assign _ _ "__veritile_load_0" _ :: _) (cleared p s) = _
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (key_load p l r.key a.key j "p_k" _
     (by simpa [cleared] using hk) (by simpa [cleared] using hp) (by simpa [cleared] using hmask)))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp
+    (.ref .real [p.BK] "__veritile_load_0") _ = some (keyTile p l a.key j) from by simp [evalOp_ref]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (key_load p l r.gate a.gate j "p_gk" _
     (by simpa [cleared] using hgk) (by simpa [cleared] using hpg) (by simpa [cleared] using hmask)))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp
+    (.ref .real [p.BK] "__veritile_load_1") _ = some (keyTile p l a.gate j) from by simp [evalOp_ref]))]
   change stepStmts (.assign _ _ "b_A" _ :: _) (loaded p l a j s) = _
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (added_eval p l a qp gp j _ (by simp [loaded,cleared])
     (by simp [loaded,cleared,hq]) (by simp [loaded,cleared,hg]) (by simp [loaded,cleared]) (by simp [loaded,cleared])))]
