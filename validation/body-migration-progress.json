@@ -1331,21 +1331,10 @@
       "completion_certificate": false
     },
     "current_work": {
-      "path": "bench/tritonbench_g/rms_matmul_rbe",
-      "status": "LOCAL_FULL_PASS_AWAITING_OFFICIAL_REPLAY",
+      "path": "bench/tritonbench_g/rms_rbe_matmul",
+      "status": "SOURCE_AND_PROOF_MIGRATION_IN_PROGRESS",
       "complete": false,
-      "raw_callee_body_pairs": 2,
-      "all_jit_bodies_aligned": true,
-      "parent_qkv_call_connection": "PASS_FULL_STATE_EXECUTION_AND_SAFETY",
-      "retained_modules": "PASS_111_ROOTS_3674_LAKE_JOBS",
-      "python_tests": 715,
-      "note": "Four exact copied original/candidate callee and parent bodies; actual three-call parent, independent full-K/grid mathematical correctness, full-state/failure-aware structural equivalence, typed byte/native interfaces, trace safety, output binding and memory frame all pass locally. All 111 retained/shared roots, nine external trust/specification gates, four current public names and 715 Python tests pass. Exact-source official independent replay remains required. No completion is inferred from compilation. No merge.",
-      "raw_body_pairs": 4,
-      "retained_build_roots": 111,
-      "owned_lean_modules": 102,
-      "public_real_fp_proofs": "PASS_4_PUBLIC_TARGETS",
-      "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
-      "external_trust_spec_gates": "PASS_9_FILES"
+      "note": "Shared exact RMS source supports literal constexpr instantiation in a Lean probe, preserving the original literal ports. Full raw rotary helper/caller, all source/body connections, independent mathematics/safety/frame, existing FP equivalence, retained modules and official independent replay remain required. No merge."
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -3109,23 +3098,38 @@
       }
     ],
     "previous_current_work": {
-      "path": "bench/tritonbench_g/softmax_flaggems",
+      "path": "bench/tritonbench_g/rms_matmul_rbe",
       "status": "FROZEN_OFFICIAL_REPLAY_IN_PROGRESS",
       "complete": false,
-      "body_pairs": 10,
-      "owned_lean_modules": 146,
-      "retained_build_roots": 149,
-      "public_targets": 4,
-      "external_trust_spec_gates": 10,
-      "python_tests": 705,
-      "note": "192 exact-current accepted targets, including all 19 examples. Retention final official artifact accepts all 107 frozen roots and four actual public targets with unchanged source/import closures. SoftmaxFlaggems has ten exact body pairs, complete local mathematical/safety/frame/FP proofs, all 149 retained roots and ten external trust/spec gates passing; official frozen replay is in progress. The two RMS/RBE tasks and TritonAttention still require source/proof migration. Compilation alone is not completion. No merge.",
+      "raw_callee_body_pairs": 2,
+      "all_jit_bodies_aligned": true,
+      "parent_qkv_call_connection": "PASS_FULL_STATE_EXECUTION_AND_SAFETY",
+      "retained_modules": "PASS_111_ROOTS_3674_LAKE_JOBS",
+      "python_tests": 715,
+      "note": "Four exact copied original/candidate callee and parent bodies; actual three-call parent, independent full-K/grid mathematical correctness, full-state/failure-aware structural equivalence, typed byte/native interfaces, trace safety, output binding and memory frame all pass locally. All 111 retained/shared roots, nine external trust/specification gates, four current public names and 715 Python tests pass. Exact-source official independent replay remains required. No completion is inferred from compilation. No merge.",
+      "raw_body_pairs": 4,
+      "retained_build_roots": 111,
+      "owned_lean_modules": 102,
+      "public_real_fp_proofs": "PASS_4_PUBLIC_TARGETS",
       "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
-      "guarded_frontend_compatibility": "PASS",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41835206670",
+      "external_trust_spec_gates": "PASS_9_FILES",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41861399374",
+      "replay_source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
+      "frozen_closure_files": 390,
+      "required_replay_roots": 111,
       "historical_snapshot": true,
       "superseded": true
     },
-    "inflight_replays": [],
+    "inflight_replays": [
+      {
+        "path": "bench/tritonbench_g/rms_matmul_rbe",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41861399374",
+        "source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
+        "frozen_roots": 111,
+        "frozen_closure_files": 390,
+        "complete": false
+      }
+    ],
     "remaining_source_migrations": [
       "bench/tritonbench_g/rms_rbe_matmul",
       "bench/tritonbench_g/triton_attention"
@@ -4976,8 +4980,10 @@
       "public_real_fp_proofs": "LOCAL_PASS_4_PUBLIC_TARGETS",
       "retained_modules_build": "LOCAL_PASS_111_ROOTS",
       "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
-      "independent_replay": "REQUIRED",
-      "reason": "Four exact copied original/candidate callee and parent bodies; actual three-call parent, independent full-K/grid mathematical correctness, full-state/failure-aware structural equivalence, typed byte/native interfaces, trace safety, output binding and memory frame all pass locally. All 111 retained/shared roots, nine external trust/specification gates, four current public names and 715 Python tests pass. Exact-source official independent replay remains required. No completion is inferred from compilation. No merge."
+      "independent_replay": "IN_PROGRESS",
+      "reason": "Four exact copied original/candidate callee and parent bodies; actual three-call parent, independent full-K/grid mathematical correctness, full-state/failure-aware structural equivalence, typed byte/native interfaces, trace safety, output binding and memory frame all pass locally. All 111 retained/shared roots, nine external trust/specification gates, four current public names and 715 Python tests pass. Exact-source official independent replay remains required. No completion is inferred from compilation. No merge.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41861399374",
+      "replay_source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33"
     },
     {
       "path": "bench/tritonbench_g/rms_norm_triton",
