@@ -346,7 +346,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_jit_functions: dict[str, str] | None = None,
           expected_natural_reads: list[str] | None = None,
           expected_jit_procedures: dict[str, str] | None = None,
-          expected_parameter_rebinding: bool = False) -> dict:
+          expected_parameter_rebinding: bool = False,
+          expected_fp32_constants: list[str] | None = None) -> dict:
     if expected_parameter_rebinding and expected_jit_procedures is None:
         raise ValueError("parameter rebinding requires the reviewed procedure invocation clause")
     helper_clauses = [expected_pure_functions, expected_binary_functions, expected_jit_functions,
@@ -405,6 +406,20 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                               if dtype_arguments else re.escape(signature_definition))
         offset_clause = (r"\s+pointer_offsets\s*\[([^\]]*)\]"
                          if expected_pointer_offsets is not None else "")
+        if expected_fp32_constants is not None:
+            if (not isinstance(expected_fp32_constants, list) or not expected_fp32_constants
+                    or any(not isinstance(name, str) or not re.fullmatch(r"[A-Za-z_]\w*", name)
+                           for name in expected_fp32_constants)
+                    or len(set(expected_fp32_constants)) != len(expected_fp32_constants)
+                    or not set(expected_fp32_constants) <= set(profile["constexpr"])
+                    or expected_call_bindings is None or offset_clause):
+                raise ValueError("symbolic FP32 constants require distinct reviewed constexpr names and a scalar call")
+            if any(isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del))
+                   and node.id in expected_fp32_constants for node in ast.walk(function)):
+                raise ValueError("symbolic constexpr parameters must remain immutable")
+            offset_clause = (r"\s+fp32_constants\s*\[\s*"
+                             + r"\s*,\s*".join(map(re.escape, expected_fp32_constants))
+                             + r"\s*\]")
         if expected_pointer_cells is not None:
             if expected_pointer_offsets is not None or expected_call_bindings is not None:
                 raise ValueError("pointer cell views require a signature without scalar bindings or pointer offsets")
@@ -1258,7 +1273,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                              r.get("expected_scalar_infinity_where", False),
                              r.get("expected_welford_tree"), r.get("expected_jit_functions"),
                              r.get("expected_natural_reads"), r.get("expected_jit_procedures"),
-                             r.get("expected_parameter_rebinding", False)))
+                             r.get("expected_parameter_rebinding", False),
+                             r.get("expected_fp32_constants")))
         for name, definition in r.get('expected_philox_call', {}).get('uniform_helpers', {}).items():
             helpers = [h for h in records if h.get('kind') == 'uniform_jit_function'
                        and h['python'] == r['python'] and h['lean'] == r['lean']
