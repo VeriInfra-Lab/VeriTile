@@ -4,6 +4,10 @@ namespace VeriTile.Bench.Repairs.ParallelAttentionKernel
 open VeriTile.Triton FP.Structural
 noncomputable section
 
+theorem matrix_index_eta (i : TileIndex [m,n]) : (⟨i.1,i.2.1,()⟩ : TileIndex [m,n])=i := by
+  rcases i with ⟨r,e,⟨⟩⟩; rfl
+
+
 /-- A numerical recurrence may be carried through a source loop without any
 associativity or reduction law. The premise proves one actual body execution;
 the conclusion follows the original dynamic range indices exactly. -/

@@ -21,9 +21,9 @@ def forwardKernel (c : ForwardConfig) : ComputeKernel :=
   forwardSource c.q c.k c.v c.o c.z c.s_qk_h c.s_qk_t c.s_qk_d
     c.s_vo_h c.s_vo_t c.s_vo_d c.scale c.B c.H c.T c.K c.V c.BTL c.BTS c.BK c.BV
 
-def firstPrefix (c : ForwardConfig) : List ComputeStmt := (forwardKernel c).surfaceBody.take 13
-def betweenLoops (c : ForwardConfig) : List ComputeStmt := ((forwardKernel c).surfaceBody.drop 14).take 5
-def forwardSuffix (c : ForwardConfig) : List ComputeStmt := (forwardKernel c).surfaceBody.drop 20
+def firstPrefix (c : ForwardConfig) : List ComputeStmt := (forwardKernel c).surfaceBody.take 11
+def betweenLoops (c : ForwardConfig) : List ComputeStmt := ((forwardKernel c).surfaceBody.drop 12).take 5
+def forwardSuffix (c : ForwardConfig) : List ComputeStmt := (forwardKernel c).surfaceBody.drop 18
 
 def initialAccumulator {α : Type} (M : Algebra α) (c : ForwardConfig) : ForwardAccumulator α c.BTL c.BV :=
   ⟨fun _ => M.literal (some .fp32) .real 0, fun _ => M.literal (some .fp32) .real 0⟩
@@ -32,7 +32,7 @@ theorem first_prefix_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPri
     (c : ForwardConfig) (s : State α) :
     ∃ final, run (withDot M D) (firstPrefix c) s = some final ∧
       ForwardReady M c s final 0 (initialAccumulator M c) := by
-  simp [firstPrefix, forwardKernel, forwardSource, ComputeKernel.surfaceBody, run, step,
+  simp [firstPrefix, forwardKernel, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind, ComputeDType.eraseDType,
     numeric, bop, Region.cast, withDot, TileShape.indexToList,
     BlockPtr.address_2d_offsets, BlockPtr.inBounds_2d_offsets, ofFloat, toFloat]
@@ -46,7 +46,7 @@ theorem between_loops_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPr
     (h : ForwardReady M c s t last acc) :
     ∃ final, run (withDot M D) (betweenLoops c) t = some final ∧
       DiagonalReady M c s final (queryChunk c s) acc := by
-  simp [betweenLoops, forwardKernel, forwardSource, ComputeKernel.surfaceBody, run, step,
+  simp [betweenLoops, forwardKernel, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind, ComputeDType.eraseDType,
     numeric, bop, Region.cast, withDot, h.head, h.chunk, h.keyBlock, h.valueBlock,
     TileShape.indexToList, ofFloat, toFloat]
@@ -82,7 +82,7 @@ theorem forward_suffix_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotP
     ∃ final, run (withDot M D) (forwardSuffix c) t = some final ∧
       final.mem = (outputMemory M c s acc).mem := by
   by_cases hv : s.pids 0 % ((c.V+c.BV-1)/c.BV) = 0
-  all_goals simp [hv, numericEq, forwardSuffix, forwardKernel, forwardSource, ComputeKernel.surfaceBody, run, step,
+  all_goals simp [hv, numericEq, forwardSuffix, forwardKernel, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind, ComputeDType.eraseDType, store,
     numeric, bop, natLt, numericLt, Region.cast, withDot,
     h.head, h.chunk, h.keyBlock, h.valueBlock, h.output, h.normalizer,
@@ -96,12 +96,12 @@ theorem forward_suffix_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotP
 
 
 def firstRangeStatement (c : ForwardConfig) : ComputeStmt :=
-  .forRangeDyn "_i" (.constNat 0)
+  .forRangeDyn "_" (.constNat 0)
     (.mul .nat .nil (.ref .nat [] "i_c") (.constNat c.BTL)) (.constNat c.BTS)
     (firstBody c.BTL c.BTS c.BK c.BV)
 
 def secondRangeStatement (c : ForwardConfig) : ComputeStmt :=
-  .forRangeDyn "_i"
+  .forRangeDyn "_"
     (.mul .nat .nil (.ref .nat [] "i_c") (.constNat c.BTL))
     (.mul .nat .nil (.add .nat .nil (.ref .nat [] "i_c") (.constNat 1)) (.constNat c.BTL))
     (.constNat c.BTS) (secondBody c.BTL c.BTS c.BK c.BV)
@@ -115,14 +115,14 @@ theorem first_range_statement {α : Type} [Inhabited α] (M : Algebra α) (D : D
     (c : ForwardConfig) (s t : State α) (n : Nat) (acc : ForwardAccumulator α c.BTL c.BV)
     (h : ForwardReady M c s t n acc) :
     step (withDot M D) (firstRangeStatement c) t =
-      FP.Structural.range (withDot M D) "_i" 0 (queryChunk c s) c.BTS (firstBody c.BTL c.BTS c.BK c.BV) t := by
+      FP.Structural.range (withDot M D) "_" 0 (queryChunk c s) c.BTS (firstBody c.BTL c.BTS c.BK c.BV) t := by
   simp [firstRangeStatement, step, evalOp_unfold, boundaryZero, h.chunk, numeric, bop, Option.bind, queryChunk]
 
 theorem second_range_statement {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : ForwardConfig) (s t : State α) (n : Nat) (acc : ForwardAccumulator α c.BTL c.BV)
     (h : ForwardReady M c s t n acc) :
     step (withDot M D) (secondRangeStatement c) t =
-      FP.Structural.range (withDot M D) "_i" (queryChunk c s) ((s.pids 1+1)*c.BTL)
+      FP.Structural.range (withDot M D) "_" (queryChunk c s) ((s.pids 1+1)*c.BTL)
         c.BTS (secondBody c.BTL c.BTS c.BK c.BV) t := by
   simp [secondRangeStatement, step, evalOp_unfold, boundaryZero, h.chunk, numeric, bop, Option.bind, queryChunk]
 

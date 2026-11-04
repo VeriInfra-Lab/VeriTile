@@ -1,5 +1,6 @@
 import bench.tritonbench_g.parallel_attention.FPBackwardGraph
 import bench.tritonbench_g.parallel_attention.FPRange
+import bench.tritonbench_g.parallel_attention.Proofs.DescendingRange
 namespace VeriTile.Bench.Repairs.ParallelAttentionKernel
 open VeriTile.Triton FP.Structural
 noncomputable section
@@ -9,12 +10,12 @@ set_option linter.unusedSimpArgs false
 
 def backwardFirstBody (c : BackwardConfig) : List ComputeStmt :=
   let code : List ComputeStmt := (backwardKernel c).surfaceBody
-  match code[6]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
+  match code[10]? with
+  | some (ComputeStmt.forRangeInt _ _ _ _ body) => body
   | _ => []
 def backwardSecondBody (c : BackwardConfig) : List ComputeStmt :=
   let code : List ComputeStmt := (backwardKernel c).surfaceBody
-  match code[10]? with
+  match code[16]? with
   | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
   | _ => []
 
@@ -28,22 +29,30 @@ structure BackwardReady {α : Type} [Inhabited α] (M : Algebra α) (c : Backwar
   keyGrad : t.regs .real [c.BTL,c.BK] "b_dk" = some acc.key
   valueGrad : t.regs .real [c.BTL,c.BV] "b_dv" = some acc.value
 
+theorem signed_lane_lt (start lane bound : Nat) :
+    (start : Int)+(lane : Int)<(bound : Int) ↔ start+lane<bound := by
+  rw [←Nat.cast_add,Int.ofNat_lt]
+
+theorem signed_lane_address (head width start lane : Nat) :
+    Int.toNat ((head : Int)*(width : Int)+(start : Int)+(lane : Int))=head*width+start+lane := by
+  rw [←Nat.cast_mul,←Nat.cast_add,←Nat.cast_add,Int.toNat_natCast]
+
 theorem backward_first_body_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
-    (c : BackwardConfig) (s t : State α) (j : Nat) (acc : BackwardAccumulator α c.BTL c.BK c.BV)
-    (h : BackwardReady M c s t acc) (hj : t.regs .nat [] "j" = some (fun _ => j)) :
+    (c : BackwardConfig) (s t : State α) (start : Nat) (acc : BackwardAccumulator α c.BTL c.BK c.BV)
+    (h : BackwardReady M c s t acc) (hj : t.regs .int [] "__rev_i" = some (fun _ => -(start : Int))) :
     ∃ final, run (withDot M D) (backwardFirstBody c) t = some final ∧
-      BackwardReady M c s final (backwardUpdate M D c s Bool.false (descendingStart c j) acc) := by
+      BackwardReady M c s final (backwardUpdate M D c s Bool.false start acc) := by
   by_cases hv : c.i_v = 0
   all_goals simp [hv, backwardFirstBody, backwardKernel, backwardSource, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind,
     ComputeDType.eraseDType, numeric, bop, numericEq, Region.cast, withDot,
     h.key, h.value, h.keyGrad, h.valueGrad, hj, h.mem, h.pids, h.undef,
     TileShape.indexToList, BlockPtr.address_2d_offsets, BlockPtr.inBounds_2d_offsets,
-    ofFloat, toFloat, natLt, numericLt]
-  all_goals constructor <;> simp [State.setReg, h.mem, h.pids, h.undef, h.key, h.value,
-    backwardUpdate, descendingStart, matrixRead, rawMatrixRead, matrixTranspose, transposeValues, hv,
+    ofFloat, toFloat, natLt, numericLt, Int.toNat_add, Int.toNat_mul]
+  all_goals constructor <;> simp [h.mem, h.pids, h.undef, h.key, h.value,
+    backwardUpdate, matrixRead, rawMatrixRead, matrixTranspose, transposeValues, hv,
     bop, numeric, ofFloat, toFloat]
-  all_goals (first | rfl | (simp [bop, matrixRead, rawMatrixRead, matrixTranspose]; rfl))
+  all_goals (first | rfl | (simp [bop, matrixRead, rawMatrixRead, matrixTranspose, signed_lane_lt, signed_lane_address]; rfl))
 
 structure BackwardDiagonalReady {α : Type} [Inhabited α] (M : Algebra α) (c : BackwardConfig)
     (s t : State α) (start : Nat) (acc : BackwardAccumulator α c.BTL c.BK c.BV)
@@ -67,36 +76,61 @@ theorem backward_second_body_run {α : Type} [Inhabited α] (M : Algebra α) (D 
     ofFloat, toFloat, natLt, numericLt, natLe, numericLe]
   all_goals constructor
   all_goals first
-    | (constructor <;> simp [State.setReg, h.mem, h.pids, h.undef, h.key, h.value,
+    | (constructor <;> simp [ h.mem, h.pids, h.undef, h.key, h.value,
         backwardUpdate, matrixRead, rawMatrixRead, matrixTranspose, transposeValues, hv,
         bop, numeric, ofFloat, toFloat]; all_goals (first | rfl | (simp [bop, matrixRead, rawMatrixRead, matrixTranspose]; rfl)))
     | (have := h.lower; omega)
-    | (simp [State.setReg, h.queryIndex, h.keyIndex]; funext i;
+    | (simp [ h.queryIndex, h.keyIndex]; funext i;
         change start-c.i_c*c.BTL+i.1.val+c.BTS = start+c.BTS-c.i_c*c.BTL+i.1.val;
         have := h.lower; omega)
-    | (simp [State.setReg, h.keyIndex])
+    | (simp [ h.keyIndex])
 
 theorem backwardReady_j {α : Type} [Inhabited α] (M : Algebra α) (c : BackwardConfig)
     (s t : State α) (acc : BackwardAccumulator α c.BTL c.BK c.BV)
-    (h : BackwardReady M c s t acc) (j : Nat) :
-    BackwardReady M c s (t.setReg "j" .nat [] (fun _ => j)) acc := by
+    (h : BackwardReady M c s t acc) (index : Int) :
+    BackwardReady M c s (t.setReg "__rev_i" .int [] (fun _ => index)) acc := by
   constructor <;> simp [State.setReg, h.mem, h.pids, h.undef, h.key, h.value, h.keyGrad, h.valueGrad]
 
 theorem backward_first_range_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
-    (c : BackwardConfig) (s t : State α) (start stop : Nat)
+    (c : BackwardConfig) (s t : State α) (start : Nat) (bound : start≤descendingCount c)
     (acc : BackwardAccumulator α c.BTL c.BK c.BV) (h : BackwardReady M c s t acc) :
-    ∃ final, FP.Structural.range (withDot M D) "j" start stop 1 (backwardFirstBody c) t = some final ∧
+    ∃ final, rangeInt (withDot M D) "__rev_i"
+        (DescendingRange.lower c+(start : Int)*(c.BTS : Int)) (DescendingRange.upper c) c.BTS
+        (backwardFirstBody c) t = some final ∧
       BackwardReady M c s final
-        (foldRange (fun j => backwardUpdate M D c s Bool.false (descendingStart c j)) start stop 1 acc) := by
-  apply range_values (withDot M D) "j" (backwardFirstBody c)
-    (fun j => backwardUpdate M D c s Bool.false (descendingStart c j))
-    (fun _ a t => BackwardReady M c s t a) (fun a t => BackwardReady M c s t a)
-    start stop 1 acc t
-  · intro n a u hu _
-    exact backward_first_body_run M D c s _ n a (backwardReady_j M c s u a hu n) (by simp [State.setReg])
-  · intro n a u hu
-    exact hu
-  · exact h
+        (foldRange (fun j => backwardUpdate M D c s Bool.false (descendingStart c j))
+          start (descendingCount c) 1 acc) := by
+  by_cases zero : c.BTS=0
+  · have count : descendingCount c=0:=by simp [descendingCount,zero]
+    have first : start=0:=by omega
+    subst start
+    exact ⟨t,by simp [rangeInt,zero],by simpa [foldRange,count] using h⟩
+  have positive : 0<c.BTS:=by omega
+  by_cases live : start<descendingCount c
+  · have current : DescendingRange.lower c+(start : Int)*(c.BTS : Int)=
+        -(descendingStart c start : Int) := by
+      have equal:=congrArg Neg.neg (DescendingRange.source_index c positive start live)
+      simpa only [neg_neg] using equal
+    obtain ⟨middle,ran,maintained⟩:=backward_first_body_run M D c s _ (descendingStart c start) acc
+      (backwardReady_j M c s t acc h (-(descendingStart c start : Int))) (by simp [State.setReg])
+    obtain ⟨final,finished,invariant⟩:=backward_first_range_run M D c s middle (start+1) (by omega) _ maintained
+    refine ⟨final,?_,?_⟩
+    · rw [rangeInt]
+      simp only [zero,↓reduceIte,(DescendingRange.source_active c positive start).mpr live]
+      rw [current,ran]
+      have next : DescendingRange.lower c+(start : Int)*(c.BTS : Int)+(c.BTS : Int)=
+          DescendingRange.lower c+((start+1 : Nat) : Int)*(c.BTS : Int) := by
+        simp [Nat.cast_add,add_mul,add_assoc]
+      rw [←current,next]
+      exact finished
+    · rw [foldRange]
+      simpa only [Nat.one_ne_zero,live,↓reduceIte] using invariant
+  · refine ⟨t,?_,?_⟩
+    · rw [rangeInt]
+      simp [zero,DescendingRange.source_active c positive start,live]
+    · simpa [foldRange,live] using h
+termination_by descendingCount c-start
+decreasing_by omega
 
 theorem backwardDiagonalReady_i {α : Type} [Inhabited α] (M : Algebra α) (c : BackwardConfig)
     (s t : State α) (start : Nat) (acc : BackwardAccumulator α c.BTL c.BK c.BV)
@@ -107,6 +141,7 @@ theorem backwardDiagonalReady_i {α : Type} [Inhabited α] (M : Algebra α) (c :
   · exact h.lower
   · simpa [State.setReg] using h.queryIndex
   · simpa [State.setReg] using h.keyIndex
+
 
 theorem backward_second_range_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : BackwardConfig) (s t : State α) (start stop : Nat)

@@ -8,7 +8,7 @@ set_option linter.unusedSimpArgs false
 
 def firstBody (BTL BTS BK BV : Nat) : List ComputeStmt :=
   let code : List ComputeStmt := (forwardSource "q" "k" "v" "o" "z" 1 1 1 1 1 1 1 1 1 1 1 1 BTL BTS BK BV).surfaceBody
-  match code[13]? with
+  match code[11]? with
   | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
   | _ => []
 
@@ -42,7 +42,7 @@ theorem first_body_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimi
     (h : ForwardReady M c s t start acc) :
     ∃ final, run (withDot M D) (firstBody c.BTL c.BTS c.BK c.BV) t = some final ∧
       ForwardReady M c s final (start+c.BTS) (forwardUpdate M D c s Bool.false start acc) := by
-  simp [firstBody, forwardSource, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
+  simp [firstBody, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, boundaryZero, Option.bind, ComputeDType.eraseDType, numeric, bop,
     Region.cast, withDot, h.query, h.output, h.normalizer, h.key, h.value,
     h.mem, h.undef, h.pids, keyPointer, valuePointer, TileShape.indexToList,
@@ -57,18 +57,18 @@ theorem first_body_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimi
 theorem forwardReady_set_index {α : Type} [Inhabited α] (M : Algebra α) (c : ForwardConfig)
     (s t : State α) (start : Nat) (acc : ForwardAccumulator α c.BTL c.BV)
     (h : ForwardReady M c s t start acc) (n : Nat) :
-    ForwardReady M c s (t.setReg "_i" .nat [] (fun _ => n)) start acc := by
+    ForwardReady M c s (t.setReg "_" .nat [] (fun _ => n)) start acc := by
   constructor <;> simp [State.setReg, h.mem, h.pids, h.undef, h.query,
     h.output, h.normalizer, h.key, h.value, h.chunk, h.head, h.keyBlock, h.valueBlock]
 
 theorem first_range_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : ForwardConfig) (s t : State α) (start stop : Nat)
     (acc : ForwardAccumulator α c.BTL c.BV) (h : ForwardReady M c s t start acc) :
-    ∃ final, FP.Structural.range (withDot M D) "_i" start stop c.BTS
+    ∃ final, FP.Structural.range (withDot M D) "_" start stop c.BTS
         (firstBody c.BTL c.BTS c.BK c.BV) t = some final ∧
       ∃ finish, ForwardReady M c s final finish
         (foldRange (forwardUpdate M D c s Bool.false) start stop c.BTS acc) := by
-  apply range_values (withDot M D) "_i" (firstBody c.BTL c.BTS c.BK c.BV)
+  apply range_values (withDot M D) "_" (firstBody c.BTL c.BTS c.BK c.BV)
     (forwardUpdate M D c s Bool.false) (fun n a t => ForwardReady M c s t n a)
     (fun a t => ∃ n, ForwardReady M c s t n a) start stop c.BTS acc t
   · intro n a u hu _
@@ -79,7 +79,7 @@ theorem first_range_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrim
 
 def secondBody (BTL BTS BK BV : Nat) : List ComputeStmt :=
   let code : List ComputeStmt := (forwardSource "q" "k" "v" "o" "z" 1 1 1 1 1 1 1 1 1 1 1 1 BTL BTS BK BV).surfaceBody
-  match code[19]? with
+  match code[17]? with
   | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
   | _ => []
 
@@ -95,7 +95,7 @@ theorem second_body_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrim
     (h : DiagonalReady M c s t start acc) :
     ∃ final, run (withDot M D) (secondBody c.BTL c.BTS c.BK c.BV) t = some final ∧
       DiagonalReady M c s final (start+c.BTS) (forwardUpdate M D c s Bool.true start acc) := by
-  simp [secondBody, forwardSource, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
+  simp [secondBody, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, boundaryZero, Option.bind, ComputeDType.eraseDType, numeric, bop,
     Region.cast, withDot, h.query, h.output, h.normalizer, h.key, h.value,
     h.queryIndex, h.keyIndex, h.mem, h.undef, h.pids,
@@ -120,7 +120,7 @@ theorem second_body_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrim
 theorem diagonalReady_set_index {α : Type} [Inhabited α] (M : Algebra α) (c : ForwardConfig)
     (s t : State α) (start : Nat) (acc : ForwardAccumulator α c.BTL c.BV)
     (h : DiagonalReady M c s t start acc) (n : Nat) :
-    DiagonalReady M c s (t.setReg "_i" .nat [] (fun _ => n)) start acc where
+    DiagonalReady M c s (t.setReg "_" .nat [] (fun _ => n)) start acc where
   toForwardReady := forwardReady_set_index M c s t start acc h.toForwardReady n
   lower := h.lower
   queryIndex := by simpa [State.setReg] using h.queryIndex
@@ -129,11 +129,11 @@ theorem diagonalReady_set_index {α : Type} [Inhabited α] (M : Algebra α) (c :
 theorem second_range_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : ForwardConfig) (s t : State α) (start stop : Nat)
     (acc : ForwardAccumulator α c.BTL c.BV) (h : DiagonalReady M c s t start acc) :
-    ∃ final, FP.Structural.range (withDot M D) "_i" start stop c.BTS
+    ∃ final, FP.Structural.range (withDot M D) "_" start stop c.BTS
         (secondBody c.BTL c.BTS c.BK c.BV) t = some final ∧
       ∃ finish, ForwardReady M c s final finish
         (foldRange (forwardUpdate M D c s Bool.true) start stop c.BTS acc) := by
-  apply range_values (withDot M D) "_i" (secondBody c.BTL c.BTS c.BK c.BV)
+  apply range_values (withDot M D) "_" (secondBody c.BTL c.BTS c.BK c.BV)
     (forwardUpdate M D c s Bool.true) (fun n a t => DiagonalReady M c s t n a)
     (fun a t => ∃ n, ForwardReady M c s t n a) start stop c.BTS acc t
   · intro n a u hu _

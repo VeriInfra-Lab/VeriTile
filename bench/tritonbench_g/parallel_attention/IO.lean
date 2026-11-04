@@ -122,7 +122,7 @@ def keyValueJob {α : Type} (M : Algebra α) (D : DotPrimitive α)
   setPids := fun _=>Bool.false
 
 def combinedJob (shape : Shape) (scale : ℝ) (p : Program shape 64) : Invocation ℝ where
-  kernel := combinedKernel shape scale p.tile
+  kernel := Caller.kernel (dqConfig shape scale p.tile)
   backend := withDot (scalarAlgebra realScalars) (scalarDotPrimitive realScalars)
   pids := pid p
 

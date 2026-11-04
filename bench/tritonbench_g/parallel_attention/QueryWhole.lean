@@ -9,13 +9,13 @@ set_option maxHeartbeats 10000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
-def queryPrefix (c : QueryConfig) := (queryKernel c).surfaceBody.take 10
-def queryMiddle (c : QueryConfig) := ((queryKernel c).surfaceBody.drop 11).take 5
-def querySuffix (c : QueryConfig) := (queryKernel c).surfaceBody.drop 17
+def queryPrefix (c : QueryConfig) := (queryKernel c).surfaceBody.take 11
+def queryMiddle (c : QueryConfig) := ((queryKernel c).surfaceBody.drop 12).take 5
+def querySuffix (c : QueryConfig) := (queryKernel c).surfaceBody.drop 18
 def queryFirstRange (c : QueryConfig) : ComputeStmt :=
-  ((queryKernel c).surfaceBody[10]?).getD (.ifThen (.constBool Bool.false) [])
+  ((queryKernel c).surfaceBody[11]?).getD (.ifThen (.constBool Bool.false) [])
 def querySecondRange (c : QueryConfig) : ComputeStmt :=
-  ((queryKernel c).surfaceBody[16]?).getD (.ifThen (.constBool Bool.false) [])
+  ((queryKernel c).surfaceBody[17]?).getD (.ifThen (.constBool Bool.false) [])
 
 theorem query_prefix_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : QueryConfig) (s : State α) :
@@ -66,14 +66,14 @@ theorem query_source_split (c : QueryConfig) :
 theorem query_first_range_statement {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : QueryConfig) (t : State α) :
     step (withDot M D) (queryFirstRange c) t =
-      FP.Structural.range (withDot M D) "_i" 0 (c.i_c*c.BTL) c.BTS (queryFirstBody c) t := by
+      FP.Structural.range (withDot M D) "_" 0 (c.i_c*c.BTL) c.BTS (queryFirstBody c) t := by
   simp [queryFirstRange, queryFirstBody, queryKernel, querySource, ComputeKernel.surfaceBody,
     step, evalOp_unfold, numeric, bop, Option.bind]
 
 theorem query_second_range_statement {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : QueryConfig) (t : State α) :
     step (withDot M D) (querySecondRange c) t =
-      FP.Structural.range (withDot M D) "_i" (c.i_c*c.BTL) ((c.i_c+1)*c.BTL) c.BTS (querySecondBody c) t := by
+      FP.Structural.range (withDot M D) "_" (c.i_c*c.BTL) ((c.i_c+1)*c.BTL) c.BTS (querySecondBody c) t := by
   simp [querySecondRange, querySecondBody, queryKernel, querySource, ComputeKernel.surfaceBody,
     step, evalOp_unfold, numeric, bop, Option.bind]
 

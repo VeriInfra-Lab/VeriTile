@@ -27,9 +27,9 @@ theorem query_scalar_step {α : Type} [Inhabited α] (a : Scalars α)
   let terms : TileIndex [64,32] → α := fun i =>
     let ds0 := if tile.value=0 then a.add (rawDS i) (queryNormGrad (scalarAlgebra a) c s ⟨i.1,()⟩) else rawDS i
     let mask := start-tile.chunk*64+i.2.1.val ≤ i.1.val
-    let ds := if d then a.mul (if mask then ds0 else a.literal 0.0) (a.literal scale) else ds0
-    let score := if d then if mask then rawScore i else a.literal 0.0 else rawScore i
-    a.cast (a.mul (a.mul (a.literal 2.0) ds) score)
+    let ds := if d then a.mul (if mask then ds0 else a.literal 0) (a.literal scale) else ds0
+    let score := if d then if mask then rawScore i else a.literal 0 else rawScore i
+    a.cast (a.mul (a.mul (a.literal 2) ds) score)
   have hds (u : Fin 32) : rawDS ⟨r,u,()⟩ =
       dot (a.ops scale) sourcePlans [1,0,tile.bh,tile.chunk,tile.value,r.val,j,u.val] shape.BV
         (fun f => a.cast (load (a.ops scale) shape.T shape.V x.do_ tile.bh (tile.chunk*64+r.val) (tile.value*shape.BV+f)))

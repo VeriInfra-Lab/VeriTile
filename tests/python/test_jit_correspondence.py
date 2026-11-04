@@ -3203,3 +3203,64 @@ class FlashAttentionBodyCorrespondenceTests(unittest.TestCase):
             self.assertIsInstance(x.value.right.op, ast.Mult)
             y.value.right.left, y.value.right.right = y.value.right.right, y.value.right.left
             self.assertEqual(ast.dump(x), ast.dump(y))
+
+
+class ProcedureHelperBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/tritonbench_g/parallel_attention'
+        self.python = (self.directory / 'parallel_attention.py').read_text()
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+
+    def helper(self, lean):
+        from scripts.bench.jit_correspondence import check_procedure_function
+        record = self.records[2]
+        return check_procedure_function(self.python, lean, record['python_function'], record['lean_definition'],
+                                        record['signature_definition'], record['expected_signature'])
+
+    def caller(self, lean):
+        record = self.records[3]
+        return check(self.python, lean, record['python_function'], record['lean_definition'],
+                     record['signature_definition'], record['expected_signature'],
+                     expected_call_bindings=record['expected_call_bindings'],
+                     expected_jit_procedures=record['expected_jit_procedures'])
+
+    def test_all_seven_complete_original_and_fused_bodies(self):
+        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([row['statements'] for row in rows], [22, 20, 13, 8, 22, 20, 8])
+        self.assertEqual(sum(row.get('kind') == 'procedure_jit_function' for row in rows), 3)
+
+    def test_reverse_loop_cast_mask_store_return_and_parameter_mutations_rejected(self):
+        for before, after in [
+                ('(i_c + 1) * BTL - BTS, -BTS', '(i_c + 1) * BTL - BTS, BTS'),
+                ('.to(b_q.dtype)  # [BV, BTS]', '  # [BV, BTS]'),
+                ('mask=(i + tl.arange(0, BTS)) < T', 'mask=(i + tl.arange(0, BTS)) <= T'),
+                ('tl.store(p_dv, b_dv.to(p_dv.dtype.element_ty)', 'tl.store(p_dk, b_dv.to(p_dv.dtype.element_ty)'),
+                ('    return\n  }\n\ndef backwardSignature', '\n  }\n\ndef backwardSignature'),
+                ('triton_procedure keyValueSignature (i_bh,i_c,i_k,i_v,i_h,',
+                 'triton_procedure keyValueSignature (i_bh,i_c,i_v,i_k,i_h,')]:
+            with self.subTest(before=before):
+                self.assertIn(before, self.lean)
+                with self.assertRaises(ValueError):
+                    self.helper(self.lean.replace(before, after, 1))
+
+    def test_helper_binding_call_order_argument_and_barrier_erasure_rejected(self):
+        for before, after in [
+                ('_parallel_rebased_bwd_dq := Bodies.query', '_parallel_rebased_bwd_dq := Bodies.fusedQuery'),
+                ('q, k, v, do, dz, dq, s_qk_h', 'q, k, v, do, dz, dk, s_qk_h'),
+                ('    tl.debug_barrier()\n    _parallel_rebased_bwd_dkv(', '    _parallel_rebased_bwd_dkv(')]:
+            with self.subTest(before=before):
+                self.assertIn(before, self.lean)
+                with self.assertRaises(ValueError):
+                    self.caller(self.lean.replace(before, after, 1))
+
+
+class ProcedureLiteralBodyTests(unittest.TestCase):
+    def test_keyword_escape_adapter_never_rewrites_python_string_literals(self):
+        from scripts.bench.jit_correspondence import check_procedure_function
+        python = '@triton.jit\ndef helper(X):\n    tl.static_print("do")\n    return\n'
+        lean = 'def signature : CallSignature where\n  pointers := [("X",.fp32)]\n  scalars := []\n  constexpr := []\n\ndef helper := triton_procedure signature (X) constexpr_args [] {\n    tl.static_print("do")\n    return\n}\n'
+        signature = {'pointers': [['X', 'fp32']], 'scalars': [], 'constexpr': []}
+        self.assertEqual(check_procedure_function(python, lean, 'helper', 'helper', 'signature', signature)['status'], 'PASS')
+        with self.assertRaises(ValueError):
+            check_procedure_function(python, lean.replace('"do"', '"«do»"'), 'helper', 'helper', 'signature', signature)

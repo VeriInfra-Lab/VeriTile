@@ -2,6 +2,7 @@ import bench.tritonbench_g.parallel_attention.Proofs.IOBounds
 import bench.tritonbench_g.parallel_attention.Proofs.IOSafetyForwardWhole
 import bench.tritonbench_g.parallel_attention.Proofs.IOSafetyQueryWhole
 import bench.tritonbench_g.parallel_attention.Proofs.IOSafetyBackwardWhole
+import bench.tritonbench_g.parallel_attention.Proofs.CallerSafetyCombined
 
 namespace VeriTile.Bench.Repairs.ParallelAttentionKernel.IOData
 open VeriTile.Triton FP.Structural
@@ -20,18 +21,12 @@ theorem combined_safe (shape : Shape) (scale : ℝ) (jobs : List (Invocation α)
     (xs : ChannelValues α (inputPorts shape)) (bounds : RegionName → Nat)
     (h : (dataIO α .backward shape jobs).InBounds bounds xs) (p : Program shape 64)
     (M : Algebra α) (D : DotPrimitive α) (s : State α) :
-    TraceSafe (withDot M D) bounds (combinedKernel shape scale p.tile) s := by
-  change Safety.traceSafeList _ _
-    ((queryKernel (dqConfig shape scale p.tile)).surfaceBody ++
-      [.effectMarker "tl.debug_barrier"] ++
-      (backwardKernel (backwardConfig shape scale p.tile)).surfaceBody) s
-  rw [List.append_assoc,Safety.traceSafeList_append]
-  refine ⟨IOSafety.query_source M D _ bounds s (query_bounds shape scale jobs xs bounds h p),?_⟩
-  intro t _
-  apply Safety.traceSafeList_cons_intro
-  · simp [Safety.stepSafe_unfold]
-  · intro u _
-    exact IOSafety.backward_source M D _ bounds u (backward_bounds shape scale jobs xs bounds h p)
+    TraceSafe (withDot M D) bounds (Caller.kernel (dqConfig shape scale p.tile)) (withProgram p s) := by
+  apply Caller.SafetyProof.full_source
+  · rw [Caller.config_program]
+    exact query_bounds shape scale jobs xs bounds h p
+  · rw [Caller.config_program]
+    exact backward_bounds shape scale jobs xs bounds h p
 
 theorem real_safe (direction : Direction) (shape : Shape) (scale : ℝ)
     (xs : ChannelValues ℝ (inputPorts shape)) (bounds : RegionName → Nat)

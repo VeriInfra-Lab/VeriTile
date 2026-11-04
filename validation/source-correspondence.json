@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 177,
-      "uncovered_jit_functions": 6
+      "selected_body_copy_checked": 178,
+      "uncovered_jit_functions": 5
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 28,
+    "uncovered_selected_jit_functions": 21,
     "inventoried_jit_functions": 596,
-    "uncovered_inventoried_jit_functions": 33,
+    "uncovered_inventoried_jit_functions": 26,
     "checked_pair_modes": {
-      "pasted_body": 583
+      "pasted_body": 590
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 177,
-        "uncovered_jit_functions": 6
+        "selected_body_copy_checked": 178,
+        "uncovered_jit_functions": 5
       }
     },
     "primary_files_with_int64_screen_warning": 2,
@@ -36557,13 +36557,13 @@
       "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
       "lean": "bench/tritonbench_g/parallel_attention/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 4,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 0,
+        "dsl_assignment": 66,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 0
+        "load_dtype_extension": 8
       },
       "python_jits": [
         {
@@ -36658,72 +36658,256 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "parallel_rebased_fwd_kernel",
+          "lean_definition": "Bodies.forward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 22,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "scale": "fp32",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BTL",
+            "BTS",
+            "BV",
+            "K",
+            "V"
+          ],
           "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "parallel_rebased_fwd_kernel"
+          "lean": "bench/tritonbench_g/parallel_attention/Kernels.lean"
         },
         {
+          "python_function": "_parallel_rebased_bwd_dq",
+          "lean_definition": "Bodies.query",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "procedure_jit_function",
+          "statements": 20,
+          "runtime_parameters": {
+            "q": "fp32",
+            "k": "fp32",
+            "v": "fp32",
+            "do": "fp32",
+            "dz": "fp32",
+            "dq": "fp32",
+            "i_bh": "integer",
+            "i_c": "integer",
+            "i_k": "integer",
+            "i_v": "integer",
+            "i_h": "integer",
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "s_k_d": "integer",
+            "s_v_h": "integer",
+            "s_v_t": "integer",
+            "s_v_d": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "H",
+            "T",
+            "K",
+            "V",
+            "BTL",
+            "BTS",
+            "BK",
+            "BV"
+          ],
           "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "_parallel_rebased_bwd_dq"
+          "lean": "bench/tritonbench_g/parallel_attention/Kernels.lean"
         },
         {
+          "python_function": "_parallel_rebased_bwd_dkv",
+          "lean_definition": "Bodies.keyValue",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "procedure_jit_function",
+          "statements": 13,
+          "runtime_parameters": {
+            "q": "fp32",
+            "k": "fp32",
+            "v": "fp32",
+            "do": "fp32",
+            "dz": "fp32",
+            "dk": "fp32",
+            "dv": "fp32",
+            "i_bh": "integer",
+            "i_c": "integer",
+            "i_k": "integer",
+            "i_v": "integer",
+            "i_h": "integer",
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "s_k_d": "integer",
+            "s_v_h": "integer",
+            "s_v_t": "integer",
+            "s_v_d": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "H",
+            "T",
+            "K",
+            "V",
+            "BTL",
+            "BTS",
+            "BK",
+            "BV"
+          ],
           "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "_parallel_rebased_bwd_dkv"
+          "lean": "bench/tritonbench_g/parallel_attention/Kernels.lean"
         },
         {
+          "python_function": "parallel_rebased_bwd_kernel",
+          "lean_definition": "Bodies.backward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BTL",
+            "BTS",
+            "BV",
+            "H",
+            "K",
+            "T",
+            "V"
+          ],
           "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "parallel_rebased_bwd_kernel"
+          "lean": "bench/tritonbench_g/parallel_attention/Kernels.lean"
         },
         {
+          "python_function": "parallel_rebased_fwd_fused_kernel",
+          "lean_definition": "Bodies.fusedForward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 22,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "scale": "fp32",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BTL",
+            "BTS",
+            "BV",
+            "K",
+            "V"
+          ],
           "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "parallel_rebased_fwd_fused_kernel"
+          "lean": "bench/tritonbench_g/parallel_attention/Kernels.lean"
         },
         {
+          "python_function": "_parallel_rebased_bwd_dq_fused",
+          "lean_definition": "Bodies.fusedQuery",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "procedure_jit_function",
+          "statements": 20,
+          "runtime_parameters": {
+            "q": "fp32",
+            "k": "fp32",
+            "v": "fp32",
+            "do": "fp32",
+            "dz": "fp32",
+            "dq": "fp32",
+            "i_bh": "integer",
+            "i_c": "integer",
+            "i_k": "integer",
+            "i_v": "integer",
+            "i_h": "integer",
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "s_k_d": "integer",
+            "s_v_h": "integer",
+            "s_v_t": "integer",
+            "s_v_d": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "H",
+            "T",
+            "K",
+            "V",
+            "BTL",
+            "BTS",
+            "BK",
+            "BV"
+          ],
           "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "_parallel_rebased_bwd_dq_fused"
+          "lean": "bench/tritonbench_g/parallel_attention/Kernels.lean"
         },
         {
+          "python_function": "parallel_rebased_bwd_fused_kernel",
+          "lean_definition": "Bodies.fusedBackward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BTL",
+            "BTS",
+            "BV",
+            "H",
+            "K",
+            "T",
+            "V"
+          ],
           "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "parallel_rebased_bwd_fused_kernel"
+          "lean": "bench/tritonbench_g/parallel_attention/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "parallel_rebased_fwd_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "_parallel_rebased_bwd_dq"
-        },
-        {
-          "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "_parallel_rebased_bwd_dkv"
-        },
-        {
-          "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "parallel_rebased_bwd_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "parallel_rebased_fwd_fused_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "_parallel_rebased_bwd_dq_fused"
-        },
-        {
-          "python": "bench/tritonbench_g/parallel_attention/parallel_attention.py",
-          "function": "parallel_rebased_bwd_fused_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/parallel_attention/Kernels.lean": "6bfea67a769363cb4635e5fa7e110857f23b4c49451420df3a55cbb22db7ff60",
+        "bench/tritonbench_g/parallel_attention/Kernels.lean": "f93c4a0dc8d38733b5c4785fdaa0a80259cede5d40220ad343602047305397c4",
+        "bench/tritonbench_g/parallel_attention/jit-correspondence.json": "e1bbff9199480666b3e4145d2e98174df578e4a05787c8a44df20db3996df4fe",
         "bench/tritonbench_g/parallel_attention/parallel_attention.py": "6c332c20c4144d02cfa2dba335eeb4a1ff0b4f70f5758f4b01eef7b1ec2a7da7"
       },
       "collection": "tritonbench_g",

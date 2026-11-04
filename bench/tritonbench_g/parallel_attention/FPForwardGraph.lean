@@ -86,7 +86,7 @@ def forwardUpdate {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive 
     let squared := M.binary (some .fp32) .real .mul (raw i) (raw i)
     if diagonal then
       if start - queryChunk c s + i.2.1.val ≤ i.1.val then squared
-      else M.literal (some .fp32) .real 0.0
+      else M.literal (some .fp32) .real 0
     else squared
   let total := M.reduceSum (some .fp32) (shape := [c.BTL,c.BTS]) ⟨1, by simp⟩ Bool.false score
   let contribution := D.apply (some .fp32) {allowTF32 := some Bool.false} (batch := [])

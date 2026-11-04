@@ -1,4 +1,5 @@
 import bench.tritonbench_g.parallel_attention.NativeGrid
+import bench.tritonbench_g.parallel_attention.Proofs.CallerLaunch
 
 namespace VeriTile.Bench.Repairs.ParallelAttentionKernel
 open VeriTile.Triton FP.Structural
@@ -6,8 +7,8 @@ open VeriTile.Bench.Repairs.ParallelAttention
 noncomputable section
 set_option maxHeartbeats 3000000
 
-/-- The parent backward kernel calls DQ, a debug barrier, then DKV, with
-one fixed program coordinate. Both helper quotations include their stores. -/
+/-- Proof schedule for the repaired DQ and DKV helpers. The public launch
+executes `Caller.kernel`, including the original PID decoder and helper calls. -/
 def combinedKernel (shape : Shape) (σ : ℝ) (tile : Tile) : ComputeKernel :=
   ComputeKernel.seq ["q","k","v","do","dz"] ["dq","dk","dv"]
     [queryKernel (dqConfig shape σ tile),
@@ -81,7 +82,7 @@ theorem sequential_step
 
 def combinedLaunch {α : Type} [Inhabited α] (a : Scalars α) (shape : Shape) (σ : ℝ)
     (p : Program shape 64) (s : State α) : Option (State α) :=
-  exec (withDot (scalarAlgebra a) (scalarDotPrimitive a)) (combinedKernel shape σ p.tile) (withProgram p s)
+  exec (withDot (scalarAlgebra a) (scalarDotPrimitive a)) (Caller.kernel (dqConfig shape σ p.tile)) (withProgram p s)
 
 def backwardGridTarget {α : Type} [Inhabited α] (a : Scalars α) (shape : Shape) (σ : ℝ)
     (p : Program shape 64) (s : State α) (R : RegionName) (off : Nat) : Cell α :=
@@ -99,40 +100,57 @@ theorem backward_grid {α : Type} [Inhabited α] (a : Scalars α) (shape : Shape
   · intro p before after same R off
     simp only [backwardGridTarget,queryGridTarget,keyValueGridTarget,sameReaders shape before after same]
   · intro p before
-    unfold combinedLaunch
-    rw [combined_exec]
-    apply sequential_step _ _
-      ((queryRectangle shape p.tile).writes 64 shape.BK) (keyValueWrites shape p)
-      (fun t => queryGridTarget a shape σ p t) (fun t => keyValueGridTarget a shape σ p t)
-    · intro R off h; exact h.1
-    · intro R off h eq
-      subst R
-      rcases h with h|h <;> simpa [keyRectangle,queryRectangle,valueRectangle,outputRectangle] using h.1
-    · intro R off member h
-      have eq := h.1
-      change R="dq" at eq
-      subst R
-      simp at member
-    · intro t u same R off
-      simp only [keyValueGridTarget,sameReaders shape t u same]
-    · intro t
-      obtain ⟨final,executed,reads,frame⟩ := query_source a shape σ p.tile t
-      refine ⟨final,executed,?_,frame⟩
-      intro R off write
-      rcases write with ⟨rfl,⟨⟨r,e,⟨⟩⟩,active,rfl⟩⟩
-      erw [queryGridTarget,rectangleTarget_at _ _ _ _ active]
-      exact reads r e active
-    · intro t
-      obtain ⟨final,executed,keyReads,valueReads,frame⟩ := keyValue_source a shape σ p.tile t keyWidth valueWidth
-      refine ⟨final,executed,?_,frame⟩
-      intro R off write
-      rcases write with ⟨rfl,⟨⟨r,e,⟨⟩⟩,active,rfl⟩⟩|⟨rfl,⟨⟨r,v,⟨⟩⟩,active,rfl⟩⟩
-      · simp only [keyValueGridTarget,keyRectangle,queryRectangle,ite_true]
-        erw [rectangleTarget_at _ _ _ _ active]
-        exact keyReads r e active
-      · simp only [keyValueGridTarget,valueRectangle,outputRectangle,show ¬(("dv" : RegionName)="dk") by decide,ite_false]
-        erw [rectangleTarget_at _ _ _ _ active]
-        exact valueReads r v active
+    have staged : ∃ final,
+        exec (withDot (scalarAlgebra a) (scalarDotPrimitive a))
+          (combinedKernel shape σ p.tile) (withProgram p before)=some final ∧
+        (∀ R off,backwardWrites shape p R off →
+          final.mem R off=backwardGridTarget a shape σ p before R off) ∧
+        (∀ R off,¬backwardWrites shape p R off → final.mem R off=before.mem R off) := by
+      rw [combined_exec]
+      apply sequential_step _ _
+        ((queryRectangle shape p.tile).writes 64 shape.BK) (keyValueWrites shape p)
+        (fun t => queryGridTarget a shape σ p t) (fun t => keyValueGridTarget a shape σ p t)
+      · intro R off h; exact h.1
+      · intro R off h eq
+        subst R
+        rcases h with h|h <;> simpa [keyRectangle,queryRectangle,valueRectangle,outputRectangle] using h.1
+      · intro R off member h
+        have eq := h.1
+        change R="dq" at eq
+        subst R
+        simp at member
+      · intro t u same R off
+        simp only [keyValueGridTarget,sameReaders shape t u same]
+      · intro t
+        obtain ⟨final,executed,reads,frame⟩ := query_source a shape σ p.tile t
+        refine ⟨final,executed,?_,frame⟩
+        intro R off write
+        rcases write with ⟨rfl,⟨⟨r,e,⟨⟩⟩,active,rfl⟩⟩
+        erw [queryGridTarget,rectangleTarget_at _ _ _ _ active]
+        exact reads r e active
+      · intro t
+        obtain ⟨final,executed,keyReads,valueReads,frame⟩ := keyValue_source a shape σ p.tile t keyWidth valueWidth
+        refine ⟨final,executed,?_,frame⟩
+        intro R off write
+        rcases write with ⟨rfl,⟨⟨r,e,⟨⟩⟩,active,rfl⟩⟩|⟨rfl,⟨⟨r,v,⟨⟩⟩,active,rfl⟩⟩
+        · simp only [keyValueGridTarget,keyRectangle,queryRectangle,ite_true]
+          erw [rectangleTarget_at _ _ _ _ active]
+          exact keyReads r e active
+        · simp only [keyValueGridTarget,valueRectangle,outputRectangle,show ¬(("dv" : RegionName)="dk") by decide,ite_false]
+          erw [rectangleTarget_at _ _ _ _ active]
+          exact valueReads r v active
+    obtain ⟨reference,ran,reads,frame⟩:=staged
+    rw [combined_exec] at ran
+    obtain ⟨final,executed,memory⟩:=Caller.source_from_helpers
+      (scalarAlgebra a) (scalarDotPrimitive a) (dqConfig shape σ p.tile)
+      (withProgram p before) reference (Caller.config_program shape σ p before) ran
+    refine ⟨final,executed,?_,?_⟩
+    · intro R off active
+      rw [memory]
+      exact reads R off active
+    · intro R off outside
+      rw [memory]
+      exact frame R off outside
 
 #axiomsClean combined_exec
 #axiomsClean backward_write_unique
