@@ -4,15 +4,15 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 179,
+  "completed_count": 183,
   "staged_count": 183,
-  "pending_count": 17,
+  "pending_count": 13,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "PRIOR_BATCH_AND_CURRENT_INT8_QUANTIZATION_36_ROOTS_PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
+    "staged_public_proofs": "PRIOR_FULL_INTEGRATION_AND_EACH_SUBSEQUENT_ACCEPTED_SOURCE_BATCH_VALIDATED;_CURRENT_ATTN_FWD_TRITON_REAL_GRID_REPROOF_IN_PROGRESS",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "179 exact-current accepted targets including all 19 examples. Attention (two cases) and fused_recurrent_delta remain in official replay. attn_fwd_causal passed all local source/public-proof/trust gates and shared-support cleanup; 50-root official replay is in progress. Thirteen target source migrations remain. No local build is counted as completion.",
-    "python_tests": 666,
+    "official_comparator": "183 exact-current accepted targets, including all 19 examples. Final official receipts for attention_fwd_triton3, attention_score, fused_recurrent_delta and attn_fwd_causal were checked against current source/import closures and complete root sets. Thirteen target migrations remain incomplete. Compilation and source comparison alone do not complete a target.",
+    "python_tests": 674,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "The previous full integrated snapshot passed 185 cases, 7012 retained/support roots, 15726 Lake jobs and 465 public theorem names. Subsequent Attention changes passed all 133 owned modules, the shared guarded-JIT frontend/regression and 73 dependent attention_score modules. Current int8_quantization changes passed all 34 owned plus two shared roots (3525 Lake jobs), both public theorem names, prepared trust/spec audits for the frontend and Real/FP entries, and 662 Python tests. Exact-current receipts still accept 177 targets. StreamK, the Attention group and int8_quantization remain pending independent acceptance. Full-manifest counts are coverage only, not a new full integration result.",
+    "working_tree": "All 183 accepted targets have exact-current official receipts; the latest audit also verified the four newly accepted targets. Historical full integration: 185 cases, 7012 roots, 15726 Lake jobs, 465 public theorem names. Later accepted batches were independently replayed against their exact current closures. attn_fwd_triton is being migrated locally and is not accepted; there is no claim of a new full-manifest integrated build.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -79,13 +79,19 @@
       }
     ],
     "incremental_replay": {
-      "status": "IN_PROGRESS",
-      "scope": "StreamK six-function original/candidate complete body migration",
-      "manifest": "validation/body-migration-incremental.json",
-      "roots": 79,
-      "note": "Exact-current final official acceptance remains required.",
-      "validated_source_commit": "5afba8bb0725c3b4bebc91fa7d426290ba1f5943",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41715124478"
+      "status": "PASS_EXACT_CURRENT",
+      "scope": "Four attention/recurrent targets accepted from three complete official final receipts",
+      "receipts": [
+        "validation/body_receipts/attention-group-complete-body.json",
+        "validation/body_receipts/fused-recurrent-delta-complete-body.json",
+        "validation/body_receipts/causal-attention-complete-body.json"
+      ],
+      "root_counts_by_run": {
+        "41736220540": 208,
+        "41748128645": 91,
+        "41757051898": 50
+      },
+      "completion_certificate": true
     },
     "previous_incremental_replays": [
       {
@@ -1289,17 +1295,24 @@
       "completion_certificate": false
     },
     "current_work": {
-      "path": "bench/tritonbench_g/int8_matmul_quantization",
-      "body_pairs": 10,
+      "path": "bench/tritonbench_g/attn_fwd_triton",
+      "body_pairs": 4,
       "body_copy_check": "PASS",
+      "body_statement_counts": [
+        3,
+        31,
+        3,
+        31
+      ],
       "proof_status": "IN_PROGRESS",
-      "note": "Actual signed source control and ceil loop bounds replace the old Nat and externally supplied iteration abstraction; no completion is claimed.",
-      "python_regression_tests": 4,
-      "python_full_suite": 643,
-      "signed_executor_bridge": "PASS",
-      "gemm_actual_iteration_connection": "PASS",
-      "producer_initialization": "PASS",
-      "gemm_prefix_and_single_iteration_execution": "PASS"
+      "public_fp_proof": "PASS_LOCALLY",
+      "actual_complete_source_real_execution": "PASS_LOCALLY",
+      "causal_formula_connection": "PASS_LOCALLY",
+      "real_trace_safety_and_grid_public_proof": "IN_PROGRESS",
+      "independent_replay": "NOT_STARTED",
+      "python_full_suite": 674,
+      "complete": false,
+      "note": "Retains both legal STAGE values, explicit casts and actual hygienic helper captures/tuple returns. The second returned maximum is discarded exactly as Python `_`. No whole-case completion is claimed."
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -2873,15 +2886,16 @@
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton3",
-      "status": "proof_replay_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "IN_PROGRESS",
-      "reason": "All four original/candidate functions match the repaired Python bodies exactly. Actual public Real and FP proofs, all 133 owned modules, shared guarded-JIT frontend regression and 657 Python tests pass locally. Historical full quotations and their source certificates are retired explicitly; pure shared mathematical helpers remain. The Real formula retains signed32 pointer conversion and the existing broad Valid c domain. Exact-current independent replay of all retained roots and dependent attention_score is required before completion.",
+      "independent_replay": "PASS",
+      "reason": "Exact-current complete source/import closure, source-pair bindings, actual public theorem names, every required owned/shared proof replay and official artifact ZIP SHA256 all verified. Local compilation alone is not completion.",
       "validated_source_commit": "9503629af87476259cb8fa016d8fd57ac8ed9298",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41736220540"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41736220540",
+      "receipt": "validation/body_receipts/attention-group-complete-body.json"
     },
     {
       "path": "bench/tritonbench_g/attention_kernel",
@@ -2922,34 +2936,41 @@
     },
     {
       "path": "bench/tritonbench_g/attention_score",
-      "status": "dependency_revalidation_pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "The actual attention_fwd_triton3 source dependency is being migrated to complete pasted bodies. Its source closure changed; the prior receipt is retained as history and no longer counts as current acceptance. Rebuild and fresh exact-current independent acceptance are required.",
+      "reason": "Exact-current complete source/import closure, source-pair bindings, actual public theorem names, every required owned/shared proof replay and official artifact ZIP SHA256 all verified. Local compilation alone is not completion.",
       "validated_source_commit": "9503629af87476259cb8fa016d8fd57ac8ed9298",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41736220540",
       "previous_receipt": "validation/body_receipts/attention-score-source-migration.json",
-      "independent_replay": "IN_PROGRESS",
-      "local_dependent_rebuild": "PASS_ALL_73_OWNED_MODULES"
+      "independent_replay": "PASS",
+      "local_dependent_rebuild": "PASS_ALL_73_OWNED_MODULES",
+      "receipt": "validation/body_receipts/attention-group-complete-body.json"
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_causal",
-      "status": "staged_awaiting_independent_replay",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "IN_PROGRESS",
-      "reason": "Four exact helper/caller body pairs and ABI checked. All 47 retained owned plus 3 shared roots, both actual public Real/FP theorems, safety, full loops, native/readback bridges, prepared trust/spec gates and current-source window regression pass locally. The unconnected 31-module legacy chain and finite-penalty/reciprocal models are retired; required shared support is rehomed and both dependent public proofs pass. Exact-current official independent replay of all 50 roots is still required. Local success is not completion.",
+      "independent_replay": "PASS",
+      "reason": "Exact-current complete source/import closure, source-pair bindings, actual public theorem names, every required owned/shared proof replay and official artifact ZIP SHA256 all verified. Local compilation alone is not completion.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41757051898",
-      "validated_source_commit": "459cf63fc9258c11d8c71e2938dd938737edaa56"
+      "validated_source_commit": "459cf63fc9258c11d8c71e2938dd938737edaa56",
+      "receipt": "validation/body_receipts/causal-attention-complete-body.json"
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_triton",
-      "status": "pending",
-      "complete": false
+      "status": "source_aligned_proofs_in_progress",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "IN_PROGRESS",
+      "retained_modules_build": "IN_PROGRESS",
+      "independent_replay": "NOT_STARTED",
+      "reason": "Four complete body pairs pass source comparison. Actual FP entry and complete source Real execution/formula pass locally; Real trace/grid public entry, all retained roots and exact-current independent replay are still required. No completion is claimed."
     },
     {
       "path": "bench/tritonbench_g/batched_vecmat_mult",
@@ -3573,15 +3594,16 @@
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_delta",
-      "status": "staged_awaiting_independent_replay",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "IN_PROGRESS",
-      "reason": "Four complete source body pairs preserve both forward/backward stages. All 89 owned plus shared conditional frontend/regression roots build, and the actual two public Real theorems and FP candidate comparison are reproved. Typed load materialization and explicit cast both remain; no arbitrary backend identity premise was added. Fresh official exact-current acceptance of all 91 roots is still required; compilation and body checks do not complete this task.",
+      "independent_replay": "PASS",
+      "reason": "Exact-current complete source/import closure, source-pair bindings, actual public theorem names, every required owned/shared proof replay and official artifact ZIP SHA256 all verified. Local compilation alone is not completion.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41748128645",
-      "validated_source_commit": "b273497f596145fd4ae06313e7d90c121613ab7e"
+      "validated_source_commit": "b273497f596145fd4ae06313e7d90c121613ab7e",
+      "receipt": "validation/body_receipts/fused-recurrent-delta-complete-body.json"
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_hgrn",
