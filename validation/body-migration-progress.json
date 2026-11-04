@@ -86,12 +86,15 @@
       }
     ],
     "incremental_replay": {
-      "status": "LOCAL_VALIDATION_PASS_READY_TO_FREEZE",
+      "status": "IN_PROGRESS",
       "scope": "rms_rbe_matmul six exact JIT body pairs, complete RMS/grid/FP proofs and separate full rotary Real/safety/frame connection",
       "manifest": "validation/body-migration-incremental.json",
       "roots": 46,
       "complete": false,
-      "note": "Six complete original/candidate JIT bodies match. The full signed RMS loop, independent full-K/grid mathematics, byte/native interfaces, typed stores, source safety and frame, and full-state/failure-aware FP index transformation are reverified. The separately pasted rotary/helper is connected to the complete dense rotary mathematical interface, including odd/empty shapes, both barriers, execution, safety and frame. All 46 owned/shared/test roots, nine external trust/spec gates, three actual public names and 715 Python tests pass locally. Official exact-source independent replay is still required; compilation and body matching alone are not completion. No merge."
+      "note": "Six complete original/candidate JIT bodies match. The full signed RMS loop, independent full-K/grid mathematics, byte/native interfaces, typed stores, source safety and frame, and full-state/failure-aware FP index transformation are reverified. The separately pasted rotary/helper is connected to the complete dense rotary mathematical interface, including odd/empty shapes, both barriers, execution, safety and frame. All 46 owned/shared/test roots, nine external trust/spec gates, three actual public names and 715 Python tests pass locally. Official exact-source independent replay is still required; compilation and body matching alone are not completion. No merge.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41874493212",
+      "validated_source_commit": "1c2414087798d53fe0ccc2453ebbb629792c7630",
+      "frozen_source_files": 437
     },
     "previous_incremental_replays": [
       {
@@ -1341,7 +1344,7 @@
     },
     "current_work": {
       "path": "bench/tritonbench_g/rms_rbe_matmul",
-      "status": "LOCAL_FULL_VALIDATION_PASS_AWAITING_OFFICIAL_REPLAY",
+      "status": "FROZEN_OFFICIAL_REPLAY_IN_PROGRESS",
       "complete": false,
       "body_pairs": 6,
       "all_jit_bodies_aligned": true,
@@ -1354,7 +1357,10 @@
       "public_name_resolution": "PASS_3_ACTUAL_PUBLIC_TARGETS",
       "external_trust_spec_gates": "PASS_9_FILES",
       "python_tests": 715,
-      "note": "Six complete original/candidate JIT bodies match. The full signed RMS loop, independent full-K/grid mathematics, byte/native interfaces, typed stores, source safety and frame, and full-state/failure-aware FP index transformation are reverified. The separately pasted rotary/helper is connected to the complete dense rotary mathematical interface, including odd/empty shapes, both barriers, execution, safety and frame. All 46 owned/shared/test roots, nine external trust/spec gates, three actual public names and 715 Python tests pass locally. Official exact-source independent replay is still required; compilation and body matching alone are not completion. No merge."
+      "note": "Six complete original/candidate JIT bodies match. The full signed RMS loop, independent full-K/grid mathematics, byte/native interfaces, typed stores, source safety and frame, and full-state/failure-aware FP index transformation are reverified. The separately pasted rotary/helper is connected to the complete dense rotary mathematical interface, including odd/empty shapes, both barriers, execution, safety and frame. All 46 owned/shared/test roots, nine external trust/spec gates, three actual public names and 715 Python tests pass locally. Official exact-source independent replay is still required; compilation and body matching alone are not completion. No merge.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41874493212",
+      "replay_source_commit": "1c2414087798d53fe0ccc2453ebbb629792c7630",
+      "frozen_closure_files": 437
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -3147,6 +3153,14 @@
         "source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
         "frozen_roots": 111,
         "frozen_closure_files": 390,
+        "complete": false
+      },
+      {
+        "path": "bench/tritonbench_g/rms_rbe_matmul",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41874493212",
+        "source_commit": "1c2414087798d53fe0ccc2453ebbb629792c7630",
+        "frozen_roots": 46,
+        "frozen_closure_files": 437,
         "complete": false
       }
     ],
