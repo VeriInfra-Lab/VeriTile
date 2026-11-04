@@ -10,16 +10,16 @@ variable {α : Type} [Inhabited α]
 
 theorem storing_safe (a : Arithmetic α) (outputFP8 : Bool) (p : Arguments) (s : State α)
     (pb pm pn : Nat) (accumulator : Values α .real [16,64])
-    (hb : s.regs .nat [] "pid_batch"=some (fun _=>pb))
-    (hm : s.regs .nat [] "pid_m"=some (fun _=>pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _=>pn))
+    (hb : s.regs .int [] "pid_batch"=some (fun _=>(pb:Int)))
+    (hm : s.regs .int [] "pid_m"=some (fun _=>(pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _=>(pn:Int)))
     (ha : s.regs .real [16,64] "accumulator"=some accumulator)
     (capacity : RegionName → Nat)
     (bound : ∀ i : TileIndex [16,64],outputActive p pm pn i → outputOffset p pb pm pn i<capacity p.OUT) :
     traceSafeList a.model capacity (storing outputFP8 p) s := by
   cases outputFP8
   all_goals
-    simp [storing,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
+    simp [storing,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.Bodies.rms,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeAddress_unfold,safeMask_unfold,
       safeExpr_unfold,safeCompute_unfold,safeOp_unfold,addressSafe_unfold,maskActive_unfold,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
@@ -27,7 +27,11 @@ theorem storing_safe (a : Arithmetic α) (outputFP8 : Bool) (p : Arguments) (s :
       Region.cast,Option.bind,integralFloorDiv,integralMod,Arithmetic.model,hb,hm,hn,ha,
       store,Broadcast.leftIndex,Broadcast.rightIndex]
     intro m n hm hn
-    exact bound (m,n,PUnit.unit) ⟨hm,hn⟩
+    have rows : pm*16+m.val<p.M :=
+      Int.ofNat_lt.mp (show ((pm*16+m.val:Nat):Int)<(p.M:Int) from hm)
+    have cols : pn*64+n.val<p.N :=
+      Int.ofNat_lt.mp (show ((pn*64+n.val:Nat):Int)<(p.N:Int) from hn)
+    exact bound (m,n,PUnit.unit) ⟨rows,cols⟩
 
 #axiomsClean storing_safe
 end

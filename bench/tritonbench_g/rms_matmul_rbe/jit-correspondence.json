@@ -1,0 +1,564 @@
+[
+  {
+    "kind": "source_procedure",
+    "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py",
+    "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean",
+    "python_function": "rms_matmul_rbe",
+    "lean_definition": "Bodies.rmsSource",
+    "expected_fp32_constants": [
+      "THETA",
+      "EPS"
+    ]
+  },
+  {
+    "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py",
+    "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean",
+    "python_function": "rms_matmul_rbe_qkv",
+    "lean_definition": "Bodies.qkv",
+    "signature_definition": "qkvSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "q_weight_ptr",
+          {
+            "on": "input",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "byte",
+                "i8"
+              ]
+            ]
+          }
+        ],
+        [
+          "k_weight_ptr",
+          {
+            "on": "input",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "byte",
+                "i8"
+              ]
+            ]
+          }
+        ],
+        [
+          "v_weight_ptr",
+          {
+            "on": "input",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "byte",
+                "i8"
+              ]
+            ]
+          }
+        ],
+        [
+          "rms_w_ptr",
+          {
+            "on": "input",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "byte",
+                "i8"
+              ]
+            ]
+          }
+        ],
+        [
+          "q_ptr",
+          "fp16"
+        ],
+        [
+          "k_ptr",
+          {
+            "on": "output",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ],
+        [
+          "v_ptr",
+          {
+            "on": "output",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_m",
+          "integer"
+        ],
+        [
+          "stride_x_k",
+          "integer"
+        ],
+        [
+          "stride_q_w_k",
+          "integer"
+        ],
+        [
+          "stride_q_w_n",
+          "integer"
+        ],
+        [
+          "stride_k_w_k",
+          "integer"
+        ],
+        [
+          "stride_k_w_n",
+          "integer"
+        ],
+        [
+          "stride_v_w_k",
+          "integer"
+        ],
+        [
+          "stride_v_w_n",
+          "integer"
+        ],
+        [
+          "stride_rms_w",
+          "integer"
+        ],
+        [
+          "stride_q_batch",
+          "integer"
+        ],
+        [
+          "stride_q_m",
+          "integer"
+        ],
+        [
+          "stride_q_n",
+          "integer"
+        ],
+        [
+          "stride_k_batch",
+          "integer"
+        ],
+        [
+          "stride_k_m",
+          "integer"
+        ],
+        [
+          "stride_k_n",
+          "integer"
+        ],
+        [
+          "stride_v_batch",
+          "integer"
+        ],
+        [
+          "stride_v_m",
+          "integer"
+        ],
+        [
+          "stride_v_n",
+          "integer"
+        ],
+        [
+          "start_token_position",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "USE_FP8",
+        "THETA",
+        "EPS",
+        "HEAD_DIM",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "x_ptr",
+        "q_weight_ptr",
+        "k_weight_ptr",
+        "v_weight_ptr",
+        "rms_w_ptr"
+      ],
+      "writePorts": [
+        "q_ptr",
+        "k_ptr",
+        "v_ptr"
+      ],
+      "dtype_parameters": [
+        "input",
+        "output"
+      ],
+      "dtype_parameter_types": {
+        "input": "InputStorage",
+        "output": "OutputStorage"
+      }
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_m": "stride_x_m",
+      "stride_x_k": "stride_x_k",
+      "stride_q_w_k": "stride_q_w_k",
+      "stride_q_w_n": "stride_q_w_n",
+      "stride_k_w_k": "stride_k_w_k",
+      "stride_k_w_n": "stride_k_w_n",
+      "stride_v_w_k": "stride_v_w_k",
+      "stride_v_w_n": "stride_v_w_n",
+      "stride_rms_w": "stride_rms_w",
+      "stride_q_batch": "stride_q_batch",
+      "stride_q_m": "stride_q_m",
+      "stride_q_n": "stride_q_n",
+      "stride_k_batch": "stride_k_batch",
+      "stride_k_m": "stride_k_m",
+      "stride_k_n": "stride_k_n",
+      "stride_v_batch": "stride_v_batch",
+      "stride_v_m": "stride_v_m",
+      "stride_v_n": "stride_v_n",
+      "start_token_position": "start_token_position"
+    },
+    "expected_fp32_constants": [
+      "THETA",
+      "EPS"
+    ],
+    "expected_source_procedures": {
+      "rms_matmul_rbe": "Bodies.rmsSource"
+    }
+  },
+  {
+    "kind": "source_procedure",
+    "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe_index_commuted.py",
+    "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean",
+    "python_function": "rms_matmul_rbe",
+    "lean_definition": "Bodies.rmsIndexCommutedSource",
+    "expected_fp32_constants": [
+      "THETA",
+      "EPS"
+    ]
+  },
+  {
+    "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe_index_commuted.py",
+    "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean",
+    "python_function": "rms_matmul_rbe_qkv",
+    "lean_definition": "Bodies.qkvIndexCommuted",
+    "signature_definition": "qkvSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "q_weight_ptr",
+          {
+            "on": "input",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "byte",
+                "i8"
+              ]
+            ]
+          }
+        ],
+        [
+          "k_weight_ptr",
+          {
+            "on": "input",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "byte",
+                "i8"
+              ]
+            ]
+          }
+        ],
+        [
+          "v_weight_ptr",
+          {
+            "on": "input",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "byte",
+                "i8"
+              ]
+            ]
+          }
+        ],
+        [
+          "rms_w_ptr",
+          {
+            "on": "input",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "byte",
+                "i8"
+              ]
+            ]
+          }
+        ],
+        [
+          "q_ptr",
+          "fp16"
+        ],
+        [
+          "k_ptr",
+          {
+            "on": "output",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ],
+        [
+          "v_ptr",
+          {
+            "on": "output",
+            "cases": [
+              [
+                "half",
+                "fp16"
+              ],
+              [
+                "e5",
+                "f8e5"
+              ]
+            ]
+          }
+        ]
+      ],
+      "scalars": [
+        [
+          "M",
+          "integer"
+        ],
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_m",
+          "integer"
+        ],
+        [
+          "stride_x_k",
+          "integer"
+        ],
+        [
+          "stride_q_w_k",
+          "integer"
+        ],
+        [
+          "stride_q_w_n",
+          "integer"
+        ],
+        [
+          "stride_k_w_k",
+          "integer"
+        ],
+        [
+          "stride_k_w_n",
+          "integer"
+        ],
+        [
+          "stride_v_w_k",
+          "integer"
+        ],
+        [
+          "stride_v_w_n",
+          "integer"
+        ],
+        [
+          "stride_rms_w",
+          "integer"
+        ],
+        [
+          "stride_q_batch",
+          "integer"
+        ],
+        [
+          "stride_q_m",
+          "integer"
+        ],
+        [
+          "stride_q_n",
+          "integer"
+        ],
+        [
+          "stride_k_batch",
+          "integer"
+        ],
+        [
+          "stride_k_m",
+          "integer"
+        ],
+        [
+          "stride_k_n",
+          "integer"
+        ],
+        [
+          "stride_v_batch",
+          "integer"
+        ],
+        [
+          "stride_v_m",
+          "integer"
+        ],
+        [
+          "stride_v_n",
+          "integer"
+        ],
+        [
+          "start_token_position",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "USE_FP8",
+        "THETA",
+        "EPS",
+        "HEAD_DIM",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "BLOCK_SIZE_K"
+      ],
+      "readPorts": [
+        "x_ptr",
+        "q_weight_ptr",
+        "k_weight_ptr",
+        "v_weight_ptr",
+        "rms_w_ptr"
+      ],
+      "writePorts": [
+        "q_ptr",
+        "k_ptr",
+        "v_ptr"
+      ],
+      "dtype_parameters": [
+        "input",
+        "output"
+      ],
+      "dtype_parameter_types": {
+        "input": "InputStorage",
+        "output": "OutputStorage"
+      }
+    },
+    "expected_call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K",
+      "stride_x_batch": "stride_x_batch",
+      "stride_x_m": "stride_x_m",
+      "stride_x_k": "stride_x_k",
+      "stride_q_w_k": "stride_q_w_k",
+      "stride_q_w_n": "stride_q_w_n",
+      "stride_k_w_k": "stride_k_w_k",
+      "stride_k_w_n": "stride_k_w_n",
+      "stride_v_w_k": "stride_v_w_k",
+      "stride_v_w_n": "stride_v_w_n",
+      "stride_rms_w": "stride_rms_w",
+      "stride_q_batch": "stride_q_batch",
+      "stride_q_m": "stride_q_m",
+      "stride_q_n": "stride_q_n",
+      "stride_k_batch": "stride_k_batch",
+      "stride_k_m": "stride_k_m",
+      "stride_k_n": "stride_k_n",
+      "stride_v_batch": "stride_v_batch",
+      "stride_v_m": "stride_v_m",
+      "stride_v_n": "stride_v_n",
+      "start_token_position": "start_token_position"
+    },
+    "expected_fp32_constants": [
+      "THETA",
+      "EPS"
+    ],
+    "expected_source_procedures": {
+      "rms_matmul_rbe": "Bodies.rmsIndexCommutedSource"
+    }
+  }
+]

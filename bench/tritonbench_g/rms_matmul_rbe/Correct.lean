@@ -1,4 +1,5 @@
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.ReaderFormat
+import bench.tritonbench_g.rms_matmul_rbe.Proofs.PastedCalls
 
 namespace VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.Correct
 open VeriTile.Triton FP.Structural
@@ -49,6 +50,25 @@ specification kernel_real (fp8 : Bool) (p : Fin 3 → Arguments)
   exact (ReaderFormat.statement_iff fp8 p epsilon theta order realTarget).mpr
     (IOResults.real_implements fp8 p epsilon theta order even apart)
 
+/-- The verbatim Python parent, with common X/RMS, dimensions and launch
+parameters, implements the same full-grid independent mathematical formula.
+The generalized per-phase theorem above remains available unchanged. -/
+specification pasted_kernel_real (fp8 : Bool) (c : Pasted.ParentArguments)
+    (epsilon theta : HostScalar) (even : ∀ phase,(c.phase phase).N%2=0)
+    (apart : ∀ writer reader,(c.phase reader).X≠(c.phase writer).OUT ∧
+      (c.phase reader).W≠(c.phase writer).OUT ∧ (c.phase reader).RMS≠(c.phase writer).OUT)
+    (order : List (Nat → Nat)) :
+    Spec.Real (Pasted.logicalIO fp8 c epsilon theta order ⊨{Logical.Domain fp8}
+      fun xs phase launch rowLane colLane =>
+        projectedRotary (parameters (c.phase phase) epsilon.value theta.value)
+          (Logical.rowInputs xs phase (Logical.batch order launch)
+            (Logical.row c.phase order phase launch rowLane))
+          (decide (phase.val < 2)) (Logical.row c.phase order phase launch rowLane)
+          (Logical.column c.phase order phase launch colLane)) := by
+  exact (Pasted.implements_iff mathArithmetic fp8 c epsilon.value theta.value order _ _).mpr
+    (kernel_real fp8 c.phase epsilon theta even apart order)
+
+#axiomsClean pasted_kernel_real
 #axiomsClean kernel_real
 #stmtSurfaceSubset kernel_real ⊆
   [Arguments,RegionName,TypedSource.Arguments.N,TypedSource.Arguments.X,TypedSource.Arguments.W,

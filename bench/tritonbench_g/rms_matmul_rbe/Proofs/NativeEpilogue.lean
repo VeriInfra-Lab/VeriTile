@@ -24,9 +24,9 @@ theorem nativeEpilogueExecution {α : Type} [Inhabited α] (a : Arithmetic α)
     (pb pm pn : Nat) (moments accumulator : Values α .real [16,64])
     (he : s.regs .real [] "EPS"=some (fun _ => epsilon))
     (ht : s.regs .real [] "THETA"=some (fun _ => theta))
-    (hb : s.regs .nat [] "pid_batch"=some (fun _ => pb))
-    (hm : s.regs .nat [] "pid_m"=some (fun _ => pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _ => pn))
+    (hb : s.regs .int [] "pid_batch"=some (fun _ => (pb:Int)))
+    (hm : s.regs .int [] "pid_m"=some (fun _ => (pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _ => (pn:Int)))
     (hmom : s.regs .real [16,64] "x_sum"=some moments)
     (ha : s.regs .real [16,64] "accumulator"=some accumulator) :
     ∃ final, run a.model (selectedEpilogue plan fp8 outputFP8 p) s=some final ∧
@@ -39,9 +39,9 @@ theorem nativeEpilogueExecution {α : Type} [Inhabited α] (a : Arithmetic α)
   have nf : norm.val.mem=s.mem := normalization_frame a p s epsilon moments accumulator he hmom ha
   have nt : norm.val.regs .real [] "THETA"=some (fun _ => theta) :=
     (nh _ _ _ (by simp [headerNames])).trans ht
-  have nm : norm.val.regs .nat [] "pid_m"=some (fun _ => pm) :=
+  have nm : norm.val.regs .int [] "pid_m"=some (fun _ => (pm:Int)) :=
     (nh _ _ _ (by simp [headerNames])).trans hm
-  have nn : norm.val.regs .nat [] "pid_n"=some (fun _ => pn) :=
+  have nn : norm.val.regs .int [] "pid_n"=some (fun _ => (pn:Int)) :=
     (nh _ _ _ (by simp [headerNames])).trans hn
   have choice : ∃ next,
       FP.Structural.step a.model (.ifThen (.constBool p.rotary) (nativeRotation plan p)) norm.val=some next ∧
@@ -63,11 +63,11 @@ theorem nativeEpilogueExecution {α : Type} [Inhabited α] (a : Arithmetic α)
           native_rotation_value a plan p norm.val theta pm pn _ nt nm nn nv
       · exact (native_rotation_frame a plan p norm.val theta pm pn _ nt nm nn nv).trans nf
   obtain ⟨next,hchoice,hv,hf,hh⟩ := choice
-  have nb : next.regs .nat [] "pid_batch"=some (fun _ => pb) :=
+  have nb : next.regs .int [] "pid_batch"=some (fun _ => (pb:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans hb
-  have nm : next.regs .nat [] "pid_m"=some (fun _ => pm) :=
+  have nm : next.regs .int [] "pid_m"=some (fun _ => (pm:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans hm
-  have nn : next.regs .nat [] "pid_n"=some (fun _ => pn) :=
+  have nn : next.regs .int [] "pid_n"=some (fun _ => (pn:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans hn
   let stored := storingExecution a outputFP8 p next pb pm pn _ nb nm nn hv
   refine ⟨stored.val,?_,?_⟩
