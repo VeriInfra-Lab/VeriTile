@@ -15,13 +15,13 @@ def prefixAcc (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State α) : 
 def accumulated (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State α) : Acc α :=
   foldRange (update M dot p s) (s.pids 0*128) (stop p s) 64 (prefixAcc M dot p s)
 
-theorem loopAt (M : Algebra α) (dot : Dot α) (p : Parameters)
-    (initial current : State α) (cur finish : Nat) (a : Acc α) (ctx : Context M p initial cur a current) :
-    ∃ t, range (engine (withDot M dot)) "start_n" cur finish 64 (parts p).body current=some t ∧
-      ∃ row, Context M p initial row (foldRange (update M dot p initial) cur finish 64 a) t := by
-  exact range_values (engine (withDot M dot)) "start_n" (parts p).body (update M dot p initial)
-    (fun row a s => Context M p initial row a s)
-    (fun a s => ∃ row, Context M p initial row a s) cur finish 64 _ current
+theorem loopAt {phase : Bool} (M : Algebra α) (dot : Dot α) (p : Parameters)
+    (initial current : State α) (cur finish : Nat) (a : Acc α) (ctx : Context M p initial cur a current (phase:=phase)) :
+    ∃ t, range (engine (withDot M dot)) (workName phase "start_n") cur finish 64 (loopParts p phase).body current=some t ∧
+      ∃ row, Context M p initial row (foldRange (update M dot p initial) cur finish 64 a) t (phase:=phase) := by
+  exact range_values (engine (withDot M dot)) (workName phase "start_n") (loopParts p phase).body (update M dot p initial)
+    (fun row a s => Context M p initial row a s (phase:=phase))
+    (fun a s => ∃ row, Context M p initial row a s (phase:=phase)) cur finish 64 _ current
     (by
       intro row a s h _
       let t:=bodyExec M dot p initial s row a h
@@ -29,11 +29,10 @@ theorem loopAt (M : Algebra α) (dot : Dot α) (p : Parameters)
     (by intro row a s h; exact ⟨row,h⟩) ctx
 
 def firstStatement (p : Parameters) : ComputeStmt :=
-  .forRangeDyn "start_n" (parts p).start (parts p).stop (parts p).stride (parts p).body
+  .forRangeDyn (workName Bool.false "start_n") (parts p).start (parts p).stop (parts p).stride (parts p).body
 def secondStatement (p : Parameters) : ComputeStmt :=
-  .forRangeDyn "start_n" (diagonal p).start (diagonal p).stop (diagonal p).stride (diagonal p).body
+  .forRangeDyn (workName Bool.true "start_n") (diagonal p).start (diagonal p).stop (diagonal p).stride (diagonal p).body
 
-theorem bodies_equal (p : Parameters) : (diagonal p).body=(parts p).body := by rfl
 
 theorem source_body (p : Parameters) : (kernel p).surfaceBody=
     (parts p).before++[firstStatement p]++middle p++[secondStatement p]++(diagonal p).after := by rfl
@@ -41,21 +40,26 @@ theorem source_body (p : Parameters) : (kernel p).surfaceBody=
 theorem first_step (M : Algebra α) (dot : Dot α) (p : Parameters)
     (initial current : State α) (row : Nat) (a : Acc α) (ctx : Context M p initial row a current) :
     step (engine (withDot M dot)) (firstStatement p) current=
-      range (engine (withDot M dot)) "start_n" 0 (initial.pids 0*128) 64 (parts p).body current := by
-  simp [firstStatement,step,parts,kernel,TypedSource.repaired,
+      range (engine (withDot M dot)) (workName Bool.false "start_n") 0 (initial.pids 0*128) 64 (parts p).body current := by
+  have lo:=ctx.firstLo
+  have hi:=ctx.firstHi
+  simp [workName] at lo hi
+  simp [workName,firstStatement,step,parts,kernel,TypedSource.repaired,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
-    evalOp_unfold,ctx.firstLo,ctx.firstHi]
+    evalOp_unfold,lo,hi]
 
 theorem second_step (M : Algebra α) (dot : Dot α) (p : Parameters)
     (initial current : State α) (row : Nat) (a : Acc α) (ctx : Context M p initial row a current) :
     step (engine (withDot M dot)) (secondStatement p) (middleExec M dot p initial current row a ctx).val=
-      range (engine (withDot M dot)) "start_n" (initial.pids 0*128) (stop p initial) 64
-        (parts p).body (middleExec M dot p initial current row a ctx).val := by
-  have hm : (if (initial.pids 0+1)*128<p.length then (initial.pids 0+1)*128 else p.length)=
-      min ((initial.pids 0+1)*128) p.length := by split <;> omega
-  simp [hm,secondStatement,step,diagonal,parts,kernel,TypedSource.repaired,stop,middleExec,
+      range (engine (withDot M dot)) (workName Bool.true "start_n") (initial.pids 0*128) (stop p initial) 64
+        (diagonal p).body (middleExec M dot p initial current row a ctx).val := by
+  have next:=middle_context M dot p initial current row a ctx
+  have lo:=next.firstLo
+  have hi:=next.firstHi
+  simp [workName] at lo hi
+  simp [secondStatement,step,diagonal,kernel,TypedSource.repaired,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
-    evalOp_unfold,State.setReg,FP.Structural.bop,numeric,natLe,ofFloat,toFloat]
+    evalOp_unfold,lo,hi,workName]
 
 theorem foldRange_append {β : Type} (f : Nat → β → β) (cur split finish : Nat) (a : β)
     (hc : cur≤split) (ha : (split-cur)%64=0) (hf : split≤finish) :

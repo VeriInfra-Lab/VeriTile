@@ -37,13 +37,27 @@ theorem before_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     TileShape.axisDim,Region.cast,State.setReg,Broadcast.leftIndex,Broadcast.rightIndex]
   exact ⟨backed.query,backed.queryScale⟩
 
-theorem body (M : Algebra α) (dot : Dot α) (p : Parameters)
+theorem body {phase : Bool} (M : Algebra α) (dot : Dot α) (p : Parameters)
     (bounds : RegionName → Nat) (initial current : State α)
     (backed : Bounds p initial bounds) (row : Nat) (a : Acc α) (hr : row<p.length)
-    (ctx : Context M p initial row a current) :
-    traceSafeList (engine (withDot M dot)) bounds (parts p).body
-      (current.setReg "start_n" .nat [] (fun _ => row)) := by
-  simp (config := {maxSteps:=300000}) [parts,kernel,TypedSource.repaired,
+    (ctx : Context M p initial row a current (phase:=phase)) :
+    traceSafeList (engine (withDot M dot)) bounds (loopParts p phase).body
+      (current.setReg (workName phase "start_n") .nat [] (fun _ => row)) := by
+  have h_length:=ctx.length
+  have h_startM:=ctx.startM
+  have h_firstLo:=ctx.firstLo
+  have h_firstHi:=ctx.firstHi
+  have h_rows:=ctx.rows
+  have h_cols:=ctx.cols
+  have h_query:=ctx.query
+  have h_scale:=ctx.scale
+  have h_keyPointer:=ctx.keyPointer
+  have h_valuePointer:=ctx.valuePointer
+  have h_scalePointer:=ctx.scalePointer
+  have h_maximum:=ctx.maximum
+  have h_normalizer:=ctx.normalizer
+  have h_value:=ctx.value
+  cases phase <;> simp [workName] at h_length h_startM h_firstLo h_firstHi h_rows h_cols h_query h_scale h_keyPointer h_valuePointer h_scalePointer h_maximum h_normalizer h_value <;> simp (config := {maxSteps:=300000}) [loopParts,diagonal,parts,workName,kernel,TypedSource.repaired,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -51,21 +65,26 @@ theorem body (M : Algebra α) (dot : Dot α) (p : Parameters)
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
     TileShape.axisDim,Region.cast,State.setReg,Broadcast.leftIndex,Broadcast.rightIndex,
-    ctx.memory,ctx.startM,ctx.firstLo,ctx.firstHi,ctx.keyBase,ctx.valueBase,ctx.scaleBase,
-    ctx.rows,ctx.cols,ctx.query,ctx.scale,ctx.keyPointer,ctx.valuePointer,
-    ctx.scalePointer,ctx.outputPointer,ctx.maximum,ctx.normalizer,ctx.value]
-  refine ⟨?_,backed.keyScale row hr,?_⟩
-  · intro i j active
-    have hj : j.val<p.length-row := active
-    exact backed.key (row+j.val) (by omega) i
-  · intro i j active
-    have hi : i.val<p.length-row := active
-    exact backed.value (row+i.val) (by omega) j
+    h_length,ctx.memory,h_startM,h_firstLo,h_firstHi,ctx.keyBase,ctx.valueBase,ctx.scaleBase,
+    h_rows,h_cols,h_query,h_scale,h_keyPointer,h_valuePointer,
+    h_scalePointer,ctx.outputPointer,h_maximum,h_normalizer,h_value]
+  all_goals refine ⟨?_,backed.keyScale row hr,?_⟩
+  all_goals
+    intro i j active
+    first
+    | have hj : j.val<p.length-row := active
+      exact backed.key (row+j.val) (by omega) i
+    | have hi : i.val<p.length-row := active
+      exact backed.value (row+i.val) (by omega) j
 
 theorem middle (M : Algebra α) (dot : Dot α) (p : Parameters)
     (bounds : RegionName → Nat) (initial current : State α) (row : Nat) (a : Acc α)
     (ctx : Context M p initial row a current) :
     traceSafeList (engine (withDot M dot)) bounds (Source.middle p) current := by
+  have h_maximum:=ctx.maximum
+  have h_normalizer:=ctx.normalizer
+  have h_value:=ctx.value
+  simp [workName] at h_maximum h_normalizer h_value
   simp (config := {maxSteps:=300000}) [Source.middle,parts,kernel,TypedSource.repaired,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
@@ -74,13 +93,17 @@ theorem middle (M : Algebra α) (dot : Dot α) (p : Parameters)
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
     TileShape.axisDim,Region.cast,State.setReg,
-    ctx.startM,ctx.keyBase,ctx.valueBase,ctx.scaleBase]
+    workName,ctx.callerStartM,ctx.callerRows,ctx.callerCols,ctx.callerQuery,ctx.callerScale,h_maximum,h_normalizer,h_value,ctx.startM,ctx.keyBase,ctx.valueBase,ctx.scaleBase]
 
 theorem post (M : Algebra α) (dot : Dot α) (p : Parameters)
     (bounds : RegionName → Nat) (initial current : State α)
     (backed : Bounds p initial bounds) (row : Nat) (a : Acc α)
-    (ctx : Context M p initial row a current) :
+    (ctx : Context M p initial row a current (phase:=Bool.true)) :
     traceSafeList (engine (withDot M dot)) bounds (diagonal p).after current := by
+  have h_maximum:=ctx.maximum
+  have h_normalizer:=ctx.normalizer
+  have h_value:=ctx.value
+  simp [workName] at h_maximum h_normalizer h_value
   simp (config := {maxSteps:=300000}) [diagonal,parts,kernel,TypedSource.repaired,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
@@ -89,14 +112,14 @@ theorem post (M : Algebra α) (dot : Dot α) (p : Parameters)
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
     TileShape.axisDim,Region.cast,State.setReg,Broadcast.leftIndex,Broadcast.rightIndex,
-    ctx.memory,ctx.rows,ctx.outputPointer,ctx.normalizer,ctx.value,FP.Structural.store]
+    workName,h_maximum,ctx.callerRows,ctx.memory,ctx.rows,ctx.outputPointer,h_normalizer,h_value,FP.Structural.store]
   exact backed.output
 
-theorem range_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
+theorem range_safe {phase : Bool} (M : Algebra α) (dot : Dot α) (p : Parameters)
     (bounds : RegionName → Nat) (initial current : State α)
     (backed : Bounds p initial bounds) (row finish : Nat) (a : Acc α)
-    (hf : finish≤p.length) (ctx : Context M p initial row a current) :
-    rangeSafe (engine (withDot M dot)) bounds "start_n" row finish 64 (parts p).body current := by
+    (hf : finish≤p.length) (ctx : Context M p initial row a current (phase:=phase)) :
+    rangeSafe (engine (withDot M dot)) bounds (workName phase "start_n") row finish 64 (loopParts p phase).body current := by
   by_cases active : row<finish
   · rw [rangeSafe_unfold]
     simp only [show (64:Nat)≠0 by omega,active,if_false,if_true]
@@ -115,9 +138,12 @@ theorem first_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (legal : initial.pids 0*128<p.length) (ctx : Context M p initial 0 a current) :
     stepSafe (engine (withDot M dot)) bounds (firstStatement p) current := by
   have safe := range_safe M dot p bounds initial current backed 0 (initial.pids 0*128) a (by omega) ctx
-  simpa [firstStatement,stepSafe_unfold,safeOp_unfold,parts,kernel,TypedSource.repaired,
+  have lo:=ctx.firstLo
+  have hi:=ctx.firstHi
+  simp [workName] at lo hi
+  simpa [workName,loopParts,firstStatement,stepSafe_unfold,safeOp_unfold,parts,kernel,TypedSource.repaired,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
-    evalOp_unfold,ctx.firstLo,ctx.firstHi] using safe
+    evalOp_unfold,lo,hi] using safe
 
 theorem second_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (bounds : RegionName → Nat) (initial current : State α)
@@ -127,11 +153,14 @@ theorem second_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
       (middleExec M dot p initial current row a ctx).val := by
   have safe := range_safe M dot p bounds initial _ backed (initial.pids 0*128) (stop p initial) a
     (Nat.min_le_right _ _) (middle_context M dot p initial current row a ctx)
-  have hm : (if (initial.pids 0+1)*128<p.length then (initial.pids 0+1)*128 else p.length)=
-      min ((initial.pids 0+1)*128) p.length := by split <;> omega
-  simpa [hm,secondStatement,stepSafe_unfold,safeOp_unfold,diagonal,parts,kernel,TypedSource.repaired,stop,middleExec,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
-    evalOp_unfold,State.setReg,FP.Structural.bop,numeric,natLe,ofFloat,toFloat] using safe
+  have next:=middle_context M dot p initial current row a ctx
+  have lo:=next.firstLo
+  have hi:=next.firstHi
+  simp [workName] at lo hi
+  simpa [loopParts,workName,secondStatement,stepSafe_unfold,safeOp_unfold,
+    diagonal,kernel,TypedSource.repaired,ComputeKernel.surfaceBody,
+    Triton.Source.dynamicRange?,Option.map,Option.getD,evalOp_unfold,
+    lo,hi] using safe
 
 /-- Safety of the exact repaired quotation, through both complete causal
 ranges and the final output store, at every actual intermediate state. -/

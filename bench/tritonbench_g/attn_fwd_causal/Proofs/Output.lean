@@ -22,8 +22,12 @@ def outputValue (M : Algebra α) (a : Acc α) (i : TileIndex [128,128]) : α :=
 
 def postExec (M : Algebra α) (dot : Dot α) (p : Parameters)
     (initial current : State α) (row : Nat) (a : Acc α)
-    (ctx : Context M p initial row a current) :
+    (ctx : Context M p initial row a current (phase:=Bool.true)) :
     {t : State α // run (engine (withDot M dot)) (diagonal p).after current=some t} := by
+  have h_maximum:=ctx.maximum
+  have h_normalizer:=ctx.normalizer
+  have h_value:=ctx.value
+  simp [workName] at h_maximum h_normalizer h_value
   refine ⟨?_,?_⟩
   swap
   simp [diagonal,parts,kernel,TypedSource.repaired,
@@ -32,7 +36,7 @@ def postExec (M : Algebra α) (dot : Dot α) (p : Parameters)
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
     TileShape.axisDim,Region.cast,State.setReg,
-    ctx.memory,ctx.rows,ctx.outputPointer,ctx.normalizer,ctx.value,FP.Structural.store]
+    workName,h_maximum,ctx.callerRows,ctx.memory,ctx.rows,ctx.outputPointer,h_normalizer,h_value,FP.Structural.store]
   rfl
 
 def written (M : Algebra α) (p : Parameters) (s : State α) (a : Acc α) : State α :=
@@ -41,7 +45,7 @@ def written (M : Algebra α) (p : Parameters) (s : State α) (a : Acc α) : Stat
 
 theorem post_memory (M : Algebra α) (dot : Dot α) (p : Parameters)
     (initial current : State α) (row : Nat) (a : Acc α)
-    (ctx : Context M p initial row a current) :
+    (ctx : Context M p initial row a current (phase:=Bool.true)) :
     (postExec M dot p initial current row a ctx).val.mem=(written M p initial a).mem := by
   simp [postExec,written,masked_scatter_memory,ctx.memory,active,address,outputValue,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,

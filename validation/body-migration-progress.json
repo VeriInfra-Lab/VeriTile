@@ -11,7 +11,7 @@
   "local_validation": {
     "staged_public_proofs": "PRIOR_BATCH_AND_CURRENT_INT8_QUANTIZATION_36_ROOTS_PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "179 exact-current accepted targets including all 19 examples. The two-case Attention group remains in progress. fused_recurrent_delta passed all 91 local roots, actual public Real/FP specifications and prepared trust/spec gates; 91-root official replay is in progress. Fourteen source migrations remain uncovered. No local build is counted as completion.",
+    "official_comparator": "179 exact-current accepted targets, including all 19 examples. The two-case Attention group and fused_recurrent_delta remain in official replay. attn_fwd_causal passed 81 local roots and both actual public theorems; shared-support cleanup is required before staging. Thirteen targets still need their complete source migrations. No local build is counted as completion.",
     "python_tests": 666,
     "offline_example_compilations": {
       "cases": 19,
@@ -2736,6 +2736,27 @@
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41748128645",
       "source_commit": "b273497f596145fd4ae06313e7d90c121613ab7e",
       "frozen_source_files": 307
+    },
+    "attn_fwd_causal_source_migration": {
+      "state": "LOCAL_PASS_PENDING_SHARED_SUPPORT_CLEANUP_AND_INDEPENDENT_REPLAY",
+      "owned_roots": 78,
+      "shared_roots": 3,
+      "source_pairs": 4,
+      "public_theorems": 2,
+      "lake_jobs": 3610,
+      "extra_window_regression": "PASS",
+      "tests": {
+        "full_python_suite": 670,
+        "python_case": 4,
+        "lean_frontend_regressions": "PASS",
+        "actual_source_partial_query_and_missing_key_scale_regression": "PASS"
+      },
+      "prepared_trust_spec_audits": [
+        "specialized frontend PASS",
+        "actual public Real entry PASS",
+        "actual public FP entry PASS"
+      ],
+      "boundary": "Pending shared-support cleanup and exact-current official independent replay; local proof success is not completion."
     }
   },
   "targets": [
@@ -2909,8 +2930,13 @@
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_causal",
-      "status": "pending",
-      "complete": false
+      "status": "local_proofs_pass_pending_cleanup_and_independent_replay",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "independent_replay": "PENDING",
+      "reason": "Four complete helper/caller source pairs and actual ABI checked. All 78 owned roots plus the specialized-helper frontend and both Lean regressions pass locally, as do prepared trust/spec gates and both actual public Real/FP theorem names. Original two helper workspaces, full loops, safety, stores/readback and native connection are reproved with the original domains. Shared older mathematical support still needs retirement/ownership cleanup with attn_fwd_triton; no official replay is submitted yet. Compilation and body checks do not complete this task."
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_triton",
