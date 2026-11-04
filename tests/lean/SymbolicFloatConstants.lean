@@ -72,6 +72,43 @@ theorem tuple_capture {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
     rcases i with ⟨row,column,unitIndex⟩
     fin_cases row <;> fin_cases column <;> cases unitIndex <;> rfl
 
+def weakDivision (N : Int) (B : Nat) : ComputeKernel :=
+  with_triton_call signature call_args [N := N] fp32_constants [EPS] in triton {
+    result = N.to(tl.float32) / B
+  }
+
+/-- The constexpr denominator uses the literal port, even for a backend whose
+literal materialization and runtime integer conversion disagree. -/
+theorem weak_denominator {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
+    (N : Int) (B : Nat) :
+    ∃ t, exec M (weakDivision N B) s=some t ∧
+      t.regs .real [] "result"=some (fun _=>
+        M.binary (some .fp32) .real .div (M.fromInt (some .fp32) N)
+          (M.literal (some .fp32) .real (B:ℝ))) ∧ t.mem=s.mem := by
+  simp [weakDivision,exec,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    evalOp_unfold,numeric,FP.Structural.bop,Option.bind,State.setReg]
+  rfl
+
+def runtimeSignature : CallSignature where
+  scalars := [("N",.integer),("B",.integer)]
+  constexpr := ["EPS"]
+
+def runtimeDivision (N B : Int) : ComputeKernel :=
+  with_triton_call runtimeSignature call_args [N := N,B := B] fp32_constants [EPS] in triton {
+    result = N.to(tl.float32) / B
+  }
+
+/-- An identically spelled runtime denominator keeps its integer conversion. -/
+theorem runtime_denominator {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
+    (N B : Int) :
+    ∃ t, exec M (runtimeDivision N B) s=some t ∧
+      t.regs .real [] "result"=some (fun _=>
+        M.binary (some .fp32) .real .div (M.fromInt (some .fp32) N)
+          (M.fromInt (some .fp32) B)) ∧ t.mem=s.mem := by
+  simp [runtimeDivision,exec,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    evalOp_unfold,numeric,FP.Structural.bop,Option.bind,State.setReg]
+  rfl
+
 theorem reject_constexpr_rebinding (N B : Nat) : True := by
   fail_if_success
     let invalid : ComputeKernel :=
@@ -107,5 +144,7 @@ theorem reject_runtime_as_constexpr (N B : Nat) : True := by
 
 #axiomsClean three_iterations
 #axiomsClean tuple_capture
+#axiomsClean weak_denominator
+#axiomsClean runtime_denominator
 end
 end VeriTile.Tests.SymbolicFloatConstants

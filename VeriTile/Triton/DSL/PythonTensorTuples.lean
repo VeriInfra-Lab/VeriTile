@@ -1,6 +1,7 @@
 import VeriTile.Triton.DSL.ClosedBooleanCalls
 import VeriTile.Triton.DSL.IntegralBooleanOperands
 import VeriTile.Triton.DSL.IntegralAssignments
+import VeriTile.Triton.DSL.WeakIntegerConstants
 
 /-! Python reshape shape tuples and the two-result `tl.split` statement.
 The operand is evaluated once before either tuple destination is overwritten.
@@ -106,7 +107,7 @@ partial def elaborateInvocation : TermElab := fun stx expected=>do
         let value ← elaborateInvocation (stx.setArg 1 selected.raw) (some (← branch.mvarId.getType))
         branch.mvarId.assign value
     return ← instantiateMVars result
-  let stx ← IntegralBooleanOperands.prepare (← prepare stx)
+  let stx ← IntegralBooleanOperands.prepare (← WeakIntegerConstants.prepare (← prepare stx))
   ClosedBooleanCalls.elaborateInvocation stx expected
 
 end VeriTile.Triton.DSL.PythonTensorTuples
