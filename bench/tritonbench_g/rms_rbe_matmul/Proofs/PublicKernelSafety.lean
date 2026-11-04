@@ -1,5 +1,6 @@
 import bench.tritonbench_g.rms_rbe_matmul.Proofs.PublicLoadSafety
 import bench.tritonbench_g.rms_rbe_matmul.Proofs.PublicStoreSafety
+import bench.tritonbench_g.rms_matmul_rbe.Proofs.IOSafetySource
 
 namespace VeriTile.Bench.Repairs.RmsRbeMatmulLaunchGuard.PublicIO
 open VeriTile.Bench.Repairs.RmsRbeMatmul
@@ -14,18 +15,20 @@ theorem range_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
     (bounds : RegionName → Nat) (s t : State α) (start stop : Nat) (acc : Accumulator α)
     (bytes : ∀ cur, cur<stop → BlockBytes fp8 p s cur)
     (h : Ready p s t start acc) (backed : SourceBounds bounds p s) :
-    Safety.rangeSafe (engine a) bounds "step" start stop 1 (KernelSource.loop fp8 p) t := by
-  apply Safety.rangeSafe_of_invariant (engine a) bounds "step" stop 1 _
-    (fun cur u => ∃ acc, Ready p s u cur acc) _ _ start t ⟨acc,h⟩
-  · intro cur active u hu
-    obtain ⟨acc,ready⟩ := hu
-    exact body_safe a fp8 p bounds s u cur acc ready backed
-  · intro cur active u hu v ran
-    obtain ⟨acc,ready⟩ := hu
-    obtain ⟨v',run,ready'⟩ := body_run_reads a fp8 p s u cur acc (bytes cur active) ready
+    Safety.rangeIntSafe (engine a) bounds "step" start stop 1 (KernelSource.loop fp8 p) t := by
+  let invariant (q : Int) (u : State α) : Prop :=
+    ∃ n : Nat,q=n ∧ ∃ acc, Ready p s u n acc
+  apply Safety.rangeIntSafe_of_invariant (engine a) bounds "step" stop 1 _ invariant _ _ start t
+    ⟨start,rfl,acc,h⟩
+  · intro q active u hu
+    obtain ⟨n,rfl,acc,ready⟩:=hu
+    exact body_safe a fp8 p bounds s u n acc ready backed
+  · intro q active u hu v ran
+    obtain ⟨n,rfl,acc,ready⟩:=hu
+    obtain ⟨v',run,ready'⟩:=body_run_reads a fp8 p s u n acc (bytes n (by omega)) ready
     rw [ran] at run
     cases run
-    exact ⟨_,ready'⟩
+    exact ⟨n+1,by simp,_,ready'⟩
 
 theorem loop_code_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
     (bounds : RegionName → Nat) (s t : State α) (acc : Accumulator α)
@@ -33,11 +36,15 @@ theorem loop_code_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
     (h : Ready p s t 0 acc) (backed : SourceBounds bounds p s) :
     Safety.traceSafeList (engine a) bounds (loopCode fp8 p) t := by
   have safe := range_safe a fp8 p bounds s t 0 (steps p) acc bytes h backed
-  cases fp8 <;>
-    simpa [loopCode,KernelSource.loop,kernel,TypedSource.kernel,TypedSource.source,arguments,
-      ComputeKernel.surfaceBody,Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeOp_unfold,
-      evalOp_unfold,Option.bind,numeric,bop,integralFloorDiv,integralMod,steps,
-      Broadcast.leftIndex,Broadcast.rightIndex] using safe
+  rw [loopCode_header]
+  have evaluated:=RmsMatmulRbeScalarDomain.range_header (engine a) (headerArguments p) t
+  have pureHeader:=RmsMatmulRbeScalarDomain.IOSafety.range_header_safe (engine a)
+    (headerArguments p) t bounds
+  have stopEval : evalOp (engine a) none
+      (RmsMatmulRbeScalarDomain.countExpr (headerArguments p)) t=some (fun _=>(steps p:Int)) :=
+    evaluated.2.1
+  simpa [Safety.traceSafeList_cons,Safety.stepSafe_unfold,
+    pureHeader.1,pureHeader.2.1,pureHeader.2.2,evaluated.1,stopEval,evaluated.2.2] using safe
 
 /-- Every source statement is safe along the actual successful execution,
 including all K blocks, both rotary branches and the selected typed store. -/
@@ -48,6 +55,7 @@ theorem kernel_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
   obtain ⟨u,hu,ru⟩ := prefix_run a fp8 p s
   obtain ⟨v,hv,rv⟩ := loop_run_reads a fp8 p s u 0 (steps p) (initial a)
     (fun cur _ active => bytes cur active) ru
+  change rangeInt (engine a) "step" 0 (steps p) 1 (KernelSource.loop fp8 p) u=some v at hv
   obtain ⟨w,hw,rw⟩ := statistics_run a fp8 p s v _ _ rv
   obtain ⟨x,hx,rx⟩ := rotation_run a fp8 p s w _ rw
   unfold TraceSafe

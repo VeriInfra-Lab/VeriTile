@@ -4,7 +4,7 @@ namespace VeriTile.Bench.Repairs.RmsRbeMatmul.KernelSource
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange range_values)
 noncomputable section
-set_option maxHeartbeats 18000000
+set_option maxHeartbeats 2000000
 set_option maxRecDepth 8000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
@@ -12,6 +12,9 @@ variable {α : Type} [Inhabited α]
 private theorem source_zero : (0.0 : ℝ)=0 := by
   rw [← Rat.cast_ofScientific,← Rat.ofScientific_eq_ofScientific,Rat.ofScientific_true_def]
   norm_num
+
+private theorem signed_live (k K cur : Nat) :
+    ((k:Int)<(K:Int)-(cur:Int)*64) ↔ k<K-cur*64 := by omega
 
 /-- Signed-byte validity at exactly the active reads of one source K block.
 The FP16 branch has no signed-byte premise. -/
@@ -31,7 +34,7 @@ theorem body_run_reads (a : Operations α) (fp8 : Bool) (p : Parameters)
     (s t : State α) (cur : Nat) (acc : Accumulator α)
     (bytes : BlockBytes fp8 p s cur) (h : Ready p s t cur acc) :
     ∃ u, run (engine a) (loop fp8 p)
-      (t.setReg "step" .nat [] (fun _ => cur))=some u ∧
+      (t.setReg "step" .int [] (fun _ => cur))=some u ∧
       Ready p s u (cur+1) (update a fp8 p s cur acc) := by
   have hr : fp8=Bool.false ∨ (TileShape.allIndices [1,64]).all (fun i => Float8E5Bits.isInt8
       (if i.2.1.val<p.K-cur*64 then (s.mem "RMS" (rOffset cur i)).read .int else 0))=Bool.true := by
@@ -59,11 +62,11 @@ theorem body_run_reads (a : Operations α) (fp8 : Bool) (p : Parameters)
     simp [-List.all_cons,-List.all_nil,-List.all_map,-List.all_flatMap,-List.all_eq_true,
       loop,kernel,TypedSource.kernel,TypedSource.source,arguments,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-      Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
+      Option.bind,ComputeDType.eraseDType,numeric,numericEq,FP.Structural.bop,natLt,numericLt,
       integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,
       engine,Algebra.withDefaultPrecision,resolvePrecision,
       h.mem,h.pids,h.undef,h.batch,h.tileM,h.tileN,h.offk,h.xptr,h.wptr,h.rptr,h.product,h.squares,
-      xPointer,wPointer,rPointer,hr,hw]
+      xPointer,wPointer,rPointer,signed_live,source_zero,hr,hw]
   all_goals constructor
   all_goals try simp [-List.all_cons,-List.all_nil,-List.all_map,-List.all_flatMap,-List.all_eq_true,
     State.setReg,h.mem,h.pids,h.undef,h.batch,h.tileM,h.tileN,h.offk,
@@ -73,19 +76,19 @@ theorem body_run_reads (a : Operations α) (fp8 : Bool) (p : Parameters)
     xPointer,wPointer,rPointer,xOffset,wOffset,rOffset])
   all_goals rcases i with ⟨i,j,⟨⟩⟩
   all_goals simp [scaledX,weight,xValue,rmsHalf,wHalf,zero,halfZero,xOffset,wOffset,
-    bop,Broadcast.leftIndex,Broadcast.rightIndex,source_zero,Nat.add_assoc]
+    FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,signed_live,source_zero,Nat.add_assoc]
   all_goals congr 2
   all_goals funext q
   all_goals rcases q with ⟨q,k,⟨⟩⟩
   all_goals simp [scaledX,weight,xValue,rmsHalf,wHalf,zero,halfZero,xOffset,wOffset,
-    bop,Broadcast.leftIndex,Broadcast.rightIndex,source_zero,Nat.add_assoc]
+    FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,signed_live,source_zero,Nat.add_assoc]
 
 /-- Original all-offset endpoint retained as a specialization. -/
 theorem body_run (a : Operations α) (fp8 : Bool) (p : Parameters)
     (s t : State α) (cur : Nat) (acc : Accumulator α)
     (bytes : ByteMemory s) (h : Ready p s t cur acc) :
     ∃ u, run (engine a) (loop fp8 p)
-      (t.setReg "step" .nat [] (fun _ => cur))=some u ∧
+      (t.setReg "step" .int [] (fun _ => cur))=some u ∧
       Ready p s u (cur+1) (update a fp8 p s cur acc) :=
   body_run_reads a fp8 p s t cur acc (blockBytes_of_byteMemory fp8 p s cur bytes) h
 
@@ -93,7 +96,7 @@ theorem loop_run_reads (a : Operations α) (fp8 : Bool) (p : Parameters)
     (s t : State α) (start stop : Nat) (acc : Accumulator α)
     (bytes : ∀ cur, start≤cur → cur<stop → BlockBytes fp8 p s cur)
     (h : Ready p s t start acc) :
-    ∃ u, range (engine a) "step" start stop 1 (loop fp8 p) t=some u ∧
+    ∃ u, rangeInt (engine a) "step" start stop 1 (loop fp8 p) t=some u ∧
       Ready p s u (max start stop)
         (foldRange (update a fp8 p s) start stop 1 acc) := by
   by_cases active : start<stop
@@ -101,15 +104,16 @@ theorem loop_run_reads (a : Operations α) (fp8 : Bool) (p : Parameters)
     obtain ⟨u,rest,final⟩ := loop_run_reads a fp8 p s v (start+1) stop
       (update a fp8 p s start acc) (fun cur lower upper => bytes cur (by omega) upper) ready
     refine ⟨u,?_,?_⟩
-    · rw [range]
-      simp [active,ran,rest]
+    · rw [rangeInt]
+      simp [show (start:Int)<(stop:Int) by omega,ran,rest]
+      simpa only [Int.natCast_add,Int.natCast_one] using rest
     · rw [foldRange]
       simpa only [show (1:Nat)≠0 by decide,active,if_false,if_true,
         Nat.max_eq_right (by omega : start≤stop),
         Nat.max_eq_right (by omega : start+1≤stop)] using final
   · refine ⟨t,?_,?_⟩
-    · rw [range]
-      simp [active]
+    · rw [rangeInt]
+      simp [show ¬(start:Int)<(stop:Int) by omega]
     · rw [foldRange]
       simpa only [show (1:Nat)≠0 by decide,active,if_false,
         Nat.max_eq_left (by omega : stop≤start)] using h
@@ -120,7 +124,7 @@ decreasing_by omega
 theorem loop_run (a : Operations α) (fp8 : Bool) (p : Parameters)
     (s t : State α) (start stop : Nat) (acc : Accumulator α)
     (bytes : ByteMemory s) (h : Ready p s t start acc) :
-    ∃ u, range (engine a) "step" start stop 1 (loop fp8 p) t=some u ∧
+    ∃ u, rangeInt (engine a) "step" start stop 1 (loop fp8 p) t=some u ∧
       Ready p s u (max start stop)
         (foldRange (update a fp8 p s) start stop 1 acc) :=
   loop_run_reads a fp8 p s t start stop acc

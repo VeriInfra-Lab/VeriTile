@@ -2714,6 +2714,20 @@
           "VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.FPEquiv.pasted_qkv_index_commuted_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/rms_rbe_matmul",
+      "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/rms_rbe_matmul/Correct.lean": [
+          "VeriTile.Bench.Repairs.RmsRbeMatmulLaunchGuard.rms_rbe_matmul_grid_real",
+          "VeriTile.Bench.Repairs.RmsRbeMatmul.RotaryCorrect.rotary_real"
+        ],
+        "bench/tritonbench_g/rms_rbe_matmul/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsRbeMatmulLaunchGuard.FPEquiv.source_candidate_equivalence"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -10135,6 +10149,52 @@
     "VeriTile/Triton/DSL/WeakIntegerConstants.lean",
     "VeriTile/Triton/DSL/SourceProcedures.lean",
     "tests/lean/SymbolicFloatConstants.lean",
-    "tests/lean/SourceProcedures.lean"
+    "tests/lean/SourceProcedures.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Contract.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Correct.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/FPEquiv.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/IO.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/Contract.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/InputContract.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelCoverage.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelExecution.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelGraph.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelGrid.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelLoop.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelModel.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelNative.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelNativeProfile.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelPairIndex.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelPrefix.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelReal.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelRealOutput.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelRotation.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelSourceGraph.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelStatistics.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelStore.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelTailModel.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelTarget.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/LogicalReader.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/LoopHeader.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/ProgramPair.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/ProgramPairSource.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/PublicGraphCongruence.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/PublicIOLayout.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/PublicInputBinding.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/PublicInputBounds.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/PublicKernelSafety.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/PublicLoadSafety.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/PublicLogicalModel.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/PublicRealIO.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/PublicSourceIO.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/PublicSourceSafety.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/PublicStoreSafety.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/RotarySourceBridge.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Proofs/RotaryWhole.lean",
+    "VeriTile/Triton/DSL/IntegralJitFunctions.lean",
+    "VeriTile/Triton/DSL/LocalWeakIntegerConstants.lean",
+    "tests/lean/IntegralJitFunctions.lean",
+    "tests/lean/LocalWeakIntegerConstants.lean"
   ]
 }
