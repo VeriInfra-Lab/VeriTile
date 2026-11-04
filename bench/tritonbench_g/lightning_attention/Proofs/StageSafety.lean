@@ -19,7 +19,7 @@ theorem invocation_safe (M : Algebra α) (hm : MaskArithmetic M) (D : DotPrimiti
     (invocation M D stage d pid).Safe bounds s := by
   let start := (invocation M D stage d pid).initial s
   cases stage with
-  | forward => exact program M D d.parameters bounds start backed
+  | forward => exact program M D d.parameters bounds start backed (by norm_num [Host.Dimensions.parameters])
   | intra => exact intra M hm D d.parameters bounds start backed
   | inter => exact inter M D d.parameters rfl start bounds backed
 

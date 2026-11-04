@@ -71,10 +71,10 @@ theorem loop (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (pid : PID)
 
 theorem program (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α)
-    (backed : ForwardBounds p ⟨s.pids 0,s.pids 1⟩ bounds) :
+    (backed : ForwardBounds p ⟨s.pids 0,s.pids 1⟩ bounds) (hBT : p.BT≤2^31) :
     TraceSafe (engine (withDot M D)) bounds (forward p) s := by
   let start := fwdEntry M D p s
-  have he := fwdEntry_ready M D p s
+  have he := fwdEntry_ready M D p s hBT
   change Safety.traceSafeList _ _ (forward p).surfaceBody s
   rw [forward_parts,Safety.traceSafeList_append]
   refine ⟨entry M D p bounds s,?_⟩
@@ -86,7 +86,7 @@ theorem program (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     evalOp_unfold,true_and]
   refine ⟨safe,?_⟩
   cases step (engine (withDot M D))
-    (.forRangeDyn "i" (.constNat 0) (.constNat p.NT) (.constNat 1) (fwdParts p).body) start.val <;> trivial
+    (.forRange "i" 0 p.NT 1 (fwdParts p).body) start.val <;> trivial
 
 #axiomsClean program
 

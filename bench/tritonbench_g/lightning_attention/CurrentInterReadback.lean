@@ -23,7 +23,7 @@ theorem inter_query_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
       if n.val=0 then m "queryGradient" (head*p.N*p.D+((n.val*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val)
       else .mk .real (cast M (add M
         (dot D (subG M p head ((n.val*p.NC+s.val)*p.CB) m) (queryCarry M D p head input n.val) i)
-        ((m "queryGradient" (head*p.N*p.D+((n.val*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val)).read .real))) := by
+        (M.fp32Load ((m "queryGradient" (head*p.N*p.D+((n.val*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val)).read .real)))) := by
   unfold interMemory
   rw [reverse_scan_region M D p head input _ "queryGradient" _ (by decide) (by decide)]
   exact query_scan_read M D p head input m n s i ht
@@ -38,7 +38,7 @@ theorem inter_key_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
       if n.val=0 then m "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)
       else .mk .real (cast M (add M
         (dot D (keyValueCarry M D p head input n.val) (subVT M p head (reverseRow p n.val s.val) m) i)
-        ((m "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)).read .real))) := by
+        (M.fp32Load ((m "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)).read .real)))) := by
   unfold interMemory
   rw [key_scan_read M D p htile head input _ n s i ht]
   rw [subVT_inputs M p head _ _ m (query_scan_inputs M D p head input m)]
@@ -52,7 +52,7 @@ theorem inter_value_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
       if n.val=0 then m "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)
       else .mk .real (cast M (add M
         (dot D (subK M p head (reverseRow p n.val s.val) m) (keyValueCarry M D p head input n.val) i)
-        ((m "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)).read .real))) := by
+        (M.fp32Load ((m "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)).read .real)))) := by
   unfold interMemory
   rw [value_scan_read M D p htile head input _ n s i ht]
   rw [subK_inputs M p head _ _ m (query_scan_inputs M D p head input m)]

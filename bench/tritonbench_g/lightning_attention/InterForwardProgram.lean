@@ -66,14 +66,14 @@ theorem interCarryFinish_ready (M : Algebra α) (D : DotPrimitive α) (p : Param
 
 theorem run_single_range (M : Algebra α) (idx : RegName) (stop : Nat) (body : List ComputeStmt)
     (s t : State α) (hr : FP.Structural.range M idx 0 stop 1 body s=some t) :
-    run M [.forRangeDyn idx (.constNat 0) (.constNat stop) (.constNat 1) body] s=some t := by
+    run M [.forRange idx 0 stop 1 body] s=some t := by
   simp only [run,step,evalOp_unfold,bind,Option.bind,hr]
 
 theorem inter_forward_body_parts (p : Parameters) :
     (interForwardParts p).body=
-    [.forRangeDyn "j" (.constNat 0) (.constNat p.NC) (.constNat 1) (interFQueryParts p).body] ++
+    [.forRange "j" 0 p.NC 1 (interFQueryParts p).body] ++
     (interFDeltaParts p).before ++
-    [.forRangeDyn "j" (.constNat 0) (.constNat p.NC) (.constNat 1) (interFDeltaParts p).body] ++
+    [.forRange "j" 0 p.NC 1 (interFDeltaParts p).body] ++
     (interFDeltaParts p).after := rfl
 
 theorem interForwardBody (M : Algebra α) (D : DotPrimitive α) (p : Parameters)

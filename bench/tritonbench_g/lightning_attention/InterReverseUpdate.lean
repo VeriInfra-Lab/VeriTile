@@ -30,7 +30,9 @@ def interReverseUpdate (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
       (s.setReg "__rev_j" .int [] (fun _ => (sub : Int)+1-p.NC))=some t} := by
   have hk := ctx.inputs "key" (by simp)
   have hv := ctx.inputs "value" (by simp)
-  have hc : ((p.NT : Int)-1-block < (p.NT : Int)-1) ↔ block≠0 := by omega
+  have hpositive : 1≤p.NT := by omega
+  have hend : ¬p.NT≤p.NT-1 := by omega
+  have hc : ((p.NT : Int)-1-block < ((p.NT-1 : Nat) : Int)) ↔ block≠0 := by omega
   by_cases hb : block=0
   all_goals
     refine ⟨?_,?_⟩
@@ -40,7 +42,7 @@ def interReverseUpdate (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
       TileShape.axisDim,Region.cast,State.setReg,FP.Structural.store,
-      ctx.key,ctx.value,ctx.dk,ctx.dv,ctx.rows1,ctx.total,hi,hk,hv,hc,hb,back_address,back_rows]
+      ctx.key,ctx.value,ctx.dk,ctx.dv,ctx.rows1,ctx.total,hi,hk,hv,hc,hb,hend,back_address,back_rows]
     rfl
 
 theorem interReverseUpdate_memory (M : Algebra α) (D : DotPrimitive α) (p : Parameters)

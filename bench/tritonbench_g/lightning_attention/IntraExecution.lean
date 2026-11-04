@@ -30,7 +30,7 @@ theorem intraExecution_memory (M : Algebra α) (hm : MaskArithmetic M) (D : DotP
     read,zero,add,cast,dot,FP.Structural.bop,Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,
     Nat.add_assoc,hlo,hup]
   norm_num
-  simp only [hlo,hup,decide_eq_true_eq,Fin.le_def]
+  all_goals simp only [hlo,hup,decide_eq_true_eq,Fin.le_def]
 theorem intraProgram (M : Algebra α) (hm : MaskArithmetic M) (D : DotPrimitive α) (p : Parameters) (hb : p.BT=64) (s : State α) :
     ∃ t, FP.Structural.exec (engine (withDot M D)) (intra p) s=some t ∧
       t.mem=intraMemory M D p (s.pids 0) (s.pids 1) s.mem ∧ Inputs t.mem s.mem := by
