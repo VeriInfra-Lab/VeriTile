@@ -1,8 +1,2 @@
-import bench.tritonbench_g.softmax_flaggems.Sources.Selected
+import bench.tritonbench_g.softmax_flaggems.Kernels
 import bench.tritonbench_g.softmax_flaggems.Sources.Mathematical_Kernels
-namespace VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeed.Source
-abbrev forward_noninner := VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner
-abbrev forward_inner := VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner
-abbrev softmax_backward_kernel_non_inner_fp32 := VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner
-abbrev softmax_backward_kernel_inner_fp32 := VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner
-end VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeed.Source
