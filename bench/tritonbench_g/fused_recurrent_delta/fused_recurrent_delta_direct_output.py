@@ -8,8 +8,8 @@ import struct
 
 @triton.jit
 def fused_recurrent_fwd_kernel(
-    q, k, v, beta, o, h0, ht, s_qk_h, s_vo_h, scale, B, H, T, K: tl.constexpr, V: tl.constexpr, 
-    BK: tl.constexpr, BV: tl.constexpr, USE_INITIAL_STATE: tl.constexpr, STORE_FINAL_STATE: tl.constexpr, 
+    q, k, v, beta, o, h0, ht, s_qk_h, s_vo_h, scale, B, H, T, K: tl.constexpr, V: tl.constexpr,
+    BK: tl.constexpr, BV: tl.constexpr, USE_INITIAL_STATE: tl.constexpr, STORE_FINAL_STATE: tl.constexpr,
     IS_HEADWISE_BETA: tl.constexpr
 ):
     i_v, i_k, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)
@@ -61,8 +61,8 @@ def fused_recurrent_fwd_kernel(
 
 @triton.jit
 def fused_recurrent_bwd_kernel(
-    q, k, v, beta, dht, dh0, do, dq, dk, dv, dbeta, h0, s_qk_h, s_vo_h, NK, scale, B, H, T, 
-    K: tl.constexpr, V: tl.constexpr, BK: tl.constexpr, BV: tl.constexpr, USE_INITIAL_STATE: tl.constexpr, 
+    q, k, v, beta, dht, dh0, do, dq, dk, dv, dbeta, h0, s_qk_h, s_vo_h, NK, scale, B, H, T,
+    K: tl.constexpr, V: tl.constexpr, BK: tl.constexpr, BV: tl.constexpr, USE_INITIAL_STATE: tl.constexpr,
     IS_HEADWISE_BETA: tl.constexpr, USE_DH0: tl.constexpr, USE_DHT: tl.constexpr
 ):
     i_v, i_k, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)
