@@ -17,10 +17,10 @@ primitives, including both transcendental operations and integer conversion.
 No real exponential or logarithm interpretation occurs here. -/
 def logDecay {α : Type} (M : Algebra α) (head : Nat) : α :=
   M.unary (some .fp32) .log2
-    (M.binary (some .fp32) .real .sub (M.literal (some .fp32) .real 1.0)
+    (M.binary (some .fp32) .real .sub (M.literal (some .fp32) .real 1)
       (M.unary (some .fp32) .exp2
-        (M.binary (some .fp32) .real .sub (M.literal (some .fp32) .real (-5.0))
-          (M.binary (some .fp32) .real .mul (M.fromNat (some .fp32) head)
+        (M.binary (some .fp32) .real .sub (M.literal (some .fp32) .real (-5))
+          (M.binary (some .fp32) .real .mul (M.fromInt (some .fp32) (head : Int))
             (M.literal (some .fp32) .real 1.0)))))
 
 def rowDecay {α : Type} (M : Algebra α) (b : α) (n : Nat) : α :=
@@ -45,7 +45,7 @@ def forwardUpdate {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive 
       if start-queryChunk c s+i.2.1.val ≤ i.1.val then
         M.unary (some .fp32) .exp2 (M.binary (some .fp32) .real .mul
           (M.fromInt (some .fp32) ((i.1.val : Int) - (start-queryChunk c s+i.2.1.val : Nat))) b)
-      else M.literal (some .fp32) .real 0.0
+      else M.literal (some .fp32) .real 0
     else rowDecay M b (c.BTS-i.2.1.val)
   let score := fun i => M.binary (some .fp32) .real .mul (raw i) (decay i)
   let contribution := D.apply (some .fp32) {allowTF32 := some Bool.false} (batch := [])

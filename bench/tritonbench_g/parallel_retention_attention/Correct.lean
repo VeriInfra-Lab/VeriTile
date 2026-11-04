@@ -51,14 +51,14 @@ def backwardFormula (s : Shape) (tile : Tile) (xs : LogicalView.BackwardInputs s
       decay (tile.bh%s.H)^(n-(tile.chunk*64+row.val))*valueTerm s x tile row.val column.val n else 0 }
 
 specification forward (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 128 tile) :
+    (shape : ShapeContract s) (valid : ProgramDomain s 128 tile) :
     Spec.Real (LogicalView.forwardIO p s tile ⊨ forwardFormula s tile) :=
-  (LogicalReader.forward_iff p s tile).mpr (ReaderBefore.forward p s tile valid)
+  (LogicalReader.forward_iff p s tile).mpr (ReaderBefore.forward p s tile shape valid)
 
 specification backward (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 64 tile) (keyPositive : 0<s.BK) (valuePositive : 0<s.BV) :
+    (shape : ShapeContract s) (valid : ProgramDomain s 64 tile) (keyPositive : 0<s.BK) (valuePositive : 0<s.BV) :
     Spec.Real (LogicalView.backwardIO p s tile ⊨ backwardFormula s tile) :=
-  (LogicalReader.backward_iff p s tile).mpr (ReaderBefore.backward p s tile valid keyPositive valuePositive)
+  (LogicalReader.backward_iff p s tile).mpr (ReaderBefore.backward p s tile shape valid keyPositive valuePositive)
 
 #axiomsClean forward
 #axiomsClean backward

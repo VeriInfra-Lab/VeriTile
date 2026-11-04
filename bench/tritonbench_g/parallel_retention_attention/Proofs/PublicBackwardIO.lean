@@ -10,10 +10,10 @@ variable {α : Type}
 /-- The actual combined backward shell produces all three channels and has
 one complete frame; the intermediate DQ store remains part of execution. -/
 theorem backward_implements (a : Scalar α) (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 64 tile) (keyPositive : 0<s.BK) (valuePositive : 0<s.BV) :
+    (shape : ShapeContract s) (valid : ProgramDomain s 64 tile) (keyPositive : 0<s.BK) (valuePositive : 0<s.BV) :
     (backwardIO a p s tile).Implements (backwardFormula a p s tile) := by
   intro xs _ bounds bounded state binding
-  obtain ⟨final,ran,memory⟩ := backward_run s tile valid state
+  obtain ⟨final,ran,memory⟩ := backward_run s tile shape valid state
   let start := (backwardInvocation α s tile).initial state
   let q := FPQuery.values algebra dots (backwardConfig s tile) start
   let kv := FPStages.backwardValues algebra dots (backwardConfig s tile) start
@@ -24,7 +24,7 @@ theorem backward_implements (a : Scalar α) (p : DotTrees) (s : Shape) (tile : T
   let vmem := storeTile "dv" ((tile.bh+s.B*s.H*tile.key)*(s.T*s.DV)) s.T s.DV
     (tile.chunk*64) (tile.value*s.BV) kmem kv.value
   change final.mem=vmem.mem at memory
-  refine ⟨backward_schedule_safe a p s tile valid xs bounds bounded state,final,ran,?_,?_⟩
+  refine ⟨backward_schedule_safe a p s tile shape valid xs bounds bounded state,final,ran,?_,?_⟩
   · intro o i active
     fin_cases o
     · change mapCell (evaluate a p) (final.mem "dq" (keyAddress s tile i)) =
