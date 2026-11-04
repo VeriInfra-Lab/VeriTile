@@ -86,14 +86,14 @@
       }
     ],
     "incremental_replay": {
-      "status": "ACCEPTED",
-      "scope": "parallel_attention complete original/candidate helper and parent source",
+      "status": "IN_PROGRESS",
+      "scope": "parallel_retention_attention seven raw helper/parent bodies and actual public endpoints",
       "manifest": "validation/body-migration-incremental.json",
-      "roots": 115,
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41804791660",
-      "validated_source_commit": "c74a8a635ed30910f9d98296af2a2d342dbacf79",
-      "receipt": "validation/body_receipts/parallel-attention-pasted-source-replay.json",
-      "note": "Final official artifact and exact current source/import closure verified; every required root accepted; public names resolved. Attempt 2 followed an environment-setup-only failure in attempt 1."
+      "roots": 107,
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41822218926",
+      "validated_source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1",
+      "frozen_source_files": 305,
+      "note": "Four public targets, source/body coverage, all 107 retained roots and eight external trust/spec gates pass locally; official independent acceptance remains required. Not complete."
     },
     "previous_incremental_replays": [
       {
@@ -1305,6 +1305,16 @@
         "note": "Every retained owned/shared module, actual public Real/FP theorem, local trust/spec audit and four body pairs pass. Exact-current official independent acceptance remains required.",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41771036410",
         "validated_source_commit": "1b23d2612faced575bad8c59c0b5315b1184e95a"
+      },
+      {
+        "status": "ACCEPTED",
+        "scope": "parallel_attention complete original/candidate helper and parent source",
+        "manifest": "validation/body-migration-incremental.json",
+        "roots": 115,
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41804791660",
+        "validated_source_commit": "c74a8a635ed30910f9d98296af2a2d342dbacf79",
+        "receipt": "validation/body_receipts/parallel-attention-pasted-source-replay.json",
+        "note": "Final official artifact and exact current source/import closure verified; every required root accepted; public names resolved. Attempt 2 followed an environment-setup-only failure in attempt 1."
       }
     ],
     "pending_client_regressions": {
@@ -1321,20 +1331,11 @@
       "completion_certificate": false
     },
     "current_work": {
-      "path": "bench/tritonbench_g/parallel_retention_attention",
-      "status": "LOCAL_VALIDATED_OFFICIAL_REPLAY_PENDING",
+      "path": "bench/tritonbench_g/softmax_flaggems",
+      "status": "SOURCE_AND_PROOF_MIGRATION_IN_PROGRESS",
       "complete": false,
-      "source_pairs": 7,
-      "retained_build_roots": 107,
-      "owned_lean_modules": 103,
-      "lake_dependency_jobs": 8547,
-      "public_real_fp_theorems": 4,
-      "external_trust_spec_gates": "8 PASS",
-      "python_tests": "705 PASS",
-      "source_correspondence": "179/183 G tasks and 19/19 examples checked; four other G tasks still uncovered. This is a source-only inventory.",
-      "public_contract_repair": "Public Real/FP hypotheses expose the original Python ShapeContract/IndexDomain checks needed by retained int32 offsets; Python inputs unchanged.",
-      "implementation": "One pasted source authority, thin argument adapters, actual parent calls, signed ranges and checked narrowing conversions.",
-      "acceptance": "Pending the exact-current official independent replay; no merge."
+      "parallel_retention_replay": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41822218926",
+      "note": "Continue the four other untranslated G tasks while the exact frozen Retention source is independently replayed. Keep frozen Retention and RebindingProcedures import closure unchanged. No merge."
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -4780,8 +4781,10 @@
       "reason": "All seven original/candidate raw bodies align. The complete actual parent, ordered DQ/barrier/DKV memory, safety/frame and independent Real/FP endpoints pass locally; 107 retained roots and eight external trust/spec gates pass. Original Python shape/index guards are explicit. Exact-current official independent replay is still required; compilation is not completion.",
       "public_real_fp_proofs": "LOCAL_PASS_4_PUBLIC_TARGETS",
       "retained_modules_build": "LOCAL_PASS_107_ROOTS",
-      "independent_replay": "NOT_YET_SUBMITTED",
-      "public_name_resolution": "PASS"
+      "independent_replay": "IN_PROGRESS",
+      "public_name_resolution": "PASS",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41822218926",
+      "replay_source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1"
     },
     {
       "path": "bench/tritonbench_g/pow_scalar_tensor",
