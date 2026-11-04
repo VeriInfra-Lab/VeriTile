@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 194,
+  "completed_count": 195,
   "staged_count": 196,
-  "pending_count": 2,
+  "pending_count": 1,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "196_LOCAL_PUBLIC_PROOFS_PASS_194_EXACT_CURRENT_ACCEPTED",
+    "staged_public_proofs": "196_LOCAL_PUBLIC_PROOFS_PASS_195_EXACT_CURRENT_ACCEPTED",
     "staged_and_regression_retained_modules": 8725,
-    "official_comparator": "193 exact-current accepted targets, including all 19 examples. SoftmaxFlaggems final official artifact accepts all 149 frozen roots and four actual public theorem names with unchanged source/import closures. The two RMS/RBE tasks and TritonAttention still require source/proof migration. Compilation alone is not completion. No merge.",
+    "official_comparator": "195/196 migration targets accepted for the exact current source, including all 19 examples. Only triton_attention awaits final official independent replay. Source matching or compilation alone is not completion. No merge.",
     "python_tests": 715,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "193 exact-current accepted targets; RMS/QKV is fully source-aligned and passes local mathematics, safety/frame, existing FP equivalence, all 111 roots and independent trust/specification checks, awaiting official exact-source replay. Two source migrations remain. No merge.",
+    "working_tree": "All source and proof migrations finished; all 8725 selected build roots pass local integration. 195/196 exact-current independent acceptances; only triton_attention remains in official replay. No merge.",
     "official_replay_sources": 7728,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -1676,7 +1676,8 @@
       "validation/body_receipts/parallel-attention-pasted-source-replay.json",
       "validation/body_receipts/parallel-retention-attention-pasted-source-replay.json",
       "validation/body_receipts/softmax-flaggems-pasted-source-replay.json",
-      "validation/body_receipts/rms-rbe-matmul-pasted-source-replay.json"
+      "validation/body_receipts/rms-rbe-matmul-pasted-source-replay.json",
+      "validation/body_receipts/rms-matmul-rbe-pasted-source-replay.json"
     ],
     "full_replay_recovery": {
       "state": "all_24_official_shards_reviewed_changed_cases_require_fresh_replay",
@@ -2853,7 +2854,7 @@
       "retained_and_shared_build_roots": 8725,
       "explicit_replay_roots": 7728,
       "completion_certificate": false,
-      "note": "All 183/183 TritonBench-G entries (including six regressions) and 19/19 examples have exact source correspondence (623 pairs, zero uncovered functions). All 196 migration targets pass required local proofs and the complete 8725-root selected batch integration. Exact-current independent acceptance is 194/196; RMS/QKV and triton_attention remain pending."
+      "note": "All 183/183 TritonBench-G entries (including six regressions) and 19/19 examples have exact source correspondence (623 pairs, zero uncovered functions). All 196 migration targets pass required local proofs and the complete 8725-root selected batch integration. Exact-current independent acceptance is 195/196; only triton_attention remains pending."
     },
     "previous_local_work": [
       {
@@ -3163,6 +3164,14 @@
         "receipt": "validation/body_receipts/rms-rbe-matmul-pasted-source-replay.json",
         "retained_replay_roots": 46,
         "accepted": true
+      },
+      {
+        "case": "bench/tritonbench_g/rms_matmul_rbe",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41861399374",
+        "source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
+        "receipt": "validation/body_receipts/rms-matmul-rbe-pasted-source-replay.json",
+        "retained_replay_roots": 111,
+        "accepted": true
       }
     ],
     "previous_current_work": {
@@ -3190,14 +3199,6 @@
     },
     "inflight_replays": [
       {
-        "path": "bench/tritonbench_g/rms_matmul_rbe",
-        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41861399374",
-        "source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
-        "frozen_roots": 111,
-        "frozen_closure_files": 390,
-        "complete": false
-      },
-      {
         "path": "bench/tritonbench_g/triton_attention",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
         "source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
@@ -3208,7 +3209,6 @@
     ],
     "remaining_source_migrations": [],
     "pending_independent_acceptance": [
-      "bench/tritonbench_g/rms_matmul_rbe",
       "bench/tritonbench_g/triton_attention"
     ],
     "pending_proof_migrations": [],
@@ -3222,7 +3222,7 @@
       "lake_jobs": 17301,
       "completed_at": "2026-11-04T18:04:37Z",
       "scope": "All roots in validation/body-migration-batch.json on the final three-case frozen source tree.",
-      "boundary": "Full local integration is not official independent acceptance. The final three cases stay pending until their complete replay artifacts and current source closures are verified."
+      "boundary": "Full local integration is separate from official independent acceptance. All source migrations are complete; triton_attention remains pending until its full official artifact and exact current source closure are verified."
     }
   },
   "targets": [
@@ -5061,16 +5061,20 @@
     },
     {
       "path": "bench/tritonbench_g/rms_matmul_rbe",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS_4_EXACT_PAIRS",
-      "public_real_fp_proofs": "LOCAL_PASS_4_PUBLIC_TARGETS",
-      "retained_modules_build": "LOCAL_PASS_111_ROOTS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS_111_ROOTS",
       "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
-      "independent_replay": "IN_PROGRESS",
-      "reason": "Four exact copied original/candidate callee and parent bodies; actual three-call parent, independent full-K/grid mathematical correctness, full-state/failure-aware structural equivalence, typed byte/native interfaces, trace safety, output binding and memory frame all pass locally. All 111 retained/shared roots, nine external trust/specification gates, four current public names and 715 Python tests pass. Exact-source official independent replay remains required. No completion is inferred from compilation. No merge.",
+      "independent_replay": "PASS",
+      "reason": "Every frozen owned/shared proof and regression root was independently accepted. Final official ZIP SHA256, exact 390-file source/import closure, all four copied JIT pairs and all four actual public theorem targets match current source. Compilation alone was not completion.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41861399374",
-      "replay_source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33"
+      "replay_source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
+      "validated_source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
+      "receipt": "validation/body_receipts/rms-matmul-rbe-pasted-source-replay.json",
+      "independent_proof_replay": "PASS_111_OF_111_FROZEN_ROOTS",
+      "note": "The actual three-call QKV parent and source callee are connected to full-K/grid mathematics, full-state/failure-aware FP equivalence, typed byte/native interfaces, trace safety, output binding and memory frame."
     },
     {
       "path": "bench/tritonbench_g/rms_norm_triton",
