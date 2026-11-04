@@ -1,4 +1,5 @@
 import bench.tritonbench_g.chunk_retention_ops.Sources.KernelRealModel
+import bench.tritonbench_g.chunk_retention_ops.Proofs.SignedTailLength
 import bench.tritonbench_g.chunk_retention_ops.Sources.KernelBackwardProgram
 namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelReal
 open VeriTile Triton FP.Structural
@@ -14,8 +15,12 @@ theorem factor_eq (c : Shape) (pid : PID) (n : Nat) :
       decay realOps c pid.z (c.length (c.chunks-1-n)) := by
   unfold KernelBackward.factor
   rw [logRate_eq]
-  simp [KernelBackward.L.mul,algebra,VeriTile.Bench.Repairs.ChunkDeltaFwd.Real.algebra,
-    parameters,KernelBackward.time,decay,realOps,Shape.length]
+  change algebra.unary (some .fp32) .exp2
+    (KernelBackward.L.mul algebra (algebra.fromInt (some .fp32)
+      (min (64 : Int) ((c.T : Int)-((c.chunks-1-n : Nat) : Int)*64)))
+      (logRate realOps c pid.z))=_
+  rw [signed_tail_length]
+  rfl
 
 theorem initial_eq (c : Shape) (pid : PID) (m : Memory ℝ) (seed terminal : Bool)
     (i : TileIndex [c.BK,c.BV]) (hi : hActive (parameters c) pid i) :

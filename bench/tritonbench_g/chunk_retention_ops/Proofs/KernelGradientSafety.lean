@@ -128,14 +128,9 @@ theorem source_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     · exact ⟨ready.1,ready.2.1,_,ready.2.2.1⟩
   obtain ⟨mid,hm,ctx,fixed,ha,_⟩ := gradientLoop M D p scale pid (s.numPids 2) s.mem start.val
     ready.1 ready.2.1 ready.2.2.1
-  have h0 : (gradientParts p scale).start=.constNat 0 := rfl
-  have hn : (gradientParts p scale).stop=.div .nat .nil
-    (.sub .nat .nil (.add .nat .nil (.constNat p.V) (.constNat p.BV)) (.constNat 1)) (.constNat p.BV) := rfl
-  have h1 : (gradientParts p scale).stride=.constNat 1 := rfl
   have loopRun : step (engine (withDot M D))
-      (.forRangeDyn "i_v" (gradientParts p scale).start (gradientParts p scale).stop
-        (gradientParts p scale).stride (gradientParts p scale).body) start.val=some mid := by
-    simpa [step,h0,hn,h1,evalOp_unfold,Option.bind,numeric,bop,valueBlocks] using hm
+      (.forRange "i_v" 0 (valueBlocks p) 1 (gradientParts p scale).body) start.val=some mid := by
+    simpa only [step] using hm
   unfold TraceSafe
   rw [gradient_parts,List.append_assoc,Safety.traceSafeList_append]
   refine ⟨entry_safe M D p scale s bounds hq hk,?_⟩
@@ -143,8 +138,7 @@ theorem source_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   rw [start.property] at ran
   cases ran
   apply Safety.traceSafeList_cons_of_step
-    (by simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,h0,hn,h1,evalOp_unfold,
-      numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,valueBlocks] using safeLoop) loopRun
+    (by simpa only [Safety.stepSafe_unfold] using safeLoop) loopRun
   exact finish_safe M D p scale pid (s.numPids 2) s.mem mid _ ctx fixed ha bounds hdq hdk
 
 #axiomsClean source_safe

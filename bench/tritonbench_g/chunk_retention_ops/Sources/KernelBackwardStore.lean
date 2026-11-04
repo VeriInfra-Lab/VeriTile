@@ -32,15 +32,20 @@ def storePrefix (p : Parameters) (scale : ℝ) (terminal initial : Bool) :=
 def updateSuffix (p : Parameters) (scale : ℝ) (terminal initial : Bool) :=
   (parts p scale terminal initial).body.drop 5
 
+theorem natural_history_address (a b c d e : Nat) :
+    Int.toNat ((a : Int)*((b : Int)*c*d)+(e : Int)*c*d)=a*(b*c*d)+e*c*d := by norm_cast
+
+theorem natural_offset (a b : Nat) : Int.toNat ((a : Int)*b)=a*b := by norm_cast
+
 def storeExecution (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : ℝ)
     (terminal initial : Bool) (pid : PID) (input : Memory α) (s : State α) (n : Nat)
     (carry : Carry p α) (ctx : Ready M p pid input s) (hc : HasCarry p carry s) :
     {t : State α // run (engine (withDot M D)) (storePrefix p scale terminal initial)
-      (s.setReg "j" .nat [] (fun _=>n))=some t} := by
+      (indexState p n s)=some t} := by
   simp only [HasCarry] at hc
   refine ⟨?_,?_⟩
   swap
-  simp [storePrefix,parts,kernel,Source.backwardH,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
+  simp [storePrefix,parts,intParts,indexState,kernel,Source.backwardH,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -51,23 +56,24 @@ def storeExecution (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scal
 
 theorem store_memory (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : ℝ)
     (terminal initial : Bool) (pid : PID) (input : Memory α) (s : State α) (n : Nat)
-    (carry : Carry p α) (ctx : Ready M p pid input s) (hc : HasCarry p carry s) :
+    (carry : Carry p α) (ctx : Ready M p pid input s) (hc : HasCarry p carry s) (hn : n<p.NT) :
     (storeExecution M D p scale terminal initial pid input s n carry ctx hc).val.mem=
       writeHistory M p pid n carry s.mem := by
-  simp [storeExecution,writeHistory,scatter,masked_scatter_memory,hActive,hOffset,time,VeriTile.Bench.Repairs.ChunkLinearAttn.cast,
+  have clock : (p.NT : Int)-((n : Int)+1)=((p.NT-1-n : Nat) : Int) := by omega
+  simp [storeExecution,writeHistory,scatter,masked_scatter_memory,hActive,hOffset,time,clock,natural_history_address,VeriTile.Bench.Repairs.ChunkLinearAttn.cast,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
   rfl
 
 theorem store_ready (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : ℝ)
     (terminal initial : Bool) (pid : PID) (input : Memory α) (s : State α) (n : Nat)
-    (carry : Carry p α) (ctx : Ready M p pid input s) (hc : HasCarry p carry s) :
+    (carry : Carry p α) (ctx : Ready M p pid input s) (hc : HasCarry p carry s) (hn : n<p.NT) :
     let t:=(storeExecution M D p scale terminal initial pid input s n carry ctx hc).val
     Ready M p pid input t ∧ HasCarry p carry t ∧
-      t.regs .nat [] "i_t"=some (fun _=>time p n) := by
+      t.regs .int [] "i_t"=some (fun _=>(time p n : Int)) := by
   dsimp only
   refine ⟨?_,?_,?_⟩
   · constructor
-    · rw [store_memory]
+    · rw [store_memory M D p scale terminal initial pid input s n carry ctx hc hn]
       intro r hr o
       exact (history_inputs M p pid n carry s.mem r hr o).trans (ctx.inputs r hr o)
     · simpa [storeExecution] using ctx.ik
@@ -77,8 +83,11 @@ theorem store_ready (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (sca
     · simpa [storeExecution] using ctx.lane
     · simpa [storeExecution] using ctx.weights
   · simpa [HasCarry,storeExecution] using hc
-  · simp [storeExecution,time,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
-    rfl
+  · have clock : (p.NT : Int)-((n : Int)+1)=((p.NT-1-n : Nat) : Int) := by omega
+    simp [storeExecution,time,clock,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
+    funext i
+    change (0 : Int)-((n : Int)+1-(p.NT : Int))=((p.NT-1-n : Nat) : Int)
+    omega
 
 structure Pointers (p : Parameters) (pid : PID) (n : Nat) (s : State α) : Prop where
   left : s.regs .blockPtr [p.BK,p.BT] "p_q"=some (fun _=>BlockPtr.mk "q"
@@ -88,9 +97,10 @@ structure Pointers (p : Parameters) (pid : PID) (n : Nat) (s : State α) : Prop 
 
 theorem store_pointers (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : ℝ)
     (terminal initial : Bool) (pid : PID) (input : Memory α) (s : State α) (n : Nat)
-    (carry : Carry p α) (ctx : Ready M p pid input s) (hc : HasCarry p carry s) :
+    (carry : Carry p α) (ctx : Ready M p pid input s) (hc : HasCarry p carry s) (hn : n<p.NT) :
     Pointers p pid n (storeExecution M D p scale terminal initial pid input s n carry ctx hc).val := by
-  constructor <;> simp [storeExecution,time,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
+  have clock : (p.NT : Int)-((n : Int)+1)=((p.NT-1-n : Nat) : Int) := by omega
+  constructor <;> simp [storeExecution,time,clock,natural_offset,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
   all_goals funext i
   all_goals congr 1
 

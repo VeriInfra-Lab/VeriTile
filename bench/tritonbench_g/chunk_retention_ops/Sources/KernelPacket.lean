@@ -113,3 +113,9 @@ theorem complete (M : Algebra α) (D : DotPrimitive α) (a : Call) (m : Memory �
 #specNonCircular reference avoiding [run,FP.Structural.exec,source,complete]
 end
 end VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelPacket
+
+namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Kernels
+export Source (forwardH forwardO backwardH backwardQKV)
+export KernelPacket (Call)
+export KernelPacket.Call (kernel state)
+end VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Kernels
