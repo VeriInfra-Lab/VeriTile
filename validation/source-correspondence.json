@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 170,
-      "uncovered_jit_functions": 13
+      "selected_body_copy_checked": 171,
+      "uncovered_jit_functions": 12
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 52,
-    "inventoried_jit_functions": 578,
-    "uncovered_inventoried_jit_functions": 61,
+    "uncovered_selected_jit_functions": 50,
+    "inventoried_jit_functions": 580,
+    "uncovered_inventoried_jit_functions": 59,
     "checked_pair_modes": {
-      "pasted_body": 535
+      "pasted_body": 539
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 170,
-        "uncovered_jit_functions": 13
+        "selected_body_copy_checked": 171,
+        "uncovered_jit_functions": 12
       }
     },
     "primary_files_with_int64_screen_warning": 2,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 7,
-        "antiquotes": 341,
+        "in_body_type_directives": 6,
+        "antiquotes": 340,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 81
       },
@@ -12676,9 +12676,9 @@
       "lean": "bench/tritonbench_g/attn_fwd_triton/Kernels.lean",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 125,
-        "dsl_assignment": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 52,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 6
@@ -12788,35 +12788,214 @@
               ]
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton.py",
-          "function": "_attn_fwd_inner_repaired"
         },
         {
-          "python": "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton.py",
-          "function": "_attn_fwd_repaired"
+          "path": "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton_quotient_remainder.py",
+          "jits": [
+            {
+              "function": "_attn_fwd_inner_repaired",
+              "line": 8,
+              "statements": 3,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "_attn_fwd_repaired",
+              "line": 54,
+              "statements": 31,
+              "explicit_int64_casts": [
+                {
+                  "line": 65,
+                  "expression": "tl.cast(N_CTX, tl.int64)"
+                },
+                {
+                  "line": 66,
+                  "expression": "tl.cast(stride_kn, tl.int64)"
+                },
+                {
+                  "line": 67,
+                  "expression": "tl.cast(stride_vk, tl.int64)"
+                },
+                {
+                  "line": 68,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 69,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 81,
+                  "expression": "tl.arange(0, BLOCK_N).to(tl.int64)"
+                },
+                {
+                  "line": 82,
+                  "expression": "tl.arange(0, BLOCK_DMODEL).to(tl.int64)"
+                },
+                {
+                  "line": 73,
+                  "expression": "off_z.to(tl.int64)"
+                },
+                {
+                  "line": 73,
+                  "expression": "off_h.to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_attn_fwd_inner_repaired",
+          "lean_definition": "inner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 3,
+          "runtime_parameters": {
+            "acc": "inferred",
+            "l_i": "inferred",
+            "m_i": "inferred",
+            "q": "inferred",
+            "q_scale": "inferred",
+            "K_ptrs": "inferred",
+            "K_scale_ptr": "inferred",
+            "V_ptrs": "inferred",
+            "start_m": "inferred",
+            "stride_kn": "inferred",
+            "stride_vk": "inferred"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "HEAD_DIM",
+            "BLOCK_N",
+            "STAGE",
+            "offs_m",
+            "offs_n",
+            "N_CTX"
+          ],
           "python": "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton.py",
-          "function": "_attn_fwd_inner_repaired"
+          "lean": "bench/tritonbench_g/attn_fwd_triton/Kernels.lean"
         },
         {
+          "python_function": "_attn_fwd_repaired",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 31,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "HEAD_DIM",
+            "STAGE"
+          ],
           "python": "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton.py",
-          "function": "_attn_fwd_repaired"
+          "lean": "bench/tritonbench_g/attn_fwd_triton/Kernels.lean"
+        },
+        {
+          "python_function": "_attn_fwd_inner_repaired",
+          "lean_definition": "inner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 3,
+          "runtime_parameters": {
+            "acc": "inferred",
+            "l_i": "inferred",
+            "m_i": "inferred",
+            "q": "inferred",
+            "q_scale": "inferred",
+            "K_ptrs": "inferred",
+            "K_scale_ptr": "inferred",
+            "V_ptrs": "inferred",
+            "start_m": "inferred",
+            "stride_kn": "inferred",
+            "stride_vk": "inferred"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "HEAD_DIM",
+            "BLOCK_N",
+            "STAGE",
+            "offs_m",
+            "offs_n",
+            "N_CTX"
+          ],
+          "python": "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton_quotient_remainder.py",
+          "lean": "bench/tritonbench_g/attn_fwd_triton/Kernels.lean"
+        },
+        {
+          "python_function": "_attn_fwd_repaired",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 31,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_M",
+            "BLOCK_N",
+            "HEAD_DIM",
+            "STAGE"
+          ],
+          "python": "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton_quotient_remainder.py",
+          "lean": "bench/tritonbench_g/attn_fwd_triton/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/attn_fwd_triton/Kernels.lean": "0c816ceecfff8ae60e89dddf0dcf0d4ea568db6bb0c1b03ed24e7968c946b133",
-        "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton.py": "4c7fffad65029eec05d134de8884d723b00db104df54b47a37110e9e5b5d78c7"
+        "bench/tritonbench_g/attn_fwd_triton/Kernels.lean": "f03d6273eb665b402dafaa5a7002483dc9757d5c1f1878ae9885c2b88e721884",
+        "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton.py": "4c7fffad65029eec05d134de8884d723b00db104df54b47a37110e9e5b5d78c7",
+        "bench/tritonbench_g/attn_fwd_triton/attn_fwd_triton_quotient_remainder.py": "a27d2069d70d6aa439fbfbfd8ad7ce770aca15a25c897cb11fb9e01700b743d6",
+        "bench/tritonbench_g/attn_fwd_triton/jit-correspondence.json": "b4ccd88191c461b38762fb621b7a7ec6f342292dd52e0549169f5b868aee6f05"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/attn_fwd_triton"

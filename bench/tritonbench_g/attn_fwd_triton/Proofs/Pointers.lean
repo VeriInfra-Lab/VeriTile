@@ -23,10 +23,10 @@ def keyExpr (p : Parameters) (BD BN : Nat) : Op .ptr [BD,BN] :=
     (.add .int (.consR (.consL .nil))
       (.add .int .scalarL (.ref .int [] "k_offset")
         (.mul .int .scalarR (.expandDim ⟨1,by simp⟩ (.ref .int [BD] "offs_k")) (wide p.keyDim)))
-      (.mul .int .scalarR (.expandDim ⟨0,by simp⟩ (.ref .int [BN] "offs_n")) (.ref .int [] "stride_kn64"))))
+      (.mul .int .scalarR (.expandDim ⟨0,by simp⟩ (.ref .int [BN] "offs_n")) (wide p.keyRow))))
 
 def rowOffsets (BM : Nat) : Op .int [BM] :=
-  .add .int .scalarL (.mul .int .nil (.ref .int [] "start_m") (wide BM)) (.castNatToInt (.arange BM))
+  .add .int .scalarL (.mul .int .nil (.ref .int [] "start_m") (.constInt (BM : Int))) (.castNatToInt (.arange BM))
 
 def queryScaleExpr (QS : RegionName) : Op .ptr [] :=
   .ptrAdd .nil (.ptrBase QS) (.castIntToNat (.add .int .nil
@@ -43,11 +43,13 @@ def code (p : Parameters) (BM BN BD : Nat) : List Stmt :=
    .assign .ptr [] "Q_scale_ptr" (queryScaleExpr p.QS),
    .assign .ptr [BD,BN] "K_ptrs" (keyExpr p BD BN),
    .assign .ptr [] "K_scale_ptr" (keyScaleExpr p.KS),
-   .assign .ptr [BN,BD] "V_ptrs" (rowExpr p.V BN BD p.valueDim "v_offset" "offs_n" (.ref .int [] "stride_vk64")),
+   .assign .ptr [BN,BD] "V_ptrs" (rowExpr p.V BN BD p.valueDim "v_offset" "offs_n" (wide p.valueRow)),
    .assign .ptr [BM,BD] "O_block_ptr" (rowExpr p.Out BM BD p.outputDim "o_offset" "offs_m" (wide p.outputRow))]
 
 theorem source (p : Parameters) (BM BN BD : Nat) : pointers BM BN BD p = code p BM BN BD := by
-  simp only [pointers, Verified.code, Verified.source, TypedSource.repaired,
+  by_cases hd : p.stage=2
+  all_goals simp only [pointers, Verified.code, Verified.source, TypedSource.repaired,
+    Bodies.originalBody,hd,decide_true,decide_false,ComputeDType.eraseDType,
     ControlView.algorithm,Bool.false_eq_true, ↓reduceIte, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
@@ -55,7 +57,7 @@ theorem source (p : Parameters) (BM BN BD : Nat) : pointers BM BN BD p = code p 
     Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
     ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind]
-  simp [ControlView.algorithm,code,rowExpr,keyExpr,rowOffsets,queryScaleExpr,keyScaleExpr,wide]
+  all_goals simp [ControlView.algorithm,code,rowExpr,keyExpr,rowOffsets,queryScaleExpr,keyScaleExpr,wide]
 
 theorem eval_nat_offset {sh : TileShape} (e : Op .int sh) (s : BlockState) :
     evalOp (.castIntToNat e) s = (do
@@ -174,11 +176,11 @@ theorem executes (s : BlockState) (c : Config) (BM BN BD : Nat)
     rintro ⟨⟩
     simp [Tile.ptrAdd_data,Tile.scalar,-Tile.scalar_eta]
     all_goals simp only [Int.toNat_natCast]
-  have hv : evalOp (rowExpr c.p.V BN BD c.p.valueDim "v_offset" "offs_n" (.ref .int [] "stride_vk64")) s7 =
+  have hv : evalOp (rowExpr c.p.V BN BD c.p.valueDim "v_offset" "offs_n" (wide c.p.valueRow)) s7 =
       some (valuePointer c BN BD 0) := by
-    have h := eval_row s7 c.p.V BN BD (vbase c) 0 c.p.valueRow c.p.valueDim "v_offset" "offs_n" (.ref .int [] "stride_vk64")
+    have h := eval_row s7 c.p.V BN BD (vbase c) 0 c.p.valueRow c.p.valueDim "v_offset" "offs_n" (wide c.p.valueRow)
       (by simp [s7,s6,s5,s4,s3,s2,s1,hvb]) (by simp [s7,s6,s5,s4,s3,s2,Memory.rows,Tile.vec])
-      (by simp [s7,s6,s5,s4,s3]) (by simp [s7,s6,s5,s4,s3,s2,s1,hvr])
+      (by simp [s7,s6,s5,s4,s3]) (by simp [wide,evalOp.eq_def])
     exact h
   have ho := eval_row s8 c.p.Out BM BD (obase c) (c.startM*BM) c.p.outputRow c.p.outputDim "o_offset" "offs_m" (wide c.p.outputRow)
     (by simp [s8,s7,s6,s5,s4,s3,s2,s1,hob]) (by simp [s8,s7,s6,s5,s4,s3,s2,s1])

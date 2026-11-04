@@ -85,10 +85,10 @@ theorem executes (A : FlatAlloc) (s : BlockState) (c : Config) (BM BN BD : Nat)
   have hks := flatten_ptr A .nil s6 c.p.KS _ _ (by simp only [wide,FlatAlloc.flattenOp,FlatCongruence.vec0,FlatCongruence.vec1,FlatCongruence.dot2,FlatCongruence.sum1,FlatCongruence.max1]) hks0
   rw [shift_keyScale] at hks
   change evalOp (A.flattenOp (Pointers.keyScaleExpr c.p.KS)) s6 = some (keyScalePointer rc BN 0) at hks
-  have hv := eval_row A s7 c.p.V BN BD (vbase c) 0 c.p.valueRow c.p.valueDim "v_offset" "offs_n" (.ref .int [] "stride_vk64")
+  have hv := eval_row A s7 c.p.V BN BD (vbase c) 0 c.p.valueRow c.p.valueDim "v_offset" "offs_n" (wide c.p.valueRow)
     (by simp only [wide,FlatAlloc.flattenOp]) (by simp [s7,s6,s5,s4,s3,s2,s1,hvb]) (by simp [s7,s6,s5,s4,s3,s2,VeriTile.Bench.Repairs.AttnFwdTriton.Verified.Memory.rows,Tile.vec])
-    (by simp [s7,s6,s5,s4,s3]) (by simp [s7,s6,s5,s4,s3,s2,s1,hvr])
-  change evalOp (A.flattenOp (Pointers.rowExpr c.p.V BN BD c.p.valueDim "v_offset" "offs_n" (.ref .int [] "stride_vk64"))) s7 =
+    (by simp [s7,s6,s5,s4,s3]) (by simp [wide,evalOp.eq_def])
+  change evalOp (A.flattenOp (Pointers.rowExpr c.p.V BN BD c.p.valueDim "v_offset" "offs_n" (wide c.p.valueRow))) s7 =
     some (shifted A.flat (A.base c.p.V) (valuePointer c BN BD 0)) at hv
   rw [shift_value] at hv
   have ho := eval_row A s8 c.p.Out BM BD (obase c) (c.startM*BM) c.p.outputRow c.p.outputDim "o_offset" "offs_m" (wide c.p.outputRow)

@@ -5,7 +5,7 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 183,
-  "staged_count": 183,
+  "staged_count": 184,
   "pending_count": 13,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
@@ -79,19 +79,11 @@
       }
     ],
     "incremental_replay": {
-      "status": "PASS_EXACT_CURRENT",
-      "scope": "Four attention/recurrent targets accepted from three complete official final receipts",
-      "receipts": [
-        "validation/body_receipts/attention-group-complete-body.json",
-        "validation/body_receipts/fused-recurrent-delta-complete-body.json",
-        "validation/body_receipts/causal-attention-complete-body.json"
-      ],
-      "root_counts_by_run": {
-        "41736220540": 208,
-        "41748128645": 91,
-        "41757051898": 50
-      },
-      "completion_certificate": true
+      "status": "READY_FOR_OFFICIAL_REPLAY",
+      "scope": "attn_fwd_triton complete helper/caller body migration",
+      "manifest": "validation/body-migration-incremental.json",
+      "roots": 131,
+      "note": "Every retained owned/shared module, actual public Real/FP theorem, local trust/spec audit and four body pairs pass. Exact-current official independent acceptance remains required."
     },
     "previous_incremental_replays": [
       {
@@ -1279,6 +1271,21 @@
         "note": "Exact-current final official acceptance remains required.",
         "validated_source_commit": "836a1fd97949feace3e22d875fbdfec4586af009",
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41712813739"
+      },
+      {
+        "status": "PASS_EXACT_CURRENT",
+        "scope": "Four attention/recurrent targets accepted from three complete official final receipts",
+        "receipts": [
+          "validation/body_receipts/attention-group-complete-body.json",
+          "validation/body_receipts/fused-recurrent-delta-complete-body.json",
+          "validation/body_receipts/causal-attention-complete-body.json"
+        ],
+        "root_counts_by_run": {
+          "41736220540": 208,
+          "41748128645": 91,
+          "41757051898": 50
+        },
+        "completion_certificate": true
       }
     ],
     "pending_client_regressions": {
@@ -1304,15 +1311,21 @@
         3,
         31
       ],
-      "proof_status": "IN_PROGRESS",
+      "proof_status": "PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
       "public_fp_proof": "PASS_LOCALLY",
       "actual_complete_source_real_execution": "PASS_LOCALLY",
       "causal_formula_connection": "PASS_LOCALLY",
-      "real_trace_safety_and_grid_public_proof": "IN_PROGRESS",
+      "real_trace_safety_and_grid_public_proof": "PASS_LOCALLY",
       "independent_replay": "NOT_STARTED",
       "python_full_suite": 674,
       "complete": false,
-      "note": "Retains both legal STAGE values, explicit casts and actual hygienic helper captures/tuple returns. The second returned maximum is discarded exactly as Python `_`. No whole-case completion is claimed."
+      "note": "Retains both legal STAGE values, explicit casts and actual hygienic helper captures/tuple returns. The second returned maximum is discarded exactly as Python `_`. No whole-case completion is claimed.",
+      "retained_and_shared_roots": 131,
+      "retained_roots_build": "PASS",
+      "source_inventory_uncovered_targets": 12,
+      "local_lake_jobs": 3711,
+      "public_real_fp_proofs": "PASS",
+      "prepared_trust_spec_audits": "PASS_5_FILES"
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -2776,6 +2789,15 @@
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41757051898",
       "source_commit": "459cf63fc9258c11d8c71e2938dd938737edaa56",
       "frozen_source_files": 261
+    },
+    "current_manifest_coverage": {
+      "cases": 190,
+      "target_cases": 184,
+      "regression_cases": 6,
+      "retained_and_shared_build_roots": 7456,
+      "explicit_replay_roots": 6459,
+      "completion_certificate": false,
+      "note": "Coverage inventory only. It is not a new full-corpus integrated build or acceptance."
     }
   },
   "targets": [
@@ -2964,13 +2986,13 @@
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_triton",
-      "status": "source_aligned_proofs_in_progress",
+      "status": "staged_awaiting_independent_replay",
       "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "IN_PROGRESS",
-      "retained_modules_build": "IN_PROGRESS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
       "independent_replay": "NOT_STARTED",
-      "reason": "Four complete body pairs pass source comparison. Actual FP entry and complete source Real execution/formula pass locally; Real trace/grid public entry, all retained roots and exact-current independent replay are still required. No completion is claimed."
+      "reason": "Four complete body pairs preserve both legal STAGE values and every cast/mask/helper return. All 128 retained owned plus 3 shared roots, both actual public Real/FP entries, full-grid safety, five prepared trust/spec audits and 674 Python tests pass locally. Five obsolete inline whole-source certificates are explicitly retired. Fresh exact-current independent replay of all 131 roots is required; no local build is counted as completion."
     },
     {
       "path": "bench/tritonbench_g/batched_vecmat_mult",

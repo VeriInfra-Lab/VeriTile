@@ -2,15 +2,15 @@ import bench.tritonbench_g.attn_fwd_triton.Kernels
 import bench.tritonbench_g.attn_fwd_triton.Proofs.Mathematical_Real
 import Mathlib.Tactic
 
-/-! Reuse the original attention proof dependency graph without modifying it.
-Its full execution/frame theorem applies to the original finite-penalty source,
-not to this repaired source. The valid online arithmetic lemma below is reused
-from the same graph. The independent target below is composed with complete
-candidate execution, bounded flat memory and host return in later helpers. -/
+/-! Independent online attention arithmetic and the exact real projection
+of the complete repaired source. Execution and memory proofs follow in the
+source-connected helpers. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.RealProofs
 open VeriTile.Triton
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealFormula
 noncomputable section
+set_option maxRecDepth 32000
+set_option maxHeartbeats 4000000
 
 abbrev Parameters := VeriTile.Bench.TritonBenchG.AttnFwdTriton.RealProofs.Parameters
 
@@ -98,7 +98,10 @@ def source (BM BN BD : Nat) (p : Parameters) : ComputeKernel :=
 
 theorem source_projection (BM BN BD : Nat) (p : Parameters) :
     (source BM BN BD p).toAlgorithm? = .ok (source BM BN BD p).toAlgKernel := by
-  rfl
+  by_cases hd : p.stage = 2
+  all_goals simp only [source, TypedSource.repaired, Bodies.originalBody, hd,
+    decide_true, decide_false, Bool.false_eq_true, Bool.true_eq, ↓reduceIte]
+  all_goals rfl
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -70,7 +70,7 @@ theorem result_eq (p : Config) (BD : Nat) (idx : ProgramIndex p)
   rw [←hf]
   simp only [lower_chunk,start_cursor]
   rw [fold_eq p BD idx left right same _ (stop_bounded p BD left idx Bool.false)]
-  exact fold_eq p BD idx left right same _ (stop_bounded p BD left idx Bool.true) _ _ _
+  rw [fold_eq p BD idx left right same _ (stop_bounded p BD left idx Bool.true) _ _ _]
 
 theorem reference_eq (p : Config) (BD : Nat) (hD : p.headDim≤BD)
     (left right : Memory) (same : Agree p left right) (c : Coordinate p) :
