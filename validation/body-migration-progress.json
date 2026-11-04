@@ -3102,7 +3102,7 @@
       "regressions": 6,
       "retained_modules": 8725,
       "replay_sources": 7728,
-      "integrated_full_build": "NOT_CLAIMED",
+      "integrated_full_build": "PASS_8725_ROOTS_17301_LAKE_JOBS",
       "local_incremental_build": "PASS_136_ROOTS"
     },
     "newly_completed_current_source_replays": [
@@ -3212,7 +3212,19 @@
       "bench/tritonbench_g/rms_rbe_matmul",
       "bench/tritonbench_g/triton_attention"
     ],
-    "pending_proof_migrations": []
+    "pending_proof_migrations": [],
+    "final_selected_batch_integration": {
+      "status": "PASS",
+      "source_commit": "e18f83f8c13cb47c4c733371905997a1853609a1",
+      "cases": 202,
+      "migration_targets": 196,
+      "regression_cases": 6,
+      "build_roots": 8725,
+      "lake_jobs": 17301,
+      "completed_at": "2026-11-04T18:04:37Z",
+      "scope": "All roots in validation/body-migration-batch.json on the final three-case frozen source tree.",
+      "boundary": "Full local integration is not official independent acceptance. The final three cases stay pending until their complete replay artifacts and current source closures are verified."
+    }
   },
   "targets": [
     {
