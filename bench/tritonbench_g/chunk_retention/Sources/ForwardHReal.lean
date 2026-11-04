@@ -28,11 +28,7 @@ theorem block_decay (c : Shape) (s : State ℝ) (n : Nat) :
     blockDecay algebra c s n=Whole001.decay realOps c (s.pids 2) n := by
   unfold blockDecay
   rw [rate_eq]
-  by_cases hn : n=64
-  · subst n
-    rfl
-  · simp only [hn,↓reduceIte]
-    rfl
+  rfl
 
 theorem time_decay (c : Shape) (s : State ℝ) (n : Nat) (i : TileIndex [64]) :
     timeDecay algebra c s n i=Whole001.decay realOps c (s.pids 2) ((n:Int)-i.1.val-1) :=

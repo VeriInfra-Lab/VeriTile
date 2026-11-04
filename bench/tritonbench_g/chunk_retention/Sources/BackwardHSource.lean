@@ -1,4 +1,5 @@
 import bench.tritonbench_g.chunk_retention.Sources.ForwardHReadback
+import bench.tritonbench_g.chunk_linear_attn.Proofs.SignedRange
 
 namespace VeriTile.Bench.Repairs.ChunkRetention.Whole001.BackwardHSource
 open VeriTile Triton FP.Structural FP.ProfiledRewrite KernelModel
@@ -23,15 +24,24 @@ def kernel (c : Shape) (scale : ℝ) (terminal : Bool) :=
   Kernels.backwardH "q" "incoming" "dh" "terminal"
     (c.T*c.K) c.K 1 (c.T*c.V) c.V 1 (c.chunks*c.K*c.V) c.V
     scale c.H c.T c.K c.V 64 c.BK c.BV c.chunks terminal
+def intParts (c : Shape) (scale : ℝ) (terminal : Bool) : Source.IntRange :=
+  (Source.intRange? (kernel c scale terminal).surfaceBody "__rev_i_t").getD
+    ⟨[],.constInt 0,.constInt 0,.constNat 0,[],[]⟩
+/-- Source fragments with a natural proof clock; the source loop is signed. -/
 def parts (c : Shape) (scale : ℝ) (terminal : Bool) : Source.DynamicRange :=
-  (Source.dynamicRange? (kernel c scale terminal).surfaceBody "j").getD
-    ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
+  let actual := intParts c scale terminal
+  ⟨actual.before,.constNat 0,.constNat c.chunks,.constNat 1,actual.body,actual.after⟩
+def indexState (c : Shape) (n : Nat) (s : State α) : State α :=
+  s.setReg "__rev_i_t" .int [] (fun _ => (n : Int)+1-(c.chunks : Int))
+def loopStmt (c : Shape) (scale : ℝ) (terminal : Bool) : ComputeStmt :=
+  let actual := intParts c scale terminal
+  .forRangeInt "__rev_i_t" actual.start actual.stop actual.stride actual.body
 def chunk (c : Shape) (n : Nat) := c.chunks-1-n
 def timeDecay (M : Algebra α) (c : Shape) (s : State α) : TileIndex [64] → α :=
   fun i => KernelModel.decay M c (s.pids 2) ((i.1.val:Int)+1)
 def initValue (M : Algebra α) (c : Shape) (terminal : Bool) (s : State α) (i : Index c) : α :=
   if terminal then M.cast (some .fp32) .real .real
-    (if active c s i then (s.mem "terminal" (stateAddress c s i)).read .real else zero M)
+    (M.fp32Load (if active c s i then (s.mem "terminal" (stateAddress c s i)).read .real else zero M))
   else zero M
 def HasCarry (c : Shape) (carry : Index c → α) (s : State α) : Prop :=
   s.regs .real [c.BK,c.BV] "b_dh"=some carry
@@ -51,7 +61,7 @@ def entryExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,Kernels.backwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,
+    simp [parts,intParts,indexState,kernel,Kernels.backwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,
       Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
       resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,
@@ -71,6 +81,7 @@ theorem entryContext (M : Algebra α) (D : DotPrimitive α) (c : Shape)
       all_goals norm_num [timeDecay,KernelModel.decay,rate,zero]
       all_goals rfl
     · simp [HasCarry,entryExecution,initValue,active,stateAddress,feature,column,zero,
+        Int.toNat_mul,Int.toNat_natCast,
         ForwardHSource.active,ForwardHSource.stateAddress,ForwardHSource.feature,ForwardHSource.column,
         BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList]
       try rfl
@@ -103,26 +114,28 @@ def update (M : Algebra α) (D : DotPrimitive α) (c : Shape) (s : State α)
 
 def bodyExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (terminal : Bool)
     (initial current : State α) (n : Nat) (carry : Index c → α)
-    (ctx : Context M c initial current) (ha : HasCarry c carry current) :
+    (ctx : Context M c initial current) (ha : HasCarry c carry current) (hn : n<c.chunks) :
     {t : State α // run (engine (withDot M D)) (parts c scale terminal).body
-      (current.setReg "j" .nat [] (fun _ => n))=some t} := by
+      (indexState c n current)=some t} := by
   simp only [HasCarry] at ha
+  have clock : (0 : Int)-((n : Int)+1-(c.chunks : Int))=((c.chunks-1-n : Nat) : Int) := by omega
+  have lastClock : (c.chunks : Int)-1=((c.chunks-1 : Nat) : Int) := by omega
   by_cases atEnd : c.chunks-1-n=c.chunks-1 <;> by_cases rem : c.T%64=0
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,Kernels.backwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,
+    simp [parts,intParts,indexState,kernel,Kernels.backwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,
       Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
       resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,
       natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
-      ctx.ik,ctx.iv,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.bb,ctx.di,ha,atEnd,rem,chunk,FP.Structural.store]
+      ctx.ik,ctx.iv,ctx.bh,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,ctx.bb,ctx.di,ha,atEnd,rem,chunk,clock,lastClock,FP.Structural.store]
     rfl
 
 theorem bodyMemory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (terminal : Bool)
     (initial current : State α) (n : Nat) (carry : Index c → α)
-    (ctx : Context M c initial current) (ha : HasCarry c carry current) :
-    (bodyExecution M D c scale terminal initial current n carry ctx ha).val.mem=
+    (ctx : Context M c initial current) (ha : HasCarry c carry current) (hn : n<c.chunks) :
+    (bodyExecution M D c scale terminal initial current n carry ctx ha hn).val.mem=
       (stored M c initial current n carry).mem := by
   have historyBase (j : Nat) :
       ((initial.pids 2:Int)*((c.chunks:Int)*c.K*c.V)+(j:Int)*c.K*c.V).toNat =
@@ -134,8 +147,8 @@ theorem bodyMemory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
 
 theorem bodyContext (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (terminal : Bool)
     (initial current : State α) (n : Nat) (carry : Index c → α)
-    (ctx : Context M c initial current) (ha : HasCarry c carry current) :
-    Context M c initial (bodyExecution M D c scale terminal initial current n carry ctx ha).val := by
+    (ctx : Context M c initial current) (ha : HasCarry c carry current) (hn : n<c.chunks) :
+    Context M c initial (bodyExecution M D c scale terminal initial current n carry ctx ha hn).val := by
   constructor
   · rw [bodyMemory]
     have hh : (stored M c initial current n carry).mem "q"=current.mem "q" := by
@@ -154,9 +167,9 @@ theorem bodyContext (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
 
 theorem bodyCarry (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (terminal : Bool)
     (initial current : State α) (n : Nat) (carry : Index c → α)
-    (ctx : Context M c initial current) (ha : HasCarry c carry current) :
+    (ctx : Context M c initial current) (ha : HasCarry c carry current) (hn : n<c.chunks) :
     HasCarry c (update M D c initial scale n carry)
-      (bodyExecution M D c scale terminal initial current n carry ctx ha).val := by
+      (bodyExecution M D c scale terminal initial current n carry ctx ha hn).val := by
   have inputBase (width : Nat) : ((initial.pids 2:Int)*((c.T:Int)*(width:Int))).toNat =
       initial.pids 2*(c.T*width) := by norm_cast
   have other {ι : Type} (l : List ι) (off : ι → Nat) (value : ι → Cell α)

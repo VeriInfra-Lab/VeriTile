@@ -98,7 +98,7 @@ theorem finishMemory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale :
   rfl
 
 theorem source_parts (c : Shape) (scale : ℝ) : (kernel c scale).surfaceBody=(parts c scale).before ++
-    [.forRangeDyn "i_v" (parts c scale).start (parts c scale).stop (parts c scale).stride (parts c scale).body] ++
+    [.forRange "i_v" 0 c.valueBlocks 1 (parts c scale).body] ++
     (parts c scale).after := rfl
 
 theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s : State α) :
@@ -109,14 +109,8 @@ theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale 
   obtain ⟨mid,hm,ctx,ha,hmem⟩ := loopExecution M D c scale s start.val hc.1 hc.2 (entryMemory M D c scale s)
   let finish := finishExecution M D c scale s mid (trajectory M D c s scale c.valueBlocks).1 ctx ha
   refine ⟨finish.val,?_,?_⟩
-  · have hl : step (engine (withDot M D)) (.forRangeDyn "i_v" (parts c scale).start (parts c scale).stop
-        (parts c scale).stride (parts c scale).body) start.val=some mid := by
-      have h0 : (parts c scale).start = .constNat 0 := rfl
-      have hn : (parts c scale).stop = .div .nat .nil
-        (.sub .nat .nil (.add .nat .nil (.constNat c.V) (.constNat c.BV)) (.constNat 1)) (.constNat c.BV) := rfl
-      have h1 : (parts c scale).stride = .constNat 1 := rfl
-      simp only [step,h0,hn,h1,evalOp_unfold,Option.bind,Option.bind_some,numeric,bop]
-      exact hm
+  · have hl : step (engine (withDot M D)) (.forRange "i_v" 0 c.valueBlocks 1 (parts c scale).body) start.val=some mid := by
+      simpa only [step] using hm
     change run (engine (withDot M D)) (kernel c scale).surfaceBody s=some finish.val
     rw [source_parts,List.append_assoc,run_append,start.property]
     simp only [Option.bind_some,List.singleton_append,run,hl,bind,finish.property]

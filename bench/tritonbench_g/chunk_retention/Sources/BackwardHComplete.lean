@@ -23,27 +23,43 @@ theorem loopExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     (scale : ℝ) (terminal : Bool) (initial current : State α)
     (ctx : Context M c initial current) (ha : HasCarry c (initValue M c terminal initial) current)
     (hm : current.mem=initial.mem) :
-    ∃ t, range (engine (withDot M D)) "j" 0 c.chunks 1 (parts c scale terminal).body current=some t ∧
+    ∃ t, step (engine (withDot M D)) (loopStmt c scale terminal) current=some t ∧
       Context M c initial t ∧ HasCarry c (trajectory M D c initial scale terminal c.chunks).1 t ∧
       t.mem=(written M D c initial scale terminal).mem := by
-  let I := fun (_ : Nat) (a : Accum c α) (s : State α) =>
-    Context M c initial s ∧ HasCarry c a.1 s ∧ s.mem=a.2.mem
-  have hloop := range_values (engine (withDot M D)) "j" (parts c scale terminal).body
-    (advance M D c initial scale) I (fun a s => Context M c initial s ∧ HasCarry c a.1 s ∧ s.mem=a.2.mem)
-    0 c.chunks 1 ⟨initValue M c terminal initial,initial⟩ current
-    (by
-      intro n a s h hn
-      let next := bodyExecution M D c scale terminal initial s n a.1 h.1 h.2.1
-      refine ⟨next.val,next.property,bodyContext M D c scale terminal initial s n a.1 h.1 h.2.1,
-        bodyCarry M D c scale terminal initial s n a.1 h.1 h.2.1,?_⟩
-      rw [bodyMemory]
-      simp only [advance,stored,masked_scatter_memory,h.2.2])
-    (by intro n a s h; exact h) ⟨ctx,ha,hm⟩
-  simpa only [KernelFold.from_zero,trajectory,written] using hloop
+  let I := fun n t => Context M c initial t ∧
+    HasCarry c (trajectory M D c initial scale terminal n).1 t ∧
+    t.mem=(trajectory M D c initial scale terminal n).2.mem
+  have advance : ∀ n, n<c.chunks → ∀ t, I n t → ∃ u,
+      run (engine (withDot M D)) (parts c scale terminal).body
+        (t.setReg "__rev_i_t" .int [] (fun _ => (1-(c.chunks : Int))+(n : Int)))=some u ∧ I (n+1) u := by
+    intro n hn t reached
+    let carry := (trajectory M D c initial scale terminal n).1
+    let next := bodyExecution M D c scale terminal initial t n carry reached.1 reached.2.1 hn
+    refine ⟨next.val,?_,bodyContext M D c scale terminal initial t n carry reached.1 reached.2.1 hn,?_,?_⟩
+    · simpa [indexState,add_comm,add_left_comm,add_assoc,sub_eq_add_neg] using next.property
+    · exact bodyCarry M D c scale terminal initial t n carry reached.1 reached.2.1 hn
+    · rw [bodyMemory]
+      simp only [trajectory,KernelFold.sequenceValue,advance,stored,masked_scatter_memory,reached.2.2]
+      rfl
+  obtain ⟨t,ran,done⟩ := VeriTile.Bench.Repairs.ChunkLinearAttn.SignedRange.clock
+    (engine (withDot M D)) "__rev_i_t" (parts c scale terminal).body
+    (1-(c.chunks : Int)) c.chunks I advance 0 (Nat.zero_le _) current ⟨ctx,ha,hm⟩
+  refine ⟨t,?_,done⟩
+  have first : (intParts c scale terminal).start =
+      .sub .int .nil (.constInt 0) (.sub .int .nil (.constInt (Int.ofNat c.chunks)) (.constInt 1)) := rfl
+  have last : (intParts c scale terminal).stop = .constInt 1 := rfl
+  have stride : (intParts c scale terminal).stride = .constNat 1 := rfl
+  simp only [loopStmt,step,first,last,stride,evalOp_unfold,Option.bind,Option.bind_some,numeric,bop]
+  change rangeInt (engine (withDot M D)) "__rev_i_t" (0-((c.chunks : Int)-1)) 1 1
+    (intParts c scale terminal).body current=some t
+  have beginEq : (0 : Int)-((c.chunks : Int)-1)=(1-(c.chunks : Int))+(0 : Nat) := by omega
+  have endEq : (1-(c.chunks : Int))+(c.chunks : Int)=1 := by omega
+  rw [beginEq]
+  simpa only [endEq] using ran
 
 theorem source_parts (c : Shape) (scale : ℝ) (terminal : Bool) :
     (kernel c scale terminal).surfaceBody=(parts c scale terminal).before ++
-      [.forRange "j" 0 c.chunks 1 (parts c scale terminal).body] := rfl
+      [loopStmt c scale terminal] := rfl
 
 theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     (scale : ℝ) (terminal : Bool) (s : State α) :
@@ -56,7 +72,7 @@ theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : Shape)
   refine ⟨t,?_,hmem⟩
   change run (engine (withDot M D)) (kernel c scale terminal).surfaceBody s=some t
   rw [source_parts,run_append,start.property]
-  simpa only [Option.bind_some,run,step,ht,Option.bind,bind,pure] using (rfl : some t=some t)
+  simpa only [Option.bind_some,run,ht,Option.bind,bind,pure] using (rfl : some t=some t)
 
 theorem stored_read (M : Algebra α) (c : Shape) (initial current : State α)
     (n : Nat) (carry : Index c → α) (i : Index c) (hi : active c initial i) :

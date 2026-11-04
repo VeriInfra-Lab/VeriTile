@@ -13,17 +13,10 @@ def xs (ops : Ops α) (literal : ℝ→α) (c : Shape) (seed : Bool) (s : State 
 theorem block_decay (ops : Ops α) (literal : ℝ→α) (laws : LiteralLaws ops literal)
     (c : Shape) (s : State (Term α)) (n : Nat) :
     lower ops literal (blockDecay (algebra ops.zero) c s n)=decay ops c (s.pids 2) n := by
-  by_cases hn : n=64
-  · subst n
-    change ops.exp2 (ops.mul (literal 64)
-      (lower ops literal (KernelModel.rate (algebra ops.zero) c (s.pids 2))))=_
-    rw [laws.blockSize,KernelNative.rate_eq ops literal laws]
-    rfl
-  · simp only [blockDecay,hn,↓reduceIte]
-    change ops.exp2 (ops.mul (ops.integer n)
-      (lower ops literal (KernelModel.rate (algebra ops.zero) c (s.pids 2))))=_
-    rw [KernelNative.rate_eq ops literal laws]
-    rfl
+  change ops.exp2 (ops.mul (ops.integer n)
+    (lower ops literal (KernelModel.rate (algebra ops.zero) c (s.pids 2))))=_
+  rw [KernelNative.rate_eq ops literal laws]
+  rfl
 
 theorem key_load (ops : Ops α) (literal : ℝ→α) (laws : LiteralLaws ops literal)
     (c : Shape) (seed : Bool) (s : State (Term α)) (n : Nat) (i : TileIndex [c.BK,64]) :

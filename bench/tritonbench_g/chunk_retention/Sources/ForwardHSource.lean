@@ -31,12 +31,12 @@ def historyAddress (c : Shape) (s : State α) (n : Nat) (i : Index c) :=
   s.pids 2*(c.chunks*c.K*c.V)+n*c.K*c.V+feature c s i.1.val*c.V+column c s i.2.1.val
 def initValue (M : Algebra α) (c : Shape) (seed : Bool) (s : State α) (i : Index c) : α :=
   if seed then M.cast (some .fp32) .real .real
-    (if active c s i then (s.mem "h0" (stateAddress c s i)).read .real else zero M)
+    (M.fp32Load (if active c s i then (s.mem "h0" (stateAddress c s i)).read .real else zero M))
   else zero M
 def blockDecay (M : Algebra α) (c : Shape) (s : State α) (n : Nat) : α :=
   M.unary (some .fp32) .exp2
     (M.binary (some .fp32) .real .mul
-      (if n=64 then M.literal (some .fp32) .real 64 else M.fromNat (some .fp32) n)
+      (M.fromNat (some .fp32) n)
       (rate M c (s.pids 2)))
 @[simp] theorem remainder_ne_width (c : Shape) : c.T%64≠64 := by omega
 def timeDecay (M : Algebra α) (c : Shape) (s : State α) (n : Nat) : TileIndex [64] → α :=
@@ -81,6 +81,7 @@ theorem entryContext (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed fi
         all_goals norm_num [blockDecay,timeDecay,KernelModel.decay,rate,zero]
         all_goals rfl
     · simp [HasCarry,entryExecution,initValue,active,stateAddress,feature,column,zero,
+        Int.toNat_mul,Int.toNat_natCast,
         BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList]
       try rfl
 

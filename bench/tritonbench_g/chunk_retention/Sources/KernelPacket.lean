@@ -200,3 +200,8 @@ theorem real_complete (a : Call) (s : State ℝ) (legal : Legal a s) :
 
 end
 end VeriTile.Bench.Repairs.ChunkRetention.Whole001.KernelPacket
+
+namespace VeriTile.Bench.Repairs.ChunkRetention.Whole001.KernelOnly
+abbrev Call := KernelPacket.Call
+abbrev Stage := KernelPacket.Stage
+end VeriTile.Bench.Repairs.ChunkRetention.Whole001.KernelOnly
