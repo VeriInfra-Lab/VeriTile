@@ -11,7 +11,7 @@
   "local_validation": {
     "staged_public_proofs": "PRIOR_BATCH_AND_CURRENT_INT8_QUANTIZATION_36_ROOTS_PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "179 exact-current accepted targets including all 19 examples. Attention (two cases) and fused_recurrent_delta remain in official replay. attn_fwd_causal passed all local source/public-proof/trust gates and shared-support cleanup; 50-root official replay remains pending. Thirteen target source migrations remain. No local build is counted as completion.",
+    "official_comparator": "179 exact-current accepted targets including all 19 examples. Attention (two cases) and fused_recurrent_delta remain in official replay. attn_fwd_causal passed all local source/public-proof/trust gates and shared-support cleanup; 50-root official replay is in progress. Thirteen target source migrations remain. No local build is counted as completion.",
     "python_tests": 666,
     "offline_example_compilations": {
       "cases": 19,
@@ -2758,7 +2758,11 @@
       ],
       "boundary": "Only exact-current official independent replay of all 50 required roots and both actual public theorem names completes this task.",
       "required_replay_roots": 50,
-      "legacy_support_cleanup": "PASS: retired 31 modules, retained 56 declarations in 18 dependent-owned support modules; both dependent public proofs rebuilt"
+      "legacy_support_cleanup": "PASS: retired 31 modules, retained 56 declarations in 18 dependent-owned support modules; both dependent public proofs rebuilt",
+      "independent_replay": "IN_PROGRESS",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41757051898",
+      "source_commit": "459cf63fc9258c11d8c71e2938dd938737edaa56",
+      "frozen_source_files": 261
     }
   },
   "targets": [
@@ -2937,8 +2941,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "PENDING",
-      "reason": "Four exact helper/caller body pairs and ABI checked. All 47 retained owned plus 3 shared roots, both actual public Real/FP theorems, safety, full loops, native/readback bridges, prepared trust/spec gates and current-source window regression pass locally. The unconnected 31-module legacy chain and finite-penalty/reciprocal models are retired; required shared support is rehomed and both dependent public proofs pass. Exact-current official independent replay of all 50 roots is still required. Local success is not completion."
+      "independent_replay": "IN_PROGRESS",
+      "reason": "Four exact helper/caller body pairs and ABI checked. All 47 retained owned plus 3 shared roots, both actual public Real/FP theorems, safety, full loops, native/readback bridges, prepared trust/spec gates and current-source window regression pass locally. The unconnected 31-module legacy chain and finite-penalty/reciprocal models are retired; required shared support is rehomed and both dependent public proofs pass. Exact-current official independent replay of all 50 roots is still required. Local success is not completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41757051898",
+      "validated_source_commit": "459cf63fc9258c11d8c71e2938dd938737edaa56"
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_triton",
