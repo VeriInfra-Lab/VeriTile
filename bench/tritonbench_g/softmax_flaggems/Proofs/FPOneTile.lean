@@ -14,13 +14,14 @@ theorem backward_inner (M : Algebra α) (s : State α) (P G Y : RegionName)
       final.mem = (scatter s Y (backwardInnerOffset (s.pids 0) N)
         (backwardInnerActive (s.pids 0) rows N)
         (backwardInnerValue M s P G (s.pids 0) rows N B C)).mem := by
-  simp [Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner, exec, run, step,
+  simp [Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_inner, exec, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, store, numeric, numericLt, numericLe,
     natLt, natLe, bop, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
     State.setReg, Option.bind, backwardInnerValue, backwardInnerScale,
     backwardInnerLoad, backwardInnerOffset, backwardInnerActive,
     literal, FPReference.cast, mul, sub, FPReference.read, scatter]
 
+  try simp only [←Int.natCast_add, ←Int.natCast_mul, Int.toNat_natCast, Int.ofNat_lt]
   apply writeFold_mem_congr
   rfl
 
@@ -30,12 +31,13 @@ theorem backward_noninner (M : Algebra α) (s : State α) (P G Y : RegionName)
       final.mem = (scatter s Y (noninnerOffset (s.pids 0) (s.pids 1) N K)
         (noninnerActive (s.pids 1) N K)
         (backwardNoninnerValue M s P G (s.pids 0) (s.pids 1) N K B C)).mem := by
-  simp [Source.softmax_backward_kernel_non_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner, exec, run, step,
+  simp [Source.softmax_backward_kernel_non_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_noninner, exec, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, store, numeric, numericLt, numericLe,
     natLt, natLe, bop, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
     State.setReg, Option.bind, backwardNoninnerValue, backwardNoninnerScale,
     backwardNoninnerLoad, noninnerOffset, noninnerActive,
     literal, FPReference.cast, mul, sub, FPReference.read, scatter]
+  try simp only [←Int.natCast_add, ←Int.natCast_mul, Int.toNat_natCast, Int.ofNat_lt]
   apply writeFold_mem_congr
   rfl
 
@@ -44,7 +46,7 @@ theorem forward_inner (M : Algebra α) (s : State α) (X Y : RegionName)
     ∃ final, exec M (Source.forward_inner Y X rows N B Bool.true) s = some final ∧
       final.mem = (scatter s Y (innerOffset (s.pids 0) N) (innerActive N)
         (forwardInnerValue M s X (s.pids 0) N B)).mem := by
-  simp [Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,
+  simp [Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_inner,
     exec, run, step, evalExpr, evalComputeOp, evalOp_unfold, store,
     numeric, numericLt, numericLe, natLt, natLe, bop, ofFloat, toFloat,
     Region.cast, ComputeDType.eraseDType, State.setReg, Option.bind,
@@ -54,6 +56,7 @@ theorem forward_inner (M : Algebra α) (s : State α) (X Y : RegionName)
   delta forwardInnerExp forwardInnerLoad forwardNoninnerExp forwardNoninnerLoad
   simp only [bop, Broadcast.leftIndex, Broadcast.rightIndex, innerActive, innerOffset, noninnerActive,
     noninnerOffset, FPReference.cast, FPReference.read, sub, exp, Bool.and_eq_true, decide_eq_true_eq]
+  try simp only [←Int.natCast_add, ←Int.natCast_mul, Int.toNat_natCast, Int.ofNat_lt]
   apply writeFold_mem_congr
   rfl
 
@@ -63,7 +66,7 @@ theorem forward_noninner (M : Algebra α) (s : State α) (X Y : RegionName)
       final.mem = (scatter s Y (noninnerOffset (s.pids 0) (s.pids 1) N K)
         (noninnerActive (s.pids 1) N K)
         (forwardNoninnerValue M s X (s.pids 0) (s.pids 1) N K B C)).mem := by
-  simp [Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,
+  simp [Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_noninner,
     exec, run, step, evalExpr, evalComputeOp, evalOp_unfold, store,
     numeric, numericLt, numericLe, natLt, natLe, bop, ofFloat, toFloat,
     Region.cast, ComputeDType.eraseDType, State.setReg, Option.bind,
@@ -73,6 +76,7 @@ theorem forward_noninner (M : Algebra α) (s : State α) (X Y : RegionName)
   delta forwardInnerExp forwardInnerLoad forwardNoninnerExp forwardNoninnerLoad
   simp only [bop, Broadcast.leftIndex, Broadcast.rightIndex, innerActive, innerOffset, noninnerActive,
     noninnerOffset, FPReference.cast, FPReference.read, sub, exp, Bool.and_eq_true, decide_eq_true_eq]
+  try simp only [←Int.natCast_add, ←Int.natCast_mul, Int.toNat_natCast, Int.ofNat_lt]
   apply writeFold_mem_congr
   rfl
 

@@ -84,6 +84,17 @@ def Matches (actual expected : Result α) : Prop :=
   actual.output=expected.output ∧ actual.saved=expected.saved ∧ actual.gradient=expected.gradient ∧
   actual.dimGradient=none ∧ actual.dtypeGradient=none
 
+theorem dimensions_positive (shape : List Nat) (ax : Fin shape.length) (hz : shape.prod≠0) :
+    0<(dimensions shape ax).M ∧ 0<(dimensions shape ax).N ∧ 0<(dimensions shape ax).K ∧
+      shape.prod=(dimensions shape ax).M*(dimensions shape ax).N*(dimensions shape ax).K := by
+  have hp := Nat.pos_of_ne_zero hz
+  rw [shape_factorization shape ax] at hp
+  have hm := Nat.pos_of_mul_pos_right (Nat.pos_of_mul_pos_right hp)
+  have hn := Nat.pos_of_mul_pos_left (Nat.pos_of_mul_pos_right hp)
+  refine ⟨hm,hn,?_,dimensions_numel shape ax hm hn⟩
+  rw [dimensions_suffix shape ax hm hn]
+  exact Nat.pos_of_mul_pos_left hp
+
 theorem whole_model (A : Algebra α) (shape : List Nat) (dim : Int) (ax : Fin shape.length)
     (hnorm : normalizeDim shape dim=some ax)
     (device sms : Nat) (waves : WavesAboveOne) (layouts : LayoutPrimitives) (inputStrides : List Nat)
@@ -100,7 +111,7 @@ theorem whole_model (A : Algebra α) (shape : List Nat) (dim : Int) (ax : Fin sh
     let pre := prepareForward initial X P shape.prod x emptyP
     let fref := FPGrid.forwardGraph A X P d (forwardConfig waves d sms) pre
     obtain ⟨f,hf,hm⟩ := FPGrid.forward_whole A X P d (forwardConfig waves d sms)
-      (forwardConfig_positive waves d sms).1 pre pre rfl
+      (dimensions_positive shape ax hz).2.1 (forwardConfig_positive waves d sms).1 pre pre rfl
     let before := prepareBackward f P G Y shape.prod g emptyY
     let bref := prepareBackward fref P G Y shape.prod g emptyY
     obtain ⟨b,hb,hbm⟩ := FPTuning.tuned_complete A P G Y d trials choice before bref
@@ -118,16 +129,6 @@ theorem whole_model (A : Algebra α) (shape : List Nat) (dim : Int) (ax : Fin sh
     · simp only [Matches,reference,hz,if_false,pack]
       refine ⟨hm,hbm,?_,?_,?_,?_,?_⟩ <;> trivial
 
-theorem dimensions_positive (shape : List Nat) (ax : Fin shape.length) (hz : shape.prod≠0) :
-    0<(dimensions shape ax).M ∧ 0<(dimensions shape ax).N ∧ 0<(dimensions shape ax).K ∧
-      shape.prod=(dimensions shape ax).M*(dimensions shape ax).N*(dimensions shape ax).K := by
-  have hp := Nat.pos_of_ne_zero hz
-  rw [shape_factorization shape ax] at hp
-  have hm := Nat.pos_of_mul_pos_right (Nat.pos_of_mul_pos_right hp)
-  have hn := Nat.pos_of_mul_pos_left (Nat.pos_of_mul_pos_right hp)
-  refine ⟨hm,hn,?_,dimensions_numel shape ax hm hn⟩
-  rw [dimensions_suffix shape ax hm hn]
-  exact Nat.pos_of_mul_pos_left hp
 
 #axiomsClean whole_model
 #axiomsClean dimensions_positive

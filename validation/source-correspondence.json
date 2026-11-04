@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 179,
-      "uncovered_jit_functions": 4
+      "selected_body_copy_checked": 180,
+      "uncovered_jit_functions": 3
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 14,
-    "inventoried_jit_functions": 596,
-    "uncovered_inventoried_jit_functions": 19,
+    "uncovered_selected_jit_functions": 8,
+    "inventoried_jit_functions": 600,
+    "uncovered_inventoried_jit_functions": 13,
     "checked_pair_modes": {
-      "pasted_body": 597
+      "pasted_body": 607
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 179,
-        "uncovered_jit_functions": 4
+        "selected_body_copy_checked": 180,
+        "uncovered_jit_functions": 3
       }
     },
     "primary_files_with_int64_screen_warning": 2,
@@ -43233,13 +43233,13 @@
       "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
       "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 8,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 1,
+        "dsl_assignment": 58,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 0
+        "load_dtype_extension": 12
       },
       "python_jits": [
         {
@@ -43512,67 +43512,323 @@
               ]
             }
           ]
+        },
+        {
+          "path": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems_address.py",
+          "jits": [
+            {
+              "function": "softmax_kernel_non_inner_address_commuted",
+              "line": 9,
+              "statements": 4,
+              "explicit_int64_casts": [
+                {
+                  "line": 20,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 21,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 23,
+                  "expression": "tl.arange(0, TILE_K).to(tl.int64)"
+                },
+                {
+                  "line": 26,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                },
+                {
+                  "line": 43,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                },
+                {
+                  "line": 59,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "softmax_kernel_inner_address_commuted",
+              "line": 67,
+              "statements": 2,
+              "explicit_int64_casts": [
+                {
+                  "line": 75,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 77,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                },
+                {
+                  "line": 98,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                },
+                {
+                  "line": 105,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                },
+                {
+                  "line": 119,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                },
+                {
+                  "line": 130,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "softmax_backward_kernel_non_inner_address_commuted",
+              "line": 136,
+              "statements": 4,
+              "explicit_int64_casts": [
+                {
+                  "line": 147,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 148,
+                  "expression": "tl.program_id(1).to(tl.int64)"
+                },
+                {
+                  "line": 149,
+                  "expression": "tl.arange(0, TILE_K).to(tl.int64)"
+                },
+                {
+                  "line": 152,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                },
+                {
+                  "line": 161,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                },
+                {
+                  "line": 173,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "softmax_backward_kernel_inner_address_commuted",
+              "line": 185,
+              "statements": 3,
+              "explicit_int64_casts": [
+                {
+                  "line": 195,
+                  "expression": "tl.program_id(0).to(tl.int64)"
+                },
+                {
+                  "line": 196,
+                  "expression": "tl.arange(0, TILE_M).to(tl.int64)"
+                },
+                {
+                  "line": 198,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                },
+                {
+                  "line": 209,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                },
+                {
+                  "line": 222,
+                  "expression": "tl.arange(0, TILE_N).to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "softmax_kernel_non_inner",
+          "lean_definition": "Bodies.forward_noninner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 4,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64",
+            "K": "i64"
+          },
+          "constexpr_parameters": [
+            "NUM_SMS",
+            "ONE_TILE_PER_CTA",
+            "TILE_K",
+            "TILE_N"
+          ],
           "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "softmax_kernel_non_inner"
+          "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean"
         },
         {
+          "python_function": "softmax_kernel_inner",
+          "lean_definition": "Bodies.forward_inner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 2,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64"
+          },
+          "constexpr_parameters": [
+            "ONE_TILE_PER_CTA",
+            "TILE_N"
+          ],
           "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "next_multiple_of"
+          "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean"
         },
         {
+          "python_function": "softmax_backward_kernel_non_inner",
+          "lean_definition": "Bodies.backward_noninner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 4,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64",
+            "K": "i64"
+          },
+          "constexpr_parameters": [
+            "ONE_TILE_PER_CTA",
+            "TILE_K",
+            "TILE_N"
+          ],
           "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "prev_multiple_of"
+          "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean"
         },
         {
+          "python_function": "softmax_backward_kernel_inner",
+          "lean_definition": "Bodies.backward_inner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64"
+          },
+          "constexpr_parameters": [
+            "ONE_TILE_PER_CTA",
+            "TILE_M",
+            "TILE_N"
+          ],
           "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "softmax_kernel_inner"
+          "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean"
         },
         {
-          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "softmax_backward_kernel_non_inner"
+          "python_function": "softmax_kernel_non_inner_address_commuted",
+          "lean_definition": "AddressCandidate.Bodies.forward_noninner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 4,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64",
+            "K": "i64"
+          },
+          "constexpr_parameters": [
+            "NUM_SMS",
+            "ONE_TILE_PER_CTA",
+            "TILE_K",
+            "TILE_N"
+          ],
+          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems_address.py",
+          "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean"
         },
         {
+          "python_function": "softmax_kernel_inner_address_commuted",
+          "lean_definition": "AddressCandidate.Bodies.forward_inner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 2,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64"
+          },
+          "constexpr_parameters": [
+            "ONE_TILE_PER_CTA",
+            "TILE_N"
+          ],
+          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems_address.py",
+          "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean"
+        },
+        {
+          "python_function": "softmax_backward_kernel_non_inner_address_commuted",
+          "lean_definition": "AddressCandidate.Bodies.backward_noninner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 4,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64",
+            "K": "i64"
+          },
+          "constexpr_parameters": [
+            "ONE_TILE_PER_CTA",
+            "TILE_K",
+            "TILE_N"
+          ],
+          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems_address.py",
+          "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean"
+        },
+        {
+          "python_function": "softmax_backward_kernel_inner_address_commuted",
+          "lean_definition": "AddressCandidate.Bodies.backward_inner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64"
+          },
+          "constexpr_parameters": [
+            "ONE_TILE_PER_CTA",
+            "TILE_M",
+            "TILE_N"
+          ],
+          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems_address.py",
+          "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean"
+        },
+        {
+          "python_function": "next_multiple_of",
+          "lean_definition": "Bodies.next_multiple_of",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "a": "inferred",
+            "b": "inferred"
+          },
+          "constexpr_parameters": [],
           "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "softmax_backward_kernel_inner"
+          "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean"
+        },
+        {
+          "python_function": "prev_multiple_of",
+          "lean_definition": "Bodies.prev_multiple_of",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 1,
+          "runtime_parameters": {
+            "a": "inferred",
+            "b": "inferred"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
+          "lean": "bench/tritonbench_g/softmax_flaggems/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "softmax_kernel_non_inner"
-        },
-        {
-          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "next_multiple_of"
-        },
-        {
-          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "prev_multiple_of"
-        },
-        {
-          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "softmax_kernel_inner"
-        },
-        {
-          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "softmax_backward_kernel_non_inner"
-        },
-        {
-          "python": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-          "function": "softmax_backward_kernel_inner"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/softmax_flaggems/Kernels.lean": "282363bfa3d8f129c0d0dbda89ba1598090fc75427bdb1b8f2b5eb92b6fc2461",
-        "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py": "153107c66de5fe7128ae003a8595be665a1298f1f5dc9c0a3f048618c5926e7e"
+        "bench/tritonbench_g/softmax_flaggems/Kernels.lean": "9f2f46dff8e01800588163809da0ff7d76f2045a51067ec305c214dd8a99792e",
+        "bench/tritonbench_g/softmax_flaggems/jit-correspondence.json": "6907acce26ad380e4965abc27ad2f90f0f78135fe0c6f4ed5dc36e5bfccec515",
+        "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py": "153107c66de5fe7128ae003a8595be665a1298f1f5dc9c0a3f048618c5926e7e",
+        "bench/tritonbench_g/softmax_flaggems/softmax_flaggems_address.py": "aefdca401c52f5f5f512fb935857bc4a5cd50b4befc50a51c450aadfa97a9411"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/softmax_flaggems"

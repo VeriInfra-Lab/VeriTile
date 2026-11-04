@@ -39,5 +39,29 @@ theorem range_safe (M : Algebra α) (bounds : RegionName → Nat)
   · simp only [hz,hc,↓reduceIte]
 termination_by stop-cur
 
+theorem range_safe_int (M : Algebra α) (bounds : RegionName → Nat)
+    (idx : RegName) (body : List ComputeStmt) (Inv : Nat → β → State α → Prop)
+    (f : Nat → β → β) (stop stride : Nat)
+    (safe : ∀ cur value s, cur<stop → Inv cur value s →
+      traceSafeList M bounds body (s.setReg idx .int [] (fun _ => (cur : Int))))
+    (next : ∀ cur value s, cur<stop → Inv cur value s →
+      ∃ t,run M body (s.setReg idx .int [] (fun _ => (cur : Int)))=some t ∧
+        Inv (cur+stride) (f cur value) t)
+    (cur : Nat) (value : β) (s : State α) (hs : Inv cur value s) :
+    rangeIntSafe M bounds idx (cur : Int) (stop : Int) stride body s := by
+  rw [rangeIntSafe_unfold]
+  by_cases hz : stride=0
+  · simp only [hz,↓reduceIte]
+  have hi : ((cur : Int)<stop) ↔ cur<stop := Int.ofNat_lt
+  by_cases hc : cur<stop
+  · simp only [hz,hi,hc,↓reduceIte]
+    obtain ⟨mid,ran,ready⟩ := next cur value s hc hs
+    rw [ran]
+    refine ⟨safe cur value s hc hs,?_⟩
+    simpa only [←Int.natCast_add] using
+      range_safe_int M bounds idx body Inv f stop stride safe next (cur+stride) (f cur value) mid ready
+  · simp only [hz,hi,hc,↓reduceIte]
+termination_by stop-cur
+
 end
 end VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.SourceSafety
