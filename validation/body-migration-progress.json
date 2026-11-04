@@ -86,12 +86,15 @@
       }
     ],
     "incremental_replay": {
-      "status": "LOCAL_VALIDATION_PASS_READY_TO_FREEZE",
+      "status": "IN_PROGRESS",
       "scope": "triton_attention six exact JIT body pairs, complete causal attention/VJP, three-stage FP candidate equivalence and all safety/frame/native interfaces",
       "manifest": "validation/body-migration-incremental.json",
       "roots": 136,
       "complete": false,
-      "note": "All six complete original/candidate forward/preprocess/backward JIT bodies match exactly. Every source name, cast, pointer advance, runtime scalar, mask and the candidate static assertion is retained; the 128-row assertion is checked at compile time. Complete full-sequence causal attention and Q/K/V VJP, typed three-stage execution, native scalar ABI, source safety, initialized-DQ domain, output binding and exterior frame are reverified. The existing whole-program fixed-128 address candidate is proved equivalent with no experimental numerical rewrite rules. All 136 retained/shared/test roots (130 owned modules), nine external trust/spec gates, two actual public targets and 715 Python tests pass locally. Official exact-source independent acceptance is required before completion. No merge."
+      "note": "All six complete original/candidate forward/preprocess/backward JIT bodies match exactly. Every source name, cast, pointer advance, runtime scalar, mask and the candidate static assertion is retained; the 128-row assertion is checked at compile time. Complete full-sequence causal attention and Q/K/V VJP, typed three-stage execution, native scalar ABI, source safety, initialized-DQ domain, output binding and exterior frame are reverified. The existing whole-program fixed-128 address candidate is proved equivalent with no experimental numerical rewrite rules. All 136 retained/shared/test roots (130 owned modules), nine external trust/spec gates, two actual public targets and 715 Python tests pass locally. Official exact-source independent acceptance is required before completion. No merge.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
+      "validated_source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
+      "frozen_source_files": 207
     },
     "previous_incremental_replays": [
       {
@@ -1352,7 +1355,7 @@
     },
     "current_work": {
       "path": "bench/tritonbench_g/triton_attention",
-      "status": "LOCAL_FULL_VALIDATION_PASS_AWAITING_OFFICIAL_REPLAY",
+      "status": "FROZEN_OFFICIAL_REPLAY_IN_PROGRESS",
       "complete": false,
       "all_jit_bodies_aligned": true,
       "body_pairs": 6,
@@ -1365,7 +1368,10 @@
       "public_name_resolution": "PASS_2_ACTUAL_PUBLIC_TARGETS",
       "external_trust_spec_gates": "PASS_9_FILES",
       "python_tests": 715,
-      "note": "All six complete original/candidate forward/preprocess/backward JIT bodies match exactly. Every source name, cast, pointer advance, runtime scalar, mask and the candidate static assertion is retained; the 128-row assertion is checked at compile time. Complete full-sequence causal attention and Q/K/V VJP, typed three-stage execution, native scalar ABI, source safety, initialized-DQ domain, output binding and exterior frame are reverified. The existing whole-program fixed-128 address candidate is proved equivalent with no experimental numerical rewrite rules. All 136 retained/shared/test roots (130 owned modules), nine external trust/spec gates, two actual public targets and 715 Python tests pass locally. Official exact-source independent acceptance is required before completion. No merge."
+      "note": "All six complete original/candidate forward/preprocess/backward JIT bodies match exactly. Every source name, cast, pointer advance, runtime scalar, mask and the candidate static assertion is retained; the 128-row assertion is checked at compile time. Complete full-sequence causal attention and Q/K/V VJP, typed three-stage execution, native scalar ABI, source safety, initialized-DQ domain, output binding and exterior frame are reverified. The existing whole-program fixed-128 address candidate is proved equivalent with no experimental numerical rewrite rules. All 136 retained/shared/test roots (130 owned modules), nine external trust/spec gates, two actual public targets and 715 Python tests pass locally. Official exact-source independent acceptance is required before completion. No merge.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
+      "replay_source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
+      "frozen_closure_files": 207
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -3190,6 +3196,14 @@
         "complete": false,
         "attempt": 2,
         "retry_reason": "Attempt 1 failed in Lean setup because 40 Mathlib cache downloads hit a broken-pipe network failure; no proof replay was performed. Same frozen commit retried."
+      },
+      {
+        "path": "bench/tritonbench_g/triton_attention",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
+        "source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
+        "frozen_roots": 136,
+        "frozen_closure_files": 207,
+        "complete": false
       }
     ],
     "remaining_source_migrations": [],
