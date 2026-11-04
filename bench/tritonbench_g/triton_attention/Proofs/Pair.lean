@@ -22,7 +22,7 @@ theorem shifted_code (c : Shape) :
 
 theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (s : State α) :
     step M (originalSite c) s=step M (shiftedSite c) s := by
-  simp only [originalSite,shiftedSite,preprocessKernel,preParameters,preSource,preprocessTyped,
+  simp only [originalSite,shiftedSite,preprocessKernel,preParameters,preSource,preprocessTyped,preprocessShiftedTyped,
     CandidateSource.preprocessKernel,ComputeKernel.surfaceBody,List.getElem?_cons_zero,Option.getD_some]
   simp [step,evalExpr,evalOp_unfold,numeric,FP.Structural.bop,Nat.shiftLeft_eq,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -32,7 +32,7 @@ theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (s : St
 theorem site_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionName → Nat)
     (c : Shape) (s : State α) :
     Safety.stepSafe M bounds (originalSite c) s ∧ Safety.stepSafe M bounds (shiftedSite c) s := by
-  simp only [originalSite,shiftedSite,preprocessKernel,preParameters,preSource,preprocessTyped,
+  simp only [originalSite,shiftedSite,preprocessKernel,preParameters,preSource,preprocessTyped,preprocessShiftedTyped,
     CandidateSource.preprocessKernel,ComputeKernel.surfaceBody,List.getElem?_cons_zero,Option.getD_some]
   simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold,and_true,true_and]
 

@@ -39,10 +39,16 @@ def preWrite (P : Primitives α) (p : PreParameters) (initial current : State α
 def preRegisters (P : Primitives α) (p : PreParameters) (s : State α) : State α :=
   let t := s.setReg "off_m" .nat [p.rows] (preRow p s)
   let t := t.setReg "off_n" .nat [p.head] (fun i => i.1.val)
+  let t := t.setReg "__veritile_load_0" p.dtype.toTileDType [p.rows,p.head]
+    (fun i => (s.mem p.output (preOffset p s i)).read p.dtype.toTileDType)
   let t := t.setReg "o" .real [p.rows,p.head] (preInput P p s p.output)
-  let t := t.setReg "do_val" .real [p.rows,p.head] (preInput P p s p.gradient)
+  let t := t.setReg "__veritile_load_1" p.dtype.toTileDType [p.rows,p.head]
+    (fun i => (s.mem p.gradient (preOffset p s i)).read p.dtype.toTileDType)
+  let t := t.setReg "do" .real [p.rows,p.head] (preInput P p s p.gradient)
+  let t := t.setReg "__veritile_load_2" .fp32 [p.rows]
+    (fun i => (s.mem p.denominator (preRow p s i)).read .fp32)
   let t := t.setReg "denom" .real [p.rows] (preDenominator P p s)
-  let t := t.setReg "do_val" .real [p.rows,p.head] (preQuotient P p s)
+  let t := t.setReg "do" .real [p.rows,p.head] (preQuotient P p s)
   t.setReg "delta" .real [p.rows] (preDelta P p s)
 
 theorem preprocessExecution (rest : Algebra α) (P : Primitives α) (p : PreParameters) (s : State α) :

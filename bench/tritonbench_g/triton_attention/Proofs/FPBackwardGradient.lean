@@ -10,7 +10,7 @@ def backwardGradientResult (P : Primitives α) (p : BackwardParameters) (initial
     (c j : Nat) (outerMem : Memory α) (st : BackwardInner α p) : State α :=
   let key := backwardRead p initial outerMem p.k c
   let value := backwardRead p initial outerMem p.v c
-  let t := current.setReg "do_val" p.dtype.toTileDType [p.blockM,p.head] (backwardRead p initial st.mem p.gradient j)
+  let t := current.setReg "do" p.dtype.toTileDType [p.blockM,p.head] (backwardRead p initial st.mem p.gradient j)
   let t := t.setReg "dv" .real [p.blockM,p.head] (backwardInnerAdvance P p initial key value c j st).dv
   let t := t.setReg "Di" .fp32 [p.blockM] (fun i => (st.mem p.delta (backwardRowOffset p initial j i)).read .fp32)
   let t := t.setReg "dp" .real [p.blockM,p.blockM] (backwardDPInitial P p initial st.mem j)
