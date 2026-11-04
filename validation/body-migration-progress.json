@@ -1323,7 +1323,7 @@
       "proof_status": "LOCAL_PASS_AWAITING_INDEPENDENT_REPLAY",
       "public_real_fp_proofs": "PASS_7_PUBLIC_GLA_SPECIFICATIONS",
       "retained_modules_build": "PASS_140_GLA_PLUS_126_DEPENDENT_MODULES_AND_4_SHARED_ROOTS",
-      "independent_replay": "REQUIRED_BEFORE_COMPLETION",
+      "independent_replay": "IN_PROGRESS",
       "complete": false,
       "note": "Five complete original/candidate kernel pairs preserve all prior floating storage profiles through caller metadata. No completion is claimed. Consumer ports retain the prior q,v,g,h,A order.",
       "dependent_revalidation_required": [
@@ -1347,7 +1347,11 @@
       "public_name_resolution": "PASS_11_NAMES_IN_THREE_CASES",
       "local_lake_jobs": 3786,
       "retained_and_shared_roots": 270,
-      "prepared_trust_spec_audits": "PASS_10_FILES"
+      "prepared_trust_spec_audits": "PASS_10_FILES",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41779223631",
+      "replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928",
+      "frozen_source_files": 511,
+      "required_replay_roots": 270
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -3200,7 +3204,7 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_delta_fwd",
-      "status": "local_proofs_pass_replay_pending",
+      "status": "official_replay_in_progress",
       "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS_LOCALLY",
@@ -3209,9 +3213,11 @@
       "previous_receipt": "validation/body_receipts/gla-source-migration.json",
       "reason": "Complete current-source body pairs, actual public Real/FP proofs, all retained owned modules and dependent rebuilds passed locally. Completion requires exact-current official independent replay of every required root and every actual public specification name.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41487841536",
-      "independent_replay": "NOT_STARTED",
+      "independent_replay": "IN_PROGRESS",
       "previous_validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
-      "public_name_resolution": "PASS"
+      "public_name_resolution": "PASS",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41779223631",
+      "replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928"
     },
     {
       "path": "bench/tritonbench_g/chunk_gate_recurrence",
@@ -3227,18 +3233,20 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_fwd",
-      "status": "local_proofs_pass_replay_pending",
+      "status": "official_replay_in_progress",
       "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS_LOCALLY",
       "retained_modules_build": "PASS",
-      "independent_replay": "NOT_STARTED",
+      "independent_replay": "IN_PROGRESS",
       "reason": "Complete current-source body pairs, actual public Real/FP proofs, all retained owned modules and dependent rebuilds passed locally. Completion requires exact-current official independent replay of every required root and every actual public specification name.",
-      "public_name_resolution": "PASS"
+      "public_name_resolution": "PASS",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41779223631",
+      "replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928"
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_simple",
-      "status": "local_proofs_pass_replay_pending",
+      "status": "official_replay_in_progress",
       "complete": false,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS_LOCALLY",
@@ -3246,10 +3254,12 @@
       "reason": "Complete current-source body pairs, actual public Real/FP proofs, all retained owned modules and dependent rebuilds passed locally. Completion requires exact-current official independent replay of every required root and every actual public specification name.",
       "previous_receipt": "validation/body_receipts/gla-source-migration.json",
       "previously_complete": true,
-      "independent_replay": "NOT_STARTED",
+      "independent_replay": "IN_PROGRESS",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41487841536",
       "previous_validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
-      "public_name_resolution": "PASS"
+      "public_name_resolution": "PASS",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41779223631",
+      "replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928"
     },
     {
       "path": "bench/tritonbench_g/chunk_linear_attn",
