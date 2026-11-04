@@ -12,8 +12,8 @@ export VeriTile.Bench.Repairs.ChunkLinearAttn (zero scalar cast add mul dot rawL
 end L
 
 def factor (M : Algebra α) (p : Parameters) (pid : PID) (n : Nat) : α :=
-  M.unary (some .fp32) .exp2 (L.mul M (M.fromNat (some .fp32)
-    (min p.BT (p.T-time p n*p.BT))) (logRate M p pid))
+  M.unary (some .fp32) .exp2 (L.mul M (M.fromInt (some .fp32)
+    (min (p.BT : Int) ((p.T : Int)-(time p n : Int)*p.BT))) (logRate M p pid))
 
 def leftValues (M : Algebra α) (p : Parameters) (pid : PID) (input : Memory α)
     (scale : ℝ) (n : Nat) : Matrix α p.BK p.BT := fun i=>
@@ -31,7 +31,7 @@ def next (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (pid : PID)
 def updateExecution (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : ℝ)
     (terminal initial : Bool) (pid : PID) (input : Memory α) (s : State α) (n : Nat)
     (carry : Carry p α) (ctx : Ready M p pid input s) (hc : HasCarry p carry s)
-    (ht : s.regs .nat [] "i_t"=some (fun _=>time p n)) (hp : Pointers p pid n s) :
+    (ht : s.regs .int [] "i_t"=some (fun _=>(time p n : Int))) (hp : Pointers p pid n s) :
     {t : State α // run (engine (withDot M D)) (updateSuffix p scale terminal initial) s=some t} := by
   have hq:=ctx.inputs "q" (by simp)
   have hg:=ctx.inputs "incoming" (by simp)
@@ -40,7 +40,7 @@ def updateExecution (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (sca
   simp only [HasCarry] at hc
   refine ⟨?_,?_⟩
   swap
-  simp [updateSuffix,parts,kernel,Source.backwardH,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
+  simp [updateSuffix,parts,intParts,indexState,kernel,Source.backwardH,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -52,7 +52,7 @@ def updateExecution (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (sca
 theorem update_values (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : ℝ)
     (terminal initial : Bool) (pid : PID) (input : Memory α) (s : State α) (n : Nat)
     (carry : Carry p α) (ctx : Ready M p pid input s) (hc : HasCarry p carry s)
-    (ht : s.regs .nat [] "i_t"=some (fun _=>time p n)) (hp : Pointers p pid n s) :
+    (ht : s.regs .int [] "i_t"=some (fun _=>(time p n : Int))) (hp : Pointers p pid n s) :
     let t:=(updateExecution M D p scale terminal initial pid input s n carry ctx hc ht hp).val
     Ready M p pid input t ∧ HasCarry p (next M D p pid input scale n carry) t ∧ t.mem=s.mem := by
   dsimp only
@@ -71,8 +71,10 @@ theorem update_values (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s
     funext i
     unfold next leftValues rightValues factor
     unfold VeriTile.Bench.Repairs.ChunkLinearAttn.load VeriTile.Bench.Repairs.ChunkLinearAttn.rawLoad
-    have hm : (if p.BT<p.T-(p.NT-1-n)*p.BT then p.BT else p.T-(p.NT-1-n)*p.BT)=
-        min p.BT (p.T-(p.NT-1-n)*p.BT) := by split_ifs <;> omega
+    have hm : (if (p.BT : Int)<(p.T : Int)-((p.NT-1-n : Nat) : Int)*p.BT
+        then (p.BT : Int) else (p.T : Int)-((p.NT-1-n : Nat) : Int)*p.BT)=
+        min (p.BT : Int) ((p.T : Int)-((p.NT-1-n : Nat) : Int)*p.BT) := by
+      split_ifs <;> omega
     simp [L.zero,L.cast,L.add,L.mul,L.scalar,L.dot,time,FP.Structural.bop,
       Broadcast.leftIndex,Broadcast.rightIndex,hm]
   · simp [updateExecution]

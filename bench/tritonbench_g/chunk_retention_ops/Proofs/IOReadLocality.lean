@@ -37,7 +37,7 @@ private theorem forward_initial (M : Algebra α) (a : Call) (stage : a.stage=.fo
     VeriTile.Bench.Repairs.ChunkLinearAttn.launchState,VeriTile.Bench.Repairs.ChunkDeltaFwd.memoryState]
   split_ifs with seed active
   · congr 1
-    exact reads ⟨4,by simp [inputs]⟩ (⟨_,active.1⟩,⟨_,active.2⟩,()) ⟨stage,seed⟩
+    exact congrArg M.fp32Load (reads ⟨4,by simp [inputs]⟩ (⟨_,active.1⟩,⟨_,active.2⟩,()) ⟨stage,seed⟩)
   · rfl
   · rfl
 

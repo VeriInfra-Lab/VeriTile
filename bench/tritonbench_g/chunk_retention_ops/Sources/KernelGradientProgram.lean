@@ -11,8 +11,7 @@ variable {α : Type} [Inhabited α]
 
 theorem gradient_parts (p : Parameters) (scale : ℝ) :
     (kernel p scale).surfaceBody=(gradientParts p scale).before ++
-      [.forRangeDyn "i_v" (gradientParts p scale).start (gradientParts p scale).stop
-        (gradientParts p scale).stride (gradientParts p scale).body] ++ (gradientParts p scale).after := rfl
+      [.forRange "i_v" 0 (valueBlocks p) 1 (gradientParts p scale).body] ++ (gradientParts p scale).after := rfl
 
 theorem gradientLoop (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : ℝ)
     (pid : PID) (heads : Nat) (input : Memory α) (s : State α)
@@ -49,14 +48,9 @@ theorem gradientProgram (M : Algebra α) (D : DotPrimitive α) (p : Parameters) 
   let finish := gradientFinish M D p scale pid (s.numPids 2) s.mem mid
     (gradStates M D p pid s.mem scale (valueBlocks p)) hctx hfixed ha
   refine ⟨finish.val,?_,?_⟩
-  · have h0 : (gradientParts p scale).start=.constNat 0 := rfl
-    have hn : (gradientParts p scale).stop=.div .nat .nil
-        (.sub .nat .nil (.add .nat .nil (.constNat p.V) (.constNat p.BV)) (.constNat 1)) (.constNat p.BV) := rfl
-    have h1 : (gradientParts p scale).stride=.constNat 1 := rfl
-    have hl : step (engine (withDot M D))
-        (.forRangeDyn "i_v" (gradientParts p scale).start (gradientParts p scale).stop
-          (gradientParts p scale).stride (gradientParts p scale).body) start.val=some mid := by
-      simpa [step,h0,hn,h1,evalOp_unfold,Option.bind,numeric,bop,valueBlocks] using hm
+  · have hl : step (engine (withDot M D))
+        (.forRange "i_v" 0 (valueBlocks p) 1 (gradientParts p scale).body) start.val=some mid := by
+      simpa only [step] using hm
     change run (engine (withDot M D)) (kernel p scale).surfaceBody s=some finish.val
     rw [gradient_parts,List.append_assoc,run_append]
     simp only [start.property,Option.bind_some,List.singleton_append,run,hl,bind,finish.property]

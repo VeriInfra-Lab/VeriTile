@@ -23,10 +23,10 @@ theorem forward_block_decay (c : Shape) (pid : PID) (m : Memory ℝ) (n : Nat) :
   unfold F.blockDecay
   change algebra.unary (some .fp32) .exp2
     (algebra.binary (some .fp32) .real .mul
-      (if n=64 then algebra.literal (some .fp32) .real 64 else algebra.fromNat (some .fp32) n)
+      (algebra.fromNat (some .fp32) n)
       (VeriTile.Bench.Repairs.ChunkRetention.Whole001.KernelModel.rate algebra (KernelOutput.shape c) pid.z))=_
   rw [shared_rate_eq]
-  split_ifs with h <;> simp [algebra,decay,realOps,h]
+  rfl
 
 theorem forward_time_decay (c : Shape) (pid : PID) (m : Memory ℝ) (n : Nat) (i : TileIndex [64]) :
     F.timeDecay algebra (KernelOutput.shape c) (KernelForward.state c pid m) n i=
