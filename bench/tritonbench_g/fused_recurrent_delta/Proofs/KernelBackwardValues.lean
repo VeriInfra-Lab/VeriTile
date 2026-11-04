@@ -42,7 +42,7 @@ theorem carry (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv t : 
     simp [KernelBackwardStep.reverse,next,enhanced,KernelBackwardReference.retreat,
       KernelBackwardReference.enhance,KernelBackwardReference.rawDv,KernelBackwardReference.dv,
       KernelBackwardReference.input,KernelBackwardReference.keySum,KernelReference.add,KernelReference.mul,
-      KernelReference.sub,KernelReference.read,KernelReference.cast,KernelReference.zero,KernelReference.scalar,
+      KernelReference.sub,KernelReference.read,KernelReference.loaded,KernelReference.cast,KernelReference.zero,KernelReference.scalar,
       keyPtr,valPtr,betaPtr,dbetaPtr,keyMask,valMask,State.setReg,bop,
       Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex]
   all_goals try rfl

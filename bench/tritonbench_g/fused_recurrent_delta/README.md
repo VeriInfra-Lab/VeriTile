@@ -1,13 +1,13 @@
 # fused_recurrent_delta
 
-Current repaired Python implementation: [fused_recurrent_delta.py](fused_recurrent_delta.py).
+[Kernels.lean](Kernels.lean) contains the complete original [forward and backward Python bodies](fused_recurrent_delta.py), plus the existing forward output-address candidate. Runtime integer bindings and FP32 scale metadata stay outside the pasted bodies. [jit-correspondence.json](jit-correspondence.json) checks the two stages in both Python files; [candidate-provenance.json](candidate-provenance.json) records the single changed address expression.
 
-[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+The repaired kernel preserves scalar/vector beta, initial/final state flags, terminal/initial gradient flags, every FP32 load and explicit cast, the in-place residual, all gradient stores and reloads, the barrier, loop bounds and operation order. The candidate removes only the zero key-grid contribution to the forward output address under the existing single-key-grid launch. Backward source and the host wrapper are unchanged.
 
-fused_recurrent_delta_forward_correctness implements output, residual and finalState; fused_recurrent_delta_backward_correctness implements dq, dk, dv, vectorDBeta, scalarDBeta and dh0 on savedDomain.
+[Correct.lean](Correct.lean) states the independent delta recurrence and its value-block VJP contributions at the explicit `(bh, iv)` program ID. DQ, DK and scalar DBeta retain this program's partial sums; the public statements do not claim a cross-program host reduction. The existing saved-input domain for backward is explicit. [FPEquiv.lean](FPEquiv.lean) compares the complete actual runtime programs, including safe execution, typed outputs and exterior memory frames, with no new numerical rewrite assumption.
 
-The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+The optional frontend groups Python assignment conditionals and specializes only declared immutable Boolean constexprs. Nested typed loads remain in their original branches and iterations, before their explicit casts. Their private register names are assigned before constexpr selection, so dropping an unused branch cannot rename a later live load. Literal pointer decrements retain their subtraction order; a semantic regression checks the capture/decrement lowering. Loop extraction in `Proofs/KernelProgram.lean` is proof-only, with the complete actual-source decomposition checked for every flag combination.
 
-[Proof helpers](Proofs/)
+The unused old `Ops`/`Machine` implementation and its forward/backward/grid/host-call wrappers have been removed. Independent mathematical recurrences and source execution, safety, IO and readback proofs remain in [Proofs/](Proofs/). [source-retirement.json](source-retirement.json) records the replacement and numerical boundary.
 
-[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+A body comparison or successful build is not a completion receipt. [Validation progress](../../../validation/body-migration-progress.json) keeps this task pending until every required current-source independent replay and public proof is accepted. No GPU experiment is claimed.

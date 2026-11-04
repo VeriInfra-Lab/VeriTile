@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 179,
-  "staged_count": 181,
+  "staged_count": 182,
   "pending_count": 17,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PRIOR_BATCH_AND_CURRENT_INT8_QUANTIZATION_36_ROOTS_PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "179 exact-current accepted targets including all 19 examples. int8_quantization completed all 36 official roots and exact-current receipt validation. The two-case Attention group remains in progress. Fifteen source migrations remain; fused_recurrent_delta is being revalidated locally and is not staged or complete.",
-    "python_tests": 662,
+    "official_comparator": "179 exact-current accepted targets including all 19 examples. The two-case Attention group remains in progress. fused_recurrent_delta passed all 91 local roots, actual public Real/FP specifications and prepared trust/spec gates; official replay remains pending. Fourteen source migrations remain uncovered. No local build is counted as completion.",
+    "python_tests": 666,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -2668,9 +2668,9 @@
       "independent_replay": "IN_PROGRESS"
     },
     "staged_manifest": {
-      "cases": 187,
-      "build_roots": 7184,
-      "replay_roots": 6187,
+      "cases": 188,
+      "build_roots": 7275,
+      "replay_roots": 6278,
       "boundary": "Manifest coverage is not completion or a fresh full integration build result."
     },
     "int8_quantization_source_migration": {
@@ -2708,6 +2708,31 @@
       "state": "STALE_PRIOR_CONTRACT_REVIEW_HASHES",
       "first_error": "adam_update_triton: reviewed source changed: bench/tritonbench_g/adam_update_triton/Kernels.lean",
       "boundary": "The legacy contract-review inventory is separate from the current body-migration receipts. Old reviewed hashes have not been relabeled as a new review. Current source-body, named public proof, trust/spec and independent replay gates remain required."
+    },
+    "fused_recurrent_delta_source_migration": {
+      "state": "LOCAL_PASS_AWAITING_INDEPENDENT_REPLAY",
+      "owned_roots": 89,
+      "shared_roots": 2,
+      "source_pairs": 4,
+      "public_theorems": 3,
+      "lake_jobs": 3589,
+      "tests": {
+        "python_case": 4,
+        "lean_regression": "PASS",
+        "full_python_suite": 666
+      },
+      "source_repair": "Paste complete original and direct-output candidate bodies; remove six handwritten quotations and unused Ops/Machine implementation. Preserve all flags, branches, tuple PID assignment, loop spelling, masks, typed loads plus casts, stores/reloads, barrier and pointer operation order.",
+      "real_proof": "Actual forward recurrence and backward per-value-block VJP contributions at (bh,iv), retaining saved-input domain and partial-sum boundary.",
+      "fp_proof": "Actual complete runtime programs; single-key-grid output address simplification only, backward unchanged, safety, all typed outputs and memory frame, no new numerical premise.",
+      "numerical_boundary": "FP32 load materialization followed by explicit cast is retained for arbitrary backend. Exact Real interpretation and native double materialization remain explicit.",
+      "prepared_trust_spec_audits": [
+        "conditional frontend PASS",
+        "actual public Real entry PASS",
+        "actual public FP entry PASS"
+      ],
+      "retirement_record": "bench/tritonbench_g/fused_recurrent_delta/source-retirement.json",
+      "independent_replay": "PENDING",
+      "boundary": "Only exact-current official independent replay of all 91 roots and all three actual public theorem names completes the task."
     }
   },
   "targets": [
@@ -3511,8 +3536,13 @@
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_delta",
-      "status": "pending",
-      "complete": false
+      "status": "staged_awaiting_independent_replay",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS",
+      "retained_modules_build": "PASS",
+      "independent_replay": "PENDING",
+      "reason": "Four complete source body pairs preserve both forward/backward stages. All 89 owned plus shared conditional frontend/regression roots build, and the actual two public Real theorems and FP candidate comparison are reproved. Typed load materialization and explicit cast both remain; no arbitrary backend identity premise was added. Fresh official exact-current acceptance of all 91 roots is still required; compilation and body checks do not complete this task."
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_hgrn",

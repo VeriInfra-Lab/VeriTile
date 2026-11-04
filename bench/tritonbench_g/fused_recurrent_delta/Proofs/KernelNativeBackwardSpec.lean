@@ -56,7 +56,7 @@ def dq (routing : Routing) (s : Shape) (scale : Word) (a : Input s Node) (t : Na
 theorem input_lowering (isa : Instructions) (routing : Routing) (scale : Word) (s : Shape) (f : Flags)
     (bh iv : Nat) (u : State Node) :
     KernelBackwardReference.input (algebra isa routing scale) s f bh iv u=input isa routing s f bh iv u := by
-  simp [KernelBackwardReference.input,KernelReference.read,KernelReference.cast,KernelReference.add,
+  simp [KernelBackwardReference.input,KernelReference.read,KernelReference.loaded,KernelReference.cast,KernelReference.add,
     KernelReference.zero,input,KernelNativeSpec.read,algebra,scaleSlot]
 theorem enhance_lowering (isa : Instructions) (routing : Routing) (scale : Word) (s : Shape)
     (a : Input s Node) (t : Nat) (g : Tile s Node) :
