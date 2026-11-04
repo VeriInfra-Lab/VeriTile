@@ -19,7 +19,7 @@ theorem program (M : Algebra α) (hm : MaskArithmetic M) (D : DotPrimitive α)
   have hchannel : start.pids 1 = pid.channel := rfl
   cases stage with
   | forward =>
-    obtain ⟨t,ran,mem,_⟩ := forwardProgram M D d.parameters s.mem start (by rw [hmem]; exact Inputs.refl _)
+    obtain ⟨t,ran,mem,_⟩ := forwardProgram M D d.parameters s.mem start (by rw [hmem]; exact Inputs.refl _) (by norm_num [Host.Dimensions.parameters])
     refine ⟨t,ran,?_⟩
     simpa only [stageMemory,hhead,hchannel,hmem] using mem
   | intra =>

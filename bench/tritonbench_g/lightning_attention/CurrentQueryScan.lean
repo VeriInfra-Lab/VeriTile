@@ -36,7 +36,7 @@ theorem query_block_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
         (head*p.N*p.D+((n*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val)=
       if n=0 then m "queryGradient" (head*p.N*p.D+((n*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val)
       else .mk .real (cast M (add M (dot D (subG M p head ((n*p.NC+s.val)*p.CB) m) carry i)
-        ((m "queryGradient" (head*p.N*p.D+((n*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val)).read .real))) := by
+        (M.fp32Load ((m "queryGradient" (head*p.N*p.D+((n*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val)).read .real)))) := by
   unfold queryBlockMemory
   split
   · rfl
@@ -44,7 +44,7 @@ theorem query_block_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
       (fun k mem => queryUpdate M D p head ((n*p.NC+k)*p.CB) carry mem)
       (fun mem : Memory α => mem "queryGradient" (head*p.N*p.D+((n*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val))
       (fun mem => Inputs mem m)
-      (fun cell : Cell α => .mk .real (cast M (add M (dot D (subG M p head ((n*p.NC+s.val)*p.CB) m) carry i) (cell.read .real))))
+      (fun cell : Cell α => .mk .real (cast M (add M (dot D (subG M p head ((n*p.NC+s.val)*p.CB) m) carry i) (M.fp32Load (cell.read .real)))))
       p.NC s.val m (Inputs.refl _)
       (fun k hk mem hm => (queryUpdate_inputs M D p head _ carry mem).trans hm)
       (by
@@ -97,13 +97,13 @@ theorem query_scan_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
       if n.val=0 then m "queryGradient" (head*p.N*p.D+((n.val*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val)
       else .mk .real (cast M (add M
         (dot D (subG M p head ((n.val*p.NC+s.val)*p.CB) m) (queryCarry M D p head input n.val) i)
-        ((m "queryGradient" (head*p.N*p.D+((n.val*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val)).read .real))) := by
+        (M.fp32Load ((m "queryGradient" (head*p.N*p.D+((n.val*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val)).read .real)))) := by
   have h := fold_once
     (fun k mem => queryBlockMemory M D p head k (queryCarry M D p head input k) mem)
     (fun mem : Memory α => mem "queryGradient" (head*p.N*p.D+((n.val*p.NC+s.val)*p.CB+i.1.val)*p.D+i.2.1.val))
     (fun mem => Inputs mem m)
     (fun cell : Cell α => if n.val=0 then cell else .mk .real (cast M (add M
-      (dot D (subG M p head ((n.val*p.NC+s.val)*p.CB) m) (queryCarry M D p head input n.val) i) (cell.read .real))))
+      (dot D (subG M p head ((n.val*p.NC+s.val)*p.CB) m) (queryCarry M D p head input n.val) i) (M.fp32Load (cell.read .real)))))
     p.NT n.val m (Inputs.refl _)
     (fun k hk mem hm => (query_block_inputs M D p head k _ mem).trans hm)
     (by

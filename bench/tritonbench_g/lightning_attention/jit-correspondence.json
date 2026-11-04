@@ -1,0 +1,330 @@
+[
+  {
+    "python": "bench/tritonbench_g/lightning_attention/lightning_attention.py",
+    "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean",
+    "python_function": "_fwd_kernel",
+    "lean_definition": "forward",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "b",
+        "h",
+        "n",
+        "d",
+        "e",
+        "BLOCK",
+        "NUM_BLOCK",
+        "BLOCK_MODEL"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "V"
+      ],
+      "writePorts": [
+        "Out"
+      ]
+    },
+    "expected_call_bindings": {}
+  },
+  {
+    "python": "bench/tritonbench_g/lightning_attention/lightning_attention_reuse_offset.py",
+    "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean",
+    "python_function": "_fwd_kernel",
+    "lean_definition": "forwardCandidate",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "b",
+        "h",
+        "n",
+        "d",
+        "e",
+        "BLOCK",
+        "NUM_BLOCK",
+        "BLOCK_MODEL"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "V"
+      ],
+      "writePorts": [
+        "Out"
+      ]
+    },
+    "expected_call_bindings": {}
+  },
+  {
+    "python": "bench/tritonbench_g/lightning_attention/lightning_attention.py",
+    "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean",
+    "python_function": "_bwd_intra_kernel",
+    "lean_definition": "intra",
+    "signature_definition": "intraSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "DO",
+          "fp32"
+        ],
+        [
+          "DQ",
+          "fp32"
+        ],
+        [
+          "DK",
+          "fp32"
+        ],
+        [
+          "DV",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "b",
+        "h",
+        "n",
+        "d",
+        "e",
+        "BLOCK",
+        "NUM_BLOCK",
+        "CBLOCK",
+        "NUM_CBLOCK"
+      ],
+      "readPorts": [
+        "K",
+        "V",
+        "DO",
+        "Q"
+      ],
+      "writePorts": [
+        "DQ",
+        "DK",
+        "DV"
+      ]
+    },
+    "expected_call_bindings": {}
+  },
+  {
+    "python": "bench/tritonbench_g/lightning_attention/lightning_attention_reuse_offset.py",
+    "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean",
+    "python_function": "_bwd_intra_kernel",
+    "lean_definition": "intraCandidate",
+    "signature_definition": "intraSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "DO",
+          "fp32"
+        ],
+        [
+          "DQ",
+          "fp32"
+        ],
+        [
+          "DK",
+          "fp32"
+        ],
+        [
+          "DV",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "b",
+        "h",
+        "n",
+        "d",
+        "e",
+        "BLOCK",
+        "NUM_BLOCK",
+        "CBLOCK",
+        "NUM_CBLOCK"
+      ],
+      "readPorts": [
+        "K",
+        "V",
+        "DO",
+        "Q"
+      ],
+      "writePorts": [
+        "DQ",
+        "DK",
+        "DV"
+      ]
+    },
+    "expected_call_bindings": {}
+  },
+  {
+    "python": "bench/tritonbench_g/lightning_attention/lightning_attention.py",
+    "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean",
+    "python_function": "_bwd_inter_kernel",
+    "lean_definition": "inter",
+    "signature_definition": "interSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "DO",
+          "fp32"
+        ],
+        [
+          "DQ",
+          "fp32"
+        ],
+        [
+          "DK",
+          "fp32"
+        ],
+        [
+          "DV",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "b",
+        "h",
+        "n",
+        "d",
+        "e",
+        "BLOCK",
+        "NUM_BLOCK",
+        "CBLOCK",
+        "NUM_CBLOCK"
+      ],
+      "readPorts": [],
+      "writePorts": []
+    },
+    "expected_call_bindings": {}
+  },
+  {
+    "python": "bench/tritonbench_g/lightning_attention/lightning_attention_reuse_offset.py",
+    "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean",
+    "python_function": "_bwd_inter_kernel",
+    "lean_definition": "interCandidate",
+    "signature_definition": "interSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "DO",
+          "fp32"
+        ],
+        [
+          "DQ",
+          "fp32"
+        ],
+        [
+          "DK",
+          "fp32"
+        ],
+        [
+          "DV",
+          "fp32"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "b",
+        "h",
+        "n",
+        "d",
+        "e",
+        "BLOCK",
+        "NUM_BLOCK",
+        "CBLOCK",
+        "NUM_CBLOCK"
+      ],
+      "readPorts": [],
+      "writePorts": []
+    },
+    "expected_call_bindings": {}
+  }
+]

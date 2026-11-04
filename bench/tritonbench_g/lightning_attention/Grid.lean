@@ -48,7 +48,7 @@ theorem stageProgram (M : Algebra α) (hm : MaskArithmetic M) (D : DotPrimitive 
         (launchState stage d pid m)=some t ∧ t.mem=stageMemory M D stage d pid m := by
   cases stage with
   | forward =>
-    obtain ⟨t,he,hm,_⟩ := forwardProgram M D d.parameters m (launchState .forward d pid m) (Inputs.refl m)
+    obtain ⟨t,he,hm,_⟩ := forwardProgram M D d.parameters m (launchState .forward d pid m) (Inputs.refl m) (by norm_num [Host.Dimensions.parameters])
     exact ⟨t,he,hm⟩
   | intra =>
     obtain ⟨t,he,hm,_⟩ := intraProgram M hm D d.parameters rfl (launchState .intra d pid m)

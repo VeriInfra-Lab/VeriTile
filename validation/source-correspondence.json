@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 175,
-      "uncovered_jit_functions": 8
+      "selected_body_copy_checked": 176,
+      "uncovered_jit_functions": 7
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 33,
-    "inventoried_jit_functions": 593,
-    "uncovered_inventoried_jit_functions": 38,
+    "uncovered_selected_jit_functions": 30,
+    "inventoried_jit_functions": 596,
+    "uncovered_inventoried_jit_functions": 35,
     "checked_pair_modes": {
-      "pasted_body": 573
+      "pasted_body": 579
     },
     "collection_status": {
       "bug_detection": {
@@ -38,17 +38,17 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 175,
-        "uncovered_jit_functions": 8
+        "selected_body_copy_checked": 176,
+        "uncovered_jit_functions": 7
       }
     },
     "primary_files_with_int64_screen_warning": 2,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 4,
-        "antiquotes": 338,
+        "in_body_type_directives": 3,
+        "antiquotes": 337,
         "dsl_loop": 0,
-        "dsl_numeric_helpers": 81
+        "dsl_numeric_helpers": 80
       },
       "examples": {
         "in_body_type_directives": 0,
@@ -31653,11 +31653,11 @@
       "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean",
       "lean_screen": {
         "quotations": 6,
-        "in_body_type_directives": 6,
-        "antiquotes": 310,
-        "dsl_assignment": 102,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 117,
         "dsl_loop": 0,
-        "dsl_numeric_helpers": 2,
+        "dsl_numeric_helpers": 0,
         "load_dtype_extension": 10
       },
       "python_jits": [
@@ -31703,43 +31703,167 @@
               "explicit_int64_casts": []
             }
           ]
+        },
+        {
+          "path": "bench/tritonbench_g/lightning_attention/lightning_attention_reuse_offset.py",
+          "jits": [
+            {
+              "function": "_fwd_kernel",
+              "line": 8,
+              "statements": 15,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "_bwd_intra_kernel",
+              "line": 80,
+              "statements": 33,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "_bwd_inter_kernel",
+              "line": 172,
+              "statements": 24,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel",
+          "lean_definition": "forward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK",
+            "BLOCK_MODEL",
+            "NUM_BLOCK",
+            "b",
+            "d",
+            "e",
+            "h",
+            "n"
+          ],
           "python": "bench/tritonbench_g/lightning_attention/lightning_attention.py",
-          "function": "_fwd_kernel"
+          "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean"
         },
         {
-          "python": "bench/tritonbench_g/lightning_attention/lightning_attention.py",
-          "function": "_bwd_intra_kernel"
+          "python_function": "_fwd_kernel",
+          "lean_definition": "forwardCandidate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK",
+            "BLOCK_MODEL",
+            "NUM_BLOCK",
+            "b",
+            "d",
+            "e",
+            "h",
+            "n"
+          ],
+          "python": "bench/tritonbench_g/lightning_attention/lightning_attention_reuse_offset.py",
+          "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean"
         },
         {
+          "python_function": "_bwd_intra_kernel",
+          "lean_definition": "intra",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 33,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK",
+            "CBLOCK",
+            "NUM_BLOCK",
+            "NUM_CBLOCK",
+            "b",
+            "d",
+            "e",
+            "h",
+            "n"
+          ],
           "python": "bench/tritonbench_g/lightning_attention/lightning_attention.py",
-          "function": "_bwd_inter_kernel"
+          "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean"
+        },
+        {
+          "python_function": "_bwd_intra_kernel",
+          "lean_definition": "intraCandidate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 33,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK",
+            "CBLOCK",
+            "NUM_BLOCK",
+            "NUM_CBLOCK",
+            "b",
+            "d",
+            "e",
+            "h",
+            "n"
+          ],
+          "python": "bench/tritonbench_g/lightning_attention/lightning_attention_reuse_offset.py",
+          "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean"
+        },
+        {
+          "python_function": "_bwd_inter_kernel",
+          "lean_definition": "inter",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK",
+            "CBLOCK",
+            "NUM_BLOCK",
+            "NUM_CBLOCK",
+            "b",
+            "d",
+            "e",
+            "h",
+            "n"
+          ],
+          "python": "bench/tritonbench_g/lightning_attention/lightning_attention.py",
+          "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean"
+        },
+        {
+          "python_function": "_bwd_inter_kernel",
+          "lean_definition": "interCandidate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 24,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK",
+            "CBLOCK",
+            "NUM_BLOCK",
+            "NUM_CBLOCK",
+            "b",
+            "d",
+            "e",
+            "h",
+            "n"
+          ],
+          "python": "bench/tritonbench_g/lightning_attention/lightning_attention_reuse_offset.py",
+          "lean": "bench/tritonbench_g/lightning_attention/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/lightning_attention/lightning_attention.py",
-          "function": "_fwd_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/lightning_attention/lightning_attention.py",
-          "function": "_bwd_intra_kernel"
-        },
-        {
-          "python": "bench/tritonbench_g/lightning_attention/lightning_attention.py",
-          "function": "_bwd_inter_kernel"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/lightning_attention/Kernels.lean": "deaeb4a32a9db5e518b3f56563b50576ce59f15e3f91a8be29449403117967a6",
-        "bench/tritonbench_g/lightning_attention/lightning_attention.py": "e610983718f24e2c5bc0e79d0bbd6f2586bfd6b6968a640980538458f090bd32"
+        "bench/tritonbench_g/lightning_attention/Kernels.lean": "d6d72e978c27f71ab65c1b15c629094cda13733d8b87f160190f812d4f18f330",
+        "bench/tritonbench_g/lightning_attention/jit-correspondence.json": "ba31643c65554e61ce2a5bdc59516ed91552e42c876c42f2c42020dbc70150c2",
+        "bench/tritonbench_g/lightning_attention/lightning_attention.py": "e610983718f24e2c5bc0e79d0bbd6f2586bfd6b6968a640980538458f090bd32",
+        "bench/tritonbench_g/lightning_attention/lightning_attention_reuse_offset.py": "a8317b23099b8971b648e1c1035aa1516f2da090513dbc7dbab78fffa6b27226"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/lightning_attention"

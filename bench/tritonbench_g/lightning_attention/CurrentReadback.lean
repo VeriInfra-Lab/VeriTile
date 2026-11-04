@@ -103,7 +103,7 @@ theorem queryUpdate_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (i : TileIndex [p.CB,p.D]) (ht : row+i.1.val<p.N) :
     queryUpdate M D p head row carry m "queryGradient" (head*p.N*p.D+(row+i.1.val)*p.D+i.2.1.val)=
       .mk .real (cast M (add M (dot D (subG M p head row m) carry i)
-        ((m "queryGradient" (head*p.N*p.D+(row+i.1.val)*p.D+i.2.1.val)).read .real))) := by
+        (M.fp32Load ((m "queryGradient" (head*p.N*p.D+(row+i.1.val)*p.D+i.2.1.val)).read .real)))) := by
   unfold queryUpdate
   rw [writeRows_read _ _ _ _ _ _ _ _ _ i ht]
   simp only [gradientRows,ht,ite_true]
@@ -113,7 +113,7 @@ theorem keyUpdate_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (i : TileIndex [p.D,p.CB]) (ht : row+i.2.1.val<p.N) :
     keyValueUpdate M D p head row carry m "keyGradient" (head*p.N*p.D+(row+i.2.1.val)*p.D+i.1.val)=
       .mk .real (cast M (add M (dot D carry (subVT M p head row m) i)
-        ((m "keyGradient" (head*p.N*p.D+(row+i.2.1.val)*p.D+i.1.val)).read .real))) := by
+        (M.fp32Load ((m "keyGradient" (head*p.N*p.D+(row+i.2.1.val)*p.D+i.1.val)).read .real)))) := by
   unfold keyValueUpdate
   rw [writeRows_frame _ _ _ _ _ _ _ _ _ _ _ (Or.inl (by decide))]
   rw [writeTrans_read _ _ _ _ _ _ _ _ _ i ht]
@@ -124,7 +124,7 @@ theorem valueUpdate_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (i : TileIndex [p.CB,p.E]) (ht : row+i.1.val<p.N) :
     keyValueUpdate M D p head row carry m "valueGradient" (head*p.N*p.E+(row+i.1.val)*p.E+i.2.1.val)=
       .mk .real (cast M (add M (dot D (subK M p head row m) carry i)
-        ((m "valueGradient" (head*p.N*p.E+(row+i.1.val)*p.E+i.2.1.val)).read .real))) := by
+        (M.fp32Load ((m "valueGradient" (head*p.N*p.E+(row+i.1.val)*p.E+i.2.1.val)).read .real)))) := by
   unfold keyValueUpdate
   rw [writeRows_read _ _ _ _ _ _ _ _ _ i ht]
   simp only [gradientRows,ht,ite_true]

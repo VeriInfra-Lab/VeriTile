@@ -50,14 +50,14 @@ theorem key_block_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (s : Fin p.NC) (i : TileIndex [p.D,p.CB]) (ht : reverseRow p n.val s.val+i.2.1.val<p.N) :
     keyValueBlockMemory M D p head n.val carry m "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)=
       if n.val=0 then m "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)
-      else .mk .real (cast M (add M (dot D carry (subVT M p head (reverseRow p n.val s.val) m) i) ((m "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)).read .real))) := by
+      else .mk .real (cast M (add M (dot D carry (subVT M p head (reverseRow p n.val s.val) m) i) (M.fp32Load ((m "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)).read .real)))) := by
   unfold keyValueBlockMemory
   split
   · rfl
   · have h := fold_once
       (fun k mem => keyValueUpdate M D p head (reverseRow p n.val k) carry mem)
       (fun mem : Memory α => mem "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)) (fun mem => Inputs mem m)
-      (fun cell : Cell α => .mk .real (cast M (add M (dot D carry (subVT M p head (reverseRow p n.val s.val) m) i) (cell.read .real))))
+      (fun cell : Cell α => .mk .real (cast M (add M (dot D carry (subVT M p head (reverseRow p n.val s.val) m) i) (M.fp32Load (cell.read .real)))))
       p.NC s.val m (Inputs.refl _)
       (fun k hk mem hm => (keyValueUpdate_inputs M D p head _ carry mem).trans hm)
       (by
@@ -94,12 +94,12 @@ theorem key_scan_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     keyValueScanMemory M D p head input m "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)=
       if n.val=0 then m "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)
       else .mk .real (cast M (add M (dot D (keyValueCarry M D p head input n.val) (subVT M p head (reverseRow p n.val s.val) m) i)
-        ((m "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)).read .real))) := by
+        (M.fp32Load ((m "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)).read .real)))) := by
   have h := fold_once
     (fun k mem => keyValueBlockMemory M D p head k (keyValueCarry M D p head input k) mem)
     (fun mem : Memory α => mem "keyGradient" (head*p.N*p.D+(reverseRow p n.val s.val+i.2.1.val)*p.D+i.1.val)) (fun mem => Inputs mem m)
     (fun cell : Cell α => if n.val=0 then cell else .mk .real (cast M (add M
-      (dot D (keyValueCarry M D p head input n.val) (subVT M p head (reverseRow p n.val s.val) m) i) (cell.read .real))))
+      (dot D (keyValueCarry M D p head input n.val) (subVT M p head (reverseRow p n.val s.val) m) i) (M.fp32Load (cell.read .real)))))
     p.NT n.val m (Inputs.refl _)
     (fun k hk mem hm => (reverse_block_inputs M D p head k _ mem).trans hm)
     (by
@@ -116,14 +116,14 @@ theorem value_block_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (s : Fin p.NC) (i : TileIndex [p.CB,p.E]) (ht : reverseRow p n.val s.val+i.1.val<p.N) :
     keyValueBlockMemory M D p head n.val carry m "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)=
       if n.val=0 then m "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)
-      else .mk .real (cast M (add M (dot D (subK M p head (reverseRow p n.val s.val) m) carry i) ((m "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)).read .real))) := by
+      else .mk .real (cast M (add M (dot D (subK M p head (reverseRow p n.val s.val) m) carry i) (M.fp32Load ((m "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)).read .real)))) := by
   unfold keyValueBlockMemory
   split
   · rfl
   · have h := fold_once
       (fun k mem => keyValueUpdate M D p head (reverseRow p n.val k) carry mem)
       (fun mem : Memory α => mem "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)) (fun mem => Inputs mem m)
-      (fun cell : Cell α => .mk .real (cast M (add M (dot D (subK M p head (reverseRow p n.val s.val) m) carry i) (cell.read .real))))
+      (fun cell : Cell α => .mk .real (cast M (add M (dot D (subK M p head (reverseRow p n.val s.val) m) carry i) (M.fp32Load (cell.read .real)))))
       p.NC s.val m (Inputs.refl _)
       (fun k hk mem hm => (keyValueUpdate_inputs M D p head _ carry mem).trans hm)
       (by
@@ -160,12 +160,12 @@ theorem value_scan_read (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     keyValueScanMemory M D p head input m "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)=
       if n.val=0 then m "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)
       else .mk .real (cast M (add M (dot D (subK M p head (reverseRow p n.val s.val) m) (keyValueCarry M D p head input n.val) i)
-        ((m "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)).read .real))) := by
+        (M.fp32Load ((m "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)).read .real)))) := by
   have h := fold_once
     (fun k mem => keyValueBlockMemory M D p head k (keyValueCarry M D p head input k) mem)
     (fun mem : Memory α => mem "valueGradient" (head*p.N*p.E+(reverseRow p n.val s.val+i.1.val)*p.E+i.2.1.val)) (fun mem => Inputs mem m)
     (fun cell : Cell α => if n.val=0 then cell else .mk .real (cast M (add M
-      (dot D (subK M p head (reverseRow p n.val s.val) m) (keyValueCarry M D p head input n.val) i) (cell.read .real))))
+      (dot D (subK M p head (reverseRow p n.val s.val) m) (keyValueCarry M D p head input n.val) i) (M.fp32Load (cell.read .real)))))
     p.NT n.val m (Inputs.refl _)
     (fun k hk mem hm => (reverse_block_inputs M D p head k _ mem).trans hm)
     (by

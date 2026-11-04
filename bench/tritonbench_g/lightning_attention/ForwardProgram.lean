@@ -8,7 +8,7 @@ set_option maxHeartbeats 6000000
 variable {α : Type} [Inhabited α]
 theorem forward_parts (p : Parameters) :
     (forward p).surfaceBody=(fwdParts p).before ++
-      [.forRangeDyn "i" (.constNat 0) (.constNat p.NT) (.constNat 1) (fwdParts p).body] := rfl
+      [.forRange "i" 0 p.NT 1 (fwdParts p).body] := rfl
 
 theorem fwdLoop (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (pid : PID)
     (input : Memory α) (s : State α) (ctx : FwdReady p pid input s)
@@ -37,11 +37,11 @@ theorem fwdLoop (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (pid : P
 /-- Whole forward loop from zero carry, with current-memory stores and preserved
 input regions. No supplied carry, output or successful-execution premise. -/
 theorem forwardProgram (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
-    (input : Memory α) (s : State α) (hin : Inputs s.mem input) :
+    (input : Memory α) (s : State α) (hin : Inputs s.mem input) (hBT : p.BT≤2^31) :
     ∃ t, FP.Structural.exec (engine (withDot M D)) (forward p) s=some t ∧
       t.mem=fwdMemory M D p ⟨s.pids 0,s.pids 1⟩ input s.mem ∧ Inputs t.mem input := by
   let start := fwdEntry M D p s
-  have he := fwdEntry_ready M D p s
+  have he := fwdEntry_ready M D p s hBT
   have ctx : FwdReady p ⟨s.pids 0,s.pids 1⟩ input start.val :=
     {he.1 with inputs:=he.1.inputs.trans hin}
   obtain ⟨finish,hloop,hctx,hrows,hcarry,hmem⟩ := fwdLoop M D p ⟨s.pids 0,s.pids 1⟩ input start.val ctx he.2.1 he.2.2

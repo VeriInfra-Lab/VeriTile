@@ -26,7 +26,7 @@ def cast (M : Algebra α) (a : α) : α := M.cast (some .fp32) .real .real a
 def dot (D : DotPrimitive α) {m k n : Nat} (a : Matrix α m k) (b : Matrix α k n) : Matrix α m n :=
   D.apply (some .fp32) .real .real .real {} (batch:=[]) a b
 def read (M : Algebra α) (m : Memory α) (r : RegionName) (offset : Nat) (active : Prop) [Decidable active] : α :=
-  cast M (if active then (m r offset).read .real else zero M)
+  cast M (M.fp32Load (if active then (m r offset).read .real else zero M))
 def Inputs (a b : Memory α) : Prop :=
   ∀ r : RegionName, r∈(["query","key","value","incoming"] : List RegionName) → a r=b r
 theorem Inputs.refl (m : Memory α) : Inputs m m := by intro r h; rfl

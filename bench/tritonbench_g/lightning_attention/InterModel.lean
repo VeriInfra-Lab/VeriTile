@@ -17,9 +17,9 @@ def subG (M : Algebra α) (p : Parameters) (head row : Nat) (m : Memory α) : Ma
 /-- Uncast gradient loads read the current memory. The intra producer and
 prior inter stores therefore remain connected to each later update. -/
 def gradientRows (M : Algebra α) (r : RegionName) (N width head row rows : Nat) (m : Memory α) : Matrix α rows width :=
-  fun i => (if row+i.1.val<N then (m r (head*N*width+(row+i.1.val)*width+i.2.1.val)).read .real else zero M)
+  fun i => M.fp32Load (if row+i.1.val<N then (m r (head*N*width+(row+i.1.val)*width+i.2.1.val)).read .real else zero M)
 def gradientTrans (M : Algebra α) (r : RegionName) (N width head row rows : Nat) (m : Memory α) : Matrix α width rows :=
-  fun i => (if row+i.2.1.val<N then (m r (head*N*width+(row+i.2.1.val)*width+i.1.val)).read .real else zero M)
+  fun i => M.fp32Load (if row+i.2.1.val<N then (m r (head*N*width+(row+i.2.1.val)*width+i.1.val)).read .real else zero M)
 
 def queryUpdate (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (head row : Nat)
     (carry : Matrix α p.E p.D) (m : Memory α) : Memory α :=

@@ -7,7 +7,7 @@ set_option maxHeartbeats 6000000
 variable {α : Type} [Inhabited α]
 theorem inter_parts (p : Parameters) :
     (inter p).surfaceBody=(interForwardParts p).before ++
-    [.forRangeDyn "i" (.constNat 0) (.constNat p.NT) (.constNat 1) (interForwardParts p).body] ++
+    [.forRange "i" 0 p.NT 1 (interForwardParts p).body] ++
     (interReverseParts p).before ++
     [.forRangeInt "__rev_i" (reverseStart p.NT) (.constInt 1) (.constNat 1) (interReverseParts p).body] := rfl
 
