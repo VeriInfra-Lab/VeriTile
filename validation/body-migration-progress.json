@@ -11,7 +11,7 @@
   "local_validation": {
     "staged_public_proofs": "PRIOR_BATCH_AND_CURRENT_INT8_QUANTIZATION_36_ROOTS_PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "179 exact-current accepted targets including all 19 examples. The two-case Attention group remains in progress. fused_recurrent_delta passed all 91 local roots, actual public Real/FP specifications and prepared trust/spec gates; official replay remains pending. Fourteen source migrations remain uncovered. No local build is counted as completion.",
+    "official_comparator": "179 exact-current accepted targets including all 19 examples. The two-case Attention group remains in progress. fused_recurrent_delta passed all 91 local roots, actual public Real/FP specifications and prepared trust/spec gates; 91-root official replay is in progress. Fourteen source migrations remain uncovered. No local build is counted as completion.",
     "python_tests": 666,
     "offline_example_compilations": {
       "cases": 19,
@@ -2731,8 +2731,11 @@
         "actual public FP entry PASS"
       ],
       "retirement_record": "bench/tritonbench_g/fused_recurrent_delta/source-retirement.json",
-      "independent_replay": "PENDING",
-      "boundary": "Only exact-current official independent replay of all 91 roots and all three actual public theorem names completes the task."
+      "independent_replay": "IN_PROGRESS",
+      "boundary": "Only exact-current official independent replay of all 91 roots and all three actual public theorem names completes the task.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41748128645",
+      "source_commit": "b273497f596145fd4ae06313e7d90c121613ab7e",
+      "frozen_source_files": 307
     }
   },
   "targets": [
@@ -3541,8 +3544,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "PENDING",
-      "reason": "Four complete source body pairs preserve both forward/backward stages. All 89 owned plus shared conditional frontend/regression roots build, and the actual two public Real theorems and FP candidate comparison are reproved. Typed load materialization and explicit cast both remain; no arbitrary backend identity premise was added. Fresh official exact-current acceptance of all 91 roots is still required; compilation and body checks do not complete this task."
+      "independent_replay": "IN_PROGRESS",
+      "reason": "Four complete source body pairs preserve both forward/backward stages. All 89 owned plus shared conditional frontend/regression roots build, and the actual two public Real theorems and FP candidate comparison are reproved. Typed load materialization and explicit cast both remain; no arbitrary backend identity premise was added. Fresh official exact-current acceptance of all 91 roots is still required; compilation and body checks do not complete this task.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41748128645",
+      "validated_source_commit": "b273497f596145fd4ae06313e7d90c121613ab7e"
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_hgrn",
