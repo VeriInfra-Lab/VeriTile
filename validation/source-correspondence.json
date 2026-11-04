@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 173,
-      "uncovered_jit_functions": 10
+      "selected_body_copy_checked": 174,
+      "uncovered_jit_functions": 9
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 41,
-    "inventoried_jit_functions": 585,
-    "uncovered_inventoried_jit_functions": 46,
+    "uncovered_selected_jit_functions": 37,
+    "inventoried_jit_functions": 589,
+    "uncovered_inventoried_jit_functions": 42,
     "checked_pair_modes": {
-      "pasted_body": 557
+      "pasted_body": 565
     },
     "collection_status": {
       "bug_detection": {
@@ -38,8 +38,8 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 173,
-        "uncovered_jit_functions": 10
+        "selected_body_copy_checked": 174,
+        "uncovered_jit_functions": 9
       }
     },
     "primary_files_with_int64_screen_warning": 2,
@@ -17169,13 +17169,13 @@
       "python": "bench/tritonbench_g/chunk_retention/chunk_retention.py",
       "lean": "bench/tritonbench_g/chunk_retention/Kernels.lean",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 5,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 2,
+        "dsl_assignment": 69,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 0
+        "load_dtype_extension": 9
       },
       "python_jits": [
         {
@@ -17280,51 +17280,315 @@
               ]
             }
           ]
+        },
+        {
+          "path": "bench/tritonbench_g/chunk_retention/chunk_retention_scale_first.py",
+          "jits": [
+            {
+              "function": "chunk_retention_fwd_kernel_h",
+              "line": 24,
+              "statements": 9,
+              "explicit_int64_casts": [
+                {
+                  "line": 49,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "chunk_retention_fwd_kernel_o",
+              "line": 84,
+              "statements": 16,
+              "explicit_int64_casts": [
+                {
+                  "line": 107,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "chunk_retention_bwd_kernel_dh",
+              "line": 140,
+              "statements": 8,
+              "explicit_int64_casts": [
+                {
+                  "line": 164,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "chunk_retention_bwd_kernel_dqkv",
+              "line": 193,
+              "statements": 26,
+              "explicit_int64_casts": [
+                {
+                  "line": 223,
+                  "expression": "tl.num_programs(2).to(tl.int64)"
+                },
+                {
+                  "line": 221,
+                  "expression": "tl.program_id(2).to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "chunk_retention_fwd_kernel_h",
+          "lean_definition": "forwardH",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "BV",
+            "H",
+            "K",
+            "NT",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
           "python": "bench/tritonbench_g/chunk_retention/chunk_retention.py",
-          "function": "chunk_retention_fwd_kernel_h"
+          "lean": "bench/tritonbench_g/chunk_retention/Kernels.lean"
         },
         {
-          "python": "bench/tritonbench_g/chunk_retention/chunk_retention.py",
-          "function": "chunk_retention_fwd_kernel_o"
+          "python_function": "chunk_retention_fwd_kernel_h",
+          "lean_definition": "forwardH",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 9,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "BV",
+            "H",
+            "K",
+            "NT",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "python": "bench/tritonbench_g/chunk_retention/chunk_retention_scale_first.py",
+          "lean": "bench/tritonbench_g/chunk_retention/Kernels.lean"
         },
         {
+          "python_function": "chunk_retention_fwd_kernel_o",
+          "lean_definition": "forwardO",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "BV",
+            "H",
+            "K",
+            "T",
+            "V"
+          ],
           "python": "bench/tritonbench_g/chunk_retention/chunk_retention.py",
-          "function": "chunk_retention_bwd_kernel_dh"
+          "lean": "bench/tritonbench_g/chunk_retention/Kernels.lean"
         },
         {
+          "python_function": "chunk_retention_fwd_kernel_o",
+          "lean_definition": "forwardOScaleFirst",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 16,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "BV",
+            "H",
+            "K",
+            "T",
+            "V"
+          ],
+          "python": "bench/tritonbench_g/chunk_retention/chunk_retention_scale_first.py",
+          "lean": "bench/tritonbench_g/chunk_retention/Kernels.lean"
+        },
+        {
+          "python_function": "chunk_retention_bwd_kernel_dqkv",
+          "lean_definition": "backwardQKV",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 26,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "BV",
+            "H",
+            "K",
+            "NT",
+            "T",
+            "V"
+          ],
           "python": "bench/tritonbench_g/chunk_retention/chunk_retention.py",
-          "function": "chunk_retention_bwd_kernel_dqkv"
+          "lean": "bench/tritonbench_g/chunk_retention/Kernels.lean"
+        },
+        {
+          "python_function": "chunk_retention_bwd_kernel_dqkv",
+          "lean_definition": "backwardQKV",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 26,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "BV",
+            "H",
+            "K",
+            "NT",
+            "T",
+            "V"
+          ],
+          "python": "bench/tritonbench_g/chunk_retention/chunk_retention_scale_first.py",
+          "lean": "bench/tritonbench_g/chunk_retention/Kernels.lean"
+        },
+        {
+          "python_function": "chunk_retention_bwd_kernel_dh",
+          "lean_definition": "backwardH",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "BV",
+            "H",
+            "K",
+            "NT",
+            "T",
+            "USE_FINAL_GRAD",
+            "V"
+          ],
+          "python": "bench/tritonbench_g/chunk_retention/chunk_retention.py",
+          "lean": "bench/tritonbench_g/chunk_retention/Kernels.lean"
+        },
+        {
+          "python_function": "chunk_retention_bwd_kernel_dh",
+          "lean_definition": "backwardH",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "s_vo_h": "integer",
+            "s_vo_t": "integer",
+            "s_vo_d": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "BV",
+            "H",
+            "K",
+            "NT",
+            "T",
+            "USE_FINAL_GRAD",
+            "V"
+          ],
+          "python": "bench/tritonbench_g/chunk_retention/chunk_retention_scale_first.py",
+          "lean": "bench/tritonbench_g/chunk_retention/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/chunk_retention/chunk_retention.py",
-          "function": "chunk_retention_fwd_kernel_h"
-        },
-        {
-          "python": "bench/tritonbench_g/chunk_retention/chunk_retention.py",
-          "function": "chunk_retention_fwd_kernel_o"
-        },
-        {
-          "python": "bench/tritonbench_g/chunk_retention/chunk_retention.py",
-          "function": "chunk_retention_bwd_kernel_dh"
-        },
-        {
-          "python": "bench/tritonbench_g/chunk_retention/chunk_retention.py",
-          "function": "chunk_retention_bwd_kernel_dqkv"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/chunk_retention/Kernels.lean": "a9d29c84674d74541fc6e95a6996c6685d5011122ff1db0d280eed9559846712",
-        "bench/tritonbench_g/chunk_retention/chunk_retention.py": "25a61c95d8536363844489c3d618b6264cf7142bec0e26ff7917c0e5dcf172bd"
+        "bench/tritonbench_g/chunk_retention/Kernels.lean": "a4b6f258d51d790c980daa8e49ffd34c785d14f306f3bef8f3d6b4a59f9f1dbf",
+        "bench/tritonbench_g/chunk_retention/chunk_retention.py": "25a61c95d8536363844489c3d618b6264cf7142bec0e26ff7917c0e5dcf172bd",
+        "bench/tritonbench_g/chunk_retention/chunk_retention_scale_first.py": "f6f57f4f31b28a6acd40d6756bfbabdf7dd55053609ee2e3ec80734ecce4c0cc",
+        "bench/tritonbench_g/chunk_retention/jit-correspondence.json": "fc823de56d6b9bd5bd9192b0ac43cfcac2a8e63658fb71e2a1293f514da01e95"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/chunk_retention"

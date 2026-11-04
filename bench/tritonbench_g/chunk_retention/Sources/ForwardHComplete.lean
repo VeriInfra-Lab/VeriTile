@@ -89,8 +89,7 @@ theorem finishMemory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed fi
 
 theorem source_parts (c : Shape) (seed final : Bool) : (kernel c seed final).surfaceBody =
     (parts c seed final).before ++
-    [.forRangeDyn "i_t" (parts c seed final).start (parts c seed final).stop
-      (parts c seed final).stride (parts c seed final).body] ++ (parts c seed final).after := rfl
+    [.forRange "i_t" 0 c.chunks 1 (parts c seed final).body] ++ (parts c seed final).after := rfl
 
 theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed final : Bool) (s : State α) :
     ∃ t, FP.Structural.exec (engine (withDot M D)) (kernel c seed final) s=some t ∧
@@ -101,13 +100,8 @@ theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed f
   obtain ⟨mid,hm,⟨n,ctx⟩,ha,hmm⟩ := loopExecution M D c seed final s start.val hc.1 hc.2 hmem
   let finish := finishExecution M D c seed final s mid n (accumulated M D c seed s).1 ctx ha
   refine ⟨finish.val,?_,finishMemory M D c seed final s mid n ctx ha hmm⟩
-  have hl : step (engine (withDot M D)) (.forRangeDyn "i_t" (parts c seed final).start (parts c seed final).stop
-      (parts c seed final).stride (parts c seed final).body) start.val=some mid := by
-    have h0 : (parts c seed final).start = .constNat 0 := rfl
-    have hn : (parts c seed final).stop = .constNat c.chunks := rfl
-    have h1 : (parts c seed final).stride = .constNat 1 := rfl
-    simp only [step,h0,hn,h1,evalOp_unfold,Option.bind,Option.bind_some,numeric,bop]
-    exact hm
+  have hl : step (engine (withDot M D)) (.forRange "i_t" 0 c.chunks 1 (parts c seed final).body) start.val=some mid := by
+    simpa only [step] using hm
   change run (engine (withDot M D)) (kernel c seed final).surfaceBody s=some finish.val
   rw [source_parts,List.append_assoc,run_append,start.property]
   simp only [Option.bind_some,List.singleton_append,run,hl,bind,finish.property]

@@ -111,7 +111,7 @@ theorem suffixCarry (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed fin
     congr 2
     all_goals
       try funext j
-      simp_all [keyLoad,gatedValue,valueLoad,feature,column,timeDecay,KernelModel.decay,
+      try simp_all [keyLoad,gatedValue,valueLoad,feature,column,timeDecay,KernelModel.decay,
         actualLength,zero,Int.natCast_mod]
       all_goals split_ifs <;> simp_all
 

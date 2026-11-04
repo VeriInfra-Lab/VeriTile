@@ -114,10 +114,6 @@ theorem source_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
       next.val,next.property,bodyContext M D c scale s current f a h.1 ha,
       _,bodyAcc M D c scale s current f a h.1 ha⟩
   obtain ⟨mid,hm,ctx,ha,hmem⟩ := loopExecution M D c scale s start.val hc.1 hc.2 (entryMemory M D c scale s)
-  have h0' : (parts c scale).start=.constNat 0 := rfl
-  have hn' : (parts c scale).stop=.div .nat .nil
-      (.sub .nat .nil (.add .nat .nil (.constNat c.V) (.constNat c.BV)) (.constNat 1)) (.constNat c.BV) := rfl
-  have h1' : (parts c scale).stride=.constNat 1 := rfl
   unfold TraceSafe
   rw [source_parts,Safety.traceSafeList_append,Safety.traceSafeList_append]
   refine ⟨⟨entry_safe M D c scale s bounds hq hk,?_⟩,?_⟩
@@ -125,12 +121,12 @@ theorem source_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
     rw [start.property] at ran
     cases ran
     apply Safety.traceSafeList_cons_intro
-    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,h0',hn',h1',evalOp_unfold,
+    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,
         numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,Shape.valueBlocks] using safeLoop
     · intro _ _; exact Safety.traceSafeList_nil _ _ _
   · intro t ran
     rw [run_append,start.property] at ran
-    simp only [Option.bind_some,run,step,h0',hn',h1',evalOp_unfold,numeric,bop,
+    simp only [Option.bind_some,run,step,evalOp_unfold,numeric,bop,
       Broadcast.leftIndex,Broadcast.rightIndex] at ran
     change (range (engine (withDot M D)) "i_v" 0 c.valueBlocks 1 (parts c scale).body start.val).bind
       (fun s=>some s)=some t at ran
