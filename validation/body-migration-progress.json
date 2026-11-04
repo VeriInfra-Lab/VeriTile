@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 191,
+  "completed_count": 192,
   "staged_count": 193,
-  "pending_count": 5,
+  "pending_count": 4,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "191_EXACT_CURRENT_ACCEPTED;_RETENTION_AND_SOFTMAX_LOCAL_PASS_PENDING_INDEPENDENT_REPLAY",
+    "staged_public_proofs": "192_EXACT_CURRENT_ACCEPTED;_SOFTMAX_LOCAL_PASS_FROZEN_REPLAY_PENDING",
     "staged_and_regression_retained_modules": 8432,
-    "official_comparator": "191 exact-current accepted targets, including all 19 examples. ParallelRetention official independent replay remains in progress. SoftmaxFlaggems has ten exact body pairs, four actual public Real/FP targets, full IO/safety/frame, all 149 retained roots and ten external trust/spec gates passing locally. The two RMS/RBE tasks and TritonAttention still need source/proof migration. Compilation or AST equality alone is not completion. No merge.",
+    "official_comparator": "192 exact-current accepted targets, including all 19 examples. Retention final official artifact accepts all 107 frozen roots and four actual public targets with unchanged source/import closures. SoftmaxFlaggems has ten exact body pairs, complete local mathematical/safety/frame/FP proofs, all 149 retained roots and ten external trust/spec gates passing; official frozen replay is in progress. The two RMS/RBE tasks and TritonAttention still require source/proof migration. Compilation alone is not completion. No merge.",
     "python_tests": 705,
     "offline_example_compilations": {
       "cases": 19,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "191 exact-current accepted targets, including all 19 examples. ParallelRetention official independent replay remains in progress. SoftmaxFlaggems has ten exact body pairs, four actual public Real/FP targets, full IO/safety/frame, all 149 retained roots and ten external trust/spec gates passing locally. The two RMS/RBE tasks and TritonAttention still need source/proof migration. Compilation or AST equality alone is not completion. No merge.",
+    "working_tree": "192 exact-current accepted targets, including all 19 examples. Retention final official artifact accepts all 107 frozen roots and four actual public targets with unchanged source/import closures. SoftmaxFlaggems has ten exact body pairs, complete local mathematical/safety/frame/FP proofs, all 149 retained roots and ten external trust/spec gates passing; official frozen replay is in progress. The two RMS/RBE tasks and TritonAttention still require source/proof migration. Compilation alone is not completion. No merge.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -86,11 +86,14 @@
       }
     ],
     "incremental_replay": {
-      "status": "LOCAL_PASS_PENDING_DISPATCH",
+      "status": "IN_PROGRESS",
       "scope": "softmax_flaggems ten exact original/candidate/helper bodies and four actual public endpoints",
       "manifest": "validation/body-migration-incremental.json",
       "roots": 149,
-      "note": "Source matching, full mathematical/safety/frame/FP proofs, all retained roots and ten external trust/spec gates pass locally; official exact-current acceptance is still required. Not complete."
+      "note": "Source matching, full mathematical/safety/frame/FP proofs, all retained roots and ten external trust/spec gates pass locally; official exact-current acceptance is still required. Not complete.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41835206670",
+      "validated_source_commit": "df77717030e3dd39bb764e356a76f280c44d22e5",
+      "frozen_source_files": 408
     },
     "previous_incremental_replays": [
       {
@@ -1329,7 +1332,7 @@
     },
     "current_work": {
       "path": "bench/tritonbench_g/softmax_flaggems",
-      "status": "LOCAL_VALIDATED_AWAITING_FROZEN_REPLAY",
+      "status": "FROZEN_OFFICIAL_REPLAY_IN_PROGRESS",
       "complete": false,
       "body_pairs": 10,
       "owned_lean_modules": 146,
@@ -1337,9 +1340,10 @@
       "public_targets": 4,
       "external_trust_spec_gates": 10,
       "python_tests": 705,
-      "note": "191 exact-current accepted targets, including all 19 examples. ParallelRetention official independent replay remains in progress. SoftmaxFlaggems has ten exact body pairs, four actual public Real/FP targets, full IO/safety/frame, all 149 retained roots and ten external trust/spec gates passing locally. The two RMS/RBE tasks and TritonAttention still need source/proof migration. Compilation or AST equality alone is not completion. No merge.",
+      "note": "192 exact-current accepted targets, including all 19 examples. Retention final official artifact accepts all 107 frozen roots and four actual public targets with unchanged source/import closures. SoftmaxFlaggems has ten exact body pairs, complete local mathematical/safety/frame/FP proofs, all 149 retained roots and ten external trust/spec gates passing; official frozen replay is in progress. The two RMS/RBE tasks and TritonAttention still require source/proof migration. Compilation alone is not completion. No merge.",
       "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
-      "guarded_frontend_compatibility": "PASS"
+      "guarded_frontend_compatibility": "PASS",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41835206670"
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -3082,6 +3086,14 @@
       {
         "receipt": "validation/body_receipts/parallel-attention-pasted-source-replay.json",
         "exact_current_source": true
+      },
+      {
+        "case": "bench/tritonbench_g/parallel_retention_attention",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41822218926",
+        "source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1",
+        "receipt": "validation/body_receipts/parallel-retention-attention-pasted-source-replay.json",
+        "retained_replay_roots": 107,
+        "accepted": true
       }
     ],
     "previous_current_work": {
@@ -3106,27 +3118,13 @@
       "historical_snapshot": true,
       "superseded_by_current_target_status": true
     },
-    "inflight_replays": [
-      {
-        "status": "IN_PROGRESS",
-        "scope": "parallel_retention_attention seven raw helper/parent bodies and actual public endpoints",
-        "manifest": "validation/body-migration-incremental.json",
-        "roots": 107,
-        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41822218926",
-        "validated_source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1",
-        "frozen_source_files": 305,
-        "note": "Four public targets, source/body coverage, all 107 retained roots and eight external trust/spec gates pass locally; official independent acceptance remains required. Not complete.",
-        "manifest_snapshot_source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1",
-        "manifest_now_superseded": true
-      }
-    ],
+    "inflight_replays": [],
     "remaining_source_migrations": [
       "bench/tritonbench_g/rms_matmul_rbe",
       "bench/tritonbench_g/rms_rbe_matmul",
       "bench/tritonbench_g/triton_attention"
     ],
     "pending_independent_acceptance": [
-      "bench/tritonbench_g/parallel_retention_attention",
       "bench/tritonbench_g/softmax_flaggems"
     ]
   },
@@ -4804,16 +4802,17 @@
     },
     {
       "path": "bench/tritonbench_g/parallel_retention_attention",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS_7_EXACT_PAIRS",
-      "reason": "All seven original/candidate raw bodies align. The complete actual parent, ordered DQ/barrier/DKV memory, safety/frame and independent Real/FP endpoints pass locally; 107 retained roots and eight external trust/spec gates pass. Original Python shape/index guards are explicit. Exact-current official independent replay is still required; compilation is not completion.",
+      "reason": "Official final artifact accepts every one of the exact 107 frozen roots and the actual four public theorem names. All case files and transitive shared imports remain unchanged; ZIP SHA-256 verified.",
       "public_real_fp_proofs": "LOCAL_PASS_4_PUBLIC_TARGETS",
       "retained_modules_build": "LOCAL_PASS_107_ROOTS",
-      "independent_replay": "IN_PROGRESS",
-      "public_name_resolution": "PASS",
+      "independent_replay": "ACCEPTED_EXACT_CURRENT_SOURCE",
+      "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41822218926",
-      "replay_source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1"
+      "replay_source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1",
+      "receipt": "validation/body_receipts/parallel-retention-attention-pasted-source-replay.json"
     },
     {
       "path": "bench/tritonbench_g/pow_scalar_tensor",
@@ -5216,8 +5215,10 @@
       "reason": "Four complete copied kernels, four existing address candidates and two helpers align. Independent whole-tensor Real specifications, full-source FP equivalence, exact source safety/frame and all 149 retained roots pass locally; ten external trust/spec gates pass. Official exact-current independent replay remains required; compilation alone is not completion.",
       "public_real_fp_proofs": "LOCAL_PASS_4_PUBLIC_TARGETS",
       "retained_modules_build": "LOCAL_PASS_149_ROOTS",
-      "independent_replay": "PENDING_DISPATCH",
-      "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS"
+      "independent_replay": "IN_PROGRESS",
+      "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41835206670",
+      "replay_source_commit": "df77717030e3dd39bb764e356a76f280c44d22e5"
     },
     {
       "path": "bench/tritonbench_g/softmax_optimize",
