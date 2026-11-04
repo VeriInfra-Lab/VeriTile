@@ -1320,14 +1320,17 @@
       ],
       "proof_status": "PASS_COMPLETE_PUBLIC_REAL_AND_FP",
       "retained_modules_build": "PASS_3668_JOBS_91_ROOTS",
-      "independent_replay": "READY_TO_DISPATCH",
+      "independent_replay": "IN_PROGRESS",
       "complete": false,
       "note": "Retain source int64 PID/num_programs casts, signed arange lanes, tail decay branches and original reverse loop. No completion inferred from body comparison or compilation.",
       "public_name_resolution": "PASS_BOTH_NAMES",
       "prepared_trust_spec_audits": "PASS_ALL_4",
       "python_regressions": "PASS_4_TESTS",
       "source_inventory_uncovered_targets": 9,
-      "required_replay_roots": 91
+      "required_replay_roots": 91,
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41783990583",
+      "replay_source_commit": "8afc2dc66262b2f3c17cf836d1cfad000950325f",
+      "frozen_closure_files": 387
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -3340,8 +3343,16 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_retention",
-      "status": "pending",
-      "complete": false
+      "status": "official_replay_in_progress",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS_LOCALLY",
+      "retained_modules_build": "PASS",
+      "public_name_resolution": "PASS",
+      "independent_replay": "IN_PROGRESS",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41783990583",
+      "replay_source_commit": "8afc2dc66262b2f3c17cf836d1cfad000950325f",
+      "reason": "All eight complete body/ABI pairs, full public Real and FP proofs, all 91 roots and explicit trust/spec audits passed locally. Completion requires exact-current official independent replay of all roots and both actual public specifications."
     },
     {
       "path": "bench/tritonbench_g/chunk_retention_ops",
