@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 193,
-  "staged_count": 193,
+  "staged_count": 194,
   "pending_count": 3,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "193_EXACT_CURRENT_ACCEPTED",
-    "staged_and_regression_retained_modules": 8432,
+    "staged_and_regression_retained_modules": 8543,
     "official_comparator": "193 exact-current accepted targets, including all 19 examples. SoftmaxFlaggems final official artifact accepts all 149 frozen roots and four actual public theorem names with unchanged source/import closures. The two RMS/RBE tasks and TritonAttention still require source/proof migration. Compilation alone is not completion. No merge.",
-    "python_tests": 710,
+    "python_tests": 715,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "193 exact-current accepted targets, including all 19 examples. SoftmaxFlaggems final official artifact accepts all 149 frozen roots and four actual public theorem names with unchanged source/import closures. The two RMS/RBE tasks and TritonAttention still require source/proof migration. Compilation alone is not completion. No merge.",
+    "working_tree": "193 exact-current accepted targets; RMS/QKV is fully source-aligned and passes local mathematics, safety/frame, existing FP equivalence, all 111 roots and independent trust/specification checks, awaiting official exact-source replay. Two source migrations remain. No merge.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -1332,14 +1332,20 @@
     },
     "current_work": {
       "path": "bench/tritonbench_g/rms_matmul_rbe",
-      "status": "SOURCE_AND_PROOF_MIGRATION_IN_PROGRESS",
+      "status": "LOCAL_FULL_PASS_AWAITING_OFFICIAL_REPLAY",
       "complete": false,
       "raw_callee_body_pairs": 2,
-      "all_jit_bodies_aligned": false,
-      "parent_qkv_call_connection": "PENDING",
-      "retained_modules": "REPROVING_ALL_OWNED_MODULES",
-      "python_tests": 710,
-      "note": "Both raw repaired callee bodies pass statement comparison. Prefix, source iteration, signed loop, source result/ordered arithmetic, byte-memory loop and retained native rotation/load connections have been rebuilt. Full public mathematical/safety/FP proofs and the actual raw QKV parent call connection remain in progress. Whole-case completion requires every retained root, trust/specification gates, current public names and exact-source official replay. No merge."
+      "all_jit_bodies_aligned": true,
+      "parent_qkv_call_connection": "PASS_FULL_STATE_EXECUTION_AND_SAFETY",
+      "retained_modules": "PASS_111_ROOTS_3674_LAKE_JOBS",
+      "python_tests": 715,
+      "note": "Four exact copied original/candidate callee and parent bodies; actual three-call parent, independent full-K/grid mathematical correctness, full-state/failure-aware structural equivalence, typed byte/native interfaces, trace safety, output binding and memory frame all pass locally. All 111 retained/shared roots, nine external trust/specification gates, four current public names and 715 Python tests pass. Exact-source official independent replay remains required. No completion is inferred from compilation. No merge.",
+      "raw_body_pairs": 4,
+      "retained_build_roots": 111,
+      "owned_lean_modules": 102,
+      "public_real_fp_proofs": "PASS_4_PUBLIC_TARGETS",
+      "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
+      "external_trust_spec_gates": "PASS_9_FILES"
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -2813,13 +2819,13 @@
       "receipt": "validation/body_receipts/causal-attention-complete-body.json"
     },
     "current_manifest_coverage": {
-      "cases": 199,
-      "target_cases": 193,
+      "cases": 200,
+      "target_cases": 194,
       "regression_cases": 6,
-      "retained_and_shared_build_roots": 8432,
-      "explicit_replay_roots": 7435,
+      "retained_and_shared_build_roots": 8543,
+      "explicit_replay_roots": 7546,
       "completion_certificate": false,
-      "note": "Registry coverage only. Current incremental local build covers SoftmaxFlaggems and all 149 owned/shared roots. Official exact-current independent replay is required."
+      "note": "Source inventory updated after four exact RMS/QKV body pairs; 181/183 TritonBench-G cases and 19/19 examples are source-aligned. RMS/RBE2 and TritonAttention remain uncovered. Source correspondence alone is not proof completion."
     },
     "previous_local_work": [
       {
@@ -3121,11 +3127,12 @@
     },
     "inflight_replays": [],
     "remaining_source_migrations": [
-      "bench/tritonbench_g/rms_matmul_rbe",
       "bench/tritonbench_g/rms_rbe_matmul",
       "bench/tritonbench_g/triton_attention"
     ],
-    "pending_independent_acceptance": []
+    "pending_independent_acceptance": [
+      "bench/tritonbench_g/rms_matmul_rbe"
+    ]
   },
   "targets": [
     {
@@ -4965,7 +4972,12 @@
       "path": "bench/tritonbench_g/rms_matmul_rbe",
       "status": "pending",
       "complete": false,
-      "note": "Raw callee/source migration underway. Actual QKV parent calls and all retained proof modules are not yet reverified; no current acceptance receipt."
+      "body_copy_check": "PASS_4_EXACT_PAIRS",
+      "public_real_fp_proofs": "LOCAL_PASS_4_PUBLIC_TARGETS",
+      "retained_modules_build": "LOCAL_PASS_111_ROOTS",
+      "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
+      "independent_replay": "REQUIRED",
+      "reason": "Four exact copied original/candidate callee and parent bodies; actual three-call parent, independent full-K/grid mathematical correctness, full-state/failure-aware structural equivalence, typed byte/native interfaces, trace safety, output binding and memory frame all pass locally. All 111 retained/shared roots, nine external trust/specification gates, four current public names and 715 Python tests pass. Exact-source official independent replay remains required. No completion is inferred from compilation. No merge."
     },
     {
       "path": "bench/tritonbench_g/rms_norm_triton",

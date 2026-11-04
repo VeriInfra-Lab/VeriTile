@@ -36,13 +36,13 @@ theorem loopExecution {α : Type} [Inhabited α] (a : Arithmetic α)
     (bytes : Int8Memory initial) (count cur : Nat) (current : State α)
     (bound : cur≤count) (same : current.mem=initial.mem)
     (h : LoopRegisters (loopValues a fp8 p initial v cur) current) :
-    ∃ final, range a.model "step" cur count 1 (body fp8 outputFP8 p) current=some final ∧
+    ∃ final, rangeInt a.model "step" cur count 1 (body fp8 outputFP8 p) current=some final ∧
       LoopRegisters (loopValues a fp8 p initial v count) final ∧ final.mem=initial.mem ∧
       HeaderPreserved current final := by
   have aux : ∀ left cur (current : State α),count-cur=left → cur≤count →
       current.mem=initial.mem →
       LoopRegisters (loopValues a fp8 p initial v cur) current →
-      ∃ final,range a.model "step" cur count 1 (body fp8 outputFP8 p) current=some final ∧
+      ∃ final,rangeInt a.model "step" cur count 1 (body fp8 outputFP8 p) current=some final ∧
         LoopRegisters (loopValues a fp8 p initial v count) final ∧ final.mem=initial.mem ∧
         HeaderPreserved current final := by
     intro left
@@ -64,15 +64,15 @@ theorem loopExecution {α : Type} [Inhabited α] (a : Arithmetic α)
           rfl (by omega) nextMem nextRegs
         refine ⟨final,?_,hv,hf,HeaderPreserved.trans current next.val final
           (body_header a fp8 outputFP8 p current _ hr byteCurrent cur) hh⟩
-        rw [range,if_neg (by decide),if_pos less,next.property]
+        rw [rangeInt,if_neg (by decide),if_pos (show (cur:Int)<(count:Int) by omega),next.property]
         exact he
       · have equal : cur=count := by omega
         subst cur
-        exact ⟨current,by rw [range,if_neg (by decide),if_neg (by omega)],hr,hm,
+        exact ⟨current,by rw [rangeInt,if_neg (by decide),if_neg (by omega)],hr,hm,
           HeaderPreserved.refl current⟩
   exact aux _ _ _ rfl bound same h
 
 #axiomsClean loopExecution
-#specNonCircular loopValues avoiding [bodyExecution,run,range]
+#specNonCircular loopValues avoiding [bodyExecution,bodyBaseExecution,run,range]
 end
 end VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain

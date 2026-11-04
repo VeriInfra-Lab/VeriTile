@@ -1,15 +1,33 @@
 # rms_matmul_rbe
 
-Current repaired Python implementation: [rms_matmul_rbe.py](rms_matmul_rbe.py).
+Repaired Python source: [rms_matmul_rbe.py](rms_matmul_rbe.py).
+Existing candidate: [rms_matmul_rbe_index_commuted.py](rms_matmul_rbe_index_commuted.py).
+The candidate commutes only the final signed-integer row multiplication.
 
-[Lean source](Kernels.lean) · [input contract](Contract.lean) · [Real correctness](Correct.lean) · [FP equivalence](FPEquiv.lean).
+[Kernels.lean](Kernels.lean) contains the complete pasted callee and three-call
+Q/K/V parent for each source. The same callee is instantiated with the caller's
+pointer storage; no precision-specific rewritten bodies are maintained.
+Every integer cast, constexpr branch, load mask, tuple split, arithmetic order
+and implicit output conversion remains in the pasted source.
 
-Independent adjacent normalizedProjection and projectedRotary definitions; displayed logical tensor coordinates and phase/launch row and column mapping.
+Caller metadata supplies pointer storage and runtime integer arguments.
+Immutable `THETA`/`EPS` constexpr values use the explicit FP32 scalar
+materialization interface; its realization remains an IO obligation.
+`ParentArguments` in [IO.lean](IO.lean) records the actual common parent inputs
+and per-projection weights, outputs and strides. The older generalized
+three-phase interface retains its full scope, including output aliases.
 
-The public entries state the input conditions, execution scope and numerical assumptions. Required proof and lowering helpers support this selected implementation; Git retains prior implementations.
+[Correct.lean](Correct.lean) displays independent full-K normalized projection
+and adjacent-pair rotary formulas, with full grid outputs, access safety and
+exterior memory preservation. [FPEquiv.lean](FPEquiv.lean) compares the original
+and existing candidate over their complete schedules without experimental
+numerical rewrites. Both entries include the actual pasted parent.
 
-[Proof helpers](Proofs/)
+[Proof helpers](Proofs/) connect the pasted parent, signed loops, precision
+conversions, byte memory, tail masks and public IO to these statements.
+The mathematical interpretation does not claim IEEE or hardware identity.
 
-[Source and mathematical adapters](Sources/)
-
-[Selected-task and source-correspondence records](../../../validation/) track validation and pending work separately.
+[Correspondence manifest](jit-correspondence.json) checks all four original and
+candidate JIT bodies. [Validation records](../../../validation/) separately
+track local checks and exact-current independent replay acceptance. Body
+comparison and successful compilation alone do not establish completion.

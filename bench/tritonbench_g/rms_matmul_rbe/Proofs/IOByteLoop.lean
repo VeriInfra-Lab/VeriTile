@@ -41,12 +41,12 @@ theorem execution (a : Arithmetic α) (native fp8 outputFP8 : Bool)
     (bytes : InputBytes fp8 p initial) (regions : PointerRegions p v)
     (count cur : Nat) (current : State α) (bound : cur≤count) (same : current.mem=initial.mem)
     (h : LoopRegisters (loop native a fp8 p initial v cur) current) :
-    ∃ final,range a.model "step" cur count 1 (code native fp8 outputFP8 p) current=some final ∧
+    ∃ final,rangeInt a.model "step" cur count 1 (code native fp8 outputFP8 p) current=some final ∧
       LoopRegisters (loop native a fp8 p initial v count) final ∧ final.mem=initial.mem ∧
       HeaderPreserved current final ∧ final.pids=current.pids := by
   have aux : ∀ left cur (current : State α),count-cur=left → cur≤count →
       current.mem=initial.mem → LoopRegisters (loop native a fp8 p initial v cur) current →
-      ∃ final,range a.model "step" cur count 1 (code native fp8 outputFP8 p) current=some final ∧
+      ∃ final,rangeInt a.model "step" cur count 1 (code native fp8 outputFP8 p) current=some final ∧
         LoopRegisters (loop native a fp8 p initial v count) final ∧ final.mem=initial.mem ∧
         HeaderPreserved current final ∧ final.pids=current.pids := by
     intro left
@@ -70,11 +70,11 @@ theorem execution (a : Arithmetic α) (native fp8 outputFP8 : Bool)
         refine ⟨final,?_,hv,hf,HeaderPreserved.trans current next.val final
           (iteration_header a native fp8 outputFP8 p current _ hr byteCurrent pointerRegions cur) hh,
           hp.trans (iteration_pids a native fp8 outputFP8 p current _ hr byteCurrent pointerRegions cur)⟩
-        rw [range,if_neg (by decide),if_pos less,next.property]
+        rw [rangeInt,if_neg (by decide),if_pos (show (cur:Int)<(count:Int) by omega),next.property]
         exact he
       · have equal : cur=count := by omega
         subst cur
-        exact ⟨current,by rw [range,if_neg (by decide),if_neg (by omega)],hr,hm,
+        exact ⟨current,by rw [rangeInt,if_neg (by decide),if_neg (by omega)],hr,hm,
           HeaderPreserved.refl current,rfl⟩
   exact aux _ _ _ rfl bound same h
 

@@ -4,7 +4,7 @@ namespace VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain
 open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
-set_option maxHeartbeats 16000000
+set_option maxHeartbeats 1000000
 set_option linter.unusedSimpArgs false
 
 def liveKey (p : Arguments) (v : LoopValues α) (t : Nat) (k : Fin 64) : Prop :=
@@ -60,10 +60,10 @@ theorem body_values {α : Type} [Inhabited α] (a : Arithmetic α)
     LoopRegisters (nextValues a fp8 p s v t)
       (bodyExecution a fp8 outputFP8 p s v h bytes t).val := by
   have zeroScientific : (0.0:ℝ)=0 := by norm_num
-  cases fp8 <;> cases outputFP8
+  cases fp8
   all_goals
     constructor <;>
-      simp [bodyExecution,nextValues,xTile,rmsTile,weightTile,scaledTile,liveKey,
+      simp (config := {maxSteps:=20000}) [bodyExecution,bodyBaseExecution,nextValues,xTile,rmsTile,weightTile,scaledTile,liveKey,
         kernelCast,binary,FP.Structural.bop,h.keys,ofFloat,toFloat,
         Broadcast.leftIndex,Broadcast.rightIndex,Fin.eq_zero,zeroScientific]
     all_goals try rfl
@@ -72,10 +72,10 @@ theorem body_frame {α : Type} [Inhabited α] (a : Arithmetic α)
     (fp8 outputFP8 : Bool) (p : Arguments) (s : State α)
     (v : LoopValues α) (h : LoopRegisters v s) (bytes : Int8Memory s) (t : Nat) :
     (bodyExecution a fp8 outputFP8 p s v h bytes t).val.mem=s.mem := by
-  cases fp8 <;> cases outputFP8 <;> rfl
+  cases fp8 <;> rfl
 
 #axiomsClean body_values
 #axiomsClean body_frame
-#specNonCircular nextValues avoiding [bodyExecution,run]
+#specNonCircular nextValues avoiding [bodyExecution,bodyBaseExecution,run]
 end
 end VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain

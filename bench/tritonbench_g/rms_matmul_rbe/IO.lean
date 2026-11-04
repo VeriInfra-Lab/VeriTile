@@ -2,6 +2,7 @@ import bench.tritonbench_g.rms_matmul_rbe.Proofs.RawGrid
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.NativeArithmetic
 import VeriTile.Triton.Float.ArrayProgramIO
 import VeriTile.Triton.Float.LogicalProgramIO
+import VeriTile.Triton.Float.ArrayProgramEquivalenceSyntax
 
 /-! Named source input arrays and exact ordered Q/K/V writes. Input arrays may
 alias. Outputs may alias each other, so only the last source writer at a cell
@@ -297,3 +298,93 @@ def column (p : Fin 3 → Arguments) (order : List (Nat → Nat)) (phase : Fin 3
 
 end
 end VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.Logical
+
+namespace VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.Pasted
+open VeriTile.Triton FP.Structural
+noncomputable section
+set_option maxRecDepth 24000
+
+/-- Exact common arguments of the Python QKV parent. Per-projection weights,
+outputs and their strides remain independent; no new input restriction is
+imposed on the existing generalized three-phase interface. -/
+structure ParentArguments where
+  (X RMS : RegionName)
+  (M N K sxb sxm sxk srms headDim : Nat)
+  start : Int
+  (W OUT : Fin 3 → RegionName)
+  (swk swn sob som son : Fin 3 → Nat)
+
+def ParentArguments.phase (c : ParentArguments) (i : Fin 3) : Arguments where
+  X:=c.X
+  RMS:=c.RMS
+  W:=c.W i
+  OUT:=c.OUT i
+  M:=c.M
+  N:=c.N
+  K:=c.K
+  sxb:=c.sxb
+  sxm:=c.sxm
+  sxk:=c.sxk
+  srms:=c.srms
+  swk:=c.swk i
+  swn:=c.swn i
+  sob:=c.sob i
+  som:=c.som i
+  son:=c.son i
+  BM:=16
+  BN:=64
+  BK:=64
+  headDim:=c.headDim
+  start:=c.start
+  rotary:=Bool.false
+
+/-- Compile the three verbatim Python calls using their actual shared caller
+arguments. Q is FP16; K/V preserve the launch-selected storage. -/
+def pastedQKV (candidate fp8 : Bool) (c : ParentArguments) : ComputeKernel :=
+  let input : TypedSource.InputStorage := if fp8 then .byte else .half
+  let output : TypedSource.OutputStorage := if fp8 then .e5 else .half
+  let parent := if candidate then TypedSource.Bodies.qkvIndexCommuted else TypedSource.Bodies.qkv
+  parent input output c.X (c.W 0) (c.W 1) (c.W 2) c.RMS (c.OUT 0) (c.OUT 1) (c.OUT 2)
+    c.M c.N c.K c.sxb c.sxm c.sxk (c.swk 0) (c.swn 0) (c.swk 1) (c.swn 1)
+    (c.swk 2) (c.swn 2) c.srms (c.sob 0) (c.som 0) (c.son 0)
+    (c.sob 1) (c.som 1) (c.son 1) (c.sob 2) (c.som 2) (c.son 2)
+    c.start c.headDim 16 64 64
+
+def job {α : Type} (a : Arithmetic α) (candidate fp8 : Bool) (c : ParentArguments)
+    (epsilon theta : α) (pid : Nat → Nat) : Invocation α :=
+  {IO.job a Bool.false fp8 c.phase epsilon theta pid with kernel:=pastedQKV candidate fp8 c}
+
+def arrayIO {α : Type} (a : Arithmetic α) (fp8 : Bool) (c : ParentArguments)
+    (epsilon theta : α) (order : List (Nat → Nat)) : ArrayProgramIO α α :=
+  {IO.qkvIO a Bool.false fp8 c.phase epsilon theta order with
+    schedule:=fun _=>order.map (job a Bool.false fp8 c epsilon theta)}
+
+def variant {α : Type} (a : Arithmetic α) (fp8 : Bool) (c : ParentArguments)
+    (epsilon theta : α) (order : List (Nat → Nat)) :
+    ArrayProgramIO.Variant (arrayIO a fp8 c epsilon theta order) where
+  schedule:=fun _=>order.map (job a Bool.true fp8 c epsilon theta)
+  observe:=(arrayIO a fp8 c epsilon theta order).observe
+
+def original {α : Type} (a : Arithmetic α) (fp8 : Bool) (c : ParentArguments)
+    (epsilon theta : α) (order : List (Nat → Nat)) :=
+  ArrayProgramIO.Implementation.original (arrayIO a fp8 c epsilon theta order)
+    (IO.InputDomain fp8 c.phase)
+
+def indexCommuted {α : Type} (a : Arithmetic α) (fp8 : Bool) (c : ParentArguments)
+    (epsilon theta : α) (order : List (Nat → Nat)) :=
+  ArrayProgramIO.Implementation.ofVariant (variant a fp8 c epsilon theta order)
+    (IO.InputDomain fp8 c.phase)
+
+/-- The same complete logical tensor/backing equivalences with the pasted
+parent as the actual scheduled program. -/
+def logicalIO (fp8 : Bool) (c : ParentArguments) (epsilon theta : HostScalar)
+    (order : List (Nat → Nat)) :
+    LogicalDomainIO (ArrayValues ℝ (IO.inputs fp8 c.phase))
+      (ChannelValues ℝ (IO.outputs fp8 c.phase order))
+      (Logical.Inputs fp8 c.phase) (Logical.Outputs order)
+      (arrayIO mathArithmetic fp8 c epsilon.value theta.value order).ImplementsOn where
+  inputs:=Logical.inputEquiv fp8 c.phase
+  outputs:=Logical.outputEquiv fp8 c.phase order
+
+end
+end VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.Pasted

@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 180,
-      "uncovered_jit_functions": 3
+      "selected_body_copy_checked": 181,
+      "uncovered_jit_functions": 2
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 8,
+    "uncovered_selected_jit_functions": 6,
     "inventoried_jit_functions": 600,
-    "uncovered_inventoried_jit_functions": 13,
+    "uncovered_inventoried_jit_functions": 9,
     "checked_pair_modes": {
-      "pasted_body": 607
+      "pasted_body": 611
     },
     "collection_status": {
       "bug_detection": {
@@ -38,17 +38,17 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 180,
-        "uncovered_jit_functions": 3
+        "selected_body_copy_checked": 181,
+        "uncovered_jit_functions": 2
       }
     },
-    "primary_files_with_int64_screen_warning": 2,
+    "primary_files_with_int64_screen_warning": 1,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 2,
-        "antiquotes": 336,
+        "in_body_type_directives": 1,
+        "antiquotes": 335,
         "dsl_loop": 0,
-        "dsl_numeric_helpers": 80
+        "dsl_numeric_helpers": 79
       },
       "examples": {
         "in_body_type_directives": 0,
@@ -39833,13 +39833,13 @@
       "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py",
       "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean",
       "lean_screen": {
-        "quotations": 8,
-        "in_body_type_directives": 24,
-        "antiquotes": 488,
-        "dsl_assignment": 46,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 126,
         "dsl_loop": 0,
-        "dsl_numeric_helpers": 24,
-        "load_dtype_extension": 16
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 4
       },
       "python_jits": [
         {
@@ -40170,40 +40170,188 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "rms_matmul_rbe",
+          "lean_definition": "Bodies.rmsSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "source_procedure",
+          "statements": 35,
+          "runtime_parameters": {
+            "x_ptr": "inferred",
+            "w_ptr": "inferred",
+            "rms_w_ptr": "inferred",
+            "out_ptr": "inferred",
+            "M": "inferred",
+            "N": "inferred",
+            "K": "inferred",
+            "stride_x_batch": "inferred",
+            "stride_x_m": "inferred",
+            "stride_x_k": "inferred",
+            "stride_w_k": "inferred",
+            "stride_w_n": "inferred",
+            "stride_rms_w": "inferred",
+            "stride_out_batch": "inferred",
+            "stride_out_m": "inferred",
+            "stride_out_n": "inferred",
+            "start_token_position": "inferred"
+          },
+          "constexpr_parameters": [
+            "USE_FP8",
+            "RBE_EPILOGUE",
+            "THETA",
+            "EPS",
+            "HEAD_DIM",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "BLOCK_SIZE_K"
+          ],
+          "fp32_constants": [
+            "THETA",
+            "EPS"
+          ],
           "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py",
-          "function": "rms_matmul_rbe"
+          "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean"
         },
         {
+          "python_function": "rms_matmul_rbe_qkv",
+          "lean_definition": "Bodies.qkv",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_m": "integer",
+            "stride_x_k": "integer",
+            "stride_q_w_k": "integer",
+            "stride_q_w_n": "integer",
+            "stride_k_w_k": "integer",
+            "stride_k_w_n": "integer",
+            "stride_v_w_k": "integer",
+            "stride_v_w_n": "integer",
+            "stride_rms_w": "integer",
+            "stride_q_batch": "integer",
+            "stride_q_m": "integer",
+            "stride_q_n": "integer",
+            "stride_k_batch": "integer",
+            "stride_k_m": "integer",
+            "stride_k_n": "integer",
+            "stride_v_batch": "integer",
+            "stride_v_m": "integer",
+            "stride_v_n": "integer",
+            "start_token_position": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "EPS",
+            "HEAD_DIM",
+            "THETA",
+            "USE_FP8"
+          ],
           "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py",
-          "function": "rms_matmul_rbe_qkv"
+          "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean"
         },
         {
+          "python_function": "rms_matmul_rbe",
+          "lean_definition": "Bodies.rmsIndexCommutedSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "source_procedure",
+          "statements": 35,
+          "runtime_parameters": {
+            "x_ptr": "inferred",
+            "w_ptr": "inferred",
+            "rms_w_ptr": "inferred",
+            "out_ptr": "inferred",
+            "M": "inferred",
+            "N": "inferred",
+            "K": "inferred",
+            "stride_x_batch": "inferred",
+            "stride_x_m": "inferred",
+            "stride_x_k": "inferred",
+            "stride_w_k": "inferred",
+            "stride_w_n": "inferred",
+            "stride_rms_w": "inferred",
+            "stride_out_batch": "inferred",
+            "stride_out_m": "inferred",
+            "stride_out_n": "inferred",
+            "start_token_position": "inferred"
+          },
+          "constexpr_parameters": [
+            "USE_FP8",
+            "RBE_EPILOGUE",
+            "THETA",
+            "EPS",
+            "HEAD_DIM",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "BLOCK_SIZE_K"
+          ],
+          "fp32_constants": [
+            "THETA",
+            "EPS"
+          ],
           "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe_index_commuted.py",
-          "function": "rms_matmul_rbe"
+          "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean"
         },
         {
+          "python_function": "rms_matmul_rbe_qkv",
+          "lean_definition": "Bodies.qkvIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 3,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_m": "integer",
+            "stride_x_k": "integer",
+            "stride_q_w_k": "integer",
+            "stride_q_w_n": "integer",
+            "stride_k_w_k": "integer",
+            "stride_k_w_n": "integer",
+            "stride_v_w_k": "integer",
+            "stride_v_w_n": "integer",
+            "stride_rms_w": "integer",
+            "stride_q_batch": "integer",
+            "stride_q_m": "integer",
+            "stride_q_n": "integer",
+            "stride_k_batch": "integer",
+            "stride_k_m": "integer",
+            "stride_k_n": "integer",
+            "stride_v_batch": "integer",
+            "stride_v_m": "integer",
+            "stride_v_n": "integer",
+            "start_token_position": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "EPS",
+            "HEAD_DIM",
+            "THETA",
+            "USE_FP8"
+          ],
           "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe_index_commuted.py",
-          "function": "rms_matmul_rbe_qkv"
+          "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py",
-          "function": "rms_matmul_rbe"
-        },
-        {
-          "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py",
-          "function": "rms_matmul_rbe_qkv"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "fcc2a130b01d7bdee64d56cbe36b3d0ea003578ecaf2ee0835156fbb32069d7c",
+        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "c6155515016e80be25288d21d6daa34ca8fbb44db029648674ea2999a76fcb66",
+        "bench/tritonbench_g/rms_matmul_rbe/jit-correspondence.json": "7b7793928aaf41e53d4b01018e865ef3f6b08119aeb7d58e10ae754c03426d30",
         "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py": "bae7101afcaa4538e1d325bdf711089babb56cdb22062b3f0cbb4fc7e5cb89b0",
         "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe_index_commuted.py": "280247c43f9e8c7626754e10517ca32b7c9fca9cff6da8083f231c54b56733ea"
       },

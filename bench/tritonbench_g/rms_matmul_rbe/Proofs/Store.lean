@@ -39,16 +39,16 @@ def tileWrite (a : Arithmetic α) (outputFP8 : Bool) (p : Arguments)
 def storingExecution {α : Type} [Inhabited α] (a : Arithmetic α)
     (outputFP8 : Bool) (p : Arguments) (s : State α) (pb pm pn : Nat)
     (accumulator : Values α .real [16,64])
-    (hb : s.regs .nat [] "pid_batch"=some (fun _ => pb))
-    (hm : s.regs .nat [] "pid_m"=some (fun _ => pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _ => pn))
+    (hb : s.regs .int [] "pid_batch"=some (fun _ => (pb:Int)))
+    (hm : s.regs .int [] "pid_m"=some (fun _ => (pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _ => (pn:Int)))
     (ha : s.regs .real [16,64] "accumulator"=some accumulator) :
     {next : State α // run a.model (storing outputFP8 p) s=some next} := by
   cases outputFP8
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [storing,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,run,
+    simp [storing,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.Bodies.rms,ComputeKernel.surfaceBody,run,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
       numeric,bop,natLt,numericLt,ComputeDType.eraseDType,ofFloat,toFloat,
       Region.cast,Option.bind,integralFloorDiv,integralMod,Arithmetic.model,hb,hm,hn,ha,
