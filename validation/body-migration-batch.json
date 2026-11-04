@@ -2642,6 +2642,19 @@
           "VeriTile.Bench.Repairs.LightningAttention.KernelOnly.FPEquiv.backward_equiv"
         ]
       }
+    },
+    {
+      "path": "bench/tritonbench_g/mixed_sparse_attention",
+      "python": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
+      "purpose": "migration",
+      "public_theorems": {
+        "bench/tritonbench_g/mixed_sparse_attention/Correct.lean": [
+          "VeriTile.Bench.Repairs.MixedSparseAttention.kernel_real"
+        ],
+        "bench/tritonbench_g/mixed_sparse_attention/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MixedSparseAttention.FPEquiv.fused_mask_equiv"
+        ]
+      }
     }
   ],
   "extra_replay_sources": [
@@ -9516,6 +9529,73 @@
     "VeriTile/Triton/DSL/StraightLineIdentifiers.lean",
     "tests/lean/SignedLaneSubtraction.lean",
     "tests/lean/StraightLineIdentifiers.lean",
-    "tests/lean/LightningAttentionPastedBody.lean"
+    "tests/lean/LightningAttentionPastedBody.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Contract.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Correct.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/FPEquiv.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/HostContract.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/IO.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Kernels.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/NativeIO.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/PairIO.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Access.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/AddressArithmetic.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Common.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Config.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Coverage.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Domain.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/FusedContext.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/FusedGrid.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/FusedKernel.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/FusedMask.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Grid.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Host.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/HostCoverage.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/IOAccessBounds.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/IOBinding.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/IOGrid.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/IOKernelSafety.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/IOLoopSafety.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/IOSourceSafety.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Inactive.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/KernelContract.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/KernelGrid.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Kernels.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/LogicalIO.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Loops.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Machine.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Math.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Memory.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/MetadataReadViews.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/MixedSparseAttention_Real_RealBackend.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/MixedSparseAttention_Source_Config.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/MixedSparseAttention_Source_Reference.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/MixedSparseAttention_TypedSource_Kernels.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Native.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/NativeReturned.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/NativeScale.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/NativeStaging.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/OnlineMath.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Output.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Physical.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Prefix.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/PrefixCore.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/PublicReal.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/RawMemory.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/RealAnswer.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/RealArrayReference.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/RealBackend.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/RealReturned.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/RealStep.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/RealUpdate.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Reference.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Scatter.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Suffix.lean",
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/Whole.lean",
+    "VeriTile/Triton/DSL/NonnegativeReadViews.lean",
+    "VeriTile/Triton/DSL/ClosedFloatDTypes.lean",
+    "tests/lean/NonnegativeReadViews.lean",
+    "tests/lean/ClosedFloatDTypes.lean",
+    "tests/lean/MixedSparsePastedBodies.lean"
   ]
 }

@@ -5,14 +5,14 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 181,
-  "staged_count": 189,
+  "staged_count": 190,
   "pending_count": 15,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "181_ACCEPTED_TARGETS;_SIX_FROZEN_OFFICIAL_BATCHES_RUNNING",
+    "staged_public_proofs": "181_ACCEPTED_TARGETS;_SIX_FROZEN_OFFICIAL_BATCHES_RUNNING;_MIXED_LOCAL_COMPLETE_AWAITING_REPLAY",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "181 exact-current accepted targets, including all 19 examples. Six frozen official batches cover eight pending targets: Attn, GLA with two dependents, chunk_linear_attn, chunk_retention, chunk_retention_ops and lightning_attention. Seven further source migrations remain. Compilation and source comparison do not complete a target.",
-    "python_tests": 694,
+    "official_comparator": "181 exact-current accepted targets, including all 19 examples. Six frozen official batches cover eight pending targets. Mixed sparse attention passed all local complete-body, retained-module, actual-public-name and trust/spec gates and awaits independent replay. Six further source migrations remain. Compilation or source comparison is never completion.",
+    "python_tests": 698,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,7 +20,7 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "181 exact-current accepted targets, including all 19 examples. Six frozen official batches cover eight pending targets: Attn, GLA with two dependents, chunk_linear_attn, chunk_retention, chunk_retention_ops and lightning_attention. Seven further source migrations remain. Compilation and source comparison do not complete a target.",
+    "working_tree": "181 exact-current accepted targets, including all 19 examples. Six frozen official batches cover eight pending targets. Mixed sparse attention passed all local complete-body, retained-module, actual-public-name and trust/spec gates and awaits independent replay. Six further source migrations remain. Compilation or source comparison is never completion.",
     "official_replay_sources": 5787,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
@@ -1304,32 +1304,27 @@
       "completion_certificate": false
     },
     "current_work": {
-      "path": "bench/tritonbench_g/lightning_attention",
-      "baseline_public_real_fp_build": "PASS_3725_JOBS",
-      "original_owned_lean_modules": 110,
-      "selected_original_jit_functions": 3,
-      "body_copy_check": "PASS_ALL_6_ORIGINAL_CANDIDATE_PAIRS",
+      "path": "bench/tritonbench_g/mixed_sparse_attention",
+      "baseline_public_real_fp_build": "PASS_3579_JOBS",
+      "original_owned_lean_modules": 61,
+      "selected_original_jit_functions": 2,
+      "body_copy_check": "PASS_ALL_4_FP16_BF16_ORIGINAL_CANDIDATE_PAIRS",
       "body_statement_counts": [
-        15,
-        15,
-        33,
-        33,
-        24,
-        24
+        30,
+        30,
+        30,
+        30
       ],
       "proof_status": "PASS_COMPLETE_PUBLIC_REAL_AND_FP",
-      "retained_modules_build": "PASS_3775_JOBS_115_ROOTS",
-      "independent_replay": "IN_PROGRESS",
+      "retained_modules_build": "PASS_3590_JOBS_67_ROOTS",
+      "independent_replay": "AWAITING_DISPATCH",
       "complete": false,
-      "note": "All three original bodies and existing duplicate-offset CSE candidates are pasted statement for statement. Reproved actual typed loads/explicit casts, signed lane subtraction, static forward loops and nested reverse loops. Host BT64 discharges the internal signed-lane bound without restricting any public specification. Existing accepted/frozen dependency modules are unchanged.",
-      "public_name_resolution": "PASS_ALL_4_NAMES",
-      "prepared_trust_spec_audits": "PASS_ALL_3",
+      "note": "Preserve existing natural metadata interpretation and the exact original signed32 storage declaration. Native agreement must use the existing checked nonnegative signed32 guard; the public mathematical input domain remains unchanged. All original casts, early return, masks and loops are pasted verbatim.",
+      "prepared_trust_spec_audits": "PASS_ALL_4",
+      "required_replay_roots": 67,
+      "public_name_resolution": "PASS_BOTH_NAMES",
       "python_regressions": "PASS_4_TESTS",
-      "source_inventory_uncovered_targets": 7,
-      "required_replay_roots": 115,
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41788176749",
-      "replay_source_commit": "268c5eadc3a32545a3e1b1ac5a5432316fcdfd7a",
-      "frozen_closure_files": 492
+      "source_inventory_uncovered_targets": 6
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -2971,14 +2966,42 @@
         "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41785252773",
         "replay_source_commit": "ab485940172d96ff3893a8f70b6b037c3a5eb59e",
         "frozen_closure_files": 483
+      },
+      {
+        "path": "bench/tritonbench_g/lightning_attention",
+        "baseline_public_real_fp_build": "PASS_3725_JOBS",
+        "original_owned_lean_modules": 110,
+        "selected_original_jit_functions": 3,
+        "body_copy_check": "PASS_ALL_6_ORIGINAL_CANDIDATE_PAIRS",
+        "body_statement_counts": [
+          15,
+          15,
+          33,
+          33,
+          24,
+          24
+        ],
+        "proof_status": "PASS_COMPLETE_PUBLIC_REAL_AND_FP",
+        "retained_modules_build": "PASS_3775_JOBS_115_ROOTS",
+        "independent_replay": "IN_PROGRESS",
+        "complete": false,
+        "note": "All three original bodies and existing duplicate-offset CSE candidates are pasted statement for statement. Reproved actual typed loads/explicit casts, signed lane subtraction, static forward loops and nested reverse loops. Host BT64 discharges the internal signed-lane bound without restricting any public specification. Existing accepted/frozen dependency modules are unchanged.",
+        "public_name_resolution": "PASS_ALL_4_NAMES",
+        "prepared_trust_spec_audits": "PASS_ALL_3",
+        "python_regressions": "PASS_4_TESTS",
+        "source_inventory_uncovered_targets": 7,
+        "required_replay_roots": 115,
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41788176749",
+        "replay_source_commit": "268c5eadc3a32545a3e1b1ac5a5432316fcdfd7a",
+        "frozen_closure_files": 492
       }
     ],
     "current_registry": {
-      "cases": 195,
-      "targets": 189,
+      "cases": 196,
+      "targets": 190,
       "regressions": 6,
-      "retained_module_roots": 7996,
-      "independent_replay_roots": 6999,
+      "retained_module_roots": 8063,
+      "independent_replay_roots": 7066,
       "completion_certificate": false
     }
   },
@@ -4574,8 +4597,15 @@
     },
     {
       "path": "bench/tritonbench_g/mixed_sparse_attention",
-      "status": "pending",
-      "complete": false
+      "status": "local_complete_awaiting_official_replay",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS_LOCALLY",
+      "retained_modules_build": "PASS",
+      "public_name_resolution": "PASS_BOTH_NAMES",
+      "independent_replay": "AWAITING_DISPATCH",
+      "reason": "All four complete source/ABI pairs, unchanged public mathematical scope and full FP equivalence, all 67 roots, both actual public names and trust/spec audits pass locally. Native signed32 read agreement follows from the existing nonnegative guard. Exact-current independent replay remains required for completion.",
+      "prepared_trust_spec_audits": "PASS_ALL_4"
     },
     {
       "path": "bench/tritonbench_g/mul_exponent_compensator",
