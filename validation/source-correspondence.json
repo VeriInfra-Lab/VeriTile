@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 169,
-      "uncovered_jit_functions": 14
+      "selected_body_copy_checked": 170,
+      "uncovered_jit_functions": 13
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 54,
-    "inventoried_jit_functions": 576,
-    "uncovered_inventoried_jit_functions": 63,
+    "uncovered_selected_jit_functions": 52,
+    "inventoried_jit_functions": 578,
+    "uncovered_inventoried_jit_functions": 61,
     "checked_pair_modes": {
-      "pasted_body": 531
+      "pasted_body": 535
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 169,
-        "uncovered_jit_functions": 14
+        "selected_body_copy_checked": 170,
+        "uncovered_jit_functions": 13
       }
     },
     "primary_files_with_int64_screen_warning": 2,
     "primary_lean_file_features": {
       "tasks": {
         "in_body_type_directives": 7,
-        "antiquotes": 342,
+        "antiquotes": 341,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 81
       },
@@ -12438,8 +12438,8 @@
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 145,
-        "dsl_assignment": 14,
+        "antiquotes": 0,
+        "dsl_assignment": 50,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 6
@@ -12493,35 +12493,178 @@
               ]
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/attn_fwd_causal/attn_fwd_causal.py",
-          "function": "_attn_fwd_inner"
         },
         {
-          "python": "bench/tritonbench_g/attn_fwd_causal/attn_fwd_causal.py",
-          "function": "_attn_fwd"
+          "path": "bench/tritonbench_g/attn_fwd_causal/attn_fwd_causal_quotient_remainder.py",
+          "jits": [
+            {
+              "function": "_attn_fwd_inner",
+              "line": 7,
+              "statements": 3,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "_attn_fwd",
+              "line": 46,
+              "statements": 26,
+              "explicit_int64_casts": [
+                {
+                  "line": 62,
+                  "expression": "off_z.to(tl.int64)"
+                },
+                {
+                  "line": 62,
+                  "expression": "off_h.to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_attn_fwd_inner",
+          "lean_definition": "inner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 3,
+          "runtime_parameters": {
+            "acc": "inferred",
+            "l_i": "inferred",
+            "m_i": "inferred",
+            "q": "inferred",
+            "q_scale": "inferred",
+            "K_ptrs": "inferred",
+            "K_scale_ptr": "inferred",
+            "V_ptrs": "inferred",
+            "start_m": "inferred"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "HEAD_DIM",
+            "BLOCK_N",
+            "STAGE",
+            "offs_m",
+            "offs_n",
+            "N_CTX"
+          ],
           "python": "bench/tritonbench_g/attn_fwd_causal/attn_fwd_causal.py",
-          "function": "_attn_fwd_inner"
+          "lean": "bench/tritonbench_g/attn_fwd_causal/Kernels.lean"
         },
         {
+          "python_function": "_attn_fwd",
+          "lean_definition": "repaired",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 26,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "HEAD_DIM",
+            "STAGE"
+          ],
           "python": "bench/tritonbench_g/attn_fwd_causal/attn_fwd_causal.py",
-          "function": "_attn_fwd"
+          "lean": "bench/tritonbench_g/attn_fwd_causal/Kernels.lean"
+        },
+        {
+          "python_function": "_attn_fwd_inner",
+          "lean_definition": "inner",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 3,
+          "runtime_parameters": {
+            "acc": "inferred",
+            "l_i": "inferred",
+            "m_i": "inferred",
+            "q": "inferred",
+            "q_scale": "inferred",
+            "K_ptrs": "inferred",
+            "K_scale_ptr": "inferred",
+            "V_ptrs": "inferred",
+            "start_m": "inferred"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "HEAD_DIM",
+            "BLOCK_N",
+            "STAGE",
+            "offs_m",
+            "offs_n",
+            "N_CTX"
+          ],
+          "python": "bench/tritonbench_g/attn_fwd_causal/attn_fwd_causal_quotient_remainder.py",
+          "lean": "bench/tritonbench_g/attn_fwd_causal/Kernels.lean"
+        },
+        {
+          "python_function": "_attn_fwd",
+          "lean_definition": "quotientRemainder",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 26,
+          "runtime_parameters": {
+            "stride_qz": "integer",
+            "stride_qh": "integer",
+            "stride_qm": "integer",
+            "stride_qk": "integer",
+            "stride_kz": "integer",
+            "stride_kh": "integer",
+            "stride_kn": "integer",
+            "stride_kk": "integer",
+            "stride_vz": "integer",
+            "stride_vh": "integer",
+            "stride_vk": "integer",
+            "stride_vn": "integer",
+            "stride_oz": "integer",
+            "stride_oh": "integer",
+            "stride_om": "integer",
+            "stride_on": "integer",
+            "Z": "integer",
+            "H": "integer",
+            "N_CTX": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N",
+            "HEAD_DIM",
+            "STAGE"
+          ],
+          "python": "bench/tritonbench_g/attn_fwd_causal/attn_fwd_causal_quotient_remainder.py",
+          "lean": "bench/tritonbench_g/attn_fwd_causal/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/attn_fwd_causal/Kernels.lean": "ee4b4e876cabc1097153820d90e8fea2368cb604999c9e65e253a0efea3840a3",
-        "bench/tritonbench_g/attn_fwd_causal/attn_fwd_causal.py": "f63d95347c1900586aa74bee93d5b726962a4d9474737a64f3b3154bf52a8f67"
+        "bench/tritonbench_g/attn_fwd_causal/Kernels.lean": "55672cbcf65298959a231ec0abb92840d3b5a7bda3713397d026b491f415880c",
+        "bench/tritonbench_g/attn_fwd_causal/attn_fwd_causal.py": "f63d95347c1900586aa74bee93d5b726962a4d9474737a64f3b3154bf52a8f67",
+        "bench/tritonbench_g/attn_fwd_causal/attn_fwd_causal_quotient_remainder.py": "13a7c14d6a9383aa01fd2716fff778b13d3a90c3e2762c5b3b10985296b1325a",
+        "bench/tritonbench_g/attn_fwd_causal/jit-correspondence.json": "4688d4fec6345b629d53df5d25396d0cd6885d9558346e71a23be0e4b0e03f0f"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/attn_fwd_causal"
