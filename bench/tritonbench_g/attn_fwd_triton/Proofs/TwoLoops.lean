@@ -4,7 +4,7 @@ import bench.tritonbench_g.attn_fwd_triton.Proofs.SetupSource
 pointer reset for the second and the stage-2 repeated diagonal branch. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.TwoLoops
 open VeriTile.Triton Memory
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealScores (Frame)
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealLoopFormula (Carry)
 noncomputable section

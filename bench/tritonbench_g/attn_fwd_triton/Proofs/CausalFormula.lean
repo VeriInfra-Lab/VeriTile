@@ -53,7 +53,7 @@ theorem blocks_flatten (mem : BlockState) (c : Config) (BD lo count : Nat) (diag
     (blocks mem c BD lo count diagonal row lane).flatten =
       (KeyPartition.keys lo count c.p.context (c.startM*128+row.val) diagonal).map (pair mem c row lane.val) := by
   have hb (i : Nat) := block_global mem c BD (Loop.cursor lo 64 i) diagonal row lane hD hr hd
-    (by simp only [Loop.cursor,VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealLoop.cursor]; omega)
+    (by simp only [Loop.cursor,VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealLoop.cursor]; omega)
   unfold blocks
   simp_rw [hb]
   change (List.range count).flatMap (fun i =>
@@ -81,7 +81,7 @@ theorem both_row (mem : BlockState) (c : Config) (BD : Nat) (row : Fin 128) (lan
            Bool.true row lane) := by
   dsimp only
   rw [TwoLoops.bothResult,after_row,TwoLoops.firstResult,after_row,
-    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealLoopFormula.result_append]
+    VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealLoopFormula.result_append]
   rfl
 
 theorem normalized (mem : BlockState) (c : Config) (BD : Nat) (row : Fin 128) (lane : Fin BD)

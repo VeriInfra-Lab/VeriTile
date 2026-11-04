@@ -19,7 +19,7 @@ theorem epilogue_safe (bounds : RegionBounds) (s : BlockState) (c : Config) (BM 
     Stmt.TraceSafeList bounds (epilogue BM BD c.p.headDim reciprocal) s := by
   cases reciprocal
   all_goals
-    simp only [epilogue,VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealSource.normalization,
+    simp only [epilogue,VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealSource.normalization,
       Bool.false_eq_true,Bool.true_eq,↓reduceIte]
     apply TraceProofs.assign_cons (by simp [Op.SafeAt.eq_def])
     intro tile

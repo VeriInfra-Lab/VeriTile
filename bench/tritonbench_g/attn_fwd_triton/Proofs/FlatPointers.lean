@@ -6,7 +6,7 @@ import bench.tritonbench_g.attn_fwd_triton.Proofs.Relocation
 All roles share A.flat; each original base is retained independently. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.FlatPointers
 open VeriTile.Triton Memory Relocation
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealScores (Frame)
 noncomputable section
 set_option maxHeartbeats 1000000

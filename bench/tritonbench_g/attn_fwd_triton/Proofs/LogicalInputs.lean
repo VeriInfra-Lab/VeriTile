@@ -54,7 +54,7 @@ theorem score_at (mem : BlockState) (c : Config) (BD start : Nat) (row : Fin 128
       simp [inputs,queryPointer,keyPointer,qbase,kbase,RealProofs.address,
         Nat.add_comm,Nat.add_left_comm,Nat.add_assoc]
     · simp [qvalue,kvalue,hr,hk,hd]
-  simp only [Preparation.score,VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealNumeric.scores,
+  simp only [Preparation.score,VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealNumeric.scores,
     hsum,RealProofs.score,inputs,hq,hks,qsbase,ksbase]
   simp [Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
 

@@ -1,9 +1,22 @@
-import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_RealSource
-
-/-! Real normalization and the actual masked output store. Address
-injectivity is needed only among active output lanes. Other cells are
-preserved even when inactive tile lanes share physical addresses. -/
-namespace VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealEpilogue
+import VeriTile.Meta.StatementAudit
+import VeriTile.Triton.DSL
+import VeriTile.Triton.Float.Erasure
+import VeriTile.Triton.Semantics.EvalOp
+import VeriTile.Triton.Source
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealAccess
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealFormula
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealKeys
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealLoopFormula
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealProbabilities
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealRegisterSafety
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealTiles
+import bench.tritonbench_g.attention_score.Proofs.Mathematical_RealFrame
+import bench.tritonbench_g.attn_fwd_triton.Proofs.Support.RealLoads
+import bench.tritonbench_g.attn_fwd_triton.Proofs.Support.RealPointers
+import bench.tritonbench_g.attn_fwd_triton.Proofs.Support.RealSource
+/-! Retained mathematical support for attn_fwd_triton. This module
+provides no alternative kernel or finite-penalty source specification. -/
+namespace VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealEpilogue
 open VeriTile.Triton RealLoads RealPointers
 open AttentionFwdTriton3.RealTiles (finite)
 open AttentionFwdTriton3.RealScores (Frame)
@@ -13,6 +26,7 @@ set_option linter.unusedSimpArgs false
 
 def active (c : Config) (BM BD : Nat) (i : TileIndex [BM,BD]) : Bool :=
   decide (c.startM*BM+i.1.val < c.context ∧ i.2.1.val < c.activeHead)
+
 def address (c : Config) (BM BD : Nat) (i : TileIndex [BM,BD]) : Nat :=
   c.base+(c.startM*BM+i.1.val)*c.strideM+i.2.1.val*c.strideD
 
@@ -60,7 +74,6 @@ theorem frame (s : BlockState) (c : Config) (Out : RegionName) (BM BD : Nat)
       simp [BlockState.writeMem, hn]
     · exact ih s
 
-/-- Only other active writes can overwrite this lane's result. -/
 theorem readback_list {α : Type} (indices : List α) (s : BlockState) (Out : RegionName)
     (offset : α → Nat) (value : α → ℝ) (mask : α → Bool) (i : α)
     (hnd : indices.Nodup) (hi : i ∈ indices) (hactive : mask i = Bool.true)
@@ -88,4 +101,4 @@ theorem readback (s : BlockState) (c : Config) (Out : RegionName) (BM BD : Nat)
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end
-end VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealEpilogue
+end VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealEpilogue

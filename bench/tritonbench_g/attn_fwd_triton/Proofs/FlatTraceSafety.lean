@@ -6,7 +6,7 @@ import bench.tritonbench_g.attn_fwd_triton.Proofs.TraceSafety
 premises are the six ordinary role windows; read-only overlap is allowed. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.FlatTraceSafety
 open VeriTile.Triton Memory Relocation AccessSafety
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealAccess
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealRegisterSafety
 noncomputable section

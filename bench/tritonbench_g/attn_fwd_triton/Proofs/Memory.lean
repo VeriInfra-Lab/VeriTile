@@ -75,7 +75,7 @@ theorem eval_key_mask (s : BlockState) (BD BN N D start : Nat)
   rintro ⟨d,j,⟨⟩⟩
   simp [keyMaskTile, Tile.cop_data, Tile.bop_data, Tile.expandDim_data, Tile.vec, Tile.scalar,
     TileShape.dropInsertedIndex, ComparableDType.lt, NumericDType.sub,
-    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealExpressions.tail_mask_iff,ControlView.signed_tail, -Tile.scalar_eta]
+    VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealExpressions.tail_mask_iff,ControlView.signed_tail, -Tile.scalar_eta]
   change (decide ((j.val : Int)<(N : Int)-(start : Int)) && decide (d.val<D)) = _
   rw [ControlView.signed_tail_add]
 
@@ -90,7 +90,7 @@ theorem eval_value_mask (s : BlockState) (BN BD N D start : Nat)
   rintro ⟨j,d,⟨⟩⟩
   simp [valueMaskTile, Tile.cop_data, Tile.bop_data, Tile.expandDim_data, Tile.vec, Tile.scalar,
     TileShape.dropInsertedIndex, ComparableDType.lt, NumericDType.sub,
-    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealExpressions.tail_mask_iff,ControlView.signed_tail, -Tile.scalar_eta]
+    VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealExpressions.tail_mask_iff,ControlView.signed_tail, -Tile.scalar_eta]
   change (decide ((j.val : Int)<(N : Int)-(start : Int)) && decide (d.val<D)) = _
   rw [ControlView.signed_tail_add]
 

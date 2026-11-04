@@ -5,7 +5,7 @@ lane and a frame for every other memory cell. Generic original store lemmas
 are reused through an output-only view configuration. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.Output
 open VeriTile.Triton Memory
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealTiles (finite)
 noncomputable section
 set_option maxHeartbeats 1000000

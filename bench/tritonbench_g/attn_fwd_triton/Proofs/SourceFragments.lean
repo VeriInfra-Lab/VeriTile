@@ -5,7 +5,7 @@ import bench.tritonbench_g.attn_fwd_triton.Proofs.Mathematical_Real
 by the repair are references to the original helpers, not copied proofs. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified
 open VeriTile.Triton
-abbrev Parameters := VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealContract.Parameters
+abbrev Parameters := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealContract.Parameters
 set_option maxRecDepth 16000
 set_option maxHeartbeats 3000000
 set_option linter.unusedSimpArgs false
@@ -22,10 +22,10 @@ def source (BM BN BD : Nat) (p : Parameters) (_reciprocal : Bool) : ComputeKerne
 def code (BM BN BD : Nat) (p : Parameters) (r : Bool) : List Stmt :=
   ControlView.algorithm 32 6 (source BM BN BD p r).eraseDType.toAlgKernel.body
 
-abbrev keyName := VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.keyName
-abbrev scaleName := VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.scaleName
-abbrev valueName := VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.valueName
-abbrev maskName := VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealPreparation.maskName
+abbrev keyName := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.keyName
+abbrev scaleName := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.scaleName
+abbrev valueName := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.valueName
+abbrev maskName := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealPreparation.maskName
 
 def wide (n : Nat) : Op .int [] := .castNatToInt (.constNat n)
 
@@ -84,12 +84,12 @@ def advance (BN BD : Nat) (second : Bool) : List Stmt :=
      (.castIntToNat (.mul .int .nil (wide BN) (.ref .int [] "stride_vk64"))))]
 
 def suffix (BM BN BD D : Nat) (second : Bool) : List Stmt :=
-  [VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.probability BM BN] ++ VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.rescale BM BN BD ++
-    [valueLoad BN BD D second] ++ VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.accumulate BM BN BD ++ advance BN BD second
+  [VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.probability BM BN] ++ VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.rescale BM BN BD ++
+    [valueLoad BN BD D second] ++ VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.accumulate BM BN BD ++ advance BN BD second
 
 def flatIteration (BM BN BD D : Nat) (second diagonal : Bool) : List Stmt :=
-  loadPrefix BD BN D second ++ [VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.score BM BN BD] ++ guard BM BN second diagonal ++
-    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.center BM BN ++ suffix BM BN BD D second
+  loadPrefix BD BN D second ++ [VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.score BM BN BD] ++ guard BM BN second diagonal ++
+    VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.center BM BN ++ suffix BM BN BD D second
 
 def sourceIteration (BM BN BD D : Nat) (second firstDiagonal : Bool) : List Stmt :=
   flatIteration BM BN BD D second (second || firstDiagonal)
@@ -109,7 +109,7 @@ def loop (BM BN BD D : Nat) (second firstDiagonal : Bool) : Stmt :=
     (sourceIteration BM BN BD D second firstDiagonal)
 
 def epilogue (BM BD D : Nat) (_r : Bool) : List Stmt :=
-  [VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealSource.normalization BM BD Bool.false,
+  [VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealSource.normalization BM BD Bool.false,
    .store .real [BM,BD] (.ptr (.ref .ptr [BM,BD] "O_block_ptr")) (.ref .real [BM,BD] "acc")
      (.mask (queryMask BM BD D))]
 
@@ -132,19 +132,19 @@ theorem decomposition (BM BN BD : Nat) (p : Parameters) (r : Bool) :
       ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind]
     simp [hd,ControlView.algorithm,wide,maskExpr,loop, sourceIteration, flatIteration, loadPrefix, guard, tail, keyMask, valueMask,
       queryMask, valueLoad, advance, suffix, epilogue, keyName, scaleName, valueName, maskName,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.keyName,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.scaleName,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.valueName,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealPreparation.maskName,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.score,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.scoreExpr,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.center,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.centerExpr,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.probability,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.rescale,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.accumulate,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealSource.normalization,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealExpressions.maskExpr]
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.keyName,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.scaleName,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.valueName,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealPreparation.maskName,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.score,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.scoreExpr,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.center,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.centerExpr,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.probability,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.rescale,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.accumulate,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealSource.normalization,
+      VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealExpressions.maskExpr]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

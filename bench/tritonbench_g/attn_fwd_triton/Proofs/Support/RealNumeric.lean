@@ -1,11 +1,20 @@
-import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_RealBody
-import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_RealTiles
+import VeriTile.Meta.StatementAudit
+import VeriTile.Triton.DSL
+import VeriTile.Triton.Float.Erasure
+import VeriTile.Triton.Semantics.EvalOp
+import VeriTile.Triton.Source
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealAccess
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealFormula
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealKeys
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealLoopFormula
 import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealProbabilities
-
-/-! Execution of arithmetic fragments taken from the two source helpers.
-Register premises are intermediate-state invariants; memory loads and loop
-induction must establish them. No FP rewrite assumptions enter these proofs. -/
-namespace VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealNumeric
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealRegisterSafety
+import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealTiles
+import bench.tritonbench_g.attention_score.Proofs.Mathematical_RealFrame
+import bench.tritonbench_g.attn_fwd_triton.Proofs.Support.RealBody
+/-! Retained mathematical support for attn_fwd_triton. This module
+provides no alternative kernel or finite-penalty source specification. -/
+namespace VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealNumeric
 open VeriTile.Triton
 open AttentionFwdTriton3.RealTiles (finite dot_finite)
 open AttentionFwdTriton3.RealScores (Frame)
@@ -41,21 +50,6 @@ theorem score_executes (s : BlockState) (BM BN BD : Nat)
       Frame ["qk"] s t := by
   refine ⟨_, stepStmt_assign_eq_some (eval_score s BM BN BD q k qs ks hq hk hqs hks), by simp, ?_⟩
   exact Frame.setReg _ s "qk" _ _ _ (by simp)
-
-theorem probabilities_execute (s : BlockState) (BM BN : Nat) (hN : 0 < BN)
-    (score : Fin BM → Fin BN → ℝ) (old : Fin BM → WithBot ℝ)
-    (hm : s.regs .real [BM] "m_i" = some (⟨fun i => old i.1⟩ : Tile .real [BM]))
-    (hqk : s.regs .real [BM,BN] "qk" = some (finite (fun i : TileIndex [BM,BN] => score i.1 i.2.1))) :
-    ∃ t, stepStmts (RealBody.center BM BN ++ [RealBody.probability BM BN]) s = some t ∧
-      t.regs .real [BM] "m_ij" = some (⟨fun i => RealTiles.center score old i.1⟩ : Tile .real [BM]) ∧
-      t.regs .real [BM,BN] "p" =
-        some (finite (fun i : TileIndex [BM,BN] => RealTiles.probability score old i.1 i.2.1)) ∧
-      Frame ["m_ij","qk","p"] s t := by
-  have hc : RealBody.center BM BN ++ [RealBody.probability BM BN] =
-      (AttentionFwdTriton3.RealBody.probabilities BM BN 0 0 0).take 3 := rfl
-  rw [hc]
-  exact AttentionFwdTriton3.RealProbabilities.prefix_executes s BM BN 0 0 0 hN score
-    RealTiles.keep old hm (by simpa only [RealTiles.keep_eq, Bool.true_eq, ↓reduceIte] using hqk)
 
 theorem rescale_executes (s : BlockState) (BM BN BD : Nat)
     (m mij l : Tile .real [BM]) (p : Tile .real [BM,BN]) (acc : Tile .real [BM,BD])
@@ -136,4 +130,4 @@ theorem accumulate_executes (s : BlockState) (BM BN BD : Nat)
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end
-end VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealNumeric
+end VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealNumeric

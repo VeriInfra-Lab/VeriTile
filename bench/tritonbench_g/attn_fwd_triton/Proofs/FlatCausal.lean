@@ -26,7 +26,7 @@ theorem executes (A : FlatAlloc) (s : BlockState) (p : Parameters) (BD : Nat) (h
   rw [hr i hi hinj]
   rcases i with ⟨row,lane,⟨⟩⟩
   have hh : (config A (Coordinates.configuration s p)).startM*128+row.val < p.context ∧ lane.val < p.headDim := by
-    simpa [Output.active,Output.outputConfig,VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealEpilogue.active]
+    simpa [Output.active,Output.outputConfig,VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealEpilogue.active]
       using hi
   simpa [FlatExecution.result,hstage,config,parameters,offsets] using
     CausalFormula.normalized s (config A (Coordinates.configuration s p)) BD row lane hD hh.1 hh.2
