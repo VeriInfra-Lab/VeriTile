@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 181,
-      "uncovered_jit_functions": 2
+      "selected_body_copy_checked": 182,
+      "uncovered_jit_functions": 1
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 6,
-    "inventoried_jit_functions": 600,
-    "uncovered_inventoried_jit_functions": 9,
+    "uncovered_selected_jit_functions": 3,
+    "inventoried_jit_functions": 603,
+    "uncovered_inventoried_jit_functions": 6,
     "checked_pair_modes": {
-      "pasted_body": 611
+      "pasted_body": 617
     },
     "collection_status": {
       "bug_detection": {
@@ -38,17 +38,17 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 181,
-        "uncovered_jit_functions": 2
+        "selected_body_copy_checked": 182,
+        "uncovered_jit_functions": 1
       }
     },
-    "primary_files_with_int64_screen_warning": 1,
+    "primary_files_with_int64_screen_warning": 0,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 1,
-        "antiquotes": 335,
+        "in_body_type_directives": 0,
+        "antiquotes": 334,
         "dsl_loop": 0,
-        "dsl_numeric_helpers": 79
+        "dsl_numeric_helpers": 78
       },
       "examples": {
         "in_body_type_directives": 0,
@@ -40466,13 +40466,13 @@
       "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py",
       "lean": "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean",
       "lean_screen": {
-        "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 252,
-        "dsl_assignment": 12,
+        "quotations": 1,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 73,
         "dsl_loop": 0,
-        "dsl_numeric_helpers": 8,
-        "load_dtype_extension": 8
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -40827,43 +40827,371 @@
               ]
             }
           ]
+        },
+        {
+          "path": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul_index_commuted.py",
+          "jits": [
+            {
+              "function": "get_freq_multi_tokens",
+              "line": 8,
+              "statements": 6,
+              "explicit_int64_casts": [
+                {
+                  "line": 13,
+                  "expression": "tl.arange(0, NB_TOKENS).to(tl.int64)"
+                },
+                {
+                  "line": 13,
+                  "expression": "tl.cast(starting_idx, tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "rbe_triton",
+              "line": 18,
+              "statements": 31,
+              "explicit_int64_casts": [
+                {
+                  "line": 24,
+                  "expression": "tl.cast(M, tl.int64)"
+                },
+                {
+                  "line": 25,
+                  "expression": "tl.cast(K, tl.int64)"
+                },
+                {
+                  "line": 26,
+                  "expression": "tl.cast(stride_x_batch, tl.int64)"
+                },
+                {
+                  "line": 27,
+                  "expression": "tl.cast(stride_x_m, tl.int64)"
+                },
+                {
+                  "line": 28,
+                  "expression": "tl.cast(stride_x_n, tl.int64)"
+                },
+                {
+                  "line": 29,
+                  "expression": "tl.cast(stride_out_batch, tl.int64)"
+                },
+                {
+                  "line": 30,
+                  "expression": "tl.cast(stride_out_m, tl.int64)"
+                },
+                {
+                  "line": 31,
+                  "expression": "tl.cast(stride_out_n, tl.int64)"
+                },
+                {
+                  "line": 32,
+                  "expression": "tl.cast(start_token_position, tl.int64)"
+                },
+                {
+                  "line": 33,
+                  "expression": "tl.program_id(axis=0).to(tl.int64)"
+                },
+                {
+                  "line": 34,
+                  "expression": "tl.program_id(axis=1).to(tl.int64)"
+                },
+                {
+                  "line": 38,
+                  "expression": "tl.arange(0, BLOCK_SIZE_M).to(tl.int64)"
+                },
+                {
+                  "line": 39,
+                  "expression": "tl.arange(0, BLOCK_SIZE_K // 2).to(tl.int64)"
+                }
+              ]
+            },
+            {
+              "function": "rms_matmul_rbe",
+              "line": 61,
+              "statements": 35,
+              "explicit_int64_casts": [
+                {
+                  "line": 81,
+                  "expression": "tl.cast(M, tl.int64)"
+                },
+                {
+                  "line": 82,
+                  "expression": "tl.cast(N, tl.int64)"
+                },
+                {
+                  "line": 83,
+                  "expression": "tl.cast(K, tl.int64)"
+                },
+                {
+                  "line": 84,
+                  "expression": "tl.cast(stride_x_batch, tl.int64)"
+                },
+                {
+                  "line": 85,
+                  "expression": "tl.cast(stride_x_m, tl.int64)"
+                },
+                {
+                  "line": 86,
+                  "expression": "tl.cast(stride_x_k, tl.int64)"
+                },
+                {
+                  "line": 87,
+                  "expression": "tl.cast(stride_w_k, tl.int64)"
+                },
+                {
+                  "line": 88,
+                  "expression": "tl.cast(stride_w_n, tl.int64)"
+                },
+                {
+                  "line": 89,
+                  "expression": "tl.cast(stride_rms_w, tl.int64)"
+                },
+                {
+                  "line": 90,
+                  "expression": "tl.cast(stride_out_batch, tl.int64)"
+                },
+                {
+                  "line": 91,
+                  "expression": "tl.cast(stride_out_m, tl.int64)"
+                },
+                {
+                  "line": 92,
+                  "expression": "tl.cast(stride_out_n, tl.int64)"
+                },
+                {
+                  "line": 93,
+                  "expression": "tl.program_id(axis=0).to(tl.int64)"
+                },
+                {
+                  "line": 94,
+                  "expression": "tl.program_id(axis=1).to(tl.int64)"
+                },
+                {
+                  "line": 100,
+                  "expression": "tl.arange(0, BLOCK_SIZE_K).to(tl.int64)"
+                },
+                {
+                  "line": 143,
+                  "expression": "tl.arange(0, BLOCK_SIZE_M).to(tl.int64)"
+                },
+                {
+                  "line": 144,
+                  "expression": "tl.arange(0, BLOCK_SIZE_N).to(tl.int64)"
+                },
+                {
+                  "line": 98,
+                  "expression": "tl.arange(0, BLOCK_SIZE_M).to(tl.int64)"
+                },
+                {
+                  "line": 99,
+                  "expression": "tl.arange(0, BLOCK_SIZE_N).to(tl.int64)"
+                },
+                {
+                  "line": 132,
+                  "expression": "tl.arange(0, BLOCK_SIZE_M).to(tl.int64)"
+                },
+                {
+                  "line": 135,
+                  "expression": "tl.cast(start_token_position, tl.int64)"
+                },
+                {
+                  "line": 104,
+                  "expression": "tl.arange(0, BLOCK_SIZE_K).to(tl.int64)"
+                },
+                {
+                  "line": 131,
+                  "expression": "tl.arange(0, BLOCK_SIZE_N // 2).to(tl.int64)"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "rms_matmul_rbe",
+          "lean_definition": "Bodies.rmsSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "source_procedure",
+          "statements": 35,
+          "runtime_parameters": {
+            "x_ptr": "inferred",
+            "w_ptr": "inferred",
+            "rms_w_ptr": "inferred",
+            "out_ptr": "inferred",
+            "M": "inferred",
+            "N": "inferred",
+            "K": "inferred",
+            "stride_x_batch": "inferred",
+            "stride_x_m": "inferred",
+            "stride_x_k": "inferred",
+            "stride_w_k": "inferred",
+            "stride_w_n": "inferred",
+            "stride_rms_w": "inferred",
+            "stride_out_batch": "inferred",
+            "stride_out_m": "inferred",
+            "stride_out_n": "inferred",
+            "start_token_position": "inferred"
+          },
+          "constexpr_parameters": [
+            "USE_FP8",
+            "RBE_EPILOGUE",
+            "THETA",
+            "EPS",
+            "HEAD_DIM",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "BLOCK_SIZE_K"
+          ],
+          "fp32_constants": [
+            "THETA",
+            "EPS"
+          ],
           "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py",
-          "function": "get_freq_multi_tokens"
+          "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean"
         },
         {
+          "python_function": "get_freq_multi_tokens",
+          "lean_definition": "frequencyFunction",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 6,
+          "runtime_parameters": {
+            "offs_cn": "inferred",
+            "starting_idx": "inferred"
+          },
+          "constexpr_parameters": [
+            "theta",
+            "NB_TOKENS"
+          ],
           "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py",
-          "function": "rbe_triton"
+          "lean": "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean"
         },
         {
+          "python_function": "rbe_triton",
+          "lean_definition": "rbe",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 31,
+          "runtime_parameters": {
+            "M": "integer",
+            "K": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_m": "integer",
+            "stride_x_n": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_m": "integer",
+            "stride_out_n": "integer",
+            "start_token_position": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "THETA"
+          ],
           "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py",
-          "function": "rms_matmul_rbe"
+          "lean": "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean"
+        },
+        {
+          "python_function": "rms_matmul_rbe",
+          "lean_definition": "Bodies.rmsIndexCommutedSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "source_procedure",
+          "statements": 35,
+          "runtime_parameters": {
+            "x_ptr": "inferred",
+            "w_ptr": "inferred",
+            "rms_w_ptr": "inferred",
+            "out_ptr": "inferred",
+            "M": "inferred",
+            "N": "inferred",
+            "K": "inferred",
+            "stride_x_batch": "inferred",
+            "stride_x_m": "inferred",
+            "stride_x_k": "inferred",
+            "stride_w_k": "inferred",
+            "stride_w_n": "inferred",
+            "stride_rms_w": "inferred",
+            "stride_out_batch": "inferred",
+            "stride_out_m": "inferred",
+            "stride_out_n": "inferred",
+            "start_token_position": "inferred"
+          },
+          "constexpr_parameters": [
+            "USE_FP8",
+            "RBE_EPILOGUE",
+            "THETA",
+            "EPS",
+            "HEAD_DIM",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "BLOCK_SIZE_K"
+          ],
+          "fp32_constants": [
+            "THETA",
+            "EPS"
+          ],
+          "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul_index_commuted.py",
+          "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean"
+        },
+        {
+          "python_function": "get_freq_multi_tokens",
+          "lean_definition": "frequencyFunction",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "kind": "statement_jit_function",
+          "statements": 6,
+          "runtime_parameters": {
+            "offs_cn": "inferred",
+            "starting_idx": "inferred"
+          },
+          "constexpr_parameters": [
+            "theta",
+            "NB_TOKENS"
+          ],
+          "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul_index_commuted.py",
+          "lean": "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean"
+        },
+        {
+          "python_function": "rbe_triton",
+          "lean_definition": "rbe",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 31,
+          "runtime_parameters": {
+            "M": "integer",
+            "K": "integer",
+            "stride_x_batch": "integer",
+            "stride_x_m": "integer",
+            "stride_x_n": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_m": "integer",
+            "stride_out_n": "integer",
+            "start_token_position": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "THETA"
+          ],
+          "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul_index_commuted.py",
+          "lean": "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py",
-          "function": "get_freq_multi_tokens"
-        },
-        {
-          "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py",
-          "function": "rbe_triton"
-        },
-        {
-          "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py",
-          "function": "rms_matmul_rbe"
-        }
-      ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean": "c677f7abfcb4a1404c8053eb9b1a9bf5ab377dc9bb72fcac74b50260cc937dc2",
-        "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py": "dfacb5b24c87863213a7516fdf9885be9027db9cec5ed0be41066f36464c3824"
+        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "c6155515016e80be25288d21d6daa34ca8fbb44db029648674ea2999a76fcb66",
+        "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean": "b1e81e04c6457bb2047b153515fa1be2601a7cc00303be733ee5563dd758c283",
+        "bench/tritonbench_g/rms_rbe_matmul/jit-correspondence.json": "ab48d04ab40c15b997cf5641c485a18333cd3e5d139f35962646bd9d46fa7e22",
+        "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py": "dfacb5b24c87863213a7516fdf9885be9027db9cec5ed0be41066f36464c3824",
+        "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul_index_commuted.py": "eaab72fddaf15813e1960cf00d3b96bfb7bbc6df564ede2700400feb785216e3"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/rms_rbe_matmul"

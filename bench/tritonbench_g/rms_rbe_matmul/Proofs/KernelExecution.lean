@@ -1,4 +1,5 @@
 import bench.tritonbench_g.rms_rbe_matmul.Proofs.KernelLoop
+import bench.tritonbench_g.rms_rbe_matmul.Proofs.LoopHeader
 import bench.tritonbench_g.rms_rbe_matmul.Proofs.KernelStore
 import bench.tritonbench_g.layernorm_fwd_triton.Proofs.SourceContract
 
@@ -10,20 +11,10 @@ set_option maxRecDepth 12000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
-def loopCode (fp8 : Bool) (p : Parameters) := ((kernel fp8 p).surfaceBody.drop 12).take 1
-
 theorem source_split (fp8 : Bool) (p : Parameters) :
     (kernel fp8 p).surfaceBody=prelude fp8 p++loopCode fp8 p++statistics fp8 p++
       rotation fp8 p++stores fp8 p := by cases fp8 <;> rfl
 
-theorem loopCode_run (a : Operations α) (fp8 : Bool) (p : Parameters) (s : State α) :
-    run (engine a) (loopCode fp8 p) s=
-      range (engine a) "step" 0 (steps p) 1 (loop fp8 p) s := by
-  cases fp8 <;> simp [loopCode,loop,kernel,TypedSource.kernel,TypedSource.source,
-    arguments,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-    Option.bind,numeric,bop,integralFloorDiv,integralMod,steps,
-    Broadcast.leftIndex,Broadcast.rightIndex]
-  all_goals split <;> simp_all only
 
 def result (a : Operations α) (fp8 : Bool) (p : Parameters) (s : State α) :=
   rotated a p s (normalized a p (accumulated a fp8 p s))
@@ -36,13 +27,15 @@ theorem source_executes_reads (a : Operations α) (fp8 : Bool) (p : Parameters)
       final.mem=(scatter a fp8 p s s (result a fp8 p s)).mem := by
   obtain ⟨u,hu,ru⟩ := prefix_run a fp8 p s
   obtain ⟨v,hv,rv⟩ := loop_run_reads a fp8 p s u 0 (steps p) (initial a) (fun cur _ hcur => bytes cur hcur) ru
+  change rangeInt (engine a) "step" 0 (steps p) 1 (loop fp8 p) u=some v at hv
   obtain ⟨w,hw,rw⟩ := statistics_run a fp8 p s v _ _ rv
   obtain ⟨x,hx,rx⟩ := rotation_run a fp8 p s w _ rw
   obtain ⟨final,hf,mf⟩ := store_run a fp8 p s x _ rx
   refine ⟨final,?_,mf⟩
   change run (engine a) (kernel fp8 p).surfaceBody s=some final
   rw [source_split]
-  simp only [run_append,hu,Option.bind_some,loopCode_run,hv,hw,hx,hf]
+  simp only [run_append,hu,Option.bind_some,loopCode_run,hv,hw,hx,hf,
+    Int.natCast_zero]
 
 /-- The original all-offset ByteMemory endpoint remains available. -/
 theorem source_executes (a : Operations α) (fp8 : Bool) (p : Parameters)

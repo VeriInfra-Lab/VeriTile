@@ -5,12 +5,12 @@
   "complete": false,
   "target_count": 196,
   "completed_count": 193,
-  "staged_count": 194,
+  "staged_count": 195,
   "pending_count": 3,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "193_EXACT_CURRENT_ACCEPTED",
-    "staged_and_regression_retained_modules": 8543,
+    "staged_and_regression_retained_modules": 8589,
     "official_comparator": "193 exact-current accepted targets, including all 19 examples. SoftmaxFlaggems final official artifact accepts all 149 frozen roots and four actual public theorem names with unchanged source/import closures. The two RMS/RBE tasks and TritonAttention still require source/proof migration. Compilation alone is not completion. No merge.",
     "python_tests": 715,
     "offline_example_compilations": {
@@ -21,7 +21,7 @@
       "completion_certificate": false
     },
     "working_tree": "193 exact-current accepted targets; RMS/QKV is fully source-aligned and passes local mathematics, safety/frame, existing FP equivalence, all 111 roots and independent trust/specification checks, awaiting official exact-source replay. Two source migrations remain. No merge.",
-    "official_replay_sources": 5787,
+    "official_replay_sources": 7592,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -86,14 +86,12 @@
       }
     ],
     "incremental_replay": {
-      "status": "IN_PROGRESS",
-      "scope": "softmax_flaggems ten exact original/candidate/helper bodies and four actual public endpoints",
+      "status": "LOCAL_VALIDATION_PASS_READY_TO_FREEZE",
+      "scope": "rms_rbe_matmul six exact JIT body pairs, complete RMS/grid/FP proofs and separate full rotary Real/safety/frame connection",
       "manifest": "validation/body-migration-incremental.json",
-      "roots": 149,
-      "note": "Source matching, full mathematical/safety/frame/FP proofs, all retained roots and ten external trust/spec gates pass locally; official exact-current acceptance is still required. Not complete.",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41835206670",
-      "validated_source_commit": "df77717030e3dd39bb764e356a76f280c44d22e5",
-      "frozen_source_files": 408
+      "roots": 46,
+      "complete": false,
+      "note": "Six complete original/candidate JIT bodies match. The full signed RMS loop, independent full-K/grid mathematics, byte/native interfaces, typed stores, source safety and frame, and full-state/failure-aware FP index transformation are reverified. The separately pasted rotary/helper is connected to the complete dense rotary mathematical interface, including odd/empty shapes, both barriers, execution, safety and frame. All 46 owned/shared/test roots, nine external trust/spec gates, three actual public names and 715 Python tests pass locally. Official exact-source independent replay is still required; compilation and body matching alone are not completion. No merge."
     },
     "previous_incremental_replays": [
       {
@@ -1315,6 +1313,17 @@
         "validated_source_commit": "c74a8a635ed30910f9d98296af2a2d342dbacf79",
         "receipt": "validation/body_receipts/parallel-attention-pasted-source-replay.json",
         "note": "Final official artifact and exact current source/import closure verified; every required root accepted; public names resolved. Attempt 2 followed an environment-setup-only failure in attempt 1."
+      },
+      {
+        "status": "ACCEPTED_EXACT_CURRENT_SOURCE",
+        "scope": "softmax_flaggems ten exact original/candidate/helper bodies and four actual public endpoints",
+        "manifest": "validation/body-migration-incremental.json",
+        "roots": 149,
+        "note": "All 149 frozen roots independently accepted; the current 408-file source closure and actual public targets were verified against the final official artifact.",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41835206670",
+        "validated_source_commit": "df77717030e3dd39bb764e356a76f280c44d22e5",
+        "frozen_source_files": 408,
+        "receipt": "validation/body_receipts/softmax-flaggems-pasted-source-replay.json"
       }
     ],
     "pending_client_regressions": {
@@ -1332,9 +1341,20 @@
     },
     "current_work": {
       "path": "bench/tritonbench_g/rms_rbe_matmul",
-      "status": "SOURCE_AND_PROOF_MIGRATION_IN_PROGRESS",
+      "status": "LOCAL_FULL_VALIDATION_PASS_AWAITING_OFFICIAL_REPLAY",
       "complete": false,
-      "note": "Shared exact RMS source supports literal constexpr instantiation in a Lean probe, preserving the original literal ports. Full raw rotary helper/caller, all source/body connections, independent mathematics/safety/frame, existing FP equivalence, retained modules and official independent replay remain required. No merge."
+      "body_pairs": 6,
+      "all_jit_bodies_aligned": true,
+      "body_copy_check": "PASS_6_EXACT_PAIRS",
+      "retained_modules": "PASS_46_ROOTS_3722_LAKE_JOBS",
+      "owned_lean_modules": 42,
+      "retained_build_roots": 46,
+      "required_replay_roots": 46,
+      "public_real_fp_proofs": "PASS_3_PUBLIC_TARGETS",
+      "public_name_resolution": "PASS_3_ACTUAL_PUBLIC_TARGETS",
+      "external_trust_spec_gates": "PASS_9_FILES",
+      "python_tests": 715,
+      "note": "Six complete original/candidate JIT bodies match. The full signed RMS loop, independent full-K/grid mathematics, byte/native interfaces, typed stores, source safety and frame, and full-state/failure-aware FP index transformation are reverified. The separately pasted rotary/helper is connected to the complete dense rotary mathematical interface, including odd/empty shapes, both barriers, execution, safety and frame. All 46 owned/shared/test roots, nine external trust/spec gates, three actual public names and 715 Python tests pass locally. Official exact-source independent replay is still required; compilation and body matching alone are not completion. No merge."
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -2709,9 +2729,9 @@
       "independent_replay": "IN_PROGRESS"
     },
     "staged_manifest": {
-      "cases": 189,
-      "build_roots": 7325,
-      "replay_roots": 6328,
+      "cases": 201,
+      "build_roots": 8589,
+      "replay_roots": 7592,
       "boundary": "Manifest coverage is not completion or a fresh full integration build result."
     },
     "int8_quantization_source_migration": {
@@ -2808,13 +2828,13 @@
       "receipt": "validation/body_receipts/causal-attention-complete-body.json"
     },
     "current_manifest_coverage": {
-      "cases": 200,
-      "target_cases": 194,
+      "cases": 201,
+      "target_cases": 195,
       "regression_cases": 6,
-      "retained_and_shared_build_roots": 8543,
-      "explicit_replay_roots": 7546,
+      "retained_and_shared_build_roots": 8589,
+      "explicit_replay_roots": 7592,
       "completion_certificate": false,
-      "note": "Source inventory updated after four exact RMS/QKV body pairs; 181/183 TritonBench-G cases and 19/19 examples are source-aligned. RMS/RBE2 and TritonAttention remain uncovered. Source correspondence alone is not proof completion."
+      "note": "182/183 TritonBench-G cases and 19/19 examples have source correspondence, with 617 checked original/candidate/helper pairs. Only triton_attention remains uncovered. Manifest coverage and source correspondence are not proof completion."
     },
     "previous_local_work": [
       {
@@ -3039,13 +3059,13 @@
       }
     ],
     "current_registry": {
-      "cases": 199,
-      "targets": 193,
+      "cases": 201,
+      "targets": 195,
       "regressions": 6,
-      "retained_modules": 8432,
-      "replay_sources": 7435,
+      "retained_modules": 8589,
+      "replay_sources": 7592,
       "integrated_full_build": "NOT_CLAIMED",
-      "local_incremental_build": "PASS_149_ROOTS"
+      "local_incremental_build": "PASS_46_ROOTS"
     },
     "newly_completed_current_source_replays": [
       {
@@ -3131,11 +3151,11 @@
       }
     ],
     "remaining_source_migrations": [
-      "bench/tritonbench_g/rms_rbe_matmul",
       "bench/tritonbench_g/triton_attention"
     ],
     "pending_independent_acceptance": [
-      "bench/tritonbench_g/rms_matmul_rbe"
+      "bench/tritonbench_g/rms_matmul_rbe",
+      "bench/tritonbench_g/rms_rbe_matmul"
     ]
   },
   "targets": [
@@ -5002,7 +5022,9 @@
     {
       "path": "bench/tritonbench_g/rms_rbe_matmul",
       "status": "pending",
-      "complete": false
+      "complete": false,
+      "body_copy_check": "PASS_6_EXACT_PAIRS",
+      "note": "Six complete original/candidate JIT bodies match. The full signed RMS loop, independent full-K/grid mathematics, byte/native interfaces, typed stores, source safety and frame, and full-state/failure-aware FP index transformation are reverified. The separately pasted rotary/helper is connected to the complete dense rotary mathematical interface, including odd/empty shapes, both barriers, execution, safety and frame. All 46 owned/shared/test roots, nine external trust/spec gates, three actual public names and 715 Python tests pass locally. Official exact-source independent replay is still required; compilation and body matching alone are not completion. No merge."
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_fused",

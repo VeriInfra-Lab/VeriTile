@@ -71,20 +71,18 @@ def projection (a : Operations α) (fp8 : Bool) (p : Parameters) (v : Input α)
         (a.scalar.binary (some .fp32) .real .div
           (a.scalar.reduceSum (some .fp32) (shape:=[16,64]) ⟨1,by simp⟩ Bool.false
             (moments a p v t ((p.K+63)/64)) (i.1,PUnit.unit))
-          (a.scalar.literal (some .fp32) .real p.K))
+          (a.scalar.fromInt (some .fp32) (p.K:Int)))
         (a.scalar.literal (some .fp32) .real (1/1000000))))
 
 def evenLane (j : Fin 64) : Fin 64 := ⟨j.val/2*2,by omega⟩
 def oddLane (j : Fin 64) : Fin 64 := ⟨j.val/2*2+1,by omega⟩
 def phase (a : Operations α) (p : Parameters) (t : Tile) (i : TileIndex [16,64]) :=
   a.scalar.binary (some .fp32) .real .div
-    (a.scalar.cast (some .fp32) .real .real
-      (a.scalar.fromInt (some .fp32) (p.start+(t.row*16+i.1.val : Nat))))
+    (a.scalar.fromInt (some .fp32) (p.start+(t.row*16+i.1.val : Nat)))
     (a.scalar.binary (some .fp32) .real .pow
       (a.scalar.literal (some .fp32) .real 10000)
       (a.scalar.binary (some .fp32) .real .div
-        (a.scalar.cast (some .fp32) .real .real
-          (a.scalar.fromNat (some .fp32) ((t.column*64+evenLane i.2.1)%p.headDim)))
+        (a.scalar.fromInt (some .fp32) (((t.column*64+evenLane i.2.1)%p.headDim:Nat):Int))
         (a.scalar.literal (some .fp32) .real p.headDim)))
 
 /-- An input-only expression graph. It uses neither the source interpreter,

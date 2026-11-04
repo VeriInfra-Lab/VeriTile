@@ -1,5 +1,7 @@
 import bench.tritonbench_g.rms_rbe_matmul.Proofs.LogicalReader
 import VeriTile.Meta.Specification
+import bench.tritonbench_g.rms_rbe_matmul.Proofs.RotaryWhole
+import bench.tritonbench_g.rbe_triton_transform.Correct
 
 namespace VeriTile.Bench.Repairs.RmsRbeMatmulLaunchGuard
 open VeriTile.Bench.Repairs.RmsRbeMatmul
@@ -46,3 +48,29 @@ specification rms_rbe_matmul_grid_real
 #auditModuleAxioms
 end
 end VeriTile.Bench.Repairs.RmsRbeMatmulLaunchGuard
+
+namespace VeriTile.Bench.Repairs.RmsRbeMatmul.RotaryCorrect
+open VeriTile.Triton FP.Structural
+open VeriTile.Bench.Repairs.RbeTritonTransform
+open RbeTritonTransformCheckedLaunch
+open scoped VeriTile.Triton.FP.Structural.LogicalProgramIO
+noncomputable section
+
+/-- The complete separately pasted rotary function, with its original dense
+2-by-1024 launch, odd-tail padding, both barriers, execution, safety and frame. -/
+specification rotary_real (r : Request) (X Y : RegionName) (different : X≠Y)
+    (qs : List Runtime.Program) (all : qs.Perm (Runtime.programs r)) :
+    Spec.Real (RotaryIO.logical r X Y qs ⊨ fun xs b m c =>
+      let n := c.val/2*2
+      let u := LogicalView.column r xs b m n
+      let v := LogicalView.column r xs b m (n+1)
+      let angle := ((r.position:ℝ)+(m.val:ℝ)) /
+        Real.rpow 10000 ((n%128:Nat)/(128:ℝ))
+      if decide (c.val%2=1) then u*Real.sin angle+v*Real.cos angle
+      else u*Real.cos angle-v*Real.sin angle) := by
+  apply RotaryBridge.implements
+  exact RbeTritonTransformCheckedLaunch.Correct.kernel_correct r X Y different qs all
+
+#axiomsClean rotary_real
+end
+end VeriTile.Bench.Repairs.RmsRbeMatmul.RotaryCorrect

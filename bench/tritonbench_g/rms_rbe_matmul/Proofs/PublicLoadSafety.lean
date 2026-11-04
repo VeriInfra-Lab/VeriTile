@@ -10,14 +10,14 @@ set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
 structure LoadRegs (p : Parameters) (s : State α) (cur : Nat) (t : State α) : Prop where
-  offk : t.regs .nat [64] "offs_k"=some (fun i => i.1.val)
-  index : t.regs .nat [] "step"=some (fun _ => cur)
+  offk : t.regs .int [64] "offs_k"=some (fun i => (i.1.val:Int))
+  index : t.regs .int [] "step"=some (fun _ => (cur:Int))
   xptr : t.regs .ptr [16,64] "x_ptrs"=some (xPointer p s cur)
   wptr : t.regs .ptr [64,64] "w_ptrs"=some (wPointer p s cur)
   rptr : t.regs .ptr [1,64] "rms_w_ptrs"=some (rPointer cur)
 
 theorem loadRegs_ready (p : Parameters) (s t : State α) (cur : Nat) (acc : Accumulator α)
-    (h : Ready p s t cur acc) : LoadRegs p s cur (t.setReg "step" .nat [] (fun _ => cur)) := by
+    (h : Ready p s t cur acc) : LoadRegs p s cur (t.setReg "step" .int [] (fun _ => cur)) := by
   constructor <;> simp [State.setReg,h.offk,h.xptr,h.wptr,h.rptr]
 
 
@@ -61,6 +61,8 @@ theorem load_prefix_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
     (bounds : RegionName → Nat) (s t : State α) (cur : Nat)
     (h : LoadRegs p s cur t) (backed : SourceBounds bounds p s) :
     Safety.traceSafeList (engine a) bounds (loadPrefix fp8 p) t := by
+  have signed_mask (lane K cur : Nat) :
+      ((lane:Int)<(K:Int)-(cur:Int)*64) ↔ lane<K-cur*64 := by omega
   apply trace_load_regs a bounds p s cur _ ?_ ?_ t h
   · intro st member u ready
     cases fp8 <;>
@@ -70,7 +72,7 @@ theorem load_prefix_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
     all_goals repeat' first | (rcases member with rfl | member) | (rcases member with rfl)
     all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
       Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
-      evalOp_unfold,Option.bind,numeric,bop,natLt,numericLt,Region.cast,
+      evalOp_unfold,Option.bind,numeric,numericEq,FP.Structural.bop,natLt,numericLt,Region.cast,signed_mask,
       ready.offk,ready.index,ready.xptr,ready.wptr,ready.rptr,xPointer,wPointer,rPointer,
       Broadcast.leftIndex,Broadcast.rightIndex,backed.x,backed.weight,backed.rms]
     all_goals first
@@ -97,7 +99,7 @@ theorem body_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
     (bounds : RegionName → Nat) (s t : State α) (cur : Nat) (acc : Accumulator α)
     (h : Ready p s t cur acc) (backed : SourceBounds bounds p s) :
     Safety.traceSafeList (engine a) bounds (KernelSource.loop fp8 p)
-      (t.setReg "step" .nat [] (fun _ => cur)) := by
+      (t.setReg "step" .int [] (fun _ => cur)) := by
   have split : KernelSource.loop fp8 p=loadPrefix fp8 p++pointerTail fp8 p :=
     (List.take_append_drop (if fp8 then 12 else 7) (KernelSource.loop fp8 p)).symm
   rw [split,Safety.traceSafeList_append]
