@@ -31,7 +31,7 @@ theorem forward_registers (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ)
     constructor
     all_goals
       simp [KernelPrefix.forward,KernelReference.forwardInput,KernelReference.add,KernelReference.zero,
-        KernelReference.read,KernelReference.cast,hv,hk,hh,keyPtr,valPtr,betaPtr,keyMask,valMask,
+        KernelReference.read,KernelReference.loaded,KernelReference.cast,hv,hk,hh,keyPtr,valPtr,betaPtr,keyMask,valMask,
         keyAddress,valAddress,betaAddress,stateAddress,State.setReg,FP.Structural.bop,
         Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex,Nat.add_assoc]
   all_goals funext i

@@ -33,7 +33,7 @@ theorem key_unmasked (s : Shape) (f : Flags) (scale : ℝ) (iv : Nat) (vals : Ba
           (enhanced KernelReal.algebra s scale (backwardData KernelReal.algebra s f iv vals) t)) i := by
   unfold backwardKey KernelBackwardReference.correction
   rw [KernelReal.value_sum,KernelReal.value_sum]
-  simp only [KernelReference.sub,KernelReference.mul,KernelReference.cast,KernelReference.zero,
+  simp only [KernelReference.loaded,KernelReference.sub,KernelReference.mul,KernelReference.cast,KernelReference.zero,id_eq,
     KernelReal.algebra,if_pos active]
   congr 1
   apply Finset.sum_congr rfl

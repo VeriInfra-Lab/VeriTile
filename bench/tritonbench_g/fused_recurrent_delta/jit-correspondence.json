@@ -1,0 +1,438 @@
+[
+  {
+    "python": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta.py",
+    "lean": "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean",
+    "python_function": "fused_recurrent_fwd_kernel",
+    "lean_definition": "forward",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "beta",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_vo_h",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ],
+        [
+          "B",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "IS_HEADWISE_BETA"
+      ],
+      "readPorts": [
+        "h0",
+        "k",
+        "v",
+        "q",
+        "beta"
+      ],
+      "writePorts": [
+        "v",
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "s_qk_h",
+      "s_vo_h": "s_vo_h",
+      "B": "B",
+      "H": "H",
+      "T": "T"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta.py",
+    "lean": "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean",
+    "python_function": "fused_recurrent_bwd_kernel",
+    "lean_definition": "backward",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "beta",
+          "fp32"
+        ],
+        [
+          "dht",
+          "fp32"
+        ],
+        [
+          "dh0",
+          "fp32"
+        ],
+        [
+          "do",
+          "fp32"
+        ],
+        [
+          "dq",
+          "fp32"
+        ],
+        [
+          "dk",
+          "fp32"
+        ],
+        [
+          "dv",
+          "fp32"
+        ],
+        [
+          "dbeta",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_vo_h",
+          "integer"
+        ],
+        [
+          "NK",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ],
+        [
+          "B",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "IS_HEADWISE_BETA",
+        "USE_DH0",
+        "USE_DHT"
+      ],
+      "readPorts": [
+        "dht",
+        "q",
+        "k",
+        "v",
+        "do",
+        "beta",
+        "h0",
+        "dk",
+        "dv"
+      ],
+      "writePorts": [
+        "dk",
+        "dv",
+        "dbeta",
+        "dh0",
+        "dq"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "s_qk_h",
+      "s_vo_h": "s_vo_h",
+      "NK": "NK",
+      "B": "B",
+      "H": "H",
+      "T": "T"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta_direct_output.py",
+    "lean": "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean",
+    "python_function": "fused_recurrent_fwd_kernel",
+    "lean_definition": "forwardDirectOutput",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "beta",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_vo_h",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ],
+        [
+          "B",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "IS_HEADWISE_BETA"
+      ],
+      "readPorts": [
+        "h0",
+        "k",
+        "v",
+        "q",
+        "beta"
+      ],
+      "writePorts": [
+        "v",
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "s_qk_h",
+      "s_vo_h": "s_vo_h",
+      "B": "B",
+      "H": "H",
+      "T": "T"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta_direct_output.py",
+    "lean": "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean",
+    "python_function": "fused_recurrent_bwd_kernel",
+    "lean_definition": "backward",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "beta",
+          "fp32"
+        ],
+        [
+          "dht",
+          "fp32"
+        ],
+        [
+          "dh0",
+          "fp32"
+        ],
+        [
+          "do",
+          "fp32"
+        ],
+        [
+          "dq",
+          "fp32"
+        ],
+        [
+          "dk",
+          "fp32"
+        ],
+        [
+          "dv",
+          "fp32"
+        ],
+        [
+          "dbeta",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qk_h",
+          "integer"
+        ],
+        [
+          "s_vo_h",
+          "integer"
+        ],
+        [
+          "NK",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ],
+        [
+          "B",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "IS_HEADWISE_BETA",
+        "USE_DH0",
+        "USE_DHT"
+      ],
+      "readPorts": [
+        "dht",
+        "q",
+        "k",
+        "v",
+        "do",
+        "beta",
+        "h0",
+        "dk",
+        "dv"
+      ],
+      "writePorts": [
+        "dk",
+        "dv",
+        "dbeta",
+        "dh0",
+        "dq"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qk_h": "s_qk_h",
+      "s_vo_h": "s_vo_h",
+      "NK": "NK",
+      "B": "B",
+      "H": "H",
+      "T": "T"
+    }
+  }
+]

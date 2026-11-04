@@ -33,32 +33,53 @@ def source (kind : Kind) (s : Shape) (f : Flags) (scale : ℝ) : ComputeKernel :
   | .backward => Source.backward "q" "k" "v" "beta" "dht" "dh0" "do" "dq" "dk" "dv" "dbeta" "h0"
       (s.T*s.K) (s.T*s.V) 1 s.B s.H s.T s.K s.V s.BK s.BBV scale
       f.initial f.vectorBeta f.initialGrad f.terminalGrad
+/-- Proof-only phase extraction. Unrelated static flags are fixed for each
+phase; source_body below checks the complete decomposition against the actual
+pasted program for every original flag combination. -/
 def first (kind : Kind) (s : Shape) (f : Flags) (scale : ℝ) : VeriTile.Triton.Source.DynamicRange :=
-  (VeriTile.Triton.Source.dynamicRange? (source kind s f scale).surfaceBody "_i").getD
-    ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
+  match kind with
+  | .forward =>
+    let pre := (VeriTile.Triton.Source.dynamicRange? (source .forward s {f with final := Bool.false} scale).surfaceBody "_").getD
+      ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
+    let middle := (VeriTile.Triton.Source.dynamicRange? (source .forward s {f with initial := Bool.false, final := Bool.false} scale).surfaceBody "_").getD
+      ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
+    let post := (VeriTile.Triton.Source.dynamicRange? (source .forward s {f with initial := Bool.false} scale).surfaceBody "_").getD
+      ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
+    ⟨pre.before,middle.start,middle.stop,middle.stride,middle.body,post.after⟩
+  | .backward =>
+    let pre := (VeriTile.Triton.Source.dynamicRange? (source .backward s {f with initial := Bool.false, initialGrad := Bool.false} scale).surfaceBody "_").getD
+      ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
+    let middle := (VeriTile.Triton.Source.dynamicRange? (source .backward s {f with initial := Bool.false, initialGrad := Bool.false, terminalGrad := Bool.false} scale).surfaceBody "_").getD
+      ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
+    let post := (VeriTile.Triton.Source.dynamicRange? (source .backward s {f with terminalGrad := Bool.false} scale).surfaceBody "_").getD
+      ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
+    ⟨pre.before,middle.start,middle.stop,middle.stride,middle.body,post.after⟩
 def second (s : Shape) (f : Flags) (scale : ℝ) : VeriTile.Triton.Source.DynamicRange :=
-  (VeriTile.Triton.Source.dynamicRange? (first .backward s f scale).after "i").getD
+  let pre := (VeriTile.Triton.Source.dynamicRange? (first .backward s f scale).after "i").getD
     ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
+  let middle := (VeriTile.Triton.Source.dynamicRange? (first .backward s {f with initial := Bool.false, initialGrad := Bool.false} scale).after "i").getD
+    ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
+  ⟨pre.before,middle.start,middle.stop,middle.stride,middle.body,middle.after⟩
 def loop (kind : Kind) (s : Shape) (f : Flags) (scale : ℝ) : ComputeStmt :=
   match kind with
-  | .forward => .forRange "_i" 0 s.T 1 (first kind s f scale).body
-  | .backward => .forRangeDyn "_i" (.constNat 0) (.constNat s.T) (.constNat 1) (first kind s f scale).body
+  | .forward => .forRange "_" 0 s.T 1 (first kind s f scale).body
+  | .backward => .forRange "_" 0 s.T 1 (first kind s f scale).body
 def recompute (s : Shape) (f : Flags) (scale : ℝ) : ComputeStmt :=
   .forRange "i" 0 s.T 1 (second s f scale).body
 
 theorem source_body (kind : Kind) (s : Shape) (f : Flags) (scale : ℝ) :
     (source kind s f scale).surfaceBody=(first kind s f scale).before++[loop kind s f scale]++
       (first kind s f scale).after := by
-  cases kind <;> cases hb : f.vectorBeta <;>
+  cases kind <;> cases hi : f.initial <;> cases hf : f.final <;> cases hb : f.vectorBeta <;> cases hd : f.initialGrad <;> cases ht : f.terminalGrad <;>
     simp only [source,Source.forward,Source.backward,hb,Bool.false_eq_true,ite_false,ite_true,
-      first,loop,ComputeKernel.surfaceBody,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
+      hi,hf,hd,ht,first,loop,ComputeKernel.surfaceBody,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
       String.reduceEq,beq_self_eq_true,↓reduceIte] <;> rfl
 theorem backward_tail (s : Shape) (f : Flags) (scale : ℝ) :
     (first .backward s f scale).after=(second s f scale).before++[recompute s f scale]++
       (second s f scale).after := by
-  cases hb : f.vectorBeta <;>
+  cases hi : f.initial <;> cases hf : f.final <;> cases hb : f.vectorBeta <;> cases hd : f.initialGrad <;> cases ht : f.terminalGrad <;>
     simp only [source,Source.backward,hb,Bool.false_eq_true,ite_false,ite_true,
-      first,second,recompute,ComputeKernel.surfaceBody,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
+      hi,hf,hd,ht,first,second,recompute,ComputeKernel.surfaceBody,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
       String.reduceEq,beq_self_eq_true,↓reduceIte] <;> rfl
 
 variable {α : Type} [Inhabited α]

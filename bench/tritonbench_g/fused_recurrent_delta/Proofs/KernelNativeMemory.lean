@@ -82,7 +82,7 @@ theorem corrected_lowering (isa : Instructions) (routing : Routing) (scale : Wor
   rw [start_lowering,KernelNativeBackwardSpec.input_lowering,KernelNativeBackwardSpec.forward_lowering]
   unfold KernelRecomputeValues.dk corrected
   funext i
-  simp [KernelBackwardReference.correction,KernelReference.sub,KernelReference.mul,KernelReference.read,
+  simp [KernelBackwardReference.correction,KernelReference.sub,KernelReference.mul,KernelReference.read,KernelReference.loaded,
     KernelReference.cast,KernelReference.zero,KernelBackwardReference.valueSum,N.correction,
     KernelNativeBackwardSpec.correction,KernelNativeBackwardSpec.valueSum,KernelNativeSpec.read,algebra,scaleSlot]
 

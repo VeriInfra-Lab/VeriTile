@@ -14,8 +14,10 @@ def sub (M : Algebra α) := M.binary (some .fp32) .real .sub
 def mul (M : Algebra α) := M.binary (some .fp32) .real .mul
 def cast (M : Algebra α) := M.cast (some .fp32) .real .real
 def stored (M : Algebra α) (value : α) : Cell α := .mk .real (cast M value)
+@[simp] def loaded (M : Algebra α) (value : α) : α := cast M (M.fp32Load value)
+
 def read (M : Algebra α) (u : State α) (r : RegionName) (offset : Nat) (active : Bool) : α :=
-  cast M (if active then (u.mem r offset).read .real else zero M)
+  loaded M (if active then (u.mem r offset).read .real else zero M)
 
 def keySum (M : Algebra α) (s : Shape) (values : ForwardTile s α) (j : Fin s.FBV) : α :=
   M.reduceSum (some .fp32) (shape:=[s.FBV,s.BK]) ⟨1,by simp⟩ Bool.false values (j,PUnit.unit)

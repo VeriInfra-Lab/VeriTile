@@ -16,7 +16,7 @@ theorem key_reload (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv
     (u : State α) (t : Nat) (ht : t<s.T) (i : Fin s.BK) :
     KernelReference.read M (KernelBackward.start M s f scale bh iv u) "dk"
       (keyAddress s (plane s bh iv) t i.val) (decide (i.val<s.K))=
-      KernelReference.cast M (if i.val<s.K then KernelReference.cast M
+      KernelReference.loaded M (if i.val<s.K then KernelReference.cast M
         (KernelBackwardReference.dk M s (KernelBackwardReference.input M s f bh iv u) t
           (enhanced M s scale (KernelBackwardReference.input M s f bh iv u) t) i)
         else KernelReference.zero M) := by
@@ -24,16 +24,16 @@ theorem key_reload (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv
   · have time : s.T-1-(s.T-1-t)=t := by omega
     have stored := KernelBackwardResults.reverse_key M s f scale bh iv u s.T (s.T-1-t) (by omega) le_rfl i hi
     rw [time,enhanced_time M s f scale bh iv u t ht] at stored
-    simp only [KernelReference.read,hi,decide_true,ite_true]
+    simp only [KernelReference.read,KernelReference.loaded,hi,decide_true,ite_true]
     rw [KernelBackwardFacts.start_other M s f scale bh iv u "dk" _ (by decide),stored]
     rfl
-  · simp [KernelReference.read,hi]
+  · simp [KernelReference.read,KernelReference.loaded,hi]
 
 theorem value_reload (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat)
     (u : State α) (t : Nat) (ht : t<s.T) (j : Fin s.BBV) :
     KernelReference.read M (KernelBackward.start M s f scale bh iv u) "dv"
       (valAddress s bh iv s.BBV t j.val) (decide (iv*s.BBV+j.val<s.V))=
-      KernelReference.cast M (if iv*s.BBV+j.val<s.V then KernelReference.cast M
+      KernelReference.loaded M (if iv*s.BBV+j.val<s.V then KernelReference.cast M
         (KernelBackwardReference.dv M s (KernelBackwardReference.input M s f bh iv u) t
           (enhanced M s scale (KernelBackwardReference.input M s f bh iv u) t) j)
         else KernelReference.zero M) := by
@@ -41,10 +41,10 @@ theorem value_reload (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh 
   · have time : s.T-1-(s.T-1-t)=t := by omega
     have stored := KernelBackwardResults.reverse_value M s f scale bh iv u s.T (s.T-1-t) (by omega) le_rfl j hj
     rw [time,enhanced_time M s f scale bh iv u t ht] at stored
-    simp only [KernelReference.read,hj,decide_true,ite_true]
+    simp only [KernelReference.read,KernelReference.loaded,hj,decide_true,ite_true]
     rw [KernelBackwardFacts.start_other M s f scale bh iv u "dv" _ (by decide),stored]
     rfl
-  · simp [KernelReference.read,hj]
+  · simp [KernelReference.read,KernelReference.loaded,hj]
 
 theorem query (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat)
     (u : State α) (t : Nat) :

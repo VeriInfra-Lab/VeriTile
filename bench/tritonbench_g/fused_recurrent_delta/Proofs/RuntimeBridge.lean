@@ -35,10 +35,10 @@ three scale reads. All loop/branch bodies and the access-safety link are checked
  theorem literal_pair (M : Algebra α) (kind : Kind) (s : Shape) (f : Flags) (scale : ℝ) :
     Pair (FP.ProfiledRewrite.engine M) (RuntimeIO.scaleValue M scale)
       (KernelProgram.source kind s f scale).surfaceBody (RuntimeIO.source kind Bool.false s f).surfaceBody := by
-  cases kind <;> cases hb : f.vectorBeta
+  cases kind <;> cases hi : f.initial <;> cases hf : f.final <;> cases hb : f.vectorBeta <;> cases hd : f.initialGrad <;> cases ht : f.terminalGrad
   all_goals
     simp only [KernelProgram.source,Source.forward,Source.backward,RuntimeIO.source,
-      Runtime.forward,Runtime.backward,hb,Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody]
+      Runtime.forward,Runtime.backward,hi,hf,hd,ht,hb,Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody]
     repeat' first
       | apply samePair <;> simp [avoidsList,avoids]
       | exact RuntimeTransport.nil _ _

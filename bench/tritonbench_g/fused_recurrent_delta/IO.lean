@@ -55,14 +55,14 @@ variable {α : Type} [Inhabited α]
 
 def forwardData (M : Algebra α) (s : Shape) (f : Flags) (iv : Nat)
     (vals : ForwardInputs α s) : KernelReference.ForwardInput s α where
-  query := fun t i => if ht : t<s.T then KernelReference.cast M (if i.val<s.K then vals (0 : Fin 6) (⟨t,ht⟩,i,()) else zero M) else zero M
-  key := fun t i => if ht : t<s.T then KernelReference.cast M (if i.val<s.K then vals (1 : Fin 6) (⟨t,ht⟩,i,()) else zero M) else zero M
-  value := fun t j => if ht : t<s.T then KernelReference.cast M (if iv*s.FBV+j.val<s.V then vals (2 : Fin 6) (⟨t,ht⟩,j,()) else zero M) else zero M
+  query := fun t i => if ht : t<s.T then KernelReference.loaded M (if i.val<s.K then vals (0 : Fin 6) (⟨t,ht⟩,i,()) else zero M) else zero M
+  key := fun t i => if ht : t<s.T then KernelReference.loaded M (if i.val<s.K then vals (1 : Fin 6) (⟨t,ht⟩,i,()) else zero M) else zero M
+  value := fun t j => if ht : t<s.T then KernelReference.loaded M (if iv*s.FBV+j.val<s.V then vals (2 : Fin 6) (⟨t,ht⟩,j,()) else zero M) else zero M
   beta := fun t j => if ht : t<s.T then
-      if f.vectorBeta then KernelReference.cast M (if iv*s.FBV+j.val<s.V then vals (3 : Fin 6) (⟨t,ht⟩,j,()) else zero M)
-      else KernelReference.cast M (vals (4 : Fin 6) (⟨t,ht⟩,())) else zero M
+      if f.vectorBeta then KernelReference.loaded M (if iv*s.FBV+j.val<s.V then vals (3 : Fin 6) (⟨t,ht⟩,j,()) else zero M)
+      else KernelReference.loaded M (vals (4 : Fin 6) (⟨t,ht⟩,())) else zero M
   seed := fun ji => if f.initial then add M (zero M)
-    (KernelReference.cast M (if ji.2.1.val<s.K ∧ iv*s.FBV+ji.1.val<s.V then vals (5 : Fin 6) (ji.2.1,ji.1,()) else zero M)) else zero M
+    (KernelReference.loaded M (if ji.2.1.val<s.K ∧ iv*s.FBV+ji.1.val<s.V then vals (5 : Fin 6) (ji.2.1,ji.1,()) else zero M)) else zero M
 
 def forwardReference (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (iv : Nat)
     (vals : ForwardInputs α s) : ForwardOutputs α s
@@ -73,17 +73,17 @@ def forwardReference (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (iv 
 
 def backwardData (M : Algebra α) (s : Shape) (f : Flags) (iv : Nat)
     (vals : BackwardInputs α s) : KernelBackwardReference.Input s α where
-  query := fun t i => if ht : t<s.T then KernelReference.cast M (if i.val<s.K then vals (0 : Fin 8) (⟨t,ht⟩,i,()) else zero M) else zero M
-  key := fun t i => if ht : t<s.T then KernelReference.cast M (if i.val<s.K then vals (1 : Fin 8) (⟨t,ht⟩,i,()) else zero M) else zero M
-  value := fun t j => if ht : t<s.T then KernelReference.cast M (if iv*s.BBV+j.val<s.V then vals (2 : Fin 8) (⟨t,ht⟩,j,()) else zero M) else zero M
+  query := fun t i => if ht : t<s.T then KernelReference.loaded M (if i.val<s.K then vals (0 : Fin 8) (⟨t,ht⟩,i,()) else zero M) else zero M
+  key := fun t i => if ht : t<s.T then KernelReference.loaded M (if i.val<s.K then vals (1 : Fin 8) (⟨t,ht⟩,i,()) else zero M) else zero M
+  value := fun t j => if ht : t<s.T then KernelReference.loaded M (if iv*s.BBV+j.val<s.V then vals (2 : Fin 8) (⟨t,ht⟩,j,()) else zero M) else zero M
   beta := fun t j => if ht : t<s.T then
-      if f.vectorBeta then KernelReference.cast M (if iv*s.BBV+j.val<s.V then vals (3 : Fin 8) (⟨t,ht⟩,j,()) else zero M)
-      else KernelReference.cast M (vals (4 : Fin 8) (⟨t,ht⟩,())) else zero M
-  incoming := fun t j => if ht : t<s.T then KernelReference.cast M (if iv*s.BBV+j.val<s.V then vals (5 : Fin 8) (⟨t,ht⟩,j,()) else zero M) else zero M
+      if f.vectorBeta then KernelReference.loaded M (if iv*s.BBV+j.val<s.V then vals (3 : Fin 8) (⟨t,ht⟩,j,()) else zero M)
+      else KernelReference.loaded M (vals (4 : Fin 8) (⟨t,ht⟩,())) else zero M
+  incoming := fun t j => if ht : t<s.T then KernelReference.loaded M (if iv*s.BBV+j.val<s.V then vals (5 : Fin 8) (⟨t,ht⟩,j,()) else zero M) else zero M
   initial := fun ij => if f.initial then add M (zero M)
-    (KernelReference.cast M (if ij.1.val<s.K ∧ iv*s.BBV+ij.2.1.val<s.V then vals (6 : Fin 8) ij else zero M)) else zero M
+    (KernelReference.loaded M (if ij.1.val<s.K ∧ iv*s.BBV+ij.2.1.val<s.V then vals (6 : Fin 8) ij else zero M)) else zero M
   terminal := fun ij => if f.terminalGrad then add M (zero M)
-    (KernelReference.cast M (if ij.1.val<s.K ∧ iv*s.BBV+ij.2.1.val<s.V then vals (7 : Fin 8) ij else zero M)) else zero M
+    (KernelReference.loaded M (if ij.1.val<s.K ∧ iv*s.BBV+ij.2.1.val<s.V then vals (7 : Fin 8) ij else zero M)) else zero M
 
 def enhanced (M : Algebra α) (s : Shape) (scale : ℝ)
     (a : KernelBackwardReference.Input s α) (t : Nat) :=
@@ -96,9 +96,9 @@ def backwardQuery (M : Algebra α) (s : Shape) (scale : ℝ)
 def backwardKey (M : Algebra α) (s : Shape) (scale : ℝ) (iv : Nat)
     (a : KernelBackwardReference.Input s α) (t : Nat) :=
   KernelBackwardReference.correction M s (KernelBackwardReference.forward M s a t)
-    (fun i => KernelReference.cast M (if i.val<s.K then KernelReference.cast M
+    (fun i => KernelReference.loaded M (if i.val<s.K then KernelReference.cast M
       (KernelBackwardReference.dk M s a t (enhanced M s scale a t) i) else zero M))
-    (fun j => KernelReference.cast M (if iv*s.BBV+j.val<s.V then KernelReference.cast M
+    (fun j => KernelReference.loaded M (if iv*s.BBV+j.val<s.V then KernelReference.cast M
       (KernelBackwardReference.dv M s a t (enhanced M s scale a t) j) else zero M))
 
 def backwardReference (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (iv : Nat)

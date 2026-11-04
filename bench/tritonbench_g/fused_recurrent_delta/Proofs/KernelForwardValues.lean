@@ -35,7 +35,7 @@ theorem carry (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv t : 
   all_goals
     simp [KernelForwardStep.execute,next,input,KernelReference.forward,
       KernelReference.forwardInput,KernelReference.keySum,KernelReference.add,KernelReference.mul,
-      KernelReference.sub,KernelReference.read,KernelReference.cast,KernelReference.zero,
+      KernelReference.sub,KernelReference.read,KernelReference.loaded,KernelReference.cast,KernelReference.zero,
       keyPtr,valPtr,betaPtr,keyMask,valMask,State.setReg,bop,
       Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex]
   all_goals try rfl

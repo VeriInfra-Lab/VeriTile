@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 168,
-      "uncovered_jit_functions": 15
+      "selected_body_copy_checked": 169,
+      "uncovered_jit_functions": 14
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 56,
-    "inventoried_jit_functions": 574,
-    "uncovered_inventoried_jit_functions": 65,
+    "uncovered_selected_jit_functions": 54,
+    "inventoried_jit_functions": 576,
+    "uncovered_inventoried_jit_functions": 63,
     "checked_pair_modes": {
-      "pasted_body": 527
+      "pasted_body": 531
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 168,
-        "uncovered_jit_functions": 15
+        "selected_body_copy_checked": 169,
+        "uncovered_jit_functions": 14
       }
     },
     "primary_files_with_int64_screen_warning": 2,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 8,
-        "antiquotes": 343,
+        "in_body_type_directives": 7,
+        "antiquotes": 342,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 81
       },
@@ -23785,13 +23785,13 @@
       "python": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta.py",
       "lean": "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean",
       "lean_screen": {
-        "quotations": 6,
-        "in_body_type_directives": 12,
-        "antiquotes": 443,
-        "dsl_assignment": 74,
+        "quotations": 3,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 39,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 8
+        "load_dtype_extension": 4
       },
       "python_jits": [
         {
@@ -23824,35 +23824,145 @@
               "explicit_int64_casts": []
             }
           ]
-        }
-      ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
-        {
-          "python": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta.py",
-          "function": "fused_recurrent_fwd_kernel"
         },
         {
-          "python": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta.py",
-          "function": "fused_recurrent_bwd_kernel"
+          "path": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta_direct_output.py",
+          "jits": [
+            {
+              "function": "fused_recurrent_fwd_kernel",
+              "line": 10,
+              "statements": 13,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "fused_recurrent_bwd_kernel",
+              "line": 63,
+              "statements": 27,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "fused_recurrent_fwd_kernel",
+          "lean_definition": "forward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 13,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_vo_h": "integer",
+            "scale": "fp32",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "IS_HEADWISE_BETA",
+            "K",
+            "STORE_FINAL_STATE",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
           "python": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta.py",
-          "function": "fused_recurrent_fwd_kernel"
+          "lean": "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean"
         },
         {
+          "python_function": "fused_recurrent_bwd_kernel",
+          "lean_definition": "backward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_vo_h": "integer",
+            "NK": "integer",
+            "scale": "fp32",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "IS_HEADWISE_BETA",
+            "K",
+            "USE_DH0",
+            "USE_DHT",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
           "python": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta.py",
-          "function": "fused_recurrent_bwd_kernel"
+          "lean": "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean"
+        },
+        {
+          "python_function": "fused_recurrent_fwd_kernel",
+          "lean_definition": "forwardDirectOutput",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 13,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_vo_h": "integer",
+            "scale": "fp32",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "IS_HEADWISE_BETA",
+            "K",
+            "STORE_FINAL_STATE",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "python": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta_direct_output.py",
+          "lean": "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean"
+        },
+        {
+          "python_function": "fused_recurrent_bwd_kernel",
+          "lean_definition": "backward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 27,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_vo_h": "integer",
+            "NK": "integer",
+            "scale": "fp32",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "IS_HEADWISE_BETA",
+            "K",
+            "USE_DH0",
+            "USE_DHT",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "python": "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta_direct_output.py",
+          "lean": "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean"
         }
       ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean": "d15f6b74294e5dd1f4305a336c10dc5105071f98a55303c7cd144047e6aaa1fa",
-        "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta.py": "41d896ade9b5f5d6a0a3fdc3843f36124c6417d426f590ecb35c024f104f8b53"
+        "bench/tritonbench_g/fused_recurrent_delta/Kernels.lean": "0dbb7aa94812cf7f7a3c7e05357947ee06d609f9f95ad1807849ca34e994cf72",
+        "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta.py": "41d896ade9b5f5d6a0a3fdc3843f36124c6417d426f590ecb35c024f104f8b53",
+        "bench/tritonbench_g/fused_recurrent_delta/fused_recurrent_delta_direct_output.py": "824e9936ce675c94efda9d76833a0e9b9ae706a666880429716e0ae6a7331216",
+        "bench/tritonbench_g/fused_recurrent_delta/jit-correspondence.json": "53d81e0acc30705c0e3f8f0965c8d3edbca2b006c28ffb10d7f0527e2f752eae"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/fused_recurrent_delta"

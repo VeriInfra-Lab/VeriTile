@@ -8,23 +8,23 @@ set_option maxHeartbeats 6000000
 set_option maxRecDepth 24000
 variable {α : Type} [Inhabited α]
 
-/-- Proof-only first eight statements: PID/address setup through p_o. -/
+/-- Proof-only first eight statements: address setup including p_o and the initial mask setup. -/
 def initialBlock (scheduled : Bool) (s : Shape) (f : Flags) :=
   (RuntimeIO.source .forward scheduled s f).surfaceBody.take 8
  theorem split (scheduled : Bool) (s : Shape) (f : Flags) :
     (RuntimeIO.source .forward scheduled s f).surfaceBody=initialBlock scheduled s f++
       (RuntimeIO.source .forward Bool.false s f).surfaceBody.drop 8 := by
-  cases scheduled <;> cases hb : f.vectorBeta <;>
+  cases scheduled <;> cases hi : f.initial <;> cases hf : f.final <;> cases hb : f.vectorBeta <;>
     simp only [RuntimeIO.source,Runtime.forward,Runtime.forwardDirectOutput,initialBlock,
-      hb,Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody] <;> rfl
+      hi,hf,hb,Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody] <;> rfl
 
  theorem block_exec (M : Algebra α) (s : Shape) (f : Flags) (u : State α)
     (singleKey : u.pids 1=0) :
     run M (initialBlock Bool.false s f) u=run M (initialBlock Bool.true s f) u := by
-  cases hb : f.vectorBeta <;>
+  cases hi : f.initial <;> cases hf : f.final <;> cases hb : f.vectorBeta <;>
     simp [initialBlock,RuntimeIO.source,Runtime.forward,Runtime.forwardDirectOutput,
-      hb,ComputeKernel.surfaceBody,run,step,evalExpr,FP.Structural.evalOp_unfold,
-      State.setReg,singleKey,numeric,bop]
+      hi,hf,hb,ComputeKernel.surfaceBody,run,step,evalExpr,FP.Structural.evalOp_unfold,
+      State.setReg,singleKey,numeric,bop,natLt,natLe,numericLt,Option.bind]
   all_goals
     funext dtype shape name
     by_cases hn : name="p_o"
@@ -33,7 +33,9 @@ def initialBlock (scheduled : Bool) (s : Shape) (f : Flags) :=
       · subst dtype
         by_cases hs : [s.FBV]=shape
         · subst shape
-          simp only [↓reduceIte,↓reduceDIte,Option.some.injEq]
+          simp only [show ("p_o" : String) ≠ "mask_bv" by decide,
+            show ("p_o" : String) ≠ "mask_bk" by decide,
+            ↓reduceIte,↓reduceDIte,Option.some.injEq]
           funext i
           simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
         · simp [hs]
@@ -43,10 +45,10 @@ def initialBlock (scheduled : Bool) (s : Shape) (f : Flags) :=
  theorem block_safe (M : Algebra α) (s : Shape) (f : Flags) (scheduled : Bool)
     (bounds : RegionName → Nat) (u : State α) :
     Safety.traceSafeList M bounds (initialBlock scheduled s f) u := by
-  cases scheduled <;> cases hb : f.vectorBeta <;>
+  cases scheduled <;> cases hi : f.initial <;> cases hf : f.final <;> cases hb : f.vectorBeta <;>
     simp [initialBlock,RuntimeIO.source,Runtime.forward,Runtime.forwardDirectOutput,
-      hb,ComputeKernel.surfaceBody,Safety.traceSafeList_cons,Safety.stepSafe,
-      Safety.safeExpr,Safety.safeOp_unfold]
+      hi,hf,hb,ComputeKernel.surfaceBody,Safety.traceSafeList_cons,Safety.stepSafe,
+      Safety.safeExpr,Safety.safeOp_unfold,FP.Structural.evalOp_unfold]
 
  theorem executes (M : Algebra α) (kind : Kind) (s : Shape) (f : Flags) (u : State α)
     (singleKey : u.pids 1=0) :

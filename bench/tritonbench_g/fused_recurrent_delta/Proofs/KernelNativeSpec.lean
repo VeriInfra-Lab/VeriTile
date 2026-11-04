@@ -6,7 +6,7 @@ set_option maxRecDepth 24000
 set_option maxHeartbeats 12000000
 
 def read (isa : Instructions) (routing : Routing) (u : State Node) (r : RegionName) (off : Nat) (active : Bool) :=
-  materialize isa routing (if active then (u.mem r off).read .real else .zero)
+  materialize isa routing (materialize isa routing (if active then (u.mem r off).read .real else .zero))
 def forwardInput (isa : Instructions) (routing : Routing) (s : Shape) (f : Flags) (bh iv : Nat) (u : State Node) :
     KernelReference.ForwardInput s Node where
   key := fun t i => read isa routing u "k" (keyAddress s bh t i.val) (decide (i.val<s.K))
@@ -34,7 +34,7 @@ def output (routing : Routing) (s : Shape) (a : KernelReference.ForwardInput s N
 theorem input_lowering (isa : Instructions) (routing : Routing) (scale : Word) (s : Shape) (f : Flags)
     (bh iv : Nat) (u : State Node) :
     KernelReference.forwardInput (algebra isa routing scale) s f bh iv u=forwardInput isa routing s f bh iv u := by
-  simp [KernelReference.forwardInput,KernelReference.read,KernelReference.cast,KernelReference.add,
+  simp [KernelReference.forwardInput,KernelReference.read,KernelReference.loaded,KernelReference.cast,KernelReference.add,
     KernelReference.zero,forwardInput,read,algebra,scaleSlot]
 theorem forward_lowering (isa : Instructions) (routing : Routing) (scale : Word) (s : Shape)
     (a : KernelReference.ForwardInput s Node) (n : Nat) :

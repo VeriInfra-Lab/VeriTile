@@ -36,7 +36,7 @@ theorem loop_safe (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv 
     (initial : State α) (n : Nat) (u : State α)
     (inv : KernelForwardLoop.Holds M s f scale bh iv initial n u)
     (bounds : RegionName → Nat) (access : Bounds s f bh iv bounds) :
-    Safety.rangeSafe (engine M) bounds "_i" n s.T 1 (first .forward s f scale).body u := by
+    Safety.rangeSafe (engine M) bounds "_" n s.T 1 (first .forward s f scale).body u := by
   rw [Safety.rangeSafe_unfold,if_neg (by decide)]
   by_cases inside : n<s.T
   · rw [if_pos inside]
