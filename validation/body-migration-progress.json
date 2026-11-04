@@ -11,7 +11,7 @@
   "local_validation": {
     "staged_public_proofs": "PRIOR_FULL_INTEGRATION_AND_EACH_SUBSEQUENT_ACCEPTED_SOURCE_BATCH_VALIDATED;_CURRENT_ATTN_FWD_TRITON_REAL_GRID_REPROOF_IN_PROGRESS",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "183 exact-current accepted targets, including all 19 examples. Final official receipts for attention_fwd_triton3, attention_score, fused_recurrent_delta and attn_fwd_causal were checked against current source/import closures and complete root sets. Thirteen target migrations remain incomplete. Compilation and source comparison alone do not complete a target.",
+    "official_comparator": "183 exact-current accepted targets, including all 19 examples. attn_fwd_triton passed all local gates and is undergoing official independent replay of 131 roots; it is not counted complete. Twelve target source migrations remain. Compilation and source comparison alone do not complete a target.",
     "python_tests": 674,
     "offline_example_compilations": {
       "cases": 19,
@@ -79,11 +79,13 @@
       }
     ],
     "incremental_replay": {
-      "status": "READY_FOR_OFFICIAL_REPLAY",
+      "status": "IN_PROGRESS",
       "scope": "attn_fwd_triton complete helper/caller body migration",
       "manifest": "validation/body-migration-incremental.json",
       "roots": 131,
-      "note": "Every retained owned/shared module, actual public Real/FP theorem, local trust/spec audit and four body pairs pass. Exact-current official independent acceptance remains required."
+      "note": "Every retained owned/shared module, actual public Real/FP theorem, local trust/spec audit and four body pairs pass. Exact-current official independent acceptance remains required.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41771036410",
+      "validated_source_commit": "1b23d2612faced575bad8c59c0b5315b1184e95a"
     },
     "previous_incremental_replays": [
       {
@@ -1316,7 +1318,7 @@
       "actual_complete_source_real_execution": "PASS_LOCALLY",
       "causal_formula_connection": "PASS_LOCALLY",
       "real_trace_safety_and_grid_public_proof": "PASS_LOCALLY",
-      "independent_replay": "NOT_STARTED",
+      "independent_replay": "IN_PROGRESS",
       "python_full_suite": 674,
       "complete": false,
       "note": "Retains both legal STAGE values, explicit casts and actual hygienic helper captures/tuple returns. The second returned maximum is discarded exactly as Python `_`. No whole-case completion is claimed.",
@@ -1325,7 +1327,9 @@
       "source_inventory_uncovered_targets": 12,
       "local_lake_jobs": 3711,
       "public_real_fp_proofs": "PASS",
-      "prepared_trust_spec_audits": "PASS_5_FILES"
+      "prepared_trust_spec_audits": "PASS_5_FILES",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41771036410",
+      "validated_source_commit": "1b23d2612faced575bad8c59c0b5315b1184e95a"
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -2991,8 +2995,10 @@
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "NOT_STARTED",
-      "reason": "Four complete body pairs preserve both legal STAGE values and every cast/mask/helper return. All 128 retained owned plus 3 shared roots, both actual public Real/FP entries, full-grid safety, five prepared trust/spec audits and 674 Python tests pass locally. Five obsolete inline whole-source certificates are explicitly retired. Fresh exact-current independent replay of all 131 roots is required; no local build is counted as completion."
+      "independent_replay": "IN_PROGRESS",
+      "reason": "Four complete body pairs preserve both legal STAGE values and every cast/mask/helper return. All 128 retained owned plus 3 shared roots, both actual public Real/FP entries, full-grid safety, five prepared trust/spec audits and 674 Python tests pass locally. Five obsolete inline whole-source certificates are explicitly retired. Fresh exact-current independent replay of all 131 roots is required; no local build is counted as completion.",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41771036410",
+      "validated_source_commit": "1b23d2612faced575bad8c59c0b5315b1184e95a"
     },
     {
       "path": "bench/tritonbench_g/batched_vecmat_mult",
