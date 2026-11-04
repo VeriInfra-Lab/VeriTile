@@ -31,7 +31,7 @@ structure Holds (p : Layout) (r : Regions) (scale : ℝ) (s0 : BlockState) (n : 
   frame : BlockState.WriteWithin (footprint p (launch s0) r.output n) s0 s
 
 theorem start_holds (p : Layout) (r : Regions) (scale : ℝ) (s : BlockState) : Holds p r scale s 0 (start p r s) := by
-  refine ⟨Nat.zero_le _,RealIntraSetup.result_cached p r s,by intros; rfl,by intros; rfl,?_,?_,?_,by intro region off hn; rfl⟩
+  refine ⟨Nat.zero_le _,RealIntraSetup.result_cached p r s,by intros; simp only [start,RealIntraSetup.result,RealIntraSetup.pointed,RealIntraSetup.indexed,RealIntraSetup.initial,BlockState.readMem,BlockState.setReg_mem],by intros; simp only [start,RealIntraSetup.result,RealIntraSetup.pointed,RealIntraSetup.indexed,RealIntraSetup.initial,BlockState.readMem,BlockState.setReg_mem],?_,?_,?_,by intro region off hn; simp only [start,RealIntraSetup.result,RealIntraSetup.pointed,RealIntraSetup.indexed,RealIntraSetup.initial,BlockState.setReg_mem]⟩
   · simp [start,RealIntraSetup.result,RealIntraSetup.pointed]
   · simp [start,RealIntraSetup.result,RealIntraSetup.pointed]
   · intro j hj

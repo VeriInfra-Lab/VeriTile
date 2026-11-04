@@ -1,3 +1,4 @@
+import VeriTile.Triton.Semantics.ProgramRewrite
 import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealInterStep
 
 /-! Full symbolic K-loop execution for both sources. The invariant connects
@@ -27,6 +28,7 @@ structure Holds (p : Layout) (r : Regions) (scale : ℝ) (s0 : BlockState) (n : 
 
 theorem initialization_executes (p : Layout) (s : BlockState) :
     stepStmts (initialization p) s = some (initial p s) := by
+  simp only [initialization,ProgramRewrite.constant_branch,↓reduceIte,List.cons_append,List.nil_append]
   simp only [initialization,stepStmts,stepStmt,evalOp,Option.bind_eq_bind,Option.bind_some]
   simp only [BlockState.setReg_same,BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (by decide : ("i_c" : RegName) ≠ "i_bh"),
     BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (by decide : ("i_c" : RegName) ≠ "i_i"),
@@ -65,9 +67,11 @@ theorem iteration (p : Layout) (r : Regions) (scale : ℝ) (s0 : BlockState) (sw
       (by intro off; simp only [inputs,BlockState.readMem,ht.memory])
       (by intro off; simp only [inputs,BlockState.readMem,ht.memory])
       (by rw [ht.padding]; exact hu) ht.carry
-  · refine ⟨Nat.succ_le_of_lt hn,ht.memory,ht.padding,
+  · refine ⟨Nat.succ_le_of_lt hn,?_,?_,
       RealInterStep.result_grid p (launch s0) r (inputs r s0) scale n t ht.grid,
       RealInterStep.result_carry p (launch s0) r (inputs r s0) scale n t⟩
+    · exact (RealInterStep.result_memory p (launch s0) r (inputs r s0) scale n t).trans ht.memory
+    · exact (RealInterStep.result_padding p (launch s0) r (inputs r s0) scale n t).trans ht.padding
 
 theorem tripCount_eval (p : Layout) (u : BlockState) :
     evalOp (tripCount p) u = some (Tile.scalar (numBlocks p)) := by
@@ -77,9 +81,8 @@ theorem tripCount_eval (p : Layout) (u : BlockState) :
 theorem executes (p : Layout) (r : Regions) (scale : ℝ) (s0 : BlockState) (swapped : Bool)
     (hu : ∀ region off, s0.undef region off = 0) (u : BlockState) (hi : Holds p r scale s0 0 u) :
     ∃ v, stepStmt (loop p r scale swapped) u = some v ∧ Holds p r scale s0 (numBlocks p) v := by
-  obtain ⟨n,v,he,hn,hv⟩ := forRangeDyn_inv (idx := "i_k") (start := 0) (stop := numBlocks p) (step := 1)
+  obtain ⟨n,v,he,hn,hv⟩ := forRange_inv (idx := "i_k") (start := 0) (stop := numBlocks p) (step := 1)
     (P := Holds p r scale s0) (body := RealInterProgram.iteration p r scale swapped)
-    (evalOp_constNat 0 u) (tripCount_eval p u) (evalOp_constNat 1 u)
     (by decide) hi (iteration p r scale s0 swapped hu)
   have hn' : n = numBlocks p := Nat.le_antisymm hv.limit hn
   subst n

@@ -4,15 +4,15 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 183,
-  "staged_count": 184,
-  "pending_count": 13,
+  "completed_count": 181,
+  "staged_count": 185,
+  "pending_count": 15,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PRIOR_FULL_INTEGRATION_AND_EACH_SUBSEQUENT_ACCEPTED_SOURCE_BATCH_VALIDATED;_CURRENT_ATTN_FWD_TRITON_REAL_GRID_REPROOF_IN_PROGRESS",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "183 exact-current accepted targets, including all 19 examples. attn_fwd_triton passed all local gates and is undergoing official independent replay of 131 roots; it is not counted complete. Twelve target source migrations remain. Compilation and source comparison alone do not complete a target.",
-    "python_tests": 674,
+    "official_comparator": "181 exact-current accepted targets, including all 19 examples. Two prior chunk_delta_fwd/chunk_gla_simple receipts are historical while their changed chunk_gla_fwd dependency is revalidated. attn_fwd_triton remains in official 131-root replay. Eleven target source migrations remain, plus the locally aligned chunk_gla_fwd proof migration. No source comparison or build alone completes a target.",
+    "python_tests": 678,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -1304,32 +1304,50 @@
       "completion_certificate": false
     },
     "current_work": {
-      "path": "bench/tritonbench_g/attn_fwd_triton",
-      "body_pairs": 4,
-      "body_copy_check": "PASS",
+      "path": "bench/tritonbench_g/chunk_gla_fwd",
+      "body_pairs": 10,
       "body_statement_counts": [
-        3,
-        31,
-        3,
-        31
+        8,
+        8,
+        15,
+        15,
+        17,
+        17,
+        7,
+        7,
+        12,
+        12
       ],
-      "proof_status": "PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
-      "public_fp_proof": "PASS_LOCALLY",
-      "actual_complete_source_real_execution": "PASS_LOCALLY",
-      "causal_formula_connection": "PASS_LOCALLY",
-      "real_trace_safety_and_grid_public_proof": "PASS_LOCALLY",
-      "independent_replay": "IN_PROGRESS",
-      "python_full_suite": 674,
+      "body_copy_check": "PASS",
+      "baseline_public_real_fp_build": "PASS_3625_JOBS",
+      "proof_status": "LOCAL_PASS_AWAITING_INDEPENDENT_REPLAY",
+      "public_real_fp_proofs": "PASS_7_PUBLIC_GLA_SPECIFICATIONS",
+      "retained_modules_build": "PASS_140_GLA_PLUS_126_DEPENDENT_MODULES_AND_4_SHARED_ROOTS",
+      "independent_replay": "REQUIRED_BEFORE_COMPLETION",
       "complete": false,
-      "note": "Retains both legal STAGE values, explicit casts and actual hygienic helper captures/tuple returns. The second returned maximum is discarded exactly as Python `_`. No whole-case completion is claimed.",
-      "retained_and_shared_roots": 131,
-      "retained_roots_build": "PASS",
-      "source_inventory_uncovered_targets": 12,
-      "local_lake_jobs": 3711,
-      "public_real_fp_proofs": "PASS",
-      "prepared_trust_spec_audits": "PASS_5_FILES",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41771036410",
-      "validated_source_commit": "1b23d2612faced575bad8c59c0b5315b1184e95a"
+      "note": "Five complete original/candidate kernel pairs preserve all prior floating storage profiles through caller metadata. No completion is claimed. Consumer ports retain the prior q,v,g,h,A order.",
+      "dependent_revalidation_required": [
+        "bench/tritonbench_g/chunk_delta_fwd",
+        "bench/tritonbench_g/chunk_gla_simple"
+      ],
+      "public_fp_proofs": "PASS_5_ACTUAL_COMPLETE_KERNEL_COMPARISONS",
+      "public_real_proof": "REPROOF_IN_PROGRESS",
+      "public_fp_axiom_audit": "PASS_STANDARD_BASE_ONLY",
+      "experimental_numerical_assumptions_added": 0,
+      "python_case_tests": 4,
+      "python_full_suite": 678,
+      "current_accepted_source_audit": "181_EXACT_CURRENT_NO_CHANGED_CLOSURES",
+      "five_stage_real_execution": "PASS_CURRENT_COMPLETE_PASTED_SOURCES",
+      "five_stage_real_trace_safety": "PASS_CURRENT_COMPLETE_PASTED_SOURCES",
+      "five_stage_real_flattening": "PASS",
+      "producer_consumer_public_real_proof": "PASS_BOTH_COMPLETE_GRID_AND_INDEPENDENT_FORMULAS",
+      "full_retained_owned_modules": "PASS",
+      "source_inventory_uncovered_targets": 11,
+      "retired_independent_quotation_macros": "bench/tritonbench_g/chunk_gla_fwd/source-retirement.json",
+      "public_name_resolution": "PASS_11_NAMES_IN_THREE_CASES",
+      "local_lake_jobs": 3786,
+      "retained_and_shared_roots": 270,
+      "prepared_trust_spec_audits": "PASS_10_FILES"
     },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
@@ -2740,7 +2758,7 @@
       "boundary": "The legacy contract-review inventory is separate from the current body-migration receipts. Old reviewed hashes have not been relabeled as a new review. Current source-body, named public proof, trust/spec and independent replay gates remain required."
     },
     "fused_recurrent_delta_source_migration": {
-      "state": "LOCAL_PASS_AWAITING_INDEPENDENT_REPLAY",
+      "state": "ACCEPTED_EXACT_CURRENT",
       "owned_roots": 89,
       "shared_roots": 2,
       "source_pairs": 4,
@@ -2761,14 +2779,15 @@
         "actual public FP entry PASS"
       ],
       "retirement_record": "bench/tritonbench_g/fused_recurrent_delta/source-retirement.json",
-      "independent_replay": "IN_PROGRESS",
+      "independent_replay": "PASS",
       "boundary": "Only exact-current official independent replay of all 91 roots and all three actual public theorem names completes the task.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41748128645",
       "source_commit": "b273497f596145fd4ae06313e7d90c121613ab7e",
-      "frozen_source_files": 307
+      "frozen_source_files": 307,
+      "receipt": "validation/body_receipts/fused-recurrent-delta-complete-body.json"
     },
     "attn_fwd_causal_source_migration": {
-      "state": "LOCAL_PASS_AWAITING_INDEPENDENT_REPLAY",
+      "state": "ACCEPTED_EXACT_CURRENT",
       "owned_roots": 47,
       "shared_roots": 3,
       "source_pairs": 4,
@@ -2789,20 +2808,51 @@
       "boundary": "Only exact-current official independent replay of all 50 required roots and both actual public theorem names completes this task.",
       "required_replay_roots": 50,
       "legacy_support_cleanup": "PASS: retired 31 modules, retained 56 declarations in 18 dependent-owned support modules; both dependent public proofs rebuilt",
-      "independent_replay": "IN_PROGRESS",
+      "independent_replay": "PASS",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41757051898",
       "source_commit": "459cf63fc9258c11d8c71e2938dd938737edaa56",
-      "frozen_source_files": 261
+      "frozen_source_files": 261,
+      "receipt": "validation/body_receipts/causal-attention-complete-body.json"
     },
     "current_manifest_coverage": {
-      "cases": 190,
-      "target_cases": 184,
+      "cases": 191,
+      "target_cases": 185,
       "regression_cases": 6,
-      "retained_and_shared_build_roots": 7456,
-      "explicit_replay_roots": 6459,
+      "retained_and_shared_build_roots": 7600,
+      "explicit_replay_roots": 6603,
       "completion_certificate": false,
-      "note": "Coverage inventory only. It is not a new full-corpus integrated build or acceptance."
-    }
+      "note": "Coverage inventory only. Current incremental local build covers exactly three cases and 270 roots; exact-current official independent replay is still required."
+    },
+    "previous_local_work": [
+      {
+        "path": "bench/tritonbench_g/attn_fwd_triton",
+        "body_pairs": 4,
+        "body_copy_check": "PASS",
+        "body_statement_counts": [
+          3,
+          31,
+          3,
+          31
+        ],
+        "proof_status": "PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
+        "public_fp_proof": "PASS_LOCALLY",
+        "actual_complete_source_real_execution": "PASS_LOCALLY",
+        "causal_formula_connection": "PASS_LOCALLY",
+        "real_trace_safety_and_grid_public_proof": "PASS_LOCALLY",
+        "independent_replay": "IN_PROGRESS",
+        "python_full_suite": 674,
+        "complete": false,
+        "note": "Retains both legal STAGE values, explicit casts and actual hygienic helper captures/tuple returns. The second returned maximum is discarded exactly as Python `_`. No whole-case completion is claimed.",
+        "retained_and_shared_roots": 131,
+        "retained_roots_build": "PASS",
+        "source_inventory_uncovered_targets": 12,
+        "local_lake_jobs": 3711,
+        "public_real_fp_proofs": "PASS",
+        "prepared_trust_spec_audits": "PASS_5_FILES",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41771036410",
+        "validated_source_commit": "1b23d2612faced575bad8c59c0b5315b1184e95a"
+      }
+    ]
   },
   "targets": [
     {
@@ -3150,18 +3200,18 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_delta_fwd",
-      "status": "complete",
-      "complete": true,
+      "status": "local_proofs_pass_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PASS",
+      "public_real_fp_proofs": "PASS_LOCALLY",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
       "previously_complete": true,
-      "previous_receipt": "validation/body_receipts/full-recovery-shard-2.json",
-      "reason": "Every required owned and shared proof root is accepted in the completed 256-root, three-case official replay. Verified the official merged ZIP SHA256, all accepted roots, current source pairs, fully qualified public Real/FP theorem names, all shared dependencies and exact current transitive source/import closures. The source stayed unchanged during replay. The complete copied source, independent Real specification, actual FP candidate, full-grid execution, outputs, source safety and frames are retained. The affected dependent task and related regression were freshly replayed; the superseded receipt was not reused. Compilation alone is not completion.",
-      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "receipt": "validation/body_receipts/gla-source-migration.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41487841536"
+      "previous_receipt": "validation/body_receipts/gla-source-migration.json",
+      "reason": "Complete current-source body pairs, actual public Real/FP proofs, all retained owned modules and dependent rebuilds passed locally. Completion requires exact-current official independent replay of every required root and every actual public specification name.",
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41487841536",
+      "independent_replay": "NOT_STARTED",
+      "previous_validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
+      "public_name_resolution": "PASS"
     },
     {
       "path": "bench/tritonbench_g/chunk_gate_recurrence",
@@ -3177,20 +3227,29 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_fwd",
-      "status": "pending",
-      "complete": false
+      "status": "local_proofs_pass_replay_pending",
+      "complete": false,
+      "body_copy_check": "PASS",
+      "public_real_fp_proofs": "PASS_LOCALLY",
+      "retained_modules_build": "PASS",
+      "independent_replay": "NOT_STARTED",
+      "reason": "Complete current-source body pairs, actual public Real/FP proofs, all retained owned modules and dependent rebuilds passed locally. Completion requires exact-current official independent replay of every required root and every actual public specification name.",
+      "public_name_resolution": "PASS"
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_simple",
-      "status": "complete",
-      "complete": true,
+      "status": "local_proofs_pass_replay_pending",
+      "complete": false,
       "body_copy_check": "PASS",
-      "public_real_fp_proofs": "PASS",
+      "public_real_fp_proofs": "PASS_LOCALLY",
       "retained_modules_build": "PASS",
-      "validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
-      "reason": "Every required owned and shared proof root is accepted in the completed 256-root, three-case official replay. Verified the official merged ZIP SHA256, all accepted roots, current source pairs, fully qualified public Real/FP theorem names, all shared dependencies and exact current transitive source/import closures. The source stayed unchanged during replay. The complete copied source, independent Real specification, actual FP candidate, full-grid execution, outputs, source safety and frames are retained. The affected dependent task and related regression were freshly replayed; the superseded receipt was not reused. Compilation alone is not completion.",
-      "receipt": "validation/body_receipts/gla-source-migration.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41487841536"
+      "reason": "Complete current-source body pairs, actual public Real/FP proofs, all retained owned modules and dependent rebuilds passed locally. Completion requires exact-current official independent replay of every required root and every actual public specification name.",
+      "previous_receipt": "validation/body_receipts/gla-source-migration.json",
+      "previously_complete": true,
+      "independent_replay": "NOT_STARTED",
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41487841536",
+      "previous_validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
+      "public_name_resolution": "PASS"
     },
     {
       "path": "bench/tritonbench_g/chunk_linear_attn",

@@ -1,3 +1,4 @@
+import VeriTile.Triton.Semantics.ProgramRewrite
 import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealMergeStep
 
 /-! Full NK-loop execution for both addition orders. The invariant retains the
@@ -25,7 +26,7 @@ structure Holds (p : Layout) (s0 : BlockState) (A : RegionName) (n : Nat) (u : B
   carry : u.regs .real [p.BC,p.BC] "b_A" = some (accumulator p (launch s0) (s0.readMem A) (s0.undef A) n)
 
 theorem initialization_executes (s : BlockState) : stepStmts initialization s = some (initial s) := by
-  unfold initialization
+  simp only [initialization,ProgramRewrite.constant_branch,↓reduceIte,List.append_nil]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 0 s))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 1 _))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId 2 _)),stepStmts.nil]
@@ -67,9 +68,8 @@ theorem iteration (p : Layout) (s0 : BlockState) (A : RegionName) (swapped : Boo
 theorem executes (p : Layout) (s0 : BlockState) (A : RegionName) (swapped : Bool)
     (u : BlockState) (hi : Holds p s0 A 0 u) :
     ∃ v, stepStmt (loop p A swapped) u = some v ∧ Holds p s0 A p.NK v := by
-  obtain ⟨n,v,he,hn,hv⟩ := forRangeDyn_inv (idx := "i_k") (start := 0) (stop := p.NK) (step := 1)
+  obtain ⟨n,v,he,hn,hv⟩ := forRange_inv (idx := "i_k") (start := 0) (stop := p.NK) (step := 1)
     (P := Holds p s0 A) (body := RealMergeProgram.iteration p A swapped)
-    (evalOp_constNat 0 u) (evalOp_constNat p.NK u) (evalOp_constNat 1 u)
     (by decide) hi (iteration p s0 A swapped)
   have hn' : n = p.NK := Nat.le_antisymm hv.limit hn
   subst n

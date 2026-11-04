@@ -24,8 +24,8 @@ def source (p : Layout) (r : Regions) (scale : ℝ) (swapped : Bool) : ComputeKe
 def program (p : Layout) (r : Regions) (scale : ℝ) (swapped : Bool) :=
   (source p r scale swapped).eraseDType.toAlgKernel
 
-def before (p : Layout) (r : Regions) (scale : ℝ) := (program p r scale Bool.false).body.take 12
-def after (p : Layout) (r : Regions) (scale : ℝ) := (program p r scale Bool.false).body.drop 13
+def before (p : Layout) (r : Regions) (scale : ℝ) := (program p r scale Bool.false).body.take 10
+def after (p : Layout) (r : Regions) (scale : ℝ) := (program p r scale Bool.false).body.drop 11
 
 def intraDot (p : Layout) : Op .real [p.BT,p.BV] :=
   .dot (batch := []) (.ref .real [p.BT,p.BT] "b_A") (.ref .real [p.BT,p.BV] "b_v")
@@ -39,6 +39,8 @@ theorem decomposition (p : Layout) (r : Regions) (scale : ℝ) (swapped : Bool) 
       after p r scale := by
   cases swapped
   all_goals simp only [before,after,program,source,TypedOutput.source,TypedOutput.fp32Original,TypedOutput.fp32SumLeft,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputSumLeft,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,
@@ -54,6 +56,8 @@ theorem fragment (p : Layout) (r : Regions) (scale : ℝ) :
     (program p r scale Bool.false).FlattenOk := by
   rw [Kernel.FlattenOk]
   simp only [program,source,TypedOutput.source,TypedOutput.fp32Original,TypedOutput.fp32SumLeft,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputSumLeft,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,

@@ -1,3 +1,4 @@
+import VeriTile.Triton.Memory.TraceRewrite
 import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealSplitStepSafety
 
 /-! Whole-source trace safety. The early return avoids the complete prefix;
@@ -43,8 +44,13 @@ theorem source_safe (p : Layout) (r : Regions) (qs ks gs : TypedSplit.Storage)
     (source p r qs ks gs scale swapped).eraseDType.toAlgKernel.TraceSafe bounds s := by
   rw [Kernel.TraceSafe,source_body,body]
   apply TraceProofs.append_safe _ s
-  · apply TraceProofs.all_safe
-    simp [initialization,Stmt.TraceSafe,Op.SafeAt]
+  · simp only [initialization,TraceRewrite.constant_branch,↓reduceIte,List.cons_append,List.nil_append,List.append_nil]
+    apply TraceProofs.all_safe
+    simp [Stmt.TraceSafe,Op.SafeAt]
+    intro t
+    simp only [evalOp,Tile.scalar_data,↓reduceIte,true_implies]
+    apply TraceProofs.all_safe
+    simp [Stmt.TraceSafe,Op.SafeAt]
   · intro t he
     rw [initialization_executes] at he
     cases he

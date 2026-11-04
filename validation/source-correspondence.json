@@ -14,18 +14,18 @@
     },
     "task_status": {
       "no_independent_python_reference": 334,
-      "selected_body_copy_checked": 171,
-      "uncovered_jit_functions": 12
+      "selected_body_copy_checked": 172,
+      "uncovered_jit_functions": 11
     },
     "example_status": {
       "selected_body_copy_checked": 19
     },
     "selected_jit_functions": 353,
-    "uncovered_selected_jit_functions": 50,
-    "inventoried_jit_functions": 580,
-    "uncovered_inventoried_jit_functions": 59,
+    "uncovered_selected_jit_functions": 45,
+    "inventoried_jit_functions": 585,
+    "uncovered_inventoried_jit_functions": 54,
     "checked_pair_modes": {
-      "pasted_body": 539
+      "pasted_body": 549
     },
     "collection_status": {
       "bug_detection": {
@@ -38,15 +38,15 @@
         "no_independent_python_reference": 269
       },
       "tritonbench_g": {
-        "selected_body_copy_checked": 171,
-        "uncovered_jit_functions": 12
+        "selected_body_copy_checked": 172,
+        "uncovered_jit_functions": 11
       }
     },
     "primary_files_with_int64_screen_warning": 2,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 6,
-        "antiquotes": 340,
+        "in_body_type_directives": 5,
+        "antiquotes": 339,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 81
       },
@@ -16185,9 +16185,9 @@
       "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean",
       "lean_screen": {
         "quotations": 10,
-        "in_body_type_directives": 10,
-        "antiquotes": 562,
-        "dsl_assignment": 25,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 96,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 8
@@ -16259,59 +16259,269 @@
               "explicit_int64_casts": []
             }
           ]
+        },
+        {
+          "path": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py",
+          "jits": [
+            {
+              "function": "chunk_gla_fwd_A_kernel_intra_sub_inter",
+              "line": 18,
+              "statements": 8,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "chunk_gla_fwd_A_kernel_intra_sub_intra",
+              "line": 72,
+              "statements": 15,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "chunk_gla_fwd_A_kernel_intra_sub_intra_split",
+              "line": 124,
+              "statements": 17,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "chunk_gla_fwd_A_kernel_intra_sub_intra_merge",
+              "line": 179,
+              "statements": 7,
+              "explicit_int64_casts": []
+            },
+            {
+              "function": "chunk_gla_fwd_kernel_o",
+              "line": 208,
+              "statements": 12,
+              "explicit_int64_casts": []
+            }
+          ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_python_jits": [
+      "checked_pairs": [
         {
+          "python_function": "chunk_gla_fwd_A_kernel_intra_sub_inter",
+          "lean_definition": "interOriginal",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BC",
+            "BK",
+            "BT",
+            "K",
+            "NC",
+            "T"
+          ],
           "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
-          "function": "chunk_gla_fwd_A_kernel_intra_sub_inter"
+          "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean"
         },
         {
-          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
-          "function": "chunk_gla_fwd_A_kernel_intra_sub_intra"
+          "python_function": "chunk_gla_fwd_A_kernel_intra_sub_inter",
+          "lean_definition": "interDotFirst",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 8,
+          "runtime_parameters": {
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BC",
+            "BK",
+            "BT",
+            "K",
+            "NC",
+            "T"
+          ],
+          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py",
+          "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean"
         },
         {
+          "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra",
+          "lean_definition": "intraOriginal",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BC",
+            "BK",
+            "BT",
+            "K",
+            "T"
+          ],
           "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
-          "function": "chunk_gla_fwd_A_kernel_intra_sub_intra_split"
+          "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean"
         },
         {
-          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
-          "function": "chunk_gla_fwd_A_kernel_intra_sub_intra_merge"
+          "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra",
+          "lean_definition": "intraScaleFirst",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 15,
+          "runtime_parameters": {
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BC",
+            "BK",
+            "BT",
+            "K",
+            "T"
+          ],
+          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py",
+          "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean"
         },
         {
+          "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra_split",
+          "lean_definition": "splitOriginal",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BC",
+            "BK",
+            "BT",
+            "K",
+            "NC",
+            "T"
+          ],
           "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
-          "function": "chunk_gla_fwd_kernel_o"
+          "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean"
+        },
+        {
+          "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra_split",
+          "lean_definition": "splitScaleFirst",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 17,
+          "runtime_parameters": {
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BC",
+            "BK",
+            "BT",
+            "K",
+            "NC",
+            "T"
+          ],
+          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py",
+          "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean"
+        },
+        {
+          "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra_merge",
+          "lean_definition": "mergeOriginal",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BC",
+            "BT",
+            "NK",
+            "T"
+          ],
+          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
+          "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean"
+        },
+        {
+          "python_function": "chunk_gla_fwd_A_kernel_intra_sub_intra_merge",
+          "lean_definition": "mergeLoadFirst",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BC",
+            "BT",
+            "NK",
+            "T"
+          ],
+          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py",
+          "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean"
+        },
+        {
+          "python_function": "chunk_gla_fwd_kernel_o",
+          "lean_definition": "outputOriginal",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "s_v_h": "integer",
+            "s_v_t": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "BV",
+            "K",
+            "T",
+            "V"
+          ],
+          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
+          "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean"
+        },
+        {
+          "python_function": "chunk_gla_fwd_kernel_o",
+          "lean_definition": "outputSumLeft",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "statements": 12,
+          "runtime_parameters": {
+            "s_k_h": "integer",
+            "s_k_t": "integer",
+            "s_v_h": "integer",
+            "s_v_t": "integer",
+            "s_h_h": "integer",
+            "s_h_t": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "BV",
+            "K",
+            "T",
+            "V"
+          ],
+          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py",
+          "lean": "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean"
         }
       ],
-      "uncovered_selected_jits": [
-        {
-          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
-          "function": "chunk_gla_fwd_A_kernel_intra_sub_inter"
-        },
-        {
-          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
-          "function": "chunk_gla_fwd_A_kernel_intra_sub_intra"
-        },
-        {
-          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
-          "function": "chunk_gla_fwd_A_kernel_intra_sub_intra_split"
-        },
-        {
-          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
-          "function": "chunk_gla_fwd_A_kernel_intra_sub_intra_merge"
-        },
-        {
-          "python": "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py",
-          "function": "chunk_gla_fwd_kernel_o"
-        }
-      ],
+      "uncovered_python_jits": [],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean": "df8fedcaebf737e803b2da6c762e2fa61b7c524508b4d953d3025b0a05a02e46",
-        "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py": "3e983e484088f08c6d8690520227efc0a2d89a0fa0c4a7f4897879fa58faefb5"
+        "bench/tritonbench_g/chunk_gla_fwd/Kernels.lean": "53124a02df4bf6e8591814d3c3cfd6ce77015605a4dc4c662abdba2a623333d8",
+        "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd.py": "3e983e484088f08c6d8690520227efc0a2d89a0fa0c4a7f4897879fa58faefb5",
+        "bench/tritonbench_g/chunk_gla_fwd/chunk_gla_fwd_commuted.py": "8a518dce9d0fc41c9f61a291e9025723ec85538ed5078d445d964c7cdeb08215",
+        "bench/tritonbench_g/chunk_gla_fwd/jit-correspondence.json": "d483872426cdc47e2e0649ceea39d16ce8bcae4bf82624f2050f7ef28e1dd1ae"
       },
       "collection": "tritonbench_g",
       "id": "bench/tritonbench_g/chunk_gla_fwd"

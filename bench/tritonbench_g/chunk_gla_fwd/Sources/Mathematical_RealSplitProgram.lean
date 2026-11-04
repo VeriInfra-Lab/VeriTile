@@ -62,11 +62,14 @@ def remaining (p : Layout) : Op .nat [] :=
 def tripCount (p : Layout) : Op .nat [] :=
   .where (.lt .nat .nil (.constNat p.BC) (remaining p)) (.constNat p.BC) (remaining p)
 def initialization (p : Layout) : List Stmt :=
-  [.assign .nat [] "i_k" (.programId 0),.assign .nat [] "i_tc" (.programId 1),
-   .assign .nat [] "i_bh" (.programId 2),
-   .assign .nat [] "i_t" (.floorDiv .nat .nil (.ref .nat [] "i_tc") (.constNat p.NC)),
-   .assign .nat [] "i_i" (.mod .nat .nil (.ref .nat [] "i_tc") (.constNat p.NC)),
+  [.ifThen (.constBool Bool.true)
+    [.assign .nat [] "i_k" (.programId 0),.assign .nat [] "i_tc" (.programId 1),
+     .assign .nat [] "i_bh" (.programId 2)],
+   .ifThen (.constBool Bool.true)
+    [.assign .nat [] "i_t" (.floorDiv .nat .nil (.ref .nat [] "i_tc") (.constNat p.NC)),
+     .assign .nat [] "i_i" (.mod .nat .nil (.ref .nat [] "i_tc") (.constNat p.NC))],
    .assign .nat [] "i_j" (.ref .nat [] "i_i"),.assign .nat [] "n_bh" (.numPrograms 2)]
+
 def setup (p : Layout) (r : Regions) : List Stmt :=
   [.assign .nat [p.BC] "o_i" (.arange p.BC),.assign .nat [p.BK] "o_k" (.add .nat .scalarL (times "i_k" p.BK) (.arange p.BK)),
    .assign .nat [p.BC] "o_A" (offsetsOp p),
@@ -78,7 +81,10 @@ def setup (p : Layout) (r : Regions) : List Stmt :=
    .assign .real [p.BC,p.BK] "b_q" (load2 p "p_q"),.assign .real [p.BC,p.BK] "b_g" (load2 p "p_g")]
 def iteration (p : Layout) (r : Regions) (scale : ℝ) (swapped : Bool) : List Stmt :=
   [.assign .real [p.BC] "b_A" (.full [p.BC] (.const 0)),
-   .assign .real [p.BK] "b_k" (keyLoad p "p_k"),.assign .real [p.BK] "b_gk" (keyLoad p "p_gk"),
+   .assign .real [p.BK] "__veritile_load_0" (keyLoad p "p_k"),
+   .assign .real [p.BK] "b_k" (.ref .real [p.BK] "__veritile_load_0"),
+   .assign .real [p.BK] "__veritile_load_1" (keyLoad p "p_gk"),
+   .assign .real [p.BK] "b_gk" (.ref .real [p.BK] "__veritile_load_1"),
    .assign .real [p.BC] "b_A" (addedOp p),.assign .real [p.BC] "b_A" (scaledOp p scale swapped),
    .store .real [p.BC] (.region r.output (outputOffsets p)) (.ref .real [p.BC] "b_A") (.mask (.ref .bool [p.BC] "m_A")),
    .assign .ptr [p.BK] "p_k" (advance p "p_k"),.assign .ptr [p.BK] "p_gk" (advance p "p_gk")]
@@ -105,6 +111,16 @@ theorem source_body (p : Layout) (r : Regions) (qs ks gs : TypedSplit.Storage)
     BlockPaddingView.compute,
     BlockPaddingView.operation,
     VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedOutput.Storage.current,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.interOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.interDotFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.intraOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.intraScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.splitOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.splitScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.mergeOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.mergeLoadFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputSumLeft,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.source,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32Original,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32DotFirst,

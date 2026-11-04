@@ -1,3 +1,4 @@
+import VeriTile.Triton.Memory.TraceRewrite
 import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealMergeExecution
 import VeriTile.Triton.Memory.TraceProofs
 
@@ -39,11 +40,11 @@ theorem iteration_safe (p : Layout) (l : Launch) (A : RegionName) (kb : Nat) (sw
   unfold RealMergeProgram.iteration
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some (pointer_eval p l A kb s hg hk))]
   refine ⟨by simp [Stmt.TraceSafe,inputPointer,inputBase,rowOp,mulRef,Op.SafeAt],?_⟩
+  apply Stmt.TraceSafeList.cons_intro
+    (by simpa only [Stmt.TraceSafe] using load_safe p l A kb (s.setReg "p_A" .blockPtr [p.BC,p.BC] (pointer p l A kb)) bounds (by simp) hb)
+  intro t ht
   apply Stmt.TraceSafeList.cons_intro ?_ (by intro _ _; exact Stmt.TraceSafeList.nil_intro)
-  cases swapped <;> simp only [Bool.false_eq_true,↓reduceIte,Stmt.TraceSafe]
-  all_goals rw [Op.SafeAt.eq_def]
-  · exact ⟨by simp [carry,Op.SafeAt],load_safe p l A kb _ bounds (by simp) hb⟩
-  · exact ⟨load_safe p l A kb _ bounds (by simp) hb,by simp [carry,Op.SafeAt]⟩
+  cases swapped <;> simp [Stmt.TraceSafe,Op.SafeAt,carry]
 
 theorem loop_safe (p : Layout) (s0 : BlockState) (A : RegionName) (swapped : Bool)
     (bounds : RegionBounds)
@@ -51,7 +52,6 @@ theorem loop_safe (p : Layout) (s0 : BlockState) (A : RegionName) (swapped : Boo
       inputAddress p (launch s0) kb i < bounds A)
     (u : BlockState) (hi : Holds p s0 A 0 u) : Stmt.TraceSafe bounds (loop p A swapped) u := by
   rw [loop,Stmt.TraceSafe]
-  simp only [Op.SafeAt,evalOp_constNat,Tile.scalar,true_and]
   apply TraceProofs.range_safe (P := Holds p s0 A)
   · intro i s hn hs
     exact iteration_safe p (launch s0) A i swapped _ bounds (index_holds p s0 A i s hs).grid (by simp) (hb i hn)
@@ -91,8 +91,9 @@ theorem source_safe (p : Layout) (A A2 : RegionName) (out : FloatDType) (swapped
     (source p A A2 out swapped).eraseDType.toAlgKernel.TraceSafe bounds s := by
   rw [Kernel.TraceSafe,source_body,body]
   apply TraceProofs.append_safe _ s
-  · apply TraceProofs.all_safe
-    simp [initialization,Stmt.TraceSafe,Op.SafeAt]
+  · simp only [initialization,TraceRewrite.constant_branch,↓reduceIte,List.cons_append,List.nil_append,List.append_nil]
+    apply TraceProofs.all_safe
+    simp [Stmt.TraceSafe,Op.SafeAt]
   · intro t he
     rw [initialization_executes] at he
     cases he

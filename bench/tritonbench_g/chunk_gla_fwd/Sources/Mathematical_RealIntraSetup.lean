@@ -1,3 +1,4 @@
+import VeriTile.Triton.Semantics.ProgramRewrite
 import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealIntraAlgebra
 
 /-! Initialization and the complete pre-loop source prefix. Only query and
@@ -26,6 +27,7 @@ def result (p : Layout) (l : Launch) (r : Regions) (s : BlockState) : BlockState
     "b_g" .real [p.BC,p.BK] (matrixTile p l (s.readMem r.gate) (s.undef r.gate))
 
 theorem initialization_executes (s : BlockState) : stepStmts initialization s = some (initial s) := by
+  simp only [initialization,ProgramRewrite.constant_branch,↓reduceIte,List.cons_append,List.nil_append]
   simp only [initialization,stepStmts,stepStmt,evalOp,Option.bind_eq_bind,Option.bind_some]
   simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (by decide : ("i_i" : RegName) ≠ "i_bh"),
     BlockState.setReg_same,Option.bind_some,Option.bind_eq_bind]

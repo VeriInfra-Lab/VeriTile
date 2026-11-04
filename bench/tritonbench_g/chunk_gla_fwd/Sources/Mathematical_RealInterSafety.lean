@@ -1,3 +1,4 @@
+import VeriTile.Triton.Memory.TraceRewrite
 import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealInterExecution
 import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealInterStepSafety
 
@@ -20,8 +21,6 @@ theorem loop_safe (p : Layout) (r : Regions) (scale : ℝ) (s0 : BlockState) (sw
     (hb : ∀ kb, kb < numBlocks p → RealInterStepSafety.Bounds p (launch s0) r kb bounds)
     (u : BlockState) (hi : Holds p r scale s0 0 u) : Stmt.TraceSafe bounds (loop p r scale swapped) u := by
   rw [loop,Stmt.TraceSafe]
-  have hs : (tripCount p).SafeAt bounds u := by simp [tripCount,Op.SafeAt]
-  simp only [Op.SafeAt,hs,true_and,evalOp_constNat,tripCount_eval,Tile.scalar]
   apply TraceProofs.range_safe (P := Holds p r scale s0)
   · intro i s hn hs
     have ht := index_holds p r scale s0 i s hs
@@ -66,8 +65,13 @@ theorem source_safe (p : Layout) (r : Regions) (qs ks gs : TypedInter.Storage)
     (source p r qs ks gs out scale swapped).eraseDType.toAlgKernel.TraceSafe bounds s := by
   rw [Kernel.TraceSafe,source_body,body]
   apply TraceProofs.append_safe _ s
-  · apply TraceProofs.all_safe
-    simp [initialization,Stmt.TraceSafe,Op.SafeAt]
+  · simp only [initialization,TraceRewrite.constant_branch,↓reduceIte,List.cons_append,List.nil_append,List.append_nil]
+    apply TraceProofs.all_safe
+    simp [Stmt.TraceSafe,Op.SafeAt]
+    intro t
+    simp only [evalOp,Tile.scalar_data,↓reduceIte,true_implies]
+    apply TraceProofs.all_safe
+    simp [Stmt.TraceSafe,Op.SafeAt]
   · intro t he
     rw [initialization_executes] at he
     cases he

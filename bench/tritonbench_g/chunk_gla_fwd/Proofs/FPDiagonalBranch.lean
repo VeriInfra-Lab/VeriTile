@@ -24,8 +24,8 @@ def prologue (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ) (s : Sta
   | «false» =>
     refine ⟨?_,?_⟩
     swap
-    simp [branch,kernel,SourceBridge.intraNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,IntraGrid.layout,IntraGrid.regions,
-      ComputeKernel.surfaceBody,Source.conditional?,Source.prefixBefore,Option.map,Option.getD,
+    simp [branch,kernel,SourceBridge.intraNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,Bodies.intraOriginal,IntraGrid.layout,IntraGrid.regions,
+      ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg]
@@ -33,8 +33,8 @@ def prologue (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ) (s : Sta
   | «true» =>
     refine ⟨?_,?_⟩
     swap
-    simp [branch,kernel,SourceBridge.splitNew,TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,SplitGrid.layout,SplitGrid.regions,
-      ComputeKernel.surfaceBody,Source.conditional?,Source.prefixBefore,Option.map,Option.getD,
+    simp [branch,kernel,SourceBridge.splitNew,TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,Bodies.splitOriginal,SplitGrid.layout,SplitGrid.regions,
+      ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg]
@@ -44,9 +44,9 @@ theorem condition_eval (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ
     FP.Structural.evalOp (engine M) none (branch split c scale).condition (prologue M split c scale s).val=
       some (fun _ => decide (enabled split c s)) := by
   cases split
-  all_goals simp [branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,
-    TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
-    ComputeKernel.surfaceBody,Source.conditional?,evalOp_unfold,numeric,bop,prologue,natLe,natLt,enabled,rowStart,chunk,block]
+  all_goals simp [branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,Bodies.intraOriginal,
+    TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,Bodies.splitOriginal,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
+    ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,evalOp_unfold,numeric,bop,prologue,natLe,natLt,enabled,rowStart,chunk,block]
   all_goals
     funext i
     exact not_decide_le _ _
@@ -55,8 +55,8 @@ theorem stop_eval (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ) (s 
     FP.Structural.evalOp (engine M) none (parts split c scale).stop (entryExecution M split c scale s).val=
       some (fun _ => columns split c s) := by
   cases split
-  all_goals simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,
-    TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
+  all_goals simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,Bodies.intraOriginal,
+    TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,Bodies.splitOriginal,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
     ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     evalOp_unfold,numeric,bop,entryExecution,natLe,natLt,numericLt,columns,chunk,block]
   all_goals

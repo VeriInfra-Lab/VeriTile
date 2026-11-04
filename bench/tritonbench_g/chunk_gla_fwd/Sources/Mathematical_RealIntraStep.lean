@@ -12,7 +12,10 @@ set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false
 
 def loaded (p : Layout) (l : Launch) (a : Inputs) (j : Nat) (s : BlockState) : BlockState :=
-  (s.setReg "b_k" .real [p.BK] (keyTile p l a.key j)).setReg "b_gk" .real [p.BK] (keyTile p l a.gate j)
+  (((s.setReg "__veritile_load_0" .real [p.BK] (keyTile p l a.key j)).setReg
+    "b_k" .real [p.BK] (keyTile p l a.key j)).setReg "__veritile_load_1" .real [p.BK]
+    (keyTile p l a.gate j)).setReg "b_gk" .real [p.BK] (keyTile p l a.gate j)
+
 def calculated (p : Layout) (l : Launch) (a : Inputs) (qp gp : Nat → ℝ)
     (scale : ℝ) (j : Nat) (s : BlockState) : BlockState :=
   ((loaded p l a j s).setReg "b_A" .real [p.BC] (reducedTile p l a qp gp j)).setReg
@@ -59,8 +62,12 @@ theorem executes (p : Layout) (l : Launch) (r : Regions) (a : Inputs) (qp gp : N
     stepStmts (iteration p r scale swapped) s = some (result p l r a qp gp scale j s) := by
   unfold iteration
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (key_load p l r.key a.key j "p_k" s hk hp hmask))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp
+    (.ref .real [p.BK] "__veritile_load_0") _ = some (keyTile p l a.key j) from by simp [evalOp_ref]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (key_load p l r.gate a.gate j "p_gk" _
     (by simpa using hgk) (by simpa using hpg) (by simpa using hmask)))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp
+    (.ref .real [p.BK] "__veritile_load_1") _ = some (keyTile p l a.gate j) from by simp [evalOp_ref]))]
   change stepStmts (.assign _ _ "b_A" _ :: _) (loaded p l a j s) = _
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (reduced_eval p l a qp gp j _
     (by simp [loaded,hq]) (by simp [loaded,hg]) (by simp [loaded]) (by simp [loaded])))]

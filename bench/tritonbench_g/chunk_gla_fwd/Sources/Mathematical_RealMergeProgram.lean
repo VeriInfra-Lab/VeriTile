@@ -59,15 +59,16 @@ def loaded (p : Layout) : Op .real [p.BC,p.BC] :=
   .load .real (.blockPtr (.ref .blockPtr [p.BC,p.BC] "p_A") [0,1]) .none .unspecified
 
 def initialization : List Stmt :=
-  [.assign .nat [] "i_t" (.programId 0),.assign .nat [] "i_c" (.programId 1),.assign .nat [] "i_bh" (.programId 2)]
+  [.ifThen (.constBool Bool.true) [.assign .nat [] "i_t" (.programId 0),.assign .nat [] "i_c" (.programId 1),.assign .nat [] "i_bh" (.programId 2)]]
 def setup (p : Layout) : List Stmt :=
   [.assign .nat [] "n_bh" (.numPrograms 2),.assign .real [p.BC,p.BC] "b_A" (.full [p.BC,p.BC] (.const 0))]
 def iteration (p : Layout) (A : RegionName) (swapped : Bool) : List Stmt :=
   [.assign .blockPtr [p.BC,p.BC] "p_A" (inputPointer p A),
-   .assign .real [p.BC,p.BC] "b_A" (if swapped then .add .real (.consSame (.consSame .nil)) (loaded p) (carry p)
-     else .add .real (.consSame (.consSame .nil)) (carry p) (loaded p))]
+   .assign .real [p.BC,p.BC] "__veritile_load_0" (loaded p),
+   .assign .real [p.BC,p.BC] "b_A" (if swapped then .add .real (.consSame (.consSame .nil)) (.ref .real [p.BC,p.BC] "__veritile_load_0") (carry p)
+     else .add .real (.consSame (.consSame .nil)) (carry p) (.ref .real [p.BC,p.BC] "__veritile_load_0"))]
 def loop (p : Layout) (A : RegionName) (swapped : Bool) : Stmt :=
-  .forRangeDyn "i_k" (.constNat 0) (.constNat p.NK) (.constNat 1) (iteration p A swapped)
+  .forRange "i_k" 0 p.NK 1 (iteration p A swapped)
 def finalization (p : Layout) (A2 : RegionName) : List Stmt :=
   [.assign .blockPtr [p.BC,p.BC] "p_A2" (outputPointer p A2),
    .store .real [p.BC,p.BC] (.blockPtr (.ref .blockPtr [p.BC,p.BC] "p_A2") [0,1]) (carry p) .none]
@@ -89,6 +90,16 @@ theorem projects (p : Layout) (A A2 : RegionName) (out : FloatDType) (swapped : 
     BlockPaddingView.compute,
     BlockPaddingView.operation,
     VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedOutput.Storage.current,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.interOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.interDotFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.intraOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.intraScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.splitOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.splitScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.mergeOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.mergeLoadFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputSumLeft,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.source,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32Original,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32DotFirst,
@@ -125,6 +136,16 @@ theorem source_body (p : Layout) (A A2 : RegionName) (out : FloatDType) (swapped
     BlockPaddingView.compute,
     BlockPaddingView.operation,
     VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedOutput.Storage.current,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.interOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.interDotFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.intraOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.intraScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.splitOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.splitScaleFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.mergeOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.mergeLoadFirst,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputOriginal,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputSumLeft,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.source,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32Original,
     VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32DotFirst,

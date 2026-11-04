@@ -63,9 +63,15 @@ theorem iteration_safe (p : Layout) (l : Launch) (r : Regions) (scale : ℝ)
   unfold iteration
   apply TraceProofs.assign_cons (key_safe p l r.key j "p_k" bounds s hb.key hp hc.keyMask)
   intro bk
+  apply TraceProofs.assign_cons
+  · simp [Op.SafeAt]
+  intro copied
   apply TraceProofs.assign_cons (key_safe p l r.gate j "p_gk" bounds _ hb.gate
     (by simpa using hpg) (by simpa using hc.keyMask))
   intro bgk
+  apply TraceProofs.assign_cons
+  · simp [Op.SafeAt]
+  intro copied
   apply TraceProofs.assign_cons
   · simp [reducedOp,product,Op.SafeAt,Op.SafeAt.eq_def]
   intro bA

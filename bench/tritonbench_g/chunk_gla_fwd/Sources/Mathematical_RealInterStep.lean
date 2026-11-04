@@ -77,10 +77,14 @@ theorem result_grid (p : Layout) (l : Launch) (r : Regions) (a : Inputs) (scale 
   constructor <;> simp [result,keyLoaded,queryLoaded,pointed,indexed,hg.chunk,hg.head,hg.row,hg.column]
 
 theorem result_memory (p : Layout) (l : Launch) (r : Regions) (a : Inputs) (scale : ℝ)
-    (kb : Nat) (s : BlockState) : (result p l r a scale kb s).mem = s.mem := rfl
+    (kb : Nat) (s : BlockState) : (result p l r a scale kb s).mem = s.mem := by
+  funext region offset
+  simp only [result,keyLoaded,queryLoaded,pointed,indexed,BlockState.setReg_mem]
 
 theorem result_padding (p : Layout) (l : Launch) (r : Regions) (a : Inputs) (scale : ℝ)
-    (kb : Nat) (s : BlockState) : (result p l r a scale kb s).undef = s.undef := rfl
+    (kb : Nat) (s : BlockState) : (result p l r a scale kb s).undef = s.undef := by
+  funext region offset
+  simp only [result,keyLoaded,queryLoaded,pointed,indexed,BlockState.setReg_undef]
 
 theorem result_carry (p : Layout) (l : Launch) (r : Regions) (a : Inputs) (scale : ℝ)
     (kb : Nat) (s : BlockState) :

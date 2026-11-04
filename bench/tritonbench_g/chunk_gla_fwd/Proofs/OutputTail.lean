@@ -112,29 +112,13 @@ theorem source_executes
   obtain ⟨t0, hpre, h0mem, h0pids, h0iv, h0it, h0ibh, h0ms, h0bo, h0u⟩ :=
     cgfPreLoop_run s BT BV
   rw [stepStmts.append_some hpre]
-  rw [show [Stmt.forRangeDyn "i_k" (Op.constNat 0)
-        (Op.div .nat Broadcast.nil
-          (Op.sub .nat Broadcast.nil
-            (Op.add .nat Broadcast.nil (Op.constNat K) (Op.constNat BK))
-            (Op.constNat 1))
-          (Op.constNat BK))
-        (Op.constNat 1)
-        (cgfLoopBody g h q s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV)]
-      ++ cgfPostLoop v o A s_v_h s_v_t T V BT BV
-    = Stmt.forRangeDyn "i_k" (Op.constNat 0)
-        (Op.div .nat Broadcast.nil
-          (Op.sub .nat Broadcast.nil
-            (Op.add .nat Broadcast.nil (Op.constNat K) (Op.constNat BK))
-            (Op.constNat 1))
-          (Op.constNat BK))
-        (Op.constNat 1)
-        (cgfLoopBody g h q s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV)
-      :: cgfPostLoop v o A s_v_h s_v_t T V BT BV from rfl]
+  rw [List.singleton_append]
   -- the collapsed K loop
   obtain ⟨t1, hloop, hinv1⟩ :=
     cgfLoop_collapse s q g h s_k_h s_k_t s_h_h s_h_t scale T K V BT BK BV t0
       ⟨Nat.zero_le _, h0mem, h0pids, h0iv, h0it, h0ibh, h0ms,
         by rw [h0bo, cgfAccTile_zero], h0u.trans hu⟩
+  simp only [numKB] at hloop
   rw [stepStmts.cons_some hloop]
   -- the tail
   obtain ⟨sF, hpost, hout, hframe⟩ :=
