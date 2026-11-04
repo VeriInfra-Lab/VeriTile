@@ -14,10 +14,10 @@ abbrev BScore (p : BackwardParameters) := TileIndex [p.blockM,p.blockM]
 abbrev BRow (p : BackwardParameters) := TileIndex [p.blockM]
 abbrev Memory (α : Type) := RegionName → Nat → Cell α
 
-def backwardSource (p : BackwardParameters) := backwardTyped p.dtype .fp32
+def backwardSource (p : BackwardParameters) := backwardTyped p.dtype
   p.q p.k p.v "unused_Out" p.gradient p.dq p.dk p.dv "unused_L" p.maximum p.delta p.scale
   p.batchStride p.headStride p.head 1 0 0 p.head 1 0 0 p.head 1
-  0 p.heads (p.blockM*p.blocks) p.rows p.blocks p.blockM p.head p.blockM
+  0 p.heads (p.blockM*p.blocks) p.rows p.blocks p.blockM p.head
 
 def backwardPrologue (p : BackwardParameters) := (backwardSource p).surfaceBody.take 13
 def backwardOuterBody (p : BackwardParameters) : List ComputeStmt :=
@@ -67,7 +67,7 @@ def backwardMaskedQK (P : Primitives α) (p : BackwardParameters) (s : State α)
     P.cast (some .fp32) .fp32 .real (backwardQK P p s mem key queryBlock i) else P.negInf
 def backwardWeights (P : Primitives α) (p : BackwardParameters) (s : State α)
     (mem : Memory α) (key : Values α p.dtype.toTileDType [p.blockM,p.head]) (keyBlock queryBlock : Nat) (i : BScore p) : α :=
-  P.unary none .exp (P.binary (some .fp32) .real .sub
+  P.unary (some .fp32) .exp (P.binary (some .fp32) .real .sub
     (P.binary (some .fp32) .real .mul (backwardMaskedQK P p s mem key keyBlock queryBlock i)
       (P.literal (some .fp32) .real p.scale))
     (P.cast (some .fp32) .fp32 .real ((mem p.maximum (backwardRowOffset p s queryBlock (i.1,PUnit.unit))).read .fp32)))

@@ -11,8 +11,8 @@ def backwardStoreRegisters (P : Primitives α) (p : BackwardParameters) (initial
   let key := backwardRead p initial outerMem p.k c
   let value := backwardRead p initial outerMem p.v c
   let t := current.setReg "dk" .real [p.blockM,p.head] (backwardInnerAdvance P p initial key value c j st).dk
-  let t := t.setReg "dq" .real [p.blockM,p.head] (fun i =>
-    P.cast (some .fp32) .fp32 .real ((st.mem p.dq (backwardOffset p initial j i)).read .fp32))
+  let t := t.setReg "dq" .fp32 [p.blockM,p.head] (fun i =>
+    (st.mem p.dq (backwardOffset p initial j i)).read .fp32)
   t.setReg "dq" .real [p.blockM,p.head] (backwardQueryValue P p initial st.mem key value c j)
 def backwardStoreResult (P : Primitives α) (p : BackwardParameters) (initial current : State α)
     (c j : Nat) (outerMem : Memory α) (st : BackwardInner α p) : State α :=

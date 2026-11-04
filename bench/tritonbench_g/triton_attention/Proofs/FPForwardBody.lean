@@ -1,3 +1,4 @@
+import Mathlib.Tactic.NormNum
 import bench.tritonbench_g.triton_attention.Proofs.FPForwardScore
 namespace VeriTile.Bench.Repairs.TritonAttentionScalarABI.Source
 open VeriTile.Triton FP.Structural
@@ -42,7 +43,8 @@ theorem forwardSoftmaxExecution (rest : Algebra α) (P : Primitives α) (p : For
     (hqk : current.regs .real [p.blockM,p.blockN] "qk"=some (forwardScore P p initial c)) :
     run (backend rest P) (((forwardBody p).drop 5).take 5) current=
       some (forwardSoftmaxResult P p initial current c st) := by
-  simp [forwardBody,forwardSource,forwardTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  have source_one : (1.0:ℝ)=1 := by norm_num
+  simp [source_one,forwardBody,forwardSource,forwardTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,backend,forwardSoftmaxResult,hqk,hm,hl,TileShape.axisDim,hn,
     FP.Structural.ofFloat,FP.Structural.toFloat,ComputeDType.eraseDType,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Option.bind]

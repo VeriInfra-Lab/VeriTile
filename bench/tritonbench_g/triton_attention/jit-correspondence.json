@@ -1,0 +1,779 @@
+[
+  {
+    "python": "bench/tritonbench_g/triton_attention/triton_attention.py",
+    "lean": "bench/tritonbench_g/triton_attention/SourceKernels.lean",
+    "python_function": "_fwd_kernel",
+    "lean_definition": "forwardTyped",
+    "signature_definition": "forwardTypedSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_on",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "D0",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_DMODEL",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "V"
+      ],
+      "writePorts": [
+        "L",
+        "M",
+        "Out"
+      ],
+      "floatingPointers": [
+        [
+          "Q",
+          "dtype"
+        ],
+        [
+          "K",
+          "dtype"
+        ],
+        [
+          "V",
+          "dtype"
+        ],
+        [
+          "L",
+          "out_dtype"
+        ],
+        [
+          "M",
+          "out_dtype"
+        ],
+        [
+          "Out",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype",
+        "out_dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "sm_scale": "sm_scale",
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vk": "stride_vk",
+      "stride_vn": "stride_vn",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_on": "stride_on",
+      "Z": "Z",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "D0": "D0"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/triton_attention/triton_attention.py",
+    "lean": "bench/tritonbench_g/triton_attention/SourceKernels.lean",
+    "python_function": "_bwd_preprocess",
+    "lean_definition": "preprocessTyped",
+    "signature_definition": "preprocessTypedSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [],
+      "constexpr": [
+        "BLOCK_M",
+        "D_HEAD"
+      ],
+      "readPorts": [
+        "Out",
+        "DO",
+        "L"
+      ],
+      "writePorts": [
+        "NewDO",
+        "Delta"
+      ],
+      "floatingPointers": [
+        [
+          "Out",
+          "dtype"
+        ],
+        [
+          "DO",
+          "dtype"
+        ],
+        [
+          "L",
+          "out_dtype"
+        ],
+        [
+          "NewDO",
+          "dtype"
+        ],
+        [
+          "Delta",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype",
+        "out_dtype"
+      ]
+    },
+    "expected_call_bindings": {}
+  },
+  {
+    "python": "bench/tritonbench_g/triton_attention/triton_attention.py",
+    "lean": "bench/tritonbench_g/triton_attention/SourceKernels.lean",
+    "python_function": "_bwd_kernel",
+    "lean_definition": "backwardTyped",
+    "signature_definition": "backwardTypedSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "D0",
+          "integer"
+        ],
+        [
+          "num_block",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_DMODEL",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "V",
+        "DO",
+        "M",
+        "D",
+        "DQ"
+      ],
+      "writePorts": [
+        "DQ",
+        "DV",
+        "DK"
+      ],
+      "floatingPointers": [
+        [
+          "DQ",
+          "fp32"
+        ],
+        [
+          "L",
+          "fp32"
+        ],
+        [
+          "M",
+          "fp32"
+        ],
+        [
+          "D",
+          "fp32"
+        ],
+        [
+          "Q",
+          "dtype"
+        ],
+        [
+          "K",
+          "dtype"
+        ],
+        [
+          "V",
+          "dtype"
+        ],
+        [
+          "Out",
+          "dtype"
+        ],
+        [
+          "DO",
+          "dtype"
+        ],
+        [
+          "DK",
+          "dtype"
+        ],
+        [
+          "DV",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "sm_scale": "sm_scale",
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vk": "stride_vk",
+      "stride_vn": "stride_vn",
+      "Z": "Z",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "D0": "D0",
+      "num_block": "num_block"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/triton_attention/triton_attention_shifted.py",
+    "lean": "bench/tritonbench_g/triton_attention/SourceKernels.lean",
+    "python_function": "_fwd_kernel",
+    "lean_definition": "forwardTyped",
+    "signature_definition": "forwardTypedSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "stride_oz",
+          "integer"
+        ],
+        [
+          "stride_oh",
+          "integer"
+        ],
+        [
+          "stride_om",
+          "integer"
+        ],
+        [
+          "stride_on",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "D0",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_DMODEL",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "V"
+      ],
+      "writePorts": [
+        "L",
+        "M",
+        "Out"
+      ],
+      "floatingPointers": [
+        [
+          "Q",
+          "dtype"
+        ],
+        [
+          "K",
+          "dtype"
+        ],
+        [
+          "V",
+          "dtype"
+        ],
+        [
+          "L",
+          "out_dtype"
+        ],
+        [
+          "M",
+          "out_dtype"
+        ],
+        [
+          "Out",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype",
+        "out_dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "sm_scale": "sm_scale",
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vk": "stride_vk",
+      "stride_vn": "stride_vn",
+      "stride_oz": "stride_oz",
+      "stride_oh": "stride_oh",
+      "stride_om": "stride_om",
+      "stride_on": "stride_on",
+      "Z": "Z",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "D0": "D0"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/triton_attention/triton_attention_shifted.py",
+    "lean": "bench/tritonbench_g/triton_attention/SourceKernels.lean",
+    "python_function": "_bwd_preprocess_shifted",
+    "lean_definition": "preprocessShiftedTyped",
+    "signature_definition": "preprocessTypedSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [],
+      "constexpr": [
+        "BLOCK_M",
+        "D_HEAD"
+      ],
+      "readPorts": [
+        "Out",
+        "DO",
+        "L"
+      ],
+      "writePorts": [
+        "NewDO",
+        "Delta"
+      ],
+      "floatingPointers": [
+        [
+          "Out",
+          "dtype"
+        ],
+        [
+          "DO",
+          "dtype"
+        ],
+        [
+          "L",
+          "out_dtype"
+        ],
+        [
+          "NewDO",
+          "dtype"
+        ],
+        [
+          "Delta",
+          "out_dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype",
+        "out_dtype"
+      ]
+    },
+    "expected_call_bindings": {},
+    "expected_constexpr_bindings": {
+      "BLOCK_M": "128"
+    }
+  },
+  {
+    "python": "bench/tritonbench_g/triton_attention/triton_attention_shifted.py",
+    "lean": "bench/tritonbench_g/triton_attention/SourceKernels.lean",
+    "python_function": "_bwd_kernel",
+    "lean_definition": "backwardTyped",
+    "signature_definition": "backwardTypedSignature",
+    "expected_signature": {
+      "pointers": [],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "stride_qz",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qm",
+          "integer"
+        ],
+        [
+          "stride_qk",
+          "integer"
+        ],
+        [
+          "stride_kz",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kn",
+          "integer"
+        ],
+        [
+          "stride_kk",
+          "integer"
+        ],
+        [
+          "stride_vz",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vk",
+          "integer"
+        ],
+        [
+          "stride_vn",
+          "integer"
+        ],
+        [
+          "Z",
+          "integer"
+        ],
+        [
+          "H",
+          "integer"
+        ],
+        [
+          "N_CTX",
+          "integer"
+        ],
+        [
+          "D0",
+          "integer"
+        ],
+        [
+          "num_block",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_DMODEL",
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "Q",
+        "K",
+        "V",
+        "DO",
+        "M",
+        "D",
+        "DQ"
+      ],
+      "writePorts": [
+        "DQ",
+        "DV",
+        "DK"
+      ],
+      "floatingPointers": [
+        [
+          "DQ",
+          "fp32"
+        ],
+        [
+          "L",
+          "fp32"
+        ],
+        [
+          "M",
+          "fp32"
+        ],
+        [
+          "D",
+          "fp32"
+        ],
+        [
+          "Q",
+          "dtype"
+        ],
+        [
+          "K",
+          "dtype"
+        ],
+        [
+          "V",
+          "dtype"
+        ],
+        [
+          "Out",
+          "dtype"
+        ],
+        [
+          "DO",
+          "dtype"
+        ],
+        [
+          "DK",
+          "dtype"
+        ],
+        [
+          "DV",
+          "dtype"
+        ]
+      ],
+      "dtype_parameters": [
+        "dtype"
+      ]
+    },
+    "expected_call_bindings": {
+      "sm_scale": "sm_scale",
+      "stride_qz": "stride_qz",
+      "stride_qh": "stride_qh",
+      "stride_qm": "stride_qm",
+      "stride_qk": "stride_qk",
+      "stride_kz": "stride_kz",
+      "stride_kh": "stride_kh",
+      "stride_kn": "stride_kn",
+      "stride_kk": "stride_kk",
+      "stride_vz": "stride_vz",
+      "stride_vh": "stride_vh",
+      "stride_vk": "stride_vk",
+      "stride_vn": "stride_vn",
+      "Z": "Z",
+      "H": "H",
+      "N_CTX": "N_CTX",
+      "D0": "D0",
+      "num_block": "num_block"
+    }
+  }
+]
