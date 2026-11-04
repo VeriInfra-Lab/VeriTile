@@ -4,14 +4,14 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 178,
+  "completed_count": 179,
   "staged_count": 181,
-  "pending_count": 18,
+  "pending_count": 17,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "PRIOR_BATCH_AND_CURRENT_INT8_QUANTIZATION_36_ROOTS_PASS_LOCALLY_AWAITING_INDEPENDENT_REPLAY",
     "staged_and_regression_retained_modules": 7012,
-    "official_comparator": "178 exact-current accepted targets including all 19 examples. StreamK completed all 80 official roots and exact-current receipt validation. The Attention group and int8_quantization remain in progress. Fifteen source migrations remain; fused_recurrent_delta is being reproved and is not staged or complete.",
+    "official_comparator": "179 exact-current accepted targets including all 19 examples. int8_quantization completed all 36 official roots and exact-current receipt validation. The two-case Attention group remains in progress. Fifteen source migrations remain; fused_recurrent_delta is being revalidated locally and is not staged or complete.",
     "python_tests": 662,
     "offline_example_compilations": {
       "cases": 19,
@@ -2674,7 +2674,7 @@
       "boundary": "Manifest coverage is not completion or a fresh full integration build result."
     },
     "int8_quantization_source_migration": {
-      "state": "LOCAL_PASS_AWAITING_INDEPENDENT_REPLAY",
+      "state": "EXACT_CURRENT_OFFICIAL_REPLAY_ACCEPTED",
       "owned_roots": 34,
       "shared_roots": 2,
       "source_pairs": 2,
@@ -2698,8 +2698,11 @@
       ],
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41740522465",
       "source_commit": "f3f526ddad55e16052eccef2cbde3dc8b7e0325e",
-      "independent_replay": "IN_PROGRESS",
-      "frozen_source_files": 243
+      "independent_replay": "PASS",
+      "frozen_source_files": 243,
+      "local_validation": "PASS",
+      "receipt": "validation/body_receipts/int8-quantization-source-migration.json",
+      "official_replay_roots": 36
     },
     "legacy_final_inventory": {
       "state": "STALE_PRIOR_CONTRACT_REVIEW_HASHES",
@@ -3667,15 +3670,16 @@
     },
     {
       "path": "bench/tritonbench_g/int8_quantization",
-      "status": "staged_awaiting_independent_replay",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "IN_PROGRESS",
-      "reason": "Two complete 23-statement repaired Python bodies and ABI checked. All 34 owned plus shared constexpr frontend/regression roots built; actual public Real/FP statements, execution, safety, both typed outputs and frame revalidated. Compile-time factor is derived from the source expression tree; the mathematical factor premise is discharged rather than supplied. Fresh official exact-current acceptance is still required; compilation and AST checks do not complete the task.",
+      "independent_replay": "PASS",
+      "reason": "All 36 required owned/shared roots, both actual public Real/FP specifications and both complete 23-statement source pairs accepted by official independent replay. Final ZIP SHA256, exact frozen root set, current source/import closure and public theorem names verified. No changed or excluded cases; compilation alone was not completion evidence.",
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41740522465",
-      "validated_source_commit": "f3f526ddad55e16052eccef2cbde3dc8b7e0325e"
+      "validated_source_commit": "f3f526ddad55e16052eccef2cbde3dc8b7e0325e",
+      "receipt": "validation/body_receipts/int8-quantization-source-migration.json"
     },
     {
       "path": "bench/tritonbench_g/int_scaled_matmul",
