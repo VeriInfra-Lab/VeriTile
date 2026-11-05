@@ -5,9 +5,9 @@ Current repaired Python implementation: [cross_entropy_ops.py](../cross_entropy_
 [Lean source](../Kernels.lean) · [input contract](../Contract.lean) · [Real correctness](../RealCorrect.lean) · [FP equivalence](../FPEquiv.lean).
 
 The checked entry above imports the resident JIT functions unchanged from
-[cross_entropy_ops_conditional.py](../cross_entropy_ops_conditional.py). The source
+[cross_entropy_ops.py](../cross_entropy_ops.py). The source
 inventory explicitly selects that file and checks every task-local JIT, including
-the [existing integer-index candidates](../cross_entropy_ops_index_commuted.py).
+the [existing integer-index candidates](../cross_entropy_ops.py).
 
 `Kernels.lean` quotes both resident function bodies statement for statement.
 It retains every signed cast, masked load, FP32 conversion, logit scaling,
@@ -20,7 +20,7 @@ input contract and numerical domain.
 
 The candidate source is explicitly derived for the existing equivalence pair:
 only `col_block_idx * BLOCK_SIZE` is commuted. All four complete bodies are checked
-by [jit-correspondence.json](../jit-correspondence.json). The Real entries use
+by [source correspondence inventory](../../../../validation/source-correspondence.json). The Real entries use
 independent mathematical formulas; ordered FP expressions retain actual FP32
 loads, explicit casts and scaling. Complete source execution, access safety,
 outputs and exterior frames include the untouched z-loss region in split mode.

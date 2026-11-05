@@ -19,10 +19,10 @@ replaces the actual source loop bound. Extra masked zero-product iterations are
 proved to leave the carry unchanged.
 
 The two existing optimization candidates are materialized in
-[int_scaled_matmul_candidates.py](../int_scaled_matmul_candidates.py). One removes
+[int_scaled_matmul.py](../int_scaled_matmul.py). One removes
 only `c = accumulator` and stores the accumulator directly. The other removes
 only the second `rm`/`rn` assignments and reuses their unchanged initial values.
-[candidate-provenance.json](../candidate-provenance.json) pins both file hashes.
+[candidate-provenance.json](../../../../validation/tasks/int_scaled_matmul/candidate-provenance.json) pins both file hashes.
 A whole-module inverse AST check verifies that restoring those statements and
 JIT/launch names reproduces the original program. Their complete Lean bodies
 are in the same source file; no extra implementation variant is authoritative.
@@ -40,7 +40,7 @@ compares the two actual candidates, including the signed32 carry, FP32 suffix,
 all outputs, source access safety and exterior memory frames. The existing
 host/native/compiler bridges remain separate from the ideal Real statement.
 See [Contract.lean](../Contract.lean) for invocation conditions and
-[jit-correspondence.json](../jit-correspondence.json) for all four source pairs.
+[source correspondence inventory](../../../../validation/source-correspondence.json) for all four source pairs.
 
 The [validation records](../../../../validation) distinguish source correspondence,
 local proof checks and exact-current independent acceptance. Compilation alone

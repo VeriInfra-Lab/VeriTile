@@ -13,9 +13,9 @@ Caller pointer bases, dtype profiles, constexpr flags and integer geometry bindi
 are outside the quotation. Runtime FP words and `total_classes` keep the existing
 input contract and numerical domain.
 
-[Python index candidates](../cross_entropy2_index_commuted.py) explicitly record the
+[Python index candidates](../cross_entropy2.py) explicitly record the
 existing integer-index equivalence pair. Each changes only the order of
-`col_block_idx * BLOCK_SIZE`; [jit-correspondence.json](../jit-correspondence.json)
+`col_block_idx * BLOCK_SIZE`; [source correspondence inventory](../../../../validation/source-correspondence.json)
 checks all four complete bodies. The repaired Python source is unchanged.
 
 The optional condition-grouping frontend supplies parentheses required by the

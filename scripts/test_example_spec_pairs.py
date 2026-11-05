@@ -8,13 +8,22 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 PAIRS = (
-    ("VectorAdd", "add_kernel_equiv", "VeriTile.Bench.Examples.VectorAdd.addIO", "add_commute"),
-    ("FlatVectorAdd", "add_kernel_masked_equiv", "VeriTile.Bench.Examples.FlatVectorAdd.addMaskedIO", "add_commute"),
-    ("FloatDTypeAdd", "float_add_equiv", "VeriTile.Bench.Examples.FloatDTypeAddCorrect.floatAddIO", "add_commute"),
-    ("HyperConnectionsDepth", "mhc_depth_equiv", "VeriTile.Bench.Examples.HyperConnectionsDepth.mhcDepthIO", "add_commute"),
-    ("HyperConnectionsWidth", "mhc_width_equiv", "VeriTile.Bench.Examples.HyperConnectionsWidth.mhcWidthIO", "mul_commute"),
-    ("AdamUpdateGridLaunch", "adam_update_equiv", "VeriTile.Bench.Examples.AdamUpdateGridLaunch.adamIO", "add_commute"),
+    ("VectorAdd", "add_kernel_equiv", "VeriTile.Bench.Examples.VectorAdd.addIO", "addCommute"),
+    ("FlatVectorAdd", "add_kernel_masked_equiv", "VeriTile.Bench.Examples.FlatVectorAdd.addMaskedIO", "addCommute"),
+    ("FloatDTypeAdd", "float_add_equiv", "VeriTile.Bench.Examples.FloatDTypeAddCorrect.floatAddIO", "addCommute"),
+    ("HyperConnectionsDepth", "mhc_depth_equiv", "VeriTile.Bench.Examples.HyperConnectionsDepth.mhcDepthIO", "addCommute"),
+    ("HyperConnectionsWidth", "mhc_width_equiv", "VeriTile.Bench.Examples.HyperConnectionsWidth.mhcWidthIO", "mulCommute"),
+    ("AdamUpdateGridLaunch", "adam_update_equiv", "VeriTile.Bench.Examples.AdamUpdateGridLaunch.adamIO", "addCommute"),
 )
+
+REAL_THEOREMS = {
+    "VectorAdd": "VeriTile.Bench.Examples.VectorAdd.add_kernel_correctness",
+    "FlatVectorAdd": "VeriTile.Bench.Examples.FlatVectorAdd.add_kernel_masked_correctness",
+    "FloatDTypeAdd": "VeriTile.Bench.Examples.FloatDTypeAddCorrect.float_add_correctness",
+    "HyperConnectionsDepth": "VeriTile.Bench.Examples.HyperConnectionsDepth.mhc_depth_correctness",
+    "HyperConnectionsWidth": "VeriTile.Bench.Examples.HyperConnectionsWidth.mhc_width_correctness",
+    "AdamUpdateGridLaunch": "VeriTile.Bench.Examples.AdamUpdateGridLaunch.adam_update_correctness",
+}
 
 # Each real IO wrapper must interpret the corresponding shared source and
 # expose the mathematical formula independently of its FP equivalence proof.
@@ -278,18 +287,27 @@ example (B : Nat) :
         self.lean(source)
 
     def test_fp_files_are_independent_and_print_only_used_atoms(self):
-        for name, headline, correct_io, atom in PAIRS:
+        def strict_output(theorem, atom):
+            return (
+                f"FP assumptions used by {theorem}:\n  none\n"
+                f"Strict model certificates used by {theorem}:\n"
+                "  model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values\n"
+                f"    certificate: List.Forall₂.cons "
+                f"(FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.{atom} rfl) List.Forall₂.nil\n"
+            )
+
+        for name, headline, _, atom in PAIRS:
             with self.subTest(case=name):
                 source = (ROOT / f"bench/examples/{name}/FPEquiv.lean").read_text()
                 source += f'''
 open Lean Elab Command in
 run_cmd do
-  if (← getEnv).contains `{correct_io} then
-    throwError "FP example imported the correctness implementation"
+  if (← getEnv).contains `{REAL_THEOREMS[name]} then
+    throwError "FP example imported a Real correctness theorem"
 '''
-                expected = f"FP assumptions used by {headline}:\n  {atom}\n"
+                expected = strict_output(headline, atom)
                 if name == "HyperConnectionsDepth":
-                    expected += "FP assumptions used by mhc_depth_matrix_equiv:\n  add_commute\n"
+                    expected += strict_output("mhc_depth_matrix_equiv", "addCommute")
                 elif name == "HyperConnectionsWidth":
                     expected += "FP assumptions used by mhc_width_matrix_equiv:\n  div_mul_rcp\n"
                 self.assertEqual(self.lean(source), expected)
@@ -339,32 +357,32 @@ example (N stride : Nat) (ε : ℝ) :
 
 section
 open scoped VeriTile.Triton.KernelIO₁ₓ₂
-example (N stride : Nat) :
+example (N stride : Nat) (hN : N < 2^64) :
     Spec.Real (WelfordCorrect.twopassIO N stride ⊨ fun xs =>
       ((fun _ => (∑ i, xs i) / N),
        (fun _ => (∑ i, (xs i - (∑ j, xs j) / N) ^ 2) / N))) :=
-  WelfordCorrect.twopass_welford_correct N stride
-example (N stride : Nat) :
+  WelfordCorrect.twopass_welford_correct N stride hN
+example (N stride : Nat) (hN : N < 2^64) :
     Spec.Real (WelfordCorrect.onlineIO N stride ⊨ fun xs =>
       ((fun _ => (∑ i, xs i) / N),
        (fun _ => (∑ i, (xs i - (∑ j, xs j) / N) ^ 2) / N))) :=
-  WelfordCorrect.online_welford_correct N stride
+  WelfordCorrect.online_welford_correct N stride hN
 end
 
 section
 open scoped VeriTile.Triton.KernelIO₃
-example (N stride : Nat) (ε : ℝ) :
+example (N stride : Nat) (hN : N < 2^64) (ε : ℝ) :
     Spec.Real (FusedLayerNormCorrect.twoPassIO N stride ε ⊨ fun xs gs bs i =>
       let μ := (∑ j, xs j) / N
       let variance := (∑ j, (xs j - μ) ^ 2) / N
       (xs i - μ) / Real.sqrt (variance + ε) * gs i + bs i) :=
-  FusedLayerNormCorrect.two_pass_layernorm_correct N stride ε
-example (N stride : Nat) (ε : ℝ) :
+  FusedLayerNormCorrect.two_pass_layernorm_correct N stride hN ε
+example (N stride : Nat) (hN : N < 2^64) (ε : ℝ) :
     Spec.Real (FusedLayerNormCorrect.fusedIO N stride ε ⊨ fun xs gs bs i =>
       let μ := (∑ j, xs j) / N
       let variance := (∑ j, (xs j - μ) ^ 2) / N
       (xs i - μ) / Real.sqrt (variance + ε) * gs i + bs i) :=
-  FusedLayerNormCorrect.fused_layernorm_correct N stride ε
+  FusedLayerNormCorrect.fused_layernorm_correct N stride hN ε
 end
 ''')
 
@@ -396,7 +414,7 @@ example : ∃ t,
     intro j
     simpa [initial] using DenoteSlot.state_read_ofFin
       (pid := 0) (region := "x") (off := 0) (arr := samples) (slots := [DenoteSlot.ofFin "x" 0 samples]) (by simp) (by simp) j
-  obtain ⟨t, he, hm, hv, hf⟩ := twopass_welford_correct 2 2 alloc hd rfl
+  obtain ⟨t, he, hm, hv, hf⟩ := twopass_welford_correct 2 2 (by norm_num) alloc hd rfl
     (FlatAlloc.ofList_closed _ _) 0 (by decide) (by decide) (by decide)
     (by simp [twopassIO]) samples initial rfl rfl (by simpa only [twopassIO, Nat.zero_mul, Nat.zero_add] using hx)
   refine ⟨t, he, ?_, ?_, ?_, ?_⟩

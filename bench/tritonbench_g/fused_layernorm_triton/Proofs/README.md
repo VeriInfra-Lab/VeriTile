@@ -10,4 +10,4 @@ The original normalization loop retains its two-dimensional tiles. The candidate
 
 `whole_fp` compares both complete grids, including successful execution, access safety, typed Mean/Rstd/Y observations and both exterior memory frames. It holds for the shared ordered floating interpretation and uses no experimental FP rules. The ordered reference retains actual FP32 load/cast boundaries, signed integer-to-float conversion and the distinct libdevice intrinsic. Native index representability remains a separate explicit contract.
 
-[Proof helpers](.) · [source correspondence](../jit-correspondence.json) · [validation records](../../../../validation). Local proof checks and exact-source independent replay acceptance are recorded separately; compilation alone does not complete a task.
+[Proof helpers](.) · [source correspondence inventory](../../../../validation/source-correspondence.json) · [validation records](../../../../validation). Local proof checks and exact-source independent replay acceptance are recorded separately; compilation alone does not complete a task.

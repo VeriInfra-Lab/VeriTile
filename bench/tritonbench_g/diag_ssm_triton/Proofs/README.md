@@ -19,12 +19,12 @@ candidates are pasted into [Sources/Body.lean](../Kernels.lean). Invocation
 signatures bind runtime scalar arguments outside the quotations. The three
 `tl.int64` shape casts, signed time loops, reverse-time branch, complex
 conjugation signs, captured loads, masks and simultaneous tuple update remain
-in the source. [jit-correspondence.json](../jit-correspondence.json) checks all
+in the source. [source correspondence inventory](../../../../validation/source-correspondence.json) checks all
 eight bodies and their call metadata.
 
-The [Python candidate](../diag_ssm_triton_index_commuted.py) materializes the
+The [Python candidate](../diag_ssm_triton.py) materializes the
 existing column-index product commutation; its exact relationship and hashes
-are recorded in [candidate-provenance.json](../candidate-provenance.json). No
+are recorded in [candidate-provenance.json](../../../../validation/tasks/diag_ssm_triton/candidate-provenance.json). No
 floating operation is reordered. The selected repaired host accepts float32
 and complex64. The pre-existing fp16/bf16 mathematical invocation APIs are
 retained without claiming those host launches.

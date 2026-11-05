@@ -1,7 +1,7 @@
 # rms_rbe_matmul
 
 Current repaired Python implementation: [rms_rbe_matmul.py](../rms_rbe_matmul.py).
-The [candidate](../rms_rbe_matmul_index_commuted.py) changes only the final output-row
+The [candidate](../rms_rbe_matmul.py) changes only the final output-row
 index multiplication from `pid_m * BLOCK_SIZE_M` to `BLOCK_SIZE_M * pid_m`.
 The other two JIT functions and all host input checks remain identical.
 
@@ -11,7 +11,7 @@ The other two JIT functions and all host input checks remain identical.
 The complete RMS callee is shared verbatim with `rms_matmul_rbe` through its
 pasted `SourceProcedure`. Its call interface retains the original literal
 `EPS` and `THETA` constexpr ports. The local rotary caller and frequency helper
-are complete pasted Python bodies. [The correspondence manifest](../jit-correspondence.json)
+are complete pasted Python bodies. [source correspondence inventory](../../../../validation/source-correspondence.json)
 checks all three original and all three candidate JIT bodies.
 
 The main Real theorem covers the original complete rectangular grid,

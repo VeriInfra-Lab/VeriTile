@@ -13,9 +13,9 @@ FP32 inputs; `total_classes` remains a runtime integer constrained by the input
 contract. No additional numerical domain restriction is imposed.
 
 The existing integer-index commutation pair now has an explicit derived Python
-source in [cross_entropy1_index_commuted.py](../cross_entropy1_index_commuted.py).
+source in [cross_entropy1.py](../cross_entropy1.py).
 It changes only `col_block_idx * BLOCK_SIZE` to `BLOCK_SIZE * col_block_idx`;
-[jit-correspondence.json](../jit-correspondence.json) checks all four complete bodies.
+[source correspondence inventory](../../../../validation/source-correspondence.json) checks all four complete bodies.
 It is an equivalence candidate, not another repaired implementation.
 
 `forward_unsplit_kernel`, `forward_split_kernel` and `backward_kernel` prove the

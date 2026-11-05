@@ -20,10 +20,10 @@ the actual rounded FP32 words separately; no equality of host floating sqrt
 with mathematical Real sqrt is asserted. The actual helper intrinsic is
 `tl.extra.cuda.libdevice.tanh`, including its nested fast-GELU call.
 
-[The candidate Python](../triton_linear_activation_shifted.py) retains
+[The candidate Python](../triton_linear_activation.py) retains
 only the existing conditional `GROUP_M == 8` width-index shift; all other
 statements and all helpers are unchanged. The independently checked hashes and
-transformation are in [candidate-provenance.json](../candidate-provenance.json).
+transformation are in [candidate-provenance.json](../../../../validation/tasks/triton_linear_activation/candidate-provenance.json).
 
 The public entries retain their input conditions, complete execution and output
 scope, safety, exterior memory frame and numerical assumptions. This migration

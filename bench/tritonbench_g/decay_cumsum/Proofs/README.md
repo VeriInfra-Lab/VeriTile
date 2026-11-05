@@ -15,8 +15,8 @@ casts remain visible. `Selected.lean` and `Mathematical_Kernels.lean` only selec
 invocation profiles of these same bodies.
 
 The existing candidate commutes three integer products in the feature masks;
-[its Python source](../decay_cumsum_index_commuted.py) and
-[candidate provenance](../candidate-provenance.json) record that exact change.
+[its Python source](../decay_cumsum.py) and
+[candidate provenance](../../../../validation/tasks/decay_cumsum/candidate-provenance.json) record that exact change.
 The public entries retain their input conditions, execution scope and numerical
 assumptions. Proof helpers decompose the actual source and connect successful
 execution, every output, access safety and the full exterior frame to independent

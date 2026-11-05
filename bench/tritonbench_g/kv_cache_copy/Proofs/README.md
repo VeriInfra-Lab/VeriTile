@@ -5,7 +5,7 @@ existing K-source-offset candidate. Both complete JIT function bodies appear in
 [Kernels.lean](../Kernels.lean), including the original nonzero-start `tl.arange`,
 `tl.static_range`, signed metadata reads and both K/V loads and stores. Invocation
 types and scalar bindings stay outside the quotations.
-[jit-correspondence.json](../jit-correspondence.json) checks both bodies.
+[source correspondence inventory](../../../../validation/source-correspondence.json) checks both bodies.
 
 The optional [static range frontend](../../../../VeriTile/Triton/DSL/StaticRanges.lean)
 accepts natural constexpr trip counts. It checks immutable bounds and translates

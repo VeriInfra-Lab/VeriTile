@@ -18,7 +18,7 @@ integer scalar profile; all bindings remain outside the quotation. The original
 body retains the signed64 PID/lane/metadata conversions, grouped K/V branch,
 separate K-cache split layout, full-width V copy and original store order.
 
-[fused_rotary_embedding_shared.py](../fused_rotary_embedding_shared.py) is an
+[fused_rotary_embedding.py](../fused_rotary_embedding.py) is an
 explicitly new Python realization of the existing Lean Q-address reuse
 candidate: only `off_q1` changes to `off_q0 + (HEAD_DIM // 2) * q_dim_stride`.
 It is derived from the repaired source, not an upstream version.

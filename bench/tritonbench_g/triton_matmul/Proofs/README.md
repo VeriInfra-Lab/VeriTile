@@ -21,7 +21,7 @@ mathematical recurrence and finite-index refinement support these proofs;
 previous complete Lean kernel quotations and their old execution proofs are removed.
 The explicit output cast and implicit store conversion are both present in the IR.
 
-The [correspondence manifest](../jit-correspondence.json) checks all 29 top-level
+The [source correspondence inventory](../../../../validation/source-correspondence.json) checks all 29 top-level
 Python statements, including the configured JIT decorator and dtype branch.
 [Current validation records](../../../../validation) distinguish source checks,
 Lean proofs, pending corpus translations and historical numerical receipts.

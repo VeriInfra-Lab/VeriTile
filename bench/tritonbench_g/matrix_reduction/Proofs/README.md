@@ -2,7 +2,7 @@
 
 Current repaired Python implementation: [matrix_reduction.py](../matrix_reduction.py).
 
-The original block-pointer body and the existing [affine-address candidate](../matrix_reduction_optimized.py)
+The original block-pointer body and the existing [affine-address candidate](../matrix_reduction.py)
 are copied into `Kernels.lean`. Both FP16 and FP32 caller profiles are retained.
 The mathematical view is derived from that source through [a checked projection](Projection.lean).
 

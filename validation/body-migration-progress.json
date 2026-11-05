@@ -3262,7 +3262,9 @@
     "public_theorems": 518,
     "python_tests": 731,
     "source_pairs": 594,
-    "official_replay_sources": 7762
+    "official_replay_sources": 7762,
+    "public_theorems_axiom_check": 518,
+    "example_proof_regressions": 14
   },
   "targets": [
     {

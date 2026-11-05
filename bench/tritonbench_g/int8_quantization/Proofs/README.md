@@ -1,6 +1,6 @@
 # int8_quantization
 
-The repaired [Python source](../int8_quantization.py) and existing [bias-fold candidate](../int8_quantization_bias_fold.py) each have one complete 23-statement function body in [Kernels.lean](../Kernels.lean). Pointer storage and immutable constexpr arguments are supplied outside the pasted body. [jit-correspondence.json](../jit-correspondence.json) checks both copies; [candidate-provenance.json](../candidate-provenance.json) records the single changed sign-bias expression.
+The repaired [Python source](../int8_quantization.py) and existing [bias-fold candidate](../int8_quantization.py) each have one complete 23-statement function body in [Kernels.lean](../Kernels.lean). Pointer storage and immutable constexpr arguments are supplied outside the pasted body. [source correspondence inventory](../../../../validation/source-correspondence.json) checks both copies; [candidate-provenance.json](../../../../validation/tasks/int8_quantization/candidate-provenance.json) records the single changed sign-bias expression.
 
 [Correct.lean](../RealCorrect.lean) proves both quantized codes and block scales for every scheduled block, including invalid blocks, zero scales, active tails, access safety and the exterior memory frame. Its mathematical interpretation computes `C**-0.5 * 1.44269504` with Mathlib real powers and proves the inverse-square-root factor, without a supplied-factor premise. The real classification threshold is the original decimal `3.4028234663852886e38`.
 

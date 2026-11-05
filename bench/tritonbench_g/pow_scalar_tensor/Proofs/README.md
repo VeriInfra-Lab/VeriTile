@@ -18,7 +18,7 @@ arguments are supplied outside the quotations. The three exact `_pow` import
 fallbacks are checked against Python; helper argument captures retain its one
 explicit FP32 cast and opaque power operation.
 
-The comparison [Python source](../pow_scalar_tensor_commuted.py) materializes the
+The comparison [Python source](../pow_scalar_tensor.py) materializes the
 retained Lean candidate. Only the two integer `offset0` products commute; its
 header records the original module SHA256. Every block-pointer boundary and
 load/store cast remains in both quotations. `jit-correspondence.json` checks
