@@ -7,9 +7,9 @@ statements: signed integer casts, helper call, tuple assignment, clamps, masks, 
 NaN-alpha repair, conversions and padded stores. Caller dtypes and constexpr bindings
 are outside the pasted bodies. The repaired wrapper admits FP32 Q/K/V/M/L/Out.
 
-The [candidate Python](../key_mask_cse.py) only caches the repeated key-tail mask within
-one iteration. [candidate-provenance.json](../candidate-provenance.json) records the source
-hashes and exact transformation; [jit-correspondence.json](../jit-correspondence.json)
+The [candidate Python](../attention_fwd_triton3.py) only caches the repeated key-tail mask within
+one iteration. [candidate-provenance.json](../../../../validation/tasks/attention_fwd_triton3/candidate-provenance.json) records the source
+hashes and exact transformation; [source correspondence inventory](../../../../validation/source-correspondence.json)
 checks all four complete original/candidate functions. Mutation tests reject missing
 casts, changed clamps, missing alpha repair and incorrect caller/helper bindings.
 
@@ -32,7 +32,7 @@ uses the same source execution in `Proofs/NativeProjection.lean`.
 
 The historical FP16 and reciprocal full quotations are removed. Pure mathematical
 lemmas shared by other tasks remain; they are proof helpers rather than alternative
-implementations. [source-retirement.json](../source-retirement.json) identifies the removed
+implementations. [source-retirement.json](../../../../validation/tasks/attention_fwd_triton3/source-retirement.json) identifies the removed
 source certificates and their current replacements. The source is not asserted equal
 to the former quotation that omitted casts and inlined the helper differently.
 

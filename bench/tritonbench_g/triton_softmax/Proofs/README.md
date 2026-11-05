@@ -2,7 +2,7 @@
 
 Current repaired Python implementation: [triton_softmax.py](../triton_softmax.py).
 
-The complete original and [index-commuted](../triton_softmax_index_commuted.py)
+The complete original and [index-commuted](../triton_softmax.py)
 function bodies are copied into `Kernels.lean`. The call interface supplies
 allocation-relative pointer offsets and the signed int64 runtime arguments;
 both original int64 casts remain inside the quotations.

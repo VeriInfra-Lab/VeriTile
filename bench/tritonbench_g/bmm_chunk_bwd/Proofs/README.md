@@ -22,7 +22,7 @@ imports under [Sources/](../Sources) forward to this same source; they do not
 generate an alternative residual-order implementation. The independent
 matrix-product mathematics remains in `Sources/Mathematical_RealMath.lean`.
 
-[jit-correspondence.json](../jit-correspondence.json) checks both copied bodies
+[source correspondence inventory](../../../../validation/source-correspondence.json) checks both copied bodies
 against their complete Python ASTs and the reviewed invocation profile.
 
 [Selected-task and source-correspondence records](../../../../validation) track validation and pending work separately.

@@ -1,7 +1,7 @@
 # triton_attention
 
 Current repaired Python: [triton_attention.py](../triton_attention.py).
-Existing address candidate: [triton_attention_shifted.py](../triton_attention_shifted.py).
+Existing address candidate: [triton_attention.py](../triton_attention.py).
 
 [Kernel bindings](Support/KernelEntryAdapters.lean) · [complete pasted bodies](../Kernels.lean) ·
 [input contract](../Contract.lean) · [Real correctness](../RealCorrect.lean) ·
@@ -11,7 +11,7 @@ The source module contains the complete original forward, gradient-preprocess
 and backward bodies, plus the candidate preprocess body. The candidate changes
 only the fixed-128 preprocess row base from multiplication to a shift.
 Its unchanged forward/backward functions share the same source declarations.
-[The correspondence manifest](../jit-correspondence.json) checks all six JIT pairs.
+[source correspondence inventory](../../../../validation/source-correspondence.json) checks all six JIT pairs.
 
 Pointer/scalar types and constexpr values are supplied outside the bodies.
 The backward host call fixes DQ, saved maxima and scalar scratch to FP32, and

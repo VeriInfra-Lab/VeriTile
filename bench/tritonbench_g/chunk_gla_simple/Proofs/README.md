@@ -5,7 +5,7 @@ Current repaired Python implementation: [chunk_gla_simple.py](../chunk_gla_simpl
 [Lean source](../Kernels.lean) · [input contract](../Contract.lean) · [Real correctness](../RealCorrect.lean) · [FP equivalence](../FPEquiv.lean).
 
 The original quotation copies the complete repaired Python function body. The
-[row reuse candidate](../chunk_gla_simple_row_reused.py) materializes the retained
+[row reuse candidate](../chunk_gla_simple.py) materializes the retained
 Lean candidate in Python: only `rows` reuses `o_i.to(../tl.int64)`. Its provenance
 records the original source SHA256. Both complete bodies, call bindings and
 pointer/scalar precision are checked by `jit-correspondence.json`.

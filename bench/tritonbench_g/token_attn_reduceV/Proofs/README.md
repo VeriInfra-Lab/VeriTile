@@ -4,9 +4,9 @@ The selected repair is [token_attn_reduceV.py](../token_attn_reduceV.py). Both
 `source` and the existing probability-address candidate `affineSource` in
 [Kernels.lean](../Kernels.lean) contain complete copied function bodies. Invocation
 types and runtime scalar bindings precede each `triton { ... }` quotation.
-[token_attn_reduceV_affine.py](../token_attn_reduceV_affine.py) is the existing Python candidate;
+[token_attn_reduceV.py](../token_attn_reduceV.py) is the existing Python candidate;
 its only change distributes the integer probability-address expression.
-[jit-correspondence.json](../jit-correspondence.json) checks both complete bodies.
+[source correspondence inventory](../../../../validation/source-correspondence.json) checks both complete bodies.
 
 [IO.lean](../IO.lean) retains signed length, start, request and token words, including
 inactive metadata. The mathematical input domain explicitly requires nonnegative

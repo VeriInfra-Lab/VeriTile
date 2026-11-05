@@ -1,10 +1,10 @@
 # token_attn_mistral
 
 The selected repair [token_attn_mistral.py](../token_attn_mistral.py) and its existing
-integer-address candidate [token_attn_mistral_affine.py](../token_attn_mistral_affine.py)
+integer-address candidate [token_attn_mistral.py](../token_attn_mistral.py)
 are copied as complete function bodies in [Kernels.lean](../Kernels.lean). Caller
 storage types and scalar bindings precede the quotations.
-[jit-correspondence.json](../jit-correspondence.json) checks both 20-statement bodies,
+[source correspondence inventory](../../../../validation/source-correspondence.json) checks both 20-statement bodies,
 including the sliding maximum, loop hint, masks and explicit output conversion.
 
 The probability mask uses the attention length. The page-table and value masks

@@ -11,7 +11,7 @@ The public entries state the input conditions, execution scope and numerical ass
 `Kernels.lean` contains the four pasted original JIT bodies, their four existing
 address-commuted candidates, and both complete `next_multiple_of` /
 `prev_multiple_of` helper bodies. The candidate Python reference
-[`softmax_flaggems_address.py`](../softmax_flaggems_address.py) is derived from the
+[`softmax_flaggems.py`](../softmax_flaggems.py) is derived from the
 selected repaired source by the same integer address commutations. It preserves
 all floating expressions and stores. Invocation dtypes and bindings are outside
 the pasted bodies; the original casts, branches, helper calls and `+=` statements

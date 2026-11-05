@@ -1,6 +1,6 @@
 # int4_matmul
 
-The repaired [Python source](../int4_matmul.py) and [stride-folding candidate](../int4_matmul_fold_stride.py) are copied into [Kernels.lean](../Kernels.lean). Each pasted body has 25 top-level Python statements, including its docstring. Pointer dtypes, runtime scalar bindings and constexpr parameters are supplied outside the quotations. The source casts, packed nibble operations, scale and zero-point loads, dynamic `tl.cdiv` loop, and store/atomic split branches are retained.
+The repaired [Python source](../int4_matmul.py) and [stride-folding candidate](../int4_matmul.py) are copied into [Kernels.lean](../Kernels.lean). Each pasted body has 25 top-level Python statements, including its docstring. Pointer dtypes, runtime scalar bindings and constexpr parameters are supplied outside the quotations. The source casts, packed nibble operations, scale and zero-point loads, dynamic `tl.cdiv` loop, and store/atomic split branches are retained.
 
 [Correct.lean](../RealCorrect.lean) proves the complete grid implements the independent logical formula `sum_k A[row,k] * (Q[k,col] - Z[group(../k),col]) * scale[group(../k),col]` under the public geometry, matrix-domain and schedule conditions. The proof evaluates the source loop bound, transports the actual loop body to the fixed-K8 accumulation model, and retains access safety and the exterior frame.
 
