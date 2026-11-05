@@ -26,6 +26,7 @@ from scripts import check_comparator
 from scripts.comparator_common import require_tools
 from scripts.spec_sheet import split_decls
 from scripts.bench.final_inventory import modules as imported_modules
+from scripts.bench.port_layout import real_entry
 
 DEFAULT = Path('validation/body-migration-batch.json')
 
@@ -55,7 +56,8 @@ def load_batch(root: Path, manifest: Path) -> tuple[list[dict], list[str], list[
         row = inspect(root, base.name, python, kernel, 'example' if base.parts[1] == 'examples' else 'task')
         if row['status'] != 'selected_body_copy_checked':
             raise ValueError(f'{base}: incomplete function-body correspondence: {row["status"]}')
-        public = [(base / (name + '.lean')).as_posix() for name in ('Correct', 'FPEquiv')]
+        public = [real_entry(root / base).relative_to(root).as_posix(),
+                  (base / 'FPEquiv.lean').as_posix()]
         required = entry.get('public_theorems', {})
         if set(required) != set(public):
             raise ValueError(f'{base}: explicit Real and FP theorem targets are required')

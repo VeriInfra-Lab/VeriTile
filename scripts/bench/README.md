@@ -16,6 +16,12 @@ benchmark collections, checks imports and binds reviewed source files.
 
 ## Paste a Triton body without writing a JSON manifest
 
+The `rms_matmul_rbe` layout pilot keeps one Python module for the repaired
+source and its comparison candidate. The Lean entry points are `Kernels.lean`,
+`RealCorrect.lean`, `FPEquiv.lean`, `IO.lean` and `Contract.lean`. Supporting
+modules live in `Proofs/`. Existing split ports may still use `Correct.lean`
+as their Real entry.
+
 Keep the repaired Python reference and paste its function body into the Lean
 `triton { ... }` source entry. The existing input/IO call declaration supplies
 pointer and runtime scalar types outside the pasted body. No `tl.region`,
@@ -40,8 +46,8 @@ when needed. All task-local Python JITs remain part of the coverage check.
 For an optional checked-in metadata snapshot, use:
 
 ```sh
-python3 -m scripts.bench.generate_jit_correspondence bench/tritonbench_g/rms_matmul_rbe --write
-python3 -m scripts.bench.generate_jit_correspondence bench/tritonbench_g/rms_matmul_rbe --check
+python3 -m scripts.bench.generate_jit_correspondence bench/examples/FloatDTypeAdd --write
+python3 -m scripts.bench.generate_jit_correspondence bench/examples/FloatDTypeAdd --check
 ```
 
 `--write` explicitly generates or updates the snapshot; users do not maintain

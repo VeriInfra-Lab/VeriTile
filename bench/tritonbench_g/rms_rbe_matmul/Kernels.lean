@@ -1,7 +1,20 @@
 import bench.tritonbench_g.rms_matmul_rbe.Kernels
-import bench.tritonbench_g.rms_matmul_rbe.Sources.Kernels
+import VeriTile.Triton
 import bench.tritonbench_g.rbe_triton_transform.Sources.Kernels
 import VeriTile.Triton.DSL.IntegralJitFunctions
+
+/-! Parameters for the literal-parameter RMS caller. -/
+namespace VeriTile.Bench.Repairs.RmsMatmulRbe.TypedSource
+open VeriTile.Triton
+structure Arguments where
+  (X W RMS OUT : RegionName)
+  (M N K sxb sxm sxk swk swn srms sob som son : Nat)
+  (BM BN BK headDim : Nat)
+  start : Int
+  rotary : Bool
+  (theta epsilon : ℝ)
+
+end VeriTile.Bench.Repairs.RmsMatmulRbe.TypedSource
 
 /-! The repaired RMS callee is shared verbatim with rms_matmul_rbe. This
 interface realizes EPS/THETA through their original FP32 literal ports.

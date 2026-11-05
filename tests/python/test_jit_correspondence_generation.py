@@ -119,11 +119,17 @@ class CorrespondenceGenerationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'outside repository'):
             generate(self.root, self.root.parent)
 
-    def test_rms_source_is_generated_without_reading_the_large_json(self):
-        rows = generate(ROOT, 'bench/tritonbench_g/rms_matmul_rbe')
-        saved = json.loads((ROOT/'bench/tritonbench_g/rms_matmul_rbe/jit-correspondence.json').read_text())
-        self.assertTrue(snapshot_matches(saved, rows))
-        self.assertEqual(len(rows), 4)
+    def test_rms_source_is_discovered_from_one_python_file_without_a_snapshot(self):
+        directory = ROOT / 'bench/tritonbench_g/rms_matmul_rbe'
+        self.assertEqual([path.name for path in directory.glob('*.py')], ['rms_matmul_rbe.py'])
+        self.assertFalse((directory / 'jit-correspondence.json').exists())
+        rows = generate(ROOT, directory)
+        self.assertEqual({row['python_function']: row['lean_definition'] for row in rows}, {
+            'rms_matmul_rbe': 'Bodies.rmsSource',
+            'rms_matmul_rbe_qkv': 'Bodies.qkv',
+            'rms_matmul_rbe_index_commuted': 'Bodies.rmsIndexCommutedSource',
+            'rms_matmul_rbe_qkv_index_commuted': 'Bodies.qkvIndexCommuted',
+        })
 
     def copy_case(self, name, files):
         self.python.unlink()
@@ -131,13 +137,13 @@ class CorrespondenceGenerationTests(unittest.TestCase):
         for filename in files:
             shutil.copyfile(source/filename, self.directory/filename)
 
-    def test_identical_rms_parent_body_cannot_select_the_wrong_callee(self):
-        self.copy_case('rms_matmul_rbe', ['Kernels.lean', 'rms_matmul_rbe.py', 'rms_matmul_rbe_index_commuted.py'])
+    def test_rms_parent_cannot_select_the_wrong_callee(self):
+        self.copy_case('rms_matmul_rbe', ['Kernels.lean', 'rms_matmul_rbe.py'])
         self.assertEqual(len(generate(self.root, self.case)), 4)
         text = self.lean.read_text()
-        old = 'source_procedures [rms_matmul_rbe := Bodies.rmsIndexCommutedSource]'
+        old = 'source_procedures [rms_matmul_rbe_index_commuted := Bodies.rmsIndexCommutedSource]'
         self.assertEqual(text.count(old), 1)
-        self.lean.write_text(text.replace(old, 'source_procedures [rms_matmul_rbe := Bodies.rmsSource]'))
+        self.lean.write_text(text.replace(old, 'source_procedures [rms_matmul_rbe_index_commuted := Bodies.rmsSource]'))
         with self.assertRaisesRegex(ValueError, 'No exact source pair|Ambiguous source pair'):
             generate(self.root, self.case)
 
@@ -153,7 +159,7 @@ class CorrespondenceGenerationTests(unittest.TestCase):
     def test_all_existing_pairs_can_be_regenerated_from_sources(self):
         count = 0
         manifests = sorted((ROOT/'bench').glob('*/**/jit-correspondence.json'))
-        self.assertEqual(len(manifests), 202)
+        self.assertEqual(len(manifests), 201)
         for manifest in manifests:
             with self.subTest(case=manifest.parent.name):
                 saved = json.loads(manifest.read_text())
@@ -162,7 +168,7 @@ class CorrespondenceGenerationTests(unittest.TestCase):
                 rows = generate(ROOT, manifest.parent)
                 self.assertTrue(snapshot_matches(saved, rows))
                 count += len(rows)
-        self.assertEqual(count, 623)
+        self.assertEqual(count, 619)
 
 
 if __name__ == '__main__':

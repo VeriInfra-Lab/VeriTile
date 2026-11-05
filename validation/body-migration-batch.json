@@ -2705,7 +2705,7 @@
       "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/rms_matmul_rbe/Correct.lean": [
+        "bench/tritonbench_g/rms_matmul_rbe/RealCorrect.lean": [
           "VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.Correct.kernel_real",
           "VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.Correct.pasted_kernel_real"
         ],
@@ -10053,11 +10053,10 @@
     "VeriTile/Triton/DSL/SignedAugmentedAssignments.lean",
     "tests/lean/RecursiveJitFunctions.lean",
     "bench/tritonbench_g/rms_matmul_rbe/Contract.lean",
-    "bench/tritonbench_g/rms_matmul_rbe/Correct.lean",
+    "bench/tritonbench_g/rms_matmul_rbe/RealCorrect.lean",
     "bench/tritonbench_g/rms_matmul_rbe/FPEquiv.lean",
     "bench/tritonbench_g/rms_matmul_rbe/IO.lean",
     "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean",
-    "bench/tritonbench_g/rms_matmul_rbe/PairIO.lean",
     "bench/tritonbench_g/rms_matmul_rbe/Proofs/Arithmetic.lean",
     "bench/tritonbench_g/rms_matmul_rbe/Proofs/BodyExecution.lean",
     "bench/tritonbench_g/rms_matmul_rbe/Proofs/Bound.lean",
@@ -10152,8 +10151,8 @@
     "bench/tritonbench_g/rms_matmul_rbe/Proofs/StoreFrame.lean",
     "bench/tritonbench_g/rms_matmul_rbe/Proofs/StoreTrace.lean",
     "bench/tritonbench_g/rms_matmul_rbe/Proofs/StoreValues.lean",
-    "bench/tritonbench_g/rms_matmul_rbe/Sources/Kernels.lean",
-    "bench/tritonbench_g/rms_matmul_rbe/Target.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean",
+    "bench/tritonbench_g/rms_matmul_rbe/Proofs/Target.lean",
     "VeriTile/Triton/DSL/ClosedBooleanCalls.lean",
     "VeriTile/Triton/DSL/IntegralBooleanOperands.lean",
     "VeriTile/Triton/DSL/IntegralAssignments.lean",
@@ -10167,7 +10166,6 @@
     "bench/tritonbench_g/rms_rbe_matmul/Correct.lean",
     "bench/tritonbench_g/rms_rbe_matmul/FPEquiv.lean",
     "bench/tritonbench_g/rms_rbe_matmul/IO.lean",
-    "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean",
     "bench/tritonbench_g/rms_rbe_matmul/Proofs/Contract.lean",
     "bench/tritonbench_g/rms_rbe_matmul/Proofs/InputContract.lean",
     "bench/tritonbench_g/rms_rbe_matmul/Proofs/KernelCoverage.lean",

@@ -355,8 +355,8 @@ def Bodies.qkvIndexCommuted (input : InputStorage) (output : OutputStorage)
     (start_token_position : Int) (HEAD_DIM BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) : ComputeKernel :=
   let USE_FP8 : Bool := match input with | .half => Bool.false | .byte => Bool.true
   with_triton_call (qkvSignature input output) call_args [M := M, N := N, K := K, stride_x_batch := stride_x_batch, stride_x_m := stride_x_m, stride_x_k := stride_x_k, stride_q_w_k := stride_q_w_k, stride_q_w_n := stride_q_w_n, stride_k_w_k := stride_k_w_k, stride_k_w_n := stride_k_w_n, stride_v_w_k := stride_v_w_k, stride_v_w_n := stride_v_w_n, stride_rms_w := stride_rms_w, stride_q_batch := stride_q_batch, stride_q_m := stride_q_m, stride_q_n := stride_q_n, stride_k_batch := stride_k_batch, stride_k_m := stride_k_m, stride_k_n := stride_k_n, stride_v_batch := stride_v_batch, stride_v_m := stride_v_m, stride_v_n := stride_v_n, start_token_position := start_token_position]
-    fp32_constants [THETA, EPS] source_procedures [rms_matmul_rbe := Bodies.rmsIndexCommutedSource] in triton {
-    rms_matmul_rbe(
+    fp32_constants [THETA, EPS] source_procedures [rms_matmul_rbe_index_commuted := Bodies.rmsIndexCommutedSource] in triton {
+    rms_matmul_rbe_index_commuted(
         x_ptr=x_ptr,
         w_ptr=q_weight_ptr, rms_w_ptr=rms_w_ptr, out_ptr=q_ptr,
         M=M, N=N, K=K,
@@ -373,7 +373,7 @@ def Bodies.qkvIndexCommuted (input : InputStorage) (output : OutputStorage)
         BLOCK_SIZE_M=BLOCK_SIZE_M, BLOCK_SIZE_N=BLOCK_SIZE_N, BLOCK_SIZE_K=BLOCK_SIZE_K,
     )
     # k
-    rms_matmul_rbe(
+    rms_matmul_rbe_index_commuted(
         x_ptr=x_ptr,
         w_ptr=k_weight_ptr, rms_w_ptr=rms_w_ptr, out_ptr=k_ptr,
         M=M, N=N, K=K,
@@ -390,7 +390,7 @@ def Bodies.qkvIndexCommuted (input : InputStorage) (output : OutputStorage)
         BLOCK_SIZE_M=BLOCK_SIZE_M, BLOCK_SIZE_N=BLOCK_SIZE_N, BLOCK_SIZE_K=BLOCK_SIZE_K,
     )
     # v
-    rms_matmul_rbe(
+    rms_matmul_rbe_index_commuted(
         x_ptr=x_ptr,
         w_ptr=v_weight_ptr, rms_w_ptr=rms_w_ptr, out_ptr=v_ptr,
         M=M, N=N, K=K,

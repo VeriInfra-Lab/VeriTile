@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rms_matmul_rbe.Target
+import bench.tritonbench_g.rms_matmul_rbe.Proofs.Target
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.IOByteSourceIteration
 
 namespace VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.IOBinding

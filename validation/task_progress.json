@@ -1918,7 +1918,7 @@
         "kernel_source": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean",
         "public_entries": [
           "bench/tritonbench_g/rms_matmul_rbe/Contract.lean",
-          "bench/tritonbench_g/rms_matmul_rbe/Correct.lean",
+          "bench/tritonbench_g/rms_matmul_rbe/RealCorrect.lean",
           "bench/tritonbench_g/rms_matmul_rbe/FPEquiv.lean"
         ],
         "proof_scope": "Retained independent Real RMS/dot/rotary formula. Full named-array IO with finite footprints, runtime EPS/THETA, every original finite launch order, original signed-byte domain and separation/even-width premises. FP32 computation, FP16/E5 conversion and storage chains unchanged. Both schedules safe and successful with all output cells and dual exterior frames. Primary typed source interpretation is distinct from optional native lowering realization."
