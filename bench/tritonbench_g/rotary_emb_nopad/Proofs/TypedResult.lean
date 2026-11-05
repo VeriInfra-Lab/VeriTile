@@ -1,6 +1,6 @@
 import bench.tritonbench_g.rotary_emb_nopad.Proofs.TypedGeometry
 import bench.tritonbench_g.rotary_emb_nopad.Proofs.TypedMemory
-import bench.tritonbench_g.rotary_emb_nopad.Spec
+import bench.tritonbench_g.rotary_emb_nopad.Proofs.Support.Spec
 
 namespace VeriTile.Bench.Repairs.RotaryEmbNopad.Typed
 open VeriTile.Triton FP.Structural

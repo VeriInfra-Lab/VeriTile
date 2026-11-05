@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_attention.PairIO
+import bench.tritonbench_g.triton_attention.Proofs.Support.PairIO
 import bench.tritonbench_g.triton_attention.Proofs.PublicCorrectness
 import VeriTile.Spec
 import VeriTile.Meta.StatementAudit

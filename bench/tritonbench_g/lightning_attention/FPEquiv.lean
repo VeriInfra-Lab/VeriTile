@@ -1,4 +1,4 @@
-import bench.tritonbench_g.lightning_attention.PairIO
+import bench.tritonbench_g.lightning_attention.Proofs.Support.PairIO
 
 namespace VeriTile.Bench.Repairs.LightningAttention.KernelOnly.FPEquiv
 open VeriTile Triton FP.Structural

@@ -1,6 +1,6 @@
 import bench.tritonbench_g.rms_matmul_rbe.Kernels
 import VeriTile.Triton
-import bench.tritonbench_g.rbe_triton_transform.Sources.Kernels
+import bench.tritonbench_g.rbe_triton_transform.Proofs.Sources.Kernels
 import VeriTile.Triton.DSL.IntegralJitFunctions
 
 /-! Parameters for the literal-parameter RMS caller. -/

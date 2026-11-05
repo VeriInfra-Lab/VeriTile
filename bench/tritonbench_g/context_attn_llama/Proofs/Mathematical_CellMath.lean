@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_llama.Sources.Mathematical_Formula
+import bench.tritonbench_g.context_attn_llama.Proofs.Sources.Mathematical_Formula
 namespace VeriTile.Bench.TritonBenchG.ContextAttnLlama.CellMath
 open VeriTile.Triton
 open VeriTile.Bench.TritonBenchG.ContextAttnBloom.Math

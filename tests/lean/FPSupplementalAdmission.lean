@@ -121,9 +121,9 @@ example (B : Nat) :
 open Lean Elab Command in
 run_cmd do
   let env ← getEnv
-  for n in [`VeriTile.Bench.Examples.SoftmaxReciprocalCorrect.divIO,
-            `VeriTile.Bench.Examples.FloatDTypeSoftmaxCorrect.divIO] do
-    if env.contains n then throwError "FP examples imported a Correct counterpart"
+  for n in [`VeriTile.Bench.Examples.SoftmaxReciprocalCorrect.softmax_div_correct,
+            `VeriTile.Bench.Examples.FloatDTypeSoftmaxCorrect.float_softmax_div_correct] do
+    if env.contains n then throwError "FP examples imported a Real correctness theorem"
 
 #axiomsClean FP.Reciprocal.apply_rule
 #axiomsClean FP.Reciprocal.admitted

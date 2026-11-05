@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_bwd.Sources.Mathematical_RealMath
+import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Sources.Mathematical_RealMath
 
 /-! A last chunk of length three with block width two. Padded inputs are
 deliberately nonzero, so forgetting either contraction-tail mask changes the

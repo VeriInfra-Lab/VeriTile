@@ -1,5 +1,5 @@
-import bench.tritonbench_g.attention_fwd_triton3.Sources.Selected
-import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_SourceParameters
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Sources.Selected
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Sources.Mathematical_SourceParameters
 import VeriTile.Triton.Float.Erasure
 import VeriTile.Meta.StatementAudit
 

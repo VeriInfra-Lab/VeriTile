@@ -1,4 +1,4 @@
-import bench.tritonbench_g.diag_ssm_triton.Sources.Mathematical_Kernels
+import bench.tritonbench_g.diag_ssm_triton.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.DiagSsmTriton.SourceTypes
 open VeriTile.Triton TypedSource

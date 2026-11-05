@@ -1,4 +1,4 @@
-import bench.tritonbench_g.kv_cache_filling.Kernels
+import bench.tritonbench_g.kv_cache_filling.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.Structural
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling.QuantProfile

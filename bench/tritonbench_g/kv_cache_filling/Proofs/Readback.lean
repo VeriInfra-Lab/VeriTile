@@ -1,4 +1,4 @@
-import bench.tritonbench_g.kv_cache_filling.Proofs.IO
+import bench.tritonbench_g.kv_cache_filling.IO
 import bench.tritonbench_g.kv_cache_filling.Proofs.SharedReadback
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling.Interface

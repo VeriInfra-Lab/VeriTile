@@ -1,10 +1,11 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check, check_manifest, check_statement_function
+from scripts.bench.jit_correspondence import check, check_statement_function
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/fused_recurrent_delta'
@@ -12,11 +13,11 @@ CASE = ROOT / 'bench/tritonbench_g/fused_recurrent_delta'
 
 class FusedDeltaBodyMigration(unittest.TestCase):
     def setUp(self):
-        self.records = json.loads((CASE / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(CASE)
         self.lean = (CASE / 'Kernels.lean').read_text()
 
     def test_original_and_candidate_forward_backward_bodies(self):
-        result = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        result = check_pinned_pairs(ROOT, CASE)
         self.assertEqual([r['statements'] for r in result], [13, 27, 13, 27])
         self.assertTrue(all(r['status'] == 'PASS' and r['mode'] == 'pasted_body' for r in result))
 
@@ -46,8 +47,8 @@ class FusedDeltaBodyMigration(unittest.TestCase):
                   row['expected_signature'], row['expected_call_bindings'])
 
     def test_candidate_changes_only_the_forward_output_grid_term(self):
-        meta = json.loads((CASE / 'candidate-provenance.json').read_text())
-        sources = {k: (CASE / meta[k]).read_text() for k in ['original', 'candidate']}
+        meta = variant_provenance(CASE)
+        sources = {k: variant_source(CASE / meta[k]) for k in ['original', 'candidate']}
         for k, source in sources.items():
             self.assertEqual(hashlib.sha256(source.encode()).hexdigest(), meta[k + '_sha256'])
         trees = {k: ast.parse(s) for k, s in sources.items()}

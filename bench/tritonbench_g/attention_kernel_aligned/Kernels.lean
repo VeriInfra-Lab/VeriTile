@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_kernel_aligned.SourceTypes
+import bench.tritonbench_g.attention_kernel_aligned.Proofs.Support.SourceTypes
 import VeriTile.Triton.DSL.ScalarInfinityWhere
 import VeriTile.Meta.StatementAudit
 

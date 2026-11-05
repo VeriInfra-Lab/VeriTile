@@ -1,5 +1,5 @@
 import VeriTile.Triton.Float.Structural
-import bench.tritonbench_g.chunk_gla_simple.Sources.Mathematical_RealFlat
+import bench.tritonbench_g.chunk_gla_simple.Proofs.Sources.Mathematical_RealFlat
 import VeriTile.Triton.Launch
 import bench.tritonbench_g.chunk_gla_simple.Proofs.Geometry
 

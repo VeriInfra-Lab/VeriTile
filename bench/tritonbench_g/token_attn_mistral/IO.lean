@@ -1,5 +1,5 @@
 import VeriTile.Triton.Float.LogicalProgramIO
-import bench.tritonbench_g.token_attn_mistral.Ports
+import bench.tritonbench_g.token_attn_mistral.Proofs.Support.Ports
 import bench.tritonbench_g.token_attn_mistral.Proofs.Real
 import bench.tritonbench_g.token_attn_mistral.Proofs.Native
 import VeriTile.Triton.Float.ObservedProgramIO

@@ -1,9 +1,10 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/decay_cumsum'
@@ -11,10 +12,10 @@ CASE = ROOT / 'bench/tritonbench_g/decay_cumsum'
 
 class DecayCumsumBodyMigrationTests(unittest.TestCase):
     def records(self):
-        return json.loads((CASE / 'jit-correspondence.json').read_text())
+        return pinned_pairs(CASE)
 
     def test_all_originals_and_existing_candidates(self):
-        rows = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, CASE)
         self.assertEqual([r['statements'] for r in rows], [8, 8, 11, 11, 15, 15])
         for row in rows:
             self.assertEqual(row['runtime_parameters']['scale'], 'fp32')
@@ -56,8 +57,8 @@ class DecayCumsumBodyMigrationTests(unittest.TestCase):
                   expected_call_bindings=r['expected_call_bindings'])
 
     def test_candidate_only_commutes_the_three_mask_products(self):
-        original = ast.parse((CASE / 'decay_cumsum.py').read_text())
-        candidate = ast.parse((CASE / 'decay_cumsum_index_commuted.py').read_text())
+        original = ast.parse(variant_source(CASE / 'decay_cumsum.py'))
+        candidate = ast.parse(variant_source(CASE / 'decay_cumsum_index_commuted.py'))
         restored = 0
         for node in ast.walk(candidate):
             if isinstance(node, ast.FunctionDef) and node.name.endswith('_index_commuted'):
@@ -72,7 +73,7 @@ class DecayCumsumBodyMigrationTests(unittest.TestCase):
                 restored += 1
         self.assertEqual(restored, 3)
         self.assertEqual(ast.dump(original), ast.dump(candidate))
-        provenance = json.loads((CASE / 'candidate-provenance.json').read_text())
+        provenance = variant_provenance(CASE)
         for field in ['original', 'candidate']:
-            self.assertEqual(hashlib.sha256((CASE / provenance[field]).read_bytes()).hexdigest(),
+            self.assertEqual(hashlib.sha256(variant_source(CASE / provenance[field]).encode()).hexdigest(),
                              provenance[field + '_sha256'])

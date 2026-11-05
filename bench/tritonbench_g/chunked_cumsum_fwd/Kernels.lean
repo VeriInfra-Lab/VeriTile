@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunked_cumsum_fwd.Sources.Mathematical_Kernels
+import bench.tritonbench_g.chunked_cumsum_fwd.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.DSL.UnsignedCallArguments
 import VeriTile.Triton.Float.ExecutionProfile
 import VeriTile.Meta.StatementAudit

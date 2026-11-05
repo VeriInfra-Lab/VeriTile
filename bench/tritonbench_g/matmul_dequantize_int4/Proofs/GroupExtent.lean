@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequantize_int4.Candidate
+import bench.tritonbench_g.matmul_dequantize_int4.Proofs.Support.Candidate
 import bench.tritonbench_g.matmul_dequantize_int4.Proofs.IONative
 
 namespace VeriTile.Bench.Repairs.MatmulDequantizeInt4.GroupExtent

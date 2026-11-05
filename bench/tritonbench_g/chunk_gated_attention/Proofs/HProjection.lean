@@ -1,5 +1,5 @@
-import bench.tritonbench_g.chunk_gated_attention.Sources.Kernels
-import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealHProgram
+import bench.tritonbench_g.chunk_gated_attention.Kernels
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.Mathematical_RealHProgram
 import VeriTile.Triton.Float.Erasure
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.HSource
 open VeriTile.Triton

@@ -3,8 +3,8 @@ import bench.tritonbench_g.triton_conv2d_fwd.Kernels
 import VeriTile.Triton
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 namespace VeriTile.Bench.Repairs.Conv2d.KernelHalf
 open VeriTile.Triton FP.Structural
 noncomputable section

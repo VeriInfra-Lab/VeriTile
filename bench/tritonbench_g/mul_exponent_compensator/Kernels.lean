@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.BinaryPowerConstants
-import bench.tritonbench_g.mul_exponent_compensator.Sources.Mathematical_Kernels
+import bench.tritonbench_g.mul_exponent_compensator.Proofs.Sources.Mathematical_Kernels
 
 /-! Exact selected repaired Python bodies, including the static constexpr
 power and both signed-int64 index casts. Only BLOCK_SIZE is a call constexpr;

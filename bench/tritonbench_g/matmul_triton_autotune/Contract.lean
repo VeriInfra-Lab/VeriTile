@@ -1,5 +1,5 @@
-import bench.tritonbench_g.matmul_triton_autotune.SourceBindings
-import bench.tritonbench_g.matmul_leakyrelu.Tensor
+import bench.tritonbench_g.matmul_triton_autotune.Proofs.Support.SourceBindings
+import bench.tritonbench_g.matmul_leakyrelu.Proofs.Support.Tensor
 
 /-! Kernel admission and ordinary Tensor/launch observations. Generic Matrix
 and FP16 output bindings are reused read-only from the accepted matmul task;

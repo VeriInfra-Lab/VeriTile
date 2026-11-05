@@ -1,6 +1,6 @@
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.InputConnection
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.IOBounds
-import bench.tritonbench_g.matmul_persistent_triton.Native
+import bench.tritonbench_g.matmul_persistent_triton.Proofs.Support.Native
 
 namespace VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.PublicData
 open VeriTile.Triton FP.Structural

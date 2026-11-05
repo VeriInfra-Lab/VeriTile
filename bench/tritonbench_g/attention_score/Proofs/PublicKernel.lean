@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_score.SourceDefinitions
+import bench.tritonbench_g.attention_score.Proofs.Support.SourceDefinitions
 import bench.tritonbench_g.attention_score.Proofs.Reused.CurrentExecution
 
 import bench.tritonbench_g.attention_score.Proofs.SourceTiles

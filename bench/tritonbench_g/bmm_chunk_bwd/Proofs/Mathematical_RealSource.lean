@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_bwd.Sources.Mathematical_Kernels
+import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.Erasure
 
 /-! Precision erasure of the complete source, with the in-body chunk limit,

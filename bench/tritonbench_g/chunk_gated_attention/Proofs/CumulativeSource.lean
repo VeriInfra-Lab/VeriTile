@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gated_attention.Sources.Kernels
+import bench.tritonbench_g.chunk_gated_attention.Kernels
 import VeriTile.Triton.Core.Integer
 import VeriTile.Triton.Float.Integer
 import VeriTile.Meta.StatementAudit

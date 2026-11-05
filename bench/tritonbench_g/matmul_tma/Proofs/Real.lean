@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_tma.Sources.Tensor
+import bench.tritonbench_g.matmul_tma.Proofs.Sources.Tensor
 
 namespace VeriTile.Bench.TritonBenchG.MatmulTma.StaticChecked.RealModel
 open VeriTile.Triton FP.Structural FPValue Host TensorABI

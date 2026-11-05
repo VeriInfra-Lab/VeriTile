@@ -1,4 +1,4 @@
-import bench.tritonbench_g.parallel_retention_attention.PairIO
+import bench.tritonbench_g.parallel_retention_attention.Proofs.Support.PairIO
 import bench.tritonbench_g.parallel_retention_attention.Proofs.FusedKernel
 
 namespace VeriTile.Bench.Repairs.ParallelRetentionAttention.Fused

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.ksoftmax_triton.Sources.Kernels
+import bench.tritonbench_g.ksoftmax_triton.Proofs.Sources.Kernels
 import bench.tritonbench_g.ksoftmax_triton.Proofs.Mathematical_BackwardMath
 namespace VeriTile.Bench.Repairs.Ksoftmax
 open VeriTile.Triton

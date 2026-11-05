@@ -1,6 +1,6 @@
 import bench.tritonbench_g.rotary_emb.Proofs.Typed
 import bench.tritonbench_g.rotary_emb.Proofs.TypedGeometry
-import bench.tritonbench_g.rotary_emb.Spec
+import bench.tritonbench_g.rotary_emb.Proofs.Support.Spec
 
 namespace VeriTile.Bench.Repairs.RotaryEmb.Typed
 open VeriTile.Triton FP.Structural

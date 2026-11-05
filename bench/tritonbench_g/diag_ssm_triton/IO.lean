@@ -1,5 +1,5 @@
 import VeriTile.Triton.Memory.LogicalIO
-import bench.tritonbench_g.diag_ssm_triton.Kernels
+import bench.tritonbench_g.diag_ssm_triton.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_Reference
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_Erasure
 import VeriTile.Triton.Memory.RegionalKernelIO

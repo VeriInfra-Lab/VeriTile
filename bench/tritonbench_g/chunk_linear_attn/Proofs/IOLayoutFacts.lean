@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_linear_attn.IOLayout
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.IOLayout
 
 namespace VeriTile.Bench.Repairs.ChunkLinearAttn.IOLayoutFacts
 open VeriTile Triton FP.Structural

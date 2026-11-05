@@ -20,6 +20,7 @@ if __package__ in (None, ""):
 import argparse
 import ast
 import copy
+from collections import Counter
 import hashlib
 import inspect
 import json
@@ -102,7 +103,7 @@ class Quotation:
 def quotations(root: Path, case: Path) -> list[Quotation]:
     # Read executable source entries and imported benchmark source entries,
     # never choose quotation-shaped snippets out of proof files.
-    pending = sorted(set(case.rglob('*Kernels.lean')) | set((case/'Sources').rglob('*.lean')))
+    pending = sorted(set(case.glob('*Kernels.lean')) | set((case/'Sources').rglob('*.lean')))
     seen, result = set(), []
     while pending:
         path = local(root, pending.pop(0))
@@ -116,11 +117,29 @@ def quotations(root: Path, case: Path) -> list[Quotation]:
             if imported.name.endswith('Kernels.lean') or 'Sources' in imported.parts:
                 pending.append(imported)
         declarations = list(re.finditer(r"(?m)^(?:(?:private|protected|noncomputable)\s+)*def\s+(" + IDENT + r")\b", code))
+        counts = Counter(d[1] for d in declarations)
+        duplicated = {name for name, count in counts.items() if count > 1}
+        repeated_signatures = {
+            d[1] for d in declarations if d[1] in duplicated
+            and re.match(r"\s*:\s*CallSignature\b", code[d.end():])
+        }
+        scopes = []
+        if duplicated:
+            for start in re.finditer(r'(?m)^namespace[ \t]+([\w.]+)[ \t]*$', code):
+                end = re.search(rf'(?m)^end[ \t]+{re.escape(start[1])}[ \t]*$', code[start.end():])
+                if end is not None:
+                    scopes.append((start.end(), start.end() + end.start(), start[1]))
         for index, declaration in enumerate(declarations):
             end = declarations[index+1].start() if index+1 < len(declarations) else len(code)
             if not re.search(MARKER, code[declaration.end():end]):
                 continue
             name = declaration[1]
+            source_header = code[declaration.end():end].partition('{')[0]
+            if name in duplicated or any(re.search(rf"\b{re.escape(sig)}\b", source_header)
+                                         for sig in repeated_signatures):
+                enclosing = [s for s in scopes if s[0] <= declaration.start() < s[1]]
+                if enclosing:
+                    name = max(enclosing)[2] + '::' + name
             try:
                 header, body = checker.quotation(text, name, raw_python=True)
                 statements = ast.parse('def __pasted__():\n' + body).body[0].body
@@ -172,7 +191,8 @@ def record(root: Path, py_path: str, function: ast.FunctionDef, quote: Quotation
             if not signature:
                 raise ValueError('pasted body requires its input call declaration')
             row['signature_definition'] = signature[1]
-    row['expected_signature'] = checker.call_signature(quote.text,row['signature_definition'])
+    source, _ = checker.source_scope(quote.text, quote.definition)
+    row['expected_signature'] = checker.call_signature(source, row['signature_definition'])
     if row.get('kind'):
         return row
 
@@ -393,7 +413,7 @@ def main() -> None:
     args=parser.parse_args();selected={}
     try:
         for value in args.bind:
-            left,right=value.split('=',1);py,fn=left.rsplit('::',1);lean,definition=right.rsplit('::',1)
+            left,right=value.split('=',1);py,fn=left.rsplit('::',1);lean,definition=right.split('::',1)
             py=local(args.root,py).relative_to(args.root.resolve()).as_posix()
             lean=local(args.root,lean).relative_to(args.root.resolve()).as_posix()
             selected.setdefault((py,fn),set()).add((lean,definition))

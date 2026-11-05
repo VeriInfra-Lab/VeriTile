@@ -1,4 +1,4 @@
-import bench.tritonbench_g.kv_cache_filling.Proofs.IO
+import bench.tritonbench_g.kv_cache_filling.IO
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling.Interface
 open VeriTile.Triton FP.Structural QuantProfile

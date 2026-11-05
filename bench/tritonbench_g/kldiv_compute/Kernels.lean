@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.CallSignature
-import bench.tritonbench_g.kldiv_compute.Parameters
+import bench.tritonbench_g.kldiv_compute.Proofs.Support.Parameters
 
 /-! All retained floating storage profiles share these two unchanged raw
 Python bodies. Invocation metadata supplies dtypes; the existing support

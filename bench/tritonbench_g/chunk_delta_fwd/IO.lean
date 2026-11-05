@@ -4,7 +4,7 @@ import VeriTile.Triton.Float.ProgramIO
 import VeriTile.Triton.Float.LogicalProgramIO
 import bench.tritonbench_g.chunk_delta_fwd.Proofs.RealOutputs
 import bench.tritonbench_g.chunk_delta_fwd.Proofs.NativeReference
-import bench.tritonbench_g.chunk_gla_simple.Sources.ScalarGraph
+import bench.tritonbench_g.chunk_gla_simple.Proofs.Sources.ScalarGraph
 
 /-! Public tensor channels for the complete chunk-delta grid. Weight keeps its
 four source strides. Seed and final channels retain their source flags, and

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.flash_decode2_phi.Sources.Kernels
+import bench.tritonbench_g.flash_decode2_phi.Proofs.Sources.Kernels
 
 namespace VeriTile.Bench.Repairs.FlashDecode2
 open VeriTile.Triton FP.Structural

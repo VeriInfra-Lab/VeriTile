@@ -2,7 +2,7 @@
 to this repair's explicit zero-padded source and task-local namespace. -/
 import bench.tritonbench_g.parallel_retention_attention.Proofs.ForwardPrefix
 import bench.tritonbench_g.parallel_retention_attention.Proofs.IndexBounds
-import bench.tritonbench_g.fused_recurrent_hgrn.Sources.Mathematical_FPStages
+import bench.tritonbench_g.fused_recurrent_hgrn.Proofs.Sources.Mathematical_FPStages
 namespace VeriTile.Bench.Repairs.ParallelRetentionAttention.Kernel.FPStages
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (DotPrimitive withDot ForwardConfig queryChunk keyChunk valueChunk foldRange)

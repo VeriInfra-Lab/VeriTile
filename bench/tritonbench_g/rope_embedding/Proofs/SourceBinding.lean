@@ -1,5 +1,5 @@
 import bench.tritonbench_g.rope_embedding.Proofs.Source
-import bench.tritonbench_g.fast_rope_embedding.Sources.Mathematical_Kernels
+import bench.tritonbench_g.fast_rope_embedding.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.RopeEmbedding

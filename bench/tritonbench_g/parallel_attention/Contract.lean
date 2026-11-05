@@ -1,4 +1,4 @@
-import bench.tritonbench_g.parallel_attention.TensorEndpoints
+import bench.tritonbench_g.parallel_attention.Proofs.Support.TensorEndpoints
 
 namespace VeriTile.Bench.Repairs.ParallelAttentionKernel.Contract
 export VeriTile.Bench.Repairs.ParallelAttention (ShapeContract)

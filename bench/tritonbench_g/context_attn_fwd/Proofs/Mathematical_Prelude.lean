@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_fwd.Sources.Mathematical_Program
+import bench.tritonbench_g.context_attn_fwd.Proofs.Sources.Mathematical_Program
 import VeriTile.Triton.Semantics.BroadcastReshape
 namespace VeriTile.Bench.TritonBenchG.ContextAttnFwd.Prelude
 open VeriTile.Triton Formula Program

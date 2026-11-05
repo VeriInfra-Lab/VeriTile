@@ -1,10 +1,11 @@
 import ast
 import copy
 import hashlib
-import json
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / 'bench/tritonbench_g/layer_norm_fwd'
@@ -12,8 +13,8 @@ DIRECTORY = ROOT / 'bench/tritonbench_g/layer_norm_fwd'
 
 class LayerNormFwdBodyMigrationTests(unittest.TestCase):
     def setUp(self):
-        self.lean = (DIRECTORY / 'Sources/Body.lean').read_text()
-        self.records = json.loads((DIRECTORY / 'jit-correspondence.json').read_text())
+        self.lean = (DIRECTORY / 'Kernels.lean').read_text()
+        self.records = pinned_pairs(DIRECTORY)
 
     def verify(self, text):
         r = self.records[0]
@@ -22,7 +23,7 @@ class LayerNormFwdBodyMigrationTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'], expected_integer_args=r['expected_integer_args'], expected_arange_args=r['expected_arange_args'])
 
     def test_both_complete_bodies(self):
-        self.assertEqual([r['statements'] for r in check_manifest(ROOT, DIRECTORY / 'jit-correspondence.json')], [24, 24])
+        self.assertEqual([r['statements'] for r in check_pinned_pairs(ROOT, DIRECTORY)], [24, 24])
 
     def test_cast_mask_sentinel_and_final_return_are_checked(self):
         for before, after in [
@@ -49,9 +50,9 @@ class LayerNormFwdBodyMigrationTests(unittest.TestCase):
                     self.verify(self.lean.replace(before, after))
 
     def test_existing_candidate_restores_entire_module(self):
-        original_text = (DIRECTORY / 'layer_norm_fwd.py').read_text()
-        candidate_text = (DIRECTORY / 'layer_norm_fwd_candidates.py').read_text()
-        record = json.loads((DIRECTORY / 'candidate-provenance.json').read_text())
+        original_text = variant_source(DIRECTORY / 'layer_norm_fwd.py')
+        candidate_text = variant_source(DIRECTORY / 'layer_norm_fwd_candidates.py')
+        record = variant_provenance(DIRECTORY)
         self.assertEqual(hashlib.sha256(original_text.encode()).hexdigest(), record['original_sha256'])
         self.assertEqual(hashlib.sha256(candidate_text.encode()).hexdigest(), record['candidate_sha256'])
         names = {'_layer_norm_fwd_1pass_kernel_index_commuted': '_layer_norm_fwd_1pass_kernel',

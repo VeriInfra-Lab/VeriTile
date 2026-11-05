@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_recurrent_retention.SourceTypes
+import bench.tritonbench_g.fused_recurrent_retention.Proofs.Support.SourceTypes
 import VeriTile.Triton.DSL.PythonFullConstructors
 import VeriTile.Meta.StatementAudit
 

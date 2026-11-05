@@ -1,7 +1,7 @@
-import bench.tritonbench_g.parallel_attention.Reference
-import bench.tritonbench_g.parallel_attention.QueryProjection
-import bench.tritonbench_g.parallel_attention.KeyValueProjection
-import bench.tritonbench_g.parallel_attention.ScaleReverseReal
+import bench.tritonbench_g.parallel_attention.Proofs.Support.Reference
+import bench.tritonbench_g.parallel_attention.Proofs.Support.QueryProjection
+import bench.tritonbench_g.parallel_attention.Proofs.Support.KeyValueProjection
+import bench.tritonbench_g.parallel_attention.Proofs.Support.ScaleReverseReal
 
 namespace VeriTile.Bench.Repairs.ParallelAttentionKernel
 open VeriTile.Triton FP.Structural

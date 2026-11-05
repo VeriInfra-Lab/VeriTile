@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_fwd.Sources.Mathematical_Kernels
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.Erasure
 
 /-! Erase float precision in the complete two source variants. Signed metadata,

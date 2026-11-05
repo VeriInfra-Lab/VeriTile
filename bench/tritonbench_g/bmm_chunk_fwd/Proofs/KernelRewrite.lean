@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_fwd.Kernels
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.triton_softmax.Proofs.Mathematical_IndexRewrite
 
 namespace VeriTile.Bench.Repairs.BmmChunkFwd.KernelRewrite

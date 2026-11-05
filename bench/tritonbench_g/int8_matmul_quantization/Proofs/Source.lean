@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int8_matmul_quantization.Sources.Kernels
+import bench.tritonbench_g.int8_matmul_quantization.Proofs.Sources.Kernels
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.Coverage
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.Host
 namespace VeriTile.Bench.Repairs.Int8MatmulQuantization.Source

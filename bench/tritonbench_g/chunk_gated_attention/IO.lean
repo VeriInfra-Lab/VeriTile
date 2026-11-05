@@ -1,5 +1,5 @@
-import bench.tritonbench_g.chunk_gated_attention.Sources.DirectRealWhole
-import bench.tritonbench_g.chunk_gated_attention.Sources.DirectCumulativeWhole
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.DirectRealWhole
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.DirectCumulativeWhole
 import VeriTile.Triton.Memory.AlgorithmProgramIO
 import VeriTile.Triton.Memory.LogicalIO
 

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_fwd.NativeIO
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Support.NativeIO
 
 namespace VeriTile.Bench.Repairs.BmmChunkFwd.BmmIO.Native
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.rmsnorm_triton.IO
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 
 namespace VeriTile.Bench.Repairs.RmsnormTriton
 open VeriTile Triton FP.ProfiledRewrite

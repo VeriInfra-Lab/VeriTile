@@ -1,7 +1,7 @@
 import bench.tritonbench_g.matmul_kernel.Proofs.KernelDecomposition
 import VeriTile.Triton.Float.Structural
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 namespace VeriTile.Bench.Repairs.MatmulKernel.KernelSource
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange)

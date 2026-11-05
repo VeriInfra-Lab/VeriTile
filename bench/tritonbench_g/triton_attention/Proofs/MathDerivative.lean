@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_attention.Sources.Math
+import bench.tritonbench_g.triton_attention.Proofs.Sources.Math
 import Mathlib.Analysis.SpecialFunctions.ExpDeriv
 import Mathlib.Analysis.Calculus.Deriv.Add
 import Mathlib.Analysis.Calculus.Deriv.Mul

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_linear_attn.Candidate
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.Candidate
 import bench.tritonbench_g.chunk_linear_attn.Proofs.StageSafetyOutputComplete
 
 namespace VeriTile.Bench.Repairs.ChunkLinearAttn.PairOutput

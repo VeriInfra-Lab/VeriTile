@@ -147,7 +147,7 @@ hypotheses transport region-model proofs into flat pointer memory.
 `Kernel.TraceSafe` / `TraceSafeR` provide per-execution safety obligations,
 including register-indirect addressing. The `⊨` / `⊨[R]` surfaces in
 `Memory/KernelSpec.lean` assemble the bridge conditions, termination, outputs,
-and frame. See the [vector-add example](../bench/examples/VectorAdd/Correct.lean).
+and frame. See the [vector-add example](../bench/examples/VectorAdd/RealCorrect.lean).
 
 This shared flat-memory bridge still uses typed, element-sized cells. Separate
 task-specific byte-address bridges exist, as described below; they do not make
@@ -211,7 +211,7 @@ alignment and imports no benchmark code. Kernel admission policy belongs to
 the per-task contract; native access requirements belong to the applicable
 backend bridge.
 
-The current [add_example revision](../bench/tritonbench_g/add_example/README.md)
+The current [add_example revision](../bench/tritonbench_g/add_example/Proofs/README.md)
 reuses the existing finite-address helpers under
 `bench/tritonbench_g/add_example/Proofs/` and supplies its own checked host
 composition. These remain scoped helpers, not a generic implementation of all

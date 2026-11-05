@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_liger.Kernels
+import bench.tritonbench_g.layer_norm_liger.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.layer_norm_liger.Proofs.Settings
 import VeriTile.Torch.FP32
 import VeriTile.Triton.Float.Structural

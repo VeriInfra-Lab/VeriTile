@@ -1,3 +1,5 @@
+import bench.examples.RowWiseMax.IO
+import bench.examples.RowWiseMax.Contract
 import bench.examples.RowWiseMax.Kernels
 import bench.examples.RowWiseMax.Proofs.FP
 import VeriTile.Triton.DSL
@@ -15,20 +17,6 @@ open VeriTile Triton
 open FP.Structural
 
 set_option maxHeartbeats 1200000
-
-def originalIO (nCol B : Nat) : KernelIO₁ where
-  kernel := rowWiseMaxKernel "x" "y" nCol B
-  inp := "x"
-  out := "y"
-  Bin := B
-  Bout := 1
-  read := fun pid => pid * nCol
-  write := id
-
-def inlinedIO (nCol B : Nat) : KernelIO₁ :=
-  (originalIO nCol B).withKernel (inlinedKernel "x" "y" nCol B)
-
-def R : Spec.Assumptions ComputeStmt := []
 
 open scoped VeriTile.Spec
 

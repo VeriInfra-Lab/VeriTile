@@ -1,6 +1,6 @@
 import bench.tritonbench_g.chunk_gated_attention.Proofs.CumulativeRealExecution
 import VeriTile.Triton.Memory.Integer
-import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealHAccessSafety
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.Mathematical_RealHAccessSafety
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.CumulativeSource.Real
 open VeriTile.Triton
 open VeriTile.Bench.Repairs.ChunkGatedAttention

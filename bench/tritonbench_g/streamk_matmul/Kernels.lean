@@ -1,4 +1,4 @@
-import bench.tritonbench_g.streamk_matmul.SourceAdapter
+import bench.tritonbench_g.streamk_matmul.Proofs.Support.SourceAdapter
 import VeriTile.Triton.DSL.PastedControlFunctions
 namespace VeriTile.Bench.Repairs.StreamK.TileChecked
 open Reader VeriTile.Triton

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_retention_ops.Sources.Geometry
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Sources.Geometry
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001

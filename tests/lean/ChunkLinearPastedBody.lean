@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_linear_attn.StateProgram
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.StateProgram
 import bench.tritonbench_g.chunk_linear_attn.Proofs.SignedRangeSafety
 
 namespace VeriTile.Tests.ChunkLinearPastedBody

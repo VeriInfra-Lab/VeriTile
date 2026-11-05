@@ -1,4 +1,4 @@
-import bench.tritonbench_g.adam_update_triton.PairIO
+import bench.tritonbench_g.adam_update_triton.Proofs.Support.PairIO
 import bench.tritonbench_g.adam_update_triton.Proofs.NativeWords
 import bench.tritonbench_g.adam_update_triton.Proofs.Grid
 import bench.tritonbench_g.adam_update_triton.Proofs.CommutedGrid

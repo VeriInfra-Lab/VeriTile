@@ -1,4 +1,4 @@
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 namespace VeriTile.Bench.TritonBenchG.RotaryEmbNopad.Pair
 open VeriTile.Triton FP.Structural
 open KcacheCopyTriton.TypedCopy (masked_readback_active)

@@ -1,5 +1,5 @@
-import bench.tritonbench_g.triton_linear_activation.PairIO
-import bench.tritonbench_g.triton_linear_activation.CandidateKernels
+import bench.tritonbench_g.triton_linear_activation.Proofs.Support.PairIO
+import bench.tritonbench_g.triton_linear_activation.Proofs.Support.CandidateKernels
 import bench.tritonbench_g.triton_linear_activation.Proofs.IOBindings
 import bench.tritonbench_g.triton_linear_activation.Proofs.KernelMemory
 import bench.tritonbench_g.triton_linear_activation.Proofs.KernelContract

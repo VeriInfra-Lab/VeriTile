@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.WelfordCallMetadata
-import bench.tritonbench_g.fused_layernorm_triton.SourceTypes
+import bench.tritonbench_g.fused_layernorm_triton.Proofs.Support.SourceTypes
 import VeriTile.Meta.StatementAudit
 
 /-! Complete repaired Python and existing projection-hoisted candidate.

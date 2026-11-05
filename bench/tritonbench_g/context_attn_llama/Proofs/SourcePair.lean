@@ -1,5 +1,5 @@
-import bench.tritonbench_g.context_attn_llama.Kernels
-import bench.tritonbench_g.context_attn_llama.FPSuccess
+import bench.tritonbench_g.context_attn_llama.Proofs.Support.KernelEntryAdapters
+import bench.tritonbench_g.context_attn_llama.Proofs.Support.FPSuccess
 import VeriTile.Triton.Float.StructuralSafety
 
 namespace VeriTile.Bench.Repairs.ContextAttnLlama.KernelOnly.SourcePair

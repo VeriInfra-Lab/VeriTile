@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.CallSignature
-import bench.tritonbench_g.masked_add_cuda.Sources.Parameters
+import bench.tritonbench_g.masked_add_cuda.Proofs.Sources.Parameters
 
 /-! Complete unchanged Python bodies. The two mask storage choices are
 caller metadata; the existing fused launch model remains in Proofs/Graph. -/

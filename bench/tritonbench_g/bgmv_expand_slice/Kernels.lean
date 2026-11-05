@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bgmv_expand_slice.Definitions
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Support.Definitions
 import VeriTile.Triton.DSL.PythonFullConstructors
 namespace VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Pasted
 open VeriTile.Triton

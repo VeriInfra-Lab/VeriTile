@@ -1,10 +1,11 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import re
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest, quotation
+from scripts.bench.jit_correspondence import check, quotation
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / 'bench/tritonbench_g/attention_llama'
@@ -12,8 +13,8 @@ DIRECTORY = ROOT / 'bench/tritonbench_g/attention_llama'
 
 class AttentionLlamaBodyMigrationTests(unittest.TestCase):
     def setUp(self):
-        self.lean = (DIRECTORY / 'Sources/Body.lean').read_text()
-        self.records = json.loads((DIRECTORY / 'jit-correspondence.json').read_text())
+        self.lean = (DIRECTORY / 'Kernels.lean').read_text()
+        self.records = pinned_pairs(DIRECTORY)
 
     def verify(self, text, index=0):
         r = self.records[index]
@@ -27,7 +28,7 @@ class AttentionLlamaBodyMigrationTests(unittest.TestCase):
         return result
 
     def test_four_complete_source_pairs(self):
-        result = check_manifest(ROOT, DIRECTORY / 'jit-correspondence.json')
+        result = check_pinned_pairs(ROOT, DIRECTORY)
         self.assertEqual([r['statements'] for r in result], [26,26,26,26])
         for i in range(4):
             self.verify(self.lean, i)
@@ -59,9 +60,9 @@ class AttentionLlamaBodyMigrationTests(unittest.TestCase):
                     self.verify(self.lean.replace(before, after), index)
 
     def test_only_documented_carry_reordering_changes_the_python_module(self):
-        p = json.loads((DIRECTORY / 'candidate-provenance.json').read_text())
-        original = (DIRECTORY / p['original']).read_text()
-        candidate = (DIRECTORY / p['candidate']).read_text()
+        p = variant_provenance(DIRECTORY)
+        original = variant_source(DIRECTORY / p['original'])
+        candidate = variant_source(DIRECTORY / p['candidate'])
         self.assertEqual(hashlib.sha256(original.encode()).hexdigest(), p['original_sha256'])
         self.assertEqual(hashlib.sha256(candidate.encode()).hexdigest(), p['candidate_sha256'])
         module = ast.parse(candidate)

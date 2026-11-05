@@ -55,7 +55,25 @@ def pasted_code_mask(body: str) -> str:
     return "".join(masked)
 
 
+def source_scope(text: str, definition: str) -> tuple[str, str]:
+    """Resolve a fully named source declaration inside a combined kernel module."""
+    if '::' not in definition:
+        return text, definition
+    namespace, name = definition.split('::', 1)
+    code = lean_code_mask(text)
+    pattern = rf'(?m)^namespace[ \t]+{re.escape(namespace)}[ \t]*$'
+    starts = list(re.finditer(pattern, code))
+    if len(starts) != 1:
+        raise ValueError(f'expected one source namespace: {namespace}')
+    start = starts[0].end()
+    end = re.search(rf'(?m)^end[ \t]+{re.escape(namespace)}[ \t]*$', code[start:])
+    if end is None:
+        raise ValueError(f'missing end of source namespace: {namespace}')
+    return text[start:start + end.start()], name
+
+
 def quotation(text: str, definition: str, *, raw_python: bool = False) -> tuple[str, str]:
+    text, definition = source_scope(text, definition)
     mask = lean_code_mask(text)
     matches = list(re.finditer(r"(?m)^\s*(?:(?:noncomputable|private|protected)\s+)*def\s+" + re.escape(definition) + r"\b", mask))
     if not matches:
@@ -394,7 +412,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError("pasted body requires an independently reviewed call signature")
         if re.search(r"\btl\.(region|param|call_signature)\b|\$", pasted_code_mask(body)):
             raise ValueError("pasted body must not contain metadata directives or Lean antiquotes")
-        profile = call_signature(lean_text, signature_definition)
+        profile = call_signature(source_scope(lean_text, lean_definition)[0], signature_definition)
         if expected_natural_reads is not None:
             kinds = dict(profile['pointers'])
             if any(kinds.get(name) != 'i32' for name in expected_natural_reads):
@@ -1108,7 +1126,7 @@ def check_procedure_function(python_text: str, lean_text: str, python_function: 
                             + r"\s*(\([^)]*\)\s+constexpr_args\s*\[[^\]]*\])\s*$", header)
     if not declaration:
         raise ValueError("procedure must declare its reviewed ABI, parameter order and constexprs")
-    profile = call_signature(lean_text, signature_definition)
+    profile = call_signature(source_scope(lean_text, lean_definition)[0], signature_definition)
     if profile != expected_signature:
         raise ValueError("procedure call signature differs from the reviewed ABI")
     # Reuse the exact body/parameter comparison, including terminal empty return.
@@ -1165,7 +1183,7 @@ def check_control_source(python_text: str, lean_text: str, python_function: str,
     fn = functions[0]
     if fn.args.posonlyargs or fn.args.kwonlyargs or fn.args.vararg or fn.args.kwarg:
         raise ValueError("unsupported control-source Python signature")
-    profile = call_signature(lean_text, signature_definition)
+    profile = call_signature(source_scope(lean_text, lean_definition)[0], signature_definition)
     if profile != expected_signature:
         raise ValueError("control-source caller signature differs from reviewed ABI")
     parameters = [a.arg for a in fn.args.args]

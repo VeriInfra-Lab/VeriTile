@@ -1,7 +1,7 @@
 /- Reuses the historical complete retention execution proof, adapted only
 to this repair's explicit zero-padded source and task-local namespace. -/
 import bench.tritonbench_g.parallel_retention_attention.Proofs.QueryPrefix
-import bench.tritonbench_g.fused_recurrent_hgrn.Sources.Mathematical_FPStages
+import bench.tritonbench_g.fused_recurrent_hgrn.Proofs.Sources.Mathematical_FPStages
 
 namespace VeriTile.Bench.Repairs.ParallelRetentionAttention.Kernel.FPQuery
 open VeriTile.Triton FP.Structural

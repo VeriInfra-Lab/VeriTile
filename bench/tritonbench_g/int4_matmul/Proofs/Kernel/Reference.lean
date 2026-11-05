@@ -1,6 +1,6 @@
 import bench.tritonbench_g.int4_matmul.Proofs.Kernel.Execution
 import VeriTile.Triton.Float.StructuralSafety
-import bench.tritonbench_g.matmul_dequant_int4.Sources.Mathematical_FPContract
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Sources.Mathematical_FPContract
 
 namespace VeriTile.Bench.Repairs.Int4Matmul.KernelExecution
 open VeriTile.Triton FP.Structural KernelSource

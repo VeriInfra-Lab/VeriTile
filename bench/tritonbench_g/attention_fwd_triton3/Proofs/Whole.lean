@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_fwd_triton3.Correct
+import bench.tritonbench_g.attention_fwd_triton3.RealCorrect
 
 /-! The complete repaired-source Real proof, including ordinary-grid execution,
 finite six-input bindings, exact output cells, trace safety and frame. -/

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.parallel_attention.RealCombined
+import bench.tritonbench_g.parallel_attention.Proofs.Support.RealCombined
 import bench.tritonbench_g.parallel_attention.Proofs.IOLogical
 import VeriTile.Triton.Float.ObservedProgramIO
 import VeriTile.Triton.Float.LogicalProgramIO

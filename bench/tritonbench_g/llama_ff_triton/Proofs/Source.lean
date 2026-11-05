@@ -1,4 +1,4 @@
-import bench.tritonbench_g.llama_ff_triton.Kernels
+import bench.tritonbench_g.llama_ff_triton.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.Structural
 
 namespace VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution

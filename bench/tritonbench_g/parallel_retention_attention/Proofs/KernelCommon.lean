@@ -1,4 +1,4 @@
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPBackwardGraph
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPBackwardGraph
 import VeriTile.Meta.StatementAudit
 
 /-! Task-local zero-padded load expressions for the repaired retention source.

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int_scaled_matmul.Sources.Kernels
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.Kernels
 import VeriTile.Meta.StatementAudit
 import VeriTile.Meta.Specification
 namespace VeriTile.Bench.Repairs.IntScaledMatmul.SourcePreservation

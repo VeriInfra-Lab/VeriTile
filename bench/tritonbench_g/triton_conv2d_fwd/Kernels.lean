@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_conv2d_fwd.Model
+import bench.tritonbench_g.triton_conv2d_fwd.Proofs.Support.Model
 import VeriTile.Triton.DSL.StaticAssertions
 namespace VeriTile.Bench.Repairs.Conv2d.Pasted
 open VeriTile.Triton

@@ -52,11 +52,11 @@ class ExampleLayoutTests(unittest.TestCase):
         for folder in sorted(p for p in examples.iterdir() if p.is_dir()):
             with self.subTest(example=folder.name):
                 self.assertEqual({p.name for p in folder.glob("*.lean")},
-                                 {"Kernels.lean", "Correct.lean", "FPEquiv.lean"})
+                                 {"Kernels.lean", "RealCorrect.lean", "FPEquiv.lean", "IO.lean", "Contract.lean"})
                 for entry, forbidden in (
-                    ("FPEquiv", {"Correct.lean", "Real.lean", "LegacyCorrect.lean", "LegacyRealEquiv.lean"}),
-                    ("Correct", {"FPEquiv.lean", "FP.lean"}),
-                    ("Kernels", {"Correct.lean", "FPEquiv.lean", "Real.lean", "FP.lean", "LegacyCorrect.lean", "LegacyRealEquiv.lean"}),
+                    ("FPEquiv", {"RealCorrect.lean", "Real.lean", "LegacyCorrect.lean", "LegacyRealEquiv.lean"}),
+                    ("RealCorrect", {"FPEquiv.lean", "FP.lean"}),
+                    ("Kernels", {"RealCorrect.lean", "FPEquiv.lean", "Real.lean", "FP.lean", "LegacyCorrect.lean", "LegacyRealEquiv.lean"}),
                 ):
                     reached = set()
                     dependencies(folder / f"{entry}.lean", reached)
@@ -67,7 +67,7 @@ class ExampleLayoutTests(unittest.TestCase):
                     reached = set()
                     dependencies(helper, reached)
                     bad = [str(p.relative_to(ROOT)) for p in reached
-                           if p.is_relative_to(examples) and p.name in {"Correct.lean", "FPEquiv.lean"}]
+                           if p.is_relative_to(examples) and p.name in {"RealCorrect.lean", "FPEquiv.lean"}]
                     self.assertEqual(bad, [], f"{helper.relative_to(examples)} imports a reader entry")
 
 
@@ -75,15 +75,15 @@ class ExamplePairTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         targets = [f"bench.examples.{name}.{suffix}"
-                   for name, _, _, _ in PAIRS for suffix in ("Correct", "FPEquiv")]
-        targets += [f"bench.examples.{family}.Correct"
+                   for name, _, _, _ in PAIRS for suffix in ("RealCorrect", "FPEquiv")]
+        targets += [f"bench.examples.{family}.RealCorrect"
                     for family, _, _, _ in REDUCTIONS]
         targets += [f"bench.examples.{family}.FPEquiv"
                     for family in ("SoftmaxReciprocal", "FloatDTypeSoftmax")]
         targets += [f"bench.examples.{name}.{suffix}"
                     for name in ("FusedSiLU", "FusedSwiglu", "Welford", "FusedLayerNorm")
-                    for suffix in ("Correct", "Proofs.LegacyRealEquiv")]
-        targets += [f"bench.examples.{family}.Correct"
+                    for suffix in ("RealCorrect", "Proofs.LegacyRealEquiv")]
+        targets += [f"bench.examples.{family}.RealCorrect"
                     for family in ("TritonBenchVectorAddition", "RowWiseSum", "RowWiseMax")]
         build = subprocess.run(["lake", "build", *targets], cwd=ROOT,
                                text=True, capture_output=True, timeout=300)
@@ -226,7 +226,7 @@ theorem opaque_adapted (R : Spec.Assumptions FP.GuardedFragment) (lhs rhs : FP.K
     def test_same_original_implementation_in_both_files(self):
         """A correct file for one implementation cannot certify a different FP input."""
         imports = "\n".join(f"import bench.examples.{n}.{s}"
-                            for n, _, _, _ in PAIRS for s in ("Correct", "FPEquiv"))
+                            for n, _, _, _ in PAIRS for s in ("RealCorrect", "FPEquiv"))
         self.lean(imports + '''
 open VeriTile.Bench.Examples
 
@@ -257,7 +257,7 @@ example (lr wd beta1 beta2 : Real) (n B : Nat) :
         """Keep the fp32 load/fp64 cast boundary in the source of both specifications."""
         imports = "\n".join(f"import bench.examples.{family}.{suffix}"
                             for family in ("SoftmaxReciprocal", "FloatDTypeSoftmax")
-                            for suffix in ("Correct", "FPEquiv"))
+                            for suffix in ("RealCorrect", "FPEquiv"))
         source = imports + "\nopen VeriTile.Bench.Examples\n"
         for family in ("SoftmaxReciprocal", "FloatDTypeSoftmax"):
             div_source, recip_source = (
@@ -295,7 +295,7 @@ run_cmd do
                 self.assertEqual(self.lean(source), expected)
 
     def test_reduction_correctness_preserves_sources_and_states_the_formula(self):
-        imports = "\n".join(f"import bench.examples.{family}.Correct"
+        imports = "\n".join(f"import bench.examples.{family}.RealCorrect"
                             for family, _, _, _ in REDUCTIONS)
         source = imports + '''
 open VeriTile.Bench.Examples
@@ -317,9 +317,9 @@ example (B : Nat) (hB : 0 < B) :
 
     def test_statistics_correctness_preserves_sources_and_formulas(self):
         self.lean('''
-import bench.examples.Welford.Correct
+import bench.examples.Welford.RealCorrect
 import bench.examples.Welford.Proofs.LegacyRealEquiv
-import bench.examples.FusedLayerNorm.Correct
+import bench.examples.FusedLayerNorm.RealCorrect
 import bench.examples.FusedLayerNorm.Proofs.LegacyRealEquiv
 open VeriTile Triton
 open VeriTile.Bench.Examples
@@ -370,7 +370,7 @@ end
 
     def test_two_output_correctness_reaches_flat_memory_and_frames_each_window(self):
         self.lean('''
-import bench.examples.Welford.Correct
+import bench.examples.Welford.RealCorrect
 open VeriTile Triton
 open VeriTile.Bench.Examples.Welford.Kernels
 open VeriTile.Bench.Examples.WelfordCorrect
@@ -421,7 +421,7 @@ example : ∃ t,
 
     def test_real_float_add_includes_empty_tiles(self):
         self.lean('''
-import bench.examples.FloatDTypeAdd.Correct
+import bench.examples.FloatDTypeAdd.RealCorrect
 open VeriTile.Bench.Examples.FloatDTypeAdd.Kernels
 open VeriTile.Bench.Examples.FloatDTypeAddCorrect
 open scoped VeriTile.Triton.KernelIO₂
@@ -432,9 +432,9 @@ example : VeriTile.Spec.Real (floatAddIO 0 ⊨ fun xs ys i => xs i + ys i) :=
 
     def test_fusion_correctness_preserves_both_sources_and_full_shape_scope(self):
         self.lean('''
-import bench.examples.FusedSiLU.Correct
+import bench.examples.FusedSiLU.RealCorrect
 import bench.examples.FusedSiLU.Proofs.LegacyRealEquiv
-import bench.examples.FusedSwiglu.Correct
+import bench.examples.FusedSwiglu.RealCorrect
 import bench.examples.FusedSwiglu.Proofs.LegacyRealEquiv
 open VeriTile Triton
 open VeriTile.Bench.Examples

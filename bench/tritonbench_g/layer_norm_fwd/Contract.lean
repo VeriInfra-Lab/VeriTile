@@ -1,5 +1,5 @@
 import bench.tritonbench_g.layer_norm_fwd.Proofs.Admission
-import bench.tritonbench_g.layer_norm_fwd.Kernels
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Support.KernelEntryAdapters
 import Mathlib.Data.Nat.Log
 
 namespace VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_fwd.Target
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Support.Target
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Contract
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.HostReturned
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Finite

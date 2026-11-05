@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_optimized.Sources.Contract
+import bench.tritonbench_g.bmm_optimized.Proofs.Sources.Contract
 
 namespace VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked
 open BmmOptimized

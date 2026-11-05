@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_attention.Kernels
+import bench.tritonbench_g.triton_attention.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.triton_attention.Proofs.FPBackwardFrame
 import bench.tritonbench_g.triton_attention.Proofs.FPForwardReadback
 

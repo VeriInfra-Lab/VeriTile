@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_mistral.Program
+import bench.tritonbench_g.context_attn_mistral.Proofs.Support.Program
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
 namespace VeriTile.Bench.Repairs.ContextAttnMistralKernel.NativeSourceSafety

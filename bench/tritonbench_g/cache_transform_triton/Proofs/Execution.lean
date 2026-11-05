@@ -1,5 +1,5 @@
 import bench.tritonbench_g.cache_transform_triton.Kernels
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.CacheTransform
 open Lean VeriTile.Triton FP.Structural

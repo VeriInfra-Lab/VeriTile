@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_attention.Spec
+import bench.tritonbench_g.triton_attention.Proofs.Support.Spec
 
 namespace VeriTile.Bench.Repairs.TritonAttentionScalarABI.PublicIO
 open VeriTile Triton FP.Structural

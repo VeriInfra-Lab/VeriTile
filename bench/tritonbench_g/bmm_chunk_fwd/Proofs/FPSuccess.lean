@@ -1,7 +1,7 @@
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.ControlArithmetic
 import VeriTile.Triton.SignedSource
 import VeriTile.Triton.Float.Integer
-import bench.tritonbench_g.bmm_chunk_fwd.Kernels
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.ProfiledRewrite
 import VeriTile.Meta.StatementAudit
 

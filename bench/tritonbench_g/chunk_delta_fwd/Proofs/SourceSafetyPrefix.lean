@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_delta_fwd.Sources.Program
+import bench.tritonbench_g.chunk_delta_fwd.Proofs.Sources.Program
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
 namespace VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.SourceSafety

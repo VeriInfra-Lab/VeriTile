@@ -1,5 +1,5 @@
 import bench.tritonbench_g.parallel_attention.Proofs.IOReal
-import bench.tritonbench_g.parallel_attention.Coverage
+import bench.tritonbench_g.parallel_attention.Proofs.Support.Coverage
 
 namespace VeriTile.Bench.Repairs.ParallelAttentionKernel.ReaderBefore
 open VeriTile.Triton FP.Structural

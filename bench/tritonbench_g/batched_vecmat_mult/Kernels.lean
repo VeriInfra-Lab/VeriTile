@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.CallSignature
-import bench.tritonbench_g.batched_vecmat_mult.Sources.Parameters
+import bench.tritonbench_g.batched_vecmat_mult.Proofs.Sources.Parameters
 
 /-! Complete selected int64 Python function bodies. Storage, runtime dimension
 bindings and constexpr blocks live outside each quotation. The authored Python

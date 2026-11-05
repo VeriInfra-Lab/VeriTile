@@ -1,4 +1,4 @@
-import bench.tritonbench_g.streamk_matmul.Sources.SourceDefinitions
+import bench.tritonbench_g.streamk_matmul.Proofs.Sources.SourceDefinitions
 
 namespace VeriTile.Bench.Repairs.StreamK.Whole001
 namespace Reference

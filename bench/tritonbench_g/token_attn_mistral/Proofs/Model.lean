@@ -1,4 +1,4 @@
-import bench.tritonbench_g.token_attn_mistral.Sources.Source
+import bench.tritonbench_g.token_attn_mistral.Proofs.Sources.Source
 import bench.tritonbench_g.token_attn_mistral.Proofs.Range
 namespace VeriTile.Bench.Repairs.TokenAttnMistral
 open VeriTile.Triton FP.Structural

@@ -74,3 +74,22 @@ def f16_to_f8_repaired(x, dtypes=tl.float8e5):
             kernel_f16_to_f8[grid](triton.reinterpret(target[start:start+count], dtypes),
                 source[start:start+count], count, BLOCK_SIZE=1024)
         return ret
+
+
+
+@triton.jit
+def kernel_f8_to_f16_index_commuted(Y, X, N, BLOCK_SIZE: tl.constexpr):
+    pid = tl.program_id(0)
+    offs = BLOCK_SIZE * pid + tl.arange(0, BLOCK_SIZE)
+    mask = offs < N
+    x = tl.load(X + offs, mask=mask)
+    tl.store(Y + offs, x, mask=mask)
+    tl.store(Y + offs, x, mask=mask)
+
+@triton.jit
+def kernel_f16_to_f8_index_commuted(Y, X, N, BLOCK_SIZE: tl.constexpr):
+    pid = tl.program_id(0)
+    offs = BLOCK_SIZE * pid + tl.arange(0, BLOCK_SIZE)
+    mask = offs < N
+    x = tl.load(X + offs, mask=mask)
+    tl.store(Y + offs, x, mask=mask)

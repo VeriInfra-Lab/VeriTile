@@ -1,5 +1,5 @@
 import bench.tritonbench_g.lightning_attention.IO
-import bench.tritonbench_g.lightning_attention.PhaseReal
+import bench.tritonbench_g.lightning_attention.Proofs.Support.PhaseReal
 namespace VeriTile.Bench.Repairs.LightningAttention.KernelOnly.IOExecution
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.Repairs.ChunkGlaFwd.FPOutput (DotPrimitive)

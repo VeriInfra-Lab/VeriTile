@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fifth_order_sph_harmonics.Kernels
+import bench.tritonbench_g.fifth_order_sph_harmonics.Proofs.Support.KernelEntryAdapters
 
 namespace VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Execution
 open VeriTile.Triton FP.Structural

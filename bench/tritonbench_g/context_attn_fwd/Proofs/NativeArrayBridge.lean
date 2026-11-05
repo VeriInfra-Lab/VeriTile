@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_fwd.InvocationIO
+import bench.tritonbench_g.context_attn_fwd.Proofs.Support.InvocationIO
 import bench.tritonbench_g.context_attn_fwd.Proofs.KernelRawGrid
 import VeriTile.Triton.Float.ArrayProgramIO
 

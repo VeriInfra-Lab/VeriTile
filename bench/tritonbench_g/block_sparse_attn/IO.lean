@@ -1,5 +1,5 @@
-import bench.tritonbench_g.block_sparse_attn.Native
-import bench.tritonbench_g.block_sparse_attn.Real
+import bench.tritonbench_g.block_sparse_attn.Proofs.Support.Native
+import bench.tritonbench_g.block_sparse_attn.Proofs.Support.Real
 import VeriTile.Triton.Float.ProgramIO
 import VeriTile.Triton.Float.LogicalProgramIO
 

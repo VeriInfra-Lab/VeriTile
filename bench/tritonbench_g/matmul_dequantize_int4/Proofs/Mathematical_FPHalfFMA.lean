@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequant_int4.Sources.Mathematical_Binary16
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Sources.Mathematical_Binary16
 import VeriTile.Triton.Float.ScalarOps
 namespace VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.FPCompiled.HalfFMA
 open VeriTile.Triton

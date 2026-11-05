@@ -1,6 +1,6 @@
-import bench.tritonbench_g.lightning_attention.CandidateIO
+import bench.tritonbench_g.lightning_attention.Proofs.Support.CandidateIO
 import bench.tritonbench_g.lightning_attention.Proofs.PairSource
-import bench.tritonbench_g.lightning_attention.NativeIO
+import bench.tritonbench_g.lightning_attention.Proofs.Support.NativeIO
 
 namespace VeriTile.Bench.Repairs.LightningAttention.KernelOnly.PairExecution
 open VeriTile Triton FP.Structural FP.ProfiledRewrite

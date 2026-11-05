@@ -1,4 +1,4 @@
-import bench.tritonbench_g.kldiv_compute.Sources.Mathematical_Kernels
+import bench.tritonbench_g.kldiv_compute.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.KldivCompute

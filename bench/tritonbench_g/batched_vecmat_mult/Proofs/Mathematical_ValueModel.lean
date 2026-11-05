@@ -1,4 +1,4 @@
-import bench.tritonbench_g.batched_vecmat_mult.Sources.Mathematical_Kernels
+import bench.tritonbench_g.batched_vecmat_mult.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.ScalarOps
 import VeriTile.Triton.Float.TermModel
 import VeriTile.Meta.StatementAudit

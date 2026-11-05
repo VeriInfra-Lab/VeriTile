@@ -1,5 +1,5 @@
-import bench.tritonbench_g.chunk_retention.Sources.KernelStaging
-import bench.tritonbench_g.chunk_retention_ops.Sources.KernelOutputMemory
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.KernelStaging
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Sources.KernelOutputMemory
 namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelNative
 open VeriTile Triton FP.Structural
 namespace S

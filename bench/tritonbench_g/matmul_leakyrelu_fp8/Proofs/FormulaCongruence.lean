@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_leakyrelu_fp8.Target
+import bench.tritonbench_g.matmul_leakyrelu_fp8.Proofs.Support.Target
 import bench.tritonbench_g.matmul_leakyrelu_fp8.Proofs.ReadProjection
 
 namespace VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.FormulaCongruence

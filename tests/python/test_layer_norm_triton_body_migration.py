@@ -1,10 +1,11 @@
 import ast
 import copy
 import hashlib
-import json
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / 'bench/tritonbench_g/layer_norm_triton'
@@ -12,8 +13,8 @@ DIRECTORY = ROOT / 'bench/tritonbench_g/layer_norm_triton'
 
 class LayerNormTritonBodyMigrationTests(unittest.TestCase):
     def setUp(self):
-        self.lean = (DIRECTORY / 'Sources/Body.lean').read_text()
-        self.records = json.loads((DIRECTORY / 'jit-correspondence.json').read_text())
+        self.lean = (DIRECTORY / 'Kernels.lean').read_text()
+        self.records = pinned_pairs(DIRECTORY)
 
     def verify(self, text):
         r = self.records[0]
@@ -22,7 +23,7 @@ class LayerNormTritonBodyMigrationTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'], expected_integer_args=r['expected_integer_args'], expected_arange_args=r['expected_arange_args'])
 
     def test_six_complete_bodies(self):
-        self.assertEqual([r['statements'] for r in check_manifest(ROOT, DIRECTORY / 'jit-correspondence.json')], [15,14,11,30,14,11])
+        self.assertEqual([r['statements'] for r in check_pinned_pairs(ROOT, DIRECTORY)], [15,14,11,30,14,11])
 
     def test_cast_loop_mask_and_store_mutations_are_rejected(self):
         for before, after in [('tl.program_id(0).to(tl.int64)', 'tl.program_id(0)'),
@@ -46,9 +47,9 @@ class LayerNormTritonBodyMigrationTests(unittest.TestCase):
                 with self.assertRaises(ValueError): self.verify(self.lean.replace(before,after))
 
     def test_existing_candidate_restores_entire_module(self):
-        original_text = (DIRECTORY / 'layer_norm_triton.py').read_text()
-        candidate_text = (DIRECTORY / 'layer_norm_triton_scheduled.py').read_text()
-        record = json.loads((DIRECTORY / 'candidate-provenance.json').read_text())
+        original_text = variant_source(DIRECTORY / 'layer_norm_triton.py')
+        candidate_text = variant_source(DIRECTORY / 'layer_norm_triton_scheduled.py')
+        record = variant_provenance(DIRECTORY)
         self.assertEqual(hashlib.sha256(original_text.encode()).hexdigest(), record['original_sha256'])
         self.assertEqual(hashlib.sha256(candidate_text.encode()).hexdigest(), record['candidate_sha256'])
         original = ast.parse(original_text)

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Mathematical_RealProgram
-import bench.tritonbench_g.bmm_chunk_bwd.Sources.Mathematical_RealMath
+import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Sources.Mathematical_RealMath
 import VeriTile.Triton
 import bench.tritonbench_g.bmm_chunk_bwd.Proofs.IntegerIndices
 

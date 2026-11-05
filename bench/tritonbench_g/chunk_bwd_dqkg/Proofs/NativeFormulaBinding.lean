@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_bwd_dqkg.Target
+import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.Support.Target
 import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.AddressBounds
 
 namespace VeriTile.Bench.Repairs.ChunkBwdDqkg.NativeFormulaBinding

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int_scaled_matmul.Sources.BlockWordReference
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.BlockWordReference
 namespace VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.BlockWord
 open VeriTile.Bench.TritonBenchG.IntScaledMatmul
 open VeriTile.Triton FP.Structural

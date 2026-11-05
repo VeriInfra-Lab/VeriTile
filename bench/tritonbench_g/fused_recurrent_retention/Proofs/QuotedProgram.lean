@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_recurrent_retention.SurfaceSource
+import bench.tritonbench_g.fused_recurrent_retention.Proofs.Support.SurfaceSource
 import VeriTile.Triton.Float.ProfiledRewrite
 import VeriTile.Meta.StatementAudit
 import bench.tritonbench_g.triton_conv2d_fwd.Proofs.UnitRanges

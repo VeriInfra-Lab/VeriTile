@@ -1,6 +1,6 @@
 import bench.tritonbench_g.embedding_triton_kernel.Kernels
 import VeriTile.Triton.Float.Control
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 import bench.tritonbench_g.embedding_triton_kernel.Proofs.Mathematical_Reference
 
 namespace VeriTile.Bench.Repairs.EmbeddingTritonKernel.Execution

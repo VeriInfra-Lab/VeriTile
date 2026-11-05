@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_triton.Sources.Mathematical_WholeSource
+import bench.tritonbench_g.rmsnorm_triton.Proofs.Sources.Mathematical_WholeSource
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.RmsnormTriton.Whole

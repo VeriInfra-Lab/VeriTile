@@ -1,17 +1,18 @@
 import ast
 import copy
 import hashlib
-import json
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 DIR = ROOT / 'bench/tritonbench_g/fifth_order_sph_harmonics'
 
 class FifthOrderSphBodyMigrationTests(unittest.TestCase):
     def test_both_complete_directions_and_candidates(self):
-        rows = check_manifest(ROOT, DIR / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, DIR)
         self.assertEqual([r['statements'] for r in rows], [73, 122, 73, 122])
         self.assertTrue(all(r['mode'] == 'pasted_body' for r in rows))
         self.assertEqual(rows[0]['runtime_parameters'], {})
@@ -19,7 +20,7 @@ class FifthOrderSphBodyMigrationTests(unittest.TestCase):
                          {'upstream_row_stride': 'integer', 'upstream_col_stride': 'integer'})
 
     def test_casts_constants_masks_strides_and_accumulation_cannot_disappear(self):
-        records = json.loads((DIR / 'jit-correspondence.json').read_text())
+        records = pinned_pairs(DIR)
         for record, replacements in [
             (records[0], [('.to(tl.int64)', ''), ('CONST006 = 6.21867148191637', ''),
                           ('-CONST021 * VAR17', 'CONST021 * VAR17'),
@@ -42,8 +43,8 @@ class FifthOrderSphBodyMigrationTests(unittest.TestCase):
     def test_candidate_only_reuses_identical_left_associated_powers(self):
         original_path = DIR / 'fifth_order_sph_harmonics.py'
         candidate_path = DIR / 'fifth_order_sph_harmonics_powers_reuse.py'
-        original = ast.parse(original_path.read_text())
-        candidate = ast.parse(candidate_path.read_text())
+        original = ast.parse(variant_source(original_path))
+        candidate = ast.parse(variant_source(candidate_path))
         for node in ast.walk(candidate):
             if isinstance(node, ast.FunctionDef) and node.name.endswith('_powers_reuse'):
                 node.name = node.name.removesuffix('_powers_reuse')
@@ -74,6 +75,6 @@ class FifthOrderSphBodyMigrationTests(unittest.TestCase):
             self.assertEqual([i for i, _, _ in previous], list(range(start, start + len(previous))))
             fn.body[start:start+len(previous)] = copy.deepcopy(old.body[start:start+len(previous)])
         self.assertEqual(ast.dump(original), ast.dump(candidate))
-        provenance = json.loads((DIR / 'candidate-provenance.json').read_text())
+        provenance = variant_provenance(DIR)
         for label, path in [('original', original_path), ('candidate', candidate_path)]:
-            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), provenance[label + '_sha256'])
+            self.assertEqual(hashlib.sha256(variant_source(path).encode()).hexdigest(), provenance[label + '_sha256'])

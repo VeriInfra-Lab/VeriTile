@@ -3,7 +3,7 @@ import VeriTile.Triton.Memory.PreparedAlgorithmProgramIO
 import VeriTile.Triton.Float.ObservedProgramIO
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 import VeriTile.Triton.Memory.LogicalIO
-import bench.tritonbench_g.chunk_bwd_dqkg.Spec
+import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.Support.Spec
 
 /-! Whole dense logical channels. The flattened lane counts retain the exact
 source order: q/k/dq/dk [B*H,T,K], v/do [B*H,T,V], h/dh [B*H,ceil(T/64),K,V],

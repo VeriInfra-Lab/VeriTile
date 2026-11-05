@@ -1,6 +1,6 @@
-import bench.tritonbench_g.matmul_dequantize_int4.Sources.NativeLowering
+import bench.tritonbench_g.matmul_dequantize_int4.Proofs.Sources.NativeLowering
 import bench.tritonbench_g.matmul_dequantize_int4.Proofs.Mathematical_FPSoftware
-import bench.tritonbench_g.matmul_dequant_int4.Sources.Mathematical_FPContract
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Sources.Mathematical_FPContract
 namespace VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.FPCompiled
 open VeriTile.Triton
 noncomputable section

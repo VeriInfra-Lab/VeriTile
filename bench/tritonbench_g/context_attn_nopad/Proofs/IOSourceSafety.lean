@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_nopad.FPReferenceProgram
+import bench.tritonbench_g.context_attn_nopad.Proofs.Support.FPReferenceProgram
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
 namespace VeriTile.Bench.Repairs.ContextAttnNopad.KernelOnly.IOSourceSafety

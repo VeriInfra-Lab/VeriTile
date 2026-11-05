@@ -1,6 +1,6 @@
 import bench.tritonbench_g.chunk_gated_attention.FPEquiv
 import bench.tritonbench_g.chunk_gated_attention.Proofs.HSourceFP
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 
 /-! Check the typed source before erasure: actual FP32 storage, optional seed
 addition, history/final store conversions, exact endpoint addressing and

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.quant_transpose_kernel.Sources.Mathematical_Kernels
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Meta.StatementAudit
 import Mathlib.Tactic.Linarith
 import Mathlib.Data.Nat.ModEq

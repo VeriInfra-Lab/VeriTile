@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attention_score.Proofs.Reused.FPLoop
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPOutput
 open VeriTile Triton FP.Structural FP.ProfiledRewrite FPEngine FPContext

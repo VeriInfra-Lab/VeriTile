@@ -1,10 +1,11 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check, check_manifest, check_statement_function
+from scripts.bench.jit_correspondence import check, check_statement_function
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/int8_quantization'
@@ -12,11 +13,11 @@ CASE = ROOT / 'bench/tritonbench_g/int8_quantization'
 
 class Int8QuantizationBodyMigration(unittest.TestCase):
     def setUp(self):
-        self.rows = json.loads((CASE / 'jit-correspondence.json').read_text())
+        self.rows = pinned_pairs(CASE)
         self.lean = (CASE / 'Kernels.lean').read_text()
 
     def test_two_complete_bodies(self):
-        results = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, CASE)
         self.assertEqual(len(results), 2)
         self.assertTrue(all(r['status'] == 'PASS' and r['mode'] == 'pasted_body'
                             and r['statements'] == 23 for r in results))
@@ -48,10 +49,10 @@ class Int8QuantizationBodyMigration(unittest.TestCase):
                   row['expected_signature'], row['expected_call_bindings'])
 
     def test_candidate_changes_only_half_sign_selection(self):
-        meta = json.loads((CASE / 'candidate-provenance.json').read_text())
+        meta = variant_provenance(CASE)
         sources = {}
         for key in ['original', 'candidate']:
-            sources[key] = (CASE / meta[key]).read_text()
+            sources[key] = variant_source(CASE / meta[key])
             self.assertEqual(hashlib.sha256(sources[key].encode()).hexdigest(), meta[key + '_sha256'])
         trees = {key: ast.parse(source) for key, source in sources.items()}
         candidate = next(n for n in trees['candidate'].body if isinstance(n, ast.FunctionDef)

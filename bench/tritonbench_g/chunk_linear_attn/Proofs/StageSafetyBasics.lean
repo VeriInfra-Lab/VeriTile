@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_linear_attn.Grid
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.Grid
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
 namespace VeriTile.Bench.Repairs.ChunkLinearAttn.StageSafety

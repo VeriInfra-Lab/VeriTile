@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_fwd_triton2.Kernels
+import bench.tritonbench_g.attention_fwd_triton2.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.attention_fwd_triton2.Proofs.IOResults
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 

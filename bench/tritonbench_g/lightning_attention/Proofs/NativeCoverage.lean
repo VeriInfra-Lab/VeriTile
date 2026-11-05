@@ -1,5 +1,5 @@
 import bench.tritonbench_g.lightning_attention.Proofs.NativeTags
-import bench.tritonbench_g.lightning_attention.NativeReference
+import bench.tritonbench_g.lightning_attention.Proofs.Support.NativeReference
 
 namespace VeriTile.Bench.Repairs.LightningAttention.KernelOnly.NativeCoverage
 open VeriTile Triton FP.Structural

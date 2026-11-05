@@ -1,5 +1,5 @@
 import bench.tritonbench_g.lightning_attention.Proofs.Reference
-import bench.tritonbench_g.lightning_attention.PhaseReal
+import bench.tritonbench_g.lightning_attention.Proofs.Support.PhaseReal
 namespace VeriTile.Bench.Repairs.LightningAttention.KernelOnly.IOProof
 open VeriTile Triton FP.Structural
 noncomputable section

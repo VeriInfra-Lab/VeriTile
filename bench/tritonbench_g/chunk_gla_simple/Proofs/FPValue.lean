@@ -1,6 +1,6 @@
 import bench.tritonbench_g.chunk_gla_simple.Proofs.Typed
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.FPValue
 open VeriTile Triton FP.Structural FP.ProfiledRewrite

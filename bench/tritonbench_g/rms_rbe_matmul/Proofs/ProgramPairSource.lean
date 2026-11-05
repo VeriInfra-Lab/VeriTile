@@ -1,5 +1,5 @@
 import bench.tritonbench_g.rms_rbe_matmul.Proofs.KernelPrefix
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 import VeriTile.Triton.Float.StructuralSafety
 
 namespace VeriTile.Bench.Repairs.RmsRbeMatmul.SourcePair

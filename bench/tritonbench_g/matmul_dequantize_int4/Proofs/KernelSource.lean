@@ -1,5 +1,5 @@
-import bench.tritonbench_g.matmul_dequantize_int4.Kernels
-import bench.tritonbench_g.int_scaled_matmul.Sources.GridExecution
+import bench.tritonbench_g.matmul_dequantize_int4.Proofs.Support.KernelEntryAdapters
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.GridExecution
 
 namespace VeriTile.Bench.Repairs.MatmulDequantizeInt4.KernelSource
 open VeriTile.Triton FP.Structural

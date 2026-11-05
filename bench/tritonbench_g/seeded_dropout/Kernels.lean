@@ -1,4 +1,4 @@
-import bench.tritonbench_g.seeded_dropout.Sources.Parameters
+import bench.tritonbench_g.seeded_dropout.Proofs.Sources.Parameters
 import VeriTile.Triton.DSL.IntegerCallArguments
 /-! Shared repaired seeded dropout and its integer-index candidate.
 Dtype and seed-ABI cases specialize one source algorithm. The checked arange

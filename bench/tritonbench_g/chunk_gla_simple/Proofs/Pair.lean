@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gla_simple.PairIO
+import bench.tritonbench_g.chunk_gla_simple.Proofs.Support.PairIO
 import bench.tritonbench_g.chunk_gla_simple.Proofs.PairSource
 import bench.tritonbench_g.chunk_gla_simple.Proofs.IONative
 import VeriTile.Triton.Float.ObservedProgramEquivalence

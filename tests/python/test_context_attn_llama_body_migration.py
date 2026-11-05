@@ -1,10 +1,11 @@
 import ast
 import copy
 import hashlib
-import json
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / 'bench/tritonbench_g/context_attn_llama'
@@ -12,8 +13,8 @@ DIRECTORY = ROOT / 'bench/tritonbench_g/context_attn_llama'
 
 class ContextAttnLlamaBodyMigrationTests(unittest.TestCase):
     def setUp(self):
-        self.lean = (DIRECTORY / 'Sources/Body.lean').read_text()
-        self.records = json.loads((DIRECTORY / 'jit-correspondence.json').read_text())
+        self.lean = (DIRECTORY / 'Kernels.lean').read_text()
+        self.records = pinned_pairs(DIRECTORY)
 
     def verify(self, text, index=0):
         r = self.records[index]
@@ -22,7 +23,7 @@ class ContextAttnLlamaBodyMigrationTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'])
 
     def test_all_three_complete_bodies(self):
-        rows = check_manifest(ROOT, DIRECTORY / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, DIRECTORY)
         self.assertEqual([r['statements'] for r in rows], [25, 25, 25])
 
     def test_cast_loop_mask_and_operation_mutations_are_rejected(self):
@@ -50,9 +51,9 @@ class ContextAttnLlamaBodyMigrationTests(unittest.TestCase):
                     self.verify(self.lean.replace(before, after))
 
     def test_candidates_restore_the_entire_original_module(self):
-        original_text = (DIRECTORY / 'context_attn_llama.py').read_text()
-        candidate_text = (DIRECTORY / 'context_attn_llama_candidates.py').read_text()
-        record = json.loads((DIRECTORY / 'candidate-provenance.json').read_text())
+        original_text = variant_source(DIRECTORY / 'context_attn_llama.py')
+        candidate_text = variant_source(DIRECTORY / 'context_attn_llama_candidates.py')
+        record = variant_provenance(DIRECTORY)
         self.assertEqual(hashlib.sha256(original_text.encode()).hexdigest(), record['original_sha256'])
         self.assertEqual(hashlib.sha256(candidate_text.encode()).hexdigest(), record['candidate_sha256'])
         original = ast.parse(original_text)

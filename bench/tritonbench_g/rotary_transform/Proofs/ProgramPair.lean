@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rotary_transform.PairIO
+import bench.tritonbench_g.rotary_transform.Proofs.Support.PairIO
 import bench.tritonbench_g.rotary_transform.Proofs.IOResults
 
 namespace VeriTile.Bench.Repairs.RotaryTransformTileChecked.PairIO

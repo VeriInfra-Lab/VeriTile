@@ -1,5 +1,5 @@
 import bench.tritonbench_g.index_select_cat.Kernels
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 
 namespace VeriTile.Bench.Repairs.IndexSelectCat.Rewrite
 open VeriTile Triton FP.ProfiledRewrite

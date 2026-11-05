@@ -1,4 +1,4 @@
-import bench.tritonbench_g.swiglu_triton.Parameters
+import bench.tritonbench_g.swiglu_triton.Proofs.Support.Parameters
 import bench.tritonbench_g.swiglu_backward.Proofs.Mathematical_WholeTile
 
 namespace VeriTile.Bench.Repairs.SwigluTriton.Tile

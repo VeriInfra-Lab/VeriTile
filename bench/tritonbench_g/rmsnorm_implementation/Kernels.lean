@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.PythonCallSyntax
-import bench.tritonbench_g.rmsnorm_implementation.Sources.Parameters
+import bench.tritonbench_g.rmsnorm_implementation.Proofs.Sources.Parameters
 
 /-! Complete unchanged Python bodies for every retained storage profile.
 Strides are runtime integers; N_SIZE, eps and BLOCK_N_SIZE are constexpr.

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.fused_rotary_embedding.Proofs.RawMemory
-import bench.tritonbench_g.fused_rotary_embedding.InvocationIO
+import bench.tritonbench_g.fused_rotary_embedding.Proofs.Support.InvocationIO
 
 namespace VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.Source
 open VeriTile.Triton FP.Structural FusedRotaryEmbedding

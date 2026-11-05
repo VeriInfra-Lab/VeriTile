@@ -1,7 +1,7 @@
-import bench.tritonbench_g.bgmv_shrink_kernel.Types
-import bench.tritonbench_g.bgmv_shrink_kernel.Sources.Direct_FPValues
-import bench.tritonbench_g.bgmv_shrink_kernel.Sources.Direct_Workset
-import bench.tritonbench_g.bgmv_expand_slice.Sources.FPValues
+import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.Support.Types
+import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.Sources.Direct_FPValues
+import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.Sources.Direct_Workset
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Sources.FPValues
 
 namespace VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPValues
 open VeriTile.Triton FP.Structural

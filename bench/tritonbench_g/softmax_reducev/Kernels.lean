@@ -1,4 +1,4 @@
-import bench.tritonbench_g.softmax_reducev.Sources.Parameters
+import bench.tritonbench_g.softmax_reducev.Proofs.Sources.Parameters
 import VeriTile.Triton.DSL.PythonInlineSuites
 
 /-! Complete existing original and early-address candidate function bodies.

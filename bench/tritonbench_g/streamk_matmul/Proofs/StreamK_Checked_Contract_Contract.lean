@@ -1,5 +1,5 @@
 import VeriTile.Torch.Tensor
-import bench.tritonbench_g.streamk_matmul.Sources.Foundation
+import bench.tritonbench_g.streamk_matmul.Proofs.Sources.Foundation
 
 namespace VeriTile.Bench.Repairs.StreamK.Checked.Contract
 open VeriTile.Torch

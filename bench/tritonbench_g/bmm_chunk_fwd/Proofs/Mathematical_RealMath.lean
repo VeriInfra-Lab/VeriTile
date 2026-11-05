@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_bwd.Sources.Mathematical_RealMath
+import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Sources.Mathematical_RealMath
 
 /-! Independent full-K contraction with actual row/column padding and optional
 signed sequence filter. K need not be a multiple of the dot block width.

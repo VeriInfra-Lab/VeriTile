@@ -1,5 +1,5 @@
 import VeriTile.Triton
-import bench.tritonbench_g.diag_ssm_triton.Kernels
+import bench.tritonbench_g.diag_ssm_triton.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.DSL.IndexView
 import VeriTile.Triton.Float.Erasure
 import VeriTile.Meta.StatementAudit

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.quantize_kv_copy.PairIO
+import bench.tritonbench_g.quantize_kv_copy.Proofs.Support.PairIO
 import bench.tritonbench_g.quantize_kv_copy.Proofs.IOGrid
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 

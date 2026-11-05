@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_delta_fwd.Sources.Program
+import bench.tritonbench_g.chunk_delta_fwd.Proofs.Sources.Program
 import bench.tritonbench_g.chunk_delta_fwd.Proofs.ProgramReadback
 namespace VeriTile.Bench.Repairs.ChunkDeltaFwd
 open VeriTile Triton FP.Structural FP.ProfiledRewrite

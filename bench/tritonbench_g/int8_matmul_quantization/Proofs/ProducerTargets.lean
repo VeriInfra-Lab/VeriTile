@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int8_matmul_quantization.Source
+import bench.tritonbench_g.int8_matmul_quantization.Proofs.Support.Source
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.KernelProducerTargets
 import VeriTile.Triton.Float.ScalarOpsLaws
 

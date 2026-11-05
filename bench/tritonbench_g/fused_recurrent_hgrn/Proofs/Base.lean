@@ -1,5 +1,5 @@
 import bench.tritonbench_g.fused_recurrent_hgrn.Kernels
-import bench.tritonbench_g.fused_recurrent_hgrn.Sources.Mathematical_FPStages
+import bench.tritonbench_g.fused_recurrent_hgrn.Proofs.Sources.Mathematical_FPStages
 
 namespace VeriTile.Bench.Repairs.FusedRecurrentHgrn
 open VeriTile.Triton FP.Structural

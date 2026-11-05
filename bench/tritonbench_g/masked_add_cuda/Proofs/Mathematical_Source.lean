@@ -1,4 +1,4 @@
-import bench.tritonbench_g.masked_add_cuda.Sources.Mathematical_Kernels
+import bench.tritonbench_g.masked_add_cuda.Proofs.Sources.Mathematical_Kernels
 
 namespace VeriTile.Bench.TritonBenchG.MaskedAddCuda
 open VeriTile.Triton

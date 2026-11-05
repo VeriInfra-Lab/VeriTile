@@ -1,5 +1,5 @@
 import VeriTile.Triton.Semantics.Integer
-import bench.tritonbench_g.bmm_chunk_bwd.Sources.Mathematical_RealMath
+import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Sources.Mathematical_RealMath
 
 /-! Pure signed index identities for the original casts and cdiv loops.
 Negative chunk limits stay signed; converting the loop count or an active-lane

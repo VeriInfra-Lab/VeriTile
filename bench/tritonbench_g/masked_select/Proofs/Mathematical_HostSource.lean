@@ -1,5 +1,5 @@
 import bench.tritonbench_g.masked_select.Proofs.Mathematical_StableSelection
-import bench.tritonbench_g.masked_select.Sources.Mathematical_Kernels
+import bench.tritonbench_g.masked_select.Proofs.Sources.Mathematical_Kernels
 
 /-! Source-selected FP32 masked_select. The single shared kernel is the
 existing seven-statement typed source. Host broadcasting and contiguous copies

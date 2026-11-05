@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealMergeFlat
+import bench.tritonbench_g.chunk_gla_fwd.Proofs.Sources.Mathematical_RealMergeFlat
 
 /-! Complete merge regressions: three K slices, runtime head count three,
 partial rows, arbitrary padding in region semantics, early return and NK=0.

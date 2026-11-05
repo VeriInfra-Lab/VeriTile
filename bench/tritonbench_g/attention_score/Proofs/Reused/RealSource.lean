@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_score.Sources.Parameters
+import bench.tritonbench_g.attention_score.Proofs.Sources.Parameters
 import bench.tritonbench_g.attention_score.Proofs.Reused.RealSafety
 import bench.tritonbench_g.attention_score.Proofs.Reused.RealExecution
 

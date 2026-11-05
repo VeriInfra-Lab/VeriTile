@@ -1,5 +1,5 @@
-import bench.tritonbench_g.decay_cumsum.Sources.Mathematical_Kernels
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.decay_cumsum.Proofs.Sources.Mathematical_Kernels
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.DecayCumsum.MaskEquivalence
 open VeriTile Triton FP.Structural FP.ProfiledRewrite TypedSource

@@ -1,7 +1,7 @@
 /- Reuses the historical complete retention execution proof, adapted only
 to this repair's explicit zero-padded source and task-local namespace. -/
 import bench.tritonbench_g.parallel_retention_attention.Proofs.KernelSources
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPForwardGraph
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPForwardGraph
 namespace VeriTile.Bench.Repairs.ParallelRetentionAttention.Kernel.FPStages
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (DotPrimitive withDot ForwardConfig queryChunk keyChunk valueChunk foldRange)

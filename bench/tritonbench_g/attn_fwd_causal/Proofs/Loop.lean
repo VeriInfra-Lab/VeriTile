@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attn_fwd_causal.Proofs.Middle
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
 namespace VeriTile.Bench.Repairs.AttnFwdCausal.Source
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange range_values)

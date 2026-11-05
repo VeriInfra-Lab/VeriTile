@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fast_rope_embedding.Sources.Mathematical_Kernels
+import bench.tritonbench_g.fast_rope_embedding.Proofs.Sources.Mathematical_Kernels
 import bench.tritonbench_g.destindex_copy.Proofs.Mathematical_IndexRewrite
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.FastRopeEmbedding.FPProof

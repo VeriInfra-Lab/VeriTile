@@ -1,4 +1,4 @@
-import bench.tritonbench_g.lightning_attention.Safety
+import bench.tritonbench_g.lightning_attention.Proofs.Support.Safety
 
 /-! Public kernel-only admission is `KernelOnly.Contract`: actual shared FP32
 Tensor API bindings, the selected source's unchanged dimensions/pointer guards,

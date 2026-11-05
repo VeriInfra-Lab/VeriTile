@@ -7,6 +7,8 @@ import unittest
 
 from scripts.bench.jit_correspondence import check_control_source, check_manifest
 
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
+
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/streamk_matmul'
 FUNCTIONS = ['swizzle_tile', 'linear_tile', 'mac_loop', 'first_wave', 'full_tiles', 'reduce_streamk']
@@ -40,7 +42,7 @@ class UndoArea(ast.NodeTransformer):
 
 class StreamKBodyMigration(unittest.TestCase):
     def setUp(self):
-        self.records = json.loads((CASE / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(CASE)
         self.lean = (CASE / 'Kernels.lean').read_text()
 
     def check(self, lean, function='mac_loop'):
@@ -50,7 +52,7 @@ class StreamKBodyMigration(unittest.TestCase):
                                     r['expected_constexpr_bools'], r['expected_constexpr_dtypes'], r['expected_jit_calls'])
 
     def test_all_six_functions_and_all_six_candidate_functions(self):
-        result = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        result = check_pinned_pairs(ROOT, CASE)
         self.assertEqual(len(result), 12)
         self.assertEqual([r['statements'] for r in result], [8, 3, 12, 4, 16, 7] * 2)
         self.assertEqual(result, json.loads(json.dumps(result)))
@@ -89,15 +91,15 @@ class StreamKBodyMigration(unittest.TestCase):
                 check_manifest(ROOT, manifest)
 
     def test_complete_module_candidate_provenance(self):
-        meta = json.loads((CASE / 'candidate-provenance.json').read_text())
-        original, candidate = [(CASE / meta[key]).read_text() for key in ['original', 'candidate']]
+        meta = variant_provenance(CASE)
+        original, candidate = [variant_source(CASE / meta[key]) for key in ['original', 'candidate']]
         for key, source in [('original', original), ('candidate', candidate)]:
             self.assertEqual(hashlib.sha256(source.encode()).hexdigest(), meta[key + '_sha256'])
         self.assertEqual(ast.dump(ast.parse(original)), ast.dump(UndoArea().visit(ast.parse(candidate))))
 
     def test_wrapper_supplies_fp32_storage_and_accumulator(self):
         for filename in ['streamk_matmul.py', 'streamk_matmul_area.py']:
-            tree = ast.parse((CASE / filename).read_text())
+            tree = ast.parse(variant_source(CASE / filename))
             call = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and n.name == '_call')
             gates = [n for n in ast.walk(call) if isinstance(n, ast.If)
                      and ast.unparse(n.test) == 'a.dtype != torch.float32 or b.dtype != torch.float32']

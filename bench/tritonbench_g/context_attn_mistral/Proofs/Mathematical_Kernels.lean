@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_mistral.Kernels
+import bench.tritonbench_g.context_attn_mistral.Proofs.Support.KernelEntryAdapters
 
 /-! Compatibility names for the shared repaired source and retained dtype
 specializations. Complete pasted bodies live in Sources/Body.lean; Kernels.lean binds invocation metadata. -/

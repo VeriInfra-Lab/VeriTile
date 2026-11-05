@@ -1,10 +1,11 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/chunk_gla_fwd'
@@ -12,11 +13,11 @@ CASE = ROOT / 'bench/tritonbench_g/chunk_gla_fwd'
 
 class ChunkGlaBodyMigration(unittest.TestCase):
     def setUp(self):
-        self.rows = json.loads((CASE / 'jit-correspondence.json').read_text())
+        self.rows = pinned_pairs(CASE)
         self.lean = (CASE / 'Kernels.lean').read_text()
 
     def test_all_five_originals_and_candidates_are_complete(self):
-        rows = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, CASE)
         self.assertEqual([r['statements'] for r in rows], [8, 8, 15, 15, 17, 17, 7, 7, 12, 12])
         self.assertTrue(all(r['status'] == 'PASS' and r['mode'] == 'pasted_body' for r in rows))
 
@@ -46,9 +47,9 @@ class ChunkGlaBodyMigration(unittest.TestCase):
                             'readPorts := ["q","g","h","v","A"]')
 
     def test_candidate_is_only_the_five_existing_operand_swaps(self):
-        meta = json.loads((CASE / 'candidate-provenance.json').read_text())
-        original = (CASE / meta['original']).read_text()
-        candidate = (CASE / meta['candidate']).read_text()
+        meta = variant_provenance(CASE)
+        original = variant_source(CASE / meta['original'])
+        candidate = variant_source(CASE / meta['candidate'])
         for label, source in [('original', original), ('candidate', candidate)]:
             self.assertEqual(hashlib.sha256(source.encode()).hexdigest(), meta[label + '_sha256'])
         changes = [

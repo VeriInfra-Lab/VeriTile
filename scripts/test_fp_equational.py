@@ -12,7 +12,7 @@ class FPEquationalTests(unittest.TestCase):
     def setUpClass(cls):
         result = subprocess.run(
             ["lake", "build", "bench.examples.RowWiseSum.FPEquiv",
-             "bench.examples.RowWiseSum.Correct"], cwd=ROOT,
+             "bench.examples.RowWiseSum.RealCorrect"], cwd=ROOT,
             text=True, capture_output=True, timeout=300)
         if result.returncode:
             raise AssertionError(result.stdout + result.stderr)
@@ -59,7 +59,7 @@ run_cmd do
 
     def test_same_original_source_and_symbolic_dimensions_including_zero(self):
         self.lean('''
-import bench.examples.RowWiseSum.Correct
+import bench.examples.RowWiseSum.RealCorrect
 import bench.examples.RowWiseSum.FPEquiv
 open VeriTile Triton
 open VeriTile.Bench.Examples

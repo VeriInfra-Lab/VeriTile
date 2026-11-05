@@ -1,4 +1,4 @@
-import bench.tritonbench_g.mul_exponent_compensator.PairIO
+import bench.tritonbench_g.mul_exponent_compensator.Proofs.Support.PairIO
 import bench.tritonbench_g.mul_exponent_compensator.Proofs.IOComplete
 import VeriTile.Triton.Float.ScalarOpsLaws
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax

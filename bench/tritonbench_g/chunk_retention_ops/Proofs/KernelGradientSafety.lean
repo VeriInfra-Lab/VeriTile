@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_retention_ops.Sources.KernelGradientProgram
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Sources.KernelGradientProgram
 import bench.tritonbench_g.chunk_retention.Proofs.PureAccessSafety
 import VeriTile.Triton.Float.StructuralSafetyLoops
 

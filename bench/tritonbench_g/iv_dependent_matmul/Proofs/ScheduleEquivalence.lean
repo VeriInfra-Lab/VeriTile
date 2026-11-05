@@ -1,4 +1,4 @@
-import bench.tritonbench_g.iv_dependent_matmul.Programs
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.Support.Programs
 
 namespace VeriTile.Bench.Repairs.IvDependentMatmulDotShape.ScheduleEquivalence
 open VeriTile.Triton FP.Structural

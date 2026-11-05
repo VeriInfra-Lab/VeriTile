@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequant_int4.Sources.Contract
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Sources.Contract
 
 namespace VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked
 open MatmulDequantInt4

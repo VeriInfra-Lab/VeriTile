@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_linear_attn.Mathematical
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.Mathematical
 import bench.tritonbench_g.chunk_linear_attn.Proofs.IOArray
 
 namespace VeriTile.Bench.Repairs.ChunkLinearAttn.IOReal

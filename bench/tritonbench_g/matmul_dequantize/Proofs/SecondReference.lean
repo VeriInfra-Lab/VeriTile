@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequantize.Sources.Kernels
+import bench.tritonbench_g.matmul_dequantize.Proofs.Sources.Kernels
 namespace VeriTile.Bench.Repairs.MatmulDequantizeWhole001.FPTypedSecond
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG

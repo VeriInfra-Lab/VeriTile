@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_triton_autotune.Sources.Mathematical_FPTypedSource
+import bench.tritonbench_g.matmul_triton_autotune.Proofs.Sources.Mathematical_FPTypedSource
 
 /-! The two complete pasted kernels differ only by commuting the integer
 product that counts programs in a group. This preserves the full state, with

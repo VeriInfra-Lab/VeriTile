@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_score.PairIO
+import bench.tritonbench_g.attention_score.Proofs.Support.PairIO
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.SourcePair
 open VeriTile Triton FP.Structural FP.ProfiledRewrite Reused Geometry

@@ -80,7 +80,7 @@ def candidateBody (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
     (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (ACTIVATION : String) : ComputeKernel :=
   with_triton_call callSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn]
-    pure_functions [leaky_relu := leakyReluRhs] in triton {
+    pure_functions [leaky_relu_candidate := leakyReluRhs] in triton {
     """Kernel for computing the matmul C = A x B.
     A has shape (M, K), B has shape (K, N) and C has shape (M, N)
     """
@@ -119,7 +119,7 @@ def candidateBody (a_ptr b_ptr c_ptr : RegionName)
         accumulator = tl.dot(a, b, accumulator)
 
     if ACTIVATION == "leaky_relu":
-        accumulator = leaky_relu(accumulator)
+        accumulator = leaky_relu_candidate(accumulator)
     c = accumulator.to(tl.float16)
 
     offs_cm = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M).to(tl.int64)

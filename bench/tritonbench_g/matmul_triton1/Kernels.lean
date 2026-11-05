@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_triton1.Sources.Parameters
+import bench.tritonbench_g.matmul_triton1.Proofs.Sources.Parameters
 import VeriTile.Triton.DSL.CallSignature
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.Repairs.MatmulTriton1.Kernel

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int8_matmul_quantization.GemmIO
+import bench.tritonbench_g.int8_matmul_quantization.IO
 
 namespace VeriTile.Bench.Repairs.Int8MatmulQuantization.I32Safe.PublicIO.GemmSafety
 open VeriTile.Triton FP.Structural KernelExecution KernelGemm ControlArithmetic

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bgmv_shrink_kernel.Types
+import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.Support.Types
 import VeriTile.Triton.DSL.ImplicitAtomicOperands
 namespace VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Pasted
 open VeriTile.Triton

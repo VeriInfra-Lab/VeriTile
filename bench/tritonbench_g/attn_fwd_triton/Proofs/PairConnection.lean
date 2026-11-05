@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attn_fwd_triton.PairIO
+import bench.tritonbench_g.attn_fwd_triton.Proofs.Support.PairIO
 import bench.tritonbench_g.attn_fwd_triton.Proofs.NativeSchedule
 import bench.tritonbench_g.attn_fwd_triton.Kernels
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax

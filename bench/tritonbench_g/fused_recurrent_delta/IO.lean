@@ -1,7 +1,7 @@
 import VeriTile.Triton.Float.LogicalProgramIO
 import bench.tritonbench_g.fused_recurrent_delta.Proofs.KernelRealAlgebra
 import bench.tritonbench_g.fused_recurrent_delta.Proofs.Geometry
-import bench.tritonbench_g.fused_recurrent_delta.LiteralIO
+import bench.tritonbench_g.fused_recurrent_delta.Proofs.Support.LiteralIO
 
 /-! Actual FP32 runtime invocation of the complete ordinary quotations. The
 historical scale literal is used only to select the already established

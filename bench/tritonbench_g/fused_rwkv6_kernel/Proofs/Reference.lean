@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_rwkv6_kernel.Sources.Kernels
+import bench.tritonbench_g.fused_rwkv6_kernel.Proofs.Sources.Kernels
 namespace VeriTile.Bench.Repairs.FusedRwkv6Kernel
 noncomputable section
 set_option maxHeartbeats 4000000

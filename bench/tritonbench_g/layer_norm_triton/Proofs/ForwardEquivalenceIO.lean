@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_triton.ForwardCandidateIO
+import bench.tritonbench_g.layer_norm_triton.Proofs.Support.ForwardCandidateIO
 import bench.tritonbench_g.layer_norm_triton.Proofs.ForwardIO
 import bench.tritonbench_g.layer_norm_triton.Proofs.ForwardCandidateSafety
 

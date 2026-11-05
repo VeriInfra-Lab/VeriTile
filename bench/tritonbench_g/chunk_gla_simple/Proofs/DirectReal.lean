@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gla_simple.Sources.Execution
+import bench.tritonbench_g.chunk_gla_simple.Proofs.Sources.Execution
 import bench.tritonbench_g.chunk_gla_simple.Kernels
 import bench.tritonbench_g.chunk_gla_simple.Proofs.Layout
 

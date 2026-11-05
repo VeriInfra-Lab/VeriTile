@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_recurrent_hgrn.PairIO
+import bench.tritonbench_g.fused_recurrent_hgrn.Proofs.Support.PairIO
 import bench.tritonbench_g.fused_recurrent_hgrn.Proofs.IOImplements
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 

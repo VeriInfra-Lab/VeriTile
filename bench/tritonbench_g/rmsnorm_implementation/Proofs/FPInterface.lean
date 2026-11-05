@@ -1,6 +1,6 @@
-import bench.tritonbench_g.rmsnorm_implementation.PairIO
+import bench.tritonbench_g.rmsnorm_implementation.Proofs.Support.PairIO
 import bench.tritonbench_g.rmsnorm_implementation.Proofs.FPSuccess
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 import VeriTile.Triton.Float.ProfiledMemory
 
 /-! Kernel-only equivalence of the two canonical typed sources. Both complete

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layernorm_fwd_triton.PairIO
+import bench.tritonbench_g.layernorm_fwd_triton.Proofs.Support.PairIO
 import VeriTile.Triton.Float.ClosedStructuralAudit
 
 /-! The actual complete candidate schedules each output weight load after

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.Source
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Support.Source
 import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_FP
 
 namespace VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.Pair

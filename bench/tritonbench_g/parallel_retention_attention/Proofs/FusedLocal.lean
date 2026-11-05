@@ -1,4 +1,4 @@
-import bench.tritonbench_g.parallel_retention_attention.CandidateSyntax
+import bench.tritonbench_g.parallel_retention_attention.Proofs.Support.CandidateSyntax
 import bench.tritonbench_g.parallel_retention_attention.Proofs.FusedContext
 
 namespace VeriTile.Bench.Repairs.ParallelRetentionAttention.Fused

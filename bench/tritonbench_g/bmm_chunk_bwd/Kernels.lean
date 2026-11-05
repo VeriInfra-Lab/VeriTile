@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.NamedFloatDTypeCasts
-import bench.tritonbench_g.bmm_chunk_bwd.Parameters
+import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Support.Parameters
 
 /-! Complete repaired Python source and its existing head-index candidate.
 Pointer storage, dot dtype, scalar bindings and geometry are caller metadata.

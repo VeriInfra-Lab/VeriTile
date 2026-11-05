@@ -1,4 +1,4 @@
-import bench.tritonbench_g.lora_expand_gemv.SourceTypes
+import bench.tritonbench_g.lora_expand_gemv.Proofs.Support.SourceTypes
 import VeriTile.Triton.DSL.PythonFullConstructors
 namespace VeriTile.Bench.Repairs.LoraExpandGemv.Pasted
 open VeriTile.Triton

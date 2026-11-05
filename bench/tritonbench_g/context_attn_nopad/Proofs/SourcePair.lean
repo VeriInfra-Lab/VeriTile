@@ -1,5 +1,5 @@
-import bench.tritonbench_g.context_attn_nopad.Kernels
-import bench.tritonbench_g.context_attn_nopad.FPReferenceProgram
+import bench.tritonbench_g.context_attn_nopad.Proofs.Support.KernelEntryAdapters
+import bench.tritonbench_g.context_attn_nopad.Proofs.Support.FPReferenceProgram
 import VeriTile.Triton.Float.StructuralSafety
 
 namespace VeriTile.Bench.Repairs.ContextAttnNopad.KernelOnly.SourcePair

@@ -1,7 +1,7 @@
 import bench.tritonbench_g.attn_fwd_triton.Proofs.LogicalInputs
 import bench.tritonbench_g.attn_fwd_triton.Proofs.KeyPartition
 import bench.tritonbench_g.attn_fwd_triton.Proofs.Initialization
-import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealLoopContext
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Sources.Mathematical_RealLoopContext
 
 /-! The actual two-loop closed carry normalizes to the independent causal
 prefix formula, with arbitrary context tails and logical feature dimensions. -/

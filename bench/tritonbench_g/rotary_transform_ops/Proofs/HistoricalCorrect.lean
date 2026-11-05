@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rotary_transform_ops.Spec
+import bench.tritonbench_g.rotary_transform_ops.Proofs.Support.Spec
 import bench.tritonbench_g.rotary_transform_ops.Proofs.Bounds
 namespace VeriTile.Bench.Repairs.RotaryTransformOps
 open Physical Host

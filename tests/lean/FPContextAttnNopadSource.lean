@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_nopad.Sources.Mathematical_Kernels
+import bench.tritonbench_g.context_attn_nopad.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.ContextAttnNopad.SourceTypes
 open VeriTile.Triton

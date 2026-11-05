@@ -1,21 +1,22 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 DIR = ROOT / "bench/tritonbench_g/matmul_dequantize_int4"
 
 class Int4BodyMigrationTests(unittest.TestCase):
     def test_both_complete_bodies(self):
-        rows = check_manifest(ROOT, DIR / "jit-correspondence.json")
+        rows = check_pinned_pairs(ROOT, DIR)
         self.assertEqual([r["statements"] for r in rows], [32, 32])
         self.assertTrue(all(r["mode"] == "pasted_body" for r in rows))
 
     def test_unpack_cast_branch_and_store_cannot_drift(self):
-        record = json.loads((DIR / "jit-correspondence.json").read_text())[0]
+        record = pinned_pairs(DIR)[0]
         python = (ROOT / record["python"]).read_text()
         lean = (ROOT / record["lean"]).read_text()
         for before, after in [
@@ -36,8 +37,8 @@ class Int4BodyMigrationTests(unittest.TestCase):
     def test_candidate_is_only_existing_host_extent_precomputation(self):
         original_path = DIR / "matmul_dequantize_int4.py"
         candidate_path = DIR / "matmul_dequantize_int4_group_extent.py"
-        original = ast.parse(original_path.read_text())
-        candidate = ast.parse(candidate_path.read_text())
+        original = ast.parse(variant_source(original_path))
+        candidate = ast.parse(variant_source(candidate_path))
         fn = next(n for n in candidate.body if isinstance(n, ast.FunctionDef)
                   and n.name == "matmul4_kernel_group_extent")
         narg = next(a for a in fn.args.args if a.arg == "N")
@@ -57,9 +58,9 @@ class Int4BodyMigrationTests(unittest.TestCase):
                     "matmul4_kernel_group_extent", "matmul_dequantize_int4_gptq_group_extent"}:
                 node.id = node.id.removesuffix("_group_extent")
         self.assertEqual(ast.dump(original), ast.dump(candidate))
-        provenance = json.loads((DIR / "candidate-provenance.json").read_text())
-        self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance["original_sha256"])
-        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance["candidate_sha256"])
+        provenance = variant_provenance(DIR)
+        self.assertEqual(hashlib.sha256(variant_source(original_path).encode()).hexdigest(), provenance["original_sha256"])
+        self.assertEqual(hashlib.sha256(variant_source(candidate_path).encode()).hexdigest(), provenance["candidate_sha256"])
 
 
 class StandaloneInt4BodyMigrationTests(unittest.TestCase):
@@ -67,14 +68,14 @@ class StandaloneInt4BodyMigrationTests(unittest.TestCase):
         self.directory = ROOT / "bench/tritonbench_g/matmul_dequant_int4"
 
     def test_both_stages_and_both_existing_files(self):
-        rows = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r["statements"] for r in rows], [32, 19, 32, 19])
-        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        records = pinned_pairs(self.directory)
         self.assertEqual(records[0]["lean"], records[2]["lean"])
         self.assertEqual(records[0]["lean_definition"], "originalBody")
 
     def test_signed_dequantization_and_complete_memory_contract_cannot_drift(self):
-        record = json.loads((self.directory / "jit-correspondence.json").read_text())[1]
+        record = pinned_pairs(self.directory)[1]
         python = (ROOT / record["python"]).read_text()
         lean = (ROOT / record["lean"]).read_text()
         for before, after in [
@@ -96,8 +97,8 @@ class StandaloneInt4BodyMigrationTests(unittest.TestCase):
     def test_existing_candidate_only_removes_unit_column_multiply(self):
         original_path = self.directory / "matmul_dequant_int4.py"
         candidate_path = self.directory / "matmul_dequant_int4_unit_stride.py"
-        original = ast.parse(original_path.read_text())
-        candidate = ast.parse(candidate_path.read_text())
+        original = ast.parse(variant_source(original_path))
+        candidate = ast.parse(variant_source(candidate_path))
         for node in ast.walk(candidate):
             if isinstance(node, ast.FunctionDef) and node.name.endswith("_unit_stride"):
                 node.name = node.name.removesuffix("_unit_stride")
@@ -110,6 +111,6 @@ class StandaloneInt4BodyMigrationTests(unittest.TestCase):
         self.assertEqual(ast.unparse(stmt.value), "offs_k[:, None] * stride_fpbk + offs_n[None, :]")
         stmt.value = ast.parse("offs_k[:, None] * stride_fpbk + offs_n[None, :] * stride_fpbn", mode="eval").body
         self.assertEqual(ast.dump(original), ast.dump(candidate))
-        provenance = json.loads((self.directory / "candidate-provenance.json").read_text())
-        self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance["original_sha256"])
-        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance["candidate_sha256"])
+        provenance = variant_provenance(self.directory)
+        self.assertEqual(hashlib.sha256(variant_source(original_path).encode()).hexdigest(), provenance["original_sha256"])
+        self.assertEqual(hashlib.sha256(variant_source(candidate_path).encode()).hexdigest(), provenance["candidate_sha256"])

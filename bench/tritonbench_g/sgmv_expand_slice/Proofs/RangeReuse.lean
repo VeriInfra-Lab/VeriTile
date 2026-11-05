@@ -1,4 +1,4 @@
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
 
 namespace VeriTile.Bench.Repairs.SgmvExpandSlice.RangeReuse
 open VeriTile.Triton FP.Structural

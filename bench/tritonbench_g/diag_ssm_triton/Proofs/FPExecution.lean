@@ -1,6 +1,6 @@
 import bench.tritonbench_g.diag_ssm_triton.Proofs.SignedLoop
 import bench.tritonbench_g.diag_ssm_triton.Proofs.ReadableSource
-import bench.tritonbench_g.diag_ssm_triton.Kernels
+import bench.tritonbench_g.diag_ssm_triton.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.Control
 import VeriTile.Triton.Float.ProfiledMemory
 import VeriTile.Meta.StatementAudit

@@ -22,7 +22,7 @@
       "python": "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py",
       "purpose": "migration",
       "public_theorems": {
-        "bench/tritonbench_g/rms_rbe_matmul/Correct.lean": [
+        "bench/tritonbench_g/rms_rbe_matmul/RealCorrect.lean": [
           "VeriTile.Bench.Repairs.RmsRbeMatmulLaunchGuard.rms_rbe_matmul_grid_real",
           "VeriTile.Bench.Repairs.RmsRbeMatmul.RotaryCorrect.rotary_real"
         ],
@@ -143,7 +143,7 @@
     "bench/tritonbench_g/rms_matmul_rbe/Proofs/Target.lean",
     "bench/tritonbench_g/rms_matmul_rbe/RealCorrect.lean",
     "bench/tritonbench_g/rms_rbe_matmul/Contract.lean",
-    "bench/tritonbench_g/rms_rbe_matmul/Correct.lean",
+    "bench/tritonbench_g/rms_rbe_matmul/RealCorrect.lean",
     "bench/tritonbench_g/rms_rbe_matmul/FPEquiv.lean",
     "bench/tritonbench_g/rms_rbe_matmul/IO.lean",
     "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean",

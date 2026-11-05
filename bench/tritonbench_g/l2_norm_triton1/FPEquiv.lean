@@ -1,4 +1,4 @@
-import bench.tritonbench_g.l2_norm_triton1.PairIO
+import bench.tritonbench_g.l2_norm_triton1.Proofs.Support.PairIO
 import bench.tritonbench_g.l2_norm_triton1.Proofs.GridIO
 
 /-! Reader entry: full-grid equivalence of the actual selected sources.

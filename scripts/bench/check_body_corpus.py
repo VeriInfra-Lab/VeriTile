@@ -107,9 +107,9 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str) -> 
         row["python_jits"] = []
 
     manifest = lean_path.parent / "jit-correspondence.json"
+    manifest_name = manifest.relative_to(root).as_posix()
     records, pairs = [], []
     if manifest.is_file():
-        manifest_name = manifest.relative_to(root).as_posix()
         hashes[manifest_name] = digest(manifest)
         records = json.loads(manifest.read_text())
     elif python is not None and row['python_jits']:

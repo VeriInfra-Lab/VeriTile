@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_bwd.Sources.Mathematical_RealMath
+import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Sources.Mathematical_RealMath
 
 /-! Independent input arrays for one BMM output tile. The contraction formula
 uses the actual chunk length and includes the optional initial residual.

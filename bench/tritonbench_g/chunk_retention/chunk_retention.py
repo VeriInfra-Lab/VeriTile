@@ -431,3 +431,180 @@ def chunk_retention(
             raise TypeError("initial_state must be an ordinary tensor")
         initial_state = initial_state.detach()
     return ChunkRetentionFunction.apply(q, k, v, initial_state, output_final_state)
+
+
+
+
+
+
+
+@triton.jit
+def chunk_retention_fwd_kernel_o_candidate(
+    q,
+    k,
+    v,
+    h,
+    o,
+    s_qk_h,
+    s_qk_t,
+    s_qk_d,
+    s_vo_h,
+    s_vo_t,
+    s_vo_d,
+    s_h_h,
+    s_h_t,
+    scale,
+    H: tl.constexpr,
+    T: tl.constexpr,
+    K: tl.constexpr,
+    V: tl.constexpr,
+    BT: tl.constexpr,
+    BK: tl.constexpr,
+    BV: tl.constexpr
+):
+    i_v, i_t, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2).to(tl.int64)
+    i_h = i_bh % H
+    b_b = tl.math.log2(1 - tl.math.exp2(-5 - i_h * 1.0))
+
+    o_i = tl.arange(0, BT)
+    d_i = tl.math.exp2((o_i + 1) * b_b)
+    m_s = o_i[:, None] >= o_i[None, :]
+    d_s = tl.where(m_s, tl.math.exp2((o_i[:, None] - o_i[None, :]) * b_b), 0)
+
+    b_o = tl.zeros([BT, BV], dtype=tl.float32)
+    b_s = tl.zeros([BT, BT], dtype=tl.float32)
+    for i_k in range(tl.cdiv(K, BK)):
+        p_q = tl.make_block_ptr(q + i_bh * s_qk_h, (T, K), (s_qk_t, s_qk_d), (i_t * BT, i_k * BK), (BT, BK), (1, 0))
+        p_k = tl.make_block_ptr(k + i_bh * s_qk_h, (K, T), (s_qk_d, s_qk_t), (i_k * BK, i_t * BT), (BK, BT), (0, 1))
+        p_h = tl.make_block_ptr(h + i_bh * s_h_h + i_t * K * V, (K, V), (s_h_t, 1), (i_k * BK, i_v * BV), (BK, BV), (1, 0))
+        # [BT, BK]
+        b_q = tl.load(p_q, boundary_check=(0, 1), padding_option="zero")
+        # [BK, BT]
+        b_k = tl.load(p_k, boundary_check=(0, 1), padding_option="zero")
+        # [BK, BV]
+        b_h = tl.load(p_h, boundary_check=(0, 1), padding_option="zero")
+        b_o += tl.dot((b_q * d_i[:, None]).to(b_q.dtype), b_h, allow_tf32=False)
+        b_s += tl.dot(b_q, b_k, allow_tf32=False)
+
+    b_s *= d_s
+    p_v = tl.make_block_ptr(v + i_bh * s_vo_h, (T, V), (s_vo_t, s_vo_d), (i_t * BT, i_v * BV), (BT, BV), (1, 0))
+    b_v = tl.load(p_v, boundary_check=(0, 1), padding_option="zero")
+    b_o = scale * (b_o + tl.dot(b_s.to(b_v.dtype), b_v, allow_tf32=False))
+    p_o = tl.make_block_ptr(o + i_bh * s_vo_h, (T, V), (s_vo_t, s_vo_d), (i_t * BT, i_v * BV), (BT, BV), (1, 0))
+    tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0, 1))
+
+
+
+
+
+
+
+
+
+
+
+
+class ChunkRetentionFunction_candidate(torch.autograd.Function):
+
+    @staticmethod
+    @custom_fwd(device_type='cuda')
+    @contiguous
+    def forward(ctx, q, k, v, initial_state, output_final_state):
+        _dense_fp32("q", q)
+        if q.ndim != 4:
+            raise ValueError("q must have rank four")
+        B, H, T, K = q.shape
+        _dense_fp32("k", k, q.shape, q.device)
+        _dense_fp32("v", v, device=q.device)
+        if v.ndim != 4 or tuple(v.shape[:3]) != (B, H, T):
+            raise ValueError("v must share the batch, head and time dimensions")
+        V = v.shape[-1]
+        if type(output_final_state) is not bool:
+            raise TypeError("output_final_state must be boolean")
+        if initial_state is not None:
+            _dense_fp32("initial_state", initial_state, (B, H, K, V), q.device)
+        BT, BK, BV, NT, NK, NV, extents = _plan(B, H, T, K, V)
+        q_extent, v_extent, h_extent, state_extent, _ = extents
+        num_stages = 1
+        num_warps = 4 if BK == 64 else 2
+        scale = K ** -0.5
+        final_state = q.new_empty(B, H, K, V, dtype=torch.float32, requires_grad=False) if output_final_state else None
+        h = q.new_empty(B, H, NT * K, V)
+        o = torch.empty_like(v)
+        _addresses((q, q_extent), (k, q_extent), (v, v_extent), (h, h_extent),
+                   (o, v_extent), (initial_state, state_extent), (final_state, state_extent))
+        # Canonical strides also cover dense singleton tensors with unusual reported strides.
+        qk_strides, vo_strides, h_strides = (T * K, K, 1), (T * V, V, 1), (NT * K * V, V)
+        if B * H:
+            with torch.cuda.device(q.device):
+                chunk_retention_fwd_kernel_h[(NK, NV, B * H)](
+                    k, v, h, initial_state, final_state,
+                    *qk_strides, *vo_strides, *h_strides,
+                    H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV, NT=NT,
+                    USE_INITIAL_STATE=initial_state is not None,
+                    STORE_FINAL_STATE=output_final_state,
+                    num_warps=num_warps, num_stages=num_stages)
+                if NT:
+                    chunk_retention_fwd_kernel_o_candidate[(NV, NT, B * H)](
+                        q, k, v, h, o, *qk_strides, *vo_strides, *h_strides, scale,
+                        H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV,
+                        num_warps=num_warps, num_stages=num_stages)
+        ctx.save_for_backward(q, k, v, h)
+        ctx.output_final_state = output_final_state
+        return o.to(q.dtype), final_state
+
+    @staticmethod
+    @custom_bwd(device_type='cuda')
+    @contiguous
+    def backward(ctx, do, d_ht=None):
+        q, k, v, h = ctx.saved_tensors
+        B, H, T, K = q.shape
+        V = v.shape[-1]
+        if do is None:
+            do = torch.zeros_like(v)
+        _dense_fp32("do", do, v.shape, q.device)
+        if d_ht is not None:
+            if not ctx.output_final_state:
+                raise ValueError("final-state gradient requires a returned final state")
+            _dense_fp32("d_ht", d_ht, (B, H, K, V), q.device)
+        BT, BK, BV, NT, NK, NV, extents = _plan(B, H, T, K, V)
+        q_extent, v_extent, h_extent, state_extent, dv_extent = extents
+        num_stages = 1
+        num_warps = 4 if BK == 64 else 2
+        scale = K ** -0.5
+        dh = q.new_empty(B, H, NT * K, V)
+        dq, dk = torch.empty_like(q), torch.empty_like(k)
+        dv = v.new_empty(NK, *v.shape)
+        _addresses((q, q_extent), (k, q_extent), (v, v_extent), (h, h_extent),
+                   (do, v_extent), (d_ht, state_extent), (dh, h_extent),
+                   (dq, q_extent), (dk, q_extent), (dv, dv_extent))
+        qk_strides, vo_strides, h_strides = (T * K, K, 1), (T * V, V, 1), (NT * K * V, V)
+        if B * H and NT:
+            with torch.cuda.device(q.device):
+                chunk_retention_bwd_kernel_dh[(NK, NV, B * H)](
+                    q, do, dh, d_ht, *qk_strides, *vo_strides, *h_strides, scale,
+                    H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV, NT=NT,
+                    USE_FINAL_GRAD=d_ht is not None,
+                    num_warps=num_warps, num_stages=num_stages)
+                chunk_retention_bwd_kernel_dqkv[(NK, NT, B * H)](
+                    q, k, v, h, do, dh, dq, dk, dv,
+                    *qk_strides, *vo_strides, *h_strides, scale,
+                    H=H, T=T, K=K, V=V, BT=BT, BK=BK, BV=BV, NT=NT,
+                    num_warps=num_warps, num_stages=num_stages)
+        dv = dv.sum(0)
+        _addresses((dv, v_extent))
+        return dq.to(q.dtype), dk.to(k.dtype), dv.to(v.dtype), None, None
+
+
+def chunk_retention_candidate(
+    q: torch.Tensor,
+    k: torch.Tensor,
+    v: torch.Tensor,
+    initial_state: torch.Tensor = None,
+    output_final_state: bool = False
+) -> Tuple[torch.Tensor, torch.Tensor]:
+    if initial_state is not None:
+        if type(initial_state) is not torch.Tensor:
+            raise TypeError("initial_state must be an ordinary tensor")
+        initial_state = initial_state.detach()
+    return ChunkRetentionFunction_candidate.apply(q, k, v, initial_state, output_final_state)

@@ -1,6 +1,6 @@
 import bench.tritonbench_g.triton_matmul.Proofs.SourceDecomposition
 import bench.tritonbench_g.triton_matmul.Proofs.Mathematical_SourceScope
-import bench.tritonbench_g.matmul_triton_autotune.Sources.Mathematical_Host
+import bench.tritonbench_g.matmul_triton_autotune.Proofs.Sources.Mathematical_Host
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.Repair
 open VeriTile.Triton FP.Structural FPValue
 open ParallelAttention.FPStages (foldRange)

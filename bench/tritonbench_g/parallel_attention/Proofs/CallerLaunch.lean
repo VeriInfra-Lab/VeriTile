@@ -1,5 +1,5 @@
 import bench.tritonbench_g.parallel_attention.Proofs.CallerCombined
-import bench.tritonbench_g.parallel_attention.Grid
+import bench.tritonbench_g.parallel_attention.Proofs.Support.Grid
 
 namespace VeriTile.Bench.Repairs.ParallelAttentionKernel.Caller
 open VeriTile.Triton FP.Structural

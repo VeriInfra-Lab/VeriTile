@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_tma.Sources.Addresses
+import bench.tritonbench_g.matmul_tma.Proofs.Sources.Addresses
 
 namespace VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2
 open Host

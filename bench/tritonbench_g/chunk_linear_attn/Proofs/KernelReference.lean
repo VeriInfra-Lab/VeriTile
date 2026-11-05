@@ -1,5 +1,5 @@
-import bench.tritonbench_g.chunk_linear_attn.HostSum
-import bench.tritonbench_g.chunk_linear_attn.HostMetadata
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.HostSum
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.HostMetadata
 
 namespace VeriTile.Bench.Repairs.ChunkLinearAttn.KernelReference
 open VeriTile Triton FP.Structural

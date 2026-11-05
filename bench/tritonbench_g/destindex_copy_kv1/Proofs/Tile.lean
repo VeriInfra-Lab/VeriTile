@@ -1,5 +1,5 @@
 import bench.tritonbench_g.destindex_copy_kv1.Kernels
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.DestindexCopyKv1.Tile
 open VeriTile.Triton FP.Structural

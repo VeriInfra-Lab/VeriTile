@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequantize_int4.Sources.Mathematical_FPReference
+import bench.tritonbench_g.matmul_dequantize_int4.Proofs.Sources.Mathematical_FPReference
 namespace VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.FPTyped
 open VeriTile.Triton FP.Structural
 noncomputable section

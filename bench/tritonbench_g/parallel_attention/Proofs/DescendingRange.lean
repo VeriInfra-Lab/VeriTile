@@ -1,4 +1,4 @@
-import bench.tritonbench_g.parallel_attention.FPBackwardGraph
+import bench.tritonbench_g.parallel_attention.Proofs.Support.FPBackwardGraph
 import VeriTile.Triton.Float.StructuralSafetyLoops
 import VeriTile.Meta.StatementAudit
 

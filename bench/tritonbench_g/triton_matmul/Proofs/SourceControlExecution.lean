@@ -1,5 +1,5 @@
 import bench.tritonbench_g.triton_matmul.Proofs.SourceDecomposition
-import bench.tritonbench_g.triton_matmul.Sources.Numerics
+import bench.tritonbench_g.triton_matmul.Proofs.Sources.Numerics
 import VeriTile.Triton.Float.Integer
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source
 open VeriTile.Triton FP.Structural

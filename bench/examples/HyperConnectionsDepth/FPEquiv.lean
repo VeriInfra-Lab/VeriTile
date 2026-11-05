@@ -1,3 +1,5 @@
+import bench.examples.HyperConnectionsDepth.IO
+import bench.examples.HyperConnectionsDepth.Contract
 import bench.examples.HyperConnectionsDepth.Kernels
 import VeriTile.Triton.Float.GuardedRewrite
 import VeriTile.Triton.Float.RewriteTactics
@@ -17,8 +19,6 @@ namespace VeriTile.Bench.Examples.HyperConnectionsDepthFPEquiv
 open VeriTile.Bench.Examples.HyperConnectionsDepth.Kernels
 open VeriTile Triton FP.Structural FP.GuardedRewrite
 open scoped VeriTile.Spec
-
-abbrev Rules := FP.ScalarArithmetic.Rules
 
 /-- Finite operands after the original common prefix. -/
 def additionSite (tau : ℝ) : Site where

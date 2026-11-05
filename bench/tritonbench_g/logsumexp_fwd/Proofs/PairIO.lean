@@ -1,4 +1,4 @@
-import bench.tritonbench_g.logsumexp_fwd.PairIO
+import bench.tritonbench_g.logsumexp_fwd.Proofs.Support.PairIO
 import bench.tritonbench_g.logsumexp_fwd.Proofs.PairSource
 import bench.tritonbench_g.logsumexp_fwd.Proofs.PairSafety
 import bench.tritonbench_g.logsumexp_fwd.Proofs.Interface

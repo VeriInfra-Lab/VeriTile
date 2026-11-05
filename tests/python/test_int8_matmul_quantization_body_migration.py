@@ -1,10 +1,11 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / 'bench/tritonbench_g/int8_matmul_quantization'
@@ -12,8 +13,8 @@ DIRECTORY = ROOT / 'bench/tritonbench_g/int8_matmul_quantization'
 
 class Int8MatmulQuantizationBodyMigrationTests(unittest.TestCase):
     def setUp(self):
-        self.lean = (DIRECTORY / 'Sources/Body.lean').read_text()
-        self.records = json.loads((DIRECTORY / 'jit-correspondence.json').read_text())
+        self.lean = (DIRECTORY / 'Kernels.lean').read_text()
+        self.records = pinned_pairs(DIRECTORY)
 
     def verify(self, text, index=0):
         r = self.records[index]
@@ -22,7 +23,7 @@ class Int8MatmulQuantizationBodyMigrationTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'])
 
     def test_ten_complete_source_pairs(self):
-        result = check_manifest(ROOT, DIRECTORY / 'jit-correspondence.json')
+        result = check_pinned_pairs(ROOT, DIRECTORY)
         self.assertEqual([r['statements'] for r in result], [19, 19] + [39] * 8)
 
     def test_cast_loop_mask_and_store_mutations_are_rejected(self):
@@ -55,9 +56,9 @@ class Int8MatmulQuantizationBodyMigrationTests(unittest.TestCase):
                     self.verify(self.lean.replace(before, after), index)
 
     def test_candidate_changes_only_the_three_documented_index_operations(self):
-        p = json.loads((DIRECTORY / 'candidate-provenance.json').read_text())
-        original = (DIRECTORY / p['original']).read_text()
-        candidate = (DIRECTORY / p['candidate']).read_text()
+        p = variant_provenance(DIRECTORY)
+        original = variant_source(DIRECTORY / p['original'])
+        candidate = variant_source(DIRECTORY / p['candidate'])
         self.assertEqual(hashlib.sha256(original.encode()).hexdigest(), p['original_sha256'])
         self.assertEqual(hashlib.sha256(candidate.encode()).hexdigest(), p['candidate_sha256'])
         module = ast.parse(candidate)

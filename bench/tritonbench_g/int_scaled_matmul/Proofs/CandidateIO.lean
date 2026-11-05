@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int_scaled_matmul.CandidateIO
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Support.CandidateIO
 import bench.tritonbench_g.int_scaled_matmul.Proofs.CandidateExecution
 
 namespace VeriTile.Bench.Repairs.IntScaledMatmul

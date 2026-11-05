@@ -1,4 +1,4 @@
-import bench.tritonbench_g.dequantize_matmul.PairIO
+import bench.tritonbench_g.dequantize_matmul.Proofs.Support.PairIO
 import bench.tritonbench_g.dequantize_matmul.Proofs.PairEquivalence
 
 namespace VeriTile.Bench.Repairs.DequantizeMatmul.FPEquiv

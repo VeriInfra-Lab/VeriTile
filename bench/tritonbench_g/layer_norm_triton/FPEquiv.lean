@@ -1,7 +1,7 @@
 import bench.tritonbench_g.layer_norm_triton.Proofs.SourceWhileTrace
-import bench.tritonbench_g.layer_norm_triton.ForwardPairIO
+import bench.tritonbench_g.layer_norm_triton.Proofs.Support.ForwardPairIO
 
-import bench.tritonbench_g.layer_norm_triton.BackwardPairIO
+import bench.tritonbench_g.layer_norm_triton.Proofs.Support.BackwardPairIO
 
 /-! Actual two-program equivalence for every retained source-stage scope.
 The existing forward loop expansion and two backward lifetime schedules retain

@@ -1,10 +1,11 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/lightning_attention'
@@ -12,11 +13,11 @@ CASE = ROOT / 'bench/tritonbench_g/lightning_attention'
 
 class LightningAttentionBodyMigration(unittest.TestCase):
     def setUp(self):
-        self.rows = json.loads((CASE / 'jit-correspondence.json').read_text())
+        self.rows = pinned_pairs(CASE)
         self.lean = (CASE / 'Kernels.lean').read_text()
 
     def test_complete_forward_intra_inter_and_candidates(self):
-        rows = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, CASE)
         self.assertEqual([r['statements'] for r in rows], [15, 15, 33, 33, 24, 24])
         self.assertTrue(all(r['status'] == 'PASS' and r['mode'] == 'pasted_body' for r in rows))
 
@@ -45,9 +46,9 @@ class LightningAttentionBodyMigration(unittest.TestCase):
         self.mutation(2, 'readPorts := ["K","V","DO","Q"]', 'readPorts := ["Q","K","V","DO"]')
 
     def test_candidate_only_reuses_three_existing_offsets(self):
-        meta = json.loads((CASE / 'candidate-provenance.json').read_text())
-        source = (CASE / meta['original']).read_text()
-        candidate = (CASE / meta['candidate']).read_text()
+        meta = variant_provenance(CASE)
+        source = variant_source(CASE / meta['original'])
+        candidate = variant_source(CASE / meta['candidate'])
         self.assertEqual(hashlib.sha256(source.encode()).hexdigest(), meta['original_sha256'])
         self.assertEqual(hashlib.sha256(candidate.encode()).hexdigest(), meta['candidate_sha256'])
         before = 'o_offset = off_bh * n * e'

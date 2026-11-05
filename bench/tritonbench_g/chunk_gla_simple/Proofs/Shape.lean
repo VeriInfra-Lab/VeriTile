@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gla_simple.SourceTypes
+import bench.tritonbench_g.chunk_gla_simple.Proofs.Support.SourceTypes
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile

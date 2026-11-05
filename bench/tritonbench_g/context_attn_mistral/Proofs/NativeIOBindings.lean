@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_mistral.NativeIO
+import bench.tritonbench_g.context_attn_mistral.Proofs.Support.NativeIO
 import bench.tritonbench_g.context_attn_mistral.Proofs.NativeBindings
 
 namespace VeriTile.Bench.Repairs.ContextAttnMistralKernel.NativeInterface

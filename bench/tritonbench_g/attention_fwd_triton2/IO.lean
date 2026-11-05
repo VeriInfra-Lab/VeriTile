@@ -1,6 +1,6 @@
 import VeriTile.Triton.Float.LogicalProgramIO
 import bench.tritonbench_g.attention_fwd_triton2.Proofs.Raw
-import bench.tritonbench_g.attention_fwd_triton2.Kernels
+import bench.tritonbench_g.attention_fwd_triton2.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.ObservedProgramIO
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 

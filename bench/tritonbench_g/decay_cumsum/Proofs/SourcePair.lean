@@ -1,4 +1,4 @@
-import bench.tritonbench_g.decay_cumsum.PairIO
+import bench.tritonbench_g.decay_cumsum.Proofs.Support.PairIO
 import bench.tritonbench_g.decay_cumsum.Proofs.Mathematical_MaskEquivalence
 
 namespace VeriTile.Bench.Repairs.DecayCumsum.SourcePair

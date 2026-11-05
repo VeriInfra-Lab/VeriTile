@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_linear_activation.SourceKernels
+import bench.tritonbench_g.triton_linear_activation.Proofs.Support.SourceKernels
 
 namespace VeriTile.Bench.Repairs.TritonLinearActivation.KernelSource
 open VeriTile.Triton FP.Structural

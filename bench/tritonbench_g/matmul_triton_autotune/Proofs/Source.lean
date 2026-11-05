@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_triton_autotune.SourceBindings
+import bench.tritonbench_g.matmul_triton_autotune.Proofs.Support.SourceBindings
 
 /-! Proof-only decomposition of the complete typed quotation in Kernels.lean.
 The original helper names and definitions are retained for existing proofs. -/

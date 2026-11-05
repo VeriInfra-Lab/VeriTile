@@ -1,6 +1,6 @@
 import VeriTile.Triton
 import VeriTile.Triton.DSL.ConditionalPointerAdvances
-import bench.tritonbench_g.fused_rwkv6_kernel.Sources.Kernels
+import bench.tritonbench_g.fused_rwkv6_kernel.Proofs.Sources.Kernels
 
 /-! Complete repaired Python bodies. Call metadata supplies FP32 storage,
 the source scalar argument and constexpr launch dimensions. Both traversal

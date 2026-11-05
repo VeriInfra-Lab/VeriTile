@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_kernel.PairIO
+import bench.tritonbench_g.attention_kernel.Proofs.Support.PairIO
 import bench.tritonbench_g.attention_kernel.Proofs.PairPrefix
 
 namespace VeriTile.Bench.Repairs.AttentionKernel.Pair

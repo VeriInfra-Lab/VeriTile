@@ -1,7 +1,7 @@
-import bench.tritonbench_g.triton_matmul.PairIO
+import bench.tritonbench_g.triton_matmul.Proofs.Support.PairIO
 import bench.tritonbench_g.triton_matmul.Proofs.PublicIO
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
-import bench.tritonbench_g.triton_matmul.CandidateKernels
+import bench.tritonbench_g.triton_matmul.Proofs.Support.CandidateKernels
 import bench.tritonbench_g.triton_matmul.Proofs.SourceDecomposition
 import VeriTile.Triton.Float.Integer
 import VeriTile.Triton.Float.StructuralSafety

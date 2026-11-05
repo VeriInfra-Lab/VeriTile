@@ -1,4 +1,4 @@
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 namespace VeriTile.Bench.TritonBenchG.DestindexCopy.IndexRewrite
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
 /-- Equal address expressions preserve pointer evaluation, including failure. -/

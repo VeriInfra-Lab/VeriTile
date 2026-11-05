@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int4_matmul.Formula
+import bench.tritonbench_g.int4_matmul.Proofs.Support.Formula
 
 namespace VeriTile.Bench.Repairs.Int4Matmul.IOProof
 open VeriTile.Triton FP.Structural KernelExecution KernelSource

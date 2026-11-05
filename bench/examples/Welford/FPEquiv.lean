@@ -1,3 +1,5 @@
+import bench.examples.Welford.IO
+import bench.examples.Welford.Contract
 import bench.examples.Welford.Kernels
 /- Original online versus two-pass Welford, using strictly certified scalar
 and bounded count rules together with admitted scalar relaxations.
@@ -17,30 +19,6 @@ open scoped VeriTile.Spec
 open WelfordFPComparison (rowPlan)
 open _root_.VeriTile.Triton.FP.Equational (Schedules)
 open FP.GuardExpression
-
-/-- The original implementations expose both statistics, with symbolic row
-length and stride. These contracts add no numerical relation between them. -/
-def onlineIO (x mean variance : RegionName) (N stride : Nat) : KernelIO₁ₓ₂ where
-  kernel := onlineWelfordKernel x mean variance N stride
-  inp := x
-  out1 := mean
-  out2 := variance
-  Bin := N
-  Bout1 := 1
-  Bout2 := 1
-  read := fun pid => pid * stride
-  write1 := fun _ => 0
-  write2 := fun _ => 0
-
-def twopassIO (x mean variance : RegionName) (N stride : Nat) : KernelIO₁ₓ₂ :=
-  (onlineIO x mean variance N stride).withKernel (twopassWelfordKernel x mean variance N stride)
-
-/-- The numerical proof domain contains initialization, each iteration, and
-both normalization paths for all three statistics. Dimensions stay symbolic. -/
-def requirements (x : RegionName) (N stride : Nat) (empty : ReductionPlan 0)
-    (plans : Schedules) : Condition :=
-  FP.WelfordConditions.complete (FP.GuardExpression.algebra MemoryInput)
-    (rowExpressions x stride) empty (rowPlan plans N)
 
 def online (x mean variance : RegionName) (N stride : Nat) (empty : ReductionPlan 0) :
     FP.Kernel₁ₓ₂ where

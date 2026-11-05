@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rotary_transform_ops.Model
+import bench.tritonbench_g.rotary_transform_ops.Proofs.Support.Model
 import VeriTile.Triton.Float.Structural
 
 namespace VeriTile.Bench.Repairs.RotaryTransformOps.KernelAlgebra

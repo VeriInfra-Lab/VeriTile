@@ -14,7 +14,7 @@ class FPStructuralTests(unittest.TestCase):
             ["lake", "build", "VeriTile.Triton.Float.StructuralIO",
              "bench.examples.FusedSiLU.FPEquiv", "bench.examples.FusedSiLU.Proofs.LegacyRealEquiv",
              "bench.examples.FusedSwiglu.FPEquiv", "bench.examples.FusedSwiglu.Proofs.LegacyRealEquiv",
-             "bench.examples.RowWiseMax.FPEquiv", "bench.examples.RowWiseMax.Correct"], cwd=ROOT,
+             "bench.examples.RowWiseMax.FPEquiv", "bench.examples.RowWiseMax.RealCorrect"], cwd=ROOT,
             text=True, capture_output=True, timeout=300)
         if result.returncode:
             raise AssertionError(result.stdout + result.stderr)
@@ -105,7 +105,7 @@ run_cmd do
 
     def test_rowmax_preserves_original_source_and_symbolic_nonempty_rows(self):
         result = self.lean('''
-import bench.examples.RowWiseMax.Correct
+import bench.examples.RowWiseMax.RealCorrect
 import bench.examples.RowWiseMax.FPEquiv
 open VeriTile Triton
 open VeriTile.Bench.Examples

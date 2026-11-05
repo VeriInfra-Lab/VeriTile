@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_matmul.Sources.Mathematical_Kernels
+import bench.tritonbench_g.triton_matmul.Proofs.Sources.Mathematical_Kernels
 import bench.tritonbench_g.triton_matmul.Proofs.Mathematical_FPReference
 
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.SourceScope

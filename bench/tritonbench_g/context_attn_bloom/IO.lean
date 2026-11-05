@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_bloom.Parameters
+import bench.tritonbench_g.context_attn_bloom.Proofs.Support.Parameters
 import bench.tritonbench_g.context_attn_bloom.Proofs.FPReferenceProgram
 import VeriTile.Triton.Float.ObservedProgramIO
 import bench.tritonbench_g.context_attn_bloom.Proofs.HostInterface

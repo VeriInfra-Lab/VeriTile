@@ -1,5 +1,5 @@
 import bench.tritonbench_g.lightning_attention.IO
-import bench.tritonbench_g.lightning_attention.Geometry
+import bench.tritonbench_g.lightning_attention.Proofs.Support.Geometry
 import bench.tritonbench_g.lightning_attention.Proofs.SourceSafetyBounds
 namespace VeriTile.Bench.Repairs.LightningAttention.KernelOnly.IOProof
 open VeriTile Triton FP.Structural

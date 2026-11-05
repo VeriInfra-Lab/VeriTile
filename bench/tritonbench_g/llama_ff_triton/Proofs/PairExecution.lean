@@ -1,4 +1,4 @@
-import bench.tritonbench_g.llama_ff_triton.PairSchedule
+import bench.tritonbench_g.llama_ff_triton.Proofs.Support.PairSchedule
 import bench.tritonbench_g.llama_ff_triton.Proofs.PairSource
 import bench.tritonbench_g.llama_ff_triton.Proofs.IOResults
 

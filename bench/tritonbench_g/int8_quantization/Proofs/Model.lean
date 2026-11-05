@@ -1,5 +1,5 @@
 import bench.tritonbench_g.int8_quantization.Kernels
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.Int8Quantization.Model
 open VeriTile.Triton FP.Structural

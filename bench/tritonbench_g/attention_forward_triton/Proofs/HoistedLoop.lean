@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attention_forward_triton.Proofs.HoistedBody
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
 namespace VeriTile.Bench.Repairs.AttentionForwardTriton.HoistedSource
 open VeriTile Triton FP.Structural FP.ProfiledRewrite Source
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange range_values)

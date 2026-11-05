@@ -1,4 +1,4 @@
-import bench.tritonbench_g.spinning_lock_reduction.Formula
+import bench.tritonbench_g.spinning_lock_reduction.Proofs.Support.Formula
 import bench.tritonbench_g.spinning_lock_reduction.Proofs.KernelStages
 
 /-! Finite logical stage outputs from the existing complete source execution.

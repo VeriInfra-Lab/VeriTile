@@ -1,23 +1,24 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 DIR = ROOT / "bench/tritonbench_g/matmul_dequantize"
 
 class MatmulDequantizeBodyMigrationTests(unittest.TestCase):
     def test_all_three_original_and_candidate_stages(self):
-        rows = check_manifest(ROOT, DIR / "jit-correspondence.json")
+        rows = check_pinned_pairs(ROOT, DIR)
         self.assertEqual([r["statements"] for r in rows], [32,25,19,32,25,19])
         self.assertTrue(all(r["mode"] == "pasted_body" for r in rows))
-        records = json.loads((DIR / "jit-correspondence.json").read_text())
-        self.assertEqual(records[2]["lean"], "bench/tritonbench_g/matmul_dequant_int4/Sources/Body.lean")
+        records = pinned_pairs(DIR)
+        self.assertEqual(records[2]["lean"], "bench/tritonbench_g/matmul_dequant_int4/Kernels.lean")
 
     def test_split_factor_both_write_branches_and_explicit_casts_are_required(self):
-        record = json.loads((DIR / "jit-correspondence.json").read_text())[1]
+        record = pinned_pairs(DIR)[1]
         python = (ROOT / record["python"]).read_text()
         lean = (ROOT / record["lean"]).read_text()
         for before, after in [
@@ -42,8 +43,8 @@ class MatmulDequantizeBodyMigrationTests(unittest.TestCase):
     def test_existing_candidate_contains_only_the_reviewed_scalar_address_changes(self):
         original_path = DIR / "matmul_dequantize.py"
         candidate_path = DIR / "matmul_dequantize_scalar_address.py"
-        original = ast.parse(original_path.read_text())
-        candidate = ast.parse(candidate_path.read_text())
+        original = ast.parse(variant_source(original_path))
+        candidate = ast.parse(variant_source(candidate_path))
         for node in ast.walk(candidate):
             if isinstance(node, ast.FunctionDef) and node.name.endswith("_scalar_address"):
                 node.name = node.name.removesuffix("_scalar_address")
@@ -69,6 +70,6 @@ class MatmulDequantizeBodyMigrationTests(unittest.TestCase):
                                  "k_block_idx * (BLOCK_SIZE_K * stride_fpbk) + n_block_idx * (BLOCK_SIZE_N * stride_fpbn) + tl.arange(0, BLOCK_SIZE_K)[:, None] * stride_fpbk + tl.arange(0, BLOCK_SIZE_N)[None, :] * stride_fpbn")
                 stmt.value = ast.parse("offs_k[:, None] * stride_fpbk + offs_n[None, :] * stride_fpbn", mode="eval").body
         self.assertEqual(ast.dump(original), ast.dump(candidate))
-        provenance = json.loads((DIR / "candidate-provenance.json").read_text())
-        self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance["original_sha256"])
-        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance["candidate_sha256"])
+        provenance = variant_provenance(DIR)
+        self.assertEqual(hashlib.sha256(variant_source(original_path).encode()).hexdigest(), provenance["original_sha256"])
+        self.assertEqual(hashlib.sha256(variant_source(candidate_path).encode()).hexdigest(), provenance["candidate_sha256"])

@@ -1,5 +1,5 @@
 import VeriTile.Triton
-import bench.tritonbench_g.mean_reduction.Sources.Mathematical_Kernels
+import bench.tritonbench_g.mean_reduction.Proofs.Sources.Mathematical_Kernels
 import bench.tritonbench_g.mean_reduction.Proofs.Mathematical_Candidate
 import VeriTile.Examples.Common
 

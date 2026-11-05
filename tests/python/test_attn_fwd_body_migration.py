@@ -1,10 +1,11 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check, check_manifest, check_statement_function
+from scripts.bench.jit_correspondence import check, check_statement_function
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/attn_fwd_triton'
@@ -12,11 +13,11 @@ CASE = ROOT / 'bench/tritonbench_g/attn_fwd_triton'
 
 class AttnFwdBodyMigration(unittest.TestCase):
     def setUp(self):
-        self.rows = json.loads((CASE / 'jit-correspondence.json').read_text())
+        self.rows = pinned_pairs(CASE)
         self.lean = (CASE / 'Kernels.lean').read_text()
 
     def test_complete_helper_and_both_callers(self):
-        result = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        result = check_pinned_pairs(ROOT, CASE)
         self.assertEqual([r['statements'] for r in result], [3, 31, 3, 31])
         self.assertTrue(all(r['status'] == 'PASS' and r['mode'] == 'pasted_body' for r in result))
 
@@ -50,8 +51,8 @@ class AttnFwdBodyMigration(unittest.TestCase):
                       expected_jit_functions=row['expected_jit_functions'])
 
     def test_candidate_changes_only_the_integer_remainder_expression(self):
-        meta = json.loads((CASE / 'candidate-provenance.json').read_text())
-        sources = {k: (CASE / meta[k]).read_text() for k in ['original', 'candidate']}
+        meta = variant_provenance(CASE)
+        sources = {k: variant_source(CASE / meta[k]) for k in ['original', 'candidate']}
         for key, source in sources.items():
             self.assertEqual(hashlib.sha256(source.encode()).hexdigest(), meta[key + '_sha256'])
         trees = {k: ast.parse(s) for k, s in sources.items()}

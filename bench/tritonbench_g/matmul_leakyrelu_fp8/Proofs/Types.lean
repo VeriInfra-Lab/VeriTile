@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_leakyrelu_fp8.Sources.Kernels
+import bench.tritonbench_g.matmul_leakyrelu_fp8.Proofs.Sources.Kernels
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.Mathematical_ScheduleCoverage
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.Mathematical_RealMath
 
