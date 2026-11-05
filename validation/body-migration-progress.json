@@ -4,13 +4,13 @@
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
   "complete": false,
   "target_count": 196,
-  "completed_count": 114,
+  "completed_count": 178,
   "staged_count": 196,
-  "pending_count": 82,
+  "pending_count": 18,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "202_CASES_LOCAL_PUBLIC_PROOFS_PASS",
-    "official_comparator": "117 of 202 current cases have complete verified independent replay coverage.",
+    "official_comparator": "184 of 202 current cases have complete verified independent replay coverage.",
     "working_tree": "All 202 cases pass automatic source correspondence, the retained-module build, and public theorem resolution.",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -3266,75 +3266,94 @@
     "public_theorems_axiom_check": 518,
     "example_proof_regressions": 14,
     "official_replay_runs": [
-      "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039",
+      "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
     ]
   },
   "targets": [
     {
       "path": "bench/tritonbench_g/adam_update_triton",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "superseded_receipt": "validation/body_receipts/adam_update.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-19.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/add_example",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-20.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/add_value",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-21.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/apply_penalty",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-9.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/attention_forward_triton",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "independent_replay": "PASS",
       "previous_receipt": "validation/body_receipts/attention-forward-pair-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41569672639",
-      "previous_validated_source_commit": "f38795ec6be66d0094f751edc580dae3eba0847e"
+      "previous_validated_source_commit": "f38795ec6be66d0094f751edc580dae3eba0847e",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton1",
@@ -3362,16 +3381,19 @@
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton2",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "independent_replay": "PASS",
       "previous_receipt": "validation/body_receipts/attention-forward-pair-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41569672639",
-      "previous_validated_source_commit": "f38795ec6be66d0094f751edc580dae3eba0847e"
+      "previous_validated_source_commit": "f38795ec6be66d0094f751edc580dae3eba0847e",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton3",
@@ -3400,9 +3422,9 @@
       "previous_receipt": "validation/body_receipts/attention-pair-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41456863767",
       "previous_validated_source_commit": "cb06c17f35761298aeb389a884b75a1a2560477f",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/attention_kernel_aligned",
@@ -3451,16 +3473,19 @@
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_causal",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "independent_replay": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/causal-attention-complete-body.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41757051898",
-      "previous_validated_source_commit": "459cf63fc9258c11d8c71e2938dd938737edaa56"
+      "previous_validated_source_commit": "459cf63fc9258c11d8c71e2938dd938737edaa56",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/attn_fwd_triton",
@@ -3503,9 +3528,9 @@
       "previous_receipt": "validation/body_receipts/bgmv-expand-slice-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41392802701",
       "previous_validated_source_commit": "7133f690f6d784611bed690da9407ee60988271e",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
     },
     {
       "path": "bench/tritonbench_g/bgmv_shrink_kernel",
@@ -3566,16 +3591,19 @@
     },
     {
       "path": "bench/tritonbench_g/bmm_optimized",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-5.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/cache_transform_triton",
@@ -3609,16 +3637,19 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_cumsum_kernel",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-0.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/chunk_cumsum_vector",
@@ -3632,9 +3663,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/chunk_delta_fwd",
@@ -3651,9 +3682,9 @@
       "previous_validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
       "public_name_resolution": "PASS",
       "replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/chunk_gate_recurrence",
@@ -3686,19 +3717,22 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_simple",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/gla-delta-simple-pasted-source-replay.json",
       "previously_complete": true,
       "independent_replay": "PASS",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41779223631",
       "previous_validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
       "public_name_resolution": "PASS",
-      "replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928"
+      "replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/chunk_linear_attn",
@@ -3716,57 +3750,69 @@
     },
     {
       "path": "bench/tritonbench_g/chunk_retention",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "public_name_resolution": "PASS",
       "independent_replay": "PASS",
       "replay_source_commit": "8afc2dc66262b2f3c17cf836d1cfad000950325f",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/chunk-retention-pasted-source-replay.json",
-      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41783990583"
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41783990583",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/chunk_retention_ops",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "public_name_resolution": "PASS_ALL_5_NAMES",
       "independent_replay": "PASS",
       "replay_source_commit": "ab485940172d96ff3893a8f70b6b037c3a5eb59e",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/chunk-retention-ops-pasted-source-replay.json",
-      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41785252773"
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41785252773",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
     },
     {
       "path": "bench/tritonbench_g/chunked_cumsum_fwd",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-4.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49"
+      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/context_attn_bloom",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "independent_replay": "PASS",
       "previous_receipt": "validation/body_receipts/context-attn-bloom-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41630457405",
-      "previous_validated_source_commit": "50d2cdf5a97bcb69c0dd0802e01c1c549fb61867"
+      "previous_validated_source_commit": "50d2cdf5a97bcb69c0dd0802e01c1c549fb61867",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/context_attn_fwd",
@@ -3906,42 +3952,51 @@
     },
     {
       "path": "bench/tritonbench_g/dequantize_matmul",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previous_receipt": "validation/body_receipts/full-recovery-shard-6.json",
       "previously_complete": true,
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/destindex_copy",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-8.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/destindex_copy_kv1",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-9.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/destindex_copy_kv2",
@@ -3987,9 +4042,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/embedding_triton_kernel",
@@ -4003,9 +4058,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
     },
     {
       "path": "bench/tritonbench_g/f8_conversion_utils",
@@ -4019,9 +4074,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
     },
     {
       "path": "bench/tritonbench_g/fast_ce_loss",
@@ -4035,9 +4090,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
     },
     {
       "path": "bench/tritonbench_g/fast_layernorm",
@@ -4058,29 +4113,35 @@
     },
     {
       "path": "bench/tritonbench_g/fast_rms_layernorm",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-10.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/fast_rope_embedding",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-15.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/fifth_order_sph_harmonics",
@@ -4130,16 +4191,19 @@
     },
     {
       "path": "bench/tritonbench_g/flash_decode2_phi",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-17.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49"
+      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
     },
     {
       "path": "bench/tritonbench_g/fp4_to_bf16",
@@ -4168,9 +4232,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/fused_layernorm_triton",
@@ -4239,28 +4303,34 @@
     },
     {
       "path": "bench/tritonbench_g/fused_rotary_embedding",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-19.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/fused_rwkv6_kernel",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/rwkv-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41439535277",
-      "previous_validated_source_commit": "835b6ea4934140438f167a149939fac28b06be2a"
+      "previous_validated_source_commit": "835b6ea4934140438f167a149939fac28b06be2a",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/geglu_tanh_triton",
@@ -4329,9 +4399,9 @@
     },
     {
       "path": "bench/tritonbench_g/int8_dequant_matmul",
-      "status": "pending",
-      "complete": false,
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "status": "complete",
+      "complete": true,
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
@@ -4339,13 +4409,16 @@
       "previous_receipt": "validation/body_receipts/signed-accumulator-dependents-group0.json",
       "independent_replay": "PASS",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697137018",
-      "previous_validated_source_commit": "a3ba6474162641f0142b45fb815202065c1bcac5"
+      "previous_validated_source_commit": "a3ba6474162641f0142b45fb815202065c1bcac5",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_kernel",
-      "status": "pending",
-      "complete": false,
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "status": "complete",
+      "complete": true,
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
@@ -4353,7 +4426,10 @@
       "independent_replay": "PASS",
       "previous_receipt": "validation/body_receipts/signed-accumulator-dependents-group1.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697351440",
-      "previous_validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85"
+      "previous_validated_source_commit": "8afcca25a7368de2c304eb2c3617750d771d5c85",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/int8_matmul_quantization",
@@ -4403,16 +4479,19 @@
     },
     {
       "path": "bench/tritonbench_g/isfinite_kernel",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-4.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49"
+      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/iv_dependent_matmul",
@@ -4428,16 +4507,19 @@
     },
     {
       "path": "bench/tritonbench_g/kcache_copy_triton",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-23.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49"
+      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/kldiv_compute",
@@ -4527,14 +4609,17 @@
     },
     {
       "path": "bench/tritonbench_g/kv_cache_filling",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "independent_replay": "PASS",
-      "previous_receipt": "validation/body_receipts/kv-cache-filling-source-migration.json"
+      "previous_receipt": "validation/body_receipts/kv-cache-filling-source-migration.json",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/l2_norm_bwd",
@@ -4555,44 +4640,53 @@
     },
     {
       "path": "bench/tritonbench_g/l2_norm_triton1",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "superseded_receipt": "validation/body_receipts/stage9-shard4.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-3.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/l2_norm_triton2",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "superseded_receipt": "validation/body_receipts/stage9-shard2.json",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-4.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49"
+      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/layer_norm_fwd",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "independent_replay": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/layer-norm-fwd-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41640711003",
-      "previous_validated_source_commit": "643fc11c662e5f2a453f843eb5faef8d602151df"
+      "previous_validated_source_commit": "643fc11c662e5f2a453f843eb5faef8d602151df",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/layer_norm_liger",
@@ -4612,16 +4706,19 @@
     },
     {
       "path": "bench/tritonbench_g/layer_norm_ops",
-      "status": "pending",
-      "complete": false,
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "status": "complete",
+      "complete": true,
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "independent_replay": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previous_receipt": "validation/body_receipts/layer-norm-dependent-group0-current-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41641001101",
       "previous_validated_source_commit": "141e61a1cb00ef0b8fdee1e0fd4a1fa083c9cb44",
-      "body_copy_check": "PASS"
+      "body_copy_check": "PASS",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/layer_norm_triton",
@@ -4680,32 +4777,38 @@
     },
     {
       "path": "bench/tritonbench_g/lightning_attention",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "public_name_resolution": "PASS_ALL_4_NAMES",
       "independent_replay": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "prepared_trust_spec_audits": "PASS_ALL_3",
       "replay_source_commit": "268c5eadc3a32545a3e1b1ac5a5432316fcdfd7a",
       "previous_receipt": "validation/body_receipts/lightning-attention-pasted-source-replay.json",
-      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41788176749"
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41788176749",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
     },
     {
       "path": "bench/tritonbench_g/llama_ff_triton",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "independent_replay": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/signed-accumulator-dependents-group2.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697483077",
-      "previous_validated_source_commit": "626a2f539ab83c00567151ff78f6906ad5f01bad"
+      "previous_validated_source_commit": "626a2f539ab83c00567151ff78f6906ad5f01bad",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/log_softmax",
@@ -4743,28 +4846,34 @@
     },
     {
       "path": "bench/tritonbench_g/lora_expand_gemv",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/lora-expand-gemv-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41400644516",
-      "previous_validated_source_commit": "e6f47bf8be995dfd3413d173a1cdc39a089face7"
+      "previous_validated_source_commit": "e6f47bf8be995dfd3413d173a1cdc39a089face7",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/masked_add_cuda",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-8.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/masked_select",
@@ -4882,30 +4991,36 @@
     },
     {
       "path": "bench/tritonbench_g/matmul_persistent_triton",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/signed-accumulator-dependents-group0.json",
       "independent_replay": "PASS",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41697137018",
-      "previous_validated_source_commit": "a3ba6474162641f0142b45fb815202065c1bcac5"
+      "previous_validated_source_commit": "a3ba6474162641f0142b45fb815202065c1bcac5",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/matmul_tma",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-11.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/matmul_triton_autotune",
@@ -4935,9 +5050,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/matrix_transpose",
@@ -4967,9 +5082,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
     },
     {
       "path": "bench/tritonbench_g/mean_reduction",
@@ -4989,18 +5104,21 @@
     },
     {
       "path": "bench/tritonbench_g/mixed_sparse_attention",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "public_name_resolution": "PASS_BOTH_NAMES",
       "independent_replay": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "prepared_trust_spec_audits": "PASS_ALL_4",
       "replay_source_commit": "ebef36340004514b120c0af1b44e6f4de0399034",
       "previous_receipt": "validation/body_receipts/mixed-sparse-pasted-source-replay.json",
-      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41791892948"
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41791892948",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
     },
     {
       "path": "bench/tritonbench_g/mul_exponent_compensator",
@@ -5017,16 +5135,19 @@
     },
     {
       "path": "bench/tritonbench_g/multinomial_sampling",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-2.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/nested_loops_processing",
@@ -5065,29 +5186,35 @@
     },
     {
       "path": "bench/tritonbench_g/parallel_retention_attention",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "independent_replay": "ACCEPTED_EXACT_CURRENT_SOURCE",
       "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
       "replay_source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1",
       "previous_receipt": "validation/body_receipts/parallel-retention-attention-pasted-source-replay.json",
-      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41822218926"
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41822218926",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/pow_scalar_tensor",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/power-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41512420329",
-      "previous_validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c"
+      "previous_validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/quant_transpose_kernel",
@@ -5101,9 +5228,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/quantize_copy_kv",
@@ -5117,9 +5244,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/quantize_global",
@@ -5183,15 +5310,18 @@
     },
     {
       "path": "bench/tritonbench_g/relu_strided_buffer",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/relu-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41433584488",
-      "previous_validated_source_commit": "3285fb9088b0f7e1c963650484eaa1f87286ef3c"
+      "previous_validated_source_commit": "3285fb9088b0f7e1c963650484eaa1f87286ef3c",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/relu_triton_kernel",
@@ -5284,10 +5414,10 @@
     },
     {
       "path": "bench/tritonbench_g/rms_rbe_matmul",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_acceptance": {
         "status": "complete",
         "complete": true,
@@ -5302,59 +5432,74 @@
         "reason": "Every frozen owned/shared proof and regression root was independently accepted. Final official ZIP SHA256, exact 437-file source/import closure, all six copied JIT pairs and all three actual public theorem targets match current source. Compilation alone was not completion."
       },
       "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS"
+      "retained_modules_build": "PASS",
+      "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_fused",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-6.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_fused_llama",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-7.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_implementation",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-8.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_triton",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-9.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/rope_backward_transform",
@@ -5384,9 +5529,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/rope_transform",
@@ -5400,9 +5545,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
     },
     {
       "path": "bench/tritonbench_g/rotary_emb",
@@ -5417,9 +5562,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
     },
     {
       "path": "bench/tritonbench_g/rotary_emb_nopad",
@@ -5433,9 +5578,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
     },
     {
       "path": "bench/tritonbench_g/rotary_transform",
@@ -5455,16 +5600,19 @@
     },
     {
       "path": "bench/tritonbench_g/rotary_transform_ops",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "independent_replay": "PASS",
       "previous_receipt": "validation/body_receipts/rotary-pair-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41581701325",
-      "previous_validated_source_commit": "58f446fc2591e2e94276e811fbcede034d40914e"
+      "previous_validated_source_commit": "58f446fc2591e2e94276e811fbcede034d40914e",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/rowwise_quantization_triton",
@@ -5484,28 +5632,34 @@
     },
     {
       "path": "bench/tritonbench_g/seeded_dropout",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-8.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/sgmv_expand_slice",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/sgmv-expand-slice-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41397214261",
-      "previous_validated_source_commit": "be24d87a49acb49b299cc50557b7cbad9c518bd2"
+      "previous_validated_source_commit": "be24d87a49acb49b299cc50557b7cbad9c518bd2",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/sin_computation",
@@ -5525,16 +5679,19 @@
     },
     {
       "path": "bench/tritonbench_g/sin_kernel",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-16.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
     },
     {
       "path": "bench/tritonbench_g/softmax_flaggems",
@@ -5562,9 +5719,9 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/softmax_reducev",
@@ -5645,16 +5802,19 @@
     },
     {
       "path": "bench/tritonbench_g/square_matrix",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-20.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/streamk_matmul",
@@ -5738,55 +5898,67 @@
     },
     {
       "path": "bench/tritonbench_g/token_attn_mistral",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-13.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/token_attn_reduceV",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-11.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/token_softmax_bloom",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-23.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49"
+      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/token_softmax_llama",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-0.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/triton_argmax",
@@ -5806,17 +5978,20 @@
     },
     {
       "path": "bench/tritonbench_g/triton_attention",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "note": "Six exact copied original/candidate forward/preprocess/backward JIT bodies retain names, casts, runtime scalars, pointer advances, masks and the checked compile-time static assertion. Complete causal attention and Q/K/V VJP, typed three-stage execution, native scalar ABI, source safety, initialized-DQ domain, output binding, exterior frame and existing whole-program fixed-128 FP candidate equivalence are accepted for the exact current source.",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "independent_proof_replay": "PASS_136_OF_136_FROZEN_ROOTS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/triton-attention-pasted-source-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
-      "previous_validated_source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa"
+      "previous_validated_source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/triton_conv2d_fwd",
@@ -5835,16 +6010,19 @@
     },
     {
       "path": "bench/tritonbench_g/triton_linear_activation",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "independent_replay": "PASS",
       "previous_receipt": "validation/body_receipts/linear-activation-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41604207975",
-      "previous_validated_source_commit": "0556c435ebac1470f8eaa7463b3a800eacfd113f"
+      "previous_validated_source_commit": "0556c435ebac1470f8eaa7463b3a800eacfd113f",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
     },
     {
       "path": "bench/tritonbench_g/triton_mul2",
@@ -5905,29 +6083,35 @@
     },
     {
       "path": "bench/tritonbench_g/var_len_copy",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-4.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49"
+      "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/tritonbench_g/vector_addition",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-5.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/tritonbench_g/vector_addition_custom",
@@ -6038,22 +6222,25 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
-      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
     },
     {
       "path": "bench/examples/FusedSwiglu",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-6.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/examples/HyperConnectionsDepth",
@@ -6073,16 +6260,19 @@
     },
     {
       "path": "bench/examples/HyperConnectionsWidth",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-8.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/examples/LogExp",
@@ -6150,29 +6340,35 @@
     },
     {
       "path": "bench/examples/SoftmaxReciprocal",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-13.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/examples/SoftmaxStable",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "previously_complete": true,
       "previous_receipt": "validation/body_receipts/full-recovery-shard-14.json",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41402754742",
-      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325"
+      "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
+      "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
     },
     {
       "path": "bench/examples/StableLogSumExp",
