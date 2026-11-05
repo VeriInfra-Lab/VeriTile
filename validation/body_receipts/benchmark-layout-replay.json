@@ -1,0 +1,1883 @@
+{
+  "schema": 1,
+  "scope": "standardized_benchmark_layout",
+  "accepted": false,
+  "source_fingerprint_sha256": "a7da690dd9fc491f333e36afb25967f30b6af6e60c42346c85165115d6126398",
+  "replay_sources": 7762,
+  "replay_sources_sha256": "631e1968f52bee15077630bf25d45d7b4a148dc5cc89a1f639ce693381949e77",
+  "artifacts": [
+    {
+      "run": 41984475439,
+      "shard": 5,
+      "count": 24,
+      "artifact_id": 13417961680,
+      "cases": 9,
+      "accepted": 2,
+      "proofs_completed": 338,
+      "proofs_required": 661,
+      "complete": false
+    },
+    {
+      "run": 41984475439,
+      "shard": 0,
+      "count": 24,
+      "artifact_id": 13417226445,
+      "cases": 9,
+      "accepted": 7,
+      "proofs_completed": 499,
+      "proofs_required": 645,
+      "complete": false
+    },
+    {
+      "run": 41984475439,
+      "shard": 10,
+      "count": 24,
+      "artifact_id": 13416988023,
+      "cases": 8,
+      "accepted": 7,
+      "proofs_completed": 528,
+      "proofs_required": 642,
+      "complete": false
+    },
+    {
+      "run": 41984475439,
+      "shard": 18,
+      "count": 24,
+      "artifact_id": 13416952704,
+      "cases": 8,
+      "accepted": 8,
+      "proofs_completed": 550,
+      "proofs_required": 550,
+      "complete": true
+    },
+    {
+      "run": 41984475439,
+      "shard": 9,
+      "count": 24,
+      "artifact_id": 13416554543,
+      "cases": 9,
+      "accepted": 7,
+      "proofs_completed": 453,
+      "proofs_required": 695,
+      "complete": false
+    },
+    {
+      "run": 41984475439,
+      "shard": 15,
+      "count": 24,
+      "artifact_id": 13411091548,
+      "cases": 8,
+      "accepted": 8,
+      "proofs_completed": 456,
+      "proofs_required": 456,
+      "complete": true
+    }
+  ],
+  "cases": [
+    {
+      "accepted": true,
+      "path": "bench/examples/AdamUpdateGridLaunch",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 0,
+        "count": 24
+      },
+      "artifact_id": 13417226445,
+      "artifact_sha256": "sha256:14c1a2bbc0d5f5acf75dcfa9ce0c6b5590b304e1f22a8857f415aeeb27404205",
+      "source_files": 179,
+      "source_closure_sha256": "3429b841b248b4f0807ff908fa7553fd641dad5e8f34dbecc4879cea088b13ec",
+      "source_pairs_sha256": "2b960027f0a4a4399264cc7bf5281a6354651362c56e84ae53337064419eafd3",
+      "public_theorems": {
+        "bench/examples/AdamUpdateGridLaunch/RealCorrect.lean": [
+          "VeriTile.Bench.Examples.AdamUpdateGridLaunch.adam_update_correctness",
+          "VeriTile.Bench.Examples.AdamUpdateGridLaunch.adam_update_optimized_correctness"
+        ],
+        "bench/examples/AdamUpdateGridLaunch/FPEquiv.lean": [
+          "VeriTile.Bench.Examples.AdamUpdateGridLaunchFPEquiv.adam_update_equiv"
+        ]
+      },
+      "required_replay_sources": 297,
+      "required_replay_sources_sha256": "1b5cf6949b42cfb563bccdaadb9603ae84e19a824b0a535853222a11a62be3cd"
+    },
+    {
+      "accepted": true,
+      "path": "bench/examples/FusedSiLU",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 5,
+        "count": 24
+      },
+      "artifact_id": 13417961680,
+      "artifact_sha256": "sha256:d8a0f63dfa19646d45e8cf0a8f3585cd751b98f5b5e5ab5ed039589946e893d0",
+      "source_files": 197,
+      "source_closure_sha256": "a59a3d9b099b67ac2f3d23ead817c9e177c52070f4e56c27e9de1e3c122dafda",
+      "source_pairs_sha256": "03ceb96eae896b18377985edbedcb4dd7767f7220d0cb75e4ffe8d93d7d813eb",
+      "public_theorems": {
+        "bench/examples/FusedSiLU/RealCorrect.lean": [
+          "VeriTile.Bench.Examples.FusedSiLUCorrect.fused_silu_correct",
+          "VeriTile.Bench.Examples.FusedSiLUCorrect.unfused_silu_correct"
+        ],
+        "bench/examples/FusedSiLU/FPEquiv.lean": [
+          "VeriTile.Bench.Examples.FusedSiLUFPEquiv.silu_equiv"
+        ]
+      },
+      "required_replay_sources": 298,
+      "required_replay_sources_sha256": "39d74522c5dbebb0255dc87b5137f790b1060f1339e846a86b0231c1bd840b06"
+    },
+    {
+      "accepted": true,
+      "path": "bench/examples/LogExp",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 9,
+        "count": 24
+      },
+      "artifact_id": 13416554543,
+      "artifact_sha256": "sha256:2334f491154d36f6d527693d64d2df5bf99537718495ac5c0102844a7967c361",
+      "source_files": 136,
+      "source_closure_sha256": "7852fa5bfef5d6f226f5cc86c19b03b6b83ce29db0efacc1f87d4107a93e9028",
+      "source_pairs_sha256": "f0e5b0a85862a1dc72dab4d5079256491b8f95e306c2f696b7b3f8488c822969",
+      "public_theorems": {
+        "bench/examples/LogExp/RealCorrect.lean": [
+          "VeriTile.Bench.Examples.LogExp.Correct.original_correct",
+          "VeriTile.Bench.Examples.LogExp.Correct.optimized_correct"
+        ],
+        "bench/examples/LogExp/FPEquiv.lean": [
+          "VeriTile.Bench.Examples.LogExp.FPEquiv.log_exp_equiv"
+        ]
+      },
+      "required_replay_sources": 296,
+      "required_replay_sources_sha256": "358e95ed64f57d38c0c3460ac27ab32db35e7d6401388c7008a03f29e1232403"
+    },
+    {
+      "accepted": true,
+      "path": "bench/examples/OnlineSoftmax",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 10,
+        "count": 24
+      },
+      "artifact_id": 13416988023,
+      "artifact_sha256": "sha256:173f2cc76c3e58bab80f94432e4f4ef563d42e608c6169ad22845498b1907cad",
+      "source_files": 200,
+      "source_closure_sha256": "e80ee1271dc7800761e2203135c6cf9964c09a247da08f05c99c8195b9729410",
+      "source_pairs_sha256": "6967df741a5109cca3f3128d6ef05dc12d6a1b0274e2463ed95fb8ce7ca77e29",
+      "public_theorems": {
+        "bench/examples/OnlineSoftmax/RealCorrect.lean": [
+          "VeriTile.Bench.Examples.OnlineSoftmax.online_softmax_output_correctness",
+          "VeriTile.Bench.Examples.OnlineSoftmax.online_softmax_correctness",
+          "VeriTile.Bench.Examples.OnlineSoftmax.online_softmax_flat_correctness"
+        ],
+        "bench/examples/OnlineSoftmax/FPEquiv.lean": [
+          "VeriTile.Bench.Examples.OnlineSoftmaxFPEquiv.online_softmax_equiv"
+        ]
+      },
+      "required_replay_sources": 299,
+      "required_replay_sources_sha256": "8dda68cbf08e700cbc8e053d96d98c317f48ad3ea9f27285aec3e9fd21e2ef79"
+    },
+    {
+      "accepted": true,
+      "path": "bench/examples/StableLogSumExp",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 15,
+        "count": 24
+      },
+      "artifact_id": 13411091548,
+      "artifact_sha256": "sha256:20219a1edecd2c007616b6e35f41bb8e44ec8a0da7584cdebfa28d476329e8c8",
+      "source_files": 218,
+      "source_closure_sha256": "348ba0b5cf0c1358c2370dd94896adf3dea72d43faafa1f64a55bbd80bee5775",
+      "source_pairs_sha256": "045514bcbb3754488a4088831178c1ec0c0f43cf25e525097fa427440534877e",
+      "public_theorems": {
+        "bench/examples/StableLogSumExp/RealCorrect.lean": [
+          "VeriTile.Bench.Examples.StableLogSumExpCorrect.direct_logsumexp_correct",
+          "VeriTile.Bench.Examples.StableLogSumExpCorrect.optimized_logsumexp_correct"
+        ],
+        "bench/examples/StableLogSumExp/FPEquiv.lean": [
+          "VeriTile.Bench.Examples.StableLogSumExpFPEquiv.logsumexp_equiv"
+        ]
+      },
+      "required_replay_sources": 297,
+      "required_replay_sources_sha256": "d272a620e15c34af6a4cbe80f48d12444a9ccdb1151c2d9f669bbc3e60562246"
+    },
+    {
+      "accepted": true,
+      "path": "bench/examples/Welford",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 18,
+        "count": 24
+      },
+      "artifact_id": 13416952704,
+      "artifact_sha256": "sha256:24987a3892df1313221e09c0a59459b1fc0f082a4f1fa99cda45981f0a03dc7a",
+      "source_files": 209,
+      "source_closure_sha256": "1d13b8a7c0d77073ece06ad15a1e2ac1022d9362c48a4f87d77b7ce1a32ffcff",
+      "source_pairs_sha256": "47be18840c30e3dad44cad05e156d682366443a16dd75b16a09115f71cd5f7cf",
+      "public_theorems": {
+        "bench/examples/Welford/RealCorrect.lean": [
+          "VeriTile.Bench.Examples.WelfordCorrect.twopass_welford_correct",
+          "VeriTile.Bench.Examples.WelfordCorrect.online_welford_correct"
+        ],
+        "bench/examples/Welford/FPEquiv.lean": [
+          "VeriTile.Bench.Examples.WelfordFPEquiv.welford_equiv"
+        ]
+      },
+      "required_replay_sources": 298,
+      "required_replay_sources_sha256": "ac82a986e2a10af46753e6b7e2a1ee34184e631da1c0a49f713d18a515f09c34"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/attention_kernel",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 0,
+        "count": 24
+      },
+      "artifact_id": 13417226445,
+      "artifact_sha256": "sha256:14c1a2bbc0d5f5acf75dcfa9ce0c6b5590b304e1f22a8857f415aeeb27404205",
+      "source_files": 255,
+      "source_closure_sha256": "cf0f0b9b6e3f74d94bdb32e63fa251829ab8cadf7ec9b1b796a91b7e8890794f",
+      "source_pairs_sha256": "c30ebffbc3fb9c20afd1cb9f435800fba8ae267f19f68592206ff7992d16e774",
+      "public_theorems": {
+        "bench/tritonbench_g/attention_kernel/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.AttentionKernel.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/attention_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttentionKernel.FPEquiv.query_early_equiv"
+        ]
+      },
+      "required_replay_sources": 343,
+      "required_replay_sources_sha256": "5dbcba1773ab2d61696ac193e6cab0984fd8d9d6a40038499eaa252a153bda66"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/bmm_chunk_bwd",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 5,
+        "count": 24
+      },
+      "artifact_id": 13417961680,
+      "artifact_sha256": "sha256:d8a0f63dfa19646d45e8cf0a8f3585cd751b98f5b5e5ab5ed039589946e893d0",
+      "source_files": 246,
+      "source_closure_sha256": "6ebf9dd6c318026372fe00908eff7efc7c5c858dcbef4d9948f5461028778664",
+      "source_pairs_sha256": "152a34341e448241dd96c98e3a5ec6163d16917c74bc7d492f6d7eb24bc623dc",
+      "public_theorems": {
+        "bench/tritonbench_g/bmm_chunk_bwd/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.BmmChunkBwd.Correct.bmm_chunk_bwd_real"
+        ],
+        "bench/tritonbench_g/bmm_chunk_bwd/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.BmmChunkBwd.FPEquiv.bmm_chunk_bwd_equiv"
+        ]
+      },
+      "required_replay_sources": 331,
+      "required_replay_sources_sha256": "c4691f86946dce96352b83f80a8db656fbb83a29eaa0561b989e35d925548c4e"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/chunk_cumsum_vector",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 9,
+        "count": 24
+      },
+      "artifact_id": 13416554543,
+      "artifact_sha256": "sha256:2334f491154d36f6d527693d64d2df5bf99537718495ac5c0102844a7967c361",
+      "source_files": 245,
+      "source_closure_sha256": "61371c322fb32a014b14226de674ecd5bfe301c0a7ada722885f45f5f9c5777f",
+      "source_pairs_sha256": "ca434d71bce8d2e841f60882ae1eebabd99bea98393cfa96e62589c7490101a4",
+      "public_theorems": {
+        "bench/tritonbench_g/chunk_cumsum_vector/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ChunkCumsumVector.Correct.memory_correct"
+        ],
+        "bench/tritonbench_g/chunk_cumsum_vector/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ChunkCumsumVector.FPEquiv.memory_equiv"
+        ]
+      },
+      "required_replay_sources": 312,
+      "required_replay_sources_sha256": "18cf07767c8213d83a3a57baa4c61a7feb17a0d6a0535cf5da5d7741d02e64bd"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/chunk_delta_fwd",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 10,
+        "count": 24
+      },
+      "artifact_id": 13416988023,
+      "artifact_sha256": "sha256:173f2cc76c3e58bab80f94432e4f4ef563d42e608c6169ad22845498b1907cad",
+      "source_files": 403,
+      "source_closure_sha256": "24143f62c8bc917beef5bdd318ceb4e6dfd1331def827102594dda0368720806",
+      "source_pairs_sha256": "10a7d8344c773ca7c30c38a9d59b4ca642f13596ae20d279edec307f2015439c",
+      "public_theorems": {
+        "bench/tritonbench_g/chunk_delta_fwd/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.Correct.chunk_delta_kernel_correct"
+        ],
+        "bench/tritonbench_g/chunk_delta_fwd/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.FPEquiv.chunk_delta_addressFold_equiv"
+        ]
+      },
+      "required_replay_sources": 343,
+      "required_replay_sources_sha256": "e2d5e21815f3b94a4523c671d41255dcc9e556d20beb390ca5f04a1ac74ce197"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/cosine_compute",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 15,
+        "count": 24
+      },
+      "artifact_id": 13411091548,
+      "artifact_sha256": "sha256:20219a1edecd2c007616b6e35f41bb8e44ec8a0da7584cdebfa28d476329e8c8",
+      "source_files": 205,
+      "source_closure_sha256": "3e3f7d593db886eee3091c9012ccd412761b4ec67b4e1580862df872e8200a81",
+      "source_pairs_sha256": "69c5844fb756e8099dc7ef131aa3ac7ae57962a9181c364bc8f9f3a8f8bec97f",
+      "public_theorems": {
+        "bench/tritonbench_g/cosine_compute/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.CosineCompute.Correct.cosine_kernel_correctness"
+        ],
+        "bench/tritonbench_g/cosine_compute/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.CosineCompute.FPEquiv.index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 294,
+      "required_replay_sources_sha256": "0d9f679697d18d1a57c4d21446f5bd8fa87d7a61242415ba1c47fefa2f6c6fcb"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/cross_entropy_ops",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 18,
+        "count": 24
+      },
+      "artifact_id": 13416952704,
+      "artifact_sha256": "sha256:24987a3892df1313221e09c0a59459b1fc0f082a4f1fa99cda45981f0a03dc7a",
+      "source_files": 165,
+      "source_closure_sha256": "e3464b3972de8e6de44fe4db1a05f6eef02ddece4431690ad3dda4e640b2e322",
+      "source_pairs_sha256": "ffa4076645d157fc76d8760d31a5ea0a6f419b913eb4703ad9e9bb42c4dcade3",
+      "public_theorems": {
+        "bench/tritonbench_g/cross_entropy_ops/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.forward_unsplit",
+          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.forward_split",
+          "VeriTile.Bench.Repairs.CrossEntropyOps.Correct.backward"
+        ],
+        "bench/tritonbench_g/cross_entropy_ops/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.CrossEntropyOps.FPEquiv.forward_index_commuted_equiv",
+          "VeriTile.Bench.Repairs.CrossEntropyOps.FPEquiv.backward_index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 318,
+      "required_replay_sources_sha256": "a99dab07431b7cc232a402717473623f2c9d8048b0bbe5c6dc14f058c7031bfa"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/dropout_triton",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 0,
+        "count": 24
+      },
+      "artifact_id": 13417226445,
+      "artifact_sha256": "sha256:14c1a2bbc0d5f5acf75dcfa9ce0c6b5590b304e1f22a8857f415aeeb27404205",
+      "source_files": 211,
+      "source_closure_sha256": "e4c106574a760400a4a7818ef2c6b488ad5ce4da8f75e0ea116c25ee677e9efe",
+      "source_pairs_sha256": "bb5a1f17328a1bbb738a2bd6a247e99171ba595d706dc286fa5be966d0e4f88c",
+      "public_theorems": {
+        "bench/tritonbench_g/dropout_triton/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.DropoutTriton.Correct.dropout_kernel_correctness"
+        ],
+        "bench/tritonbench_g/dropout_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.DropoutTriton.FPEquiv.dropout_index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 298,
+      "required_replay_sources_sha256": "4e4f9b79130185a2c33569cd7d45788455d9d755c44e015a6fa196a779bbb762"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/fifth_order_sph_harmonics",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 18,
+        "count": 24
+      },
+      "artifact_id": 13416952704,
+      "artifact_sha256": "sha256:24987a3892df1313221e09c0a59459b1fc0f082a4f1fa99cda45981f0a03dc7a",
+      "source_files": 221,
+      "source_closure_sha256": "ae40222803f51834e4695b90ef0a7352ca62639059030ad29ef7397ef11aa79c",
+      "source_pairs_sha256": "0eb4d6a6728d96af3f8773fb2b25a241844525e15e6a17f0902db6a4bb5f3536",
+      "public_theorems": {
+        "bench/tritonbench_g/fifth_order_sph_harmonics/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.forward",
+          "VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Correct.backward"
+        ],
+        "bench/tritonbench_g/fifth_order_sph_harmonics/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FifthOrderSphHarmonics.FPEquiv.kernel_equivalent"
+        ]
+      },
+      "required_replay_sources": 336,
+      "required_replay_sources_sha256": "9f56ff1d5532678fd294c10f5c63542e20cfa09d3e06e166916ef08d69e59afa"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/fp4_to_bf16",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 10,
+        "count": 24
+      },
+      "artifact_id": 13416988023,
+      "artifact_sha256": "sha256:173f2cc76c3e58bab80f94432e4f4ef563d42e608c6169ad22845498b1907cad",
+      "source_files": 207,
+      "source_closure_sha256": "b71d6260efd5e37710e7cb6326157246dad5ff192d1590b796ac0bd74bea630f",
+      "source_pairs_sha256": "ace52fb3ed75e9d73f1f155daaf81fd361d9478a8ca8e4022a659af8cf02d674",
+      "public_theorems": {
+        "bench/tritonbench_g/fp4_to_bf16/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.Fp4ToBf16.Correct.fp4_to_bf16_real"
+        ],
+        "bench/tritonbench_g/fp4_to_bf16/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Fp4ToBf16.FPEquiv.fp4_to_bf16_schedule_equiv"
+        ]
+      },
+      "required_replay_sources": 322,
+      "required_replay_sources_sha256": "524610f190ffe753c02786c1bc0f09970087a1992d48166a3414029191623001"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/fused_activation",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 9,
+        "count": 24
+      },
+      "artifact_id": 13416554543,
+      "artifact_sha256": "sha256:2334f491154d36f6d527693d64d2df5bf99537718495ac5c0102844a7967c361",
+      "source_files": 221,
+      "source_closure_sha256": "fc3b9e780688a2ff9ceaa824d02fe4c0bd4f16bd204b4e49c743f478a3e72fba",
+      "source_pairs_sha256": "89a2abae78c31ac78e94515054c1d0d47612a4c325aaf409aa7ef023a06d4a29",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_activation/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.FusedActivation.Correct.fused_activation_kernel_correctness"
+        ],
+        "bench/tritonbench_g/fused_activation/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedActivation.FPEquiv.fused_activation_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 293,
+      "required_replay_sources_sha256": "49cfa8ff0a19a44bb185752b644d645e395ea9ca1061cc8e823c0cdd10a7787f"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/fused_layernorm_triton",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 10,
+        "count": 24
+      },
+      "artifact_id": 13416988023,
+      "artifact_sha256": "sha256:173f2cc76c3e58bab80f94432e4f4ef563d42e608c6169ad22845498b1907cad",
+      "source_files": 215,
+      "source_closure_sha256": "c53ccbc3032ba1b163900e977ec6b7552bc7edd7f6626e7342e6e013b3a046d1",
+      "source_pairs_sha256": "c1aea3f178bf81e4417577c22b8f13f9c5a827abc150568e55ca208b9b7f956f",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_layernorm_triton/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.Correctness.kernel_real"
+        ],
+        "bench/tritonbench_g/fused_layernorm_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedLayernormTriton.whole_fp"
+        ]
+      },
+      "required_replay_sources": 330,
+      "required_replay_sources_sha256": "5e8deb7f8adf8d66edc61644fe13aeb5f7766f52255a3909eb1d7cf6aa6c1fca"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/geglu_tanh_triton",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 15,
+        "count": 24
+      },
+      "artifact_id": 13411091548,
+      "artifact_sha256": "sha256:20219a1edecd2c007616b6e35f41bb8e44ec8a0da7584cdebfa28d476329e8c8",
+      "source_files": 243,
+      "source_closure_sha256": "cb3f7fd3334322b736f4e379855d7e902d9f28e99e07dcff79a8aa2b74e1791e",
+      "source_pairs_sha256": "8eb045f7dcb5595bd9986ab1e364842d5c3a4de63ae7f2b9ad34743cf1f7bbaa",
+      "public_theorems": {
+        "bench/tritonbench_g/geglu_tanh_triton/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.GegluTanhTriton.geglu_kernel_correctness"
+        ],
+        "bench/tritonbench_g/geglu_tanh_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.GegluTanhTriton.geglu_index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 295,
+      "required_replay_sources_sha256": "543f06282909b15c413a80c86532ae857298ae605a55a9a018a6c11a4007fa58"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/int4_matmul",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 18,
+        "count": 24
+      },
+      "artifact_id": 13416952704,
+      "artifact_sha256": "sha256:24987a3892df1313221e09c0a59459b1fc0f082a4f1fa99cda45981f0a03dc7a",
+      "source_files": 276,
+      "source_closure_sha256": "5c87c67b9aad09ec9989780beae2e4e2658ccd422e8353f1cfcf60ba5bbb93a3",
+      "source_pairs_sha256": "01c79360ce86d089bc7bdaf077e50a2ea245bc64e6f3ff65d3086fe54bc9747e",
+      "public_theorems": {
+        "bench/tritonbench_g/int4_matmul/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.Int4Matmul.Correct.matmul_grid_real"
+        ],
+        "bench/tritonbench_g/int4_matmul/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Int4Matmul.FPEquiv.fold_stride_equiv"
+        ]
+      },
+      "required_replay_sources": 344,
+      "required_replay_sources_sha256": "62ad844ba7cf0038ab211f3bea718b9431aa4321a5f1094bf08c59a93bef3ef8"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/int8_quantization",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 18,
+        "count": 24
+      },
+      "artifact_id": 13416952704,
+      "artifact_sha256": "sha256:24987a3892df1313221e09c0a59459b1fc0f082a4f1fa99cda45981f0a03dc7a",
+      "source_files": 238,
+      "source_closure_sha256": "8b3d7563071b4c394048f4dd4dc000d0538647291f02c2183047330e8670828a",
+      "source_pairs_sha256": "fa45747710d5c566ba084464ad5c9e25a5601419c64c7f8a8cbd98bfa4aa71a1",
+      "public_theorems": {
+        "bench/tritonbench_g/int8_quantization/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.Int8Quantization.Specification.per_block_int8_real"
+        ],
+        "bench/tritonbench_g/int8_quantization/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Int8Quantization.FPEquiv.bias_fold_equiv"
+        ]
+      },
+      "required_replay_sources": 325,
+      "required_replay_sources_sha256": "d2c2adddb26581f421acca6cfc31b18ee7e32897e5df0dac65ac18da5ce04c8b"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/kldiv_ops",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 0,
+        "count": 24
+      },
+      "artifact_id": 13417226445,
+      "artifact_sha256": "sha256:14c1a2bbc0d5f5acf75dcfa9ce0c6b5590b304e1f22a8857f415aeeb27404205",
+      "source_files": 347,
+      "source_closure_sha256": "00be96e717572673bcecf873c60640016523f8a374811ddf1fcdbcfad720661d",
+      "source_pairs_sha256": "8c3510b592b6c231b5a39978b8465227dbc08c8db0420d305d8ae16d3381a12a",
+      "public_theorems": {
+        "bench/tritonbench_g/kldiv_ops/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.Correct.forward",
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.Correct.backward"
+        ],
+        "bench/tritonbench_g/kldiv_ops/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.forward_pair",
+          "VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.backward_pair"
+        ]
+      },
+      "required_replay_sources": 340,
+      "required_replay_sources_sha256": "e7ee1911dbba951ad0c568cfd2b955bba4e80b119e3da0939acae95b37bbce99"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/layer_norm_welfold",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 9,
+        "count": 24
+      },
+      "artifact_id": 13416554543,
+      "artifact_sha256": "sha256:2334f491154d36f6d527693d64d2df5bf99537718495ac5c0102844a7967c361",
+      "source_files": 233,
+      "source_closure_sha256": "d179dde3fe8d0a31474fe0c8668fb7364123f0eb9c5b85865afa21de7a093566",
+      "source_pairs_sha256": "52f5d3bc0d17164a09c5936dfbd1cf4c7abd1b7c2c798f6c51f01071a1a9efe8",
+      "public_theorems": {
+        "bench/tritonbench_g/layer_norm_welfold/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.LayerNormWelfold.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/layer_norm_welfold/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.row_offset_reused_equiv"
+        ]
+      },
+      "required_replay_sources": 331,
+      "required_replay_sources_sha256": "35f6050214a81f37d529bc2bb32891556c14dd61cd8cc0e5b4ebf1c02fa028f5"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/layernorm_fwd_triton",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 10,
+        "count": 24
+      },
+      "artifact_id": 13416988023,
+      "artifact_sha256": "sha256:173f2cc76c3e58bab80f94432e4f4ef563d42e608c6169ad22845498b1907cad",
+      "source_files": 272,
+      "source_closure_sha256": "cd264bb5f935ebf60ec7c7daf08d056fa8f9943f2d551d2cd1c27fe3d653fe1f",
+      "source_pairs_sha256": "c67ffef4502f26d8f3db93ba3b6bb5b41496739ff1e3791a33c8c0fabb39fde4",
+      "public_theorems": {
+        "bench/tritonbench_g/layernorm_fwd_triton/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.LayernormFwdTriton.Correctness.layernorm_fwd_triton_kernel_real"
+        ],
+        "bench/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LayernormFwdTriton.FPEquiv.source_equivalence"
+        ]
+      },
+      "required_replay_sources": 333,
+      "required_replay_sources_sha256": "c8cdb9cc3cbde171778cd57cac1c92a7dd2bfd3943885dc57afe9c28dcffda40"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/masked_select",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 15,
+        "count": 24
+      },
+      "artifact_id": 13411091548,
+      "artifact_sha256": "sha256:20219a1edecd2c007616b6e35f41bb8e44ec8a0da7584cdebfa28d476329e8c8",
+      "source_files": 214,
+      "source_closure_sha256": "273537c4fac307b9c7d4b6d7f293143a3a0473a1ec76b9caf28b7da5e4986962",
+      "source_pairs_sha256": "dd5ad27b4b554f7604d016c672ec04f83d5411fa6ab81d52ca48831990a76be2",
+      "public_theorems": {
+        "bench/tritonbench_g/masked_select/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.MaskedSelect.Correct.masked_select_stable_correctness"
+        ],
+        "bench/tritonbench_g/masked_select/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MaskedSelect.FPEquiv.masked_select_configuration_equiv"
+        ]
+      },
+      "required_replay_sources": 309,
+      "required_replay_sources_sha256": "033bd8f0a4bd98bf5bfea2c58c12e330957da8f58ebb0db16c0502fedf80fe46"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/matmul_dequant_int4",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 15,
+        "count": 24
+      },
+      "artifact_id": 13411091548,
+      "artifact_sha256": "sha256:20219a1edecd2c007616b6e35f41bb8e44ec8a0da7584cdebfa28d476329e8c8",
+      "source_files": 278,
+      "source_closure_sha256": "8d69db1b4075c5d706a1ca81c655bfb2a791b9f40cab4f4c562a4ac11ea8da14",
+      "source_pairs_sha256": "a8926795ba710733155836d5c1c78b505e85bc0542b09759910b33798e03a6d5",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_dequant_int4/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/matmul_dequant_int4/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.FPEquiv.unit_stride_equiv"
+        ]
+      },
+      "required_replay_sources": 340,
+      "required_replay_sources_sha256": "0c58579e5394a951a68795b04e8d895082f20888303e7715928539b0ca01e3f5"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/matmul_leakyrelu_fp8",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 18,
+        "count": 24
+      },
+      "artifact_id": 13416952704,
+      "artifact_sha256": "sha256:24987a3892df1313221e09c0a59459b1fc0f082a4f1fa99cda45981f0a03dc7a",
+      "source_files": 308,
+      "source_closure_sha256": "40a5c1fe0832276f479e1e18f6bccdb0f41533e35feebc9b88b41f16d392ce2a",
+      "source_pairs_sha256": "ee03a469ddb7a7d668303b4ea2d9ed062abea5e3d41526451a8069e5752badd5",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_leakyrelu_fp8/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/matmul_leakyrelu_fp8/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.FPEquiv.source_pair_equiv"
+        ]
+      },
+      "required_replay_sources": 338,
+      "required_replay_sources_sha256": "90d108bbab5b3911b799e68c31fd363ac8760da2e9d8a7802433aef95a6055f6"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/matrix_reduction",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 0,
+        "count": 24
+      },
+      "artifact_id": 13417226445,
+      "artifact_sha256": "sha256:14c1a2bbc0d5f5acf75dcfa9ce0c6b5590b304e1f22a8857f415aeeb27404205",
+      "source_files": 191,
+      "source_closure_sha256": "fb88bb9311fef1a8a836ca16cfb26b983110e9b8a7b3933c06490a2f735c5e87",
+      "source_pairs_sha256": "125ab5c0dca3c7fc5b027c7ca13123b9c7da72b6df0ab0674ac2d8e51a7ea435",
+      "public_theorems": {
+        "bench/tritonbench_g/matrix_reduction/RealCorrect.lean": [
+          "VeriTile.Bench.TritonBenchG.MatrixReduction.matrix_reduction_kernel_correct"
+        ],
+        "bench/tritonbench_g/matrix_reduction/FPEquiv.lean": [
+          "VeriTile.Bench.TritonBenchG.MatrixReduction.FPEquiv.matrix_reduction_pair"
+        ]
+      },
+      "required_replay_sources": 314,
+      "required_replay_sources_sha256": "2eaa14c141bdf4a348e0d27ddce6dce4bf2a2750d8d4379a624d87e89cb94d26"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/quant_transpose_kernel",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 9,
+        "count": 24
+      },
+      "artifact_id": 13416554543,
+      "artifact_sha256": "sha256:2334f491154d36f6d527693d64d2df5bf99537718495ac5c0102844a7967c361",
+      "source_files": 222,
+      "source_closure_sha256": "9f1ebf6e45311f2a4cccd070db9dedd0df01dfddd67fb63880540699094b194e",
+      "source_pairs_sha256": "ca7dc4c77728169eb6b085af5a00b6367f70ceff214c92899d45bc2c98581e0b",
+      "public_theorems": {
+        "bench/tritonbench_g/quant_transpose_kernel/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.QuantTransposeKernel.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/quant_transpose_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.QuantTransposeKernel.FPEquiv.kernel_native_equiv"
+        ]
+      },
+      "required_replay_sources": 308,
+      "required_replay_sources_sha256": "8d4cdbcda32117579cd7b136d7a476c3794beb5289d98b7d25aeab85fa757e10"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/quantize_copy_kv",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 10,
+        "count": 24
+      },
+      "artifact_id": 13416988023,
+      "artifact_sha256": "sha256:173f2cc76c3e58bab80f94432e4f4ef563d42e608c6169ad22845498b1907cad",
+      "source_files": 240,
+      "source_closure_sha256": "361b1c879f7b351ecf75f4cd4e5feec62effd7d5fbed1c182172951d26f33b9a",
+      "source_pairs_sha256": "8fe4a6a9dea583e21b51336ec2048414e35b12966b7e60ad27983c11d4172142",
+      "public_theorems": {
+        "bench/tritonbench_g/quantize_copy_kv/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.QuantizeCopyKv.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/quantize_copy_kv/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.QuantizeCopyKv.FPEquiv.kernel_equiv"
+        ]
+      },
+      "required_replay_sources": 320,
+      "required_replay_sources_sha256": "d7524ec3e92fe7541a11bea2e0e510b2a3a74622bda4f86004c00bde99375959"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/rbe_triton_transform",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 9,
+        "count": 24
+      },
+      "artifact_id": 13416554543,
+      "artifact_sha256": "sha256:2334f491154d36f6d527693d64d2df5bf99537718495ac5c0102844a7967c361",
+      "source_files": 229,
+      "source_closure_sha256": "52630e4bee86a471e7b11338d6d00edcdff143e2d854a37442d06e26989c36dd",
+      "source_pairs_sha256": "44890a59f7dbf48206e3a48fe998c5db06bbeb4371655ad8868c4eb9e768d1c8",
+      "public_theorems": {
+        "bench/tritonbench_g/rbe_triton_transform/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/rbe_triton_transform/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.FPEquiv.mask_reuse_equiv"
+        ]
+      },
+      "required_replay_sources": 318,
+      "required_replay_sources_sha256": "027434e67a38ef25e2ee12c0259245f18dc244eb5c1f96bf9ca3336feb7ed039"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/relu_triton_kernel",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 15,
+        "count": 24
+      },
+      "artifact_id": 13411091548,
+      "artifact_sha256": "sha256:20219a1edecd2c007616b6e35f41bb8e44ec8a0da7584cdebfa28d476329e8c8",
+      "source_files": 210,
+      "source_closure_sha256": "327a962e7e0affc1f668f5db9d5b763551db912242b25ab6ed1f5bf847c239b1",
+      "source_pairs_sha256": "c83d669e4dc5019df92433052a085c2fc158939ec87a78c36f2b83ee1d747ed0",
+      "public_theorems": {
+        "bench/tritonbench_g/relu_triton_kernel/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ReluTritonKernel.Correct.relu_kernel_correctness"
+        ],
+        "bench/tritonbench_g/relu_triton_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ReluTritonKernel.FPEquiv.relu_inlined_equiv"
+        ]
+      },
+      "required_replay_sources": 309,
+      "required_replay_sources_sha256": "255bf81fbfc47f6ecaa9e1dedb4ba7f66b3f27f935d9a2ad937c3d6a7bfeb0c1"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/rms_norm_triton",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 18,
+        "count": 24
+      },
+      "artifact_id": 13416952704,
+      "artifact_sha256": "sha256:24987a3892df1313221e09c0a59459b1fc0f082a4f1fa99cda45981f0a03dc7a",
+      "source_files": 218,
+      "source_closure_sha256": "4644715e4e3f53dabe92d04bc7dfc9c055a53d2cb6db8d3c23f44ca52e148030",
+      "source_pairs_sha256": "09612a0d8e0809f5d45e25d167c5bfe6d2b6c47769cfec81568221c8dedb1df0",
+      "public_theorems": {
+        "bench/tritonbench_g/rms_norm_triton/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.RmsNormTriton.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/rms_norm_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsNormTriton.FPEquiv.index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 303,
+      "required_replay_sources_sha256": "a28e84401e26fef448cfdda27acda6c598dfef40015c4caddfc0632923a4d89f"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/rope_embedding",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 0,
+        "count": 24
+      },
+      "artifact_id": 13417226445,
+      "artifact_sha256": "sha256:14c1a2bbc0d5f5acf75dcfa9ce0c6b5590b304e1f22a8857f415aeeb27404205",
+      "source_files": 231,
+      "source_closure_sha256": "816e3c20e7cc12c24c8f677baa71b088539bcca471592a95f22f9f7244e565f1",
+      "source_pairs_sha256": "8a4f002beb5ba9a7578aed46db03f616a769f1d44ab60f002aa1c1c9becc3898",
+      "public_theorems": {
+        "bench/tritonbench_g/rope_embedding/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.RopeEmbedding.rope_embedding_kernel_correct"
+        ],
+        "bench/tritonbench_g/rope_embedding/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RopeEmbedding.rope_embedding_index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 310,
+      "required_replay_sources_sha256": "5ae36c95927165c64bac98fb8675a19ba6352e72bf1ed7fecc284a595c0588fd"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/softmax_optimize",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 9,
+        "count": 24
+      },
+      "artifact_id": 13416554543,
+      "artifact_sha256": "sha256:2334f491154d36f6d527693d64d2df5bf99537718495ac5c0102844a7967c361",
+      "source_files": 252,
+      "source_closure_sha256": "11ee89fd85032f3f78c350d2e1b1000453be0a4658948c8cbd347d2a1847113b",
+      "source_pairs_sha256": "d9a2329c3dfe9f61bd0fdb586ad025283ca08a5d6703106ad71f271a5a537246",
+      "public_theorems": {
+        "bench/tritonbench_g/softmax_optimize/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxOptimize.Correct.softmax_row_correct"
+        ],
+        "bench/tritonbench_g/softmax_optimize/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxOptimize.FPEquiv.softmax_source_equiv"
+        ]
+      },
+      "required_replay_sources": 341,
+      "required_replay_sources_sha256": "65561a609ce7650e7feaddda1973c10481feec48643c6416824f445c212efcf3"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/softmax_reducev",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 10,
+        "count": 24
+      },
+      "artifact_id": 13416988023,
+      "artifact_sha256": "sha256:173f2cc76c3e58bab80f94432e4f4ef563d42e608c6169ad22845498b1907cad",
+      "source_files": 219,
+      "source_closure_sha256": "78dad895f36bae5822870fdba022fad3dae628ee8fefd0167e1d32d562cec817",
+      "source_pairs_sha256": "efde414f16a36932c760ab8323c101c5910eeb3e8ca4ddd25e99c40f2366b2bd",
+      "public_theorems": {
+        "bench/tritonbench_g/softmax_reducev/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/softmax_reducev/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.FPEquiv.reducev_grid_equiv"
+        ]
+      },
+      "required_replay_sources": 327,
+      "required_replay_sources_sha256": "27d918391b32b4054b2de02275e1bfb2406462d9075b6854d06ece0a4cf4da32"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/spinning_lock_reduction",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 15,
+        "count": 24
+      },
+      "artifact_id": 13411091548,
+      "artifact_sha256": "sha256:20219a1edecd2c007616b6e35f41bb8e44ec8a0da7584cdebfa28d476329e8c8",
+      "source_files": 133,
+      "source_closure_sha256": "fcaafb881ed3ba8c3cdf888915cf6e0b7a48a1bcf74ca3cd4647756854aaa325",
+      "source_pairs_sha256": "4eb19d93406800a3b257f18042862ac26547ef3be87ab5ba495d3b2fd0da04c8",
+      "public_theorems": {
+        "bench/tritonbench_g/spinning_lock_reduction/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.SpinningLock.Correct.spinning_kernel_correctness"
+        ],
+        "bench/tritonbench_g/spinning_lock_reduction/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SpinningLock.FPEquiv.tile_area_equiv"
+        ]
+      },
+      "required_replay_sources": 354,
+      "required_replay_sources_sha256": "a76ef337007affe89de6a1004c2165919f84572ff82f3b6f9864ac81b7f63ab3"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/swiglu_backward",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 15,
+        "count": 24
+      },
+      "artifact_id": 13411091548,
+      "artifact_sha256": "sha256:20219a1edecd2c007616b6e35f41bb8e44ec8a0da7584cdebfa28d476329e8c8",
+      "source_files": 233,
+      "source_closure_sha256": "c2419f996fde4570a8dc72549140bb93cc56fa76671adc0acd7e54b97a53eae8",
+      "source_pairs_sha256": "c79d89b4ed4b9cb9a50e2513d5d340c9998014546e6894c126966a2fc6f99dde",
+      "public_theorems": {
+        "bench/tritonbench_g/swiglu_backward/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.SwigluBackward.swiglu_backward_kernel_correct"
+        ],
+        "bench/tritonbench_g/swiglu_backward/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SwigluBackward.swiglu_backward_source_equiv"
+        ]
+      },
+      "required_replay_sources": 295,
+      "required_replay_sources_sha256": "d2e552eb431496a903567194532ec6f1e2b2010aa9b61388cfdd97c7dd914692"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/token_attn_llama2",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 18,
+        "count": 24
+      },
+      "artifact_id": 13416952704,
+      "artifact_sha256": "sha256:24987a3892df1313221e09c0a59459b1fc0f082a4f1fa99cda45981f0a03dc7a",
+      "source_files": 208,
+      "source_closure_sha256": "a3fa4b85fc7edfff85e36b6e1044dc3bbcb8e1ea90f0005875dffef8a81d3082",
+      "source_pairs_sha256": "c200b106f1e39066df4c652b28b3f0a1c2a9341789ec3132e62f5144aa1f038e",
+      "public_theorems": {
+        "bench/tritonbench_g/token_attn_llama2/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.Correct.token_attention_kernel_correct"
+        ],
+        "bench/tritonbench_g/token_attn_llama2/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.FPEquiv.block_origin_reuse_equiv"
+        ]
+      },
+      "required_replay_sources": 325,
+      "required_replay_sources_sha256": "fbced8b1bbb6c8931ecda7bbbdb5518e6b30d4ec39430309565b2d951a014a91"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/triton_conv2d_fwd",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 0,
+        "count": 24
+      },
+      "artifact_id": 13417226445,
+      "artifact_sha256": "sha256:14c1a2bbc0d5f5acf75dcfa9ce0c6b5590b304e1f22a8857f415aeeb27404205",
+      "source_files": 256,
+      "source_closure_sha256": "c1352c6cf1a12f427d4c508e73cd73ae90cf052bd74fe1fca5b80b8e78fdbb45",
+      "source_pairs_sha256": "0cccc7bc5964a8ae46ca8f863a1c95bae3a0b506a130b662bd14449fe72bb993",
+      "public_theorems": {
+        "bench/tritonbench_g/triton_conv2d_fwd/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.Conv2d.correct_real"
+        ],
+        "bench/tritonbench_g/triton_conv2d_fwd/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Conv2d.FPEquiv.grid_equiv"
+        ]
+      },
+      "required_replay_sources": 343,
+      "required_replay_sources_sha256": "77cd81f00d6d88db88b50deb8ebccaaa3d2254c2d40a5363cb3fe19fe89c8479"
+    }
+  ],
+  "pending": [
+    {
+      "path": "bench/examples/FlatVectorAdd",
+      "original_shard": 1,
+      "recovery_shard": 1
+    },
+    {
+      "path": "bench/examples/FloatDTypeAdd",
+      "original_shard": 2,
+      "recovery_shard": 2
+    },
+    {
+      "path": "bench/examples/FloatDTypeSoftmax",
+      "original_shard": 3,
+      "recovery_shard": 3
+    },
+    {
+      "path": "bench/examples/FusedLayerNorm",
+      "original_shard": 4,
+      "recovery_shard": 4
+    },
+    {
+      "path": "bench/examples/FusedSwiglu",
+      "original_shard": 6,
+      "recovery_shard": 6
+    },
+    {
+      "path": "bench/examples/HyperConnectionsDepth",
+      "original_shard": 7,
+      "recovery_shard": 7
+    },
+    {
+      "path": "bench/examples/HyperConnectionsWidth",
+      "original_shard": 8,
+      "recovery_shard": 8
+    },
+    {
+      "path": "bench/examples/RowWiseMax",
+      "original_shard": 11,
+      "recovery_shard": 11
+    },
+    {
+      "path": "bench/examples/RowWiseSum",
+      "original_shard": 12,
+      "recovery_shard": 12
+    },
+    {
+      "path": "bench/examples/SoftmaxReciprocal",
+      "original_shard": 13,
+      "recovery_shard": 13
+    },
+    {
+      "path": "bench/examples/SoftmaxStable",
+      "original_shard": 14,
+      "recovery_shard": 14
+    },
+    {
+      "path": "bench/examples/TritonBenchVectorAddition",
+      "original_shard": 16,
+      "recovery_shard": 16
+    },
+    {
+      "path": "bench/examples/VectorAdd",
+      "original_shard": 17,
+      "recovery_shard": 17
+    },
+    {
+      "path": "bench/tritonbench_g/adam_update_triton",
+      "original_shard": 19,
+      "recovery_shard": 19
+    },
+    {
+      "path": "bench/tritonbench_g/add_example",
+      "original_shard": 20,
+      "recovery_shard": 20
+    },
+    {
+      "path": "bench/tritonbench_g/add_value",
+      "original_shard": 21,
+      "recovery_shard": 21
+    },
+    {
+      "path": "bench/tritonbench_g/apply_penalty",
+      "original_shard": 22,
+      "recovery_shard": 22
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton1",
+      "original_shard": 23,
+      "recovery_shard": 23
+    },
+    {
+      "path": "bench/tritonbench_g/attention_kernel_aligned",
+      "original_shard": 1,
+      "recovery_shard": 25
+    },
+    {
+      "path": "bench/tritonbench_g/batched_vecmat_mult",
+      "original_shard": 2,
+      "recovery_shard": 26
+    },
+    {
+      "path": "bench/tritonbench_g/bgmv_expand_slice",
+      "original_shard": 3,
+      "recovery_shard": 27
+    },
+    {
+      "path": "bench/tritonbench_g/bgmv_shrink_kernel",
+      "original_shard": 4,
+      "recovery_shard": 28
+    },
+    {
+      "path": "bench/tritonbench_g/bmm_optimized",
+      "original_shard": 6,
+      "recovery_shard": 30
+    },
+    {
+      "path": "bench/tritonbench_g/cache_transform_triton",
+      "original_shard": 7,
+      "recovery_shard": 31
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_cumsum_kernel",
+      "original_shard": 8,
+      "recovery_shard": 32
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_gate_recurrence",
+      "original_shard": 11,
+      "recovery_shard": 35
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_gated_attention",
+      "original_shard": 12,
+      "recovery_shard": 36
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_gla_simple",
+      "original_shard": 13,
+      "recovery_shard": 37
+    },
+    {
+      "path": "bench/tritonbench_g/chunked_cumsum_fwd",
+      "original_shard": 14,
+      "recovery_shard": 38
+    },
+    {
+      "path": "bench/tritonbench_g/cross_entropy1",
+      "original_shard": 16,
+      "recovery_shard": 40
+    },
+    {
+      "path": "bench/tritonbench_g/cross_entropy2",
+      "original_shard": 17,
+      "recovery_shard": 41
+    },
+    {
+      "path": "bench/tritonbench_g/dequantize_matmul",
+      "original_shard": 19,
+      "recovery_shard": 43
+    },
+    {
+      "path": "bench/tritonbench_g/dequantize_rowwise",
+      "original_shard": 20,
+      "recovery_shard": 44
+    },
+    {
+      "path": "bench/tritonbench_g/destindex_copy",
+      "original_shard": 21,
+      "recovery_shard": 45
+    },
+    {
+      "path": "bench/tritonbench_g/destindex_copy_kv1",
+      "original_shard": 22,
+      "recovery_shard": 46
+    },
+    {
+      "path": "bench/tritonbench_g/destindex_copy_kv2",
+      "original_shard": 23,
+      "recovery_shard": 47
+    },
+    {
+      "path": "bench/tritonbench_g/embedding_triton_kernel",
+      "original_shard": 1,
+      "recovery_shard": 49
+    },
+    {
+      "path": "bench/tritonbench_g/f8_conversion_utils",
+      "original_shard": 2,
+      "recovery_shard": 50
+    },
+    {
+      "path": "bench/tritonbench_g/fast_ce_loss",
+      "original_shard": 3,
+      "recovery_shard": 51
+    },
+    {
+      "path": "bench/tritonbench_g/fast_layernorm",
+      "original_shard": 4,
+      "recovery_shard": 52
+    },
+    {
+      "path": "bench/tritonbench_g/fast_rms_layernorm",
+      "original_shard": 5,
+      "recovery_shard": 53
+    },
+    {
+      "path": "bench/tritonbench_g/fast_rope_embedding",
+      "original_shard": 6,
+      "recovery_shard": 54
+    },
+    {
+      "path": "bench/tritonbench_g/flash_decode2_llama",
+      "original_shard": 7,
+      "recovery_shard": 55
+    },
+    {
+      "path": "bench/tritonbench_g/flash_decode2_phi",
+      "original_shard": 8,
+      "recovery_shard": 56
+    },
+    {
+      "path": "bench/tritonbench_g/fused_recurrent_hgrn",
+      "original_shard": 11,
+      "recovery_shard": 59
+    },
+    {
+      "path": "bench/tritonbench_g/fused_recurrent_retention",
+      "original_shard": 12,
+      "recovery_shard": 60
+    },
+    {
+      "path": "bench/tritonbench_g/fused_rotary_embedding",
+      "original_shard": 13,
+      "recovery_shard": 61
+    },
+    {
+      "path": "bench/tritonbench_g/fused_rwkv6_kernel",
+      "original_shard": 14,
+      "recovery_shard": 62
+    },
+    {
+      "path": "bench/tritonbench_g/index_select_bwd",
+      "original_shard": 16,
+      "recovery_shard": 64
+    },
+    {
+      "path": "bench/tritonbench_g/index_select_cat",
+      "original_shard": 17,
+      "recovery_shard": 65
+    },
+    {
+      "path": "bench/tritonbench_g/int8_dequant_matmul",
+      "original_shard": 19,
+      "recovery_shard": 67
+    },
+    {
+      "path": "bench/tritonbench_g/int8_matmul_kernel",
+      "original_shard": 20,
+      "recovery_shard": 68
+    },
+    {
+      "path": "bench/tritonbench_g/isfinite_kernel",
+      "original_shard": 21,
+      "recovery_shard": 69
+    },
+    {
+      "path": "bench/tritonbench_g/kcache_copy_triton",
+      "original_shard": 22,
+      "recovery_shard": 70
+    },
+    {
+      "path": "bench/tritonbench_g/kldiv_compute",
+      "original_shard": 23,
+      "recovery_shard": 71
+    },
+    {
+      "path": "bench/tritonbench_g/kldiv_triton",
+      "original_shard": 1,
+      "recovery_shard": 1
+    },
+    {
+      "path": "bench/tritonbench_g/ksoftmax_triton",
+      "original_shard": 2,
+      "recovery_shard": 2
+    },
+    {
+      "path": "bench/tritonbench_g/kv_cache_copy",
+      "original_shard": 3,
+      "recovery_shard": 3
+    },
+    {
+      "path": "bench/tritonbench_g/l2_norm_bwd",
+      "original_shard": 4,
+      "recovery_shard": 4
+    },
+    {
+      "path": "bench/tritonbench_g/l2_norm_triton1",
+      "original_shard": 5,
+      "recovery_shard": 5
+    },
+    {
+      "path": "bench/tritonbench_g/l2_norm_triton2",
+      "original_shard": 6,
+      "recovery_shard": 6
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_liger",
+      "original_shard": 7,
+      "recovery_shard": 7
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_ops",
+      "original_shard": 8,
+      "recovery_shard": 8
+    },
+    {
+      "path": "bench/tritonbench_g/log_softmax",
+      "original_shard": 11,
+      "recovery_shard": 11
+    },
+    {
+      "path": "bench/tritonbench_g/logsumexp_fwd",
+      "original_shard": 12,
+      "recovery_shard": 12
+    },
+    {
+      "path": "bench/tritonbench_g/lora_expand_gemv",
+      "original_shard": 13,
+      "recovery_shard": 13
+    },
+    {
+      "path": "bench/tritonbench_g/masked_add_cuda",
+      "original_shard": 14,
+      "recovery_shard": 14
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_kernel",
+      "original_shard": 16,
+      "recovery_shard": 16
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_leakyrelu",
+      "original_shard": 17,
+      "recovery_shard": 17
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_persistent_triton",
+      "original_shard": 19,
+      "recovery_shard": 19
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_tma",
+      "original_shard": 20,
+      "recovery_shard": 20
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_triton1",
+      "original_shard": 21,
+      "recovery_shard": 21
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_triton2",
+      "original_shard": 22,
+      "recovery_shard": 22
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_triton_autotune",
+      "original_shard": 23,
+      "recovery_shard": 23
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_transpose",
+      "original_shard": 1,
+      "recovery_shard": 25
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_vector_multip",
+      "original_shard": 2,
+      "recovery_shard": 26
+    },
+    {
+      "path": "bench/tritonbench_g/max_reduction",
+      "original_shard": 3,
+      "recovery_shard": 27
+    },
+    {
+      "path": "bench/tritonbench_g/mean_reduction",
+      "original_shard": 4,
+      "recovery_shard": 28
+    },
+    {
+      "path": "bench/tritonbench_g/mul_exponent_compensator",
+      "original_shard": 5,
+      "recovery_shard": 29
+    },
+    {
+      "path": "bench/tritonbench_g/multinomial_sampling",
+      "original_shard": 6,
+      "recovery_shard": 30
+    },
+    {
+      "path": "bench/tritonbench_g/nested_loops_processing",
+      "original_shard": 7,
+      "recovery_shard": 31
+    },
+    {
+      "path": "bench/tritonbench_g/pow_scalar_tensor",
+      "original_shard": 8,
+      "recovery_shard": 32
+    },
+    {
+      "path": "bench/tritonbench_g/quantize_global",
+      "original_shard": 11,
+      "recovery_shard": 35
+    },
+    {
+      "path": "bench/tritonbench_g/quantize_kv_copy",
+      "original_shard": 12,
+      "recovery_shard": 36
+    },
+    {
+      "path": "bench/tritonbench_g/quantize_kv_transform",
+      "original_shard": 13,
+      "recovery_shard": 37
+    },
+    {
+      "path": "bench/tritonbench_g/relu_strided_buffer",
+      "original_shard": 14,
+      "recovery_shard": 38
+    },
+    {
+      "path": "bench/tritonbench_g/reversed_cumsum",
+      "original_shard": 16,
+      "recovery_shard": 40
+    },
+    {
+      "path": "bench/tritonbench_g/reversed_cumsum_scalar",
+      "original_shard": 17,
+      "recovery_shard": 41
+    },
+    {
+      "path": "bench/tritonbench_g/rmsnorm_fused",
+      "original_shard": 19,
+      "recovery_shard": 43
+    },
+    {
+      "path": "bench/tritonbench_g/rmsnorm_fused_llama",
+      "original_shard": 20,
+      "recovery_shard": 44
+    },
+    {
+      "path": "bench/tritonbench_g/rmsnorm_implementation",
+      "original_shard": 21,
+      "recovery_shard": 45
+    },
+    {
+      "path": "bench/tritonbench_g/rmsnorm_triton",
+      "original_shard": 22,
+      "recovery_shard": 46
+    },
+    {
+      "path": "bench/tritonbench_g/rope_backward_transform",
+      "original_shard": 23,
+      "recovery_shard": 47
+    },
+    {
+      "path": "bench/tritonbench_g/rope_transform",
+      "original_shard": 1,
+      "recovery_shard": 49
+    },
+    {
+      "path": "bench/tritonbench_g/rotary_emb",
+      "original_shard": 2,
+      "recovery_shard": 50
+    },
+    {
+      "path": "bench/tritonbench_g/rotary_emb_nopad",
+      "original_shard": 3,
+      "recovery_shard": 51
+    },
+    {
+      "path": "bench/tritonbench_g/rowwise_quantization_triton",
+      "original_shard": 4,
+      "recovery_shard": 52
+    },
+    {
+      "path": "bench/tritonbench_g/seeded_dropout",
+      "original_shard": 5,
+      "recovery_shard": 53
+    },
+    {
+      "path": "bench/tritonbench_g/sgmv_expand_slice",
+      "original_shard": 6,
+      "recovery_shard": 54
+    },
+    {
+      "path": "bench/tritonbench_g/sin_computation",
+      "original_shard": 7,
+      "recovery_shard": 55
+    },
+    {
+      "path": "bench/tritonbench_g/sin_kernel",
+      "original_shard": 8,
+      "recovery_shard": 56
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_triton1",
+      "original_shard": 11,
+      "recovery_shard": 59
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_triton2",
+      "original_shard": 12,
+      "recovery_shard": 60
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_triton3",
+      "original_shard": 13,
+      "recovery_shard": 61
+    },
+    {
+      "path": "bench/tritonbench_g/square_matrix",
+      "original_shard": 14,
+      "recovery_shard": 62
+    },
+    {
+      "path": "bench/tritonbench_g/swiglu_fwd",
+      "original_shard": 16,
+      "recovery_shard": 64
+    },
+    {
+      "path": "bench/tritonbench_g/swiglu_triton",
+      "original_shard": 17,
+      "recovery_shard": 65
+    },
+    {
+      "path": "bench/tritonbench_g/token_attn_mistral",
+      "original_shard": 19,
+      "recovery_shard": 67
+    },
+    {
+      "path": "bench/tritonbench_g/token_attn_reduceV",
+      "original_shard": 20,
+      "recovery_shard": 68
+    },
+    {
+      "path": "bench/tritonbench_g/token_softmax_bloom",
+      "original_shard": 21,
+      "recovery_shard": 69
+    },
+    {
+      "path": "bench/tritonbench_g/token_softmax_llama",
+      "original_shard": 22,
+      "recovery_shard": 70
+    },
+    {
+      "path": "bench/tritonbench_g/triton_argmax",
+      "original_shard": 23,
+      "recovery_shard": 71
+    },
+    {
+      "path": "bench/tritonbench_g/triton_matmul",
+      "original_shard": 1,
+      "recovery_shard": 1
+    },
+    {
+      "path": "bench/tritonbench_g/triton_mul2",
+      "original_shard": 2,
+      "recovery_shard": 2
+    },
+    {
+      "path": "bench/tritonbench_g/triton_softmax",
+      "original_shard": 3,
+      "recovery_shard": 3
+    },
+    {
+      "path": "bench/tritonbench_g/uniform_sampling",
+      "original_shard": 4,
+      "recovery_shard": 4
+    },
+    {
+      "path": "bench/tritonbench_g/var_len_copy",
+      "original_shard": 5,
+      "recovery_shard": 5
+    },
+    {
+      "path": "bench/tritonbench_g/vector_addition",
+      "original_shard": 6,
+      "recovery_shard": 6
+    },
+    {
+      "path": "bench/tritonbench_g/vector_addition_custom",
+      "original_shard": 7,
+      "recovery_shard": 7
+    },
+    {
+      "path": "bench/tritonbench_g/iv_dependent_matmul",
+      "original_shard": 8,
+      "recovery_shard": 8
+    },
+    {
+      "path": "bench/tritonbench_g/attention_score",
+      "original_shard": 11,
+      "recovery_shard": 11
+    },
+    {
+      "path": "bench/tritonbench_g/flash_attn",
+      "original_shard": 12,
+      "recovery_shard": 12
+    },
+    {
+      "path": "bench/tritonbench_g/block_sparse_attn",
+      "original_shard": 13,
+      "recovery_shard": 13
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_bwd_dqkg",
+      "original_shard": 14,
+      "recovery_shard": 14
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_dequantize_int4",
+      "original_shard": 16,
+      "recovery_shard": 16
+    },
+    {
+      "path": "bench/tritonbench_g/matmul_dequantize",
+      "original_shard": 17,
+      "recovery_shard": 17
+    },
+    {
+      "path": "bench/tritonbench_g/attention_forward_triton",
+      "original_shard": 19,
+      "recovery_shard": 19
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2",
+      "original_shard": 20,
+      "recovery_shard": 20
+    },
+    {
+      "path": "bench/tritonbench_g/llama_ff_triton",
+      "original_shard": 21,
+      "recovery_shard": 21
+    },
+    {
+      "path": "bench/tritonbench_g/kv_cache_filling",
+      "original_shard": 22,
+      "recovery_shard": 22
+    },
+    {
+      "path": "bench/tritonbench_g/rotary_transform",
+      "original_shard": 23,
+      "recovery_shard": 23
+    },
+    {
+      "path": "bench/tritonbench_g/rotary_transform_ops",
+      "original_shard": 0,
+      "recovery_shard": 24
+    },
+    {
+      "path": "bench/tritonbench_g/diag_ssm_triton",
+      "original_shard": 1,
+      "recovery_shard": 25
+    },
+    {
+      "path": "bench/tritonbench_g/decay_cumsum",
+      "original_shard": 2,
+      "recovery_shard": 26
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation",
+      "original_shard": 3,
+      "recovery_shard": 27
+    },
+    {
+      "path": "bench/tritonbench_g/int_scaled_matmul",
+      "original_shard": 4,
+      "recovery_shard": 28
+    },
+    {
+      "path": "bench/tritonbench_g/context_attn_llama",
+      "original_shard": 5,
+      "recovery_shard": 29
+    },
+    {
+      "path": "bench/tritonbench_g/context_attn_mistral",
+      "original_shard": 6,
+      "recovery_shard": 30
+    },
+    {
+      "path": "bench/tritonbench_g/context_attn_fwd",
+      "original_shard": 7,
+      "recovery_shard": 31
+    },
+    {
+      "path": "bench/tritonbench_g/context_attn_nopad",
+      "original_shard": 8,
+      "recovery_shard": 32
+    },
+    {
+      "path": "bench/tritonbench_g/context_attn_bloom",
+      "original_shard": 9,
+      "recovery_shard": 33
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_fwd",
+      "original_shard": 10,
+      "recovery_shard": 34
+    },
+    {
+      "path": "bench/tritonbench_g/layer_norm_triton",
+      "original_shard": 11,
+      "recovery_shard": 35
+    },
+    {
+      "path": "bench/tritonbench_g/bmm_chunk_fwd",
+      "original_shard": 12,
+      "recovery_shard": 36
+    },
+    {
+      "path": "bench/tritonbench_g/attention_llama",
+      "original_shard": 13,
+      "recovery_shard": 37
+    },
+    {
+      "path": "bench/tritonbench_g/int8_matmul_quantization",
+      "original_shard": 14,
+      "recovery_shard": 38
+    },
+    {
+      "path": "bench/tritonbench_g/streamk_matmul",
+      "original_shard": 16,
+      "recovery_shard": 40
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton3",
+      "original_shard": 17,
+      "recovery_shard": 41
+    },
+    {
+      "path": "bench/tritonbench_g/fused_recurrent_delta",
+      "original_shard": 19,
+      "recovery_shard": 43
+    },
+    {
+      "path": "bench/tritonbench_g/attn_fwd_causal",
+      "original_shard": 20,
+      "recovery_shard": 44
+    },
+    {
+      "path": "bench/tritonbench_g/attn_fwd_triton",
+      "original_shard": 21,
+      "recovery_shard": 45
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_gla_fwd",
+      "original_shard": 22,
+      "recovery_shard": 46
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_linear_attn",
+      "original_shard": 23,
+      "recovery_shard": 47
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_retention",
+      "original_shard": 0,
+      "recovery_shard": 48
+    },
+    {
+      "path": "bench/tritonbench_g/chunk_retention_ops",
+      "original_shard": 1,
+      "recovery_shard": 49
+    },
+    {
+      "path": "bench/tritonbench_g/lightning_attention",
+      "original_shard": 2,
+      "recovery_shard": 50
+    },
+    {
+      "path": "bench/tritonbench_g/mixed_sparse_attention",
+      "original_shard": 3,
+      "recovery_shard": 51
+    },
+    {
+      "path": "bench/tritonbench_g/parallel_attention",
+      "original_shard": 4,
+      "recovery_shard": 52
+    },
+    {
+      "path": "bench/tritonbench_g/parallel_retention_attention",
+      "original_shard": 5,
+      "recovery_shard": 53
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_flaggems",
+      "original_shard": 6,
+      "recovery_shard": 54
+    },
+    {
+      "path": "bench/tritonbench_g/rms_matmul_rbe",
+      "original_shard": 7,
+      "recovery_shard": 55
+    },
+    {
+      "path": "bench/tritonbench_g/rms_rbe_matmul",
+      "original_shard": 8,
+      "recovery_shard": 56
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention",
+      "original_shard": 9,
+      "recovery_shard": 57
+    }
+  ]
+}

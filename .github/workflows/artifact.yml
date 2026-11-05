@@ -42,6 +42,10 @@ on:
           - all_staged
           - incremental
         default: all_staged
+      body_migration_recovery_shards:
+        description: JSON array of selected indices from the 72-shard full-batch recovery partition
+        type: string
+        default: ''
 
 jobs:
   check:
@@ -155,11 +159,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: ${{ fromJSON(inputs.body_migration_batch == 'incremental' && '[0]' || '[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]') }}
+        shard: ${{ fromJSON(inputs.body_migration_recovery_shards || inputs.body_migration_batch == 'incremental' && '[0]' || '[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]') }}
     env:
       BODY_SHARD_INDEX: ${{ matrix.shard }}
-      BODY_SHARD_COUNT: ${{ inputs.body_migration_batch == 'incremental' && 1 || 24 }}
-      BODY_MANIFEST: ${{ inputs.body_migration_batch == 'incremental' && 'validation/body-migration-incremental.json' || 'validation/body-migration-batch.json' }}
+      BODY_SHARD_COUNT: ${{ inputs.body_migration_recovery_shards != '' && 72 || inputs.body_migration_batch == 'incremental' && 1 || 24 }}
+      BODY_MANIFEST: ${{ inputs.body_migration_recovery_shards == '' && inputs.body_migration_batch == 'incremental' && 'validation/body-migration-incremental.json' || 'validation/body-migration-batch.json' }}
     steps:
       - uses: actions/checkout@v4
       - name: Validate every staged original and candidate function body
@@ -197,7 +201,7 @@ jobs:
     env:
       BODY_MANIFEST: ${{ inputs.body_migration_batch == 'incremental' && 'validation/body-migration-incremental.json' || 'validation/body-migration-batch.json' }}
     needs: body-migration
-    if: always() && github.event_name == 'workflow_dispatch' && inputs.body_migration_only
+    if: always() && github.event_name == 'workflow_dispatch' && inputs.body_migration_only && inputs.body_migration_recovery_shards == ''
     runs-on: ubuntu-24.04
     permissions:
       contents: read
