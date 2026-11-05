@@ -1245,7 +1245,11 @@ def check_control_source(python_text: str, lean_text: str, python_function: str,
 
 
 def check_manifest(root: Path, manifest: Path) -> list[dict]:
-    records = json.loads(manifest.read_text())
+    return check_records(root, json.loads(manifest.read_text()))
+
+
+def check_records(root: Path, records: list[dict]) -> list[dict]:
+    """Check records supplied by a snapshot or the source-discovery tool."""
     results = []
     for r in records:
         py, lean = (root / r["python"]).read_text(), (root / r["lean"]).read_text()

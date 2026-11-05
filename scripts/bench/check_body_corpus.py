@@ -112,8 +112,12 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str) -> 
         manifest_name = manifest.relative_to(root).as_posix()
         hashes[manifest_name] = digest(manifest)
         records = json.loads(manifest.read_text())
+    elif python is not None and row['python_jits']:
+        from scripts.bench.generate_jit_correspondence import generate
+        records = generate(root, lean_path.parent, python_paths=[python])
+    if manifest.is_file() or records:
         if not isinstance(records, list) or not records:
-            raise ValueError(f"empty or invalid correspondence manifest: {manifest_name}")
+            raise ValueError(f"empty or invalid correspondence manifest: {manifest}")
         # One Python JIT may be checked at multiple real invocation dtypes.
         # Require explicit, distinct variants and separate Lean instantiations;
         # these still cover only that original function, never another stage.
@@ -142,7 +146,11 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str) -> 
                 hashes[record[key]] = digest(path)
         # Errors remain errors even for an incomplete manifest. They must not
         # be converted into a pending result that can pass the drift gate.
-        results = check_manifest(root, manifest)
+        if manifest.is_file():
+            results = check_manifest(root, manifest)
+        else:
+            from scripts.bench.jit_correspondence import check_records
+            results = check_records(root, records)
         for record, result in zip(records, results, strict=True):
             pair = {**result, "python": record["python"], "lean": record["lean"]}
             if "invocation_variant" in record:

@@ -64,6 +64,19 @@ class BodyCorpusTests(unittest.TestCase):
         self.assertEqual(result["counts"]["uncovered_selected_jit_functions"], 1)
         self.assertEqual(result["tasks"][0]["uncovered_selected_jits"][0]["function"], "second")
 
+    def test_pasted_body_is_discovered_without_a_task_json(self):
+        (self.directory / 'jit-correspondence.json').unlink()
+        result = scan(self.root)
+        self.assertTrue(result['complete'])
+        self.assertEqual(len(result['tasks'][0]['checked_pairs']), 1)
+        self.assertFalse((self.directory / 'jit-correspondence.json').exists())
+
+    def test_no_json_discovery_still_rejects_a_mismatched_body(self):
+        (self.directory / 'jit-correspondence.json').unlink()
+        self.write('bench/tritonbench_g/sample/Kernels.lean', LEAN.replace('tl.arange(0, B)', 'tl.arange(1, B)'))
+        with self.assertRaisesRegex(ValueError, 'No exact source pair'):
+            scan(self.root)
+
     def test_broken_pair_is_an_error_even_when_other_stages_are_pending(self):
         self.write("bench/tritonbench_g/sample/Kernels.lean", LEAN.replace("tl.arange(0, B)", "tl.arange(1, B)"))
         with self.assertRaisesRegex(ValueError, "correspondence mismatch"):
