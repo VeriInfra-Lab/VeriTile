@@ -8,6 +8,94 @@
   "artifacts": [
     {
       "run": 41984475439,
+      "shard": 6,
+      "count": 24,
+      "artifact_id": 13445816665,
+      "cases": 9,
+      "accepted": 7,
+      "proofs_completed": 479,
+      "proofs_required": 729,
+      "complete": false
+    },
+    {
+      "run": 41984475439,
+      "shard": 14,
+      "count": 24,
+      "artifact_id": 13444179362,
+      "cases": 8,
+      "accepted": 6,
+      "proofs_completed": 421,
+      "proofs_required": 572,
+      "complete": false
+    },
+    {
+      "run": 41984475439,
+      "shard": 20,
+      "count": 24,
+      "artifact_id": 13442547700,
+      "cases": 8,
+      "accepted": 8,
+      "proofs_completed": 519,
+      "proofs_required": 519,
+      "complete": true
+    },
+    {
+      "run": 41984475439,
+      "shard": 21,
+      "count": 24,
+      "artifact_id": 13437512827,
+      "cases": 8,
+      "accepted": 7,
+      "proofs_completed": 414,
+      "proofs_required": 542,
+      "complete": false
+    },
+    {
+      "run": 41984475439,
+      "shard": 22,
+      "count": 24,
+      "artifact_id": 13431839905,
+      "cases": 8,
+      "accepted": 7,
+      "proofs_completed": 416,
+      "proofs_required": 556,
+      "complete": false
+    },
+    {
+      "run": 41984475439,
+      "shard": 13,
+      "count": 24,
+      "artifact_id": 13430372286,
+      "cases": 8,
+      "accepted": 4,
+      "proofs_completed": 461,
+      "proofs_required": 700,
+      "complete": false
+    },
+    {
+      "run": 41984475439,
+      "shard": 8,
+      "count": 24,
+      "artifact_id": 13428945097,
+      "cases": 9,
+      "accepted": 6,
+      "proofs_completed": 414,
+      "proofs_required": 607,
+      "complete": false
+    },
+    {
+      "run": 41984475439,
+      "shard": 19,
+      "count": 24,
+      "artifact_id": 13428903906,
+      "cases": 8,
+      "accepted": 7,
+      "proofs_completed": 536,
+      "proofs_required": 625,
+      "complete": false
+    },
+    {
+      "run": 41984475439,
       "shard": 12,
       "count": 24,
       "artifact_id": 13427615854,
@@ -181,6 +269,138 @@
       "proofs_completed": 456,
       "proofs_required": 456,
       "complete": true
+    },
+    {
+      "run": 42035060797,
+      "shard": 53,
+      "count": 72,
+      "artifact_id": 13445945832,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 495,
+      "proofs_required": 495,
+      "complete": true
+    },
+    {
+      "run": 42035060797,
+      "shard": 34,
+      "count": 72,
+      "artifact_id": 13442855420,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 486,
+      "proofs_required": 486,
+      "complete": true
+    },
+    {
+      "run": 42035060797,
+      "shard": 24,
+      "count": 72,
+      "artifact_id": 13442623131,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 423,
+      "proofs_required": 423,
+      "complete": true
+    },
+    {
+      "run": 42035060797,
+      "shard": 57,
+      "count": 72,
+      "artifact_id": 13440400266,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 473,
+      "proofs_required": 473,
+      "complete": true
+    },
+    {
+      "run": 42035060797,
+      "shard": 48,
+      "count": 72,
+      "artifact_id": 13439420152,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 406,
+      "proofs_required": 406,
+      "complete": true
+    },
+    {
+      "run": 42035060797,
+      "shard": 33,
+      "count": 72,
+      "artifact_id": 13438405116,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 441,
+      "proofs_required": 441,
+      "complete": true
+    },
+    {
+      "run": 42035060797,
+      "shard": 5,
+      "count": 72,
+      "artifact_id": 13431453825,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 316,
+      "proofs_required": 316,
+      "complete": true
+    },
+    {
+      "run": 42042183039,
+      "shard": 27,
+      "count": 72,
+      "artifact_id": 13442547638,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 396,
+      "proofs_required": 396,
+      "complete": true
+    },
+    {
+      "run": 42042183039,
+      "shard": 51,
+      "count": 72,
+      "artifact_id": 13440499020,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 434,
+      "proofs_required": 434,
+      "complete": true
+    },
+    {
+      "run": 42052386566,
+      "shard": 50,
+      "count": 72,
+      "artifact_id": 13442623216,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 439,
+      "proofs_required": 439,
+      "complete": true
+    },
+    {
+      "run": 42052386566,
+      "shard": 49,
+      "count": 72,
+      "artifact_id": 13441449423,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 388,
+      "proofs_required": 388,
+      "complete": true
+    },
+    {
+      "run": 42062236605,
+      "shard": 56,
+      "count": 72,
+      "artifact_id": 13444950391,
+      "cases": 3,
+      "accepted": 3,
+      "proofs_completed": 369,
+      "proofs_required": 369,
+      "complete": true
     }
   ],
   "cases": [
@@ -317,14 +537,14 @@
     {
       "accepted": true,
       "path": "bench/examples/FusedSiLU",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
         "index": 5,
-        "count": 24
+        "count": 72
       },
-      "artifact_id": 13417961680,
-      "artifact_sha256": "sha256:d8a0f63dfa19646d45e8cf0a8f3585cd751b98f5b5e5ab5ed039589946e893d0",
+      "artifact_id": 13431453825,
+      "artifact_sha256": "sha256:ba9d53173c1bb52e1f4789bbfc8193d26a77233f259df7a0831ad4aed38c1bed",
       "source_files": 197,
       "source_closure_sha256": "a59a3d9b099b67ac2f3d23ead817c9e177c52070f4e56c27e9de1e3c122dafda",
       "source_pairs_sha256": "03ceb96eae896b18377985edbedcb4dd7767f7220d0cb75e4ffe8d93d7d813eb",
@@ -339,6 +559,32 @@
       },
       "required_replay_sources": 298,
       "required_replay_sources_sha256": "39d74522c5dbebb0255dc87b5137f790b1060f1339e846a86b0231c1bd840b06"
+    },
+    {
+      "accepted": true,
+      "path": "bench/examples/FusedSwiglu",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 6,
+        "count": 24
+      },
+      "artifact_id": 13445816665,
+      "artifact_sha256": "sha256:dd3484afaa880389e656f931724742d9617cfa315c1ea5c091a62c1dc7384154",
+      "source_files": 197,
+      "source_closure_sha256": "d780a8f2fb235dfbb8b51db8a49ef7be6c865f9b3e50069a82eb0e38101be49f",
+      "source_pairs_sha256": "3ad0f6a194286dd692032e3d6c4396d1d00a31803670b23e8fcab93f5f1449f3",
+      "public_theorems": {
+        "bench/examples/FusedSwiglu/RealCorrect.lean": [
+          "VeriTile.Bench.Examples.FusedSwigluCorrect.fused_swiglu_correct",
+          "VeriTile.Bench.Examples.FusedSwigluCorrect.unfused_swiglu_correct"
+        ],
+        "bench/examples/FusedSwiglu/FPEquiv.lean": [
+          "VeriTile.Bench.Examples.FusedSwigluFPEquiv.swiglu_equiv"
+        ]
+      },
+      "required_replay_sources": 299,
+      "required_replay_sources_sha256": "dc5ae20f6cd109afd36c7930010a675162836dfb4a77db0fbcead10eced3cf31"
     },
     {
       "accepted": true,
@@ -369,6 +615,36 @@
       },
       "required_replay_sources": 296,
       "required_replay_sources_sha256": "78f2cd68f28391d1c21c44f37d6c4da1bdbd757d3020e5801acae5c1f0fb2d56"
+    },
+    {
+      "accepted": true,
+      "path": "bench/examples/HyperConnectionsWidth",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 8,
+        "count": 24
+      },
+      "artifact_id": 13428945097,
+      "artifact_sha256": "sha256:e10917e9dc90ade3362dc0e05d1a9d840e58bbc59528064f8eca48ffe267c4b1",
+      "source_files": 184,
+      "source_closure_sha256": "1b8dc5b8e64bd0d9c89a53f00ac39915cd969fc0440bc146bc022f2eb0d9f582",
+      "source_pairs_sha256": "b0925790d09b23e004d1b7cd0598c33c2b34eaaec607c12aa18e2c74d0c5f9c5",
+      "public_theorems": {
+        "bench/examples/HyperConnectionsWidth/RealCorrect.lean": [
+          "VeriTile.Bench.Examples.HyperConnectionsWidth.mhc_width_correctness",
+          "VeriTile.Bench.Examples.HyperConnectionsWidth.mhc_width_optimized_correctness",
+          "VeriTile.Bench.Examples.HyperConnectionsWidth.MatrixCorrect.mhc_width_matrix_correct",
+          "VeriTile.Bench.Examples.HyperConnectionsWidth.MatrixCorrect.mhc_width_matrix_optimized_correct",
+          "VeriTile.Bench.Examples.HyperConnectionsWidth.MatrixCorrect.mhc_width_matrix_flat_correctness"
+        ],
+        "bench/examples/HyperConnectionsWidth/FPEquiv.lean": [
+          "VeriTile.Bench.Examples.HyperConnectionsWidthFPEquiv.mhc_width_equiv",
+          "VeriTile.Bench.Examples.HyperConnectionsWidthFPEquiv.mhc_width_matrix_equiv"
+        ]
+      },
+      "required_replay_sources": 296,
+      "required_replay_sources_sha256": "a8624d04e9f8204ffd711011e3813b8d456cdabc52e206caa116b4ea1fe1b067"
     },
     {
       "accepted": true,
@@ -477,6 +753,58 @@
     },
     {
       "accepted": true,
+      "path": "bench/examples/SoftmaxReciprocal",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 13,
+        "count": 24
+      },
+      "artifact_id": 13430372286,
+      "artifact_sha256": "sha256:9b7fff855b731d48b60aec509c6ab2a273071066249d5b2162a071c5fac7a660",
+      "source_files": 198,
+      "source_closure_sha256": "61c2a7edb5012ccdf893def11ed3b38fad4abce1a2cc0056d050667536aa56ae",
+      "source_pairs_sha256": "96109f013a994d6b861ee2ecb1926d116f2fb84a563d7c1849bc56c1b9256778",
+      "public_theorems": {
+        "bench/examples/SoftmaxReciprocal/RealCorrect.lean": [
+          "VeriTile.Bench.Examples.SoftmaxReciprocalCorrect.softmax_div_correct",
+          "VeriTile.Bench.Examples.SoftmaxReciprocalCorrect.softmax_reciprocal_correct"
+        ],
+        "bench/examples/SoftmaxReciprocal/FPEquiv.lean": [
+          "VeriTile.Bench.Examples.SoftmaxReciprocalFPEquiv.softmax_reciprocal_equiv"
+        ]
+      },
+      "required_replay_sources": 297,
+      "required_replay_sources_sha256": "e79bde812076fbb37b2927bf85fb8d8f5166593d311c05fb5d3c8112d562c3c1"
+    },
+    {
+      "accepted": true,
+      "path": "bench/examples/SoftmaxStable",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 14,
+        "count": 24
+      },
+      "artifact_id": 13444179362,
+      "artifact_sha256": "sha256:755a8a65ab81dd4bab3e2d85b39f185976ed54ac6234cdab0b0064d1bd11452b",
+      "source_files": 213,
+      "source_closure_sha256": "91259272a67070d9fc8696f9d6b00f0ae09f34a407764b2b49a6ab0110e024a5",
+      "source_pairs_sha256": "3c03442e2b5f370d07b800e12f6d9506084034e717c0ff71f5346d8fd896bf64",
+      "public_theorems": {
+        "bench/examples/SoftmaxStable/RealCorrect.lean": [
+          "VeriTile.Bench.Examples.SoftmaxStableCorrect.naive_softmax_correct",
+          "VeriTile.Bench.Examples.SoftmaxStableCorrect.stable_softmax_correct"
+        ],
+        "bench/examples/SoftmaxStable/FPEquiv.lean": [
+          "VeriTile.Bench.Examples.SoftmaxStableFPEquiv.softmax_stable_equiv"
+        ]
+      },
+      "required_replay_sources": 299,
+      "required_replay_sources_sha256": "138c36ac04cbca482c46a8f790cb10edde01affff2a2db75f2f1d2bf1324772c"
+    },
+    {
+      "accepted": true,
       "path": "bench/examples/StableLogSumExp",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -581,6 +909,131 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/adam_update_triton",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 19,
+        "count": 24
+      },
+      "artifact_id": 13428903906,
+      "artifact_sha256": "sha256:5b23b91fb6559cd684c96691da53acc4de6cfbfcaad67a3b0564e95cbb0ba5ca",
+      "source_files": 241,
+      "source_closure_sha256": "cd6604512a15e27a4dc793e1a15aa03be4f0932f0e0d46ca8c2d9d445e77dea2",
+      "source_pairs_sha256": "1f5dfdfde6035428f2c4940751bf115c947da89428cf8a5217fac2bd76fe582d",
+      "public_theorems": {
+        "bench/tritonbench_g/adam_update_triton/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.AdamUpdateTriton.Correct.lion_kernel_correctness"
+        ],
+        "bench/tritonbench_g/adam_update_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AdamUpdateTriton.FPEquiv.lion_kernel_equiv"
+        ]
+      },
+      "required_replay_sources": 312,
+      "required_replay_sources_sha256": "88dc5028264dba5ddcb96ef623004be416b6882c86799d20864ac0dfa8638415"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/add_example",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 20,
+        "count": 24
+      },
+      "artifact_id": 13442547700,
+      "artifact_sha256": "sha256:ab9c3438859bfddee585118e35222f67efea60083802811ad6c1fee6f9725737",
+      "source_files": 260,
+      "source_closure_sha256": "6d1756244ce940b92312aea6e8029c63f797f7f2c3e283b1a1c9baf686c58f95",
+      "source_pairs_sha256": "4880f3efffba7c61a08bcb12e26dcd7b61438c27c13f8b8215f226bec38754af",
+      "public_theorems": {
+        "bench/tritonbench_g/add_example/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.AddExample.Contiguous.Correct.add_kernel_correctness"
+        ],
+        "bench/tritonbench_g/add_example/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AddExample.Contiguous.FPEquiv.add_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 294,
+      "required_replay_sources_sha256": "902f75f462824b75f163b497c94744bb7b7fc4147d6c2235a45e0c957563b8f5"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/add_value",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 21,
+        "count": 24
+      },
+      "artifact_id": 13437512827,
+      "artifact_sha256": "sha256:68c9f5e2aa65e0569ebc5a5bb559ccaa77c948e9feb51d6614ae9edc0f2d6876",
+      "source_files": 204,
+      "source_closure_sha256": "ef7b9586207a3e21da9353c4193f3cda0ca4139f3761d191e529694d7bbb5c52",
+      "source_pairs_sha256": "b8e863ddc19d249fb603c1a9d6b065a44dd5c84f761c9c513afd6c018919c25e",
+      "public_theorems": {
+        "bench/tritonbench_g/add_value/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.AddValue.Contiguous.Correct.puzzle1_kernel_correctness"
+        ],
+        "bench/tritonbench_g/add_value/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AddValue.Contiguous.FPEquiv.add_value_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 294,
+      "required_replay_sources_sha256": "af8fb6a8f82120167d25ac28de4fba2c8a312063947c6561d270cff6d4102def"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/apply_penalty",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 22,
+        "count": 24
+      },
+      "artifact_id": 13431839905,
+      "artifact_sha256": "sha256:314536b2319356ab322302f158193ca2619bbb02b622271e0ba5a70ed2cd1945",
+      "source_files": 215,
+      "source_closure_sha256": "4d36c4a988789f6d7007b9946e0e1e4184001c3e28ee28dbe3a2b2b64f2fd6aa",
+      "source_pairs_sha256": "e7515a69789381e57681e84fa77c6632c0470c68316884cbe597d256f7a01039",
+      "public_theorems": {
+        "bench/tritonbench_g/apply_penalty/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ApplyPenalty.Correct.apply_penalty_correctness"
+        ],
+        "bench/tritonbench_g/apply_penalty/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ApplyPenalty.FPEquiv.apply_penalty_reciprocal_equiv"
+        ]
+      },
+      "required_replay_sources": 308,
+      "required_replay_sources_sha256": "194faec575ace1264cc5afa504fde1fba1f43a309dcbe3f680031a9f8607a9c2"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/attention_forward_triton",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 19,
+        "count": 24
+      },
+      "artifact_id": 13428903906,
+      "artifact_sha256": "sha256:5b23b91fb6559cd684c96691da53acc4de6cfbfcaad67a3b0564e95cbb0ba5ca",
+      "source_files": 247,
+      "source_closure_sha256": "a484474a2ed6c6dda156e678315441a664623ceeadb69dc43337bda048d18473",
+      "source_pairs_sha256": "0046380fd791a7a526a366934faded2a123b91510af01bcadcf135a9a7663013",
+      "public_theorems": {
+        "bench/tritonbench_g/attention_forward_triton/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.AttentionForwardTriton.Correct.attention_kernel_real"
+        ],
+        "bench/tritonbench_g/attention_forward_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttentionForwardTriton.FPEquiv.attention_head_mask_equiv"
+        ]
+      },
+      "required_replay_sources": 336,
+      "required_replay_sources_sha256": "6619b5355f5c88157f92e083fd1ebada87da1e3b9bf2e520c3a397ef54ab09f3"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/attention_fwd_triton1",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -603,6 +1056,31 @@
       },
       "required_replay_sources": 334,
       "required_replay_sources_sha256": "39d6f0ee74bede2f301529b4f810a8b38b25fe44c965b4ef7333a627f15af1bb"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/attention_fwd_triton2",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 20,
+        "count": 24
+      },
+      "artifact_id": 13442547700,
+      "artifact_sha256": "sha256:ab9c3438859bfddee585118e35222f67efea60083802811ad6c1fee6f9725737",
+      "source_files": 249,
+      "source_closure_sha256": "3309cfcb7cbf7302f2a4f1111938c611a55f9f0eda3d5aa11e7c5f4ad7c6c78f",
+      "source_pairs_sha256": "679e3df6fe47dda909de9a1dc6c21f9b86436fbff02d6d4ddd7819bb42ff07ff",
+      "public_theorems": {
+        "bench/tritonbench_g/attention_fwd_triton2/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.AttentionFwdTriton2.Correct.kernel_raw_correct"
+        ],
+        "bench/tritonbench_g/attention_fwd_triton2/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttentionFwdTriton2.FPEquiv.grid_equiv"
+        ]
+      },
+      "required_replay_sources": 336,
+      "required_replay_sources_sha256": "cf95f6af02fbe067bee10265932a8ddd42850494d8114c869e8fa98ef1ba57e0"
     },
     {
       "accepted": true,
@@ -632,14 +1110,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/attention_kernel",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 0,
-        "count": 24
+        "index": 24,
+        "count": 72
       },
-      "artifact_id": 13417226445,
-      "artifact_sha256": "sha256:14c1a2bbc0d5f5acf75dcfa9ce0c6b5590b304e1f22a8857f415aeeb27404205",
+      "artifact_id": 13442623131,
+      "artifact_sha256": "sha256:d1d3f02183f1c352f18824372576136d04f7c3d52c0d8b075f5be10155db83c0",
       "source_files": 255,
       "source_closure_sha256": "cf0f0b9b6e3f74d94bdb32e63fa251829ab8cadf7ec9b1b796a91b7e8890794f",
       "source_pairs_sha256": "c30ebffbc3fb9c20afd1cb9f435800fba8ae267f19f68592206ff7992d16e774",
@@ -708,6 +1186,31 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/attn_fwd_causal",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 20,
+        "count": 24
+      },
+      "artifact_id": 13442547700,
+      "artifact_sha256": "sha256:ab9c3438859bfddee585118e35222f67efea60083802811ad6c1fee6f9725737",
+      "source_files": 255,
+      "source_closure_sha256": "165b86d5706ca5b25a3ba2a320f672143eca3b1d0105438f8bb279785f6176a5",
+      "source_pairs_sha256": "be3824fffc678e665a1062a092e43c6890f9ed6ea38d4b365f696d1a99fa6410",
+      "public_theorems": {
+        "bench/tritonbench_g/attn_fwd_causal/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.AttnFwdCausal.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/attn_fwd_causal/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.AttnFwdCausal.Equivalence.quotient_remainder_equiv"
+        ]
+      },
+      "required_replay_sources": 338,
+      "required_replay_sources_sha256": "67c0c67edd4e48e0ec61106cb684f7b597a4ce5eb9f1a8525c1bfd0f8a27d81e"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/batched_vecmat_mult",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -734,14 +1237,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/bgmv_expand_slice",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42042183039,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 3,
-        "count": 24
+        "index": 27,
+        "count": 72
       },
-      "artifact_id": 13417704848,
-      "artifact_sha256": "sha256:2386a72d25ad38ceec213d81accd6d89c5e8d3f1aac3b3f036e46f7718178caf",
+      "artifact_id": 13442547638,
+      "artifact_sha256": "sha256:4c30910f1594c817a87f0159d2eba482e275cec09c77b433cce506d95af373e1",
       "source_files": 194,
       "source_closure_sha256": "47e1fe53ac7e82bbcd7fe1dfefdfebe56b61f3893b4a1af198da1e138067e67e",
       "source_pairs_sha256": "a9b674cde05c48c5d55dcc19a4c845ff656881910d143d16bf54d70d1daead90",
@@ -808,6 +1311,31 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/bmm_optimized",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 6,
+        "count": 24
+      },
+      "artifact_id": 13445816665,
+      "artifact_sha256": "sha256:dd3484afaa880389e656f931724742d9617cfa315c1ea5c091a62c1dc7384154",
+      "source_files": 107,
+      "source_closure_sha256": "f0f8e3595bdf213a95c9b594ccdb49cb96529da8cef7f91badbec71cc96de3e8",
+      "source_pairs_sha256": "d464413c92ef6684096ee354af0bc0126a06c31f21ed0b4e1eaa19c625ad3ad1",
+      "public_theorems": {
+        "bench/tritonbench_g/bmm_optimized/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.kernel_real"
+        ],
+        "bench/tritonbench_g/bmm_optimized/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Equivalence.quotient_remainder_equiv"
+        ]
+      },
+      "required_replay_sources": 333,
+      "required_replay_sources_sha256": "7c948c8084d2dae95e8d1db0372ab8b9fed1230d849da77da2d001c36811d343"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/cache_transform_triton",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -833,15 +1361,40 @@
     },
     {
       "accepted": true,
-      "path": "bench/tritonbench_g/chunk_cumsum_vector",
+      "path": "bench/tritonbench_g/chunk_cumsum_kernel",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "shard": {
-        "index": 9,
+        "index": 8,
         "count": 24
       },
-      "artifact_id": 13416554543,
-      "artifact_sha256": "sha256:2334f491154d36f6d527693d64d2df5bf99537718495ac5c0102844a7967c361",
+      "artifact_id": 13428945097,
+      "artifact_sha256": "sha256:e10917e9dc90ade3362dc0e05d1a9d840e58bbc59528064f8eca48ffe267c4b1",
+      "source_files": 224,
+      "source_closure_sha256": "54e3c62a57c02694957793f915c1129ecc4761b461d16a7b0f1ffc5901b453de",
+      "source_pairs_sha256": "c269e68adf6fb4c2cb97a67bdd66af42f09ecbbd417bb272b3af5e44be04ba73",
+      "public_theorems": {
+        "bench/tritonbench_g/chunk_cumsum_kernel/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ChunkCumsumKernel.Correct.memory_correct"
+        ],
+        "bench/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ChunkCumsumKernel.FPEquiv.memory_equiv"
+        ]
+      },
+      "required_replay_sources": 297,
+      "required_replay_sources_sha256": "0a26e92b49a012305628f6c7ef82cc2ad6d88670aef6e34d8cb187b0f46e6b52"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/chunk_cumsum_vector",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 33,
+        "count": 72
+      },
+      "artifact_id": 13438405116,
+      "artifact_sha256": "sha256:04b62a088b354edeadb9c8cb1119582d6862c5a64f3d672185dcecb27555649e",
       "source_files": 245,
       "source_closure_sha256": "61371c322fb32a014b14226de674ecd5bfe301c0a7ada722885f45f5f9c5777f",
       "source_pairs_sha256": "ca434d71bce8d2e841f60882ae1eebabd99bea98393cfa96e62589c7490101a4",
@@ -859,14 +1412,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/chunk_delta_fwd",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 10,
-        "count": 24
+        "index": 34,
+        "count": 72
       },
-      "artifact_id": 13416988023,
-      "artifact_sha256": "sha256:173f2cc76c3e58bab80f94432e4f4ef563d42e608c6169ad22845498b1907cad",
+      "artifact_id": 13442855420,
+      "artifact_sha256": "sha256:ae0a500423d9e357f86088c949016f0432fb42eaeee24c79507f486a1de67ca2",
       "source_files": 403,
       "source_closure_sha256": "24143f62c8bc917beef5bdd318ceb4e6dfd1331def827102594dda0368720806",
       "source_pairs_sha256": "10a7d8344c773ca7c30c38a9d59b4ca642f13596ae20d279edec307f2015439c",
@@ -932,6 +1485,134 @@
       },
       "required_replay_sources": 299,
       "required_replay_sources_sha256": "73955da0351215c026e382702938a3cbf4c2a937ab0757c24d51a327b7ebbc05"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/chunk_gla_simple",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 13,
+        "count": 24
+      },
+      "artifact_id": 13430372286,
+      "artifact_sha256": "sha256:9b7fff855b731d48b60aec509c6ab2a273071066249d5b2162a071c5fac7a660",
+      "source_files": 400,
+      "source_closure_sha256": "f7a0c7c068ae9d40dcc4356ae9510abef5c9e52b058c74a200f6622a9cc6b1dc",
+      "source_pairs_sha256": "173924eb711caeb5ea5f8eb4eea0b745fe8b3266582428a7edad6673f443434b",
+      "public_theorems": {
+        "bench/tritonbench_g/chunk_gla_simple/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.Correct.whole_kernel"
+        ],
+        "bench/tritonbench_g/chunk_gla_simple/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.FPEquiv.whole_kernel_equiv"
+        ]
+      },
+      "required_replay_sources": 365,
+      "required_replay_sources_sha256": "5499bc8a44ca3e71af5c9332409d66d90050ba77c3d535172ebc29b11abacfe6"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/chunk_retention",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 48,
+        "count": 72
+      },
+      "artifact_id": 13439420152,
+      "artifact_sha256": "sha256:afd124e69f1d586508b958c9dbf4fb1e43fbd6446404d8a4f682fe889107864b",
+      "source_files": 381,
+      "source_closure_sha256": "8e6c3de730c82d20c6892944ec2dbb5542f3d9892a484903f52dbfc787226ab5",
+      "source_pairs_sha256": "cd8d9041bdc6b1cbe65d71fde9b747ae09ad60f9a5bf8f20ba0d47b58385ab9c",
+      "public_theorems": {
+        "bench/tritonbench_g/chunk_retention/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ChunkRetention.Whole001.KernelOnly.source_correct"
+        ],
+        "bench/tritonbench_g/chunk_retention/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ChunkRetention.Whole001.KernelOnly.source_candidate_equivalence"
+        ]
+      },
+      "required_replay_sources": 380,
+      "required_replay_sources_sha256": "08302af244e505b3f5c82205508a2f301a3709bbf7eb462e075434d418d4a2ca"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/chunk_retention_ops",
+      "official_run": 42052386566,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 49,
+        "count": 72
+      },
+      "artifact_id": 13441449423,
+      "artifact_sha256": "sha256:9aa6352ea025346232d7072842eb7c140bdf41eb8def4b3b667ece959bb9468b",
+      "source_files": 478,
+      "source_closure_sha256": "f0788cdd9d58a92f6607d5d8afe495130ecb504b97b3dd6363fc7012ad5c5a8d",
+      "source_pairs_sha256": "ffd28611d84d6a03c784f71dae89a2f1f6d58e0c1769c91b33916b94b96cc467",
+      "public_theorems": {
+        "bench/tritonbench_g/chunk_retention_ops/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Correct.forward_correct",
+          "VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Correct.output_correct",
+          "VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Correct.backward_correct",
+          "VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Correct.gradient_correct"
+        ],
+        "bench/tritonbench_g/chunk_retention_ops/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.FPEquiv.source_candidate_equivalence"
+        ]
+      },
+      "required_replay_sources": 379,
+      "required_replay_sources_sha256": "a7ba381b7f380a3a8bc07469c1d2631289776a4aef01befa718b23d9d87081de"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/chunked_cumsum_fwd",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 14,
+        "count": 24
+      },
+      "artifact_id": 13444179362,
+      "artifact_sha256": "sha256:755a8a65ab81dd4bab3e2d85b39f185976ed54ac6234cdab0b0064d1bd11452b",
+      "source_files": 116,
+      "source_closure_sha256": "ae42514b6caf1200132f5b620df5126f13a7b65368c77b4728d4fe21648be27f",
+      "source_pairs_sha256": "965d0a343a911e7ff852f4aa0059772caa9c1832f20b039851ac8f19e4f560c5",
+      "public_theorems": {
+        "bench/tritonbench_g/chunked_cumsum_fwd/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ChunkedCumsumFwd.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/chunked_cumsum_fwd/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ChunkedCumsumFwd.KernelOnly.FPEquiv.chunked_cumsum_scaleFirst_equiv"
+        ]
+      },
+      "required_replay_sources": 320,
+      "required_replay_sources_sha256": "6ccfcc037be8c2e4b57280b32008bc909a030fc7bb05602bcc23e722f1a02f66"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/context_attn_bloom",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 33,
+        "count": 72
+      },
+      "artifact_id": 13438405116,
+      "artifact_sha256": "sha256:04b62a088b354edeadb9c8cb1119582d6862c5a64f3d672185dcecb27555649e",
+      "source_files": 488,
+      "source_closure_sha256": "8f7caa0ab032ce101279dcc8c8dc69f6f1e152c6871078fda708004635e40c0e",
+      "source_pairs_sha256": "8479b86596a7f055390962db80f32bc66cc2a2e82bd211b21ae32b2260af29c9",
+      "public_theorems": {
+        "bench/tritonbench_g/context_attn_bloom/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.correct_real"
+        ],
+        "bench/tritonbench_g/context_attn_bloom/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ContextAttnBloomWhole001.PublicKernel.source_candidate_equivalence"
+        ]
+      },
+      "required_replay_sources": 403,
+      "required_replay_sources_sha256": "9a761a28fe70431ff75a91837fba143394b4801cbb03dc20cc5031922e5506b1"
     },
     {
       "accepted": true,
@@ -1093,6 +1774,106 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/dequantize_matmul",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 19,
+        "count": 24
+      },
+      "artifact_id": 13428903906,
+      "artifact_sha256": "sha256:5b23b91fb6559cd684c96691da53acc4de6cfbfcaad67a3b0564e95cbb0ba5ca",
+      "source_files": 238,
+      "source_closure_sha256": "b298ae7b8cd792413cc10f41099f6a0c9eded7fc08edeff7fb397f450d28be76",
+      "source_pairs_sha256": "7f2f427d42d5f18a42b841306b808bcd5ebaed8de88d32a407f675c0e12fd3cc",
+      "public_theorems": {
+        "bench/tritonbench_g/dequantize_matmul/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.DequantizeMatmul.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/dequantize_matmul/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.DequantizeMatmul.FPEquiv.kernel_equiv"
+        ]
+      },
+      "required_replay_sources": 319,
+      "required_replay_sources_sha256": "033e0796fdef3a5b7d97f4974f7f7747aad85f0b0cb67fb3a82ca05629f89560"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/dequantize_rowwise",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 20,
+        "count": 24
+      },
+      "artifact_id": 13442547700,
+      "artifact_sha256": "sha256:ab9c3438859bfddee585118e35222f67efea60083802811ad6c1fee6f9725737",
+      "source_files": 205,
+      "source_closure_sha256": "029087017460e2ac411ebfa750ffe4564a8c927fc31e540bb48098bb6a7d0908",
+      "source_pairs_sha256": "f24d63b1edb7b43c35f205e763e5cdd5006b8651c5ae666c238e98a6656068c2",
+      "public_theorems": {
+        "bench/tritonbench_g/dequantize_rowwise/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.DequantizeRowwise.dequantize_rowwise_correct"
+        ],
+        "bench/tritonbench_g/dequantize_rowwise/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.DequantizeRowwise.FPEquivalence.selected_equivalent"
+        ]
+      },
+      "required_replay_sources": 293,
+      "required_replay_sources_sha256": "dff1c64665a455f9ab447a572ce0e378111eab60678e2a52f5c287811289548c"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/destindex_copy",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 21,
+        "count": 24
+      },
+      "artifact_id": 13437512827,
+      "artifact_sha256": "sha256:68c9f5e2aa65e0569ebc5a5bb559ccaa77c948e9feb51d6614ae9edc0f2d6876",
+      "source_files": 219,
+      "source_closure_sha256": "82cb4dc4c6b9530f650e41baa11d65659eaa1cce8b01a5ce360a123887234208",
+      "source_pairs_sha256": "404dd265ae044e6c647faf1c87b51391715431e694d176e8c03608e524278fa1",
+      "public_theorems": {
+        "bench/tritonbench_g/destindex_copy/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.DestindexCopy.Correct.destindex_copy_real"
+        ],
+        "bench/tritonbench_g/destindex_copy/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.DestindexCopy.FPEquiv.index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 299,
+      "required_replay_sources_sha256": "456c489f010816a1903b18fe6b02fe87bf5381be9f9ccd180d52f8cf6431a5f9"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/destindex_copy_kv1",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 22,
+        "count": 24
+      },
+      "artifact_id": 13431839905,
+      "artifact_sha256": "sha256:314536b2319356ab322302f158193ca2619bbb02b622271e0ba5a70ed2cd1945",
+      "source_files": 209,
+      "source_closure_sha256": "e3166d266c798e1afc6af65c126d05182ddbedec6819599c585bb30033b6b4cd",
+      "source_pairs_sha256": "f7a9a5153ee256786331ca650afafb46857a40b0d717aad8d22a76a72dbd9314",
+      "public_theorems": {
+        "bench/tritonbench_g/destindex_copy_kv1/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.DestindexCopyKv1.Correct.destindex_copy_kv1_kernel_real"
+        ],
+        "bench/tritonbench_g/destindex_copy_kv1/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.DestindexCopyKv1.FPEquiv.index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 306,
+      "required_replay_sources_sha256": "b984e449ddcf89f6caa41712c265d0606653c87e7bd450525d4f871d4fde7966"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/destindex_copy_kv2",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -1150,14 +1931,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/dropout_triton",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 0,
-        "count": 24
+        "index": 48,
+        "count": 72
       },
-      "artifact_id": 13417226445,
-      "artifact_sha256": "sha256:14c1a2bbc0d5f5acf75dcfa9ce0c6b5590b304e1f22a8857f415aeeb27404205",
+      "artifact_id": 13439420152,
+      "artifact_sha256": "sha256:afd124e69f1d586508b958c9dbf4fb1e43fbd6446404d8a4f682fe889107864b",
       "source_files": 211,
       "source_closure_sha256": "e4c106574a760400a4a7818ef2c6b488ad5ce4da8f75e0ea116c25ee677e9efe",
       "source_pairs_sha256": "bb5a1f17328a1bbb738a2bd6a247e99171ba595d706dc286fa5be966d0e4f88c",
@@ -1175,14 +1956,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/embedding_triton_kernel",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42052386566,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 1,
-        "count": 24
+        "index": 49,
+        "count": 72
       },
-      "artifact_id": 13418573179,
-      "artifact_sha256": "sha256:b44218e94dd0845087a41bfa65454430f70d9d803c329b91b4ed969ab3085949",
+      "artifact_id": 13441449423,
+      "artifact_sha256": "sha256:9aa6352ea025346232d7072842eb7c140bdf41eb8def4b3b667ece959bb9468b",
       "source_files": 218,
       "source_closure_sha256": "fd4a7ff9e049fff5bce057dbe21fc8827edd5c845ee674a1b2efc254dbef2244",
       "source_pairs_sha256": "cff1a8c1446cfb821dd83bd50fac8bfad2feec5ba80935fb48963de44f38439e",
@@ -1200,14 +1981,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/f8_conversion_utils",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42052386566,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 2,
-        "count": 24
+        "index": 50,
+        "count": 72
       },
-      "artifact_id": 13424658252,
-      "artifact_sha256": "sha256:730f04273fbe9a9627b6989be0da9e2c3da41ecab74c0b0eda8fafd68ee79a65",
+      "artifact_id": 13442623216,
+      "artifact_sha256": "sha256:e7985f7204976047d2117e26b7568235b9a60311ba5f2d079e25cf1f6b50ef8a",
       "source_files": 294,
       "source_closure_sha256": "6a80f41cbf09a361afca668d6dcdcbcc1eb7870c1f4fde749de942e980dedb6d",
       "source_pairs_sha256": "3755b4517df71417d88c1f77e9b624c8d2819c54ecd0a6030bfb8c81dd5b897c",
@@ -1225,14 +2006,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/fast_ce_loss",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42042183039,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 3,
-        "count": 24
+        "index": 51,
+        "count": 72
       },
-      "artifact_id": 13417704848,
-      "artifact_sha256": "sha256:2386a72d25ad38ceec213d81accd6d89c5e8d3f1aac3b3f036e46f7718178caf",
+      "artifact_id": 13440499020,
+      "artifact_sha256": "sha256:c3940e1234b3d25bd245bfedda7b24b2ad223513fc4e865f4bbb8ba9598ad8ab",
       "source_files": 227,
       "source_closure_sha256": "ac85625f2bccf7f05eb8db2b4b4257283878b78abe1019f19eecd39408223e29",
       "source_pairs_sha256": "f92a8b3aeb62f9e61a29bab4269a80e13ea20d1765824e5073413adf26dee599",
@@ -1277,6 +2058,57 @@
       },
       "required_replay_sources": 329,
       "required_replay_sources_sha256": "b54f26e730039281d8a7586fe5cdbb1ee184442881fb4025442484aa89b0dd8b"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/fast_rms_layernorm",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 53,
+        "count": 72
+      },
+      "artifact_id": 13445945832,
+      "artifact_sha256": "sha256:0992ba2d7bf71ca4ef8366ed07ad94ff402d6b5a089b9e635d6feea81dd3933c",
+      "source_files": 283,
+      "source_closure_sha256": "226db302d1e606b7437d48199e9bf4babe7f2ee231d2afe5d26d23e877b3b590",
+      "source_pairs_sha256": "ecace022387c7a9fa861626819b9dd743e0361985967c33cb9c11c3e92de8443",
+      "public_theorems": {
+        "bench/tritonbench_g/fast_rms_layernorm/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.FastRmsLayernorm.Correct.kernel_forward",
+          "VeriTile.Bench.Repairs.FastRmsLayernorm.Correct.kernel_backward"
+        ],
+        "bench/tritonbench_g/fast_rms_layernorm/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FastRmsLayernorm.FPEquiv.kernel_equivalent"
+        ]
+      },
+      "required_replay_sources": 366,
+      "required_replay_sources_sha256": "835b3ca2d60a1d8af46eb41acffc8f222f513af222aff9ef770121163208d052"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/fast_rope_embedding",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 6,
+        "count": 24
+      },
+      "artifact_id": 13445816665,
+      "artifact_sha256": "sha256:dd3484afaa880389e656f931724742d9617cfa315c1ea5c091a62c1dc7384154",
+      "source_files": 237,
+      "source_closure_sha256": "65b7b87fcea58da2440bcaa14043bf99b3af69172624c6ebe71a9f17b648bce6",
+      "source_pairs_sha256": "bc57ddd198695ab184f9fb2e9ae753184d3c1c7e17fd435ec6cdca13758c44ac",
+      "public_theorems": {
+        "bench/tritonbench_g/fast_rope_embedding/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.FastRopeEmbedding.fast_rope_kernel_correctness"
+        ],
+        "bench/tritonbench_g/fast_rope_embedding/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FastRopeEmbedding.FPEquiv.fast_rope_kernel_equivalent"
+        ]
+      },
+      "required_replay_sources": 308,
+      "required_replay_sources_sha256": "f9f525db909ed219972a4c57613ea5c196e12780cd04382509698a51ccc18fa0"
     },
     {
       "accepted": true,
@@ -1356,6 +2188,31 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/flash_decode2_phi",
+      "official_run": 42062236605,
+      "source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
+      "shard": {
+        "index": 56,
+        "count": 72
+      },
+      "artifact_id": 13444950391,
+      "artifact_sha256": "sha256:d9a24358902c8f07c597d22a051ae454cc27703003357d6f157694cfddc1cdcb",
+      "source_files": 210,
+      "source_closure_sha256": "8f5e5ae037eb55dfebab3fdac7dddbac902809663cd777aacba1643d0f885d44",
+      "source_pairs_sha256": "eb7af2dbd928a16406b39c83627380941984ca5f2862f52d5596cf407a363916",
+      "public_theorems": {
+        "bench/tritonbench_g/flash_decode2_phi/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/flash_decode2_phi/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.FPEquiv.kernel_equivalent"
+        ]
+      },
+      "required_replay_sources": 324,
+      "required_replay_sources_sha256": "eccb174c5296c0dba8764d1438be687a8aa79434fe602560e2a0502820e973f1"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/fp4_to_bf16",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -1382,14 +2239,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/fused_activation",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 9,
-        "count": 24
+        "index": 57,
+        "count": 72
       },
-      "artifact_id": 13416554543,
-      "artifact_sha256": "sha256:2334f491154d36f6d527693d64d2df5bf99537718495ac5c0102844a7967c361",
+      "artifact_id": 13440400266,
+      "artifact_sha256": "sha256:2a8f6584737af8a6593c9817d189f15f6e5603825b479d9f002f23e7fed5fad7",
       "source_files": 221,
       "source_closure_sha256": "fc3b9e780688a2ff9ceaa824d02fe4c0bd4f16bd204b4e49c743f478a3e72fba",
       "source_pairs_sha256": "89a2abae78c31ac78e94515054c1d0d47612a4c325aaf409aa7ef023a06d4a29",
@@ -1479,6 +2336,56 @@
       },
       "required_replay_sources": 372,
       "required_replay_sources_sha256": "fcd4107141b0828d4ee9342c9439c124c723114f94bcaf15d103b6d333a58aee"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/fused_rotary_embedding",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 13,
+        "count": 24
+      },
+      "artifact_id": 13430372286,
+      "artifact_sha256": "sha256:9b7fff855b731d48b60aec509c6ab2a273071066249d5b2162a071c5fac7a660",
+      "source_files": 243,
+      "source_closure_sha256": "1cc83eaaeb88574656d0626276786846ed088152cfa5bcec6b2e74b5a33a9cd0",
+      "source_pairs_sha256": "20bce87dbf7c95eafdce82cc1e6630a76525ef7121e12b83991c4e6654800a10",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_rotary_embedding/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.Correct.fused_rotary_real"
+        ],
+        "bench/tritonbench_g/fused_rotary_embedding/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.FPEquiv.kernel_equivalent"
+        ]
+      },
+      "required_replay_sources": 337,
+      "required_replay_sources_sha256": "192827c09f9675a7a564aad31729b0012cb4fbe1d03411dc14ea4286920897ee"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/fused_rwkv6_kernel",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 14,
+        "count": 24
+      },
+      "artifact_id": 13444179362,
+      "artifact_sha256": "sha256:755a8a65ab81dd4bab3e2d85b39f185976ed54ac6234cdab0b0064d1bd11452b",
+      "source_files": 247,
+      "source_closure_sha256": "f21504474e2364051f6cbe1d352ccb63fc5b07f805722cc0042d5f1ed0f9e3bd",
+      "source_pairs_sha256": "15ac5ed72c628660e18b518ecca1bfb31a114f0ce32efada8c8b82a40a82a14e",
+      "public_theorems": {
+        "bench/tritonbench_g/fused_rwkv6_kernel/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct.rwkv_real"
+        ],
+        "bench/tritonbench_g/fused_rwkv6_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.FPEquiv.u_early_equiv"
+        ]
+      },
+      "required_replay_sources": 336,
+      "required_replay_sources_sha256": "d2b677fd33e6cddc8108e2586658331c1f6f3e9c3f38c00b8bf3bc15e71ad61d"
     },
     {
       "accepted": true,
@@ -1582,6 +2489,56 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/int8_dequant_matmul",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 19,
+        "count": 24
+      },
+      "artifact_id": 13428903906,
+      "artifact_sha256": "sha256:5b23b91fb6559cd684c96691da53acc4de6cfbfcaad67a3b0564e95cbb0ba5ca",
+      "source_files": 331,
+      "source_closure_sha256": "0de48a6849144d0e9dd9cba2f24131510fcff7774100d170695c47b16d166e34",
+      "source_pairs_sha256": "8fe270a1305b87402a99529c0fbbef5fa679e37f931dce90734622cfa0918822",
+      "public_theorems": {
+        "bench/tritonbench_g/int8_dequant_matmul/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/int8_dequant_matmul/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.FPEquiv.reuse_indices_equiv"
+        ]
+      },
+      "required_replay_sources": 359,
+      "required_replay_sources_sha256": "158e2194dd60c302111176a5fa235a22ab476492a5844a67467f5fa98baf253c"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/int8_matmul_kernel",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 20,
+        "count": 24
+      },
+      "artifact_id": 13442547700,
+      "artifact_sha256": "sha256:ab9c3438859bfddee585118e35222f67efea60083802811ad6c1fee6f9725737",
+      "source_files": 254,
+      "source_closure_sha256": "b42fdf6c329cb0d7e9bd3c3778106f0e95de8b6dc95d0b85f61e2513ed848f56",
+      "source_pairs_sha256": "2e895bab1335a003df0c331c7b83f23993cd1e0195126ecb20637e9ba32a3472",
+      "public_theorems": {
+        "bench/tritonbench_g/int8_matmul_kernel/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.kernel_low32"
+        ],
+        "bench/tritonbench_g/int8_matmul_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.FPEquiv.configuration_equiv"
+        ]
+      },
+      "required_replay_sources": 338,
+      "required_replay_sources_sha256": "ce7eeea6bfdd58cc5d5931d67f836f9716c4db4ecaa5ebf2dbb444fc6a4c13a6"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/int8_quantization",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -1631,6 +2588,56 @@
       },
       "required_replay_sources": 356,
       "required_replay_sources_sha256": "ad3650eee3e494f552df9021ac2f086c76ba748a9c30c6148fb68620b6179c14"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/isfinite_kernel",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 21,
+        "count": 24
+      },
+      "artifact_id": 13437512827,
+      "artifact_sha256": "sha256:68c9f5e2aa65e0569ebc5a5bb559ccaa77c948e9feb51d6614ae9edc0f2d6876",
+      "source_files": 299,
+      "source_closure_sha256": "5820f1b2ffd6f8d9d66f0472be9e8053fb2f50882fd70650d6f0d0c951176fdb",
+      "source_pairs_sha256": "35021e60d1bb72f8a184c6f7c58cb6c07cbc8f8db1064e408833f21eab89d12e",
+      "public_theorems": {
+        "bench/tritonbench_g/isfinite_kernel/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.IsfiniteKernel.Correct.isfinite_real_correctness"
+        ],
+        "bench/tritonbench_g/isfinite_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.IsfiniteKernel.FPEquiv.isfinite_index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 308,
+      "required_replay_sources_sha256": "bc8408e5b2405830a1d0033a9578c5296cd5baf0a3de40e5718e6d524d839719"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/kcache_copy_triton",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 22,
+        "count": 24
+      },
+      "artifact_id": 13431839905,
+      "artifact_sha256": "sha256:314536b2319356ab322302f158193ca2619bbb02b622271e0ba5a70ed2cd1945",
+      "source_files": 210,
+      "source_closure_sha256": "44e562ad66d6e106b9659bfb6b81b7e4bdffbd98af1449deea853670525a8d0b",
+      "source_pairs_sha256": "46a0eec55099120dffff3c4b840932b43bc856cd5c2060708da1ff1ba0d5774e",
+      "public_theorems": {
+        "bench/tritonbench_g/kcache_copy_triton/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.KcacheCopyTriton.Correct.kcache_copy_triton_real"
+        ],
+        "bench/tritonbench_g/kcache_copy_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.KcacheCopyTriton.FPEquiv.source_equivalence"
+        ]
+      },
+      "required_replay_sources": 296,
+      "required_replay_sources_sha256": "366ed5e0633e6975bccdd5c5d90c27453af3d3c761a892b2bb679b232790935e"
     },
     {
       "accepted": true,
@@ -1765,6 +2772,31 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/kv_cache_filling",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 22,
+        "count": 24
+      },
+      "artifact_id": 13431839905,
+      "artifact_sha256": "sha256:314536b2319356ab322302f158193ca2619bbb02b622271e0ba5a70ed2cd1945",
+      "source_files": 106,
+      "source_closure_sha256": "acc47927fccb69a4d13387e8cc54c0c2e448b4d4f73148e7613f1809a38c96be",
+      "source_pairs_sha256": "25adf82c7e3b4c7bc88aad5eb604badb661e4e1f1d0f80a0acdd544930c49821",
+      "public_theorems": {
+        "bench/tritonbench_g/kv_cache_filling/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real"
+        ],
+        "bench/tritonbench_g/kv_cache_filling/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.KvCacheFilling.FPEquiv.kernel_native"
+        ]
+      },
+      "required_replay_sources": 327,
+      "required_replay_sources_sha256": "a7b616c6d3df5d184f372937c983c769660fa3e35cbb60e6b8a06c4d067859d7"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/l2_norm_bwd",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -1787,6 +2819,83 @@
       },
       "required_replay_sources": 297,
       "required_replay_sources_sha256": "7a51874131a5ecce326dd9406f625737a78fd846f012926b32f9eaf3da7b9686"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/l2_norm_triton1",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 5,
+        "count": 72
+      },
+      "artifact_id": 13431453825,
+      "artifact_sha256": "sha256:ba9d53173c1bb52e1f4789bbfc8193d26a77233f259df7a0831ad4aed38c1bed",
+      "source_files": 228,
+      "source_closure_sha256": "1689dc7ff7f441940b5db6c097e4f665b9e5f19c360f5c097ca077fae0d9efdb",
+      "source_pairs_sha256": "c49d21d922e0df51c7d099c650f427b04e873327169ea0dbb8280d547ca2bd87",
+      "public_theorems": {
+        "bench/tritonbench_g/l2_norm_triton1/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.L2NormTriton1.Correct.grid_correct"
+        ],
+        "bench/tritonbench_g/l2_norm_triton1/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.L2NormTriton1.FPEquiv.source_equivalence"
+        ]
+      },
+      "required_replay_sources": 296,
+      "required_replay_sources_sha256": "5b79654f30bddaa26f4122081c217a8409f29b25b2eb9e7a20c39152222937ea"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/l2_norm_triton2",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 6,
+        "count": 24
+      },
+      "artifact_id": 13445816665,
+      "artifact_sha256": "sha256:dd3484afaa880389e656f931724742d9617cfa315c1ea5c091a62c1dc7384154",
+      "source_files": 207,
+      "source_closure_sha256": "0d86cf1503552adc60e7ed311b86f788ff31cc0f5fec70b0983475317ff0765e",
+      "source_pairs_sha256": "5e92125be0bb0fd2e8d58063bace236d59c1efdac2ca8df64758494e87c27211",
+      "public_theorems": {
+        "bench/tritonbench_g/l2_norm_triton2/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.L2NormTriton2.Correct.forward_correctness",
+          "VeriTile.Bench.Repairs.L2NormTriton2.Correct.backward_correctness"
+        ],
+        "bench/tritonbench_g/l2_norm_triton2/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.L2NormTriton2.FPEquiv.forward_equivalence",
+          "VeriTile.Bench.Repairs.L2NormTriton2.FPEquiv.backward_equivalence"
+        ]
+      },
+      "required_replay_sources": 295,
+      "required_replay_sources_sha256": "11a611dd28aa41d205f89a903c535b4d46fa39b35140d073225b8b3e02fcef8f"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/layer_norm_fwd",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 34,
+        "count": 72
+      },
+      "artifact_id": 13442855420,
+      "artifact_sha256": "sha256:ae0a500423d9e357f86088c949016f0432fb42eaeee24c79507f486a1de67ca2",
+      "source_files": 304,
+      "source_closure_sha256": "20b3c9aba35597ad3eff0cc14baa2d5475b45ada8f47136d6959e7f94c889c6f",
+      "source_pairs_sha256": "bac6cf2a509a16e6ebc199034ce69b7c0173329504b8a376357e6b651bd560d7",
+      "public_theorems": {
+        "bench/tritonbench_g/layer_norm_fwd/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.correct"
+        ],
+        "bench/tritonbench_g/layer_norm_fwd/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 405,
+      "required_replay_sources_sha256": "770d8ba1f23ecfa987b1031ae0f52fa6ac270400932b272bd980cbf61febb7a3"
     },
     {
       "accepted": true,
@@ -1814,6 +2923,33 @@
       },
       "required_replay_sources": 347,
       "required_replay_sources_sha256": "248cd4ef6f5740f04ff9440b62d073297c7f1a36e12fcfad8eabb5557a22e8ac"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/layer_norm_ops",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 8,
+        "count": 24
+      },
+      "artifact_id": 13428945097,
+      "artifact_sha256": "sha256:e10917e9dc90ade3362dc0e05d1a9d840e58bbc59528064f8eca48ffe267c4b1",
+      "source_files": 314,
+      "source_closure_sha256": "a162d25975be7185542a1e26bfcf0ff36b0376a19dff373a4a8a7445c2db7d0d",
+      "source_pairs_sha256": "3590a833acd5c75afae44952bee9402dc337c4074512caf496ad58bbce7e4ed8",
+      "public_theorems": {
+        "bench/tritonbench_g/layer_norm_ops/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.LayerNormOps.Correct.layer_norm_ops_forward_kernel_real",
+          "VeriTile.Bench.Repairs.LayerNormOps.Correct.layer_norm_ops_backward_kernel_real"
+        ],
+        "bench/tritonbench_g/layer_norm_ops/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LayerNormOps.FPEquiv.forward_mask_reused_equiv",
+          "VeriTile.Bench.Repairs.LayerNormOps.FPEquiv.backward_row_start_reused_equiv"
+        ]
+      },
+      "required_replay_sources": 344,
+      "required_replay_sources_sha256": "d4d5cca78fbd6de8c600719e01bffbd2df37876f152197b103e4c320b8e294cc"
     },
     {
       "accepted": true,
@@ -1896,6 +3032,58 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/lightning_attention",
+      "official_run": 42052386566,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 50,
+        "count": 72
+      },
+      "artifact_id": 13442623216,
+      "artifact_sha256": "sha256:e7985f7204976047d2117e26b7568235b9a60311ba5f2d079e25cf1f6b50ef8a",
+      "source_files": 486,
+      "source_closure_sha256": "02e576083f3918a578b3533fba9f63f92885d645e225714b64c4b209b06f2f53",
+      "source_pairs_sha256": "e48863b1b83c254f6ea1fdb67c5b9341b0dd87d5154c6286cce3145e1b7a0b0d",
+      "public_theorems": {
+        "bench/tritonbench_g/lightning_attention/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.LightningAttention.KernelOnly.forward_correct",
+          "VeriTile.Bench.Repairs.LightningAttention.KernelOnly.backward_correct"
+        ],
+        "bench/tritonbench_g/lightning_attention/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LightningAttention.KernelOnly.FPEquiv.forward_equiv",
+          "VeriTile.Bench.Repairs.LightningAttention.KernelOnly.FPEquiv.backward_equiv"
+        ]
+      },
+      "required_replay_sources": 401,
+      "required_replay_sources_sha256": "5f94eef9c6db17032c3173947ee3a6202cdecd3b7bc153c4f913bf77f21621a8"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/llama_ff_triton",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 21,
+        "count": 24
+      },
+      "artifact_id": 13437512827,
+      "artifact_sha256": "sha256:68c9f5e2aa65e0569ebc5a5bb559ccaa77c948e9feb51d6614ae9edc0f2d6876",
+      "source_files": 318,
+      "source_closure_sha256": "2b78d52a52320223549b019fb5a9c79b15234f94aae02f0c3bb9d529618a472f",
+      "source_pairs_sha256": "12f5f948745477bf4bc847855452e32cf97bdedd2b5a23c4ddafea4fdcbd33ba",
+      "public_theorems": {
+        "bench/tritonbench_g/llama_ff_triton/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.LlamaFFScalarCast.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/llama_ff_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LlamaFFScalarCast.FPEquiv.source_equivalence"
+        ]
+      },
+      "required_replay_sources": 348,
+      "required_replay_sources_sha256": "e42db847401036b86a2f9f9a90082e9c88fa60da053659efc043f232ed8efd25"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/log_softmax",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -1945,6 +3133,56 @@
       },
       "required_replay_sources": 295,
       "required_replay_sources_sha256": "1249ccf7f79d9d1732971bde89fd63c6e8a0f59fa5de60a9f59acfedd31909d1"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/lora_expand_gemv",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 13,
+        "count": 24
+      },
+      "artifact_id": 13430372286,
+      "artifact_sha256": "sha256:9b7fff855b731d48b60aec509c6ab2a273071066249d5b2162a071c5fac7a660",
+      "source_files": 261,
+      "source_closure_sha256": "8c38c9e9e82631f311b81112bddff0ddebc033a740fb1636ce5ad7227d72e4ab",
+      "source_pairs_sha256": "9032ccc74cc0db7fd68a3acec41e12cc203aaf44a9fc3fccd7f1f46e556f26da",
+      "public_theorems": {
+        "bench/tritonbench_g/lora_expand_gemv/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/lora_expand_gemv/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.FPEquiv.grid_equiv"
+        ]
+      },
+      "required_replay_sources": 335,
+      "required_replay_sources_sha256": "1129acccace8c5e0edc1ec4d0107003489def918723da6b2b2f1a0d8bcfa802c"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/masked_add_cuda",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 14,
+        "count": 24
+      },
+      "artifact_id": 13444179362,
+      "artifact_sha256": "sha256:755a8a65ab81dd4bab3e2d85b39f185976ed54ac6234cdab0b0064d1bd11452b",
+      "source_files": 247,
+      "source_closure_sha256": "08cd67376f90f33b757c6c7cb9c4ef874b1e58fb20cfd9e62d29e1c4d3eae427",
+      "source_pairs_sha256": "5e04de68d75e06075ed0fa8daf42a1d5a8b12e0125ce6f4a589dab128f20c847",
+      "public_theorems": {
+        "bench/tritonbench_g/masked_add_cuda/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.MaskedAddCuda.Correct.masked_add_kernel_correctness"
+        ],
+        "bench/tritonbench_g/masked_add_cuda/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MaskedAddCuda.FPEquiv.masked_add_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 295,
+      "required_replay_sources_sha256": "2a9e58ceed54d87a1bdcd5158b870c854a511649dc23f0ef85d400f34f9420cc"
     },
     {
       "accepted": true,
@@ -2129,6 +3367,106 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/matmul_persistent_triton",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 19,
+        "count": 24
+      },
+      "artifact_id": 13428903906,
+      "artifact_sha256": "sha256:5b23b91fb6559cd684c96691da53acc4de6cfbfcaad67a3b0564e95cbb0ba5ca",
+      "source_files": 294,
+      "source_closure_sha256": "2da260dd2f9669c21ea66327a16b95df172d726e4276493452c3842ac229259e",
+      "source_pairs_sha256": "c8da3be9b6dd1526378da0f0ee0e841a5810d1c882dbba5f35ffa6af6bde3d10",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_persistent_triton/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.kernel_correct"
+        ],
+        "bench/tritonbench_g/matmul_persistent_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.FPEquiv.source_pair_equiv"
+        ]
+      },
+      "required_replay_sources": 344,
+      "required_replay_sources_sha256": "c329a87528e5ce7022d3e1f533e3ab6b486afb2c2a855e4bad024ad86e6fb5aa"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/matmul_tma",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 20,
+        "count": 24
+      },
+      "artifact_id": 13442547700,
+      "artifact_sha256": "sha256:ab9c3438859bfddee585118e35222f67efea60083802811ad6c1fee6f9725737",
+      "source_files": 192,
+      "source_closure_sha256": "701bd7161a93bd12ca6a0e677bd8ddad5f7e86e95827098880240e6e3ff64e2e",
+      "source_pairs_sha256": "c035bcdb591dd111180f7cd948931248b073be19e4c707f79a42461e30c8f9f1",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_tma/RealCorrect.lean": [
+          "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.kernel_math"
+        ],
+        "bench/tritonbench_g/matmul_tma/FPEquiv.lean": [
+          "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.FPEquiv.kernel_equivalent"
+        ]
+      },
+      "required_replay_sources": 313,
+      "required_replay_sources_sha256": "42eef4d3a3e717bb40d8af2b0b9f37db04e857a5a6a548bb982842b2da745ad8"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/matmul_triton1",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 21,
+        "count": 24
+      },
+      "artifact_id": 13437512827,
+      "artifact_sha256": "sha256:68c9f5e2aa65e0569ebc5a5bb559ccaa77c948e9feb51d6614ae9edc0f2d6876",
+      "source_files": 287,
+      "source_closure_sha256": "447a646a6cbe9a80c11e58139c7cb7916e59de0967bb89c69fddd69c531a4c0b",
+      "source_pairs_sha256": "efaf0a5b183f15c591223600f3609dd867c27c616b24a40134028c5829ad7405",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_triton1/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.MatmulTriton1.matmul_triton1_real"
+        ],
+        "bench/tritonbench_g/matmul_triton1/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MatmulTriton1.FPEquiv.source_pair_equiv"
+        ]
+      },
+      "required_replay_sources": 293,
+      "required_replay_sources_sha256": "cd8d5104d904a7ea473e5baa9b86174e4fcbec039a27f116d0e181461fc25e78"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/matmul_triton2",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 22,
+        "count": 24
+      },
+      "artifact_id": 13431839905,
+      "artifact_sha256": "sha256:314536b2319356ab322302f158193ca2619bbb02b622271e0ba5a70ed2cd1945",
+      "source_files": 295,
+      "source_closure_sha256": "b5b889ece3afdcf4822d7bce50ecde297580ed2cb9a18563fa1e270d3981459d",
+      "source_pairs_sha256": "16a1e6dabe60ded0b9844ee59168950cd5b5249369d6826736661319a47ac10b",
+      "public_theorems": {
+        "bench/tritonbench_g/matmul_triton2/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.kernel_real"
+        ],
+        "bench/tritonbench_g/matmul_triton2/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.FPEquiv.source_pair_equiv"
+        ]
+      },
+      "required_replay_sources": 293,
+      "required_replay_sources_sha256": "21086bc553295bf6dbf8e9aed81e12ee2dc912641e427b2d7560eef6b2a21e71"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/matmul_triton_autotune",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -2155,14 +3493,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/matrix_reduction",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 0,
-        "count": 24
+        "index": 24,
+        "count": 72
       },
-      "artifact_id": 13417226445,
-      "artifact_sha256": "sha256:14c1a2bbc0d5f5acf75dcfa9ce0c6b5590b304e1f22a8857f415aeeb27404205",
+      "artifact_id": 13442623131,
+      "artifact_sha256": "sha256:d1d3f02183f1c352f18824372576136d04f7c3d52c0d8b075f5be10155db83c0",
       "source_files": 191,
       "source_closure_sha256": "fb88bb9311fef1a8a836ca16cfb26b983110e9b8a7b3933c06490a2f735c5e87",
       "source_pairs_sha256": "125ab5c0dca3c7fc5b027c7ca13123b9c7da72b6df0ab0674ac2d8e51a7ea435",
@@ -2230,14 +3568,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/max_reduction",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42042183039,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 3,
-        "count": 24
+        "index": 27,
+        "count": 72
       },
-      "artifact_id": 13417704848,
-      "artifact_sha256": "sha256:2386a72d25ad38ceec213d81accd6d89c5e8d3f1aac3b3f036e46f7718178caf",
+      "artifact_id": 13442547638,
+      "artifact_sha256": "sha256:4c30910f1594c817a87f0159d2eba482e275cec09c77b433cce506d95af373e1",
       "source_files": 226,
       "source_closure_sha256": "0bf7afe5844dfd85207743e8dd76b21d7ccd879a34c65148fa2753c23a478deb",
       "source_pairs_sha256": "cb87dc0d209ae53f12e2585e83368232e64708214a8c1dc9dd554a1be24fd1bf",
@@ -2280,6 +3618,56 @@
       },
       "required_replay_sources": 296,
       "required_replay_sources_sha256": "0f4e58c7016b9a3888e391d2e5943d8a0edf0ec9a72b1a5f3ca075d3cd6f5613"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/mixed_sparse_attention",
+      "official_run": 42042183039,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 51,
+        "count": 72
+      },
+      "artifact_id": 13440499020,
+      "artifact_sha256": "sha256:c3940e1234b3d25bd245bfedda7b24b2ad223513fc4e865f4bbb8ba9598ad8ab",
+      "source_files": 300,
+      "source_closure_sha256": "777422ee5c031966fc1e91e10edf255df1b897381a2ce65eaf1b8f272ce0542a",
+      "source_pairs_sha256": "f8573bbc13a9988cafe8ada4f773e14289e6f81e23c87429399ac0fc1f214567",
+      "public_theorems": {
+        "bench/tritonbench_g/mixed_sparse_attention/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.MixedSparseAttention.kernel_real"
+        ],
+        "bench/tritonbench_g/mixed_sparse_attention/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MixedSparseAttention.FPEquiv.fused_mask_equiv"
+        ]
+      },
+      "required_replay_sources": 353,
+      "required_replay_sources_sha256": "36e190d7f636c2c8794b8534a8213c5f91df72ee29f47e01de026cb9d35469d5"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/multinomial_sampling",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 6,
+        "count": 24
+      },
+      "artifact_id": 13445816665,
+      "artifact_sha256": "sha256:dd3484afaa880389e656f931724742d9617cfa315c1ea5c091a62c1dc7384154",
+      "source_files": 124,
+      "source_closure_sha256": "9210ced26c9affc9cd86706852a16774f6e0b4020c645563d26619b457178d0f",
+      "source_pairs_sha256": "f40701569406768f9a2d7c3e24b85e9ead8fca91b3b12b3a4393efdd8b85129a",
+      "public_theorems": {
+        "bench/tritonbench_g/multinomial_sampling/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.MultinomialSampling.multinomial_categorical_correctness"
+        ],
+        "bench/tritonbench_g/multinomial_sampling/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.MultinomialSampling.FPEquiv.static_unroll_equiv"
+        ]
+      },
+      "required_replay_sources": 322,
+      "required_replay_sources_sha256": "a150f12ee07990cdfa9c08f05e9d45ccb4048653d9e9aebe3a4d8ab48782b693"
     },
     {
       "accepted": true,
@@ -2334,15 +3722,67 @@
     },
     {
       "accepted": true,
-      "path": "bench/tritonbench_g/quant_transpose_kernel",
+      "path": "bench/tritonbench_g/parallel_retention_attention",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 53,
+        "count": 72
+      },
+      "artifact_id": 13445945832,
+      "artifact_sha256": "sha256:0992ba2d7bf71ca4ef8366ed07ad94ff402d6b5a089b9e635d6feea81dd3933c",
+      "source_files": 302,
+      "source_closure_sha256": "63c10cad85ef504b881f503f9747289361956e3a2dd7ca32791fd54620ad0c0b",
+      "source_pairs_sha256": "86072e71be27c76342a530595d4d726df675d1f898b1c1455802d0550d1041f6",
+      "public_theorems": {
+        "bench/tritonbench_g/parallel_retention_attention/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ParallelRetentionAttention.Correct.forward",
+          "VeriTile.Bench.Repairs.ParallelRetentionAttention.Correct.backward"
+        ],
+        "bench/tritonbench_g/parallel_retention_attention/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ParallelRetentionAttention.FPEquiv.forward_fused_equiv",
+          "VeriTile.Bench.Repairs.ParallelRetentionAttention.FPEquiv.backward_fused_equiv"
+        ]
+      },
+      "required_replay_sources": 394,
+      "required_replay_sources_sha256": "35a7fd5fa93472660f8e1c9647584ab7ee6736184fbd7f9140857c929aa18804"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/pow_scalar_tensor",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "shard": {
-        "index": 9,
+        "index": 8,
         "count": 24
       },
-      "artifact_id": 13416554543,
-      "artifact_sha256": "sha256:2334f491154d36f6d527693d64d2df5bf99537718495ac5c0102844a7967c361",
+      "artifact_id": 13428945097,
+      "artifact_sha256": "sha256:e10917e9dc90ade3362dc0e05d1a9d840e58bbc59528064f8eca48ffe267c4b1",
+      "source_files": 257,
+      "source_closure_sha256": "ae20a2e9fb44b2735789c016ffaef8b33fd7698d558eefaa6c7bddcc297baa91",
+      "source_pairs_sha256": "33a1a7499e6ef8e7b34ff9301218f7081f1f8414c2934179165920d73daeda7a",
+      "public_theorems": {
+        "bench/tritonbench_g/pow_scalar_tensor/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.PowScalarTensor.Checked.Correct.kernel_raw_correctness"
+        ],
+        "bench/tritonbench_g/pow_scalar_tensor/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.PowScalarTensor.Checked.FPEquiv.index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 314,
+      "required_replay_sources_sha256": "8dc90c54ef19449488f1cdd660372c7aa40e9a608361f7961c51738b096b9ec7"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/quant_transpose_kernel",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 33,
+        "count": 72
+      },
+      "artifact_id": 13438405116,
+      "artifact_sha256": "sha256:04b62a088b354edeadb9c8cb1119582d6862c5a64f3d672185dcecb27555649e",
       "source_files": 222,
       "source_closure_sha256": "9f1ebf6e45311f2a4cccd070db9dedd0df01dfddd67fb63880540699094b194e",
       "source_pairs_sha256": "ca7dc4c77728169eb6b085af5a00b6367f70ceff214c92899d45bc2c98581e0b",
@@ -2360,14 +3800,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/quantize_copy_kv",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 10,
-        "count": 24
+        "index": 34,
+        "count": 72
       },
-      "artifact_id": 13416988023,
-      "artifact_sha256": "sha256:173f2cc76c3e58bab80f94432e4f4ef563d42e608c6169ad22845498b1907cad",
+      "artifact_id": 13442855420,
+      "artifact_sha256": "sha256:ae0a500423d9e357f86088c949016f0432fb42eaeee24c79507f486a1de67ca2",
       "source_files": 240,
       "source_closure_sha256": "361b1c879f7b351ecf75f4cd4e5feec62effd7d5fbed1c182172951d26f33b9a",
       "source_pairs_sha256": "8fe4a6a9dea583e21b51336ec2048414e35b12966b7e60ad27983c11d4172142",
@@ -2456,6 +3896,31 @@
       },
       "required_replay_sources": 318,
       "required_replay_sources_sha256": "027434e67a38ef25e2ee12c0259245f18dc244eb5c1f96bf9ca3336feb7ed039"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/relu_strided_buffer",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 14,
+        "count": 24
+      },
+      "artifact_id": 13444179362,
+      "artifact_sha256": "sha256:755a8a65ab81dd4bab3e2d85b39f185976ed54ac6234cdab0b0064d1bd11452b",
+      "source_files": 280,
+      "source_closure_sha256": "016dec41caab598355a464922d1feaffb94490e9bec2dc5b303519d56c73a9d0",
+      "source_pairs_sha256": "41613485631791e207cc9d7e4586d6ca8498266c6944f7464eb2f68c2a0089ee",
+      "public_theorems": {
+        "bench/tritonbench_g/relu_strided_buffer/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.ReluStridedBuffer.relu_strided_buffer_kernel_correctness"
+        ],
+        "bench/tritonbench_g/relu_strided_buffer/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.ReluStridedBuffer.relu_strided_buffer_folded_equiv"
+        ]
+      },
+      "required_replay_sources": 332,
+      "required_replay_sources_sha256": "a8c19082056538250163615f55da32ad1058b3da91af54713f451da883c0683a"
     },
     {
       "accepted": true,
@@ -2559,6 +4024,132 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/rms_rbe_matmul",
+      "official_run": 42062236605,
+      "source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
+      "shard": {
+        "index": 56,
+        "count": 72
+      },
+      "artifact_id": 13444950391,
+      "artifact_sha256": "sha256:d9a24358902c8f07c597d22a051ae454cc27703003357d6f157694cfddc1cdcb",
+      "source_files": 432,
+      "source_closure_sha256": "4157401a184ec85ec77dbf57252f16e373134ea890b723bc03113c953460a536",
+      "source_pairs_sha256": "cf9a31e96c803f57214c15b2b1db361d0eb86f33c26e931d8ca57640565593d6",
+      "public_theorems": {
+        "bench/tritonbench_g/rms_rbe_matmul/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.RmsRbeMatmulLaunchGuard.rms_rbe_matmul_grid_real",
+          "VeriTile.Bench.Repairs.RmsRbeMatmul.RotaryCorrect.rotary_real"
+        ],
+        "bench/tritonbench_g/rms_rbe_matmul/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsRbeMatmulLaunchGuard.FPEquiv.source_candidate_equivalence"
+        ]
+      },
+      "required_replay_sources": 333,
+      "required_replay_sources_sha256": "edd765d3b99129c4924e217dabc1413868bdfecfcd6c5dd9797384f666cf800d"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/rmsnorm_fused",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 19,
+        "count": 24
+      },
+      "artifact_id": 13428903906,
+      "artifact_sha256": "sha256:5b23b91fb6559cd684c96691da53acc4de6cfbfcaad67a3b0564e95cbb0ba5ca",
+      "source_files": 230,
+      "source_closure_sha256": "caa22f593f348c4036e945c69051c2e16d7ec20867e74c8a53810f9360837d81",
+      "source_pairs_sha256": "04122d8f29ca15cf28db789a144bcc6b3cdea0e91afe183fa17b63d972ca8073",
+      "public_theorems": {
+        "bench/tritonbench_g/rmsnorm_fused/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.RmsnormFused.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/rmsnorm_fused/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsnormFused.FPEquiv.source_equivalence"
+        ]
+      },
+      "required_replay_sources": 296,
+      "required_replay_sources_sha256": "f92789b7678128215e17f5a40b0a745d76f7af4742532af73f9e6b436e8d0e30"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/rmsnorm_fused_llama",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 20,
+        "count": 24
+      },
+      "artifact_id": 13442547700,
+      "artifact_sha256": "sha256:ab9c3438859bfddee585118e35222f67efea60083802811ad6c1fee6f9725737",
+      "source_files": 207,
+      "source_closure_sha256": "957512ed1b54a9a14af2d22470dc61d9fc5fa54e7d2054b6b5c64894e3536c90",
+      "source_pairs_sha256": "b0da2c83b99320954d3b3bad6bdeb9b3eef491e067660ca7130c164ed64a9f8d",
+      "public_theorems": {
+        "bench/tritonbench_g/rmsnorm_fused_llama/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.RmsnormFusedLlama.Correct.rmsnorm_kernel_real"
+        ],
+        "bench/tritonbench_g/rmsnorm_fused_llama/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsnormFusedLlama.FPEquiv.rmsnorm_kernel_equiv"
+        ]
+      },
+      "required_replay_sources": 325,
+      "required_replay_sources_sha256": "3931aafcc33685f2c45b1cbe3a782f5eb8154d89670b3af158ac958044164efb"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/rmsnorm_implementation",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 21,
+        "count": 24
+      },
+      "artifact_id": 13437512827,
+      "artifact_sha256": "sha256:68c9f5e2aa65e0569ebc5a5bb559ccaa77c948e9feb51d6614ae9edc0f2d6876",
+      "source_files": 220,
+      "source_closure_sha256": "4e7be82268ce6ec2af0477a33f0d9d472df83dcc4eb878915ba31e323c365861",
+      "source_pairs_sha256": "dd1e40637c65ef2af1d4e7dcc14b06ad3deb53f2b4a6323bfb740463f4293e90",
+      "public_theorems": {
+        "bench/tritonbench_g/rmsnorm_implementation/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.RmsnormImplementation.Correct.rmsnorm_kernel_correctness"
+        ],
+        "bench/tritonbench_g/rmsnorm_implementation/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsnormImplementation.FPEquiv.rmsnorm_index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 311,
+      "required_replay_sources_sha256": "0835471d482d0e71608fc30d317464dc42fb9ba2a7fd140cc1d13a7c54f424f6"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/rmsnorm_triton",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 22,
+        "count": 24
+      },
+      "artifact_id": 13431839905,
+      "artifact_sha256": "sha256:314536b2319356ab322302f158193ca2619bbb02b622271e0ba5a70ed2cd1945",
+      "source_files": 233,
+      "source_closure_sha256": "5bef1f2b69214906e0964262830b174fabfd6576a8d5ba520809f682bb40f25e",
+      "source_pairs_sha256": "0c6e7b0be9c026832a346ebb836fe70a33d9678b11e85b011ac4a9ae07ff7e47",
+      "public_theorems": {
+        "bench/tritonbench_g/rmsnorm_triton/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.RmsnormTriton.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/rmsnorm_triton/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RmsnormTriton.FPEquiv.source_candidate_equivalence"
+        ]
+      },
+      "required_replay_sources": 325,
+      "required_replay_sources_sha256": "9780189e8d9b210ff3064938581aed5ebac2bc44919552725aac616ddebaa452"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/rope_backward_transform",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -2585,14 +4176,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/rope_embedding",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 0,
-        "count": 24
+        "index": 48,
+        "count": 72
       },
-      "artifact_id": 13417226445,
-      "artifact_sha256": "sha256:14c1a2bbc0d5f5acf75dcfa9ce0c6b5590b304e1f22a8857f415aeeb27404205",
+      "artifact_id": 13439420152,
+      "artifact_sha256": "sha256:afd124e69f1d586508b958c9dbf4fb1e43fbd6446404d8a4f682fe889107864b",
       "source_files": 231,
       "source_closure_sha256": "816e3c20e7cc12c24c8f677baa71b088539bcca471592a95f22f9f7244e565f1",
       "source_pairs_sha256": "8a4f002beb5ba9a7578aed46db03f616a769f1d44ab60f002aa1c1c9becc3898",
@@ -2610,14 +4201,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/rope_transform",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42052386566,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 1,
-        "count": 24
+        "index": 49,
+        "count": 72
       },
-      "artifact_id": 13418573179,
-      "artifact_sha256": "sha256:b44218e94dd0845087a41bfa65454430f70d9d803c329b91b4ed969ab3085949",
+      "artifact_id": 13441449423,
+      "artifact_sha256": "sha256:9aa6352ea025346232d7072842eb7c140bdf41eb8def4b3b667ece959bb9468b",
       "source_files": 235,
       "source_closure_sha256": "b93831940ed038e0a6fce52869664a20d0876fbefa685173f800c53bd07c3aa8",
       "source_pairs_sha256": "cd338ca2a5d1f661427398f6f7a28aa1cea2ce0c2f75ef9b01eb13496addb9ac",
@@ -2635,14 +4226,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/rotary_emb",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42052386566,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 2,
-        "count": 24
+        "index": 50,
+        "count": 72
       },
-      "artifact_id": 13424658252,
-      "artifact_sha256": "sha256:730f04273fbe9a9627b6989be0da9e2c3da41ecab74c0b0eda8fafd68ee79a65",
+      "artifact_id": 13442623216,
+      "artifact_sha256": "sha256:e7985f7204976047d2117e26b7568235b9a60311ba5f2d079e25cf1f6b50ef8a",
       "source_files": 232,
       "source_closure_sha256": "726d9e60821fb3edcf3782aa5f018db8c913f52bde4a5621655436739f59fbad",
       "source_pairs_sha256": "35f781d1784e9065ad2eaef3f99c175e6c84094adc4f368812c822ff44229e09",
@@ -2660,14 +4251,14 @@
     {
       "accepted": true,
       "path": "bench/tritonbench_g/rotary_emb_nopad",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "official_run": 42042183039,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "shard": {
-        "index": 3,
-        "count": 24
+        "index": 51,
+        "count": 72
       },
-      "artifact_id": 13417704848,
-      "artifact_sha256": "sha256:2386a72d25ad38ceec213d81accd6d89c5e8d3f1aac3b3f036e46f7718178caf",
+      "artifact_id": 13440499020,
+      "artifact_sha256": "sha256:c3940e1234b3d25bd245bfedda7b24b2ad223513fc4e865f4bbb8ba9598ad8ab",
       "source_files": 255,
       "source_closure_sha256": "e94357ca31a939abcc94a116a54a9622699be22366c5ef3968d9198ecd62e542",
       "source_pairs_sha256": "f51077bfa184fb681828034f7fa7f2bdabc6a6c2783a8e35746b06b64aa76c37",
@@ -2711,6 +4302,31 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/rotary_transform_ops",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 24,
+        "count": 72
+      },
+      "artifact_id": 13442623131,
+      "artifact_sha256": "sha256:d1d3f02183f1c352f18824372576136d04f7c3d52c0d8b075f5be10155db83c0",
+      "source_files": 272,
+      "source_closure_sha256": "66a07943252f0cc49e86f68a1afad24ca8f8b9de7cce267c70ea55a0e1671186",
+      "source_pairs_sha256": "8ff7dfc12e7bcb50f351939fc9e263987ef247a80e089e47da68061ea22b7d2b",
+      "public_theorems": {
+        "bench/tritonbench_g/rotary_transform_ops/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.RotaryTransformOps.rotary_transform_ops_correctness"
+        ],
+        "bench/tritonbench_g/rotary_transform_ops/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.RotaryTransformOps.FPEquiv.rotary_grid_equiv"
+        ]
+      },
+      "required_replay_sources": 348,
+      "required_replay_sources_sha256": "e5ff97e34f519c49b517934291a5fa4da6f37a71af410b8997ae067a5e90ed40"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/rowwise_quantization_triton",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -2733,6 +4349,56 @@
       },
       "required_replay_sources": 297,
       "required_replay_sources_sha256": "a2cb484cf41caa7cd6cff5e3191503bc4657091a756928fc7e69171d365422ed"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/seeded_dropout",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 53,
+        "count": 72
+      },
+      "artifact_id": 13445945832,
+      "artifact_sha256": "sha256:0992ba2d7bf71ca4ef8366ed07ad94ff402d6b5a089b9e635d6feea81dd3933c",
+      "source_files": 165,
+      "source_closure_sha256": "fcef64bdeeaa5218cb6b6362cfd4ce3ba6d89963027f9620f86ee8384332d879",
+      "source_pairs_sha256": "28fa428a38dd633f214a79a22edd1d191c18d7634d5fcb6a4fcd46d9af26228a",
+      "public_theorems": {
+        "bench/tritonbench_g/seeded_dropout/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.SeededDropout.Correct.seeded_dropout_kernel_correctness"
+        ],
+        "bench/tritonbench_g/seeded_dropout/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SeededDropout.FPEquiv.index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 317,
+      "required_replay_sources_sha256": "0d12a0cedc75d53e04c1a3f7498d74ad31771a825925bd66f0b090af6edccaf9"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/sgmv_expand_slice",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 6,
+        "count": 24
+      },
+      "artifact_id": 13445816665,
+      "artifact_sha256": "sha256:dd3484afaa880389e656f931724742d9617cfa315c1ea5c091a62c1dc7384154",
+      "source_files": 300,
+      "source_closure_sha256": "29414bd082916db86c9d1bbb80692ccc9962627261e9fb364636a96e18ddd9cd",
+      "source_pairs_sha256": "89a6fcc5c0ddf03ff56ad2e433e385ec78940b1ad4252e996cdf2e06286cb2d2",
+      "public_theorems": {
+        "bench/tritonbench_g/sgmv_expand_slice/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/sgmv_expand_slice/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated.FPEquiv.sgmv_grid_equiv"
+        ]
+      },
+      "required_replay_sources": 372,
+      "required_replay_sources_sha256": "35177491d3c4f724b1f61273611b23851ec3ce9d2526edb82642b2916ab00339"
     },
     {
       "accepted": true,
@@ -2761,15 +4427,40 @@
     },
     {
       "accepted": true,
-      "path": "bench/tritonbench_g/softmax_optimize",
-      "official_run": 41984475439,
-      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "path": "bench/tritonbench_g/sin_kernel",
+      "official_run": 42062236605,
+      "source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "shard": {
-        "index": 9,
-        "count": 24
+        "index": 56,
+        "count": 72
       },
-      "artifact_id": 13416554543,
-      "artifact_sha256": "sha256:2334f491154d36f6d527693d64d2df5bf99537718495ac5c0102844a7967c361",
+      "artifact_id": 13444950391,
+      "artifact_sha256": "sha256:d9a24358902c8f07c597d22a051ae454cc27703003357d6f157694cfddc1cdcb",
+      "source_files": 207,
+      "source_closure_sha256": "a5478ab4f8d10242c297f1c44a150edd4caed4dcd3186212aa42844542bb3ba4",
+      "source_pairs_sha256": "4d6bf48931fb358b193bc859e44a8b193dfbaf7248266ee52a2a9af16b2bec44",
+      "public_theorems": {
+        "bench/tritonbench_g/sin_kernel/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.SinKernel.Correct.sin_kernel_correctness"
+        ],
+        "bench/tritonbench_g/sin_kernel/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SinKernel.FPEquiv.index_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 294,
+      "required_replay_sources_sha256": "d924e7f7269d36382c0134171f9f6164044272c811577c6346e93f2b0d9447c3"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/softmax_optimize",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 57,
+        "count": 72
+      },
+      "artifact_id": 13440400266,
+      "artifact_sha256": "sha256:2a8f6584737af8a6593c9817d189f15f6e5603825b479d9f002f23e7fed5fad7",
       "source_files": 252,
       "source_closure_sha256": "11ee89fd85032f3f78c350d2e1b1000453be0a4658948c8cbd347d2a1847113b",
       "source_pairs_sha256": "d9a2329c3dfe9f61bd0fdb586ad025283ca08a5d6703106ad71f271a5a537246",
@@ -2883,6 +4574,31 @@
       },
       "required_replay_sources": 354,
       "required_replay_sources_sha256": "a76ef337007affe89de6a1004c2165919f84572ff82f3b6f9864ac81b7f63ab3"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/square_matrix",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 14,
+        "count": 24
+      },
+      "artifact_id": 13444179362,
+      "artifact_sha256": "sha256:755a8a65ab81dd4bab3e2d85b39f185976ed54ac6234cdab0b0064d1bd11452b",
+      "source_files": 208,
+      "source_closure_sha256": "1fbadbbbcfcca4300fe0152e7b5298a777394135401ef4763c2780f993616407",
+      "source_pairs_sha256": "11d8fd64fd55309c2728dec5cdc02018b1cb7956607df69cd3df75ae20de64e4",
+      "public_theorems": {
+        "bench/tritonbench_g/square_matrix/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.SquareMatrix.Correct.square_kernel_correctness"
+        ],
+        "bench/tritonbench_g/square_matrix/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.SquareMatrix.FPEquiv.square_index_equiv"
+        ]
+      },
+      "required_replay_sources": 294,
+      "required_replay_sources_sha256": "a27ae79351b2a083fde9a22b5048aea6d4f3717bd0f67e2b484a7c91554de37e"
     },
     {
       "accepted": true,
@@ -3012,6 +4728,106 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/token_attn_mistral",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 19,
+        "count": 24
+      },
+      "artifact_id": 13428903906,
+      "artifact_sha256": "sha256:5b23b91fb6559cd684c96691da53acc4de6cfbfcaad67a3b0564e95cbb0ba5ca",
+      "source_files": 198,
+      "source_closure_sha256": "fbd4681ad0612a8a93ec4c18172dde7b0ba5324b6040dd0ead98aaf498e321dd",
+      "source_pairs_sha256": "804c1d5d40cfed1bbf0ecc06c8b38419114fd141e86d96a06e7d9acaee393890",
+      "public_theorems": {
+        "bench/tritonbench_g/token_attn_mistral/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.kernel_correct"
+        ],
+        "bench/tritonbench_g/token_attn_mistral/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.FPEquiv.affine_address_equiv"
+        ]
+      },
+      "required_replay_sources": 316,
+      "required_replay_sources_sha256": "b6b4c0e6b20ddcb7e06b3c25baea451518d66057917e0522c486e8a79080e12a"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/token_attn_reduceV",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 20,
+        "count": 24
+      },
+      "artifact_id": 13442547700,
+      "artifact_sha256": "sha256:ab9c3438859bfddee585118e35222f67efea60083802811ad6c1fee6f9725737",
+      "source_files": 232,
+      "source_closure_sha256": "b9b333203cb33948e66cb9f4ba818632cedb5b7d975f29154b8ac3e4ade5f95d",
+      "source_pairs_sha256": "811980aa76946ca91f6749ef59b77258b9d27d3d172c725db09b7171fc43ccc9",
+      "public_theorems": {
+        "bench/tritonbench_g/token_attn_reduceV/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.grid_real"
+        ],
+        "bench/tritonbench_g/token_attn_reduceV/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.FPEquiv.affine_address_equiv"
+        ]
+      },
+      "required_replay_sources": 319,
+      "required_replay_sources_sha256": "b80e6f2159c60378dcadb06866a06e8243eff5e383f8fdfafae9585e0908182c"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/token_softmax_bloom",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 21,
+        "count": 24
+      },
+      "artifact_id": 13437512827,
+      "artifact_sha256": "sha256:68c9f5e2aa65e0569ebc5a5bb559ccaa77c948e9feb51d6614ae9edc0f2d6876",
+      "source_files": 246,
+      "source_closure_sha256": "11a9a194fd2eebd37d76a25f4f8b93674b570a4a948057a3dfb191270d925472",
+      "source_pairs_sha256": "f6dec9a67b8ae030aa45514409944e7bdedbef2b61d3ceb3d01182cc5a3716b1",
+      "public_theorems": {
+        "bench/tritonbench_g/token_softmax_bloom/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxBloom.Correct.token_softmax_grid_real"
+        ],
+        "bench/tritonbench_g/token_softmax_bloom/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxBloom.FPEquiv.token_softmax_source_equiv"
+        ]
+      },
+      "required_replay_sources": 307,
+      "required_replay_sources_sha256": "81a33adf2ef99871fb5b320efb36d3fe3db5b99524257c86f2c687b62db34c80"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/token_softmax_llama",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 22,
+        "count": 24
+      },
+      "artifact_id": 13431839905,
+      "artifact_sha256": "sha256:314536b2319356ab322302f158193ca2619bbb02b622271e0ba5a70ed2cd1945",
+      "source_files": 248,
+      "source_closure_sha256": "4eef3f9ed9c92a83b7ef698775eb8e7104cd12080fc98c8737f0366a12718496",
+      "source_pairs_sha256": "0f8a8b7ac02dd844c3ec94d6c5ccc4cef985153690ad5d76f4c4c564982d2d20",
+      "public_theorems": {
+        "bench/tritonbench_g/token_softmax_llama/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxLlama.Correct.token_softmax_grid_real"
+        ],
+        "bench/tritonbench_g/token_softmax_llama/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TokenSoftmaxLlama.FPEquiv.token_softmax_source_equiv"
+        ]
+      },
+      "required_replay_sources": 307,
+      "required_replay_sources_sha256": "98722474c9574499b4e74744d85563d787c82f7426cbcc3991a7f801b15f3426"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/triton_argmax",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -3039,6 +4855,31 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/triton_attention",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 57,
+        "count": 72
+      },
+      "artifact_id": 13440400266,
+      "artifact_sha256": "sha256:2a8f6584737af8a6593c9817d189f15f6e5603825b479d9f002f23e7fed5fad7",
+      "source_files": 203,
+      "source_closure_sha256": "933be31cc6c36ad5c18406fa38705357170616e3adb57e291bd5f6c00d8606fc",
+      "source_pairs_sha256": "9d15e8ae66e055cd78b34ebd44f217f4d9d50fb5a1aa7e5eb9cf42dcb4f8f672",
+      "public_theorems": {
+        "bench/tritonbench_g/triton_attention/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.TritonAttentionScalarABI.Correct.kernel_real"
+        ],
+        "bench/tritonbench_g/triton_attention/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TritonAttentionScalarABI.FPEquiv.grid_equiv"
+        ]
+      },
+      "required_replay_sources": 421,
+      "required_replay_sources_sha256": "5ec2062fcc95ae2ce157a469c3cda3e5b00185d57065ca206a243855d6afffc9"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/triton_conv2d_fwd",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -3061,6 +4902,31 @@
       },
       "required_replay_sources": 343,
       "required_replay_sources_sha256": "77cd81f00d6d88db88b50deb8ebccaaa3d2254c2d40a5363cb3fe19fe89c8479"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/triton_linear_activation",
+      "official_run": 42042183039,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 27,
+        "count": 72
+      },
+      "artifact_id": 13442547638,
+      "artifact_sha256": "sha256:4c30910f1594c817a87f0159d2eba482e275cec09c77b433cce506d95af373e1",
+      "source_files": 223,
+      "source_closure_sha256": "8d1b8c886262df138012bd9a1ba123dbbc561e4f0d4eb70c93b1c3e6d75782c7",
+      "source_pairs_sha256": "a6bfc4f26e7c99d3526eab4a73520d99349123d818f7904982e3a5a229c1f89b",
+      "public_theorems": {
+        "bench/tritonbench_g/triton_linear_activation/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.TritonLinearActivation.Correct.kernel_correct"
+        ],
+        "bench/tritonbench_g/triton_linear_activation/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.TritonLinearActivation.FPEquiv.kernel_equiv"
+        ]
+      },
+      "required_replay_sources": 332,
+      "required_replay_sources_sha256": "dddccb449c38a921db02d70af32281103e7bea702f59cfda45eaa1f23910b212"
     },
     {
       "accepted": true,
@@ -3166,6 +5032,56 @@
     },
     {
       "accepted": true,
+      "path": "bench/tritonbench_g/var_len_copy",
+      "official_run": 42035060797,
+      "source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
+      "shard": {
+        "index": 5,
+        "count": 72
+      },
+      "artifact_id": 13431453825,
+      "artifact_sha256": "sha256:ba9d53173c1bb52e1f4789bbfc8193d26a77233f259df7a0831ad4aed38c1bed",
+      "source_files": 223,
+      "source_closure_sha256": "31dcfcbd459eca1b40a0b211ce88aadb6e85b58985d34c1262a8617474d0d335",
+      "source_pairs_sha256": "abdfa1ecaa131e1668ba31ae7ca7a17dc39d89247507a37e1e64547f26a2702a",
+      "public_theorems": {
+        "bench/tritonbench_g/var_len_copy/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.VarLenCopy.Correct.var_len_copy_kernel_real"
+        ],
+        "bench/tritonbench_g/var_len_copy/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.VarLenCopy.FPEquiv.source_equivalence"
+        ]
+      },
+      "required_replay_sources": 304,
+      "required_replay_sources_sha256": "176b7b74acb774d646fafcfb1081031f8ec5d1d9a4c09e1213c90012ded759b6"
+    },
+    {
+      "accepted": true,
+      "path": "bench/tritonbench_g/vector_addition",
+      "official_run": 41984475439,
+      "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
+      "shard": {
+        "index": 6,
+        "count": 24
+      },
+      "artifact_id": 13445816665,
+      "artifact_sha256": "sha256:dd3484afaa880389e656f931724742d9617cfa315c1ea5c091a62c1dc7384154",
+      "source_files": 267,
+      "source_closure_sha256": "13b6e836550ecf0999839eee7365df70e254003d43e29684e931267c734708e4",
+      "source_pairs_sha256": "072d63ccf105be8cf0c8dd2df041e8bb674e01ea2eed8a9355077845b8e19565",
+      "public_theorems": {
+        "bench/tritonbench_g/vector_addition/RealCorrect.lean": [
+          "VeriTile.Bench.Repairs.VectorAddition.Contiguous.Correct.add_kernel_correctness"
+        ],
+        "bench/tritonbench_g/vector_addition/FPEquiv.lean": [
+          "VeriTile.Bench.Repairs.VectorAddition.Contiguous.FPEquiv.add_commuted_equiv"
+        ]
+      },
+      "required_replay_sources": 296,
+      "required_replay_sources_sha256": "9d4a8039418bd344176f58969c6fe0e936ffa6aed4dc4cb2886618fdaa43a80c"
+    },
+    {
+      "accepted": true,
       "path": "bench/tritonbench_g/vector_addition_custom",
       "official_run": 41984475439,
       "source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
@@ -3192,189 +5108,9 @@
   ],
   "pending": [
     {
-      "path": "bench/examples/FusedSwiglu",
-      "original_shard": 6,
-      "recovery_shard": 6
-    },
-    {
-      "path": "bench/examples/HyperConnectionsWidth",
-      "original_shard": 8,
-      "recovery_shard": 8
-    },
-    {
-      "path": "bench/examples/SoftmaxReciprocal",
-      "original_shard": 13,
-      "recovery_shard": 13
-    },
-    {
-      "path": "bench/examples/SoftmaxStable",
-      "original_shard": 14,
-      "recovery_shard": 14
-    },
-    {
-      "path": "bench/tritonbench_g/adam_update_triton",
-      "original_shard": 19,
-      "recovery_shard": 19
-    },
-    {
-      "path": "bench/tritonbench_g/add_example",
-      "original_shard": 20,
-      "recovery_shard": 20
-    },
-    {
-      "path": "bench/tritonbench_g/add_value",
-      "original_shard": 21,
-      "recovery_shard": 21
-    },
-    {
-      "path": "bench/tritonbench_g/apply_penalty",
-      "original_shard": 22,
-      "recovery_shard": 22
-    },
-    {
-      "path": "bench/tritonbench_g/bmm_optimized",
-      "original_shard": 6,
-      "recovery_shard": 30
-    },
-    {
-      "path": "bench/tritonbench_g/chunk_cumsum_kernel",
-      "original_shard": 8,
-      "recovery_shard": 32
-    },
-    {
-      "path": "bench/tritonbench_g/chunk_gla_simple",
-      "original_shard": 13,
-      "recovery_shard": 37
-    },
-    {
-      "path": "bench/tritonbench_g/chunked_cumsum_fwd",
-      "original_shard": 14,
-      "recovery_shard": 38
-    },
-    {
-      "path": "bench/tritonbench_g/dequantize_matmul",
-      "original_shard": 19,
-      "recovery_shard": 43
-    },
-    {
-      "path": "bench/tritonbench_g/dequantize_rowwise",
-      "original_shard": 20,
-      "recovery_shard": 44
-    },
-    {
-      "path": "bench/tritonbench_g/destindex_copy",
-      "original_shard": 21,
-      "recovery_shard": 45
-    },
-    {
-      "path": "bench/tritonbench_g/destindex_copy_kv1",
-      "original_shard": 22,
-      "recovery_shard": 46
-    },
-    {
-      "path": "bench/tritonbench_g/fast_rms_layernorm",
-      "original_shard": 5,
-      "recovery_shard": 53
-    },
-    {
-      "path": "bench/tritonbench_g/fast_rope_embedding",
-      "original_shard": 6,
-      "recovery_shard": 54
-    },
-    {
-      "path": "bench/tritonbench_g/flash_decode2_phi",
-      "original_shard": 8,
-      "recovery_shard": 56
-    },
-    {
-      "path": "bench/tritonbench_g/fused_rotary_embedding",
-      "original_shard": 13,
-      "recovery_shard": 61
-    },
-    {
-      "path": "bench/tritonbench_g/fused_rwkv6_kernel",
-      "original_shard": 14,
-      "recovery_shard": 62
-    },
-    {
-      "path": "bench/tritonbench_g/int8_dequant_matmul",
-      "original_shard": 19,
-      "recovery_shard": 67
-    },
-    {
-      "path": "bench/tritonbench_g/int8_matmul_kernel",
-      "original_shard": 20,
-      "recovery_shard": 68
-    },
-    {
-      "path": "bench/tritonbench_g/isfinite_kernel",
-      "original_shard": 21,
-      "recovery_shard": 69
-    },
-    {
-      "path": "bench/tritonbench_g/kcache_copy_triton",
-      "original_shard": 22,
-      "recovery_shard": 70
-    },
-    {
-      "path": "bench/tritonbench_g/l2_norm_triton1",
-      "original_shard": 5,
-      "recovery_shard": 5
-    },
-    {
-      "path": "bench/tritonbench_g/l2_norm_triton2",
-      "original_shard": 6,
-      "recovery_shard": 6
-    },
-    {
-      "path": "bench/tritonbench_g/layer_norm_ops",
-      "original_shard": 8,
-      "recovery_shard": 8
-    },
-    {
-      "path": "bench/tritonbench_g/lora_expand_gemv",
-      "original_shard": 13,
-      "recovery_shard": 13
-    },
-    {
-      "path": "bench/tritonbench_g/masked_add_cuda",
-      "original_shard": 14,
-      "recovery_shard": 14
-    },
-    {
-      "path": "bench/tritonbench_g/matmul_persistent_triton",
-      "original_shard": 19,
-      "recovery_shard": 19
-    },
-    {
-      "path": "bench/tritonbench_g/matmul_tma",
-      "original_shard": 20,
-      "recovery_shard": 20
-    },
-    {
-      "path": "bench/tritonbench_g/matmul_triton1",
-      "original_shard": 21,
-      "recovery_shard": 21
-    },
-    {
-      "path": "bench/tritonbench_g/matmul_triton2",
-      "original_shard": 22,
-      "recovery_shard": 22
-    },
-    {
       "path": "bench/tritonbench_g/mul_exponent_compensator",
       "original_shard": 5,
       "recovery_shard": 29
-    },
-    {
-      "path": "bench/tritonbench_g/multinomial_sampling",
-      "original_shard": 6,
-      "recovery_shard": 30
-    },
-    {
-      "path": "bench/tritonbench_g/pow_scalar_tensor",
-      "original_shard": 8,
-      "recovery_shard": 32
     },
     {
       "path": "bench/tritonbench_g/quantize_kv_transform",
@@ -3382,84 +5118,9 @@
       "recovery_shard": 37
     },
     {
-      "path": "bench/tritonbench_g/relu_strided_buffer",
-      "original_shard": 14,
-      "recovery_shard": 38
-    },
-    {
-      "path": "bench/tritonbench_g/rmsnorm_fused",
-      "original_shard": 19,
-      "recovery_shard": 43
-    },
-    {
-      "path": "bench/tritonbench_g/rmsnorm_fused_llama",
-      "original_shard": 20,
-      "recovery_shard": 44
-    },
-    {
-      "path": "bench/tritonbench_g/rmsnorm_implementation",
-      "original_shard": 21,
-      "recovery_shard": 45
-    },
-    {
-      "path": "bench/tritonbench_g/rmsnorm_triton",
-      "original_shard": 22,
-      "recovery_shard": 46
-    },
-    {
-      "path": "bench/tritonbench_g/seeded_dropout",
-      "original_shard": 5,
-      "recovery_shard": 53
-    },
-    {
-      "path": "bench/tritonbench_g/sgmv_expand_slice",
-      "original_shard": 6,
-      "recovery_shard": 54
-    },
-    {
-      "path": "bench/tritonbench_g/sin_kernel",
-      "original_shard": 8,
-      "recovery_shard": 56
-    },
-    {
       "path": "bench/tritonbench_g/softmax_triton3",
       "original_shard": 13,
       "recovery_shard": 61
-    },
-    {
-      "path": "bench/tritonbench_g/square_matrix",
-      "original_shard": 14,
-      "recovery_shard": 62
-    },
-    {
-      "path": "bench/tritonbench_g/token_attn_mistral",
-      "original_shard": 19,
-      "recovery_shard": 67
-    },
-    {
-      "path": "bench/tritonbench_g/token_attn_reduceV",
-      "original_shard": 20,
-      "recovery_shard": 68
-    },
-    {
-      "path": "bench/tritonbench_g/token_softmax_bloom",
-      "original_shard": 21,
-      "recovery_shard": 69
-    },
-    {
-      "path": "bench/tritonbench_g/token_softmax_llama",
-      "original_shard": 22,
-      "recovery_shard": 70
-    },
-    {
-      "path": "bench/tritonbench_g/var_len_copy",
-      "original_shard": 5,
-      "recovery_shard": 5
-    },
-    {
-      "path": "bench/tritonbench_g/vector_addition",
-      "original_shard": 6,
-      "recovery_shard": 6
     },
     {
       "path": "bench/tritonbench_g/iv_dependent_matmul",
@@ -3477,36 +5138,6 @@
       "recovery_shard": 14
     },
     {
-      "path": "bench/tritonbench_g/attention_forward_triton",
-      "original_shard": 19,
-      "recovery_shard": 19
-    },
-    {
-      "path": "bench/tritonbench_g/attention_fwd_triton2",
-      "original_shard": 20,
-      "recovery_shard": 20
-    },
-    {
-      "path": "bench/tritonbench_g/llama_ff_triton",
-      "original_shard": 21,
-      "recovery_shard": 21
-    },
-    {
-      "path": "bench/tritonbench_g/kv_cache_filling",
-      "original_shard": 22,
-      "recovery_shard": 22
-    },
-    {
-      "path": "bench/tritonbench_g/rotary_transform_ops",
-      "original_shard": 0,
-      "recovery_shard": 24
-    },
-    {
-      "path": "bench/tritonbench_g/triton_linear_activation",
-      "original_shard": 3,
-      "recovery_shard": 27
-    },
-    {
       "path": "bench/tritonbench_g/context_attn_llama",
       "original_shard": 5,
       "recovery_shard": 29
@@ -3520,16 +5151,6 @@
       "path": "bench/tritonbench_g/context_attn_nopad",
       "original_shard": 8,
       "recovery_shard": 32
-    },
-    {
-      "path": "bench/tritonbench_g/context_attn_bloom",
-      "original_shard": 9,
-      "recovery_shard": 33
-    },
-    {
-      "path": "bench/tritonbench_g/layer_norm_fwd",
-      "original_shard": 10,
-      "recovery_shard": 34
     },
     {
       "path": "bench/tritonbench_g/bmm_chunk_fwd",
@@ -3552,11 +5173,6 @@
       "recovery_shard": 43
     },
     {
-      "path": "bench/tritonbench_g/attn_fwd_causal",
-      "original_shard": 20,
-      "recovery_shard": 44
-    },
-    {
       "path": "bench/tritonbench_g/attn_fwd_triton",
       "original_shard": 21,
       "recovery_shard": 45
@@ -3572,31 +5188,6 @@
       "recovery_shard": 47
     },
     {
-      "path": "bench/tritonbench_g/chunk_retention",
-      "original_shard": 0,
-      "recovery_shard": 48
-    },
-    {
-      "path": "bench/tritonbench_g/chunk_retention_ops",
-      "original_shard": 1,
-      "recovery_shard": 49
-    },
-    {
-      "path": "bench/tritonbench_g/lightning_attention",
-      "original_shard": 2,
-      "recovery_shard": 50
-    },
-    {
-      "path": "bench/tritonbench_g/mixed_sparse_attention",
-      "original_shard": 3,
-      "recovery_shard": 51
-    },
-    {
-      "path": "bench/tritonbench_g/parallel_retention_attention",
-      "original_shard": 5,
-      "recovery_shard": 53
-    },
-    {
       "path": "bench/tritonbench_g/softmax_flaggems",
       "original_shard": 6,
       "recovery_shard": 54
@@ -3605,16 +5196,6 @@
       "path": "bench/tritonbench_g/rms_matmul_rbe",
       "original_shard": 7,
       "recovery_shard": 55
-    },
-    {
-      "path": "bench/tritonbench_g/rms_rbe_matmul",
-      "original_shard": 8,
-      "recovery_shard": 56
-    },
-    {
-      "path": "bench/tritonbench_g/triton_attention",
-      "original_shard": 9,
-      "recovery_shard": 57
     }
   ]
 }
