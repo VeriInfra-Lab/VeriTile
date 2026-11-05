@@ -27,6 +27,13 @@ class PortLayoutTests(unittest.TestCase):
             self.assertIn(task / 'Sources/Mathematical.lean', proof_files(task))
             self.assertEqual(specification_files(task.parent),
                              [task / 'Correct.lean', task / 'FPEquiv.lean'])
+            (task / 'Correct.lean').rename(task / 'RealCorrect.lean')
+            self.assertEqual(specification_files(task.parent),
+                             [task / 'FPEquiv.lean', task / 'RealCorrect.lean'])
+            (task / 'Correct.lean').touch()
+            with self.assertRaisesRegex(ValueError, 'Ambiguous Real specification entries'):
+                source_file(task)
+            (task / 'Correct.lean').unlink()
             (task / 'FPEquiv.lean').unlink()
             with self.assertRaisesRegex(ValueError, 'Missing split-port entry'):
                 source_file(task)

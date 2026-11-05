@@ -30,7 +30,7 @@ ROOT = Path(__file__).resolve().parents[2]
 PORTS = ROOT / 'bench/tritonbench_g'
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / 'scripts' / 'bench'))
-from scripts.bench.port_layout import source_file, source_import_files, source_text, SUPPLEMENTAL_SPEC_NAMES
+from scripts.bench.port_layout import real_entry, source_file, source_import_files, source_text, SUPPLEMENTAL_SPEC_NAMES
 from scripts.bench.check_proof_gap_manifest import headline_names
 from scripts.bench.audit_source import is_triton_jit, source_audit_metadata, lean_code_mask
 
@@ -119,7 +119,7 @@ def collect():
         except ValueError as e:
             entry = None
             errors.append(str(e))
-        public_files = ([directory / 'Correct.lean', directory / 'FPEquiv.lean']
+        public_files = ([real_entry(directory), directory / 'FPEquiv.lean']
                         if entry and entry.name == 'Kernels.lean' else [entry] if entry else [])
         if entry:
             public_files.extend(directory / name for name in SUPPLEMENTAL_SPEC_NAMES

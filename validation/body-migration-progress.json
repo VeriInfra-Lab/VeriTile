@@ -2,17 +2,17 @@
   "schema": 1,
   "scope": "177 remaining TritonBench-G tasks and all 19 worked examples",
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
-  "complete": true,
+  "complete": false,
   "target_count": 196,
-  "completed_count": 196,
+  "completed_count": 194,
   "staged_count": 196,
-  "pending_count": 0,
+  "pending_count": 2,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
-    "staged_public_proofs": "196_LOCAL_PUBLIC_PROOFS_PASS_196_EXACT_CURRENT_ACCEPTED",
-    "staged_and_regression_retained_modules": 8725,
-    "official_comparator": "All 196 migration targets accepted for the exact current source, including 177 remaining TritonBench-G tasks and all 19 examples. Every completion has official independent replay evidence, current source/import closure and actual public theorem coverage. Source matching or compilation alone was not completion. No merge.",
-    "python_tests": 715,
+    "staged_public_proofs": "196_LOCAL_PUBLIC_PROOFS_PASS_194_EXACT_CURRENT_ACCEPTED",
+    "staged_and_regression_retained_modules": 8723,
+    "official_comparator": "194 exact-current accepted targets. The two RMS cases require fresh replay on the layout pilot.",
+    "python_tests": 731,
     "offline_example_compilations": {
       "cases": 19,
       "checks": 94,
@@ -20,8 +20,8 @@
       "gpu_execution": false,
       "completion_certificate": false
     },
-    "working_tree": "All 196 source/proof migrations and exact-current independent acceptances complete. Full local integration passes all 8725 selected build roots across 202 cases (196 targets and six regressions). No merge; awaiting user review.",
-    "official_replay_sources": 7728,
+    "working_tree": "Both RMS layout-pilot cases pass local build and public theorem resolution. Their independent replay is pending.",
+    "official_replay_sources": 7726,
     "official_replay_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41256701308",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
@@ -86,17 +86,11 @@
       }
     ],
     "incremental_replay": {
-      "status": "COMPLETE_EXACT_CURRENT_OFFICIAL_ACCEPTANCE",
-      "scope": "triton_attention six exact JIT body pairs, complete causal attention/VJP, three-stage FP candidate equivalence and all safety/frame/native interfaces",
+      "status": "LOCAL_BUILD_PASS_AWAITING_OFFICIAL_REPLAY",
+      "scope": "RMS QKV directory layout and the shared-source RMS/RBE client",
       "manifest": "validation/body-migration-incremental.json",
-      "roots": 136,
-      "complete": true,
-      "note": "Six exact copied original/candidate forward/preprocess/backward JIT bodies retain names, casts, runtime scalars, pointer advances, masks and the checked compile-time static assertion. Complete causal attention and Q/K/V VJP, typed three-stage execution, native scalar ABI, source safety, initialized-DQ domain, output binding, exterior frame and existing whole-program fixed-128 FP candidate equivalence are accepted for the exact current source.",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
-      "validated_source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
-      "frozen_source_files": 207,
-      "receipt": "validation/body_receipts/triton-attention-pasted-source-replay.json",
-      "independent_proof_replay": "PASS_136_OF_136_FROZEN_ROOTS"
+      "roots": 155,
+      "complete": false
     },
     "previous_incremental_replays": [
       {
@@ -1341,6 +1335,12 @@
         "validated_source_commit": "1c2414087798d53fe0ccc2453ebbb629792c7630",
         "frozen_source_files": 437,
         "receipt": "validation/body_receipts/rms-rbe-matmul-pasted-source-replay.json"
+      },
+      {
+        "case": "bench/tritonbench_g/triton_attention",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
+        "source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
+        "replay_sources": 136
       }
     ],
     "pending_client_regressions": {
@@ -1682,8 +1682,6 @@
       "validation/body_receipts/parallel-attention-pasted-source-replay.json",
       "validation/body_receipts/parallel-retention-attention-pasted-source-replay.json",
       "validation/body_receipts/softmax-flaggems-pasted-source-replay.json",
-      "validation/body_receipts/rms-rbe-matmul-pasted-source-replay.json",
-      "validation/body_receipts/rms-matmul-rbe-pasted-source-replay.json",
       "validation/body_receipts/triton-attention-pasted-source-replay.json"
     ],
     "full_replay_recovery": {
@@ -2759,8 +2757,8 @@
     },
     "staged_manifest": {
       "cases": 202,
-      "build_roots": 8725,
-      "replay_roots": 7728,
+      "build_roots": 8723,
+      "replay_roots": 7726,
       "boundary": "Manifest coverage is not completion or a fresh full integration build result."
     },
     "int8_quantization_source_migration": {
@@ -2860,10 +2858,10 @@
       "cases": 202,
       "target_cases": 196,
       "regression_cases": 6,
-      "retained_and_shared_build_roots": 8725,
-      "explicit_replay_roots": 7728,
+      "retained_and_shared_build_roots": 8723,
+      "explicit_replay_roots": 7726,
       "completion_certificate": false,
-      "note": "All 183/183 TritonBench-G entries (including six regressions) and 19/19 examples have exact source correspondence (623 pairs, zero uncovered functions). All 196 migration targets pass required local proofs, the complete 8725-root selected batch integration and exact-current official independent acceptance. The manifest inventory itself is not a proof certificate; each target links its accepted receipt."
+      "note": "All 183 TritonBench-G entries and 19 examples pass source correspondence. Both RMS cases pass the new local build; 194 migration targets retain exact-current official acceptance."
     },
     "previous_local_work": [
       {
@@ -3112,10 +3110,10 @@
       "cases": 202,
       "targets": 196,
       "regressions": 6,
-      "retained_modules": 8725,
-      "replay_sources": 7728,
-      "integrated_full_build": "PASS_8725_ROOTS_17301_LAKE_JOBS",
-      "local_incremental_build": "PASS_136_ROOTS"
+      "retained_modules": 8723,
+      "replay_sources": 7726,
+      "local_incremental_build": "PASS_155_ROOTS",
+      "previous_integrated_full_build": "PASS_8725_ROOTS_17301_LAKE_JOBS"
     },
     "newly_completed_current_source_replays": [
       {
@@ -3216,7 +3214,10 @@
     },
     "inflight_replays": [],
     "remaining_source_migrations": [],
-    "pending_independent_acceptance": [],
+    "pending_independent_acceptance": [
+      "bench/tritonbench_g/rms_matmul_rbe",
+      "bench/tritonbench_g/rms_rbe_matmul"
+    ],
     "pending_proof_migrations": [],
     "final_selected_batch_integration": {
       "status": "PASS",
@@ -3228,7 +3229,8 @@
       "lake_jobs": 17301,
       "completed_at": "2026-11-04T18:04:37Z",
       "scope": "All roots in validation/body-migration-batch.json on the final three-case frozen source tree.",
-      "boundary": "Full local integration and official independent acceptance are separately verified. All 196 migration targets now have official replay receipts covering unchanged current source/import closures and actual public theorem targets."
+      "boundary": "Full local integration and official independent acceptance are separately verified. All 196 migration targets now have official replay receipts covering unchanged current source/import closures and actual public theorem targets.",
+      "historical_snapshot": true
     },
     "final_acceptance": {
       "status": "PASS_196_OF_196_EXACT_CURRENT_TARGETS",
@@ -3249,7 +3251,21 @@
         "checked_at": "2026-11-04T19:15:28Z",
         "checks": "Every completed target receipt matches its exact current transitive source/import closure, copied body pairs and public theorem targets."
       },
-      "boundary": "Acceptance is limited to the 196 requested migration targets and their recorded theorem domains, assumptions, repaired sources and exact current import closures. Out-of-scope corpus tasks are not accepted by this result."
+      "boundary": "Acceptance is limited to the 196 requested migration targets and their recorded theorem domains, assumptions, repaired sources and exact current import closures. Out-of-scope corpus tasks are not accepted by this result.",
+      "historical_snapshot": true
+    },
+    "layout_pilot": {
+      "status": "local_validation_passed_awaiting_official_replay",
+      "cases": [
+        "bench/tritonbench_g/rms_matmul_rbe",
+        "bench/tritonbench_g/rms_rbe_matmul"
+      ],
+      "entry": "bench/tritonbench_g/rms_matmul_rbe/RealCorrect.lean",
+      "previous_accepted_branch": "codex/body-correspondence-complete",
+      "build_roots": 155,
+      "lake_jobs": 3777,
+      "public_theorems": 7,
+      "python_tests": 731
     }
   },
   "targets": [
@@ -5088,20 +5104,28 @@
     },
     {
       "path": "bench/tritonbench_g/rms_matmul_rbe",
-      "status": "complete",
-      "complete": true,
+      "status": "pending_layout_replay",
+      "complete": false,
       "body_copy_check": "PASS_4_EXACT_PAIRS",
-      "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS_111_ROOTS",
-      "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
-      "independent_replay": "PASS",
-      "reason": "Every frozen owned/shared proof and regression root was independently accepted. Final official ZIP SHA256, exact 390-file source/import closure, all four copied JIT pairs and all four actual public theorem targets match current source. Compilation alone was not completion.",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41861399374",
-      "replay_source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
-      "validated_source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
-      "receipt": "validation/body_receipts/rms-matmul-rbe-pasted-source-replay.json",
-      "independent_proof_replay": "PASS_111_OF_111_FROZEN_ROOTS",
-      "note": "The actual three-call QKV parent and source callee are connected to full-K/grid mathematics, full-state/failure-aware FP equivalence, typed byte/native interfaces, trace safety, output binding and memory frame."
+      "reason": "The layout pilot changes the case or its shared imports. The prior acceptance remains historical until this snapshot is independently replayed.",
+      "previous_acceptance": {
+        "status": "complete",
+        "complete": true,
+        "body_copy_check": "PASS_4_EXACT_PAIRS",
+        "public_real_fp_proofs": "PASS",
+        "retained_modules_build": "PASS_111_ROOTS",
+        "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
+        "independent_replay": "PASS",
+        "reason": "Every frozen owned/shared proof and regression root was independently accepted. Final official ZIP SHA256, exact 390-file source/import closure, all four copied JIT pairs and all four actual public theorem targets match current source. Compilation alone was not completion.",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41861399374",
+        "replay_source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
+        "validated_source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
+        "receipt": "validation/body_receipts/rms-matmul-rbe-pasted-source-replay.json",
+        "independent_proof_replay": "PASS_111_OF_111_FROZEN_ROOTS",
+        "note": "The actual three-call QKV parent and source callee are connected to full-K/grid mathematics, full-state/failure-aware FP equivalence, typed byte/native interfaces, trace safety, output binding and memory frame."
+      },
+      "public_real_fp_proofs": "PASS_LOCAL",
+      "retained_modules_build": "PASS_LOCAL_LAYOUT_PILOT"
     },
     {
       "path": "bench/tritonbench_g/rms_norm_triton",
@@ -5119,17 +5143,25 @@
     },
     {
       "path": "bench/tritonbench_g/rms_rbe_matmul",
-      "status": "complete",
-      "complete": true,
+      "status": "pending_layout_replay",
+      "complete": false,
       "body_copy_check": "PASS_6_EXACT_PAIRS",
-      "note": "Complete original/candidate RMS bodies and standalone rotary/helper are source-aligned. Full mathematical, safety/frame, typed native and failure-aware FP program proofs are accepted for the exact current source.",
-      "public_real_fp_proofs": "PASS",
-      "retained_modules_build": "PASS_46_ROOTS",
-      "validated_source_commit": "1c2414087798d53fe0ccc2453ebbb629792c7630",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41874493212",
-      "receipt": "validation/body_receipts/rms-rbe-matmul-pasted-source-replay.json",
-      "independent_proof_replay": "PASS_46_OF_46_FROZEN_ROOTS",
-      "reason": "Every frozen owned/shared proof and regression root was independently accepted. Final official ZIP SHA256, exact 437-file source/import closure, all six copied JIT pairs and all three actual public theorem targets match current source. Compilation alone was not completion."
+      "reason": "The layout pilot changes the case or its shared imports. The prior acceptance remains historical until this snapshot is independently replayed.",
+      "previous_acceptance": {
+        "status": "complete",
+        "complete": true,
+        "body_copy_check": "PASS_6_EXACT_PAIRS",
+        "note": "Complete original/candidate RMS bodies and standalone rotary/helper are source-aligned. Full mathematical, safety/frame, typed native and failure-aware FP program proofs are accepted for the exact current source.",
+        "public_real_fp_proofs": "PASS",
+        "retained_modules_build": "PASS_46_ROOTS",
+        "validated_source_commit": "1c2414087798d53fe0ccc2453ebbb629792c7630",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41874493212",
+        "receipt": "validation/body_receipts/rms-rbe-matmul-pasted-source-replay.json",
+        "independent_proof_replay": "PASS_46_OF_46_FROZEN_ROOTS",
+        "reason": "Every frozen owned/shared proof and regression root was independently accepted. Final official ZIP SHA256, exact 437-file source/import closure, all six copied JIT pairs and all three actual public theorem targets match current source. Compilation alone was not completion."
+      },
+      "public_real_fp_proofs": "PASS_LOCAL",
+      "retained_modules_build": "PASS_LOCAL_LAYOUT_PILOT"
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_fused",

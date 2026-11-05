@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rms_matmul_rbe.PairIO
+import bench.tritonbench_g.rms_matmul_rbe.IO
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.IOResults
 import VeriTile.Triton.Float.ArrayProgramEquivalenceSyntax
 

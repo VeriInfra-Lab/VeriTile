@@ -23,6 +23,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 from scripts.bench.lean_import_scan import lean_code_mask
+from scripts.bench.port_layout import REAL_ENTRY_NAMES
 from scripts.spec_sheet import split_decls, split_statement
 
 DIRECTORIES = ('VeriTile', 'bench/tritonbench_g', 'bench/examples',
@@ -51,8 +52,10 @@ def validate_layout(root, ledger):
         base = f'bench/tritonbench_g/{task}/'
         if selection['source'] != base + task + '.py' or selection['kernel_source'] != base + 'Kernels.lean':
             raise ValueError(task + ': selected implementation must use its canonical task entry')
-        expected = {base + name + '.lean' for name in ('Contract', 'Correct', 'FPEquiv')}
-        if not expected <= set(selection['public_entries']):
+        expected = {base + 'Contract.lean', base + 'FPEquiv.lean'}
+        public = set(selection['public_entries'])
+        real = public & {base + name for name in REAL_ENTRY_NAMES}
+        if not expected <= public or len(real) != 1:
             raise ValueError(task + ': missing canonical proof entries')
     forbidden = re.compile(r'(?:revisions?|Whole)\d*|Original|KernelOnly|KernelInterface|RealRevision', re.I)
     for path in directory.rglob('*'):
